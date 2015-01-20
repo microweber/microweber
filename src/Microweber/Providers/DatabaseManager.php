@@ -411,7 +411,6 @@ class DatabaseManager extends DbUtils
 
         if (!isset($the_user_id)) {
             $the_user_id = 0;
-            $the_user_id = null;
         }
 
         if (intval($data['id']) == 0) {
@@ -421,13 +420,16 @@ class DatabaseManager extends DbUtils
                 $data['created_at'] = date("Y-m-d H:i:s");
             }
 
-            $data['created_by'] = $the_user_id;
+            if($the_user_id)
+                $data['created_by'] = $the_user_id;
 
-            $data['edited_by'] = $the_user_id;
+            if($the_user_id)
+                $data['edited_by'] = $the_user_id;
         } else {
 
             // $data ['created_at'] = false;
-            $data['edited_by'] = $the_user_id;
+            if($the_user_id)
+                $data['edited_by'] = $the_user_id;
         }
 
         $table_assoc_name = $this->assoc_table_name($table);

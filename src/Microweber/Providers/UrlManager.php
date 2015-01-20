@@ -517,10 +517,10 @@ class UrlManager
             foreach ($arr as $k => $v) {
                 if (is_array($v)) {
                     $v = $this->replace_site_url($v);
-                } else {
+                } else if(is_string($v)) {
                     $v = str_ireplace($site, '{SITE_URL}', $v);
                 }
-                $ret[$k] = ($v);
+                $ret[$k] = $v;
             }
             return $ret;
         }

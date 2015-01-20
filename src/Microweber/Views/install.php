@@ -272,9 +272,6 @@
 //        $must_be = MW_PATH;
 //        $server_check_errors['MW_PATH'] = _e("The directory " . MW_PATH . " must be writable", true);
 //    }
-
-
-
     ?>
     <?php if ($check_pass == false): ?>
         <?php if (!empty($server_check_errors)): ?>
@@ -291,20 +288,12 @@
             </ol>
         <?php endif; ?>
     <?php else: ?>
-        <?php
-        $hide_db_setup = false;
-        if (isset($_REQUEST['basic'])) {
-            $hide_db_setup = 1;
-        }
-
-        ?>
+        <?php $hide_db_setup = isset($_REQUEST['basic']); ?>
         <form method="post" id="form_<?php print $rand; ?>" autocomplete="true">
 
             <div class="mw-ui-row" id="install-row">
                 <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
-
-
                 <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
 
                         <?php if ($hide_db_setup == false): ?>
@@ -317,79 +306,61 @@
                   </span></h2>
             <?php endif; ?>
             <div class="hr"></div>
-
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("MySQL hostname"); ?>
                         <span data-help="<?php _e("The address where your database is hosted."); ?>"><span class="mw-icon-help-outline mwahi"></span></span></label>
                     <input type="text" class="mw-ui-field" required autofocus
-                           name="db_host" <?php if (isset($data['db']) == true and isset($data['db']['host']) == true and $data['db']['host'] != '{db_host}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif (isset($data['db']) != true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
+                        name="db_host" value="<?php echo $config['host']; ?>" />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("MySQL username"); ?>
-                        <span data-help="<?php _e("The username of your database."); ?>"><span class="mw-icon-help-outline mwahi tip"
-                              ></span></span></label>
+                        <span data-help="<?php _e("The username of your database."); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
                     <input type="text" class="mw-ui-field" required
-                           name="db_user" <?php if (isset($data['db']) == true and isset($data['db']['user']) == true and $data['db']['user'] != '{db_user}'): ?> value="<?php print $data['db']['user'] ?>" <?php endif; ?> />
+                        name="db_user" value="<?php echo $config['username']; ?>" />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("MySQL password"); ?>
                     </label>
-                    <input type="password" name="db_pass" class="mw-ui-field"
-                             <?php if (isset($data['db']) == true and isset($data['db']['pass']) == true  and $data['db']['pass'] != '{}'): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
+                    <input type="password" class="mw-ui-field"
+                        name="db_pass" value="<?php echo $config['password']; ?>"" />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Database name"); ?>
                         <span data-help="<?php _e("The name of your database."); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
                     <input type="text" class="mw-ui-field" required
-                           name="db_name" <?php if (isset($data['db']) == true and isset($data['db']['db_name']) == true   and $data['db']['db_name'] != '{db_name}'): ?> value="<?php print $data['db']['db_name'] ?>" <?php endif; ?> />
+                        name="db_name" value="<?php echo $config['database']; ?>" />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Table prefix"); ?>
                         <span data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed."); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
                     <input type="text" class="mw-ui-field"
-                           name="table_prefix" <?php if (isset($data['table_prefix']) == true and isset($data['table_prefix']) != '' and trim($data['table_prefix']) != '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?>
+                           name="table_prefix" value="<?php echo $config['prefix']; ?>"
                            onblur="prefix_add(this)"/>
                 </div>
 
-
-
-
                 <?php
                 $templates = mw()->template->site_templates();
- 
-
+                if (is_array($templates) and !empty($templates)):
                 ?>
-                <?php  if (is_array($templates) and !empty($templates)): ?>
-
-
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label">
-                            <?php print("Template"); ?>
-                            <span data-help="<?php print("Choose default site template"); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
-
-
-                        <select class="mw-ui-field" name="default_template">
-                            <?php foreach ($templates as $template): ?>
-                                <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
-                                    <option <?php  if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
-                                        value="<?php print $template['dir_name']; ?>"><?php print $template['name']; ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-
-
-                    </div>
-
-
-
-
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label">
+                        <?php print("Template"); ?>
+                        <span data-help="<?php print("Choose default site template"); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
+                    <select class="mw-ui-field" name="default_template">
+                        <?php foreach ($templates as $template): ?>
+                            <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
+                                <option <?php  if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
+                                    value="<?php print $template['dir_name']; ?>"><?php print $template['name']; ?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
                 <?php endif; ?>
-
             </div>
             </div>
             </div>
@@ -406,28 +377,28 @@
                         <?php _e("Admin username"); ?>
                     </label>
                     <input type="text" class="mw-ui-field" required
-                           name="admin_username" <?php if (isset($data['admin_username']) == true and isset($data['admin_username']) != ''): ?> value="<?php print $data['admin_username'] ?>" <?php endif; ?> />
+                           name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Admin email"); ?>
                     </label>
                     <input type="text" class="mw-ui-field" required
-                           name="admin_email" <?php if (isset($data['admin_email']) == true and isset($data['admin_email']) != ''): ?> value="<?php print $data['admin_email'] ?>" <?php endif; ?> />
+                           name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Admin password"); ?>
                     </label>
                     <input type="password" required class="mw-ui-field"
-                           name="admin_password" <?php if (isset($data['admin_password']) == true and isset($data['admin_password']) != ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
+                           name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Repeat password"); ?>
                     </label>
                     <input type="password" required class="mw-ui-field"
-                           name="admin_password2" <?php if (isset($data['admin_password']) == true and isset($data['admin_password']) != ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
+                           name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                 </div>
             </div>
                 </div>

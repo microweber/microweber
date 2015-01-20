@@ -151,6 +151,11 @@ class InstallController extends Controller
         }
 
         $layout = new View($view);
+        $viewData = Config::get('database.connections');
+        $viewData = $viewData[Config::get('database.default')];
+
+        $layout->assign('config', $viewData);
+
         $is_installed = mw_is_installed();
         if ($is_installed) {
             App::abort(403, 'Unauthorized action. Microweber is already installed.');
