@@ -61,6 +61,7 @@ class InstallController extends Controller
             if (!isset($input['table_prefix'])) {
                 $input['table_prefix'] = '';
             }
+
             $errors = array();
             if (!isset($input['db_host'])) {
                 $errors[] = 'Parameter "db_host" is required';
@@ -84,15 +85,17 @@ class InstallController extends Controller
             if (!isset($input['admin_username'])) {
                 $errors[] = 'Parameter "admin_username" is required';
             }
-            $mysql = Config::get('database.connections.mysql');
+
             if (!empty($errors)) {
                 return implode("\n", $errors);
             }
-            Config::set('database.connections.mysql.host', $input['db_host']);
-            Config::set('database.connections.mysql.username', $input['db_user']);
-            Config::set('database.connections.mysql.password', $input['db_pass']);
-            Config::set('database.connections.mysql.database', $input['db_name']);
-            Config::set('database.connections.mysql.prefix', $input['table_prefix']);
+
+            $dbDriver = $input['db_driver'];
+            Config::set("database.connections.$dbDriver.host", $input['db_host']);
+            Config::set("database.connections.$dbDriver.username", $input['db_user']);
+            Config::set("database.connections.$dbDriver.password", $input['db_pass']);
+            Config::set("database.connections.$dbDriver.database", $input['db_name']);
+            Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
 
             if (isset($input['default_template']) and $input['default_template'] != false) {
                 Config::set('microweber.install_default_template', $input['default_template']);
@@ -112,7 +115,6 @@ class InstallController extends Controller
             Cache::flush();
 
             $install_finished = false;
-            $mysql = Config::get('database.connections.mysql');
             try {
                 DB::connection()->getDatabaseName();
             } catch (\PDOException $e) {
@@ -151,16 +153,27 @@ class InstallController extends Controller
         }
 
         $layout = new View($view);
-        $viewData = Config::get('database.connections');
-        $viewData = $viewData[Config::get('database.default')];
 
-        $layout->assign('config', $viewData);
+        $defaultDbEngine = Config::get('database.default');
+        $dbEngines = Config::get('database.connections');
+        $viewData = [
+            'config' => $dbEngines[$defaultDbEngine],
+            'dbDefaultEngine' => $defaultDbEngine,
+            'dbEngines' => array_keys($dbEngines),
+            'dbEngineNames' => [
+                    'mysql' => 'MySQL',
+                    'sqlite' => 'SQLite',
+                    'sqlsrv' => 'Microsoft SQL Server',
+                    'pgsql' => 'PostgreSQL'
+                ]
+        ];
+
+        $layout->set($viewData);
 
         $is_installed = mw_is_installed();
         if ($is_installed) {
             App::abort(403, 'Unauthorized action. Microweber is already installed.');
         }
-        $layout->assign('data', $connection);
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
         return $layout;
