@@ -44,7 +44,7 @@ class DbInstaller
             });
         }
         $exec = $this->getSystemSchemas();
-
+        $builder = new DbUtils();
         foreach ($exec as $data) {
             // Creates the schema
             if (!method_exists($data, 'get')) {
@@ -57,7 +57,6 @@ class DbInstaller
                 break;
             }
             foreach ($schemaArray as $table => $columns) {
-                $builder = new DbUtils();
                 $builder->build_table($table, $columns);
             }
         }

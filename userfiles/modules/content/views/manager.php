@@ -335,16 +335,22 @@ if (isset($params['data-page-number'])) {
 
 <?php else: ?>
     <div class="mw-no-posts-foot">
- 
+
         <?php if (isset($page_info['is_shop']) and $page_info['is_shop'] == 1) : ?>
 
             <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
 
             <?php
+
+
+
             if (isset($post_params['category-id'])) {
                 $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
-
-            } else if (isset($post_params['parent'])) {
+            }
+            elseif (isset($post_params['category'])) {
+                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+            }
+            else if (isset($post_params['parent'])) {
                 $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
             } else {
                 $url = "#action=new:product";
@@ -360,13 +366,19 @@ if (isset($params['data-page-number'])) {
             if (isset($post_params['category-id'])) {
                 $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
 
-            } else if (isset($post_params['parent'])) {
+            }
+            elseif (isset($post_params['category'])) {
+                $url = "#action=new:post&amp;category_id=" . $post_params['category'];
+
+            }
+            else if (isset($post_params['parent'])) {
                 $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
 
             }
             ?>
             <?php if (isset($url)): ?>
-                <a href="<?php print $url; ?>"  class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-post"></span><?php endif; ?><span><?php _e("Add New Post"); ?></span></a>
+                <a href="<?php print $url; ?>"  class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-post"></span><span><?php _e("Add New Post"); ?></span></a>
+               <?php endif; ?>
         <?php endif; ?>
     </div>
 <?php endif; ?>
