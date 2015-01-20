@@ -544,6 +544,8 @@ class ShopManager
 
     public function get_cart($params = false)
     {
+
+
         $time = time();
         $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
 
@@ -802,9 +804,7 @@ class ShopManager
 
     public function cart_sum($return_amount = true)
     {
-        if (!mw()->user_manager->session_id() and !headers_sent()) {
-            // //session_start();
-        }
+
 
         $sid = mw()->user_manager->session_id();
         $different_items = 0;

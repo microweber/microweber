@@ -39,6 +39,7 @@ class DatabaseManager extends DbUtils
                 $this->app = mw();
             }
         }
+
     }
 
 
@@ -99,12 +100,12 @@ class DatabaseManager extends DbUtils
     {
 
 
+
         $orderby = false;
         $cache_group = false;
         $debug = false;
         $getone = false;
         $no_cache = false;
-
 
         $groupBy = false;
         $order_by = false;
@@ -229,6 +230,7 @@ class DatabaseManager extends DbUtils
         $table = $this->escape_string($table);
         $table = $this->assoc_table_name($table);
         $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
+
         if ($no_cache == false) {
             $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
@@ -243,6 +245,7 @@ class DatabaseManager extends DbUtils
         $orm = $this->build_query($orm, $table_criteria);
 
         if (!is_object($orm)) {
+
             return false;
         }
 

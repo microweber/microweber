@@ -71,6 +71,7 @@ class UserManager
 
     public function is_admin()
     {
+
         if (!mw_is_installed()) {
             return false;
         }
@@ -83,7 +84,7 @@ class UserManager
 
     public function id()
     {
-        //return 1;
+
         if (Auth::check()) {
             return Auth::user()->id;
         }
@@ -763,9 +764,11 @@ class UserManager
 
     public function get($params = false)
     {
+
+
         $id = $params;
         if ($id == false) {
-            $id = user_id();
+            $id = $this->id();
         }
         if ($id == 0) {
             return false;
@@ -1065,7 +1068,7 @@ class UserManager
         $data['limit'] = 1;
         $data['single'] = 1;
 
-
+       
         $data = $this->get_all($data);
         return $data;
     }
@@ -1214,6 +1217,7 @@ class UserManager
         if (isset($data['username']) and $data['username'] == false) {
             unset($data['username']);
         }
+
         $data['table'] = $table;
         $get = $this->app->database->get($data);
         return $get;

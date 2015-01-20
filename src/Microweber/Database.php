@@ -159,7 +159,9 @@ class Database
         }
 
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
-            $this->use_cache = false;
+            $use_cache = false;
+        } else {
+            $use_cache = $this->use_cache;
         }
         $query = $this->map_filters($query, $params, $table);
 
@@ -177,7 +179,7 @@ class Database
         }
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
-            if ($this->use_cache == false) {
+            if ($use_cache == false) {
                 $query = $query->count();
             } else {
                 $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
@@ -209,10 +211,12 @@ class Database
 
 
         if ($this->use_cache == false) {
+
             $data = $query->get();
         } else {
 
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+
                 return $query->get();
             });
 
@@ -279,6 +283,7 @@ class Database
         if (isset($params['return_params_instead_of_id'])) {
             $return_params_instead_of_id = $params['return_params_instead_of_id'];
         }
+
         $query = DB::table($table);
 
         if (!isset($params['skip_timestamps'])) {
@@ -310,7 +315,7 @@ class Database
         if ($params['id'] == 0 && $user_id) {
             $params['created_by'] = $user_id;
         }
-        if($user_id)
+        if ($user_id)
             $params['edited_by'] = $user_id;
 
         $params = $this->map_array_to_table($table, $params);

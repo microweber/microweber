@@ -1076,6 +1076,9 @@ class DefaultController extends Controller
 
     public function frontend()
     {
+        if (isset($_GET['debug'])) {
+            DB::enableQueryLog();
+         }
 
         event_trigger('mw.controller.index');
 
@@ -1764,7 +1767,7 @@ class DefaultController extends Controller
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)) {
-                $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID. '&category_id=' . CATEGORY_ID;;
+                $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;;
                 $default_css = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
                 $default_css .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
