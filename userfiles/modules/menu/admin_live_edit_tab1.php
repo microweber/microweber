@@ -14,7 +14,7 @@
   mw.menu_add_new = function(){
       var obj = {};
 	 obj.title = $('#new_menu_name').val();
-	  
+
       $.post("<?php print api_link('content/menu_create') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
       });
@@ -74,8 +74,8 @@ data.id = $id
 mw.menu_edit_items = function($menu_id, $selector){
 
    mw.$($selector).attr('menu-name',$menu_id);
-   
-   
+
+
    mw.load_module('menu/edit_items',$selector);
     menuSelectorInit();
 
@@ -88,15 +88,15 @@ mw.menu_edit_items = function($menu_id, $selector){
 
      var selector = selector ||  "#menu-selector";
      mw.treeRenderer.appendUI(selector);
-	 
+
 	 var items =  mw.$(selector + ' input[type="radio"]');
-	 
+
 	 if(items == null){
-		return; 
+		return;
 	 }
 	  if(items.commuter == undefined){
-		  return; 
-		  
+		  return;
+
 	  }
     items.commuter(function(){
 
@@ -117,9 +117,9 @@ mw.menu_edit_items = function($menu_id, $selector){
         mw.menu_save_new_item('.menu_item_edit');
         mw.$(selector).hide();
      });
-	 
-	 
-	 
+
+
+
 
 
  }
@@ -164,17 +164,17 @@ $(document).ready(function(){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector,no_reload){
-			
-			 
-			
+
+
+
         	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
-				
+
 				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
 				if(no_reload === undefined){
         		mw.reload_module('menu/edit_items');
 				}
-				
-				
+
+
         		if(self!==parent && typeof parent.mw === 'object'){
         			parent.mw.reload_module('menu');
         		}
@@ -185,29 +185,29 @@ $(document).ready(function(){
 </script>
 <?php $menus = get_menus(); ?>
 <?php
- 
-$menu_name = get_option('menu_name', $params['id']);
- 
-	if($menu_name  == false and isset( $params['menu_name'])){
- 		$menu_name =  $params['menu_name'];
-	}elseif($menu_name  == false and isset( $params['name'])){
+ if(!isset($menu_name )) {
+     $menu_name = get_option('menu_name', $params['id']);
 
-		$menu_name =  $params['name'];
-	} else {
+     if ($menu_name == false and isset($params['menu_name'])) {
+         $menu_name = $params['menu_name'];
+     } elseif ($menu_name == false and isset($params['name'])) {
+
+         $menu_name = $params['name'];
+     } else {
 
 
-	}
-
+     }
+ }
 
 
 
 
 	$active_menu = $menu_name;
   $menu_id = false;
-  
- 
-  
-  
+
+
+
+
   if($menu_id == false and $menu_name != false){
   $menu_id = get_menus('one=1&title='.$menu_name);
 	  if($menu_id == false and isset($params['title'])){
@@ -224,7 +224,7 @@ $menu_name = get_option('menu_name', $params['id']);
 	 $active_menu = $menu_name = 'header_menu';
  }
  ?>
- 
+
 <?php  print $active_menu ?>
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
@@ -266,22 +266,22 @@ $menu_name = get_option('menu_name', $params['id']);
   <label class="mw-ui-label">
     <?php _e("Select from"); ?>
     :</label>
-    
-    
-   
-    
-    
+
+
+
+
+
   <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert"><span class="mw-icon-plus"></span><span>
   <?php _e("Add Page to Menu"); ?>
   </span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="mw-icon-plus"></span><span>
   <?php _e("Add Custom Link"); ?>
   </span></a>
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   <hr>
 </div>
 <?php endif; ?>
@@ -292,7 +292,7 @@ $menu_name = get_option('menu_name', $params['id']);
 if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   $menu_id = $menu_id['id'];
 }
- 
+
  ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
   <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
@@ -330,7 +330,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <label class="mw-ui-label">
     <?php _e("Edit existing links/buttons"); ?>
   </label>
- 
+
   <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  menu-id="<?php  print $menu_id ?>" />
   <?php endif; ?>
 </div>

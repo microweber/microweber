@@ -347,7 +347,9 @@ class MediaManager
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-
+        if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)) {
+            $data = array('id'=>intval($data));
+        }
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $pic_data = $this->get("one=1&id=" . $c_id);
@@ -360,6 +362,17 @@ class MediaManager
 
             $this->app->database->delete_by_id('media', $c_id);
         }
+    }
+
+    public function get_all($params)
+    {
+        if (!is_array($params)) {
+            $params = parse_params($params);
+        }
+        $table = $this->tables['media'];
+        $params['table'] = $table;
+        return $this->app->database->get($params);
+
     }
 
     public function get($params)

@@ -2839,7 +2839,6 @@ mw.tools = {
 
         if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
             var xitem = mw.$(text);
-            console.log(xitem)
             if(xitem.length === 0){
               return false;
             }

@@ -1580,6 +1580,7 @@ class DefaultController extends Controller
         }
 
         if (isset($content['require_login']) and $content['require_login'] == 1) {
+
             if ($this->app->user_manager->id() == 0) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;

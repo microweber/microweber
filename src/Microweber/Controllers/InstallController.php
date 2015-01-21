@@ -89,8 +89,12 @@ class InstallController extends Controller
             if (!empty($errors)) {
                 return implode("\n", $errors);
             }
+            if (isset($input['db_driver'])) {
+                $dbDriver = $input['db_driver'];
+            } else {
+                $dbDriver = 'mysql';
+            }
 
-            $dbDriver = $input['db_driver'];
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
             Config::set("database.connections.$dbDriver.username", $input['db_user']);
             Config::set("database.connections.$dbDriver.password", $input['db_pass']);
@@ -123,7 +127,7 @@ class InstallController extends Controller
                 return ('Error: ' . $e->getMessage() . "\n");
             }
 
-            if(function_exists('set_time_limit')){
+            if (function_exists('set_time_limit')) {
                 @set_time_limit(0);
             }
 
@@ -161,11 +165,11 @@ class InstallController extends Controller
             'dbDefaultEngine' => $defaultDbEngine,
             'dbEngines' => array_keys($dbEngines),
             'dbEngineNames' => [
-                    'mysql' => 'MySQL',
-                    'sqlite' => 'SQLite',
-                    'sqlsrv' => 'Microsoft SQL Server',
-                    'pgsql' => 'PostgreSQL'
-                ]
+                'mysql' => 'MySQL',
+                'sqlite' => 'SQLite',
+                'sqlsrv' => 'Microsoft SQL Server',
+                'pgsql' => 'PostgreSQL'
+            ]
         ];
 
         $layout->set($viewData);

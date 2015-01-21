@@ -1,6 +1,6 @@
 <?php only_admin_access(); ?>
 
-<div class="mw-module-admin-wrap"> 
+<div  <?php if(isset($params['backend'])): ?>       class="mw-module-admin-wrap"<?php endif; ?>>
 
  <?php if(isset($params['backend'])): ?>
 <module type="admin/modules/info" />

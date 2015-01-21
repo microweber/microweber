@@ -5,6 +5,7 @@ mw.require('forms.js');
 mw.cart = {
   add : function(selector, price, c){
 	 var data = mw.form.serialize(selector);
+     console.log(price)
 	 if(price != undefined && data != undefined){
 		data.price = price;
 	 }
@@ -13,6 +14,7 @@ mw.cart = {
 	 }
      $.post(mw.settings.api_url+'update_cart', data ,
      function(data) {
+       console.log(data)
 		 mw.reload_module('shop/cart');
          if(typeof c === 'function'){
            c.call(data);

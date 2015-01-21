@@ -4,8 +4,8 @@ $(document).ready(function(){
   mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_cont_head_change_holder', function(){
       mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
     });
-	
-	
+
+
 	  mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_robots_txt_change_holder', function(){
       mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
     });
@@ -27,17 +27,17 @@ $(document).ready(function(){
                 <a class="mw-ui-btn" href="javascript:$('.mw_adm_dev_tools_change_holder').toggle(); void(0);"> Developer tools </a>
 
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);"><?php _e("Custom head tags"); ?></a>
-        <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a> 
+        <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a>
        <!-- <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
        -->
     </div>
 
-  
+
   </div>
 
 
 
- 
+
 <div class="mw_adm_cont_head_change_holder mw-ui-box mw-ui-box-content" style="display:none">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -62,14 +62,15 @@ $(document).ready(function(){
 <div class="mw_adm_dev_tools_change_holder mw-ui-box mw-ui-box-content" style="display:none">
   <div class="mw-ui-field-holder">
      <a class="mw-ui-btn" href="javascript:mw.load_module('admin/developer_tools/template_exporter','#mw-advanced-settings-dev-tools-output')">Template exporter</a>
+     <a class="mw-ui-btn" href="javascript:mw.load_module('admin/developer_tools/media_cleanup','#mw-advanced-settings-dev-tools-output')">Media cleanup</a>
      <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#mw-advanced-settings-dev-tools-output')"><?php _e("Show system log"); ?></a>
          <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')"><?php _e("Packages"); ?></a>
 
-          
-     
+
+
   <div class="mw-clear" style="padding-bottom:10px;"></div>
-     
+
   <div id="mw-advanced-settings-dev-tools-output"></div>
-  
+
   </div>
 </div>

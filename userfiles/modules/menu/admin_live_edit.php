@@ -3,13 +3,16 @@
   $rand = crc32(serialize($params));
   
   $menu_name = get_option('menu_name', $params['id']);
+
   if($menu_name == false and isset($params['menu_name'])){
 	  $menu_name = $params['menu_name'];
-  } elseif($menu_name == false and isset($params['name'])){
+  } elseif($menu_name == false and isset($params['menu-name'])){
+	  $menu_name = $params['menu-name'];
+  }elseif($menu_name == false and isset($params['name'])){
 	  $menu_name = $params['name'];
   }
-  
- 
+
+
     
   ?>
 <script type="text/javascript">

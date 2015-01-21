@@ -21,21 +21,6 @@ use RecursiveDirectoryIterator;
 api_expose_admin('admin/developer_tools/template_exporter/Worker/create_full');
 api_expose_admin('admin/developer_tools/template_exporter/Worker/download');
 api_expose_admin('admin/developer_tools/template_exporter/Worker/delete');
-//api_expose('Utils\export\create');
-//api_expose('Utils\export\download');
-//api_expose('Utils\export\create_full');
-//api_expose('Utils\export\move_uploaded_file_to_export');
-//
-//api_expose('Utils\export\restore');
-//api_expose('Utils\export\cronjob');
-//api_expose('Microweber\Utils\export\delete');
-//api_expose('Microweber\Utils\export\create');
-//api_expose('Microweber\Utils\export\download');
-//api_expose('Microweber\Utils\export\create_full');
-//api_expose('Microweber\Utils\export\move_uploaded_file_to_export');
-//
-//api_expose('Microweber\Utils\export\restore');
-//api_expose('Microweber\Utils\export\cronjob');
 
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
@@ -189,11 +174,6 @@ class Worker
 
     function copyr($source, $dest)
     {
-        // Simple copy for a file
-        //$dest = normalize_path($dest,false);
-        //$source = normalize_path($source,false);
-
-
         if (is_file($source)) {
 
             $dest = normalize_path($dest, false);
@@ -556,9 +536,9 @@ class Worker
         file_put_contents($sql_bak_file, $head);
         $return = "";
         $tables = '*';
-         if ($tables == '*') {
+        if ($tables == '*') {
             $tables = array();
-             $qs = 'SHOW TABLES';
+            $qs = 'SHOW TABLES';
             $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
             if (!empty($result)) {
@@ -633,7 +613,6 @@ class Worker
                 $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), "", $table);
 
 
-
                 $qs = 'SHOW CREATE TABLE ' . $table;
                 $res_ch = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
                 $row2 = array_values($res_ch[0]);
@@ -641,11 +620,11 @@ class Worker
 
                 $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $row2[1]);
 
-                 $create_table_without_prefix = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $create_table_without_prefix);
+                $create_table_without_prefix = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $create_table_without_prefix);
                 $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
 
 
-                 $this->append_string_to_file($sql_bak_file, $return);
+                $this->append_string_to_file($sql_bak_file, $return);
                 // Third part of the output - insert values into new table
                 //for ($i = 0; $i < $num_fields; $i++) {
 
