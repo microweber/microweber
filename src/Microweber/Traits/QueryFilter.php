@@ -25,7 +25,7 @@ trait QueryFilter
     {
 
         if (!isset($params['count']) and !isset($params['count_paging'])) {
-            if (isset($params['paging_param']) and isset($params[$params['paging_param']])) {
+            if (isset($params['paging_param']) and isset($params[$params['paging_param']]) and $params['paging_param'] !='current_page') {
                 $params['current_page'] = intval($params[$params['paging_param']]);
                 unset($params[$params['paging_param']]);
             }
@@ -246,6 +246,7 @@ trait QueryFilter
                     break;
                 case 'current_page':
                     $criteria = 1;
+
                     if ($value > 1) {
                         if ($is_limit != false) {
                             $criteria = intval($value) * intval($is_limit);

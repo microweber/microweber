@@ -1068,7 +1068,7 @@ class UserManager
         $data['limit'] = 1;
         $data['single'] = 1;
 
-       
+
         $data = $this->get_all($data);
         return $data;
     }

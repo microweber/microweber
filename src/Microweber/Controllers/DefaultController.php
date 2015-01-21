@@ -1077,8 +1077,10 @@ class DefaultController extends Controller
     public function frontend()
     {
         if (isset($_GET['debug'])) {
-            DB::enableQueryLog();
-         }
+            if (Config::get('app.debug')) {
+                DB::enableQueryLog();
+            }
+        }
 
         event_trigger('mw.controller.index');
 
@@ -2007,10 +2009,11 @@ class DefaultController extends Controller
             unset($l);
 
             if (isset($_REQUEST['debug'])) {
-
-                $is_admin = $this->app->user_manager->is_admin();
-                if ($is_admin == true) {
-                    $this->app->content_manager->debug_info();
+                if (Config::get('app.debug')) {
+                    $is_admin = $this->app->user_manager->is_admin();
+                    if ($is_admin == true) {
+                        $this->app->content_manager->debug_info();
+                    }
                 }
             }
 

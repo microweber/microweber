@@ -446,8 +446,6 @@ class Front
         }
 
 
-        //$post_params['comments'] = true;
-
         $content = get_content($post_params);
 
 
