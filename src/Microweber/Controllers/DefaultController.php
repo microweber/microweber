@@ -1968,7 +1968,7 @@ class DefaultController extends Controller
                             $item = str_replace('#039;', ' ', $item);
                             $item = str_replace('&amp;nbsp;', ' ', $item);
                             $item = str_replace('&', ' ', $item);
-                            $item = str_replace('  ', '', $item);
+                            $item = str_replace('  ', ' ', $item);
                             $item = str_replace(' ', ' ', $item);
                             $l = str_replace('{' . $key . '}', $item, $l);
                         }
