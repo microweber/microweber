@@ -80,7 +80,6 @@ mw.cart = {
                                 mw.response(selector,data2);
                                 if(typeof callback === 'function'){
                                      callback.call(data2.success);
-
                                 }
 
 					    }  else if(parseInt(data) > 0){
