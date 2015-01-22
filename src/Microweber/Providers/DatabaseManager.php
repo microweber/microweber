@@ -340,40 +340,15 @@ class DatabaseManager extends DbUtils
                 }
             }
         }
-        if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and isset($_SESSION["user_session"])) {
-            $user_session = $_SESSION["user_session"];
 
-        } else {
-            $user_session = false;
-        }
 
         $table = $this->real_table_name($table);
-        $user_sid = false;
+        $user_sid = mw()->user_manager->session_id();
+        $the_user_id = mw()->user_manager->id();
 
 
-        if (!isset($user_session['user_id'])) {
-            $user_sid = mw()->user_manager->session_id();
-
-        } else {
-            if (intval($user_session['user_id']) == 0) {
-                unset($user_session['user_id']);
-                $user_sid = mw()->user_manager->session_id();
-            }
-        }
-
-        if (isset($user_session['user_id'])) {
-            $the_user_id = $user_session['user_id'];
-
-        }
-
-        if (!isset($data['session_id']) and mw()->user_manager->session_id()) {
-            if ($user_sid != false) {
-                $data['session_id'] = $user_sid;
-            } else {
-                $data['session_id'] = mw()->user_manager->session_id();
-            }
-        } elseif (isset($data['session_id'])) {
-            //$user_sid = $data['session_id'] ;
+        if (!isset($data['session_id']) and $user_sid) {
+            $data['session_id'] = $user_sid;
         }
         if (!isset($data['id'])) {
             $data['id'] = 0;
@@ -381,7 +356,6 @@ class DatabaseManager extends DbUtils
         if (isset($data['cf_temp'])) {
             $cf_temp = $data['cf_temp'];
         }
-
         $allow_html = false;
         $allow_scripts = false;
         if (isset($data['allow_html']) and (!isset($_REQUEST['allow_html']))) {
@@ -390,7 +364,6 @@ class DatabaseManager extends DbUtils
         if (isset($data['allow_scripts']) and (!isset($_REQUEST['allow_scripts']))) {
             $allow_scripts = $data['allow_scripts'];
         }
-
 
         if (isset($data['debug']) and $data['debug'] == true) {
             $dbg = 1;
@@ -406,7 +379,6 @@ class DatabaseManager extends DbUtils
         if (isset($data['id']) == false or $data['id'] == 0) {
             $data['id'] = 0;
             $l = $this->last_id($table);
-            //$data['id'] = $l;
             $data['new_id'] = intval($l + 1);
             $original_data['new_id'] = $data['new_id'];
         }
@@ -414,7 +386,6 @@ class DatabaseManager extends DbUtils
         if (!isset($the_user_id)) {
             $the_user_id = 0;
         }
-
         if (intval($data['id']) == 0) {
             if (isset($data['created_at']) == false) {
                 $data['created_at'] = date("Y-m-d H:i:s");
@@ -430,7 +401,6 @@ class DatabaseManager extends DbUtils
                 $data['edited_by'] = $the_user_id;
             }
         }
-
         $table_assoc_name = $this->assoc_table_name($table);
         $criteria_orig = $data;
         $criteria = $this->map_array_to_table($table, $data);

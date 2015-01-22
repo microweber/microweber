@@ -294,6 +294,10 @@ class ShopManager
                     $place_order['success'] = "Your order has been placed successfully!";
 
                 }
+
+
+                $place_order['order_status'] = 'pending';
+
                 // $this->app->database->q($q);
                 if (!empty($checkout_errors)) {
 

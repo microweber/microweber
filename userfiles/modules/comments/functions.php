@@ -2,95 +2,6 @@
 if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', 'comments');
 }
-//
-//mw()->content_manager->comments=(function(){
-//	return $this->morphMany('Comments', 'rel');
-//dd(__FILE__);	
-//	
-//});
-//mw()->content_manager->comments=(function(){
-//	return $this->morphMany('Comments', 'rel');
-//dd(__FILE__);	
-//	
-//});
-
-
-//Filter::bind('comments',function($params, $app){
-//	return $app->morphMany('Comments', 'rel');
-// 	
-//	
-//}); 
-
-//
-//$comm = Content::with(array('comments' => function($q)
-// {
-//  // $q->where('comments.rel_id','=','content.id')->groupBy('id')->groupBy('comments.rel_id');; 
-//   
-// $q->where('comments.rel_id','=','content.id')->whereNotNull('comments.rel_id')->groupBy('id'); 
-//   
-// }))->get()->toArray();
-//
-// $comm = Content::with('comments')->get()->toArray();
-//dd( $comm);
-// $comm = Content::find(1)->comments()->get();
-//dd( $comm);
-
-
-//	$post_params = array();
-// $post_params['comments'] = true;
-//  $post_params['one'] = true;
-//$post_params['order_by'] = 'id desc';
-//$content = get_content($post_params);
-//
-//dd($content);
-
-//Content::comments=(function(){
-//	return $this->morphMany('Comments', 'rel');
-//dd(__FILE__);	
-//	
-//});
-
-//mw()->content_manager->comments->get();
-
-//mw()->database->custom_filter('comments', function(){
-//	
-//dd(__FILE__);	
-//	
-//});
-
-
-//mw()->bind('conne', function() 
-//{
-//    return new Comments();
-//});
-//mw()->content_manager->find(1)->comments()->get();
-// $comm = Content::find(1)->comments()->get();
-//dd( $comm);
-
-
-//mw()->database->custom_filter('comments', function($query,$param,$table){
-//	//
-////	$app = $app->morphMany('comments', 'rel');
-////	
-////	$query = $query->with('comments');
-////		return $query;
-////		
-////	dd($query);
-////dd(__FILE__);	
-////	
-//});
-
-//	$post_params = array();
-// $post_params['comments'] = true;
-//  $post_params['one'] = true;
-//$post_params['order_by'] = 'id desc';
-//$content = get_content($post_params);
-//
-//dd($content );
-
-
-
-
 
 
 /**
@@ -238,12 +149,15 @@ function post_comment($data)
     }
 
     if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
-        $data['is_moderated'] = 'y';
+        $data['is_moderated'] = '1';
     } else {
         $require_moderation = get_option('require_moderation', 'comments');
         if ($require_moderation != 'y') {
-            $data['is_moderated'] = 'y';
+            $data['is_moderated'] = '0';
         }
+    }
+    if (!isset($data['id'])) {
+        $data['is_new'] = '1';
     }
 
     $data = mw()->format->clean_xss($data);
@@ -332,9 +246,6 @@ function get_comments($params)
     }
     return $comments;
 }
-
-
-
 
 
 event_bind('module.content.manager.item', function ($item) {

@@ -16,14 +16,13 @@ class NotificationsManager
 {
     public $app;
     public $table = 'notifications';
+
     function __construct($app = null)
     {
 
         if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
             define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
         }
-
-
 
 
         if (!is_object($this->app)) {
@@ -35,8 +34,6 @@ class NotificationsManager
             }
 
         }
-
-
 
 
     }
@@ -82,7 +79,7 @@ class NotificationsManager
         if (($module) != false and $module != '') {
 
             $table = $this->table;
-                  $get_params = array();
+            $get_params = array();
             $get_params['table'] = $table;
             $get_params['is_read'] = 0;
             $get_params['fields'] = 'id';
@@ -239,7 +236,9 @@ class NotificationsManager
             }
 
         }
-
+        if (!isset($params['is_read'])) {
+            $params['is_read'] = 0;
+        }
 
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
