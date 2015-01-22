@@ -9,7 +9,7 @@
  }
  
  if(!isset($params['is_moderated'])){
-	$data['is_moderated'] = 'n';
+	$data['is_moderated'] = 0;
  } else {
 	//  $is_moderated = 'n';
  }
@@ -78,12 +78,12 @@
       <div class="comment-controll-bar"> <a href="javascript:;" class="mw-ui-btn left" onclick="">
         <?php _e("Reply"); ?>
         </a>
-        <?php if($comment['is_moderated'] == 'n'): ?>
+        <?php if($comment['is_moderated'] == 0): ?>
         <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action('#comments-form-<?php print $comment['id'] ?>', 'publish')">
         <?php _e("Publish"); ?>
         </a>
         <?php endif; ?>
-        <?php if($comment['is_moderated'] == 'y'): ?>
+        <?php if($comment['is_moderated'] == 1): ?>
         <a href="javascript:;" class="mw-ui-btn" onclick="mw.adminComments.action('#comments-form-<?php print $comment['id'] ?>', 'unpublish')">
         <?php _e("Unpublish"); ?>
         </a>

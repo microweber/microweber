@@ -78,7 +78,7 @@ $(document).ready(function(){
       <div class="tab" style="display: block">
         <?php
           $get_comments_params['count'] = '1';
-          $get_comments_params['is_new'] = 'y';
+          $get_comments_params['is_new'] = 1;
         ?>
         <?php $new = get_comments($get_comments_params); ?>
         <?php if ($new > 0) { ?>

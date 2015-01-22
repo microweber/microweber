@@ -46,7 +46,7 @@ $option['option_group'] = 'comments';
 
 $option['name'] = 'Enable email notification on new comment';
 $option['help'] = 'If yes it will send you email for every new comment';
-$option['option_value'] = 'n';
+$option['option_value'] = 0;
 $option['position'] = '3';
 $option['field_type'] = 'dropdown';
 $option['field_values'] = array('y' => 'yes', 'n' => 'no');
@@ -59,7 +59,7 @@ $option['option_group'] = 'comments';
 
 $option['name'] = 'Allow people to post comments';
 $option['help'] = 'If yes it will allow comments on your site';
-$option['option_value'] = 'y';
+$option['option_value'] = 1;
 $option['position'] = '5';
 $option['field_type'] = 'dropdown';
 $option['field_values'] = array('y' => 'yes', 'n' => 'no');

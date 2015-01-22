@@ -44,7 +44,7 @@ description: Default comments template
       <?php foreach ($comments as $comment) : ?>
       <?php
     $required_moderation = get_option('require_moderation', 'comments')=='y';
-    if(!$required_moderation or $comment['is_moderated'] == 'y' or (!(mw()->user_manager->session_all() == false) and  $comment['session_id'] == mw()->user_manager->session_id())){
+    if(!$required_moderation or $comment['is_moderated'] == 1 or (!(mw()->user_manager->session_all() == false) and  $comment['session_id'] == mw()->user_manager->session_id())){
   ?>
       <div class="clearfix comment" id="comment-<?php print $comment['id'] ?>">
         <div class="mw-ui-row">
@@ -97,7 +97,7 @@ description: Default comments template
                   <?php   event_trigger('module.comments.item.info', $comment); ?>
                 </div>
                 <div class="comment-body">
-                  <?php if($required_moderation != false and  $comment['is_moderated'] == 'n' ): ?>
+                  <?php if($required_moderation != false and  $comment['is_moderated'] == 0 ): ?>
                   <em class="comment-require-moderation">
                   <?php _e("Your comment requires moderation"); ?>
                   </em><br />

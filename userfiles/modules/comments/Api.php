@@ -71,15 +71,15 @@ class Api {
 
                 switch ($action) {
                     case 'publish' :
-                        $data['is_moderated'] = 'y';
+                        $data['is_moderated'] = 1;
 
                         break;
                     case 'unpublish' :
-                        $data['is_moderated'] = 'n';
+                        $data['is_moderated'] = 0;
 
                         break;
                     case 'spam' :
-                        $data['is_moderated'] = 'n';
+                        $data['is_moderated'] = 0;
 
                         break;
 
@@ -134,11 +134,11 @@ class Api {
         }
 
         if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
-            $data['is_moderated'] = 'y';
+            $data['is_moderated'] = 1;
         } else {
             $require_moderation = get_option('require_moderation', 'comments');
             if ($require_moderation != 'y') {
-                $data['is_moderated'] = 'y';
+                $data['is_moderated'] = 1;
             }
         }
 
@@ -205,12 +205,12 @@ class Api {
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;
             mw_var('FORCE_SAVE', $table);
-            $data['is_new'] = 'y';
+            $data['is_new'] = 1;
             $get_comm = get_comments($data);
             if (!empty($get_comm)) {
                 foreach ($get_comm as $get_com) {
                     $upd = array();
-                    $upd['is_new'] = 'n';
+                    $upd['is_new'] = 0;
 
                     $upd['id'] = $get_com['id'];
                     $upd['rel_type'] = 'content';
