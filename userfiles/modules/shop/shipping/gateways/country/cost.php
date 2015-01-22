@@ -52,13 +52,13 @@
 	 
  }
  
- 
+ $sel = mw()->user_manager->session_get('shipping_country');
  
   ?>
   
   
   <select name="country" class="<?php print $class  ?>">
   <?php foreach($data  as $item): ?>
-  <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($_SESSION['shipping_country']) and $_SESSION['shipping_country'] == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
+  <option value="<?php print $item['shipping_country'] ?>"  <?php if($sel == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
   <?php endforeach ; ?>
 </select>

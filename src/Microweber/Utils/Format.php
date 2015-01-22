@@ -245,41 +245,27 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
-            // $var = html_entity_decode($var);
-            //$var = stripslashes($var);
             $var = $this->strip_unsafe($var);
             $var = htmlentities($var, ENT_QUOTES, "UTF-8");
-            // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
             $var = str_ireplace("<script>", '', $var);
             $var = str_ireplace("</script>", '', $var);
-
             $var = str_replace('<?', '&lt;?', $var);
             $var = str_replace('?>', '?&gt;', $var);
             $var = str_ireplace("<module", '&lt;module', $var);
             $var = str_ireplace("<Microweber", '&lt;Microweber', $var);
-
-            //$var = str_ireplace("javascript:", '', $var);
-            // $var = str_ireplace("vbscript:", '', $var);
-            // $var = str_ireplace("livescript:", '', $var);
-            //$var = str_ireplace("HTTP-EQUIV=", '', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
-
-
             if ($do_not_strip_tags == false) {
                 $var = strip_tags(trim($var));
             }
-
             $output = $var;
             return $output;
         }
         return $output;
-
     }
 
     function strip_unsafe($string, $img = false)
     {
         if (is_array($string)) {
-
             foreach ($string as $key => $val) {
                 $string[$key] = $this->strip_unsafe($val, $img);
             }
@@ -378,9 +364,7 @@ class Format
                 '/onvolumechange="(.*?)"/is',
                 '/onwaiting="(.*?)"/is',
                 '/href="javascript:[^"]+"/',
-                //   '/href=javascript:[^"]+"/',
                 '/href=javascript:/is',
-                //  '/href=javascript:[^"]+/',
                 '/<html(.*?)>/is',
                 '/<iframe(.*?)>/is',
                 '/<iframe(.*?)/is',
@@ -390,10 +374,8 @@ class Format
             if ($img == true) {
                 $unsafe[] = '/<img(.*?)>/is';
             }
-
             // Remove these tags and all parameters within them
             $string = preg_replace($unsafe, "", $string);
-
             return $string;
         }
     }
@@ -410,11 +392,8 @@ class Format
 
     public function replace_once($needle, $replace, $haystack)
     {
-        // Looks for the first occurrence of $needle in $haystack
-        // and replaces it with $replace.
         $pos = strpos($haystack, $needle);
         if ($pos === false) {
-            // Nothing found
             return $haystack;
         }
         return substr_replace($haystack, $replace, $pos, strlen($needle));
@@ -425,9 +404,7 @@ class Format
         if ($str === 'http://' OR $str === 'https://' OR $str === '') {
             return '';
         }
-
         $url = parse_url($str);
-
         if (!$url OR !isset($url['scheme'])) {
             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
                 return 'https://' . $str;
@@ -435,19 +412,14 @@ class Format
                 return 'http://' . $str;
             }
         }
-
         return $str;
     }
 
-    // got this from code igniter
-
-    public function  percent($num_amount, $num_total)
+    public function percent($num_amount, $num_total)
     {
-
         if ($num_amount == 0 or $num_total == 0) {
             return 0;
         }
-
         $count1 = $num_amount / $num_total;
         $count2 = $count1 * 100;
         $count = number_format($count2, 0);
@@ -564,15 +536,12 @@ class Format
         }
         $str = strip_tags($str);
         $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
-
         if (strlen($str) <= $n) {
             return $str;
         }
-
         $out = "";
         foreach (explode(' ', trim($str)) as $val) {
             $out .= $val . ' ';
-
             if (strlen($out) >= $n) {
                 $out = trim($out);
                 return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
@@ -590,13 +559,12 @@ class Format
     {
         $editmode_sess = mw()->user_manager->session_get('editmode');
 
-        if($editmode_sess == false){
+        if ($editmode_sess == false) {
             if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
                 $editmode_sess = true;
             }
 
         }
-
 
 
         if ($editmode_sess == true) {

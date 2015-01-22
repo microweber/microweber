@@ -345,7 +345,7 @@ foreach ($datas as $data_key => $data): ?>
                                             <label class="mw-ui-check">
                                                 <input
                                                   name="is_active" type="radio" class="semi_hidden is_active_n"
-                                                  value="0" <?php if (isset($item['is_active']) and '' == trim($item['is_active']) or '0' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
+                                                  value="0" <?php if (!isset($item['is_active']) or 1 != ($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
                                                  <span></span>
                                                  <span><?php _e("No"); ?></span>
                                             </label>
