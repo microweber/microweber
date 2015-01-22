@@ -190,7 +190,7 @@ $edit_page_info = $data;
            value="<?php print $data['layout_file']; ?>"/>
     <input type="hidden" name="active_site_template" id="mw-active-template-value-<?php print $rand; ?>"
            value="<?php print $data['active_site_template']; ?>"/>
- 
+
     <div class="mw-ui-field-holder" id="slug-field-holder">
         <input
             type="hidden"
