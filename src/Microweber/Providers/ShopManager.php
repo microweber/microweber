@@ -1682,7 +1682,7 @@ class ShopManager
         if (($cache_content) == '--true--') {
             return true;
         }
- 
+
         $datas = array();
 
         $data = array();

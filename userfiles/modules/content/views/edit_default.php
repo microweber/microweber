@@ -6,7 +6,11 @@ $edit_page_info = $data;
 
  
 
-?> 
+?>
+
+<?php   if (isset($edit_page_info['title'])): ?>
+<?php $title_for_input = str_replace('"', '&quot;', $edit_page_info['title']); ?>
+<?php endif; ?>
 <style>
     #admin-user-nav {
         display: none;
@@ -55,12 +59,15 @@ $edit_page_info = $data;
                     }
                     $action_text = $action_text . ' ' . $action_text2;
                     if (isset($edit_page_info['title'])): ?>
+                        <?php //$title_for_input = htmlentities($edit_page_info['title'], ENT_QUOTES); ?>
+
+
                         <div class="mw-ui-row-nodrop" id="content-title-field-row">
                             <div class="mw-ui-col" style="width: 30px;"><span
                                     class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span></div>
                             <div class="mw-ui-col">
                                 <input type="text" class="mw-ui-invisible-field mw-ui-field-big"
-                                       value="<?php print $edit_page_info['title'] ?>"
+                                       value="<?php print ($title_for_input) ?>"
                                        id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
                             </div>
                             <?php event_trigger('content.edit.title.after'); ?>
@@ -183,7 +190,7 @@ $edit_page_info = $data;
            value="<?php print $data['layout_file']; ?>"/>
     <input type="hidden" name="active_site_template" id="mw-active-template-value-<?php print $rand; ?>"
            value="<?php print $data['active_site_template']; ?>"/>
-
+ 
     <div class="mw-ui-field-holder" id="slug-field-holder">
         <input
             type="hidden"
@@ -191,7 +198,7 @@ $edit_page_info = $data;
             name="title"
             onkeyup="slugFromTitle();"
             placeholder="<?php print $title_placeholder; ?>"
-            value="<?php print $data['title']; ?>"/>
+            value="<?php print $title_for_input; ?>"/>
         <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
 
         <div class="edit-post-url">
