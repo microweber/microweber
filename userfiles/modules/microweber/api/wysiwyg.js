@@ -892,7 +892,7 @@ mw.wysiwyg = {
         var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
       }
       else{
-         var isembed = false;
+         var isembed = false;                  
       }
       if(isembed){
         var id = 'frame-'+mw.random();
@@ -1309,20 +1309,28 @@ $(window).load(function(){
   });
 
   $(window).bind("keydown mousedown mouseup", function(e){
-      if(e.ctrlKey && e.type =='keydown') {
-            var code = e.keyCode;
-            if( code === 66 ){
-                mw.wysiwyg.execCommand('bold');
-                e.preventDefault();
-            }
-            else if(code == 73) {
-                mw.wysiwyg.execCommand('italic');
-                e.preventDefault();
-            }
-            else if(code == 85) {
-                mw.wysiwyg.execCommand('underline');
-                e.preventDefault();
-            }
+      if(e.type =='keydown') {
+        if(e.keyCode == 13){
+          var field = mw.tools.mwattr(e.target, 'field');
+          if( field == 'title' ){
+            e.preventDefault();
+          }
+        }
+        if(e.ctrlKey) {
+              var code = e.keyCode;
+              if( code === 66 ){
+                  mw.wysiwyg.execCommand('bold');
+                  e.preventDefault();
+              }
+              else if(code == 73) {
+                  mw.wysiwyg.execCommand('italic');
+                  e.preventDefault();
+              }
+              else if(code == 85) {
+                  mw.wysiwyg.execCommand('underline');
+                  e.preventDefault();
+              }
+        }
       }
   });
 
