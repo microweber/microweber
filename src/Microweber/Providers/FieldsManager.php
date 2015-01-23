@@ -1,10 +1,10 @@
 <?php
 namespace Microweber\Providers;
 
-api_expose('fields/reorder');
-api_expose('fields/delete');
-api_expose('fields/make');
-api_expose('fields/save');
+api_expose_admin('fields/reorder');
+api_expose_admin('fields/delete');
+api_expose_admin('fields/make');
+api_expose_admin('fields/save');
 $_mw_made_default_fields_register = array();
 
 class FieldsManager
@@ -18,20 +18,14 @@ class FieldsManager
 
     function __construct($app = null)
     {
-
-
         if (!is_object($this->app)) {
-
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw();
             }
-
         }
-
         $this->tables = $this->app->content_manager->tables;
-
     }
 
     public function get_by_id($field_id)
@@ -130,19 +124,11 @@ class FieldsManager
                         $pos++;
                     }
                 }
-
-
                 if ($pos > 0) {
                     $this->app->cache_manager->delete('custom_fields/global');
-
                 }
-
             }
-
-
         }
-
-
     }
 
     public function save($data)
@@ -150,20 +136,6 @@ class FieldsManager
         if (is_string($data)) {
             $data = parse_params($data);
         }
-
-        // @todo needs major refactoring
-
-        if (defined('MW_API_CALL') and !defined('SKIP_CF_ADMIN_CHECK')) {
-            $id = user_id();
-            if ($id == 0) {
-                $this->app->error('Error: not logged in.');
-            }
-            $id = $this->app->user_manager->is_admin();
-            if ($id == false) {
-                $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-            }
-        }
-
 
         $table_custom_field = $this->table;
         $table_values = $this->table_values;
@@ -178,10 +150,6 @@ class FieldsManager
         if (isset($params['field_value'])) {
             $params['value'] = $params['field_value'];
         }
-
-// OLD       if (isset($data['field_value']) and !isset($data['value'])) {
-//            $data['value'] = $data['field_value'];
-//        }
         if (isset($data['field_name']) and !isset($data['name'])) {
             $data['name'] = $data['field_name'];
         }
@@ -227,9 +195,7 @@ class FieldsManager
                 }
             }
 
-
             if (isset($data_to_save['copy_rel_id'])) {
-
                 $cp = $this->app->database_manager->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
                 $data_to_save['id'] = $cp;
                 $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
@@ -273,9 +239,7 @@ class FieldsManager
                 $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
             }
 
-
             $data_to_save['allow_html'] = true;
-            //  $data_to_save['debug'] = true;
             if (!isset($data_to_save['id'])) {
                 $data_to_save['id'] = 0;
             }
@@ -295,14 +259,10 @@ class FieldsManager
                 }
 
                 if (!empty($values_to_save)) {
-
-
                     $check_existing = array();
                     $check_existing['table'] = $table_values;
                     $check_existing['custom_field_id'] = $custom_field_id;
                     $check_old = $this->app->database->get($check_existing);
-
-
                     $i = 0;
                     foreach ($values_to_save as $value_to_save) {
                         $save_value = array();
@@ -310,7 +270,6 @@ class FieldsManager
                             $save_value['id'] = $check_old[$i]['id'];
                             unset($check_old[$i]);
                         }
-
                         $save_value['custom_field_id'] = $custom_field_id;
                         $save_value['value'] = $value_to_save;
                         $save_value['position'] = $i;
@@ -324,18 +283,12 @@ class FieldsManager
                         }
                         if (!empty($remove_old_ids)) {
                             $remove_old = $this->app->database->delete_by_id($table_values, $remove_old_ids);
-
                         }
-
                     }
-
-
                 }
-
             }
 
 
-            $this->app->cache_manager->delete('custom_fields/global');
             $this->app->cache_manager->delete('custom_fields/' . $save);
             $this->app->cache_manager->delete('custom_fields');
 

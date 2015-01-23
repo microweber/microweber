@@ -64,8 +64,7 @@ if(isset($params['default-fields'])){
 
 	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
 
- //d($more);
- // d($diff);
+ 
  $custom_names_for_content = array();
 if(is_array( $diff) and is_array($more) ){
  $i=0;

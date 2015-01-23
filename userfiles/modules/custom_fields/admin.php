@@ -55,8 +55,8 @@ if(isset($params['content-id'])){
 }
 $module_id = $for_id;
 //$rand = rand();
-
-?>
+$fields = mw('ui')->custom_fields();
+?> 
   <script type="text/javascript">
 
 
@@ -147,12 +147,19 @@ $(document).ready(function(){
 	  mw.$('#dropdown-custom-fields').bind('change', function(){
 			var val = $(this).getDropdownValue();
 			var copyof = mw.$('#dropdown-custom-fields li[value="'+val+'"][data-copyof]').dataset('copyof');
-			 
-			var make_field = {}
-			make_field.rel='<?php print $for; ?>';
-			make_field.rel_id='<?php print $for_id; ?>';
-			make_field.type=val;
-			mw.custom_fields.create(make_field, mw_custom_fileds_changed_callback);
+		 copyof = false;
+			 // @todo copyof
+			//mw.custom_fields.copy_field_by_id('1', '<?php print $for; ?>', '<?php print $for_id; ?>');
+			if(copyof == false){ 
+				var make_field = {}
+				make_field.rel='<?php print $for; ?>';
+				make_field.rel_id='<?php print $for_id; ?>';
+				make_field.type=val;
+				mw.custom_fields.create(make_field, mw_custom_fileds_changed_callback);
+			} else {
+				mw.custom_fields.copy_field_by_id(copyof, '<?php print $for; ?>', '<?php print $for_id; ?>');
+			}
+			
             mw.$('.mw-dropdown-value', this).html($(this).dataset('default'))
 		});
 	});
@@ -192,15 +199,38 @@ if(!!window.thismodal){
   <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
     <?php _e("Add New Field"); ?>
     </span>
-    <?php  //$exiisting_fields = get_custom_fields('fields=name&rel=content&rel_id=>0&group_by=type,name&return_full=1',true); ?>
-    <?php //d($exiisting_fields) ?>
-   <?php $exiisting_fields = false; //TODO ?> 
+    <?php  //$exiisting_fields = get_custom_fields('fields=name&rel=content&rel_id=>0&group_by=type,name&return_full=1',true); 
+	
+	
+	$ex = array();
+	$ex['rel_type'] = $for;
+	//$ex['rel_id'] = $for_id;
+	$ex['group_by'] = 'type';				
+    $ex['order_by'] = 'created_at desc';	
+	$name_not_in = array();	
+	if(is_array($fields)){
+		foreach($fields as $field=>$value){
+			$name_not_in[] = $field;
+		}
+	}
+	if(!empty($name_not_in)){
+	//$ex['name'] = '[not_in]'.implode(',',$name_not_in);	
+	}
+	 
+	//$exiisting_fields = mw()->fields_manager->get_all($ex); 
+   
+	
+	?>
+    
+    
+     
+   <?php  $exiisting_fields = false; //TODO ?> 
     <div class="mw-dropdown-content">
       <ul>
         <?php if(is_array($exiisting_fields)): ?>
 <?php foreach($exiisting_fields as $item): ?>
  
-   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span class="mw-custom-field-icon-<?php print $item['type']; ?>"></span><span><?php print $item['name']; ?></span></li>
+   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span><?php print $item['name']; ?></span></li>
 
 <?php endforeach; ?>
 <?php endif; ?>
@@ -212,7 +242,7 @@ if(!!window.thismodal){
 
 
 
-        $fields = mw('ui')->custom_fields();
+       
        
 
         foreach($fields as $field=>$value){  ?>
