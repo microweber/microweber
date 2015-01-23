@@ -76,8 +76,11 @@ class FieldsManager
 
         //$is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
 
+        $make_field = array();
 
-        $is_made = $this->get($rel, $rel_id, $return_full = 0, $field_for = false, $debug = 0);
+        $make_field['rel_type'] = $rel;
+        $make_field['rel_id'] = $rel_id;
+        $is_made = $this->get_all($make_field);
 
         if (isset($_mw_made_default_fields_register[$function_cache_id])) {
             return;
@@ -109,7 +112,11 @@ class FieldsManager
             if (is_array($fields_csv_str)) {
                 foreach ($fields_csv_str as $field_type) {
                     $ex = $this->get($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
-
+                    $ex = array();
+                    $ex['type'] = $field_type;
+                    $ex['rel_type'] = $rel;
+                    $ex['rel_id'] = $rel_id;
+                    $ex = $this->get_all($ex);
                     if ($ex == false or is_array($ex) == false) {
                         $make_field = array();
                         $make_field['id'] = 0;
@@ -118,9 +125,7 @@ class FieldsManager
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_type);
                         $make_field['value'] = false;
-
                         $make_field['type'] = $field_type;
-
                         $this->save($make_field);
                         $pos++;
                     }
@@ -132,18 +137,8 @@ class FieldsManager
 
                 }
 
-
-                if ($rel_id != '0') {
-                    $option = array();
-                    $option['option_value'] = 'yes';
-                    $option['option_key'] = $function_cache_id;
-                    $option['option_group'] = 'make_default_custom_fields';
-                    //   $this->app->option_manager->save($option);
-                }
-
             }
 
-            //
 
         }
 
