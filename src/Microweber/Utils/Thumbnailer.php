@@ -93,7 +93,6 @@ class Thumbnailer
         imagealphablending($im, false);
         imagesavealpha($im, true);
         imagecopyresampled($im, $originalImage, 0, 0, $crop_x, $crop_y, $newWidth, $newHeight, $sizes[0], $sizes[1]);
-        //imagecopyresampled($im, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $sizes[0], $sizes[1]);
 
         $type = !isset($specifications['mime']) ? $sizes['mime'] : $specifications['mime'];
         if ($type == 'image/gif') {

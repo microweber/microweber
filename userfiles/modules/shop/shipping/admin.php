@@ -8,6 +8,7 @@ __shipping_options_save_msg = function(){
 	 if(mw.notification != undefined){
 			 mw.notification.success('Shipping options are saved!');
 	 }
+	 mw.reload_module_parent('shop/shipping');
 	
 }
 
@@ -19,8 +20,9 @@ shippingToCountryClass = function(){
     else{
         mw.$("#set-shipping-to-country").removeClass('mw-ui-box-notification').addClass('mw-ui-box-warn');
     }
+	 
 	
-	mw.reload_module_parent('shop/shipping');
+	
 	
 }
 

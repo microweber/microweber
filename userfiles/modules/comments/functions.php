@@ -178,14 +178,14 @@ function post_comment($data)
         $notf_id = mw()->notifications_manager->save($notif);
         $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
-        $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
+        $to = get_option('email_on_new_comment_value', 'comments');
         if ($email_on_new_comment == true) {
             $subject = "You have new comment";
             $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
             $message .= "IP:" . MW_USER_IP . ' <br /> ';
             $message .= mw()->format->array_to_ul($data);
             $sender = new \Microweber\Utils\MailSender();
-            $sender->send($email_on_new_comment_value, $subject, $message);
+            $sender->send($to, $subject, $message);
         }
     }
     return $saved_data;
@@ -252,7 +252,7 @@ event_bind('module.content.manager.item', function ($item) {
 
     if (isset($item['id'])) {
 
-        $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
+        $new = get_comments('count=1&is_moderated=0&content_id=' . $item['id']);
         if ($new > 0) {
             $have_new = 1;
         } else {

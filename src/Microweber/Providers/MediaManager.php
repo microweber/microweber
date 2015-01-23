@@ -348,7 +348,7 @@ class MediaManager
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)) {
-            $data = array('id'=>intval($data));
+            $data = array('id' => intval($data));
         }
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
@@ -654,7 +654,42 @@ class MediaManager
             } elseif (is_file($src2)) {
                 $src = $src2;
             } else {
-                return $this->pixum_img();
+                $no_img = true;
+
+
+//                if (function_exists('getimagesize')) {
+//                    $im = @getimagesize($src);
+//                    if ($im) {
+//                        if (isset($im['mime'])) {
+//                            $save_ext = false;
+//                            switch ($im['mime']) {
+//                                case "image/jpeg":
+//                                case "image/jpg":
+//                                    $save_ext = 'jpg';
+//                                    break;
+//                                case "image/gif":
+//                                    $save_ext = 'gif';
+//                                    break;
+//                                case "image/png":
+//                                    $save_ext = 'png';
+//                                    break;
+//                                case "image/bmp":
+//                                    $save_ext = 'bmp';
+//                                    break;
+//                            }
+//                            if ($save_ext != false) {
+//                                $ext = $save_ext;
+//                                $no_img = false;
+//                            }
+//                        }
+//
+//                    }
+//                }
+
+                if ($no_img) {
+                    return $this->pixum_img();
+                }
+
             }
 
 
@@ -665,7 +700,7 @@ class MediaManager
             $media_root = mw_cache_path();
         }
 
-        $cd = $media_root . 'thumbnail' . DS . $width . DS;
+        $cd = $this->thumbnails_path() . $width . DS;
 
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
@@ -675,8 +710,9 @@ class MediaManager
         if (!is_file($index_file)) {
             file_put_contents($index_file, 'Thumbnail directory is not allowed');
         }
-
-        $ext = strtolower(get_file_extension($src));
+        if (!isset($ext)) {
+            $ext = strtolower(get_file_extension($src));
+        }
         $cache = crc32(serialize($params)) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
@@ -687,7 +723,7 @@ class MediaManager
         }
 
         $cache_path = $cd . $cache;
-
+        dd($cache_path);
         if (file_exists($cache_path)) {
             if (!headers_sent()) {
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -710,6 +746,7 @@ class MediaManager
                     file_put_contents($cache_path, $res1);
 
                 } else {
+
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
                         $tn = new \Microweber\Utils\Thumbnailer($src);
                         $thumbOptions = array('maxLength' => $height, 'width' => $width);
@@ -859,7 +896,7 @@ class MediaManager
             $height = 200;
         }
 
-        $cd = media_base_path() . 'thumbnail' . DS . $width . DS;
+        $cd = $this->thumbnails_path() . $width . DS;
 
 
         $ext = strtolower(get_file_extension($base_src));
@@ -868,6 +905,12 @@ class MediaManager
         $cache = str_replace(' ', '_', $cache);
 
         $ext = strtolower(get_file_extension($src));
+        $is_remote = false;
+        if(strstr($src,'http://')){
+            $is_remote = true;
+        } elseif(strstr($src,'https://')){
+            $is_remote = true;
+        }
 
         $cache_id = array();
         $cache_id['src'] = $base_src;
@@ -877,7 +920,9 @@ class MediaManager
         $cache_path = $cd . $cache_id;
 
 
-        if (file_exists($cache_path)) {
+        if($is_remote) {
+            return $src;
+        } else if (file_exists($cache_path)) {
 
             $cache_path = $this->app->url_manager->link_to_file($cache_path);
             return $cache_path;
@@ -891,64 +936,64 @@ class MediaManager
             return $tn_img_url;
         }
 
-        $surl = $this->app->url_manager->site();
-        $local = false;
-
-        $media_url = media_base_url();
-        $media_url = trim($media_url);
-        $src = str_replace('{SITE_URL}', $surl, $src);
-        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-
-        if (strstr($src, $surl) or strpos($src, $surl)) {
-            $src = str_replace($surl . '/', $surl, $src);
-            $src = str_replace($surl, '', $src);
-            $src = ltrim($src, DS);
-            $src = ltrim($src, '/');
-            $src = rtrim($src, DS);
-            $src = rtrim($src, '/');
-            $src = MW_ROOTPATH . $src;
-            $src = normalize_path($src, false);
-
-        } else {
-            if ($src == false) {
-                return $this->pixum($width, $height);
-            }
-        }
-        $cd = media_base_path() . 'thumbnail' . DS;
-        if (!is_dir($cd)) {
-            mkdir_recursive($cd);
-        }
-
-        $cache = crc32($src . $width . $height) . basename($src);
-
-        $cache = str_replace(' ', '_', $cache);
-        $cache_path = $cd . $cache;
-
-        if (!file_exists($cache_path)) {
-            if (file_exists($src)) {
-                $src1 = $this->app->format->array_to_base64($src);
-                $base_src = basename($src);
-                $ext = get_file_extension($src);
-                if (strtolower($ext) == 'svg') {
-                    $res1 = file_get_contents($src);
-                    $res1 = $this->svgScaleHack($res1, $width, $height);
-                    file_put_contents($cache_path, $res1);
-                } else {
-                    $tn = new \Microweber\Thumbnailer($src);
-                    $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                    $tn->createThumb($thumbOptions, $cache_path);
-                    unset($tn);
-                }
-            }
-
-        }
-        if (file_exists($cache_path)) {
-            $cache_path = $this->app->url_manager->link_to_file($cache_path);
-            return $cache_path;
-        } else {
-            return $this->pixum($width, $height);
-        }
-        return false;
+//        $surl = $this->app->url_manager->site();
+//        $local = false;
+//
+//        $media_url = media_base_url();
+//        $media_url = trim($media_url);
+//        $src = str_replace('{SITE_URL}', $surl, $src);
+//        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
+//
+//        if (strstr($src, $surl) or strpos($src, $surl)) {
+//            $src = str_replace($surl . '/', $surl, $src);
+//            $src = str_replace($surl, '', $src);
+//            $src = ltrim($src, DS);
+//            $src = ltrim($src, '/');
+//            $src = rtrim($src, DS);
+//            $src = rtrim($src, '/');
+//            $src = MW_ROOTPATH . $src;
+//            $src = normalize_path($src, false);
+//
+//        } else {
+//            if ($src == false) {
+//                return $this->pixum($width, $height);
+//            }
+//        }
+//        $cd = media_base_path() . 'thumbnail' . DS;
+//        if (!is_dir($cd)) {
+//            mkdir_recursive($cd);
+//        }
+//
+//        $cache = crc32($src . $width . $height) . basename($src);
+//
+//        $cache = str_replace(' ', '_', $cache);
+//        $cache_path = $cd . $cache;
+//
+//        if (!file_exists($cache_path)) {
+//            if (file_exists($src)) {
+//                $src1 = $this->app->format->array_to_base64($src);
+//                $base_src = basename($src);
+//                $ext = get_file_extension($src);
+//                if (strtolower($ext) == 'svg') {
+//                    $res1 = file_get_contents($src);
+//                    $res1 = $this->svgScaleHack($res1, $width, $height);
+//                    file_put_contents($cache_path, $res1);
+//                } else {
+//                    $tn = new \Microweber\Thumbnailer($src);
+//                    $thumbOptions = array('maxLength' => $height, 'width' => $width);
+//                    $tn->createThumb($thumbOptions, $cache_path);
+//                    unset($tn);
+//                }
+//            }
+//
+//        }
+//        if (file_exists($cache_path)) {
+//            $cache_path = $this->app->url_manager->link_to_file($cache_path);
+//            return $cache_path;
+//        } else {
+//            return $this->pixum($width, $height);
+//        }
+//        return false;
     }
 
     public function create_media_dir($params)
@@ -1031,6 +1076,12 @@ class MediaManager
         }
         return $resp;
 
+    }
+
+
+    public function thumbnails_path()
+    {
+        return media_base_path() . 'thumbnail' . DS;
     }
 
 

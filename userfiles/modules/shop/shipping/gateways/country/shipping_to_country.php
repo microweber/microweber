@@ -5,11 +5,11 @@ namespace shop\shipping\gateways\country;
 api_bind('shop/shipping/gateways/country/shipping_to_country/test', 'shop/shipping/gateways/country/shipping_to_country/test2');
 
 // print('shop/shipping/gateways/country/shipping_to_country/test'. 'shop/shipping/gateways/country/shipping_to_country/test2');
-api_expose('shop/shipping/gateways/country/shipping_to_country/save');
+api_expose_admin('shop/shipping/gateways/country/shipping_to_country/save');
 api_expose('shop/shipping/gateways/country/shipping_to_country/set');
 api_expose('shop/shipping/gateways/country/shipping_to_country/get');
-api_expose('shop/shipping/gateways/country/shipping_to_country/delete');
-api_expose('shop/shipping/gateways/country/shipping_to_country/reorder');
+api_expose_admin('shop/shipping/gateways/country/shipping_to_country/delete');
+api_expose_admin('shop/shipping/gateways/country/shipping_to_country/reorder');
 
 class shipping_to_country
 {
@@ -258,7 +258,6 @@ if($is_worldwide == false){
             $params['order_by'] = 'position ASC';
         }
         $params['limit'] = 1000;
-        // d($params);
         return mw()->database->get($params);
 
     }
@@ -275,7 +274,6 @@ if($is_worldwide == false){
             $c_id = intval($data['id']);
             mw()->database_manager->delete_by_id($this->table, $c_id);
 
-            //d($c_id);
         }
         return true;
     }

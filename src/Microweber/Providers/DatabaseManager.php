@@ -611,14 +611,12 @@ class DatabaseManager extends DbUtils
      */
     public function delete_by_id($table, $id = 0, $field_name = 'id')
     {
-
         if ($id == 0) {
-
             return false;
         }
-
-
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+        $cache_group = $this->assoc_table_name($table);
+        $this->app->cache_manager->delete($cache_group);
         return $c_id;
     }
 

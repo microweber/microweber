@@ -297,9 +297,12 @@ class UserManager
 
     public function picture($user_id = false)
     {
-
-
         $name = $this->get_by_id($user_id);
+
+
+        //&type=normal
+
+
         if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
             return $name['thumbnail'];
         }
