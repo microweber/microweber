@@ -324,13 +324,12 @@ class FormsManager
                         }
                     }
                 }
-                $scheduler = new \Microweber\Utils\Events();
-                if (!empty($user_mails)) {
+                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
-                        \Microweber\email\Sender::send($value, $mail_sj, $mail_autoresp);
-                        // $scheduler->registerShutdownEvent("\Microweber\email\Sender::send", $value, $mail_sj, $mail_autoresp);
-                    }
+                        $sender = new \Microweber\Utils\MailSender();
+                        $sender->send($value, $mail_sj, $mail_autoresp);
+                      }
                 }
 
             }
