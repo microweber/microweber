@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MicroweberProvider extends AbstractProvider implements ProviderInterface
 {
-	protected $serverUrl = 'http://login.microweber.com';
+	protected $serverUrl = 'https://login.microweber.com';
 	protected $scopes = [];
 
 	protected function apiUrl($path) {
@@ -22,10 +22,15 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 	{
 		$session = $this->request->getSession();
 
+		$redirectUrl = $this->redirectUrl;
+		if(!starts_with($redirectUrl, 'http')) {
+			$redirectUrl = 'http://'.$redirectUrl;
+		}
+
 		return $url.'?'.http_build_query([
 			'client_id' => $this->clientId,
 			'client_secret' => $this->clientSecret,
-			'redirect_uri' => $this->redirectUrl,
+			'redirect_uri' => $redirectUrl,
 			'scope' => $this->formatScopes($this->scopes),
 			'state' => $state,
 			'response_type' => 'code',

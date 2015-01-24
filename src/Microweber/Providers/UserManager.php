@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
+use User;
 
 if (!defined('MW_USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {
@@ -728,9 +729,9 @@ class UserManager
             }
         }
         if (isset($params['id']) and intval($params['id']) != 0) {
-            $user = \User::find($params['id']);
+            $user = User::find($params['id']);
         } else {
-            $user = new \User;
+            $user = new User;
         }
         $id_to_return = false;
         if ($user->validateAndFill($data_to_save)) {
@@ -1126,7 +1127,7 @@ class UserManager
         $save['thumbnail'] = $avatar;
         $save['username'] = $username;
         $save['is_active'] = 1;
-        $save['is_admin'] = 0;
+        $save['is_admin'] = is_null(User::first());
         if ($name != false) {
             $names = explode(' ', $name);
             if (isset($names[0])) {
@@ -1377,9 +1378,13 @@ class UserManager
         }
 
         if (get_option('enable_user_microweber_registration', 'users') == 'y') {
-            Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
-            Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
-            Config::set('services.microweber.redirect', $callback_url);
+            $svc = Config::get('services.microweber');
+            if(!isset($svc['client_id']))
+                Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
+            if(!isset($svc['client_secret']))
+                Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
+            if(!isset($svc['redirect']))
+                Config::set('services.microweber.redirect', $callback_url);
             $this->socialite->extend('microweber', function ($app) {
                 $config = $app['config']['services.microweber'];
                 return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);

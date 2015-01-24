@@ -6,9 +6,6 @@ use Microweber\View;
 use Microweber\Install;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use \Cache;
@@ -32,18 +29,21 @@ class DefaultController extends Controller
             }
         }
 
-
     }
 
     public function index()
     {
-
         $is_installed = mw_is_installed();
         if (!$is_installed) {
-
             $installer = new InstallController($this->app);
             return $installer->index();
-
+        }
+        $config = $this->app->make('config')->get('microweber');
+        //dd(__FILE__, $this->app->make('request')->path());
+        if((!isset($config['has_admin']) or !isset($config['default_template'])) or
+            ($config['has_admin'] && $config['default_template'])
+            ){
+            return redirect('/admin');
         }
         return $this->frontend();
     }
@@ -242,7 +242,7 @@ class DefaultController extends Controller
         $api_exposed = '';
 
         // user functions
-        $api_exposed .= 'user_login user_logout ';
+        $api_exposed .= 'user_login user_logout social_login_process';
 
         // content functions
         $api_exposed .= 'save_edit ';
@@ -1077,7 +1077,7 @@ class DefaultController extends Controller
     public function frontend()
     {
         if (isset($_GET['debug'])) {
-            if (Config::get('app.debug')) {
+            if ($this->app->make('config')->get('app.debug')) {
                 DB::enableQueryLog();
             }
         }
@@ -2010,7 +2010,7 @@ class DefaultController extends Controller
             unset($l);
 
             if (isset($_REQUEST['debug'])) {
-                if (Config::get('app.debug')) {
+                if ($this->app->make('config')->get('app.debug')) {
                     $is_admin = $this->app->user_manager->is_admin();
                     if ($is_admin == true) {
                         $this->app->content_manager->debug_info();

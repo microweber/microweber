@@ -144,13 +144,16 @@ class InstallController extends Controller
 
             Config::set('microweber.is_installed', 1);
 
-            $adminUser = new \User;
-            $adminUser->username = $input['admin_username'];
-            $adminUser->email = $input['admin_email'];
-            $adminUser->password = $input['admin_password'];
-            $adminUser->is_admin = 1;
-            $adminUser->is_active = 1;
-            $adminUser->save();
+            if(isset($input['admin_password']) && strlen($input['admin_password'])) {
+                $adminUser = new \User;
+                $adminUser->username = $input['admin_username'];
+                $adminUser->email = $input['admin_email'];
+                $adminUser->password = $input['admin_password'];
+                $adminUser->is_admin = 1;
+                $adminUser->is_active = 1;
+                $adminUser->save();
+                Config::set('microweber.has_admin', 1);
+            }
 
             Config::save();
             return 'done';
@@ -171,6 +174,11 @@ class InstallController extends Controller
                 'pgsql' => 'PostgreSQL'
             ]
         ];
+        if(!$viewData['config']['prefix']) {
+            $domain = $_SERVER['HTTP_HOST'];
+            $domain = str_replace('.', '_', $domain);
+            $viewData['config']['prefix'] = $domain.'_';
+        }
 
         $layout->set($viewData);
 

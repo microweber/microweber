@@ -2,18 +2,11 @@
 <module type="users/forgot_password" />
 <?php else:  ?>
 
-
-
-
 <script  type="text/javascript">
     mw.require('tools.js', true);
     mw.require('forms.js', true);
 </script>
 <script  type="text/javascript">
-
-
-
-
 
 $(document).ready(function(){
   if(!mw.$('#user_login_<?php print $params['id'] ?>').hasClass("custom-submit")){
@@ -49,7 +42,6 @@ $(document).ready(function(){
 					  		 return false;
 
 					   }
-					  
 					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
 					    if(c == '' ){
                           window.location.reload();

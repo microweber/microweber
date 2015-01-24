@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Cache\Repository;
 use Illuminate\Console\Application as Artisan;
-use Laravel\Socialite\Facades\Socialite;
 use \Cache;
 
 use Microweber\Database\MySqlConnection;
@@ -52,6 +51,14 @@ class MicroweberServiceProvider extends ServiceProvider
                 return $domain;
             });
         }
+
+        Event::listen('auth.login', function($user)
+        {
+            if(!Config::get('microweber.has_admin', false)) {
+                Config::set('microweber.has_admin', true);
+                Config::save();
+            }
+        });
 
         $this->app->instance('config', new Providers\ConfigSave($this->app));
 
