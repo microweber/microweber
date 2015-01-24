@@ -242,10 +242,10 @@ if($is_quick_edit == true){
                 <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                 <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
-                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
+                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 1): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Unpublish"); ?>
                   </span></a> </li>
-                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
+                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 1): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
