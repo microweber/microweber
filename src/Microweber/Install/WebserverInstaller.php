@@ -79,13 +79,16 @@ class WebserverInstaller
         ';
 
         foreach ($forbidDirs as $dir) {
-            $root = base_path().DS;;
-            if (is_dir($root.$dir)) {
-                $this->storeConfig($dir . '/.htaccess', 'Deny from all');
+            $root = base_path() . DS;;
+            if (is_dir($root . $dir)) {
+                $writable_path = $dir . '/.htaccess';
+                if (is_writable($writable_path)) {
+                    $this->storeConfig($writable_path, 'Deny from all');
+                }
             }
         }
 
-        $is_htaccess = public_path() .DS. '.htaccess';
+        $is_htaccess = public_path() . DS . '.htaccess';
         if (!is_file($is_htaccess)) {
             return $this->storeConfig('.htaccess', $data);
         }
