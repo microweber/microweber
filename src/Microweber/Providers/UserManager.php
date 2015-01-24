@@ -191,10 +191,8 @@ class UserManager
 
 
         if ($overiden == true and $redirect_after != false) {
-            $this->app->url_manager->redirect($redirect_after);
-            return;
+            return $this->app->url_manager->redirect($redirect_after);;
         } elseif ($overiden == true) {
-
             return $return_resp;
         }
 
@@ -218,8 +216,7 @@ class UserManager
             $user_data = Auth::user();
             $this->make_logged($user_data->id);
             if ($ok && $redirect_after) {
-                $this->app->url_manager->redirect($redirect_after);
-                return;
+                return $this->app->url_manager->redirect($redirect_after);;
             } else if ($ok) {
                 return ['success' => "You are logged in!"];
             }
@@ -298,15 +295,9 @@ class UserManager
     public function picture($user_id = false)
     {
         $name = $this->get_by_id($user_id);
-
-
-        //&type=normal
-
-
         if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
             return $name['thumbnail'];
         }
-
     }
 
     /**
@@ -375,12 +366,10 @@ class UserManager
             case 'last' :
                 $user_data['last_name'] ? $name = $user_data['last_name'] : $name = $user_data['last_name'];
                 $name = ucwords($name);
-                // return $name;
                 break;
 
             case 'username' :
                 $name = $user_data['username'];
-                // return $name;
                 break;
 
             case 'full' :
@@ -698,7 +687,7 @@ class UserManager
 
                     }
                 }
-            } else { 
+            } else {
                 if (defined('MW_API_CALL') and mw_is_installed() == true) {
                     $adm = $this->is_admin();
                     if ($adm == false) {
