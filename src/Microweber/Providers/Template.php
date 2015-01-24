@@ -562,12 +562,18 @@ class Template
                 }
             }
 
+
+
+
+
+
+
+
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
                         $par_c = $this->app->content_manager->get_by_id($value);
                         if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
-
 
                             $page['layout_file'] = $par_c['layout_file'];
                             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
@@ -607,7 +613,8 @@ class Template
         }
 
 
-        if ($render_file != false and isset($page['content_type']) and ($page['content_type']) != 'page') {
+
+        if ($render_file != false and (isset($page['content_type']) and ($page['content_type']) != 'page')) {
             $f1 = $render_file;
             $f2 = $render_file;
 
@@ -618,6 +625,9 @@ class Template
             $temp2 = substr($stringA, $length - 4, $length);
             $f1 = $temp1 . $stringB . $temp2;
             $f1 = normalize_path($f1, false);
+
+
+
 
             if (is_file($f1)) {
                 $render_file = $f1;
@@ -681,6 +691,7 @@ class Template
         if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
             $look_for_post = $page;
 
+
             if (isset($page['parent'])) {
                 $par_page = false;
                 $inh_par_page = $this->app->content_manager->get_inherited_parent($page['parent']);
@@ -694,7 +705,7 @@ class Template
                         $page['active_site_template'] = $par_page['active_site_template'];
                     }
                     if (isset($par_page['layout_file']) and $par_page['layout_file'] != false) {
-                        $page['layout_file'] = $par_page['layout_file'];
+                        //$page['layout_file'] = $par_page['layout_file'];
                     }
                 } else {
                     $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
