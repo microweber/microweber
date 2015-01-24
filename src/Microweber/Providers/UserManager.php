@@ -698,12 +698,15 @@ class UserManager
 
                     }
                 }
-            } else {
+            } else { 
                 if (defined('MW_API_CALL') and mw_is_installed() == true) {
-                    $params['id'] = $this->id();
-                    $is_logged = user_id();
-                    if (intval($params['id']) != 0 and $is_logged != $params['id']) {
-                        return array('error' => 'You must be logged save your settings');
+                    $adm = $this->is_admin();
+                    if ($adm == false) {
+                        $params['id'] = $this->id();
+                        $is_logged = user_id();
+                        if (intval($params['id']) != 0 and $is_logged != $params['id']) {
+                            return array('error' => 'You must be logged save your settings');
+                        }
                     }
                 }
             }
@@ -730,10 +733,10 @@ class UserManager
                 $check_existing['email'] = $email;
                 $check_existing['single'] = 1;
                 $check_existing = $this->get_all($check_existing);
-                if(isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']){
+                if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
                     return array('error' => 'User with this email already exists!');
                 }
-             }
+            }
         }
         if (isset($params['id']) and intval($params['id']) != 0) {
             $user = \User::find($params['id']);

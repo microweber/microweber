@@ -106,29 +106,15 @@ class DatabaseManager extends DbUtils
         $getone = false;
         $no_cache = false;
 
-        $groupBy = false;
-        $order_by = false;
-        $count = false;
-        $sum = false;
-        $no_limit = false;
+
         $limit = $this->default_limit;
         if ($limit == false) {
             $limit = 30;
         }
-        $offset = false;
+
         $aggregate = false;
         $aggregate_column = false;
-        $min = false;
-        $max = false;
-        $avg = false;
-        $ids = false;
-        $exclude_ids = false;
-        $current_page = false;
-        $count_paging = false;
-        $to_search_in_fields = false;
-        $to_search_keyword = false;
-        $fields = false;
-        $filter = false;
+
         $filter_params = $params;
 
 
@@ -160,9 +146,6 @@ class DatabaseManager extends DbUtils
                 $table = ($v);
             }
 
-            if (!isset($table) and $k == 'what' and !isset($params['rel_type'])) {
-                //  $table = $this->guess_table_name($v);
-            }
             if ($k == 'for' and !isset($params['rel_type'])) {
                 $v = trim($v);
                 $k = 'rel_type';
@@ -232,7 +215,6 @@ class DatabaseManager extends DbUtils
 
         if ($no_cache == false) {
             $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
             if (($cache_content) != false) {
                 return $cache_content;
             }
@@ -244,7 +226,6 @@ class DatabaseManager extends DbUtils
         $orm = $this->build_query($orm, $table_criteria);
 
         if (!is_object($orm)) {
-
             return false;
         }
 
@@ -313,7 +294,6 @@ class DatabaseManager extends DbUtils
     {
 
         if (!is_array($data)) {
-
             return false;
         }
 
@@ -325,17 +305,13 @@ class DatabaseManager extends DbUtils
 
         if ($is_quick == false) {
             if (isset($data['updated_at']) == false) {
-
                 $data['updated_at'] = date("Y-m-d H:i:s");
             }
         }
 
         if ($skip_cache == false and isset($data_to_save_options) and !empty($data_to_save_options)) {
-
             if (isset($data_to_save_options['delete_cache_groups']) and !empty($data_to_save_options['delete_cache_groups'])) {
-
                 foreach ($data_to_save_options ['delete_cache_groups'] as $item) {
-
                     $this->app->cache_manager->delete($item);
                 }
             }
@@ -446,15 +422,9 @@ class DatabaseManager extends DbUtils
 
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
-
-        // $this->save_extended_data($original_data);
-
-
         $cache_group = $this->assoc_table_name($table);
-
         $this->app->cache_manager->delete($cache_group . '/global');
         $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
-
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
             $this->app->cache_manager->delete($cache_group . '/global');

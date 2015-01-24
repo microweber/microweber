@@ -33,6 +33,8 @@ if(isset($data[0]) == false){
 } else {
 $data = $data[0];	
 }
+
+ 
  
  ?>
 <?php if(is_array($data )): ?>
