@@ -102,20 +102,15 @@ class Database
 
     public function real_table_name($assoc_name)
     {
-
         $assoc_name_new = $assoc_name;
-        static $contig_pref = false;
-
-        if (!$contig_pref) {
+        static $config_prefix = false;
+        if (!$config_prefix) {
             $default_sql_engine = Config::get('database.default');
-            $contig_pref = Config::get('database.connections.' . $default_sql_engine . '.prefix');
+            $config_prefix = Config::get('database.connections.' . $default_sql_engine . '.prefix');
         }
-
         if ($this->table_prefix == false) {
-            $this->table_prefix = $contig_pref;
+            $this->table_prefix = $config_prefix;
         }
-
-
         if ($this->table_prefix != false) {
             $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
         }
@@ -126,7 +121,6 @@ class Database
         if ($this->table_prefix and $this->table_prefix != '' and stristr($assoc_name_new, $this->table_prefix) == false) {
             $assoc_name_new = $this->table_prefix . $assoc_name_new;
         }
-
         return $assoc_name_new;
     }
 

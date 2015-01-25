@@ -265,6 +265,7 @@ function group_by($rows, $format) {
 function get_visits($range = 'daily')
 {
 	$table = MODULE_DB_USERS_ONLINE;
+    $table_real = mw()->database_manager->real_table_name($table);
     $q = false;
     $results = false;
     switch ($range) {
@@ -307,7 +308,7 @@ function get_visits($range = 'daily')
             $ago = date("H:i:s", strtotime("-1 minute"));
             $ago2 = date("Y-m-d", strtotime("now"));
             $total = 0;
-            $q = "SELECT SUM(view_count) AS total_visits FROM $table  WHERE visit_date='$ago2' AND visit_time>'$ago'   ";
+            $q = "SELECT SUM(view_count) AS total_visits FROM $table_real  WHERE visit_date='$ago2' AND visit_time>'$ago'   ";
             $results = mw()->database_manager->query($q);
             if (isset($results[0]) and isset($results[0]['total_visits'])) {
                 $mw_req_sec = mw()->user_manager->session_get('stats_requests_num');
@@ -322,7 +323,7 @@ function get_visits($range = 'daily')
         case 'users_online' :
             $ago = date("H:i:s", strtotime("-15 minutes"));
             $ago2 = date("Y-m-d", strtotime("now"));
-            $q = "SELECT COUNT(*) AS users_online FROM $table WHERE visit_date='$ago2' AND visit_time>'$ago'    ";
+            $q = "SELECT COUNT(*) AS users_online FROM $table_real WHERE visit_date='$ago2' AND visit_time>'$ago'    ";
 
             $results = mw()->database_manager->query($q);
             if (is_array($results)) {
