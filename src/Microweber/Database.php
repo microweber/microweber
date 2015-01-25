@@ -325,6 +325,7 @@ class Database
 
         $params['id'] = intval($params['id']);
         if (intval($params['id']) == 0) {
+            unset($params['id']);
             $id_to_return = $query->insert($params);
             $params['id'] = $id_to_return = DB::getPdo()->lastInsertId();
         } else {
