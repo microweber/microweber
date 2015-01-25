@@ -38,13 +38,7 @@ class DefaultController extends Controller
             $installer = new InstallController($this->app);
             return $installer->index();
         }
-        $config = $this->app->make('config')->get('microweber');
-        //dd(__FILE__, $this->app->make('request')->path());
-        if((!isset($config['has_admin']) or !isset($config['default_template'])) or
-            ($config['has_admin'] && $config['default_template'])
-            ){
-            return redirect('/admin');
-        }
+        
         return $this->frontend();
     }
 
