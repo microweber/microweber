@@ -168,6 +168,9 @@ class InstallController extends Controller
         $layout = new View($view);
 
         $defaultDbEngine = Config::get('database.default');
+        if(extension_loaded('pdo_sqlite')) {
+            $defaultDbEngine = 'sqlite';
+        }
         $dbEngines = Config::get('database.connections');
         $viewData = [
             'config' => $dbEngines[$defaultDbEngine],
