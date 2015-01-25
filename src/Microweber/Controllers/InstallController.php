@@ -98,6 +98,9 @@ class InstallController extends Controller
             Config::set("database.default", $dbDriver);
             if('sqlite' == $dbDriver) {
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
+                if(!file_exists($input['db_name'])) {
+
+                }
             }
             else {
                 Config::set("database.connections.$dbDriver.host", $input['db_host']);
@@ -171,7 +174,13 @@ class InstallController extends Controller
         if(extension_loaded('pdo_sqlite')) {
             $defaultDbEngine = 'sqlite';
         }
+
         $dbEngines = Config::get('database.connections');
+        foreach ($dbEngines as $driver=>$v) {
+            if(!extension_loaded("pdo_$driver")) {
+                unset($dbEngines[$driver]);
+            }
+        }
         $viewData = [
             'config' => $dbEngines[$defaultDbEngine],
             'dbDefaultEngine' => $defaultDbEngine,
@@ -183,6 +192,8 @@ class InstallController extends Controller
                 'pgsql' => 'PostgreSQL'
             ]
         ];
+
+
         if(!$viewData['config']['prefix']) {
             $domain = $_SERVER['HTTP_HOST'];
             $domain = str_replace('.', '_', $domain);

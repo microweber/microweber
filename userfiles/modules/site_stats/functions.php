@@ -264,7 +264,7 @@ function group_by($rows, $format) {
 
 function get_visits($range = 'daily')
 {
-	$table = mw()->database_manager->real_table_name(MODULE_DB_USERS_ONLINE);
+	$table = MODULE_DB_USERS_ONLINE;
     $q = false;
     $results = false;
     switch ($range) {
