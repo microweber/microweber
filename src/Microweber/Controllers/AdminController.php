@@ -25,7 +25,6 @@ class AdminController extends Controller
             App::abort(403, 'Unauthorized action. Microweber is not installed.');
         }
 
-        /////////////////////////////////
 
         if (!defined('MW_BACKEND')) {
             define('MW_BACKEND', true);
@@ -47,11 +46,12 @@ class AdminController extends Controller
         event_trigger('mw_backend');
         $view = modules_path() .'admin/';
 
-        $hasNoAdmin = !Config::get('microweber.has_admin');
-        if($hasNoAdmin) {
+        $hasNoAdmin = User::where('is_admin',1)->count();
+
+        if(!$hasNoAdmin) {
             $this->hasNoAdmin();
         }
-        $view .= ($hasNoAdmin? 'create': 'index') .'.php';
+        $view .= (!$hasNoAdmin? 'create': 'index') .'.php';
 
         $layout = new View($view);
         $layout = $layout->__toString();
