@@ -107,7 +107,8 @@ class Database
         static $contig_pref = false;
 
         if (!$contig_pref) {
-            $contig_pref = Config::get('database.connections.mysql.prefix');
+            $default_sql_engine = Config::get('database.default');
+            $contig_pref = Config::get('database.connections.' . $default_sql_engine . '.prefix');
         }
 
         if ($this->table_prefix == false) {
@@ -462,7 +463,7 @@ class Database
 
             if ($groupBy == false) {
                 if ($count == false and $count_paging == false and $min == false and $max == false and $avg == false) {
-                   // $orm->groupBy('id');
+                    // $orm->groupBy('id');
                 }
             } else {
                 if ($count_paging == false) {
