@@ -334,7 +334,7 @@ function get_visits($range = 'daily')
             break;
     }
 
-    if ($q == false or $results == false) {
+    if ($results == false) {
         return false;
     }
     $url = site_url();

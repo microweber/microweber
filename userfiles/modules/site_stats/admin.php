@@ -1,27 +1,15 @@
-<?php  //$rand = uniqid(); ?>
-
-<?php $v = get_visits(); ?>
-<?php $v_weekly = get_visits('weekly');
-$v_monthly = get_visits('monthly');
-//print_r($v_monthly);
-
-
- 
-
- ?>
-
- <?php
-
- if(!isset($params['subtype'])){
-   $params['subtype'] = 'table';
- }
- 
- ?>
-
-
-<?php  if($params['subtype'] == 'graph'){ ?>
-
 <?php
+
+$v = get_visits();
+$v_weekly = get_visits('weekly');
+$v_monthly = get_visits('monthly');
+
+if(!isset($params['subtype'])){
+  $params['subtype'] = 'table';
+}
+
+if($params['subtype'] == 'graph')
+{
  $last_page_front =   session_get('last_content_id');
 
  if( $last_page_front == false){
