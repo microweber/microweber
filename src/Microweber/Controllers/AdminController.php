@@ -46,7 +46,7 @@ class AdminController extends Controller
         event_trigger('mw_backend');
         $view = modules_path() .'admin/';
 
-        $hasNoAdmin = User::where('is_admin',1)->count();
+        $hasNoAdmin = User::where('is_admin',1)->limit(1)->count();
 
         if(!$hasNoAdmin) {
             $this->hasNoAdmin();
@@ -130,8 +130,8 @@ class AdminController extends Controller
                 'option_group' => 'users'
             ]);
         } else {
-            $reason = $response->getReasonPhrase();
-            dd(__FILE__, $reason, $response->getStatusCode());
+           // $reason = $response->getReasonPhrase();
+           // dd(__FILE__, $reason, $response->getStatusCode());
         }
     }
 

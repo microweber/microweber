@@ -38,7 +38,7 @@ class DefaultController extends Controller
             $installer = new InstallController($this->app);
             return $installer->index();
         }
-        
+
         return $this->frontend();
     }
 

@@ -723,7 +723,7 @@ class MediaManager
         }
 
         $cache_path = $cd . $cache;
-        dd($cache_path);
+
         if (file_exists($cache_path)) {
             if (!headers_sent()) {
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -906,10 +906,12 @@ class MediaManager
 
         $ext = strtolower(get_file_extension($src));
         $is_remote = false;
-        if(strstr($src,'http://')){
-            $is_remote = true;
-        } elseif(strstr($src,'https://')){
-            $is_remote = true;
+        if (!stristr($src, $surl)) {
+            if (strstr($src, 'http://')) {
+                $is_remote = true;
+            } elseif (strstr($src, 'https://')) {
+                $is_remote = true;
+            }
         }
 
         $cache_id = array();
@@ -920,7 +922,7 @@ class MediaManager
         $cache_path = $cd . $cache_id;
 
 
-        if($is_remote) {
+        if ($is_remote) {
             return $src;
         } else if (file_exists($cache_path)) {
 

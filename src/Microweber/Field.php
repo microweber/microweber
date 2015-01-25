@@ -12,6 +12,5 @@ class Field extends BaseModel
         return $this->morphMany('FieldValue', 'custom_field_id');
     }
 
-
 }
 

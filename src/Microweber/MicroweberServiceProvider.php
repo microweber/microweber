@@ -52,13 +52,6 @@ class MicroweberServiceProvider extends ServiceProvider
             });
         }
 
-        Event::listen('auth.login', function($user)
-        {
-            if(!Config::get('microweber.has_admin', false)) {
-                Config::set('microweber.has_admin', true);
-                Config::save();
-            }
-        });
 
         $this->app->instance('config', new Providers\ConfigSave($this->app));
 

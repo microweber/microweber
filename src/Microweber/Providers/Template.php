@@ -47,25 +47,34 @@ class Template
         }
     }
 
-    public function dir()
+    public function dir($add = false)
     {
         if (!defined('TEMPLATE_DIR')) {
             $this->app->content_manager->define_constants();
         }
         if (defined('TEMPLATE_DIR')) {
-            return TEMPLATE_DIR;
+            $val = TEMPLATE_DIR;
         }
+        if ($add != false) {
+            $val = $val . $add;
+        }
+        return $val;
     }
 
-    public function url()
+    public function url($add = false)
     {
         if (!defined('TEMPLATE_URL')) {
             $this->app->content_manager->define_constants();
         }
         if (defined('TEMPLATE_URL')) {
-            return TEMPLATE_URL;
+            $val = TEMPLATE_URL;
         }
 
+        if ($add != false) {
+            $val = $val . $add;
+        }
+
+        return $val;
     }
 
     public function name()
@@ -196,10 +205,10 @@ class Template
         }
         $cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'templates';
-
-        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
+        $cache_content = false;
+        //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+            // return $cache_content;
         }
         if (!isset($options['path'])) {
             $path = templates_path();
@@ -323,8 +332,6 @@ class Template
         $override = $this->app->event_manager->trigger('mw.front.get_layout', $page);
 
 
-
-
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
@@ -367,8 +374,8 @@ class Template
             foreach ($override as $resp) {
                 if (isset($resp['render_file']) and ($resp['render_file']) != false) {
                     $render_file = $resp['render_file'];
-                } elseif(is_array($resp) and !empty($resp)){
-                    $page = array_merge($page,$resp);
+                } elseif (is_array($resp) and !empty($resp)) {
+                    $page = array_merge($page, $resp);
                 }
             }
         }
@@ -563,12 +570,6 @@ class Template
             }
 
 
-
-
-
-
-
-
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
@@ -613,7 +614,6 @@ class Template
         }
 
 
-
         if ($render_file != false and (isset($page['content_type']) and ($page['content_type']) != 'page')) {
             $f1 = $render_file;
             $f2 = $render_file;
@@ -625,8 +625,6 @@ class Template
             $temp2 = substr($stringA, $length - 4, $length);
             $f1 = $temp1 . $stringB . $temp2;
             $f1 = normalize_path($f1, false);
-
-
 
 
             if (is_file($f1)) {
