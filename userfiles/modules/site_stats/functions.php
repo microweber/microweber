@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 if (!defined("MODULE_DB_USERS_ONLINE")) {
     define('MODULE_DB_USERS_ONLINE',  'stats_users_online');
@@ -252,50 +253,55 @@ function get_visits_for_sid($sid)
 
 }
 
+function group_by($rows, $format) {
+    $results = array();
+    foreach($rows as $row) {
+        $group = Carbon::parse($row->visit_date)->format($format);
+        $results[$group] = $row;
+    }
+    return $results;
+}
+
 function get_visits($range = 'daily')
 {
-    
-
-	
 	$table = mw()->database_manager->real_table_name(MODULE_DB_USERS_ONLINE);
     $q = false;
     $results = false;
     switch ($range) {
         case 'daily' :
             $ago = date("Y-m-d", strtotime("-1 month"));
-            $q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) AS total_visits, visit_date FROM $table WHERE visit_date > '$ago' GROUP BY visit_date  ";
-            $results = mw()->database_manager->query($q);
-
+            $results = DB::table($table)
+                ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
+                ->where('visit_date', '>', $ago)
+                ->groupBy('visit_date')
+                ->get();
             break;
 
         case 'weekly' :
             $ago = date("Y-m-d", strtotime("-1 year"));
-
-
-            $q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) AS total_visits,visit_date, DATE_FORMAT(visit_date, '%x %V') AS weeks  FROM $table WHERE visit_date > '$ago' GROUP BY weeks  ";
-
-            $results = mw()->database_manager->query($q);
-
+            $rows = DB::table($table)
+                ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
+                ->where('visit_date', '>', $ago)
+                ->get();
+            $results = group_by($rows, 'W');
             break;
 
         case 'monthly' :
             $ago = date("Y-m-d", strtotime("-1 year"));
-            //
-
-            $q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) AS total_visits,visit_date, DATE_FORMAT(visit_date, '%x %m') AS months  FROM $table WHERE visit_date > '$ago' GROUP BY months  ";
-
-            $results = mw()->database_manager->query($q);
-
+            $rows = DB::table($table)
+                ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
+                ->where('visit_date', '>', $ago)
+                ->get();
+            $results = group_by($rows, 'm');
             break;
 
         case 'last5' :
-            $q = "SELECT * FROM $table ORDER BY visit_date DESC, visit_time DESC LIMIT 5  ";
-
-
-            $results = mw()->database_manager->query($q);
-
+            $results = DB::table($table)
+                ->orderBy('visit_date', 'desc')
+                ->orderBy('visit_time', 'desc')
+                ->take(5)
+                ->get();
             break;
-
 
         case 'requests_num' :
             $ago = date("H:i:s", strtotime("-1 minute"));
@@ -311,9 +317,7 @@ function get_visits($range = 'daily')
             } else {
                 $results = false;
             }
-
             break;
-
 
         case 'users_online' :
             $ago = date("H:i:s", strtotime("-15 minutes"));
@@ -336,7 +340,10 @@ function get_visits($range = 'daily')
     $url = site_url();
     $res = array();
     if (is_array($results)) {
-        foreach ($results as $item) {
+        foreach ($results as &$item) {
+            if(is_object($item)) {
+                $item = (array)$item;
+            }
             if (isset($item['last_page'])) {
                 $item['last_page'] = str_replace($url, '', $item['last_page']);
             }
