@@ -27,6 +27,24 @@
             }
         }
 
+        function showForm(select) {
+            var def = false;
+            for(var i=0; i<select.options.length; i++) {
+                var v = select.selectedIndex == i;
+                def = def || setFormDisplay(select.options[i].value, v);
+            }
+            setFormDisplay('', !def);
+        }
+
+        function setFormDisplay(id, show) {
+            var el = $('#db-form' + (id.length ? '-'+id : ''));
+            if(el.length) {
+                $(el).css('display', (show ? 'block' : 'none'));
+                return show;
+            }
+            return false;
+        }
+
         $(document).ready(function () {
             $("input[name='table_prefix']").bind('keydown', function (e) {
                 if (( e.keycode || e.which ) == 32) {
@@ -34,6 +52,7 @@
                 }
             });
 
+            showForm($("select[name='db_driver']")[0]);
             $('#form_<?php print $rand; ?>').submit(function () {
 
                 if (this.elements["admin_password"].value != this.elements["admin_password2"].value) {
@@ -259,7 +278,8 @@
                                             class="mw-icon-help-outline mwahi tip"></span></span></label>
 
 
-                                <select class="mw-ui-field" name="db_driver">
+                                <select class="mw-ui-field" name="db_driver"
+                                    onchange="showForm(this)">
                                     <?php foreach ($dbEngines as $engine): ?>
                                         <option value="<?php echo $engine; ?>"
                                             <?php if ($dbDefaultEngine == $engine) echo 'selected'; ?>>
@@ -268,36 +288,50 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Hostname"); ?>
-                                    <span data-help="<?php _e("The address where your database is hosted."); ?>"><span
-                                            class="mw-icon-help-outline mwahi"></span></span></label>
-                                <input type="text" class="mw-ui-field" required autofocus
-                                       name="db_host" value="<?php echo $config['host']; ?>"/>
+                            <div id="db-form">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Hostname"); ?>
+                                        <span data-help="<?php _e("The address of your database server"); ?>"><span
+                                                class="mw-icon-help-outline mwahi"></span></span></label>
+                                    <input type="text" class="mw-ui-field" autofocus
+                                           name="db_host" value="<?php if(isset($config['host'])) echo $config['host']; ?>"/>
+                                </div>
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Username"); ?>
+                                        <span data-help="<?php _e("The username of your database."); ?>"><span
+                                                class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                    <input type="text" class="mw-ui-field"
+                                           name="db_user" value="<?php if(isset($config['username'])) echo $config['username']; ?>"/>
+                                </div>
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Password"); ?>
+                                    </label>
+                                    <input type="password" class="mw-ui-field"
+                                           name="db_pass" value="<?php if(isset($config['password'])) echo $config['password']; ?>"" />
+                                </div>
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Database"); ?>
+                                        <span data-help="<?php _e("The name of your database."); ?>"><span
+                                                class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                    <input type="text" class="mw-ui-field"
+                                           name="db_name" value="<?php if(isset($config['database'])) echo $config['database']; ?>"/>
+                                </div>
                             </div>
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Username"); ?>
-                                    <span data-help="<?php _e("The username of your database."); ?>"><span
-                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                <input type="text" class="mw-ui-field" required
-                                       name="db_user" value="<?php echo $config['username']; ?>"/>
-                            </div>
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Password"); ?>
-                                </label>
-                                <input type="password" class="mw-ui-field"
-                                       name="db_pass" value="<?php echo $config['password']; ?>"" />
-                            </div>
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Database"); ?>
-                                    <span data-help="<?php _e("The name of your database."); ?>"><span
-                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                <input type="text" class="mw-ui-field" required
-                                       name="db_name" value="<?php echo $config['database']; ?>"/>
+                            <div id="db-form-sqlite">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Database file"); ?>
+                                        <span data-help="<?php _e("A writable file path that may be relative to the root of your Microweber installation"); ?>">
+                                            <span class="mw-icon-help-outline mwahi tip"></span>
+                                        </span>
+                                    </label>
+                                    <input type="text" class="mw-ui-field" autofocus
+                                           name="db_name" value="<?php if($dbDefaultEngine=='sqlite' && isset($config['database'])) echo $config['database']; ?>"/>
+                                </div>
                             </div>
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label">
@@ -306,7 +340,7 @@
                                         data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed."); ?>"><span
                                             class="mw-icon-help-outline mwahi tip"></span></span></label>
                                 <input type="text" class="mw-ui-field"
-                                       name="table_prefix" value="<?php echo $config['prefix']; ?>"
+                                       name="table_prefix" value="<?php if(isset($config['prefix'])) echo $config['prefix']; ?>"
                                        onblur="prefix_add(this)"/>
                             </div>
                             <?php

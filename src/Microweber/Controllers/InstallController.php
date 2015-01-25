@@ -95,11 +95,17 @@ class InstallController extends Controller
                 $dbDriver = 'mysql';
             }
 
-            Config::set("database.connections.$dbDriver.host", $input['db_host']);
-            Config::set("database.connections.$dbDriver.username", $input['db_user']);
-            Config::set("database.connections.$dbDriver.password", $input['db_pass']);
-            Config::set("database.connections.$dbDriver.database", $input['db_name']);
-            Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
+            Config::set("database.default", $dbDriver);
+            if('sqlite' == $dbDriver) {
+                Config::set("database.connections.$dbDriver.database", $input['db_name']);
+            }
+            else {
+                Config::set("database.connections.$dbDriver.host", $input['db_host']);
+                Config::set("database.connections.$dbDriver.username", $input['db_user']);
+                Config::set("database.connections.$dbDriver.password", $input['db_pass']);
+                Config::set("database.connections.$dbDriver.database", $input['db_name']);
+                Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
+            }
 
             if (isset($input['default_template']) and $input['default_template'] != false) {
                 Config::set('microweber.install_default_template', $input['default_template']);
@@ -120,7 +126,7 @@ class InstallController extends Controller
 
             $install_finished = false;
             try {
-                DB::connection()->getDatabaseName();
+                DB::connection($dbDriver)->getDatabaseName();
             } catch (\PDOException $e) {
                 return ('Error: ' . $e->getMessage() . "\n");
             } catch (\Exception $e) {
