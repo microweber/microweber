@@ -125,7 +125,6 @@ class TemplateInstaller
         $menu->is_active = 1;
         $menu->save();
 
-
     }
 
 

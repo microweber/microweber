@@ -17,15 +17,15 @@ $edit_page_info = $data;
     }
 </style>
 <?php
-
-$parent_page_active = 0;
-if($data['parent'] != 0 and $data['id'] == 0){
-    $data['parent'] = $recommended_parent = 0;
-} elseif(isset($data['parent'])){
-    $parent_page_active = $data['parent'];
+if(isset($data['content_type']) and $data['content_type'] == 'page') {
+    $parent_page_active = 0;
+    if ($data['parent'] != 0 and $data['id'] == 0) {
+        $data['parent'] = $recommended_parent = 0;
+    } elseif (isset($data['parent'])) {
+        $parent_page_active = $data['parent'];
+    }
 }
 
- 
 ?>
 
 <div class="admin-manage-content-wrap">
@@ -257,7 +257,7 @@ if($data['parent'] != 0 and $data['id'] == 0){
                         no-parent-title="No parent page"
                         field-name="parent_id_selector"
                         change-field="parent"
-                        selected-id="<?php print $parent_page_active; ?>"
+                        selected-id="<?php print $data['parent']; ?>"
                         remove_ids="<?php print $data['id']; ?>"
                         recommended-id="<?php print $recommended_parent; ?>" />
                 </div>

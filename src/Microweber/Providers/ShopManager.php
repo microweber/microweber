@@ -609,7 +609,7 @@ class ShopManager
         }
         $return = array();
         if (is_array($get)) {
-            foreach ($get as $item) {
+            foreach ($get as $k => $item) {
                 if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
                     $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                 }
@@ -623,7 +623,7 @@ class ShopManager
                     $item['title'] = htmlspecialchars_decode($item['title']);
 
                 }
-                $return[] = $item;
+                $return[$k] = $item;
             }
         } else {
             $return = $get;
@@ -1014,21 +1014,25 @@ class ShopManager
         if (!isset($data['id'])) {
             $this->app->error('Invalid data');
         }
-
         if (!isset($data['qty'])) {
             $this->app->error('Invalid data');
         }
-
         $cart = array();
         $cart['id'] = intval($data['id']);
-
-        //if ($this->app->user_manager->is_admin() == false) {
         $cart['session_id'] = mw()->user_manager->session_id();
-        //}
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
         $cart['limit'] = 1;
         $check_cart = $this->get_cart($cart);
+        if (isset($check_cart['rel_type']) and isset($check_cart['rel_id']) and $check_cart['rel_type'] == 'content') {
+            $data_fields = $this->app->content_manager->data($check_cart['rel_id'], 1);
+            if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
+                $old_qty = intval($data_fields['qty']);
+                if (intval($data['qty']) > $old_qty) {
+                    return false;
+                }
+            }
+        }
         if ($check_cart != false and is_array($check_cart)) {
             $cart['qty'] = intval($data['qty']);
             if ($cart['qty'] < 0) {
@@ -1045,13 +1049,10 @@ class ShopManager
 
     public function update_cart($data)
     {
-
-
         if (isset($data['content_id'])) {
             $data['for'] = 'content';
             $for_id = $data['for_id'] = $data['content_id'];
         }
-
         $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
         if (is_array($override)) {
             foreach ($override as $resp) {
@@ -1060,8 +1061,6 @@ class ShopManager
                 }
             }
         }
-
-
         if (!isset($data['for'])) {
             $data['for'] = 'content';
         }
@@ -1082,7 +1081,6 @@ class ShopManager
                 $data_existing = $this->get_cart($cart);
                 if (is_array($data_existing) and is_array($data_existing[0])) {
                     $data = array_merge($data, $data_existing[0]);
-
                 }
             }
         }
@@ -1094,30 +1092,21 @@ class ShopManager
         if (!isset($data['for_id']) and isset($data['rel_id'])) {
             $data['for_id'] = $data['rel_id'];
         }
-
-
         if (!isset($data['for']) and !isset($data['for_id'])) {
             $this->app->error('Invalid for and for_id params');
         }
 
-
         $data['for'] = $this->app->database_manager->assoc_table_name($data['for']);
-
         $for = $data['for'];
         $for_id = intval($data['for_id']);
-
-
         if ($for_id == 0) {
-
             $this->app->error('Invalid data');
         }
         $cont_data = false;
 
-
         if ($update_qty > 0) {
             $data['qty'] = $update_qty;
         }
-
 
         if ($data['for'] == 'content') {
             $cont = $this->app->content_manager->get_by_id($for_id);
@@ -1129,8 +1118,6 @@ class ShopManager
                     $data['title'] = $cont['title'];
                 }
             }
-
-
         }
 
         if (isset($data['title']) and is_string($data['title'])) {
@@ -1147,7 +1134,6 @@ class ShopManager
         $prices = array();
 
         $skip_keys = array();
-
 
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);

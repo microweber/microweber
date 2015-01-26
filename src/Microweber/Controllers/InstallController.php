@@ -44,7 +44,7 @@ class InstallController extends Controller
         if (!is_array($input) || empty($input)) {
             $input = Input::all();
         }
-
+        $allowed_configs = array('database', 'microweber');
         $is_installed = mw_is_installed();
         if ($is_installed) {
             return 'Microweber is already installed!';
@@ -124,7 +124,7 @@ class InstallController extends Controller
                 Artisan::call('key:generate');
             }
 
-            Config::save();
+            Config::save($allowed_configs);
             Cache::flush();
 
             $install_finished = false;
@@ -150,6 +150,9 @@ class InstallController extends Controller
             $installer = new Install\TemplateInstaller();
             $installer->run();
 
+            $installer = new Install\DefaultOptionsInstaller();
+            $installer->run();
+
 
             Config::set('microweber.is_installed', 1);
 
@@ -164,7 +167,8 @@ class InstallController extends Controller
                 Config::set('microweber.has_admin', 1);
             }
 
-            Config::save();
+
+            Config::save($allowed_configs);
             return 'done';
         }
 

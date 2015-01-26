@@ -54,7 +54,7 @@ class ConfigSave extends Repository
         return parent::get($key, $val);
     }
 
-    public function save()
+    public function save($allowed = array())
     {
         // Aggregating files array from changed keys
         $aggr = array();
@@ -62,28 +62,26 @@ class ConfigSave extends Repository
             array_set($aggr, $key, $value);
         }
 
-        $allow_in_cli = array('database', 'microweber');
+        // $allow_in_cli = array('database', 'microweber');
         // Preparing data
         foreach ($aggr as $file => $items) {
             $path = $this->app->configPath() . '/' . $this->app->environment() . '/';
-
-            if ($this->app->runningInConsole()) {
-                if (!in_array($file, $allow_in_cli)) {
-                    continue;
+            $to_save = true;
+            if (!empty($allowed)) {
+                if (!in_array($file, $allowed)) {
+                    $to_save = false;
                 }
             }
+            if ($to_save) {
+                if (!file_exists($path)) {
+                    File::makeDirectory($path);
+                }
+                $path .= $file . '.php';
+                $code = '<?php return ' . var_export($this->items[$file], true) . ';';
 
-            if (!file_exists($path)) {
-                File::makeDirectory($path);
+                // Storing data
+                File::put($path, $code);
             }
-
-
-            $path .= $file . '.php';
-
-            $code = '<?php return ' . var_export($this->items[$file], true) . ';';
-
-            // Storing data
-            File::put($path, $code);
         }
     }
 
