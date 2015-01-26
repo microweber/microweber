@@ -751,6 +751,10 @@ mw.save_inner_editable_fields = function (data) {
 </script>
 <script>
     $(mwd).ready(function () {
+
+        mw.reload_module('#edit-post-gallery-main');
+
+
         mw.edit_content.load_editor();
         <?php if($just_saved!=false) : ?>
         mw.$("#<?php print $module_id ?>").removeAttr("just-saved");

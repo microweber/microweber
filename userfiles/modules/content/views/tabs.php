@@ -94,7 +94,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 
           <div  id="post-gallery-manager" class="quick-add-post-options-item">
-              <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
+              <div id="edit-post-gallery-main" type="pictures/admin" for="content" for-id="<?php print $data['id']; ?>"></div>
             </div>
 
           <?php if($data['content_type'] == 'page'): ?>
