@@ -63,7 +63,7 @@ $keyword_search = '&keyword='.$keyword;
   $clients = array();
   
   
-  $orders = get_orders('order_by=created_at desc&group=email&is_completed=y&email=[not_null]'.$keyword_search);
+  $orders = get_orders('order_by=created_at desc&group=email&is_completed=1'.$keyword_search);
  
  
  
@@ -124,7 +124,7 @@ $keyword_search = '&keyword='.$keyword;
       <td><?php print $order['phone']; ?></td>
       <td><?php print $order['country']; ?></td>
       <td><?php print $order['city']; ?></td>
-      <td><?php $total_ord = get_orders('count=1&email='.$order['email'].'&is_completed=y'); ?>
+      <td><?php $total_ord = get_orders('count=1&email='.$order['email'].'&is_completed=1'); ?>
         <?php print $total_ord; ?></td>
       <td width="115"><span class="show-on-hover mw-icon-close" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span> <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>">
         <?php _e("View client"); ?>
