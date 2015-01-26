@@ -16,7 +16,17 @@ $edit_page_info = $data;
         display: none;
     }
 </style>
+<?php
 
+$parent_page_active = 0;
+if($data['parent'] != 0 and $data['id'] == 0){
+    $data['parent'] = $recommended_parent = 0;
+} elseif(isset($data['parent'])){
+    $parent_page_active = $data['parent'];
+}
+
+ 
+?>
 
 <div class="admin-manage-content-wrap">
 
@@ -240,18 +250,7 @@ $edit_page_info = $data;
             <div class="mw-ui-field-holder">
                 <div class="quick-parent-selector">
 
-                    <?php
 
-//                    $parent_page_active = 0;
-//                    if($data['parent'] != 0 and $data['id'] == 0){
-//
-//                    } elseif(isset($data['parent'])){
-//                        $parent_page_active = $data['parent'];
-//                    }
-
-                    $parent_page_active = $data['parent'];
-
-                    ?>
 
                     <module
                         type="content/views/selector"
