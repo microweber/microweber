@@ -86,45 +86,49 @@ class TemplateInstaller
 
     public function createDefaultContent()
     {
-        $content = new \Content();
-        $content->title = "Home";
-        $content->parent = 0;
-        $content->is_home = 1;
-        $content->is_active = 1;
-        $content->content_type = "page";
-        $content->subtype = "static";
-        $content->layout_file = "index.php";
-        $content->save();
+        $existing = \Content::where('is_home', 1)->first();
+
+        if ($existing == false) {
+
+            $content = new \Content();
+            $content->title = "Home";
+            $content->parent = 0;
+            $content->is_home = 1;
+            $content->is_active = 1;
+            $content->content_type = "page";
+            $content->subtype = "static";
+            $content->layout_file = "index.php";
+            $content->save();
 
 
-        $menu = new \Menu();
-        $menu->title = "header_menu";
-        $menu->item_type = "menu";
-        $menu->is_active = 1;
-        $menu->save();
+            $menu = new \Menu();
+            $menu->title = "header_menu";
+            $menu->item_type = "menu";
+            $menu->is_active = 1;
+            $menu->save();
 
 
-        $menu = new \Menu();
-        $menu->parent_id = 1;
-        $menu->content_id = 1;
-        $menu->item_type = "menu_item";
-        $menu->is_active = 1;
-        $menu->save();
+            $menu = new \Menu();
+            $menu->parent_id = 1;
+            $menu->content_id = 1;
+            $menu->item_type = "menu_item";
+            $menu->is_active = 1;
+            $menu->save();
 
-        $menu = new \Menu();
-        $menu->title = "footer_menu";
-        $menu->item_type = "menu";
-        $menu->is_active = 1;
-        $menu->save();
+            $menu = new \Menu();
+            $menu->title = "footer_menu";
+            $menu->item_type = "menu";
+            $menu->is_active = 1;
+            $menu->save();
 
 
-        $menu = new \Menu();
-        $menu->parent_id = 2;
-        $menu->content_id = 1;
-        $menu->item_type = "menu_item";
-        $menu->is_active = 1;
-        $menu->save();
-
+            $menu = new \Menu();
+            $menu->parent_id = 2;
+            $menu->content_id = 1;
+            $menu->item_type = "menu_item";
+            $menu->is_active = 1;
+            $menu->save();
+        }
     }
 
 

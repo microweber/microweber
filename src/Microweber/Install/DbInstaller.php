@@ -16,7 +16,6 @@ class DbInstaller
         Cache::flush();
         $this->createSchema();
         $this->seed();
-
         Cache::flush();
         mw()->modules->install();
     }
@@ -49,9 +48,7 @@ class DbInstaller
             if (!method_exists($data, 'get')) {
                 break;
             }
-
             $schemaArray = $data->get();
-
             if (!is_array($schemaArray)) {
                 break;
             }
@@ -64,7 +61,6 @@ class DbInstaller
     public function seed()
     {
         $exec = $this->getSystemSchemas();
-
         foreach ($exec as $data) {
             if (method_exists($data, 'seed')) {
                 $data->seed();
