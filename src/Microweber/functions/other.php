@@ -730,15 +730,15 @@ function get_all_functions_files_for_modules($options = false)
 }
 
 
-function template_dir()
+function template_dir($param=false)
 {
-    return mw()->template->dir();
+    return mw()->template->dir($param);
 }
 
 
-function template_url()
+function template_url($param=false)
 {
-    return mw()->template->url();
+    return mw()->template->url($param);
 
 }
 

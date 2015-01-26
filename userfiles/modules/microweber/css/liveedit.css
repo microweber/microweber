@@ -1004,6 +1004,7 @@ li .ts_action_item:last-child{
   width: 100%;
   position: relative;
   z-index: 1100;
+  color: #222;
 }
 
 #live_edit_toolbar.scrolling{
