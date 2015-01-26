@@ -5,6 +5,7 @@ namespace Microweber\Traits;
 use Cache;
 use DB;
 use Filter;
+use Config;
 
 trait QueryFilter
 {
@@ -25,7 +26,7 @@ trait QueryFilter
     {
 
         if (!isset($params['count']) and !isset($params['count_paging'])) {
-            if (isset($params['paging_param']) and isset($params[$params['paging_param']]) and $params['paging_param'] !='current_page') {
+            if (isset($params['paging_param']) and isset($params[$params['paging_param']]) and $params['paging_param'] != 'current_page') {
                 $params['current_page'] = intval($params[$params['paging_param']]);
                 unset($params[$params['paging_param']]);
             }
@@ -43,7 +44,7 @@ trait QueryFilter
         if (isset($params['fields']) and $params['fields'] != false) {
             $is_fields = $params['fields'];
         } else {
-            $query = $query->select($table.'.*');
+            $query = $query->select($table . '.*');
         }
 
 
@@ -156,6 +157,20 @@ trait QueryFilter
                             $to_search_keyword = str_replace('\\', '', $to_search_keyword);
                             $to_search_keyword = str_replace('*', '', $to_search_keyword);
                             if ($to_search_keyword != '') {
+
+                                $dbDriver = Config::get("database.default");
+                                if ($dbDriver == 'sqlite') {
+                                    $pdo = DB::connection('sqlite')->getPdo();
+                                    $pdo->sqliteCreateFunction('regexp',
+                                        function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
+                                            if (isset($pattern, $data) === true) {
+                                                return (preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0);
+                                            }
+
+                                            return null;
+                                        }
+                                    );
+                                }
                                 $raw_search_query = false;
                                 if (!empty($to_search_in_fields)) {
                                     $raw_search_query = '';

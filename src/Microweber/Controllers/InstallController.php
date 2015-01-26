@@ -96,10 +96,10 @@ class InstallController extends Controller
             }
 
             Config::set("database.default", $dbDriver);
-            if ('sqlite' == $dbDriver) {
+            if ($dbDriver == 'sqlite') {
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
                 if (!file_exists($input['db_name'])) {
-                    fopen($input['db_name'], 'w');
+                    touch($input['db_name']);
                 }
             }
 
