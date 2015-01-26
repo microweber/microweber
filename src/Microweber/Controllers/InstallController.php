@@ -96,19 +96,19 @@ class InstallController extends Controller
             }
 
             Config::set("database.default", $dbDriver);
-            if('sqlite' == $dbDriver) {
+            if ('sqlite' == $dbDriver) {
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
-                if(!file_exists($input['db_name'])) {
+                if (!file_exists($input['db_name'])) {
                     fopen($input['db_name'], 'w');
                 }
             }
-            else {
-                Config::set("database.connections.$dbDriver.host", $input['db_host']);
-                Config::set("database.connections.$dbDriver.username", $input['db_user']);
-                Config::set("database.connections.$dbDriver.password", $input['db_pass']);
-                Config::set("database.connections.$dbDriver.database", $input['db_name']);
-                Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
-            }
+
+            Config::set("database.connections.$dbDriver.host", $input['db_host']);
+            Config::set("database.connections.$dbDriver.username", $input['db_user']);
+            Config::set("database.connections.$dbDriver.password", $input['db_pass']);
+            Config::set("database.connections.$dbDriver.database", $input['db_name']);
+            Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
+
 
             if (isset($input['default_template']) and $input['default_template'] != false) {
                 Config::set('microweber.install_default_template', $input['default_template']);
@@ -153,7 +153,7 @@ class InstallController extends Controller
 
             Config::set('microweber.is_installed', 1);
 
-            if(isset($input['admin_password']) && strlen($input['admin_password'])) {
+            if (isset($input['admin_password']) && strlen($input['admin_password'])) {
                 $adminUser = new \User;
                 $adminUser->username = $input['admin_username'];
                 $adminUser->email = $input['admin_email'];
@@ -171,13 +171,13 @@ class InstallController extends Controller
         $layout = new View($view);
 
         $defaultDbEngine = Config::get('database.default');
-        if(extension_loaded('pdo_sqlite')) {
+        if (extension_loaded('pdo_sqlite')) {
             $defaultDbEngine = 'sqlite';
         }
 
         $dbEngines = Config::get('database.connections');
-        foreach ($dbEngines as $driver=>$v) {
-            if(!extension_loaded("pdo_$driver")) {
+        foreach ($dbEngines as $driver => $v) {
+            if (!extension_loaded("pdo_$driver")) {
                 unset($dbEngines[$driver]);
             }
         }
@@ -194,10 +194,10 @@ class InstallController extends Controller
         ];
 
 
-        if(!$viewData['config']['prefix']) {
+        if (!$viewData['config']['prefix']) {
             $domain = $_SERVER['HTTP_HOST'];
             $domain = str_replace('.', '_', $domain);
-            $viewData['config']['prefix'] = $domain.'_';
+            $viewData['config']['prefix'] = $domain . '_';
         }
 
         $layout->set($viewData);

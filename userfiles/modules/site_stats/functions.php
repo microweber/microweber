@@ -163,12 +163,8 @@ function stats_insert_cookie_based()
     $uip = $_SERVER['REMOTE_ADDR'];
     $function_cache_id = $function_cache_id . $uip . MW_USER_IP;
 
-    $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    //$cache_content = mw()->cache_manager->get($function_cache_id, $cache_group = 'module_stats_users_online');
-    //if (($cache_content) == '--false--') {
-    //return false;
-    //	}
+
     $cookie_name = 'mw-stats' . crc32($function_cache_id);
     $cookie_name_time = 'mw-time' . crc32($function_cache_id);
 
@@ -188,14 +184,10 @@ function stats_insert_cookie_based()
     }
 
     if (!isset($_COOKIE[$cookie_name_time])) {
-
-
         setcookie($cookie_name_time, $few_mins_ago_visit_date, time() + 90);
-
         $data = array();
         $data['visit_date'] = date("Y-m-d", strtotime("now"));
         $data['visit_time'] = date("H:i:s", strtotime("now"));
-
         $table = MODULE_DB_USERS_ONLINE;
         $check = db_get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
         if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
@@ -225,11 +217,8 @@ function stats_insert_cookie_based()
         mw_var('FORCE_SAVE', $table);
         mw_var('apc_no_clear', 1);
         $save = mw()->database->save($table, $data);
-        //	mw()->session->get($cookie_name) = 0;
         setcookie($cookie_name, 0, time() + 99);
 
-        mw_var('apc_no_clear', 0);
-        //	setcookie($cookie_name, 1);
 
     }
     return true;
@@ -253,7 +242,7 @@ function get_visits_for_sid($sid)
 
 }
 
-function group_by($rows, $format) {
+function stats_group_by($rows, $format) {
     $results = array();
     foreach($rows as $row) {
         $group = Carbon::parse($row->visit_date)->format($format);
@@ -284,7 +273,7 @@ function get_visits($range = 'daily')
                 ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
                 ->where('visit_date', '>', $ago)
                 ->get();
-            $results = group_by($rows, 'W');
+            $results = stats_group_by($rows, 'W');
             break;
 
         case 'monthly' :
@@ -293,7 +282,7 @@ function get_visits($range = 'daily')
                 ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
                 ->where('visit_date', '>', $ago)
                 ->get();
-            $results = group_by($rows, 'm');
+            $results = stats_group_by($rows, 'm');
             break;
 
         case 'last5' :

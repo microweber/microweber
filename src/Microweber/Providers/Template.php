@@ -537,7 +537,10 @@ class Template
             }
         }
 
-        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
+
+
+
+        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and (!isset($page['layout_file']) or (isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) or $page['layout_file'] == false)) {
 
 
             /*   $inherit_from = array();
@@ -550,7 +553,7 @@ class Template
             $inherit_from = $this->app->content_manager->get_parents($page['id']);
             $found = 0;
             if ($inherit_from == false) {
-                if (isset($page['parent'])) {
+                if (isset($page['parent']) and $page['parent'] != false) {
 
                     $par_test = $this->app->content_manager->get_by_id($page['parent']);
 
@@ -766,6 +769,10 @@ class Template
 //            }
 //        }
 
+        if ($render_file == false and isset($page['active_site_template']) and ($page['active_site_template']) == 'default') {
+            $page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+        }
+
         if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and isset($page['layout_file'])) {
             $page['active_site_template'] = trim(str_replace('..', '', $page['active_site_template']));
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
@@ -781,11 +788,16 @@ class Template
             }
         }
 
+
+
+
+
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
 
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
                 $look_for_post = false;
             }
+
 
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
@@ -996,6 +1008,9 @@ class Template
                 $render_file = $template_view;
             }
         }
+
+
+
 
 
         //   $this->app->cache_manager->save($render_file, $cache_id, $cache_group);

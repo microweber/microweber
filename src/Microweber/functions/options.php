@@ -17,13 +17,10 @@
  *
  *
  */
-
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
 {
-
-    $iudates = mw()->option_manager->get($key, $option_group, $return_full, $orderby, $module);
-    return $iudates;
-}
+    return mw()->option_manager->get($key, $option_group, $return_full, $orderby, $module);
+ }
 
 
 
@@ -44,9 +41,8 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  *
  *
  */
-api_expose('save_option');
+api_expose_admin('save_option');
 function save_option($data)
 {
-
-    return mw()->option_manager->save($data);
+   return mw()->option_manager->save($data);
 }

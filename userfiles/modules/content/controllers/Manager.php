@@ -82,7 +82,7 @@ class Manager
 
 		if (isset($params['content_type']) and $params['content_type'] == 'post') {
 			 if (!isset($params['subtype']) or $params['subtype'] == false) {
-					$posts_mod['subtype'] = 'post';
+				//	$posts_mod['subtype'] = 'post';
 				}
 		}
 		
@@ -100,7 +100,7 @@ class Manager
             $check_if_exist = $this->provider->get_by_id($params['page-id']);
             if (is_array($check_if_exist)) {
                 if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 1) {
-                    $posts_mod['subtype'] = 'product';
+                  //  $posts_mod['subtype'] = 'product';
                 }
             }
         }

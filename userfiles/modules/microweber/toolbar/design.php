@@ -1,6 +1,6 @@
 
 <div id="design_bnav" class="mw-defaults toolbar_bnav" style="width: 160px;">
-
+ 
 
 
 <div id="design_bnav_handle"><a id="design_close" class="mw_ex_tools" href="#design_bnav" onclick="mw.$('.mw_ex_tools').removeClass('active');"></a></div>
@@ -137,13 +137,13 @@
       <div class="ts_action ts_bg_action" style="width: 200px;">
         <div class="ts_action_item">
           <div class="ts_action_centerer">
-          <span class="mw-close ed_none_bgcolor" style="position: absolute;right: 12px;top: 12px;" onclick="mw.current_element.style.backgroundColor='transparent'"></span>
+          <span class="mw-icon-close ed_none_bgcolor" style="cursor:pointer; position: absolute;right: 12px;top: 12px;" onclick="mw.current_element.style.backgroundColor='transparent'"></span>
           <span class="ed_label pull-left" onclick="mw.wysiwyg.request_change_bg_color(mwd.getElementById('ts_element_bgcolor'));"><?php _e("Background Color"); ?>&nbsp;</span>
           <span class="ed_item ed_color_pick right" id="ts_element_bgcolor" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span> </div>
         </div>
         <div class="ts_action_item">
           <div class="ts_action_centerer">
-            <span class="mw-close ed_none_bgimage" style="position: absolute;right: 12px;top: 12px;" onclick="mw.current_element.style.backgroundImage='none'"></span>
+            <span class="mw-icon-close ed_none_bgimage" style="cursor:pointer; position: absolute;right: 12px;top: 12px;" onclick="mw.current_element.style.backgroundImage='none'"></span>
             <a href="javascript:;" class="ed_label pull-left" onclick="mw.wysiwyg.request_bg_image();"><?php _e("Background Image"); ?></a>
             <span class="ed_item right" id="ed_bg_image_status" onclick="mw.wysiwyg.request_bg_image();"></span> </div>
         </div>
