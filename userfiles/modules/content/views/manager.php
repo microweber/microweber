@@ -190,7 +190,7 @@ mw.on.hashParam("pg", function(){
                 <?php
                 $pub_class = '';
                 $append = '';
-                if (isset($item['is_active']) and $item['is_active'] == 'n') {
+                if (isset($item['is_active']) and $item['is_active'] == '0') {
                     $pub_class = ' content-unpublished';
                     $append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">' . _e("Unpublished", true) . '</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</span></div>';
                 }

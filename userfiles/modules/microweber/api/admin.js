@@ -324,7 +324,7 @@ mw.admin = {
                 mw.$('.btn-publish').addClass('active');
                 mw.$('.btn-unpublish').removeClass('active');
                 mw.$('.btn-posts-state > span').attr('class', 'mw-icon-check').parent().dataset("tip", mw.msg.published);
-                mw.$('#is_post_active').val('y');
+                mw.$('#is_post_active').val('1');
                 mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
                 mw.admin.postStatesTip.style.display = 'none';
             }
@@ -332,7 +332,7 @@ mw.admin = {
                 mw.$('.btn-publish').removeClass('active');
                 mw.$('.btn-unpublish').addClass('active');
                 mw.$('.btn-posts-state > span').attr('class', 'mw-icon-unpublish').parent().dataset("tip", mw.msg.unpublished);
-                mw.$('#is_post_active').val('n');
+                mw.$('#is_post_active').val('0');
                 mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
                 mw.admin.postStatesTip.style.display = 'none';
             }

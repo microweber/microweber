@@ -109,14 +109,14 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                         <?php if ($data['is_active'] == 0) { ?>
                             <li><span
                                     onclick="mw.admin.postStates.toggle()"
-                                    data-val="n"
+                                    data-val="0"
                                     class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
                                     data-tip="<?php _e("Unpublished"); ?>"
                                     data-tipposition="left-center"><span class="mw-icon-unpublish"></span> </span></li>
                         <?php } else { ?>
                             <li><span
                                     onclick="mw.admin.postStates.toggle()"
-                                    data-val="y"
+                                    data-val="1"
                                     class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
                                     data-tip="<?php _e("Published"); ?>"
                                     data-tipposition="left-center"><span class="mw-icon-check"></span> </span></li>
