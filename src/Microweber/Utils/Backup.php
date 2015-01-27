@@ -13,6 +13,7 @@
 namespace Microweber\Utils;
 
 
+use League\Flysystem\File;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -74,17 +75,11 @@ class Backup
             }
         }
 
-
-        // if (!is_object($this->app)) {
-
         if (is_object($app)) {
             $this->app = $app;
         } else {
             $this->app = mw();
         }
-
-        // }
-
 
     }
 
@@ -550,7 +545,7 @@ class Backup
                 mkdir_recursive($dest_dir);
             }
 
-            if(!is_writable($dest)){
+            if (!is_writable($dest)) {
                 return;
             }
 
@@ -1379,63 +1374,15 @@ class Backup
 
             die();
         }
-        // Check if the file exist.
-        if (file_exists($filename)) {
-            // Add headers
-            $name = basename($filename);
-            $ext = get_file_extension($filename);
 
-
-            $type = 'sql';
-            header('Cache-Control: public');
-            if ($ext == 'zip') {
-                header("Content-Type: application/zip");
-                header("Content-Transfer-Encoding: Binary");
-            } else if ($ext == 'sql') {
-                header("Content-type: text/plain; charset=utf-8");
-            }
-
-
-            header('Content-Description: File Transfer');
-            header('Content-Disposition: attachment; filename=' . $name);
-            header('Content-Length: ' . filesize($filename));
-            // Read file
-            $this->readfile_chunked($filename);
-        } else {
-            die('File does not exist');
-        }
-    }
-
-    function readfile_chunked($filename, $retbytes = TRUE)
-    {
-
-
-        $filename = str_replace('..', '', $filename);
-
-        $chunk_size = 1024 * 1024;
-        $buffer = "";
-        $cnt = 0;
-        // $handle = fopen($filename, "rb");
-        $handle = fopen($filename, "rb");
-        if ($handle === false) {
-            return false;
-        }
-
-
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunk_size);
-            echo $buffer;
-            ob_flush();
-            flush();
-            if ($retbytes) {
-                $cnt += strlen($buffer);
+        if (is_file($filename)) {
+            if (function_exists('mime_content_type')) {
+                return \Response::download($filename);
+            } else {
+                $dl = new \Microweber\Utils\Files();
+                return $dl->download_to_browser($filename);
             }
         }
-        $status = fclose($handle);
-        if ($retbytes && $status) {
-            return $cnt; // return num. bytes delivered like readfile() does.
-        }
-        return $status;
     }
 
 }

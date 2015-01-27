@@ -1008,53 +1008,20 @@ class Worker
 
             die();
         }
-        // Check if the file exist.
-        if (file_exists($filename)) {
-            // Add headers
-            $name = basename($filename);
-            $type = 'sql';
-            header('Cache-Control: public');
-            header('Content-Description: File Transfer');
-            header('Content-Disposition: attachment; filename=' . $name);
-            header('Content-Length: ' . filesize($filename));
-            // Read file
-            $this->readfile_chunked($filename);
-        } else {
-            die('File does not exist');
-        }
-    }
-
-    function readfile_chunked($filename, $retbytes = TRUE)
-    {
 
 
-        $filename = str_replace('..', '', $filename);
-
-        $chunk_size = 1024 * 1024;
-        $buffer = "";
-        $cnt = 0;
-        // $handle = fopen($filename, "rb");
-        $handle = fopen($filename, "rb");
-        if ($handle === false) {
-            return false;
-        }
-
-
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunk_size);
-            echo $buffer;
-            ob_flush();
-            flush();
-            if ($retbytes) {
-                $cnt += strlen($buffer);
+        if (is_file($filename)) {
+            if (function_exists('mime_content_type')) {
+                return \Response::download($filename);
+            } else {
+                $dl = new \Microweber\Utils\Files();
+                return $dl->download_to_browser($filename);
             }
         }
-        $status = fclose($handle);
-        if ($retbytes && $status) {
-            return $cnt; // return num. bytes delivered like readfile() does.
-        }
-        return $status;
+
+
     }
+
 
 }
 

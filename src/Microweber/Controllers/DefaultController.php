@@ -8,6 +8,7 @@ use Microweber\Install;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use \Cache;
 use \Event;
 use \Session;
@@ -2089,6 +2090,8 @@ class DefaultController extends Controller
             if (is_bool($res) or is_int($res)) {
                 return json_encode($res);
             } else if ($res instanceOf RedirectResponse) {
+                return $res;
+            }else if ($res instanceOf Response) {
                 return $res;
             }
             $response = \Response::make($res);

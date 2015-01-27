@@ -2,10 +2,13 @@
 
 
 namespace Microweber\Utils;
+
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use FilesystemIterator;
+
 $mw_static_option_groups = array();
+
 class Files
 {
 
@@ -67,123 +70,20 @@ class Files
     }
 
 
-
-    public function rmdir($dirPath) {
-
-
-
-
-        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+    public function rmdir($dirPath)
+    {
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
             $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
         }
-        rmdir($dirPath);
-
-
-
-//        if (! is_dir($dirPath)) {
-//            throw new InvalidArgumentException("$dirPath must be a directory");
-//        }
-//        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
-//            $dirPath .= '/';
-//        }
-//        $files = glob($dirPath . '*', GLOB_MARK);
-//        foreach ($files as $file) {
-//            if (is_dir($file)) {
-//                $this->rmdir($file);
-//            } else {
-//                unlink($file);
-//            }
-//        }
-//        rmdir($dirPath);
+        @rmdir($dirPath);
     }
 
-
-
-    public function OLD_rmdir_DELETE_THIS_METHOD($directory, $empty = true)
-    {
-
-
-
-
-
-
-
-
-
-
-
-        // if the path has a slash at the end we remove it here
-        if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
-            $directory = substr($directory, 0, -1);
-        }
-
-        // if the path is not valid or is not a directory ...
-        if (!file_exists($directory) || !is_dir($directory)) {
-            // ... we return false and exit the function
-            return FALSE;
-
-            // ... if the path is not readable
-        } elseif (!is_readable($directory)) {
-            // ... we return false and exit the function
-            return FALSE;
-
-            // ... else if the path is readable
-        } else {
-            // we open the directory
-            $handle = opendir($directory);
-
-            // and scan through the items inside
-            while (FALSE !== ($item = readdir($handle))) {
-                // if the filepointer is not the current directory
-                // or the parent directory
-                if ($item != '.' && $item != '..') {
-                    // we build the new path to delete
-                    $path = $directory . DIRECTORY_SEPARATOR . $item;
-
-                    // if the new path is a directory
-                    if (is_dir($path)) {
-                        // we call this function with the new path
-                        $this->rmdir($path, $empty);
-                        // if the new path is a file
-                    } else {
-                        //   $path = normalize_path($path, false);
-                        try {
-                            @unlink($path);
-                        } catch (Exception $e) {
-                        }
-                    }
-                }
-            }
-
-            // close the directory
-            closedir($handle);
-
-            // if the option to empty is not set to true
-            if ($empty == FALSE) {
-                @rmdir($directory);
-                // try to delete the now empty directory
-                //            if (!rmdir($directory)) {
-                //
-                //                // return false if not possible
-                //                return FALSE;
-                //            }
-            }
-
-            // return success
-            return TRUE;
-        }
-    }
 
     public function dir_tree($path = '.', $params = false)
     {
-
         $params = parse_params($params);
-
         $dir = $path;
-
         return $this->directory_tree_build($dir, $params);
-
-
     }
 
     /**
@@ -200,8 +100,8 @@ class Files
      * @return mixed Array with files
      *
      * @param array $params = array()     the params
-     * @param string $params['directory']       The directory
-     * @param string $params['keyword']       If set it will seach the dir and subdirs
+     * @param string $params ['directory']       The directory
+     * @param string $params ['keyword']       If set it will seach the dir and subdirs
      */
     public function get($params)
     {
@@ -280,38 +180,6 @@ class Files
             $arrayItems['dirs'] = $arrayItems_d;
         }
 
-        return $arrayItems;
-        $arrayItems = array();
-        $skipByExclude = false;
-        $directory = rtrim($directory, DIRECTORY_SEPARATOR);
-        $handle = opendir($directory);
-        if ($handle) {
-            while (false !== ($file = readdir($handle))) {
-                preg_match("/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/iu", $file, $skip);
-                if ($exclude) {
-                    preg_match($exclude, $file, $skipByExclude);
-                }
-                if (!$skip && !$skipByExclude) {
-                    if (is_dir($directory . DIRECTORY_SEPARATOR . $file)) {
-                        if ($listDirs) {
-                            $file = $directory . DIRECTORY_SEPARATOR . $file;
-                            $arrayItems['dirs'][] = $file;
-                        }
-                        if ($recursive) {
-                            $arrayItems = array_merge($arrayItems, dir_to_array($directory . DIRECTORY_SEPARATOR . $file, $recursive, $listDirs, $listFiles, $exclude));
-                        }
-
-                    } else {
-                        if ($listFiles) {
-                            $file = $directory . DIRECTORY_SEPARATOR . $file;
-                            $arrayItems['files'][] = $file;
-                        }
-                    }
-                }
-            }
-            closedir($handle);
-        }
-        array_unique($arrayItems);
         return $arrayItems;
     }
 
@@ -438,7 +306,7 @@ class Files
                                 $file1 = substr($file1, $pos, strlen($file1));
                                 $file1 = ltrim($file1, '_');
                             }
-                            //
+
                         }
                     }
 
@@ -465,7 +333,7 @@ class Files
                                 }
                                 $active_class = '';
 
-                                if (isset($_REQUEST[$url_param]) and  urldecode($_REQUEST[$url_param]) == $link) {
+                                if (isset($_REQUEST[$url_param]) and urldecode($_REQUEST[$url_param]) == $link) {
                                     $active_class = ' active ';
                                 }
 
@@ -508,24 +376,66 @@ class Files
                                 $link_href = "<a class='{$active_class} page_{$class_path} ' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
                             }
 
-
                             echo $link_href;
                         }
                         echo '</li>';
                     }
-
                 }
             }
             echo '</ul>';
+        }
+        $level--;
+    }
 
 
-        } else {
+    function download_to_browser($filename)
+    {
+        if (file_exists($filename)) {
+            $name = basename($filename);
+            $ext = get_file_extension($filename);
 
+            header('Cache-Control: public');
+            if ($ext == 'zip') {
+                header("Content-Type: application/zip");
+                header("Content-Transfer-Encoding: Binary");
+            } else if ($ext == 'sql') {
+                header("Content-type: text/plain; charset=utf-8");
+            }
+            header('Content-Description: File Transfer');
+            header('Content-Disposition: attachment; filename=' . $name);
+            header('Content-Length: ' . filesize($filename));
+            readfile($filename);
+            exit;
+            //$this->_readfile_chunked($filename);
 
         }
+    }
 
+    private function _readfile_chunked($filename, $retbytes = TRUE)
+    {
 
-        $level--;
+        $filename = str_replace('..', '', $filename);
+        $chunk_size = 1024 * 1024;
+        $buffer = "";
+        $cnt = 0;
+        $handle = fopen($filename, "rb");
+        if ($handle === false) {
+            return false;
+        }
+        while (!feof($handle)) {
+            $buffer = fread($handle, $chunk_size);
+            echo $buffer;
+            ob_flush();
+            flush();
+            if ($retbytes) {
+                $cnt += strlen($buffer);
+            }
+        }
+        $status = fclose($handle);
+        if ($retbytes && $status) {
+            return $cnt; // return num. bytes delivered like readfile() does.
+        }
+        return $status;
     }
 
 }
