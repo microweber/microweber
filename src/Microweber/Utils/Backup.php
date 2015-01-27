@@ -342,12 +342,6 @@ class Backup
     function exec_restore($params = false)
     {
 
-        if (defined('MW_API_CALL')) {
-            if (!is_admin()) {
-                return array('error' => "must be admin");
-
-            }
-        }
 
         ignore_user_abort(true);
 
@@ -370,9 +364,7 @@ class Backup
 
         // Check if the file has needed args
         if ($id == NULL) {
-
             return array('error' => "You have not provided a backup to restore.");
-
         }
 
         $here = $this->get_bakup_location();
@@ -558,7 +550,9 @@ class Backup
                 mkdir_recursive($dest_dir);
             }
 
-
+            if(!is_writable($dest)){
+                return;
+            }
 
             return copy($source, $dest);
         }
@@ -578,8 +572,6 @@ class Backup
                     if ($entry == '.' || $entry == '..') {
                         continue;
                     }
-
-                    // Deep copy directories
 
                     if ($dest !== "$source/$entry" and $dest !== "$source" . DS . "$entry") {
                         $this->copyr("$source/$entry", "$dest/$entry");
@@ -1149,7 +1141,7 @@ class Backup
 
             }
         }
-       // dd($backup_actions);
+
 
         $host = (parse_url(site_url()));
 
@@ -1391,8 +1383,19 @@ class Backup
         if (file_exists($filename)) {
             // Add headers
             $name = basename($filename);
+            $ext = get_file_extension($filename);
+
+
             $type = 'sql';
             header('Cache-Control: public');
+            if ($ext == 'zip') {
+                header("Content-Type: application/zip");
+                header("Content-Transfer-Encoding: Binary");
+            } else if ($ext == 'sql') {
+                header("Content-type: text/plain; charset=utf-8");
+            }
+
+
             header('Content-Description: File Transfer');
             header('Content-Disposition: attachment; filename=' . $name);
             header('Content-Length: ' . filesize($filename));
