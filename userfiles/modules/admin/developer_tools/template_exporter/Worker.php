@@ -1008,18 +1008,10 @@ class Worker
 
             die();
         }
-
-
         if (is_file($filename)) {
-            if (function_exists('mime_content_type')) {
-                return \Response::download($filename);
-            } else {
-                $dl = new \Microweber\Utils\Files();
-                return $dl->download_to_browser($filename);
-            }
+            $dl = new \Microweber\Utils\Files();
+            return $dl->download_to_browser($filename);
         }
-
-
     }
 
 

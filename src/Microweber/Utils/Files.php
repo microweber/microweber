@@ -391,21 +391,25 @@ class Files
     function download_to_browser($filename)
     {
         if (file_exists($filename)) {
-            $name = basename($filename);
-            $ext = get_file_extension($filename);
+            if (function_exists('mime_content_type')) {
+                $this->_readfile_laravel_chunked($filename);
+            } else {
+                $name = basename($filename);
+                $ext = get_file_extension($filename);
 
-            header('Cache-Control: public');
-            if ($ext == 'zip') {
-                header("Content-Type: application/zip");
-                header("Content-Transfer-Encoding: Binary");
-            } else if ($ext == 'sql') {
-                header("Content-type: text/plain; charset=utf-8");
+                header('Cache-Control: public');
+                if ($ext == 'zip') {
+                    header("Content-Type: application/zip");
+                    header("Content-Transfer-Encoding: Binary");
+                } else if ($ext == 'sql') {
+                    header("Content-type: text/plain; charset=utf-8");
+                }
+                header('Content-Description: File Transfer');
+                header('Content-Disposition: attachment; filename=' . $name);
+                header('Content-Length: ' . filesize($filename));
+                readfile($filename);
+                exit;
             }
-            header('Content-Description: File Transfer');
-            header('Content-Disposition: attachment; filename=' . $name);
-            header('Content-Length: ' . filesize($filename));
-            readfile($filename);
-            exit;
             //$this->_readfile_chunked($filename);
 
         }
@@ -436,6 +440,47 @@ class Files
             return $cnt; // return num. bytes delivered like readfile() does.
         }
         return $status;
+    }
+
+    private function _readfile_laravel_chunked($path, $name = null, array $headers = array())
+    {
+        if (is_null($name)) $name = basename($path);
+
+        // Prepare the headers
+        $headers = array_merge(array(
+            'Content-Description' => 'File Transfer',
+            'Content-Type' => \File::mime(\File::extension($path)),
+            'Content-Transfer-Encoding' => 'binary',
+            'Expires' => 0,
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Pragma' => 'public',
+            'Content-Length' => \File::size($path),
+        ), $headers);
+
+        $response = new \Response('', 200, $headers);
+        $response->header('Content-Disposition', $response->disposition($name));
+
+        // If there's a session we should save it now
+        if (\Config::get('session.driver') !== '') {
+            \Session::save();
+        }
+
+        // Send the headers and the file
+        ob_end_clean();
+        $response->send_headers();
+
+        if ($fp = fread($path, 'rb')) {
+            while (!feof($fp) and (connection_status() == 0)) {
+                print(fread($fp, 8192));
+                flush();
+            }
+        }
+
+        // Finish off, like Laravel would
+        \Event::fire('laravel.done', array($response));
+        $response->foundation->finish();
+
+        exit;
     }
 
 }
