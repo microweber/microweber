@@ -881,3 +881,4 @@ QTABSArrow = function (el) {
     var left = el.offset().left - $(mwd.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
     mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
 }
+

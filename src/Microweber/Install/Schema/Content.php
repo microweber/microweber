@@ -6,31 +6,30 @@ class Content
     {
         return [
             'content' => [
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'expires_at' => 'dateTime',
-
-                'created_by' => 'integer',
-
-                'edited_by' => 'integer',
 
 
                 'content_type' => 'string',
+                'subtype' => 'string',
                 'url' => 'text',
-                'content_filename' => 'string',
+
                 'title' => 'text',
                 'parent' => 'integer',
                 'description' => 'text',
-                'content_meta_title' => 'text',
-
-                'content_meta_keywords' => 'text',
                 'position' => 'integer',
-
                 'content' => 'longText',
                 'content_body' => 'longText',
-
-
                 'is_active' => array('type' => 'integer', 'default' => 1),
+                'subtype_value' => 'string',
+                'custom_type' => 'string',
+                'custom_type_value' => 'string',
+                'active_site_template' => 'string',
+                'layout_file' => 'string',
+                'layout_name' => 'string',
+                'layout_style' => 'string',
+                'content_filename' => 'string',
+                'original_link' => 'string',
+
+
                 'is_home' => array('type' => 'integer', 'default' => 0),
                 'is_pinged' => array('type' => 'integer', 'default' => 0),
                 'is_shop' => array('type' => 'integer', 'default' => 0),
@@ -38,26 +37,18 @@ class Content
                 'draft_of' => 'integer',
 
                 'require_login' => array('type' => 'integer', 'default' => 0),
-
-
-                'require_login' => "integer",
-
                 'status' => 'string',
+                'content_meta_title' => 'text',
+                'content_meta_keywords' => 'text',
 
-                'subtype' => 'string',
-                'subtype_value' => 'string',
-
-
-                'custom_type' => 'string',
-                'custom_type_value' => 'string',
-
-
-                'original_link' => 'string',
-                'layout_file' => 'string',
-                'layout_name' => 'string',
-                'layout_style' => 'string',
-                'active_site_template' => 'string',
                 'session_id' => 'string',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'expires_at' => 'dateTime',
+
+                'created_by' => 'integer',
+
+                'edited_by' => 'integer',
                 'posted_at' => 'dateTime',
 
                 '$index' => ['url' => 'title']

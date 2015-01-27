@@ -17,7 +17,7 @@ if(isset($params['content-id'])){
   $title =  $product['title'];
 }
 else{
-  $title =  _e("Product");
+  $title =  _e("Product", true);
 }
  
 ?> 

@@ -892,7 +892,7 @@ mw.wysiwyg = {
         var isembed = html.contains('<iframe') || html.contains('<embed') || html.contains('<object');
       }
       else{
-         var isembed = false;                  
+         var isembed = false;
       }
       if(isembed){
         var id = 'frame-'+mw.random();

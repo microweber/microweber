@@ -341,7 +341,6 @@ class Parser
                                         $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
                                     }
 
-
                                     if (!in_array($mod_id, $this->_existing_module_ids)) {
                                         $this->_existing_module_ids[] = $mod_id;
                                     } else {

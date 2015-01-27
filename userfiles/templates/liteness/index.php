@@ -14,7 +14,7 @@
 <?php include TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container">
-  <div class="edit" field="content" rel="content">
+  <div class="edit" field="content" rel="liteness_content">
     <div class="content-gallery-slider home-slider">
       <module
           type="pictures"

@@ -33,6 +33,7 @@
                 var v = select.selectedIndex == i;
                 def = def || setFormDisplay(select.options[i].value, v);
             }
+            $('#db_name_value').val('');
             setFormDisplay('', !def);
         }
 
@@ -318,7 +319,7 @@
                                         <span data-help="<?php _e("The name of your database."); ?>"><span
                                                 class="mw-icon-help-outline mwahi tip"></span></span></label>
                                     <input type="text" class="mw-ui-field"
-                                           name="db_name" value="<?php if(isset($config['database'])) echo $config['database']; ?>"/>
+                                           name="db_name" id="db_name_value" value="<?php if(isset($config['database'])) echo $config['database']; ?>"/>
                                 </div>
                             </div>
                             <div id="db-form-sqlite">

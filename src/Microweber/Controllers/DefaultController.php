@@ -2112,7 +2112,7 @@ class DefaultController extends Controller
             define("MW_NO_SESSION", 1);
         }
         $lastModified = time() - 120;
-        $etagFile = md5(serialize($_GET));
+        $etagFile = md5(serialize($_REQUEST));
         $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
 
         //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
@@ -2124,9 +2124,9 @@ class DefaultController extends Controller
         header("Etag: $etagFile");
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-            header("HTTP/1.1 304 Not Modified");
+           // header("HTTP/1.1 304 Not Modified");
             // return;
-            exit;
+           // exit;
         }
 
         $ref_page = false;

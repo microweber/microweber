@@ -335,8 +335,7 @@ if (isset($params['data-page-number'])) {
 
 <?php else: ?>
     <div class="mw-no-posts-foot">
-
-        <?php if (isset($page_info['is_shop']) and $page_info['is_shop'] == 1) : ?>
+        <?php if (isset($params['content_type']) and $params['content_type'] == 'product') : ?>
 
             <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
 

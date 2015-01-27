@@ -18,24 +18,24 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
 
-api_expose('Utils\Backup\delete');
-api_expose('Utils\Backup\create');
-api_expose('Utils\Backup\download');
-api_expose('Utils\Backup\create_full');
-api_expose('Utils\Backup\move_uploaded_file_to_backup');
+api_expose_admin('Utils\Backup\delete');
+api_expose_admin('Utils\Backup\create');
+api_expose_admin('Utils\Backup\download');
+api_expose_admin('Utils\Backup\create_full');
+api_expose_admin('Utils\Backup\move_uploaded_file_to_backup');
 
-api_expose('Utils\Backup\restore');
-api_expose('Utils\Backup\cronjob');
+api_expose_admin('Utils\Backup\restore');
+api_expose_admin('Utils\Backup\cronjob');
 
 
-api_expose('Microweber\Utils\Backup\delete');
-api_expose('Microweber\Utils\Backup\create');
-api_expose('Microweber\Utils\Backup\download');
-api_expose('Microweber\Utils\Backup\create_full');
-api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
+api_expose_admin('Microweber\Utils\Backup\delete');
+api_expose_admin('Microweber\Utils\Backup\create');
+api_expose_admin('Microweber\Utils\Backup\download');
+api_expose_admin('Microweber\Utils\Backup\create_full');
+api_expose_admin('Microweber\Utils\Backup\move_uploaded_file_to_backup');
 
-api_expose('Microweber\Utils\Backup\restore');
-api_expose('Microweber\Utils\Backup\cronjob');
+api_expose_admin('Microweber\Utils\Backup\restore');
+api_expose_admin('Microweber\Utils\Backup\cronjob');
 
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
@@ -1085,7 +1085,7 @@ class Backup
 
         $here = userfiles_path() . "backup" . DS . get_table_prefix() . DS;
 
-        $here2 = mw('option')->get('backup_location', 'admin/backup');
+        $here2 = mw()->option_manager->get('backup_location', 'admin/backup');
         if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
             $here2 = normalize_path($here2, true);
 
@@ -1136,7 +1136,7 @@ class Backup
         $media_folder = media_base_path();
 
 
-        $all_images = $this->app->media_manager->get('limit=1000000');
+        $all_images = $this->app->media_manager->get_all('limit=10000');
 
         if (!empty($all_images)) {
             foreach ($all_images as $image) {
@@ -1149,7 +1149,7 @@ class Backup
 
             }
         }
-
+       // dd($backup_actions);
 
         $host = (parse_url(site_url()));
 

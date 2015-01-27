@@ -2175,7 +2175,7 @@ mw.tools = {
             return data;
         }
         if(!!attr){
-          return attr.nodeValue;
+          return attr.value;
         }
         return false;
     }
@@ -4202,7 +4202,7 @@ mw.image = {
       }
     }
 
-    /* Exposing  */
+    /* Exposing to mw  */
 
       mw.gallery      = function(arr, start, modal){  if( self === top || window==window ){ return mw.tools.gallery.init(arr, start, modal) }  };
       mw.tooltip      = mw.tools.tip;

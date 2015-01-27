@@ -201,6 +201,8 @@ class InstallController extends Controller
         if (!$viewData['config']['prefix']) {
             $domain = $_SERVER['HTTP_HOST'];
             $domain = str_replace('.', '_', $domain);
+            $domain = str_replace('-', '_', $domain);
+            $domain = substr($domain, 0, 10);
             $viewData['config']['prefix'] = $domain . '_';
         }
 
