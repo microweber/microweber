@@ -1424,6 +1424,34 @@ mw.tools = {
       }
      if( mw.tools.hasClass(el.className, cls) ) el.className = (el.className + ' ').replace(cls+' ', '').replace(/\s{2,}/g, ' ');
   },
+  isEventOnElement:function(event, node){
+    if(event.target === node) { return true; }
+    mw.tools.foreachParents(event.target, function(){
+        if(event.target === node) {
+          return true;
+        }
+    });
+    return false;
+  },
+  isEventOnElements:function(event, array){
+    var l = array.length, i = 0;
+    for( ; i<l; i++){
+       if(event.target === array[i]) { return true; }
+    }
+    mw.tools.foreachParents(event.target, function(){
+        var l = array.length, i = 0;
+        for( ; i<l; i++){
+           if(event.target === array[i]) { return true; }
+        }
+    });
+    return false;
+  },
+  isEventOnClass:function(event, cls){
+    if(mw.tools.hasClass(event.target, cls) || mw.tools.hasParentsWithClass(event.target, cls)){
+      return true;
+    }
+    return false;
+  },
   hasParentsWithClass:function(el, cls){
     var d = {};
     d.toreturn = false;
@@ -4290,6 +4318,69 @@ mw.image = {
 
 
     mw.editor = mw.tools.richtextEditor;
+
+    mw._colorPickerDefaults = {
+        position:'bottom-center',
+        skin:'mw-tooltip-default',
+        position:'bottom-center',
+        onchange:false
+    }
+    mw._colorPicker = function(options){
+        if(!options) {return false;}
+        var settings = $.extend( {}, mw._colorPickerDefaults, options );
+        if(settings.element === undefined || settings.element === null){
+          return false;
+        }
+        var $el = mw.$(settings.element);
+        if($el[0] === undefined){
+          return false;
+        }
+        this.element = $el[0];
+        if( $el[0].mwToolTipBinded !== undefined){ return false; }
+        if(!settings.method){
+           if(this.element.nodeName == 'DIV'){
+              settings.method = 'inline';
+           }
+        }
+        $el[0].mwToolTipBinded = true;
+        var frame = document.createElement('iframe');
+        frame.src = mw.external_tool('color_picker#test');
+        frame.frameborder = 0;
+        frame.className = 'mw-picker-frame';
+        frame.frameBorder = 0;
+        frame.scrolling="no";
+        $(frame).bind("colorChange", function(e,val){
+           options.onchange('#'+val);
+           if($el[0].nodeName == 'INPUT'){
+                $el.val('#'+val);
+           }
+        });
+        if(settings.method == 'inline'){
+            $el.empty().append(frame);
+            return false;
+        }
+        else{
+            var tip = mw.tooltip(settings), $tip = $(tip).hide();
+            mw.$('.mw-tooltip-content', tip).empty().append(frame);
+                $el.bind('click', function(){
+                $(tip).toggle();
+                mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
+            });
+            $(document.body).bind('click focus', function(e){
+                if(!mw.tools.isEventOnElements(e, [$el[0] ,tip])){
+                    $(tip).hide();
+                }
+            });
+            if($el[0].nodeName == 'INPUT'){
+              $el.bind('blur', function(){
+                   $(tip).hide();
+              })
+            }
+        }
+    }
+    mw.colorPicker = mw.colourPicker = function(o){
+      return new mw._colorPicker(o);
+    }
 
     mw.accordion = function(el, callback){
       return mw.tools.accordion(mw.$(el)[0], callback);

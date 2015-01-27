@@ -27,6 +27,7 @@
     <?php include THIS_TEMPLATE_DIR . 'header_options.php'; ?>
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
+
 <div id="main-container">
     <div id="header">
        <div class="container edit" field="liteness-header" rel="global">

@@ -1233,7 +1233,7 @@ $(window).load(function(){
 
 </div>
 
-<script>
+<script> 
 
 $(document).ready(function(){
     var positions = ['bottom-left','bottom-center','bottom-right','top-right','top-left','top-center','left-top','left-bottom','left-center','right-top','right-bottom','right-center'],
@@ -1297,6 +1297,8 @@ $(document).ready(function(){
 
        </td>
      </tr>
+
+
 
   </tbody>
 </table>

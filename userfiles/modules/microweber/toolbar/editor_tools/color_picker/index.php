@@ -87,7 +87,7 @@
         }
     }
 
-    $(document).ready(function () {
+    $(window).load(function () {
 
 
         $(window).bind('haschange', function () {
@@ -101,11 +101,13 @@
 
         color_holder = mwd.getElementById('my-colors');
         document_colors = {};
+        parent.mw.$("body *").each(function () {
+            var css = parent.getComputedStyle(this, null);
+            if(css !== null){
+                !document_colors[css.color] ? document_colors[css.color] = css.color : '';
+                !document_colors[css.backgroundColor] ? document_colors[css.backgroundColor] = css.backgroundColor : '';
+            }
 
-        parent.mw.$(".edit *").each(function () {
-            var css = window.getComputedStyle(this, null);
-            !document_colors[css.color] ? document_colors[css.color] = css.color : '';
-            !document_colors[css.backgroundColor] ? document_colors[css.backgroundColor] = css.backgroundColor : '';
         });
 
         var f = mwd.createDocumentFragment();
@@ -129,10 +131,15 @@
 
 
         $(document.body).mouseenter(function () {
-            parent.mw.wysiwyg.save_selected_element();
+            if(!!parent.mw.wysiwyg){
+               parent.mw.wysiwyg.save_selected_element();
+            }
+
         });
         $(document.body).mouseleave(function () {
+          if(!!parent.mw.wysiwyg){
             parent.mw.wysiwyg.deselect_selected_element();
+          }
         });
 
 
@@ -150,8 +157,11 @@
     });
 
     _do = function (val) {
+        if( !!this.frameElement){
 
-        if (typeof parent.mw.iframecallbacks[_command] === 'function') {
+          parent.$(this.frameElement).trigger('colorChange', [val]);
+        }
+        if (!!parent.mw.iframecallbacks && typeof parent.mw.iframecallbacks[_command] === 'function') {
             parent.mw.iframecallbacks[_command](val);
         }
         else if (typeof parent[_command] === 'function') {
@@ -169,9 +179,7 @@
 
     <label class="mw-ui-label"><?php _e("Colors used in this page"); ?></label>
 
-    <div id="my-colors">
-
-    </div>
+    <div id="my-colors"></div>
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);"/>
 

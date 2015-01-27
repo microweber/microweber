@@ -3413,3 +3413,8 @@ html.mw-loading:after {
   margin-left: auto;
   margin-right: auto;
 }
+.mw-picker-frame {
+  overflow: hidden;
+  width: 280px;
+  height: 280px;
+}

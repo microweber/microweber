@@ -1297,7 +1297,63 @@ $(document).ready(function(){
 
        </td>
      </tr>
+    <tr>
+        <td colspan="2">
 
+            <h2>Color Picker</h2>
+
+
+           <script>
+
+$(window).load(function(){
+  pick1 = mw.colorPicker({
+    element:'#ttest',
+    position:'bottom-left',
+    onchange:function(color){
+      $("h2").css("color", color);
+    }
+  });
+  pick2 = mw.colorPicker({
+    element:'#resr',
+    onchange:function(color){
+      $("#main-menu").css("background", color);
+    }
+  });
+  pick3 = mw.colorPicker({
+    element:'#resr2',
+    onchange:function(color){
+      $("#main-menu").css("background", color);
+    }
+  });
+});
+
+</script>
+    <div style="padding: 50px;">
+
+        <h5>Button trigger</h5>
+        <span class="mw-ui-btn mw-ui-btn-info" id="ttest">Choose Color</span>
+        <hr>
+
+
+
+        <h5>Field</h5>
+        <input class="mw-ui-field" id="resr2" placeholder="Eneter color..">
+
+        <hr>
+        <h5>Inline</h5>
+        <div id="resr" class="mw-ui-box" style="display: inline-block"></div>
+
+
+
+    </div>
+
+
+
+
+
+
+       </td>
+     </tr>
   </tbody>
 </table>
 
