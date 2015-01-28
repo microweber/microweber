@@ -89,24 +89,28 @@ class Database
 
     public function assoc_table_name($assoc_name)
     {
-
-        if ($this->table_prefix == false) {
-            $this->table_prefix = Config::get('database.connections.mysql.prefix');
-        }
-        $assoc_name_o = $assoc_name;
-        $assoc_name = str_ireplace($this->table_prefix, '', $assoc_name);
+        $config_prefix = $this->get_prefix();
+        $assoc_name = str_ireplace($config_prefix, '', $assoc_name);
         return $assoc_name;
     }
 
     public $table_prefix;
+
+
+    public function get_prefix()
+    {
+        $default_sql_engine = Config::get('database.default');
+        $config_prefix = Config::get('database.connections.' . $default_sql_engine . '.prefix');
+        return $config_prefix;
+    }
 
     public function real_table_name($assoc_name)
     {
         $assoc_name_new = $assoc_name;
         static $config_prefix = false;
         if (!$config_prefix) {
-            $default_sql_engine = Config::get('database.default');
-            $config_prefix = Config::get('database.connections.' . $default_sql_engine . '.prefix');
+
+            $config_prefix = $this->get_prefix();
         }
         if ($this->table_prefix == false) {
             $this->table_prefix = $config_prefix;
@@ -559,42 +563,29 @@ class Database
         if (isset($this->table_fields[$arr_key])) {
             return $this->table_fields[$arr_key];
         }
-        $table = $this->real_table_name($table);
         if (empty($array)) {
-
             return false;
         }
-        // $table = $this->real_table_name($table);
-//        if (!Schema::hasTable($table)) {
-//            return $array;
-//        }
+
         if (isset($this->table_fields[$table])) {
             $fields = $this->table_fields[$table];
         } else {
-
             $fields = $this->get_fields($table);
             $this->table_fields[$table] = $fields;
         }
         if (is_array($fields)) {
             foreach ($fields as $field) {
-
-
                 $field = strtolower($field);
-
                 if (isset($array[$field])) {
                     if ($array[$field] != false) {
-
                         $array_to_return[$field] = $array[$field];
                     }
-
                     if ($array[$field] == 0) {
-
                         $array_to_return[$field] = $array[$field];
                     }
                 }
             }
         }
-
         if (!isset($array_to_return)) {
             return false;
         } else {
@@ -626,96 +617,25 @@ class Database
 
         }
         $cache_group = 'db/fields';
-
         if (!$table) {
-
             return false;
         }
-
         $key = 'mw_db_get_fields';
         $hash = $table;
         $value = Cache::get($key);
-
         if (isset($value[$hash])) {
             return $value[$hash];
         }
-        // dd(__FILE__.__LINE__);
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
-
-        // dd($fields);
-
-        $table = $this->real_table_name($table);
-        // $table = $this->escape_string($table);
-
-
-        $sql = " show columns from $table ";
-        $query = DB::select($sql);
-
-
-        $fields = $query;
-
-
-        $exisiting_fields = array();
-        if ($fields == false or $fields == NULL) {
-            $ex_fields_static[$table] = false;
-            return false;
-        }
-
-        if (!is_array($fields)) {
-
-            return false;
-        }
-        foreach ($fields as $fivesdraft) {
-
-            $fivesdraft = (array)$fivesdraft;
-
-            if ($fivesdraft != NULL and is_array($fivesdraft)) {
-                $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
-                if (isset($fivesdraft['name'])) {
-                    $fivesdraft['field'] = $fivesdraft['name'];
-                    $exisiting_fields[strtolower($fivesdraft['field'])] = true;
-                } else {
-                    if (isset($fivesdraft['field'])) {
-
-                        $exisiting_fields[strtolower($fivesdraft['field'])] = true;
-                    } elseif (isset($fivesdraft['Field'])) {
-
-                        $exisiting_fields[strtolower($fivesdraft['Field'])] = true;
-                    }
-                }
-            }
-        }
-
-
-        $fields = array();
-
-        foreach ($exisiting_fields as $k => $v) {
-
-            if (!empty($exclude_fields)) {
-
-                if (in_array($k, $exclude_fields) == false) {
-
-                    $fields[] = $k;
-                }
-            } else {
-
-                $fields[] = $k;
-            }
-        }
         $ex_fields_static[$table] = $fields;
-
-
         $expiresAt = 30;
         $value[$hash] = $fields;
         $cache = Cache::put($key, $value, $expiresAt);
-
         return $fields;
     }
 
     public function guess_cache_group($group)
     {
-
-
         return $group;
     }
 
@@ -729,14 +649,11 @@ class Database
                 if ($value != 0) {
                     $q = "UPDATE $table_real SET position={$i} WHERE id={$value} ";
                     DB::statement($q);
-                    //$q = $this->q($q);
                 }
                 $i++;
             }
         }
-
         $cache_group = $this->assoc_table_name($table);
-
         $this->app->cache_manager->delete($cache_group);
     }
 
@@ -780,15 +697,12 @@ class Database
      */
     public function escape_string($value)
     {
-
         if (is_array($value)) {
             foreach ($value as $k => $v) {
                 $value[$k] = $this->escape_string($v);
             }
             return $value;
         } else {
-
-
             if (!is_string($value)) {
                 return $value;
             }
@@ -796,7 +710,6 @@ class Database
             if (isset($this->mw_escaped_strings[$str_crc])) {
                 return $this->mw_escaped_strings[$str_crc];
             }
-
             $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
             $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
             $new = str_replace($search, $replace, $value);
@@ -809,30 +722,23 @@ class Database
     {
         $aTable = $this->real_table_name($aTable);
         $function_cache_id = false;
-
         $args = func_get_args();
-
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
             $function_cache_id = 'add_table_index' . crc32($function_cache_id);
         }
-
         if (isset($this->add_table_index_cache[$function_cache_id])) {
             return true;
         } else {
             $this->add_table_index_cache[$function_cache_id] = true;
         }
 
-
         $table_name = $function_cache_id;
         $cache_group = 'db/' . $table_name;
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
         if (($cache_content) != false) {
-
             return $cache_content;
         }
-
 
         $columns = implode(',', $aOnColumns);
         $query = $this->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
@@ -842,16 +748,11 @@ class Database
             $index = " INDEX ";
             //FULLTEXT
         }
-
         if ($query == false) {
             $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
             $this->q($q);
         }
-
-
         $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
-
-
     }
 
 
@@ -871,13 +772,8 @@ class Database
         if (is_file($dbms_schema)) {
             $prefix = get_table_prefix();
             $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ' . __FILE__ . __LINE__);
-
-
             $sql_query = str_ireplace('{MW_TABLE_PREFIX}', $prefix, $sql_query);
-
-
             $sql_query = $this->remove_sql_remarks($sql_query);
-
             $sql_query = $this->remove_comments_from_sql_string($sql_query);
             $sql_query = $this->split_sql_file($sql_query, ';');
 
@@ -885,10 +781,7 @@ class Database
             foreach ($sql_query as $sql) {
                 $sql = trim($sql);
                 DB::statement($sql);
-
-                //$qz = $this->q($sql);
             }
-            //$this->app->cache_manager->delete('db');
             return true;
         } else {
             return false;

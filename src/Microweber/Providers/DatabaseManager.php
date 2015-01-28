@@ -318,7 +318,7 @@ class DatabaseManager extends DbUtils
         }
 
 
-        $table = $this->real_table_name($table);
+        //  $table = $this->real_table_name($table);
         $user_sid = mw()->user_manager->session_id();
         $the_user_id = mw()->user_manager->id();
 
@@ -377,8 +377,11 @@ class DatabaseManager extends DbUtils
                 $data['edited_by'] = $the_user_id;
             }
         }
+
         $table_assoc_name = $this->assoc_table_name($table);
+
         $criteria_orig = $data;
+
         $criteria = $this->map_array_to_table($table, $data);
 
         if ($allow_html == false) {
@@ -398,7 +401,6 @@ class DatabaseManager extends DbUtils
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
         }
 
-        $criteria = $this->map_array_to_table($table_assoc_name, $data);
         if ($dbg != false) {
             var_dump($criteria);
         }
@@ -408,6 +410,7 @@ class DatabaseManager extends DbUtils
         }
         $criteria['id'] = intval($criteria['id']);
         if (intval($criteria['id']) == 0) {
+            unset($criteria['id']);
             $id_to_return = DB::table($table_assoc_name)->insert($criteria);
             $id_to_return = $this->last_id($table);
         } else {
@@ -454,16 +457,10 @@ class DatabaseManager extends DbUtils
      */
     public function last_id($table)
     {
-        $table = $this->escape_string($table);
-        $q = "SELECT id AS the_id FROM $table ORDER BY id DESC LIMIT 1";
-        $q = $this->query($q);
-
-        if (!isset($q[0])) {
-            return;
+        $last_id = DB::table($table)->orderBy('id', 'DESC')->take(1)->first();
+        if (isset($last_id->id)) {
+            return $last_id->id;
         }
-
-        $result = $q[0];
-        return intval($result['the_id']);
     }
 
     public function q($q)

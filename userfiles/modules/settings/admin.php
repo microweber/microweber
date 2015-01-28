@@ -108,7 +108,7 @@ $(document).ready(function(){
                     
 <?php $got_lic = mw()->update->get_licenses('count=1') ?>
 <?php if(($got_lic) > 0): ?>
-   <li><a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-advanced" href="#option_group=licenses"><?php _e("Licenses"); ?></a></li>
+   <li><a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-licenses" href="#option_group=licenses"><?php _e("Licenses"); ?></a></li>
 <?php endif; ?>
  
                     <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced"><?php _e("Advanced"); ?></a></li>

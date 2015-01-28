@@ -2776,9 +2776,9 @@ class ContentManager
         }
 
         if (isset($data['is_active'])) {
-            if ($data['is_active'] == 'y') {
+            if ($data['is_active'] === 'y') {
                 $data['is_active'] = 1;
-            } elseif ($data['is_active'] == 'n') {
+            } elseif ($data['is_active'] === 'n') {
                 $data['is_active'] = 0;
             }
         }
@@ -2789,19 +2789,7 @@ class ContentManager
             $data['title'] = $data['content_title'];
         }
         if (isset($data['title'])) {
-//            $data['title'] = html_entity_decode($data['title']);
-//            $data['title'] = strip_tags($data['title']);
-//            $data['title'] = $this->app->format->clean_html($data['title']);
-//
-//
-//
-//            $data['title'] = preg_replace("/(^\s+)|(\s+$)/us", "", $data['title']);
-
-
             $data['title'] = htmlspecialchars($data['title'], ENT_QUOTES, "UTF-8");
-
-
-
             $data_to_save['title'] = $data['title'];
         }
 
@@ -2971,12 +2959,6 @@ class ContentManager
             $data_to_save['require_login'] = 0;
         }
 
-        if (isset($data_to_save['is_active']) and $data_to_save['is_active'] == 'y') {
-            $data_to_save['is_active'] = 1;
-        } elseif (isset($data_to_save['is_active']) and $data_to_save['is_active'] == 'n') {
-            $data_to_save['is_active'] = 0;
-        }
-
 
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 1) {
             if ($adm == true) {
@@ -3014,16 +2996,6 @@ class ContentManager
                 unset($data_to_save['subtype_value']);
             }
 
-
-            if (isset($check_ex) and $check_ex == false) {
-
-                if (!isset($data_to_save['subtype_value_new'])) {
-                    if (isset($data_to_save['title'])) {
-                        //$cats_modified = true;
-                        //$data_to_save['subtype_value_new'] = $data_to_save['title'];
-                    }
-                }
-            }
         }
 
 
@@ -3188,37 +3160,6 @@ class ContentManager
         $cats_modified = true;
 
 
-//        if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
-//            if (!isset($data_to_save['parent'])) {
-//                $data_to_save['parent'] = 0;
-//            }
-//            if ($data_to_save['parent'] == 0) {
-//                if (isset($data_to_save['categories'])) {
-//                    $first = false;
-//                    if (is_array($data_to_save['categories'])) {
-//                        $temp = $data_to_save['categories'];
-//                        $first = array_shift($temp);
-//                    } else {
-//                        $first = intval($data_to_save['categories']);
-//                    }
-//                    if ($first != false) {
-//                        $first_par_for_cat = $this->app->category_manager->get_page($first);
-//                        if (!empty($first_par_for_cat) and isset($first_par_for_cat['id'])) {
-//                            $data_to_save['parent'] = $first_par_for_cat['id'];
-//                            if (!isset($data_to_save['content_type'])) {
-//                                $data_to_save['content_type'] = 'post';
-//                            }
-//
-//                            if (!isset($data_to_save['subtype'])) {
-//                                $data_to_save['subtype'] = 'post';
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
 
 
         if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url_manager->site()) {
@@ -3307,6 +3248,7 @@ class ContentManager
             }
 
         }
+
         $save = $this->app->database->extended_save($table, $data_to_save);
 
         $id = $save;
