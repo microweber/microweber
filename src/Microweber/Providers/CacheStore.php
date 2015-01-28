@@ -1,10 +1,10 @@
 <?php namespace Microweber\Providers;
 
-use Illuminate\Cache\StoreInterface,
+use Illuminate\Contracts\Cache\Store,
     Illuminate\Filesystem\Filesystem,
     Closure;
 
-class CacheStore implements StoreInterface
+class CacheStore implements Store
 {
     protected $files;
     protected $prefix;
