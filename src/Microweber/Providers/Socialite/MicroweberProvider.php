@@ -31,7 +31,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 			'client_id' => $this->clientId,
 			'client_secret' => $this->clientSecret,
 			'redirect_uri' => $redirectUrl,
-			'scope' => $this->formatScopes($this->scopes),
+			'scope' => $this->formatScopes($this->scopes, ' '),
 			'state' => $state,
 			'response_type' => 'code',
 		]);
@@ -73,11 +73,6 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 			'name' => $user['name'],
 			'email' => isset($user['email']) ? $user['email'] : null
 		]);
-	}
-
-	protected function formatScopes(array $scopes)
-	{
-		return implode(' ', $scopes);
 	}
 
 }
