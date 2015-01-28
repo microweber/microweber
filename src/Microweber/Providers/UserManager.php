@@ -104,8 +104,6 @@ class UserManager
      * @param array|string $params You can pass parameter as string or as array.
      * @param mixed|string $params ['email'] optional If you set  it will use this email for login
      * @param mixed|string $params ['password'] optional Use password for login, it gets trough $this->hash_pass() function
-     * @param mixed|string $params ['password_hashed'] optional Use hashed password for login, it does NOT go trough $this->hash_pass() function
-     *
      *
      * @example
      * <code>
@@ -124,16 +122,6 @@ class UserManager
      * </code>
      *
      * @return array|bool
-     * @hooks
-     *
-     * You can also hook to this function with custom functions <br />
-     * There are few events that get executed on login <br />
-     *
-     * <code>
-     * Here is example:
-     * event_bind('before_user_login', 'custom_login_function'); //executed before making login query
-     * event_bind('on_user_login', 'custom_after_login_function'); //executed after successful login
-     * </code>
      * @package Users
      * @category Users
      * @uses $this->hash_pass()
@@ -149,11 +137,6 @@ class UserManager
      * @see  _table() For the database table fields
      */
 
-    public function session_id()
-    {
-        //dd('session_id'.__FILE__.__LINE__);
-        return Session::getId();
-    }
 
     public function login($params)
     {
@@ -176,7 +159,7 @@ class UserManager
         }
 
 
-        $override = $this->app->event_manager->trigger('before_user_login', $params);
+        $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
         $return_resp = false;
@@ -233,30 +216,24 @@ class UserManager
     public function logout($params = false)
     {
         Session::flush();
-
         $aj = $this->app->url_manager->is_ajax();
-
         $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
-
         if (isset($_COOKIE['editmode'])) {
             setcookie('editmode');
         }
 
+        $this->app->event_manager->trigger('mw.user.logout', $params);
         if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER["HTTP_REFERER"])) {
-                //return \Redirect::to($_SERVER["HTTP_REFERER"]);
                 return $this->app->url_manager->redirect($_SERVER["HTTP_REFERER"]);
             }
         }
-
 
         if ($redirect_after == true) {
             $redir = site_url($redirect_after);
             return $this->app->url_manager->redirect($redir);
 
         }
-
-
         return true;
     }
 
@@ -274,10 +251,8 @@ class UserManager
 
     public function has_access($function_name)
     {
-
         // will be updated with roles and perms
         $is_a = $this->is_admin();
-
         if ($is_a == true) {
             return true;
         } else {
@@ -287,7 +262,6 @@ class UserManager
 
     public function admin_access()
     {
-
         if ($this->is_admin() == false) {
             exit('You must be logged as admin');
         }
@@ -600,9 +574,7 @@ class UserManager
 
     function csrf_validate(&$data)
     {
-
         $session_token = Session::token();
-
         if (is_array($data) and mw()->user_manager->session_id()) {
             foreach ($data as $k => $v) {
                 if ($k == 'token' or $k == '_token') {
@@ -613,7 +585,6 @@ class UserManager
                 }
             }
         }
-
     }
 
     public function hash_pass($pass)
@@ -1028,7 +999,7 @@ class UserManager
                     }
                     Auth::loginUsingId($data['id']);
 
-                    $this->app->event_manager->trigger('user_login', $data);
+                    $this->app->event_manager->trigger('mw.user.login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 
@@ -1328,19 +1299,20 @@ class UserManager
         return $value;
     }
 
+    public function session_id()
+    {
+        return Session::getId();
+    }
+
     public function session_get($name)
     {
-
-
         $value = Session::get($name);
         return $value;
-
     }
 
     function csrf_token($unique_form_name = false)
     {
         return csrf_token();
-
     }
 
     public function session_del($name)
@@ -1379,11 +1351,11 @@ class UserManager
 
         if (get_option('enable_user_microweber_registration', 'users') == 'y') {
             $svc = Config::get('services.microweber');
-            if(!isset($svc['client_id']))
+            if (!isset($svc['client_id']))
                 Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
-            if(!isset($svc['client_secret']))
+            if (!isset($svc['client_secret']))
                 Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
-            if(!isset($svc['redirect']))
+            if (!isset($svc['redirect']))
                 Config::set('services.microweber.redirect', $callback_url);
             $this->socialite->extend('microweber', function ($app) {
                 $config = $app['config']['services.microweber'];

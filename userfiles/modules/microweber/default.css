@@ -306,6 +306,7 @@ img.element{
 }
 .mw-ui-col-container{
   position: relative;
+  display: block;
   clear: both;
   padding-left:10px;
   padding-right:10px;

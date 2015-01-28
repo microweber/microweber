@@ -1303,31 +1303,31 @@ $(document).ready(function(){
             <h2>Color Picker</h2>
 
 
-           <script>
+      <script>
 
-$(window).load(function(){
-  pick1 = mw.colorPicker({
-    element:'#ttest',
-    position:'bottom-left',
-    onchange:function(color){
-      $("h2").css("color", color);
-    }
-  });
-  pick2 = mw.colorPicker({
-    element:'#resr',
-    onchange:function(color){
-      $("#main-menu").css("background", color);
-    }
-  });
-  pick3 = mw.colorPicker({
-    element:'#resr2',
-    onchange:function(color){
-      $("#main-menu").css("background", color);
-    }
-  });
-});
+        $(window).load(function(){
+          pick1 = mw.colorPicker({
+            element:'#ttest',
+            position:'bottom-left',
+            onchange:function(color){
+              $("h2").css("color", color);
+            }
+          });
+          pick2 = mw.colorPicker({
+            element:'#resr',
+            onchange:function(color){
+              $("#main-menu").css("background", color);
+            }
+          });
+          pick3 = mw.colorPicker({
+            element:'#resr2',
+            onchange:function(color){
+              $("#main-menu").css("background", color);
+            }
+          });
+        });
 
-</script>
+      </script>
     <div style="padding: 50px;">
 
         <h5>Button trigger</h5>

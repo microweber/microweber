@@ -277,26 +277,14 @@ class MenuManager
             }
 
         }
-
-        //$function_cache_id = false;
-
-
         $params = array();
         $params['item_parent'] = $menu_id;
-        // $params ['item_parent<>'] = $menu_id;
         $menu_id = intval($menu_id);
         $params_order = array();
         $params_order['position'] = 'ASC';
 
         $menus = $this->tables['menus'];
 
-        $sql = "SELECT * FROM {$menus}
-	WHERE parent_id=$menu_id
-    AND   id!=$menu_id
-	ORDER BY position ASC ";
-
-
-        //and item_type='menu_item'
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
         //  $menu_params['id'] = '[neq]'.$menu_id;
@@ -304,28 +292,9 @@ class MenuManager
         $menu_params['table'] = $menus;
         $menu_params['order_by'] = "position ASC";
 
-
         $q = $this->app->database->get($menu_params);
 
-
-//        $q = Menu::where('parent_id', '=', $menu_id);
-//        $q = $q->where('id', '!=', $menu_id)->get()->toArray();
-
-        //$q = $this->app->database->get($menu_params);
-
-        //
-//        if ($depth < 2) {
-//            $q = $this->app->database_manager->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
-//
-//        } else {
-//            $q = $this->app->database_manager->query($sql);
-//        }
-
-// @todo cleanup old code
-        //Menu::cacheTags('menus-global')->remember(5)->get();
-
-
-        // $data = $q;
+        $has_items = false;
         if (empty($q)) {
 
             return false;
@@ -497,8 +466,8 @@ class MenuManager
             }
 
             if ($title != '') {
-                //$url = $this->app->format->prep_url($url);
-                //$url = $this->app->format->auto_link($url);
+                $has_items = true;
+
                 $item['url'] = $url;
                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
@@ -637,10 +606,8 @@ class MenuManager
 
                 $to_print .= '</' . $li_tag . '>';
 
-                // $passed_ids[] = $item['id'];
             }
 
-            //  $res_count++;
             $cur_depth++;
         }
 
@@ -648,7 +615,14 @@ class MenuManager
         if ($orig_depth == 0) {
             $this->app->cache_manager->save($to_print, $function_cache_id, $cache_group);
         }
-        return $to_print;
+
+        if($has_items){
+            return $to_print;
+        } else {
+            return false;
+        }
+
+
     }
 
 

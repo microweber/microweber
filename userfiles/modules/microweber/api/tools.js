@@ -4344,7 +4344,7 @@ mw.image = {
         }
         $el[0].mwToolTipBinded = true;
         var frame = document.createElement('iframe');
-        frame.src = mw.external_tool('color_picker#test');
+        frame.src = mw.external_tool('color_picker');
         frame.frameborder = 0;
         frame.className = 'mw-picker-frame';
         frame.frameBorder = 0;
@@ -4352,7 +4352,8 @@ mw.image = {
         $(frame).bind("colorChange", function(e,val){
            options.onchange('#'+val);
            if($el[0].nodeName == 'INPUT'){
-                $el.val('#'+val);
+                var val = val == 'transparent' ? val : '#' + val;
+                $el.val(val);
            }
         });
         if(settings.method == 'inline'){

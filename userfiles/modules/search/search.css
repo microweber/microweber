@@ -2,6 +2,7 @@
 
 .mw-search-autocomplete{
   position: relative;
+  display: inline-block;
 }
 .mw-autocomplete-search-results{
   position: absolute;
@@ -25,14 +26,6 @@
 
 
 
-.mw-search-autocomplete .mw-search-autocomplete-field-holder  input{
-  border: 1px solid #E3E3E3;
-  padding: 8px 12px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-}
 
 .mw-search-autocomplete .module-posts-template-search > ul > li{
   border-bottom: 1px solid #efecec;
@@ -55,6 +48,7 @@
 
 .mw-search-autocomplete .mw-search-autocomplete-field-holder{
   position: relative;
+  display: inline-block;
 }
 
 .mw-search-autocomplete .mw-search-autocomplete-field-holder:after{
