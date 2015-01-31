@@ -311,7 +311,7 @@
                                         <?php _e("Password"); ?>
                                     </label>
                                     <input type="password" class="mw-ui-field"
-                                           name="db_pass" value="<?php if(isset($config['password'])) echo $config['password']; ?>"" />
+                                           name="db_pass" value="<?php if(isset($config['password'])) echo $config['password']; ?>" />
                                 </div>
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label">
@@ -331,7 +331,7 @@
                                         </span>
                                     </label>
                                     <input type="text" class="mw-ui-field" autofocus
-                                           name="db_name" value="<?php if($dbDefaultEngine=='sqlite' && isset($config['database'])) echo $config['database']; ?>"/>
+                                           name="db_name_sqlite" value="<?php if($dbDefaultEngine=='sqlite' && isset($config['database'])) echo $config['database']; ?>"/>
                                 </div>
                             </div>
                             <div class="mw-ui-field-holder">

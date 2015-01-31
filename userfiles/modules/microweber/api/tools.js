@@ -4363,11 +4363,20 @@ mw.image = {
         else{
             var tip = mw.tooltip(settings), $tip = $(tip).hide();
             mw.$('.mw-tooltip-content', tip).empty().append(frame);
-                $el.bind('click', function(){
-                $(tip).toggle();
-                mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
-            });
-            $(document.body).bind('click focus', function(e){
+            if($el[0].nodeName == 'INPUT'){
+              $el.bind('focus', function(e){
+                  $(tip).show();
+                  mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
+              });
+            }
+            else{
+              $el.bind('click', function(e){
+                  $(tip).toggle();
+                  mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
+              });
+            }
+
+            $(document.body).bind('click', function(e){
                 if(!mw.tools.isEventOnElements(e, [$el[0] ,tip])){
                     $(tip).hide();
                 }
@@ -4375,7 +4384,7 @@ mw.image = {
             if($el[0].nodeName == 'INPUT'){
               $el.bind('blur', function(){
                    $(tip).hide();
-              })
+              });
             }
         }
     }

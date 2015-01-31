@@ -177,6 +177,7 @@ class UpdateManager
 
         if ($dl_get != false and is_string($dl_get)) {
             $dl_get = json_decode($dl_get, true);
+
             if (isset($dl_get['url'])) {
                 return $this->install_from_market($dl_get);
             }
@@ -581,6 +582,7 @@ class UpdateManager
             $item['download'] = $item['download_url'];
         }
 
+
         $download_target = false;
         if (isset($item['download']) and !isset($item['size'])) {
             $url = $item['download'];
@@ -637,6 +639,7 @@ class UpdateManager
 
         if ($download_target != false and is_file($download_target)) {
             $where_to_unzip = MW_ROOTPATH;
+
             if (isset($item['item_type'])) {
                 if ($item['item_type'] == 'module') {
                     $where_to_unzip = modules_path();
@@ -653,7 +656,6 @@ class UpdateManager
                         $where_to_unzip = $where_to_unzip . DS . $item['install_path'] . DS . 'templates' . DS;
                     } else {
                         $where_to_unzip = $where_to_unzip . DS . $item['install_path'];
-
                     }
 
                 }

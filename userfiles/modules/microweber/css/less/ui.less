@@ -582,39 +582,62 @@ input.mw-ui-btn{ -webkit-appearance: none; }
 .mw-ui-btn-invert{
   color: @buttonColor;
   background-color: @invert;
-  border-color: transparent;
+  border-color: @invert;
 }
+.mw-ui-btn-outline.mw-ui-btn-invert{ color: @invert; }
 
 .mw-ui-btn-important{
   color: @buttonColor;
   background-color: @important;
-  border-color: transparent;
+  border-color: @important;
 }
+.mw-ui-btn-outline.mw-ui-btn-important{ color: @important; }
 
 .mw-ui-btn-info{
   color: @buttonColor;
   background-color: @info;
-  border-color: transparent;
+  border-color: @info;
 }
+
+.mw-ui-btn-outline.mw-ui-btn-info{ color: @info; }
 
 .mw-ui-btn-notification{
   color: @buttonColor;
   background-color: @notification;
-  border-color: transparent;
+  border-color: @notification;
 }
+
+.mw-ui-btn-outline.mw-ui-btn-notification{ color: @notification; }
 
 .mw-ui-btn-warn{
   color: @buttonColor;
   background-color: @warn;
-  border-color: transparent;
+  border-color: @warn;
 }
+
+.mw-ui-btn-outline.mw-ui-btn-warn{ color: @warn; }
 
 .mw-ui-btn.default-invert.active,
 .mw-ui-btn.default-invert:hover,
 .mw-ui-btn.default-invert:focus{
    background-color: @invert;
-   border-color: transparent;
+   border-color: @invert;
    color: white;
+}
+
+
+.mw-ui-btn-outline.mw-ui-btn-invert.active, .mw-ui-btn-outline.mw-ui-btn-invert:hover, .mw-ui-btn-outline.mw-ui-btn-invert:focus{ color: white; }
+.mw-ui-btn-outline.mw-ui-btn-important.active, .mw-ui-btn-outline.mw-ui-btn-important:hover, .mw-ui-btn-outline.mw-ui-btn-important:focus{ color: white; }
+.mw-ui-btn-outline.mw-ui-btn-info.active, .mw-ui-btn-outline.mw-ui-btn-info:hover, .mw-ui-btn-outline.mw-ui-btn-info:focus{ color: white; }
+.mw-ui-btn-outline.mw-ui-btn-warn.active, .mw-ui-btn-outline.mw-ui-btn-warn:hover, .mw-ui-btn-outline.mw-ui-btn-warn:focus{ color: white; }
+.mw-ui-btn-outline.mw-ui-btn-notification.active, .mw-ui-btn-outline.mw-ui-btn-notification:hover, .mw-ui-btn-outline.mw-ui-btn-notification:focus{ color: white; }
+
+.mw-ui-btn-outline,
+.mw-ui-btn-outline.active,
+.mw-ui-btn-outline:hover,
+.mw-ui-btn-outline:focus{
+   background-color: transparent;
+   border-width: 1px;
 }
 
 
@@ -2622,9 +2645,9 @@ html.mw-loading:after{
 }
 
 .mw-picker-frame{
-    overflow: hidden;
-    width: 280px;
-    height: 280px;
+  overflow: hidden;
+  width: 280px;
+  height: 280px;
 }
 
 

@@ -421,7 +421,7 @@ class UserManager
                             $data = $data[0];
 
                             if (isset($data['api_key']) and $data['api_key'] == $api_key) {
-                                return Auth::loginUsingId($data['id']);
+                                return $this->make_logged($data['id']);
                             }
 
                         }
@@ -997,7 +997,23 @@ class UserManager
                     if (!defined('USER_ID')) {
                         define("USER_ID", $data['id']);
                     }
-                    Auth::loginUsingId($data['id']);
+
+//                    $sess_name  = 	Session::getName();
+//                    dd($sess_name);
+
+                    $old_sid = Session::getId();
+                    $user_session['old_session_id'] = $old_sid;
+                    $current_user = Auth::user();
+                    if ((isset($current_user->id) and $current_user->id == $user_id)) {
+                        Auth::login(Auth::user());
+                    } else {
+                        Auth::loginUsingId($data['id']);
+                    }
+
+
+//
+//                    Session::setId($old_sid);
+//                    Session::save();
 
                     $this->app->event_manager->trigger('mw.user.login', $data);
                     $this->session_set('user_session', $user_session);
@@ -1277,6 +1293,8 @@ class UserManager
 
     public function session_set($name, $val)
     {
+        $this->app->event_manager->trigger('mw.user.session_set', $name, $val);
+
         return Session::put($name, $val);
     }
 
@@ -1301,6 +1319,7 @@ class UserManager
 
     public function session_id()
     {
+
         return Session::getId();
     }
 

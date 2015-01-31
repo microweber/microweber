@@ -1411,34 +1411,81 @@ input.mw-ui-btn {
 .mw-ui-btn-invert {
   color: #ffffff;
   background-color: #262626;
-  border-color: transparent;
+  border-color: #262626;
+}
+.mw-ui-btn-outline.mw-ui-btn-invert {
+  color: #262626;
 }
 .mw-ui-btn-important {
   color: #ffffff;
   background-color: #c72943;
-  border-color: transparent;
+  border-color: #c72943;
+}
+.mw-ui-btn-outline.mw-ui-btn-important {
+  color: #c72943;
 }
 .mw-ui-btn-info {
   color: #ffffff;
   background-color: #4494c7;
-  border-color: transparent;
+  border-color: #4494c7;
+}
+.mw-ui-btn-outline.mw-ui-btn-info {
+  color: #4494c7;
 }
 .mw-ui-btn-notification {
   color: #ffffff;
   background-color: #48ad79;
-  border-color: transparent;
+  border-color: #48ad79;
+}
+.mw-ui-btn-outline.mw-ui-btn-notification {
+  color: #48ad79;
 }
 .mw-ui-btn-warn {
   color: #ffffff;
   background-color: #ef924d;
-  border-color: transparent;
+  border-color: #ef924d;
+}
+.mw-ui-btn-outline.mw-ui-btn-warn {
+  color: #ef924d;
 }
 .mw-ui-btn.default-invert.active,
 .mw-ui-btn.default-invert:hover,
 .mw-ui-btn.default-invert:focus {
   background-color: #262626;
-  border-color: transparent;
+  border-color: #262626;
   color: white;
+}
+.mw-ui-btn-outline.mw-ui-btn-invert.active,
+.mw-ui-btn-outline.mw-ui-btn-invert:hover,
+.mw-ui-btn-outline.mw-ui-btn-invert:focus {
+  color: white;
+}
+.mw-ui-btn-outline.mw-ui-btn-important.active,
+.mw-ui-btn-outline.mw-ui-btn-important:hover,
+.mw-ui-btn-outline.mw-ui-btn-important:focus {
+  color: white;
+}
+.mw-ui-btn-outline.mw-ui-btn-info.active,
+.mw-ui-btn-outline.mw-ui-btn-info:hover,
+.mw-ui-btn-outline.mw-ui-btn-info:focus {
+  color: white;
+}
+.mw-ui-btn-outline.mw-ui-btn-warn.active,
+.mw-ui-btn-outline.mw-ui-btn-warn:hover,
+.mw-ui-btn-outline.mw-ui-btn-warn:focus {
+  color: white;
+}
+.mw-ui-btn-outline.mw-ui-btn-notification.active,
+.mw-ui-btn-outline.mw-ui-btn-notification:hover,
+.mw-ui-btn-outline.mw-ui-btn-notification:focus {
+  color: white;
+}
+.mw-ui-btn-outline,
+.mw-ui-btn-outline.active,
+.mw-ui-btn-outline:hover,
+.mw-ui-btn-outline:focus {
+  background-color: transparent;
+  border-width: 1px;
 }
 /* Sizes */
 .mw-ui-btn-large,

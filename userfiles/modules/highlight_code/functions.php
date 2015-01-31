@@ -28,4 +28,6 @@ function mw_hl_code_css(){
 
 	/*template_head('<script>hljs.initHighlightingOnLoad()</script>');*/
 }
-event_bind("mw_frontend","mw_hl_code_css"); 
+event_bind("mw_frontend",function ($params=false) {
+    return mw_hl_code_css($params);
+});

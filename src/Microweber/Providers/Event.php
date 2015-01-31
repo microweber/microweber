@@ -62,7 +62,14 @@ class Event
      */
     public function trigger($event_name, $data = false)
     {
-        return self::$adapter->fire($event_name, $data);
+
+        $args = func_get_args();
+        $query = array_shift($args);
+        if(count($args) == 1){
+            $args = $args[0];
+        }
+
+        return self::$adapter->fire($event_name, $args);
     }
 
 

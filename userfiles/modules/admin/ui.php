@@ -160,8 +160,26 @@ $(window).load(function(){
        </td>
     </tr>
     <tr>
-      <td colspan="2">
+      <td colspan="2" id="dabuttons">
             <h2>Buttons</h2>
+
+            <script>
+
+            __to = function(){
+                if($("#dabuttons .mw-ui-btn-outline").length === 0){
+
+                  $("#dabuttons .mw-ui-btn").addClass('mw-ui-btn-outline');
+                }
+                else{
+
+                  $("#dabuttons .mw-ui-btn").removeClass('mw-ui-btn-outline');
+                }
+
+            }
+
+            </script>
+
+            <span class="mw-ui-btn" onclick="__to();">Toggle Outline Type</span>
 
 
     <h3>Default</h3>

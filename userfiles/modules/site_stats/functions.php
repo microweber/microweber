@@ -15,10 +15,14 @@ if (!defined('MW_USER_IP')) {
 
 
 
-event_bind('mw.admin.dashboard.content', 'mw_print_stats_on_dashboard');
+ event_bind('mw.admin.dashboard.content', function ($params = false) {
+    return mw_print_stats_on_dashboard($params);
+});
 
 
-event_bind('mw_admin_quick_stats_by_session', 'mw_print_quick_stats_by_session');
+ event_bind('mw_admin_quick_stats_by_session', function ($params = false) {
+    return mw_print_quick_stats_by_session($params);
+});
 function mw_print_quick_stats_by_session($sid = false)
 {
 
@@ -41,7 +45,9 @@ function mw_print_stats_on_dashboard()
 }
  
 
-event_bind('frontend', 'stats_append_image');
+ event_bind('frontend', function ($params = false) {
+    return stats_append_image($params);
+});
 
 function stats_append_image($layout = false)
 {

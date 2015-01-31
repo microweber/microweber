@@ -1,8 +1,22 @@
 <?php
 
 
-event_bind('mw.admin', 'mw_add_admin_menu_buttons');
-event_bind('mw.live_edit', 'mw_add_admin_menu_buttons');
+
+//event_bind('mw.user.session_set', function ($name, $val) {
+////    d($val);
+////    dd($name);
+//});
+
+event_bind('mw.admin', function ($params = false) {
+    return mw_add_admin_menu_buttons($params);
+});
+event_bind('mw.admin.dashboard.main', function ($params = false) {
+    return mw_print_hostind_data($params);
+});
+//event_bind('mw.live_edit', 'mw_add_admin_menu_buttons');
+event_bind('mw.admin', function ($params = false) {
+    return mw_add_admin_menu_buttons($params);
+});
 function mw_add_admin_menu_buttons($params = false)
 {
 
@@ -11,7 +25,7 @@ function mw_add_admin_menu_buttons($params = false)
 
         $btn = array();
         $btn['content_type'] = 'product';
-      //  $btn['subtype'] = 'product';
+        //  $btn['subtype'] = 'product';
         $btn['title'] = _e("Product", true);
         $btn['class'] = 'mw-icon-product';
         mw()->modules->ui('content.create.menu', $btn);

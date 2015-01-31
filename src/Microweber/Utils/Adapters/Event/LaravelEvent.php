@@ -18,6 +18,13 @@ class LaravelEvent
     public static function fire($api_function, $data = false)
     {
 
+
+//        $args = func_get_args();
+//        $query = array_shift($args);
+//        if(count($args) == 1){
+//            $args = $args[0];
+//        }
+
         if (isset(self::$hooks[$api_function])) {
             $fns = self::$hooks[$api_function];
 

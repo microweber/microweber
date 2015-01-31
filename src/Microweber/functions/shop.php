@@ -127,3 +127,6 @@ function create_mw_shop_default_options()
 {
     return mw()->shop_manager->create_mw_shop_default_options();
 }
+
+
+

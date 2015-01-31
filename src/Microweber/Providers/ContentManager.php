@@ -2767,6 +2767,15 @@ class ContentManager
             }
         }
 
+        if (isset($data['id']) and $data['id'] != 0) {
+            if (!is_admin()) {
+                $check = get_content_by_id($data['id']);
+                if ($check['created_by'] != user_id()) {
+                    return array('error' => "Wrong content");
+                }
+            }
+        }
+
         if (isset($data['content_url']) and !isset($data['url'])) {
             $data['url'] = $data['content_url'];
         }
@@ -2947,15 +2956,15 @@ class ContentManager
         }
 
 
-        if (isset($data_to_save['is_shop']) and $data_to_save['is_shop'] == 'y') {
+        if (isset($data_to_save['is_shop']) and $data_to_save['is_shop'] === 'y') {
             $data_to_save['is_shop'] = 1;
-        } elseif (isset($data_to_save['is_shop']) and $data_to_save['is_shop'] == 'n') {
+        } elseif (isset($data_to_save['is_shop']) and $data_to_save['is_shop'] === 'n') {
             $data_to_save['is_shop'] = 0;
         }
 
-        if (isset($data_to_save['require_login']) and $data_to_save['require_login'] == 'y') {
+        if (isset($data_to_save['require_login']) and $data_to_save['require_login'] === 'y') {
             $data_to_save['require_login'] = 1;
-        } elseif (isset($data_to_save['require_login']) and $data_to_save['require_login'] == 'n') {
+        } elseif (isset($data_to_save['require_login']) and $data_to_save['require_login'] === 'n') {
             $data_to_save['require_login'] = 0;
         }
 
@@ -3158,8 +3167,6 @@ class ContentManager
 
 
         $cats_modified = true;
-
-
 
 
         if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url_manager->site()) {
@@ -3451,7 +3458,7 @@ class ContentManager
             return;
         }
         if ($menu_id != false) {
-          //  $_REQUEST['add_content_to_menu'] = array( $menu_id);
+            //  $_REQUEST['add_content_to_menu'] = array( $menu_id);
 
 
         }
@@ -3491,7 +3498,6 @@ class ContentManager
         }
 
 
-
         if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
 
             Menu::where('content_id', $content_id)
@@ -3499,7 +3505,7 @@ class ContentManager
                 ->whereNotIn('parent_id', $add_to_menus_int)
                 ->delete();
             foreach ($add_to_menus_int as $value) {
-              //  $check = $this->app->menu_manager->get_menu_items("parent_id={$value}&content_id=$content_id");
+                //  $check = $this->app->menu_manager->get_menu_items("parent_id={$value}&content_id=$content_id");
 
                 $check = Menu::where('content_id', $content_id)
                     ->where('item_type', 'menu_item')

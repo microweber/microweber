@@ -61,9 +61,6 @@ class ShopManager
 
     public function checkout($data)
     {
-        if (!mw()->user_manager->session_id() and !headers_sent()) {
-            // //session_start();
-        }
 
 
         $exec_return = false;
@@ -1020,6 +1017,7 @@ class ShopManager
         $cart = array();
         $cart['id'] = intval($data['id']);
         $cart['session_id'] = mw()->user_manager->session_id();
+
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
         $cart['limit'] = 1;
@@ -1247,6 +1245,7 @@ class ShopManager
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['order_completed'] = 0;
             $cart['session_id'] = mw()->user_manager->session_id();
+
             $cart['limit'] = 1;
             $check_cart = $this->get_cart($cart);
             if ($check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
