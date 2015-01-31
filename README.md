@@ -30,15 +30,44 @@ Clone this repository (or download as zip) on your server and run `composer inst
 
 ## Requirements
 
-The following server requirements are needed:
-* Web server (Apache, IIS)
+### General Requirements
+* HTTP server ([Apache](http://httpd.apache.org/), [IIS](http://www.iis.net/downloads), [nginx](http://nginx.org/en/download.html), etc.)
+* Database server
 * PHP 5.4 or above
-* MySQL 5 or above
-* PDO with MySQL support
-* mod_rewrite must be enabled
-* lib-xml must be enabled, with DOM support
-* GD php extension must be loaded
-* Mcrypt php extension 
+* The `lib-xml` must be enabled (with DOM support)
+* The `GD` PHP extension
+* The `Mcrypt` PHP extension 
+
+### HTTP Server
+
+#### Apache
+The `mod_rewrite` module must be enabled in your Apache configuration. Microweber creates the necessary `.htaccess` files during installation if you're running on Apache.
+
+### IIS
+You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/extensions/url-rewrite-module/importing-apache-modrewrite-rules). Make sure you have enabled [the URL Rewrite module](http://www.iis.net/learn/extensions/url-rewrite-module/using-the-url-rewrite-module) for your website.
+
+#### NginX
+Add this `location` directive to your `server` configuration block. The `root` directive must point to the root of your Microweber website.
+```
+server {
+  (...)
+  location / {
+    try_files $uri $uri/ /index.php$is_args$args;
+  }
+  (...)
+}
+```
+
+### Database
+You have several choices for database engine. For small websites we highly recommend SQLite.
+* MySQL
+* SQLite
+* Microsoft SQL Server
+* PostgreSQL
+
+On the installation screen you can only choose from database drivers your PHP configuration already supports.
+If you don't see your server of choice in the list youhave to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server.
+PHP usually comes with PDO enabled by default.
 
 ## Contribute
 We are looking for people who want to help us improve Microweber. 
