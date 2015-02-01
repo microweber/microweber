@@ -48,10 +48,10 @@ class MicroweberServiceProvider extends ServiceProvider
         {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
+                $domain = str_ireplace('www.','',$domain);
                 return $domain;
             });
         }
-
 
         $this->app->instance('config', new Providers\ConfigSave($this->app));
 

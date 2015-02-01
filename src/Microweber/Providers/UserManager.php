@@ -179,6 +179,7 @@ class UserManager
         } elseif ($overiden == true) {
             return $return_resp;
         }
+        $old_sid = Session::getId();
 
         if (isset($params['username'])) {
             $ok = Auth::attempt([
@@ -197,8 +198,10 @@ class UserManager
             return;
         }
         if ($ok) {
-            $user_data = Auth::user();
-            $this->make_logged($user_data->id);
+            $user = Auth::user();
+            $user_data = $this->get_by_id($user->id);
+            $user_data['old_sid'] = $old_sid;
+            $this->app->event_manager->trigger('mw.user.login',$user_data);
             if ($ok && $redirect_after) {
                 return $this->app->url_manager->redirect($redirect_after);;
             } else if ($ok) {
@@ -998,10 +1001,8 @@ class UserManager
                         define("USER_ID", $data['id']);
                     }
 
-//                    $sess_name  = 	Session::getName();
-//                    dd($sess_name);
-
-                    $old_sid = Session::getId();
+              $old_sid = Session::getId();
+                    $data['old_sid'] = $old_sid;
                     $user_session['old_session_id'] = $old_sid;
                     $current_user = Auth::user();
                     if ((isset($current_user->id) and $current_user->id == $user_id)) {

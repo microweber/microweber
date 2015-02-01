@@ -2,10 +2,7 @@
 
 
 
-//event_bind('mw.user.session_set', function ($name, $val) {
-////    d($val);
-////    dd($name);
-//});
+
 
 event_bind('mw.admin', function ($params = false) {
     return mw_add_admin_menu_buttons($params);
@@ -86,3 +83,13 @@ event_bind('module.content.edit.main', function ($data) {
     }
 });
 
+
+
+event_bind('mw.user.login', function ($data) {
+    if(is_array($data) and isset($data['old_sid'])){
+        $cur_sid = mw()->user_manager->session_id();
+
+        Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
+        mw()->cache_manager->delete('cart');
+    }
+});

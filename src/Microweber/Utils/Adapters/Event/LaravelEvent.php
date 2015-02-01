@@ -19,12 +19,6 @@ class LaravelEvent
     {
 
 
-//        $args = func_get_args();
-//        $query = array_shift($args);
-//        if(count($args) == 1){
-//            $args = $args[0];
-//        }
-
         if (isset(self::$hooks[$api_function])) {
             $fns = self::$hooks[$api_function];
 
@@ -44,12 +38,22 @@ class LaravelEvent
             }
 
         }
-        return Event::fire($api_function, array($data));
+        $args = func_get_args();
+        $query = array_shift($args);
+        if (count($args) == 1) {
+            $args = $args[0];
+            if (is_array($args)) {
+                $args = array($args);
+            }
+        }
+
+        return Event::fire($api_function, $args);
     }
 
     public static function event_bind($hook_name, $callback = false)
     {
-        if (is_string($callback) and (function_exists($callback)) or is_callable($callback)) {
+        //if (is_string($callback) and (function_exists($callback)) or is_callable($callback)) {
+        if (is_string($callback) and (function_exists($callback))) {
             if (!isset(self::$hooks[$hook_name])) {
                 self::$hooks[$hook_name] = array();
             }
