@@ -47,6 +47,7 @@ class UrlManager
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_ireplace($this->site_url(), '', $path);
 
         if(function_exists('base_path')){
             $replace_file = base_path();
@@ -377,11 +378,11 @@ class UrlManager
             }
 
             $pageURL .= "://";
-            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80" and $_SERVER["SERVER_PORT"] != "443") {
                 $pageURL .= $_SERVER["HTTP_HOST"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["HTTP_HOST"])) {
                 $pageURL .= $_SERVER["HTTP_HOST"];
-            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80" and $_SERVER["SERVER_PORT"] != "443") {
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["SERVER_NAME"])) {
                 $pageURL .= $_SERVER["SERVER_NAME"];

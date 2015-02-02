@@ -198,8 +198,8 @@ class UserManager
             return;
         }
         if ($ok) {
-            $user = Auth::user();
-            $user_data = $this->get_by_id($user->id);
+            $user = Auth::login(Auth::user());
+            $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
             $this->app->event_manager->trigger('mw.user.login',$user_data);
             if ($ok && $redirect_after) {
@@ -668,9 +668,12 @@ class UserManager
                     if ($adm == false) {
                         $params['id'] = $this->id();
                         $is_logged = user_id();
+
                         if (intval($params['id']) != 0 and $is_logged != $params['id']) {
                             return array('error' => 'You must be logged save your settings');
                         }
+                    } else {
+
                     }
                 }
             }
@@ -697,8 +700,10 @@ class UserManager
                 $check_existing['email'] = $email;
                 $check_existing['single'] = 1;
                 $check_existing = $this->get_all($check_existing);
+
+
                 if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
-                    return array('error' => 'User with this email already exists!');
+                    return array('error' => 'User with this email already exists! Try different email address!');
                 }
             }
         }

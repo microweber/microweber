@@ -175,6 +175,9 @@ class UpdateManager
 
         $dl_get = $this->call('get_market_dl_link', $params);
 
+
+
+
         if ($dl_get != false and is_string($dl_get)) {
             $dl_get = json_decode($dl_get, true);
 

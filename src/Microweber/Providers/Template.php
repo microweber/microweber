@@ -616,7 +616,6 @@ class Template
             }
         }
 
-
         if ($render_file != false and (isset($page['content_type']) and ($page['content_type']) != 'page')) {
             $f1 = $render_file;
             $f2 = $render_file;
@@ -745,6 +744,7 @@ class Template
                 $page['active_site_template'] = 'default';
             }
         }
+
 
 
         if ($render_file == false and isset($page['content_type']) and ($page['content_type'] == 'page') and isset($page['layout_file']) and trim($page['layout_file']) == 'inherit') {
