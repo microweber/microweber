@@ -22,7 +22,10 @@ class AdminController extends Controller
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
-            App::abort(403, 'Unauthorized action. Microweber is not installed.');
+            if (!$is_installed) {
+                $installer = new InstallController();
+                return $installer->index();
+            }
         }
 
 

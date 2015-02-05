@@ -65,7 +65,14 @@ class ConfigSave extends Repository
         // $allow_in_cli = array('database', 'microweber');
         // Preparing data
         foreach ($aggr as $file => $items) {
+
+
             $path = $this->app->configPath() . '/' . $this->app->environment() . '/';
+            if (!is_dir($path)) {
+                $path = $this->app->configPath() . '/';
+            }
+
+
             $to_save = true;
             if (!empty($allowed)) {
                 if (!in_array($file, $allowed)) {
@@ -78,8 +85,8 @@ class ConfigSave extends Repository
                     File::makeDirectory($path);
                 }
                 $path .= $file . '.php';
-                $code = '<?php return ' . var_export($this->items[$file], true) . ';';
-
+                $val = var_export($this->items[$file], true);
+                $code = '<?php return ' . $val . ';';
                 // Storing data
                 File::put($path, $code);
             }
