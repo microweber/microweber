@@ -542,8 +542,7 @@ class UpdateManager
 
                 $this->post_update();
                 return $result;
-                // skip_cache
-            }
+             }
 
         }
 

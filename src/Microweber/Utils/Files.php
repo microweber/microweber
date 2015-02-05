@@ -391,25 +391,26 @@ class Files
     function download_to_browser($filename)
     {
         if (file_exists($filename)) {
-            if (function_exists('mime_content_type')) {
-                $this->_readfile_laravel_chunked($filename);
-            } else {
-                $name = basename($filename);
-                $ext = get_file_extension($filename);
+            $name = basename($filename);
+            $ext = get_file_extension($filename);
 
-                header('Cache-Control: public');
-                if ($ext == 'zip') {
-                    header("Content-Type: application/zip");
-                    header("Content-Transfer-Encoding: Binary");
-                } else if ($ext == 'sql') {
-                    header("Content-type: text/plain; charset=utf-8");
-                }
-                header('Content-Description: File Transfer');
-                header('Content-Disposition: attachment; filename=' . $name);
-                header('Content-Length: ' . filesize($filename));
-                readfile($filename);
-                exit;
+            header('Cache-Control: public');
+            if ($ext == 'zip') {
+                header("Content-Type: application/zip");
+                header("Content-Transfer-Encoding: Binary");
+            } else if ($ext == 'sql') {
+                header("Content-type: text/plain; charset=utf-8");
             }
+            header('Content-Description: File Transfer');
+            header('Content-Disposition: attachment; filename=' . $name);
+            header('Content-Length: ' . filesize($filename));
+            readfile($filename);
+            exit;
+//            if (function_exists('mime_content_type')) {
+//                $this->_readfile_laravel_chunked($filename);
+//            } else {
+//
+//            }
             //$this->_readfile_chunked($filename);
 
         }
