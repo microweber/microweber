@@ -359,6 +359,7 @@ class UpdateManager
 
             if (is_array($work) and !empty($work)) {
                 foreach ($work as $k => $items) {
+
                     if (is_array($items) and !empty($items)) {
                         foreach ($items as $ik => $item) {
                             $msg = '';
@@ -376,6 +377,7 @@ class UpdateManager
                             $msg .= $item . "\n";
 
                             $queue = array($k => array(0 => $item));
+
                             $is_done = $this->apply_updates($queue);
 
                             $msg_log = $this->_log_msg(true);
@@ -405,11 +407,16 @@ class UpdateManager
                     } else {
                         unset($work[$k]);
 
-                        $this->composer_run();
+                      ///  $this->composer_run();
+                        if($k == 'mw_version'){
+                            $install = array('mw_version'=>'latest');
+                            $is_done = $this->apply_updates($install);
+                        }
 
 
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
                         $msg = "Installed all " . $k . "\n";
+                        $msg = "Installed " . "\n";
                         return $msg;
                     }
                 }
@@ -508,12 +515,13 @@ class UpdateManager
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(0);
         }
+        $params['mw_version'] = MW_VERSION;
 
         $params['core_update'] = $new_version;
         $params['mw_update_check_site'] = $this->app->url_manager->site();
 
         $result = $this->call('get_download_link', $params);
-
+ 
         if (isset($result["core_update"])) {
 
             $value = trim($result["core_update"]);
