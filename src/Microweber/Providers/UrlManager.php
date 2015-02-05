@@ -283,10 +283,11 @@ class UrlManager
                 $protocol = $this->strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/") . $s;
             }
             if (isset($_SERVER["SERVER_PORT"])) {
-                $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
+                $port = ($_SERVER["SERVER_PORT"] == "80" || $_SERVER["SERVER_PORT"] == "443") ? "" : (":" . $_SERVER["SERVER_PORT"]);
             }
-            if (isset($_SERVER["SERVER_PORT"])) {
-                $u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
+
+            if (isset($_SERVER["SERVER_PORT"]) and isset($_SERVER['HTTP_HOST'])) {
+                $u = $protocol . "://" . $_SERVER['HTTP_HOST'] . $port . $serverrequri;
             } elseif (isset($_SERVER["HOSTNAME"])) {
                 $u = $protocol . "://" . $_SERVER['HOSTNAME'] . $port . $serverrequri;
             }

@@ -315,9 +315,9 @@ class Database
         if ($params['id'] == 0 && $user_id) {
             $params['created_by'] = $user_id;
         }
-        if ($user_id)
+        if ($user_id){
             $params['edited_by'] = $user_id;
-
+        }
         $params = $this->map_array_to_table($table, $params);
 
         $id_to_return = false;
@@ -326,6 +326,7 @@ class Database
         $params['id'] = intval($params['id']);
         if (intval($params['id']) == 0) {
             unset($params['id']);
+
             $id_to_return = $query->insert($params);
             $params['id'] = $id_to_return = DB::getPdo()->lastInsertId();
         } else {

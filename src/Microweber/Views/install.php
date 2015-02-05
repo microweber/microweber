@@ -331,7 +331,7 @@
                                         </span>
                                     </label>
                                     <input type="text" class="mw-ui-field" autofocus
-                                           name="db_name_sqlite" value="<?php if($dbDefaultEngine=='sqlite' && isset($config['database'])) echo $config['database']; ?>"/>
+                                           name="db_name_sqlite" value="<?php if(isset($config['db_name_sqlite'])) echo $config['db_name_sqlite']; ?>"/>
                                 </div>
                             </div>
                             <div class="mw-ui-field-holder">

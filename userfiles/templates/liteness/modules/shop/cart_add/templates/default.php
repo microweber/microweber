@@ -75,6 +75,7 @@ else{
 <?php endforeach ; ?>
  <?php } else{   ?>
 <?php  foreach($data  as $key => $v ): ?>
+    <script>LocalPrice = "<?php print $v; ?>";</script>
     <div class="mw-price-item">
       <span class="mw-price">
       <small>

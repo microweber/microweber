@@ -101,6 +101,18 @@ class DefaultOptionsInstaller
         $option->save();
 
 
+        $existing = DB::table('options')->where('option_key', 'currency')
+            ->where('option_group', 'payments')->first();
+        if ($existing != false) {
+            $option = Option::find($existing->id);
+        } else {
+            $option = new Option;
+        }
+        $option->option_key = 'currency';
+        $option->option_group = 'payments';
+        $option->option_value = "USD";
+        $option->save();
+
 
     }
 

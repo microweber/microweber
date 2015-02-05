@@ -97,15 +97,16 @@ class InstallController extends Controller
 
             Config::set("database.default", $dbDriver);
             if ($dbDriver == 'sqlite') {
-				
-				$input['db_name'] = $input['db_name_sqlite'];
-				
+
+                if (isset($input['db_name_sqlite'])) {
+                    $input['db_name'] = $input['db_name_sqlite'];
+                }
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
                 if (!file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
             }
- 
+
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
             Config::set("database.connections.$dbDriver.username", $input['db_user']);
             Config::set("database.connections.$dbDriver.password", $input['db_pass']);
@@ -179,7 +180,7 @@ class InstallController extends Controller
 
         $defaultDbEngine = Config::get('database.default');
         if (extension_loaded('pdo_sqlite')) {
-           // $defaultDbEngine = 'sqlite';
+            // $defaultDbEngine = 'sqlite';
         }
 
         $dbEngines = Config::get('database.connections');
@@ -199,15 +200,23 @@ class InstallController extends Controller
                 'pgsql' => 'PostgreSQL'
             ]
         ];
-
-
-        if (!$viewData['config']['prefix']) {
+        $domain = false;
+        if (isset($_SERVER['HTTP_HOST'])) {
             $domain = $_SERVER['HTTP_HOST'];
+            $domain = str_replace('www.', '', $domain);
             $domain = str_replace('.', '_', $domain);
             $domain = str_replace('-', '_', $domain);
             $domain = substr($domain, 0, 10);
+        }
+        if (!$viewData['config']['prefix'] and $domain) {
+
             $viewData['config']['prefix'] = $domain . '_';
         }
+        if (extension_loaded('pdo_sqlite') and $domain) {
+            $sqlite_path = normalize_path( storage_path().DS.$domain.'.sqlite',false);
+            $viewData['config']['db_name_sqlite'] = $sqlite_path;
+        }
+
 
         $layout->set($viewData);
 

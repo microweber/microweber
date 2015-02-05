@@ -92,7 +92,7 @@ if (is_admin() != false) {
         if (!empty($user) and isset($user["is_active"]) and $user["is_active"] == 1) {
 
             $are_allowed = 'img';
-            $_REQUEST["path"] = 'media/'.$host_dir.'user_uploads/user/' . DS . $user["id"] . DS;
+            $_REQUEST["path"] = 'media/'.$host_dir.DS.'user_uploads/user/' . DS . $user["id"] . DS;
             $allowed_to_upload = 1;
         }
 

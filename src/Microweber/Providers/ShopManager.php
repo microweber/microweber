@@ -1327,13 +1327,14 @@ class ShopManager
         $sid = mw()->user_manager->session_id();
         $cart_table = $this->tables['cart'];
 
-        $q = " DELETE FROM $cart_table WHERE
-			order_completed=0 AND session_id='{$sid}'
-		";
+
+        \Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
+
+
 
         $this->no_cache = true;
 
-        $this->app->database->q($q);
+
         $this->app->cache_manager->delete('cart');
 
         $this->app->cache_manager->delete('cart_orders/global');

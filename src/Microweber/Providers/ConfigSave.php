@@ -69,6 +69,7 @@ class ConfigSave extends Repository
             $to_save = true;
             if (!empty($allowed)) {
                 if (!in_array($file, $allowed)) {
+
                     $to_save = false;
                 }
             }

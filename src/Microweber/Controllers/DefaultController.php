@@ -1441,6 +1441,7 @@ class DefaultController extends Controller
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
+
                             }
 
                             if (is_array($page_url_segment_3)) {

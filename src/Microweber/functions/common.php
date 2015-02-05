@@ -45,11 +45,11 @@ if(!function_exists('site_url')){
             }
 
             $pageURL .= "://";
-            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80" and $_SERVER["SERVER_PORT"] != "443") {
                 $pageURL .= $_SERVER["HTTP_HOST"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["HTTP_HOST"])) {
                 $pageURL .= $_SERVER["HTTP_HOST"];
-            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80"  and $_SERVER["SERVER_PORT"] != "443") {
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["SERVER_NAME"])) {
                 $pageURL .= $_SERVER["SERVER_NAME"];

@@ -253,7 +253,7 @@ mw.askusertostay = false;
     sorthandle_delete_confirmation_text: "<?php _e("Are you sure you want to delete this element"); ?>?"
   }
 
-  
+
 
   mw.load_module = function(name, selector, callback, attributes) {
      var attributes = attributes || {};
@@ -272,6 +272,10 @@ mw.askusertostay = false;
 
   mw.loadModuleData = function(name, update_element, callback, attributes){
     var attributes = attributes || {};
+    if(typeof update_element == 'function'){
+      var callback = update_element;
+    }
+    var update_element = document.createElement('div');
     attributes.module = name;
     mw._({
       selector: update_element,
@@ -280,6 +284,19 @@ mw.askusertostay = false;
         callback.call(this, data);
       }
     }, false, true);
+  }
+  mw.getModule = function(name, params, callback){
+    if( typeof params == 'function'){
+        var callback = params;
+    }
+    var params = params || {};
+    var update_element = document.createElement('div');
+    for(var x in params){
+        update_element.setAttribute(x, params[x]);
+    }
+    mw.loadModuleData(name, update_element, function(a){
+        callback.call(a);
+    });
   }
 
   mw.reload_module_intervals = {};

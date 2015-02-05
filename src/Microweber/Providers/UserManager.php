@@ -201,7 +201,7 @@ class UserManager
             $user = Auth::login(Auth::user());
             $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
-            $this->app->event_manager->trigger('mw.user.login',$user_data);
+            $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
                 return $this->app->url_manager->redirect($redirect_after);;
             } else if ($ok) {
@@ -524,8 +524,16 @@ class UserManager
                     $reg['email'] = $email;
                     $reg['password'] = $pass2;
                     $reg['is_active'] = 1;
-                    $reg['first_name'] = $first_name;
-                    $reg['last_name'] = $first_name;
+                    if ($first_name != false) {
+                        $reg['first_name'] = $first_name;
+                    }
+                    if ($first_name != false) {
+                        $reg['first_name'] = $first_name;
+                    }
+                    if ($last_name != false) {
+                        $reg['last_name'] = $last_name;
+                    }
+
 
                     $this->force_save = true;
 
@@ -1006,7 +1014,7 @@ class UserManager
                         define("USER_ID", $data['id']);
                     }
 
-              $old_sid = Session::getId();
+                    $old_sid = Session::getId();
                     $data['old_sid'] = $old_sid;
                     $user_session['old_session_id'] = $old_sid;
                     $current_user = Auth::user();

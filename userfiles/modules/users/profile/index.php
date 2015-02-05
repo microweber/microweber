@@ -1,17 +1,22 @@
+<?php
+$user = get_user();
+$module_template = get_option('data-template',$params['id']);
+if($module_template == false and isset($params['template'])){
+    $module_template =$params['template'];
+}
 
-<div class="mw-user-logged-holder">
-	<div class="mw-user-welcome">
-		<?php _e("Welcome"); ?>
-		<?php print user_name(); ?> </div>
-	<a href="<?php print site_url() ?>">
-	<?php _e("Go to"); ?>
-	<?php print site_url() ?></a><br />
- <a href="<?php print api_link('logout') ?>" >
-	<?php _e("Log Out"); ?>
-	</a>
-	<?php if(is_admin()): ?>
-	<div class="mw-user-logged-holder"> <a href="<?php print admin_url() ?>">
-		<?php _e("Admin panel"); ?>
-		</a>  </div>
-	<?php endif; ?>
-</div>
+if($module_template != false){
+    $template_file = module_templates( $config['module'], $module_template);
+}
+else {
+    $template_file = module_templates( $config['module'], 'default');
+}
+
+if(isset($template_file) and is_file($template_file) != false){
+    include($template_file);
+} else {
+    $template_file = module_templates( $config['module'], 'default');
+    include($template_file);
+}
+
+ 

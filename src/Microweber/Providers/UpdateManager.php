@@ -176,6 +176,12 @@ class UpdateManager
         $dl_get = $this->call('get_market_dl_link', $params);
 
 
+        if (isset($params['market_key']) and trim($params['market_key']) != '') {
+            $lic = array();
+            $lic['local_key'] = $params['market_key'];
+            $lic['activate_on_save'] = 1;
+            $this->save_license($lic);
+        }
 
 
         if ($dl_get != false and is_string($dl_get)) {
@@ -785,8 +791,6 @@ class UpdateManager
         $requestUrl = $this->remote_url;
 
 
-
-
         $post_params['site_url'] = $this->app->url_manager->site();
         $post_params['api_function'] = $method;
         $post_params['mw_version'] = MW_VERSION;
@@ -928,10 +932,25 @@ class UpdateManager
         if (!isset($params['rel_type']) and isset($params['rel'])) {
             $params['rel_type'] = $params['rel'];
         }
+        if (!isset($params['rel_type']) and isset($params['local_key'])) {
+            $prefix = explode('--', $params['local_key']);
+            if (isset($prefix[1])) {
+                $params['rel_type'] = $prefix[0];
+            }
+        }
 
         if (!isset($params['id']) and isset($params['rel_type'])) {
             $update = array();
             $update['rel_type'] = $params['rel_type'];
+            $update['one'] = true;
+            $update['table'] = $table;
+            $update = $this->app->database->get($update);
+            if (isset($update['id'])) {
+                $params['id'] = $update['id'];
+            }
+        } else if (!isset($params['id']) and isset($params['local_key'])) {
+            $update = array();
+            $update['local_key'] = $params['local_key'];
             $update['one'] = true;
             $update['table'] = $table;
             $update = $this->app->database->get($update);
@@ -1037,7 +1056,6 @@ class UpdateManager
         }
 
 
-
         $subfolders = scandir($vendor_cache);
 
         foreach ($subfolders as $subfolder) {
@@ -1052,7 +1070,7 @@ class UpdateManager
                 default:
 
                     $base = basename($subfolder);
-                    $base_dir = $vendor_cache.DS.$base;
+                    $base_dir = $vendor_cache . DS . $base;
                     if (is_dir($base_dir)) {
 
                         $vendor_new_sub_folder = normalize_path($vendor_cache . DS . $base, 1);
@@ -1068,10 +1086,9 @@ class UpdateManager
 //                                $file_utils = new Files();
 //                                $file_utils->rmdir($vendor_orig_sub_folder);
                                 rename($vendor_orig_sub_folder, $vendor_old_sub_folder);
-                            }
-                            catch(\ErrorException $e) {
+                            } catch (\ErrorException $e) {
                                 $file_utils = new Files();
-                                $file_utils->copy_directory($vendor_new_sub_folder,$vendor_orig_sub_folder);
+                                $file_utils->copy_directory($vendor_new_sub_folder, $vendor_orig_sub_folder);
                                 $file_utils->rmdir($vendor_new_sub_folder);
                             }
 
@@ -1087,12 +1104,12 @@ class UpdateManager
         }
 
 
-            $config_params = array(
+        $config_params = array(
 
-                'no-progress' => true,
-                'preferred-install' => 'dist'
+            'no-progress' => true,
+            'preferred-install' => 'dist'
 
-            );
+        );
 
         $runner = new \Microweber\Utils\ComposerUpdate();
         $out = $runner->run($config_params);
