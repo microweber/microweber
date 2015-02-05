@@ -521,7 +521,7 @@ class UpdateManager
         $params['mw_update_check_site'] = $this->app->url_manager->site();
 
         $result = $this->call('get_download_link', $params);
- 
+
         if (isset($result["core_update"])) {
 
             $value = trim($result["core_update"]);
@@ -545,7 +545,7 @@ class UpdateManager
                 $this->_log_msg('Core update unzipped');
                 $new_composer = $target_dir . 'composer.json.merge';
                 if (is_file($new_composer)) {
-                    $this->composer_merge($new_composer);
+               //     $this->composer_merge($new_composer);
                 }
 
                 $this->post_update();
