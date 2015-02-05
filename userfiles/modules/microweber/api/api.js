@@ -662,7 +662,22 @@ mw._response = {
 }
  
  
+mw._one = {};
 
+mw.one = function(name, func){
+    if(mw._one[name] === undefined){ mw._one[name] = true; }
+    if(typeof func === 'function'){
+      if(mw._one[name] === true){
+        mw._one[name] = false;
+        func.call();
+      }
+    }
+    else{
+      if(func == 'ready' || func == 'done' || func === true){
+        mw._one[name] = true;
+      }
+    }
+}
 
 
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
