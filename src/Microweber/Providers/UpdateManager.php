@@ -415,8 +415,9 @@ class UpdateManager
 
 
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
-                        $msg = "Installed all " . $k . "\n";
-                        $msg = "Installed " . "\n";
+                      //  $msg = "Installed all " . $k . "\n";
+                      //  $msg = "Installed " . "\n";
+                        $msg = 'done';
                         return $msg;
                     }
                 }
