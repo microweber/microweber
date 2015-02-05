@@ -246,7 +246,7 @@ if ($last_page_front != false) {
   					
 					var n = url_to_go.indexOf("editmode");
 					if(n == -1){
-						url_to_go = url_to_go+'/editmode:y';
+						url_to_go = url_to_go+'?editmode:y';
 					}
  				//window.location.href=url_to_go;
 				 $(this).attr('href' , url_to_go);;
