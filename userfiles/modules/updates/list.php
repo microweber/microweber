@@ -71,11 +71,16 @@ $(document).ready(function(){
     </tr>
     <tr class="update-items">
       <td><label class="mw-ui-check">
-          <input type="checkbox" name="mw_version" value="<?php print $iudates["version"] ?>"  />
+          <input type="checkbox" name="mw_version" value="1"  />
           <span></span></label></td>
       <td><img src="<?php print mw_includes_url(); ?>img/mw_system.png" alt="Microweber" /><br>
-        <span class="update-version"><?php print MW_VERSION ?></span></td>
-      <td><h2> <?php _e("New version"); ?> <?php print $iudates["version"] ?>
+        <span class="update-version">Current: <?php print MW_VERSION ?></span></td>
+      <td><h2> <?php _e("New version"); ?>  
+      
+ <?php if(isset($item["version"])) : ?>
+	  
+	   <?php print $iudates["version"] ?>
+       <?php endif ?>
           <?php if(isset($item["description"])) : ?>
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
@@ -100,7 +105,11 @@ $(document).ready(function(){
         <?php else: ?>
         <img src="<?php print mw_includes_url(); ?>img/module_no_icon.png" alt="" /><br>
         <?php endif ?>
-        <span class="update-version"><?php print $item["version"] ?></span></td>
+         <?php if(isset($item["version"])) : ?>
+        <span class="update-version"><?php print $item["version"] ?></span>
+        <?php endif ?>
+        
+        </td>
       <td><h2> <?php print $item["name"] ?> </h2>
         <?php if(isset($item["description"])) : ?>
         <span class="update-description"><?php print $item["description"] ?></span>
@@ -153,7 +162,8 @@ $(document).ready(function(){
         <?php else: ?>
         <img src="<?php print mw_includes_url(); ?>img/module_no_icon.png" alt="" /><br>
         <?php endif ?>
-        <span class="update-version"><?php print $item["version"] ?></span></td>
+        <?php if(isset($item["version"])) : ?>
+        <span class="update-version"><?php print $item["version"] ?></span><?php endif ?></td>
       <td><h2> <?php print $item["name"] ?>
           <?php if(isset($item["description"])) : ?>
           <span class="update-description"><?php print $item["description"] ?></span>
@@ -180,7 +190,8 @@ $(document).ready(function(){
         <?php else: ?>
         <img src="<?php print mw_includes_url(); ?>img/module_no_icon.png" alt="" /><br>
         <?php endif ?>
-        <span class="update-version"><?php print $item["version"] ?></span></td>
+        <?php if(isset($item["version"])) : ?>
+        <span class="update-version"><?php print $item["version"] ?></span><?php endif; ?></td>
       <td><h2> <?php print $item["name"] ?>
           <?php if(isset($item["description"])) : ?>
           <span class="update-description"><?php print $item["description"] ?></span>

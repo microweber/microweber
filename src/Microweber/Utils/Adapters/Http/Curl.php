@@ -156,6 +156,7 @@ class Curl
 
             $this->post_data = $data;
             $this->buildPostString();
+
             return $this->setHeaders('post')->execute();
         } else {
             $this->fields_string = $data;
@@ -274,8 +275,10 @@ class Curl
                         $str = array_merge($this->post_data, $this->uploads);
                     }
                      if (is_array($str)) {
-                        $str = http_build_query($str);
+                        // //$str = http_build_query($str);
+                    $str = $this->buildPostString($str);
                     }
+
                      curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
                 } else {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $this->fields_string);
