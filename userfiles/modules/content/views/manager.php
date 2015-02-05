@@ -248,7 +248,7 @@ mw.on.hashParam("pg", function(){
                             <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
                             <a class="manage-post-item-link-small mw-small" target="_top"
-                               href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
+                               href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                         </div>
                         <div class="manage-post-item-links"><a target="_top" href="<?php print $edit_link ?>"
                                                                onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">

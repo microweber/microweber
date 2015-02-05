@@ -91,6 +91,7 @@ class TemplateInstaller
 
             $content = new \Content();
             $content->title = "Home";
+            $content->url = 'home';
             $content->parent = 0;
             $content->is_home = 1;
             $content->is_active = 1;

@@ -11,7 +11,7 @@
         "laravel"
     ],
     "require": {
-        "laravel/framework": "~5.0",
+        "laravel/framework": "5.0",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
 
