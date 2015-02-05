@@ -646,7 +646,12 @@ class UserManager
             $force = MW_FORCE_USER_SAVE;
         } elseif ($this->force_save) {
             $force = $this->force_save;
+        } elseif (mw_var('force_save_user')) {
+            $force = mw_var('force_save_user');
         }
+
+
+
 
         if ($force == false) {
 

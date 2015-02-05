@@ -44,6 +44,24 @@ $data = $data[0];
 </script>
 <script  type="text/javascript">
 
+DeleteUserAdmin<?php  print $data['id']; ?> = function($user_id){
+	
+	 
+	var r = confirm("Are you sure you want to delete this user?");
+	if (r == true) {
+		 $.post( "<?php print api_url('delete_user') ?>", { id: $user_id })
+		  .done(function( data ) {
+			    mw.reload_module('[data-type="users/manage"]', function(){
+					mw.hash('#sortby=created_at desc');
+					mw.notification.success('User deleted');
+					 
+				  
+				 });
+		  });
+	} 
+}
+
+
 SaveAdminUserForm<?php  print $data['id']; ?> = function(){
     if(mwd.getElementById("reset_password").value == ''){
         mwd.getElementById("reset_password").disabled = true;
@@ -241,7 +259,12 @@ reset_password = function(y){
 
       
       <tr class="no-hover">
-        <td>&nbsp;</td>
+        <td>
+        <?php if($data['id'] != false and $data['id'] != user_id()): ?>
+        <small onclick="DeleteUserAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')">Delete user</small>
+        
+        <?php endif; ?>
+        </td>
         <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="SaveAdminUserForm<?php  print $data['id']; ?>()">
           <?php _e("Save"); ?>
           </span> <a class="mw-ui-btn mw-ui-btn-medium pull-right" href="#sortby=created_at desc">
