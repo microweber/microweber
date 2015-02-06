@@ -663,20 +663,31 @@ mw._response = {
  
  
 mw._one = {};
+mw._ones = {};
 
 mw.one = function(name, func){
-    if(mw._one[name] === undefined){ mw._one[name] = true; }
-    if(typeof func === 'function'){
-      if(mw._one[name] === true){
-        mw._one[name] = false;
-        func.call();
-      }
+  if(mw._one[name] === undefined){ mw._one[name] = true; }
+  if(typeof func === 'function'){
+    if(mw._one[name] === true){
+      mw._one[name] = false;
+      func.call();
+      mw.on.one(name, func, true);
     }
-    else{
-      if(func == 'ready' || func == 'done' || func === true){
-        mw._one[name] = true;
-      }
+  }
+  else{
+    if(func == 'ready' || func == 'done' || func === true){
+      mw._one[name] = true;
+      mw.on.one(name, func, true, true);
     }
+  }
+}
+mw.user = {
+  isLogged:function(callback){
+    $.post(mw.settings.api_url + 'is_logged', function(data){
+        var isLogged =  (data == 'true');
+        callback.call(isLogged, isLogged);
+    });
+  }
 }
 
 

@@ -236,8 +236,8 @@ mw.on.hashParam("pg", function(){
                                         <?php else : ?>
                                             <span class="mw-icon-page"></span>
                                         <?php endif; ?>
-                                    <?php elseif (isset($item['content_type']) and $item['content_type'] == 'post'): ?>
-                                        <?php if (isset($item['subtype']) and $item['content_type'] == 'product'): ?>
+                                    <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
+                                        <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
                                             <span class="mw-icon-product"></span>
                                         <?php else : ?>
                                             <span class="mw-icon-post"></span>

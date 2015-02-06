@@ -375,8 +375,7 @@
 
 
                             <?php endif; ?>
-                            <?php $default_content_file = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
-                            <?php if (is_file($default_content_file)): ?>
+
                                 <div class="mw-ui-field-holder pull-left">
                                     <label class="mw-ui-check">
                                         <input name="with_default_content" type="checkbox" checked="checked" value="1">
@@ -387,7 +386,7 @@
                                                 class="mw-icon-help-outline mwahi tip"></span></span>
                                     </label>
                                 </div>
-                            <?php endif; ?>
+
                         </div>
 
                     </div>

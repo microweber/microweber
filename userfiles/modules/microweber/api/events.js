@@ -180,6 +180,31 @@ DOMChange:function(element, callback, attr, a){
     mw.$(el).bind('webkitTransitionEnd transitionend msTransitionEnd oTransitionEnd otransitionend', function(){
         callback.call(el);
     });
+  },
+  ones:{ },
+  one:function(name, c, trigger, isDone){
+    if(trigger !== true){
+      if(mw.on.ones[name] === undefined){
+         mw.on.ones[name] = [c]
+      }
+      else{
+         mw.on.ones[name].push(c);
+      }
+    }
+    else{
+       if(mw.on.ones[name] !== undefined){
+          var i=0, l = mw.on.ones[name].length;
+          for( ; i<l; i++){
+              if(isDone === true){
+                mw.on.ones[name][i].call('ready', 'ready');
+              }
+              else{
+                mw.on.ones[name][i].call('start', 'start');
+              }
+
+          }
+       }
+    }
   }
 }
 
