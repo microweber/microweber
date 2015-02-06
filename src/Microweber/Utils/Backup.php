@@ -954,25 +954,27 @@ class Backup
             } elseif (stristr($table, get_table_prefix())) {
                 $is_cms_table = 1;
             }
-
+            if (stristr($table, 'sessions')) {
+                $is_cms_table = false;
+            }
 
             if ($table != false and $is_cms_table) {
                 $back_log_action = "Backing up database table $table";
                 $this->log_action($back_log_action);
-                //$result = mysql_query('SELECT * FROM ' . $table);
                 $qs = 'SELECT * FROM ' . $table;
                 $result = mw()->database->query($qs, $cache_id = false, $cache_group = false, $only_query = false);
                 $num_fields = count($result[0]);
-                //$num_fields = mysql_num_fields($result);
                 $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), "", $table);
 
-                $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
-                $this->append_string_to_file($sql_bak_file, $return);
+//                $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
+//                $this->append_string_to_file($sql_bak_file, $return);
 
 
                 $ddl = mw()->database_manager->get_table_ddl($table);
-                dd($ddl);
-                $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $row2[1]);
+                $ddl = str_ireplace("CREATE TABLE ","CREATE TABLE IF NOT EXISTS ", $ddl);
+
+
+                $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $ddl);
 
 
                 $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
@@ -1002,11 +1004,9 @@ class Backup
                         for ($j = 0; $j < $num_fields; $j++) {
                             //$row[$j] = addslashes($row[$j]);
                             $row[$j] = str_replace("'", "&rsquo;", $row[$j]);
-                            //$row[$j] = str_replace("\n", "\\n", $row[$j]);
-                            if (isset($row[$j])) {
+                             if (isset($row[$j])) {
                                 $return .= "'" . $row[$j] . "'";
-                                //$return .= '"' . $row[$j] . '"';
-                            } else {
+                             } else {
                                 //$return .= '""';
                                 $return .= "''";
                             }
