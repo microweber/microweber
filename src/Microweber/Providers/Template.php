@@ -912,7 +912,7 @@ class Template
                     }
                 }
             }
-
+         //
             if ($render_file == false and isset($page['parent']) and $page['parent'] == 0) {
                 if ($render_file == false and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 
@@ -933,6 +933,30 @@ class Template
                     }
                 }
             }
+
+
+
+            if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false and ($page['layout_file']) != 'index.php' and ($page['layout_file']) != 'inherit') {
+                if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
+                    $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
+
+                    $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
+
+                    $template_view = normalize_path($template_view, false);
+                    if (is_file($template_view) == true) {
+                        $render_file = $template_view;
+                    } else {
+                        if(!isset($page['is_home']) or $page['is_home'] != 1){
+                            $template_view = ACTIVE_TEMPLATE_DIR . DS .'clean.php';
+                            if (is_file($template_view) == true) {
+                                $render_file = $template_view;
+                            }
+                        }
+
+                    }
+                }
+            }
+
             $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
             if ($render_file == false and is_file($template_view) == true) {
                 $render_file = $template_view;
@@ -948,6 +972,8 @@ class Template
                 $render_file = $template_view;
             }
         }
+
+
 
 
         if ($render_file == false and isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {

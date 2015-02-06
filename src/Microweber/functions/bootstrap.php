@@ -13,9 +13,6 @@ if (!defined('T')) {
 if (!defined('MW_VERSION')) {
     define('MW_VERSION', '0.9.6.2');
 }
-if (!defined('MW_VERSION')) {
-    define('MW_VERSION', MW_VERSION);
-}
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);

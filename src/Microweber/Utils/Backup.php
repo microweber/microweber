@@ -416,7 +416,6 @@ class Backup
             $back_log_action = "Restoring database";
             $this->log_action($back_log_action);
 
-            $db = $this->app->config_manager->get('db');
             $filename = $sql_file;
             // Settings
 
@@ -427,26 +426,59 @@ class Backup
 
             // Restore the backup
 
-            $f = fopen($filename, "r+");
-            $sqlFile = fread($f, filesize($filename));
+            //  $f = fopen($filename, "r+");
+            // $sqlFile = fread($f, filesize($filename));
+
+//            $handle = fopen($filename, "r");
+//            $sqlFile = fread($handle, filesize($filename));
+//            fclose($handle);
+//
+
+
+            $sqlFile = file_get_contents($filename);
             $sqlArray = explode($this->file_q_sep, $sqlFile);
             if (!isset($sqlArray[1])) {
                 $sqlArray = explode("\n", $sqlFile);
 
             }
             // Process the sql file by statements
+            $engine = mw()->database_manager->get_sql_engine();
             foreach ($sqlArray as $stmt) {
+
+
                 $stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
                 $stmt = str_ireplace($this->prefix_placeholder, get_table_prefix(), $stmt);
+
                 $stmt = str_replace("\xEF\xBB\xBF", '', $stmt);
+//                $stmt = str_replace("\x0D", '', $stmt);
+//                $stmt = str_replace("\x09", '', $stmt);
+////
+//                $stmt = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F]/u', '', $stmt);
+
+                if ($engine == 'sqlite') {
+                    $stmt = str_replace("\'", "''", $stmt);
+                }
+
                 if ($this->debug) {
                     d($stmt);
                 }
+                if (function_exists('utf8_decode')) {
+                    // $stmt = utf8_decode($stmt);
+                }
 
-                if (strlen($stmt) > 3) {
+                if (function_exists('iconv')) {
+                    //     $stmt = iconv(mb_detect_encoding($stmt, mb_detect_order(), true), "UTF-8", $stmt);
+
+                }
+
+
+                if (strlen(trim($stmt)) > 3) {
                     try {
-                        mw()->database->query($stmt);
-
+                        @mw()->database->q($stmt, true);
+                        // mw()->database->q($stmt);
+                    } catch (QueryException $e) {
+                        print 'Caught exception: ' . $e->getMessage() . "\n";
+                        $sqlErrorCode = 1;
 
                     } catch (Exception $e) {
                         print 'Caught exception: ' . $e->getMessage() . "\n";
@@ -456,7 +488,6 @@ class Backup
 
                 }
             }
-            //}
 
             // Print message (error or success)
             if ($sqlErrorCode == 0) {
@@ -472,18 +503,13 @@ class Backup
                 print("Statement:<br/> $sqlStmt<br>");
             }
 
-            // Close the connection
-            // mysql_close($con);
-
-            // Change the filename from sql to zip
-            //$filename = str_replace('.sql', '.zip', $filename);
             $back_log_action = "Database restored successfully!";
             $this->log_action($back_log_action);
 
             // Files restored successfully
             print("Files restored successfully!<br>\n");
             print("Backup used: " . $filename . "<br>\n");
-            fclose($f);
+            //fclose($f);
             if ($temp_dir_restore != false) {
                 @unlink($filename);
             }
@@ -904,20 +930,13 @@ class Backup
         // Get all of the tables
         if ($tables == '*') {
             $tables = array();
-            //$result = mysql_query('SHOW TABLES');
-            $qs = 'SHOW TABLES';
-            $result = mw()->database->query($qs, $cache_id = false, $cache_group = false, $only_query = false);
-            //while ($row = mysql_fetch_row($result)) {
-            //	$tables[] = $row[0];
-            //}
+
+            $result = mw()->database_manager->get_tables_list();
             if (!empty($result)) {
                 foreach ($result as $item) {
-                    $item_vals = (array_values($item));
-                    $tables[] = $item_vals[0];
+                    $tables[] = $item;
                 }
             }
-
-
         } else {
             if (is_array($tables)) {
                 $tables = explode(',', $tables);
@@ -946,50 +965,50 @@ class Backup
                 $num_fields = count($result[0]);
                 //$num_fields = mysql_num_fields($result);
                 $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), "", $table);
-                // First part of the output - remove the table
-                //$return .= 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
+
                 $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
 
-                // Second part of the output - create table
-//				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);
-//				if ($res_ch == false) {
-//					$err = mysql_error();
-//					if ($err != false) {
-//						return array('error' => 'Query failed: ' . $err);
-//					}
-//
-//				}
-//				$row2 = mysql_fetch_row($res_ch);
 
-
-                $qs = 'SHOW CREATE TABLE ' . $table;
-                $res_ch = mw()->database->query($qs, $cache_id = false, $cache_group = false, $only_query = false);
-                $row2 = array_values($res_ch[0]);
-
-
+                $ddl = mw()->database_manager->get_table_ddl($table);
+                dd($ddl);
                 $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $row2[1]);
-
-                //$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";
 
 
                 $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
-                // Third part of the output - insert values into new table
-                //for ($i = 0; $i < $num_fields; $i++) {
+
 
                 $this->log_action(false);
                 if (!empty($result)) {
+                    $table_accos = str_replace(get_table_prefix(), '', $table);
+                    $columns = $this->app->database_manager->get_fields($table_accos);
                     foreach ($result as $row) {
                         $row = array_values($row);
-                        $return = 'INSERT INTO ' . $table_without_prefix . ' VALUES(';
+                        $columns = array_values($columns);
+
+                        $columns_q = false;
+                        $columns_temp = array();
+                        foreach ($columns as $column) {
+                            //$columns_temp[] = "'" . $column . "'";
+                            $columns_temp[] = $column;
+                        }
+                        if (!empty($columns_temp)) {
+                            $columns_q = implode(',', $columns_temp);
+                            $columns_q = "(" . $columns_q . ")";
+                        }
+
+                        $return = 'REPLACE INTO ' . $table_without_prefix . ' ' . $columns_q . ' VALUES(';
                         for ($j = 0; $j < $num_fields; $j++) {
-                            $row[$j] = addslashes($row[$j]);
-                            $row[$j] = str_replace("\n", "\\n", $row[$j]);
+                            //$row[$j] = addslashes($row[$j]);
+                            $row[$j] = str_replace("'", "&rsquo;", $row[$j]);
+                            //$row[$j] = str_replace("\n", "\\n", $row[$j]);
                             if (isset($row[$j])) {
-                                $return .= '"' . $row[$j] . '"';
+                                $return .= "'" . $row[$j] . "'";
+                                //$return .= '"' . $row[$j] . '"';
                             } else {
-                                $return .= '""';
+                                //$return .= '""';
+                                $return .= "''";
                             }
                             if ($j < ($num_fields - 1)) {
                                 $return .= ',';
@@ -997,18 +1016,12 @@ class Backup
                         }
                         $return .= ")" . $this->file_q_sep . "\n\n\n";
                         $this->append_string_to_file($sql_bak_file, $return);
-                        //$this->log_action(false);
                     }
-                    //  }
-
-//					while ($row = mysql_fetch_row($result)) {
-//
-//					}
-
 
                 }
                 $return = "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
+
             }
 
         }

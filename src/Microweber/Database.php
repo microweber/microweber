@@ -315,7 +315,7 @@ class Database
         if ($params['id'] == 0 && $user_id) {
             $params['created_by'] = $user_id;
         }
-        if ($user_id){
+        if ($user_id) {
             $params['edited_by'] = $user_id;
         }
         $params = $this->map_array_to_table($table, $params);
@@ -523,9 +523,19 @@ class Database
         return $q;
     }
 
-    public function q($q)
+    public function q($q, $silent = false)
     {
-        return DB::statement($q);
+        if (!$silent) {
+            return DB::statement($q);
+        }
+
+        try {
+            $q = DB::statement($q);
+        } catch (Exception $e) {
+            return;
+        }
+
+        return $q;
     }
 
 

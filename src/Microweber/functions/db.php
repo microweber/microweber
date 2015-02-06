@@ -3,7 +3,7 @@
 
 
 function get_table_prefix(){
-    return  Config::get('database.connections.mysql.prefix');
+    return  mw()->database_manager->get_prefix();
 
 }
 

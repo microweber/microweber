@@ -94,27 +94,90 @@ class Database
         return $assoc_name;
     }
 
-    public $table_prefix;
+    public function get_tables_list()
+    {
+        $tables = array();
+        $engine = $this->get_sql_engine();
+        if ($engine != 'sqlite') {
+            $result = DB::select('SHOW TABLES');
+            if (!empty($result)) {
+                foreach ($result as $item) {
+                    $item = (array)$item;
+                    if (count($item) > 0) {
+                        $item_vals = (array_values($item));
+                        $tables[] = $item_vals[0];
+                    }
+                }
+            }
+        } else {
+            $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table';");
+            if (is_array($sql) and !empty($sql)) {
+                foreach ($sql as $item) {
+                    $item = (array)$item;
+                    if (isset($item['tbl_name'])) {
+                        $tables[] = $item['tbl_name'];
+                    } elseif (isset($item['name'])) {
+                        $tables[] = $item['name'];
+                    }
+                }
+            }
+        }
+        return $tables;
+    }
+
+    public function get_table_ddl($full_table_name)
+    {
+
+        $engine = $this->get_sql_engine();
+        if ($engine != 'sqlite') {
+            $qs = 'SHOW CREATE TABLE ' . $full_table_name;
+            $sql = DB::select($qs);
+            if (isset($sql[0])) {
+                $sql[0] = (array)$sql[0];
+                $row = array_values($sql[0]);
+                if (isset($row[1])) {
+                    return $row[1];
+                }
+
+            }
+        } else {
+            $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table' and (tbl_name='{$full_table_name}');");
+            if (is_array($sql) and !empty($sql)) {
+                foreach ($sql as $item) {
+                    $item = (array)$item;
+                    if (isset($item['sql'])) {
+                        return $item['sql'];
+                    }
+                }
+            }
+        }
+    }
+
+    public function get_sql_engine()
+    {
+        $default_sql_engine = Config::get('database.default');
+        return $default_sql_engine;
+    }
 
 
     public function get_prefix()
     {
-        $default_sql_engine = Config::get('database.default');
+        $default_sql_engine = $this->get_sql_engine();
         $config_prefix = Config::get('database.connections.' . $default_sql_engine . '.prefix');
         return $config_prefix;
     }
+
+    public $table_prefix;
 
     public function real_table_name($assoc_name)
     {
         $assoc_name_new = $assoc_name;
         static $config_prefix = false;
         if (!$config_prefix) {
-
             $config_prefix = $this->get_prefix();
         }
-        if ($this->table_prefix == false) {
-            $this->table_prefix = $config_prefix;
-        }
+        $this->table_prefix = $config_prefix;
+
         if ($this->table_prefix != false) {
             $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
         }

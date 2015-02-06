@@ -530,21 +530,19 @@ class Worker
             touch($hta);
             file_put_contents($hta, 'Deny from all');
         }
-
-        $head = "/* Microweber database exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
-        $head .= "/* get_table_prefix(): " . get_table_prefix() . " */ \n\n\n";
+        $head = "\xEF\xBB\xBF";
+        $head = "\n";
+        //  $head = "/* Microweber database exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
+        // $head .= "/* get_table_prefix(): " . get_table_prefix() . " */ \n\n\n";
         file_put_contents($sql_bak_file, $head);
         $return = "";
         $tables = '*';
         if ($tables == '*') {
             $tables = array();
-            $qs = 'SHOW TABLES';
-            $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-
+            $result = mw()->database_manager->get_tables_list();
             if (!empty($result)) {
                 foreach ($result as $item) {
-                    $item_vals = (array_values($item));
-                    $tables[] = $item_vals[0];
+                    $tables[] = $item;
                 }
             }
 
@@ -613,33 +611,51 @@ class Worker
                 $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), "", $table);
 
 
-                $qs = 'SHOW CREATE TABLE ' . $table;
-                $res_ch = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-                $row2 = array_values($res_ch[0]);
-
-
-                $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $row2[1]);
-
-                $create_table_without_prefix = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $create_table_without_prefix);
-                $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
-
-
-                $this->append_string_to_file($sql_bak_file, $return);
+//                $qs = 'SHOW CREATE TABLE ' . $table;
+//                $res_ch = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+//                $row2 = array_values($res_ch[0]);
+//
+//
+//                $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $row2[1]);
+//
+//                $create_table_without_prefix = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $create_table_without_prefix);
+//                $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
+//
+//
+//                $this->append_string_to_file($sql_bak_file, $return);
                 // Third part of the output - insert values into new table
                 //for ($i = 0; $i < $num_fields; $i++) {
 
                 $this->log_action(false);
                 if (!empty($result)) {
+                    $table_accos = str_replace(get_table_prefix(), '', $table);
+                    $columns = $this->app->database_manager->get_fields($table_accos);
                     foreach ($result as $row) {
                         $row = array_values($row);
-                        $return = 'REPLACE INTO ' . $table_without_prefix . ' VALUES(';
+                        $columns = array_values($columns);
+
+                        $columns_q = false;
+                        $columns_temp = array();
+                        foreach ($columns as $column) {
+                            //$columns_temp[] = "'" . $column . "'";
+                            $columns_temp[] = $column ;
+                        }
+                        if (!empty($columns_temp)) {
+                            $columns_q = implode(',', $columns_temp);
+                            $columns_q = "(".$columns_q.")";
+                        }
+
+                        $return = 'REPLACE INTO ' . $table_without_prefix . ' ' . $columns_q . ' VALUES(';
                         for ($j = 0; $j < $num_fields; $j++) {
-                            $row[$j] = addslashes($row[$j]);
-                            $row[$j] = str_replace("\n", "\\n", $row[$j]);
+                            //$row[$j] = addslashes($row[$j]);
+                            $row[$j] = str_replace("'", "&rsquo;", $row[$j]);
+                            //$row[$j] = str_replace("\n", "\\n", $row[$j]);
                             if (isset($row[$j])) {
-                                $return .= '"' . $row[$j] . '"';
+                                $return .= "'" . $row[$j] . "'";
+                                //$return .= '"' . $row[$j] . '"';
                             } else {
-                                $return .= '""';
+                                //$return .= '""';
+                                $return .= "''";
                             }
                             if ($j < ($num_fields - 1)) {
                                 $return .= ',';
@@ -647,9 +663,7 @@ class Worker
                         }
                         $return .= ")" . $this->file_q_sep . "\n\n\n";
                         $this->append_string_to_file($sql_bak_file, $return);
-                        //$this->log_action(false);
                     }
-
 
                 }
                 $return = "\n\n\n";

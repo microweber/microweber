@@ -24,6 +24,7 @@ class TemplateInstaller
                 $create_default = true;
             }
         }
+
         if ($create_default) {
             $this->createDefaultContent();
         }
@@ -53,6 +54,7 @@ class TemplateInstaller
     {
         $default_content_folder = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR;
         $default_content_file = $default_content_folder . 'mw_default_content.zip';
+
         if (($template_name)) {
             if (function_exists('templates_path')) {
                 $template_dir = templates_path() . DS . $template_name;
