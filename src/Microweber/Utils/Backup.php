@@ -292,30 +292,6 @@ class Backup
             die();
         }
 
-        /*
-
-         $url = site_url();
-          header("Location: " . $url);
-          // redirect the url to the 'busy importing' page
-          ob_end_clean();
-          //Erase the output buffer
-          header("Connection: close");
-          //Tell the browser that the connection's closed
-          ignore_user_abort(true);
-          //Ignore the user's abort (which we caused with the redirect).
-          set_time_limit(0);
-          //Extend time limit
-          ob_start();
-          //Start output buffering again
-          header("Content-Length: 0");
-          //Tell the browser we're serious... there's really nothing else to receive from this page.
-          ob_end_flush();
-          //Send the output buffer and turn output buffering off.
-          flush();
-          //Yes... flush again.
-          //session_write_close();
-
-        */
 
         ob_start();
         $api = new \Microweber\Utils\Backup();
@@ -326,10 +302,6 @@ class Backup
 
         ob_end_clean();
         return array('success' => "Backup was restored!");
-        //$scheduler = new \Microweber\Utils\Events();
-
-        // schedule a global scope function:
-        // $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker_restore", $params);
 
         return $rest;
     }
@@ -357,16 +329,13 @@ class Backup
 
         }
 
-        // Check if the file has needed args
         if ($id == NULL) {
             return array('error' => "You have not provided a backup to restore.");
         }
 
         $here = $this->get_bakup_location();
-        // Generate filename and set error variables
 
         $filename = $here . $id;
-        //	$filename = $here . $id . '.sql';
         $ext = get_file_extension($filename);
         $ext_error = false;
 
@@ -395,7 +364,6 @@ class Backup
                 if (is_file($sql_restore)) {
                     $sql_file = $sql_restore;
                 }
-                //return $result;
                 break;
 
             case 'sql' :
@@ -417,22 +385,11 @@ class Backup
             $this->log_action($back_log_action);
 
             $filename = $sql_file;
-            // Settings
 
 
             $sqlErrorText = '';
             $sqlErrorCode = 0;
             $sqlStmt = '';
-
-            // Restore the backup
-
-            //  $f = fopen($filename, "r+");
-            // $sqlFile = fread($f, filesize($filename));
-
-//            $handle = fopen($filename, "r");
-//            $sqlFile = fread($handle, filesize($filename));
-//            fclose($handle);
-//
 
 
             $sqlFile = file_get_contents($filename);
@@ -462,14 +419,6 @@ class Backup
                 if ($this->debug) {
                     d($stmt);
                 }
-                if (function_exists('utf8_decode')) {
-                    // $stmt = utf8_decode($stmt);
-                }
-
-                if (function_exists('iconv')) {
-                    //     $stmt = iconv(mb_detect_encoding($stmt, mb_detect_order(), true), "UTF-8", $stmt);
-
-                }
 
 
                 if (strlen(trim($stmt)) > 3) {
@@ -491,10 +440,10 @@ class Backup
 
             // Print message (error or success)
             if ($sqlErrorCode == 0) {
-                $back_log_action = "Database restored successfully!";
+                $back_log_action = "Database restored!";
                 $this->log_action($back_log_action);
 
-                print("Database restored successfully!\n");
+                print("Database restored!\n");
                 print("Backup used: " . $filename . "\n");
             } else {
                 print("An error occurred while restoring backup!<br><br>\n");
@@ -503,27 +452,21 @@ class Backup
                 print("Statement:<br/> $sqlStmt<br>");
             }
 
-            $back_log_action = "Database restored successfully!";
+            $back_log_action = "Database restored!";
             $this->log_action($back_log_action);
 
-            // Files restored successfully
             print("Files restored successfully!<br>\n");
             print("Backup used: " . $filename . "<br>\n");
-            //fclose($f);
             if ($temp_dir_restore != false) {
                 @unlink($filename);
             }
 
         }
-
-
         if (userfiles_path()) {
             if (!is_dir(userfiles_path())) {
                 mkdir_recursive(userfiles_path());
             }
         }
-
-
         if (media_base_path()) {
             if (!is_dir(media_base_path())) {
                 mkdir_recursive(media_base_path());
@@ -534,11 +477,7 @@ class Backup
 
             $srcDir = $temp_dir_restore;
             $destDir = userfiles_path();
-
-
             $copy = $this->copyr($srcDir, $destDir);
-
-
         }
 
         if (function_exists('mw_post_update')) {
@@ -555,22 +494,13 @@ class Backup
 
     function copyr($source, $dest)
     {
-        // Simple copy for a file
-        //$dest = normalize_path($dest,false);
-        //$source = normalize_path($source,false);
-
-
         if (is_file($source) and !is_dir($dest)) {
-
             $dest = normalize_path($dest, false);
             $source = normalize_path($source, false);
-
-
             $dest_dir = dirname($dest);
             if (!is_dir($dest_dir)) {
                 mkdir_recursive($dest_dir);
             }
-
             if (!is_writable($dest)) {
                 return;
             }
@@ -578,29 +508,23 @@ class Backup
             return copy($source, $dest);
         }
 
-        // Make destination directory
-
         if (!is_dir($dest)) {
             mkdir_recursive($dest);
         }
 
-        // Loop through the folder
         if (is_dir($source)) {
             $dir = dir($source);
             if ($dir != false) {
                 while (false !== $entry = $dir->read()) {
-                    // Skip pointers
                     if ($entry == '.' || $entry == '..') {
                         continue;
                     }
-
                     if ($dest !== "$source/$entry" and $dest !== "$source" . DS . "$entry") {
                         $this->copyr("$source/$entry", "$dest/$entry");
                     }
                 }
             }
 
-            // Clean up
             $dir->close();
         }
         return true;
@@ -622,8 +546,6 @@ class Backup
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
             ini_set('memory_limit', '512M');
-            //ini_set("set_time_limit", 600);
-
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(600);
@@ -640,7 +562,6 @@ class Backup
         }
 
         $cache_id = 'backup_queue';
-        // $cache_id_folders = 'backup_cron_folders' . (USER_IP);
         $cache_id_loc = 'backup_progress';
         $cache_state_id = 'backup_zip_state';
 
@@ -648,48 +569,28 @@ class Backup
         $cache_lock = $this->app->cache_manager->get($cache_id_loc, 'backup');
         $cache_state = $this->app->cache_manager->get($cache_state_id, 'backup', 30);
 
-        //$cache_folders = $this->app->cache_manager->get($cache_id_folders, 'backup');
-
-
-        //$fileTime = date("D, d M Y H:i:s T");
 
         $time = time();
         $here = $this->get_bakup_location();
-
-        //session_write_close();
-
         if ($cache_state == 'opened') {
-
-
             return $cache_content;
         }
 
 
-        //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
-
         if ($cache_content == false or empty($cache_content)) {
             $this->app->cache_manager->save(false, $cache_id_loc, 'backup');
             $this->app->cache_manager->save(false, $cache_id, 'backup');
-
-
             return true;
         } else {
-
-
             $bak_fn = 'backup_' . date("Y-M-d-His") . '_' . uniqid() . '';
-
             $filename = $here . $bak_fn . '.zip';
-
             if ($cache_lock == false or !is_array($cache_lock)) {
-
-
                 $cache_lock = array();
                 $cache_lock['processed'] = 0;
                 $cache_lock['files_count'] = count($cache_content);
                 $cache_lock['time'] = $time;
                 $cache_lock['filename'] = $filename;
                 $this->app->cache_manager->save($cache_lock, $cache_id_loc, 'backup');
-                // return false;
             } else {
                 if (isset($cache_lock['filename'])) {
                     $filename = $cache_lock['filename'];
@@ -699,10 +600,7 @@ class Backup
 
             if (isset($cache_lock['time'])) {
                 $time_sec = intval($cache_lock['time']);
-
                 if (($time - 3) < $time_sec) {
-                    // print 'time lock';
-                    // return false;
                     return $cache_content;
                 }
 
@@ -764,30 +662,21 @@ class Backup
 
 
                         if ($item == 'make_db_backup') {
-
                             $limit_per_turn = 1;
                             $mw_backup_zip_obj->close();
                             $this->app->cache_manager->save('closed', $cache_state_id, 'backup');
-
-
                             $db_file = $this->create($bak_fn . '.sql');
-
-
                             if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
                                 $zip_opened = 1;
                                 return false;
                             }
                             $this->app->cache_manager->save('opened', $cache_state_id, 'backup');
-
-
                             if (isset($db_file['filename'])) {
                                 $filename2 = $here . $db_file['filename'];
                                 if (is_file($filename2)) {
                                     $back_log_action = "Adding sql restore to zip";
                                     $this->log_action($back_log_action);
                                     $mw_backup_zip_obj->addFile($filename2, 'mw_sql_restore.sql');
-                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
-
                                 }
                             }
                         } else {
@@ -800,11 +689,6 @@ class Backup
                             if (is_dir($item)) {
                                 $mw_backup_zip_obj->addEmptyDir($relative_loc);
                             } elseif (is_file($item)) {
-                                // d($item);
-                                //$relative_loc_dn = dirname($relative_loc);
-
-                                //$mw_backup_zip_obj->addFromString($relative_loc, file_get_contents($item));
-
                                 $mw_backup_zip_obj->addFile($item, $relative_loc);
 
                             }
@@ -825,7 +709,6 @@ class Backup
                             $this->app->cache_manager->save($backup_actions, $cache_id, 'backup');
 
                         }
-                        //  d($backup_actions[$key]);
 
                         if (empty($backup_actions)) {
                             $this->app->cache_manager->save(false, $cache_id, 'backup');
@@ -841,7 +724,6 @@ class Backup
             }
         }
 
-        // $this->app->cache_manager->save(false, $cache_id_loc, 'backup');
         if (empty($backup_actions)) {
             $this->app->cache_manager->save(false, $cache_id, 'backup');
 
@@ -856,67 +738,49 @@ class Backup
             $filename = false;
         }
 
-
         ignore_user_abort(true);
         $start = microtime_float();
-
         if (defined('MW_CRON_EXEC')) {
-
         } else {
             only_admin_access();
-
         }
 
-        // Settings
         $table = '*';
-
-
-        // Set the suffix of the backup filename
         if ($table == '*') {
             $extname = 'all';
         } else {
             $extname = str_replace(",", "_", $table);
             $extname = str_replace(" ", "_", $extname);
         }
-
         $here = $this->get_bakup_location();
-
         if (!is_dir($here)) {
             if (!mkdir_recursive($here)) {
-
                 $back_log_action = "Error the dir is not writable: " . $here;
                 $this->log_action($back_log_action);
-
-
-            } else {
-
             }
         }
 
         ini_set('memory_limit', '512M');
         set_time_limit(0);
-        // Generate the filename for the backup file
         $index1 = $here . 'index.php';
         if ($filename == false) {
-            $filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
+            $engine = mw()->database_manager->get_sql_engine();
+            $mwv = MW_VERSION;
+            $mwv = str_replace('.', '', $mwv);
+            $filename_to_return = 'database_' . date("YMdHis") . '_' . uniqid() . '_' . $mwv . '_' . $engine . '.sql';
         } else {
             $filename_to_return = $filename;
         }
 
         $filess = $here . $filename_to_return;
-
         if (is_file($filess)) {
             return false;
         }
-
-
         touch($filess);
         touch($index1);
-
         $sql_bak_file = $filess;
-
-
         $hta = $here . '.htaccess';
+
         if (!is_file($hta)) {
             touch($hta);
             file_put_contents($hta, 'Deny from all');
@@ -971,7 +835,7 @@ class Backup
 
 
                 $ddl = mw()->database_manager->get_table_ddl($table);
-                $ddl = str_ireplace("CREATE TABLE ","CREATE TABLE IF NOT EXISTS ", $ddl);
+                $ddl = str_ireplace("CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", $ddl);
 
 
                 $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $ddl);
@@ -992,7 +856,6 @@ class Backup
                         $columns_q = false;
                         $columns_temp = array();
                         foreach ($columns as $column) {
-                            //$columns_temp[] = "'" . $column . "'";
                             $columns_temp[] = $column;
                         }
                         if (!empty($columns_temp)) {
@@ -1002,12 +865,10 @@ class Backup
 
                         $return = 'REPLACE INTO ' . $table_without_prefix . ' ' . $columns_q . ' VALUES(';
                         for ($j = 0; $j < $num_fields; $j++) {
-                            //$row[$j] = addslashes($row[$j]);
                             $row[$j] = str_replace("'", "&rsquo;", $row[$j]);
-                             if (isset($row[$j])) {
+                            if (isset($row[$j])) {
                                 $return .= "'" . $row[$j] . "'";
-                             } else {
-                                //$return .= '""';
+                            } else {
                                 $return .= "''";
                             }
                             if ($j < ($num_fields - 1)) {
@@ -1028,38 +889,20 @@ class Backup
         $this->log_action(false);
         $back_log_action = "Saving to file " . basename($filess);
         $this->log_action($back_log_action);
-        // Save the sql file
-//		$handle = fopen($filess, 'w+');
-//		$head = "/* Microweber database backup exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
-//		$head .= "/* get_table_prefix(): " . get_table_prefix() . " */ \n\n\n";
-//		$return = $head . $return;
-//
-//		fwrite($handle, $return);
-//		fclose($handle);
-
-
-        //  unset($return);
         $end = microtime_float();
         $end = round($end - $start, 3);
         $this->log_action(false);
-
-        //mysql_close($link);
-
         return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
-        // Close MySQL Connection
-        //
+
     }
 
     function append_string_to_file($file_path, $string_to_append)
     {
         file_put_contents($file_path, $string_to_append, FILE_APPEND);
-
     }
-
 
     function get_bakup_location()
     {
-
         if (defined('MW_API_CALL')) {
             if (defined('MW_CRON_EXEC')) {
 
@@ -1097,44 +940,32 @@ class Backup
                 $here = $here2;
             }
         }
-
-
         if (!is_dir($here)) {
             mkdir_recursive($here);
         }
-
-
         $loc = $here;
-
-
         $this->backups_folder = $loc;
         return $here;
     }
 
     function create_full()
     {
-
         if (!defined("INI_SYSTEM_CHECK_DISABLED")) {
             define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
         }
 
-
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
             ini_set('memory_limit', '512M');
-            //ini_set("set_time_limit", 600);
-
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(600);
         }
-
 
         $backup_actions = array();
         $backup_actions[] = 'make_db_backup';
 
         $userfiles_folder = userfiles_path();
         $media_folder = media_base_path();
-
 
         $all_images = $this->app->media_manager->get_all('limit=10000');
 
@@ -1150,7 +981,6 @@ class Backup
             }
         }
 
-
         $host = (parse_url(site_url()));
 
         $host_dir = false;
@@ -1159,7 +989,6 @@ class Backup
             $host_dir = str_ireplace('www.', '', $host_dir);
             $host_dir = str_ireplace('.', '-', $host_dir);
         }
-
 
         $userfiles_folder_uploaded = $media_folder . DS . $host_dir . DS . 'uploaded' . DS;
         $userfiles_folder_uploaded = $media_folder . DS . $host_dir . DS;
@@ -1194,31 +1023,21 @@ class Backup
 
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
-
         $cache_state_id = 'backup_zip_state';
-        //$backup_actions[] = 'makesdfsdf_db_backup';
         $this->app->cache_manager->save($backup_actions, $cache_id, 'backup');
         $this->app->cache_manager->save(false, $cache_id_loc, 'backup');
         $this->app->cache_manager->save(false, $cache_state_id, 'backup');
-        //$cron->Register('make_full_backup', 0, '\Microweber\Utils\Backup::cronjob_exec');
-        //$cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
-
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
 
         return;
-
-
     }
 
 
     function log_action($back_log_action)
     {
-
         if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-
-
             if ($back_log_action == false) {
                 $this->app->log_manager->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
             } else {
@@ -1236,11 +1055,8 @@ class Backup
     function move_uploaded_file_to_backup($params)
     {
         only_admin_access();
-
         if (!isset($params['src'])) {
-
             return array('error' => "You have not provided src to the file.");
-
         }
 
         $check = url2dir(trim($params['src']));
@@ -1250,20 +1066,15 @@ class Backup
             if (copy($check, $here . $fn)) {
                 @unlink($check);
                 return array('success' => "$fn was uploaded!");
-
             } else {
                 return array('error' => "Error moving uploaded file!");
-
             }
 
         } else {
             return array('error' => "Uploaded file is not found!");
-
         }
 
     }
-
-    // Read a file and display its content chunk by chunk
 
     public function get()
     {
@@ -1282,29 +1093,20 @@ class Backup
         $backups = array();
         if (!empty($files)) {
             foreach ($files as $file) {
-
                 if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
                     $mtime = filemtime($file);
-                    // Get time and date from filename
                     $date = date("F d Y", $mtime);
                     $time = date("H:i:s", $mtime);
-                    // Remove the sql extension part in the filename
-                    //	$filenameboth = str_replace('.sql', '', $file);
                     $bak = array();
                     $bak['filename'] = basename($file);
                     $bak['date'] = $date;
                     $bak['time'] = str_replace('_', ':', $time);;
                     $bak['size'] = filesize($file);
-
                     $backups[] = $bak;
                 }
-
             }
-
         }
-
         return $backups;
-
     }
 
     function delete($params)
@@ -1314,14 +1116,10 @@ class Backup
         }
 
 
-        // Get the provided arg
         $id = $params['id'];
 
-        // Check if the file has needed args
         if ($id == NULL) {
-
             return array('error' => "You have not provided filename to be deleted.");
-
         }
 
         $here = $this->get_bakup_location();
@@ -1332,11 +1130,9 @@ class Backup
         $filename = str_replace('..', '', $filename);
 
         if (is_file($filename)) {
-
             unlink($filename);
             return array('success' => "$id was deleted!");
         } else {
-
             $filename = $here . $id . '.sql';
             if (is_file($filename)) {
                 unlink($filename);
@@ -1355,6 +1151,7 @@ class Backup
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'memory_limit')) {
             ini_set('memory_limit', '512M');
         }
+
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(0);
         }
@@ -1369,28 +1166,19 @@ class Backup
         $id = str_replace('..', '', $id);
 
 
-        // Check if the file has needed args
         if ($id == NULL) {
             return array('error' => "You have not provided filename to download.");
-
-            die();
         }
 
         $here = $this->get_bakup_location();
-        // Generate filename and set error variables
 
         $filename = $here . $id;
         $filename = str_replace('..', '', $filename);
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing filename to download.");
-
-            die();
         }
-
         $dl = new \Microweber\Utils\Files();
         return $dl->download_to_browser($filename);
-
-
     }
 
 }
