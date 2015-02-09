@@ -2528,11 +2528,6 @@ class DefaultController extends Controller
         print $layout;
         return;
 
-        //
-        //header("HTTP/1.0 404 Not Found");
-        //$v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');
-        //echo $v;
-
     }
 
     public function robotstxt()
@@ -2544,6 +2539,10 @@ class DefaultController extends Controller
         if ($robots == false) {
             $robots = "User-agent: *\nAllow: /" . "\n";
             $robots .= "Disallow: /cache/" . "\n";
+            $robots .= "Disallow: /storage/" . "\n";
+            $robots .= "Disallow: /database/" . "\n";
+            $robots .= "Disallow: /vendor/" . "\n";
+            $robots .= "Disallow: /src/" . "\n";
             $robots .= "Disallow: /userfiles/modules/" . "\n";
             $robots .= "Disallow: /userfiles/templates/" . "\n";
         }
@@ -2588,18 +2587,10 @@ class DefaultController extends Controller
         if (isset($this->functions[$method])) {
             call_user_func_array($this->functions[$method], $args);
         } else {
-
             // error out
-
         }
     }
 
-    function __destruct()
-    {
 
-        //print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-
-
-    }
 }
     

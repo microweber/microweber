@@ -839,12 +839,15 @@ class UserManager
         if (!is_array($check)) {
             return array('error' => 'Invalid data or expired link!');
         } else {
-            $data1['password'] = $params['pass1'];
             $data1['password_reset_hash'] = '';
         }
-
-
+        $this->force_save = true;
         $save = $this->app->database->save($table, $data1);
+        $save_user = array();
+        $save_user['id'] = intval($params['id']);
+        $save_user['password'] = $params['pass1'];
+        $this->save($save_user);
+
 
         $notif = array();
         $notif['module'] = "users";
