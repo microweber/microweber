@@ -45,6 +45,7 @@ mw.on = mw.on || {
         if(index != -1){
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
+
           if(typeof params[param] === 'string'){
               mw.on._hashparam_funcs[index].call(params[param]);
           }
@@ -58,6 +59,7 @@ mw.on = mw.on || {
 hashParamEventInit:function(){
   var hash = mw.hash();
   var params = mw.url.getHashParams(hash);
+
   if(hash==='' || hash==='#' || hash ==='#?'){
     var len = mw.on._hashparams.length, i=0;
     for( ; i < len; i++){
@@ -218,6 +220,7 @@ mw.prevHash = function(){
 }
 
 $(window).bind("hashchange load", function(event){
+
    mw.on.hashParamEventInit();
 
    var hash =  mw.hash();

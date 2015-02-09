@@ -147,17 +147,18 @@ class Modules
             $skip_save = true;
 
         }
-
+        $modules_remove_old = false;
         if (isset($options['cache_group'])) {
             $cache_group = $options['cache_group'];
         }
 
         if (isset($options['reload_modules']) == true) {
+            $modules_remove_old = true;
 
         }
 
         if (isset($options['cleanup_db']) == true) {
-
+            $modules_remove_old = true;
             if ($this->app->user_manager->is_admin() == true) {
                 $this->app->cache_manager->delete('categories');
                 $this->app->cache_manager->delete('categories_items');
@@ -196,7 +197,7 @@ class Modules
         }
 
 
-        $modules_remove_old = false;
+
         $dir = rglob($glob_patern, 0, $dir_name);
         $dir_name_mods = modules_path();
         $dir_name_mods2 = elements_path();
@@ -339,10 +340,13 @@ class Modules
 
                 $table = 'options';
                 $uninstall_lock = $this->get('ui=any');
+
+
                 if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
                     foreach ($uninstall_lock as $value) {
                         $ism = $this->exists($value['module']);
                         if ($ism == false) {
+
                             $this->delete_module($value['id']);
                             $mn = $value['module'];
                             $table_options = $this->tables['options'];
@@ -602,16 +606,14 @@ class Modules
         $table = $this->tables['modules'];
 
 
-        $db_categories = $this->table_prefix . 'categories';
-        $db_categories_items = $this->table_prefix . 'categories_items';
+        $db_categories = get_table_prefix() . 'categories';
+        $db_categories_items = get_table_prefix() . 'categories_items';
 
         $this->app->database->delete_by_id($table, $id);
 
-
-        $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' AND rel_id={$id}";
+        $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND rel_id={$id}";
         $this->app->database->q($q);
         $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
-        // $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
