@@ -375,7 +375,7 @@
 
 
                             <?php endif; ?>
-
+ 
                                 <div class="mw-ui-field-holder pull-left">
                                     <label class="mw-ui-check">
                                         <input name="with_default_content" type="checkbox" checked="checked" value="1">
