@@ -4,10 +4,7 @@ event_bind('mw.admin', function ($params = false) {
     return mw_add_admin_menu_buttons($params);
 });
 
-
-event_bind('mw.admin', function ($params = false) {
-    return mw_add_admin_menu_buttons($params);
-});
+ 
 
 function mw_add_admin_menu_buttons($params = false)
 {
