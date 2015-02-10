@@ -63,21 +63,25 @@ class MailSender
         $this->here = dirname(__FILE__);
 
 
-        Config::set('mail.host', $this->smtp_host);
-        Config::set('mail.port', $this->smtp_port);
+
         Config::set('mail.from.name', $this->email_from_name);
         Config::set('mail.from.address', $this->email_from);
-        Config::set('mail.encryption', $this->smtp_auth);
+
         Config::set('mail.username', $this->smtp_username);
         Config::set('mail.password', $this->smtp_password);
 
         if ($this->transport == '' or $this->transport == 'php') {
             Config::set('mail.driver', 'mail');
         }
+
         if ($this->transport == 'gmail') {
             Config::set('mail.host', 'smtp.gmail.com');
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
+        } else {
+            Config::set('mail.host', $this->smtp_host);
+            Config::set('mail.port', $this->smtp_port);
+            Config::set('mail.encryption', $this->smtp_auth);
         }
 
 
@@ -209,6 +213,8 @@ class MailSender
         $content['content'] = $text;
         $content['subject'] = $subject;
         $content['to'] = $to;
+
+
 
 
         return \Mail::send('mw_email_send::emails.simple', $content, function ($message) use ($to, $subject) {

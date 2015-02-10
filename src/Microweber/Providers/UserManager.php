@@ -180,13 +180,19 @@ class UserManager
             return $return_resp;
         }
         $old_sid = Session::getId();
-
         if (isset($params['username'])) {
             $ok = Auth::attempt([
                 'username' => $params['username'],
                 'password' => $params['password']
             ]);
-
+            if (!$ok) {
+                if ($params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
+                    $ok = Auth::attempt([
+                        'email' => $params['username'],
+                        'password' => $params['password']
+                    ]);
+                }
+            }
         } elseif (isset($params['email'])) {
             $ok = Auth::attempt([
                 'email' => $params['email'],
@@ -516,7 +522,7 @@ class UserManager
                     $data = array();
                     $data['username'] = $email;
                     $data['password'] = $pass;
-                    $data['is_active'] = 0;
+                    $data['is_active'] = 1;
                     $table = $this->tables['users'];
 
                     $reg = array();
@@ -534,13 +540,9 @@ class UserManager
                         $reg['last_name'] = $last_name;
                     }
 
-
                     $this->force_save = true;
-
                     $next = $this->save($reg);
                     $this->force_save = false;
-
-
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
 
@@ -651,8 +653,6 @@ class UserManager
         }
 
 
-
-
         if ($force == false) {
 
             if (defined("MW_API_CALL") and mw_is_installed() == true) {
@@ -726,8 +726,11 @@ class UserManager
             $user = new User;
         }
         $id_to_return = false;
+
         if ($user->validateAndFill($data_to_save)) {
             $save = $user->save();
+
+
             if (isset($params['id']) and intval($params['id']) != 0) {
                 $id_to_return = intval($params['id']);
             } else {
@@ -846,6 +849,11 @@ class UserManager
         $save_user = array();
         $save_user['id'] = intval($params['id']);
         $save_user['password'] = $params['pass1'];
+        if (isset($check['email'])) {
+            $save_user['email'] = $check['email'];
+
+        }
+
         $this->save($save_user);
 
 
@@ -882,86 +890,89 @@ class UserManager
                 return array('error' => 'Invalid captcha answer!');
             }
         }
-        if (!isset($params['username']) or trim($params['username']) == '') {
+        if (isset($params['email'])) {
+            //return array('error' => 'Enter username or email!');
+        } else if (!isset($params['username']) or trim($params['username']) == '') {
             return array('error' => 'Enter username or email!');
         }
 
+
+        $data_res = false;
+        $data = false;
         if (isset($params) and !empty($params)) {
-
             $user = isset($params['username']) ? $params['username'] : false;
-
+            $email = isset($params['email']) ? $params['email'] : false;
             if (trim($user != '')) {
                 $data1 = array();
                 $data1['username'] = $user;
                 $data = array();
-                $data_res = false;
                 if (trim($user != '')) {
                     $data = $this->get_all($data1);
                 }
-
-                if (isset($data[0])) {
-                    $data_res = $data[0];
-
-                } else {
-                    $data1 = array();
-                    $data1['email'] = $user;
+            } elseif (trim($email != '')) {
+                $data1 = array();
+                $data1['email'] = $email;
+                $data = array();
+                if (trim($email != '')) {
                     $data = $this->get_all($data1);
-                    if (isset($data[0])) {
-                        $data_res = $data[0];
-
-                    }
-
                 }
-                if (!is_array($data_res)) {
-                    return array('error' => 'Enter right username or email!');
+            }
+            if (isset($data[0])) {
+                $data_res = $data[0];
+            }
+            if (!is_array($data_res)) {
+                return array('error' => 'Enter right username or email!');
+            } else {
+                $to = $data_res['email'];
+                if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-                } else {
-                    $to = $data_res['email'];
-                    if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-
-                        $subject = "Password reset!";
-                        $content = "Hello, {$data_res['username']} <br> ";
-                        $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
-
-                        $security = array();
-                        $security['ip'] = MW_USER_IP;
-                        $security['hash'] = $this->app->format->array_to_base64($data_res);
-                        $function_cache_id = md5(serialize($security)) . uniqid() . rand();
-                        //$this->app->cache_manager->save($security, $function_cache_id, $cache_group = 'password_reset');
-                        if (isset($data_res['id'])) {
-                            $data_to_save = array();
-                            $data_to_save['id'] = $data_res['id'];
-                            $data_to_save['password_reset_hash'] = $function_cache_id;
-
-                            $table = $this->tables['users'];
-                            mw_var('FORCE_SAVE', $table);
-
-                            $save = $this->app->database->save($table, $data_to_save);
-                        }
-                        $pass_reset_link = $this->app->url_manager->current(1) . '?reset_password_link=' . $function_cache_id;
-
-                        $notif = array();
-                        $notif['module'] = "users";
-                        $notif['rel_type'] = 'users';
-                        $notif['rel_id'] = $data_to_save['id'];
-                        $notif['title'] = "Password reset link sent";
-                        $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
-                        $notif['description'] = $content_notif;
-
-                        $this->app->log_manager->save($notif);
-                        $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
-
-                        $sender = new \Microweber\Utils\MailSender();
-                        $sender->send($to, $subject, $content);
-
-                        return array('success' => 'Your password reset link has been sent to ' . $to);
-                    } else {
-                        return array('error' => 'Error: the user doesn\'t have a valid email address!');
+                    $subject = "Password reset!";
+                    $content = "Hello, {$data_res['username']} <br> ";
+                    $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
+                    $security = array();
+                    $security['ip'] = MW_USER_IP;
+                    $security['hash'] = $this->app->format->array_to_base64($data_res);
+                    $function_cache_id = md5(serialize($security)) . uniqid() . rand();
+                    if (isset($data_res['id'])) {
+                        $data_to_save = array();
+                        $data_to_save['id'] = $data_res['id'];
+                        $data_to_save['password_reset_hash'] = $function_cache_id;
+                        $table = $this->tables['users'];
+                        mw_var('FORCE_SAVE', $table);
+                        $save = $this->app->database->save($table, $data_to_save);
                     }
 
+                    $base_link = $this->app->url_manager->current(1);
+
+                    $cur_template = template_dir();
+                    $cur_template_file = normalize_path($cur_template . 'login.php', false);
+                    $cur_template_file2 = normalize_path($cur_template . 'forgot_password.php', false);
+                    if (is_file($cur_template_file)) {
+                        $base_link = site_url('login');
+                    } elseif (is_file($cur_template_file2)) {
+                        $base_link = site_url('forgot_password');
+                    }
+
+
+                    $pass_reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
+                    $notif = array();
+                    $notif['module'] = "users";
+                    $notif['rel_type'] = 'users';
+                    $notif['rel_id'] = $data_to_save['id'];
+                    $notif['title'] = "Password reset link sent";
+                    $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
+                    $notif['description'] = $content_notif;
+                    $this->app->log_manager->save($notif);
+                    $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
+                    $sender = new \Microweber\Utils\MailSender();
+                    $sender->send($to, $subject, $content);
+                    return array('success' => 'Your password reset link has been sent to ' . $to);
+                } else {
+                    return array('error' => 'Error: the user doesn\'t have a valid email address!');
                 }
 
             }
+
 
         }
 

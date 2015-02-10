@@ -1,5 +1,7 @@
 mw.require('url.js');
 
+mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
+
 mw.on = mw.on || {
   onmodules : {},
   moduleReload : function(id, c, trigger){
@@ -30,7 +32,7 @@ mw.on = mw.on || {
      }
   },
   _hashrec : {},
-  _hashparams : [],
+  _hashparams : this._hashparams || [],
   _hashparam_funcs : [],
   hashParam : function(param, callback, trigger, isManual){
     if(isManual){
@@ -46,7 +48,7 @@ mw.on = mw.on || {
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
 
-          if(typeof params[param] === 'string'){
+          if(typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined){
               mw.on._hashparam_funcs[index].call(params[param]);
           }
         }
@@ -203,7 +205,6 @@ DOMChange:function(element, callback, attr, a){
               else{
                 mw.on.ones[name][i].call('start', 'start');
               }
-
           }
        }
     }
@@ -219,9 +220,11 @@ mw.prevHash = function(){
   return prev !== undefined ? prev : '';
 }
 
+
+
 $(window).bind("hashchange load", function(event){
 
-   mw.on.hashParamEventInit();
+mw.on.hashParamEventInit();
 
    var hash =  mw.hash();
    if(hash.contains("showpostscat")){
@@ -241,7 +244,7 @@ $(window).bind("hashchange load", function(event){
      var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
      if(l>0){
        for( ; i<l; i++){
-         
+
           mw.on.hashParam(changes[i], "", true, true);
        }
      }
@@ -250,7 +253,7 @@ $(window).bind("hashchange load", function(event){
 });
 
 
-mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
+
 
 mw.__bindMultiple__objects = [];
 mw.__bindMultiple__events = {};

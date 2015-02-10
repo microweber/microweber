@@ -46,6 +46,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     function setPasswordAttribute($pass)
     {
         $this->attributes['password'] = Hash::make($pass);
+
     }
 
     function getPingAttribute()

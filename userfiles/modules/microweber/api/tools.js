@@ -400,10 +400,10 @@ mw.tools = {
       if(template == 'simple'){var template = 'mw_modal_simple';}
       var id = id || "modal_"+mw.random();
       var html = ''
-        + '<div class="mw-defaults mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
+        + '<div class=" mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
-            + '<span class="mw-icon-close mw-modal-close"  title="'+mw.msg.close+'"></span>'
+            + '<span class="mw-modal-close"  title="'+mw.msg.close+'"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
