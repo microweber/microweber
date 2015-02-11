@@ -276,6 +276,36 @@ class UserManager
         }
     }
 
+
+    public function attributes($user_id = false)
+    {
+
+        if (!$user_id) {
+            $user_id = $this->id();
+        }
+        if (!$user_id) {
+            return;
+        }
+
+        $data = array();
+        $data['rel_type'] = 'users';
+        $data['rel_id'] = intval($user_id);
+        $res = array();
+        $get = $this->app->content_manager->get_attributes($data);
+        if (!empty($get)) {
+            foreach ($get as $item) {
+                if (isset($item['attribute_name']) and isset($item['attribute_value'])) {
+                    $res[$item['attribute_name']] = $item['attribute_value'];
+                }
+            }
+        }
+        if (!empty($res)) {
+            return $res;
+        }
+        return $get;
+    }
+
+
     public function picture($user_id = false)
     {
         $name = $this->get_by_id($user_id);
@@ -686,7 +716,9 @@ class UserManager
                             return array('error' => 'You must be logged save your settings');
                         }
                     } else {
-
+                        if (!isset($params['id'])) {
+                            $params['id'] = $this->id();
+                        }
                     }
                 }
             }
@@ -730,6 +762,15 @@ class UserManager
         if ($user->validateAndFill($data_to_save)) {
             $save = $user->save();
 
+            if (isset($params['extended_save'])) {
+                if (isset($data_to_save['password'])) {
+                    unset($data_to_save['password']);
+                }
+                if (isset($data_to_save['id'])) {
+                    $data_to_save['table'] = 'users';
+                    $this->app->database->extended_save($data_to_save);
+                }
+            }
 
             if (isset($params['id']) and intval($params['id']) != 0) {
                 $id_to_return = intval($params['id']);

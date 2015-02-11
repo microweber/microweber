@@ -3227,24 +3227,24 @@ class ContentManager
         }
 
 
-        if (!empty($orig_data)) {
-            $data_str = 'attribute_';
-            $data_str_l = strlen($data_str);
-            foreach ($orig_data as $k => $v) {
-                if (is_string($k)) {
-                    if (strlen($k) > $data_str_l) {
-                        $rest = substr($k, 0, $data_str_l);
-                        $left = substr($k, $data_str_l, strlen($k));
-                        if ($rest == $data_str) {
-                            if (!isset($data_to_save['attributes'])) {
-                                $data_to_save['attributes'] = array();
-                            }
-                            $data_to_save['attributes'][$left] = $v;
-                        }
-                    }
-                }
-            }
-        }
+//        if (!empty($orig_data)) {
+//            $data_str = 'attribute_';
+//            $data_str_l = strlen($data_str);
+//            foreach ($orig_data as $k => $v) {
+//                if (is_string($k)) {
+//                    if (strlen($k) > $data_str_l) {
+//                        $rest = substr($k, 0, $data_str_l);
+//                        $left = substr($k, $data_str_l, strlen($k));
+//                        if ($rest == $data_str) {
+//                            if (!isset($data_to_save['attributes'])) {
+//                                $data_to_save['attributes'] = array();
+//                            }
+//                            $data_to_save['attributes'][$left] = $v;
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
 
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {

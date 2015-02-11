@@ -1001,6 +1001,8 @@ class DefaultController extends Controller
 
         } else {
             event_trigger('mw_frontend');
+            event_trigger('mw.front');
+
         }
 
 
@@ -1117,6 +1119,8 @@ class DefaultController extends Controller
             }
         }
         event_trigger('mw_frontend');
+        event_trigger('mw.front');
+
 
         $is_editmode = $this->app->url_manager->param('editmode');
 
