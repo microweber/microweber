@@ -49,6 +49,7 @@ class MicroweberServiceProvider extends ServiceProvider
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
                 $domain = str_ireplace('www.','',$domain);
+                $domain = str_ireplace(':'.$_SERVER['SERVER_PORT'],'',$domain);
                 return $domain;
             });
         }
