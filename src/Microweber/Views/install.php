@@ -108,6 +108,28 @@
             }
 
             <?php $log_file_url = userfiles_url().'install_log.txt'; ?>
+            $.get('<?php print $log_file_url ?>', function (data) {
+                var data = data.replace(/\r/g, '');
+                var arr = data.split('\n'),
+                    l = arr.length,
+                    i = 0,
+                    last = arr[l-2],
+                    percentage = Math.round( ((l-1) / 30) * 100);
+                bar[0].style.width = percentage + '%';
+                percent.html(percentage + '%');
+                if(last == 'done') {
+                    percent.html('0%');
+                    installprogressStop();
+                    $("#installinfo").html('');
+                }
+                else{
+                    $("#installinfo").html(last);
+                    setTimeout(function(){
+                        installprogress(false);
+                    }, 1000);
+                }
+
+            });
         }
 
         installprogressStop = function () {

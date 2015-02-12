@@ -39,6 +39,7 @@ class InstallController extends Controller
 
     }
 
+
     public function index($input = null)
     {
         if (!is_array($input) || empty($input)) {
@@ -53,7 +54,7 @@ class InstallController extends Controller
         $view = MW_PATH . 'Views/install.php';
 
         $connection = Config::get('database.connections');
-
+        $this->install_log("Preparing to install");
         if (isset($input['make_install'])) {
             if (!isset($input['db_pass'])) {
                 $input['db_pass'] = '';
@@ -127,7 +128,7 @@ class InstallController extends Controller
                 }
                 Artisan::call('key:generate');
             }
-
+            $this->install_log("Saving config");
             Config::save($allowed_configs);
             Cache::flush();
 
@@ -144,16 +145,18 @@ class InstallController extends Controller
                 @set_time_limit(0);
             }
 
-
+            $this->install_log("Setting up database");
             $installer = new Install\DbInstaller();
             $installer->run();
 
             $installer = new Install\WebserverInstaller();
             $installer->run();
 
+            $this->install_log("Setting up template");
             $installer = new Install\TemplateInstaller();
             $installer->run();
 
+            $this->install_log("Setting up default options");
             $installer = new Install\DefaultOptionsInstaller();
             $installer->run();
 
@@ -161,6 +164,8 @@ class InstallController extends Controller
             Config::set('microweber.is_installed', 1);
 
             if (isset($input['admin_password']) && strlen($input['admin_password'])) {
+                $this->install_log("Adding admin user");
+
                 $adminUser = new \User;
                 $adminUser->username = $input['admin_username'];
                 $adminUser->email = $input['admin_email'];
@@ -171,8 +176,9 @@ class InstallController extends Controller
                 Config::set('microweber.has_admin', 1);
             }
 
-
+            $this->install_log("Saving ready config");
             Config::save($allowed_configs);
+            $this->install_log("done");
             return 'done';
         }
 
@@ -213,7 +219,7 @@ class InstallController extends Controller
             $viewData['config']['prefix'] = $domain . '_';
         }
         if (extension_loaded('pdo_sqlite') and $domain) {
-            $sqlite_path = normalize_path( storage_path().DS.$domain.'.sqlite',false);
+            $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
             $viewData['config']['db_name_sqlite'] = $sqlite_path;
         }
 
@@ -227,5 +233,25 @@ class InstallController extends Controller
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
         return $layout;
+    }
+
+
+    private function install_log($text)
+    {
+        $log_file = userfiles_path() .  'install_log.txt';
+        if (!is_file($log_file)) {
+            @touch($log_file);
+
+        }
+        if (is_file($log_file)) {
+            $json = array('date' => date('H:i:s'), 'msg' => $text);
+
+            if ($text == 'done' or $text == 'Preparing to install') {
+                @file_put_contents($log_file, $text . "\n");
+            } else {
+                @file_put_contents($log_file, $text . "\n", FILE_APPEND);
+
+            }
+        }
     }
 }

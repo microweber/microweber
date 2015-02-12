@@ -35,7 +35,7 @@ $(document).ready(function(){
  });
  
 });
-</script>
+</script> 
 
 <div class="box-head mw-ui-box-header">
   <h2><?php _e("Reset your password"); ?></h2>

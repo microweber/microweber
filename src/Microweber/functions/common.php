@@ -9,7 +9,7 @@
 function mw($class = null)
 {
     $app = \Microweber\Application::getInstance();
-    $class = str_replace('/','\\',$class);
+    $class = str_replace('/', '\\', $class);
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $app;
     } else {
@@ -24,7 +24,7 @@ if (!function_exists('d')) {
     }
 }
 
-if(!function_exists('site_url')){
+if (!function_exists('site_url')) {
     function site_url($add_string = false)
     {
         static $site_url;
@@ -45,11 +45,10 @@ if(!function_exists('site_url')){
             }
 
             $pageURL .= "://";
-            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80" and $_SERVER["SERVER_PORT"] != "443") {
-                $pageURL .= $_SERVER["HTTP_HOST"] . ":" . $_SERVER["SERVER_PORT"];
-            } elseif (isset($_SERVER["HTTP_HOST"])) {
+
+            if (isset($_SERVER["HTTP_HOST"])) {
                 $pageURL .= $_SERVER["HTTP_HOST"];
-            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80"  and $_SERVER["SERVER_PORT"] != "443") {
+            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80" and $_SERVER["SERVER_PORT"] != "443") {
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["SERVER_NAME"])) {
                 $pageURL .= $_SERVER["SERVER_NAME"];
@@ -107,8 +106,6 @@ if(!function_exists('site_url')){
     }
 
 }
-
-
 
 
 /**
@@ -193,7 +190,6 @@ function lipsum($number_of_characters = false)
 }
 
 
-
 /**
  * Returns the current microtime
  *
@@ -209,8 +205,6 @@ function microtime_float()
     $microtime = (float)$msec + (float)$sec;
     return $microtime;
 }
-
-
 
 
 /**
@@ -326,8 +320,6 @@ function url_param($param, $skip_ajax = false)
 {
     return mw()->url_manager->param($param, $skip_ajax);
 }
-
-
 
 
 /**
