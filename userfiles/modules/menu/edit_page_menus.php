@@ -45,9 +45,10 @@ if(isset($params['parent'])){
  if(is_array($menus )): ?>
 		<ul id="mw-menu-selector-list-<?php print $rand; ?>" class="mw-menu-selector-list">
 			<?php foreach($menus  as $item): ?>
+          
 			<li>
 				<label class="mw-ui-check">
-					<input id="menuid-<?php print $item['id'] ?>" name="add_content_to_menu[]"  <?php if(is_in_menu($item['id'],$content_id) or ($select_default_menu == true and $item['title'] == 'header_menu' ) or ($add_to_menu == true and $item['title'] == $add_to_menu ) ): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>" type="checkbox">
+					<input id="menuid-<?php print $item['id'] ?>" name="add_content_to_menu[]"  <?php if(is_in_menu($item['id'],$content_id) or ($select_default_menu == true and $item['title'] == 'header_menu' ) or ($add_to_menu == true and $item['title'] == $add_to_menu ) ): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>" type="checkbox"  <?php if(isset($item['title'])): ?>  data-menu-key="<?php print addslashes(strtolower(str_replace(' ','_' , $item['title']))); ?>" <?php endif; ?> >
 					<span></span><span class="mw-menuselector-menu-title"><?php print ucwords(str_replace('_', ' ', $item['title'])) ?></span> </label>
 			</li>
 			<?php endforeach ; ?>

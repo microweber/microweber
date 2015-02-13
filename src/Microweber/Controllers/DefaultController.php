@@ -1372,6 +1372,8 @@ class DefaultController extends Controller
 
                             $td_f = $td_base . DS . $page_url_segment_3_str;
                             $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
+                            $td_fd2 = $td_base . DS . $page_url_segment_3[0];
+
                             if (is_file($td_f)) {
                                 $the_new_page_file = $page_url_segment_3_str;
                                 $simply_a_file = $directly_to_file = $td_f;
@@ -1387,9 +1389,16 @@ class DefaultController extends Controller
                                     if ($is_ext == false or $is_ext != 'php') {
                                         $td_fd = $td_fd . '.php';
                                     }
+                                    $is_ext = get_file_extension($td_fd2);
+                                    if ($is_ext == false or $is_ext != 'php') {
+                                        $td_fd2 = $td_fd2 . '.php';
+                                    }
                                     if (is_file($td_fd)) {
                                         $the_new_page_file = $td_fd;
                                         $simply_a_file = $directly_to_file = $td_fd;
+                                    } else if (is_file($td_fd2)) {
+                                        $the_new_page_file = $td_fd2;
+                                        $simply_a_file = $directly_to_file = $td_fd2;
                                     } else {
                                         $td_basedef = templates_path() . 'default' . DS . $page_url_segment_3_str;
                                         if (is_file($td_basedef)) {
@@ -1397,6 +1406,7 @@ class DefaultController extends Controller
                                             $simply_a_file = $directly_to_file = $td_basedef;
                                         }
                                     }
+
                                 }
                             }
                         }
@@ -1445,6 +1455,7 @@ class DefaultController extends Controller
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
+
 
                             }
 
@@ -2096,7 +2107,7 @@ class DefaultController extends Controller
                 return json_encode($res);
             } else if ($res instanceOf RedirectResponse) {
                 return $res;
-            }else if ($res instanceOf Response) {
+            } else if ($res instanceOf Response) {
                 return $res;
             }
             $response = \Response::make($res);
@@ -2132,9 +2143,9 @@ class DefaultController extends Controller
         header("Etag: $etagFile");
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-           // header("HTTP/1.1 304 Not Modified");
+            // header("HTTP/1.1 304 Not Modified");
             // return;
-           // exit;
+            // exit;
         }
 
         $ref_page = false;
@@ -2272,6 +2283,7 @@ class DefaultController extends Controller
         } else {
             $tool = 'index';
         }
+
         $page = false;
         if (isset($_REQUEST["content_id"])) {
 
@@ -2327,6 +2339,7 @@ class DefaultController extends Controller
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
+
             if (is_file($load_template_functions)) {
                 include_once($load_template_functions);
             }
@@ -2340,6 +2353,17 @@ class DefaultController extends Controller
 
         $p = mw_includes_path() . 'toolbar/editor_tools/' . $tool . '/index.php';
         $standalone_edit = false;
+        if ($tool == 'plupload') {
+            $standalone_edit = true;
+        }
+        if ($tool == 'plupload') {
+            $standalone_edit = true;
+        }
+        if ($tool == 'imageeditor') {
+            $standalone_edit = true;
+        }
+
+
         if ($tool == 'wysiwyg') {
             $ed_file_from_template = TEMPLATE_DIR . 'editor.php';
 
@@ -2452,7 +2476,7 @@ class DefaultController extends Controller
         }
 
         // $render_file = $this->app->template->get_layout($page);
-        //d($page['render_file']);
+
         //    $page['render_file'] = $render_file;
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {
@@ -2501,6 +2525,7 @@ class DefaultController extends Controller
                 }
             }
         }
+
 
         if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
