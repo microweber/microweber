@@ -11,6 +11,7 @@ Microweber is a new generation content management system that allows you to crea
 You can easily manipulate the content and the layout of your pages. No coding skills are required.
 
 ### [Live Demo](http://demo.microweber.org/admin?username=demo&password=demo)
+### [Download](https://microweber.com/download.php)
 
 ## Getting Started
 

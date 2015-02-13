@@ -8,9 +8,9 @@ if(!function_exists("mcrypt_encrypt")) {
     exit("Error: You must install the mcrypt PHP extension to run Microweber");
 }
 
-
-@date_default_timezone_set(@date_default_timezone_get());
-
+if(function_exists("date_default_timezone_set")) {
+    @date_default_timezone_set(@date_default_timezone_get());
+}
 
 /**
  * Laravel - A PHP Framework For Web Artisans
