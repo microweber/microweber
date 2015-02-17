@@ -1312,7 +1312,7 @@ class DefaultController extends Controller
                     $the_active_site_template = 'default';
                 }
 
-                if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url)) {
+                if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {
                     $found_mod = true;
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
@@ -1351,12 +1351,8 @@ class DefaultController extends Controller
                         $directly_to_file = false;
                         $page_url_segment_3 = $this->app->url_manager->segment(-1, $page_url);
 
-                        if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
-                            $td_base = templates_path() . $the_active_site_template . DS;
-                        } else {
-                            array_shift($page_url_segment_3);
-                        }
+                        $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                        $td_base = templates_path() . $the_active_site_template . DS;
 
                         $page_url_segment_3_str = implode(DS, $page_url_segment_3);
 
@@ -2351,6 +2347,7 @@ class DefaultController extends Controller
         $p_index = mw_includes_path() . 'toolbar/editor_tools/index.php';
         $p_index = normalize_path($p_index, false);
 
+        $standalone_edit = true;
         $p = mw_includes_path() . 'toolbar/editor_tools/' . $tool . '/index.php';
         $standalone_edit = false;
         if ($tool == 'plupload') {
@@ -2362,9 +2359,13 @@ class DefaultController extends Controller
         if ($tool == 'imageeditor') {
             $standalone_edit = true;
         }
+  if ($tool == 'editor_toolbar') {
+            $standalone_edit = true;
+        }
 
 
         if ($tool == 'wysiwyg') {
+            $standalone_edit = false;
             $ed_file_from_template = TEMPLATE_DIR . 'editor.php';
 
             if (is_file($ed_file_from_template)) {

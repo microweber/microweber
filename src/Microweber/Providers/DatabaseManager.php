@@ -293,6 +293,12 @@ class DatabaseManager extends DbUtils
     public function save($table, $data = false, $data_to_save_options = false)
     {
 
+        if (is_array($table) and isset($table['table'])) {
+            $data = $table;
+            $table = $table['table'];
+
+
+        }
         if (!is_array($data)) {
             return false;
         }

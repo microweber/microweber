@@ -975,6 +975,11 @@ class ContentManager
 
             $ul_class_name = $ul_class = $params['ul_class'];
         }
+        $content_link_class = 'mw-tree-content-link';
+        if (isset($params['content_link_class'])) {
+
+            $content_link_class = $params['content_link_class'];
+        }
 
         $li_class = 'pages_tree_item';
         if (isset($params['li_class'])) {
@@ -1062,6 +1067,7 @@ class ContentManager
         $params['content_type'] = 'page';
 
         $include_first_set = false;
+
         if ($include_first == true) {
             $include_first_set = 1;
             $include_first = false;
@@ -1072,7 +1078,6 @@ class ContentManager
         } else {
             $params['parent'] = $parent;
         }
-
         if (isset($params['is_shop']) and $params['is_shop'] == 1) {
             if (isset($params['parent']) and $params['parent'] == 0) {
                 unset($params['parent']);
@@ -1254,12 +1259,17 @@ class ContentManager
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+
+
+
                             $to_pr_2 = str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
                             $to_pr_2 = str_replace('{active_class}', $active_class, $to_pr_2);
                             $to_pr_2 = str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
 
                             $to_print = str_replace('{title}', $item['title'], $to_print);
                             $to_print = str_replace('{nest_level}', 'depth-' . $nest_level, $to_print);
+                            $to_print = str_replace('{content_link_class}', $content_link_class, $to_print);
+
 
                             if (strstr($to_print, '{link}')) {
                                 $to_print = str_replace('{link}', page_link($item['id']), $to_print);
@@ -1306,8 +1316,10 @@ class ContentManager
                             $to_print = str_ireplace('{active_class}', '', $to_print);
                             $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
                             $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
+                            $to_pr_2 = str_ireplace('{content_link_class}', '', $to_pr_2);
 
                             $to_print = str_replace('{exteded_classes}', '', $to_print);
+                            $to_print = str_replace('{content_link_class}', '', $to_print);
 
                             if ($item['id'] == $item['parent']) {
                                 $remove_ids[] = $item['id'];

@@ -2,19 +2,6 @@
 namespace Microweber\Providers;
 
 
-api_expose('delete_media_file');
-api_expose('upload_progress_check');
-api_expose('upload');
-api_expose('reorder_media');
-api_expose('delete_media');
-api_expose('save_media');
-
-api_expose('pixum_img');
-api_expose('thumbnail_img');
-api_expose('create_media_dir');
-
-api_expose('media/upload');
-api_expose('media/delete_media_file');
 
 
 class MediaManager
@@ -135,11 +122,6 @@ class MediaManager
         $params['table'] = $table;
         $params['cache_group'] = 'media/' . $id;
 
-//        if ($this->no_cache == true) {
-//            $q = $this->app->database_manager->query($q);
-//        } else {
-//            $q = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-//        }
         $q = $this->get($params);
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
@@ -184,13 +166,10 @@ class MediaManager
 
                     $perc = $this->app->format->percent($filesize, $cache_content["size"]);
                     return $perc;
-                    //  d($perc);
                 }
             }
         }
 
-        //ini_set("session.upload_progress.enabled", true);
-        // return $_SESSION;
     }
 
     public function upload($data)
@@ -310,8 +289,6 @@ class MediaManager
         $whandle = fopen($target, 'wb');
         stream_filter_append($whandle, 'convert.base64-decode', STREAM_FILTER_WRITE);
         fwrite($whandle, $data);
-
-        // file_put_contents($target, base64_decode($data));
         fclose($whandle);
     }
 

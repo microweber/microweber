@@ -616,9 +616,11 @@ class CategoryManager
 
                             $to_print = str_ireplace('{title}', $item['title'], $to_print);
                             $to_print = str_ireplace('{title_slashes}', addslashes($item['title']), $to_print);
+                            $to_print = str_replace('{content_link_class}', '', $to_print);
 
                             $output = str_replace('{title_slashes}', addslashes($item['title']), $output);
 
+                            $output = str_replace('{content_link_class}', '', $output);
 
                             $active_class = ' ';
 

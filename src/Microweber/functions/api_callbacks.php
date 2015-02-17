@@ -69,3 +69,21 @@ api_bind_admin('shop/update_order', function ($data) {
 
 
 api_expose_admin('checkout_confirm_email_test');
+
+
+// media
+
+
+api_expose('delete_media_file');
+api_expose('upload_progress_check');
+api_expose('upload');
+api_expose('reorder_media');
+api_expose('delete_media');
+api_expose('save_media');
+
+api_expose('pixum_img');
+api_expose('thumbnail_img');
+api_expose('create_media_dir');
+
+api_expose('media/upload');
+api_expose('media/delete_media_file');

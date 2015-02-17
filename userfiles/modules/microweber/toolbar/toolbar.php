@@ -94,7 +94,9 @@ if($is_quick_edit == true){
 
 <script type="text/javascript">
         $(document).ready(function () {
+			if(typeof(mw.toolbar) != "undefined"){
             mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
+			}
             setTimeout(function () {
                 mw.history.init();
             }, 500);

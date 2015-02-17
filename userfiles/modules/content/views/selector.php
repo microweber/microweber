@@ -24,7 +24,6 @@ if(isset($params['recommended-id']) and $params['recommended-id'] != false){
   $recommended_parent = $params['recommended-id'];
   $top_item = get_content_by_id(intval($recommended_parent));
 }
-
  
 ?> 
 

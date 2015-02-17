@@ -630,12 +630,8 @@ class Database
             return false;
         }
 
-        if (isset($this->table_fields[$table])) {
-            $fields = $this->table_fields[$table];
-        } else {
-            $fields = $this->get_fields($table);
-            $this->table_fields[$table] = $fields;
-        }
+        $fields = $this->get_fields($table);
+
         if (is_array($fields)) {
             foreach ($fields as $field) {
                 $field = strtolower($field);

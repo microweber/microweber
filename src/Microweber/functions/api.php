@@ -1,21 +1,31 @@
 <?php
 
 
-function api_expose($function_name)
+function api_expose($function_name, $callback = null)
 {
+
+
     static $index = ' ';
     if (is_bool($function_name)) {
         return $index;
+    }
+    if (is_callable($callback)) {
+        $index .= ' ' . $function_name;
+        return api_bind($function_name, $callback);
     } else {
         $index .= ' ' . $function_name;
     }
 }
 
-function api_expose_admin($function_name)
+function api_expose_admin($function_name, $callback = null)
 {
     static $index = ' ';
     if (is_bool($function_name)) {
         return $index;
+    }
+    if (is_callable($callback)) {
+        $index .= ' ' . $function_name;
+        return api_bind_admin($function_name, $callback);
     } else {
         $index .= ' ' . $function_name;
     }
@@ -37,6 +47,7 @@ function api_bind($function_name, $callback = false)
 
     }
 }
+
 function api_bind_admin($function_name, $callback = false)
 {
     static $mw_api_binds;

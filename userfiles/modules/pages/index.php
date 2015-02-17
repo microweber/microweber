@@ -64,13 +64,19 @@ if ($option != false and intval($option) > 0) {
 
 
 if (isset($params['parent']) and $params['parent'] != 0) {
-    $params['include_first'] = true;
-	//$params['parent'] = $params['parent'];
-}
+	if (isset($params['show-parent']) and ($params['show-parent'] == "false" or $params['show-parent'] == false)) {
+    $params['include_first'] = false;
+	} elseif (isset($params['show-parent']) and $params['show-parent'] == true) {
+		
+		    $params['include_first'] = true;
+
+	}
+
+ }
  
+
  $params['is_active'] = 1;
  
-//  d($params);
 // loading the module template
 $module_template = get_option('data-template', $params['id']);
  

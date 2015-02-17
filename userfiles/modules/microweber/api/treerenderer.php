@@ -153,14 +153,25 @@ mw.treeRenderer = {
           var master = this;
           var el = master.querySelector('a');
           var id = $(master).dataset("item-id");
-
+ var attr = master.attributes;
 		  if(el != undefined){
 		  var href = el.href;
-          el.href = 'javascript:void(0);';
+          
+          var is_content_in_admin = $(el).hasClass('mw-tree-renderer-admin-content-link-item');
+          
+         if(attr['data-page-id']!==undefined && is_content_in_admin){
+         
+           el.href = '<?php print admin_url() ?>view:content#action=showposts:'+id;
+ // el.href = 'javascript:void(0);';
+
+         } else {
+         el.href = 'javascript:void(0);';
+         }
+          
           var html = el.innerHTML;
           var toggle = "";
           var show_posts = "";
-          var attr = master.attributes;
+         
 
           var toggle ='';
 
@@ -172,7 +183,7 @@ mw.treeRenderer = {
           if(attr['data-page-id']!==undefined){
               var pageid = attr['data-page-id'].nodeValue;
               if($(el.parentNode).children('ul').length>0){
-                  var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+')" class="mw_toggle_tree"></span>';
+                  var toggle = '<span onclick="mw.tools.tree.toggleit(this.parentNode,event,'+pageid+');mw.event.cancel(event);" class="mw_toggle_tree"></span>';
               }
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit."); ?>' onclick='event.stopPropagation();window.top.location.href=\""+href+"/editmode:y\"'></span>";
               var show_posts = "";
@@ -203,7 +214,7 @@ mw.treeRenderer = {
               var show_posts = "<span class='mw_ed_tree_show_posts' title='<?php _e("Go Live edit."); ?>' onclick='event.stopPropagation();window.location.href=\""+href+"/editmode:y\"'></span>";
               var show_posts = "";
               el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('category', pageid, sort_content) + toggle + show_posts;
-              el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");");
+              el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+");mw.event.cancel(event);");
           }
 
 

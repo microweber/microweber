@@ -979,12 +979,16 @@ class ShopManager
     public function remove_cart_item($data)
     {
 
-        if (!isset($data['id'])) {
-            $this->app->error('Invalid data');
+        if (!is_array($data)) {
+            $id = intval($data);
+            $data = array('id' => $id);
         }
-        if (!mw()->user_manager->session_id() and !headers_sent()) {
-            // //session_start();
+
+
+        if (!isset($data['id']) or $data['id'] == 0) {
+            return false;
         }
+
         $cart = array();
         $cart['id'] = intval($data['id']);
 
@@ -1329,7 +1333,6 @@ class ShopManager
 
 
         \Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
-
 
 
         $this->no_cache = true;

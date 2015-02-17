@@ -297,10 +297,21 @@ mw.wysiwyg = {
             else{
               var html = clipboard.getData('text');
             }
+						
             if(!!html) {
-              var html = "<p class='element'>" + html.replace(/(\r\n|\n|\r)/gm, "</p><p class='element'>") + "</p>";
-              mw.wysiwyg.insert_html(html);
-              e.preventDefault();
+				if(typeof mw.form != 'undefined'){
+					var is_link = mw.form.validate.url(html);
+					if(is_link){
+						 var html = "<a href='" + html+ "'>" + html+ "</a>";
+						 mw.wysiwyg.insert_html(html);
+						 e.preventDefault();
+					}
+				}
+				 				
+             // var html = "<p class='element'>" + html.replace(/(\r\n|\n|\r)/gm, "</p><p class='element'>") + "</p>";
+//              mw.wysiwyg.insert_html(html);
+//              e.preventDefault();
+
             }
         }
     },
@@ -1354,7 +1365,8 @@ $(window).load(function(){
      if(!nodes[i].pasteBinded && !mw.tools.hasParentsWithClass(nodes[i], 'edit')){
        nodes[i].pasteBinded = true;
        nodes[i].addEventListener("paste", function(e){
-         //mw.wysiwyg.paste(e);
+		 
+          mw.wysiwyg.paste(e);
        });
      }
 

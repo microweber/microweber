@@ -1,6 +1,6 @@
 <div class="mw-module-admin-wrap">
  <?php if(isset($params['backend'])): ?>
-<module type="admin/modules/info" />
+<module type="admin/modules/info" history_back="true" />
 <?php endif; ?>
   <div id="users-admin">
     <style scoped="scoped">

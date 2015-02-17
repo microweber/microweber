@@ -11,23 +11,11 @@ only_admin_access();
  * @uses pages_tree($params);
  * @usage  type="pages" append_to_link="/editmode:y"
  */
+$append_to_link = '';
 
-
-if (!isset($params['link'])) {
-    if (isset($params['append_to_link'])) {
-        $append_to_link = $params['append_to_link'];
-    } else {
-        $append_to_link = '';
-    }
-
-    $params['link'] = '<a data-page-id="{id}" class="{active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
-
-} else {
-
-    $params['link'] = '<a data-page-id="{id}" class="{active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}"  href="' . $params['link'] . '">{title}</a>';
-}
-
-
+  $params['content_link_class'] = "mw-tree-renderer-admin-content-link-item";
+  $params['link'] = '<a data-page-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
+ 
 if (isset($params['data-parent'])) {
     $params['parent'] = intval($params['data-parent']);
 } else {
@@ -71,6 +59,7 @@ if (is_admin() == false) {
 ?><?php
 
 $params['return_data'] = true;
+$params['no_cache'] = true;
 
 ?>
 <?php $pages_tree = pages_tree($params); ?>

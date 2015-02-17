@@ -158,7 +158,6 @@ class UserManager
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
-
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
@@ -172,8 +171,6 @@ class UserManager
                 }
             }
         }
-
-
         if ($overiden == true and $redirect_after != false) {
             return $this->app->url_manager->redirect($redirect_after);;
         } elseif ($overiden == true) {
@@ -296,6 +293,34 @@ class UserManager
             foreach ($get as $item) {
                 if (isset($item['attribute_name']) and isset($item['attribute_value'])) {
                     $res[$item['attribute_name']] = $item['attribute_value'];
+                }
+            }
+        }
+        if (!empty($res)) {
+            return $res;
+        }
+        return $get;
+    }
+
+    public function data_fields($user_id = false)
+    {
+
+        if (!$user_id) {
+            $user_id = $this->id();
+        }
+        if (!$user_id) {
+            return;
+        }
+
+        $data = array();
+        $data['rel_type'] = 'users';
+        $data['rel_id'] = intval($user_id);
+        $res = array();
+        $get = $this->app->content_manager->get_data($data);
+        if (!empty($get)) {
+            foreach ($get as $item) {
+                if (isset($item['field_name']) and isset($item['field_value'])) {
+                    $res[$item['field_name']] = $item['field_value'];
                 }
             }
         }
@@ -762,12 +787,17 @@ class UserManager
         if ($user->validateAndFill($data_to_save)) {
             $save = $user->save();
 
+            if (isset($params['attributes']) or isset($params['data_fields'])) {
+                $params['extended_save'] = true;
+            }
+
             if (isset($params['extended_save'])) {
                 if (isset($data_to_save['password'])) {
                     unset($data_to_save['password']);
                 }
                 if (isset($data_to_save['id'])) {
                     $data_to_save['table'] = 'users';
+
                     $this->app->database->extended_save($data_to_save);
                 }
             }

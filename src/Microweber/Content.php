@@ -16,5 +16,10 @@ class Content extends BaseModel
         return $this->morphMany('Comments', 'rel');
     }
 
+    public function data_fields()
+    {
+        return $this->morphMany('ContentData', 'rel');
+    }
+
 }
 

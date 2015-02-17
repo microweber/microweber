@@ -157,8 +157,8 @@ class Modules
 
         }
 
-        if (isset($options['cleanup_db']) == true) {
-            $modules_remove_old = true;
+        if ($modules_remove_old or isset($options['cleanup_db']) == true) {
+
             if ($this->app->user_manager->is_admin() == true) {
                 $this->app->cache_manager->delete('categories');
                 $this->app->cache_manager->delete('categories_items');

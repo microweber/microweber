@@ -2639,7 +2639,8 @@ div.mw-ui-field:after {
   transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   -moz-transition:width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   -webkit-transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
-  -o-transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;*/
+  -o-transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
+  */
 }
 .mw_modal.ui-draggable-dragging {
   transition: none;
@@ -2647,7 +2648,7 @@ div.mw-ui-field:after {
   -webkit-transition: none;
   -o-transition: none;
 }
-.mw_modal_default .mw-icon-close {
+.mw_modal_default .mw-modal-close {
   cursor: pointer;
   display: block;
   -webkit-box-sizing: border-box;
@@ -3353,6 +3354,7 @@ div.mw-ui-field:after {
   height: 100%;
   background: rgba(255, 255, 255, 0.5);
   cursor: default;
+  z-index: 333;
 }
 body.mw-loading:after,
 html.mw-loading:after {

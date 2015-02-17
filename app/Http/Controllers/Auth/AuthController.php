@@ -18,7 +18,6 @@ class AuthController extends Controller
             $config = $app['config']['services.microweber'];
             return Socialite::buildProvider('Microweber\Providers\Socialite\MicroweberProvider', $config);
         });
-        //dd(Socialite::getDrivers());
 
 		if($action == 'callback') {
             $user = Socialite::driver('microweber')->user();
@@ -26,7 +25,7 @@ class AuthController extends Controller
             Auth::login($user);
 			return Redirect::intended('/');
 		}
-		return Socialite::driver('microweber')->scopes(['test', 'kur'])->redirect();
+		return Socialite::driver('microweber')->redirect();
 	}
 
 	function getLogout()

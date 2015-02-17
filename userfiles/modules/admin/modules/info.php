@@ -23,7 +23,18 @@ $v_mod = $params['parent-module'];
       <span class="module-toolbar-info-description">
       <?php if(isset($module['name'])){ print $module['name']; }; ?>
       </span> </div>
-    <div class="mw-ui-col mw-modules-toolbar-back-icon"> <a title="<?php _e("Back"); ?>" href="<?php print admin_url(); ?>view:modules" class="pull-right"> <span class="mw-icon-back"></span> <span>
+    <div class="mw-ui-col mw-modules-toolbar-back-icon"> <a title="<?php _e("Back"); ?>" 
+    
+     <?php if(isset($params['history_back'])) { ?>
+      
+      onClick="history.go(-1)"
+       <?php } else {  ?>
+           href="<?php print admin_url(); ?>view:modules" 
+
+       
+      <?php }  ?>
+    
+    class="pull-right"> <span class="mw-icon-back"></span> <span>
       <?php _e("Back"); ?>
       </span> </a> </div>
   </div>
