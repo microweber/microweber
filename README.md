@@ -1,7 +1,8 @@
 # Microweber: Drag-and-Drop CMS
 ---
 
-Now runs on Laravel 5!
+** Now runs on Laravel 5! **
+Keep in mind v.1.0 is still under development and is yet to be officially released. Use in production at your own risk.
 
 ![Live edit](http://microweber.com/cdn/microweber_screen_1.jpg "")
 
@@ -47,7 +48,7 @@ The `mod_rewrite` module must be enabled in your Apache configuration. Microwebe
 ### IIS
 You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/extensions/url-rewrite-module/importing-apache-modrewrite-rules). Make sure you have enabled [the URL Rewrite module](http://www.iis.net/learn/extensions/url-rewrite-module/using-the-url-rewrite-module) for your website.
 
-#### NginX
+#### nginX
 Add this `location` directive to your `server` configuration block. The `root` directive must point to the root of your Microweber website.
 ```
 server {
@@ -67,7 +68,7 @@ You have several choices for database engine. For small websites we highly recom
 * PostgreSQL
 
 On the installation screen you can only choose from database drivers your PHP configuration already supports.
-If you don't see your server of choice in the list youhave to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server.
+If you don't see your server of choice in the list you have to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server.
 PHP usually comes with PDO enabled by default.
 
 ## Contribute
@@ -77,4 +78,5 @@ If you are a developer, submitting fixes is easy:
 
 1. Log in to GitHub
 2. Fork the Microweber repository
-3. Make your changes and submit pull request
+3. Make your changes
+4. Submit a pull request
