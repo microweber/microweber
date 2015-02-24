@@ -56,10 +56,10 @@ if (is_admin() == false) {
     $params['is_active'] = 1;
 }
 
-?><?php
+ 
 
 $params['return_data'] = true;
-$params['no_cache'] = true;
+//$params['no_cache'] = true;
 
 ?>
 <?php $pages_tree = pages_tree($params); ?>

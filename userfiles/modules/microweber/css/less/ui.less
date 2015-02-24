@@ -1782,7 +1782,7 @@ div.mw-ui-field:after{
     right: 0px;
     text-indent: 0;
     top: 0px;
-    padding-top: 5px;
+    padding-top: 2px;
     width: 27px;
     height: 22px;
     border-left: 1px solid rgba(196, 196, 196, 0.3);
@@ -1790,17 +1790,26 @@ div.mw-ui-field:after{
     color: rgba(245, 245, 245, 0.5);
     border-bottom: 1px solid transparent;
 }
-.mw_modal_default .mw-icon-close:hover,
-.mw_modal_default .mw-icon-close:focus{
+
+.mw_modal_default .mw-modal-close:hover,
+.mw_modal_default .mw-modal-close:focus{
   background-color: white;
   color: black;
   border-bottom-color: black;
 }
-.mw_modal_default .mw-icon-close:active{
+.mw_modal_default .mw-modal-close:after,
+.mw_modal_basic .mw-modal-close:after{
+   content: "\0111";
+   font-family: Microweber;
+   font-size: 12px;
+}
+
+
+.mw_modal_default .mw-modal-close:active{
   box-shadow: inset 0 0 4px #CCCCCC;
 }
 
-.mw_modal_simple .mw-icon-close, .mw_modal_basic .mw-icon-close{
+.mw_modal_simple .mw-modal-close, .mw_modal_basic .mw-modal-close{
   position: absolute;
   display: block;
   width: 14px;
@@ -1812,12 +1821,12 @@ div.mw-ui-field:after{
   color: #444;
 }
 
-.mw_modal_basic .mw-icon-close{
+.mw_modal_basic .mw-modal-close{
   top: 2px;
   right: 4px;
 }
 
-.mw_modal_simple .mw-icon-close:hover, .mw_modal_basic .mw-icon-close:hover{
+.mw_modal_simple .mw-modal-close:hover, .mw_modal_basic .mw-modal-close:hover{
   color: black;
 }
 

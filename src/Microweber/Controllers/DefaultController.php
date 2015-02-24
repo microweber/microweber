@@ -1978,6 +1978,8 @@ class DefaultController extends Controller
                             $item = str_replace('  ', ' ', $item);
                             $item = str_replace(' ', ' ', $item);
                             $l = str_replace('{' . $key . '}', $item, $l);
+                        } elseif ($item == false) {
+                            $l = str_replace('{' . $key . '}', '', $l);
                         }
                     }
                 }

@@ -795,6 +795,7 @@ class LayoutsManager
                         $item["css"] = str_ireplace('background:url(;', '', $item["css"]);
                         $item["css"] = str_ireplace('background:;', '', $item["css"]);
                         $item["css"] = str_ireplace('background-image:url(;', '', $item["css"]);
+                        $item["css"] = str_ireplace('background-image: url("");', 'background-image: none;', $item["css"]);
 
 
                         $sel = trim($item['selector']);
