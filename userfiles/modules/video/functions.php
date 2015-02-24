@@ -17,15 +17,18 @@ function video_module_url2embed($u, $w, $h, $autoplay)
 
     if (stristr($u, 'youtube.com') !== false) {
         $p = parse_url($u);
+		if(!isset($p['query']) or $p['query'] == false){
+		return false;	
+		}
+		 
         $id = explode('v=', $p['query']);
-        if (!isset($id[1])) {
-            if (isset($id[0])) {
-                $id[1] = $id[0];
-            } else {
-                return false;
-            }
-        }
-        return '<div class="mwembed"><iframe width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.youtube.com/embed/' . $id[1] . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
+		parse_str($p['query'],$vars);
+		 
+        if (isset($vars['v'])) {
+		return '<div class="mwembed"><iframe width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.youtube.com/embed/' . $vars['v'] . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
+        } else {
+		return false;	
+		}
     } else if (stristr($u, 'youtu.be') !== false) {
         $url_parse = parse_url($u);
         $url_parse = ltrim($url_parse['path'], '/');
