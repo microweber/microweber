@@ -653,7 +653,7 @@ class MenuManager
     {
         $id = intval($id);
         $table = $this->tables['menus'];
-        return get("one=1&limit=1&table=$table&id=$id");
+        return db_get("one=1&limit=1&table=$table&id=$id");
     }
 
 
