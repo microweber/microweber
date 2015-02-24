@@ -924,6 +924,7 @@ class UserManager
             $save_user['email'] = $check['email'];
 
         }
+        $this->app->event_manager->trigger('mw.user.change_password', $save_user);
 
         $this->save($save_user);
 

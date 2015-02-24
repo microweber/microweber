@@ -474,7 +474,7 @@ class Backup
         }
 
         if ($temp_dir_restore != false and is_dir($temp_dir_restore)) {
-
+            print("Media restored!<br>\n");
             $srcDir = $temp_dir_restore;
             $destDir = userfiles_path();
             $copy = $this->copyr($srcDir, $destDir);
@@ -502,10 +502,10 @@ class Backup
                 mkdir_recursive($dest_dir);
             }
             if (!is_writable($dest)) {
-                return;
+                //return;
             }
 
-            return copy($source, $dest);
+            return @copy($source, $dest);
         }
 
         if (!is_dir($dest)) {
