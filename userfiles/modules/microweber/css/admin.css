@@ -2,10 +2,11 @@
 
 @font-face {
     font-family: 'mwadmin';
-    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfasdsdaasdaasdsdssdsddfsdfsdss') format('truetype');
+    src: url('fonts/fontadmin.ttf?mwv=9') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
 
 *{
   margin: 0;
@@ -124,7 +125,7 @@ h3 > [class*="mw-icon-"]:first-child{
 #mw-edit-page-editor-holder{
   border: 1px solid #DADADA;
   border-radius:3px;
-  padding: 20px;
+
 }
 
 .mw-iframe-editor{
@@ -3798,6 +3799,9 @@ tr.mw-order-item:hover{
   font-size: 22px;
   margin: 6px 6px 0 15px;
 }
+
+
+
 
 
 /********************************************

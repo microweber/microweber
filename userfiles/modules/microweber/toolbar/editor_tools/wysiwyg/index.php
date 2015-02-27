@@ -249,6 +249,10 @@ delete_module = function(inner_node){
   padding: 0;
 }
 
+body {
+    padding: 15px;
+}
+
 .mw-admin-editor #mw-iframe-editor-area{
   line-height: 1.85;
   padding: 15px 0;

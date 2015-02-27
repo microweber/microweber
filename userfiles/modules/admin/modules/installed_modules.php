@@ -148,28 +148,78 @@ mw.on.hashParam('installed', function(){
 
 });
 
-function mw_show_marketplace(){
 
-	 $("#modules_admin_<?php print $params['id']; ?>").hide();
-	 $("#modules_market_<?php print $params['id']; ?>").show();
-	 
-	  $(".modules-index-bar").hide();
-	 
 
-  	 mw.load_module('admin/modules/market','#modules_market_<?php print $params['id']; ?>');
- 
-}
 
-function mw_show_my_modules(){
- $(".modules-index-bar").show();
-	 $("#modules_admin_<?php print $params['id']; ?>").show();
-	 $("#modules_market_<?php print $params['id']; ?>").hide();
-  	 mw.load_module('admin/modules/manage','#modules_admin_<?php print $params['id']; ?>');
- 
-}
+
+
+
+$(document).ready(function(){
+
+   mw.on.hashParam('market', function(){
+     if(this != false){
+        mw.$('html').addClass('market-init');
+        mw.load_module('admin/modules/market','#modules_market_<?php print $params['id']; ?>');
+/*        $("#modules_admin_<?php print $params['id']; ?>").hide();
+    	$("#modules_market_<?php print $params['id']; ?>").show();
+    	$(".modules-index-bar").hide();*/
+     }
+     else{
+        mw.$('html').removeClass('market-init');
+     }
+   })
+
+
+});
 
 
 </script>
+
+<style>
+
+html.market-init, .market-init body{
+  overflow: hidden;
+}
+
+html.market-init .tree-column{
+
+  -webkit-transform: translateX(-210px);
+  -moz-transform: translateX(-210px);
+  -ms-transform: translateX(-210px);
+  -o-transform: translateX(-210px);
+  transform: translateX(-210px);
+}
+html.market-init #modules_admin_<?php print $params['id']; ?>,
+html.market-init .modules-index-bar{
+   -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+  opacity: 0;
+}
+
+html.market-init #modules_admin_<?php print $params['id']; ?>,
+html.market-init .modules-index-bar,
+html.market-init .tree-column{
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+#mw-update-frame{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0;
+  right: 0;
+  left:100px;
+  background: url(<?php print template_url(); ?>img/preloader.gif) no-repeat center;
+}
+
+</style>
 
 <div id="edit-content-row" class="mw-ui-row">
   <div class="mw-ui-col tree-column">
@@ -184,7 +234,7 @@ function mw_show_my_modules(){
           <div class="fixed-side-column-container">
             <div class="mw-ui-sidenav">
                 <a href="javascript:;"  onclick="mw_show_my_modules()" class="active"><?php _e("My modules"); ?></a>
-                <a href="javascript:;" onclick="mw_show_marketplace()"><?php _e("Market"); ?></a>
+                <a href="#market=mw"><?php _e("Market"); ?></a>
             </div>
           </div>
         </div>

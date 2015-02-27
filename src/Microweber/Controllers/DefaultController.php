@@ -2158,7 +2158,7 @@ class DefaultController extends Controller
             }
         }
 
-
+        $cat_url = false;
         if (isset($_REQUEST['category_id'])) {
             $cat_url = intval($_REQUEST['category_id']);
         } elseif (isset($_SERVER['HTTP_REFERER'])) {

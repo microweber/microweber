@@ -227,6 +227,9 @@ mw.treeRenderer = {
 
   },
   rendSelector:function(holder){
+  
+  
+  
        mw.$(holder+' li').each(function(){
 
           var master = this;

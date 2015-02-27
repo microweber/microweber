@@ -2674,6 +2674,7 @@ div.mw-ui-field:after {
   border-bottom-color: black;
 }
 .mw_modal_default .mw-modal-close:after,
+.mw_modal_default .mw-modal-close:after,
 .mw_modal_basic .mw-modal-close:after {
   content: "\0111";
   font-family: Microweber;
@@ -2694,12 +2695,12 @@ div.mw-ui-field:after {
   font-size: 15px;
   color: #444;
 }
-.mw_modal_basic .mw-icon-close {
+.mw_modal_basic .mw-modal-close {
   top: 2px;
   right: 4px;
 }
-.mw_modal_simple .mw-icon-close:hover,
-.mw_modal_basic .mw-icon-close:hover {
+.mw_modal_simple .mw-modal-close:hover,
+.mw_modal_basic .mw-modal-close:hover {
   color: black;
 }
 .mw_modal_title {
@@ -2807,7 +2808,7 @@ div.mw-ui-field:after {
   background: transparent;
   border: none;
 }
-.mw_modal_gallery .mw-icon-close {
+.mw_modal_gallery .mw-modal-close {
   position: absolute;
   top: 20px;
   right: 20px;

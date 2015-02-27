@@ -463,7 +463,7 @@ class Database
      *
      *
      */
-    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
+    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false)
     {
         if (trim($q) == '') {
             return false;

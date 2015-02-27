@@ -1287,6 +1287,12 @@ class CategoryManager
 
         $content_ids = false;
         $simple_save = false;
+        if (isset($data['content_id']) and !isset($data['rel_type'])) {
+              $data['rel_type'] = 'content';
+              $data['rel_id'] =$data['content_id'];
+        }
+
+
 
         if (isset($data['rel']) and !isset($data['rel_type'])) {
             $data['rel_type'] = $data['rel'];
@@ -1338,10 +1344,12 @@ class CategoryManager
             if ($data['id'] == $data['parent_id']) {
                 unset($data['parent_id']);
             }
+        } else  if ((!isset($data['id']) or intval($data['id']) == 0) and !isset($data['parent_id'])) {
+            $data['parent_id'] = 0;
         }
 
 
-        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
+            if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
 
             $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
 

@@ -34,7 +34,7 @@ class Content
                 'is_pinged' => array('type' => 'integer', 'default' => 0),
                 'is_shop' => array('type' => 'integer', 'default' => 0),
                 'is_deleted' => array('type' => 'integer', 'default' => 0),
-                'draft_of' => 'integer',
+
 
                 'require_login' => array('type' => 'integer', 'default' => 0),
                 'status' => 'string',
@@ -50,6 +50,8 @@ class Content
 
                 'edited_by' => 'integer',
                 'posted_at' => 'dateTime',
+                'draft_of' => 'integer',
+                'copy_of' => 'integer',
 
                 '$index' => ['url' => 'title']
             ],

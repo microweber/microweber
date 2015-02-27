@@ -61,7 +61,7 @@ mw.drag.plus = {
     var off = $(node).offset();
     var left = off.left;
     if(left < 15){
-      var left = 15;
+    //  var left = 15;
     }
 
     mw.drag.plusTop.style.top = off.top + 'px';

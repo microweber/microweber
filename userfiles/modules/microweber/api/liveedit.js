@@ -372,9 +372,11 @@ mw.drag = {
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }
            else if($(mw.mm_target.parentNode).hasClass("mw-empty")){
+
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }
            else if($(mw.mm_target).hasClass("mw-empty")){
+
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }
 
@@ -1129,6 +1131,7 @@ mw.drag = {
                             return false;
                         }
                         if($(mw.currentDragMouseOver).hasClass("mw-empty")){
+
                             $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;
                         }

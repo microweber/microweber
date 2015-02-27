@@ -270,7 +270,9 @@ delete_single_post_forever = function(id){
        var arr = id;
        arr.forever = true;
        mw.post_del_forever(arr, function(){
-        mw.$(".manage-post-item-"+id).fadeOut();
+        mw.$(".manage-post-item-"+id).fadeOut(function(){
+           $(this).remove()
+        });
         mw.notification.success("<?php _e('Content is deleted!'); ?>");
       });
   });

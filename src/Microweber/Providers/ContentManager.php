@@ -3879,19 +3879,19 @@ class ContentManager
                 $c_id = intval($value);
                 if ($to_untrash == true) {
                     $q = "UPDATE $table SET is_deleted=0 WHERE id=$c_id AND  is_deleted=1 ";
-                    $this->app->database->query($q);
+                    $this->app->database->q($q);
                     $q = "UPDATE $table SET is_deleted=0 WHERE parent=$c_id   AND  is_deleted=1 ";
-                    $this->app->database->query($q);
+                    $this->app->database->q($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
                         $q = "UPDATE $table1 SET is_deleted=0 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=1 ";
-                        $this->app->database->query($q);
+                        $this->app->database->q($q);
                     }
 
                 } else if ($to_trash == false) {
                     $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database->q($q);
 
                     $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
@@ -3899,14 +3899,14 @@ class ContentManager
                         $delete_in_table = $this->tables['media'];
                         $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
                         $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database->query($q);
+                        $this->app->database->q($q);
                     }
 
                     if (isset($this->tables['categories'])) {
                         $delete_in_table = $this->tables['categories'];
                         $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
                         $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database->query($q);
+                        $this->app->database->q($q);
                     }
 
 
@@ -3914,43 +3914,44 @@ class ContentManager
                         $delete_in_table = $this->tables['categories_items'];
                         $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
                         $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database->query($q);
+                        $this->app->database->q($q);
                     }
                     if (isset($this->tables['custom_fields'])) {
                         $delete_in_table = $this->tables['custom_fields'];
                         $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
                         $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database->query($q);
+                        $this->app->database->q($q);
                     }
 
                     if (isset($this->tables['content_data'])) {
                         $delete_in_table = $this->tables['content_data'];
                         $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
                         $q = "DELETE FROM $delete_in_table WHERE content_id=$c_id    ";
-                        $this->app->database->query($q);
+                        $this->app->database->q($q);
                     }
 
 
                 } else {
-                    $q = "UPDATE $table SET is_deleted=1 WHERE id=$c_id ";
-                    $this->app->database->query($q);
-                    $q = "UPDATE $table SET is_deleted=1 WHERE parent=$c_id ";
-                    $this->app->database->query($q);
+                    $q = "UPDATE $table SET is_deleted=1 WHERE id=$c_id";
+                    $this->app->database->q($q);
+                    $q = "UPDATE $table SET is_deleted=1 WHERE parent=$c_id";
+                    $this->app->database->q($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
-                        $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=0 ";
-                        $this->app->database->query($q);
+                        $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=0";
+                        $this->app->database->q($q);
                     }
                 }
                 $this->app->cache_manager->delete('content/' . $c_id);
             }
-            $this->app->cache_manager->delete('menus');
-            $this->app->cache_manager->delete('content');
-            $this->app->cache_manager->delete('categories/global');
-            $this->app->cache_manager->delete('content/global');
+
 
         }
+        $this->app->cache_manager->delete('menus');
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('categories/global');
+        $this->app->cache_manager->delete('content/global');
         return ($del_ids);
     }
 
