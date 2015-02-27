@@ -4,7 +4,7 @@ if (!isset($params['parent-module-id'])) {
     return;
 
 }
-
+$params['id'] = $params['parent-module-id'];
 $module_template = get_option('data-template', $params['parent-module-id']);
 
 if ($module_template == false) {
