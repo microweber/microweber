@@ -3155,7 +3155,7 @@ class ContentManager
         }
 
         $data_to_save['updated_at'] = date("Y-m-d H:i:s");
-        if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
+        if ((isset($data_to_save['id']) and intval($data_to_save['id']) == 0) or !isset($data_to_save['id'])) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
                 $pos_params = array();
                 $pos_params['table'] = 'content';
@@ -3165,8 +3165,8 @@ class ContentManager
                 } else {
                     $pos_params['max'] = 'position';
                 }
-                $get_max_pos = mw()->database->get($pos_params);
-                if (is_int($get_max_pos))
+                $get_max_pos = mw()->database_manager->get($pos_params);
+                if (is_int($get_max_pos) or is_string($get_max_pos))
                     if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
                         $data_to_save['position'] = intval($get_max_pos) - 1;
                     } else {
@@ -3175,6 +3175,7 @@ class ContentManager
 
             }
             $data_to_save['posted_at'] = $data_to_save['updated_at'];
+           
         }
 
 
