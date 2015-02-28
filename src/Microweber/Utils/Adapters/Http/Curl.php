@@ -265,8 +265,11 @@ class Curl
 
             curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
             $is_new_curl = class_exists('CurlFile', false);
+            if (is_array($this->post_data) and !empty($this->post_data)) {
+                $str = http_build_query($this->post_data);
+                curl_setopt($ch, CURLOPT_POSTFIELDS,$str );
 
-            if ($this->fields_string != false) {
+            } elseif ($this->fields_string != false) {
                 curl_setopt($ch, CURLOPT_POST, 1);
                 if (isset($this->post_data) and is_array($this->post_data) and !empty($this->post_data)) {
                     if ($is_new_curl == false) {

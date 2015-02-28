@@ -15,16 +15,13 @@
     $custom_bg          = get_option('custom_bg', 'mw-template-liteness');
     $custom_bg_position = get_option('custom_bg_position', 'mw-template-liteness');
     $custom_bg_size     = get_option('custom_bg_size', 'mw-template-liteness');
-	$kuler_colors       = get_option('kuler_colors', 'mw-template-liteness');
 
     /* Color scheme */
     if($color_scheme == ''){  $color_scheme = 'default';  }
 ?>
-<?php if($color_scheme != 'kuler'): ?>
+
 <link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/<?php print $color_scheme; ?>.css" type="text/css" />
-<?php else: ?>
-<link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/kuler.php?colors=<?php print $kuler_colors; ?>" type="text/css" />
-<?php endif ?>
+
 
 <?php
     /* Custom defined colors */

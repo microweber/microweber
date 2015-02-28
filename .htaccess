@@ -3,7 +3,6 @@
                 Options -MultiViews
             </IfModule>
             RewriteEngine On
-                # RewriteRule ^(.*)/$ C:\Users\Boyan\Documents\GitHub\microweber/$1 [R=301,L]
                 RewriteCond %{REQUEST_FILENAME} !-f
                 RewriteCond %{REQUEST_FILENAME} !-d
                 RewriteRule ^(.*)$ index.php [NC,L]

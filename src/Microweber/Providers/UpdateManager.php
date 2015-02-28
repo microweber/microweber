@@ -183,18 +183,20 @@ class UpdateManager
             $this->save_license($lic);
         }
 
-
+        $res = array();
         if ($dl_get != false and is_string($dl_get)) {
             $dl_get = json_decode($dl_get, true);
 
             if (isset($dl_get['url'])) {
-                return $this->install_from_market($dl_get);
+                $res = $this->install_from_market($dl_get);
             }
         } else {
             if (isset($dl_get['url'])) {
-                return $this->install_from_market($dl_get);
+                $res = $this->install_from_market($dl_get);
             }
         }
+        $this->post_update();
+        return $res;
 
 
     }
@@ -407,16 +409,16 @@ class UpdateManager
                     } else {
                         unset($work[$k]);
 
-                      ///  $this->composer_run();
-                        if($k == 'mw_version'){
-                            $install = array('mw_version'=>'latest');
+                        ///  $this->composer_run();
+                        if ($k == 'mw_version') {
+                            $install = array('mw_version' => 'latest');
                             $is_done = $this->apply_updates($install);
                         }
 
 
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
-                      //  $msg = "Installed all " . $k . "\n";
-                      //  $msg = "Installed " . "\n";
+                        //  $msg = "Installed all " . $k . "\n";
+                        //  $msg = "Installed " . "\n";
                         $msg = 'done';
                         return $msg;
                     }
@@ -546,12 +548,12 @@ class UpdateManager
                 $this->_log_msg('Core update unzipped');
                 $new_composer = $target_dir . 'composer.json.merge';
                 if (is_file($new_composer)) {
-               //     $this->composer_merge($new_composer);
+                    //     $this->composer_merge($new_composer);
                 }
 
                 $this->post_update();
                 return $result;
-             }
+            }
 
         }
 
@@ -875,6 +877,7 @@ class UpdateManager
         $lic_ids = array();
         $licenses = $this->get_licenses($params);
         if (!empty($licenses)) {
+
             $result = $this->call('validate_licenses', $licenses);
 
             if (!empty($result)) {

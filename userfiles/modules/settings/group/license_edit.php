@@ -17,6 +17,7 @@ $id =  $lic['id'];
 <?php if(!isset($params['prefix'])): ?>
 <?php return; ?>
 <?php endif; ?>
+
 <script  type="text/javascript">
 $(document).ready(function(){
 
@@ -25,7 +26,8 @@ $(document).ready(function(){
      mw.form.post(mw.$('#activate-form-<?php print $params['id']; ?>') , '<?php print site_url('api') ?>/mw_save_license', function(){
 		 
 		mw.notification.msg(this);
-		mw.reload_module('#<?php print $params['parent-module']; ?>');
+	//	mw.reload_module('#<?php print $params['parent-module']; ?>');
+		mw.reload_module('<?php print $params['parent-module']; ?>');
 	 });
 
      return false;
