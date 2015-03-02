@@ -974,12 +974,18 @@ class UserManager
         if (isset($params) and !empty($params)) {
             $user = isset($params['username']) ? $params['username'] : false;
             $email = isset($params['email']) ? $params['email'] : false;
+			$data = array();
             if (trim($user != '')) {
                 $data1 = array();
                 $data1['username'] = $user;
                 $data = array();
                 if (trim($user != '')) {
                     $data = $this->get_all($data1);
+					if($data == false){
+						$data1 = array();
+                		$data1['email'] = $user;
+				 		$data = $this->get_all($data1);
+					}
                 }
             } elseif (trim($email != '')) {
                 $data1 = array();
@@ -989,6 +995,7 @@ class UserManager
                     $data = $this->get_all($data1);
                 }
             }
+			 
             if (isset($data[0])) {
                 $data_res = $data[0];
             }
