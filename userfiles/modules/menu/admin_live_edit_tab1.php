@@ -237,7 +237,7 @@ $(document).ready(function(){
   <div id="quick_new_menu_holder">
 
   <a href="javascript:add_new_menu();" class="mw-ui-btn pull-right" id="create-menu-btn">
-    <span class="mw-icon-plus"></span><?php _e("Create new nenu"); ?>
+    <span class="mw-icon-plus"></span><?php _e("Create new menu"); ?>
   </a>
 
 

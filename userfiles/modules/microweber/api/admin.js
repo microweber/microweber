@@ -722,13 +722,14 @@ mw.admin = {
         var el = '<div data-type="pictures" id="' + id + '" class="module">&nbsp;</div>';
         framewindow.mw.wysiwyg.insert_html(el);
         framewindow.mw.load_module('pictures', '#' + id, function () {
-            framewindow.mw.drag.fixes();
-            setTimeout(function () {
-                framewindow.mw.drag.fix_placeholders();
-            }, 40);
-            framewindow.mw.resizable_columns();
-            framewindow.mw.dropable.hide();
-
+            if(typeof framewindow.mw.drag != "undefined"){
+                framewindow.mw.drag.fixes();
+                setTimeout(function () {
+                    framewindow.mw.drag.fix_placeholders();
+                }, 40);
+                framewindow.mw.resizable_columns();
+                framewindow.mw.dropable.hide();
+            }
 
         });
         try {
