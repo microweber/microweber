@@ -138,6 +138,7 @@ $(document).ready(function(){
         	  });
         	  <?php if(intval($data['id']) == 0): ?>
         	  	mw.url.windowHashParam("new_content", "true");
+				mw.reload_module('#<?php print $params['id'] ?>');
         	  //	mw.url.windowHashParam("action", "editcategory:" + this);
 
 				
