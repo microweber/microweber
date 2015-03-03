@@ -63,7 +63,7 @@ mw.ok_import_file = function(){
   var file = $('#mw_import_file').val()
   var page_id = $('#mw_import_to_page_selector').val()
   mw.admin_import.restore_to_page(file,page_id);
-  
+  	 mw.reload_module_interval('admin/import/process', 1000);
    $('.mw_modal').remove()
   
   

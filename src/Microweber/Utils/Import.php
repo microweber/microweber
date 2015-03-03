@@ -21,6 +21,7 @@ api_expose_admin('Microweber\Utils\Import\create_full');
 api_expose_admin('Microweber\Utils\Import\move_uploaded_file_to_import');
 api_expose_admin('Microweber\Utils\Import\restore');
 api_expose_admin('Microweber\Utils\Import\export');
+api_expose_admin('Microweber\Utils\Import\batch_process');
 
 class Import
 {
@@ -47,6 +48,24 @@ class Import
 
     function __construct($app = null)
     {
+
+        spl_autoload_register(function($class) {
+            $prefix = 'QueryPath';
+
+            if ( ! substr($class, 0, 8) === $prefix) {
+                return;
+            }
+
+            $class = substr($class, strlen($prefix));
+            $location = __DIR__ . '/lib/QueryPath' . str_replace('\\', '/', $class) . '.php';
+
+            if (is_file($location)) {
+                require_once($location);
+            }
+        });
+
+
+
 
 
         if (!defined('USER_IP')) {
@@ -418,7 +437,7 @@ class Import
         } else {
             $total = count($content_items);
         }
-
+       // dd($content_items);
         if ($content_items != false and is_array($content_items)) {
 
             if (!empty($content_items)) {
@@ -453,7 +472,7 @@ class Import
                             $par = get_content_by_id($content['parent']);
 
                             if ($par != false) {
-                                if (isset($par['is_shop']) and $par['is_shop'] == 'y') {
+                                if (isset($par['is_shop']) and $par['is_shop'] == 1) {
                                     $content['content_type'] = 'product';
                                     $content['subtype'] = 'product';
                                 }
@@ -473,7 +492,7 @@ class Import
                             unset($content['debug']);
                         }
                         //  $content['debug'] = 'y';
-                        $content['download_remote_images'] = true;
+                      //  $content['download_remote_images'] = true;
                         if ($is_saved != false) {
                             $content['id'] = $is_saved['id'];
                             if (!isset($content['content_type'])) {
@@ -525,9 +544,16 @@ class Import
     {
 
         libxml_use_internal_errors(true);
-        $parser2 = MW_APP_PATH . 'libs/QueryPath/QueryPath.php';
+
+
+
+
+
+        $parser2 = __DIR__ . DIRECTORY_SEPARATOR . 'lib/QueryPath/QueryPath.php';
         require_once($parser2);
-        $parser2 = MW_APP_PATH . 'libs/QueryPath/qp.php';
+
+
+        $parser2 = __DIR__ . DIRECTORY_SEPARATOR . 'lib/QueryPath/qp.php';
 
         require_once($parser2);
 
@@ -560,6 +586,26 @@ class Import
             }
 
 
+            $content_item['created_at'] = false;
+
+            if ($content_item['created_at'] == false) {
+
+            $el = $item->find('post_date_gmt');
+            $content_item['created_at'] = $el->eq(0)->text();
+
+            }
+
+            if ($content_item['created_at'] == false) {
+                $el = $item->find('post_date');
+                $content_item['created_at'] = $el->eq(0)->text();
+            }
+            if ($content_item['created_at'] == false) {
+                $el = $item->find('pubDate');
+                $content_item['created_at'] = $el->eq(0)->text();
+            }
+            if ($content_item['created_at'] != false) {
+                $content_item['updated_at'] = $content_item['created_at'];
+            }
             //$el = qp($item, 'channel>item>description');
             $el = $item->find('description');
             $content_item['description'] = $el->eq(0)->text();
@@ -863,6 +909,9 @@ class Import
         $map_keys['updated'] = 'updated_at';
         $map_keys['pubDate'] = 'created_at';
 
+
+
+
         if (isset($item['is_home']) and $item['is_home'] == 'y') {
             $item['is_home'] = 1;
         }
@@ -1032,7 +1081,7 @@ class Import
             return $loc;
         }
         $folder_root = false;
-        if (defined('userfiles_path()')) {
+        if (function_exists('userfiles_path')) {
             $folder_root = userfiles_path();
         } elseif (mw_cache_path()) {
             $folder_root = normalize_path(mw_cache_path());
