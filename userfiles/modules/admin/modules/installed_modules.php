@@ -56,8 +56,11 @@ function mw_reload_all_modules(){
 	mw.$('#modules_admin_<?php print $params['id']; ?>').attr('reload_modules',1);
 	mw.$('#modules_admin_<?php print $params['id']; ?>').attr('cleanup_db',1);
 
-  	 mw.load_module('admin/modules/manage','#modules_admin_<?php print $params['id']; ?>');
-	// mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db');
+  	 mw.load_module('admin/modules/manage','#modules_admin_<?php print $params['id']; ?>',function(){
+		 mw.notification.success('Modules have been reloaded',5000)
+		 mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db'); 
+	 });
+
 
 }
 
