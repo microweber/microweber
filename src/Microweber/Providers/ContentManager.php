@@ -3175,7 +3175,7 @@ class ContentManager
 
             }
             $data_to_save['posted_at'] = $data_to_save['updated_at'];
-           
+
         }
 
 

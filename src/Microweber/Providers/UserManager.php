@@ -30,7 +30,7 @@ if (!defined('MW_USER_IP')) {
 }
 
 
-class UserManager
+class UserManager 
 {
     public $tables = array();
 
@@ -1010,8 +1010,8 @@ class UserManager
                     $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
                     $security = array();
                     $security['ip'] = MW_USER_IP;
-                    $security['hash'] = $this->app->format->array_to_base64($data_res);
-                    $function_cache_id = md5(serialize($security)) . uniqid() . rand();
+                  //  $security['hash'] = $this->app->format->array_to_base64($data_res);
+                    $function_cache_id = md5(rand()) . uniqid() . rand().str_random(40);
                     if (isset($data_res['id'])) {
                         $data_to_save = array();
                         $data_to_save['id'] = $data_res['id'];
