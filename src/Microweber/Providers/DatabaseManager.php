@@ -299,6 +299,7 @@ class DatabaseManager extends DbUtils
 
 
         }
+
         if (!is_array($data)) {
             return false;
         }

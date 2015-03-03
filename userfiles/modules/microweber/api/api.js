@@ -567,7 +567,7 @@ mw.askusertostay = false;
   mw.serializeFields =  function(id, ignorenopost){
         var ignorenopost = ignorenopost || false;
         var el = mw.$(id);
-        fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+        fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
         var data = {}
         $(fields, el).each(function(){
             if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name != '' && typeof this.name != 'undefined'){

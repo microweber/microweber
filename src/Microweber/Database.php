@@ -287,8 +287,10 @@ class Database
         $query = DB::table($table);
 
         if (!isset($params['skip_timestamps'])) {
-            if (!isset($params['created_at'])) {
-                $params['created_at'] = date("Y-m-d H:i:s");
+            if (!isset($params['id']) or (isset($params['id']) and $params['id'] == 0)) {
+                if (!isset($params['created_at'])) {
+                    $params['created_at'] = date("Y-m-d H:i:s");
+                }
             }
             if (!isset($params['updated_at'])) {
                 $params['updated_at'] = date("Y-m-d H:i:s");
@@ -330,7 +332,8 @@ class Database
             $id_to_return = $query->insert($params);
             $params['id'] = $id_to_return = DB::getPdo()->lastInsertId();
         } else {
-            unset($params['created_at']);
+            //unset($params['created_at']);
+
             $id_to_return = $query->where('id', $params['id'])->update($params);
             $id_to_return = $params['id'];
         }

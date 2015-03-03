@@ -2650,8 +2650,25 @@ class ContentManager
         if ($adm == false) {
             $stop = true;
             $author_id = user_id();
+
+
+            if (isset($data['created_at'])) {
+                unset($data['created_at']);
+            }
+
+            if (isset($data['updated_at'])) {
+                unset($data['updated_at']);
+            }
+
+
             if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
                 $page_data_to_check_author = $this->get_by_id($data['id']);
+
+
+
+
+
+
                 if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
                     $stop = true;
                     return array('error' => "You don't have permission to edit this content");
@@ -2960,6 +2977,16 @@ class ContentManager
         }
 
 
+
+        if (isset($data['created_at'])) {
+            $data_to_save['created_at'] = ($data['created_at']);
+        }
+
+        if (isset($data['updated_at'])) {
+            $data_to_save['updated_at'] = ($data['updated_at']);
+        }
+
+
         $data_to_save_options = array();
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
             $data_to_save['is_home'] = 1;
@@ -3154,7 +3181,12 @@ class ContentManager
             }
         }
 
+
+
+if(!isset($data_to_save['updated_at'])){
         $data_to_save['updated_at'] = date("Y-m-d H:i:s");
+}
+
         if ((isset($data_to_save['id']) and intval($data_to_save['id']) == 0) or !isset($data_to_save['id'])) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
                 $pos_params = array();

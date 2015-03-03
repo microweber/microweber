@@ -2,7 +2,8 @@
 only_admin_access();
 $data = false;
 if (isset($params['content-id'])) {
-    $data = get_content_by_id(intval($params["content-id"]));
+    $data = get_content_by_id($params["content-id"]);
+	 
 }
 
 
@@ -92,6 +93,21 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
                 form.querySelector('input[name="subtype"]').value = ctype
             }
         });
+    }
+		mw.adm_cont_enable_edit_of_created_at = function () {
+        $('.mw-admin-edit-post-change-created-at-value').removeAttr('disabled').show();
+		 $('.mw-admin-edit-post-display-created-at-value').remove();
+		
+		
+		
+    }
+	
+	mw.adm_cont_enable_edit_of_updated_at = function () {
+        $('.mw-admin-edit-post-change-updated-at-value').removeAttr('disabled').show();
+		 $('.mw-admin-edit-post-display-updated-at-value').remove();
+		
+		
+		
     }
 </script>
 
@@ -269,13 +285,22 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
   </div>
 </div>
 <?php endif; ?>
-<?php if(isset($item['id'])): ?>
-<div class=""> <small> id: <?php print $item['id'] ?></small></div>
+<?php if(isset($data['id']) and $data['id'] != 0): ?>
+<div class=""> <small> id: <?php print $data['id'] ?></small></div>
+
+<?php if(isset($data['created_at'])): ?>
+<div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()"> <small>  <?php _e("Created on"); ?>: 
+<span class="mw-admin-edit-post-display-created-at-value"><?php print $data['created_at'] ?></span>
+<input class="mw-admin-edit-post-change-created-at-value" style="display:none" type="datetime" name="created_at" value="<?php print $data['created_at'] ?>" disabled="disabled">
+</small></div>
 <?php endif; ?>
-<?php if(isset($item['created_at'])): ?>
-<div class=""> <small>  <?php _e("Created on"); ?>: <?php print $item['created_at'] ?></small></div>
+
+
+<?php if(isset($data['updated_at'])): ?>
+<div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()"> <small>  <?php _e("updated on"); ?>: 
+<span class="mw-admin-edit-post-display-updated-at-value"><?php print $data['updated_at'] ?></span>
+<input class="mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
+</small></div>
 <?php endif; ?>
-<?php if(isset($item['updated_at'])): ?>
-<div class=""> <small>  <?php _e("Updated on"); ?>: <?php print $item['updated_at'] ?></small></div>
 <?php endif; ?>
-<?php /* PRODUCTS ONLY  */ ?>
+ 
