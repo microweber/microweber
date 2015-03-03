@@ -56,6 +56,7 @@
             </ul>
           </div>
         </div>
+      <span style="margin-left: 10px;" class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-savetheimage pull-right'><?php _e("Update"); ?></span>
 
         <span class="mw-ui-btn mw-ui-btn-warn pull-right disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
 
@@ -83,7 +84,6 @@
             </div>
           </div>
       </div>
-      <span class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-savetheimage pull-right'><?php _e("Update"); ?></span>
       </div>
   </div>
 </div>

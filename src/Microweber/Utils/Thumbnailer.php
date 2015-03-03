@@ -40,8 +40,9 @@ class Thumbnailer
 
     public function setImage($image)
     {
-        if (is_file($image) && ($this->sizes = getimagesize($image)))
+        if (is_file($image) && ($this->sizes = @getimagesize($image))){
             $this->image = $image;
+        }
     }
 
     /*  createThumb creates and saves a thumbnail
