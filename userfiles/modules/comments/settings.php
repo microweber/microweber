@@ -155,6 +155,11 @@
                 <h2><?php _e("Settings"); ?></h2>
                 <small><?php _e("Define comments settings"); ?></small> </div>
             </div>
+            
+            
+    
+            
+            
 
             <label class="mw-ui-check">
               <?php  $are_enabled = get_option('enable_comments', 'comments')=='y';  ?>
@@ -342,6 +347,12 @@
                     <i class="avatartype avatartype-upload"></i> <?php _e("Upload Picture"); ?></span></label>
                 </div>
               </div>
+              
+              
+              
+                     <module type="comments/settings_for_engine" id="mw-comments-engine-settings" />
+            
+            
 
                 </div>
             </div>

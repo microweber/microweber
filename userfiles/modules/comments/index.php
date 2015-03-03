@@ -6,6 +6,14 @@ return;
 
 require_once(dirname(__FILE__) . DS . 'functions.php');
 if (get_option('enable_comments', 'comments') == 'y') {
+	$engine = get_option('engine', 'comments');
+	if ($engine=='disqus') {
+		return include(dirname(__FILE__) . DS . 'engines/disqus.php');
+	} elseif ($engine=='facebook') {
+		return include(dirname(__FILE__) . DS . 'engines/facebook.php');
+	}
+
+
 
     $login_required = get_option('user_must_be_logged', 'comments') == 'y';
     $from_related_posts = false;
