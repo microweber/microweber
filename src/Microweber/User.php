@@ -5,10 +5,48 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+//use Sofa\Revisionable\Laravel\RevisionableTrait;
+
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
+
+    // use the trait
+  //  use RevisionableTrait;
+
+    // Set revisionable whitelist - only changes to any
+    // of these fields will be tracked during updates.
+    protected $revisionable = [
+        'email',
+        'username',
+        'first_name',
+        'last_name',
+        'name',
+        'last_login',
+        'last_login_ip',
+        'created_by',
+        'edited_by',
+        'username',
+        'password',
+        'email',
+        'is_active',
+        'is_admin',
+        'is_verified',
+        'is_public',
+        'oauth_uid',
+        'oauth_provider'
+    ];
+
+    // Or revisionable blacklist - if $revisionable is not set
+    // then you can exclude some fields from being tracked.
+    protected $nonRevisionable = [
+        'created_at',
+        'updated_at',
+    ];
+
+
+
 
     //protected $hidden = array('password', 'remember_token');
     protected $fillable = array(

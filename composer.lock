@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b124faa3e44fa16994b39c825d3c1635",
+    "hash": "1578f3d15b29eb47c795838ae524b687",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "45b1f356c24d87788a339f6a50d6d78bef464c47"
+                "reference": "b8ac790b4f2db1f718e640015636f005401c1c71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/45b1f356c24d87788a339f6a50d6d78bef464c47",
-                "reference": "45b1f356c24d87788a339f6a50d6d78bef464c47",
+                "url": "https://api.github.com/repos/composer/composer/zipball/b8ac790b4f2db1f718e640015636f005401c1c71",
+                "reference": "b8ac790b4f2db1f718e640015636f005401c1c71",
                 "shasum": ""
             },
             "require": {
@@ -132,7 +132,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2015-02-27 14:31:27"
+            "time": "2015-03-05 22:21:10"
         },
         {
             "name": "composer/installers",
@@ -1076,12 +1076,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a2f5629fb0e6a85b749b3f49bd790b61381c14a9"
+                "reference": "36c6081e1c7101b44861a36519bd98117e74188d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a2f5629fb0e6a85b749b3f49bd790b61381c14a9",
-                "reference": "a2f5629fb0e6a85b749b3f49bd790b61381c14a9",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/36c6081e1c7101b44861a36519bd98117e74188d",
+                "reference": "36c6081e1c7101b44861a36519bd98117e74188d",
                 "shasum": ""
             },
             "require": {
@@ -1093,7 +1093,7 @@
                 "mockery/mockery": "~0.9",
                 "phpspec/phpspec": "~2.0.0",
                 "phpspec/prophecy-phpunit": "~1.0",
-                "phpunit/phpunit": "~4.0",
+                "phpunit/phpunit": "~4.1",
                 "predis/predis": "~1.0",
                 "tedivm/stash": "~0.12.0"
             },
@@ -1151,7 +1151,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-02-22 18:36:34"
+            "time": "2015-03-05 12:28:53"
         },
         {
             "name": "league/oauth1-client",
@@ -1222,12 +1222,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bba433ac380c47523fab495a1322368381df0996"
+                "reference": "caa3145a141ba3294ffdd2f6906805f301c04cf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bba433ac380c47523fab495a1322368381df0996",
-                "reference": "bba433ac380c47523fab495a1322368381df0996",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/caa3145a141ba3294ffdd2f6906805f301c04cf1",
+                "reference": "caa3145a141ba3294ffdd2f6906805f301c04cf1",
                 "shasum": ""
             },
             "require": {
@@ -1244,6 +1244,7 @@
                 "phpunit/phpunit": "~4.0",
                 "raven/raven": "~0.5",
                 "ruflin/elastica": "0.90.*",
+                "swiftmailer/swiftmailer": "~5.3",
                 "videlalvaro/php-amqplib": "~2.4"
             },
             "suggest": {
@@ -1260,7 +1261,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12.x-dev"
+                    "dev-master": "1.13.x-dev"
                 }
             },
             "autoload": {
@@ -1286,7 +1287,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-02-25 16:48:53"
+            "time": "2015-03-05 01:23:59"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -1334,16 +1335,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.14.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bb87460c995d97fe55b39e65f6ffb7f64b0a941e"
+                "reference": "9b7665041754eaa9bb2622349bc9adbc1cf61cb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bb87460c995d97fe55b39e65f6ffb7f64b0a941e",
-                "reference": "bb87460c995d97fe55b39e65f6ffb7f64b0a941e",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/9b7665041754eaa9bb2622349bc9adbc1cf61cb8",
+                "reference": "9b7665041754eaa9bb2622349bc9adbc1cf61cb8",
                 "shasum": ""
             },
             "require": {
@@ -1370,13 +1371,13 @@
                 }
             ],
             "description": "A simple API extension for DateTime.",
-            "homepage": "https://github.com/briannesbitt/Carbon",
+            "homepage": "http://carbon.nesbot.com",
             "keywords": [
                 "date",
                 "datetime",
                 "time"
             ],
-            "time": "2015-02-06 05:07:29"
+            "time": "2015-03-04 04:50:11"
         },
         {
             "name": "nikic/php-parser",
@@ -1472,12 +1473,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "39fac193d933267f18567d6afd8b55853c6eef1a"
+                "reference": "37f846fa4abef983b50ccc7a8706d45723c792ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/39fac193d933267f18567d6afd8b55853c6eef1a",
-                "reference": "39fac193d933267f18567d6afd8b55853c6eef1a",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/37f846fa4abef983b50ccc7a8706d45723c792ee",
+                "reference": "37f846fa4abef983b50ccc7a8706d45723c792ee",
                 "shasum": ""
             },
             "require": {
@@ -1488,10 +1489,10 @@
                 "symfony/console": "~2.3.10|~2.4.2|~2.5"
             },
             "require-dev": {
-                "fabpot/php-cs-fixer": "~1.3",
+                "fabpot/php-cs-fixer": "~1.5",
                 "phpunit/phpunit": "~3.7|~4.0",
                 "squizlabs/php_codesniffer": "~2.0",
-                "symfony/finder": "~2.1"
+                "symfony/finder": "~2.1|~3.0"
             },
             "suggest": {
                 "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
@@ -1535,7 +1536,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2015-02-25 20:42:09"
+            "time": "2015-03-05 00:40:16"
         },
         {
             "name": "react/promise",
@@ -1626,6 +1627,56 @@
                 "validator"
             ],
             "time": "2015-01-04 21:18:15"
+        },
+        {
+            "name": "sofa/revisionable",
+            "version": "0.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jarektkaczyk/revisionable.git",
+                "reference": "99d73292225fb3ec856c3ac1ca2932a34117a3f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jarektkaczyk/revisionable/zipball/99d73292225fb3ec856c3ac1ca2932a34117a3f8",
+                "reference": "99d73292225fb3ec856c3ac1ca2932a34117a3f8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "cartalyst/sentry": "~2.0",
+                "illuminate/auth": "~5.0",
+                "illuminate/database": "~5.0",
+                "mockery/mockery": "*",
+                "phpspec/phpspec": "~2.0@dev",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-4": {
+                    "Sofa\\Revisionable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jarek Tkaczyk",
+                    "email": "jarek@softonsofa.com",
+                    "homepage": "http://softonsofa.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Nice and easy way to handle revisions of your db.",
+            "time": "2015-03-05 23:24:38"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2858,12 +2909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9336e3e7018de057c484aa1768a1d4f47039244f"
+                "reference": "10f6685ca2cf5d8662b43a225ab853699821690b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9336e3e7018de057c484aa1768a1d4f47039244f",
-                "reference": "9336e3e7018de057c484aa1768a1d4f47039244f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/10f6685ca2cf5d8662b43a225ab853699821690b",
+                "reference": "10f6685ca2cf5d8662b43a225ab853699821690b",
                 "shasum": ""
             },
             "require": {
@@ -2874,7 +2925,7 @@
                 "ext-spl": "*",
                 "php": ">=5.3.3",
                 "phpspec/prophecy": "~1.3.1",
-                "phpunit/php-code-coverage": "~2.0",
+                "phpunit/php-code-coverage": "~2.0,>=2.0.11",
                 "phpunit/php-file-iterator": "~1.3.2",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "~1.0.2",
@@ -2922,7 +2973,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-02-27 08:10:13"
+            "time": "2015-03-02 06:58:30"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2930,12 +2981,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "b752b41e3fead4feee99f3a2f2972cef517abb8b"
+                "reference": "37e984c0d004800c456658cb08580fdfd26d9c1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/b752b41e3fead4feee99f3a2f2972cef517abb8b",
-                "reference": "b752b41e3fead4feee99f3a2f2972cef517abb8b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/37e984c0d004800c456658cb08580fdfd26d9c1d",
+                "reference": "37e984c0d004800c456658cb08580fdfd26d9c1d",
                 "shasum": ""
             },
             "require": {
@@ -2977,7 +3028,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-01-18 10:44:19"
+            "time": "2015-03-02 06:02:35"
         },
         {
             "name": "sebastian/comparator",
@@ -3406,6 +3457,7 @@
     "stability-flags": {
         "composer/composer": 20,
         "laravel/socialite": 20,
+        "sofa/revisionable": 20,
         "phpunit/phpunit": 20
     },
     "prefer-stable": false,

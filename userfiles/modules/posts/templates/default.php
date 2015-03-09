@@ -58,7 +58,7 @@ if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
                                 <div class="mw-ui-col-container">
                                     <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image"
                                                                                                src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>"
-                                                                                               class="img-rounded img-polaroid"
+
                                                                                                alt=""></a>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@ if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
                             <div class="mw-ui-col">
                                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image"
                                                                                            src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>"
-                                                                                           class="img-rounded img-polaroid"
+
                                                                                            alt=""></a>
                             </div>
                         <?php endif; ?>
@@ -93,7 +93,7 @@ if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                                <a href="<?php print $item['link'] ?>" class="btn btn-default">
+                                <a href="<?php print $item['link'] ?>" class="mw-ui-btn">
                                     <?php $read_more_text ? print $read_more_text : _e("Continue Reading"); ?>
                                 </a>
                             <?php endif; ?>

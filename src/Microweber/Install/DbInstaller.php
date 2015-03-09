@@ -28,7 +28,8 @@ class DbInstaller
             new Schema\Content,
             new Schema\Form,
             new Schema\Options,
-            new Schema\Shop
+            new Schema\Shop,
+            new Schema\Revisions
         ];
     }
 
@@ -62,6 +63,9 @@ class DbInstaller
     {
         $exec = $this->getSystemSchemas();
         foreach ($exec as $data) {
+            if (method_exists($data, 'up')) {
+                $data->up();
+            }
             if (method_exists($data, 'seed')) {
                 $data->seed();
             }
