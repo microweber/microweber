@@ -2,8 +2,7 @@
 ---
 
 ** Now runs on Laravel 5! **
-Keep in mind v.1.0 is still under development and is yet to be officially released. Use in production at your own risk.
-
+ 
 ![Live edit](http://microweber.com/cdn/microweber_screen_1.jpg "")
 
 ## What is Microweber?
