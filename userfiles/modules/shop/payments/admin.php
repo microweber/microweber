@@ -443,13 +443,13 @@ $payment_modules = get_modules('type=payment_gateway');
                   <?php _e("Disable online shop"); ?>
                 </h4>
                 <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="0"  type="radio"  <?php if(get_option('shop_disabled', 'website') != 1): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
                   </span>
                 </label>
                 <label class="mw-ui-check">
-                  <input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="1"  type="radio"  <?php if(get_option('shop_disabled', 'website') == 1): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
                   <span></span>
                   <span>
                   <?php _e("Yes"); ?>
