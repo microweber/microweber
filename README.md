@@ -1,23 +1,30 @@
 # Microweber: Drag-and-Drop CMS
----
 
-** Now runs on Laravel 5! **
+**Current version: 1.0 running on Laravel 5!**
+
+<center>
+**[Download](https://microweber.com/download.php) |
+[Live Demo](http://demo.microweber.org/admin?username=demo&password=demo) |
+[What is Microweber?](#what-is) |
+[Getting Started](#getting-started) |
+[Installation](#installation) |
+[Requirements](#requirements) |
+[Contribute](#contribute)**
+</center>
+---
 
 ![Live edit](https://microweber.com/cdn/microweber_screen_1.jpg "")
 
-## What is Microweber?
+## What is Microweber? <a name="what-is" />
 
 Microweber is a new generation content management system that allows you to create a website using drag and drop.
 You can easily manipulate the content and the layout of your pages. No coding skills are required.
 
-### [Live Demo](http://demo.microweber.org/admin?username=demo&password=demo)
-### [Download](https://microweber.com/download.php)
-
-## Getting Started
+## Getting Started <a name="getting-started" />
 
 Check out our [online guides](http://lab.microweber.com/l5/microweber-docs/guides/)
 
-## Installation
+## Installation <a name="installation" />
 
 You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) in order to download Microweber's dependencies (including [the Laravel framework](http://laravel.com/)).
 
@@ -29,7 +36,7 @@ You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) i
 
 Clone this repository (or download as zip) on your server and run `composer install` in the base folder.
 
-## Requirements
+## Requirements <a name="requirements" />
 
 ### General Requirements
 * HTTP server ([Apache](http://httpd.apache.org/), [IIS](http://www.iis.net/downloads), [nginx](http://nginx.org/en/download.html), etc.)
@@ -70,7 +77,7 @@ On the installation screen you can only choose from database drivers your PHP co
 If you don't see your server of choice in the list you have to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server.
 PHP usually comes with PDO enabled by default.
 
-## Contribute
+## Contribute <a name="contribute" />
 We are looking for people who want to help us improve Microweber. 
 
 If you are a developer, submitting fixes is easy:
