@@ -27,6 +27,9 @@ Check out our [online guides](http://lab.microweber.com/l5/microweber-docs/guide
 
 ## Installation <a name="installation" />
 
+### [Download](https://microweber.com/download.php) and unzip
+
+#### Or install manually
 You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) in order to download Microweber's dependencies (including [the Laravel framework](http://laravel.com/)).
 
 * Via Composer
