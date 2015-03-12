@@ -42,10 +42,12 @@ Clone this repository (or download as zip) on your server and run `composer inst
 ### General Requirements
 * HTTP server ([Apache](http://httpd.apache.org/), [IIS](http://www.iis.net/downloads), [nginx](http://nginx.org/en/download.html), etc.)
 * Database server
-* PHP 5.4 or above
-* The `lib-xml` must be enabled (with DOM support)
-* The `GD` PHP extension
-* The `Mcrypt` PHP extension 
+* PHP >= 5.4 or HHVM
+  * The `lib-xml` must be enabled (with DOM support)
+  * The `GD` PHP extension
+  * The `Mcrypt` PHP extension 
+
+*Note: Microweber runs flawlessly on HHVM. We highly recommend replacing PHP with HHVM on Linux environments.*
 
 ### HTTP Server
 
