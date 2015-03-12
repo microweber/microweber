@@ -29,6 +29,7 @@ function save_category($data)
     $s =  mw()->category_manager->save($data);
      return $s;
 }
+api_bind_admin('category/delete','delete_category'); 
 
 api_expose_admin('delete_category');
 function delete_category($data)
