@@ -2680,6 +2680,16 @@ class ContentManager
 
             }
 
+            if (isset($data['id']) and $data['id'] != 0) {
+                if (!is_admin()) {
+                    $check = get_content_by_id($data['id']);
+                    if ($check['created_by'] != user_id()) {
+                        return array('error' => "Wrong content");
+                    }
+                }
+            }
+
+
             if (isset($data['is_home'])) {
                 unset($data['is_home']);
             }
@@ -2796,14 +2806,7 @@ class ContentManager
             }
         }
 
-        if (isset($data['id']) and $data['id'] != 0) {
-            if (!is_admin()) {
-                $check = get_content_by_id($data['id']);
-                if ($check['created_by'] != user_id()) {
-                    return array('error' => "Wrong content");
-                }
-            }
-        }
+
 
         if (isset($data['content_url']) and !isset($data['url'])) {
             $data['url'] = $data['content_url'];

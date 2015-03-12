@@ -2821,10 +2821,10 @@ div.mw-ui-field:after {
   cursor: pointer;
   box-shadow: 1px 1px 2px #000;
 }
-.mw_modal_gallery .mw-icon-close:hover {
+.mw_modal_gallery .mw-modal-close:hover {
   background-color: #CCCCCC;
 }
-.mw_modal_gallery .mw-icon-close:active {
+.mw_modal_gallery .mw-modal-close:active {
   box-shadow: inset 0px 0px 3px #707070;
 }
 .mw_modal_gallery .mw_modal_container {
