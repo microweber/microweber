@@ -4,7 +4,6 @@
 
 <center>
 **[Download](https://microweber.com/download.php) |
-[Live Demo](http://demo.microweber.org/admin?username=demo&password=demo) |
 [What is Microweber?](#what-is) |
 [Getting Started](#getting-started) |
 [Installation](#installation) |
@@ -19,6 +18,8 @@
 
 Microweber is a new generation content management system that allows you to create a website using drag and drop.
 You can easily manipulate the content and the layout of your pages. No coding skills are required.
+
+### [Live Demo](http://demo.microweber.org/admin?username=demo&password=demo)
 
 ## Getting Started <a name="getting-started" />
 
