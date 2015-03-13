@@ -1407,6 +1407,37 @@ body.loaded #live_edit_toolbar{
   text-decoration: none
 }
 
+
+
+
+
+@media(max-width:1020px){
+	.mw-toolbar-modules-open-ctrl > [class*='mw-icon-'] { 
+	  margin:0px;
+	}
+	.mw-toolbar-modules-open-ctrl span+span {
+	display:none;	
+	}
+	.mw-toolbar-add-new-content-ctrl span {
+		display:none;	
+	}
+	
+	.mw-toolbar-add-new-content-ctrl    {
+		margin: 10px 8px 0 !important;
+	}
+	
+	
+	.mw-toolbar-add-new-content-ctrl:before {
+	content: "+";	
+	font-family:Microweber;
+	font-size:16px;
+	 
+	}
+}
+
+
+
+
 /* // Section Tabs and Dropdowns */
 
 .mw-ui-manage-list li{

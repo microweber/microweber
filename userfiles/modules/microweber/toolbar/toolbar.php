@@ -163,7 +163,7 @@ if($is_quick_edit == true){
           <li class="create-content-dropdown mw-toolbar-btn-menu">
 
 
-          <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button" title="Create or manage your content" style="">  <?php _e("Add New"); ?> </a>
+          <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl" title="Create or manage your content" style=""><span> <?php _e("Add New"); ?> </span></a>
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;top: 51px;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
@@ -193,8 +193,8 @@ if($is_quick_edit == true){
           </li>
           <li>
             <span class="mw-ui-btn-nav">
-                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert" onclick="mw.toolbar.ComponentsShow('modules');"><span class="mw-icon-module"></span><?php _e("Modules"); ?></a>
-                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert" onclick="mw.toolbar.ComponentsShow('layouts');"><span class="mw-icon-template"></span><?php _e("Layouts"); ?></a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert mw-toolbar-modules-open-ctrl" onclick="mw.toolbar.ComponentsShow('modules');"><span class="mw-icon-module"></span><span><?php _e("Modules"); ?></span></a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert mw-toolbar-modules-open-ctrl" onclick="mw.toolbar.ComponentsShow('layouts');"><span class="mw-icon-template"></span><span><?php _e("Layouts"); ?></span></a>
             </span>
           </li>
 
