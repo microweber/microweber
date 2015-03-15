@@ -14,7 +14,7 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         $protocol = "https://";
     }
 
-
+ 
     if (stristr($u, 'youtube.com') !== false) {
         $p = parse_url($u);
 		if(!isset($p['query']) or $p['query'] == false){
@@ -33,7 +33,24 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         $url_parse = parse_url($u);
         $url_parse = ltrim($url_parse['path'], '/');
         return '<div class="mwembed"><iframe width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.youtube.com/embed/' . $url_parse . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
-    } else if (stristr($u, 'vimeo.com') !== false) {
+    }  elseif (stristr($u, 'facebook.com') !== false) {
+        $p = parse_url($u);
+		if(!isset($p['query']) or $p['query'] == false){
+		return false;	
+		}
+		 
+        $id = explode('v=', $p['query']);
+		parse_str($p['query'],$vars);
+		 
+        if (isset($vars['v'])) {
+			
+			return '<script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";  fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script><div class="fb-post" data-href="https://www.facebook.com/video.php?v='.$vars['v'].'" data-width="' . $w . '" data-height="' . $h . '"><div class="fb-xfbml-parse-ignore"></div></div>';
+			
+	 
+        } else {
+		return false;	
+		}
+    }else if (stristr($u, 'vimeo.com') !== false) {
         $url_parse = parse_url($u);
         if (!isset($url_parse['path'])) {
             return false;
