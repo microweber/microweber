@@ -16,6 +16,10 @@ class Revisions
 
     function seed()
     {
+ 
+        Schema::dropIfExists($this->table);
+
+
         Schema::create($this->table, function (Blueprint $table) {
             $table->increments('id');
             $table->string('action', 255);
