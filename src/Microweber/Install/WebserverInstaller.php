@@ -37,19 +37,14 @@ class WebserverInstaller
 
     private function detectServer($match)
     {
-        ob_start();
-        phpinfo(1);
-        $srv = ob_get_clean();
-        $str = 'Server API';
-        $srv = substr($srv, strpos($srv, $str) + strlen($str));
-        $srv = substr($srv, 0, strpos($srv, "\n"));
-        $srv = trim(strip_tags($srv));
-        foreach ($match as $m) {
-            if (strpos($srv, $m) !== false) {
-                return $m;
+        if (isset($_SERVER["SERVER_SOFTWARE"])) {
+            $server = $_SERVER["SERVER_SOFTWARE"];
+            if (stristr($server, 'Apache')) {
+                return "Apache";
+            } else if (stristr($server, 'Ngix')) {
+                return "Ngix";
             }
         }
-        return false;
     }
 
     public function setupApache()
