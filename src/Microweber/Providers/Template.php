@@ -231,7 +231,7 @@ class Template
             $filename = normalize_path($filename);
             $filename = rtrim($filename, '\\');
             $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
-            if (is_dir($filename)) {
+            if (!@is_file($filename) and @is_dir($filename)) {
                 $fn1 = normalize_path($filename, true) . 'config.php';
                 $fn2 = normalize_path($filename);
                 if (is_file($fn1)) {
