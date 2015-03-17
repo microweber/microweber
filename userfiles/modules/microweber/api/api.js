@@ -88,7 +88,7 @@ mw.askusertostay = false;
     }
   }
 
-  if (!Array.indexOf) {
+  if (Array.prototype.indexOf === undefined) {
     Array.prototype.indexOf = function(obj) {
       var i=0, l=this.length;
       for ( ; i < l; i++) {

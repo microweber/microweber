@@ -1140,6 +1140,8 @@ class ShopManager
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
+
+
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
             if (isset($data['price'])) {
@@ -1152,6 +1154,9 @@ class ShopManager
                 }
             }
         }
+
+
+
         foreach ($data as $k => $item) {
             if ($k != 'for' and $k != 'for_id' and $k != 'title') {
                 $found = false;
@@ -1234,6 +1239,12 @@ class ShopManager
             // return array('error' => 'Invalid data: Please post a "price" field');
             $found_price = 0;
         }
+
+
+
+
+
+
         if (is_array($prices)) {
             ksort($add);
             asort($add);

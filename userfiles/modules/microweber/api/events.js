@@ -44,12 +44,14 @@ mw.on = mw.on || {
     }
     if(trigger==true){
         var index = mw.on._hashparams.indexOf(param);
+
         if(index != -1){
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
 
           if(typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined){
               mw.on._hashparam_funcs[index].call(params[param]);
+
           }
         }
     }

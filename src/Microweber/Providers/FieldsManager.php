@@ -364,12 +364,23 @@ class FieldsManager
                 if ($table_assoc_name == false) {
                     $table_assoc_name = $this->app->database_manager->assoc_table_name($table_assoc_name);
                 }
+                $params['rel_type'] = $table_assoc_name;
+
+
             } else {
+
                 $params = $params2;
+
             }
         } elseif (is_array($table)) {
             $params = $table;
         }
+
+
+
+
+
+
 
         $params = $this->unify_params($params);
 
@@ -463,7 +474,8 @@ class FieldsManager
         }
 
 
-        $q = $this->app->database->get($params);
+
+        $q = $this->app->database_manager->get($params);
 
 
         if (!empty($q)) {
