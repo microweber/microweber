@@ -409,6 +409,7 @@ class ShopManager
     {
 
         $ord_data = $this->get_order_by_id($order_id);
+
         if (is_array($ord_data)) {
             if ($skip_enabled_check == false) {
                 $order_email_enabled = $this->app->option_manager->get('order_email_enabled', 'orders');
@@ -428,14 +429,15 @@ class ShopManager
                     $to = $ord_data['email'];
                 }
                 if ($order_email_content != false and trim($order_email_subject) != '') {
-
                     if (!empty($ord_data)) {
                         $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . mw()->user_manager->session_id());
-
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         foreach ($ord_data as $key => $value) {
                             if (is_string($value) and is_string($key)) {
+                                if(strtolower($key) == 'amount'){
+                                    $value = number_format($value,2);
+                                }
                                 $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
                             }
                         }
@@ -485,51 +487,8 @@ class ShopManager
     {
         if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
-
-            $tmp_val = '';
-            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
-
-
+            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])) {
                 $tmp_val = mw()->format->array_to_ul($item['custom_fields_data']);
-
-//                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
-//
-//
-//
-//                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-//                    if (is_array($cfv)) {
-//                        $key_txt = $cfk;
-//                        if (intval($cfk) > 0) {
-//                            $key_txt = '';
-//                        }
-//                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $key_txt . '</span>';
-//                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
-//                        foreach ($cfv as $cfk1 => $cfv1) {
-//                            $key_txt = $cfk1;
-//                            if (intval($cfk1) > 0 or $cfk1 === 0) {
-//                                $key_txt = '';
-//                            }
-//                            if (is_string($cfv1)) {
-//                                if ($key_txt == '') {
-//                                    $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
-//
-//                                } else {
-//                                    $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
-//
-//                                }
-//                            }
-//                        }
-//                        $tmp_val .= '</ul>';
-//                        $tmp_val .= '</li>';
-//                    } else {
-//                        $key_txt = $cfk;
-//                        if (intval($cfk) > 0) {
-//                            $key_txt = '';
-//                        }
-//                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
-//                    }
-//                }
-//                $tmp_val .= '</ul>';
                 $item['custom_fields'] = $tmp_val;
             }
         }
@@ -1141,7 +1100,6 @@ class ShopManager
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
 
-
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
             if (isset($data['price'])) {
@@ -1154,7 +1112,6 @@ class ShopManager
                 }
             }
         }
-
 
 
         foreach ($data as $k => $item) {
@@ -1241,10 +1198,6 @@ class ShopManager
         }
 
 
-
-
-
-
         if (is_array($prices)) {
             ksort($add);
             asort($add);
@@ -1328,6 +1281,7 @@ class ShopManager
 
         }
         $ord_data = $this->get_orders('order_completed=1&limit=50');
+
         if (is_array($ord_data[0])) {
             shuffle($ord_data);
             $ord_test = $ord_data[0];

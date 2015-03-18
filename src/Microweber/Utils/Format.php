@@ -26,7 +26,14 @@ class Format
 
                 if (is_array($val)) {
                     if (!empty($val)) {
-                        $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
+                        if (is_numeric($key)) {
+                            $retStr .= '<ul>';
+                            $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
+                            $retStr .= '</ul>';
+                        } else {
+                            $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
+
+                        }
                     }
                 } else {
                     if (is_string($val) != false and trim($val) != '') {
