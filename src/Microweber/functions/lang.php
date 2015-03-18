@@ -230,6 +230,11 @@ function __store_lang_file()
  */
 function current_lang()
 {
+    $lang = false;
+    if (defined('MW_LANG') and MW_LANG != false) {
+        $lang = MW_LANG;
+        return MW_LANG;
+    }
 
     static $installed = null;
 
@@ -239,15 +244,6 @@ function current_lang()
     if ($installed == false) {
         return 'en';
     }
-
-
-    $lang = false;
-    if (defined('MW_LANG') and MW_LANG != false) {
-        $lang = MW_LANG;
-        return MW_LANG;
-    }
-
-
     if (!isset($lang) or $lang == false) {
         if (isset($_COOKIE['lang'])) {
             $lang = $_COOKIE['lang'];
@@ -262,24 +258,18 @@ function current_lang()
     if (!isset($lang) or $lang == false) {
         $lang = 'en';
     }
-    //$lang = str_replace('..', '', $lang);
     $lang = str_replace('.', '', $lang);
     $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
-
+    $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
     if (!defined('MW_LANG') and isset($lang)) {
         define('MW_LANG', $lang);
     }
-
-
     return $lang;
-
 }
 
 function _lang($title, $namespace = false)
 {
-
     print lang($title, $namespace);
-
 }
 
 function lang($title, $namespace = false)
@@ -309,17 +299,11 @@ function lang($title, $namespace = false)
             }
             $k2 = ($k);
             $mw_new_language_entires_ns[$namespace][$k1] = $k2;
-
-            //  $mw_language_content[$k1] = $k2;
             if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                 define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
-                // __store_lang_file_ns();
                 $scheduler = new \Microweber\Providers\Event();
-                // schedule a global scope function:
                 $scheduler->registerShutdownEvent("__store_lang_file_ns");
             }
-
-
         }
         return $k;
     } else {
@@ -463,6 +447,7 @@ function save_language_file_content($data)
 
 $mw_language_content = array();
 $mw_language_content_namespace = array();
+
 /**
  * Gets all the language file contents
  * @internal its used via ajax in the admin panel under Settings->Language
@@ -475,8 +460,6 @@ function get_language_file_content($namespace = false)
     } elseif ($namespace != false) {
         return _mw_get_language_file_content_namespaced($namespace);
     }
-
-
 }
 
 function _mw_get_language_file_content_core()
@@ -487,18 +470,11 @@ function _mw_get_language_file_content_core()
         return $mw_language_content;
     }
 
-
     $lang = current_lang();
-
     $lang_file = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
     $lang_file = normalize_path($lang_file, false);
-
     $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
-
-    // . 'storage' . DS
-
     $lang_file3 = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . 'en.json';
-
 
     if (is_file($lang_file2)) {
         $language_str = file_get_contents($lang_file2);
@@ -511,16 +487,12 @@ function _mw_get_language_file_content_core()
             }
         }
     }
-
-
     if (is_file($lang_file)) {
         $language_str = file_get_contents($lang_file);
         $language = json_decode($language_str, true);
-
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
                 if (isset($mw_language_content[$k]) == false) {
-
                     $mw_language_content[$k] = $v;
                 }
             }
@@ -532,17 +504,12 @@ function _mw_get_language_file_content_core()
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
                 if (isset($mw_language_content[$k]) == false) {
-
-
                     $mw_language_content[$k] = $v;
                 }
             }
         }
     }
-
     return $mw_language_content;
-
-
 }
 
 function _mw_get_language_file_content_namespaced($namespace)
@@ -596,7 +563,6 @@ function _mw_get_language_file_content_namespaced($namespace)
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
                 if (isset($mw_language_content_namespace[$namespace][$k]) == false) {
-
                     $mw_language_content_namespace[$namespace][$k] = $v;
                 }
             }
@@ -608,14 +574,11 @@ function _mw_get_language_file_content_namespaced($namespace)
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
                 if (isset($mw_language_content_namespace[$namespace][$k]) == false) {
-
-
                     $mw_language_content_namespace[$namespace][$k] = $v;
                 }
             }
         }
     }
-
     return $mw_language_content_namespace[$namespace];
 
 
@@ -651,24 +614,13 @@ function get_available_languages()
 
     $lang_dir = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR;
 
-
     $files = array();
     foreach (glob($lang_dir . "*.json") as $filename) {
         $item = basename($filename);
         $item = no_ext($item);
         $mw_all_langs[] = $item;
     }
-//    $directory = opendir($lang_dir);
-//    while ($item = readdir($directory)) {
-//
-//
-//        if (($item != ".") && ($item != "..") && ($item != ".svn")) {
-//            $item = no_ext($item);
-//            if (trim($item != "")) {
-//                $mw_all_langs[] = $item;
-//            }
-//        }
-//    }
+
 
     return $mw_all_langs;
 
