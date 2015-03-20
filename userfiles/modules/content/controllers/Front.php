@@ -318,13 +318,9 @@ class Front
                 $post_params['content_type'] = 'post';
             }
 
-
         }
 
-        if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
-           // $post_params['subtype'] = 'product';
-          //  $post_params['content_type'] = 'post';
-        }
+     
 
         if (isset($params['is_shop'])) {
             $post_params['content_type'] = 'product';
@@ -480,12 +476,13 @@ class Front
 
                 $item['link'] = content_link($item['id']);
 
-
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
                         $item['full_description'] = strip_tags($item['content']);
                         $item['description'] = character_limiter(strip_tags($item['content']), $character_limit);
-
+                    } elseif (isset($item['content_body']) and $item['content_body'] != '') {
+                        $item['full_description'] = strip_tags($item['content']);
+                        $item['description'] = character_limiter(strip_tags($item['content_body']), $character_limit);
                     }
                 } else {
                     $item['full_description'] = $item['description'];

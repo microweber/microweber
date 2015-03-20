@@ -7,7 +7,9 @@
         <div class="mw-ui-row shop-product-row">
           <div class="mw-ui-col" style="width:65%">
             <div class="mw-ui-col-container">
+             <div class="edit"  field="product_media" rel="post">
               <module type="pictures" rel="content" template="product_gallery_multiline" />
+              </div>
             </div>
           </div>
           <div class="mw-ui-col" style="width:35%">

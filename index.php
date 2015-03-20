@@ -4,11 +4,15 @@ if (version_compare(phpversion(), "5.4.0", "<=")) {
     exit("Error: You must have PHP version 5.4 or greater to run Microweber");
 }
 
-if(!function_exists("mcrypt_encrypt")) {
+if (!function_exists("mcrypt_encrypt")) {
     exit("Error: You must install the mcrypt PHP extension to run Microweber");
 }
+if (!function_exists('openssl_random_pseudo_bytes')) {
+    exit('Error: OpenSSL PHP extension is required to run Microweber');
+}
 
-if(function_exists("date_default_timezone_set")) {
+
+if (function_exists("date_default_timezone_set")) {
     @date_default_timezone_set(@date_default_timezone_get());
 }
 
@@ -31,7 +35,7 @@ if(function_exists("date_default_timezone_set")) {
 |
 */
 
-require __DIR__.'/bootstrap/autoload.php';
+require __DIR__ . '/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +49,7 @@ require __DIR__.'/bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+$app = require_once __DIR__ . '/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +66,7 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 $kernel = $app->make('Illuminate\Contracts\Http\Kernel');
 
 $response = $kernel->handle(
-	$request = Illuminate\Http\Request::capture()
+    $request = Illuminate\Http\Request::capture()
 );
 
 $response->send();
