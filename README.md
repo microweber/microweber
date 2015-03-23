@@ -23,7 +23,7 @@ You can easily manipulate the content and the layout of your pages. No coding sk
 
 ## Getting Started <a name="getting-started" />
 
-Check out our [online guides](http://lab.microweber.com/l5/microweber-docs/guides/)
+Check out our [online guides](http://microweber.com/docs/guides/README.md)
 
 ## Installation <a name="installation" />
 
