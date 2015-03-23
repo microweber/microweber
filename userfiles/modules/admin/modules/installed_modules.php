@@ -244,6 +244,29 @@ html.market-init .tree-column{
                 <a href="#market=mw"><?php _e("Market"); ?></a>
                 <?php endif; ?>
                 
+                
+                
+                <?php $modules_sidebar_menu =  mw()->modules->ui('admin.modules.sidebar');  ?>
+              	<?php if (!empty($modules_sidebar_menu)): ?>
+				<?php foreach ($modules_sidebar_menu as $type => $item): ?>
+                <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+                <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+                <?php $link = ( isset( $item['link']))? ($item['link']) : false ; ?>
+                <?php $market_module = ( isset( $item['module']))? ($item['module']) : false ; ?>
+				<?php if($market_module != false): ?>
+                <a href="<?php print admin_url('view:modules/load_module:').$market_module; ?>" class="<?php print $class; ?>"><?php print $title; ?></a>
+
+                <?php else: ?>
+                <a href="<?php print $link; ?>" class="<?php print $class; ?>"><?php print $title; ?></a>
+
+                <?php endif; ?>
+
+                <?php endforeach; ?>
+                <?php endif; ?>
+                
+                
+                
+                
             </div>
           </div>
         </div>
