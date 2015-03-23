@@ -123,7 +123,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
           <?php endif; ?>
           <span><?php print basename($item) ?></span>
         </a>
-        <?php $rand = uniqid(); ?>
+        <?php $rand = md5($item); ?>
         <div class="mw-file-item-check">
           <label class="mw-ui-check pull-left">
             <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" />
