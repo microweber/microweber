@@ -24,8 +24,7 @@
         $v_mod = module_name_decode($v1);
 
          if(is_module($v_mod)){
-			  //include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php'); 
-           //  $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
+	 
 
 		   $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
 		   
@@ -37,8 +36,7 @@
         
          ?>
   <?php else : ?>
-  <?php //include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
-  <?php 
+   <?php 
 
         
         
@@ -58,7 +56,7 @@
         $v_mod = module_name_decode($v);
       
          if($v_mod != '' and is_module($v_mod)){
-            // $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
+   
             
 					   $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
 

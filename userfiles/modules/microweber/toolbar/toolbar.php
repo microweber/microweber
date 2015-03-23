@@ -139,7 +139,20 @@ if($is_quick_edit == true){
         <ul>
           <li class="create-content-dropdown">
             <a href="javascript:;" class="tst-logo" title="Microweber">
-                <span class="mw-icon-mw"></span>
+            
+            	<?php if(mw()->ui->logo_live_edit != false) : ?>
+           
+           <span style="background-image:url('<?php print mw()->ui->logo_live_edit ?>'); width:30px; height:30px; display:inline-block; background-size:contain; background-repeat:no-repeat; background-position:center; position:relative; top:8px;"></span>
+ 		 
+				<?php else: ?>
+                
+                    <span class="mw-icon-mw"></span>
+            
+                <?php endif;  ?>
+    
+    
+    
+                
                 <span class="mw-icon-dropdown"></span>
             </a>
             <div class="mw-dropdown-list create-content-dropdown-list">

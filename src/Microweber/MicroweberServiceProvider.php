@@ -1,25 +1,12 @@
 <?php namespace Microweber;
 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
-//use Illuminate\Support\Facades\Config;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\ClassLoader;
-use Illuminate\Filesystem\Filesystem;
-
 use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
-
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Cache\Repository;
-use Illuminate\Console\Application as Artisan;
 use \Cache;
 
-use Microweber\Database\MySqlConnection;
 
 if (!defined('MW_VERSION')) {
     include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
@@ -44,12 +31,11 @@ class MicroweberServiceProvider extends ServiceProvider
     {
 
         // Set environment
-        if(!$this->app->runningInConsole())
-        {
+        if (!$this->app->runningInConsole()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
-                $domain = str_ireplace('www.','',$domain);
-                $domain = str_ireplace(':'.$_SERVER['SERVER_PORT'],'',$domain);
+                $domain = str_ireplace('www.', '', $domain);
+                $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
                 return $domain;
             });
         }
@@ -60,6 +46,7 @@ class MicroweberServiceProvider extends ServiceProvider
             'Illuminate\Cache\StoreInterface',
             'Microweber\Providers\CacheStore'
         );
+
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
@@ -138,6 +125,13 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('ui', function ($app) {
             return new Providers\Ui($app);
         });
+
+
+        // http://www.jacopobeschi.com/post/laravel-setup-alias-and-service-provider-in-a-package
+        // Tracker register      $this->app->register('PragmaRX\Tracker\Vendor\Laravel\ServiceProvider');
+        // Tracker alias    $this->app->alias('Tracker', 'PragmaRX\Tracker\Vendor\Laravel\Facade');
+
+
     }
 
     public function boot(Request $request)
@@ -176,13 +170,11 @@ class MicroweberServiceProvider extends ServiceProvider
     function autoloadModules($className)
     {
         $filename = modules_path() . $className . ".php";
-        $filename = normalize_path($filename,false);
+        $filename = normalize_path($filename, false);
         if (is_file($filename)) {
             require $filename;
         }
     }
-
-
 
 
 }

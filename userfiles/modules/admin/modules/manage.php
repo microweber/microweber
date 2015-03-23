@@ -51,7 +51,10 @@ if ($load_module == true): ?>
     if (isset($params['installed'])) {
 
         $mod_params['installed'] = $params['installed'];
-    }
+    } else {
+		$mod_params['installed'] = 1;
+	}        
+
 
     if (isset($params['install_new'])) {
         $update_api = new \Microweber\Update();

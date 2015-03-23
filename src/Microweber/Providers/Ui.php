@@ -17,6 +17,7 @@ class Ui
     public $logo_live_edit = '';
     public $brand_name = 'Microweber';
     public $powered_by_link = false;
+    public $disable_marketplace = false;
     public $admin_content_edit = array();
     public $admin_content_edit_text = array();
     public $modules_ui = array();

@@ -52,6 +52,7 @@ mw.$("#modules-sort-types").bind('change', function(){
 </script>
 <script  type="text/javascript">
 function mw_reload_all_modules(){
+    mw.notification.success('Reloading...',3000)
 
 	mw.$('#modules_admin_<?php print $params['id']; ?>').attr('reload_modules',1);
 	mw.$('#modules_admin_<?php print $params['id']; ?>').attr('cleanup_db',1);
@@ -237,7 +238,12 @@ html.market-init .tree-column{
           <div class="fixed-side-column-container">
             <div class="mw-ui-sidenav">
                 <a href="javascript:;"  onclick="mw_show_my_modules()" class="active"><?php _e("My modules"); ?></a>
+               
+               
+               <?php if(mw()->ui->disable_marketplace != true): ?>
                 <a href="#market=mw"><?php _e("Market"); ?></a>
+                <?php endif; ?>
+                
             </div>
           </div>
         </div>
@@ -299,15 +305,14 @@ html.market-init .tree-column{
             </ul>
           </div>
         </div>
-        <div class="mw-dropdown pull-left nested-dropdown" style="margin-right: 20px;">
+        <div class="mw-dropdown pull-left nested-dropdown" style="margin-right: 20px; display:none;">
             <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
           <div class="mw-dropdown-content">
             <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
           </div>
         </div>
-        <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-medium pull-left">
+        <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-medium pull-left tip" data-tip="<?php _e("Reload modules"); ?>" >
             <span class="mw-icon-reload"></span>
-            <?php _e("Reload modules"); ?>
             </span>
 
       </div>
