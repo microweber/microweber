@@ -500,6 +500,7 @@ mw.wysiwyg = {
             && !e.ctrlKey
             && e.keyCode !== 27
             && e.keyCode !== 116
+			&& e.keyCode !== 17
             && (e.keyCode < 37 || e.keyCode > 40)){
             mw.wysiwyg.change(e.target);
          }
