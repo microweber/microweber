@@ -63,8 +63,7 @@ PreviousFolder = [];
 
 
 <div class="mw-ui-box mw-file-browser">
-  <?php //if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
-  <div class="mw-ui-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
+   <div class="mw-ui-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
     <?php _e("Back"); ?>
     </a> <span class="mw-browser-uploader-path">
     <?php if(is_array($path_nav )): ?>

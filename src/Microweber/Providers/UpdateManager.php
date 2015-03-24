@@ -501,6 +501,9 @@ class UpdateManager
         }
         if ($result != false) {
             $this->app->cache_manager->save($result, $c_id, 'update/global');
+        } else {
+            $this->app->cache_manager->save($result, false, 'update/global');
+
         }
 
 

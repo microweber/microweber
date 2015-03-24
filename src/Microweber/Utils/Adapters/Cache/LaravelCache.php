@@ -27,40 +27,13 @@ class LaravelCache
 
     }
 
-    private $mkdir_cache = array();
-
-    public function  cache_mkdir($cache_group)
-    {
-        return;
-        if (isset($mkdir_cache[$cache_group])) {
-            return;
-        }
-        $mkdir_cache[$cache_group] = true;
-        $path = mw_cache_path() . $cache_group;
-        $path = normalize_path($path, 1);
-        if (!is_dir($path)) {
-            mkdir_recursive($path);
-        }
-
-
-    }
 
     public function cache_group($cache_group)
     {
         if (is_string($cache_group)) {
             $cache_group = str_replace('\\', '/', $cache_group);
             $cache_group = explode('/', $cache_group);
-
-//            if (isset($cache_group[1])) {
-//
-//                $group = str_replace('/', '_', $cache_group[1]);
-//                $group = str_replace('\\', '_', $group);
-//                $cache_group = $cache_group[0] . '_' . $group;
-//            }
-
-            // return $cache_group;
             $cg = $cache_group[0];
-
             return $cg;
         }
 
@@ -92,18 +65,11 @@ class LaravelCache
      */
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
-
-
         if (!$this->support_tags) {
-
             return;
-            return Cache::put($cache_group . $cache_id, $data_to_cache, $this->ttl);
         }
         $cache_group = $this->cache_group($cache_group);
-
         Cache::tags($cache_group)->put($cache_id, $data_to_cache, $this->ttl);
-
-
     }
 
     /**
@@ -139,11 +105,8 @@ class LaravelCache
         $this->cache_hits[$cache_group][$cache_id]++;
         if (!$this->support_tags) {
             return;
-            return Cache::get($cache_group . $cache_id);
         }
         return Cache::tags($cache_group)->get($cache_id);
-
-
     }
 
     /**
@@ -173,40 +136,12 @@ class LaravelCache
     public function delete($cache_group = 'global')
     {
         $cache_group = $this->cache_group($cache_group);
-
         if (!$this->support_tags) {
             return;
-            return $this->delete_from_memory($cache_group);
         }
-
         return Cache::tags($cache_group)->flush();
     }
 
-    public function delete_from_memory($cache_group)
-    {
-
-        //  dd($cache_group);
-
-
-        // return Cache::flush();
-//       $obj = Cache::getFacadeApplication();
-//        $driver = $driver = Cache::driver();
-//        $class_methods = get_class_methods($driver);
-//
-//        foreach ($class_methods as $method_name) {
-//            echo "$method_name\n";
-//        }
-//
-//        dd($driver);
-//        dd($cache_group);
-//        foreach (Cache::getMemory() as $cacheKey => $cacheValue) {
-//            d($cacheKey);
-//            $items[$cacheKey] = $cacheValue;
-//            //Cache::forget($cacheKey);
-//        }
-
-
-    }
 
     /**
      * Clears all cache data
@@ -222,7 +157,6 @@ class LaravelCache
     public function clear()
     {
         return Cache::flush(true);
-
     }
 
 
@@ -240,7 +174,6 @@ class LaravelCache
      */
     public function debug()
     {
-
         $items = $this->cache_hits;
         return $items;
     }
