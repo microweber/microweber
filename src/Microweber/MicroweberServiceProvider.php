@@ -148,6 +148,8 @@ class MicroweberServiceProvider extends ServiceProvider
         // If installed load module functions
         if (mw_is_installed()) {
             $modules = load_all_functions_files_for_modules();
+            $this->commands('Microweber\Commands\OptionCommand');
+
         } else {
             // Otherwise register the install command
             $this->commands('Microweber\Commands\InstallCommand');
