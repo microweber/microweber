@@ -63,7 +63,7 @@ PreviousFolder = [];
 
 
 <div class="mw-ui-box mw-file-browser">
-   <div class="mw-ui-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
+   <div class="mw-ui-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small pull-right mw-ui-btn-invert">
     <?php _e("Back"); ?>
     </a> <span class="mw-browser-uploader-path">
     <?php if(is_array($path_nav )): ?>
