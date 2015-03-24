@@ -10,7 +10,7 @@ $keyword = $params['keyword'];
 }
  ?>
  
- 
+
  
 <style>
 .restore-loading-indicator {
@@ -76,12 +76,21 @@ transform:rotate(360deg);
       <?php
 	  $i = 1;
 	   foreach($backups  as $item): ?>
+
+       <?php
+
+        $fname = explode('.', $item['filename']);  $extension = end($fname);
+
+        $tip = $extension == 'zip' ? _e("Download full backup", true) : _e("Download database backup", true);
+
+       ?>
+
       <tr class="mw_admin_backup_item_<?php print $i ?>">
         <td><?php print $item['filename']  ?> <span id="restore-<?php print md5($item['filename']) ?>" class="restore-loading-indicator mw-icon-load-c" title="Working"> </span></td>
         <td><span class="mw-date"><?php print $item['date']  ?></span></td>
         <td><span class="mw-date"><?php print $item['time']  ?></span></td>
         <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-        <td class="mw-backup-download"><a class="show-on-hover mw-icon-download" target="_blank" title="<?php _e("Download"); ?>" href="<?php print api_url('Microweber/Utils/Backup/download'); ?>?file=<?php print $item['filename']  ?>"></a></td>
+        <td class="mw-backup-download"><a class="show-on-hover mw-ui-btn tip mw-ui-btn-icon mw-ui-btn-<?php print ($extension == 'sql' ? 'warn' : 'notification'); ?>" data-tip="<?php print $tip; ?>" data-tipposition="top-center" target="_blank" title="<?php _e("Download"); ?>" href="<?php print api_url('Microweber/Utils/Backup/download'); ?>?file=<?php print $item['filename']  ?>"><span class="mw-icon-download"></span></a></td>
         <td class="mw-backup-restore"><a title="<?php _e("Restore"); ?>" class="show-on-hover mw-icon-reload" href="javascript:mw.admin_backup.restore('<?php print $item['filename']  ?>','#restore-<?php print md5($item['filename']) ?>')"></a></td>
         <td class="mw-backup-delete"><span title="<?php _e("Delete"); ?>" class="mw-icon-bin show-on-hover" onclick="mw.admin_backup.remove('<?php print $item['filename']  ?>', '.mw_admin_backup_item_<?php print $i ?>');"></span></td>
       </tr>
