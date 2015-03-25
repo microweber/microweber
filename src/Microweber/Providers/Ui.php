@@ -26,14 +26,15 @@ class Ui
     {
 
 
-            $this->admin_logo = mw_includes_url() . 'img/logo_admin.png';
-            $this->logo_live_edit = mw_includes_url() . 'img/logo_admin.png';
-            $this->admin_logo_login = mw_includes_url() . 'images/logo-login.svg';
+        //$this->admin_logo = mw_includes_url() . 'img/logo_admin.png';
+        //$this->logo_live_edit = mw_includes_url() . 'img/logo_admin.png';
+        //$this->admin_logo_login = mw_includes_url() . 'images/logo-login.svg';
 
         $this->set_default();
 
 
     }
+
     function set_default()
     {
 
@@ -59,14 +60,8 @@ class Ui
 
 
 
-        //event_bind('mw.admin',$this->defaults());
-        //  event_bind('mw.live_edit',$this->defaults());
-
-//        if (defined('MW_BACKEND')) {
-//$this->defaults();
-//        }
-
     }
+
     function defaults()
     {
         $btn = array();
@@ -88,12 +83,6 @@ class Ui
         $btn['class'] = 'mw-icon-category';
         //  $btn['base_url'] = admin_url('view:content/action:categories');
         $this->module('content.create.menu', $btn);
-
-
-
-
-
-
 
 
         $notif_count = mw()->notifications_manager->get('is_read=0&count=1');
@@ -154,7 +143,6 @@ class Ui
         $this->admin_dashboard_menu_third($admin_dashboard_btn);
 
     }
-
 
 
     public function module($name, $arr = false)

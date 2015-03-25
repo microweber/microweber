@@ -285,9 +285,15 @@ mw.$("#available_providers").sortable({
 }
 
 @media (max-width: 767px) {
-.otab{
-  padding-left: 10px;
+  .otab{
+    padding-left: 10px;
+  }
 }
+
+.payment-tab.active{
+  background-color: #111;
+  border-color: #111;
+  color: white;
 }
 
 </style>
@@ -302,30 +308,27 @@ $payment_modules = get_modules('type=payment_gateway');
 ?>
 
 
+
 <div class="mw-ui-row">
-        <div class="mw-ui-col" style="width: 200px;">
-          <div class="mw-ui-col-container">
-            <div class="fixed-side-column" >
-               <div class="admin-side-box"><h2 class="mw-side-main-title"><span class="mw-icon-gear"></span><?php _e("Options"); ?></h2></div>
-              <div class="mw-ui-sidenav" style="margin-top: 15px;">
-                <ul>
-                  <li><a class="payment-tab active" href="javascript:;">
-                    <?php _e("Payments"); ?>
-                    </a></li>
-                  <li><a class="payment-tab" id="payment-tab-email" href="javascript:;">
-                    <?php _e("Emails for order"); ?>
-                    </a></li>
-                  <li><a class="payment-tab" href="javascript:;">
-                    <?php _e("Shipping Units"); ?>
-                    </a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div class="mw-ui-col">
           <div class="mw-ui-col-container">
+
+
+
+
+
             <div class="mw-set-payment-options">
+
+            <div style="overflow: hidden;position: relative;padding: 30px 0 0;">
+            <div class="mw-ui-btn-nav">
+                <a class="mw-ui-btn payment-tab active" href="javascript:;"><?php _e("Payments"); ?></a>
+                <a class="mw-ui-btn payment-tab" href="javascript:;" id="payment-tab-email"><?php _e("Emails for order"); ?></a>
+                <a class="mw-ui-btn payment-tab" href="javascript:;"><?php _e("Shipping Units"); ?></a>
+            </div>
+
+            </div>
+
               <div class="otab" style="display: block">
                 <div class="section-header">
                     <h2>
