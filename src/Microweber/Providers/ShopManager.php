@@ -95,36 +95,39 @@ class ShopManager
 
         $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
         $addr_found_from_search_in_post = false;
-        foreach ($data as $k => $v) {
-            if (is_array($v)) {
-                foreach ($seach_address_keys as $item) {
-                    $case1 = ucfirst($item);
-                    if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
-                        $data[$item] = $v[$item];
-                        if ($addr_found_from_search_in_post == false) {
-                            unset($data[$k]);
+
+        if (isset($data) and is_array($data)) {
+            foreach ($data as $k => $v) {
+                if (is_array($v)) {
+                    foreach ($seach_address_keys as $item) {
+                        $case1 = ucfirst($item);
+                        if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
+                            $data[$item] = $v[$item];
+                            if ($addr_found_from_search_in_post == false) {
+                                unset($data[$k]);
+                            }
+                            $addr_found_from_search_in_post = 1;
+
                         }
-                        $addr_found_from_search_in_post = 1;
-
                     }
+
                 }
-
             }
-
         }
-
 
         $save_custom_fields_for_order = array();
         if (is_array($additional_fields) and !empty($additional_fields)) {
             foreach ($additional_fields as $cf) {
-                foreach ($data as $k => $item) {
-                    $key1 = str_replace('_', ' ', $cf['name']);
-                    $key2 = str_replace('_', ' ', $k);
-                    if ($key1 == $key2) {
-                        $save_custom_fields_for_order[$key1] = $this->app->format->clean_html($item);
+                if (isset($data) and is_array($data)) {
+                    foreach ($data as $k => $item) {
+                        $key1 = str_replace('_', ' ', $cf['name']);
+                        $key2 = str_replace('_', ' ', $k);
+                        if ($key1 == $key2) {
+                            $save_custom_fields_for_order[$key1] = $this->app->format->clean_html($item);
+
+                        }
 
                     }
-
                 }
             }
         }
@@ -435,8 +438,8 @@ class ShopManager
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         foreach ($ord_data as $key => $value) {
                             if (is_string($value) and is_string($key)) {
-                                if(strtolower($key) == 'amount'){
-                                    $value = number_format($value,2);
+                                if (strtolower($key) == 'amount') {
+                                    $value = number_format($value, 2);
                                 }
                                 $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
                             }
