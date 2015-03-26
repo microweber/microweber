@@ -1134,7 +1134,6 @@ class ShopManager
                         }
                     }
                 }
-
                 if (isset($item)) {
                     if ($found == true) {
                         if ($k != 'price' and !in_array($k, $skip_keys)) {

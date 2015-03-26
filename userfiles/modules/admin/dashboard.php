@@ -10,8 +10,8 @@
         <div class="mw-ui-col">
         <div class="mw-ui-col-container">
         <div class="mw-ui-navigation">
-      <?php event_trigger('mw.admin.dashboard.links'); ?>
-      <?php $dash_menu = mw()->ui->admin_dashboard_menu(); ?>
+      <?php event_trigger('mw.admin.dashboard.links'); ?> 
+      <?php $dash_menu = mw()->ui->module('admin.dashboard.menu'); ?>
       <?php if(!empty($dash_menu)): ?>
       <?php foreach($dash_menu as $item): ?>
       <?php $view = (isset($item['view']) ? $item['view'] : false);  ?>
@@ -32,7 +32,7 @@
         <div class="mw-ui-col">
         <div class="mw-ui-col-container">
           <div class="mw-ui-navigation">
-                <?php $dash_menu = mw()->ui->admin_dashboard_menu_second(); ?>
+                <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.second'); ?>
                 <?php if(!empty($dash_menu)): ?>
                 <?php foreach($dash_menu as $item): ?>
                 <?php $view = (isset($item['view']) ? $item['view'] : false);  ?>
@@ -55,7 +55,7 @@
         <div class="mw-ui-col">
         <div class="mw-ui-col-container">
               <div class="mw-ui-navigation">
-                    <?php $dash_menu = mw()->ui->admin_dashboard_menu_third(); ?>
+                    <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.third'); ?>
                     <?php if(!empty($dash_menu)): ?>
                     <?php foreach($dash_menu as $item): ?>
                     <?php $view = (isset($item['view']) ? $item['view'] : false);  ?>

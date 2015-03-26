@@ -17,12 +17,8 @@ class LaravelEvent
 
     public static function fire($api_function, $data = false)
     {
-
-
         if (isset(self::$hooks[$api_function])) {
             $fns = self::$hooks[$api_function];
-
-
             if (is_array($fns)) {
                 $resp = array();
                 foreach ($fns as $fn) {
@@ -32,11 +28,7 @@ class LaravelEvent
                         $resp[] = $fn($data);
                     }
                 }
-                if (!empty($resp)) {
-                    return $resp;
-                }
             }
-
         }
         $args = func_get_args();
         $query = array_shift($args);
@@ -52,14 +44,12 @@ class LaravelEvent
 
     public static function event_bind($hook_name, $callback = false)
     {
-        //if (is_string($callback) and (function_exists($callback)) or is_callable($callback)) {
         if (is_string($callback) and (function_exists($callback))) {
             if (!isset(self::$hooks[$hook_name])) {
                 self::$hooks[$hook_name] = array();
             }
             self::$hooks[$hook_name][] = $callback;
         } else {
-
             Event::listen($hook_name, $callback);
         }
 

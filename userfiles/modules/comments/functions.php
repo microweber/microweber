@@ -288,6 +288,7 @@ event_bind('module.content.edit.main', function ($item) {
 
 
 event_bind('mw.admin.dashboard.links', function () {
+	 
     $admin_dashboard_btn = array();
     $admin_dashboard_btn['view'] = 'comments';
 
@@ -299,5 +300,6 @@ event_bind('mw.admin.dashboard.links', function () {
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
     $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
-    mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
+	 
+    mw()->ui->module('admin.dashboard.menu',$admin_dashboard_btn);
 });

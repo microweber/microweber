@@ -10,13 +10,9 @@ event_bind('mw.front', function ($params = false) {
 
 function mw_add_admin_menu_buttons($params = false)
 {
-
-
     if (get_option('shop_disabled', 'website') != 'y') {
-
         $btn = array();
         $btn['content_type'] = 'product';
-        //  $btn['subtype'] = 'product';
         $btn['title'] = _e("Product", true);
         $btn['class'] = 'mw-icon-product';
         mw()->modules->ui('content.create.menu', $btn);
@@ -45,7 +41,7 @@ function mw_print_admin_dashboard_orders_btn()
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
     $admin_dashboard_btn['text'] = _e("View Orders", true) . $notif_html;
-    mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
+    mw()->ui->module('admin.dashboard.menu', $admin_dashboard_btn);
 }
 
 event_bind('mw_edit_product_admin', function ($data) {
@@ -78,9 +74,8 @@ event_bind('module.content.edit.main', function ($data) {
 });
 
 
-
 event_bind('mw.user.login', function ($data) {
-    if(is_array($data) and isset($data['old_sid'])){
+    if (is_array($data) and isset($data['old_sid'])) {
         $cur_sid = mw()->user_manager->session_id();
 
         Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));

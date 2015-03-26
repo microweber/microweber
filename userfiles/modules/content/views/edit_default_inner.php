@@ -95,7 +95,7 @@ if(isset($data['content-id'])){
     });
 
 </script>
-<?php $content_edit_modules = mw('ui')->admin_content_edit_text(); ?>
+<?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>
 <?php $modules = array(); ?>
 <?php if (!empty($content_edit_modules) and !empty($data)) {
    	
