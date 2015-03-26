@@ -1109,31 +1109,30 @@ class ShopManager
                 }
 
                 if (is_array($prices)) {
-
                     foreach ($prices as $price_key => $price) {
-
                         if (isset($data['price'])) {
-
                             if ($price == $data['price']) {
                                 $found = true;
                                 $found_price = $price;
-
                             }
                         } else if ($price == $item) {
                             $found = true;
                             if ($found_price == false) {
                                 $found_price = $item;
                             }
-
-                        } else {
-                            // unset($item);
                         }
                     }
                     if ($found_price == false) {
                         $found_price = array_pop($prices);
-
+                    } else {
+                        if (count($prices) > 1) {
+                            foreach ($prices as $pk => $pv) {
+                                if ($pv == $found_price) {
+                                    $add[$pk] = $this->currency_format($pv);
+                                }
+                            }
+                        }
                     }
-
                 }
 
                 if (isset($item)) {
@@ -1152,9 +1151,7 @@ class ShopManager
             $found_price = array_pop($prices);
         }
         if ($found_price == false) {
-            // $found_price = 0;
-            // return array('error' => 'Invalid data: Please post a "price" field');
-            $found_price = 0;
+             $found_price = 0;
         }
 
 
