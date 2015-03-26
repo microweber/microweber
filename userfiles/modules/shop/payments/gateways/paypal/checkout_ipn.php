@@ -24,4 +24,3 @@ if (strtolower(trim($hostname)) == 'paypal.com') {
 }
 
 
- 
