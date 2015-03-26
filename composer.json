@@ -16,7 +16,8 @@
         "laravel/socialite": "dev-master",
         "sofa/revisionable": "~0.2@dev",
 
-        "composer/installers": "1.*"
+        "composer/installers": "1.*",
+        "omnipay/omnipay": "~2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.5.*@dev"  
