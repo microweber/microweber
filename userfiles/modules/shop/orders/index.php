@@ -106,7 +106,7 @@
           <?php endif; ?></td>
         <td class="mw-order-item-amount"><?php  print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 1): ?>
-          <?php _e("Yes"); ?>
+          <span class="mw-order-item-status-completed"><?php _e("Yes"); ?></span>
           <?php else : ?>
           <?php _e("No"); ?>
           <?php endif; ?></td>

@@ -1,10 +1,22 @@
 <?php
  
 $payment_success = false;
+$payment_failure = false;
+
+
 if (isset($_SESSION['mw_payment_success'])) {
     mw()->user_manager->session_del('mw_payment_success');
     $payment_success = true;
 }
+
+if(isset($_REQUEST['mw_payment_success'])){
+	$payment_success = true;
+} elseif(isset($_REQUEST['mw_payment_failure'])){
+	$payment_success = true;
+}
+
+
+
 
 $requires_registration = get_option('shop_require_registration', 'website') == 'y';
 $requires_terms = get_option('shop_require_terms', 'website')  == 'y';

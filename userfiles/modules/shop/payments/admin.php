@@ -339,15 +339,11 @@ $payment_modules = get_modules('type=payment_gateway');
                 <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
                   <?php foreach($payment_modules  as $payment_module): ?>
                   <?php
-
-
-
-    			                    //$module_info = (module_info($payment_module['module']));
-    			                    $module_info = ($payment_module);
-                                 if(!isset($module_info['id']) or $module_info['id'] == false){
-                                	$module_info['id'] = 0;
-                                 }
-			                ?>
+                    $module_info = ($payment_module);
+                    if(!isset($module_info['id']) or $module_info['id'] == false){
+                        $module_info['id'] = 0;
+                    }
+                 ?>
                   <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
                     <div class="mw-ui-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
                       <div class="gateway-icon-title">

@@ -400,6 +400,7 @@ class Database
                                 if ($field_value == 'is_null') {
                                     $where_method = 'where_null';
                                     $field_value = $field_name;
+
                                 } elseif ($field_value == 'is_not_null') {
                                     $where_method = 'where_not_null';
                                     $field_value = $field_name;
@@ -451,8 +452,13 @@ class Database
                                         $field_value = substr($field_value, 1, $field_value_len);
                                     }
                                 }
+
                                 if ($where_method == false) {
                                     $orm->where($field_name, $field_value);
+                                } elseif ($where_method == 'where_null') {
+                                    $orm->whereNull($field_name);
+                                } elseif ($where_method == 'where_not_null') {
+                                    $orm->whereNotNull($field_name);
                                 } else {
                                     $orm->$where_method($field_name, $field_value);
                                 }

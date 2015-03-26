@@ -73,9 +73,17 @@ class ShopManager
         $cart['order_completed'] = 0;
         $cart['limit'] = 1;
         $mw_process_payment = true;
-        if (isset($_GET['mw_payment_success'])) {
+        $mw_process_payment_success = false;
+        $mw_process_payment_failed = false;
+        if (isset($_REQUEST['mw_payment_success'])) {
             $mw_process_payment = false;
+            $mw_process_payment_success = true;
+            $exec_return = true;
+        } else if (isset($_REQUEST['mw_payment_failure'])) {
+            $mw_process_payment_failed = true;
+            $exec_return = true;
         }
+
 
         $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
@@ -83,8 +91,16 @@ class ShopManager
         if ($exec_return == true) {
             if (isset($_REQUEST['return_to'])) {
                 $return_to = urldecode($_REQUEST['return_to']);
+                $append = '?';
+                if (strstr($return_to, '?')) {
+                    $append = '&';
+                }
+                if ($mw_process_payment_success == true) {
+                    $return_to = $return_to . $append . 'mw_payment_success=1';
+                } elseif ($mw_process_payment_failed == true) {
+                    $return_to = $return_to . $append . 'mw_payment_failure=1';
+                }
                 return $this->app->url_manager->redirect($return_to);
-
             }
         }
 
@@ -124,9 +140,7 @@ class ShopManager
                         $key2 = str_replace('_', ' ', $k);
                         if ($key1 == $key2) {
                             $save_custom_fields_for_order[$key1] = $this->app->format->clean_html($item);
-
                         }
-
                     }
                 }
             }
@@ -195,7 +209,6 @@ class ShopManager
             $posted_fields = array();
             $place_order = array();
             $place_order['id'] = false;
-            //$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 
             $return_url_after = '';
             if ($this->app->url_manager->is_ajax()) {
@@ -210,7 +223,6 @@ class ShopManager
             }
 
             $place_order['session_id'] = $sid;
-
             $place_order['order_completed'] = 0;
             $items_count = 0;
 
@@ -223,12 +235,7 @@ class ShopManager
             }
 
             $amount = $this->cart_sum();
-            if ($amount == 0) {
-                //  $checkout_errors['cart_sum'] = 'Cart sum is 0?';
-            }
-
             if (!empty($checkout_errors)) {
-
                 return array('error' => $checkout_errors);
             }
 
@@ -270,80 +277,30 @@ class ShopManager
                 if ($data['payment_gw'] != 'none') {
 
                     $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
-
-
                     if (!is_file($gw_process)) {
                         $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
-
                     }
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . $return_url_after;
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
                     $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
                     if (is_file($gw_process)) {
                         require_once $gw_process;
                     } else {
                         $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
-
                     }
                 } else {
                     $place_order['order_completed'] = 1;
                     $place_order['is_paid'] = 0;
-
                     $place_order['success'] = "Your order has been placed successfully!";
-
                 }
-
-
                 $place_order['order_status'] = 'pending';
-
-                // $this->app->database->q($q);
                 if (!empty($checkout_errors)) {
-
                     return array('error' => $checkout_errors);
                 }
                 $ord = $this->place_order($place_order);
                 $place_order['id'] = $ord;
-
-//                $ord = $this->app->database->save($table_orders, $place_order);
-//                $place_order['id'] = $ord;
-//
-//                $q = " UPDATE $cart_table_real SET
-//		order_id='{$ord}'
-//		WHERE order_completed=0  AND session_id='{$sid}'  ";
-//
-//                $this->app->database->q($q);
-//
-//                if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
-//                    $q = " UPDATE $cart_table_real SET
-//			order_completed=1, order_id='{$ord}'
-//
-//			WHERE order_completed=0  AND session_id='{$sid}' ";
-//
-//                    $this->app->database->q($q);
-//
-//                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-//                        $q = " UPDATE $order_table_real SET
-//				order_completed=1
-//				WHERE order_completed=0 AND
-//				id='{$ord}' AND session_id='{$sid}' ";
-//                        $this->app->database->q($q);
-//                    }
-//
-//                    $this->app->cache_manager->delete('cart');
-//                    $this->app->cache_manager->delete('cart_orders');
-//
-//
-//                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-//                        $this->update_quantities($ord);
-//                    }
-//
-//
-//                    $this->after_checkout($ord);
-//                }
-//                mw()->user_manager->session_set('order_id', $ord);
-
             }
 
             if (isset($place_order) and !empty($place_order)) {
@@ -1325,18 +1282,18 @@ class ShopManager
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
         $hostname = $this->get_domain_from_str($_SERVER['REMOTE_ADDR']);
-        $cache_gr = 'ipn';
-        $cache_id = $hostname . md5(serialize($data));
-
-        $this->app->cache_manager->save($data, $cache_id, $cache_gr);
 
 
         $payment_verify_token = $this->app->database_manager->escape_string($payment_verify_token);
         $table = $this->tables['cart_orders'];
-        $q = " SELECT  * FROM $table WHERE payment_verify_token='{$payment_verify_token}'  AND transaction_id IS NULL  LIMIT 1";
 
-        $ord_data = $this->app->database_manager->query($q);
+        $query = array();
+        $query['payment_verify_token'] = $payment_verify_token;
+        $query['transaction_id'] = 'is_null';
+        $query['limit'] = 1;
+        $query['table'] = $table;
 
+        $ord_data = $this->app->database_manager->get($query);
         if (!isset($ord_data[0]) or !is_array($ord_data[0])) {
             return array('error' => 'Order is completed or expired.');
         } else {
@@ -1354,17 +1311,17 @@ class ShopManager
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'checkout_ipn.php', false);
         }
 
-
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
         } else {
             return array('error' => 'The payment gateway is not found!');
         }
-        if (!empty($update_order) and isset($update_order['order_completed']) and trim($update_order['order_completed']) == 'y') {
+
+        if (!empty($update_order) and isset($update_order['order_completed']) and trim($update_order['order_completed']) == 1) {
             $update_order['id'] = $ord;
             $update_order['payment_gw'] = $data['payment_gw'];
-            $ord = $this->app->database->save($table_orders, $update_order);
+            $ord = $this->app->database_manager->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
             if (isset($update_order['is_paid']) and $update_order['is_paid'] == 1) {
                 $this->update_quantities($ord);
@@ -1545,21 +1502,38 @@ class ShopManager
         }
         $amount = floatval($amount);
         $sym = $this->currency_symbol($curr);
-        switch ($curr) {
-            case "EUR":
-                $ret = "&euro; " . number_format($amount, 2, ",", " ");
-                break;
-            case "BGN":
-            case "RUB":
-                $ret = number_format($amount, 2, ".", " ") . ' ' . $sym;
-                break;
-            case "US":
-            case "USD":
-                $ret = "&#36; " . number_format($amount, 2, ".", ",");
-                break;
-            default:
+
+
+        $cur_pos = $this->app->option_manager->get('currency_symbol_position', 'payments');
+
+        switch ($cur_pos) {
+            case "before":
                 $ret = $sym . ' ' . number_format($amount, 2, ".", ",");
                 break;
+            case "after":
+                $ret = number_format($amount, 2, ".", " ") . ' ' . $sym;
+
+                break;
+            case "default":
+            default:
+                switch ($curr) {
+                    case "EUR":
+                        $ret = "&euro; " . number_format($amount, 2, ",", " ");
+                        break;
+                    case "BGN":
+                    case "RUB":
+                        $ret = number_format($amount, 2, ".", " ") . ' ' . $sym;
+                        break;
+                    case "US":
+                    case "USD":
+                        $ret = "&#36; " . number_format($amount, 2, ".", ",");
+                        break;
+                    default:
+                        $ret = $sym . ' ' . number_format($amount, 2, ".", ",");
+                        break;
+                }
+                break;
+
         }
         return $ret;
     }

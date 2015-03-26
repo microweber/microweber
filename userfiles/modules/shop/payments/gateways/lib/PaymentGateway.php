@@ -125,10 +125,10 @@ if($aj  == false){
 } else {
 
  
-$rand = uniqid();
+
 	
 }
-
+$rand = uniqid();
 		
 		 $ret .= '<script  type="text/javascript">
 $(document).ready(function(){
