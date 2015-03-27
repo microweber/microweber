@@ -6,13 +6,10 @@
 function load_all_functions_files_for_modules($options = false)
 {
     $is_installed = mw_is_installed();
-
     if (!$is_installed) {
         return;
     }
     $modules = mw()->modules->get('ui=any&installed=1&limit=99999');
-
-    // $modules = mw()->modules->where('installed', 1)->remember(50)->get();
     $files = array();
     if (!empty($modules)) {
         foreach ($modules as $module) {
@@ -27,7 +24,6 @@ function load_all_functions_files_for_modules($options = false)
         }
         return $files;
     }
-
 }
 
 
@@ -90,13 +86,8 @@ function module($params)
         }
     }
 
-    //$tags = "<div class='module' {$tags} data-type='{$module_name}'  data-view='empty'>" . $em . "</div>";
 
     $res = mw()->modules->load($module_name, $params);
-    if (is_array($res)) {
-        // $res['edit'] = $tags;
-    }
-
     if (isset($params['wrap']) or isset($params['data-wrap'])) {
         $module_cl = module_css_class($module_name);
         $res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>" . $res . "</div>";
@@ -171,8 +162,5 @@ function get_saved_modules_as_template($params)
 api_expose_admin('delete_module_as_template');
 function delete_module_as_template($data)
 {
-
     return mw()->modules->delete_module_as_template($data);
-
-
 }

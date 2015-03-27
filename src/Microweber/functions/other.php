@@ -168,30 +168,10 @@ function template_var($key, $new_val = false)
 }
 
 
-/**
- *
- * You can use this function to store options in the database.
- *
- * @param $data array|string
- * Example usage:
- *
- * $option = array();
- * $option['option_value'] = 'my value';
- * $option['option_key'] = 'my_option';
- * $option['option_group'] = 'my_option_group';
- * save_option($option);
- *
- *
- *
- */
-api_expose('save_option');
-
-
 api_expose('save_form_list');
 function save_form_list($params)
 {
     return mw()->forms_manager->save_list($params);
-
 }
 
 
@@ -202,35 +182,28 @@ function system_config_get($key = false)
 }
 
 api_expose('delete_forms_list');
-
 function delete_forms_list($data)
 {
     return mw()->forms_manager->delete_list($data);
 }
 
-api_expose('delete_form_entry');
 
+api_expose('delete_form_entry');
 function delete_form_entry($data)
 {
     return mw()->forms_manager->delete_entry($data);
-
 }
 
 api_expose('forms_list_export_to_excel');
 function forms_list_export_to_excel($params)
 {
-
-
     return mw()->forms_manager->export_to_excel($params);
-
-
 }
 
 
 function get_form_entires($params)
 {
     return mw()->forms_manager->get_entires($params);
-
 }
 
 function get_form_lists($params)
@@ -242,8 +215,6 @@ api_expose('post_form');
 function post_form($params)
 {
     return mw()->forms_manager->post($params);
-
-
 }
 
 

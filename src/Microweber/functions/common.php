@@ -370,9 +370,9 @@ function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = 
  * @return boolean
  * @package Cache
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'global')
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global',$expiration=false)
 {
-    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group);
+    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group,$expiration);
 
 
 }
