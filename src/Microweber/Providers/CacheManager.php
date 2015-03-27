@@ -72,9 +72,9 @@ class CacheManager
      * </code>
      *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'global')
+    public function save($data_to_cache, $cache_id, $cache_group = 'global',$expiration=false)
     {
-        return $this->adapter->save($data_to_cache, $cache_id, $cache_group);
+        return $this->adapter->save($data_to_cache, $cache_id, $cache_group,$expiration);
 
     }
 

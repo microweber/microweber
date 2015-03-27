@@ -15,6 +15,11 @@ class LaravelEvent
         return self::event_bind($event_name, $callback);
     }
 
+    /**
+     * @param $api_function
+     * @param mixed $data
+     * @return mixed
+     */
     public static function fire($api_function, $data = false)
     {
         if (isset(self::$hooks[$api_function])) {

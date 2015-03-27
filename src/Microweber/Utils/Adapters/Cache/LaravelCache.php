@@ -63,13 +63,17 @@ class LaravelCache
      * </code>
      *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'global')
+    public function save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false)
     {
         if (!$this->support_tags) {
             return;
         }
         $cache_group = $this->cache_group($cache_group);
-        Cache::tags($cache_group)->put($cache_id, $data_to_cache, $this->ttl);
+        if ($expiration != false) {
+            Cache::tags($cache_group)->put($cache_id, $data_to_cache, intval($expiration));
+        } else {
+            Cache::tags($cache_group)->put($cache_id, $data_to_cache, $this->ttl);
+        }
     }
 
     /**
