@@ -1,6 +1,6 @@
 # Microweber: Drag-and-Drop CMS
 
-**Current version: 1.0 running on Laravel 5!**
+**Current version: 1.0 running on Laravel 5!** [![Build Status](https://api.travis-ci.org/microweber/microweber.png)](https://travis-ci.org/microweber/microweber)
 
 <center>
 **[Download](https://microweber.com/download.php) |
@@ -94,3 +94,7 @@ If you are a developer, submitting fixes is easy:
 2. Fork the Microweber repository
 3. Make your changes
 4. Submit a pull request
+
+
+
+ 
