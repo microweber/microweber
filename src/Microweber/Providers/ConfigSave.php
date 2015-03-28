@@ -74,12 +74,18 @@ class ConfigSave extends Repository
 
 
             $to_save = true;
-            if (!empty($allowed)) {
+			
+            if(is_string($allowed)){
+				if($file != $allowed){
+					$to_save = false;
+				}
+			} elseif (!empty($allowed)) {
                 if (!in_array($file, $allowed)) {
-
                     $to_save = false;
                 }
             }
+			
+			
             if ($to_save) {
                 if (!file_exists($path)) {
                     File::makeDirectory($path);
