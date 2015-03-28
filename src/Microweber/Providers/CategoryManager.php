@@ -1505,11 +1505,6 @@ class CategoryManager
     public function delete($data)
     {
 
-        $adm = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $adm == false) {
-            return false;
-        }
-
         if (is_array($data) and isset($data['id'])) {
             $c_id = intval($data['id']);
         } else {
@@ -1517,7 +1512,7 @@ class CategoryManager
         }
 
         $del = $this->app->database_manager->delete_by_id('categories', $c_id);
-        $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
+         $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
         $this->app->database_manager->delete_by_id('categories_items', $c_id, 'parent_id');
         if (defined("MODULE_DB_MENUS")) {
             $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');

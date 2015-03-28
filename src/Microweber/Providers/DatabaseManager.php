@@ -777,10 +777,17 @@ class DatabaseManager extends DbUtils
         if ($id == 0) {
             return false;
         }
+        if($field_name == 'id'){
+            $id = intval($id);
+        }
+
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
         $cache_group = $this->assoc_table_name($table);
         $this->app->cache_manager->delete($cache_group);
-        return $c_id;
+        if($c_id != false){
+            return $id;
+        }
+
     }
 
     /**

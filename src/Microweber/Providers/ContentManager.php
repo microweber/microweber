@@ -1261,7 +1261,6 @@ class ContentManager
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 
 
-
                             $to_pr_2 = str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
                             $to_pr_2 = str_replace('{active_class}', $active_class, $to_pr_2);
                             $to_pr_2 = str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
@@ -2665,10 +2664,6 @@ class ContentManager
                 $page_data_to_check_author = $this->get_by_id($data['id']);
 
 
-
-
-
-
                 if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
                     $stop = true;
                     return array('error' => "You don't have permission to edit this content");
@@ -2805,7 +2800,6 @@ class ContentManager
                 }
             }
         }
-
 
 
         if (isset($data['content_url']) and !isset($data['url'])) {
@@ -2978,7 +2972,6 @@ class ContentManager
         if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
             $data_to_save['url'] = str_replace(site_url(), '', $data_to_save['url']);
         }
-
 
 
         if (isset($data['created_at'])) {
@@ -3185,13 +3178,13 @@ class ContentManager
         }
 
 
-
-if(!isset($data_to_save['updated_at'])){
-        $data_to_save['updated_at'] = date("Y-m-d H:i:s");
-}
+        if (!isset($data_to_save['updated_at'])) {
+            $data_to_save['updated_at'] = date("Y-m-d H:i:s");
+        }
 
         if ((isset($data_to_save['id']) and intval($data_to_save['id']) == 0) or !isset($data_to_save['id'])) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
+
                 $pos_params = array();
                 $pos_params['table'] = 'content';
                 if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
@@ -3201,13 +3194,14 @@ if(!isset($data_to_save['updated_at'])){
                     $pos_params['max'] = 'position';
                 }
                 $get_max_pos = mw()->database_manager->get($pos_params);
-                if (is_int($get_max_pos) or is_string($get_max_pos))
+                if (is_null($get_max_pos)) {
+                    $data_to_save['position'] = 1;
+                } else if (is_int($get_max_pos) or is_string($get_max_pos))
                     if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
                         $data_to_save['position'] = intval($get_max_pos) - 1;
                     } else {
                         $data_to_save['position'] = intval($get_max_pos) + 1;
                     }
-
             }
             $data_to_save['posted_at'] = $data_to_save['updated_at'];
 
@@ -4179,8 +4173,6 @@ if(!isset($data_to_save['updated_at'])){
                 }
             }
             $params['position'] = $compare_q . $cont_data['position'];
-
-            //  $params['created_at'] = $compare_q . $cont_data['created_at'];
         } else {
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
                 $params['position'] = $compare_q . $cont_data['position'];
