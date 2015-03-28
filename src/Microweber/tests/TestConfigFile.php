@@ -1,5 +1,7 @@
 <?php
 
+namespace Microweber\tests;
+
 class TestConfigFile extends TestCase
 {
 

@@ -1,17 +1,48 @@
 <?php
 
+namespace Microweber\tests;
+
 class DbTest extends TestCase
 {
+    public function testSimpeSave()
+    {
+        $save = array(
+            "content_type" => "page",
+            "subtype" => "static",
+            "title" => "one page",
+            "parent" => "0",
+            "is_deleted" => "0"
+        );
+        $save_post = array(
+            "content_type" => "post",
+            "subtype" => "static",
+            "title" => "one post",
+            "parent" => "0",
+            "is_deleted" => "0"
+        );
 
+
+        $content = db_save('content', $save);
+        $content2 = db_save('content', $save);
+        $content3 = db_save('content', $save);
+        $content4 = db_save('content', $save);
+        $content5 = db_save('content', $save_post);
+        $content6 = db_save('content', $save_post);
+
+
+
+        $this->assertTrue(true, !$content);
+        $this->assertTrue(true, !$content2);
+        $this->assertTrue(true, $content != $content2);
+        $this->assertTrue(true, $content2 != $content3);
+        $this->assertTrue(true, $content3 != $content4);
+        $this->assertTrue(true, $content4 != $content5);
+        $this->assertTrue(true, $content5 != $content6);
+    }
 
     public function testSimpeGet()
     {
-
-
         $content = db_get('content', 'limit=2');
-
-
-
         $count = (count($content));
         $this->assertEquals(2, $count);
         $this->assertTrue(true, !empty($content));
@@ -30,8 +61,11 @@ class DbTest extends TestCase
     {
         $content_count = db_get('content', 'count=true');
         $pages_count = db_get('content', 'limit=2&count_paging=1');
-        $must_be = intval(ceil($content_count / 2));
+
+
+        $must_be = intval(floor($content_count / 2));
         $this->assertEquals($pages_count, $must_be);
+
     }
 
 
@@ -122,8 +156,8 @@ class DbTest extends TestCase
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] == 'page'));
         }
-        $content = db_get('content', 'limit=1&content_type=[neq]page&debug=1');
-
+        $content = db_get('content', 'limit=1&content_type=[neq]page');
+ 
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] != 'page'));
         }
@@ -136,7 +170,6 @@ class DbTest extends TestCase
             $this->assertTrue(true, ($item['content_type'] != 'post'));
         }
     }
-
 
 
     public function testSelectOnlyfields()
