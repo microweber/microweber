@@ -25,4 +25,4 @@ notifications:
 branches:
   only:
     - master
-    - dev
+    - 1.0
