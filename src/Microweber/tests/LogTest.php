@@ -22,7 +22,7 @@ class LogTest extends TestCase
         $data['rel_type'] = 'log_unit_test';
         $save = mw()->log_manager->save($data);
 
-        $this->assertEquals(true, $save > 1);
+        $this->assertEquals(true, $save > 0);
     }
 
 

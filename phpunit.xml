@@ -7,11 +7,11 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
+         stopOnFailure="true"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="Microweber Test Suite">
+            <directory>./src/Microweber/tests/</directory>
         </testsuite>
     </testsuites>
     <php>
