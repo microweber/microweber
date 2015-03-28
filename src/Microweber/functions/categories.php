@@ -1,6 +1,8 @@
 <?php
 
 
+
+
 /**
  * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
  * @param int
@@ -121,3 +123,10 @@ function get_category_items($category_id)
 {
     return mw()->category_manager->get_items('parent_id=' . intval($category_id));
 }
+
+
+
+
+api_expose_admin('category/reorder');
+api_expose_admin('category/save');
+api_expose_admin('category/delete');

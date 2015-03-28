@@ -3,9 +3,6 @@
 
 namespace Microweber\Providers;
 
-api_expose('category/reorder');
-api_expose('category/save');
-api_expose('category/delete');
 
 
 /**
