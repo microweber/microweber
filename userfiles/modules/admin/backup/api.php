@@ -2,14 +2,13 @@
 
 namespace admin\backup;
 
-api_expose('admin_backup_db_tables');
-api_expose('mw/utils/Backup/delete');
-api_expose('mw/utils/Backup/create');
-api_expose('mw/utils/Backup/download');
-api_expose('mw/utils/Backup/create_full');
-api_expose('mw/utils/Backup/move_uploaded_file_to_backup');
-
-api_expose('mw/utils/Backup/restore');
+api_expose_admin('admin_backup_db_tables');
+api_expose_admin('mw/utils/Backup/delete');
+api_expose_admin('mw/utils/Backup/create');
+api_expose_admin('mw/utils/Backup/download');
+api_expose_admin('mw/utils/Backup/create_full');
+api_expose_admin('mw/utils/Backup/move_uploaded_file_to_backup');
+api_expose_admin('mw/utils/Backup/restore');
 
 function mw_process_backup_in_background($a = '', $b = '') {
 
