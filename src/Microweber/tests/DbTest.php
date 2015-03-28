@@ -157,7 +157,7 @@ class DbTest extends TestCase
             $this->assertTrue(true, ($item['content_type'] == 'page'));
         }
         $content = db_get('content', 'limit=1&content_type=[neq]page');
- 
+
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] != 'page'));
         }

@@ -38,7 +38,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         // make fresh install
         $install_params = array(
-            '-n' => true,
+
             'username' => 'test',
             'password' => 'test',
             'email' => 'test@example.com',
@@ -49,8 +49,13 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_name' => $this->sqlite_file,
             '--env' => 'testing'
         );
-        $install = \Artisan::call('microweber:install', $install_params);
-        $this->assertEquals(0, $install);
+
+        $is_installed = mw_is_installed();
+        if (!$is_installed) {
+            $install = \Artisan::call('microweber:install', $install_params);
+            $this->assertEquals(0, $install);
+        }
+
 
         \Mail::pretend(true);
 

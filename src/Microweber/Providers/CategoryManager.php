@@ -1328,8 +1328,6 @@ class CategoryManager
 
         $no_position_fix = false;
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) != '' and trim($data['rel_id']) != '') {
-
-            //$table = $table_items;
             $no_position_fix = true;
         }
 
@@ -1452,10 +1450,9 @@ class CategoryManager
 
                 $item_save['parent_id'] = intval($save);
 
-                $item_save = $this->app->database->save($table_items, $item_save);
+                $item_save = $this->app->database_manager->save($table_items, $item_save);
 
-                //$this->app->cache_manager->clear('content' . DIRECTORY_SEPARATOR . $id);
-            }
+             }
         }
         if ($old_parent != false) {
             // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);

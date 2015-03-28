@@ -617,7 +617,7 @@ class DatabaseManager extends DbUtils
         if ($id_to_return == false) {
             $id_to_return = $this->last_id($table);
         }
-
+        $id_to_return = intval($id_to_return);
 
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
