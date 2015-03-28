@@ -676,7 +676,7 @@ class Database
      * @since Version 1.0
      */
 
-    public function get_fields($table, $exclude_fields = false)
+    public function get_fields($table)
     {
 
         static $ex_fields_static;

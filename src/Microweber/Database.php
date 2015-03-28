@@ -8,7 +8,6 @@ use Microweber\Utils\Database as DbUtils;
 use Microweber\Traits\QueryFilter;
 use Microweber\Traits\ExtendedSave;
 
-use Illuminate\Support\Facades\User as DefaultUserProvider;
 
 class Database
 {
@@ -83,9 +82,10 @@ class Database
      *
      * @package Database
      */
-    public function get($table_name_or_params, $params = null)
+    public function get($table, $params = null)
     {
 
+        return $this->app->database_manager->get($table,$params);
 
         if ($params === null) {
             $params = $table_name_or_params;

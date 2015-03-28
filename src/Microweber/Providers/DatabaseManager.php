@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Database as DbUtils;
-
+use Microweber\Traits\QueryFilter;
+use Microweber\Traits\ExtendedSave;
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 
 class DatabaseManager extends DbUtils
@@ -29,6 +30,8 @@ class DatabaseManager extends DbUtils
     public $use_cache = true;
     public $app = null;
 
+    use QueryFilter; //trait with db functions
+    use ExtendedSave; //trait to save extended data, such as attributes, categories and images
 
     function __construct($app = null)
     {
@@ -96,7 +99,178 @@ class DatabaseManager extends DbUtils
      *
      * @package Database
      */
-    public function get($params)
+    public function get($table, $params = null)
+    {
+
+
+        if ($params === null) {
+            $params = $table;
+        } else {
+            if ($params != false) {
+                $params = parse_params($params);
+            } else {
+                $params = array();
+            }
+            $params['table'] = $table;
+        }
+
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+
+        if (!isset($params['table'])) {
+            return false;
+        } else {
+            $table = trim($params['table']);
+            unset($params['table']);
+        }
+        if (!$table) {
+            return false;
+        }
+
+
+
+
+
+
+        $query = DB::table($table);
+
+
+        $orig_params = $params;
+        $items_per_page = false;
+
+        if (!isset($params['limit'])) {
+            $params['limit'] = $this->default_limit;
+        }
+
+
+        if (isset($orig_params['page_count'])) {
+            $orig_params['count_paging'] = $orig_params['page_count'];
+        }
+
+
+        if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
+            if (isset($params['limit'])) {
+                $items_per_page = $params['limit'];
+                 unset($params['limit']);
+            }
+            if (isset($params['page'])) {
+                unset($params['page']);
+            }
+            if (isset($params['paging_param'])) {
+                unset($params['paging_param']);
+            }
+
+            if (isset($params['current_page'])) {
+                unset($params['current_page']);
+            }
+            $orig_params['count'] = true;
+
+        }
+
+        if (isset($params['orderby'])) {
+            $params['order_by'] = $params['orderby'];
+            unset($params['orderby']);
+        }
+
+        if (isset($params['groupby'])) {
+            $params['group_by'] = $params['groupby'];
+            unset($params['groupby']);
+        }
+
+        if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
+            $use_cache = false;
+        } else {
+            $use_cache = $this->use_cache;
+        }
+        $query = $this->map_filters($query, $params, $table);
+
+        $params = $this->map_array_to_table($table, $params);
+
+        $query = $this->map_values_to_query($query, $params);
+
+
+        $ttl = $this->table_cache_ttl;
+        $cache_key = $table . crc32(serialize($orig_params) . $this->default_limit);
+
+
+        if (is_array($params) and !empty($params)) {
+            $query = $query->where($params);
+        }
+
+        if (isset($orig_params['count']) and ($orig_params['count'])) {
+            if ($use_cache == false) {
+                $query = $query->count();
+            } else {
+                $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+                    return $query->count();
+                });
+
+            }
+            if ($items_per_page != false) {
+                $query = intval(floor($query / $items_per_page));
+
+            }
+            return $query;
+        }
+        if (isset($orig_params['min']) and ($orig_params['min'])) {
+            $column = $orig_params['min'];
+            $query = $query->min($column);
+            return $query;
+        }
+        if (isset($orig_params['max']) and ($orig_params['max'])) {
+            $column = $orig_params['max'];
+            $query = $query->max($column);
+            return $query;
+        }
+        if (isset($orig_params['avg']) and ($orig_params['avg'])) {
+            $column = $orig_params['avg'];
+            $query = $query->avg($column);
+            return $query;
+        }
+
+
+        if ($this->use_cache == false) {
+
+            $data = $query->get();
+        } else {
+
+            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+
+                return $query->get();
+            });
+
+        }
+
+
+        if ($data == false or empty($data)) {
+            return false;
+        }
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = (array)$v;
+            }
+        }
+        if (empty($data)) {
+            return false;
+        } else {
+            $data = $this->app->url_manager->replace_site_url_back($data);
+        }
+
+
+        if (!is_array($data)) {
+            return $data;
+        }
+
+        if (isset($orig_params['single']) || isset($orig_params['one'])) {
+            if (!isset($data[0])) {
+                return false;
+            }
+            return $data[0];
+        }
+        return $data;
+    }
+    public function getddd($params)
     {
 
 
@@ -296,9 +470,8 @@ class DatabaseManager extends DbUtils
         if (is_array($table) and isset($table['table'])) {
             $data = $table;
             $table = $table['table'];
-
-
-        }
+            unset($data['table']);
+       }
 
         if (!is_array($data)) {
             return false;
@@ -336,8 +509,6 @@ class DatabaseManager extends DbUtils
             }
         }
 
-
-        //  $table = $this->real_table_name($table);
         $user_sid = mw()->user_manager->session_id();
         $the_user_id = mw()->user_manager->id();
 
