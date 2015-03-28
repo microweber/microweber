@@ -2557,7 +2557,7 @@ class ContentManager
                                 $to_save['id'] = $content_id;
 
 
-                                $is_native_fld = $this->app->database->get_fields('content');
+                                $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 }

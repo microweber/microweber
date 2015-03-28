@@ -129,10 +129,6 @@ class DatabaseManager extends DbUtils
         }
 
 
-
-
-
-
         $query = DB::table($table);
 
 
@@ -152,7 +148,7 @@ class DatabaseManager extends DbUtils
         if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
             if (isset($params['limit'])) {
                 $items_per_page = $params['limit'];
-                 unset($params['limit']);
+                unset($params['limit']);
             }
             if (isset($params['page'])) {
                 unset($params['page']);
@@ -270,6 +266,7 @@ class DatabaseManager extends DbUtils
         }
         return $data;
     }
+
     public function getddd($params)
     {
 
@@ -471,7 +468,10 @@ class DatabaseManager extends DbUtils
             $data = $table;
             $table = $table['table'];
             unset($data['table']);
-       }
+        }
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
 
         if (!is_array($data)) {
             return false;
@@ -571,7 +571,6 @@ class DatabaseManager extends DbUtils
         if (isset($data['position'])) {
             $data['position'] = intval($data['position']);
         }
-
 
 
         $table_assoc_name = $this->assoc_table_name($table);
@@ -777,14 +776,14 @@ class DatabaseManager extends DbUtils
         if ($id == 0) {
             return false;
         }
-        if($field_name == 'id'){
+        if ($field_name == 'id') {
             $id = intval($id);
         }
 
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
         $cache_group = $this->assoc_table_name($table);
         $this->app->cache_manager->delete($cache_group);
-        if($c_id != false){
+        if ($c_id != false) {
             return $id;
         }
 
