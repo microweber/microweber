@@ -385,6 +385,12 @@ class DatabaseManager extends DbUtils
             }
         }
 
+        if (isset($data['position'])) {
+            $data['position'] = intval($data['position']);
+        }
+
+        
+
         $table_assoc_name = $this->assoc_table_name($table);
 
         $criteria_orig = $data;
