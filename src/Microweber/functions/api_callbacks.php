@@ -11,7 +11,7 @@ api_expose_admin('get_pages');
 api_expose('content_link');
 api_expose_admin('get_content_by_id');
 api_expose_admin('get_products');
-api_expose('delete_content');
+api_expose_admin('delete_content');
 api_bind_admin('content/delete', 'delete_content');
 api_expose_admin('content_parents');
 api_expose_admin('get_content_children');
@@ -22,6 +22,17 @@ api_expose('save_edit');
 api_expose_admin('save_content');
 api_expose('save_content_admin');
 api_expose_admin('get_content_field_draft');
+
+
+
+api_expose('notifications_manager/delete');
+api_expose('notifications_manager/reset');
+api_expose('notifications_manager/read');
+
+api_expose('notifications_manager/mark_all_as_read');
+
+
+
 
 api_bind_admin('content/set_published', function ($data) {
     return mw()->content_manager->set_published($data);

@@ -57,7 +57,6 @@ function save_media($data)
 
 function save_picture($data)
 {
-
     return mw()->media_manager->save($data);
 }
 
@@ -73,12 +72,11 @@ function pixum($width, $height)
     return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
 }
 
+
 api_expose('thumbnail_img');
 function thumbnail_img($params)
 {
     return mw()->media_manager->thumbnail_img($params);
-
-
 }
 
 if (!function_exists('thumbnail')) {
@@ -90,18 +88,13 @@ if (!function_exists('thumbnail')) {
 }
 function get_pictures($params)
 {
-
     return mw()->media_manager->get($params);
-
 }
 
-api_expose('create_media_dir');
-
+api_expose_admin('create_media_dir');
 function create_media_dir($params)
 {
-
     return mw()->media_manager->create_media_dir($params);
-
 }
 
 

@@ -99,10 +99,7 @@ class LogManager
 
     public function delete_entry($data)
     {
-        $adm = $this->app->user_manager->is_admin();
-        if (defined("MW_API_CALL") and $adm == false) {
-            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+
         $id = false;
         if (!isset($data['id'])) {
             $id = intval($data);

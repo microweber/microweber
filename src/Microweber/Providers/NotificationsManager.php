@@ -5,12 +5,6 @@ namespace Microweber\Providers;
 
 use Notifications;
 
-api_expose('notifications_manager/delete');
-api_expose('notifications_manager/reset');
-api_expose('notifications_manager/read');
-
-api_expose('notifications_manager/mark_all_as_read');
-
 
 class NotificationsManager
 {

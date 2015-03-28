@@ -9,7 +9,7 @@
  */
 
 
-api_expose('reorder_modules');
+api_expose_admin('reorder_modules');
 
 function reorder_modules($data)
 {
@@ -87,7 +87,7 @@ function get_modules($options = false)
     return mw()->modules->get($options);
 }
 
-api_expose('save_module_as_template');
+api_expose_admin('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
 
@@ -168,7 +168,7 @@ function template_var($key, $new_val = false)
 }
 
 
-api_expose('save_form_list');
+api_expose_admin('save_form_list');
 function save_form_list($params)
 {
     return mw()->forms_manager->save_list($params);
@@ -181,20 +181,20 @@ function system_config_get($key = false)
 
 }
 
-api_expose('delete_forms_list');
+api_expose_admin('delete_forms_list');
 function delete_forms_list($data)
 {
     return mw()->forms_manager->delete_list($data);
 }
 
 
-api_expose('delete_form_entry');
+api_expose_admin('delete_form_entry');
 function delete_form_entry($data)
 {
     return mw()->forms_manager->delete_entry($data);
 }
 
-api_expose('forms_list_export_to_excel');
+api_expose_admin('forms_list_export_to_excel');
 function forms_list_export_to_excel($params)
 {
     return mw()->forms_manager->export_to_excel($params);
@@ -298,7 +298,7 @@ function mw_set_updates_queue($params)
 }
 
 
-api_expose('mw_save_license');
+api_expose_admin('mw_save_license');
 
 function mw_save_license($params)
 {
@@ -308,7 +308,7 @@ function mw_save_license($params)
 
 }
 
-api_expose('mw_validate_licenses');
+api_expose_admin('mw_validate_licenses');
 
 function mw_validate_licenses($params)
 {
@@ -349,21 +349,16 @@ function mw_check_for_update()
 }
 
 
-//api_expose('mw_send_anonymous_server_data');
+api_expose_admin('mw_send_anonymous_server_data');
 // function used do send us the language files
 function mw_send_anonymous_server_data($params)
 {
     only_admin_access();
     $update_api = mw('update');
 
-
     if ($params != false) {
         $params = parse_params($params);
-    } else {
-
     }
-
-
     if (method_exists($update_api, 'send_anonymous_server_data')) {
         $iudates = $update_api->send_anonymous_server_data($params);
 
@@ -373,7 +368,6 @@ function mw_send_anonymous_server_data($params)
         $result = $update_api->call('send_anonymous_server_data', $params);
         return $result;
     }
-
 
 }
 
@@ -701,13 +695,13 @@ function get_all_functions_files_for_modules($options = false)
 }
 
 
-function template_dir($param=false)
+function template_dir($param = false)
 {
     return mw()->template->dir($param);
 }
 
 
-function template_url($param=false)
+function template_url($param = false)
 {
     return mw()->template->url($param);
 
@@ -737,7 +731,7 @@ function template_headers_src()
 }
 
 
-api_expose('current_template_save_custom_css');
+api_expose_admin('current_template_save_custom_css');
 function current_template_save_custom_css($data)
 {
     return mw()->layouts_manager->template_save_css($data);
@@ -767,14 +761,14 @@ function load_web_component_file($filename)
 }
 
 
-api_expose('system_log_reset');
+api_expose_admin('system_log_reset');
 
 function system_log_reset($data = false)
 {
     return mw()->log_manager->reset();
 }
 
-api_expose('delete_log_entry');
+api_expose_admin('delete_log_entry');
 
 function delete_log_entry($data)
 {
@@ -801,12 +795,6 @@ function mw_error($e, $f = false, $l = false)
     $v->l = $l;
     die($v);
 }
-
-
-
-
-
-
 
 
 api_expose_admin('mw_composer_save_package');
