@@ -412,18 +412,6 @@ trait QueryFilter
     }
 
 
-    public function get_fields($table)
-    {
-
-
-        $value = Cache::tags('db')->remember('model.columns.' . $table, $this->table_cache_ttl, function () use ($table) {
-
-            return DB::connection()->getSchemaBuilder()->getColumnListing($table);
-        });
-
-        return $value;
-
-    }
 
     function __call($method, $params)
     {
