@@ -310,6 +310,18 @@ class DatabaseManager extends DbUtils
 
         $skip_cache = isset($original_data['skip_cache']);
 
+        if (!isset($params['skip_timestamps'])) {
+            if (!isset($params['id']) or (isset($params['id']) and $params['id'] == 0)) {
+                if (!isset($params['created_at'])) {
+                    $params['created_at'] = date("Y-m-d H:i:s");
+                }
+            }
+            if (!isset($params['updated_at'])) {
+                $params['updated_at'] = date("Y-m-d H:i:s");
+            }
+        }
+
+
         if ($is_quick == false) {
             if (isset($data['updated_at']) == false) {
                 $data['updated_at'] = date("Y-m-d H:i:s");
@@ -389,7 +401,7 @@ class DatabaseManager extends DbUtils
             $data['position'] = intval($data['position']);
         }
 
-        
+
 
         $table_assoc_name = $this->assoc_table_name($table);
 
@@ -439,8 +451,8 @@ class DatabaseManager extends DbUtils
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
         $cache_group = $this->assoc_table_name($table);
-        $this->app->cache_manager->delete($cache_group . '/global');
-        $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
+        $this->app->cache_manager->delete($cache_group);
+
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
             $this->app->cache_manager->delete($cache_group . '/global');

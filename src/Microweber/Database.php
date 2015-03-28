@@ -113,6 +113,10 @@ class Database
         }
 
 
+
+
+
+
         $query = DB::table($table);
 
 
@@ -255,9 +259,6 @@ class Database
     public function save($table_name_or_params, $params = null)
     {
 
-        $skip_cache_delete = false;
-        $return_params_instead_of_id = false;
-
         if ($params === null) {
             $params = $table_name_or_params;
         } else {
@@ -280,73 +281,9 @@ class Database
         if (!$table) {
             return false;
         }
-        if (isset($params['return_params_instead_of_id'])) {
-            $return_params_instead_of_id = $params['return_params_instead_of_id'];
-        }
 
-        $query = DB::table($table);
+        return $this->app->database_manager->save($table,$params);
 
-        if (!isset($params['skip_timestamps'])) {
-            if (!isset($params['id']) or (isset($params['id']) and $params['id'] == 0)) {
-                if (!isset($params['created_at'])) {
-                    $params['created_at'] = date("Y-m-d H:i:s");
-                }
-            }
-            if (!isset($params['updated_at'])) {
-                $params['updated_at'] = date("Y-m-d H:i:s");
-            }
-        }
-
-
-        if (!isset($params['session_id'])) {
-            $params['session_id'] = mw()->user_manager->session_id();
-        }
-
-
-        if (isset($params['skip_cache'])) {
-            $skip_cache_delete = $params['skip_cache'];
-        }
-
-        $orig_params = $params;
-
-
-        if (!isset($params['id'])) {
-            $params['id'] = 0;
-        }
-        $user_id = mw()->user_manager->id();
-        if ($params['id'] == 0 && $user_id) {
-            $params['created_by'] = $user_id;
-        }
-        if ($user_id) {
-            $params['edited_by'] = $user_id;
-        }
-        $params = $this->map_array_to_table($table, $params);
-
-        $id_to_return = false;
-        $params = $this->app->url_manager->replace_site_url($params);
-
-        $params['id'] = intval($params['id']);
-        if (intval($params['id']) == 0) {
-            unset($params['id']);
-
-            $id_to_return = $query->insert($params);
-            $params['id'] = $id_to_return = DB::getPdo()->lastInsertId();
-        } else {
-            //unset($params['created_at']);
-
-            $id_to_return = $query->where('id', $params['id'])->update($params);
-            $id_to_return = $params['id'];
-        }
-
-        if ($skip_cache_delete == false) {
-            Cache::tags($table)->flush();
-        }
-
-        if (!$return_params_instead_of_id) {
-            return intval($id_to_return);
-        } else {
-            return ($params);
-        }
     }
 
 
