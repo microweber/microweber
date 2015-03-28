@@ -30,10 +30,17 @@ class MicroweberServiceProvider extends ServiceProvider
     public function register()
     {
 
+
+
+
         // Set environment
         if (!$this->app->runningInConsole()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
+                if (getenv('APP_ENV')){
+                    return getenv('APP_ENV');
+                }
+
                 $domain = str_ireplace('www.', '', $domain);
                 $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
                 return $domain;
