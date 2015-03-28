@@ -1324,6 +1324,10 @@ class CategoryManager
             }
         }
 
+        if (isset($data['position'])) {
+            $data['position'] = intval($data['position']);
+        }
+
 
         $no_position_fix = false;
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) != '' and trim($data['rel_id']) != '') {
@@ -1359,7 +1363,7 @@ class CategoryManager
                 $cs['subtype'] = 'dynamic';
                 $table_c = $this->tables['content'];
 
-                $save = $this->app->database->save($table_c, $cs);
+                $save = $this->app->database_manager->save($table_c, $cs);
             }
 
         }
@@ -1377,7 +1381,7 @@ class CategoryManager
         }
 
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
 
 
         if ($simple_save == true) {
@@ -1459,16 +1463,7 @@ class CategoryManager
         if ($old_parent != false) {
             // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
-//        if (isset($data['parent_id'])) {
-//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
-//        }
-//
-//        if ($preserve_cache == false) {
-//
-//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $save);
-//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . '0');
-//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . 'global');
-//        }
+
 
         return $save;
     }
