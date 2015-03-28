@@ -1,6 +1,6 @@
 # Microweber: Drag-and-Drop CMS
 
-**Current version: 1.0 running on Laravel 5!** [![Build Status](https://api.travis-ci.org/microweber/microweber.png)](https://travis-ci.org/microweber/microweber)
+**Current version: 1.0 running on Laravel 5!** 
 
 <center>
 **[Download](https://microweber.com/download.php) |
@@ -13,6 +13,9 @@
 ---
 
 ![Live edit](https://microweber.com/cdn/microweber_screen_1.jpg "")
+
+## Build Status
+[![Build Status](https://api.travis-ci.org/microweber/microweber.svg)](https://travis-ci.org/microweber/microweber)
 
 ## What is Microweber? <a name="what-is" />
 
