@@ -14,8 +14,6 @@
 
 ![Live edit](https://microweber.com/cdn/microweber_screen_1.jpg "")
 
-## Build Status
-[![Build Status](https://api.travis-ci.org/microweber/microweber.svg)](https://travis-ci.org/microweber/microweber)
 
 ## What is Microweber? <a name="what-is" />
 
@@ -99,5 +97,5 @@ If you are a developer, submitting fixes is easy:
 4. Submit a pull request
 
 
-
- 
+## Build Status
+[![Build Status](https://api.travis-ci.org/microweber/microweber.svg)](https://travis-ci.org/microweber/microweber)
