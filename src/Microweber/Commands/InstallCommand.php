@@ -25,12 +25,14 @@ class InstallCommand extends Command
 			'db_name' => $this->argument('db_name'),
 			'db_user' => $this->argument('db_user'),
 			'db_pass' => $this->argument('db_pass'),
+            'db_driver' => $this->argument('db_driver'),
 	        'table_prefix' => $this->option('prefix'),
 	        'admin_email' => $this->argument('email'),
 	        'admin_username' => $this->argument('username'),
 	        'admin_password' => $this->argument('password'),
 	        'with_default_content' => $this->option('default-content'),
 	        'default_template' => $this->option('template'),
+
 	    );
 
 		$this->info("Installing Microweber...");
@@ -48,6 +50,7 @@ class InstallCommand extends Command
 			['db_name', InputArgument::REQUIRED, 'Database schema name'],
 			['db_user', InputArgument::REQUIRED, 'Database username'],
 			['db_pass', InputArgument::OPTIONAL, 'Database password'],
+			['db_driver', InputArgument::OPTIONAL, 'Database driver'],
 		];
 	}
 
