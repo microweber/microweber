@@ -4,7 +4,6 @@
 namespace Microweber\Providers;
 
 
-
 /**
  * Class to work with categories
  */
@@ -123,7 +122,7 @@ class CategoryManager
         if (!isset($params['no_cache'])) {
             if ($nest_level_orig == 0) {
                 $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-               // $cache_content = false;
+                // $cache_content = false;
                 if (($cache_content) != false) {
                     print $cache_content;
                     return;
@@ -601,7 +600,16 @@ class CategoryManager
 
                             $ext_classes = '';
 
+
+
+
                             $to_print = str_replace('{id}', $item['id'], $link);
+
+
+                            if(stristr($link,'{items_count}')){
+                                $to_print = str_ireplace('{items_count}', $this->get_items_count($item['id']), $to_print);
+                            }
+
 
                             $to_print = str_ireplace('{url}', $this->link($item['id']), $to_print);
                             $to_print = str_ireplace('{link}', $this->link($item['id']), $to_print);
@@ -682,6 +690,7 @@ class CategoryManager
                             $output = str_replace('{exteded_classes}', $ext_classes, $output);
 
 
+                            $to_print = str_replace('{items_count}', '', $to_print);
                             $to_print = str_replace('{active_class}', '', $to_print);
                             $to_print = str_replace('{active_code_tag}', '', $to_print);
 
@@ -1048,7 +1057,7 @@ class CategoryManager
 
             $orderby[1] = 'asc';
         }
-         if ($parent_id == 0) {
+        if ($parent_id == 0) {
             return false;
         }
 
@@ -1187,6 +1196,35 @@ class CategoryManager
         return $results;
     }
 
+
+    /**
+     * Gets category items count
+     * @param mixed $params Array or string with parameters
+     * @param string $data_type
+     * @return array|bool
+     */
+    public function get_items_count($id, $rel_type = false)
+    {
+        if ($id == false) {
+            return false;
+        }
+
+        $table_items = $this->tables['categories_items'];
+
+
+        $params = array();
+        $params['table'] = $table_items;
+        $params['parent_id'] = $id;
+        if ($rel_type != false) {
+            $params['rel_type'] = $rel_type;
+        }
+
+        $params['count'] = true;
+        $data = $this->app->database->get($params);
+        return $data;
+    }
+
+
     /**
      * Gets category items
      * @param mixed $params Array or string with parameters
@@ -1285,10 +1323,9 @@ class CategoryManager
         $content_ids = false;
         $simple_save = false;
         if (isset($data['content_id']) and !isset($data['rel_type'])) {
-              $data['rel_type'] = 'content';
-              $data['rel_id'] =$data['content_id'];
+            $data['rel_type'] = 'content';
+            $data['rel_id'] = $data['content_id'];
         }
-
 
 
         if (isset($data['rel']) and !isset($data['rel_type'])) {
@@ -1302,10 +1339,6 @@ class CategoryManager
         } elseif (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'n') {
             $data['users_can_create_content'] = 0;
         }
-
-
-
-
 
 
         if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
@@ -1343,16 +1376,16 @@ class CategoryManager
             if ($data['id'] == $data['parent_id']) {
                 unset($data['parent_id']);
             }
-        } else  if ((!isset($data['id']) or intval($data['id']) == 0) and !isset($data['parent_id'])) {
+        } else if ((!isset($data['id']) or intval($data['id']) == 0) and !isset($data['parent_id'])) {
             $data['parent_id'] = 0;
         }
 
 
-            if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
+        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
 
             $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
 
-            if ($cont_check != false and isset($cont_check['subtype']) and  $cont_check['subtype'] == 'static') {
+            if ($cont_check != false and isset($cont_check['subtype']) and $cont_check['subtype'] == 'static') {
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
@@ -1452,7 +1485,7 @@ class CategoryManager
 
                 $item_save = $this->app->database_manager->save($table_items, $item_save);
 
-             }
+            }
         }
         if ($old_parent != false) {
             // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
@@ -1512,13 +1545,14 @@ class CategoryManager
         }
 
         $del = $this->app->database_manager->delete_by_id('categories', $c_id);
-         $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
+        $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
         $this->app->database_manager->delete_by_id('categories_items', $c_id, 'parent_id');
         if (defined("MODULE_DB_MENUS")) {
             $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');
         }
         return $del;
     }
+
     public function delete_item($data)
     {
 
@@ -1531,6 +1565,7 @@ class CategoryManager
         $del = $this->app->database_manager->delete_by_id('categories_items', $c_id);
 
     }
+
     public function reorder($data)
     {
 

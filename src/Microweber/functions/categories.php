@@ -123,6 +123,10 @@ function get_category_items($category_id)
 {
     return mw()->category_manager->get_items('parent_id=' . intval($category_id));
 }
+function get_category_items_count($category_id,$rel_type=false)
+{
+    return mw()->category_manager->get_items_count($category_id,$rel_type);
+}
 
 
 
