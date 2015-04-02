@@ -225,11 +225,17 @@ mw.on.hashParam("pg", function(){
                                 onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
                         <?php endif; ?>
                         <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']);  ?>
+                        <?php $edit_link_front = content_link($item['id']).'?editmode:y';  ?>
+
+
+
+
+
                     </div>
                     <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
                         <div class="manage-item-main-top">
-                            <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>"
-                                                                  onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
+                            <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link_front; ?>"
+                                                                  onxClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
                                         <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
                                             <span class="mw-icon-shop"></span>

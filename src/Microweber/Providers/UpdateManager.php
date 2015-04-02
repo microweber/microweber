@@ -811,6 +811,7 @@ class UpdateManager
         if ($post_params != false and is_array($post_params)) {
             $curl = new \Microweber\Utils\Http($this->app);
             $curl->set_url($requestUrl);
+            $curl->set_timeout(10);
 
             $curl_result = $curl->post($post_params);
 

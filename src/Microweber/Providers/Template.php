@@ -335,6 +335,7 @@ class Template
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
+        $fallback_render_internal_file = false;
         $site_template_settings = $this->app->option_manager->get('current_template', 'template');
         if (!isset($page['active_site_template'])) {
             $page['active_site_template'] = 'default';
@@ -605,7 +606,7 @@ class Template
                             } else {
                                 $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
                                 if (is_file($render_file_temp)) {
-                                    $render_file = $render_file_temp;
+                                    $fallback_render_internal_file = $render_file_temp;
                                 }
                             }
 
@@ -688,9 +689,9 @@ class Template
             }
         }
 
+
         if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
             $look_for_post = $page;
-
 
             if (isset($page['parent'])) {
                 $par_page = false;
@@ -973,6 +974,13 @@ class Template
             }
         }
 
+        if ($render_file == false and $fallback_render_internal_file != false) {
+
+            if (is_file($fallback_render_internal_file)) {
+                $render_file = $fallback_render_internal_file;
+            }
+
+        }
 
 
 

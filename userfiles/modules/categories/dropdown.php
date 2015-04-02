@@ -1,14 +1,22 @@
 <?php
+$input_class = '';
  if(!isset($params['active_ids'])){
 	$params['active_ids'] = 0; 
  }
  if(!isset($params['input-name'])){
     $params['input-name'] = 'category_id' ;
  }
+ 
+  if(isset($params['input-class'])){
+    $input_class = $params['input-class'] ;
+ }
+ 
+ 
+ 
  $posts_parent_page = intval($params['active_ids']) ;
 ?>
        
-<select name="<?php print $params['input-name'] ?>"     >
+<select class="<?php print $input_class ?>" name="<?php print $params['input-name'] ?>"     >
   <option  <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
 <?php
   $pt_opts = array();
