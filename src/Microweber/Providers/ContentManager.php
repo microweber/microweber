@@ -662,9 +662,10 @@ class ContentManager
         $params = parse_params($params);
         $pages_count = 1;
         $base_url = false;
-        $paging_param = 'curent_page';
+        $paging_param = 'current_page';
         $keyword_param = 'keyword_param';
         $class = 'pagination';
+        $li_class = '';
         if (isset($params['num'])) {
             $pages_count = $params['num'];
         }
@@ -681,6 +682,9 @@ class ContentManager
         if (isset($params['class'])) {
             $class = $params['class'];
         }
+        if (isset($params['li_class'])) {
+            $li_class = $params['li_class'];
+        }
 
         if (isset($params['paging_param'])) {
             $paging_param = $params['paging_param'];
@@ -688,10 +692,10 @@ class ContentManager
 
         $current_page_from_url = $this->app->url_manager->param($paging_param);
 
-        if (isset($params['curent_page'])) {
-            $current_page_from_url = $params['curent_page'];
-        } elseif (isset($params['current_page'])) {
+        if (isset($params['current_page'])) {
             $current_page_from_url = $params['current_page'];
+        } elseif (isset($params['curent_page'])) {
+            $current_page_from_url = $params['curent_page'];
         }
 
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
@@ -704,14 +708,14 @@ class ContentManager
                 $act_class = '';
                 if ($current_page_from_url != false) {
                     if (intval($current_page_from_url) == intval($key)) {
-                        $act_class = ' class="active" ';
+                        $act_class = ' active ';
                         $active_item = $key;
                     }
                 }
 
                 $item_to_print = '';
-                $item_to_print .= "<li {$act_class} data-page-number=\"$key\">";
-                $item_to_print .= "<a {$act_class} href=\"$value\" data-page-number=\"$key\">$key</a> ";
+                $item_to_print .= "<li class=\"{$li_class} {$act_class}\" data-page-number=\"$key\">";
+                $item_to_print .= "<a class=\"{$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
                 $item_to_print .= "</li>";
                 $paging_items[$key] = $item_to_print;
             }

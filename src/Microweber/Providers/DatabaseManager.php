@@ -135,10 +135,14 @@ class DatabaseManager extends DbUtils
         $orig_params = $params;
         $items_per_page = false;
 
+
         if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
         }
+        if (isset($params['no_limit'])) {
+            unset($params['limit']);
 
+         }
 
         if (isset($orig_params['page_count'])) {
             $orig_params['count_paging'] = $orig_params['page_count'];
@@ -187,7 +191,12 @@ class DatabaseManager extends DbUtils
 
 
         $ttl = $this->table_cache_ttl;
-        $cache_key = $table . crc32(serialize($orig_params) . $this->default_limit);
+
+        if (!isset($params['no_limit'])) {
+            $cache_key = $table . crc32(serialize($orig_params) . $this->default_limit);
+        } else {
+            $cache_key = $table . crc32(serialize($params));
+        }
 
 
         if (is_array($params) and !empty($params)) {
@@ -267,179 +276,7 @@ class DatabaseManager extends DbUtils
         return $data;
     }
 
-    public function getddd($params)
-    {
 
-
-        $orderby = false;
-        $cache_group = false;
-        $debug = false;
-        $getone = false;
-        $no_cache = false;
-
-
-        $limit = $this->default_limit;
-        if ($limit == false) {
-            $limit = 30;
-        }
-
-        $aggregate = false;
-        $aggregate_column = false;
-
-        $filter_params = $params;
-
-
-        if (is_string($params)) {
-            parse_str($params, $params2);
-            $params = $params2;
-            extract($params);
-        }
-        if (!isset($params['table'])) {
-            if (!isset($params['from']) and isset($params['to']) and is_string($params['to'])) {
-                $params['from'] = $params['to'];
-            }
-            if (isset($params['from']) and is_string($params['from'])) {
-                $fr = $params['from'];
-                if (substr(strtolower($fr), 0, 6) != 'table_') {
-                    $fr = 'table_' . $fr;
-                }
-                $params['table'] = $fr;
-                unset($params['from']);
-            }
-        }
-
-
-        $criteria = array();
-        ksort($params);
-        $count = false;
-        foreach ($params as $k => $v) {
-            if ($k == 'table') {
-                $table = ($v);
-            }
-
-            if ($k == 'for' and !isset($params['rel_type'])) {
-                $v = trim($v);
-                $k = 'rel_type';
-            }
-            if ($k == 'rel_type') {
-                $v = trim($v);
-            }
-            if ($k == 'debug') {
-                $debug = ($v);
-            }
-            if ($k == 'cache_group') {
-                if ($no_cache == false) {
-                    $cache_group = $v;
-                }
-            }
-            if ($k == 'no_cache') {
-                $cache_group = false;
-                $no_cache = true;
-            }
-            if ($k == 'single') {
-                $getone = true;
-            } else if ($k == 'one') {
-                $getone = true;
-            } else {
-                $criteria[$k] = $v;
-            }
-            if ('orderby' == $k) {
-                $orderby = $v;
-            }
-
-
-        }
-
-        $aggegates = array('count', 'avg', 'sum', 'max', 'min');
-        foreach ($aggegates as $item) {
-            if (isset($params[$item])) {
-                $aggregate = $item;
-                $aggregate_column = $params[$item];
-            }
-        }
-        if (!isset($table)) {
-            print "error no table found in params";
-            return false;
-        }
-        if (isset($params['return_criteria'])) {
-            return $criteria;
-        }
-
-        if ($cache_group == false and $debug == false) {
-            $cache_group = $this->guess_cache_group($table);
-            if (!isset($criteria['id'])) {
-                $cache_group = $cache_group . '/global';
-            } else {
-                $cache_group = $cache_group . '/' . $criteria['id'];
-            }
-        } else {
-            $cache_group = $this->guess_cache_group($cache_group);
-        }
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $table = $this->escape_string($table);
-        $table = $this->assoc_table_name($table);
-        $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
-
-        if ($no_cache == false) {
-            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-            if (($cache_content) != false) {
-                return $cache_content;
-            }
-        }
-
-        $orm = DB::table($table);
-
-        $table_criteria = $this->map_array_to_table($table, $criteria);
-        $orm = $this->build_query($orm, $table_criteria);
-
-        if (!is_object($orm)) {
-            return false;
-        }
-
-        if ($aggregate) {
-            if (!$aggregate_column) {
-                $get_db_items = $orm->$aggregate();
-            } else {
-                $get_db_items = $orm->$aggregate($aggregate_column);
-            }
-        } else if ($count != true) {
-            if ($getone != true) {
-                $get_db_items = $orm->get();
-                if (!empty($get_db_items)) {
-                    $get_db_items = (array)$get_db_items;
-                    foreach ($get_db_items as $k => $v) {
-                        $get_db_items[$k] = (array)$v;
-                    }
-                }
-            } else {
-                $db_items = $orm->get();
-                if (!empty($db_items)) {
-                    $db_items = array_shift($db_items);
-                }
-                $get_db_items = (array)$db_items;
-            }
-        } else {
-            $get_db_items = $orm->count();
-        }
-
-        if (!$aggregate) {
-            if ($count == true) {
-                if (empty($get_db_items)) {
-                    return 0;
-                }
-            }
-        }
-
-        if ($no_cache == false) {
-            $this->app->cache_manager->save($get_db_items, $function_cache_id, $cache_group);
-        }
-        return $get_db_items;
-
-    }
 
 
     /**

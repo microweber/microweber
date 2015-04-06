@@ -43,6 +43,22 @@ trait QueryFilter
         $is_fields = false;
         if (isset($params['fields']) and $params['fields'] != false) {
             $is_fields = $params['fields'];
+            if (!is_array($is_fields)) {
+                $is_fields = explode(',', $is_fields);
+            }
+
+            if (is_array($is_fields) and !empty($is_fields)) {
+                foreach ($is_fields as $is_field) {
+                    if (is_string($is_field)) {
+                        $is_field = trim($is_field);
+                        if ($is_field != '') {
+                            $query = $query->select($table . '.' . $is_field);
+
+                        }
+                        $query = $query->select($table . '.*');
+                    }
+                }
+            }
         } else {
             $query = $query->select($table . '.*');
         }
@@ -255,6 +271,7 @@ trait QueryFilter
                     break;
                 case 'limit':
                     $criteria = intval($value);
+
                     $query = $query->take($criteria);
                     unset($params['limit']);
 
@@ -410,7 +427,6 @@ trait QueryFilter
 
         return $query;
     }
-
 
 
     function __call($method, $params)
