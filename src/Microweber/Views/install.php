@@ -34,6 +34,9 @@
                 def = def || setFormDisplay(select.options[i].value, v);
             }
             $('#db_name_value').val('');
+            
+             
+            
             setFormDisplay('', !def);
         }
 
@@ -252,10 +255,10 @@
         $server_check_errors['MW_CACHE_ROOT_DIR'] = _e("The directory " . MW_CACHE_ROOT_DIR . " must be writable", true);
     }
 
-    if (defined('media_base_path()') and is_dir(media_base_path()) and !is_writable(media_base_path())) {
+    if (function_exists('media_base_path') and is_dir(media_base_path()) and !is_writable(media_base_path())) {
         $check_pass = false;
         $must_be = media_base_path();
-        $server_check_errors['media_base_path()'] = _e("The directory " . media_base_path() . " must be writable", true);
+        $server_check_errors['media_base_path'] = _e("The directory " . media_base_path() . " must be writable", true);
     }
     ?>
     <?php if ($check_pass == false): ?>
@@ -300,8 +303,7 @@
                                     <span data-help="Choose the database type"><span
                                             class="mw-icon-help-outline mwahi tip"></span></span></label>
 
-
-                                <select class="mw-ui-field" name="db_driver"
+                                 <select class="mw-ui-field" name="db_driver"
                                     onchange="showForm(this)">
                                     <?php foreach ($dbEngines as $engine): ?>
                                         <option value="<?php echo $engine; ?>"
@@ -344,7 +346,7 @@
                                            name="db_name" id="db_name_value" value="<?php if(isset($config['database'])) echo $config['database']; ?>"/>
                                 </div>
                             </div>
-                            <div id="db-form-sqlite">
+                            <div id="db-form-sqlite" style="display:none">
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label">
                                         <?php _e("Database file"); ?>

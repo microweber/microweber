@@ -218,8 +218,8 @@ class Backup
         $zip = new \Microweber\Utils\Zip($filename);
         $zip->setZipFile($filename);
         $zip->setComment("Microweber backup of the userfiles folder and db.
-				\n The Microweber version at the time of backup was {MW_VERSION}
-				\nCreated on " . date('l jS \of F Y h:i:s A'));
+                \n The Microweber version at the time of backup was {MW_VERSION}
+                \nCreated on " . date('l jS \of F Y h:i:s A'));
         if (isset($db_file['filename'])) {
             $filename2 = $here . $db_file['filename'];
             if (is_file($filename2)) {
@@ -313,7 +313,14 @@ class Backup
         ignore_user_abort(true);
 
         ini_set('memory_limit', '512M');
-        set_time_limit(0);
+        
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+           set_time_limit(0);
+        }
+        
+        
+        
+        
         $loc = $this->backup_file;
 
         // Get the provided arg
