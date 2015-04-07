@@ -28,7 +28,7 @@ if (isset($is_elements) and $is_elements == true) {
 
 
 } else {
-    $modules = mw()->modules->get('ui=1');
+    $modules = mw()->modules->get('installed=1&ui=1');
 
     $sortout_el = array();
     $sortout_mod = array();

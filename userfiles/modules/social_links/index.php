@@ -5,16 +5,18 @@
     $googleplus_enabled = get_option('googleplus_enabled', $params['id']) == 'y';
     $pinterest_enabled = get_option('pinterest_enabled', $params['id']) == 'y';
     $youtube_enabled = get_option('youtube_enabled', $params['id']) == 'y';
+    $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
 
     $facebook_url =  get_option('facebook_url', $params['id']);
     $twitter_url =  get_option('twitter_url', $params['id']);
     $googleplus_url =  get_option('googleplus_url', $params['id']);
     $pinterest_url =  get_option('pinterest_url', $params['id']);
     $youtube_url =  get_option('youtube_url', $params['id']);
+    $linkedin_url =  get_option('linkedin_url', $params['id']);
 
     $social_links_has_enabled = false;
 
-    if($facebook_enabled or $twitter_enabled  or $googleplus_enabled  or $pinterest_enabled  or $youtube_enabled){
+    if($facebook_enabled or $twitter_enabled  or $googleplus_enabled  or $pinterest_enabled  or $youtube_enabled or $linkedin_enabled){
         $social_links_has_enabled = true;
     }
 
@@ -57,6 +59,12 @@
 <?php  if($youtube_enabled){ ?>
 
     <a href="//youtube.com/<?php print $youtube_url; ?>" target="_blank"><span class="mw-icon-social-youtube"></span></a>
+
+<?php } ?>
+
+<?php  if($linkedin_enabled){ ?>
+
+    <a href="//youtube.com/<?php print $linkedin_url; ?>" target="_blank"><span class="mw-icon-social-linkedin"></span></a>
 
 <?php } ?>
 

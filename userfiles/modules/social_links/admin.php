@@ -9,12 +9,14 @@
     $googleplus_enabled = get_option('googleplus_enabled', $params['id']) == 'y';
     $pinterest_enabled = get_option('pinterest_enabled', $params['id']) == 'y';
     $youtube_enabled = get_option('youtube_enabled', $params['id']) == 'y';
+    $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
 
     $facebook_url =  get_option('facebook_url', $params['id']);
     $twitter_url =  get_option('twitter_url', $params['id']);
     $googleplus_url =  get_option('googleplus_url', $params['id']);
     $pinterest_url =  get_option('pinterest_url', $params['id']);
     $youtube_url =  get_option('youtube_url', $params['id']);
+    $linkedin_url =  get_option('linkedin_url', $params['id']);
 
 
 ?>
@@ -72,7 +74,7 @@
       <td><label class="mw-ui-check">
                 <input type="checkbox" class="mw_option_field" name="googleplus_enabled" value="y" <?php if($googleplus_enabled) print 'checked="checked"'; ?>><span></span>
             </label></td>
-      <td><label class="mw-ui-inline-label">plus.google.com/+</label><input type="text" class="mw_option_field mw-ui-field mw-ui-field-medium" name="googleplus_url"  value="<?php print $googleplus_url; ?>" /></td>
+      <td><label class="mw-ui-inline-label">plus.google.com/</label><input type="text" class="mw_option_field mw-ui-field mw-ui-field-medium" name="googleplus_url"  value="<?php print $googleplus_url; ?>" /></td>
     </tr>
 
     <tr>
@@ -89,6 +91,13 @@
                 <input type="checkbox" class="mw_option_field" name="youtube_enabled" value="y" <?php if($youtube_enabled) print 'checked="checked"'; ?>><span></span>
             </label></td>
       <td><label class="mw-ui-inline-label">youtube.com/</label><input type="text" class="mw_option_field mw-ui-field mw-ui-field-medium" name="youtube_url"  value="<?php print $youtube_url; ?>" /></td>
+    </tr>
+    <tr>
+      <td><span class="mw-icon-social-linkedin"></span></td>
+      <td><label class="mw-ui-check">
+                <input type="checkbox" class="mw_option_field" name="linkedin_enabled" value="y" <?php if($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
+            </label></td>
+      <td><label class="mw-ui-inline-label">linkedin.com/</label><input type="text" class="mw_option_field mw-ui-field mw-ui-field-medium" name="linkedin_url"  value="<?php print $linkedin_url; ?>" /></td>
     </tr>
   </tbody>
 </table>
