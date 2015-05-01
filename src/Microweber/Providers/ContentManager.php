@@ -3248,8 +3248,6 @@ class ContentManager
             $url_changed = true;
         }
         $data_to_save['table'] = $table;
-        //$save = $this->app->database->save($table, $data_to_save);
-
 
         $data_fields = array();
         if (!empty($orig_data)) {
@@ -3271,26 +3269,6 @@ class ContentManager
                 }
             }
         }
-
-
-//        if (!empty($orig_data)) {
-//            $data_str = 'attribute_';
-//            $data_str_l = strlen($data_str);
-//            foreach ($orig_data as $k => $v) {
-//                if (is_string($k)) {
-//                    if (strlen($k) > $data_str_l) {
-//                        $rest = substr($k, 0, $data_str_l);
-//                        $left = substr($k, $data_str_l, strlen($k));
-//                        if ($rest == $data_str) {
-//                            if (!isset($data_to_save['attributes'])) {
-//                                $data_to_save['attributes'] = array();
-//                            }
-//                            $data_to_save['attributes'][$left] = $v;
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
 
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
@@ -3322,28 +3300,6 @@ class ContentManager
             $this->app->cache_manager->delete('categories');
         }
 
-//        $data_fields = array();
-//        if (!empty($orig_data)) {
-//            $data_str = 'data_';
-//            $data_str_l = strlen($data_str);
-//            foreach ($orig_data as $k => $v) {
-//
-//                if (strlen($k) > $data_str_l) {
-//                    $rest = substr($k, 0, $data_str_l);
-//                    $left = substr($k, $data_str_l, strlen($k));
-//                    if ($rest == $data_str) {
-//                        $data_field = array();
-//                        $data_field["content_id"] = $save;
-//                        $data_field["field_name"] = $left;
-//                        $data_field["field_value"] = $v;
-//
-//                        $data_field = $this->save_content_data_field($data_field);
-//
-//                    }
-//                }
-//
-//            }
-//        }
         if (!isset($data_to_save['images']) and isset($data_to_save['pictures'])) {
             $data_to_save['images'] = $data_to_save['pictures'];
         }
@@ -3375,46 +3331,6 @@ class ContentManager
         }
 
 
-//        if (isset($data_to_save['categories'])) {
-//
-//
-//            if (is_string($data_to_save['categories'])) {
-//                $data_to_save['categories'] = explode(',', $data_to_save['categories']);
-//            }
-//            $categories = $data_to_save['categories'];
-//            if (is_array($categories)) {
-//
-//                $save_cat_item = array();
-//                $save_cat_item['rel_type'] = 'content';
-//                $save_cat_item['rel_id'] = $id;
-//                $check = $this->app->category_manager->get_items($save_cat_item);
-//                //  dd($check);
-//                if (is_array($check) and !empty($check)) {
-//                    foreach ($check as $item) {
-//                        if (!in_array($item['parent_id'], $categories)) {
-//                            $this->app->category_manager->delete_item($item['id']);
-//                        }
-//                    }
-//                }
-//
-//
-//                $cats_modified = true;
-//                foreach ($categories as $category) {
-//                    if (intval($category) != 0) {
-//                        $save_cat_item = array();
-//                        $save_cat_item['rel_type'] = 'content';
-//                        $save_cat_item['rel_id'] = $id;
-//                        $save_cat_item['parent_id'] = $category;
-//                        $check = $this->app->category_manager->get_items($save_cat_item);
-//                        if ($check == false) {
-//                            $this->app->category_manager->save_item($save_cat_item);
-//                        }
-//                    }
-//                }
-//
-//            }
-//
-//        }
 
         if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
 
@@ -3703,7 +3619,10 @@ class ContentManager
         }
         $this->app->cache_manager->delete('content_fields/global');
         $data['table'] = $table;
-        $save = $this->app->database->save($data);
+        $data['allow_html'] = 1;
+
+        $save = $this->app->database_manager->save($data);
+
         $this->app->cache_manager->delete('content_fields');
         return $save;
     }
