@@ -233,7 +233,11 @@ class DatabaseManager extends DbUtils
             $query = $query->avg($column);
             return $query;
         }
-
+        if (isset($orig_params['sum']) and ($orig_params['sum'])) {
+            $column = $orig_params['sum'];
+            $query = $query->sum($column);
+            return $query;
+        }
 
         if ($this->use_cache == false) {
 
