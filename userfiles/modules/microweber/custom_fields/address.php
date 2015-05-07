@@ -68,7 +68,7 @@ if (!isset($data['options']) or !is_array($data['options']) or empty($data['opti
 
                 <div class="control-group">
                     <label class="mw-ui-label">
-                        <small><?php print ($kv); ?></small>
+                        <small><?php  _e($kv); ?></small>
                     </label>
                     <input
                         type="text" class="mw-ui-field"
