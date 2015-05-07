@@ -27,19 +27,19 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
 if (!isset($data['options']) or !is_array($data['options']) or empty($data['options'])) {
 
     $data['options'] = array(
-        'country' => 'Country',
-        'city' => 'City',
-        'address' => 'Address',
-        'state' => 'State/Province',
-        'zip' => 'Zip/Postal Code'
+        'country' => _e('Country',true),
+        'city' => _e('City',true),
+        'address' => _e('Address',true),
+        'state' => _e('State/Province',true),
+        'zip' => _e('Zip/Postal Code',true)
     );
 }
 
-?>
+?> 
 <?php if (is_array($data['values'])) : ?>
     <div class="mw-ui-field-holder">
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
-            <label class="mw-ui-label mw-address-label"><?php print $data['name'] ?></label>
+            <label class="mw-ui-label mw-address-label"><?php _e($data['name']) ?></label>
         <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
         <?php else : ?>
         <?php endif; ?>

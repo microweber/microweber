@@ -10,6 +10,9 @@ if(typeof  processContactForm !== 'object'){
     processContactForm = {
        send: function(selector, msgselector){
             mw.tools.loading(selector);
+			
+			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
+			
             mw.form.post(selector, undefined, function(form){
                 mw.tools.loading(selector, false);
     			var data2 = this;
@@ -28,6 +31,8 @@ if(typeof  processContactForm !== 'object'){
           if(typeof form.find(".mw-captcha-img")[0] !== 'undefined'){
               mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
           }
+		  mw.$('input[type="submit"]',form).removeAttr('disabled');
+
           form[0].reset();
           form.find(".alert-error").remove();
           setTimeout(function(){
@@ -91,7 +96,7 @@ if(typeof  processContactForm !== 'object'){
 
 
 
-}
+} 
 
 
 $(document).ready(function(){
