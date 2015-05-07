@@ -315,21 +315,24 @@ class FormsManager
                     $user_mails[] = $email_bcc;
                 }
 
-
+                $email_from = false;
                 if (isset($cf_to_save) and !empty($cf_to_save)) {
                     foreach ($cf_to_save as $value) {
                         $to = $value['value'];
                         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                             $user_mails[] = $to;
+                            $email_from = $to;
                         }
                     }
                 }
-                 if (!empty($user_mails)) {
+                if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
                         $sender = new \Microweber\Utils\MailSender();
+
                         $sender->send($value, $mail_sj, $mail_autoresp);
-                      }
+
+                    }
                 }
 
             }

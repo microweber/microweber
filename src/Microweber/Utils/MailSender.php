@@ -63,7 +63,6 @@ class MailSender
         $this->here = dirname(__FILE__);
 
 
-
         Config::set('mail.from.name', $this->email_from_name);
         Config::set('mail.from.address', $this->email_from);
 
@@ -203,7 +202,7 @@ class MailSender
     }
 
 
-    public function exec_send($to, $subject, $text)
+    public function exec_send($to, $subject, $text, $from = false)
     {
         $from_address = $this->email_from;
         $from_name = $this->email_from_name;
@@ -213,11 +212,15 @@ class MailSender
         $content['content'] = $text;
         $content['subject'] = $subject;
         $content['to'] = $to;
+        $content['from'] = $from;
 
 
+        return \Mail::send('mw_email_send::emails.simple', $content, function ($message) use ($to, $subject, $from) {
 
+            if ($from != false) {
+                $message->from($from, $from);
+            }
 
-        return \Mail::send('mw_email_send::emails.simple', $content, function ($message) use ($to, $subject) {
             $message->to($to)->subject($subject);
         });
 
