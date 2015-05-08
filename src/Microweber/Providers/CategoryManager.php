@@ -601,12 +601,10 @@ class CategoryManager
                             $ext_classes = '';
 
 
-
-
                             $to_print = str_replace('{id}', $item['id'], $link);
 
 
-                            if(stristr($link,'{items_count}')){
+                            if (stristr($link, '{items_count}')) {
                                 $to_print = str_ireplace('{items_count}', $this->get_items_count($item['id']), $to_print);
                             }
 
@@ -1310,12 +1308,25 @@ class CategoryManager
     public function save($data, $preserve_cache = false)
     {
         $sid = mw()->user_manager->session_id();
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            if (defined('MW_API_CALL')) {
-                return array('error' => 'Only admin can save category');
+
+
+        if ((isset($data['id']) and ($data['id']) == 0) or !isset($data['id'])) {
+            if (!isset($data['title']) or (isset($data['title']) and $data['title'] == false)) {
+                return array('error' => 'Title is required');
+            }
+        } elseif ((isset($data['id']) and ($data['id']) != 0)) {
+            if ((isset($data['title']) and $data['title'] == false)) {
+                return array('error' => 'Title is cannot be blank');
             }
         }
+
+
+        if ((isset($data['id']) and ($data['id']) != 0) and isset($data['parent_id'])) {
+            if ((intval($data['id']) == intval($data['parent_id']))) {
+                return array('error' => 'Invalid parent category');
+            }
+        }
+
 
         $table = $this->tables['categories'];
         $table_items = $this->tables['categories_items'];
@@ -1516,21 +1527,13 @@ class CategoryManager
      */
     public function get_by_id($id = 0)
     {
-
         if ($id == 0) {
             return false;
         }
-
         $id = intval($id);
-
-
         $table = $this->tables['categories'];
-
         $id = intval($id);
-
-
         $q = $this->app->database->get_by_id($table, $id);
-
         return $q;
 
     }
@@ -1562,17 +1565,11 @@ class CategoryManager
             $c_id = intval($data);
         }
 
-        $del = $this->app->database_manager->delete_by_id('categories_items', $c_id);
-
-    }
+        return $this->app->database_manager->delete_by_id('categories_items', $c_id);
+     }
 
     public function reorder($data)
     {
-
-        $is_admin = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $is_admin == false) {
-            return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
-        }
 
         $table = $this->tables['categories'];
         foreach ($data as $value) {

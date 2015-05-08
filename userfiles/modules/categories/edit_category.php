@@ -121,6 +121,16 @@ $(document).ready(function(){
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print api_link('category/save') ?>', function(val){
+			 
+			 
+			 if(typeof(this.error) != "undefined"){
+				  mw.notification.msg(this);
+				   mw.category_is_saving = false;
+				  return false;
+			 }
+			 
+			 
+			 
             mw.$('#mw-notifications-holder').empty();
         	  mw.notification.success("Category changes are saved");
  			  var v = this.toString();
@@ -138,11 +148,12 @@ $(document).ready(function(){
         	  });
         	  <?php if(intval($data['id']) == 0): ?>
         	  	mw.url.windowHashParam("new_content", "true");
-				mw.reload_module('#<?php print $params['id'] ?>');
+				
         	  //	mw.url.windowHashParam("action", "editcategory:" + this);
 
 				
              <?php endif; ?>
+			 mw.reload_module('#<?php print $params['id'] ?>');
 
              var module = mw.tools.firstParentWithClass(form, 'module');
 				mw.tools.removeClass(module, 'loading');
