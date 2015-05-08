@@ -11,10 +11,10 @@
         "laravel"
     ],
     "require": {
-        "laravel/framework": "5.0.0",
+        "laravel/framework": "5.0.16",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
-        "sofa/revisionable": "~0.2@dev",
+        "graham-campbell/markdown": "~3.0",
 
         "composer/installers": "1.*",
         "omnipay/omnipay": "~2.0"
