@@ -20,10 +20,12 @@ description: Default cart template
           action="<?php print api_link('checkout') ?>">
   <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
   <?php if ($cart_show_enanbled != 'n'): ?>
+  
+  <br />
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id'] ?>"
                     data-checkout-link-enabled="n"/>
   <?php endif;?>
-  <div class="mw-ui-row shipping-and-payment">
+  <div class="mw-ui-row shipping-and-payment mw-shop-checkout-personal-info-holder">
     <div class="mw-ui-col" style="width: 33%;">
       <div class="mw-ui-col-container">
         <div class="well">
@@ -65,7 +67,7 @@ description: Default cart template
       </div>
     </div>
     <?php if ($cart_show_shipping != 'n'): ?>
-    <div class="mw-ui-col">
+    <div class="mw-ui-col mw-shop-checkout-shipping-holder">
       <div class="mw-ui-col-container">
         <module type="shop/shipping"/>
       </div>
@@ -73,7 +75,7 @@ description: Default cart template
     <?php endif;?>
     <?php if ($cart_show_payments != 'n'): ?>
     <div class="mw-ui-col">
-      <div class="mw-ui-col-container">
+      <div class="mw-ui-col-container mw-shop-checkout-payments-holder">
         <module type="shop/payments"/>
       </div>
     </div>
@@ -82,7 +84,7 @@ description: Default cart template
   <div class="alert hide"></div>
   <div class="mw-cart-action-holder">
     <hr/>
-    <?php $shop_page = get_content('is_shop=0');      ?>
+    <?php $shop_page = get_content('is_shop=1');      ?>
     <button class="btn btn-warning pull-right mw-checkout-btn"
                     onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
                     type="button">

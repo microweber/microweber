@@ -1496,7 +1496,8 @@ mw.tools = {
      if(el === null) return false;
      var index = mw.random();
      mw.tools.loop[index] = true;
-     var _curr = el.parentNode, count = -1;
+     var _curr = el.parentNode; 
+	 var count = -1;
      if(_curr !== null && _curr !== undefined){
        var _tag = _curr.tagName;
        while(_tag !== 'BODY'){

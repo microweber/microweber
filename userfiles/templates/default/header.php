@@ -15,8 +15,7 @@
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
     <script type="text/javascript">
-        mw.require("url.js");
-        mw.require("tools.js");
+      
         mw.require("<?php print( mw_includes_url()); ?>css/ui.css");
         mw.lib.require("bootstrap3");
     </script>
