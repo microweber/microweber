@@ -17,8 +17,11 @@ description: Default cart template
 complete_order = window.complete_order || function(){
 
   mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>', function(){
+	    
       mw.$('.mw-checkout-form').hide();
-      Alert(this);
+	  mw.$('.mw-checkout-responce').html(this);
+
+
   });
 
 }

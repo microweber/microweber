@@ -66,19 +66,25 @@ mw.cart = {
 			})
             .done(function( data ) {
                      $(window).trigger('checkoutDone', data);
+					 
+					 
+					 
+					 var data2 =  data;
+					 
 					 if(data != undefined){
 						 mw.$(selector+' .mw-cart-data-btn').removeAttr('disabled');
 						 	 mw.$('[data-type="shop/cart"]').removeAttr('hide-cart');
-						     var data2 =  data;
+						    
 						 if(typeof(data2.error) != 'undefined'){
                                 mw.$(selector+' .mw-cart-data-holder').show();
                                 mw.response(selector, data2);
 					    } else if(typeof(data2.success) != 'undefined'){
 							 
 							 	if(typeof callback === 'function'){
-                                     callback.call(selector,data2);
+                                     callback.call(data2.success);
+									 
                                 } else if(typeof window[callback] === 'function'){
-									window[callback](selector,data2);
+									window[callback](selector, data2.success);
 								} else {
 							
                                 mw.$('[data-type="shop/cart"]').attr('hide-cart', 'completed');
