@@ -4,7 +4,7 @@
 
 type: layout
 content_type: dynamic
-name: Online Shop
+name: Shop
 is_shop: y
 description: shop layout
 position: 4

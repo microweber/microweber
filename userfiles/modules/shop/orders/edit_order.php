@@ -8,14 +8,14 @@ $cart_items = array();
 if (is_array($ord)) {
     $cart_items = false;
     if (empty($cart_items)) {
-        $cart_items = get_cart('no_session_id=true&order_completed=any&session_id=' . $ord['session_id'] . '&order_id=' . $ord['id'] . '');
+        $cart_items = mw()->shop_manager->order_items($ord['id']);
     }
 }
 else {
     mw_error("Invalid order id");
 }
 
-
+ 
 ?>
 
 <div id="mw-order-table-holder">

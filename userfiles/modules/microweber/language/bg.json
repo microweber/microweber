@@ -1074,5 +1074,8 @@
     "categories-with-pictures": "Categories with pictures",
     "go-to-checkout": "Завърши поръчка",
     "state-province": "Област",
-    "pay-on-delivery": "Плащане при доставка"
+    "pay-on-delivery": "Плащане при доставка",
+    "delete-category": "Delete category",
+    "sub-category-name": "Sub-category Name",
+    "related-products": "Подобни продукти"
 }

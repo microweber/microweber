@@ -164,3 +164,9 @@ function delete_module_as_template($data)
 {
     return mw()->modules->delete_module_as_template($data);
 }
+
+
+
+api_bind_admin('module/reorder_modules', function ($data) {
+    return mw()->modules->reorder_modules($data);
+});

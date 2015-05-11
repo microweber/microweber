@@ -829,7 +829,7 @@ class ShopManager
         $table = $this->tables['cart'];
         $params['table'] = $table;
         $params['order_id'] = $order_id;
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
         return $get;
     }
 

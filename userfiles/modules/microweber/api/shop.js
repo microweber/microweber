@@ -74,13 +74,18 @@ mw.cart = {
                                 mw.$(selector+' .mw-cart-data-holder').show();
                                 mw.response(selector, data2);
 					    } else if(typeof(data2.success) != 'undefined'){
+							 
+							 	if(typeof callback === 'function'){
+                                     callback.call(selector,data2);
+                                } else if(typeof window[callback] === 'function'){
+									window[callback](selector,data2);
+								} else {
+							
                                 mw.$('[data-type="shop/cart"]').attr('hide-cart', 'completed');
                                 mw.reload_module('shop/cart');
                                 mw.$(selector+' .mw-cart-data-holder').hide();
                                 mw.response(selector,data2);
-                                if(typeof callback === 'function'){
-                                     callback.call(data2.success);
-                                }
+								}
 
 					    }  else if(parseInt(data) > 0){
 							 mw.$('[data-type="shop/checkout"]').attr('view', 'completed');
