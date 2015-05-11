@@ -1572,6 +1572,7 @@ class CategoryManager
     {
 
         $table = $this->tables['categories'];
+        $res = array();
         foreach ($data as $value) {
             if (is_array($value)) {
                 $indx = array();
@@ -1581,10 +1582,11 @@ class CategoryManager
                     $i++;
                 }
 
-                mw()->database_manager->update_position_field($table, $indx);
-                return true;
+                $res[] = mw()->database_manager->update_position_field($table, $indx);
+
             }
         }
+        return $res;
     }
 
 

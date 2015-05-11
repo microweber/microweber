@@ -131,6 +131,10 @@ function get_category_items_count($category_id,$rel_type=false)
 
 
 
-api_expose_admin('category/reorder');
+api_bind_admin('category/reorder', function($data){
+
+    return mw()->category_manager->reorder($data);
+
+});
 api_expose_admin('category/save');
 api_expose_admin('category/delete');
