@@ -4294,7 +4294,7 @@ mw.image = {
 
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
-      if(!!modal){
+      if(!!modal && (typeof(modal.main) != "undefined")){
         if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];
         }
@@ -4306,7 +4306,7 @@ mw.image = {
     }
     mw.modalFrame = function(o){
       var modal = mw.tools.modal.frame(o);
-      if(!!modal){
+      if(!!modal && (typeof(modal.main) != "undefined")){
         if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];
         }
