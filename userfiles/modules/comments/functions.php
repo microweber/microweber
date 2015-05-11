@@ -8,13 +8,12 @@ if (!defined("MODULE_DB_COMMENTS")) {
  * mark_comments_as_old
 
  */
-api_expose('mark_comments_as_old');
+api_expose_admin('mark_comments_as_old');
 
 function mark_comments_as_old($data)
 {
 
-    only_admin_access();
-
+ 
     if (isset($data['content_id'])) {
         $table = MODULE_DB_COMMENTS;
         mw_var('FORCE_SAVE', $table);
@@ -160,6 +159,7 @@ function post_comment($data)
         $data['is_new'] = '1';
     }
 
+	$data['allow_html'] = true;
     $data = mw()->format->clean_xss($data);
 
     $saved_data = mw()->database_manager->save($table, $data);

@@ -3,6 +3,8 @@
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\ClassLoader;
+use Illuminate\Foundation\AliasLoader;
+
 use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
 use \Cache;
@@ -18,9 +20,10 @@ class MicroweberServiceProvider extends ServiceProvider
     public function __construct($app)
     {
         ClassLoader::addDirectories(array(
-            base_path() . '/userfiles/modules',
+            base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
             __DIR__,
         ));
+
         ClassLoader::register();
         spl_autoload_register(array($this, 'autoloadModules'));
 
@@ -31,13 +34,11 @@ class MicroweberServiceProvider extends ServiceProvider
     {
 
 
-
-
         // Set environment
         if (!$this->app->runningInConsole()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
-                if (getenv('APP_ENV')){
+                if (getenv('APP_ENV')) {
                     return getenv('APP_ENV');
                 }
 
@@ -134,6 +135,10 @@ class MicroweberServiceProvider extends ServiceProvider
         });
 
 
+        $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
+        AliasLoader::getInstance()->alias("Markdown", 'GrahamCampbell\Markdown\Facades\Markdown');
+
+
         // http://www.jacopobeschi.com/post/laravel-setup-alias-and-service-provider-in-a-package
         // Tracker register      $this->app->register('PragmaRX\Tracker\Vendor\Laravel\ServiceProvider');
         // Tracker alias    $this->app->alias('Tracker', 'PragmaRX\Tracker\Vendor\Laravel\Facade');
@@ -180,8 +185,11 @@ class MicroweberServiceProvider extends ServiceProvider
     {
         $filename = modules_path() . $className . ".php";
         $filename = normalize_path($filename, false);
-        if (is_file($filename)) {
-            require $filename;
+
+        if (!class_exists($className, false)) {
+            if (is_file($filename)) {
+                require_once $filename;
+            }
         }
     }
 
