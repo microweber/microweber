@@ -4304,9 +4304,9 @@ mw.image = {
       }
       return modal;
     }
-    mw.modalFrame = function(o){
+    mw.modalFrame = function(o){ 
       var modal = mw.tools.modal.frame(o);
-      if(!!modal && (typeof(modal.main) != "undefined")){
+      if(!!modal && (typeof(modal.main) != "undefined")){  
         if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];
         }
@@ -4439,7 +4439,7 @@ $(mwd).ready(function(){
         mw.dropdown();
     },1222);
 });
-
+ 
 
 
 
