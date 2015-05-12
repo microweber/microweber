@@ -1150,7 +1150,7 @@ class ShopManager
             $found_price = array_pop($prices);
         }
         if ($found_price == false) {
-             $found_price = 0;
+            $found_price = 0;
         }
 
 
@@ -1482,11 +1482,27 @@ class ShopManager
 
     public function currency_convert_rate($from, $to)
     {
+
+        $function_cache_id = __FUNCTION__ . md5($from . $to);
+        $cache_group = 'shop';
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+        if (($cache_content) != false) {
+            return $cache_content;
+        }
+
         $remote_host = 'http://api.microweber.com';
         $service = "/service/currency/?from=" . $from . "&to=" . $to;
         $remote_host_s = $remote_host . $service;
-        $get_remote = $this->app->url_manager->download($remote_host_s);
+
+
+        $curl = new \Microweber\Utils\Http();
+        $curl->set_timeout(3);
+        $curl->url($remote_host_s);
+        $get_remote = $curl->get();
+
+
         if ($get_remote != false) {
+            $this->app->cache_manager->save($get_remote, $function_cache_id, $cache_group);
             return floatval($get_remote);
         }
     }
