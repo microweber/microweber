@@ -30,7 +30,7 @@ class Http
         }
         if (!is_object($this->adapter)) {
 
-            $this->adapter = new Adapters\Http\Curl($app);
+            $this->adapter = new Adapters\Http\Guzzle($app);
         }
 
     }

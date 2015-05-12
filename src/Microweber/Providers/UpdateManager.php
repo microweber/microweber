@@ -76,13 +76,17 @@ class UpdateManager
 
         $t = mw()->template->site_templates();
         $data['templates'] = $t;
-        //$t = $this->app->modules->scan_for_modules("skip_cache=1");
         $t = $this->app->modules->get("ui=any&no_limit=true");
-        $data['modules'] = $t;
+        $modules = array();
         $data['module_templates'] = array();
         if (is_array($t)) {
             foreach ($t as $value) {
-                if (isset($value['module'])) {
+                if (isset($value['module']) and isset($value['version'])) {
+
+
+                    $mod = array('module' => $value['module'], 'version' => $value['version']);
+                    $modules[] = $mod;
+
                     $module_templates = $this->app->modules->templates($value['module']);
                     $mod_tpls = array();
                     if (is_array($module_templates)) {
@@ -110,17 +114,24 @@ class UpdateManager
                 }
             }
         }
+        $data['modules'] = $modules;
 
         if ($this->skip_cache) {
             $t = $this->app->modules->scan_for_elements("skip_cache=1");
         } else {
             $t = $this->app->modules->scan_for_elements();
         }
+        $elements = array();
+        if (is_array($t)) {
+            foreach ($t as $value) {
+                if (isset($value['module']) and isset($value['version'])) {
+                    $mod = array('module' => $value['module'], 'version' => $value['version']);
+                    $elements[] = $mod;
 
-
-        $data['elements'] = $t;
-
-
+                }
+            }
+        }
+        $data['elements'] = $elements;
         return $data;
     }
 
@@ -693,7 +704,7 @@ class UpdateManager
                 $new_composer = $target_dir . 'composer.json';
 
                 if (is_file($new_composer)) {
-                    $this->composer_merge($new_composer);
+                    // $this->composer_merge($new_composer);
                 }
 
                 $num_files = count($result);

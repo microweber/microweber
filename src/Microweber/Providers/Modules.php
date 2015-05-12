@@ -488,7 +488,7 @@ class Modules
             unset($params['ui']);
         }
 
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     public function exists($module_name)
