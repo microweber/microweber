@@ -260,6 +260,13 @@ class ShopManager
                 $place_order['custom_fields_data'] = $this->app->format->array_to_base64($save_custom_fields_for_order);
             }
 
+			if(!isset($place_order['shipping']) or $place_order['shipping'] == false){
+				$place_order['shipping'] = 0;
+			}
+			
+			
+			
+			
 
             $temp_order = $this->app->database->save($table_orders, $place_order);
             if ($temp_order != false) {
