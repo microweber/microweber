@@ -8,6 +8,9 @@ if($is_quick_edit == true){
 	return include(__DIR__.DS.'toolbar_quick.php');
 }
 
+if(isset($_COOKIE['mw_exp'])){
+return include(__DIR__.DS.'toolbar2.php');	
+}
  
 ?>
 <?php if (!isset($_GET['preview'])){ ?>

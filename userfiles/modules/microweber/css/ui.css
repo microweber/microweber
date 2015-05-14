@@ -2815,7 +2815,7 @@ div.mw-ui-field:after {
   display: block;
   width: 20px;
   height: 20px;
-  background: #ffffff url(../img/galleryclose.png) no-repeat right top;
+  background: white url(../img/galleryclose.png) no-repeat right top;
   text-indent: -9999px;
   overflow: hidden;
   cursor: pointer;
@@ -3007,14 +3007,14 @@ div.mw-ui-field:after {
   overflow: hidden;
   text-indent: -9999px;
   position: absolute;
-  background: #ffffff url(../img/enter_fullscreen.png) no-repeat;
+  background: white url(../img/enter_fullscreen.png) no-repeat;
   box-shadow: 1px 1px 2px #000;
   top: 20px;
   right: 41px;
   cursor: pointer;
 }
 .fullscreen-mode .mwf-fullscreen {
-  background: #ffffff url(../img/cancel_fullscreen.png) no-repeat;
+  background: white url(../img/cancel_fullscreen.png) no-repeat;
 }
 /*********************************************
                Dropdowns
@@ -3473,4 +3473,9 @@ html.mw-loading:after {
   overflow: hidden;
   width: 280px;
   height: 280px;
+}
+body.bup.dragStart.state-element .edit .element:empty {
+  background-color: #ffffb9;
+  background-image: none;
+  opacity: 0.6;
 }
