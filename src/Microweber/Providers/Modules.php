@@ -284,6 +284,28 @@ class Modules
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
 
+					if(isset($config['ui'])){
+						$config['ui'] = intval($config['ui']);
+					} else {
+						$config['ui'] = 0;
+					}
+					
+					if(isset($config['is_system'])){
+						$config['is_system'] = intval($config['is_system']);
+					} else {
+						$config['is_system'] = 0;
+					}
+					
+					
+					
+					if(isset($config['ui_admin'])){
+						$config['ui_admin'] = intval($config['ui_admin']);
+					} else {
+						$config['ui_admin'] = 0;
+					}
+					
+					
+					
                     $configs[] = $config;
 
 
@@ -488,7 +510,7 @@ class Modules
             unset($params['ui']);
         }
 
-        return $this->app->database_manager->get($params);
+        return $this->app->database->get($params);
     }
 
     public function exists($module_name)
