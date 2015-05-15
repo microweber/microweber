@@ -802,8 +802,8 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = false;
         }
     },
-    link:function(){
-         mw.wysiwyg.save_selection();
+    link:function(prepolulate){
+        // mw.wysiwyg.save_selection();
          var modal = mw.tools.modal.frame({
           url:"rte_link_editor",
           title:"",
@@ -815,13 +815,39 @@ mw.wysiwyg = {
         mw.$('iframe', modal.main).bind('change', function(a,b, c, e){
           mw.iframecallbacks[b](c,e);
         });
-        var link = mw.wysiwyg.findTagAcrossSelection('a', mw.wysiwyg.selection.sel);
+
+        var link = false;
+        if(typeof(prepolulate) != 'undefined'){
+            link = prepolulate;
+        }
+
+        //var link = mw.wysiwyg.findTagAcrossSelection('a', mw.wysiwyg.selection.sel);
+        //
+        //
+        //if(link == false){
+        //
+        //    var make_sel = mwd.querySelector(".element-current a");
+        //
+        //    if(make_sel != null){
+        //        mw.wysiwyg.select_element(make_sel);
+        //        var link = mw.wysiwyg.findTagAcrossSelection('a', mw.wysiwyg.selection.sel);
+        //    }
+        //
+        //
+        //
+        //}
+
+
         if(!! link){
             modal.main.find("iframe").load(function(){
-                  $(this).contents().find("#customweburl").val(link.href);
-                  if(link.target == '_blank'){
-                     $(this).contents().find("#url_target")[0].checked = true;
-                  }
+
+                $(this).contents().find("#customweburl").val(link);
+
+
+                  //$(this).contents().find("#customweburl").val(link.href);
+                  //if(link.target == '_blank'){
+                  //   $(this).contents().find("#url_target")[0].checked = true;
+                  //}
             })
         }
     },
@@ -1403,17 +1429,25 @@ mw.linkTip = {
     },
     tip:function(node){
         if(!mw.linkTip._tip){
-           var content = '<a href="'+node.href+'" class="mw-link-tip-link">'+node.href+'</a><span>-</span><a href="javascript:;" class="mw-link-tip-edit">Edit</a>';
+           var content = '<a href="'+node.href+'" class="mw-link-tip-link">'+node.href+'</a><span>-</span><a edit-href="'+node.href+'" href="javascript:;" class="mw-link-tip-edit">Edit</a>';
            mw.linkTip._tip = mw.tooltip({content:content, position:'bottom-center', skin:'dark',element:node});
            $(mw.linkTip._tip).addClass('mw-link-tip');
            mw.$('.mw-link-tip-edit, .mw-link-tip-link').click(function(){
-             mw.wysiwyg.link();
+               var prepolulate = '';
+               if($(this).hasClass('mw-link-tip-edit')){
+                   prepolulate =  $(this).attr('edit-href');
+               } else {
+                   prepolulate =  $(this).attr('href');
+
+               }
+             mw.wysiwyg.link(prepolulate);
              mw.$('.mw-link-tip').hide();
              return false;
            });
         }
         else{
            mw.$('.mw-link-tip-link', mw.linkTip._tip).attr('href', node.href).html(node.href);
+           mw.$('.mw-link-tip-edit', mw.linkTip._tip).attr('edit-href', node.href);
            mw.tools.tooltip.setPosition(mw.linkTip._tip, node, 'bottom-center');
            mw.$('.mw-link-tip').show();
         }
