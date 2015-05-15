@@ -712,6 +712,18 @@ mw.drag = {
             var o = el.offset();
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
+            var prev_has_float_left = el.prev();
+            
+            if(prev_has_float_left.lenght != 0){
+                var float_left =  prev_has_float_left.css("float");
+                if(float_left == 'left'){
+                    var float_left_width = prev_has_float_left.width();
+                    pleft = pleft + float_left_width;
+                }
+            }
+
+
+
             $(mw.handle_module).css({
                 top: o.top - 17,
                 left: o.left + pleft,
