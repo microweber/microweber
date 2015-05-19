@@ -713,7 +713,7 @@ mw.drag = {
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
             var prev_has_float_left = el.prev();
-            
+
             if(prev_has_float_left.lenght != 0){
                 var float_left =  prev_has_float_left.css("float");
                 if(float_left == 'left'){

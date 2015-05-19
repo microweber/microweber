@@ -2828,7 +2828,11 @@ class ContentManager
             $data['title'] = $data['content_title'];
         }
         if (isset($data['title'])) {
+            if($data['title']  == '<br>' or $data['title']  == '<br />' or $data['title']  == '<br/>'){
+                $data['title'] = '';
+            }
             $data['title'] = htmlspecialchars($data['title'], ENT_QUOTES, "UTF-8");
+
             $data_to_save['title'] = $data['title'];
         }
 
@@ -2875,6 +2879,9 @@ class ContentManager
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
                 $data['url'] = $this->app->url_manager->slug($data['title']);
+                if($data['url'] == ''){
+                    $data['url'] = date("Y-M-d-His");
+                }
             }
         }
         $url_changed = false;
@@ -2943,17 +2950,11 @@ class ContentManager
             $get['url'] = $data['url'];
             $get['single'] = true;
             $q = $this->get($get);
-            // $q = Content::where('url', $data['url'])->first();;
-
 
             if (!empty($q)) {
-
-
                 if ($data['id'] != $q['id']) {
-
                     $data['url'] = $data['url'] . '-' . $date123;
                     $data_to_save['url'] = $data['url'];
-
                 }
             }
 
@@ -2974,7 +2975,11 @@ class ContentManager
 
 
         if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
+             if($data_to_save['url'] == ''){
+                    $data_to_save['url'] = date("Y-M-d-His");
+             }
             $data_to_save['url'] = str_replace(site_url(), '', $data_to_save['url']);
+
         }
 
 
@@ -3222,8 +3227,7 @@ class ContentManager
 
         $data_to_save['allow_html'] = true;
         $this->no_cache = true;
-
-        //clean some fields
+         //clean some fields
         if (isset($data_to_save['custom_field_type']) and isset($data_to_save['value'])) {
             unset($data_to_save['custom_field_type']);
             unset($data_to_save['value']);
@@ -3279,6 +3283,8 @@ class ContentManager
             }
 
         }
+
+
 
         $save = $this->app->database->extended_save($table, $data_to_save);
 
