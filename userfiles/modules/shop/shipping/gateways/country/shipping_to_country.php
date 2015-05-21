@@ -42,14 +42,14 @@ class shipping_to_country
         $shipping_country = $this->app->user_manager->session_get('shipping_country');
         $defined_cost = 0;
         $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country);
-$is_worldwide = false;
-		 if ($shipping_country == false) {
-			  $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
-					if (is_array($shipping_country)) {
-					$is_worldwide = true;
-					 
-					}
-		 }
+        $is_worldwide = false;
+        if ($shipping_country == false) {
+            $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
+            if (is_array($shipping_country)) {
+                $is_worldwide = true;
+
+            }
+        }
         if ($shipping_country == false) {
 
 
@@ -65,8 +65,6 @@ $is_worldwide = false;
             $this->app->user_manager->session_set('shipping_cost', 0);
             return false;
         }
-
-
 
 
         if (isset($shipping_country['id'])) {
@@ -111,9 +109,11 @@ $is_worldwide = false;
 
 
                                 if (isset($content_data['shipping_width']) and $content_data['shipping_width'] != ''
-                                    and  isset($content_data['shipping_height']) and $content_data['shipping_height'] != ''
-                                        and  isset($content_data['shipping_depth']) and $content_data['shipping_depth'] != ''
+                                    and isset($content_data['shipping_height']) and $content_data['shipping_height'] != ''
+                                    and isset($content_data['shipping_depth']) and $content_data['shipping_depth'] != ''
                                 ) {
+
+
                                     $volume = floatval($content_data['shipping_width']) * floatval($content_data['shipping_height']) * floatval($content_data['shipping_depth']);
                                     $volume = $volume * intval($item['qty']);
                                     $total_shipping_volume = $total_shipping_volume + $volume;
@@ -130,9 +130,13 @@ $is_worldwide = false;
 
 
             if (isset($shipping_country['shipping_price_per_weight']) and trim($shipping_country['shipping_price_per_weight']) != '') {
-                $calc = floatval($shipping_country['shipping_price_per_weight']);
-                $calc2 = $calc * $total_shipping_weight;
-                $defined_cost = $defined_cost + $calc2;
+                if ($total_shipping_weight > 1) {
+                    $calc = floatval($shipping_country['shipping_price_per_weight']);
+                    $calc2 = $calc * $total_shipping_weight;
+
+                    $defined_cost = $defined_cost + $calc2;
+                }
+
             }
             if (isset($shipping_country['shipping_price_per_size']) and trim($shipping_country['shipping_price_per_size']) != '') {
                 $calc = floatval($shipping_country['shipping_price_per_size']);
@@ -183,6 +187,7 @@ $is_worldwide = false;
 
         }
 
+
         $items_cart_amount = $this->app->shop_manager->cart_sum();
 
         if (isset($shipping_country['shipping_cost_above']) and intval($shipping_country['shipping_cost_above']) > 0) {
@@ -194,16 +199,16 @@ $is_worldwide = false;
             }
         }
         if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
-			if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'fixed') {
-				
-			} else {
-				            $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
+            if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'fixed') {
 
-			}
+            } else {
+                $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
+
+            }
         }
-if($is_worldwide == false){
-        $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
-} 
+        if ($is_worldwide == false) {
+            $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
+        }
 
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
 
@@ -282,27 +287,24 @@ if($is_worldwide == false){
     {
 
         if (isset($params['country'])) {
-			$is_worldwide = false;
+            $is_worldwide = false;
             $active = $this->get('one=1&is_active=1&shipping_country=' . $params['country']);
             if (!is_array($active)) {
                 $active = $this->get('one=1&is_active=1&shipping_country=Worldwide');
-				if (is_array($active)) {
-				$is_worldwide = true;
-				}
+                if (is_array($active)) {
+                    $is_worldwide = true;
+                }
             }
             if (is_array($active) and isset($active['shipping_country'])) {
-				
-				if($is_worldwide  == true){
-					 $active['shipping_country'] = $params['country'];
- 				}
+
+                if ($is_worldwide == true) {
+                    $active['shipping_country'] = $params['country'];
+                }
 
 
+                $this->app->user_manager->session_set('shipping_country', $active['shipping_country']);
 
-				$this->app->user_manager->session_set('shipping_country', $active['shipping_country']);
-			 
-				
-				
-               
+
                 $active['cost'] = $this->get_cost();
 
             }
