@@ -132,8 +132,7 @@ class shipping_to_country
             if (isset($shipping_country['shipping_price_per_weight']) and trim($shipping_country['shipping_price_per_weight']) != '') {
                 if ($total_shipping_weight > 1) {
                     $calc = floatval($shipping_country['shipping_price_per_weight']);
-                    $calc2 = $calc * $total_shipping_weight;
-
+                    $calc2 = $calc * ceil($total_shipping_weight - 1);
                     $defined_cost = $defined_cost + $calc2;
                 }
 
