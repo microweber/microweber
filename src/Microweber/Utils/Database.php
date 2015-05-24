@@ -276,17 +276,20 @@ class Database
         if (!$table) {
             return false;
         }
-        $key = 'mw_db_get_fields';
+        $key = 'mw_db_get_fields'.crc32($table);
         $hash = $table;
-        $value = Cache::get($key);
+        $value = $this->app->cache_manager->get($key,'db');
+
         if (isset($value[$hash])) {
             return $value[$hash];
         }
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
         $ex_fields_static[$table] = $fields;
-        $expiresAt = 30;
+        $expiresAt = 300;
         $value[$hash] = $fields;
-        $cache = Cache::put($key, $value, $expiresAt);
+      //  $cache = Cache::put($key, $value, $expiresAt);
+        $value = $this->app->cache_manager->save($value,$key,'db');
+
         return $fields;
     }
 

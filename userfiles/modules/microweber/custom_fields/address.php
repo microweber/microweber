@@ -35,23 +35,23 @@ if (!isset($data['options']) or !is_array($data['options']) or empty($data['opti
     );
 }
 
-?> 
+?>
 <?php if (is_array($data['values'])) : ?>
-    <div class="mw-ui-field-holder">
-        <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
-            <label class="mw-ui-label mw-address-label"><?php _e($data['name']) ?></label>
-        <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
-        <?php else : ?>
-        <?php endif; ?>
-        <?php if (isset($data['help']) == true and $data['help'] != ''): ?>
-            <small class="mw-ui-label"><?php print $data['help'] ?></small>
-        <?php endif; ?>
-        <?php foreach ($data['values'] as $k => $v): ?>
-            <?php if (!in_array($k, $skips))  : ?>
 
-
-
-                <?php if (is_string($v)) {
+<div class="mw-ui-field-holder">
+  <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
+  <label class="mw-ui-label mw-address-label">
+    <?php _e($data['name']) ?>
+  </label>
+  <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
+  <?php else : ?>
+  <?php endif; ?>
+  <?php if (isset($data['help']) == true and $data['help'] != ''): ?>
+  <small class="mw-ui-label"><?php print $data['help'] ?></small>
+  <?php endif; ?>
+  <?php foreach ($data['values'] as $k => $v): ?>
+  <?php if (!in_array($k, $skips))  : ?>
+  <?php if (is_string($v)) {
                     $kv = $v;
                 } elseif (is_array($v)) {
                     $kv = $v[0];
@@ -62,20 +62,15 @@ if (!isset($data['options']) or !is_array($data['options']) or empty($data['opti
                     $kv = ucwords($k);
                 }
                 ?>
-
-
-
-
-                <div class="control-group">
-                    <label class="mw-ui-label">
-                        <small><?php  _e($kv); ?></small>
-                    </label>
-                    <input
-                        type="text" class="mw-ui-field"
-                        name="<?php print $data['name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?>
-                        data-custom-field-id="<?php print $data["id"]; ?>"/>
-                </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </div>
+  <div class="control-group">
+    <label class="mw-ui-label mw-ui-label-address-custom-field"> <small>
+      <?php  _e($kv); ?>
+      </small> </label>
+    <input type="text" class="mw-ui-field field-full form-control"
+    name="<?php print $data['name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?>
+    data-custom-field-id="<?php print $data["id"]; ?>" />
+  </div>
+  <?php endif; ?>
+  <?php endforeach; ?>
+</div>
 <?php endif; ?>

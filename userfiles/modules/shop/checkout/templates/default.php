@@ -20,7 +20,6 @@ description: Default cart template
           action="<?php print api_link('checkout') ?>">
   <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
   <?php if ($cart_show_enanbled != 'n'): ?>
-  
   <br />
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id'] ?>"
                     data-checkout-link-enabled="n"/>

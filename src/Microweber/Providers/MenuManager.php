@@ -224,6 +224,11 @@ class MenuManager
         static $passed_ids;
         static $passed_actives;
         static $main_menu_id;
+
+
+
+
+
         if (!is_array($passed_actives)) {
             $passed_actives = array();
         }
@@ -436,7 +441,9 @@ class MenuManager
             } elseif (trim($item['url'] == '') and isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
                 $active_class = 'active';
             } elseif (trim($item['url'] != '') and $item['url'] == $cur_url) {
+
                 $active_class = 'active';
+
             } elseif (trim($item['url'] != '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
                 $cont_link = $this->app->content_manager->link(PAGE_ID);
                 if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
