@@ -139,10 +139,6 @@ class MicroweberServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("Markdown", 'GrahamCampbell\Markdown\Facades\Markdown');
 
 
-        // http://www.jacopobeschi.com/post/laravel-setup-alias-and-service-provider-in-a-package
-        // Tracker register      $this->app->register('PragmaRX\Tracker\Vendor\Laravel\ServiceProvider');
-        // Tracker alias    $this->app->alias('Tracker', 'PragmaRX\Tracker\Vendor\Laravel\Facade');
-
 
     }
 

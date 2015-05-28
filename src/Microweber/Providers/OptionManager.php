@@ -471,7 +471,7 @@ class OptionManager
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
-                   // $this->delete($data['option_key'], $data['option_group']);
+                    // $this->delete($data['option_key'], $data['option_group']);
                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
 
                     if ($existing == false) {
@@ -561,12 +561,9 @@ class OptionManager
         }
 
         $params = array();
-
         $params['id'] = $id;
         $params['single'] = true;
-
         return $this->get_all($params);
-
     }
 
 
@@ -609,75 +606,5 @@ class OptionManager
         }
 
     }
-
-
-    public function get_static($key, $option_group = "global")
-    {
-        $option_group_disabled = mw_var('static_option_disabled_' . $option_group);
-        if ($option_group_disabled == true) {
-            return false;
-        }
-        global $mw_static_option_groups;
-        $option_group = trim($option_group);
-        $option_group = str_replace('..', '', $option_group);
-
-        $fname = $option_group . '.php';
-
-        $dir_name = MW_STORAGE_DIR . 'options' . DS;
-        $dir_name_and_file = $dir_name . $fname;
-        $key = trim($key);
-
-
-        if (isset($mw_static_option_groups[$option_group]) and isset($mw_static_option_groups[$option_group][$key])) {
-            return ($mw_static_option_groups[$option_group][$key]);
-        }
-
-
-        if (is_file($dir_name_and_file)) {
-            $ops_array = file_get_contents($dir_name_and_file);
-            if ($ops_array != false) {
-                $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
-                if ($ops_array != '') {
-                    $ops_array = unserialize($ops_array);
-                    if (is_array($ops_array)) {
-                        $all_options = $ops_array;
-                        $mw_static_option_groups[$option_group] = $all_options;
-                        //mw_var('option_disabled_' . $option_group);
-                        if (isset($mw_static_option_groups[$option_group]) and isset($mw_static_option_groups[$option_group][$key])) {
-                            return ($mw_static_option_groups[$option_group][$key]);
-                        } else {
-                            $mw_static_option_groups[$option_group][$key] = false;
-                        }
-
-                    }
-                }
-            }
-        } else {
-            mw_var('static_option_disabled_' . $option_group, true);
-        }
-
-    }
-
-
-    public function save_static($data)
-    {
-
-        $data = parse_params($data);
-
-        if (!isset($data['option_key']) or !isset($data['option_value'])) {
-            exit("Error: no option_key or option_value");
-        }
-        if (!isset($data['option_group'])) {
-            $data['option_group'] = 'global';
-        }
-        $data['option_group'] = trim($data['option_group']);
-        $data['option_key'] = trim($data['option_key']);
-        $data['option_value'] = (htmlentities($data['option_value']));
-
-        $data['option_group'] = str_replace('..', '', $data['option_group']);
-
-    }
-
-
 }
 

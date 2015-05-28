@@ -187,8 +187,5 @@ class Database
     public function q($q, $silent = false)
     {
         return $this->app->database_manager->q($q, $silent);
-
     }
-
-
 }
