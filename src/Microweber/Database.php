@@ -121,22 +121,7 @@ class Database
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-        if ($field_name == false) {
-            $field_name = "id";
-        }
-
-        $params = array();
-        $params[$field_name] = $id;
-        $params['table'] = $table;
-        $params['single'] = true;
-
-        $data = $this->get($params);
-
-        return $data;
+        return $this->app->database_manager->get_by_id($table, $id, $field_name);
     }
 
 
@@ -158,23 +143,7 @@ class Database
      */
     public function delete_by_id($table, $id = 0, $field_name = 'id')
     {
-
-        if ($id == 0) {
-            return false;
-        }
-        if (is_array($id)) {
-            foreach ($id as $remove) {
-                $c_id = DB::table($table)->where($field_name, '=', $remove)->delete();
-
-            }
-        } else {
-            $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
-
-        }
-
-
-        Cache::tags($table)->flush();
-        return $c_id;
+        return $this->app->database_manager->delete_by_id($table, $id, $field_name);
     }
 
 

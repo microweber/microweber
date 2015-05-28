@@ -343,19 +343,19 @@ class ShopManager
         $q = " UPDATE $cart_table_real SET
 		order_id='{$ord}'
 		WHERE order_completed=0  AND session_id='{$sid}'  ";
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
         if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
             $q = " UPDATE $cart_table_real SET
 			order_completed=1, order_id='{$ord}'
 
 			WHERE order_completed=0  AND session_id='{$sid}' ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
             if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                 $q = " UPDATE $order_table_real SET
 				order_completed=1
 				WHERE order_completed=0 AND
 				id='{$ord}' AND session_id='{$sid}' ";
-                $this->app->database->q($q);
+                $this->app->database_manager->q($q);
             }
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
@@ -1405,7 +1405,7 @@ class ShopManager
         if (isset($data['email'])) {
             $c_id = $this->app->database_manager->escape_string($data['email']);
             $q = "DELETE FROM $table WHERE email='$c_id' ";
-            $res = $this->app->database->q($q);
+            $res = $this->app->database_manager->q($q);
             $this->app->cache_manager->delete('cart_orders/global');
             return $res;
         }
@@ -1429,14 +1429,14 @@ class ShopManager
             $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
-            $res = $this->app->database->q($q);
+            $res = $this->app->database_manager->q($q);
             return $c_id;
         } else if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->database_manager->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
-            $res = $this->app->database->q($q);
+            $res = $this->app->database_manager->q($q);
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
             return $c_id;

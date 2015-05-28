@@ -203,7 +203,7 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($category_page));
         $this->assertEquals($category_page['title'], $parent_page_data['title']);
 
-        $this->assertEquals($category_id, $delete_category);
+        $this->assertEquals(true, $delete_category);
         $this->assertEquals(false, $deleted_page);
         $this->assertEquals(true, intval($category_with_invalid_pos) > 0);
 

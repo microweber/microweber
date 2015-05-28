@@ -179,7 +179,7 @@ class FieldsManager
         if (isset($data_to_save['cf_id'])) {
             $data_to_save['id'] = intval($data_to_save['cf_id']);
             $table_custom_field = $this->table;
-            $form_data_from_id = $this->app->database->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
+            $form_data_from_id = $this->app->database_manager->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
             if (isset($form_data_from_id['id'])) {
                 if (!isset($data_to_save['rel_type'])) {
                     $data_to_save['rel_type'] = $form_data_from_id['rel_type'];
@@ -282,7 +282,7 @@ class FieldsManager
                             $remove_old_ids[] = $remove['id'];
                         }
                         if (!empty($remove_old_ids)) {
-                            $remove_old = $this->app->database->delete_by_id($table_values, $remove_old_ids);
+                            $remove_old = $this->app->database_manager->delete_by_id($table_values, $remove_old_ids);
                         }
                     }
                 }
@@ -761,8 +761,8 @@ class FieldsManager
 
         $custom_field_table = $this->table;
         $custom_field_table_values = $this->table_values;
-        $this->app->database->delete_by_id($custom_field_table, $id);
-        $this->app->database->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
+        $this->app->database_manager->delete_by_id($custom_field_table, $id);
+        $this->app->database_manager->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
         $this->app->cache_manager->delete('custom_fields');
         return $id;
     }
@@ -795,7 +795,7 @@ class FieldsManager
 
                 //
                 // $this->app->error('no permission to get data');
-                //  $form_data = $this->app->database->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
+                //  $form_data = $this->app->database_manager->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
     }
@@ -835,7 +835,7 @@ class FieldsManager
             if (is_admin() == true) {
 
                 $table_custom_field = $this->table;
-                $form_data = $this->app->database->get_by_id($table_custom_field, $id = $copy_from);
+                $form_data = $this->app->database_manager->get_by_id($table_custom_field, $id = $copy_from);
                 if (is_array($form_data)) {
 
                     $field_type = $form_data['type'];

@@ -141,7 +141,7 @@ class DatabaseManager extends DbUtils
             $query = DB::table($table);
         } else {
             $query = DB::connection($use_connection)->table($table);
-           
+
         }
 
         $orig_params = $params;
@@ -510,9 +510,19 @@ class DatabaseManager extends DbUtils
         }
     }
 
-    public function q($q)
+    public function q($q, $silent = false)
     {
-        return DB::select($q);
+        if (!$silent) {
+            return DB::statement($q);
+        }
+
+        try {
+            $q = DB::statement($q);
+        } catch (Exception $e) {
+            return;
+        }
+
+        return $q;
     }
 
     /**
@@ -625,20 +635,23 @@ class DatabaseManager extends DbUtils
      */
     public function delete_by_id($table, $id = 0, $field_name = 'id')
     {
+
         if ($id == 0) {
             return false;
         }
-        if ($field_name == 'id') {
-            $id = intval($id);
+        if (is_array($id)) {
+            foreach ($id as $remove) {
+                $c_id = DB::table($table)->where($field_name, '=', $remove)->delete();
+
+            }
+        } else {
+            $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+
         }
 
-        $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
-        $cache_group = $this->assoc_table_name($table);
-        $this->app->cache_manager->delete($cache_group);
-        if ($c_id != false) {
-            return $id;
-        }
 
+        Cache::tags($table)->flush();
+        return $c_id;
     }
 
     /**
@@ -666,13 +679,18 @@ class DatabaseManager extends DbUtils
         if ($id == 0) {
             return false;
         }
-
         if ($field_name == false) {
             $field_name = "id";
         }
-        $table = $this->assoc_table_name($table);
-        $q = DB::table($table)->where($field_name, '=', $id)->first();
-        return $q;
+
+        $params = array();
+        $params[$field_name] = $id;
+        $params['table'] = $table;
+        $params['single'] = true;
+
+        $data = $this->get($params);
+
+        return $data;
 
 
     }

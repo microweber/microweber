@@ -337,7 +337,7 @@ class MediaManager
                 }
             }
 
-            $this->app->database->delete_by_id('media', $c_id);
+            $this->app->database_manager->delete_by_id('media', $c_id);
         }
     }
 

@@ -2212,6 +2212,9 @@ li:hover > .show-on-hover {
   -o-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
 }
+.mw-tooltip-insert-module {
+  font-size: 12px;
+}
 .mw-tooltip-default.bottom-left .mw-tooltip-arrow,
 .mw-tooltip-default.bottom-center .mw-tooltip-arrow,
 .mw-tooltip-default.bottom-right .mw-tooltip-arrow {
@@ -2474,10 +2477,10 @@ div.mw-ui-field:after {
   padding: 8px 8px 8px 33px;
   opacity: 0.5;
   height: 36px;
-  -webkit-transition: width 0.2s, opacity 0.2s;
-  -moz-transition: width 0.2s, opacity 0.2s;
-  -o-transition: width 0.2s, opacity 0.2s;
-  transition: width 0.2s, opacity 0.2s;
+  -webkit-transition: width 0.1s, opacity 0.2s;
+  -moz-transition: width 0.1s, opacity 0.2s;
+  -o-transition: width 0.1s, opacity 0.2s;
+  transition: width 0.1s, opacity 0.2s;
 }
 .mw-ui-searchfield::-webkit-input-placeholder {
   color: transparent;

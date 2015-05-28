@@ -698,7 +698,7 @@ class MenuManager
 				WHERE id=$value2 AND id!=$k
 				AND item_type='menu_item'
 				";
-                    $q = $this->app->database->q($sql);
+                    $q = $this->app->database_manager->q($sql);
                     $this->app->cache_manager->delete('menus/' . $k);
                     $this->app->cache_manager->delete('menus/' . $value2);
                 }

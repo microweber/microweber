@@ -1447,7 +1447,7 @@ class CategoryManager
 	";
 
 
-        $this->app->database->q($clean);
+        $this->app->database_manager->q($clean);
         //$this->app->cache_manager->clear('custom_fields');
 
         $media_table = $this->tables['media'];
@@ -1464,7 +1464,7 @@ class CategoryManager
 
         //$this->app->cache_manager->clear('media');
 
-        $this->app->database->q($clean);
+        $this->app->database_manager->q($clean);
 
         if (isset($content_ids) and !empty($content_ids)) {
             $content_ids = array_unique($content_ids);
@@ -1478,7 +1478,7 @@ class CategoryManager
 		AND  data_type ='{$data_type}' ";
 
 
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
             foreach ($content_ids as $id) {
 
@@ -1533,7 +1533,7 @@ class CategoryManager
         $id = intval($id);
         $table = $this->tables['categories'];
         $id = intval($id);
-        $q = $this->app->database->get_by_id($table, $id);
+        $q = $this->app->database_manager->get_by_id($table, $id);
         return $q;
 
     }

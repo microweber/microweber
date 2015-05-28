@@ -430,8 +430,8 @@ class Backup
 
                 if (strlen(trim($stmt)) > 3) {
                     try {
-                        @mw()->database->q($stmt, true);
-                        // mw()->database->q($stmt);
+                        @mw()->database_manager->q($stmt, true);
+                        // mw()->database_manager->q($stmt);
                     } catch (QueryException $e) {
                         print 'Caught exception: ' . $e->getMessage() . "\n";
                         $sqlErrorCode = 1;

@@ -372,7 +372,7 @@ class Modules
                             $this->delete_module($value['id']);
                             $mn = $value['module'];
                             $table_options = $this->tables['options'];
-                            $this->app->database->delete_by_id($table_options, $mn, 'option_group');
+                            $this->app->database_manager->delete_by_id($table_options, $mn, 'option_group');
 
                         }
 
@@ -430,7 +430,7 @@ class Modules
                             //$delid = $s["id"];
                             //DB::table($table)->where('id', '!=', $delid)->delete();
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            //mw()->database->q($del);
+                            //mw()->database_manager->q($del);
                         }
                     } else {
                         $save = mw()->database_manager->save($table, $s);
@@ -631,10 +631,10 @@ class Modules
         $db_categories = get_table_prefix() . 'categories';
         $db_categories_items = get_table_prefix() . 'categories_items';
 
-        $this->app->database->delete_by_id($table, $id);
+        $this->app->database_manager->delete_by_id($table, $id);
 
         $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND rel_id={$id}";
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
         $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
 
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
@@ -1268,13 +1268,13 @@ class Modules
             $db_categories_items = $this->table_prefix . 'categories_items';
 
             $q = "DELETE FROM $table ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel_type='modules' AND data_type='category' ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
             $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 

@@ -38,5 +38,5 @@ function db_save($table_name_or_params, $params = null)
 
 function db_delete($table_name, $id = 0, $field_name = 'id')
 {
-    return mw()->database->delete_by_id($table_name, $id, $field_name);
+    return mw()->database_manager->delete_by_id($table_name, $id, $field_name);
 }
