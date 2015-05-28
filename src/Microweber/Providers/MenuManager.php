@@ -78,7 +78,7 @@ class MenuManager
         if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
             $data_to_save['is_active'] = 1;
         }
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
         $this->app->cache_manager->delete('menus/global');
         return $save;
 
@@ -153,7 +153,7 @@ class MenuManager
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
 
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
 
         $this->app->cache_manager->delete('menus/global');
 
@@ -197,7 +197,7 @@ class MenuManager
         $params['table'] = $table;
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
-        $menus = $this->app->database->get($params);
+        $menus = $this->app->database_manager->get($params);
         if (!empty($menus)) {
             return $menus;
         } else {
@@ -206,7 +206,7 @@ class MenuManager
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
                     $new_menu = $this->menu_create('id=0&title=' . $params['title']);
                     $params['id'] = $new_menu;
-                    $menus = $this->app->database->get($params);
+                    $menus = $this->app->database_manager->get($params);
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
@@ -297,7 +297,7 @@ class MenuManager
         $menu_params['table'] = $menus;
         $menu_params['order_by'] = "position ASC";
 
-        $q = $this->app->database->get($menu_params);
+        $q = $this->app->database_manager->get($menu_params);
 
         $has_items = false;
         if (empty($q)) {
@@ -753,7 +753,7 @@ class MenuManager
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
 
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 }
 

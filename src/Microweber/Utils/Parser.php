@@ -765,7 +765,10 @@ class Parser
                     $this->_current_parser_rel = $rel;
 
 
+
+
                     $no_edit = false;
+
 
 
                     if ($field_content == false) {
@@ -863,6 +866,7 @@ class Parser
                 }
 
 
+
                 $layout = $pq->htmlOuter();
 
                 $pq->__destruct();
@@ -872,18 +876,21 @@ class Parser
                 if (!empty($mw_replaced_edit_fields_vals_inner)) {
                     $reps_arr = array();
                     $reps_arr2 = array();
-                    foreach ($mw_replaced_edit_fields_vals_inner as $k => $v) {
 
+                    foreach ($mw_replaced_edit_fields_vals_inner as $k => $v) {
+                        $repc = 1;
                         if (isset($v['s'])) {
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
                             //$reps_arr2[] = $k;
-                            //$layout = str_replace($v['s'], $v['r'], $layout);
+                          //   $layout = str_replace($v['s'], $v['r'], $layout, $repc);
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }
 
                     }
-                    $layout = str_replace($reps_arr, $reps_arr2, $layout);
+
+
+                 $layout = str_replace($reps_arr, $reps_arr2, $layout,$repc);
                 }
 
 
@@ -897,6 +904,11 @@ class Parser
                 }
             }
         }
+
+
+
+
+
         if (isset($mw_elements_array) and !empty($mw_elements_array)) {
             if (isset($mw_elements_array['elems']) and isset($mw_elements_array['to_replace']) and isset($mw_elements_array['new'])) {
                 $modified_layout = $mw_elements_array['new'];

@@ -97,8 +97,7 @@ class Database
     public function table($table)
     {
 
-        $query = DB::table($table);
-        return $query;
+        return $this->app->database_manager->table($table);
     }
 
     /**

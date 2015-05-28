@@ -348,7 +348,7 @@ class MediaManager
         }
         $table = $this->tables['media'];
         $params['table'] = $table;
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
 
     }
 
@@ -381,7 +381,7 @@ class MediaManager
         $params['order_by'] = 'position ASC';
 
 
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
 
         if (media_base_url()) {
             if (!empty($data)) {
@@ -558,12 +558,12 @@ class MediaManager
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
-            $s = $this->app->database->save($table, $s);
+            $s = $this->app->database_manager->save($table, $s);
             $this->app->cache_manager->delete('media');
             return ($s);
         } elseif (isset($s['id'])) {
             $table = $this->tables['media'];
-            $s = $this->app->database->save($table, $s);
+            $s = $this->app->database_manager->save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return ($s);

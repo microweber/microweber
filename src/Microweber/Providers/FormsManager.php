@@ -44,7 +44,7 @@ class FormsManager
         }
 
 
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
@@ -85,7 +85,7 @@ class FormsManager
         }
 
         $params['table'] = $table;
-        $id = $this->app->database->save($table, $params);
+        $id = $this->app->database_manager->save($table, $params);
         if (isset($params['for_module_id'])) {
             $data = array();
             $data['module'] = $params['module_name'];
@@ -238,7 +238,7 @@ class FormsManager
             $to_save['form_values'] = json_encode($fields_data);
         }
 
-        $save = $this->app->database->save($table, $to_save);
+        $save = $this->app->database_manager->save($table, $to_save);
 
 
         if (isset($params['module_name'])) {
@@ -346,7 +346,7 @@ class FormsManager
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     public function countries_list($full = false)

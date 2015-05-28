@@ -940,7 +940,7 @@ class UpdateManager
 
 
         $params['table'] = $table;
-        $r = $this->app->database->get($params);
+        $r = $this->app->database_manager->get($params);
 
         return $r;
     }
@@ -970,7 +970,7 @@ class UpdateManager
             $update['rel_type'] = $params['rel_type'];
             $update['one'] = true;
             $update['table'] = $table;
-            $update = $this->app->database->get($update);
+            $update = $this->app->database_manager->get($update);
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
@@ -979,13 +979,13 @@ class UpdateManager
             $update['local_key'] = $params['local_key'];
             $update['one'] = true;
             $update['table'] = $table;
-            $update = $this->app->database->get($update);
+            $update = $this->app->database_manager->get($update);
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
         }
 
-        $r = $this->app->database->save($table, $params);
+        $r = $this->app->database_manager->save($table, $params);
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $this->validate_license('id=' . $r);
         }

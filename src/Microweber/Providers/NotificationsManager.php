@@ -57,7 +57,7 @@ class NotificationsManager
             $save['id'] = $get['id'];
             $save['is_read'] = 1;
             $table = $this->table;
-            $data = $this->app->database->save($table, $save);
+            $data = $this->app->database_manager->save($table, $save);
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . $data);
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
@@ -89,7 +89,7 @@ class NotificationsManager
                     $save['is_read'] = 1;
                     $save['id'] = $value['id'];
                     $save['table'] = 'notifications';
-                    $this->app->database->save('notifications', $save);
+                    $this->app->database_manager->save('notifications', $save);
                 }
             }
 
@@ -236,7 +236,7 @@ class NotificationsManager
 
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
-        $data = $this->app->database->save($table_orig, $params);
+        $data = $this->app->database_manager->save($table_orig, $params);
         return $data;
     }
 
@@ -288,7 +288,7 @@ class NotificationsManager
             $table = $this->table;
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
-            $return = $this->app->database->get($params);
+            $return = $this->app->database_manager->get($params);
         }
         return $return;
     }

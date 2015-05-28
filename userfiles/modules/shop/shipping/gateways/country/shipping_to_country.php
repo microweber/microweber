@@ -247,7 +247,7 @@ class shipping_to_country
         }
 
 
-        $data = mw()->database->save($this->table, $data);
+        $data = mw()->database_manager->save($this->table, $data);
         return ($data);
     }
 
@@ -262,7 +262,7 @@ class shipping_to_country
             $params['order_by'] = 'position ASC';
         }
         $params['limit'] = 1000;
-        return mw()->database->get($params);
+        return mw()->database_manager->get($params);
 
     }
 

@@ -437,18 +437,13 @@ class ContentManager
         }
 
 
-        $get = mw()->database->get($params);
+        $get = mw()->database_manager->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 $get['url'] = $this->app->url_manager->site($get['url']);
             }
-//            if (isset($get['title'])) {
-//                $get['title'] = html_entity_decode($get['title']);
-//                $get['title'] = strip_tags($get['title']);
-//                $get['title'] = $this->app->format->clean_html($get['title']);
-//                $get['title'] = htmlspecialchars_decode($get['title']);
-//            }
+
             return $get;
         }
 
@@ -458,13 +453,7 @@ class ContentManager
                 if (isset($item['url'])) {
                     $item['url'] = $this->app->url_manager->site($item['url']);
                 }
-//                if (isset($item['title'])) {
-//                    $item['title'] = html_entity_decode($item['title']);
-//                    $item['title'] = strip_tags($item['title']);
-//                    $item['title'] = $this->app->format->clean_html($item['title']);
-//                    $item['title'] = htmlspecialchars_decode($item['title']);
-//
-//                }
+
                 $data2[] = $item;
             }
             $get = $data2;
@@ -482,7 +471,6 @@ class ContentManager
      * <code>
      *  //get the layout file for content
      *  $content = $this->get_by_id($id=1);
-     *  $render_file = get_layout_for_page($content);
      *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
      * </code>
      * @package Content
@@ -569,7 +557,7 @@ class ContentManager
 
         $params['table'] = $table;
 
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
 
         return $get;
     }
@@ -582,7 +570,7 @@ class ContentManager
         $data['cache_group'] = 'content_data';
         $data['content_id'] = intval($content_id);
         $res = array();
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
         if (!empty($get)) {
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
@@ -627,7 +615,7 @@ class ContentManager
             $data = array();
         }
         $data['table'] = $table;
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
         if (!empty($get)) {
             foreach ($get as $k => $data) {
                 if (isset($data['attribute_value']) and isset($data['attribute_type']) and ($data['attribute_type'] == 'array')) {
@@ -2086,7 +2074,7 @@ class ContentManager
                 $result_item['title'] = $content['title'];
                 $result_item['url'] = $this->link($content['id']);
                 $result_item['description'] = $content['description'];
-                if ($cur_content == $content['id']) {
+                if ($cur_content == $content['id'] or $cur_page == $content['id']) {
                     $result_item['is_active'] = true;
                 } else {
                     $result_item['is_active'] = false;
@@ -2828,7 +2816,7 @@ class ContentManager
             $data['title'] = $data['content_title'];
         }
         if (isset($data['title'])) {
-            if($data['title']  == '<br>' or $data['title']  == '<br />' or $data['title']  == '<br/>'){
+            if ($data['title'] == '<br>' or $data['title'] == '<br />' or $data['title'] == '<br/>') {
                 $data['title'] = '';
             }
             $data['title'] = htmlspecialchars($data['title'], ENT_QUOTES, "UTF-8");
@@ -2879,7 +2867,7 @@ class ContentManager
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
                 $data['url'] = $this->app->url_manager->slug($data['title']);
-                if($data['url'] == ''){
+                if ($data['url'] == '') {
                     $data['url'] = date("Y-M-d-His");
                 }
             }
@@ -2975,9 +2963,9 @@ class ContentManager
 
 
         if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
-             if($data_to_save['url'] == ''){
-                    $data_to_save['url'] = date("Y-M-d-His");
-             }
+            if ($data_to_save['url'] == '') {
+                $data_to_save['url'] = date("Y-M-d-His");
+            }
             $data_to_save['url'] = str_replace(site_url(), '', $data_to_save['url']);
 
         }
@@ -3069,7 +3057,7 @@ class ContentManager
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';
 
-                    $par_page_new = $this->app->database->save($table, $par_page_new);
+                    $par_page_new = $this->app->database_manager->save($table, $par_page_new);
                     $cats_modified = true;
                 }
                 if (!isset($data_to_save['categories'])) {
@@ -3227,7 +3215,7 @@ class ContentManager
 
         $data_to_save['allow_html'] = true;
         $this->no_cache = true;
-         //clean some fields
+        //clean some fields
         if (isset($data_to_save['custom_field_type']) and isset($data_to_save['value'])) {
             unset($data_to_save['custom_field_type']);
             unset($data_to_save['value']);
@@ -3285,7 +3273,6 @@ class ContentManager
         }
 
 
-
         $save = $this->app->database->extended_save($table, $data_to_save);
 
         $id = $save;
@@ -3293,7 +3280,7 @@ class ContentManager
             $upd_posted = array();
             $upd_posted['posted_at'] = $data_to_save['updated_at'];
             $upd_posted['id'] = $data_to_save['parent'];
-            $save_posted = $this->app->database->save($table, $upd_posted);
+            $save_posted = $this->app->database_manager->save($table, $upd_posted);
         }
         $after_save = $data_to_save;
         $after_save['id'] = $id;
@@ -3335,7 +3322,6 @@ class ContentManager
                 }
             }
         }
-
 
 
         if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
@@ -3499,7 +3485,7 @@ class ContentManager
                     $save['url'] = '';
                     $save['content_id'] = $content_id;
 
-                    $new_item = $this->app->database->save($menus, $save);
+                    $new_item = $this->app->database_manager->save($menus, $save);
 
                     $this->app->cache_manager->delete('menus');
 
@@ -3593,7 +3579,7 @@ class ContentManager
             } else {
                 $del_params['rel_id'] = 0;
             }
-            $del = $this->app->database->get($del_params);
+            $del = $this->app->database_manager->get($del_params);
             if (!empty($del)) {
                 foreach ($del as $item) {
                     $this->app->database->delete_by_id($table, $item['id']);
@@ -3628,6 +3614,9 @@ class ContentManager
         $data['allow_html'] = 1;
 
         $save = $this->app->database_manager->save($data);
+
+
+
 
         $this->app->cache_manager->delete('content_fields');
         return $save;
@@ -3674,7 +3663,7 @@ class ContentManager
             $data['limit'] = 1;
         }
         $data['table'] = $table;
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
         } else {
@@ -4353,7 +4342,7 @@ class ContentManager
                 $data['content_id'] = $data['rel_id'];
             }
         }
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
         $this->app->cache_manager->delete('content_data');
         return $save;
     }
@@ -4375,7 +4364,7 @@ class ContentManager
         $data['cache_group'] = 'content_data';
 
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
         return $get;
 
@@ -4426,7 +4415,7 @@ class ContentManager
                 $data['content_id'] = $data['rel_id'];
             }
         }
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
         $this->app->cache_manager->delete('attributes');
         return $save;
     }
@@ -4467,7 +4456,7 @@ class ContentManager
                             }
                         }
                     }
-                    $new_shop = $this->app->database->save('content', $add_page);
+                    $new_shop = $this->app->database_manager->save('content', $add_page);
                     $this->app->cache_manager->delete('content');
                     $this->app->cache_manager->delete('categories');
                     $this->app->cache_manager->delete('custom_fields');
@@ -4537,7 +4526,7 @@ class ContentManager
 
                     }
 
-                    $new_shop = $this->app->database->save('content', $add_page);
+                    $new_shop = $this->app->database_manager->save('content', $add_page);
                     $this->app->cache_manager->delete('content');
                     $this->app->cache_manager->delete('categories');
                     $this->app->cache_manager->delete('content_fields');

@@ -45,7 +45,7 @@ class LogManager
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = $this->app->database->get($params);
+        $q = $this->app->database_manager->get($params);
 
         return $q;
     }
@@ -71,7 +71,7 @@ class LogManager
         if (is_admin() == false) {
             $params['user_ip'] = MW_USER_IP;
         }
-        $q = $this->app->database->get($params);
+        $q = $this->app->database_manager->get($params);
         if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
@@ -91,7 +91,7 @@ class LogManager
         $params['user_ip'] = MW_USER_IP;
         $params['table'] = $table;
 
-        $save = $this->app->database->save($params);
+        $save = $this->app->database_manager->save($params);
         $id = $save;
         $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;

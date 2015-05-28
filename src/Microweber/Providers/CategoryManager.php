@@ -276,7 +276,7 @@ class CategoryManager
                     $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
                     // unset( $cat_get_params['parent_id']);
                 }
-                $fors = $this->app->database->get($cat_get_params);
+                $fors = $this->app->database_manager->get($cat_get_params);
 
 
             }
@@ -284,7 +284,7 @@ class CategoryManager
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
                 $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-                $fors1 = $this->app->database->get($str1);
+                $fors1 = $this->app->database_manager->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
 
@@ -333,7 +333,7 @@ class CategoryManager
             }
 
             //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel_type=' . $table_assoc_name;
-            $fors = $this->app->database->get($cat_get_params);
+            $fors = $this->app->database_manager->get($cat_get_params);
 
 
         }
@@ -993,7 +993,7 @@ class CategoryManager
         }
 
 
-        $taxonomies = $this->app->database->get($params);
+        $taxonomies = $this->app->database_manager->get($params);
 
 
         //  $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
@@ -1079,7 +1079,7 @@ class CategoryManager
         $params['parent_id'] = $parent_id;
 
 
-        $save = $this->app->database->get($params);
+        $save = $this->app->database_manager->get($params);
 
 
         $q_cache_id = __FUNCTION__ . crc32($q);
@@ -1218,7 +1218,7 @@ class CategoryManager
         }
 
         $params['count'] = true;
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
         return $data;
     }
 
@@ -1241,7 +1241,7 @@ class CategoryManager
 
         $data['table'] = $table_items;
 
-        $data = $this->app->database->get($data);
+        $data = $this->app->database_manager->get($data);
         return $data;
     }
 
@@ -1300,7 +1300,7 @@ class CategoryManager
         }
 
 
-        $data = $this->app->database->get($data);
+        $data = $this->app->database_manager->get($data);
         return $data;
 
     }
@@ -1511,7 +1511,7 @@ class CategoryManager
         $params = parse_params($params);
         $table = $this->tables['categories_items'];
         $params['table'] = $table;
-        $save = $this->app->database->save($params);
+        $save = $this->app->database_manager->save($params);
         if (intval($save) == 0) {
             return false;
         }

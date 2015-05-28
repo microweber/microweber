@@ -11,7 +11,7 @@ function get_table_prefix()
 
 function db_get($table_name_or_params, $params = null)
 {
-    return mw()->database->get($table_name_or_params, $params);
+    return mw()->database_manager->get($table_name_or_params, $params);
 }
 
 
@@ -32,7 +32,7 @@ function db_get($table_name_or_params, $params = null)
  */
 function db_save($table_name_or_params, $params = null)
 {
-    return mw()->database->save($table_name_or_params, $params);
+    return mw()->database_manager->save($table_name_or_params, $params);
 }
 
 

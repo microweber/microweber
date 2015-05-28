@@ -246,7 +246,7 @@ class FieldsManager
 
 
             $this->skip_cache = true;
-            $save = $this->app->database->save($table_custom_field, $data_to_save);
+            $save = $this->app->database_manager->save($table_custom_field, $data_to_save);
 
 
             if (isset($data_to_save['value'])) {
@@ -262,7 +262,7 @@ class FieldsManager
                     $check_existing = array();
                     $check_existing['table'] = $table_values;
                     $check_existing['custom_field_id'] = $custom_field_id;
-                    $check_old = $this->app->database->get($check_existing);
+                    $check_old = $this->app->database_manager->get($check_existing);
                     $i = 0;
                     foreach ($values_to_save as $value_to_save) {
                         $save_value = array();
@@ -273,7 +273,7 @@ class FieldsManager
                         $save_value['custom_field_id'] = $custom_field_id;
                         $save_value['value'] = $value_to_save;
                         $save_value['position'] = $i;
-                        $save_value = $this->app->database->save($table_values, $save_value);
+                        $save_value = $this->app->database_manager->save($table_values, $save_value);
                         $i++;
                     }
                     if (!empty($check_old)) {
@@ -310,7 +310,7 @@ class FieldsManager
         $params['custom_field_id'] = '[in]' . $id;
 
 
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
 
         return $data;
 
@@ -340,7 +340,7 @@ class FieldsManager
         }
         $table_custom_field = $this->table;
         $params['table'] = $table_custom_field;
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
 
     }
 

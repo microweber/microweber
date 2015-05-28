@@ -260,15 +260,12 @@ class ShopManager
                 $place_order['custom_fields_data'] = $this->app->format->array_to_base64($save_custom_fields_for_order);
             }
 
-			if(!isset($place_order['shipping']) or $place_order['shipping'] == false){
-				$place_order['shipping'] = 0;
-			}
-			
-			
-			
-			
+            if (!isset($place_order['shipping']) or $place_order['shipping'] == false) {
+                $place_order['shipping'] = 0;
+            }
 
-            $temp_order = $this->app->database->save($table_orders, $place_order);
+
+            $temp_order = $this->app->database_manager->save($table_orders, $place_order);
             if ($temp_order != false) {
                 $place_order['id'] = $temp_order;
             } else {
@@ -341,7 +338,7 @@ class ShopManager
         $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
 
-        $ord = $this->app->database->save($table_orders, $place_order);
+        $ord = $this->app->database_manager->save($table_orders, $place_order);
         $place_order['id'] = $ord;
         $q = " UPDATE $cart_table_real SET
 		order_id='{$ord}'
@@ -440,7 +437,7 @@ class ShopManager
 
         $params['id'] = intval($id);
 
-        $item = $this->app->database->get($params);
+        $item = $this->app->database_manager->get($params);
 
         if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item = $this->_render_item_custom_fields_data($item);
@@ -526,7 +523,7 @@ class ShopManager
         }
         // $params['no_cache'] = 1;
 
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count'] != false) {
             return $get;
         }
@@ -582,11 +579,11 @@ class ShopManager
                 }
 
                 $will_add = true;
-                $res = $this->app->database->get($params);
+                $res = $this->app->database_manager->get($params);
 
                 if (empty($res)) {
                     //$params['order_completed'] = 1;
-                    //  $res = $this->app->database->get($params);
+                    //  $res = $this->app->database_manager->get($params);
                 }
 
 
@@ -615,7 +612,7 @@ class ShopManager
                                 $is_ex_params['rel_id'] = $item['rel_id'];
                                 $is_ex_params['count'] = 1;
 
-                                $is_ex = $this->app->database->get($is_ex_params);
+                                $is_ex = $this->app->database_manager->get($is_ex_params);
 
                                 if ($is_ex != false) {
                                     $will_add = false;
@@ -624,7 +621,7 @@ class ShopManager
                             $data['order_completed'] = 0;
                             $data['session_id'] = $cur_sid;
                             if ($will_add == true) {
-                                $s = $this->app->database->save($table, $data);
+                                $s = $this->app->database_manager->save($table, $data);
                             }
 
                         }
@@ -700,10 +697,7 @@ class ShopManager
                             $value = $mod_infp;
                             $value['gw_file'] = $title;
                             $valid[] = $value;
-                        } else {
-                            // $value['name'] = $title;
                         }
-                        //
 
 
                     }
@@ -763,66 +757,37 @@ class ShopManager
         if (!empty($cart_data)) {
             $res = array();
             foreach ($cart_data as $item) {
-
-
                 if (isset($item['rel_type']) and isset($item['rel_id']) and $item['rel_type'] == 'content') {
-
                     $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
-
                     if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                         $old_qty = intval($data_fields['qty']);
-
                         $new_qty = $old_qty - intval($item['qty']);
-                        mw_var('FORCE_SAVE_CONTENT_DATA_FIELD', 1);
                         $new_qty = intval($new_qty);
-
-
-                        if (defined('MW_DB_TABLE_CONTENT_DATA')) {
-
-                            $table_name_data = MW_DB_TABLE_CONTENT_DATA;
-                            $notify = false;
-                            mw_var('FORCE_ANON_UPDATE', $table_name_data);
-                            $new_q = array();
-                            $new_q['field_name'] = 'qty';
-                            $new_q['content_id'] = $item['rel_id'];
-                            if ($new_qty > 0) {
-
-                                $new_q['field_value'] = $new_qty;
-
-
-                            } else {
-                                $notify = true;
-                                $new_q['field_value'] = '0';
-
-
-                            }
-                            $res[] = $new_q;
-                            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
-                            $res = true;
-
-                            if ($notify) {
-                                $notification = array();
-                                //$notification['module'] = "content";
-                                $notification['rel_type'] = 'content';
-                                $notification['rel_id'] = $item['rel_id'];
-                                $notification['title'] = "Your item is out of stock!";
-                                $notification['description'] = "You sold all items you had in stock. Please update your quantity";
-                                $notification = $this->app->notifications_manager->save($notification);
-
-                            }
-
-
+                        $notify = false;
+                        $new_q = array();
+                        $new_q['field_name'] = 'qty';
+                        $new_q['content_id'] = $item['rel_id'];
+                        if ($new_qty > 0) {
+                            $new_q['field_value'] = $new_qty;
+                        } else {
+                            $notify = true;
+                            $new_q['field_value'] = '0';
+                        }
+                        $res[] = $new_q;
+                        $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
+                        $res = true;
+                        if ($notify) {
+                            $notification = array();
+                            $notification['rel_type'] = 'content';
+                            $notification['rel_id'] = $item['rel_id'];
+                            $notification['title'] = "Your item is out of stock!";
+                            $notification['description'] = "You sold all items you had in stock. Please update your quantity";
+                            $this->app->notifications_manager->save($notification);
                         }
                     }
-
                 }
-
-
             }
-
         }
-
-
         return $res;
     }
 
@@ -898,7 +863,7 @@ class ShopManager
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
 
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
 
     }
 
@@ -970,7 +935,7 @@ class ShopManager
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
-            $cart_saved_id = $this->app->database->save($table, $cart_data_to_save);
+            $cart_saved_id = $this->app->database_manager->save($table, $cart_data_to_save);
             return ($cart_saved_id);
         }
     }
@@ -1211,7 +1176,7 @@ class ShopManager
 
 
             mw_var('FORCE_SAVE', $table);
-            $cart_saved_id = $this->app->database->save($table, $cart);
+            $cart_saved_id = $this->app->database_manager->save($table, $cart);
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders/global');
 
@@ -1427,7 +1392,7 @@ class ShopManager
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
-        return $this->app->database->save($table, $params);
+        return $this->app->database_manager->save($table, $params);
     }
 
     public function delete_client($data)

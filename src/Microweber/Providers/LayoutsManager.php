@@ -447,13 +447,13 @@ class LayoutsManager
                     $save = $this->get('limit=1&module=' . $s["module"]);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = $save[0]["id"];
-                        $save = $this->app->database->save($table, $s);
+                        $save = $this->app->database_manager->save($table, $s);
                     } else {
-                        $save = $this->app->database->save($table, $s);
+                        $save = $this->app->database_manager->save($table, $s);
                     }
                 }
             } else {
-                $save = $this->app->database->save($table, $s);
+                $save = $this->app->database_manager->save($table, $s);
             }
         }
 
@@ -488,7 +488,7 @@ class LayoutsManager
             //   $params['ui'] = 1;
         }
 
-        $s = $this->app->database->get($params);
+        $s = $this->app->database_manager->get($params);
         return $s;
     }
 

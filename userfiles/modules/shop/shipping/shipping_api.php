@@ -72,7 +72,7 @@ class shipping_api
         }
 
 
-        $data = mw()->database->save($this->table, $data);
+        $data = mw()->database_manager->save($this->table, $data);
         return ($data);
     }
 

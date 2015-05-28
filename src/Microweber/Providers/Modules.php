@@ -424,7 +424,7 @@ class Modules
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
                         $s["installed"] = intval($save[0]["installed"]);
-                        $save = mw()->database->save($table, $s);
+                        $save = mw()->database_manager->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         if ($s["id"] > 0) {
                             //$delid = $s["id"];
@@ -433,13 +433,13 @@ class Modules
                             //mw()->database->q($del);
                         }
                     } else {
-                        $save = mw()->database->save($table, $s);
+                        $save = mw()->database_manager->save($table, $s);
                     }
                 }
             } else {
 
 
-                $save = mw()->database->save($table, $s);
+                $save = mw()->database_manager->save($table, $s);
             }
         }
 
@@ -473,7 +473,7 @@ class Modules
             unset($params['ui']);
         }
 
-        return mw()->database->get($params);
+        return mw()->database_manager->get($params);
 
     }
 
@@ -510,7 +510,7 @@ class Modules
             unset($params['ui']);
         }
 
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     public function exists($module_name)
@@ -1467,7 +1467,7 @@ class Modules
 
         $params['table'] = $table;
 
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
         return $data;
     }
 
@@ -1516,7 +1516,7 @@ class Modules
         if (!empty($data_to_save)) {
             $s = $data_to_save;
 
-            $save = $this->app->database->save($table, $s);
+            $save = $this->app->database_manager->save($table, $s);
         }
 
         return $save;

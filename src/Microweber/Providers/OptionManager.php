@@ -73,7 +73,7 @@ class OptionManager
         $data['cache_group'] = 'options/global';
         $data['table'] = $table;
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
         if (!empty($get)) {
             foreach ($get as $key => $value) {
@@ -358,7 +358,7 @@ class OptionManager
         }
         $filter['table'] = $table;
 
-        $get_all = mw()->database->get($filter);
+        $get_all = mw()->database_manager->get($filter);
 
         $q_cache_id = crc32($q);
         //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
@@ -512,10 +512,10 @@ class OptionManager
                 $data['table'] = $this->tables['options'];
 
 
-                $save = $this->app->database->save($data);
+                $save = $this->app->database_manager->save($data);
 
-                // $save = $this->app->database->save($table, $data);
-                //$save = $this->app->database->save($table, $data);
+                // $save = $this->app->database_manager->save($table, $data);
+                //$save = $this->app->database_manager->save($table, $data);
 
                 if ($option_group != false) {
                     $cache_group = 'options/' . $option_group;

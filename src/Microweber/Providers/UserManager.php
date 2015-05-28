@@ -916,7 +916,7 @@ class UserManager
             $data1['password_reset_hash'] = '';
         }
         $this->force_save = true;
-        $save = $this->app->database->save($table, $data1);
+        $save = $this->app->database_manager->save($table, $data1);
         $save_user = array();
         $save_user['id'] = intval($params['id']);
         $save_user['password'] = $params['pass1'];
@@ -1018,7 +1018,7 @@ class UserManager
                         $data_to_save['password_reset_hash'] = $function_cache_id;
                         $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
-                        $save = $this->app->database->save($table, $data_to_save);
+                        $save = $this->app->database_manager->save($table, $data_to_save);
                     }
 
                     $base_link = $this->app->url_manager->current(1);
@@ -1181,7 +1181,7 @@ class UserManager
 
             $table = $this->tables['users'];
             mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->database->save($table, $data_to_save);
+            $save = $this->app->database_manager->save($table, $data_to_save);
 
             $this->app->log_manager->delete("is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
 
@@ -1314,7 +1314,7 @@ class UserManager
         }
 
         $data['table'] = $table;
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
         return $get;
     }
 
