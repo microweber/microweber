@@ -180,77 +180,14 @@ class Database
      */
     public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false)
     {
-        if (trim($q) == '') {
-            return false;
-        }
+        return $this->app->database_manager->query($q, $cache_id, $cache_group, $only_query);
 
-
-        $error['error'] = array();
-        $results = false;
-
-        if ($cache_id != false and $cache_group != false) {
-
-            $cache_id = $cache_id . crc32($q);
-            $results = $this->app->cache_manager->get($cache_id, $cache_group);
-            if ($results != false) {
-                if ($results == '---empty---' or (is_array($results) and empty($results))) {
-                    return false;
-                } else {
-                    return $results;
-                }
-            }
-        }
-
-
-        $q = DB::select($q);
-
-
-        if ($only_query != false) {
-            return true;
-        }
-        $q = (array)$q;
-        if (isset($q[0])) {
-            foreach ($q as $k => $v) {
-                $q[$k] = (array)$v;
-            }
-        }
-
-
-        if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
-            if ($cache_id != false) {
-
-                $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
-            }
-            return false;
-        }
-        if ($only_query == false) {
-            if ($cache_id != false and $cache_group != false) {
-                if (is_array($q) and !empty($q)) {
-                    $this->app->cache_manager->save($q, $cache_id, $cache_group);
-                } else {
-                    $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
-                }
-            }
-        }
-        if ($cache_id != false) {
-            $this->app->cache_manager->save($q, $cache_id, $cache_group);
-        }
-        return $q;
     }
 
     public function q($q, $silent = false)
     {
-        if (!$silent) {
-            return DB::statement($q);
-        }
+        return $this->app->database_manager->q($q, $silent);
 
-        try {
-            $q = DB::statement($q);
-        } catch (Exception $e) {
-            return;
-        }
-
-        return $q;
     }
 
 
