@@ -23,14 +23,15 @@ function __store_lang_file_ns()
 {
     global $mw_new_language_entires_ns;
     global $mw_new_language_entires_ns;
-
+    $lang = current_lang();
     if (!empty($mw_new_language_entires_ns)) {
         foreach ($mw_new_language_entires_ns as $k => $v) {
             $namespace = $k;
-            $lang = current_lang();
+
 
             $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
             $lang_file = normalize_path($lang_file, false);
+
 
             $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
             $lang_file2 = normalize_path($lang_file2, false);
@@ -42,6 +43,14 @@ function __store_lang_file_ns()
             $existing = $mw_new_language_entires_ns[$k];
             if (is_array($v)) {
                 $existing = array_merge($existing, $v);
+            }
+
+            if (!is_dir(dirname($lang_file))) {
+                @mkdir_recursive(dirname($lang_file));
+            }
+
+            if (!is_file($lang_file)) {
+                @touch($lang_file);
             }
 
             if (is_file($lang_file)) {
@@ -66,17 +75,22 @@ function __store_lang_file_ns()
                 }
             }
 
-
             if (is_array($existing) and !empty($existing)) {
-
 
                 $dn = dirname($lang_file);
                 if (!is_dir($dn)) {
                     @mkdir($dn);
                 }
-                @touch($lang_file);
-                @touch($lang_file2);
-                @touch($lang_file3);
+                if (!is_file($lang_file)) {
+                    @touch($lang_file);
+                }
+                if (!is_file($lang_file2)) {
+                    @touch($lang_file2);
+                }
+                if (!is_file($lang_file3)) {
+                    @touch($lang_file3);
+                }
+
                 if (!is_dir($dn)) {
                     $dn = dirname($lang_file2);
                     @mkdir_recursive($dn);
@@ -91,35 +105,24 @@ function __store_lang_file_ns()
                     $store_file = $lang_file;
                 } elseif (is_writable($lang_file2)) {
                     $store_file = $lang_file2;
-
                 } elseif (is_writable($lang_file3)) {
                     $store_file = $lang_file3;
-
                 }
 
                 if ($store_file != false) {
-
                     $lang_file_str = json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-
                     $lang_file = $store_file;
                 }
 
-
                 if (isset($lang_file_str) and $lang_file_str != false) {
-
                     if (function_exists('iconv')) {
                         $lang_file_str = special_unicode_to_utf8($lang_file_str);
                     }
-
-
                     if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
                         @file_put_contents($lang_file, $lang_file_str);
                     }
                 }
-
-
             }
-
         }
     }
     return;
@@ -236,7 +239,15 @@ function set_current_lang($lang = 'en')
  */
 function current_lang()
 {
-    return (App::getLocale());
+    $app_locale = App::getLocale();
+    if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
+        $lang = $_COOKIE['lang'];
+        if ($lang != $app_locale) {
+            set_current_lang($lang);
+            $app_locale = App::getLocale();
+        }
+    }
+    return ($app_locale);
 }
 
 function _lang($title, $namespace = false)
@@ -258,9 +269,6 @@ function lang($title, $namespace = false)
     $mw_language_content_file = get_language_file_content($namespace);
 
     if (isset($mw_language_content_file[$k1]) == false) {
-        if (isset($mw_language_content[$k1]) != false) {
-            return $mw_language_content[$k1];
-        }
         if (is_admin() == true) {
             $namespace = trim($namespace);
             $namespace = str_replace(' ', '', $namespace);
@@ -271,6 +279,7 @@ function lang($title, $namespace = false)
             }
             $k2 = ($k);
             $mw_new_language_entires_ns[$namespace][$k1] = $k2;
+
             if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                 define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
                 $scheduler = new \Microweber\Providers\Event();

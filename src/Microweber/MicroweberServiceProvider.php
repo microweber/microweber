@@ -153,12 +153,12 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\CacheStore;
         });
 
-        // If installed load module functions
+        // If installed load module functions and set locale
         if (mw_is_installed()) {
             $modules = load_all_functions_files_for_modules();
             $this->commands('Microweber\Commands\OptionCommand');
-            $language = get_option('language', 'website');
 
+            $language = get_option('language', 'website');
             if($language != false){
                 set_current_lang($language);
             }
