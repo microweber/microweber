@@ -262,7 +262,18 @@ function lang($title, $namespace = false)
     global $mw_language_content;
     global $mw_new_language_entires_ns;
     $k = $title;
-    $k1 = mw()->url_manager->slug($k);
+    //$k1 = strip_tags($k);
+    $k1 = 'key'.crc32($k);
+    //$k1 = str_replace(array(',',' ','_','.',"\n","\r","\t",'"',"'",'<','>',':',';','!','`'),'-',strtolower($k1));
+   // $k1 = str_replace('---','-',$k1);
+   // $k1 = str_replace('--','-',$k1);
+    //$k1 = preg_replace('/-+/', '-', $k1);
+
+    //$k1 = trim($k1,'-');
+
+
+
+ //   $k1 = mw()->url_manager->slug($k);
 
     $lang = current_lang();
 
