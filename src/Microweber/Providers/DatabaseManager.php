@@ -129,12 +129,23 @@ class DatabaseManager extends DbUtils
         }
 
 
-        $query = DB::table($table);
+        $use_connection = false;
 
+        if (isset($params['connection_name']) and !isset($_REQUEST['connection_name'])) {
+            $use_connection = $params['connection_name'];
+            unset($params['connection_name']);
+        }
+
+
+        if($use_connection == false){
+            $query = DB::table($table);
+        } else {
+            $query = DB::connection($use_connection)->table($table);
+           
+        }
 
         $orig_params = $params;
         $items_per_page = false;
-
 
         if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
