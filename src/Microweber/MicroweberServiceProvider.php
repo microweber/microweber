@@ -8,7 +8,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
 use \Cache;
-
+use \App;
 
 if (!defined('MW_VERSION')) {
     include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
@@ -147,7 +147,7 @@ class MicroweberServiceProvider extends ServiceProvider
         parent::boot();
 
         // public = /
-        \App::instance('path.public', base_path());
+        App::instance('path.public', base_path());
 
         Cache::extend('file', function ($app) {
             return new Providers\CacheStore;
@@ -157,6 +157,11 @@ class MicroweberServiceProvider extends ServiceProvider
         if (mw_is_installed()) {
             $modules = load_all_functions_files_for_modules();
             $this->commands('Microweber\Commands\OptionCommand');
+            $language = get_option('language', 'website');
+
+            if($language != false){
+                set_current_lang($language);
+            }
 
         } else {
             // Otherwise register the install command

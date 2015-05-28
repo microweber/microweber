@@ -215,6 +215,14 @@ function __store_lang_file()
 
 }
 
+function set_current_lang($lang = 'en')
+{
+    $lang = str_replace('.', '', $lang);
+    $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
+    $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+    App::setLocale($lang);
+}
+
 /**
  * Get the current language of the site
  *
@@ -225,45 +233,10 @@ function __store_lang_file()
  * </code>
  *
  * @package Language
- * @constant  MW_LANG defines the MW_LANG constant
  */
 function current_lang()
 {
-    $lang = false;
-    if (defined('MW_LANG') and MW_LANG != false) {
-        $lang = MW_LANG;
-        return MW_LANG;
-    }
-
-    static $installed = null;
-
-    if ($installed === null) {
-        $installed = mw_is_installed();
-    }
-    if ($installed == false) {
-        return 'en';
-    }
-    if (!isset($lang) or $lang == false) {
-        if (isset($_COOKIE['lang'])) {
-            $lang = $_COOKIE['lang'];
-        }
-    }
-    if (!isset($lang) or $lang == false) {
-        $def_language = get_option('language', 'website');
-        if ($def_language != false) {
-            $lang = $def_language;
-        }
-    }
-    if (!isset($lang) or $lang == false) {
-        $lang = 'en';
-    }
-    $lang = str_replace('.', '', $lang);
-    $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
-    $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-    if (!defined('MW_LANG') and isset($lang)) {
-        define('MW_LANG', $lang);
-    }
-    return $lang;
+    return (App::getLocale());
 }
 
 function _lang($title, $namespace = false)
