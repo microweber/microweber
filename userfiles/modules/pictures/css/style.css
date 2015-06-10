@@ -166,7 +166,7 @@ a.rotator-paging-item-thumbnail {
   margin: 2%;
   display: inline-block;
   background-repeat: no-repeat;
-  background-position: center bottom;
+  background-position: center center;
   background-size: contain;
 }
 

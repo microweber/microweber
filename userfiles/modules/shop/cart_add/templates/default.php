@@ -27,15 +27,14 @@ else{
 <br class="mw-add-to-cart-spacer" />
 <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
 <?php if(is_array($data)): ?>
-<span class="price">
+<div class="price">
 <?php $i=1 ;foreach($data  as $key => $v ): ?>
 <div class="mw-price-item"> <span class="mw-price pull-left">
   <?php if(is_string($key) and trim(strtolower($key)) == 'price'): ?>
   <?php _e($key); ?>
   <?php else: ?>
   <?php print $key; ?>
-  <?php endif; ?>
-  : <?php print currency_format($v); ?></span>
+  <?php endif; ?>: <?php print currency_format($v); ?></span>
   <?php if(!isset( $in_stock) or  $in_stock == false) : ?>
   <button class="btn btn-default pull-right" type="button" disabled="disabled" onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered",true)); ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
   <?php _e("Out of stock"); ?>
@@ -50,5 +49,5 @@ else{
 <br />
 <?php endif; ?>
 <?php $i++; endforeach ; ?>
-</span>
+</div>
 <?php endif; ?>

@@ -266,6 +266,7 @@ class Front
 
 
         $tn_size = array('150');
+        $tn = $tn_size;
 
         if (isset($post_params['data-thumbnail-size'])) {
             $temp = explode('x', strtolower($post_params['data-thumbnail-size']));
@@ -281,6 +282,14 @@ class Front
                     $tn_size = $temp;
                 }
             }
+        }
+
+
+        if (!isset($tn[0]) or ($tn[0]) == 150) {
+            $tn[0] = 350;
+        }
+        if (!isset($tn[1])) {
+            $tn[1] = $tn[0];
         }
 
         $character_limit = 120;
@@ -320,7 +329,6 @@ class Front
 
         }
 
-     
 
         if (isset($params['is_shop'])) {
             $post_params['content_type'] = 'product';
@@ -456,7 +464,7 @@ class Front
         if (!empty($content)) {
 
             foreach ($content as $item) {
-				
+
                 $iu = get_picture($item['id'], $for = 'post', $full = false);
 
                 if ($iu != false) {
@@ -464,6 +472,16 @@ class Front
                 } else {
                     $item['image'] = false;
                 }
+
+
+                if ($item['image'] != false) {
+                    $item['tn_image'] = thumbnail($item['image'], $tn[0], $tn[1]);
+
+                } else {
+                    $item['tn_image'] = false;
+                }
+
+
                 $item['content'] = htmlspecialchars_decode($item['content']);
 
 
@@ -480,7 +498,7 @@ class Front
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
                         $item['description'] = character_limiter(strip_tags($item['content']), $character_limit);
-						$item['full_description'] = strip_tags($item['content']);
+                        $item['full_description'] = strip_tags($item['content']);
                     } elseif (isset($item['content_body']) and $item['content_body'] != '') {
                         $item['full_description'] = strip_tags($item['content']);
                         $item['description'] = character_limiter(strip_tags($item['content_body']), $character_limit);
@@ -488,7 +506,7 @@ class Front
                 } else {
                     $item['full_description'] = $item['description'];
                     $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
-					
+
                 }
 
                 if (isset($item['title']) and $item['title'] != '') {
@@ -501,6 +519,14 @@ class Front
 
                 } else {
                     $item['prices'] = false;
+                }
+                if (isset($item['prices']) and is_array($item['prices']) and !empty($item['prices'])) {
+                    $vals2 = array_values($item['prices']);
+                    $val1 = array_shift($vals2);
+                    $item['price'] = $val1;
+                } else {
+                    $item['price'] = false;
+
                 }
                 $data[] = $item;
             }
@@ -545,7 +571,10 @@ class Front
         }
 
         $read_more_text = get_option('data-read-more-text', $params['id']);
-
+        $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
+        if ($add_cart_text == false or $add_cart_text == "Add to cart") {
+            $add_cart_text = _e("Add to cart", true);
+        }
 
         if (!isset($params['return'])) {
 
