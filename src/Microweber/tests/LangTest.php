@@ -17,7 +17,8 @@ class LangTest extends TestCase
         $this->assertEquals('en', $current_lang);
         $this->assertEquals('bg', $new_current_lang);
 
-        $lang_string_test = lang("Select country");
+        $lang_string_test = _e("Select country", true);
+
         $this->assertEquals('Избери държава', $lang_string_test);
     }
 

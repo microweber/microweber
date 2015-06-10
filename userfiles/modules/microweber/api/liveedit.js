@@ -716,7 +716,9 @@ mw.drag = {
 
             if(prev_has_float_left.lenght != 0){
                 var float_left =  prev_has_float_left.css("float");
-                if(float_left == 'left'){
+               if(float_left == 'none'){
+
+               } else if(float_left == 'left'){
                     var float_left_width = prev_has_float_left.width();
                     pleft = pleft + float_left_width;
                 }

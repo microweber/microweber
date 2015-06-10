@@ -2379,6 +2379,7 @@ div[id*='SSDIVEL'] {
   -o-transition: right 0.5s ease;
   -ms-transition: right 0.5s ease;
   transition: right 0.5s ease;
+
 }
 .mw-template-settings .mw_modal_container{
   margin-top: 30px;

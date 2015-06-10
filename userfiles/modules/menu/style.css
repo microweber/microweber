@@ -25,7 +25,7 @@
 .module-navigation-default a{
   display: block;
   text-decoration: none;
-  background-color: rgba(255, 255, 255, 0.5);
+  
 }
 
 .module-navigation-default a:hover, .module-navigation-default a:focus, .module-navigation-default li:hover > a{ background-color: #efecec; }

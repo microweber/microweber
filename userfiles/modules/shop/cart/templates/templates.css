@@ -113,3 +113,8 @@ ul.mw-custom-fields-cart-item li {
 }
 
 /* /sidebar */
+
+
+.mw-cart {
+	list-style:inside;
+}

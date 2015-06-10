@@ -78,6 +78,9 @@ mw.cart = {
     },
     checkout: function (selector, callback) {
         var form = mw.$(selector);
+
+
+
         var state = form.dataset("loading");
         if (state == 'true') return false;
         form.dataset("loading", 'true');
@@ -98,6 +101,8 @@ mw.cart = {
                 if (data != undefined) {
                     mw.$(selector + ' .mw-cart-data-btn').removeAttr('disabled');
                     mw.$('[data-type="shop/cart"]').removeAttr('hide-cart');
+
+
 
                     if (typeof(data2.error) != 'undefined') {
                         mw.$(selector + ' .mw-cart-data-holder').show();

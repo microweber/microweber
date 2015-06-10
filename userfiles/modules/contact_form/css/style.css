@@ -88,6 +88,9 @@
 
 /* DREAM Template */
 
+
+.
+
 .contact-form-template-dream{
   position: relative;
   overflow: hidden;
@@ -100,6 +103,17 @@
   border:1px solid #D1D1D1;
 
 }
+
+
+.contact-form-template-dream .contact-form-title {
+   
+  color:#D1D1D1;
+
+}
+
+
+
+
 .contact-form-template-dream .message-sent{
   padding: 40px;
   background: white;

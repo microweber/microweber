@@ -636,12 +636,21 @@ mw._response = {
   },
   msgHolder : function(form, type, method){
     var method = method || 'append';
-    var err_holder = form.find(".alert");
+    var err_holder = form.find(".alert:first");
     if(err_holder.length==0){
         var err_holder = mwd.createElement('div');
         form[method](err_holder);
     }
-    $(err_holder).empty().attr("class", 'alert alert-' + type + ' ');
+
+    var bootrap_error_type = 'default';
+    if(type == 'error'){
+    bootrap_error_type = 'danger';
+    } else if(type == 'done'){
+    bootrap_error_type = 'info';
+    }
+
+
+    $(err_holder).empty().attr("class", 'alert alert-' + type + ' alert-' + bootrap_error_type + ' ');
     return err_holder;
   },
   createHTML:function(data, holder){

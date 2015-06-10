@@ -49,43 +49,7 @@ if ($template != false and strtolower($template) != 'none') {
 
 <script type="text/javascript">
 
-    function checkout_callback(data, selector) {
-		
-		
-	 
-		
-        var z = typeof(data);
-        if (z != 'object') {
-            var dataObj;
-            try {
-                dataObj = $.parseJSON(data);
-                data = dataObj;
-            }
-            catch (e) {
-                mw.$('.mw-checkout-responce').append(data);
-            }
-        } else {
-            mw.$('.mw-checkout-responce').html(data);
-        }
-		
-		
-		
-		
-		
-		
-        mw.$('.mw-checkout-responce').removeClass('alert-error');
-        mw.$('.mw-checkout-responce').removeClass('alert-success');
-        if (data.success !== undefined) {
-            mw.$('.mw-checkout-responce').html(data.success);
-            mw.$('.mw-checkout-responce').addClass('alert alert-success');
-            mw.$('.mw-checkout-form').fadeOut();
-        } else if (data.error !== undefined) {
-            mw.$('.mw-checkout-responce').empty().append(data.error);
-            mw.$('.mw-checkout-responce').addClass('alert alert-error');
-        } else {
-            mw.$('.mw-checkout-responce').append(data);
-        }
-    }
+    
 
 
     $(document).ready(function () {
