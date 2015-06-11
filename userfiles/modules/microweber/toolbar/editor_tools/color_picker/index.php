@@ -29,6 +29,9 @@
         overflow: hidden;
     }
 
+    #hex_color_value {
+        font-weight: bold;
+    }
     #mwpicker {
         clear: both;
         position: relative;
@@ -43,6 +46,11 @@
 
     .transparent {
         background: url("<?php print mw_includes_url(); ?>toolbar/editor_tools/color_picker/ico.transparentbg.png") no-repeat 1px 1px;
+    }
+
+
+    .clear_color_img {
+        background: url("<?php print mw_includes_url(); ?>toolbar/editor_tools/color_picker/ico.clearbg.png") no-repeat 1px 1px;
     }
 
     <?php if(isset($_GET['onlypicker'])){ ?>
@@ -114,6 +122,18 @@
         });
 
         var f = mwd.createDocumentFragment();
+
+
+
+        var span = mwd.createElement('span');
+        $(span).addClass("clear_color_img");
+        span.title = "Clear Color";
+        span.setAttribute('onclick', '_do("' + 'none' + '");');
+        f.appendChild(span)
+
+        color_holder.appendChild(f);
+
+
         for (var x in document_colors) {
             var color = mw.color.rgbToHex(document_colors[x]);
             if (color != 'transparent') {
@@ -131,6 +151,10 @@
         f.appendChild(span)
 
         color_holder.appendChild(f);
+
+
+
+
 
 
         $(document.body).mouseenter(function () {
