@@ -611,14 +611,24 @@ mw.wysiwyg = {
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontColor:function(color){
-      if(!color.contains("#")){
+      if(!color.contains("#") && color != 'none' && color != 'transparent'){
         var color = "#" + color;
       }
-      mw.wysiwyg.execCommand('forecolor', null, color);
+      if(color == 'none'){
+          mw.wysiwyg.execCommand('removeFormat',false, "foreColor");
+      } else {
+          mw.wysiwyg.execCommand('forecolor', null, color);
+      }
     },
     fontbg:function(color){
-        var color = color != 'transparent' ? '#' + color : color;
-        mw.wysiwyg.execCommand('backcolor', null, color);
+        if(!color.contains("#") && color != 'none' && color != 'transparent'){
+             color = "#" + color;
+        }
+        if(color == 'none'){
+            mw.wysiwyg.execCommand('removeFormat',false, "backcolor");
+        } else {
+            mw.wysiwyg.execCommand('backcolor', null, color);
+        }
     },
     request_change_bg_color:function(el){
        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + '#change_bg_color');

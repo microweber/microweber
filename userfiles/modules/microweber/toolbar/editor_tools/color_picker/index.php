@@ -184,6 +184,11 @@
     });
 
     _do = function (val) {
+        val = val.contains('rgb') ? mw.color.rgbToHex(val) : val;
+        val = val.replace("#", "");
+
+
+
         if( !!this.frameElement){
 
           parent.$(this.frameElement).trigger('colorChange', [val]);
@@ -207,8 +212,7 @@
         var color = prompt("Please enter your color value", input.value);
         if (color != null) {
             parent.mw.wysiwyg.restore_selection();
-            var color = color.contains('rgb') ? mw.color.rgbToHex(color) : color;
-            var color = color.replace("#", "");
+
              _do(color);
         } else {
             parent.mw.wysiwyg.restore_selection();
