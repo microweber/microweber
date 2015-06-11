@@ -39,6 +39,7 @@
                           <li value="24"><a href="javascript:;">24</a></li>
                           <li value="36"><a href="javascript:;">36</a></li>
                           <li value="72"><a href="javascript:;">72</a></li>
+                          <li onclick="mw.wysiwyg.fontSizePrompt()"><a href="javascript:;">...</a></li>
                     </ul>
                       </div>
             </div>

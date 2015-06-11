@@ -297,7 +297,7 @@ mw.wysiwyg = {
             else{
               var html = clipboard.getData('text');
             }
-						
+
             if(!!html) {
 				if(typeof mw.form != 'undefined'){
 					var is_link = mw.form.validate.url(html);
@@ -307,7 +307,7 @@ mw.wysiwyg = {
 						 e.preventDefault();
 					}
 				}
-				 				
+
              // var html = "<p class='element'>" + html.replace(/(\r\n|\n|\r)/gm, "</p><p class='element'>") + "</p>";
 //              mw.wysiwyg.insert_html(html);
 //              e.preventDefault();
@@ -708,6 +708,16 @@ mw.wysiwyg = {
           }
 
        });
+    },
+    fontSizePrompt:function(){
+        var size = prompt("Please enter font size", "");
+
+        if (size != null) {
+            var a = parseInt(size);
+            if(a > 0){
+            this.fontSize(a);
+            }
+        }
     },
     resetActiveButtons:function(){
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
@@ -1380,7 +1390,7 @@ $(window).load(function(){
      if(!nodes[i].pasteBinded && !mw.tools.hasParentsWithClass(nodes[i], 'edit')){
        nodes[i].pasteBinded = true;
        nodes[i].addEventListener("paste", function(e){
-		 
+
           mw.wysiwyg.paste(e);
        });
      }
