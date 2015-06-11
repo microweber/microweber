@@ -611,8 +611,8 @@ mw.wysiwyg = {
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontColor:function(color){
-      if(!color.contains("#") && color != 'none' && color != 'transparent'){
-        var color = "#" + color;
+      if(/^[0-9A-F]{3,6}$/i.test(color) && !color.contains("#")) {
+            color = "#" + color;
       }
       if(color == 'none'){
           mw.wysiwyg.execCommand('removeFormat',false, "foreColor");
@@ -621,8 +621,8 @@ mw.wysiwyg = {
       }
     },
     fontbg:function(color){
-        if(!color.contains("#") && color != 'none' && color != 'transparent'){
-             color = "#" + color;
+        if(/^[0-9A-F]{3,6}$/i.test(color) && !color.contains("#")) {
+           color = "#" + color;
         }
         if(color == 'none'){
             mw.wysiwyg.execCommand('removeFormat',false, "backcolor");
