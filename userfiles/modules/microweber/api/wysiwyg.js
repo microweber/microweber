@@ -821,33 +821,11 @@ mw.wysiwyg = {
             link = prepolulate;
         }
 
-        //var link = mw.wysiwyg.findTagAcrossSelection('a', mw.wysiwyg.selection.sel);
-        //
-        //
-        //if(link == false){
-        //
-        //    var make_sel = mwd.querySelector(".element-current a");
-        //
-        //    if(make_sel != null){
-        //        mw.wysiwyg.select_element(make_sel);
-        //        var link = mw.wysiwyg.findTagAcrossSelection('a', mw.wysiwyg.selection.sel);
-        //    }
-        //
-        //
-        //
-        //}
-
 
         if(!! link){
             modal.main.find("iframe").load(function(){
-
                 $(this).contents().find("#customweburl").val(link);
 
-
-                  //$(this).contents().find("#customweburl").val(link.href);
-                  //if(link.target == '_blank'){
-                  //   $(this).contents().find("#url_target")[0].checked = true;
-                  //}
             })
         }
     },
