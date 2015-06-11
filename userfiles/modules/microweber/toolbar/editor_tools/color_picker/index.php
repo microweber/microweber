@@ -4,6 +4,7 @@
         max-height: 90px;
         overflow-x: hidden;
         overflow-y: auto;
+        margin-bottom: 5px;
     }
 
     #my-colors span {
@@ -74,6 +75,8 @@
 
     _command = window.location.hash.replace("#", "");
 
+    _prompt_is_open = false;
+
     _hide_selection = ['fontColor', 'fontbg'];
 
     setColor = function (color) {
@@ -137,7 +140,7 @@
 
         });
         $(document.body).mouseleave(function () {
-          if(!!parent.mw.wysiwyg){
+          if(_prompt_is_open == false && !!parent.mw.wysiwyg){
             parent.mw.wysiwyg.deselect_selected_element();
           }
         });
@@ -173,6 +176,22 @@
     }
 
 
+    _color_prompt = function(){
+        _prompt_is_open = true;
+        parent.mw.wysiwyg.save_selection()
+        var input = mwd.getElementById('colorpicker');
+        var color = prompt("Please enter your color value", input.value);
+        if (color != null) {
+            parent.mw.wysiwyg.restore_selection();
+            var color = color.contains('rgb') ? mw.color.rgbToHex(color) : color;
+            var color = color.replace("#", "");
+             _do(color);
+        } else {
+            parent.mw.wysiwyg.restore_selection();
+        }
+        _prompt_is_open = false;
+    }
+
 </script>
 
 <div id="main_holder">
@@ -183,7 +202,7 @@
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);"/>
 
-    <label class="mw-ui-label"><?php _e("Custom color"); ?></label>
+    <label class="mw-ui-label"><?php _e("Custom color"); ?> <a href="javascript:_color_prompt()">#</a></a></label>
 
     <div id="mwpicker"></div>
 
