@@ -277,6 +277,7 @@
   border-bottom: 1px solid #DCDCDC;
 }
 
+
 .mw-dropdown-type-wysiwyg {
     height:25px;
     width: 75px;
@@ -287,6 +288,7 @@
     white-space: nowrap;
     border-radius: 3px;
     cursor: pointer;
+
 }
 
 .mw-dropdown-type-wysiwyg.active{
@@ -476,6 +478,7 @@
 .mw_dropdown_action_format p{
   margin: 0 !important;
   padding: 5px 0 !important;
+  color: #595959 !important;
 }
 
 
