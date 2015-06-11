@@ -23,21 +23,29 @@ class ConfigSave extends Repository
     private function init()
     {
         $this->items = array();
-        $overrides = [];
-        foreach (Finder::create()->files()->name('*.php')->in($this->app->configPath()) as $file) {
-            $path = $file->getRelativePath();
-            $key = basename($file->getRealPath(), '.php');
-            if ($path && $path != $this->app->environment()) {
-                continue;
-            } else if ($path) {
-                $overrides[$key] = $file->getRealPath();
-                continue;
+
+        $default_dir = $this->app->configPath();
+        $env_dir = $default_dir . DIRECTORY_SEPARATOR . $this->app->environment();
+
+        $dirs = array();
+        $dirs[] = $default_dir;
+        if (is_dir($env_dir)) {
+            $dirs[] = $env_dir;
+        }
+        foreach ($dirs as $dir) {
+            $files = scandir($dir);
+            foreach ($files as $file) {
+                if ($file != '.' and $file != '..') {
+                    $file_info = (explode('.', $file));
+                    $extension = end($file_info);
+                    $key = reset($file_info);
+                    if ($key != '' and $extension == 'php') {
+                        $this->set($key, require $dir . DIRECTORY_SEPARATOR . $file);
+                    }
+                }
             }
-            $this->set($key, require $file->getRealPath());
         }
-        foreach ($overrides as $key => $path) {
-            $this->set($key, require $path);
-        }
+        return true;
     }
 
     public function set($key, $val = null)
@@ -49,7 +57,7 @@ class ConfigSave extends Repository
     public function get($key, $val = null)
     {
         if (isset($this->changed_keys[$key])) {
-          //  return $this->changed_keys[$key];
+            //  return $this->changed_keys[$key];
         }
         return parent::get($key, $val);
     }
@@ -74,18 +82,18 @@ class ConfigSave extends Repository
 
 
             $to_save = true;
-			
-            if(is_string($allowed)){
-				if($file != $allowed){
-					$to_save = false;
-				}
-			} elseif (!empty($allowed)) {
+
+            if (is_string($allowed)) {
+                if ($file != $allowed) {
+                    $to_save = false;
+                }
+            } elseif (!empty($allowed)) {
                 if (!in_array($file, $allowed)) {
                     $to_save = false;
                 }
             }
-			
-			
+
+
             if ($to_save) {
                 if (!file_exists($path)) {
                     File::makeDirectory($path);
