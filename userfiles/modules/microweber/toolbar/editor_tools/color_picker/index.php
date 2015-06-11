@@ -170,7 +170,7 @@
         else if (typeof parent[_command] === 'function') {
             parent[_command](val);
         }
-
+        $('#hex_color_value').html('#'+val);
         RegisterChange(val);
 
     }
@@ -202,7 +202,7 @@
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);"/>
 
-    <label class="mw-ui-label"><?php _e("Custom color"); ?> <a href="javascript:_color_prompt()">#</a></a></label>
+    <label class="mw-ui-label"><?php _e("Custom color"); ?> <a href="javascript:_color_prompt()" id="hex_color_value">#</a></label>
 
     <div id="mwpicker"></div>
 
