@@ -23,7 +23,7 @@ namespace Microweber\Utils\lib;
  * @author Derek Jones <derek.jones@ellislab.com>
  * @author Graham Campbell <graham@cachethq.io>
  */
-class Security
+class XSSSecurity
 {
     /**
      * A random hash for protecting urls.
