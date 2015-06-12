@@ -62,6 +62,8 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 		$response = $this->getHttpClient()->get($this->apiUrl('/me?access_token='.$token), [
 			'headers' => ['Accept' => 'application/json'],
 		]);
+
+
 		return json_decode($response->getBody(), true);
 	}
 

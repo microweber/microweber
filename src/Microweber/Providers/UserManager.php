@@ -784,6 +784,7 @@ class UserManager
         }
         $id_to_return = false;
 
+        $data_to_save = $this->app->format->clean_xss($data_to_save);
         if ($user->validateAndFill($data_to_save)) {
             $save = $user->save();
 

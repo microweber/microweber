@@ -168,6 +168,9 @@ class MicroweberServiceProvider extends ServiceProvider
             $this->commands('Microweber\Commands\InstallCommand');
         }
 
+
+
+
         // Register routes
         $this->registerRoutes();
     }
