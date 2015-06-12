@@ -191,6 +191,46 @@ class Format
 
     public function clean_xss($var, $do_not_strip_tags = false)
     {
+        static $sec;
+
+        if ($sec == false) {
+            $sec = new \Microweber\Utils\lib\Security();
+        }
+
+        if (is_array($var)) {
+            foreach ($var as $key => $val) {
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
+            }
+        } else {
+
+            $var = $sec->clean($var);
+            $var = str_ireplace("<script>", '', $var);
+            $var = str_ireplace("</script>", '', $var);
+
+            $var = str_replace('<?', '&lt;?', $var);
+            $var = str_replace('?>', '?&gt;', $var);
+            $var = str_ireplace("<module", '&lt;module', $var);
+            $var = str_ireplace("<Microweber", '&lt;Microweber', $var);
+
+            $var = str_ireplace("javascript:", '', $var);
+            $var = str_ireplace("vbscript:", '', $var);
+            $var = str_ireplace("livescript:", '', $var);
+            $var = str_ireplace("HTTP-EQUIV=", '', $var);
+            $var = str_ireplace("\0075\0072\\", '', $var);
+
+            if ($do_not_strip_tags == false) {
+                $var = strip_tags(trim($var));
+            }
+
+            $output = $var;
+            return $output;
+        }
+        return $output;
+
+    }
+
+    public function clean_xss2($var, $do_not_strip_tags = false)
+    {
         if (is_array($var)) {
             foreach ($var as $key => $val) {
                 $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
