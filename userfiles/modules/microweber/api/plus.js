@@ -66,6 +66,7 @@ mw.drag.plus = {
 
     mw.drag.plusTop.style.top = off.top + 'px';
     mw.drag.plusTop.style.left = left + 'px';
+    // mw.drag.plusTop.style.display = 'block';
     mw.drag.plusTop.currentNode = node;
     mw.drag.plusBottom.style.top = (off.top + node.offsetHeight) + 'px';
     mw.drag.plusBottom.style.left = left + 'px';

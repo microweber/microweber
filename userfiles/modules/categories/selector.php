@@ -1,6 +1,29 @@
 <script type="text/javascript">
 <?php include_once( mw_includes_path() . 'api/treerenderer.php'); ?>
 </script>
+<?php if(isset($params['show_edit_categories_admin_link'])): ?>
+<style>
+.category-tree-icon-category-editable-hover-crtl {
+	display: none;
+}
+</style>
+<script>
+ 
+
+
+$( document ).ready(function() {
+      mw.$("#<?php print $params['id'] ?> .category_element label").hover(function () {
+		  
+				$('.category-tree-icon-category-editable-hover-crtl:first',this).show();		  
+		  }, function () {
+              $('.category-tree-icon-category-editable-hover-crtl:first',this).hide();		  
+
+     });
+
+})
+ 
+</script>
+<?php endif; ?>
 <?php 
 
 
@@ -164,6 +187,11 @@ $tree['active_code'] = 'checked="checked" ';
 
 $tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
 $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
+if(isset($params['show_edit_categories_admin_link'])){
+// $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title} "."<span title='Edit' onclick=\"event.stopPropagation();mw.url.windowHashParam('action', 'editcategory:{id}');return false;\" class='mw-icon-pen category-tree-icon-category-editable-hover-crtl'  ></span>"."</span></label>";
+}
+
+
  
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
  } else {
@@ -229,7 +257,6 @@ pages_tree($tree);
 
 
 ?>
+<?php $cats_str = implode(',', $active_cats); ?>
 
-<?php $cats_str = implode(',', $active_cats); ?> 
- 
 <input type="hidden" name="<?php print $params['field-name']; ?>" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />

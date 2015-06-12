@@ -159,6 +159,11 @@ $(document).ready(function(){
 				mw.tools.removeClass(module, 'loading');
 			    mw.category_is_saving = false;
                 mw.$('.mw-cat-save-submit').removeClass('disabled');
+				
+			 
+				
+				
+				
 	    });
 
     return false;
@@ -240,7 +245,7 @@ $(document).ready(function(){
       </label>
       <?php  $is_shop = '';    ?>
       <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
-        <module  type="categories/selector" categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"   />
+        <module  type="categories/selector" categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"  show_edit_categories_admin_link="true"  />
       </div>
     </div>
     <script type="text/javascript">
@@ -285,6 +290,8 @@ $(document).ready(function(){
           </label>
           <textarea  class="mw-ui-field w100" name="description"><?php print ($data['description'])?></textarea>
         </div>
+        
+        
         <div class="mw-ui-field-holder">
           <?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 0; } 	?>
           <div class="mw-ui-check-selector">

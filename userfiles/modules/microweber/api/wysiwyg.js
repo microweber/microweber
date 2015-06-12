@@ -224,6 +224,15 @@ mw.wysiwyg = {
         }
       });
     },
+
+
+    hide_drag_handles:function(){
+         mw.$(".mw-wyswyg-plus-element,.mw_handle_row").hide();
+    },
+    show_drag_handles:function(){
+        mw.$(".mw-wyswyg-plus-element,.mw_handle_row").show();
+    },
+
     _external:function(){
       var external = mwd.createElement('div');
       external.className='wysiwyg_external';

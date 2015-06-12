@@ -1559,7 +1559,7 @@ class ContentManager
 
                     $current_categorys = $this->app->category_manager->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
-                        //d($current_categorys);
+
                         $current_category = end($current_categorys);
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {

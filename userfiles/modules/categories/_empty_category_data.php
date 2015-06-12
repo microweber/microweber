@@ -11,5 +11,5 @@ $data['description'] = '';
 $data['rel_type'] = 'content';	
 $data['rel_id'] = '';	
 $data['position'] = '';	
- $data['content'] = '';		
- 
+$data['content'] = '';		
+$data['url'] = '';		

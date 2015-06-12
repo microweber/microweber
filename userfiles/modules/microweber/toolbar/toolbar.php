@@ -468,6 +468,12 @@ return include(__DIR__.DS.'toolbar2.php');
 
 
             mw.$(".create-content-dropdown").hover(function () {
+				
+				if(typeof mw.wysiwyg.hide_drag_handles == 'function'){
+				mw.wysiwyg.hide_drag_handles();	
+				}
+				
+				
                 var el = $(this);
                 var list = mw.$(".create-content-dropdown-list", el[0]);
 
@@ -485,6 +491,9 @@ return include(__DIR__.DS.'toolbar2.php');
                 setTimeout(function () {
                     if (!el.hasClass("over")) {
                         mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
+						if(typeof mw.wysiwyg.show_drag_handles == 'function'){
+							mw.wysiwyg.show_drag_handles();	
+						}
                     }
                 }, 322);
             });
@@ -540,8 +549,8 @@ $(window).load(function(){
 });
 
 </script>
-<span class="mw-plus-top">+</span>
-<span class="mw-plus-bottom">+</span>
+<span class="mw-plus-top mw-wyswyg-plus-element">+</span>
+<span class="mw-plus-bottom mw-wyswyg-plus-element">+</span>
 
 <div style="display: none" id="plus-modules-list">
 <input type="text" class="mw-ui-searchfield" />

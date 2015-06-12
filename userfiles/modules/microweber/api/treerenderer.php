@@ -259,6 +259,9 @@ mw.treeRenderer = {
        });
   },
   appendUI:function(tree){
+
+
+
       var holder = tree || "#pages_tree_container_<?php print $my_tree_id; ?>";
       if(mwd.querySelector(holder)!==null && !$(mwd.querySelector(holder)).hasClass('activated') && mwd.querySelector(holder).querySelector(".mw_del_tree_content") === null ){
         $(mwd.querySelector(holder)).addClass('activated');

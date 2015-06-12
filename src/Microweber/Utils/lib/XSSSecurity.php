@@ -6,9 +6,9 @@
  * (c) Graham Campbell <graham@cachethq.io>
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file that was distributed with this source code or at https://github.com/GrahamCampbell/Laravel-Security/blob/master/LICENSE.
  *
- * Downloaded from here https://raw.githubusercontent.com/GrahamCampbell/Laravel-Security/master/src/Security.php
+ * Downloaded this class from here https://raw.githubusercontent.com/GrahamCampbell/Laravel-Security/master/src/Security.php
  */
 
 //namespace GrahamCampbell\Security;

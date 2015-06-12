@@ -1893,6 +1893,7 @@ class DefaultController extends Controller
             $l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
             $meta = array();
             $meta['content_image'] = '';
+            $meta['description'] = '';
             $meta['content_url'] = $this->app->url_manager->current(1);
             $meta['og_description'] = $this->app->option_manager->get('website_description', 'website');
             $meta['og_type'] = 'website';
@@ -1917,7 +1918,8 @@ class DefaultController extends Controller
                 if ($meta['description'] != false and trim($meta['description']) != '') {
                     $meta['description'] = $meta['description'];
                 } else if ($meta['content'] != false and trim($meta['content']) != '') {
-                    $meta['description'] = $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500);
+                    $meta['description'] = str_replace("\n", ' ',$this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                    
                 }
                 if (isset($meta['description']) and $meta['description'] != '') {
                     $meta['og_description'] = $meta['description'];
@@ -1931,6 +1933,7 @@ class DefaultController extends Controller
             }
 
             $meta['og_site_name'] = $this->app->option_manager->get('website_title', 'website');
+
             if (!empty($meta)) {
                 if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
                     $meta['title'] = $meta['content_meta_title'];

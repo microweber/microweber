@@ -1320,7 +1320,7 @@ body.loaded #live_edit_toolbar{
   border:1px solid #EAEAEA;
   border-top:none;
   font-size: 14px;
-  
+  color: #595959;
 }
 
 .toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active{
