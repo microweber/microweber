@@ -1033,7 +1033,7 @@ mw.tools = {
                     }
                 }
             }
-
+            mw.$(el).unbind("click");
             mw.$(el).bind("click", function (event) {
                 if ($(this).hasClass("disabled")) {
                     return false;
@@ -1081,6 +1081,7 @@ mw.tools = {
                 $(this).removeClass("hover");
                 $(this).removeClass('other-action');
             });
+
             mw.$("[value]", el).bind('mousedown', function (event) {
                 $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
@@ -2760,11 +2761,31 @@ mw.tools = {
 
 
         if (typeof a === 'string') {
-            var src = mw.settings.site_url + "api/module?id=" + a + "&live_edit=" + liveedit + "&module_settings=true&type=" + a;
+
+            var module_type = a;
+            var module_id = a;
+            var mod_sel = mw.$(a+':first');
+            if (mod_sel.length > 0) {
+                var attr = $(mod_sel).attr('id');
+                if (typeof attr !== typeof undefined && attr !== false) {
+                    var attr = !attr.contains("#") ? attr : attr.replace("#", '');
+                    module_id = attr;
+                }
+
+                var attr2 = $(mod_sel).attr('type');
+                var attr = $(mod_sel).attr('data-type');
+                if (typeof attr !== typeof undefined && attr !== false) {
+                    module_type = attr;
+                } else if (typeof attr2 !== typeof undefined && attr2 !== false) {
+                    module_type = attr2;
+                }
+            }
+
+            var src = mw.settings.site_url + "api/module?id=" + module_id + "&live_edit=" + liveedit + "&module_settings=true&type=" + module_type;
             return mw.tools.modal.frame({
                 url: src,
                 width: 532,
-                height: 150,
+                height: 250,
                 name: 'module-settings-' + a.replace(/\//g, '_'),
                 title: '',
                 callback: function () {

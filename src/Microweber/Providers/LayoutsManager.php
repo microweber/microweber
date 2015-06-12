@@ -137,6 +137,7 @@ class LayoutsManager
         if (isset($options['get_dynamic_layouts'])) {
 
             $possible_dir = TEMPLATE_DIR . 'modules' . DS . 'layout' . DS;
+
             if (is_dir($possible_dir)) {
 
                 $template_dirs[] = $possible_dir;
@@ -271,6 +272,7 @@ class LayoutsManager
                                 $result = str_ireplace('image:', '', $result);
                                 $to_return_temp['image'] = trim($result);
                                 $possible = $here_dir . $to_return_temp['image'];
+
                                 if (is_file($possible)) {
                                     $to_return_temp['image'] = $this->app->url_manager->link_to_file($possible);
                                 } else {

@@ -94,7 +94,13 @@ if (isset($_GET['type'])) {
 
     if (typeof thismodal != 'undefined' && thismodal != false) {
 
-        $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name+'');
+        var modal_title_str = '';
+        if(typeof(mw_module_settings_info.name) == "undefined"){
+            modal_title_str = "<?php _e("Settings"); ?>"
+        } else {
+            modal_title_str = mw_module_settings_info.name;
+        }
+        $(thismodal.main).find(".mw_modal_title").html(modal_title_str+'');
         thismodal.main.scrollTop(0);
         __autoresize = function (force) {
             var force = force || false;

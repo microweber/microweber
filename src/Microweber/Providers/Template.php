@@ -77,6 +77,16 @@ class Template
         return $val;
     }
 
+    public function print_custom_css()
+    {
+        event_trigger('mw.template.print_custom_css');
+
+
+
+        print 'template';
+    }
+
+
     public function name()
     {
 
@@ -127,6 +137,7 @@ class Template
             return $src;
         }
     }
+
 
     public function head($script_src)
     {
@@ -539,8 +550,6 @@ class Template
         }
 
 
-
-
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and (!isset($page['layout_file']) or (isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) or $page['layout_file'] == false)) {
 
 
@@ -747,7 +756,6 @@ class Template
         }
 
 
-
         if ($render_file == false and isset($page['content_type']) and ($page['content_type'] == 'page') and isset($page['layout_file']) and trim($page['layout_file']) == 'inherit') {
             $use_index = TEMPLATE_DIR . DS . 'clean.php';
             $use_index2 = TEMPLATE_DIR . DS . 'layouts/clean.php';
@@ -788,9 +796,6 @@ class Template
                 $render_file = $render_file_test;
             }
         }
-
-
-
 
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
@@ -913,7 +918,7 @@ class Template
                     }
                 }
             }
-         //
+            //
             if ($render_file == false and isset($page['parent']) and $page['parent'] == 0) {
                 if ($render_file == false and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 
@@ -936,7 +941,6 @@ class Template
             }
 
 
-
             if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false and ($page['layout_file']) != 'index.php' and ($page['layout_file']) != 'inherit') {
                 if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
                     $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
@@ -947,8 +951,8 @@ class Template
                     if (is_file($template_view) == true) {
                         $render_file = $template_view;
                     } else {
-                        if(!isset($page['is_home']) or $page['is_home'] != 1){
-                            $template_view = ACTIVE_TEMPLATE_DIR . DS .'clean.php';
+                        if (!isset($page['is_home']) or $page['is_home'] != 1) {
+                            $template_view = ACTIVE_TEMPLATE_DIR . DS . 'clean.php';
                             if (is_file($template_view) == true) {
                                 $render_file = $template_view;
                             }
@@ -981,7 +985,6 @@ class Template
             }
 
         }
-
 
 
         if ($render_file == false and isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {
@@ -1042,9 +1045,6 @@ class Template
                 $render_file = $template_view;
             }
         }
-
-
-
 
 
         //   $this->app->cache_manager->save($render_file, $cache_id, $cache_group);

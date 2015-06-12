@@ -24,7 +24,6 @@ api_expose('save_content_admin');
 api_expose_admin('get_content_field_draft');
 
 
-
 api_expose('notifications_manager/delete');
 api_expose('notifications_manager/reset');
 api_expose('notifications_manager/read');
@@ -32,6 +31,12 @@ api_expose('notifications_manager/read');
 api_expose('notifications_manager/mark_all_as_read');
 
 
+api_expose('template/print_custom_css', function ($data) {
+    if (!headers_sent()) {
+        header("Content-type: text/css; charset: UTF-8");
+    }
+    return mw()->template->print_custom_css($data);
+});
 
 
 api_bind_admin('content/set_published', function ($data) {

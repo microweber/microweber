@@ -75,7 +75,13 @@
                         </ul>
                       </div>
                     </div>*/ ?>
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">Arial</span> </span>
+       
+       
+           
+            <?php
+	   
+	   /* 
+        <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">Arial</span> </span>
             <div class="mw-dropdown-content">
               <ul>
                 <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
@@ -86,6 +92,12 @@
               </ul>
             </div>
           </div>
+      */
+	   
+	    ?>
+          <module type="editor/fonts" id="font_family_selector_main" />
+          
+          
           <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw-dropdown-value">
             <?php /*<input type="text" class="mw-dropdown-field"  />         */ ?>
             <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val" >Size</span> </span>

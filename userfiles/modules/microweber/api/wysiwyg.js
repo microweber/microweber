@@ -731,8 +731,15 @@ mw.wysiwyg = {
     resetActiveButtons:function(){
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
     },
+
+
+
+
     setActiveButtons:function(node){
         var css = mw.CSSParser(node);
+
+
+
         if(typeof css.get !== 'undefined'){
               var is = css.get.isit();
               is.bold?mw.$('.mw_editor_bold').addClass('mw_editor_btn_active'):'';
@@ -740,8 +747,17 @@ mw.wysiwyg = {
               is.underlined?mw.$('.mw_editor_underline').addClass('mw_editor_btn_active'):'';
               var font = css.get.font();
               var family_array = font.family.split(',');
-              var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
+              if(family_array.length == 1){
+                  var fam = font.family;
+
+              } else {
+                  //var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
+                  var fam = family_array.shift();
+              }
               var ddval = mw.$(".mw_dropdown_action_font_family");
+
+
+
               if(ddval.length!=0 && ddval.setDropdownValue != undefined){
                     mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
               }
@@ -1090,16 +1106,59 @@ mw.wysiwyg = {
     },
 
     fontFamilies:['Arial', 'Tahoma', 'Verdana', 'Georgia', 'Times New Roman'],
+
+    initFontSelectorBox:function(){
+        mw.wysiwyg.initFontFamilies();
+        $(".mw_dropdown_action_font_family").unbind('change');
+        $(".mw_dropdown_action_font_family").on('change', function(){
+            var val = $(this).getDropdownValue();
+            mw.wysiwyg.fontFamily(val);
+        });
+
+
+        $( ".mw_dropdown_action_font_family" ).each(function() {
+            mw.$("[value]", $(this)).bind('mousedown', function (event) {
+                $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
+                return false;
+            });
+        });
+    },
+
     initFontFamilies:function(){
         var body_font = window.getComputedStyle(mwd.body, null).fontFamily.split(',')[0].replace(/'/g, "").replace(/"/g, '');
         if(mw.wysiwyg.fontFamilies.indexOf(body_font) === -1){
              mw.wysiwyg.fontFamilies.push(body_font);
-             var l = mw.wysiwyg.fontFamilies.length, i = 0, html = '';
-             for(; i<l; i++){
-                html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="#">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
-             }
-             mw.$("#font_family_selector_main ul").append(html);
         }
+
+        var scan_for_fonts = ['h1', 'h2', 'h3', 'h4', 'h5','p'];
+
+        $.each(scan_for_fonts, function( index, value ) {
+            var sel = mw.$(value+':first');
+            if (sel.length > 0) {
+                var body_font = window.getComputedStyle(sel[0], null).fontFamily.split(',')
+                $.each(body_font, function( font_index, fvalue ) {
+                    var font_value = fvalue;
+                    font_value = font_value.replace(/'/gi, "").replace(/"/gi, '');
+                  
+                    if(mw.wysiwyg.fontFamilies.indexOf(font_value) === -1){
+                        mw.wysiwyg.fontFamilies.push(font_value);
+                    }
+                });
+
+            }
+
+        })
+
+
+
+
+
+
+        var l = mw.wysiwyg.fontFamilies.length, i = 0, html = '';
+        for(; i<l; i++){
+            html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="#">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
+        }
+        mw.$(".mw_dropdown_action_font_family ul").empty().append(html);
     },
 	iframe_editor:function(textarea, iframe_url, content_to_set){
         var content_to_set = content_to_set || false;
@@ -1265,10 +1324,13 @@ mw.disable_selection = function(element){
 
 
 $(mwd).ready(function(){
-  mw.$(".mw_dropdown_action_font_family").bind('change', function(){
-      var val = $(this).getDropdownValue();
-      mw.wysiwyg.fontFamily(val);
-  });
+    mw.wysiwyg.initFontSelectorBox();
+
+    //$(".mw_dropdown_action_font_family").bind('change', function(){
+    //    var val = $(this).getDropdownValue();
+    //    mw.wysiwyg.fontFamily(val);
+    //});
+
   mw.$(".mw_dropdown_action_font_size").change(function(){
       var val = $(this).getDropdownValue();
       mw.wysiwyg.fontSize(val);

@@ -1246,6 +1246,14 @@ body.loaded #live_edit_toolbar{
 .modules_bar_slide_left{
   left: 0;
 }
+#font_family_selector_main, #font_family_selector_small {
+    display: inline-block;
+}
+
+
+
+
+
 #module_category_selector,
 #module_design_selector,
 #elements_category_selector{
