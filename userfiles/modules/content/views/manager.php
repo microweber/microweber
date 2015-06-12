@@ -2,7 +2,6 @@
 $paging_links = false;
 $pages_count = intval($pages);
 
- 
 
 ?>
 <script  type="text/javascript">
@@ -341,7 +340,7 @@ if (isset($params['data-page-number'])) {
 
 <?php else: ?>
     <div class="mw-no-posts-foot">
-        <?php if (isset($params['content_type']) and $params['content_type'] == 'product') : ?>
+        <?php if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product')) : ?>
 
             <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
 
@@ -387,3 +386,4 @@ if (isset($params['data-page-number'])) {
         <?php endif; ?>
     </div>
 <?php endif; ?>
+  
