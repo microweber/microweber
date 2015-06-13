@@ -104,6 +104,10 @@ $(document).ready(function () {
         mw.tools.toggle_template_settings();
     });
 
+
+    mw.$("#mw-toolbar-css-editor-btn").click(function () {
+        mw.tools.open_custom_css_editor();
+    });
     mw.drag.create();
     $(mwd.body).keyup(function (e) {
         mw.$(".mw_master_handle").css({

@@ -2855,6 +2855,25 @@ mw.tools = {
         });
         return modal;
     },
+
+
+
+    open_custom_css_editor:function(){
+        var src = mw.settings.site_url + 'api/module?id=mw_global_css_editor&live_edit=true&module_settings=true&type=editor/css_editor&autosize=true';
+        var modal = mw.tools.modal.frame({
+            url: src,
+           // width: 500,
+            //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+            name: 'mw-css-editor-front',
+            title:'CSS Editor',
+            template: 'default',
+            center: false,
+            resize: true,
+            draggable: true
+        });
+    },
+
+
     fav: function (a) {
         var canvas = document.createElement("canvas");
         canvas.width = 16;

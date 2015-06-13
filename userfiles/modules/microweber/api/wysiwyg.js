@@ -1122,13 +1122,13 @@ mw.wysiwyg = {
 
         var l = mw.wysiwyg.fontFamiliesTemplate.length, i = 0;
         for(; i<l; i++){
-            if(mw.wysiwyg.fontFamilies.indexOf(mw.wysiwyg.fontFamiliesTemplate[i]) === -1){
+            if(mw.wysiwyg.fontFamilies.indexOf(mw.wysiwyg.fontFamiliesTemplate[i]) === -1 && mw.wysiwyg.fontFamiliesTemplate[i] != ''){
             html += '<li value="'+mw.wysiwyg.fontFamiliesTemplate[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesTemplate[i]+'" href="javascript:;">'+mw.wysiwyg.fontFamiliesTemplate[i]+'</a></li>'
             }
         }
         var l = mw.wysiwyg.fontFamiliesExtended.length, i = 0;
         for(; i<l; i++){
-            if(mw.wysiwyg.fontFamilies.indexOf(mw.wysiwyg.fontFamiliesExtended[i]) === -1){
+            if(mw.wysiwyg.fontFamilies.indexOf(mw.wysiwyg.fontFamiliesExtended[i]) === -1 && mw.wysiwyg.fontFamiliesExtended[i] != ''){
             html += '<li value="'+mw.wysiwyg.fontFamiliesExtended[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesExtended[i]+'" href="javascript:;">'+mw.wysiwyg.fontFamiliesExtended[i]+'</a></li>'
             }
         }

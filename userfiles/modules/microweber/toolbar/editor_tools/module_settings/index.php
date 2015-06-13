@@ -100,7 +100,13 @@ if (isset($_GET['type'])) {
         } else {
             modal_title_str = mw_module_settings_info.name;
         }
+		
+		
+		var ex_title =  $(thismodal.main).find(".mw_modal_title").html();
+		 
+		if(ex_title == ''){
         $(thismodal.main).find(".mw_modal_title").html(modal_title_str+'');
+		}
         thismodal.main.scrollTop(0);
         __autoresize = function (force) {
             var force = force || false;

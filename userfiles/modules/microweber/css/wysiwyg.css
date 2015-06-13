@@ -216,7 +216,10 @@
 
 .mw_editor_t  .ed-ico{background-position: -848px 3px;}
 
-
+.mw_editor_css_editor .ed-ico{
+    background-image: url(../img/editor.css_editor.png);
+    background-position: center center;
+}
 .mw_editor_unlink .ed-ico{
   background-image: url(../img/editor.link_active.png);
   background-position: center center;

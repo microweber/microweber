@@ -91,6 +91,11 @@ class Template
         if (is_file($fonts_file)) {
             include($fonts_file);
         }
+        $custom_css = get_option("custom_css", "template");
+        if(is_string($custom_css)){
+            print $custom_css;
+        }
+
 
         event_trigger('mw.template.print_custom_css');
 

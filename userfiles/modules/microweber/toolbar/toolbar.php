@@ -279,7 +279,12 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
+                
+             
+                
+             
                 <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
+
                 <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
