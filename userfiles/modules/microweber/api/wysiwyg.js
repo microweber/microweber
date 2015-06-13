@@ -1116,6 +1116,7 @@ mw.wysiwyg = {
 
         var l = mw.wysiwyg.fontFamilies.length, i = 0, html = '';
         for(; i<l; i++){
+
             html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="javascript:;">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
         }
 

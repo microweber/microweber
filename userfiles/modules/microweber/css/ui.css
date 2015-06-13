@@ -1498,6 +1498,11 @@ input.mw-ui-btn {
   padding: 6px 9px;
   height: 31px;
 }
+@media (min-width: 768px) {
+  .mw-ui-btn-medium {
+    padding: 4px 6px;
+  }
+}
 .mw-ui-btn-small,
 .mw-ui-btn-mini,
 .mw-ui-btn-tiny {

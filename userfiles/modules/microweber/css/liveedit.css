@@ -1012,7 +1012,7 @@ li .ts_action_item:last-child{
 #live_edit_toolbar_holder,
 #live_edit_toolbar{
   width: 100%;
-  position: relative;
+
   z-index: 1100;
   color: #222;
 }
