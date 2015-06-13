@@ -43,7 +43,7 @@ mw_fonts_preview_load_stylesheet = function(family){
          if(mw_fonts_preview_loaded_stylesheets.indexOf(family) === -1){
              mw_fonts_preview_loaded_stylesheets.push(family);
 			 	
-			   var filename = "http://fonts.googleapis.com/css?family="+ encodeURIComponent(family)+"&text="+ encodeURIComponent(family);
+			   var filename = "//fonts.googleapis.com/css?family="+ encodeURIComponent(family)+"&text="+ encodeURIComponent(family);
 			    
 
 			   var fileref=document.createElement("link")
@@ -71,7 +71,7 @@ if(is_string($enabled_custom_fonts)){
 ?>
 
 <div class="module-live-edit-settings enabled_custom_fonts_table">
-   <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
+  <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
       <tr>
         <th></th>
@@ -80,12 +80,9 @@ if(is_string($enabled_custom_fonts)){
     </thead>
     <tbody>
       <?php foreach($fonts['items'] as $font): ?>
-      <tr onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
-        <td width="30">
-     
-        
-        <input type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" /></td>
-        <td onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><span style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></span></td>
+      <tr onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')" onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
+        <td width="30"><input type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" /></td>
+        <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')" onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><span style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></span></td>
       </tr>
       <?php endforeach; ?>
     </tbody>
