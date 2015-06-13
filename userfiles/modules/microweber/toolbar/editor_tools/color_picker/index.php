@@ -200,6 +200,7 @@
             parent[_command](val);
         }
         $('#hex_color_value').html('#'+val);
+        $('#hex_color_value').css("background-color", '#'+val);
         RegisterChange(val);
 
     }

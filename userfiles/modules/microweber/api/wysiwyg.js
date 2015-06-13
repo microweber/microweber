@@ -1116,17 +1116,20 @@ mw.wysiwyg = {
 
         var l = mw.wysiwyg.fontFamilies.length, i = 0, html = '';
         for(; i<l; i++){
-            html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="#">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
+            html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="javascript:;">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
         }
 
         var l = mw.wysiwyg.fontFamiliesTemplate.length, i = 0;
         for(; i<l; i++){
-            html += '<li value="'+mw.wysiwyg.fontFamiliesTemplate[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesTemplate[i]+'" href="#">'+mw.wysiwyg.fontFamiliesTemplate[i]+'</a></li>'
+            if(mw.wysiwyg.fontFamilies.indexOf(mw.wysiwyg.fontFamiliesTemplate[i]) === -1){
+            html += '<li value="'+mw.wysiwyg.fontFamiliesTemplate[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesTemplate[i]+'" href="javascript:;">'+mw.wysiwyg.fontFamiliesTemplate[i]+'</a></li>'
+            }
         }
-
         var l = mw.wysiwyg.fontFamiliesExtended.length, i = 0;
         for(; i<l; i++){
-            html += '<li value="'+mw.wysiwyg.fontFamiliesExtended[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesExtended[i]+'" href="#">'+mw.wysiwyg.fontFamiliesExtended[i]+'</a></li>'
+            if(mw.wysiwyg.fontFamilies.indexOf(mw.wysiwyg.fontFamiliesExtended[i]) === -1){
+            html += '<li value="'+mw.wysiwyg.fontFamiliesExtended[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesExtended[i]+'" href="javascript:;">'+mw.wysiwyg.fontFamiliesExtended[i]+'</a></li>'
+            }
         }
 
         mw.$(".mw_dropdown_action_font_family ul").empty().append(html);
@@ -1178,7 +1181,7 @@ mw.wysiwyg = {
         $.each(families, function( font_index, fvalue ) {
             var font_value = fvalue;
             font_value = font_value.replace(/'/gi, "").replace(/"/gi, '');
-            if(mw.wysiwyg.fontFamiliesExtended.indexOf(font_value) === -1){
+            if(mw.wysiwyg.fontFamilies.indexOf(font_value) === -1 && mw.wysiwyg.fontFamiliesExtended.indexOf(font_value) === -1){
                 mw.wysiwyg.fontFamiliesExtended.push(font_value);
             }
         });

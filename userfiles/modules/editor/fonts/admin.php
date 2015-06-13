@@ -31,11 +31,34 @@
 			}
 		
         });
+		
+		$('#<?php print $params['id'] ?> .enabled_custom_fonts_table input:checked').each(function() {
+		mw_fonts_preview_load_stylesheet($(this).val());
+		});
+		 	
         
     });
+mw_fonts_preview_loaded_stylesheets = [];
+mw_fonts_preview_load_stylesheet = function(family){
+         if(mw_fonts_preview_loaded_stylesheets.indexOf(family) === -1){
+             mw_fonts_preview_loaded_stylesheets.push(family);
+			 	
+			   var filename = "http://fonts.googleapis.com/css?family="+ encodeURIComponent(family)+"&text="+ encodeURIComponent(family);
+			    
+
+			   var fileref=document.createElement("link")
+				fileref.setAttribute("rel", "stylesheet")
+				fileref.setAttribute("type", "text/css")
+				fileref.setAttribute("href", filename)
+				document.getElementsByTagName("head")[0].appendChild(fileref)
+
+					 
+        }
+}
+	
 </script>
 <?php $fonts= json_decode(file_get_contents(__DIR__.DS.'fonts.json'), true); ?>
-<?php if(isset($fonts['fonts'])): ?>
+<?php if(isset($fonts['items'])): ?>
 <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template"); 
 
 $enabled_custom_fonts_array = array();
@@ -56,10 +79,13 @@ if(is_string($enabled_custom_fonts)){
       </tr>
     </thead>
     <tbody>
-      <?php foreach($fonts['fonts'] as $font): ?>
-      <tr>
-        <td width="30"><input type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" /></td>
-        <td><?php print $font['family']; ?></td>
+      <?php foreach($fonts['items'] as $font): ?>
+      <tr onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
+        <td width="30">
+     
+        
+        <input type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" /></td>
+        <td onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><span style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></span></td>
       </tr>
       <?php endforeach; ?>
     </tbody>
