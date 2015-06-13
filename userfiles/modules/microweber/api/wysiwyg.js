@@ -494,7 +494,7 @@ mw.wysiwyg = {
                  var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
                  for( ; i<l; i++ ){
                     if( el[i].id == ''){
-                        el[i].id = 'row_' + mw.random();
+                        el[i].id = 'element_' + mw.random();
                     }
                  }
                  e.preventDefault();

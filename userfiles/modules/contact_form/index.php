@@ -40,8 +40,8 @@ if(typeof  processContactForm !== 'object'){
 			  if(cap !== null){
 			    mw.tools.refresh_image(cap);
 			  }
-			  
-              mw.$(selector).css("top", "-100%");
+			  mw.$(selector).show();
+              mw.$(selector).css("top", "30%");
               form.removeClass("deactivated");
           }, 3200);
        },

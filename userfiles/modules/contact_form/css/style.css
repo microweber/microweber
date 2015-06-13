@@ -23,6 +23,11 @@
   margin: 0 auto 20px;
 }
 
+
+[class*='contact-form-template-'] .message-sent {
+   display:none;
+}
+
 .message-sent-icon-orange{background-position: 0 -104px;}
 .message-sent-icon-green{background-position: 0 -52px;}
 

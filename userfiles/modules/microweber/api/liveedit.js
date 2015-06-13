@@ -676,7 +676,7 @@ mw.drag = {
                 width: width
             });
             $(mw.handle_element).data("curr", element);
-            element.id == "" ? element.id = "row_" + mw.random() : "";
+            element.id == "" ? element.id = "element_" + mw.random() : "";
             mw.dropable.removeClass("mw_dropable_onleaveedit");
         });
         $(window).bind("onModuleOver", function (a, element) {
@@ -736,7 +736,7 @@ mw.drag = {
                 width: width
             });
             $(mw.handle_module).data("curr", element);
-            element.id == "" ? element.id = "row_" + mw.random() : "";
+            element.id == "" ? element.id = "element_" + mw.random() : "";
 
 
         });
@@ -766,7 +766,7 @@ mw.drag = {
             var size = $(element).children(".mw-col").length;
             mw.$("a.mw-make-cols").removeClass("active");
             mw.$("a.mw-make-cols").eq(size - 1).addClass("active");
-            element.id == "" ? element.id = "row_" + mw.random() : "";
+            element.id == "" ? element.id = "element_" + mw.random() : "";
 
             if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')) {
                 mw.$("#mw_handle_row .mw_edit_delete, #mw_handle_row .mw_edit_delete_element, #mw_handle_row .mw-sorthandle-moveit, #mw_handle_row .column_separator_title").hide();
@@ -964,7 +964,7 @@ mw.drag = {
                     mw.isDrag = true;
                     var curr = $(mw.handle_row).data("curr");
                     mw.dragCurrent = curr;
-                    mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'row_' + mw.random() : '';
+                    mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_' + mw.random() : '';
                     $(mw.dragCurrent).invisible().addClass("mw_drag_current");
                     $(window).trigger("onAllLeave");
                     mw.drag.fix_placeholders();
@@ -2301,7 +2301,7 @@ __createRow = function (hovered, mw_drag_current, pos) {
     var hovered = $(hovered);
     var row = mwd.createElement('div');
     row.className = 'mw-row';
-    row.id = "row_" + mw.random();
+    row.id = "element_" + mw.random();
     row.innerHTML = "<div class='mw-col temp_column' style='width:50%'><div class='mw-col-container'></div></div><div class='mw-col' style='width:50%'><div class='mw-col-container'></div></div>";
     hovered.before(row);
     hovered.addClass("element");
