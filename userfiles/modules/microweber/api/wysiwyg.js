@@ -1106,9 +1106,31 @@ mw.wysiwyg = {
     },
 
     fontFamilies:['Arial', 'Tahoma', 'Verdana', 'Georgia', 'Times New Roman'],
+    fontFamiliesExtended:[],
+    fontFamiliesTemplate:[],
+
+
 
     initFontSelectorBox:function(){
         mw.wysiwyg.initFontFamilies();
+
+        var l = mw.wysiwyg.fontFamilies.length, i = 0, html = '';
+        for(; i<l; i++){
+            html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="#">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
+        }
+
+        var l = mw.wysiwyg.fontFamiliesTemplate.length, i = 0;
+        for(; i<l; i++){
+            html += '<li value="'+mw.wysiwyg.fontFamiliesTemplate[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesTemplate[i]+'" href="#">'+mw.wysiwyg.fontFamiliesTemplate[i]+'</a></li>'
+        }
+
+        var l = mw.wysiwyg.fontFamiliesExtended.length, i = 0;
+        for(; i<l; i++){
+            html += '<li value="'+mw.wysiwyg.fontFamiliesExtended[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamiliesExtended[i]+'" href="#">'+mw.wysiwyg.fontFamiliesExtended[i]+'</a></li>'
+        }
+
+        mw.$(".mw_dropdown_action_font_family ul").empty().append(html);
+
         $(".mw_dropdown_action_font_family").unbind('change');
         $(".mw_dropdown_action_font_family").on('change', function(){
             var val = $(this).getDropdownValue();
@@ -1139,26 +1161,29 @@ mw.wysiwyg = {
                 $.each(body_font, function( font_index, fvalue ) {
                     var font_value = fvalue;
                     font_value = font_value.replace(/'/gi, "").replace(/"/gi, '');
-                  
                     if(mw.wysiwyg.fontFamilies.indexOf(font_value) === -1){
                         mw.wysiwyg.fontFamilies.push(font_value);
                     }
                 });
-
             }
-
-        })
-
-
-
-
-
-
-        var l = mw.wysiwyg.fontFamilies.length, i = 0, html = '';
-        for(; i<l; i++){
-            html += '<li value="'+mw.wysiwyg.fontFamilies[i]+'"><a style="font-family:'+mw.wysiwyg.fontFamilies[i]+'" href="#">'+mw.wysiwyg.fontFamilies[i]+'</a></li>'
+        });
+    },
+    initExtendedFontFamilies:function(string){
+        var families = [];
+        if(typeof(string) == 'string'){
+            families = string.split(',')
+        } else if(typeof(string) == 'object'){
+            families = string
         }
-        mw.$(".mw_dropdown_action_font_family ul").empty().append(html);
+        $.each(families, function( font_index, fvalue ) {
+            var font_value = fvalue;
+            font_value = font_value.replace(/'/gi, "").replace(/"/gi, '');
+            if(mw.wysiwyg.fontFamiliesExtended.indexOf(font_value) === -1){
+                mw.wysiwyg.fontFamiliesExtended.push(font_value);
+            }
+        });
+
+
     },
 	iframe_editor:function(textarea, iframe_url, content_to_set){
         var content_to_set = content_to_set || false;

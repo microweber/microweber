@@ -94,7 +94,12 @@ return include(__DIR__.DS.'toolbar2.php');
 </script>
 <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+<?php
 
+$enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+
+ 
+?>
 <script type="text/javascript">
         $(document).ready(function () {
 			if(typeof(mw.toolbar) != "undefined"){
@@ -109,7 +114,14 @@ return include(__DIR__.DS.'toolbar2.php');
             mw_save_draft_int = self.setInterval(function () {
                 mw.drag.saveDraft();
             }, 1000);
+			
+			
+			
         });
+		
+		if(typeof(mw.wysiwyg) != 'undefined'){
+			mw.wysiwyg.initExtendedFontFamilies("<?php print $enabled_custom_fonts?>");	
+		}
     </script>
 <?php
     $back_url = site_url() . 'admin/view:content';
@@ -346,6 +358,9 @@ return include(__DIR__.DS.'toolbar2.php');
 </div>
 
 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
+
+
+
 <script>
         mw.liveEditWYSIWYG = {
             ed: mwd.getElementById('liveedit_wysiwyg'),
@@ -418,6 +433,7 @@ return include(__DIR__.DS.'toolbar2.php');
             }
         }
         $(window).load(function () {
+			
             mw.liveEditWYSIWYG.buttons();
             $(window).bind("resize", function () {
                 mw.liveEditWYSIWYG.buttons();

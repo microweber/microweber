@@ -1817,6 +1817,11 @@ class DefaultController extends Controller
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
+
+
+            $liv_ed_css = '<link rel="stylesheet" href="' . api_url('template/print_custom_css'). '" id="mw-custom-user-css" type="text/css" />';
+            $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
             if ($website_head_tags != false) {

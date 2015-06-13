@@ -130,7 +130,7 @@ mw.options = {
                    var items = mwd.getElementsByName(el.name), i=0, len = items.length;
                    for( ; i<len; i++){
                        var _val = items[i].value;
-                       var val = items[i].checked==true ? (val==='' ? _val: val+", "+_val) : val;
+                       var val = items[i].checked==true ? (val==='' ? _val: val+","+_val) : val;
                    }
                 }
                 else{val = el.value }

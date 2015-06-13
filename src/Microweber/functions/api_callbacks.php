@@ -32,10 +32,13 @@ api_expose('notifications_manager/mark_all_as_read');
 
 
 api_expose('template/print_custom_css', function ($data) {
-    if (!headers_sent()) {
-        header("Content-type: text/css; charset: UTF-8");
-    }
-    return mw()->template->print_custom_css($data);
+
+    $contents = mw()->template->get_custom_css($data);
+
+    $response = Response::make($contents);
+    $response->header('Content-Type', 'text/css');
+    return $response;
+
 });
 
 
