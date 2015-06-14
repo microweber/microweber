@@ -11,13 +11,17 @@
            Icons
 *****************************/
 [class*='mw-icon-'] {
-  vertical-align: middle;
+  /*vertical-align: middle;*/
   font-style: normal;
   font-weight: 400;
   line-height: 1;
   position: relative;
   display: inline-block;
   font-size: 100%;
+}
+.mw-defaults [class*='mw-icon-'],
+.mw-ui-dropdown [class*='mw-icon-'] {
+  vertical-align: middle;
 }
 [class*='mw-icon-']:before {
   display: inline-block;

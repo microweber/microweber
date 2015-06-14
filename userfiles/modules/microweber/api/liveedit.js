@@ -169,9 +169,16 @@ $(document).ready(function () {
 
     $(window).bind("onIconElementClick", function(e, el){
         mw.iconSelector._activeElement = el;
-        mw.iconSelector.popup(el);
-    });
+        mw.iconSelector.popup(true);
 
+    });
+    $(window).bind("onElementClick", function(e, el){
+
+        if(typeof(mw.iconSelectorToolTip) != "undefined"){
+            //$(mw.iconSelectorToolTip).hide();
+            mw.iconSelector.hide();
+        }
+    });
 
 
     var t = mwd.querySelectorAll('[field="title"]'), l = t.length, i = 0;
@@ -1117,7 +1124,7 @@ mw.drag = {
 
 
 
-                    if (target.tagName == 'I' && mw.tools.hasParentsWithClass(target, 'edit') && mw.wysiwyg.elementHasFontIconClass(target)){
+                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') ){
                         $(window).trigger("onIconElementClick", target);
 
                     } else if ($(target).hasClass("element")) {

@@ -744,6 +744,12 @@ mw.wysiwyg = {
             var clstemp = 'mw-font-size-' + mw.random();
             var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
             classApplier.applyToSelection();
+
+            var icons = mw.wysiwyg.findTagAcrossSelection('i');
+            if (icons != false) {
+                mw.tools.addClass(icons, "mw-font-size " + clstemp);
+            }
+
             var all = mwd.querySelectorAll('.' + clstemp),
                 l = all.length,
                 i = 0;
@@ -752,6 +758,18 @@ mw.wysiwyg = {
                 mw.tools.removeClass(all[i], clstemp);
                 mw.wysiwyg.change(all[i]);
             }
+            if (icons != false) {
+                //var empty_spans = $(icons).children('span.mw-font-size');
+                //$(empty_spans).each(function (index) {
+                //    if ($(this).html() == '&nbsp;') {
+                //        $(this).remove()
+                //    }
+                //});
+
+
+            }
+
+            $('.edit .mw-font-size').removeClass('mw-font-size ')
 
         });
     },
@@ -1234,7 +1252,10 @@ mw.wysiwyg = {
     elementHasFontIconClass: function (el) {
         var is = false;
         var icon_classes = mw.wysiwyg.fontIconFamilies;
-        if (el.tagName == 'I') {
+        icon_classes.push('icon');
+        icon_classes.push('mw-wysiwyg-custom-icon');
+
+        if (el.tagName == 'I' || el.tagName == 'SPAN') {
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
                 return true;
             }
@@ -1484,11 +1505,18 @@ $(window).load(function () {
             } else if (val == 'code') {
                 var div = mw.wysiwyg.applier('code', '');
             } else if (val == 'insert_html') {
-
                 var new_insert_html = prompt("Paste your html code in the box");
                 if (new_insert_html != null) {
+
                     var div = mw.wysiwyg.applier('div');
                     div.innerHTML = new_insert_html;
+                }
+            } else if (val == 'icon') {
+                var new_insert_html = '&nbsp;';
+                if (new_insert_html != null) {
+                    var div = mw.wysiwyg.applier('i');
+                    div.innerHTML = new_insert_html;
+                    div.className = "mw-icon mw-icon-mw"
                 }
             }
             else if (val === 'table') {
@@ -1500,6 +1528,9 @@ $(window).load(function () {
                 var div = mw.wysiwyg.applier('blockquote', 'element');
                 $(div).append("<cite>By Lorem Ipsum</cite>");
             }
+
+
+             $(this).setDropdownValue("Insert",true,true,"Insert");
         }
     });
 
@@ -1619,11 +1650,9 @@ window.mw.iconSelector = window.mw.iconSelector || {
 
     iconFontClasses: [],
 
-    popup: function () {
-        if (mw.iconSelector._string == '') {
-
-
-            if (mw.iconSelector.iconFontClasses.length == 0) {
+    init: function () {
+        if (mw.iconSelector.iconFontClasses.length == 0) {
+            try {
                 var icons = mwd.querySelector('link[href*="/ui.css"]').sheet.cssRules;
                 var l = icons.length, i = 0, html = '';
                 for (; i < l; i++) {
@@ -1635,34 +1664,79 @@ window.mw.iconSelector = window.mw.iconSelector || {
                         }
                     }
                 }
+            } catch (e) {
+            }
 
-                //check font awesome
-                var faicons = mwd.querySelector('link[href*="/font-awesome.min.css"]');
-                if(faicons.length == 0){
+            //check font awesome
+            var faicons = mwd.querySelector('link[href*="/font-awesome.min.css"]');
+            if (faicons != null && faicons.length == 0) {
                 var faicons = mwd.querySelector('link[href*="/font-awesome.css"]');
-                }
+            }
 
-                if(faicons.length != 0 && typeof(faicons.sheet) != 'undefined' && typeof(faicons.sheet) != 'null'){
+            if (faicons != null && faicons.length != 0 && typeof(faicons.sheet) != 'undefined' && typeof(faicons.sheet) != 'null') {
+                try {
                     var icons = faicons.sheet.cssRules;
                     var l = icons.length, i = 0, html = '';
                     for (; i < l; i++) {
                         var sel = icons[i].selectorText;
                         if (!!sel && sel.indexOf('.fa-') === 0) {
                             var cls = sel.replace(".", '').split(':')[0];
-                            if (mw.iconSelector.iconFontClasses.indexOf(cls) === -1) {
-                                mw.iconSelector.iconFontClasses.push('fa '+cls);
+                            if (mw.iconSelector.iconFontClasses.indexOf('fa ' + cls) === -1) {
+                                mw.iconSelector.iconFontClasses.push('fa ' + cls);
                             }
                         }
                     }
+                } catch (e) {
                 }
 
+
             }
+
+            //check semantic ui
+            var faicons = mwd.querySelector('link[href*="/semantic.min.css"]');
+            if (faicons != null && faicons.length == 0) {
+                var faicons = mwd.querySelector('link[href*="/semantic.css"]');
+            }
+
+            if (faicons != null && faicons.length != 0 && typeof(faicons.sheet) != 'undefined' && typeof(faicons.sheet) != 'null') {
+                try {
+                    var icons = faicons.sheet.cssRules;
+
+                    var l = icons.length, i = 0, html = '';
+                    for (; i < l; i++) {
+                        var sel = icons[i].selectorText;
+                        if (!!sel && sel.indexOf('i.icon') === 0) {
+                            var cls = sel.replace("i.", '').split(':')[0];
+
+                            cls = cls.split('.').join(' ');
+
+
+                            if (mw.iconSelector.iconFontClasses.indexOf(cls) === -1) {
+                                mw.iconSelector.iconFontClasses.push(cls);
+                            }
+                        }
+                    }
+                } catch (e) {
+                }
+            }
+
+        }
+
+    },
+
+    popup: function () {
+
+        if (mw.iconSelector.iconFontClasses.length == 0) {
+            mw.iconSelector.init();
+        }
+        if (mw.iconSelector._string == '') {
+
+
             var uicss = mw.iconSelector.iconFontClasses;
             var l = uicss.length, i = 0, html = '';
             for (; i < l; i++) {
                 var sel = uicss[i];
-
-                html += '<li onclick="mw.iconSelector.select(\'' + sel + '\')"><span class="' + sel + '"></span></li>';
+                html += '<li onclick="mw.iconSelector.select(\'' + sel + '\')" title="' + sel + '"><i class="' + sel + '"></i></li>';
 
             }
 
@@ -1672,20 +1746,31 @@ window.mw.iconSelector = window.mw.iconSelector || {
                 element: mw.iconSelector._activeElement,
                 position: 'top-center'
             });
+
+
         }
         else {
             $(mw.iconSelectorToolTip).show();
+            //if(toggle != true){
+            //
+            //
+            //} else if (toggle == true){
+            //    $(mw.iconSelectorToolTip).toggle();
+            //}
+
             mw.tools.tooltip.setPosition(mw.iconSelectorToolTip, mw.iconSelector._activeElement, 'top-center');
         }
     },
     select: function (icon) {
         if (mw.iconSelector._activeElement !== null && typeof mw.iconSelector._activeElement !== 'undefined') {
+            mw.tools.removeClass(mw.iconSelector._activeElement, mw.iconSelector.iconFontClasses);
 
             mw.wysiwyg.elementRemoveFontIconClasses(mw.iconSelector._activeElement);
 
+
             mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'mw-icon-');
-            d(icon);
-            mw.$(mw.iconSelector._activeElement).addClass(icon);
+
+            mw.$(mw.iconSelector._activeElement).addClass(icon + ' mw-wysiwyg-custom-icon ');
         }
         $(mw.tools.firstParentWithClass(mw.iconSelector._activeElement, 'edit')).addClass('changed');
         mw.iconSelector._activeElement = null;

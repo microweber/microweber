@@ -140,6 +140,8 @@
                     <li value="code"><a href="javascript:;" style="font-size: 10px">
                   <?php _e("Code format"); ?>
                   </a></li>
+                  <li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>
+                  <li value="icon"><a href="#" style="font-size: 10px"><?php _e("Icon"); ?></a></li>
                    <li value="insert_html"><a href="javascript:;" style="font-size: 10px">
                   <?php _e("HTML"); ?>
                   </a></li>

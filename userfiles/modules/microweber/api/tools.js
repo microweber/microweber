@@ -1448,7 +1448,13 @@ mw.tools = {
         if (cls == ' ') {
             return false;
         }
-        var arr = cls.split(" "), l = arr.length, i = 0;
+        //if(typeof(cls) == 'object'){
+        //    var arr = cls;
+        //} else {
+        //    var arr = cls.split(" ");
+        //}
+        var arr = cls.split(" ");
+        var l = arr.length, i = 0;
         if (l > 1) {
             for (; i < l; i++) {
                 mw.tools.addClass(el, arr[i]);
@@ -1479,7 +1485,13 @@ mw.tools = {
         if (cls == ' ') {
             return false;
         }
-        var arr = cls.split(" "), l = arr.length, i = 0;
+        if(typeof(cls) == 'object'){
+            var arr = cls;
+        } else {
+            var arr = cls.split(" ");
+        }
+
+        var l = arr.length, i = 0;
         if (l > 1) {
             for (; i < l; i++) {
                 mw.tools.removeClass(el, arr[i]);

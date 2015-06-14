@@ -71,6 +71,7 @@ class UpdateManager
     private function collect_local_data()
     {
         $data = array();
+        $data['php_version'] = phpversion();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url_manager->site();
 
