@@ -36,7 +36,7 @@
         var editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
             lineNumbers: true,
             indentWithTabs: true,
-
+			matchBrackets: true,  
             extraKeys: {"Ctrl-Space": "autocomplete"},
             mode: {
                 name: "css", globalVars: true

@@ -736,3 +736,41 @@
 }
 
 
+
+/* Icons */
+
+.mw-icon-selector{
+    max-height: 260px;
+    width: 300px;
+    overflow: auto;
+}
+
+.mw-icon-selector li{
+    text-align: center;
+    cursor: pointer;
+    list-style: none;
+    display: inline-block;
+    font-size: 32px;
+    margin: 5px;
+    padding: 2px;
+    width: 60px;
+    color: #9E9E9E;
+}
+.mw-icon-selector li:hover,
+.mw-icon-selector li:focus{
+    background-color: #EEEEEE;
+    color: #222222;
+}
+
+.icon-section-title > [class*="sm-icon-"],
+.icon-section-title > [class*="mw-icon-"]{
+    font-size: 232%;
+    margin: -4px 12px 0 0;
+    opacity: 0.7;
+}
+
+.icon-section-title + .mw-ui-box{
+    margin-top: 12px;
+}
+
+/* /Icons */

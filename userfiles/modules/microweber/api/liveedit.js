@@ -165,6 +165,15 @@ $(document).ready(function () {
         }
     });
 
+
+
+    $(window).bind("onIconElementClick", function(e, el){
+        mw.iconSelector._activeElement = el;
+        mw.iconSelector.popup(el);
+    });
+
+
+
     var t = mwd.querySelectorAll('[field="title"]'), l = t.length, i = 0;
 
     for (; i < l; i++) {
@@ -1025,6 +1034,7 @@ mw.drag = {
             if (!!tofocus && tofocus.querySelector('.element') !== null) {
                 var arr = tofocus.querySelectorAll('.element'), l = arr.length;
                 var tofocus = arr[l - 1];
+
             }
             if (!!tofocus) {
                 var range = document.createRange();
@@ -1033,6 +1043,7 @@ mw.drag = {
                 range.collapse(false);
                 sel.removeAllRanges();
                 sel.addRange(range);
+
             }
         }
     },
@@ -1103,7 +1114,13 @@ mw.drag = {
                 }
                 if (!mw.isDrag) {
                     var target = event.target;
-                    if ($(target).hasClass("element")) {
+
+
+
+                    if (target.tagName == 'I' && mw.tools.hasParentsWithClass(target, 'edit') && mw.wysiwyg.elementHasFontIconClass(target)){
+                        $(window).trigger("onIconElementClick", target);
+
+                    } else if ($(target).hasClass("element")) {
                         $(window).trigger("onElementClick", target);
                     }
                     else if (mw.tools.hasParentsWithClass(target, 'element')) {
@@ -2873,18 +2890,26 @@ $(window).bind("load", function () {
         }
         else {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
-                mw.smallEditorCanceled = true;
-                mw.smallEditor.css({
-                    visibility: "hidden"
-                });
+
+                if(typeof(mw.smallEditor) != 'undefined'){
+
+                    mw.smallEditorCanceled = true;
+                    mw.smallEditor.css({
+                        visibility: "hidden"
+                    });
+                }
+
+
             }
         }
         setTimeout(function () {
             if (window.getSelection().rangecount > 0 && window.getSelection().getRangeAt(0).collapsed) {
-                mw.smallEditorCanceled = true;
-                mw.smallEditor.css({
-                    visibility: "hidden"
-                });
+                if(typeof(mw.smallEditor) != 'undefined') {
+                    mw.smallEditorCanceled = true;
+                    mw.smallEditor.css({
+                        visibility: "hidden"
+                    });
+                }
             }
         }, 39);
     });
@@ -3084,3 +3109,6 @@ mw.beforeleave = function (url) {
         return false;
     }
 }
+
+
+
