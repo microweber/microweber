@@ -259,15 +259,20 @@ mw.wysiwyg = {
         return external;
     },
     isSelectionEditable: function () {
-        var node = window.getSelection().focusNode;
-        if (node === null) {
+        try {
+            var node = window.getSelection().focusNode;
+            if (node === null) {
+                return false;
+            }
+            if (node.nodeType === 1) {
+                return node.isContentEditable;
+            }
+            else {
+                return node.parentNode.isContentEditable;
+            }
+        }
+        catch (e) {
             return false;
-        }
-        if (node.nodeType === 1) {
-            return node.isContentEditable;
-        }
-        else {
-            return node.parentNode.isContentEditable;
         }
     },
     execCommand: function (a, b, c) {
@@ -1530,7 +1535,7 @@ $(window).load(function () {
             }
 
 
-             $(this).setDropdownValue("Insert",true,true,"Insert");
+            $(this).setDropdownValue("Insert", true, true, "Insert");
         }
     });
 
@@ -1741,6 +1746,7 @@ window.mw.iconSelector = window.mw.iconSelector || {
             }
 
             mw.iconSelector._string = '<ul class="mw-icon-selector">' + html + '</ul>';
+            mw.iconSelector._string += '<input class="mw-icon-selector-set-icon-size" type="range" name="mw-icon-selector-set-icon-size"  min="10" max="120" onchange="mw.iconSelector.set_icon_size(this.value)"  />';
             mw.iconSelectorToolTip = mw.tooltip({
                 content: mw.iconSelector._string,
                 element: mw.iconSelector._activeElement,
@@ -1760,6 +1766,15 @@ window.mw.iconSelector = window.mw.iconSelector || {
 
             mw.tools.tooltip.setPosition(mw.iconSelectorToolTip, mw.iconSelector._activeElement, 'top-center');
         }
+        var icons_size_val = $(mw.iconSelector._activeElement).css("fontSize");
+        var a = parseInt(icons_size_val);
+
+        if (a > 0) {
+            $('.mw-icon-selector-set-icon-size').val(a);
+        }
+
+
+
     },
     select: function (icon) {
         if (mw.iconSelector._activeElement !== null && typeof mw.iconSelector._activeElement !== 'undefined') {
@@ -1782,6 +1797,19 @@ window.mw.iconSelector = window.mw.iconSelector || {
         if (mw.iconSelector._string != '') {
             $(mw.iconSelectorToolTip).hide();
         }
+    },
+
+    set_icon_size: function (val) {
+
+        var a = parseInt(val);
+
+        if (a > 1) {
+            $(mw.iconSelector._activeElement).css("fontSize", a + "px");
+        } else {
+            $(mw.iconSelector._activeElement).css("fontSize", "");
+        }
+
+
     }
 }
 

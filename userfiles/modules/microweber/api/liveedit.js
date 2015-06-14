@@ -175,8 +175,8 @@ $(document).ready(function () {
     $(window).bind("onElementClick", function(e, el){
 
         if(typeof(mw.iconSelectorToolTip) != "undefined"){
-            //$(mw.iconSelectorToolTip).hide();
-            mw.iconSelector.hide();
+            $(mw.iconSelectorToolTip).hide();
+           // mw.iconSelector.hide();
         }
     });
 
