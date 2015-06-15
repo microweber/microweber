@@ -3,9 +3,21 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.3] - 2015-06-15
+
+- Vendor: Updated Laravel to v5.0.33 (last version that supports php 5.4)
+- Feature: Custom fonts support (only Google fonts for now)
+- Feature: Color picker can set custom color from hash
+- Feature: CSS Editor
+- Feature: Icon picker
+- Feature: Custom font size value can be set
+- Fix: improvements in the live edit for Boostrap3 templates
+- Fix: possible XSS in users
+- Fix: fixes in shop orders management 
+- Fix: many other minor bugs
 
 
-## [1.0.2] - [unreleased]
+## [1.0.2] - 2015-06-01
 
 
 - Added: get_category_items_count function
