@@ -372,11 +372,16 @@ class MediaManager
         if (!isset($params['rel_type']) and isset($params['for'])) {
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
         }
-
+        if (!isset($params['rel_type'])){
+            $params['rel_type'] = 'content';
+        }
 
         if (!isset($params['limit'])) {
-            $params['limit'] = 1000;
+            $params['limit'] = "nolimit";
         }
+
+       
+
         $params['table'] = $table;
         $params['order_by'] = 'position ASC';
 
@@ -690,7 +695,7 @@ class MediaManager
         if (!isset($ext)) {
             $ext = strtolower(get_file_extension($src));
         }
-        $cache = crc32(serialize($params)) . '.' . $ext;
+        $cache = md5(serialize($params)) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
 
@@ -895,7 +900,7 @@ class MediaManager
         $cache_id['src'] = $base_src;
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;
-        $cache_id = 'tn-' . crc32(serialize($cache_id)) . '.' . $ext;
+        $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
 
 
@@ -943,7 +948,7 @@ class MediaManager
 //            mkdir_recursive($cd);
 //        }
 //
-//        $cache = crc32($src . $width . $height) . basename($src);
+//        $cache = md5($src . $width . $height) . basename($src);
 //
 //        $cache = str_replace(' ', '_', $cache);
 //        $cache_path = $cd . $cache;
