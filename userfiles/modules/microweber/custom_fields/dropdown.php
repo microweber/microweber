@@ -19,7 +19,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 }
 
 
-
+$selected = false;
 
 //print $data["value"]; ?>
 <?php if(!empty($data['values'])) : ?>
@@ -55,7 +55,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 	
 	?>
     <option  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" 
-	<?php if(isset($data['value']) == true and $data['value'] == $kv): ?> selected="selected" <?php endif; ?> >
+	<?php if(!$selected): ?> selected="selected" <?php $selected=true; endif; ?> >
  
 	<?php print ($v); ?></option>
     <?php endforeach; ?>

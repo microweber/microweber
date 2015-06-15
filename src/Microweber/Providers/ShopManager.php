@@ -802,6 +802,16 @@ class ShopManager
         $params['table'] = $table;
         $params['order_id'] = $order_id;
         $get = $this->app->database_manager->get($params);
+        if (!empty($get)) {
+            foreach ($get as $k=> $item) {
+                if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+                    $item = $this->_render_item_custom_fields_data($item);
+                }
+                $get[$k] = $item;
+            }
+        }
+
+
         return $get;
     }
 

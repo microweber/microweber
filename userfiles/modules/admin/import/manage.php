@@ -33,7 +33,7 @@
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('Microweber/Utils/Import')->get();
+      <?php $backups = mw('Microweber\Utils\Import')->get();
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;

@@ -1328,7 +1328,7 @@ class DefaultController extends Controller
                     if ($preview_module_id != false) {
                         $mod_params = $mod_params . " id='{$preview_module_id}' ";
                     }
-
+                    $found_mod = $page_url;
                     $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
 
                     //  $page['simply_a_file'] = 'clean.php';
@@ -1958,14 +1958,17 @@ class DefaultController extends Controller
 
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);
+                } elseif($found_mod != false) {
+                    $meta['content_meta_title'] = ucwords(str_replace('/',' ',$found_mod));
+                } else {
+                    $meta['content_meta_title'] = ucwords(str_replace('/',' ',$this->app->url_manager->segment(0)));
                 }
 
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option_manager->get('website_keywords', 'website');
                 }
-
-                if (is_array($meta)) {
+                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         if (is_string($item)) {
 
@@ -1974,6 +1977,7 @@ class DefaultController extends Controller
                             $item = str_replace('&amp;zwnj;', ' ', $item);
                             $item = str_replace('"', ' ', $item);
                             $item = str_replace("'", ' ', $item);
+
                             $item = str_replace('>', '', $item);
                             $item = str_replace('&amp;quot;', ' ', $item);
                             $item = str_replace('quot;', ' ', $item);
@@ -1983,6 +1987,7 @@ class DefaultController extends Controller
                             $item = str_replace('#039;', ' ', $item);
                             $item = str_replace('&amp;nbsp;', ' ', $item);
                             $item = str_replace('&', ' ', $item);
+                            $item = str_replace(";", ' ', $item);
                             $item = str_replace('  ', ' ', $item);
                             $item = str_replace(' ', ' ', $item);
                             $l = str_replace('{' . $key . '}', $item, $l);

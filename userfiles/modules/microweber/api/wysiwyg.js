@@ -1517,7 +1517,7 @@ $(window).load(function () {
                     div.innerHTML = new_insert_html;
                 }
             } else if (val == 'icon') {
-                var new_insert_html = '&nbsp;';
+                var new_insert_html = '';
                 if (new_insert_html != null) {
                     var div = mw.wysiwyg.applier('i');
                     div.innerHTML = new_insert_html;
@@ -1803,10 +1803,10 @@ window.mw.iconSelector = window.mw.iconSelector || {
 
         var a = parseInt(val);
 
-        if (a > 1) {
+        if (a > 5) {
             $(mw.iconSelector._activeElement).css("fontSize", a + "px");
         } else {
-            $(mw.iconSelector._activeElement).css("fontSize", "");
+            $(mw.iconSelector._activeElement).css("fontSize", "inherit");
         }
 
 
