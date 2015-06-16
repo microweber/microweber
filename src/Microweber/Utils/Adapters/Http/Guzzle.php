@@ -30,7 +30,6 @@ class Guzzle
         $body = $response->getBody();
         $r = '';
         $body = $response->getBody();
-
         while (!$body->eof()) {
             $r .= $body->read(1024);
         }
@@ -74,6 +73,7 @@ class Guzzle
 
         $r = '';
         $body = $response->getBody();
+
 
         while (!$body->eof()) {
             $r .= $body->read(1024);

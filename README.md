@@ -35,7 +35,7 @@ You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) i
 
 * Via Composer
 
-`composer create-project microweber/microweber my_site 1.0.x-dev --prefer-dist --no-dev`
+`composer create-project microweber/microweber my_site dev-master --prefer-dist --no-dev`
 
 * Clone The Repository
 

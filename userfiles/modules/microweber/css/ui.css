@@ -20,6 +20,7 @@
   font-size: 100%;
 }
 .mw-defaults [class*='mw-icon-'],
+.mw-ui-btn-nav [class*='mw-icon-'],
 .mw-ui-dropdown [class*='mw-icon-'],
 .mw-ui-navigation [class*='mw-icon-'],
 .mw-ui-box [class*='mw-icon-'],
@@ -1505,9 +1506,9 @@ input.mw-ui-btn {
   padding: 6px 9px;
   height: 31px;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .mw-ui-btn-medium {
-    padding: 4px 6px;
+    padding: 6px 6px;
   }
 }
 .mw-ui-btn-small,
@@ -1581,6 +1582,7 @@ input.mw-ui-btn {
 .mw-ui-btn-vertical-nav {
   position: relative;
   display: inline-block;
+  vertical-align: middle;
 }
 .mw-ui-btn-nav:after,
 .mw-ui-btn-vertical-nav:after {
@@ -2405,7 +2407,7 @@ select.mw-ui-invisible-field {
   box-sizing: border-box;
 }
 .mw-ui-field-medium {
-  padding: 6px ;
+  padding: 6px;
 }
 .mw-ui-field-big {
   padding: 9px;
