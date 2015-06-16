@@ -29,9 +29,15 @@ class Guzzle
         $response = $client->get($this->url, ['timeout' => $this->timeout]);
         $body = $response->getBody();
         $r = '';
-        $body = $response->getBody();
-        while (!$body->eof()) {
-            $r .= $body->read(1024);
+
+
+
+        if(is_object($body) and method_exists($body,'eof')){
+            while (!$body->eof()) {
+                $r .= $body->read(1024);
+            }
+        } else {
+            return $body;
         }
 
         return $r;
@@ -75,8 +81,12 @@ class Guzzle
         $body = $response->getBody();
 
 
-        while (!$body->eof()) {
-            $r .= $body->read(1024);
+        if(is_object($body) and method_exists($body,'eof')){
+            while (!$body->eof()) {
+                $r .= $body->read(1024);
+            }
+        } else {
+            return $body;
         }
 
 
