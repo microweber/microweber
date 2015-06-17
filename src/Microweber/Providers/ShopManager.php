@@ -394,11 +394,14 @@ class ShopManager
                 }
                 if ($order_email_content != false and trim($order_email_subject) != '') {
                     if (!empty($ord_data)) {
-                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . mw()->user_manager->session_id());
+                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&no_session_id=' . mw()->user_manager->session_id());
+                        // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
+                     // dd($order_items_html);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         foreach ($ord_data as $key => $value) {
-                            if (is_string($value) and is_string($key)) {
+
+                            if (!is_array($value) and is_string($key)) {
                                 if (strtolower($key) == 'amount') {
                                     $value = number_format($value, 2);
                                 }
@@ -407,7 +410,7 @@ class ShopManager
                         }
                     }
 
-
+                    //
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
                         $sender = new \Microweber\Utils\MailSender();
@@ -803,7 +806,7 @@ class ShopManager
         $params['order_id'] = $order_id;
         $get = $this->app->database_manager->get($params);
         if (!empty($get)) {
-            foreach ($get as $k=> $item) {
+            foreach ($get as $k => $item) {
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item = $this->_render_item_custom_fields_data($item);
                 }
@@ -1218,7 +1221,7 @@ class ShopManager
             $email_from = $params['to'];
 
         }
-        $ord_data = $this->get_orders('order_completed=1&limit=50');
+        $ord_data = $this->get_orders('limit=50');
 
         if (is_array($ord_data[0])) {
             shuffle($ord_data);
@@ -1436,17 +1439,20 @@ class ShopManager
         if (isset($data['is_cart']) and trim($data['is_cart']) != 'false' and isset($data['id'])) {
             $c_id = $this->app->database_manager->escape_string($data['id']);
             $table2 = $this->tables['cart'];
-            $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
+
+            $c_id = $this->app->database_manager->delete_by_id($data['id'], 'session_id');
+
+
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
-            $res = $this->app->database_manager->q($q);
             return $c_id;
         } else if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->database_manager->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
-            $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
-            $res = $this->app->database_manager->q($q);
+
+            $c_id = $this->app->database_manager->delete_by_id($data['id'], 'order_id');
+
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
             return $c_id;

@@ -897,7 +897,9 @@ class MediaManager
         }
 
         $cache_id = array();
-        $cache_id['src'] = $base_src;
+        $cache_id['base_src'] = $base_src;
+		$cache_id['src'] = $src;
+
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;
         $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
