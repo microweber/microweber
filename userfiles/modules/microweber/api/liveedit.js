@@ -766,11 +766,11 @@ mw.drag = {
 
             if (top < 55 && mwd.getElementById('live_edit_toolbar') !== null) {
                 var top = 55;
-                var left = 30;
+                var left = left-100;
             }
             if (top < 0 && mwd.getElementById('live_edit_toolbar') === null) {
                 var top = 0;
-                var left = 30;
+             //   var left = left-50;
             }
 
             $(mw.handle_row).css({
@@ -1209,6 +1209,9 @@ mw.drag = {
                             }
                             return false;
                         }
+
+
+
                         if ($(mw.currentDragMouseOver).hasClass("mw-empty")) {
 
                             $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -1942,7 +1945,11 @@ mw.drag = {
 
 
 mw.pcWidthExtend = function (selector, howMuch, cache, final, len) {
+
+
+
     if (final < 3) {
+
         selector.eq(len - 1).width((cache[len - 1] + final) + "%");
     }
     else {
@@ -1983,6 +1990,7 @@ mw.px2pc = function (row) {
     }
     var final = 100 - mwcsum;
     if (final != 0) {
+
         mw.pcWidthExtend(cols, final / len, cache, final, len);
     }
 }
@@ -2094,6 +2102,7 @@ mw.resizable_columns = function () {
                             }
                             mw.settings.resize_started = true;
                             var w = $(this).width();
+
 
                             $(this).find("img").each(function () {
 

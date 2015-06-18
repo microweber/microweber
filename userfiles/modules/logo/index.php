@@ -38,8 +38,13 @@ if($font_family_safe == ''){
 <a href="<?php if (!in_live_edit()) {
     print site_url();
 } else {
-    print 'javascript:mw.drag.module_settings();void(0);';
-}; ?>" class="mw-ui-row-nodrop module-logo" style="width: auto;">
+	if ($logoimage == '' and $text == '') {
+		  print 'javascript:mw.drag.module_settings();void(0);';
+	} else {
+		  print site_url();
+	}
+   
+}; ?>" class="mw-ui-row-nodrop module-logo navbar-brand" style="width: auto;">
     <?php if ($logoimage == '' and $text == '') {
         if (is_live_edit()) { ?><span class="mw-logo-no-values">Click to add logo</span><?php }
     } else { ?>

@@ -469,6 +469,7 @@ mw.wysiwyg = {
                         if (!mw.settings.liveEdit) {
                             return true;
                         }
+
                         if (typeof mw.current_element !== 'undefined' && mw.current_element.innerHTML == '') {
                             $(mw.current_element).remove();
                         }

@@ -137,7 +137,7 @@ class DatabaseManager extends DbUtils
         }
 
 
-        if($use_connection == false){
+        if ($use_connection == false) {
             $query = DB::table($table);
         } else {
             $query = DB::connection($use_connection)->table($table);
@@ -153,7 +153,7 @@ class DatabaseManager extends DbUtils
         if (isset($params['no_limit'])) {
             unset($params['limit']);
 
-         }
+        }
 
         if (isset($orig_params['page_count'])) {
             $orig_params['count_paging'] = $orig_params['page_count'];
@@ -290,8 +290,6 @@ class DatabaseManager extends DbUtils
         }
         return $data;
     }
-
-
 
 
     /**
@@ -517,12 +515,15 @@ class DatabaseManager extends DbUtils
         }
 
         try {
-            $q = DB::statement($q);
+            return DB::statement($q);
         } catch (Exception $e) {
+            return;
+        } catch (QueryException $e) {
+            return;
+        } catch (\Illuminate\Database\QueryException $e) {
             return;
         }
 
-        return $q;
     }
 
     /**
@@ -694,7 +695,6 @@ class DatabaseManager extends DbUtils
 
 
     }
-
 
 
     public function table($table)
