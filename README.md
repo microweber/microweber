@@ -5,9 +5,9 @@
 <center>
 **[Download](https://microweber.com/download.php) |
 [What is Microweber?](#what-is) |
-[Getting Started](#getting-started) |
-[Installation](#installation) |
 [Requirements](#requirements) |
+[Installation](#installation) |
+[Getting Started](#getting-started) |
 [Contribute](#contribute)**
 </center>
 ---
@@ -21,25 +21,6 @@ Microweber is a new generation content management system that allows you to crea
 You can easily manipulate the content and the layout of your pages. No coding skills are required.
 
 ### [Live Demo](http://demo.microweber.org/admin?username=demo&password=demo)
-
-## Getting Started <a name="getting-started" />
-
-Check out our [online guides](http://microweber.com/docs/guides/README.md)
-
-## Installation <a name="installation" />
-
-### [Download](https://microweber.com/download.php) and unzip
-
-#### Or install manually
-You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) in order to download Microweber's dependencies (including [the Laravel framework](http://laravel.com/)).
-
-* Via Composer
-
-`composer create-project microweber/microweber my_site dev-master --prefer-dist --no-dev`
-
-* Clone The Repository
-
-Clone this repository (or download as zip) on your server and run `composer install` in the base folder.
 
 ## Requirements <a name="requirements" />
 
@@ -85,6 +66,25 @@ You have several choices for database engine. For small websites we highly recom
 On the installation screen you can only choose from database drivers your PHP configuration already supports.
 If you don't see your server of choice in the list you have to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server.
 PHP usually comes with PDO enabled by default.
+
+## Installation <a name="installation" />
+
+### [Download](https://microweber.com/download.php) and unzip
+
+#### Or install manually
+You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) in order to download Microweber's dependencies (including [the Laravel framework](http://laravel.com/)).
+
+* Via Composer
+
+`composer create-project microweber/microweber my_site dev-master --prefer-dist --no-dev`
+
+* Clone The Repository
+
+Clone this repository (or download as zip) on your server and run `composer install` in the base folder.
+
+## Getting Started <a name="getting-started" />
+
+Check out our [online guides](http://microweber.com/docs/guides/README.md)
 
 ## Contribute <a name="contribute" />
 We are looking for people who want to help us improve Microweber. 
