@@ -36,12 +36,9 @@ You can easily manipulate the content and the layout of your pages. No coding sk
 ### HTTP Server
 
 #### Apache
-The `mod_rewrite` module must be enabled in your Apache configuration. Microweber creates the necessary `.htaccess` files during installation if you're running on Apache.
+The `mod_rewrite` module must be enabled in your Apache configuration. Microweber creates the necessary `.htaccess` files during installation, including one with `Deny All` directive in each folder to ensure no entry points other than `index.php`.
 
-### IIS
-You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/extensions/url-rewrite-module/importing-apache-modrewrite-rules). Make sure you have enabled [the URL Rewrite module](http://www.iis.net/learn/extensions/url-rewrite-module/using-the-url-rewrite-module) for your website.
-
-#### nginX
+#### nginx
 Add this `location` directive to your `server` configuration block. The `root` directive must point to the base folder of your Microweber website (which by default is where this readme is located).
 ```
 server {
@@ -50,6 +47,9 @@ server {
   }
 }
 ```
+
+### IIS
+You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/extensions/url-rewrite-module/importing-apache-modrewrite-rules). Make sure you have enabled [the URL Rewrite module](http://www.iis.net/learn/extensions/url-rewrite-module/using-the-url-rewrite-module) for your website.
 
 ### Database
 You have several choices for database engine: MySQL, SQLite, Microsoft SQL Server and PostgreSQL.
@@ -63,7 +63,7 @@ If you don't see your server of choice in the list you have to enable the corres
 
 ### The fast way: [Download](https://microweber.com/download.php) and unzip.
 
-### Via composer
+### Via Composer
 
 #### Installing dependencies
 
@@ -75,7 +75,7 @@ This will install Microweber in a folder named `my_ste`.
 
 Another way is to first clone the repository and then run `composer install` in the base directory.
 
-### File Permissions
+#### File permissions
 Make sure these folders, and everything inside, is writeable by the user executing the PHP scripts:
 * config/
 * src/
