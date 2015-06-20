@@ -24,7 +24,6 @@ You can easily manipulate the content and the layout of your pages. No coding sk
 
 ## Requirements <a name="requirements" />
 
-### General Requirements
 * HTTP server ([Apache](http://httpd.apache.org/), [IIS](http://www.iis.net/downloads), [nginx](http://nginx.org/en/download.html), etc.)
 * Database server
 * PHP >= 5.4 or [HHVM](http://docs.hhvm.com/manual/en/install-intro.install.php). The following only apply to PHP as they're included in the HHVM core.
