@@ -981,6 +981,10 @@ mw.wysiwyg = {
             var types = 'images';
         }
         var url = !!types ? "rte_image_editor?types=" + types + '' + hash : "rte_image_editor" + hash;
+
+        var url = mw.settings.site_url + 'editor_tools/'+url;
+
+
         var modal = mw.tools.modal.frame({
             url: url,
             name: "mw_rte_image",

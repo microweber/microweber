@@ -26,18 +26,13 @@ class Format
 
                 if (is_array($val)) {
                     if (!empty($val)) {
-
                         if (is_numeric($key)) {
                             $retStr .= '<ul>';
                             $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
                             $retStr .= '</ul>';
                         } else {
-                            if (count($val) == 1) {
-                                $retStr .= '<li>' . $key . ': ' . array_pop($val) . '</li>';
-                            } else {
-                                //$retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
-                                $retStr .= '<li>' . $key . ': ' . implode(', ',array_values($val)). '</li>';
-                            }
+                            $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
+
                         }
                     }
                 } else {

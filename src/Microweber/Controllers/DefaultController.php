@@ -1819,7 +1819,7 @@ class DefaultController extends Controller
             }
 
 
-            $liv_ed_css = '<link rel="stylesheet" href="' . api_url('template/print_custom_css'). '" id="mw-custom-user-css" type="text/css" />';
+            $liv_ed_css = '<link rel="stylesheet" href="' . api_url('template/print_custom_css') . '" id="mw-custom-user-css" type="text/css" />';
             $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
 
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
@@ -1923,7 +1923,7 @@ class DefaultController extends Controller
                 if ($meta['description'] != false and trim($meta['description']) != '') {
                     $meta['description'] = $meta['description'];
                 } else if ($meta['content'] != false and trim($meta['content']) != '') {
-                    $meta['description'] = str_replace("\n", ' ',$this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                    $meta['description'] = str_replace("\n", ' ', $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
 
                 }
                 if (isset($meta['description']) and $meta['description'] != '') {
@@ -1958,17 +1958,17 @@ class DefaultController extends Controller
 
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);
-                } elseif($found_mod != false) {
-                    $meta['content_meta_title'] = ucwords(str_replace('/',' ',$found_mod));
+                } elseif ($found_mod != false) {
+                    $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $found_mod));
                 } else {
-                    $meta['content_meta_title'] = ucwords(str_replace('/',' ',$this->app->url_manager->segment(0)));
+                    $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $this->app->url_manager->segment(0)));
                 }
 
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option_manager->get('website_keywords', 'website');
                 }
-                 if (is_array($meta)) {
+                if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         if (is_string($item)) {
 
@@ -2374,7 +2374,11 @@ class DefaultController extends Controller
         if ($tool == 'imageeditor') {
             $standalone_edit = true;
         }
-  if ($tool == 'editor_toolbar') {
+
+        if ($tool == 'rte_image_editor') {
+            $standalone_edit = true;
+        }
+        if ($tool == 'editor_toolbar') {
             $standalone_edit = true;
         }
 
