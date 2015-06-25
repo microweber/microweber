@@ -491,6 +491,10 @@ class UserManager
                         }
 
                     }
+
+
+
+
                 }
 
             }
@@ -1181,7 +1185,6 @@ class UserManager
             $data_to_save['last_login_ip'] = MW_USER_IP;
 
             $table = $this->tables['users'];
-            mw_var("FORCE_SAVE", $this->tables['users']);
             $save = $this->app->database_manager->save($table, $data_to_save);
 
             $this->app->log_manager->delete("is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
