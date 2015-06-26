@@ -18,17 +18,6 @@ use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
-
-api_expose_admin('Utils\Backup\delete');
-api_expose_admin('Utils\Backup\create');
-api_expose_admin('Utils\Backup\download');
-api_expose_admin('Utils\Backup\create_full');
-api_expose_admin('Utils\Backup\move_uploaded_file_to_backup');
-
-api_expose_admin('Utils\Backup\restore');
-api_expose_admin('Utils\Backup\cronjob');
-
-
 api_expose_admin('Microweber\Utils\Backup\delete');
 api_expose_admin('Microweber\Utils\Backup\create');
 api_expose_admin('Microweber\Utils\Backup\download');
@@ -899,7 +888,7 @@ class Backup
         $end = microtime_float();
         $end = round($end - $start, 3);
         $this->log_action(false);
-        return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
+        return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end, 'url' => dir2url($filess));
 
     }
 

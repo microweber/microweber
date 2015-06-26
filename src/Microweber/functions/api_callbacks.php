@@ -1,5 +1,22 @@
 <?php
 
+api_expose('api_index', function($data = false) {
+    $fns = explode(' ', api_expose(true));
+    $fns = array_filter($fns);
+    
+    if(is_admin())
+    {
+        $fns2 = explode(' ', api_expose_admin(true));
+        $fns2 = array_filter($fns2);
+        $fns = array_merge($fns, $fns2);
+    }
+    
+    if(isset($data['debug'])) {
+        dd($fns);
+    }
+
+    return $fns;
+});
 
 // content
 
