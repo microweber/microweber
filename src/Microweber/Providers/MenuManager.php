@@ -228,7 +228,6 @@ class MenuManager
 
 
 
-
         if (!is_array($passed_actives)) {
             $passed_actives = array();
         }
@@ -414,6 +413,8 @@ class MenuManager
                 $title = $item['title'];
             }
 
+
+
             $active_class = '';
             $site_url = $this->app->url_manager->site();
             $cur_url = $this->app->url_manager->current(1);
@@ -471,11 +472,20 @@ class MenuManager
                     }
                 }
             }
+            if (isset($item['title']) and ($item['title']) != false) {
+
+                $title = $item['title'] = strip_tags(html_entity_decode($item['title']));
+
+             }
+
 
             if ($title != '') {
+
                 $has_items = true;
 
                 $item['url'] = $url;
+
+
                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
                 $ext_classes = '';
