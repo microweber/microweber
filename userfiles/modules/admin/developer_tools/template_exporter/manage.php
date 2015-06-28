@@ -71,7 +71,7 @@ transform:rotate(360deg);
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('admin/developer_tools/template_exporter/Worker')->get($keyword);
+      <?php $backups = mw('admin\developer_tools\template_exporter\Worker')->get($keyword);
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;

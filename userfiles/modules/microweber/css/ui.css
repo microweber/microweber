@@ -47,6 +47,9 @@
 .mw-icon-website:before {
   content: 'w';
 }
+.mw-icon-none:before {
+  content: ' ';
+}
 .mw-icon-page:before {
   content: '\0071';
 }

@@ -8,7 +8,7 @@ if (!defined('USER_IP')) {
     }
 }
 $check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel_type=uploader&user_ip=" . USER_IP);
-$job = mw('admin/developer_tools/template_exporter/Worker')->cronjob();
+$job = mw('admin\developer_tools\template_exporter\Worker')->cronjob();
 $check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=action&rel_type=export&user_ip=" . USER_IP);
 
  
