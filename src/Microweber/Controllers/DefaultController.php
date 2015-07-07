@@ -1958,7 +1958,7 @@ class DefaultController extends Controller
 
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);
-                } elseif ($found_mod != false) {
+                } elseif (isset($found_mod) and $found_mod != false) {
                     $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $found_mod));
                 } else {
                     $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $this->app->url_manager->segment(0)));

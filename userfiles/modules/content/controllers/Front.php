@@ -528,6 +528,30 @@ class Front
                     $item['price'] = false;
 
                 }
+
+
+                if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
+                    if(!in_array('title', $show_fields)){
+                        $item['title'] = false;
+                    }
+                    if(!in_array('description', $show_fields)){
+                        $item['description'] = false;
+                    }
+
+                    if(!in_array('created_at', $show_fields)){
+                        $item['created_at'] = false;
+                    }
+                    if(!in_array('read_more', $show_fields)){
+                        $item['read_more'] = false;
+                    }
+
+                    if(!in_array('thumbnail', $show_fields)){
+                        $item['thumbnail'] = false;
+                    }
+                }
+
+
+
                 $data[] = $item;
             }
         } else {

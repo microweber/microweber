@@ -68,6 +68,11 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('parser', function ($app) {
             return new Utils\Parser($app);
         });
+
+        $this->app->bind('http', function ($app) {
+            return new Utils\Http($app);
+        });
+
         $this->app->singleton('url_manager', function ($app) {
             return new Providers\UrlManager($app);
         });

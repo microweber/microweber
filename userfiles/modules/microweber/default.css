@@ -212,7 +212,7 @@ img.element{
   vertical-align: top;
 }
 
-.mw-live-edit div.edit, .mw-live-edit div.mw-col{
+.mw-live-edit.dragStart div.edit, .mw-live-edit.dragStart div.mw-col{
   min-height: 50px;
 }
 

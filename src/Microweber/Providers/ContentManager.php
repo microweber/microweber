@@ -1038,6 +1038,10 @@ class ContentManager
             $list_item_tag = 'li';
         }
 
+        if (isset($params['remove_ids'])) {
+            $remove_ids = $params['remove_ids'];
+        }
+
         if (isset($remove_ids) and is_string($remove_ids)) {
             $remove_ids = explode(',', $remove_ids);
         }
@@ -1381,6 +1385,7 @@ class ContentManager
                                 unset($params['return_data']);
                             }
 
+                            $params['remove_ids'] = $remove_ids;
                             if ($skip_pages_from_tree == false) {
                                 if ($item['id'] != $item['parent']) {
                                     $children = $this->pages_tree($params);
@@ -3614,8 +3619,6 @@ class ContentManager
         $data['allow_html'] = 1;
 
         $save = $this->app->database_manager->save($data);
-
-
 
 
         $this->app->cache_manager->delete('content_fields');
