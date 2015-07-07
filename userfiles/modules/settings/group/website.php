@@ -66,7 +66,9 @@ $(document).ready(function(){
     <input name="website_keywords" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_keywords','website'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Date Format</label>
+    <label class="mw-ui-label">
+    	<?php _e("Date Format"); ?>
+    </label>
     <?php $date_formats = array("Y-m-d H:i:s","m/d/y", "m/d/Y","F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a" ,'D-M-Y','D-M-Y H:i');  ?>
     <?php   $curent_val = get_option('date_format','website'); ?>
 
