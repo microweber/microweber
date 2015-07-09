@@ -13,7 +13,7 @@ description: Admin login style
 ?>
 <?php $user = user_id(); ?>
 
-<div id="mw-login">
+<div id="mw-login"> 
   <script>mw.require("tools.js");</script> 
   <script>mw.require("session.js");</script> 
   <script>
@@ -47,21 +47,23 @@ $(document).ready(function(){
    }
 
    </style>
+  <?php 
+ 
+if(!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link == false){
+$link = "https://microweber.com";	
+	
+}  else {
+$link = mw()->ui->admin_logo_login_link;	
+}
 
-  <a href="http://microweber.com" target="_blank" id="login-logo">
-
-   <img src="<?php  print mw()->ui->admin_logo_login(); ?>" alt="Logo">
-
-   <span class="mw-sign-version">v. <?php print MW_VERSION; ?></span>
-
-  </a>
-
-
-  
+?>
+  <a href="<?php print $link; ?>" target="_blank" id="login-logo"> <img src="<?php  print mw()->ui->admin_logo_login(); ?>" alt="Logo"> <span class="mw-sign-version">v. <?php print MW_VERSION; ?></span> </a>
   <div class="mw-ui-box">
     <div class="mw-ui-box-content" id="admin_login">
       <?php if($user != false): ?>
-      <div><?php _e("Welcome"); ?> <?php print user_name(); ?> </div>
+      <div>
+        <?php _e("Welcome"); ?>
+        <?php print user_name(); ?> </div>
       <a href="<?php print site_url() ?>">
       <?php _e("Go to"); ?>
       <?php print site_url() ?></a> <a href="<?php print api_link('logout') ?>" >
@@ -77,36 +79,37 @@ $(document).ready(function(){
         </div>
         <div class="mw-ui-field-holder">
           <ul  class="mw-ui-inline-list pull-left">
-            <li><span><?php _e("Language"); ?></span></li>
-          <li><div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span>
-            <?php if(defined('MW_LANG') and MW_LANG != '' and MW_LANG != 'en'): ?>
-            <span class="mw-dropdown-val"><?php print strtoupper(MW_LANG); ?></span>
-            <?php else:  ?>
-            <span class="mw-dropdown-val">EN</span>
-            <?php endif;  ?>
-            </span>
-            <div class="mw-dropdown-content">
-              <ul>
-                <?php $langs = get_available_languages(); ?>
-                <?php foreach($langs as $lang): ?>
-                <li value="<?php print $lang; ?>"><a href="javascript:;"><?php print strtoupper($lang); ?></a></li>
-                <?php endforeach; ?>
-              </ul>
-            </div>
-          </div></li>
+            <li><span>
+              <?php _e("Language"); ?>
+              </span></li>
+            <li>
+              <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span>
+                <?php if(defined('MW_LANG') and MW_LANG != '' and MW_LANG != 'en'): ?>
+                <span class="mw-dropdown-val"><?php print strtoupper(MW_LANG); ?></span>
+                <?php else:  ?>
+                <span class="mw-dropdown-val">EN</span>
+                <?php endif;  ?>
+                </span>
+                <div class="mw-dropdown-content">
+                  <ul>
+                    <?php $langs = get_available_languages(); ?>
+                    <?php foreach($langs as $lang): ?>
+                    <li value="<?php print $lang; ?>"><a href="javascript:;"><?php print strtoupper($lang); ?></a></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
-            <input  type="hidden" name="where_to" value="admin_content" />
-            <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
+          <input  type="hidden" name="where_to" value="admin_content" />
+          <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
         </div>
       </form>
       <?php if (get_option('enable_user_microweber_registration', 'users') == 'y'): ?>
-      <div>
-        <a href="<?php echo api_url(); ?>user_social_login?provider=microweber">With Microweber Account</a>
-      </div>
+      <div> <a href="<?php echo api_url(); ?>user_social_login?provider=microweber">With Microweber Account</a> </div>
       <?php endif; ?>
     </div>
   </div>
-
   <div id="login_foot"> <a href="<?php print site_url() ?>" class="pull-left"><span class="mw-icon-back"></span>
     <?php _e("Back to My WebSite"); ?>
     </a> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link pull-right">

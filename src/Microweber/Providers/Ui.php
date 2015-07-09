@@ -10,10 +10,12 @@ class Ui
     public $custom_fields = array();
     public $admin_logo = '';
     public $admin_logo_login = '';
+    public $admin_logo_login_link = false;
     public $logo_live_edit = '';
     public $brand_name = 'Microweber';
     public $powered_by_link = false;
     public $disable_marketplace = false;
+    public $marketplace_provider_id = false;
 
     public $modules_ui = array();
 
@@ -161,7 +163,6 @@ class Ui
     {
         return $this->custom_fields;
     }
-
 
 
     function powered_by_link()

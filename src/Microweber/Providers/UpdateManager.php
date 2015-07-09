@@ -147,8 +147,15 @@ class UpdateManager
     function marketplace_link($params = false)
     {
 
-        $url_resp = $this->call('market_link', $params);
+        if (!isset($params['marketplace_provider_id']) and isset(mw()->ui->marketplace_provider_id)) {
+            $params['marketplace_provider_id'] = mw()->ui->marketplace_provider_id;
 
+        }
+
+
+
+        $url_resp = $this->call('market_link', $params);
+ 
         if ($url_resp != false) {
             $url = json_decode($url_resp, 1);
             if (isset($url['url'])) {
