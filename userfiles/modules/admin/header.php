@@ -212,7 +212,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   
                   
                   <li <?php if ($view == 'settings' or $view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
-                  <?php _e("Extensions"); ?>
+                  <?php _e("Settings"); ?>
                   </strong> </a> </li>
                   <li id="main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
                 </ul>

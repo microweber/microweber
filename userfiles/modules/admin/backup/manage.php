@@ -86,7 +86,7 @@ transform:rotate(360deg);
        ?>
 
       <tr class="mw_admin_backup_item_<?php print $i ?>">
-        <td><?php print $item['filename']  ?> <span id="restore-<?php print md5($item['filename']) ?>" class="restore-loading-indicator mw-icon-load-c" title="Working"> </span></td>
+        <td><?php print $item['filename']  ?> <span id="restore-<?php print md5($item['filename']) ?>" class="restore-loading-indicator mw-icon-load-c" title="Working"></span></td>
         <td><span class="mw-date"><?php print $item['date']  ?></span></td>
         <td><span class="mw-date"><?php print $item['time']  ?></span></td>
         <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>

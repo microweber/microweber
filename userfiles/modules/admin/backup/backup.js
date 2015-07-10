@@ -52,7 +52,7 @@ mw.admin_backup = {
 			}
 			
 			
-		   mw.notification.success("Backup restoration started",7000);
+		   mw.notification.success("Backup restoration started",17000);
 				data = {}
 				data.id=src;
 				$.post(mw.settings.api_url+'Microweber/Utils/Backup/restore', data ,
