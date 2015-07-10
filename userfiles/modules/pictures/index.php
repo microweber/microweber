@@ -63,6 +63,9 @@ $handle_empty = false;
 if (isset($params['handle_empty']) == true) {
 $handle_empty = $params['handle_empty'];
 }
+
+ 
+
 if (isset($params['rel_id']) == true) {
     $for_id = $params['rel_id'];
     $get_for_session = false;
@@ -71,6 +74,7 @@ if (isset($params['rel_id']) == true) {
     }
     if ($get_for_session == false) {
         $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
+		 
     } else {
         $sid = mw()->user_manager->session_id();
 		
@@ -88,6 +92,7 @@ if (isset($params['rel_id']) == true) {
         }
     } else {
         $data = mw()->format->add_slashes_recursive($data);
+		 
     }
 
     $module_template = get_option('data-template', $params['id']);

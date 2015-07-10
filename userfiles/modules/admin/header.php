@@ -107,37 +107,20 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 </div>*/ ?>
-  <?php if(is_admin()): ?>
+<?php if(is_admin()): ?>
 <div id="mw-admin-container">
-
-
-
 <div class="mw-ui-row main-admin-row">
 <div class="mw-ui-col main-bar-column">
           <div id="main-bar" class="scroll-height-exception-master">
-
-        
-
-
     <?php $view = url_param('view'); ?>
     <?php $action = url_param('action'); ?>
-    <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>"> 
-    
-    
-    <?php if(mw()->ui->admin_logo != false) : ?>
-    
-		<img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />
-		 
-	<?php else: ?>
-    
-        <span class="mw-icon-mw"></span>
-
-    <?php endif;  ?>
-    
-    
-    
-    
-     <strong>
+    <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
+            <?php if(mw()->ui->admin_logo != false) : ?>
+            <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />
+            <?php else: ?>
+            <span class="mw-icon-mw"></span>
+            <?php endif;  ?>
+            <strong>
     <?php _e("Dashboard"); ?>
     </strong> </a>
     <ul id="main-menu">
@@ -216,11 +199,20 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   <li class="user-menu-sub"> <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank"> <span class="mw-icon-live" style="font-size: 24px;"></span> <strong>
                   <?php _e("Live Edit"); ?>
                   </strong> </a> </li>
-                  <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:modules"> <span class="mw-icon-module" style="font-size: 24px;"></span> <strong>
-                  <?php _e("Extensions"); ?>
+                  
+                  
+                  <?php if(mw()->ui->disable_marketplace != true): ?>
+              
+             
+                  <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:marketplace"> <span class="mw-icon-market-rocket" style="font-size: 24px;"></span> <strong>
+                  <?php _e("Marketplace"); ?>
                   </strong> </a> </li>
-                  <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear" style="font-size: 24px;"></span> <strong>
-                  <?php _e("Settings"); ?>
+                   <?php endif; ?>
+                  
+                  
+                  
+                  <li <?php if ($view == 'settings' or $view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
+                  <?php _e("Extensions"); ?>
                   </strong> </a> </li>
                   <li id="main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
                 </ul>
@@ -298,9 +290,6 @@ if ($last_page_front != false) {
           </a> </div>
       </div>
             </div>
-
-
-
-
   </div>
-        </div><?php endif; ?>
+        </div>
+<?php endif; ?>

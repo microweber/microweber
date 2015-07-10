@@ -1440,7 +1440,7 @@ class ShopManager
             $c_id = $this->app->database_manager->escape_string($data['id']);
             $table2 = $this->tables['cart'];
 
-            $c_id = $this->app->database_manager->delete_by_id($data['id'], 'session_id');
+            $c_id = $this->app->database_manager->delete_by_id($table2,$c_id, 'session_id');
 
 
             $this->app->cache_manager->delete('cart');
@@ -1451,7 +1451,7 @@ class ShopManager
             $this->app->database_manager->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
 
-            $c_id = $this->app->database_manager->delete_by_id($data['id'], 'order_id');
+            $c_id = $this->app->database_manager->delete_by_id($table2,$data['id'], 'order_id');
 
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');

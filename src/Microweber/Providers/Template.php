@@ -34,6 +34,8 @@ class Template
     public $app;
     public $head = array();
     public $head_callable = array();
+    public $foot = array();
+    public $foot_callable = array();
 
     function __construct($app = null)
     {
@@ -82,9 +84,7 @@ class Template
         ob_start();
 
 
-
         event_trigger('mw.template.print_custom_css_includes');
-
 
 
         $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
@@ -92,7 +92,7 @@ class Template
             include($fonts_file);
         }
         $custom_css = get_option("custom_css", "template");
-        if(is_string($custom_css)){
+        if (is_string($custom_css)) {
             print $custom_css;
         }
 
@@ -206,6 +206,7 @@ class Template
         }
     }
 
+
     public function head_callback($data = false)
     {
         $data = array();
@@ -215,6 +216,55 @@ class Template
             }
         }
         return $data;
+    }
+
+
+    public function foot($script_src)
+    {
+
+
+        if ($this->foot_callable == null) {
+            $this->foot_callable = array();
+        }
+
+        if (is_string($script_src)) {
+            if (!in_array($script_src, $this->foot)) {
+                $this->foot[] = $script_src;
+                return $this->foot;
+            }
+        } else if (is_bool($script_src)) {
+            //   return $this->foot;
+            $src = '';
+
+            if (is_array($this->foot)) {
+                foreach ($this->foot as $footer) {
+                    $ext = get_file_extension($footer);
+                    switch (strtolower($ext)) {
+
+
+                        case 'css':
+                            $src .= '<link rel="stylesheet" href="' . $footer . '" type="text/css" media="all">' . "\n";
+                            break;
+
+                        case 'js':
+                            $src .= '<script type="text/javascript" src="' . $footer . '"></script>' . "\n";
+                            break;
+
+
+                        default:
+                            $src .= $footer . "\n";
+                            break;
+                    }
+                }
+            }
+
+            return $src;
+        } elseif (is_callable($script_src)) {
+            if (!in_array($script_src, $this->foot_callable)) {
+                $this->foot_callable[] = $script_src;
+                return $this->foot_callable;
+            }
+        }
     }
 
     /**

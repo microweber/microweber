@@ -4,10 +4,12 @@
 
 mw.require('forms.js');
 
+</script>
+<script  type="text/javascript">
 
 $(document).ready(function(){
 
-
+mw.dropdown();
 
     mw.$('#modules_categories_tree_<?php print $params['id']; ?> .fixed-side-column-container .well')
         .prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>');
@@ -119,7 +121,7 @@ _modulesSort = function(){
     });
 }
 
-
+$(document).ready(function(){
 mw.on.hashParam('ui', _modulesSort);
 
 mw.on.hashParam('search', function(){
@@ -153,13 +155,13 @@ mw.on.hashParam('installed', function(){
 });
 
 
-
+});
 
 
 
 
 $(document).ready(function(){
-
+_modulesSort();
    mw.on.hashParam('market', function(){
      if(this != false){
         mw.$('html').addClass('market-init');
@@ -178,55 +180,48 @@ $(document).ready(function(){
 
 
 </script>
-
 <style>
-
-html.market-init, .market-init body{
-  overflow: hidden;
+html.market-init, .market-init body {
+	overflow: hidden;
 }
-
-html.market-init .tree-column{
-
-  -webkit-transform: translateX(-210px);
-  -moz-transform: translateX(-210px);
-  -ms-transform: translateX(-210px);
-  -o-transform: translateX(-210px);
-  transform: translateX(-210px);
+html.market-init .tree-column {
+	-webkit-transform: translateX(-210px);
+	-moz-transform: translateX(-210px);
+	-ms-transform: translateX(-210px);
+	-o-transform: translateX(-210px);
+	transform: translateX(-210px);
 }
-html.market-init #modules_admin_<?php print $params['id']; ?>,
-html.market-init .modules-index-bar{
-   -webkit-transform: scale(0);
-  -moz-transform: scale(0);
-  -ms-transform: scale(0);
-  -o-transform: scale(0);
-  transform: scale(0);
-  opacity: 0;
+html.market-init #modules_admin_<?php print $params['id'];
+?>, html.market-init .modules-index-bar {
+ -webkit-transform: scale(0);
+ -moz-transform: scale(0);
+ -ms-transform: scale(0);
+ -o-transform: scale(0);
+ transform: scale(0);
+ opacity: 0;
 }
-
-html.market-init #modules_admin_<?php print $params['id']; ?>,
-html.market-init .modules-index-bar,
-html.market-init .tree-column{
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  transition: all 0.3s;
+ html.market-init #modules_admin_<?php print $params['id'];
+?>, html.market-init .modules-index-bar, html.market-init .tree-column {
+ -webkit-transition: all 0.3s;
+ -moz-transition: all 0.3s;
+ -o-transition: all 0.3s;
+ -ms-transition: all 0.3s;
+ transition: all 0.3s;
 }
-
-#mw-update-frame{
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top:0;
-  right: 0;
-  left:100px;
-  background: url(<?php print template_url(); ?>img/preloader.gif) no-repeat center;
+#mw-update-frame {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top:0;
+	right: 0;
+	left:100px;
+ background: url(<?php print mw_includes_url();
+?>img/load.gif) no-repeat center;
 }
-
 </style>
 
 <div id="edit-content-row" class="mw-ui-row">
-  <div class="mw-ui-col tree-column">
+  <div class="mw-ui-col tree-column" style="display:none">
     <div class="tree-column-holder">
       <div class="fixed-side-column scroll-height-exception-master">
         <div class="admin-side-box scroll-height-exception">
@@ -236,37 +231,28 @@ html.market-init .tree-column{
         </div>
         <div class="mw-admin-side-nav" id="modules_categories_tree_<?php print $params['id']; ?>" >
           <div class="fixed-side-column-container">
-            <div class="mw-ui-sidenav">
-                <a href="javascript:;"  onclick="mw_show_my_modules()" class="active"><?php _e("My modules"); ?></a>
-               
-               
-               <?php if(mw()->ui->disable_marketplace != true): ?>
-                <a href="#market=mw"><?php _e("Market"); ?></a>
-                <?php endif; ?>
-                
-                
-                
-                <?php $modules_sidebar_menu =  mw()->modules->ui('admin.modules.sidebar');  ?>
-              	<?php if (!empty($modules_sidebar_menu)): ?>
-				<?php foreach ($modules_sidebar_menu as $type => $item): ?>
-                <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
-                <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
-                <?php $link = ( isset( $item['link']))? ($item['link']) : false ; ?>
-                <?php $market_module = ( isset( $item['module']))? ($item['module']) : false ; ?>
-				<?php if($market_module != false): ?>
-                <a href="<?php print admin_url('view:modules/load_module:').$market_module; ?>" class="<?php print $class; ?>"><?php print $title; ?></a>
-
-                <?php else: ?>
-                <a href="<?php print $link; ?>" class="<?php print $class; ?>"><?php print $title; ?></a>
-
-                <?php endif; ?>
-
-                <?php endforeach; ?>
-                <?php endif; ?>
-                
-                
-                
-                
+            <div class="mw-ui-sidenav"> <a href="javascript:;"  onclick="mw_show_my_modules()" class="active">
+              <?php _e("My modules"); ?>
+              </a>
+              <?php if(mw()->ui->disable_marketplace != true): ?>
+              <a href="#market=mw">
+              <?php _e("Market"); ?>
+              </a>
+              <?php endif; ?>
+              <?php $modules_sidebar_menu =  mw()->modules->ui('admin.modules.sidebar');  ?>
+              <?php if (!empty($modules_sidebar_menu)): ?>
+              <?php foreach ($modules_sidebar_menu as $type => $item): ?>
+              <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+              <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+              <?php $link = ( isset( $item['link']))? ($item['link']) : false ; ?>
+              <?php $market_module = ( isset( $item['module']))? ($item['module']) : false ; ?>
+              <?php if($market_module != false): ?>
+              <a href="<?php print admin_url('view:modules/load_module:').$market_module; ?>" class="<?php print $class; ?>"><?php print $title; ?></a>
+              <?php else: ?>
+              <a href="<?php print $link; ?>" class="<?php print $class; ?>"><?php print $title; ?></a>
+              <?php endif; ?>
+              <?php endforeach; ?>
+              <?php endif; ?>
             </div>
           </div>
         </div>
@@ -277,15 +263,13 @@ html.market-init .tree-column{
     </div>
   </div>
   <div class="mw-ui-col main-content-column">
-    <div class="mw-ui-col-container">
+    <div class="mw-ui-col-modules-container">
       <div class="modules-index-bar">
-        <div class="mw-ui-row" id="modules-title-and-search">
+        <div class="mw-ui-row" id="modules-list-title-and-search">
           <div class="mw-ui-col">
-            <h2 class="mw-side-main-title scroll-height-exception">
-                <span>
-                    <?php _e("My Modules"); ?>
-                </span>
-            </h2>
+            <h2 class="mw-side-main-title scroll-height-exception"> <span>
+              <?php _e("My Modules"); ?>
+              </span> </h2>
           </div>
           <div class="mw-ui-col">
             <input
@@ -299,16 +283,13 @@ html.market-init .tree-column{
           />
           </div>
         </div>
-
         <ul class="mw-ui-inline-list pull-right">
           <li>
             <label class="mw-ui-check">
               <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
-              <span></span>
-              <span>
-                <?php _e("Installed"); ?>
-              </span>
-              </label>
+              <span></span> <span>
+              <?php _e("Installed"); ?>
+              </span> </label>
           </li>
           <li>
             <label class="mw-ui-check">
@@ -318,27 +299,31 @@ html.market-init .tree-column{
               </span> </label>
           </li>
         </ul>
-        <div class="mw-dropdown mw-dropdown-default pull-left" id="modules-sort-types" style="margin-right: 20px;">
-          <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php _e("Module types"); ?></span>
+        <div class="mw-dropdown mw-dropdown-default pull-left" id="modules-sort-types" style="margin-right: 20px;"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val">
+          <?php _e("Module types"); ?>
+          </span>
           <div class="mw-dropdown-content" style="display: none;">
             <ul>
-              <li value="live_edit"><?php _e("Live edit modules"); ?></li>
-              <li value="admin"><?php _e("Admin modules"); ?></li>
-              <li value="advanced"><?php _e("Advanced"); ?></li>
+              <li value="live_edit">
+                <?php _e("Live edit modules"); ?>
+              </li>
+              <li value="admin">
+                <?php _e("Admin modules"); ?>
+              </li>
+              <li value="advanced">
+                <?php _e("Advanced"); ?>
+              </li>
             </ul>
           </div>
         </div>
-        <div class="mw-dropdown pull-left nested-dropdown" style="margin-right: 20px; display:none;">
-            <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
+        <div class="mw-dropdown pull-left nested-dropdown" style="margin-right: 20px; display:none;"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button">
+          <?php _e("Categories"); ?>
+          </span>
           <div class="mw-dropdown-content">
             <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
           </div>
         </div>
-        <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-medium pull-left tip" data-tip="<?php _e("Reload modules"); ?>" >
-            <span class="mw-icon-reload"></span>
-            </span>
-
-      </div>
+        <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-medium pull-left tip" data-tip="<?php _e("Reload modules"); ?>" > <span class="mw-icon-reload"></span> </span> </div>
       <div id="modules_admin_<?php print $params['id']; ?>" ></div>
       <div id="modules_market_<?php print $params['id']; ?>" ></div>
     </div>

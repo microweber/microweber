@@ -1754,6 +1754,7 @@ class DefaultController extends Controller
             }
 
             $template_headers_src = $this->app->template->head(true);
+            $template_footer_src = $this->app->template->foot(true);
 
 
             $template_headers_src_callback = $this->app->template->head_callback($page);
@@ -1771,8 +1772,11 @@ class DefaultController extends Controller
                 }
             }
 
-            if ($template_headers_src != false and $template_headers_src != '') {
+            if ($template_headers_src != false and is_string($template_headers_src)) {
                 $l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
+            }
+            if ($template_footer_src != false and is_string($template_footer_src)) {
+                $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
             }
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);

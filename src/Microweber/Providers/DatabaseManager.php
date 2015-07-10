@@ -637,19 +637,18 @@ class DatabaseManager extends DbUtils
     public function delete_by_id($table, $id = 0, $field_name = 'id')
     {
 
-        if ($id == 0) {
+        if ($id === 0) {
             return false;
         }
+        
         if (is_array($id)) {
             foreach ($id as $remove) {
                 $c_id = DB::table($table)->where($field_name, '=', $remove)->delete();
-
             }
         } else {
             $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
 
         }
-
 
         Cache::tags($table)->flush();
         return $c_id;
