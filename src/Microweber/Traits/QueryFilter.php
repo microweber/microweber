@@ -214,6 +214,7 @@ trait QueryFilter
                 case 'categories':
 
                     $ids = $value;
+
                     if (is_string($ids)) {
                         $ids = explode(',', $ids);
                     } elseif (is_int($ids)) {
@@ -223,19 +224,10 @@ trait QueryFilter
 
                     if (is_array($ids)) {
 
-
                         $query = $query->leftJoin('categories_items'
                             , 'categories_items.rel_id', '=', $table . '.id')
                             ->where('categories_items.rel_type', $table)
                             ->whereIn('categories_items.parent_id', $ids);
-
-
-//                        $query = $query->whereIn('id', function ($query) use ($table, $ids) {
-//                            $query->select('rel_id')
-//                                ->from('categories_items')
-//                                ->where('categories_items.rel_type', $table)
-//                                ->whereIn('categories_items.parent_id', $ids)->get();
-//                        });
 
 
                     }
@@ -281,7 +273,7 @@ trait QueryFilter
 
                     if ($value > 1) {
                         if ($is_limit != false) {
-                            $criteria = intval($value) * intval($is_limit);
+                            $criteria = intval($value-1) * intval($is_limit);
                         }
                     }
                     if ($criteria > 1) {

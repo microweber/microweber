@@ -250,16 +250,14 @@ class DatabaseManager extends DbUtils
             return $query;
         }
 
-        if ($this->use_cache == false) {
 
+
+        if ($this->use_cache == false) {
             $data = $query->get();
         } else {
-
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
-
                 return $query->get();
             });
-
         }
 
 
@@ -640,14 +638,13 @@ class DatabaseManager extends DbUtils
         if ($id === 0) {
             return false;
         }
-        
+
         if (is_array($id)) {
             foreach ($id as $remove) {
                 $c_id = DB::table($table)->where($field_name, '=', $remove)->delete();
             }
         } else {
             $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
-
         }
 
         Cache::tags($table)->flush();
