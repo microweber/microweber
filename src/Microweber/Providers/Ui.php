@@ -16,6 +16,7 @@ class Ui
     public $powered_by_link = false;
     public $disable_marketplace = false;
     public $marketplace_provider_id = false;
+    public $marketplace_access_code = false;
 
     public $modules_ui = array();
 

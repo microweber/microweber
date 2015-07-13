@@ -397,7 +397,7 @@ class ShopManager
                         $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&no_session_id=' . mw()->user_manager->session_id());
                         // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
-                     // dd($order_items_html);
+                        // dd($order_items_html);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         foreach ($ord_data as $key => $value) {
 
@@ -1440,7 +1440,7 @@ class ShopManager
             $c_id = $this->app->database_manager->escape_string($data['id']);
             $table2 = $this->tables['cart'];
 
-            $c_id = $this->app->database_manager->delete_by_id($table2,$c_id, 'session_id');
+            $c_id = $this->app->database_manager->delete_by_id($table2, $c_id, 'session_id');
 
 
             $this->app->cache_manager->delete('cart');
@@ -1451,7 +1451,7 @@ class ShopManager
             $this->app->database_manager->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
 
-            $c_id = $this->app->database_manager->delete_by_id($table2,$data['id'], 'order_id');
+            $c_id = $this->app->database_manager->delete_by_id($table2, $data['id'], 'order_id');
 
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');

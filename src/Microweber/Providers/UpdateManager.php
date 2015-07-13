@@ -149,9 +149,10 @@ class UpdateManager
 
         if (!isset($params['marketplace_provider_id']) and isset(mw()->ui->marketplace_provider_id)) {
             $params['marketplace_provider_id'] = mw()->ui->marketplace_provider_id;
-
         }
-
+        if (!isset($params['marketplace_access_code']) and isset(mw()->ui->marketplace_access_code)) {
+            $params['marketplace_access_code'] = mw()->ui->marketplace_access_code;
+        }
 
 
         $url_resp = $this->call('market_link', $params);
