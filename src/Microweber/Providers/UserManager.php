@@ -30,7 +30,7 @@ if (!defined('MW_USER_IP')) {
 }
 
 
-class UserManager 
+class UserManager
 {
     public $tables = array();
 
@@ -711,19 +711,16 @@ class UserManager
             $force = mw_var('force_save_user');
         }
 
+        if (defined("MW_API_CALL") and mw_is_installed() == true) {
+            if (isset($params['is_admin']) and $this->is_admin() == false) {
+                unset($params['is_admin']);
+            } 
+        }
 
         if ($force == false) {
-
-            if (defined("MW_API_CALL") and mw_is_installed() == true) {
-                if (isset($params['is_admin']) and $this->is_admin() == false) {
-                    unset($params['is_admin']);
-                }
-            }
-
             if (isset($params['id']) and $params['id'] != 0) {
                 $adm = $this->is_admin();
                 if ($adm == false) {
-
                     $is_logged = user_id();
                     if ($is_logged == false or $is_logged == 0) {
                         return array('error' => 'You must be logged to save user');
@@ -731,7 +728,6 @@ class UserManager
                         // the user is editing their own profile
                     } else {
                         return array('error' => 'You must be logged to as admin save this user');
-
                     }
                 }
             } else {
@@ -740,7 +736,6 @@ class UserManager
                     if ($adm == false) {
                         $params['id'] = $this->id();
                         $is_logged = user_id();
-
                         if (intval($params['id']) != 0 and $is_logged != $params['id']) {
                             return array('error' => 'You must be logged save your settings');
                         }
@@ -1000,7 +995,7 @@ class UserManager
                     $data = $this->get_all($data1);
                 }
             }
-			 
+
             if (isset($data[0])) {
                 $data_res = $data[0];
             }

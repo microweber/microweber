@@ -237,9 +237,9 @@
           </label>
           <div class="mw-ui-btn-nav"> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">
             <?php _e("All"); ?>
-            </a> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">
+            </a> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', '0');">
             <?php _e("User"); ?>
-            </a> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');">
+            </a> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', '1');">
             <?php _e("Admin"); ?>
             </a> </div>
         </div>
@@ -247,9 +247,9 @@
           <label class="mw-ui-label">Sort Users by Status</label>
           <div class="mw-ui-btn-nav"> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">
             <?php _e("All users"); ?>
-            </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');">
+            </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', '1');">
             <?php _e("Active users"); ?>
-            </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');">
+            </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', '0');">
             <?php _e("Disabled users"); ?>
             </a> </div>
         </div>

@@ -40,7 +40,7 @@ if($id == 0){
 if( $id != 0){
 //$data = menu_tree( $id);
 }
-
+ 
 ?>
 <?php if($data != false): ?>
 <?php //$rand = uniqid(); ?>
@@ -84,7 +84,7 @@ if( $id != 0){
 
   ?>
   <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;">
-
+<div id="custom_link_inline_controller_edit_<?php  print $data['id'] ?>">
     <h4><?php _e("Edit menu item"); ?></h4>
 
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
@@ -119,21 +119,22 @@ if( $id != 0){
 
     <div class="mw-clear pull-right mw-ui-btn-nav">
         <span onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-ui-btn"><?php _e("Cancel"); ?></span>
-        <button class="mw-ui-btn mw-ui-btn-info" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
+        <button class="mw-ui-btn mw-ui-btn-info" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php  print $data['id'] ?>');"><?php _e("Save"); ?></button>
     </div>
-
-
-  </div>
   <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
   <input type="hidden" name="content_id" value="<?php  print $data['content_id'] ?>" />
   <input type="hidden" name="categories_id" value="<?php  print $data['categories_id'] ?>" />
-  <?php  if(isset($params['menu-id'])): ?>
-  <input type="hidden" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
+  <?php  if(isset($params['menu-parent-id'])): ?>
+  <input type="hidden" name="parent_id" value="<?php  print $params['menu-parent-id'] ?>" />
   <?php  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>
   <input type="hidden" name="parent_id" value="<?php  print $data['parent_id'] ?>" />
   <?php  elseif(isset($params['parent_id'])): ?>
   <input type="hidden" name="parent_id" value="<?php  print $params['parent_id'] ?>" />
   <?php endif; ?>
+
+  </div>
+
+  </div>
 </div>
 <?php else: ?>
 <?php endif; ?>

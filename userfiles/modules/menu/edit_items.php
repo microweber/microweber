@@ -28,7 +28,7 @@ if(!isset($params['menu-name']) and isset($params['name'])){
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="mw-ui-btn mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_item_delete({id});">Delete</span>
+	$menu_params['link'] = '<div id="menu-item-{id}" data-item-id="{id}"  class="module_item"><span class="mw-ui-btn mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_item_delete({id});">Delete</span><span class="mw-ui-btn mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_items_set_edit({id}, this);">Edit</span>
 	<span class="mw-icon-drag mw_admin_modules_sortable_handle"></span><span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_items_set_edit({id}, this);">{title}</span> </div>';
 
     $data = menu_tree( $menu_params);
@@ -45,16 +45,33 @@ if( $id != 0){
   mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
  </script>
 <script  type="text/javascript">
-    if(typeof mw.menu_save_new_item !== 'function'){
-        mw.menu_save_new_item = function(selector){
+
+		mw.menu_curenlty_editing_item_id = false;
+
+
+         mw.menu_save_new_item = function(selector){
+			
         	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
+				
+					 if(mw.notification != undefined){
+			 mw.notification.success('Menu changes are saved');
+			 }
+			 
+				
  				mw.menu_item_after_save();
         	});
         }
-    }
+    
  
 mw.menu_item_after_save = function(){
 	mw.reload_module_parent('menu')
+		if(mw.menu_curenlty_editing_item_id != false){
+			if(mw.$("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id).length>0){
+				 //	mw.reload_module_parent("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id)
+
+			  }
+		}
+ 	
 }
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
@@ -82,7 +99,7 @@ if(typeof node === 'object'){
   mw.$('li .active', master).removeClass('active');
 
   $(node.parentNode).addClass('active');
-
+	mw.menu_curenlty_editing_item_id = id;
   if(mw.$("#edit-menu_item_edit_wrap-"+id).length>0){
     return false;
   }
@@ -163,10 +180,8 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
  });
  </script>
 
-
- <div class="menu-module-wrapper">
-
- <style type="text/css" scoped="scoped">
+<div class="menu-module-wrapper">
+  <style type="text/css" scoped="scoped">
      #mw_admin_menu_items_sort_<?php print $rand; ?> > ul{
       height: auto !important;
      }
@@ -174,17 +189,18 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
      .manage-menus{
        max-width: 650px;
      }
+	 .menu_element_link {
+		 width:80%; 
+	 }
 
 </style>
-
-<div class="mw-ui-box mw-ui-box-content manage-menus">
-
+  <div class="mw-ui-box mw-ui-box-content manage-menus">
     <div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?></div>
-</div>
-<?php else: ?>
-<?php _e("This menu is empty, please add items."); ?>
-<?php endif; ?>
-<script  type="text/javascript">
+  </div>
+  <?php else: ?>
+  <?php _e("This menu is empty, please add items."); ?>
+  <?php endif; ?>
+  <script  type="text/javascript">
 $(document).ready(function(){
    $("#add-custom-link-parent-id").val('<?php print $id ?>');
 
@@ -192,19 +208,18 @@ $(document).ready(function(){
  });
 
  </script>
-<div>
-	<module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
-</div>
-<?php
+  <div>
+    <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
+  </div>
+  <?php
 if(isset($params['menu-name'])): ?>
-<?php
+  <?php
     $menu = get_menus('one=1&limit=1&title='.$params['menu-name']);
 	if(isset($menu['id'])) :
 ?>
-    <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important pull-right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');"><?php _e("Delete"); ?> <strong><?php print $menu['title']; ?></strong></a>
-
-<?php endif ?>
-<?php endif ?>
-
-
+  <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important pull-right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">
+  <?php _e("Delete"); ?>
+  <strong><?php print $menu['title']; ?></strong></a>
+  <?php endif ?>
+  <?php endif ?>
 </div>

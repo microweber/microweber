@@ -197,7 +197,6 @@ class Modules
         }
 
 
-
         $dir = rglob($glob_patern, 0, $dir_name);
         $dir_name_mods = modules_path();
         $dir_name_mods2 = elements_path();
@@ -265,11 +264,14 @@ class Modules
                     $config['module'] = rtrim($config['module'], '/');
 
                     $config['module_base'] = str_replace('admin/', '', $moduleDir);
+                    $main_try_icon = false;
+
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
                         $t1 = modules_path() . $config['module'] . DS . $bname;
 
                         $try_icon = $t1 . '.png';
+                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.png';
 
                     } else {
                         $try_icon = $mod_name . '.png';
@@ -277,35 +279,36 @@ class Modules
 
                     $try_icon = normalize_path($try_icon, false);
 
-                    if (is_file($try_icon)) {
+                    if ($main_try_icon and is_file($main_try_icon)) {
+
+                        $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon);
+                    } else if (is_file($try_icon)) {
 
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
 
-					if(isset($config['ui'])){
-						$config['ui'] = intval($config['ui']);
-					} else {
-						$config['ui'] = 0;
-					}
-					
-					if(isset($config['is_system'])){
-						$config['is_system'] = intval($config['is_system']);
-					} else {
-						$config['is_system'] = 0;
-					}
-					
-					
-					
-					if(isset($config['ui_admin'])){
-						$config['ui_admin'] = intval($config['ui_admin']);
-					} else {
-						$config['ui_admin'] = 0;
-					}
-					
-					
-					
+                    if (isset($config['ui'])) {
+                        $config['ui'] = intval($config['ui']);
+                    } else {
+                        $config['ui'] = 0;
+                    }
+
+                    if (isset($config['is_system'])) {
+                        $config['is_system'] = intval($config['is_system']);
+                    } else {
+                        $config['is_system'] = 0;
+                    }
+
+
+                    if (isset($config['ui_admin'])) {
+                        $config['ui_admin'] = intval($config['ui_admin']);
+                    } else {
+                        $config['ui_admin'] = 0;
+                    }
+
+
                     $configs[] = $config;
 
 
@@ -839,7 +842,7 @@ class Modules
 
             }
 
-             $lic = $this->license($module_name);
+            $lic = $this->license($module_name);
             //  $lic = 'valid';
             if ($lic != false) {
                 $config['license'] = $lic;
@@ -1351,7 +1354,7 @@ class Modules
                             }
                         }
                     }
-                 }
+                }
                 $to_save = array();
                 $to_save['id'] = $id;
                 $to_save['installed'] = '0';
@@ -1368,7 +1371,7 @@ class Modules
             return false;
         }
 
-        if(isset($params['for_module'])){
+        if (isset($params['for_module'])) {
             $this_module = $this->get('ui=any&one=1&module=' . $params['for_module']);
             if (isset($this_module['id'])) {
                 $params['id'] = $this_module['id'];
