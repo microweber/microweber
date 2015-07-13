@@ -37,9 +37,6 @@ if (isset($host['host'])) {
 }
 
 
-
-
-
 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
 
@@ -92,7 +89,7 @@ if (is_admin() != false) {
         if (!empty($user) and isset($user["is_active"]) and $user["is_active"] == 1) {
 
             $are_allowed = 'img';
-            $_REQUEST["path"] = 'media/'.$host_dir.DS.'user_uploads/user/' . DS . $user["id"] . DS;
+            $_REQUEST["path"] = 'media/' . $host_dir . DS . 'user_uploads/user/' . DS . $user["id"] . DS;
             $allowed_to_upload = 1;
         }
 
@@ -112,24 +109,21 @@ if ($allowed_to_upload == false) {
         } else {
 
             $rel_error = false;
-            if(!isset($_REQUEST["rel_id"])){
+            if (!isset($_REQUEST["rel_id"])) {
                 $rel_error = true;
             }
-            if(!isset($cfid["rel_id"])){
-                $rel_error = true;
-            }
-
-            if(($_REQUEST["rel_id"]) != $cfid["rel_id"]){
+            if (!isset($cfid["rel_id"])) {
                 $rel_error = true;
             }
 
-            if($rel_error){
+            if (($_REQUEST["rel_id"]) != $cfid["rel_id"]) {
+                $rel_error = true;
+            }
+
+            if ($rel_error) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 91, "message": "You are not allowed to upload"}}');
             }
         }
-
-
-
 
 
         if ($cfid != false and isset($cfid['custom_field_type'])) {
@@ -249,7 +243,7 @@ if ($allowed_to_upload == false) {
 
                             } else {
                                 if (!isset($_REQUEST['captcha'])) {
-                                    if(!$validate_token){
+                                    if (!$validate_token) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
                                     }
                                 } else {
@@ -263,7 +257,7 @@ if ($allowed_to_upload == false) {
 
                                     } else {
                                         if (!isset($_REQUEST["path"])) {
-                                            $_REQUEST["path"] = 'media/'.$host_dir .'/user_uploads' . DS . $_REQUEST["rel_type"] . DS;
+                                            $_REQUEST["path"] = 'media/' . $host_dir . '/user_uploads' . DS . $_REQUEST["rel_type"] . DS;
                                         }
                                     }
                                 }
@@ -306,8 +300,6 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
-
 
 
 // Settings

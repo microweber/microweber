@@ -153,13 +153,15 @@ class Format
 
         return "<a href=\"$url_full\">$url_short</a>";
     }
+
     function human_filesize($bytes, $dec = 2)
     {
-        $size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $size = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $factor = floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
+
     public function ago($time, $granularity = 2)
     {
         if (is_int($time)) {
@@ -288,6 +290,9 @@ class Format
 
     function strip_unsafe($string, $img = false)
     {
+
+        $string = $this->clean_xss($string, $img);
+
         if (is_array($string)) {
             foreach ($string as $key => $val) {
                 $string[$key] = $this->strip_unsafe($val, $img);
