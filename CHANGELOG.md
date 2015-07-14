@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.4] - 2015-07-14
+- Vendor: Added Laravel HTML helper class
+- Fix: security fix in uploader
+- Fix: security fix user creation
+- Fix: editing menus bug
+- Fix: delete abandoned cart
+- Fix: query pagination was skipping pages
+- Fix: menu title was outputting html tags
+
+
+
 ## [1.0.3] - 2015-06-15
 
 - Vendor: Updated Laravel to v5.0.33 (last version that supports php 5.4)
