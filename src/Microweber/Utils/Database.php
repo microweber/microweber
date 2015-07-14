@@ -318,8 +318,24 @@ class Database
 
     function clean_input($input)
     {
-        $input = $this->app->format->strip_unsafe($input);
-        return $input;
+        
+
+        if (is_array($input)) {
+            $output = array();
+            foreach ($input as $var => $val) {
+                $output[$var] = $this->clean_input($val);
+            }
+        } elseif (is_string($input)) {
+            $search = array(
+                '@<script[^>]*?>.*?</script>@si', // Strip out javascript
+
+                '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
+            );
+            $output = preg_replace($search, '', $input);
+        } else {
+            return $input;
+        }
+        return $output;
     }
 
     /**
