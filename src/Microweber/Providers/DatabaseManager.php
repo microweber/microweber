@@ -251,6 +251,7 @@ class DatabaseManager extends DbUtils
         }
 
 
+
         if ($this->use_cache == false) {
             $data = $query->get();
         } else {
@@ -433,6 +434,7 @@ class DatabaseManager extends DbUtils
                 $criteria = $this->clean_input($criteria);
             }
         }
+
         $table = $this->app->format->clean_html($table);
 
         $criteria = $this->app->url_manager->replace_site_url($criteria);
