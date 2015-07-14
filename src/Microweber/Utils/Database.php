@@ -194,6 +194,7 @@ class Database
     public $default_limit = 30;
 
 
+
     public $table_fields = array();
 
     /**
@@ -275,9 +276,9 @@ class Database
         if (!$table) {
             return false;
         }
-        $key = 'mw_db_get_fields' . crc32($table);
+        $key = 'mw_db_get_fields'.crc32($table);
         $hash = $table;
-        $value = $this->app->cache_manager->get($key, 'db');
+        $value = $this->app->cache_manager->get($key,'db');
 
         if (isset($value[$hash])) {
             return $value[$hash];
@@ -286,8 +287,8 @@ class Database
         $ex_fields_static[$table] = $fields;
         $expiresAt = 300;
         $value[$hash] = $fields;
-        //  $cache = Cache::put($key, $value, $expiresAt);
-        $value = $this->app->cache_manager->save($value, $key, 'db');
+      //  $cache = Cache::put($key, $value, $expiresAt);
+        $value = $this->app->cache_manager->save($value,$key,'db');
 
         return $fields;
     }
@@ -318,8 +319,6 @@ class Database
 
     function clean_input($input)
     {
-        
-
         if (is_array($input)) {
             $output = array();
             foreach ($input as $var => $val) {
