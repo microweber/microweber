@@ -8,6 +8,19 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 
+
+/**
+ * Database Utils class
+ *
+ * Query helper class
+ *
+ * @package Database
+ * @category Database
+ * @desc Various utils functions to work with the database
+ *
+ * @property \Microweber\Application $app
+ */
+
 class Database
 {
     public $cache_minutes = 60;
@@ -269,6 +282,7 @@ class Database
         if (isset($ex_fields_static[$table])) {
             return $ex_fields_static[$table];
         }
+        $expiresAt = 300;
 
         $cache_group = 'db/fields';
         if (!$table) {
@@ -276,19 +290,18 @@ class Database
         }
         $key = 'mw_db_get_fields' . crc32($table);
         $hash = $table;
-        $value = $this->app->cache_manager->get($key, 'db');
+        $value = $this->app->cache_manager->get($key, 'db',$expiresAt);
 
         if (isset($value[$hash])) {
             return $value[$hash];
         }
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
-        $expiresAt = 300;
 
         // TODO: Temp fix for Laravel
         if (count($fields) && !is_string($fields[0]) && isset($fields[0]->name)) {
             $fields = array_map(function ($f) {
-                    return $f->name;
-                }, $fields);
+                return $f->name;
+            }, $fields);
         }
 
         // Caching
