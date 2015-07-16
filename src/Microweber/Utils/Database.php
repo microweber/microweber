@@ -266,12 +266,11 @@ class Database
 
     public function get_fields($table)
     {
-
         static $ex_fields_static;
         if (isset($ex_fields_static[$table])) {
             return $ex_fields_static[$table];
-
         }
+
         $cache_group = 'db/fields';
         if (!$table) {
             return false;
@@ -284,11 +283,18 @@ class Database
             return $value[$hash];
         }
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
-        $ex_fields_static[$table] = $fields;
         $expiresAt = 300;
+
+        // TODO: Temp fix for Laravel
+        if(count($fields) && !is_string($fields[0]) && isset($fields[0]->name)) {
+          $fields = array_map(function($f) { return $f->name; }, $fields);
+        }
+
+        // Caching
+        $ex_fields_static[$table] = $fields;
         $value[$hash] = $fields;
-      //  $cache = Cache::put($key, $value, $expiresAt);
         $value = $this->app->cache_manager->save($value,$key,'db');
+        $cache = Cache::put($key, $value, $expiresAt);
 
         return $fields;
     }
