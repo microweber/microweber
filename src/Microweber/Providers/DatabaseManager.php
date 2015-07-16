@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 /*
  * This file is part of the Microweber framework.
  *
@@ -102,7 +98,6 @@ class DatabaseManager extends DbUtils
     public function get($table, $params = null)
     {
 
-
         if ($params === null) {
             $params = $table;
         } else {
@@ -138,10 +133,9 @@ class DatabaseManager extends DbUtils
 
 
         if ($use_connection == false) {
-            $query = DB::table($table);
+            $query = $this->table($table);
         } else {
             $query = DB::connection($use_connection)->table($table);
-
         }
 
         $orig_params = $params;
@@ -251,7 +245,6 @@ class DatabaseManager extends DbUtils
         }
 
 
-
         if ($this->use_cache == false) {
             $data = $query->get();
         } else {
@@ -259,7 +252,6 @@ class DatabaseManager extends DbUtils
                 return $query->get();
             });
         }
-
 
         if ($data == false or empty($data)) {
             return false;
@@ -284,6 +276,11 @@ class DatabaseManager extends DbUtils
             if (!isset($data[0])) {
                 return false;
             }
+
+            if (is_object($data[0]) and isset($data[0]->id)) {
+                return (array)$data[0];
+            }
+
             return $data[0];
         }
         return $data;
@@ -454,10 +451,10 @@ class DatabaseManager extends DbUtils
         $criteria['id'] = intval($criteria['id']);
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
-            $id_to_return = DB::table($table_assoc_name)->insert($criteria);
+            $id_to_return = $this->table($table_assoc_name)->insert($criteria);
             $id_to_return = $this->last_id($table);
         } else {
-            $id_to_return = DB::table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
+            $id_to_return = $this->table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
             $id_to_return = $criteria['id'];
         }
 
@@ -500,7 +497,7 @@ class DatabaseManager extends DbUtils
      */
     public function last_id($table)
     {
-        $last_id = DB::table($table)->orderBy('id', 'DESC')->take(1)->first();
+        $last_id = $this->table($table)->orderBy('id', 'DESC')->take(1)->first();
         if (isset($last_id->id)) {
             return $last_id->id;
         }
@@ -641,10 +638,10 @@ class DatabaseManager extends DbUtils
 
         if (is_array($id)) {
             foreach ($id as $remove) {
-                $c_id = DB::table($table)->where($field_name, '=', $remove)->delete();
+                $c_id = $this->table($table)->where($field_name, '=', $remove)->delete();
             }
         } else {
-            $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+            $c_id = $this->table($table)->where($field_name, '=', $id)->delete();
         }
 
         Cache::tags($table)->flush();
@@ -684,21 +681,13 @@ class DatabaseManager extends DbUtils
         $params[$field_name] = $id;
         $params['table'] = $table;
         $params['single'] = true;
-
         $data = $this->get($params);
-
         return $data;
-
-
     }
 
 
     public function table($table)
     {
-
-        $query = DB::table($table);
-        return $query;
+        return DB::table($table);
     }
-
-
 }

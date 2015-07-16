@@ -11,7 +11,6 @@ class LaravelEvent
 
     public static function listen($event_name, $callback)
     {
-
         return self::event_bind($event_name, $callback);
     }
 
@@ -36,7 +35,7 @@ class LaravelEvent
             }
         }
         $args = func_get_args();
-        $query = array_shift($args);
+        array_shift($args);
         if (count($args) == 1) {
             $args = $args[0];
             if (is_array($args)) {
@@ -57,9 +56,5 @@ class LaravelEvent
         } else {
             Event::listen($hook_name, $callback);
         }
-
     }
 }
-
-
-

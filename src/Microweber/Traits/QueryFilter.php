@@ -220,16 +220,11 @@ trait QueryFilter
                     } elseif (is_int($ids)) {
                         $ids = array($ids);
                     }
-
-
                     if (is_array($ids)) {
-
                         $query = $query->leftJoin('categories_items'
                             , 'categories_items.rel_id', '=', $table . '.id')
                             ->where('categories_items.rel_type', $table)
                             ->whereIn('categories_items.parent_id', $ids);
-
-
                     }
                     unset($params[$filter]);
 

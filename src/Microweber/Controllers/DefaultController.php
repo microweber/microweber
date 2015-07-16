@@ -2423,7 +2423,7 @@ class DefaultController extends Controller
         $l = new \Microweber\View($p_index);
         $l->params = $params;
         $layout = $l->__toString();
-
+        $apijs_loaded = false;
         if ($layout != false) {
 
             //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
