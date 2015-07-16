@@ -712,9 +712,9 @@ class UserManager
         }
 
         if (defined("MW_API_CALL") and mw_is_installed() == true) {
-            if (isset($params['is_admin']) and $this->is_admin() == false) {
+            if (isset($params['is_admin']) and $this->is_admin() == false and !is_null(User::first())) {
                 unset($params['is_admin']);
-            } 
+            }
         }
 
         if ($force == false) {
