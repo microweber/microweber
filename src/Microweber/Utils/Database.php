@@ -194,7 +194,6 @@ class Database
     public $default_limit = 30;
 
 
-
     public $table_fields = array();
 
     /**
@@ -275,9 +274,9 @@ class Database
         if (!$table) {
             return false;
         }
-        $key = 'mw_db_get_fields'.crc32($table);
+        $key = 'mw_db_get_fields' . crc32($table);
         $hash = $table;
-        $value = $this->app->cache_manager->get($key,'db');
+        $value = $this->app->cache_manager->get($key, 'db');
 
         if (isset($value[$hash])) {
             return $value[$hash];
@@ -286,15 +285,16 @@ class Database
         $expiresAt = 300;
 
         // TODO: Temp fix for Laravel
-        if(count($fields) && !is_string($fields[0]) && isset($fields[0]->name)) {
-          $fields = array_map(function($f) { return $f->name; }, $fields);
+        if (count($fields) && !is_string($fields[0]) && isset($fields[0]->name)) {
+            $fields = array_map(function ($f) {
+                    return $f->name;
+                }, $fields);
         }
 
         // Caching
         $ex_fields_static[$table] = $fields;
         $value[$hash] = $fields;
-        $value = $this->app->cache_manager->save($value,$key,'db');
-        $cache = Cache::put($key, $value, $expiresAt);
+        $this->app->cache_manager->save($value, $key, $cache_group);
 
         return $fields;
     }

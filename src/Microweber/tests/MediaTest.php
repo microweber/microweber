@@ -41,10 +41,15 @@ class MediaTest extends TestCase
             'src' => "http://lorempixel.com/400/200/"
         );
         $saved_pic_id = save_media($picture);
+        $picture_data = get_media_by_id($saved_pic_id);
         $to_delete = array('id' => $saved_pic_id);
         $delete = delete_media($to_delete);
-        $picture_data = get_media_by_id($saved_pic_id);
-        $this->assertEquals($picture_data, false);
+        $title = $picture_data['title'];
+        $picture_null = get_media_by_id($saved_pic_id);
+
+        $this->assertEquals($picture_null, false);
+        $this->assertEquals(is_array($picture_data), true);
+        $this->assertEquals($title, "My new pic to del");
         $this->assertEquals(!($delete), false);
     }
 
