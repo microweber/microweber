@@ -27,6 +27,11 @@ class CacheStore implements Store
         $this->directoryTags = $this->directory . (!empty($prefix) ? '/' . $prefix : '') . '/tags';
     }
 
+
+    private function appendLocale($key) {
+      return $key . '_' . app()->getLocale();
+    }
+
     /**
      * Retrieve an item from the cache by key.
      *
@@ -35,6 +40,8 @@ class CacheStore implements Store
      */
     public function get($key)
     {
+        $key = $this->appendLocale($key);
+
         if (!empty($this->tags)) {
             foreach ($this->tags as $tag) {
                 if (in_array($tag, $this->deleted_tags)) {
@@ -78,6 +85,8 @@ class CacheStore implements Store
      */
     public function put($key, $value, $minutes)
     {
+        $key = $this->appendLocale($key);
+
         $value = $this->expiration($minutes) . serialize($value);
         $path = $this->path($key);
         $path = $this->normalize_path($path, false);
@@ -164,6 +173,8 @@ class CacheStore implements Store
      */
     public function remember($key, $minutes, Closure $callback)
     {
+        $key = $this->appendLocale($key);
+
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of minutes in storage.
@@ -185,6 +196,8 @@ class CacheStore implements Store
      */
     public function rememberForever($key, Closure $callback)
     {
+        $key = $this->appendLocale($key);
+
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of minutes. It's easy.
@@ -221,6 +234,8 @@ class CacheStore implements Store
      */
     public function increment($key, $value = 1)
     {
+        $key = $this->appendLocale($key);
+
         throw new \LogicException("Not supported by this driver.");
     }
 
@@ -235,6 +250,8 @@ class CacheStore implements Store
      */
     public function decrement($key, $value = 1)
     {
+        $key = $this->appendLocale($key);
+
         throw new \LogicException("Not supported by this driver.");
     }
 
@@ -247,6 +264,8 @@ class CacheStore implements Store
      */
     public function forever($key, $value)
     {
+        $key = $this->appendLocale($key);
+
         return $this->put($key, $value, 0);
     }
 
@@ -290,7 +309,7 @@ class CacheStore implements Store
      */
     public function forget($key)
     {
-
+        $key = $this->appendLocale($key);
 
         $file = $this->path($key);
 
@@ -376,6 +395,7 @@ class CacheStore implements Store
      */
     protected function path($key)
     {
+        $key = $this->appendLocale($key);
 
         $prefix = !empty($this->prefix) ? $this->prefix . '/' : '';
         $subdir = 'global';
