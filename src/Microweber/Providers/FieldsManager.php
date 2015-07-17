@@ -252,7 +252,7 @@ class FieldsManager
             if (isset($data_to_save['value'])) {
                 $custom_field_id = $save;
                 $values_to_save = array();
-                if (is_string($data_to_save['value'])) {
+                if (!is_array($data_to_save['value'])) {
                     $values_to_save = array($data_to_save['value']);
                 } elseif (is_array($data_to_save['value'])) {
                     $values_to_save = ($data_to_save['value']);
@@ -263,6 +263,9 @@ class FieldsManager
                     $check_existing['table'] = $table_values;
                     $check_existing['custom_field_id'] = $custom_field_id;
                     $check_old = $this->app->database_manager->get($check_existing);
+
+
+
                     $i = 0;
                     foreach ($values_to_save as $value_to_save) {
                         $save_value = array();
@@ -377,11 +380,6 @@ class FieldsManager
         }
 
 
-
-
-
-
-
         $params = $this->unify_params($params);
 
         if (!isset($table_assoc_name)) {
@@ -472,7 +470,6 @@ class FieldsManager
         if (empty($params)) {
             return false;
         }
-
 
 
         $q = $this->app->database_manager->get($params);
@@ -637,17 +634,11 @@ class FieldsManager
         if (isset($data['field_value'])) {
             $data['value'] = $data['value'] = $data['field_value'];
         }
-        if (isset($data['value']) and (!isset($data['value']))) {
-            $data['value'] = $data['value'];
-        }
 
         if (!isset($data['name']) and isset($data['field_name']) and $data['field_type'] != '') {
             $data['name'] = $data['field_name'];
         }
 
-        if (isset($data['type']) and !isset($data['name'])) {
-            //    $data['name'] = $data['type'];
-        }
 
 
         if (!isset($data['value']) and isset($data['field_value']) and $data['field_value'] != '') {
@@ -670,11 +661,11 @@ class FieldsManager
 
         }
 
-        if (!isset($params['rel_type']) and isset($params['for'])) {
-            $params['rel_type'] = $params['for'];
+        if (!isset($data['rel_type']) and isset($data['for'])) {
+            $data['rel_type'] = $data['for'];
         }
-        if (isset($params['for_id'])) {
-            $params['rel_id'] = $params['for_id'];
+        if (isset($data['for_id'])) {
+            $data['rel_id'] = $data['for_id'];
         }
 
 
@@ -739,10 +730,6 @@ class FieldsManager
 
     public function delete($id)
     {
-        $uid = user_id();
-        if (defined('MW_API_CALL') and $uid == 0) {
-            $this->app->error('Error: not logged in.');
-        }
         $uid = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $uid == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
@@ -750,6 +737,7 @@ class FieldsManager
         if (is_array($id)) {
             extract($id);
         }
+
         $id = intval($id);
         if (isset($cf_id)) {
             $id = intval($cf_id);
