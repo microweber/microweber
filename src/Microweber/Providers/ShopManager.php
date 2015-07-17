@@ -974,7 +974,7 @@ class ShopManager
         $update_qty_new = 0;
 
         if (isset($data['qty'])) {
-            $update_qty_new = intval($data['qty']);
+            $update_qty_new = $update_qty = intval($data['qty']);
             unset($data['qty']);
         }
         if (!isset($data['for']) or !isset($data['for_id'])) {
@@ -1189,6 +1189,7 @@ class ShopManager
 
 
             mw_var('FORCE_SAVE', $table);
+
             $cart_saved_id = $this->app->database_manager->save($table, $cart);
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders/global');

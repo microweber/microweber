@@ -2,8 +2,6 @@
 
 
 
-
-
 /**
  *
  * Shop module api
@@ -35,40 +33,9 @@ function checkout_url()
 }
 
 
-/**
- * update_order
- *
- * updates order by parameters
- *
- * @package        modules
- * @subpackage    shop
- * @subpackage    shop\orders
- * @category    shop module api
- */
-function update_order($params = false)
-{
-    return mw()->shop_manager->update_order($params);
-}
-
-
 function delete_client($data)
 {
     return mw()->shop_manager->delete_client($data);
-}
-
-function delete_order($data)
-{
-    return mw()->shop_manager->delete_order($data);
-}
-
-function get_orders($params = false)
-{
-    return mw()->shop_manager->get_orders($params);
-}
-
-function get_order_by_id($params = false)
-{
-    return mw()->shop_manager->get_order_by_id($params);
 }
 
 
@@ -104,6 +71,37 @@ function update_cart_item_qty($data)
 function remove_cart_item($data)
 {
     return mw()->shop_manager->remove_cart_item($data);
+}
+
+/**
+ * update_order
+ *
+ * updates order by parameters
+ *
+ * @package        modules
+ * @subpackage    shop
+ * @subpackage    shop\orders
+ * @category    shop module api
+ */
+function update_order($params = false)
+{
+    return mw()->shop_manager->update_order($params);
+}
+
+
+function delete_order($data)
+{
+    return mw()->shop_manager->delete_order($data);
+}
+
+function get_orders($params = false)
+{
+    return mw()->shop_manager->get_orders($params);
+}
+
+function get_order_by_id($params = false)
+{
+    return mw()->shop_manager->get_order_by_id($params);
 }
 
 
