@@ -501,9 +501,8 @@ class OptionManager
                     unset($data['option_group']);
                 }
 
-                if (isset($data['option_value']) and strval($data['option_value']) != '') {
+                if (isset($data['option_value']) and $data['option_value'] != false) {
                     $data['option_value'] = $this->app->url_manager->replace_site_url($data['option_value']);
-
                 }
 
 
@@ -511,11 +510,7 @@ class OptionManager
                 $data['allow_scripts'] = true;
                 $data['table'] = $this->tables['options'];
 
-
                 $save = $this->app->database_manager->save($data);
-
-                // $save = $this->app->database_manager->save($table, $data);
-                //$save = $this->app->database_manager->save($table, $data);
 
                 if ($option_group != false) {
                     $cache_group = 'options/' . $option_group;

@@ -43,4 +43,34 @@ class CustomFieldsTest extends TestCase
 
     }
 
+    public function testSaveCustomFieldsArray()
+    {
+        $my_product_id = 21;
+        $vals = array('Red', 'Blue', 'Green');
+        $custom_field = array(
+            'field_name' => 'Color',
+            'field_value' => $vals,
+            'field_type' => 'dropdown',
+            'content_id' => $my_product_id);
+
+        //adding a custom field "Color" to product
+        $new_id = save_custom_field($custom_field);
+        $field = get_custom_field_by_id($new_id);
+
+        $to_delete = array('id' => $new_id);
+        $delete = delete_custom_field($to_delete);
+
+
+
+        $this->assertEquals($field['name'], "Color");
+        $this->assertEquals($field['type'], "dropdown");
+        $this->assertEquals($field['value'], $vals);
+        $this->assertEquals(intval($delete) > 0, true);
+
+
+
+
+    }
+
+
 }
