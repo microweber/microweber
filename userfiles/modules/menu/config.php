@@ -10,19 +10,20 @@ $config['categories'] = "navigation";
 $config['position'] = 15;
 $config['version'] = 0.5;
 
-$config['tables'] = function() {
-  if (!Schema::hasTable('menus')) {
-    Schema::create('menus', function($table) {
-      $table->text('title');
-      $table->string('item_type');
-      $table->integer('parent_id');
-      $table->integer('content_id');
-      $table->integer('categories_id');
-      $table->integer('position');
-      $table->timestamps();
-      $table->boolean('is_active');
-      $table->longText('description');
-      $table->text('url');
-    });
-  }
-};
+
+
+$config['tables'] = array();
+$fields_to_add = array();
+$fields_to_add[] = array('title', 'longText');
+$fields_to_add[] = array('item_type', 'string');
+$fields_to_add[] = array('parent_id', 'integer');
+$fields_to_add[] = array('content_id', 'integer');
+$fields_to_add[] = array('categories_id', 'integer');
+$fields_to_add[] = array('position', 'integer');
+$fields_to_add[] = array('updated_at', 'dateTime');
+$fields_to_add[] = array('created_at', 'dateTime');
+$fields_to_add[] = array('is_active', "integer");
+$fields_to_add[] = array('description', 'longText');
+$fields_to_add[] = array('url', 'longText');
+$config['tables']['menus'] = $fields_to_add;
+
