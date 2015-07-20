@@ -3,6 +3,8 @@
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Processors\Processor as BaseProcessor;
 use DB;
+use Event;
+use Exception;
 
 class Processor extends BaseProcessor {
 
@@ -17,14 +19,20 @@ class Processor extends BaseProcessor {
 
 app('db')->connection()->setPostProcessor(new Processor);
 
-// DB WRITE
-\DB::listen(function($sql, $bindings, $time)
+Event::listen('illuminate.query', function($sql, $bindings, $time)
 {
   if(app()->getLocale() == config('app.fallback_locale')) {
     return;
   }
 
   if(starts_with($sql, 'update')) {
-    app('mw_translator')->store($sql, $bindings);
+    $stored = app('mw_translator')->store($sql, $bindings);
+		if($stored) {
+			app('db')->connection()->rollBack();
+		}
   }
 });
+
+if(app()->getLocale() == config('app.fallback_locale')) {
+	app('db')->connection()->beginTransaction();
+}

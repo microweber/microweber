@@ -26,7 +26,7 @@ class Translator {
     $parser = new PHPSQLParser($sql, true);
 
 		$table = $parser->parsed['UPDATE'][0]['no_quotes'];
-	  $table = str_replace(config('database.connections.' . config('database.default') . '.prefix'), '', $table);
+	  $table = str_replace(app('db')->connection()->getTablePrefix(), '', $table);
 
 		if (!in_array($table, array_keys($this->translatableTables))) return;
 
@@ -36,6 +36,7 @@ class Translator {
 		foreach ($parser->parsed['SET'] as $s => $setField)
 		{
 			$fieldName = substr($setField['sub_tree'][0]['base_expr'], 1, -1);
+			
 			if (in_array($fieldName, $this->translatableTables[$table])) {
 				$newData[$fieldName] = $bindings[$s];
 			} else if($fieldName == 'id') {
@@ -61,15 +62,19 @@ class Translator {
 			'lang' => app()->getLocale(),
 			'translatable_type' => $table,
 			'translatable_id' => $id,
-			'translation' => $data
+			'translation' => $newData
 		];
 
+		$success = false;
+
 		if($translation) {
-			DB::table($this->table)->update($translationData);
+			$success = DB::table($this->table)->update($translationData);
 		}
 		else {
-			DB::table($this->table)->insert($translationData);
+			$success = (bool) DB::table($this->table)->insert($translationData);
 		}
+
+		return $success;
 	}
 
 	public function translate($table, &$results)
@@ -87,8 +92,8 @@ class Translator {
 		$translations = DB::table($this->table)
 			->whereTranslatableType($table)
 			->whereIn('translatable_id', $ids)
-			->groupBy('translatable_id')
 			->get();
+		$translations = collect($translations)->keyBy('translatable_id');
 
 		foreach ($results as &$result)
 		{

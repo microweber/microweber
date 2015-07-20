@@ -9,14 +9,16 @@ $config['position'] = 30;
 $config['version'] = 0.3;
 $config['type'] = "stats";
 
-$config['tables'] = array();
-$fields_to_add = array();
-$fields_to_add['created_by'] = 'integer';
-$fields_to_add['view_count'] = ['type' => 'integer', 'default' => 1];
-$fields_to_add['user_ip'] = 'string';
-$fields_to_add['visit_date'] = 'date';
-$fields_to_add['visit_time'] = 'time';
-$fields_to_add['last_page'] = 'string';
-$fields_to_add['session_id'] = 'string';
-
-$config['tables']['stats_users_online'] = $fields_to_add;
+$config['tables']['stats_users_online'] = function() {
+  if (!Schema::hasTable('translations')) {
+    Schema::create('translations', function($table) {
+      $table->integer('created_by');
+      $table->integer('view_count')->default(1);
+      $table->string('user_ip');
+      $table->visit_date('date');
+      $table->time('visit_time');
+      $table->string('last_page');
+      $table->string('session_id');
+    });
+  }
+};
