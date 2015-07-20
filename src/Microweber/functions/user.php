@@ -173,6 +173,12 @@ function user_send_forgot_password($params)
     return mw()->user_manager->send_forgot_password($params);
 }
 
+api_expose_admin('user_make_logged');
+function user_make_logged($params)
+{
+    return mw()->user_manager->make_logged($params);
+}
+
 api_expose('user_login');
 function user_login($params)
 {
