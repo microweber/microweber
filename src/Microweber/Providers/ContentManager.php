@@ -800,8 +800,8 @@ class ContentManager
             $new_url = implode('/', $new);
             $page_links[$x] = $new_url . $append_to_links;
         }
-
-        for ($x = 1; $x <= count($page_links); $x++) {
+        $count = count($page_links);
+        for ($x = 1; $x <= $count; $x++) {
             if (stristr($page_links[$x], $paging_param . ':') == false) {
                 if ($in_empty_url == false) {
                     $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
