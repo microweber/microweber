@@ -70,6 +70,18 @@ $link = mw()->ui->admin_logo_login_link;
       <?php _e("Log Out"); ?>
       </a>
       <?php else:  ?>
+      
+      <?php if (get_option('enable_user_microweber_registration', 'users') == 'y'): ?>
+      <div style="text-align: center; margin-bottom: 1em;">
+        <p>
+          <a href="<?php echo api_url(); ?>user_social_login?provider=microweber" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info">
+            Use <?php echo mw()->ui->brand_name; ?> Account
+          </a>
+        </p>
+        <div style="margin-top: 1em;"><i>- or -</i></div>
+      </div>
+      <?php endif; ?>
+      
       <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print api_link('user_login') ?>"  >
         <div class="mw-ui-field-holder">
           <input  class="mw-ui-field mw-ui-field-big" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if(isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;  ?>  />
@@ -102,12 +114,9 @@ $link = mw()->ui->admin_logo_login_link;
             </li>
           </ul>
           <input  type="hidden" name="where_to" value="admin_content" />
-          <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
+          <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
         </div>
       </form>
-      <?php if (get_option('enable_user_microweber_registration', 'users') == 'y'): ?>
-      <div> <a href="<?php echo api_url(); ?>user_social_login?provider=microweber">With Microweber Account</a> </div>
-      <?php endif; ?>
     </div>
   </div>
   <div id="login_foot"> <a href="<?php print site_url() ?>" class="pull-left"><span class="mw-icon-back"></span>
