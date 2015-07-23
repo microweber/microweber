@@ -166,17 +166,16 @@ $(document).ready(function () {
     });
 
 
-
-    $(window).bind("onIconElementClick", function(e, el){
+    $(window).bind("onIconElementClick", function (e, el) {
         mw.iconSelector._activeElement = el;
         mw.iconSelector.popup(true);
 
     });
-    $(window).bind("onElementClick", function(e, el){
+    $(window).bind("onElementClick", function (e, el) {
 
-        if(typeof(mw.iconSelectorToolTip) != "undefined"){
+        if (typeof(mw.iconSelectorToolTip) != "undefined") {
             $(mw.iconSelectorToolTip).hide();
-           // mw.iconSelector.hide();
+            // mw.iconSelector.hide();
         }
     });
 
@@ -211,7 +210,6 @@ $(document).ready(function () {
 
 
 hasAbilityToDropElementsInside = function (target) {
-
     var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
     if (typeof target === 'string') {
         return !items.test(target);
@@ -238,7 +236,7 @@ hasAbilityToDropElementsInside = function (target) {
 mw.drag = {
     external_grids_row_classes: ['row'],
     external_grids_col_classes: ['col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
-    external_css_no_element_classes: ['navbar','navbar-header','navbar-collapse','navbar-static','navbar-static-top','navbar-default','navbar-text','navbar-right','navbar-center','navbar-left','nav navbar-nav','collapse','header-collapse','panel-heading','panel-body','panel-footer'],
+    external_css_no_element_classes: ['navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     columnout: false,
     noop: mwd.createElement('div'),
     create: function () {
@@ -422,6 +420,8 @@ mw.drag = {
                         var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
 
                         if ((order.module > -1 && order.edit > order.module)) {
+
+
                             /*
                              mw.mm_target = mw.drag.noop;
                              mw.$mm_target = $(mw.drag.noop);   */
@@ -430,7 +430,13 @@ mw.drag = {
 
 
                     if (mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')) {
-                        mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
+                        if(mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')){
+                            mw.currentDragMouseOver = mw.mm_target;
+
+                        } else {
+                            mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
+
+                        }
 
 
                     }
@@ -676,14 +682,12 @@ mw.drag = {
             }
 
 
-
-
             var o = el.offset();
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
             var left_spacing = o.left;
             var right_spacing = o.right;
-            if(mw.tools.hasClass(element, 'jumbotron')){
+            if (mw.tools.hasClass(element, 'jumbotron')) {
                 left_spacing = left_spacing + pleft;
             }
             $(mw.handle_element).css({
@@ -734,16 +738,15 @@ mw.drag = {
             var pleft = parseFloat(el.css("paddingLeft"));
             var prev_has_float_left = el.prev();
 
-            if(prev_has_float_left.lenght != 0){
-                var float_left =  prev_has_float_left.css("float");
-               if(float_left == 'none'){
+            if (prev_has_float_left.lenght != 0) {
+                var float_left = prev_has_float_left.css("float");
+                if (float_left == 'none') {
 
-               } else if(float_left == 'left'){
+                } else if (float_left == 'left') {
                     var float_left_width = prev_has_float_left.width();
                     pleft = pleft + float_left_width;
                 }
             }
-
 
 
             $(mw.handle_module).css({
@@ -766,11 +769,11 @@ mw.drag = {
 
             if (top < 55 && mwd.getElementById('live_edit_toolbar') !== null) {
                 var top = 55;
-                var left = left-100;
+                var left = left - 100;
             }
             if (top < 0 && mwd.getElementById('live_edit_toolbar') === null) {
                 var top = 0;
-             //   var left = left-50;
+                //   var left = left-50;
             }
 
             $(mw.handle_row).css({
@@ -1123,8 +1126,7 @@ mw.drag = {
                     var target = event.target;
 
 
-
-                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') ){
+                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit')) {
                         $(window).trigger("onIconElementClick", target);
 
                     } else if ($(target).hasClass("element")) {
@@ -1211,7 +1213,6 @@ mw.drag = {
                         }
 
 
-
                         if ($(mw.currentDragMouseOver).hasClass("mw-empty")) {
 
                             $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -1226,6 +1227,7 @@ mw.drag = {
                             }
                             return false;
                         }
+
                         if ($(mw.currentDragMouseOver).hasClass("edit")) {
 
                             if (hasAbilityToDropElementsInside(mw.currentDragMouseOver)) {
@@ -1947,7 +1949,6 @@ mw.drag = {
 mw.pcWidthExtend = function (selector, howMuch, cache, final, len) {
 
 
-
     if (final < 3) {
 
         selector.eq(len - 1).width((cache[len - 1] + final) + "%");
@@ -2368,6 +2369,7 @@ dropInside = function (el) {
     if (!hasAbilityToDropElementsInside(el)) {
         return false;
     }
+
     var css = mw.CSSParser(el).get;
     var bg = css.background();
     var padding = css.padding(true);
@@ -2907,7 +2909,7 @@ $(window).bind("load", function () {
         else {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
 
-                if(typeof(mw.smallEditor) != 'undefined'){
+                if (typeof(mw.smallEditor) != 'undefined') {
 
                     mw.smallEditorCanceled = true;
                     mw.smallEditor.css({
@@ -2920,7 +2922,7 @@ $(window).bind("load", function () {
         }
         setTimeout(function () {
             if (window.getSelection().rangecount > 0 && window.getSelection().getRangeAt(0).collapsed) {
-                if(typeof(mw.smallEditor) != 'undefined') {
+                if (typeof(mw.smallEditor) != 'undefined') {
                     mw.smallEditorCanceled = true;
                     mw.smallEditor.css({
                         visibility: "hidden"

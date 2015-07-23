@@ -226,10 +226,6 @@ function content_title($id = false)
 }
 
 
-
-
-
-
 /**
  * Send content to trash or delete it forever
  *
@@ -288,7 +284,7 @@ function get_content_children($id = 0, $without_main_parent = false)
 
 function page_link($id = false)
 {
-    if($id == false and defined("PAGE_ID")){
+    if ($id == false and defined("PAGE_ID")) {
         $id = PAGE_ID;
     }
     return mw()->content_manager->link($id);
@@ -296,7 +292,7 @@ function page_link($id = false)
 
 function page_title($id = false)
 {
-    if($id == false and defined("PAGE_ID")){
+    if ($id == false and defined("PAGE_ID")) {
         $id = PAGE_ID;
     }
 

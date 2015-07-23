@@ -65,6 +65,22 @@ DeleteUserAdmin<?php  print $data['id']; ?> = function($user_id){
 	} 
 }
 
+LoginAsUserFromAdmin<?php  print $data['id']; ?> = function($user_id){
+	
+	 
+	var r = confirm("Are you sure you want to login as this user?");
+	if (r == true) {
+		 $.post( "<?php print api_url('user_make_logged') ?>", { id: $user_id })
+		  .done(function( data ) {
+			  
+			  window.location.reload() 
+			
+			   
+			   
+			   
+		  });
+	} 
+}
 
 SaveAdminUserForm<?php  print $data['id']; ?> = function(){
     if(mwd.getElementById("reset_password").value == ''){
@@ -310,7 +326,11 @@ $(document).ready(function(){
        
       <tr class="no-hover">
         <td><?php if($data['id'] != false and $data['id'] != user_id()): ?>
-          <small onclick="DeleteUserAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')">Delete user</small>
+    
+    <a onclick="LoginAsUserFromAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')"  class="mw-ui-btn mw-ui-btn-small pull-left">Login as User</a>
+   
+           <a onclick="DeleteUserAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')"  class="mw-ui-btn mw-ui-btn-small pull-left">Delete user</a>
+          
           <?php endif; ?></td>
         <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="SaveAdminUserForm<?php  print $data['id']; ?>()">
           <?php _e("Save"); ?>

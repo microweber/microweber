@@ -254,6 +254,17 @@ class UserManager
 
     }
 
+    public function login_as($params){
+
+        $is_a = $this->is_admin();
+        if ($is_a == true) {
+            return true;
+        }
+
+
+    }
+
+
 
     public function has_access($function_name)
     {
@@ -1121,8 +1132,6 @@ class UserManager
                     } else {
                         Auth::loginUsingId($data['id']);
                     }
-
-
 //
 //                    Session::setId($old_sid);
 //                    Session::save();
@@ -1133,7 +1142,6 @@ class UserManager
 
                     $this->update_last_login_time();
                     $user_session['success'] = _e("You are logged in!", true);
-
 
                     return $user_session;
                 }
