@@ -88,23 +88,27 @@ api_bind_admin('current_template_save_custom_css', function ($data) {
 
 
 // SHOP
-api_expose_admin('delete_client');
-api_expose_admin('update_order');
-api_expose('empty_cart');
-api_expose('update_cart');
-api_expose_admin('delete_order');
-api_expose('checkout_ipn');
+api_expose('cart_sum');
 api_expose('checkout');
+api_expose('checkout_ipn');
+api_expose('currency_format');
+api_expose('empty_cart');
+api_expose('payment_options');
 api_expose('remove_cart_item');
-
+api_expose('update_cart');
 api_expose('update_cart_item_qty');
+api_expose_admin('get_cart');
+api_expose_admin('get_orders');
+api_expose_admin('get_order_by_id');
+api_expose_admin('checkout_confirm_email_test');
+api_expose_admin('delete_client');
+api_expose_admin('delete_order');
+api_expose_admin('update_order');
 
 api_bind_admin('shop/update_order', function ($data) {
     return mw()->shop_manager->update_order($data);
 });
 
-
-api_expose_admin('checkout_confirm_email_test');
 
 
 // media
