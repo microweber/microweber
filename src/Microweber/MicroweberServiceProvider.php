@@ -135,6 +135,10 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('layouts_manager', function ($app) {
             return new Providers\LayoutsManager($app);
         });
+
+        $this->app->singleton('template_manager', function ($app) {
+            return new Providers\TemplateManager($app);
+        });
         $this->app->singleton('ui', function ($app) {
             return new Providers\Ui($app);
         });

@@ -75,7 +75,7 @@ class UpdateManager
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url_manager->site();
 
-        $t = mw()->template->site_templates();
+        $t = mw()->template_manager->site_templates();
         $data['templates'] = $t;
         $t = $this->app->modules->get("ui=any&no_limit=true");
         $modules = array();

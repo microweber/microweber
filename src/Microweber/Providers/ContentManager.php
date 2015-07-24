@@ -4654,7 +4654,7 @@ class ContentManager
     public function site_templates()
     {
         //shim for old versions
-        return $this->app->template->site_templates();
+        return $this->app->template_manager->site_templates();
     }
 
     public function ping()

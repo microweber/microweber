@@ -58,7 +58,7 @@ function module_templates($module_name, $template_name = false, $is_settings = f
 function site_templates($options = false)
 {
 
-    return mw()->template->site_templates($options);
+    return mw()->template_manager->site_templates($options);
 }
 
 

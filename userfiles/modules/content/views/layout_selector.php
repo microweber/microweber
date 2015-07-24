@@ -42,14 +42,14 @@ if (!isset($params["layout_file"]) and $data == false or empty($data)) {
     include('_empty_content_data.php');
 }
 
- 
+
 
 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
 if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
-  
+
 } else if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
     $params['layout_file'] = str_replace('..', '', $params['layout_file']);
     $params['layout_file'] = str_replace('____', DS, $params['layout_file']);
@@ -65,7 +65,7 @@ if (!isset($params["active_site_template"]) and isset($data["active_site_templat
     $params["active_site_template"] = $data["active_site_template"];
 }
 
-  
+
 $inherit_from = false;
 
 if (!isset($params["inherit_from"]) and isset($params["inherit-from"])) {
@@ -115,7 +115,7 @@ if (!isset($params["active_site_template"]) and isset($params["site-template"]))
 if (isset($params["active_site_template"])) {
     $data['active_site_template'] = $params["active_site_template"];
 }
- 
+
 if (isset($data["id"])) {
 	if(!isset($iframe_cont_id) or $iframe_cont_id == false){
 	$iframe_cont_id = $data["id"];
@@ -136,9 +136,9 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
         $data['active_site_template'] = $site_template_settings;
     }
 }
- 
 
-$templates = mw()->template->site_templates();
+
+$templates = mw()->template_manager->site_templates();
 
 $layout_options = array();
 
@@ -185,7 +185,7 @@ if (!empty($recomended_layouts)) {
     $layouts = array_merge($recomended_layouts, $layouts);
 }
 
- 
+
 ?>
 <script>
 
@@ -287,9 +287,9 @@ mw.templatePreview<?php print $rand; ?> = {
                     form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                 }
 				<?php endif; ?>
-				
+
             }
-            <?php if(!isset($params['no_content_type_setup'])): ?> 
+            <?php if(!isset($params['no_content_type_setup'])): ?>
 			 if (ctype == 'static' || ctype == 'dynamic' ) {
                 if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
                     form.querySelector('input[name="subtype"]').value = ctype
@@ -306,8 +306,8 @@ mw.templatePreview<?php print $rand; ?> = {
                 }
 			}
 			<?php endif; ?>
-			
-			
+
+
         }
 
 
@@ -317,7 +317,7 @@ mw.templatePreview<?php print $rand; ?> = {
 			 }
             var template = safe_chars_to_str(template);
             var template = template.replace('/', '___');
-        } 
+        }
         if (layout != undefined) {
     		if (typeof(form) == 'object' && form.querySelector('input[name="layout_file"]') != null) {
     	        form.querySelector('input[name="layout_file"]').value = layout
@@ -336,7 +336,7 @@ mw.templatePreview<?php print $rand; ?> = {
           }
 
         ?>
-		
+
         var inherit_from_param = '';
         if (inherit_from != undefined) {
             inherit_from_param = '&inherit_template_from=' + inherit_from;
@@ -351,8 +351,8 @@ mw.templatePreview<?php print $rand; ?> = {
 			mw.$("#selected-template-span-val").html(template);
 			}
 
-			
-			
+
+
         }
 
         var preview_layout_param = '';
@@ -372,11 +372,11 @@ mw.templatePreview<?php print $rand; ?> = {
         if (return_url == undefined) {
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
             $(window).trigger('templateSelected');
-			// 
-			 
+			//
+
         }
         else {
-			
+
             return(iframe_url);
         }
 
@@ -396,7 +396,7 @@ $(document).ready(function () {
 			var templ =  $(this).val();
 			//alert(templ);
             parent_module.attr('active_site_template',templ);
-			
+
 			mw.$("#<?php print $params['id']?>").attr('active_site_template',templ);
 			mw.reload_module("#<?php print $params['id']?>")
 			//mw.templatePreview<?php print $rand; ?>.view();
@@ -416,13 +416,13 @@ $(document).ready(function () {
  mw.templatePreview<?php print $rand; ?>.generate();
 
 });
- 
+
 </script>
 
 <h2><?php _e("Template"); ?></h2>
- 
+
 <div class="layout_selector_wrap">
- 
+
 <?php
 if (defined('ACTIVE_SITE_TEMPLATE')) {
 
@@ -443,10 +443,10 @@ if(isset($params['no-default-name'])){
 
 	} else {
 		$default_value_on_match  = $global_template;
-	
+
 	}
 }
- 
+
 
 
 ?>
@@ -468,7 +468,7 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
             $is_layout_file_set = 1;
         }
     }
-                 
+
 
     $data['layout_file'] = normalize_path($data['layout_file'], false);
     $data['layout_file'] = module_name_encode($data['layout_file']);
@@ -478,12 +478,12 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
 
 <?php if(isset($data['layout_file'])  and $data['layout_file'] == false) {
 	 $is_layout_file_set = 1;
- $data['layout_file'] = 'inherit';	
+ $data['layout_file'] = 'inherit';
 }
 
 
 $is_chosen = false;
- 
+
 ?>
 
 
@@ -520,7 +520,7 @@ $is_chosen = false;
                         <option
                             value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
                     <?php endif ?>
-                    
+
                 <?php endforeach; ?>
                  <option
                             value="default" >default</option>
@@ -608,8 +608,11 @@ $is_chosen = false;
                         }
                         $selected = false;
                         $attrs = '';
+
                         foreach ($item as $k => $v): ?>
-                            <?php $attrs .= "data-$k='{$v}'"; ?>
+                            <?php if (is_string($v)): ?>
+                        <?php $attrs .= "data-$k='{$v}'"; ?>
+                            <?php endif ?>
                         <?php endforeach ?>
                         <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
                             <option
@@ -618,7 +621,11 @@ $is_chosen = false;
                             <option
                                 value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
                         <?php endif ?>
-                    <?php endforeach; ?>
+
+
+
+
+                        <?php endforeach; ?>
                     <option
                             value="default" >default</option>
                 </select>
