@@ -138,7 +138,7 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
 }
 
 
-$templates = mw()->template_manager->site_templates();
+$templates = site_templates();
 
 $layout_options = array();
 

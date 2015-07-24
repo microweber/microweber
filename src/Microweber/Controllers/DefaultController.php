@@ -1653,25 +1653,19 @@ class DefaultController extends Controller
         }
 
         if ($render_file) {
+            $render_params = array();
+            $render_params['render_file'] = $render_file;
+            $render_params['page_id'] = PAGE_ID;
+            $render_params['content_id'] = CONTENT_ID;
+            $render_params['post_id'] = POST_ID;
+            $render_params['category_id'] = CATEGORY_ID;
+            $render_params['content'] = $content;
+            $render_params['category'] = $category;
+            $render_params['page'] = $page;
 
-            $l = new \Microweber\View($render_file);
-            $l->page_id = PAGE_ID;
-            $l->content_id = CONTENT_ID;
-            $l->post_id = POST_ID;
-            $l->category_id = CATEGORY_ID;
-            $l->content = $content;
-            $l->category = $category;
+            $l = $this->app->template->render($render_params);
 
-            $l->page = $page;
-            $l->application = $this->app;
 
-            if (!empty($this->params)) {
-                foreach ($this->params as $k => $v) {
-                    $l->$k = $v;
-                }
-            }
-
-            $l = $l->__toString();
 
             // used for preview from the admin wysiwyg
             if (isset($_REQUEST['isolate_content_field'])) {

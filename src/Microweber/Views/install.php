@@ -369,7 +369,7 @@
                                        onblur="prefix_add(this)"/>
                             </div>
                             <?php
-                            $templates = mw()->template_manager->site_templates();
+                            $templates = site_templates();
 
 
                             ?>

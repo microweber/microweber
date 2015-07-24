@@ -24,7 +24,8 @@ use Microweber\Utils\Adapters\Template\MicroweberTemplate;
  * @package Content
  * @category Content
  * @desc  These functions will allow you to get and save content in the database.
- *
+ * @property \Microweber\Utils\Adapters\Template\MicroweberTemplate $adapter_current
+ * @property \Microweber\Utils\Adapters\Template\MicroweberTemplate $adapter_default
  */
 class Template
 {

@@ -32,6 +32,7 @@ namespace Microweber;
  * @property \Microweber\Providers\Event $event_manager
  * @property \Microweber\Providers\ConfigurationManager $config_manager
  * @property \Microweber\Providers\TemplateManager $template_manager
+ * @property \Microweber\Providers\Ui $ui
  */
 class Application
 {

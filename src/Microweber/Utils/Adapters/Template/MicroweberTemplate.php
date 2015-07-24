@@ -16,8 +16,25 @@ class MicroweberTemplate
 
     public function render($params = array())
     {
+        $render_file = $params['render_file'];
+        $l = new \Microweber\View($render_file);
+        $l->page_id = $params['page_id'];
+        $l->content_id = $params['content_id'];
+        $l->post_id = $params['post_id'];
+        $l->category_id = $params['category_id'];
+        $l->content = $params['content'];
+        $l->category = $params['category'];
+        $l->page = $params['page'];
+        $l->application = $this->app;
 
+        if (!empty($this->params)) {
+            foreach ($this->params as $k => $v) {
+                $l->$k = $v;
+            }
+        }
 
+        $l = $l->__toString();
+        return $l;
     }
 
     /**
@@ -259,7 +276,6 @@ class MicroweberTemplate
 
 
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and (!isset($page['layout_file']) or (isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) or $page['layout_file'] == false)) {
-
 
 
             $inherit_from = $this->app->content_manager->get_parents($page['id']);
