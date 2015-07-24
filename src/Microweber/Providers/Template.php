@@ -15,6 +15,9 @@
 
 namespace Microweber\Providers;
 
+use Microweber\Utils\Adapters\Template\MicroweberTemplate;
+
+
 /**
  * Content class is used to get and save content in the database.
  *
@@ -37,6 +40,11 @@ class Template
     public $foot = array();
     public $foot_callable = array();
 
+
+    public $adapter_current = null;
+    public $adapter_default = null;
+
+
     function __construct($app = null)
     {
 
@@ -47,6 +55,10 @@ class Template
                 $this->app = mw();
             }
         }
+
+
+        $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
+
     }
 
     public function dir($add = false)
@@ -63,6 +75,7 @@ class Template
         return $val;
     }
 
+
     public function url($add = false)
     {
         if (!defined('TEMPLATE_URL')) {
@@ -77,6 +90,20 @@ class Template
         }
 
         return $val;
+    }
+
+    public function adapter($method, $params)
+    {
+        if (method_exists($this->adapter_current, $method)) {
+            return $this->adapter_current->$method($params);
+        } else if (method_exists($this->adapter_default, $method)) {
+            return $this->adapter_default->$method($params);
+        }
+    }
+
+    public function render($params = array())
+    {
+        return $this->adapter(__METHOD__, $params);
     }
 
     public function get_custom_css()
@@ -385,6 +412,11 @@ class Template
         return FALSE;
     }
 
+
+    /**
+     * Return the path to the layout file that will render the page
+     *
+     */
     public function get_layout($page = array())
     {
 

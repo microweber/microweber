@@ -20,7 +20,6 @@ use Carbon\Carbon;
  *
  * @property \Microweber\Application $app
  */
-
 class Database
 {
     public $cache_minutes = 60;
@@ -290,7 +289,7 @@ class Database
         }
         $key = 'mw_db_get_fields' . crc32($table);
         $hash = $table;
-        $value = $this->app->cache_manager->get($key, 'db',$expiresAt);
+        $value = $this->app->cache_manager->get($key, 'db', $expiresAt);
 
         if (isset($value[$hash])) {
             return $value[$hash];
@@ -298,9 +297,13 @@ class Database
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
 
         // TODO: Temp fix for Laravel
-        if (count($fields) && !is_string($fields[0]) && isset($fields[0]->name)) {
+        if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name))) {
             $fields = array_map(function ($f) {
-                return $f->name;
+                if (isset($f->column_name)) {
+                    return $f->column_name;
+                } else {
+                    return $f->name;
+                }
             }, $fields);
         }
 

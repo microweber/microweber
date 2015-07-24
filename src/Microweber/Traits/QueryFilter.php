@@ -381,6 +381,9 @@ trait QueryFilter
         }
 
         $r = $this->get_fields($table);
+        if(!is_array($r)){
+            dd($r);
+        }
         $r = array_diff($r, $this->filter_keys);
 
         $r = array_intersect($r, array_keys($array));

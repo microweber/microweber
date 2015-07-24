@@ -19,7 +19,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         file_put_contents($mw_file,"<?php return array (
-              'is_installed' => 0,
+            'is_installed' => 0,
+            'install_default_template' => 'default',
+            'install_default_template_content' => 1,
             );"
         );
 

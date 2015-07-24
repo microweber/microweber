@@ -1568,6 +1568,7 @@ class DefaultController extends Controller
                 $page_non_active['content'] = 'This page is not published!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
+                $page_non_active['page_non_active'] = true;
                 template_var('content', $page_non_active['content']);
                 $content = $page_non_active;
             }
@@ -1581,6 +1582,7 @@ class DefaultController extends Controller
                 $page_non_active['content'] = 'This page is deleted!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
+                $page_non_active['page_is_deleted'] = true;
                 template_var('content', $page_non_active['content']);
                 $content = $page_non_active;
             }
@@ -1597,6 +1599,7 @@ class DefaultController extends Controller
                 $page_non_active['content'] = ' <module type="users/login" class="user-require-login-on-view" /> ';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
+                $page_non_active['page_require_login'] = true;
 
                 template_var('content', $page_non_active['content']);
                 $content = $page_non_active;
@@ -1612,7 +1615,6 @@ class DefaultController extends Controller
 
         $this->app->content_manager->define_constants($content);
 
-        //$page_data = $this->app->content_manager->get_by_id(PAGE_ID);
 
         $render_file = $this->app->template->get_layout($content);
 
@@ -2039,7 +2041,7 @@ class DefaultController extends Controller
                 if ($this->app->make('config')->get('app.debug')) {
                     $is_admin = $this->app->user_manager->is_admin();
                     if ($is_admin == true) {
-                        $this->app->content_manager->debug_info();
+                        include(mw_includes_path() . 'debug.php');
                     }
                 }
             }
@@ -2499,7 +2501,6 @@ class DefaultController extends Controller
             $category = $this->app->category_manager->get_by_id(CATEGORY_ID);
         }
 
-        // $render_file = $this->app->template->get_layout($page);
 
         //    $page['render_file'] = $render_file;
         if (!$standalone_edit) {

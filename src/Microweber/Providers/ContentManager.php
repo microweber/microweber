@@ -462,25 +462,6 @@ class ContentManager
 
     }
 
-    /**
-     * Return the path to the layout file that will render the page
-     *
-     * It accepts array $page that must have  $page['id'] set
-     *
-     * @example
-     * <code>
-     *  //get the layout file for content
-     *  $content = $this->get_by_id($id=1);
-     *  var_dump($render_file ); //print full path to the layout file ex. /home/user/public_html/userfiles/templates/default/index.php
-     * </code>
-     * @package Content
-     * @subpackage Advanced
-     */
-    public function get_layout($page = array())
-    {
-        return $this->app->template->get_layout($page);
-
-    }
 
     public function get_children($id = 0, $without_main_parrent = false)
     {
@@ -1954,13 +1935,6 @@ class ContentManager
         }
     }
 
-    function debug_info()
-    {
-        //if (c('debug_mode')) {
-
-        return include(mw_includes_path() . 'debug.php');
-        // }
-    }
 
     /**
      * Get the current language of the site
