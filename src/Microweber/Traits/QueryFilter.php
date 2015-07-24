@@ -268,7 +268,7 @@ trait QueryFilter
 
                     if ($value > 1) {
                         if ($is_limit != false) {
-                            $criteria = intval($value-1) * intval($is_limit);
+                            $criteria = intval($value - 1) * intval($is_limit);
                         }
                     }
                     if ($criteria > 1) {
@@ -356,11 +356,7 @@ trait QueryFilter
                         }
                     }
                     break;
-
-
             }
-
-
         }
 
 
@@ -379,18 +375,11 @@ trait QueryFilter
         if (!is_array($array)) {
             return $array;
         }
-
         $r = $this->get_fields($table);
-        if(!is_array($r)){
-            dd($r);
-        }
         $r = array_diff($r, $this->filter_keys);
-
         $r = array_intersect($r, array_keys($array));
         $r = array_flip($r);
         $r = array_intersect_key($array, $r);
-
-
         return $r;
     }
 
