@@ -27,8 +27,8 @@ class MicroweberTemplate
         $l->page = $params['page'];
         $l->application = $this->app;
 
-        if (!empty($this->params)) {
-            foreach ($this->params as $k => $v) {
+        if (!empty($params)) {
+            foreach ($params as $k => $v) {
                 $l->$k = $v;
             }
         }

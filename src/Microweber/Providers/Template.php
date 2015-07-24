@@ -102,10 +102,6 @@ class Template
         }
     }
 
-    public function render($params = array())
-    {
-        return $this->adapter('render', $params);
-    }
 
     public function get_custom_css()
     {
@@ -304,4 +300,14 @@ class Template
     {
         return $this->adapter('get_layout', $params);
     }
+
+    /**
+     * Renders the file returned by the get_layout method
+     *
+     */
+    public function render($params = array())
+    {
+        return $this->adapter('render', $params);
+    }
+
 }
