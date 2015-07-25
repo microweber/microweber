@@ -6,7 +6,7 @@ if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
-<?php $up = 'up'.uniqid(); ?>
+<?php $up = 'up'.uniqid().rand().rand().crc32($data['id']);; ?>
 <?php if(!empty($data['name'])) : ?>
 <?php $rand = uniqid(); ?>
 <?php
