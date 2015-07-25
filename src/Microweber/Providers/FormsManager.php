@@ -46,6 +46,9 @@ class FormsManager {
         if (is_array($data)){
             foreach ($data as $item) {
                 $fields = @json_decode($item["form_values"], true);
+                if(!$fields){
+                $fields = @json_decode(html_entity_decode($item["form_values"]), true);
+                }
 
                 if (is_array($fields)){
                     ksort($fields);
