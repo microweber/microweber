@@ -121,25 +121,6 @@ class NotificationsManager
     }
 
 
-    public function reset()
-    {
-
-        $is_admin = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $is_admin == false) {
-            return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
-        }
-
-        $table = $this->table;
-        $table = $this->app->database_manager->real_table_name($this->table);
-
-        $q = "UPDATE $table SET is_read=0";
-        $this->app->database_manager->q($q);
-        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
-
-        return true;
-
-    }
-
     public function delete($id)
     {
 

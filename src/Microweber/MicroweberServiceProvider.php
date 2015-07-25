@@ -10,15 +10,13 @@ use Illuminate\Config\FileLoader;
 use \Cache;
 use \App;
 
-if (!defined('MW_VERSION')) {
+if (!defined('MW_VERSION')){
     include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
 }
 
-class MicroweberServiceProvider extends ServiceProvider
-{
+class MicroweberServiceProvider extends ServiceProvider {
 
-    public function __construct($app)
-    {
+    public function __construct($app) {
         ClassLoader::addDirectories(array(
             base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
             __DIR__,
@@ -30,20 +28,21 @@ class MicroweberServiceProvider extends ServiceProvider
         parent::__construct($app);
     }
 
-    public function register()
-    {
+    public function register() {
 
 
         // Set environment
-        if (!$this->app->runningInConsole()) {
+
+        if (!$this->app->runningInConsole()){
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
-                if (getenv('APP_ENV')) {
+                if (getenv('APP_ENV')){
                     return getenv('APP_ENV');
                 }
 
                 $domain = str_ireplace('www.', '', $domain);
                 $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
+
                 return $domain;
             });
         }
@@ -71,6 +70,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->bind('http', function ($app) {
             return new Utils\Http($app);
+        });
+
+        $this->app->bind('captcha', function ($app) {
+            return new Utils\Captcha($app);
         });
 
         $this->app->singleton('url_manager', function ($app) {
@@ -155,8 +158,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     }
 
-    public function boot(Request $request)
-    {
+    public function boot(Request $request) {
         parent::boot();
 
         // public = /
@@ -167,12 +169,12 @@ class MicroweberServiceProvider extends ServiceProvider
         });
 
         // If installed load module functions and set locale
-        if (mw_is_installed()) {
+        if (mw_is_installed()){
             $modules = load_all_functions_files_for_modules();
             $this->commands('Microweber\Commands\OptionCommand');
 
             $language = get_option('language', 'website');
-            if($language != false){
+            if ($language!=false){
                 set_current_lang($language);
             }
 
@@ -182,29 +184,27 @@ class MicroweberServiceProvider extends ServiceProvider
         }
 
 
-
-
         // Register routes
         $this->registerRoutes();
     }
 
-    private function registerRoutes()
-    {
+    private function registerRoutes() {
         $routesFile = __DIR__ . '/routes.php';
-        if (file_exists($routesFile)) {
+        if (file_exists($routesFile)){
             include $routesFile;
+
             return true;
         }
+
         return false;
     }
 
-    function autoloadModules($className)
-    {
+    function autoloadModules($className) {
         $filename = modules_path() . $className . ".php";
         $filename = normalize_path($filename, false);
 
-        if (!class_exists($className, false)) {
-            if (is_file($filename)) {
+        if (!class_exists($className, false)){
+            if (is_file($filename)){
                 require_once $filename;
             }
         }
