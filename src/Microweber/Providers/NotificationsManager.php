@@ -109,11 +109,7 @@ class NotificationsManager
             return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
 
-        $table = $this->app->database_manager->real_table_name($this->table);
-
-        $q = "UPDATE $table SET is_read=1 WHERE is_read=0 ";
-
-        $this->app->database_manager->q($q);
+        \DB::table($this->table)->whereIsRead(0)->update(['is_read' => 1]);
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;

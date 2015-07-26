@@ -2,7 +2,7 @@
 
 
 namespace Microweber\Providers;
-
+use DB;
 
 /**
  * Class to work with categories
@@ -1382,35 +1382,23 @@ class CategoryManager
             return false;
         }
 
-        $custom_field_table = $this->tables['custom_fields'];
+        DB::transaction(function () {
+            DB::table($this->tables['custom_fields'])
+                ->whereSessionId($sid)
+                ->where(function($query) {
+                    $query->whereRelId(0)->orWhere('rel_id', null);
+                })
+                ->whereRelType('categories')
+                ->update(['rel_type' => 'categories', 'rel_id' => $id]);
 
-        $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
-        $id = $save;
-
-        $clean = " UPDATE $custom_field_table SET
-	rel_type =\"categories\"
-	, rel_id =\"{$id}\"
-	WHERE
-	session_id =\"{$sid}\"
-	AND (rel_id=0 OR rel_id IS NULL) AND rel_type =\"categories\"
-
-	";
-
-
-        $this->app->database_manager->q($clean);
-        //$this->app->cache_manager->clear('custom_fields');
-
-        $media_table = $this->tables['media'];
-        $media_table = mw()->database_manager->real_table_name($media_table);
-        $clean = " UPDATE $media_table SET
-
-	rel_id =\"{$id}\"
-	WHERE
-	session_id =\"{$sid}\"
-	AND rel_type =\"categories\" AND (rel_id=0 OR rel_id IS NULL)
-
-	";
-
+            DB::table($this->tables['media'])
+                ->whereSessionId($sid)
+                ->where(function($query) {
+                    $query->whereRelId(0)->orWhere('rel_id', null);
+                })
+                ->whereRelType('categories')
+                ->update(['rel_id' => $id]);
+        });
 
         //$this->app->cache_manager->clear('media');
 

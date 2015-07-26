@@ -693,8 +693,6 @@ class MenuManager
     {
 
         $return_res = false;
-        $table = $this->tables['menus'];
-        $table = $this->app->database_manager->real_table_name($table);
         if (isset($data['ids_parents'])) {
             $value = $data['ids_parents'];
             if (is_array($value)) {
@@ -703,12 +701,8 @@ class MenuManager
                     $k = intval($k);
                     $value2 = intval($value2);
 
-                    $sql = "UPDATE $table SET
-				parent_id=$k
-				WHERE id=$value2 AND id!=$k
-				AND item_type='menu_item'
-				";
-                    $q = $this->app->database_manager->q($sql);
+                    \DB::table($this->tables['menus'])->whereId($value2)->where('id', '!=', $k)->whereItemType('menu_item')->update(['parent_id' => $k]);
+
                     $this->app->cache_manager->delete('menus/' . $k);
                     $this->app->cache_manager->delete('menus/' . $value2);
                 }

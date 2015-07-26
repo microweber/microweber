@@ -3321,25 +3321,23 @@ class ContentManager
 
         if ($sid != false and $sid != '' and $id != false) {
 
-            $clean = " UPDATE $custom_field_table SET
-            rel_type =\"content\" ,
-            rel_id =\"{$id}\"
-            WHERE
-
-              (rel_id=0 OR rel_id IS NULL OR rel_id =\"0\")
-            AND rel_type =\"content\"
-	        ";
-
-            $this->app->database_manager->q($clean);
-
-
-            $clean = " UPDATE $media_table SET
-            rel_id =\"{$id}\"
-            WHERE
-            session_id =\"{$sid}\"
-            AND rel_type =\"content\" AND (rel_id=0 OR rel_id IS NULL)
-            ";
-            $this->app->database_manager->q($clean);
+            DB::transaction(function () {
+                DB::table($this->tables['custom_fields'])
+                    ->whereSessionId($sid)
+                    ->where(function($query) {
+                        $query->whereRelId(0)->orWhere('rel_id', null);
+                    })
+                    ->whereRelType('content')
+                    ->update(['rel_type' => 'categories', 'rel_id' => $id]);
+                    
+                DB::table($this->tables['media'])
+                    ->whereSessionId($sid)
+                    ->where(function($query) {
+                        $query->whereRelId(0)->orWhere('rel_id', null);
+                    })
+                    ->whereRelType('content')
+                    ->update(['rel_type' => 'categories', 'rel_id' => $id]);
+            });
         }
 
         $this->app->cache_manager->delete('custom_fields');
@@ -3799,79 +3797,69 @@ class ContentManager
         }
 
         if (!empty($del_ids)) {
-            $table = $this->app->database_manager->real_table_name($this->tables['content']);
-            foreach ($del_ids as $value) {
-                $c_id = intval($value);
-                if ($to_untrash == true) {
-                    $q = "UPDATE $table SET is_deleted=0 WHERE id=$c_id AND  is_deleted=1 ";
-                    $this->app->database_manager->q($q);
-                    $q = "UPDATE $table SET is_deleted=0 WHERE parent=$c_id   AND  is_deleted=1 ";
-                    $this->app->database_manager->q($q);
-                    if (isset($this->tables['categories'])) {
-                        $table1 = $this->tables['categories'];
-                        $table1 = $this->app->database_manager->real_table_name($table1);
-                        $q = "UPDATE $table1 SET is_deleted=0 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=1 ";
-                        $this->app->database_manager->q($q);
+            DB::transaction(function() {
+                foreach ($del_ids as $value) {
+                    $c_id = intval($value);
+                    if ($to_untrash == true) {
+                        DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 1]);
+                        DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 1]);
+                        
+                        if (isset($this->tables['categories'])) {
+                            DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->whereIsDeleted(1)->update(['is_deleted' => 0]);
+                        }
+
+                    } else if ($to_trash == false) {
+                        DB::table($this->tables['content'])->whereParent($c_id)->update(['parent' => 0]);
+
+                        $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
+
+                        if (isset($this->tables['media'])) {
+                            $delete_in_table = $this->tables['media'];
+                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
+                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
+                            $this->app->database_manager->q($q);
+                        }
+
+                        if (isset($this->tables['categories'])) {
+                            $delete_in_table = $this->tables['categories'];
+                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
+                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
+                            $this->app->database_manager->q($q);
+                        }
+
+
+                        if (isset($this->tables['categories_items'])) {
+                            $delete_in_table = $this->tables['categories_items'];
+                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
+                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
+                            $this->app->database_manager->q($q);
+                        }
+                        if (isset($this->tables['custom_fields'])) {
+                            $delete_in_table = $this->tables['custom_fields'];
+                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
+                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
+                            $this->app->database_manager->q($q);
+                        }
+
+                        if (isset($this->tables['content_data'])) {
+                            $delete_in_table = $this->tables['content_data'];
+                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
+                            $q = "DELETE FROM $delete_in_table WHERE content_id=$c_id    ";
+                            $this->app->database_manager->q($q);
+                        }
+
+
+                    } else {
+                        DB::table($this->tables['content'])->whereId($c_id)->update(['is_deleted' => 1]);
+                        DB::table($this->tables['content'])->whereParent($c_id)->update(['is_deleted' => 1]);
+
+                        if (isset($this->tables['categories'])) {
+                            DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->update(['is_deleted' => 1]);
+                        }
                     }
-
-                } else if ($to_trash == false) {
-                    $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = $this->app->database_manager->q($q);
-
-                    $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
-
-                    if (isset($this->tables['media'])) {
-                        $delete_in_table = $this->tables['media'];
-                        $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                        $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database_manager->q($q);
-                    }
-
-                    if (isset($this->tables['categories'])) {
-                        $delete_in_table = $this->tables['categories'];
-                        $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                        $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database_manager->q($q);
-                    }
-
-
-                    if (isset($this->tables['categories_items'])) {
-                        $delete_in_table = $this->tables['categories_items'];
-                        $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                        $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database_manager->q($q);
-                    }
-                    if (isset($this->tables['custom_fields'])) {
-                        $delete_in_table = $this->tables['custom_fields'];
-                        $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                        $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $this->app->database_manager->q($q);
-                    }
-
-                    if (isset($this->tables['content_data'])) {
-                        $delete_in_table = $this->tables['content_data'];
-                        $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                        $q = "DELETE FROM $delete_in_table WHERE content_id=$c_id    ";
-                        $this->app->database_manager->q($q);
-                    }
-
-
-                } else {
-                    $q = "UPDATE $table SET is_deleted=1 WHERE id=$c_id";
-                    $this->app->database_manager->q($q);
-                    $q = "UPDATE $table SET is_deleted=1 WHERE parent=$c_id";
-                    $this->app->database_manager->q($q);
-                    if (isset($this->tables['categories'])) {
-                        $table1 = $this->tables['categories'];
-                        $table1 = $this->app->database_manager->real_table_name($table1);
-                        $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=0";
-                        $this->app->database_manager->q($q);
-                    }
+                    $this->app->cache_manager->delete('content/' . $c_id);
                 }
-                $this->app->cache_manager->delete('content/' . $c_id);
-            }
-
-
+            });
         }
         $this->app->cache_manager->delete('menus');
         $this->app->cache_manager->delete('content');
@@ -4154,12 +4142,9 @@ class ContentManager
             $id = intval($id);
             $this->app->cache_manager->delete('content/' . $id);
             //$max_date_str = $max_date_str - $i;
-            //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
-            //$q = " UPDATE $table set created_at='$nw_date' where id = '$id'    ";
+            //$nw_date = date('Y-m-d H:i:s', $max_date_str);
             $pox = $maxpos - $i;
-            $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
-            //    var_dump($q);
-            $q = $this->app->database_manager->q($q);
+            DB::table($this->tables['content'])->whereId($id)->update(['position' => $pox]);
             $i++;
         }
         //
