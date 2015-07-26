@@ -9,6 +9,10 @@ class Captcha {
 
     public function validate($key, $captcha_id = null) {
 
+        if ($key==false){
+            return false;
+        }
+
         $old_array = mw()->user_manager->session_get('captcha_recent');
         if (is_array($old_array) and in_array($key, $old_array)){
             $found_key = array_search($key, $old_array);
@@ -28,7 +32,6 @@ class Captcha {
             return true;
         } else {
             return false;
-
         }
     }
 

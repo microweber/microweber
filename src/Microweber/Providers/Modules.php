@@ -866,6 +866,7 @@ class Modules
                 $attrs1 = str_replace('%20', '-', $attrs1);
                 $attrs1 = str_replace(' ', '-', $attrs1);
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
+
             }
             if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);

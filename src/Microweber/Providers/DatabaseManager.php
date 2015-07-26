@@ -424,12 +424,14 @@ class DatabaseManager extends DbUtils
 
         $criteria = $this->map_array_to_table($table, $data);
 
+
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
         } else {
             if ($allow_scripts == false) {
                 $criteria = $this->clean_input($criteria);
             }
+
         }
 
         $table = $this->app->format->clean_html($table);

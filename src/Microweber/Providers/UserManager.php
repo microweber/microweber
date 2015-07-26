@@ -1417,7 +1417,6 @@ class UserManager {
     }
 
     public function session_id() {
-
         return Session::getId();
     }
 
@@ -1427,12 +1426,12 @@ class UserManager {
         return $value;
     }
 
-    function csrf_token($unique_form_name = false) {
-        return csrf_token();
-    }
-
     public function session_del($name) {
         Session::forget($name);
+    }
+
+    function csrf_token($unique_form_name = false) {
+        return csrf_token();
     }
 
 
