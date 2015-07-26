@@ -277,9 +277,9 @@ class FieldsManager {
                         $save_value['custom_field_id'] = $custom_field_id;
                         $save_value['value'] = $value_to_save;
                         if(is_array($value_to_save)){
-                        //   $save_value['value'] = serialize($value_to_save);
-
+                      // $save_value['value'] = implode(',',array_values($value_to_save));
                         }
+                      //  d($save_value['value']);
                         $save_value['position'] = $i;
                         $save_value['allow_html'] = true;
 
