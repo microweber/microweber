@@ -344,10 +344,18 @@ class Parser
                                     if (!in_array($mod_id, $this->_existing_module_ids)) {
                                         $this->_existing_module_ids[] = $mod_id;
                                     } else {
-                                        $mod_id = $mod_id . uniqid();
+
+                                        if(isset($attrs['data-parent-module-id'])){
+                                            $mod_id = $mod_id . crc32($attrs['data-parent-module-id']);
+
+                                        } else {
+                                            $mod_id = $mod_id . uniqid();
+
+                                        }
                                     }
 
                                     $attrs['id'] = $mod_id;
+
                                     $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
                                 } else {
                                     $module_html = str_replace('__MODULE_ID__', '', $module_html);
