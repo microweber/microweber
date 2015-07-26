@@ -1,10 +1,8 @@
-<?php //  require_once($config['path_to_module'].'country_api.php'); ?>
-<?php  $rand = 'shipping_country_'.uniqid();
+<?php  $rand = 'shipping_country_'.crc32($params['module']);
 
 
  $data = mw('shop\shipping\gateways\country\shipping_to_country')->get("is_active=1");
- 
- 
+  
  
 // $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=1");
  
