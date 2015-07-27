@@ -177,10 +177,13 @@ class MicroweberServiceProvider extends ServiceProvider {
             if ($language!=false){
                 set_current_lang($language);
             }
-
+            if ($this->app->runningInConsole()){
+                $this->commands('Microweber\Commands\UpdateCommand');
+            }
         } else {
             // Otherwise register the install command
             $this->commands('Microweber\Commands\InstallCommand');
+
         }
 
 
@@ -192,10 +195,8 @@ class MicroweberServiceProvider extends ServiceProvider {
         $routesFile = __DIR__ . '/routes.php';
         if (file_exists($routesFile)){
             include $routesFile;
-
             return true;
         }
-
         return false;
     }
 
