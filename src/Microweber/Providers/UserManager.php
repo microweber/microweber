@@ -62,7 +62,7 @@ class UserManager {
             $tables['log'] = 'log';
         }
         $this->tables['users'] = $tables['users'];
-        $this->tables['log']   = $tables['log'];
+        $this->tables['log'] = $tables['log'];
 
 
     }
@@ -139,7 +139,7 @@ class UserManager {
             $params = parse_params($params);
         }
         $check = $this->app->log_manager->get("no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
-        $url   = $this->app->url->current(1);
+        $url = $this->app->url->current(1);
         if ($check==5){
             $url_href = "<a href='$url' target='_blank'>$url</a>";
             $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel_type=login_failed&user_ip=" . MW_USER_IP);
@@ -154,16 +154,16 @@ class UserManager {
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
-        $override       = $this->app->event_manager->trigger('mw.user.before_login', $params);
+        $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
-        $overiden       = false;
-        $return_resp    = false;
+        $overiden = false;
+        $return_resp = false;
         if (is_array($override)){
 
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])){
                     $return_resp = $resp;
-                    $overiden    = true;
+                    $overiden = true;
                 }
             }
         }
@@ -197,8 +197,8 @@ class UserManager {
             return;
         }
         if ($ok){
-            $user                 = Auth::login(Auth::user());
-            $user_data            = $this->get_by_id(Auth::user()->id);
+            $user = Auth::login(Auth::user());
+            $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after){
@@ -217,7 +217,7 @@ class UserManager {
 
     public function logout($params = false) {
         Session::flush();
-        $aj             = $this->app->url_manager->is_ajax();
+        $aj = $this->app->url_manager->is_ajax();
         $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
         if (isset($_COOKIE['editmode'])){
             setcookie('editmode');
@@ -287,11 +287,11 @@ class UserManager {
             return;
         }
 
-        $data             = array();
+        $data = array();
         $data['rel_type'] = 'users';
-        $data['rel_id']   = intval($user_id);
-        $res              = array();
-        $get              = $this->app->content_manager->get_attributes($data);
+        $data['rel_id'] = intval($user_id);
+        $res = array();
+        $get = $this->app->content_manager->get_attributes($data);
         if (!empty($get)){
             foreach ($get as $item) {
                 if (isset($item['attribute_name']) and isset($item['attribute_value'])){
@@ -315,11 +315,11 @@ class UserManager {
             return;
         }
 
-        $data             = array();
+        $data = array();
         $data['rel_type'] = 'users';
-        $data['rel_id']   = intval($user_id);
-        $res              = array();
-        $get              = $this->app->content_manager->get_data($data);
+        $data['rel_id'] = intval($user_id);
+        $res = array();
+        $get = $this->app->content_manager->get_data($data);
         if (!empty($get)){
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])){
@@ -385,7 +385,7 @@ class UserManager {
      * @uses $this->get_by_id()
      */
     public function nice_name($id, $mode = 'full') {
-        $user      = $this->get_by_id($id);
+        $user = $this->get_by_id($id);
         $user_data = $user;
         if (empty($user)){
             return false;
@@ -400,7 +400,7 @@ class UserManager {
 
 
                 if (trim($name)=='' and $user_data['email']!=''){
-                    $n    = explode('@', $user_data['email']);
+                    $n = explode('@', $user_data['email']);
                     $name = $n[0];
                 }
                 // return $name;
@@ -434,9 +434,9 @@ class UserManager {
                 $name = ucwords($name);
 
                 if (trim($name)=='' and $user_data['email']!=''){
-                    $name            = $user_data['email'];
+                    $name = $user_data['email'];
                     $name_from_email = explode('@', $user_data['email']);
-                    $name            = $name_from_email[0];
+                    $name = $name_from_email[0];
                 }
 
                 if (trim($name)=='' and $user_data['username']!=''){
@@ -453,7 +453,7 @@ class UserManager {
                 $name = $user_data['username'];
             } else if (isset($user_data['email']) and $user_data['email']!=false and trim($user_data['email'])!=''){
                 $name_from_email = explode('@', $user_data['email']);
-                $name            = $name_from_email[0];
+                $name = $name_from_email[0];
             }
         }
 
@@ -476,10 +476,10 @@ class UserManager {
                 if (user_id() > 0){
                     return true;
                 } else {
-                    $data              = array();
-                    $data['api_key']   = $api_key;
+                    $data = array();
+                    $data['api_key'] = $api_key;
                     $data['is_active'] = 1;
-                    $data['limit']     = 1;
+                    $data['limit'] = 1;
 
                     $data = $this->get_all($data);
 
@@ -515,13 +515,13 @@ class UserManager {
             }
             //}
         }
-        $user             = isset($params['username']) ? $params['username'] : false;
-        $pass             = isset($params['password']) ? $params['password'] : false;
-        $email            = isset($params['email']) ? $params['email'] : false;
-        $first_name       = isset($params['first_name']) ? $params['first_name'] : false;
-        $last_name        = isset($params['last_name']) ? $params['last_name'] : false;
+        $user = isset($params['username']) ? $params['username'] : false;
+        $pass = isset($params['password']) ? $params['password'] : false;
+        $email = isset($params['email']) ? $params['email'] : false;
+        $first_name = isset($params['first_name']) ? $params['first_name'] : false;
+        $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $confirm_password = isset($params['confirm_password']) ? $params['confirm_password'] : false;
-        $pass2            = $pass;
+        $pass2 = $pass;
 
 
         $no_captcha = get_option('captcha_disabled', 'users')=='y';
@@ -568,32 +568,32 @@ class UserManager {
 
             if ($email!=false){
 
-                $data             = array();
-                $data['email']    = $email;
-                $data['one']      = true;
+                $data = array();
+                $data['email'] = $email;
+                $data['one'] = true;
                 $data['no_cache'] = true;
-                $user_data        = $this->get_all($data);
+                $user_data = $this->get_all($data);
 
                 if (empty($user_data)){
-                    $data             = array();
+                    $data = array();
                     $data['username'] = $email;
-                    $data['one']      = true;
+                    $data['one'] = true;
                     $data['no_cache'] = true;
-                    $user_data        = $this->get_all($data);
+                    $user_data = $this->get_all($data);
                 }
 
 
                 if (empty($user_data)){
-                    $data              = array();
-                    $data['username']  = $email;
-                    $data['password']  = $pass;
+                    $data = array();
+                    $data['username'] = $email;
+                    $data['password'] = $pass;
                     $data['is_active'] = 1;
-                    $table             = $this->tables['users'];
+                    $table = $this->tables['users'];
 
-                    $reg              = array();
-                    $reg['username']  = $user;
-                    $reg['email']     = $email;
-                    $reg['password']  = $pass2;
+                    $reg = array();
+                    $reg['username'] = $user;
+                    $reg['email'] = $email;
+                    $reg['password'] = $pass2;
                     $reg['is_active'] = 1;
                     if ($first_name!=false){
                         $reg['first_name'] = $first_name;
@@ -606,24 +606,24 @@ class UserManager {
                     }
 
                     $this->force_save = true;
-                    $next             = $this->save($reg);
+                    $next = $this->save($reg);
                     $this->force_save = false;
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
 
-                    $notif                = array();
-                    $notif['module']      = "users";
-                    $notif['rel_type']    = 'users';
-                    $notif['rel_id']      = $next;
-                    $notif['title']       = "New user registration";
+                    $notif = array();
+                    $notif['module'] = "users";
+                    $notif['rel_type'] = 'users';
+                    $notif['rel_id'] = $next;
+                    $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
-                    $notif['content']     = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
+                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
                     $this->app->notifications_manager->save($notif);
 
                     $this->app->log_manager->save($notif);
 
 
-                    $params       = $data;
+                    $params = $data;
                     $params['id'] = $next;
                     if (isset($pass2)){
                         $params['password2'] = $pass2;
@@ -741,7 +741,7 @@ class UserManager {
                     $adm = $this->is_admin();
                     if ($adm==false){
                         $params['id'] = $this->id();
-                        $is_logged    = user_id();
+                        $is_logged = user_id();
                         if (intval($params['id'])!=0 and $is_logged!=$params['id']){
                             return array('error' => 'You must be logged save your settings');
                         }
@@ -762,7 +762,7 @@ class UserManager {
             if (isset($old_user_data['email']) and $old_user_data['email']!=false){
                 if ($data_to_save['email']!=$old_user_data['email']){
                     if (isset($old_user_data['password_reset_hash']) and $old_user_data['password_reset_hash']!=false){
-                        $hash_cache_id                       = md5(serialize($old_user_data)) . uniqid() . rand();
+                        $hash_cache_id = md5(serialize($old_user_data)) . uniqid() . rand();
                         $data_to_save['password_reset_hash'] = $hash_cache_id;
                     }
                 }
@@ -771,10 +771,10 @@ class UserManager {
         if (isset($data_to_save['email']) and isset($data_to_save['id'])){
             $email = trim($data_to_save['email']);
             if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-                $check_existing           = array();
-                $check_existing['email']  = $email;
+                $check_existing = array();
+                $check_existing['email'] = $email;
                 $check_existing['single'] = 1;
-                $check_existing           = $this->get_all($check_existing);
+                $check_existing = $this->get_all($check_existing);
 
 
                 if (isset($check_existing['id']) and $check_existing['id']!=$data_to_save['id']){
@@ -849,10 +849,10 @@ class UserManager {
     }
 
     public function get_by_username($username) {
-        $data             = array();
+        $data = array();
         $data['username'] = $username;
-        $data['limit']    = 1;
-        $data             = $this->get_all($data);
+        $data['limit'] = 1;
+        $data = $this->get_all($data);
         if (isset($data[0])){
             $data = $data[0];
         }
@@ -862,9 +862,9 @@ class UserManager {
 
     function delete($data) {
         if (!is_array($data)){
-            $new_data       = array();
+            $new_data = array();
             $new_data['id'] = intval($data);
-            $data           = $new_data;
+            $data = $new_data;
         }
         if (isset($data['id'])){
             $c_id = intval($data['id']);
@@ -907,10 +907,10 @@ class UserManager {
             return array('error' => 'Your passwords does not match!');
         }
 
-        $data1                        = array();
-        $data1['id']                  = intval($params['id']);
+        $data1 = array();
+        $data1['id'] = intval($params['id']);
         $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
-        $table                        = $this->tables['users'];
+        $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
         if (!is_array($check)){
@@ -918,10 +918,10 @@ class UserManager {
         } else {
             $data1['password_reset_hash'] = '';
         }
-        $this->force_save      = true;
-        $save                  = $this->app->database_manager->save($table, $data1);
-        $save_user             = array();
-        $save_user['id']       = intval($params['id']);
+        $this->force_save = true;
+        $save = $this->app->database_manager->save($table, $data1);
+        $save_user = array();
+        $save_user['id'] = intval($params['id']);
         $save_user['password'] = $params['pass1'];
         if (isset($check['email'])){
             $save_user['email'] = $check['email'];
@@ -932,11 +932,11 @@ class UserManager {
         $this->save($save_user);
 
 
-        $notif             = array();
-        $notif['module']   = "users";
+        $notif = array();
+        $notif['module'] = "users";
         $notif['rel_type'] = 'users';
-        $notif['rel_id']   = $data1['id'];
-        $notif['title']    = "The user have successfully changed password. (User id: {$data1['id']})";
+        $notif['rel_id'] = $data1['id'];
+        $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
         $this->app->log_manager->save($notif);
         $this->session_end();
@@ -968,27 +968,27 @@ class UserManager {
 
 
         $data_res = false;
-        $data     = false;
+        $data = false;
         if (isset($params) and !empty($params)){
-            $user  = isset($params['username']) ? $params['username'] : false;
+            $user = isset($params['username']) ? $params['username'] : false;
             $email = isset($params['email']) ? $params['email'] : false;
-            $data  = array();
+            $data = array();
             if (trim($user!='')){
-                $data1             = array();
+                $data1 = array();
                 $data1['username'] = $user;
-                $data              = array();
+                $data = array();
                 if (trim($user!='')){
                     $data = $this->get_all($data1);
                     if ($data==false){
-                        $data1          = array();
+                        $data1 = array();
                         $data1['email'] = $user;
-                        $data           = $this->get_all($data1);
+                        $data = $this->get_all($data1);
                     }
                 }
             } elseif (trim($email!='')) {
-                $data1          = array();
+                $data1 = array();
                 $data1['email'] = $email;
-                $data           = array();
+                $data = array();
                 if (trim($email!='')){
                     $data = $this->get_all($data1);
                 }
@@ -1006,23 +1006,23 @@ class UserManager {
                     $subject = "Password reset!";
                     $content = "Hello, {$data_res['username']} <br> ";
                     $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
-                    $security       = array();
+                    $security = array();
                     $security['ip'] = MW_USER_IP;
                     //  $security['hash'] = $this->app->format->array_to_base64($data_res);
                     $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
                     if (isset($data_res['id'])){
-                        $data_to_save                        = array();
-                        $data_to_save['id']                  = $data_res['id'];
+                        $data_to_save = array();
+                        $data_to_save['id'] = $data_res['id'];
                         $data_to_save['password_reset_hash'] = $function_cache_id;
-                        $table                               = $this->tables['users'];
+                        $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
                         $save = $this->app->database_manager->save($table, $data_to_save);
                     }
 
                     $base_link = $this->app->url_manager->current(1);
 
-                    $cur_template       = template_dir();
-                    $cur_template_file  = normalize_path($cur_template . 'login.php', false);
+                    $cur_template = template_dir();
+                    $cur_template_file = normalize_path($cur_template . 'login.php', false);
                     $cur_template_file2 = normalize_path($cur_template . 'forgot_password.php', false);
                     if (is_file($cur_template_file)){
                         $base_link = site_url('login');
@@ -1031,13 +1031,13 @@ class UserManager {
                     }
 
 
-                    $pass_reset_link      = $base_link . '?reset_password_link=' . $function_cache_id;
-                    $notif                = array();
-                    $notif['module']      = "users";
-                    $notif['rel_type']    = 'users';
-                    $notif['rel_id']      = $data_to_save['id'];
-                    $notif['title']       = "Password reset link sent";
-                    $content_notif        = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
+                    $pass_reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
+                    $notif = array();
+                    $notif['module'] = "users";
+                    $notif['rel_type'] = 'users';
+                    $notif['rel_id'] = $data_to_save['id'];
+                    $notif['title'] = "Password reset link sent";
+                    $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                     $notif['description'] = $content_notif;
                     $this->app->log_manager->save($notif);
                     $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
@@ -1102,18 +1102,18 @@ class UserManager {
                 return false;
             } else {
                 if (is_array($data)){
-                    $user_session              = array();
+                    $user_session = array();
                     $user_session['is_logged'] = 'yes';
-                    $user_session['user_id']   = $data['id'];
+                    $user_session['user_id'] = $data['id'];
 
                     if (!defined('USER_ID')){
                         define("USER_ID", $data['id']);
                     }
 
-                    $old_sid                        = Session::getId();
-                    $data['old_sid']                = $old_sid;
+                    $old_sid = Session::getId();
+                    $data['old_sid'] = $old_sid;
                     $user_session['old_session_id'] = $old_sid;
-                    $current_user                   = Auth::user();
+                    $current_user = Auth::user();
                     if ((isset($current_user->id) and $current_user->id==$user_id)){
                         Auth::login(Auth::user());
                     } else {
@@ -1153,9 +1153,9 @@ class UserManager {
             return false;
         }
 
-        $data           = array();
-        $data['id']     = $id;
-        $data['limit']  = 1;
+        $data = array();
+        $data['id'] = $id;
+        $data['limit'] = 1;
         $data['single'] = 1;
 
 
@@ -1169,13 +1169,13 @@ class UserManager {
         $uid = user_id();
         if (intval($uid) > 0){
 
-            $data_to_save                  = array();
-            $data_to_save['id']            = $uid;
-            $data_to_save['last_login']    = date("Y-m-d H:i:s");
+            $data_to_save = array();
+            $data_to_save['id'] = $uid;
+            $data_to_save['last_login'] = date("Y-m-d H:i:s");
             $data_to_save['last_login_ip'] = MW_USER_IP;
 
             $table = $this->tables['users'];
-            $save  = $this->app->database_manager->save($table, $data_to_save);
+            $save = $this->app->database_manager->save($table, $data_to_save);
 
             $this->app->log_manager->delete("is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
 
@@ -1203,8 +1203,8 @@ class UserManager {
 
         $username = $user->getNickname();
         $oauth_id = $user->getId();
-        $avatar   = $user->getAvatar();
-        $name     = $user->getName();
+        $avatar = $user->getAvatar();
+        $name = $user->getName();
 
         $existing = array();
 
@@ -1212,27 +1212,27 @@ class UserManager {
         if ($email!=false){
             $existing['email'] = $email;
         } else {
-            $existing['oauth_uid']      = $oauth_id;
+            $existing['oauth_uid'] = $oauth_id;
             $existing['oauth_provider'] = $auth_provider;
         }
-        $save              = $existing;
+        $save = $existing;
         $save['thumbnail'] = $avatar;
-        $save['username']  = $username;
+        $save['username'] = $username;
         $save['is_active'] = 1;
-        $save['is_admin']  = is_null(User::first());
+        $save['is_admin'] = is_null(User::first());
         if ($name!=false){
             $names = explode(' ', $name);
             if (isset($names[0])){
                 $save['first_name'] = array_shift($names);
                 if (!empty($names)){
-                    $last              = implode(' ', $names);
+                    $last = implode(' ', $names);
                     $save['last_name'] = $last;
                 }
             }
         }
         $existing['single'] = true;
-        $existing['limit']  = 1;
-        $existing           = $this->get_all($existing);
+        $existing['limit'] = 1;
+        $existing = $this->get_all($existing);
         if (!defined('MW_FORCE_USER_SAVE')){
             define('MW_FORCE_USER_SAVE', true);
         }
@@ -1256,10 +1256,10 @@ class UserManager {
     }
 
     public function count() {
-        $options                = array();
-        $options['count']       = true;
+        $options = array();
+        $options['count'] = true;
         $options['cache_group'] = 'users/global/';
-        $data                   = $this->get_all($options);
+        $data = $this->get_all($options);
 
         return $data;
     }
@@ -1283,7 +1283,7 @@ class UserManager {
 
         $table = $this->tables['users'];
 
-        $data      = $this->app->format->clean_html($params);
+        $data = $this->app->format->clean_html($params);
         $orig_data = $data;
 
         if (isset($data['ids']) and is_array($data['ids'])){
@@ -1306,7 +1306,7 @@ class UserManager {
         }
 
         $data['table'] = $table;
-        $get           = $this->app->database_manager->get($data);
+        $get = $this->app->database_manager->get($data);
 
         return $get;
     }
@@ -1315,8 +1315,8 @@ class UserManager {
 
 
         $template_dir = $this->app->template->dir();
-        $file         = $template_dir . 'register.php';
-        $default_url  = false;
+        $file = $template_dir . 'register.php';
+        $default_url = false;
         if (is_file($file)){
             $default_url = 'register';
         } else {
@@ -1346,8 +1346,8 @@ class UserManager {
     function login_url() {
 
         $template_dir = $this->app->template->dir();
-        $file         = $template_dir . 'login.php';
-        $default_url  = false;
+        $file = $template_dir . 'login.php';
+        $default_url = false;
         if (is_file($file)){
             $default_url = 'login';
         } else {
@@ -1373,8 +1373,8 @@ class UserManager {
 
 
         $template_dir = $this->app->template->dir();
-        $file         = $template_dir . 'forgot_password.php';
-        $default_url  = false;
+        $file = $template_dir . 'forgot_password.php';
+        $default_url = false;
         if (is_file($file)){
             $default_url = 'forgot_password';
         } else {

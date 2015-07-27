@@ -34,6 +34,7 @@ class MicroweberTemplate
         }
 
         $l = $l->__toString();
+
         return $l;
     }
 

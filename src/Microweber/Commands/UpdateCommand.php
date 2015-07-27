@@ -34,5 +34,4 @@ class UpdateCommand extends Command {
 
         }
     }
-
 }
