@@ -265,8 +265,6 @@ class FieldsManager {
                     $check_existing['table'] = $table_values;
                     $check_existing['custom_field_id'] = $custom_field_id;
                     $check_old = $this->app->database_manager->get($check_existing);
-
-
                     $i = 0;
                     foreach ($values_to_save as $value_to_save) {
                         $save_value = array();
@@ -281,9 +279,7 @@ class FieldsManager {
                         }
                         $save_value['position'] = $i;
                         $save_value['allow_html'] = true;
-
                         $save_value = $this->app->database_manager->save($table_values, $save_value);
-
                         $i ++;
                     }
                     if (!empty($check_old)){
