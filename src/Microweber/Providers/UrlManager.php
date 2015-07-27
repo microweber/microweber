@@ -91,6 +91,7 @@ class UrlManager {
         if (headers_sent()){
             print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
         } else {
+
             return \Redirect::to($url);
 
             return;
