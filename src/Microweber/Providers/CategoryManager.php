@@ -2,24 +2,23 @@
 
 
 namespace Microweber\Providers;
+
 use DB;
 
 /**
  * Class to work with categories
  */
-class CategoryManager
-{
+class CategoryManager {
     public $app;
     public $tables = array();
     public $table_prefix = false;
 
-    function __construct($app = null)
-    {
+    function __construct($app = null) {
 
 
-        if (!is_object($this->app)) {
+        if (!is_object($this->app)){
 
-            if (is_object($app)) {
+            if (is_object($app)){
                 $this->app = $app;
             } else {
                 $this->app = mw();
@@ -29,17 +28,17 @@ class CategoryManager
 
         $prefix = $this->app->config->get('database.connections.mysql.prefix');
         $this->tables = $this->app->content_manager->tables;
-        if (!isset($this->tables['categories'])) {
+        if (!isset($this->tables['categories'])){
             $this->tables['categories'] = 'categories';
         }
-        if (!isset($this->tables['categories_items'])) {
+        if (!isset($this->tables['categories_items'])){
             $this->tables['categories_items'] = 'categories_items';
         }
-        if (!defined("MW_DB_TABLE_TAXONOMY")) {
+        if (!defined("MW_DB_TABLE_TAXONOMY")){
             define('MW_DB_TABLE_TAXONOMY', $this->tables['categories']);
         }
 
-        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")){
             define('MW_DB_TABLE_TAXONOMY_ITEMS', $this->tables['categories_items']);
         }
     }
@@ -47,11 +46,12 @@ class CategoryManager
     /**
      * category_tree
      *
-     * @desc prints category_tree of UL and LI
+     * @desc        prints category_tree of UL and LI
      * @access      public
      * @category    categories
      * @author      Microweber
-     * @param $params = array();
+     *
+     * @param  $params = array();
      * @param  $params ['parent'] = false; //parent id
      * @param  $params ['link'] = false; // the link on for the <a href
      * @param  $params ['active_ids'] = array(); //ids of active categories
@@ -68,19 +68,18 @@ class CategoryManager
      *
      *
      */
-    public function tree($params = false)
-    {
+    public function tree($params = false) {
 
         $p2 = array();
-        if (!is_array($params)) {
-            if (is_string($params)) {
+        if (!is_array($params)){
+            if (is_string($params)){
                 parse_str($params, $p2);
                 $params = $p2;
             }
         }
-        if (isset($params['parent'])) {
+        if (isset($params['parent'])){
             $parent = ($params['parent']);
-        } else if (isset($params['subtype_value'])) {
+        } else if (isset($params['subtype_value'])){
             $parent = ($params['subtype_value']);
         } else {
             $parent = 0;
@@ -92,39 +91,40 @@ class CategoryManager
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
 
         $active_cat = false;
-        if (defined('CATEGORY_ID')) {
+        if (defined('CATEGORY_ID')){
             $function_cache_id .= CATEGORY_ID;
             $active_cat = CATEGORY_ID;
         }
 
 
         $cat_url = $this->app->url_manager->param('category', true);
-        if ($cat_url != false) {
+        if ($cat_url!=false){
             $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
         } else {
 
             $cat_url = $this->app->url_manager->param('categories', true);
-            if ($cat_url != false) {
+            if ($cat_url!=false){
                 $function_cache_id .= $cat_url;
             }
 
         }
 
         $cache_group = 'categories/global';
-        if (isset($params['nest_level'])) {
+        if (isset($params['nest_level'])){
             $depth_level_counter = $params['nest_level'];
         } else {
             $depth_level_counter = 0;
         }
         $nest_level_orig = $depth_level_counter;
 
-        if (!isset($params['no_cache'])) {
-            if ($nest_level_orig == 0) {
+        if (!isset($params['no_cache'])){
+            if ($nest_level_orig==0){
                 $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
                 // $cache_content = false;
-                if (($cache_content) != false) {
+                if (($cache_content)!=false){
                     print $cache_content;
+
                     return;
                 }
             }
@@ -132,105 +132,105 @@ class CategoryManager
 
 
         $link = isset($params['link']) ? $params['link'] : false;
-        if ($link == false) {
+        if ($link==false){
             $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'>{title}</a>";
         }
         $link = str_replace('data-page-id', 'data-category-id', $link);
 
         $active_ids = isset($params['active_ids']) ? $params['active_ids'] : array($active_cat);
-        if (isset($params['active_code'])) {
+        if (isset($params['active_code'])){
             $active_code = $params['active_code'];
         } else {
             $active_code = " active ";
         }
 
-        if (isset($params['remove_ids'])) {
+        if (isset($params['remove_ids'])){
             $remove_ids = $params['remove_ids'];
         } else {
             $remove_ids = false;
         }
 
 
-        if (isset($params['removed_ids_code'])) {
+        if (isset($params['removed_ids_code'])){
             $removed_ids_code = $params['removed_ids_code'];
         } else {
             $removed_ids_code = false;
         }
         $ul_class_name = '';
         $ul_class_name_deep = '';
-        if (isset($params['class'])) {
+        if (isset($params['class'])){
             $ul_class_name = $params['class'];
         }
-        if (isset($params['ul_class'])) {
+        if (isset($params['ul_class'])){
 
             $ul_class_name = $params['ul_class'];
         }
 
-        if (isset($params['ul_class_name'])) {
+        if (isset($params['ul_class_name'])){
 
             $ul_class_name = $params['ul_class_name'];
         }
-        if (isset($params['ul_class_name_deep'])) {
+        if (isset($params['ul_class_name_deep'])){
 
             $ul_class_name_deep = $params['ul_class_name_deep'];
         }
-        if (isset($params['li_class'])) {
+        if (isset($params['li_class'])){
 
             $li_class_name = $params['li_class'];
         }
-        if (isset($params['users_can_create_content'])) {
+        if (isset($params['users_can_create_content'])){
             $users_can_create_content = $params['users_can_create_content'];
         } else {
             $users_can_create_content = false;
         }
-        if (isset($params['li_class_name'])) {
+        if (isset($params['li_class_name'])){
 
             $li_class_name = $params['li_class_name'];
         }
 
-        if (!isset($li_class_name)) {
+        if (!isset($li_class_name)){
             $li_class_name = false;
         }
 
-        if (isset($params['include_first'])) {
+        if (isset($params['include_first'])){
             $include_first = $params['include_first'];
         } else {
             $include_first = false;
         }
 
-        if (isset($params['content_type'])) {
+        if (isset($params['content_type'])){
             $content_type = $params['content_type'];
         } else {
             $content_type = false;
         }
 
-        if (isset($params['add_ids'])) {
+        if (isset($params['add_ids'])){
             $add_ids = $params['add_ids'];
         } else {
             $add_ids = false;
         }
 
-        if (isset($params['orderby'])) {
+        if (isset($params['orderby'])){
             $orderby = $params['orderby'];
         } else {
             $orderby = false;
         }
 
         $table = $this->tables['categories'];
-        if (isset($params['content_id'])) {
+        if (isset($params['content_id'])){
             $params['for_page'] = $params['content_id'];
 
 
         }
-        if (isset($params['content_id'])) {
+        if (isset($params['content_id'])){
 
             $params['for_page'] = $params['content_id'];
         }
 
-        if (isset($params['for_page']) and $params['for_page'] != false) {
+        if (isset($params['for_page']) and $params['for_page']!=false){
             $page = $this->app->content_manager->get_by_id($params['for_page']);
 
-            if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
+            if ($page['subtype']=='dynamic' and intval($page['subtype_value']) > 0){
                 $parent = $page['subtype_value'];
             } else {
                 $params['rel_type'] = 'content';
@@ -239,26 +239,26 @@ class CategoryManager
             }
         }
         $active_code_tag = false;
-        if (isset($params['active_code_tag']) and $params['active_code_tag'] != false) {
+        if (isset($params['active_code_tag']) and $params['active_code_tag']!=false){
 
             $active_code_tag = $params['active_code_tag'];
         }
 
-        if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
+        if (isset($params['subtype_value']) and $params['subtype_value']!=false){
             $parent = $params['subtype_value'];
         }
 
 
         $skip123 = false;
         $fors = array();
-        if (isset($params['parent']) and $params['parent'] != false) {
+        if (isset($params['parent']) and $params['parent']!=false){
             $parent = intval($params['parent']);
         } else {
-            if (!isset($params['for'])) {
+            if (!isset($params['for'])){
                 $params['for'] = 'content';
             }
 
-            if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
+            if (!isset($params['content_id']) and isset($params['for']) and $params['for']!=false){
                 $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
                 $skip123 = true;
                 $str0 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_type=' . $table_assoc_name;
@@ -271,7 +271,7 @@ class CategoryManager
                 $cat_get_params['parent_id'] = '0';
                 $cat_get_params['table'] = $table;
                 $cat_get_params['rel_type'] = $table_assoc_name;
-                if ($users_can_create_content != false) {
+                if ($users_can_create_content!=false){
                     $cat_get_params['users_can_create_content'] = $users_can_create_content;
                     $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
                     // unset( $cat_get_params['parent_id']);
@@ -281,41 +281,41 @@ class CategoryManager
 
             }
 
-            if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
+            if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id'])!=0){
                 $skip123 = true;
                 $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
                 $fors1 = $this->app->database_manager->get($str1);
-                if (is_array($fors1)) {
+                if (is_array($fors1)){
                     $fors = array_merge($fors, $fors1);
 
                 }
             }
         }
 
-        if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
+        if (isset($params['not_for_page']) and $params['not_for_page']!=false){
             $page = $this->app->content_manager->get_page($params['not_for_page']);
             $remove_ids = array($page['subtype_value']);
         }
 
         $max_level = false;
-        if (isset($params['max_level'])) {
+        if (isset($params['max_level'])){
             $max_level = $params['max_level'];
         }
         $list_tag = false;
-        if (isset($params['list_tag'])) {
+        if (isset($params['list_tag'])){
             $list_tag = $params['list_tag'];
         }
         $list_item_tag = false;
-        if (isset($params['list_item_tag'])) {
+        if (isset($params['list_item_tag'])){
             $list_item_tag = $params['list_item_tag'];
         }
 
         $params['table'] = $table;
-        if (is_string($add_ids)) {
+        if (is_string($add_ids)){
             $add_ids = explode(',', $add_ids);
         }
 
-        if (isset($params['rel_type']) and $params['rel_type'] != false and isset($params['rel_id'])) {
+        if (isset($params['rel_type']) and $params['rel_type']!=false and isset($params['rel_id'])){
             $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel_type']);
             $skip123 = true;
             $users_can_create_content_q = false;
@@ -328,7 +328,7 @@ class CategoryManager
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
-            if ($users_can_create_content != false) {
+            if ($users_can_create_content!=false){
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
 
@@ -340,11 +340,11 @@ class CategoryManager
 
 
         ob_start();
-        if ($skip123 == false) {
+        if ($skip123==false){
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         } else {
 
-            if ($fors != false and is_array($fors) and !empty($fors)) {
+            if ($fors!=false and is_array($fors) and !empty($fors)){
                 foreach ($fors as $cat) {
                     $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
                 }
@@ -352,12 +352,13 @@ class CategoryManager
         }
 
         $content = ob_get_contents();
-        if ($nest_level_orig == 0) {
+        if ($nest_level_orig==0){
             $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
         }
 
         ob_end_clean();
         print $content;
+
         return;
     }
 
@@ -376,27 +377,26 @@ class CategoryManager
      *
      * @version 1.0
      *
-     * @since Version 1.0
+     * @since   Version 1.0
      *
      */
-    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false)
-    {
+    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false) {
 
         $db_t_content = $this->tables['content'];
 
         $table = $db_categories = $this->tables['categories'];
 
-        if ($parent == false) {
+        if ($parent==false){
 
             $parent = (0);
 
             $include_first = false;
         } else {
 
-            $parent = (int)$parent;
+            $parent = (int) $parent;
         }
 
-        if (!is_array($orderby)) {
+        if (!is_array($orderby)){
 
             $orderby[0] = 'position';
 
@@ -404,7 +404,7 @@ class CategoryManager
         }
 
 
-        if (isset($remove_ids) and !is_array($remove_ids)) {
+        if (isset($remove_ids) and !is_array($remove_ids)){
             $temp = intval($remove_ids);
 
             $remove_ids_q = " and id not in ($temp) ";
@@ -412,7 +412,7 @@ class CategoryManager
         } elseif (is_array($remove_ids) and !empty($remove_ids)) {
 
             $remove_ids_q = implode(',', $remove_ids);
-            if ($remove_ids_q != '') {
+            if ($remove_ids_q!=''){
                 $remove_ids_q = " and id not in ($remove_ids_q) ";
             }
         } else {
@@ -420,7 +420,7 @@ class CategoryManager
             $remove_ids_q = false;
         }
 
-        if (!empty($add_ids)) {
+        if (!empty($add_ids)){
 
             $add_ids_q = implode(',', $add_ids);
 
@@ -430,27 +430,28 @@ class CategoryManager
             $add_ids_q = false;
         }
 
-        if ($max_level != false and $depth_level_counter != false) {
+        if ($max_level!=false and $depth_level_counter!=false){
 
-            if (intval($depth_level_counter) >= intval($max_level)) {
+            if (intval($depth_level_counter) >= intval($max_level)){
                 print '';
+
                 return;
             }
         }
 
-        if (isset($list_tag) == false or $list_tag == false) {
+        if (isset($list_tag)==false or $list_tag==false){
             $list_tag = 'ul';
         }
 
-        if (isset($active_code_tag) == false or $active_code_tag == false) {
+        if (isset($active_code_tag)==false or $active_code_tag==false){
             $active_code_tag = '';
         }
 
-        if (isset($list_item_tag) == false or $list_item_tag == false) {
+        if (isset($list_item_tag)==false or $list_item_tag==false){
             $list_item_tag = 'li';
         }
 
-        if (empty($limit)) {
+        if (empty($limit)){
             $limit = array(0, 10);
         }
         $table = mw()->database_manager->real_table_name($table);
@@ -460,9 +461,9 @@ class CategoryManager
         //	$inf_loop_fix = "     ";
 
 
-        if ($content_type == false) {
+        if ($content_type==false){
 
-            if ($include_first == true) {
+            if ($include_first==true){
 
                 $sql = "SELECT * FROM $table WHERE id=$parent ";
                 $sql = $sql . " and data_type='category'   and is_deleted=0  ";
@@ -479,7 +480,7 @@ class CategoryManager
 
         } else {
 
-            if ($include_first == true) {
+            if ($include_first==true){
 
                 $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted=0  ";
                 $sql = $sql . "$remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
@@ -490,7 +491,7 @@ class CategoryManager
             }
         }
 
-        if (!empty($limit)) {
+        if (!empty($limit)){
 
             $my_offset = $limit[1] - $limit[0];
 
@@ -512,23 +513,23 @@ class CategoryManager
 
         $chosen_categories_array = array();
 
-        if (isset($result) and is_array($result) and !empty($result)) {
+        if (isset($result) and is_array($result) and !empty($result)){
 
 
-            $depth_level_counter++;
+            $depth_level_counter ++;
             $i = 0;
 
             $do_not_show = false;
 
-            if ($do_not_show == false) {
+            if ($do_not_show==false){
 
                 $print1 = false;
-                if (trim($list_tag) != '') {
-                    if ($ul_class_name == false) {
+                if (trim($list_tag)!=''){
+                    if ($ul_class_name==false){
                         $print1 = "<{$list_tag}  class='{active_class} category_tree depth-{$depth_level_counter}'>";
                     } else {
                         $cl_name = $ul_class_name;
-                        if ($depth_level_counter > 1) {
+                        if ($depth_level_counter > 1){
                             $cl_name = $ul_class_deep;
 
                         }
@@ -536,7 +537,7 @@ class CategoryManager
                     }
                 }
 
-                if (intval($parent) != 0 and intval($parent) == intval(CATEGORY_ID)) {
+                if (intval($parent)!=0 and intval($parent)==intval(CATEGORY_ID)){
                     $print1 = str_replace('{active_class}', 'active', $print1);
                 }
                 $print1 = str_replace('{active_class}', '', $print1);
@@ -546,7 +547,7 @@ class CategoryManager
 
                 foreach ($result as $item) {
 
-                    if ($only_with_content == true) {
+                    if ($only_with_content==true){
 
                         $do_not_show = false;
 
@@ -554,7 +555,7 @@ class CategoryManager
                         $children_content = array();
 
                         $do_not_show = false;
-                        if (!empty($children_content)) {
+                        if (!empty($children_content)){
                             $do_not_show = false;
                         } else {
 
@@ -565,11 +566,11 @@ class CategoryManager
                         $do_not_show = false;
                     }
                     $iid = $item['id'];
-                    if ($do_not_show == false) {
+                    if ($do_not_show==false){
 
                         $output = $output . $item['title'];
 
-                        if ($li_class_name == false) {
+                        if ($li_class_name==false){
 
                             $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag} title='{title_slashes}'>";
                         } else {
@@ -578,7 +579,7 @@ class CategoryManager
                         }
                     }
 
-                    if (intval($item['id']) != 0 and intval($item['id']) == intval(CATEGORY_ID)) {
+                    if (intval($item['id'])!=0 and intval($item['id'])==intval(CATEGORY_ID)){
                         $output = str_replace('{active_class}', 'active', $output);
 
                     } else {
@@ -586,15 +587,15 @@ class CategoryManager
 
                     }
 
-                    if ($do_not_show == false) {
+                    if ($do_not_show==false){
 
-                        if ($link != false) {
+                        if ($link!=false){
 
                             $to_print = false;
 
                             $empty1 = intval($depth_level_counter);
                             $empty = '';
-                            for ($i1 = 0; $i1 < $empty1; $i1++) {
+                            for ($i1 = 0; $i1 < $empty1; $i1 ++) {
                                 $empty = $empty . '&nbsp;&nbsp;';
                             }
 
@@ -604,7 +605,7 @@ class CategoryManager
                             $to_print = str_replace('{id}', $item['id'], $link);
 
 
-                            if (stristr($link, '{items_count}')) {
+                            if (stristr($link, '{items_count}')){
                                 $to_print = str_ireplace('{items_count}', $this->get_items_count($item['id']), $to_print);
                             }
 
@@ -629,11 +630,11 @@ class CategoryManager
 
                             $active_parent_class = '';
                             //if(isset($item['parent']) and intval($item['parent']) != 0){
-                            if (intval($item['parent_id']) != 0 and intval($item['parent_id']) == intval(CATEGORY_ID)) {
+                            if (intval($item['parent_id'])!=0 and intval($item['parent_id'])==intval(CATEGORY_ID)){
                                 $active_parent_class = 'active-parent';
                                 $active_class = '';
 
-                            } else if (intval($item['id']) != 0 and intval($item['id']) == intval(CATEGORY_ID)) {
+                            } else if (intval($item['id'])!=0 and intval($item['id'])==intval(CATEGORY_ID)){
                                 $active_parent_class = 'active-parent';
                                 $active_class = 'active';
 
@@ -650,23 +651,23 @@ class CategoryManager
 
                             $active_found = false;
 
-                            if (is_string($active_ids)) {
+                            if (is_string($active_ids)){
                                 $active_ids = explode(',', $active_ids);
                             }
 
-                            if (is_array($active_ids) == true) {
+                            if (is_array($active_ids)==true){
                                 $active_ids = array_trim($active_ids);
 
                                 foreach ($active_ids as $value_active_cat) {
-                                    if ($value_active_cat != '') {
+                                    if ($value_active_cat!=''){
                                         $value_active_cat = intval($value_active_cat);
-                                        if (intval($item['id']) == $value_active_cat) {
+                                        if (intval($item['id'])==$value_active_cat){
                                             $active_found = $value_active_cat;
                                         }
                                     }
                                 }
 
-                                if ($active_found == true) {
+                                if ($active_found==true){
 
                                     $to_print = str_replace('{active_code}', $active_code, $to_print);
                                     $to_print = str_replace('{active_class}', $active_class, $to_print);
@@ -692,11 +693,11 @@ class CategoryManager
                             $to_print = str_replace('{active_class}', '', $to_print);
                             $to_print = str_replace('{active_code_tag}', '', $to_print);
 
-                            if (is_array($remove_ids) == true) {
+                            if (is_array($remove_ids)==true){
 
-                                if (in_array($item['id'], $remove_ids)) {
+                                if (in_array($item['id'], $remove_ids)){
 
-                                    if ($removed_ids_code == false) {
+                                    if ($removed_ids_code==false){
 
                                         $to_print = false;
                                     } else {
@@ -709,7 +710,7 @@ class CategoryManager
                                 }
                             }
 
-                            if (strval($to_print) == '') {
+                            if (strval($to_print)==''){
 
                                 print $output . $item['title'];
                             } else {
@@ -724,7 +725,7 @@ class CategoryManager
 
                         $children_of_the_main_parent1 = array();
 
-                        if (!isset($remove_ids) or !is_array($remove_ids)) {
+                        if (!isset($remove_ids) or !is_array($remove_ids)){
                             $remove_ids = array();
                         }
                         $remove_ids[] = $item['id'];
@@ -732,17 +733,16 @@ class CategoryManager
                         print "</{$list_item_tag}>";
                     }
                 }
-                if (trim($list_tag) != '') {
+                if (trim($list_tag)!=''){
                     print "</{$list_tag}>";
                 }
             }
         }
     }
 
-    public function link($id)
-    {
+    public function link($id) {
 
-        if (intval($id) == 0) {
+        if (intval($id)==0){
 
             return false;
         }
@@ -762,32 +762,32 @@ class CategoryManager
 
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
-        if (($cache_content) != false) {
+        if (($cache_content)!=false){
 
             return $cache_content;
         } else {
             $table = $this->tables['categories'];
             $c_infp = $this->get_by_id($id);
-            if (!isset($c_infp['rel_type'])) {
+            if (!isset($c_infp['rel_type'])){
                 return;
             }
 
-            if (trim($c_infp['rel_type']) != 'content') {
+            if (trim($c_infp['rel_type'])!='content'){
                 return;
             }
 
             $content = $this->get_page($id);
 
-            if (!empty($content)) {
+            if (!empty($content)){
                 $url = $content['url'];
                 $url = $this->app->content_manager->link($content['id']);
             } else {
-                if (!empty($c_infp) and isset($c_infp['rel_type']) and trim($c_infp['rel_type']) == 'content') {
+                if (!empty($c_infp) and isset($c_infp['rel_type']) and trim($c_infp['rel_type'])=='content'){
                     $this->app->database_manager->delete_by_id($table, $id);
                 }
             }
 
-            if (isset($url) != false) {
+            if (isset($url)!=false){
                 $url = $url . '/category:' . $id;
                 $this->app->cache_manager->save($url, $function_cache_id, $cache_group);
 
@@ -814,7 +814,7 @@ class CategoryManager
 
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
-        if (($cache_content) != false) {
+        if (($cache_content)!=false){
 
             return $cache_content;
         } else {
@@ -825,7 +825,7 @@ class CategoryManager
 
             $data = $this->get_by_id($id);
 
-            if (empty($data)) {
+            if (empty($data)){
 
                 return false;
             }
@@ -854,7 +854,7 @@ class CategoryManager
 
             $parent_ids = $this->get_parents($data['id']);
             //   $parent_ids = array_rpush($parent_ids, $data['id']);
-            $parent_ids = array_pad($parent_ids, -(count($parent_ids) + 1), $data['id']);
+            $parent_ids = array_pad($parent_ids, - (count($parent_ids) + 1), $data['id']);
             foreach ($parent_ids as $item) {
 
                 $content = array();
@@ -877,15 +877,15 @@ class CategoryManager
 
                 $url = false;
 
-                if (!empty($content)) {
+                if (!empty($content)){
 
-                    if ($content['content_type'] == 'page') {
-                        if (function_exists('page_link')) {
+                    if ($content['content_type']=='page'){
+                        if (function_exists('page_link')){
                             $url = $this->app->content_manager->link($content['id']);
                             //$url = $url . '/category:' . $data ['title'];
 
                             $str = $data['title'];
-                            if (function_exists('mb_strtolower')) {
+                            if (function_exists('mb_strtolower')){
                                 $str = mb_strtolower($str, "UTF-8");
                             } else {
                                 $str = strtolower($str);
@@ -903,6 +903,7 @@ class CategoryManager
 
                 //if ($url != false) {
                 $this->app->cache_manager->save($url, $function_cache_id, $cache_group);
+
                 return $url;
                 //}
             }
@@ -912,37 +913,36 @@ class CategoryManager
 
     }
 
-    public function get_page($category_id)
-    {
+    public function get_page($category_id) {
 
         $category_id = intval($category_id);
-        if ($category_id == 0) {
+        if ($category_id==0){
             return false;
         } else {
 
         }
         $category = $this->get_by_id($category_id);
-        if ($category != false) {
-            if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
-                if ($category["rel_type"] == 'content') {
+        if ($category!=false){
+            if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0){
+                if ($category["rel_type"]=='content'){
                     $res = $this->app->content_manager->get_by_id($category["rel_id"]);
-                    if (is_array($res)) {
+                    if (is_array($res)){
                         return $res;
                     }
                 }
 
             }
 
-            if (isset($category["rel_id"]) and intval($category["rel_id"]) == 0 and intval($category["parent_id"]) > 0) {
+            if (isset($category["rel_id"]) and intval($category["rel_id"])==0 and intval($category["parent_id"]) > 0){
                 $category1 = $this->get_parents($category["id"]);
-                if (is_array($category1)) {
+                if (is_array($category1)){
                     foreach ($category1 as $value) {
-                        if (intval($value) != 0) {
+                        if (intval($value)!=0){
                             $category2 = $this->get_by_id($value);
-                            if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
-                                if ($category2["rel_type"] == 'content') {
+                            if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0){
+                                if ($category2["rel_type"]=='content'){
                                     $res = $this->app->content_manager->get_by_id($category2["rel_id"]);
-                                    if (is_array($res)) {
+                                    if (is_array($res)){
                                         return $res;
                                     }
                                 }
@@ -959,12 +959,11 @@ class CategoryManager
 
     }
 
-    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category')
-    {
+    public function get_parents($id = 0, $without_main_parrent = false, $data_type = 'category') {
 
-        if (intval($id) == 0) {
+        if (intval($id)==0){
 
-            return FALSE;
+            return false;
         }
 
         $table = $this->tables['categories'];
@@ -973,7 +972,7 @@ class CategoryManager
 
         $data = array();
 
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
+        if (isset($without_main_parrent) and $without_main_parrent==true){
 
             $with_main_parrent_q = " and parent_id<>0 ";
         } else {
@@ -988,7 +987,7 @@ class CategoryManager
         $params['table'] = $table;
         $params['id'] = $id;
         $params['data_type'] = $data_type;
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
+        if (isset($without_main_parrent) and $without_main_parrent==true){
             $params['parent_id'] = '[neq]0';
         }
 
@@ -999,22 +998,22 @@ class CategoryManager
         //  $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
 
-        if (!empty($taxonomies)) {
+        if (!empty($taxonomies)){
 
             foreach ($taxonomies as $item) {
 
-                if (intval($item['id']) != 0) {
+                if (intval($item['id'])!=0){
 
                     $ids[] = $item['parent_id'];
                 }
-                if ($item['parent_id'] != $item['id']) {
+                if ($item['parent_id']!=$item['id']){
                     $next = $this->get_parents($item['parent_id'], $without_main_parrent);
 
-                    if (!empty($next)) {
+                    if (!empty($next)){
 
                         foreach ($next as $n) {
 
-                            if ($n != '') {
+                            if ($n!=''){
 
                                 $ids[] = $n;
                             }
@@ -1024,7 +1023,7 @@ class CategoryManager
             }
         }
 
-        if (!empty($ids)) {
+        if (!empty($ids)){
 
             $ids = array_unique($ids);
 
@@ -1035,8 +1034,7 @@ class CategoryManager
         }
     }
 
-    public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
-    {
+    public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false) {
 
         $categories_id = $parent_id = intval($parent_id);
         $cache_group = 'categories/' . $categories_id;
@@ -1045,7 +1043,7 @@ class CategoryManager
 
         $db_t_content = $this->tables['content'];
 
-        if (isset($orderby) == false) {
+        if (isset($orderby)==false){
             $orderby = array();
             //$orderby[0] = 'updated_at';
 
@@ -1055,7 +1053,7 @@ class CategoryManager
 
             $orderby[1] = 'asc';
         }
-        if ($parent_id == 0) {
+        if ($parent_id==0){
             return false;
         }
 
@@ -1063,7 +1061,7 @@ class CategoryManager
 
         $data['parent_id'] = $parent_id;
 
-        if ($type != FALSE) {
+        if ($type!=false){
             $data['data_type'] = $type;
         } else {
             $type = 'category_item';
@@ -1084,11 +1082,11 @@ class CategoryManager
 
         $q_cache_id = __FUNCTION__ . crc32($q);
         // $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
-        if (empty($save)) {
+        if (empty($save)){
             return false;
         }
         $to_return = array();
-        if (is_array($save) and !empty($save)) {
+        if (is_array($save) and !empty($save)){
             foreach ($save as $item) {
                 $to_return[] = $item['id'];
             }
@@ -1099,9 +1097,8 @@ class CategoryManager
         return $to_return;
     }
 
-    public function get_for_content($content_id, $data_type = 'categories')
-    {
-        if (intval($content_id) == 0) {
+    public function get_for_content($content_id, $data_type = 'categories') {
+        if (intval($content_id)==0){
 
             return false;
         }
@@ -1109,23 +1106,23 @@ class CategoryManager
         $get_category_items = $this->get_items('rel_type=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
-        if (!empty($get_category_items)) {
+        if (!empty($get_category_items)){
             foreach ($get_category_items as $get_category_item) {
-                if (isset($get_category_item['parent_id'])) {
+                if (isset($get_category_item['parent_id'])){
                     $include_parents[] = $get_category_item['parent_id'];
                 }
             }
 
         }
         $get_category = $this->get('order_by=position desc&data_type=category&rel_type=content&rel_id=' . ($content_id));
-        if (empty($get_category)) {
+        if (empty($get_category)){
             $get_category = array();
         }
-        if (!empty($include_parents)) {
+        if (!empty($include_parents)){
             $include_parents_str = 'order_by=position desc&data_type=category&rel_type=content&ids=' . implode(',', $include_parents);
             $get_category2 = $this->get($include_parents_str);
 
-            if (!empty($get_category2)) {
+            if (!empty($get_category2)){
                 foreach ($get_category2 as $item) {
                     $get_category[] = $item;
                 }
@@ -1136,7 +1133,7 @@ class CategoryManager
 //            array_unique($get_category);
 //        }
 
-        if (empty($get_category)) {
+        if (empty($get_category)){
             return false;
         }
 
@@ -1147,13 +1144,14 @@ class CategoryManager
 
     /**
      * Gets category items count
-     * @param mixed $params Array or string with parameters
+     *
+     * @param mixed  $params Array or string with parameters
      * @param string $data_type
+     *
      * @return array|bool
      */
-    public function get_items_count($id, $rel_type = false)
-    {
-        if ($id == false) {
+    public function get_items_count($id, $rel_type = false) {
+        if ($id==false){
             return false;
         }
 
@@ -1163,26 +1161,28 @@ class CategoryManager
         $params = array();
         $params['table'] = $table_items;
         $params['parent_id'] = $id;
-        if ($rel_type != false) {
+        if ($rel_type!=false){
             $params['rel_type'] = $rel_type;
         }
 
         $params['count'] = true;
         $data = $this->app->database_manager->get($params);
+
         return $data;
     }
 
 
     /**
      * Gets category items
-     * @param mixed $params Array or string with parameters
+     *
+     * @param mixed  $params Array or string with parameters
      * @param string $data_type
+     *
      * @return array|bool
      */
-    public function get_items($params, $data_type = 'categories')
-    {
+    public function get_items($params, $data_type = 'categories') {
 
-        if (is_string($params)) {
+        if (is_string($params)){
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
@@ -1192,14 +1192,14 @@ class CategoryManager
         $data['table'] = $table_items;
 
         $data = $this->app->database_manager->get($data);
+
         return $data;
     }
 
-    public function get($params, $data_type = 'categories')
-    {
+    public function get($params, $data_type = 'categories') {
         $params2 = array();
         $rel_id = 0;
-        if (is_string($params)) {
+        if (is_string($params)){
             $params = parse_str($params, $params2);
             $params = $params2;
             extract($params);
@@ -1212,7 +1212,7 @@ class CategoryManager
         $data_type_q = false;
 
         $data['table'] = $table;
-        if (isset($params['id'])) {
+        if (isset($params['id'])){
             $data['cache_group'] = $cache_group = 'categories/' . $params['id'];
         } else {
             $data['cache_group'] = $cache_group = 'categories/global';
@@ -1220,59 +1220,59 @@ class CategoryManager
         }
 
 
-        if (isset($data['parent']) and !isset($data['parent_id'])) {
+        if (isset($data['parent']) and !isset($data['parent_id'])){
             $data['parent_id'] = $data['parent'];
         }
 
 
-        if (!isset($data['rel_type'])) {
+        if (!isset($data['rel_type'])){
             $data['rel_type'] = 'content';
         }
 
 
-        if (isset($params['rel_id'])) {
+        if (isset($params['rel_id'])){
             $data['rel_id'] = $params['rel_id'];
         }
 
 
-        if (isset($data['parent_page'])) {
+        if (isset($data['parent_page'])){
             $data['rel_type'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
 
-        if (isset($data['parent_id'])) {
-            if (isset($data['rel_type'])) {
+        if (isset($data['parent_id'])){
+            if (isset($data['rel_type'])){
                 unset($data['rel_type']);
             }
-            if (isset($data['rel_id'])) {
+            if (isset($data['rel_id'])){
                 unset($data['rel_id']);
             }
         }
 
 
         $data = $this->app->database_manager->get($data);
+
         return $data;
 
     }
 
-    public function save($data, $preserve_cache = false)
-    {
+    public function save($data, $preserve_cache = false) {
         $sid = mw()->user_manager->session_id();
 
 
-        if ((isset($data['id']) and ($data['id']) == 0) or !isset($data['id'])) {
-            if (!isset($data['title']) or (isset($data['title']) and $data['title'] == false)) {
+        if ((isset($data['id']) and ($data['id'])==0) or !isset($data['id'])){
+            if (!isset($data['title']) or (isset($data['title']) and $data['title']==false)){
                 return array('error' => 'Title is required');
             }
-        } elseif ((isset($data['id']) and ($data['id']) != 0)) {
-            if ((isset($data['title']) and $data['title'] == false)) {
+        } elseif ((isset($data['id']) and ($data['id'])!=0)) {
+            if ((isset($data['title']) and $data['title']==false)){
                 return array('error' => 'Title is cannot be blank');
             }
         }
 
 
-        if ((isset($data['id']) and ($data['id']) != 0) and isset($data['parent_id'])) {
-            if ((intval($data['id']) == intval($data['parent_id']))) {
+        if ((isset($data['id']) and ($data['id'])!=0) and isset($data['parent_id'])){
+            if ((intval($data['id'])==intval($data['parent_id']))){
                 return array('error' => 'Invalid parent category');
             }
         }
@@ -1283,70 +1283,70 @@ class CategoryManager
 
         $content_ids = false;
         $simple_save = false;
-        if (isset($data['content_id']) and !isset($data['rel_type'])) {
+        if (isset($data['content_id']) and !isset($data['rel_type'])){
             $data['rel_type'] = 'content';
             $data['rel_id'] = $data['content_id'];
         }
 
 
-        if (isset($data['rel']) and !isset($data['rel_type'])) {
+        if (isset($data['rel']) and !isset($data['rel_type'])){
             $data['rel_type'] = $data['rel'];
         }
-        if (!isset($data['data_type']) or !($data['data_type'])) {
+        if (!isset($data['data_type']) or !($data['data_type'])){
             $data['data_type'] = 'category';
         }
-        if (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'y') {
+        if (isset($data['users_can_create_content']) and ($data['users_can_create_content'])=='y'){
             $data['users_can_create_content'] = 1;
-        } elseif (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'n') {
+        } elseif (isset($data['users_can_create_content']) and ($data['users_can_create_content'])=='n') {
             $data['users_can_create_content'] = 0;
         }
 
 
-        if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
+        if (isset($data['rel_type']) and ($data['rel_type']=='') or !isset($data['rel_type'])){
             $data['rel_type'] = 'content';
         }
-        if (isset($data['simple_save'])) {
+        if (isset($data['simple_save'])){
             $simple_save = $data['simple_save'];
         }
-        if (isset($data['content_id'])) {
+        if (isset($data['content_id'])){
 
-            if (is_array($data['content_id']) and !empty($data['content_id']) and trim($data['data_type']) != '') {
+            if (is_array($data['content_id']) and !empty($data['content_id']) and trim($data['data_type'])!=''){
                 $content_ids = $data['content_id'];
             }
         }
 
-        if (isset($data['position'])) {
+        if (isset($data['position'])){
             $data['position'] = intval($data['position']);
         }
 
 
         $no_position_fix = false;
-        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) != '' and trim($data['rel_id']) != '') {
+        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type'])!='' and trim($data['rel_id'])!=''){
             $no_position_fix = true;
         }
 
-        if (isset($data['parent_page'])) {
+        if (isset($data['parent_page'])){
             $data['rel_type'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
 
-        if (isset($data['table']) and ($data['table'] != '')) {
+        if (isset($data['table']) and ($data['table']!='')){
             $table = $data['table'];
         }
-        if (isset($data['id']) and intval($data['id']) != 0 and isset($data['parent_id']) and intval($data['parent_id']) != 0) {
-            if ($data['id'] == $data['parent_id']) {
+        if (isset($data['id']) and intval($data['id'])!=0 and isset($data['parent_id']) and intval($data['parent_id'])!=0){
+            if ($data['id']==$data['parent_id']){
                 unset($data['parent_id']);
             }
-        } else if ((!isset($data['id']) or intval($data['id']) == 0) and !isset($data['parent_id'])) {
+        } else if ((!isset($data['id']) or intval($data['id'])==0) and !isset($data['parent_id'])){
             $data['parent_id'] = 0;
         }
 
 
-        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
+        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type'])=='content' and intval($data['rel_id'])!=0){
 
             $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
 
-            if ($cont_check != false and isset($cont_check['subtype']) and $cont_check['subtype'] == 'static') {
+            if ($cont_check!=false and isset($cont_check['subtype']) and $cont_check['subtype']=='static'){
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
@@ -1356,36 +1356,36 @@ class CategoryManager
             }
 
         }
-        if ((!isset($data['id']) or $data['id'] == 0) and !isset($data['is_deleted'])) {
+        if ((!isset($data['id']) or $data['id']==0) and !isset($data['is_deleted'])){
             $data['is_deleted'] = 0;
         }
 
         $old_parent = false;
-        if (isset($data['id'])) {
+        if (isset($data['id'])){
             $old_category = $this->get_by_id($data['id']);
-            if (isset($old_category['parent_id'])) {
+            if (isset($old_category['parent_id'])){
                 $old_parent = $old_category['parent_id'];
             }
             //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
 
-        $save = $this->app->database_manager->save($table, $data);
+        $id = $save = $this->app->database_manager->save($table, $data);
 
 
-        if ($simple_save == true) {
+        if ($simple_save==true){
             return $save;
         }
 
-        if (intval($save) == 0) {
+        if (intval($save)==0){
 
             return false;
         }
 
-        DB::transaction(function () {
+        DB::transaction(function () use ($sid, $id) {
             DB::table($this->tables['custom_fields'])
                 ->whereSessionId($sid)
-                ->where(function($query) {
+                ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null);
                 })
                 ->whereRelType('categories')
@@ -1393,7 +1393,7 @@ class CategoryManager
 
             DB::table($this->tables['media'])
                 ->whereSessionId($sid)
-                ->where(function($query) {
+                ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null);
                 })
                 ->whereRelType('categories')
@@ -1402,9 +1402,9 @@ class CategoryManager
 
         //$this->app->cache_manager->clear('media');
 
-        $this->app->database_manager->q($clean);
+        // $this->app->database_manager->q($clean);
 
-        if (isset($content_ids) and !empty($content_ids)) {
+        if (isset($content_ids) and !empty($content_ids)){
             $content_ids = array_unique($content_ids);
             $data_type = trim($data['data_type']) . '_item';
 
@@ -1436,7 +1436,7 @@ class CategoryManager
 
             }
         }
-        if ($old_parent != false) {
+        if ($old_parent!=false){
             // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
 
@@ -1444,42 +1444,42 @@ class CategoryManager
         return $save;
     }
 
-    public function save_item($params)
-    {
+    public function save_item($params) {
         $params = parse_params($params);
         $table = $this->tables['categories_items'];
         $params['table'] = $table;
         $save = $this->app->database_manager->save($params);
-        if (intval($save) == 0) {
+        if (intval($save)==0){
             return false;
         }
     }
 
     /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
+     *
      * @param int
+     *
      * @return array
      * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
+     * @version     1.0
+     * @since       Version 1.0
      */
-    public function get_by_id($id = 0)
-    {
-        if ($id == 0) {
+    public function get_by_id($id = 0) {
+        if ($id==0){
             return false;
         }
         $id = intval($id);
         $table = $this->tables['categories'];
         $id = intval($id);
         $q = $this->app->database_manager->get_by_id($table, $id);
+
         return $q;
 
     }
 
-    public function delete($data)
-    {
+    public function delete($data) {
 
-        if (is_array($data) and isset($data['id'])) {
+        if (is_array($data) and isset($data['id'])){
             $c_id = intval($data['id']);
         } else {
             $c_id = intval($data);
@@ -1488,42 +1488,42 @@ class CategoryManager
         $del = $this->app->database_manager->delete_by_id('categories', $c_id);
         $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
         $this->app->database_manager->delete_by_id('categories_items', $c_id, 'parent_id');
-        if (defined("MODULE_DB_MENUS")) {
+        if (defined("MODULE_DB_MENUS")){
             $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');
         }
+
         return $del;
     }
 
-    public function delete_item($data)
-    {
+    public function delete_item($data) {
 
-        if (is_array($data) and isset($data['id'])) {
+        if (is_array($data) and isset($data['id'])){
             $c_id = intval($data['id']);
         } else {
             $c_id = intval($data);
         }
 
         return $this->app->database_manager->delete_by_id('categories_items', $c_id);
-     }
+    }
 
-    public function reorder($data)
-    {
+    public function reorder($data) {
 
         $table = $this->tables['categories'];
         $res = array();
         foreach ($data as $value) {
-            if (is_array($value)) {
+            if (is_array($value)){
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
-                    $indx[$i] = $value2;
-                    $i++;
+                    $indx[ $i ] = $value2;
+                    $i ++;
                 }
 
                 $res[] = mw()->database_manager->update_position_field($table, $indx);
 
             }
         }
+
         return $res;
     }
 

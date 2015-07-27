@@ -122,7 +122,7 @@ class FieldsManager {
                 }
                 if ($pos > 0){
 
-                   $this->app->cache_manager->delete('custom_fields/global');
+                    $this->app->cache_manager->delete('custom_fields/global');
                 }
             }
         }
@@ -241,11 +241,11 @@ class FieldsManager {
             }
 
 
-           // $this->skip_cache = true;
+            // $this->skip_cache = true;
             $data_to_save['table'] = $table_custom_field;
             $data_to_save['allow_html'] = true;
             $data_to_save_parent = $data_to_save;
-            if(isset($data_to_save_parent['value'])){
+            if (isset($data_to_save_parent['value'])){
                 unset($data_to_save_parent['value']);
             }
 
@@ -276,10 +276,9 @@ class FieldsManager {
                         }
                         $save_value['custom_field_id'] = $custom_field_id;
                         $save_value['value'] = $value_to_save;
-                        if(is_array($value_to_save)){
-                      // $save_value['value'] = implode(',',array_values($value_to_save));
+                        if (is_array($value_to_save)){
+                            $save_value['value'] = implode(',', array_values($value_to_save));
                         }
-                      //  d($save_value['value']);
                         $save_value['position'] = $i;
                         $save_value['allow_html'] = true;
 
@@ -756,7 +755,6 @@ class FieldsManager {
 
         return $id;
     }
-
 
 
     public function make_field($field_id = 0, $field_type = 'text', $settings = false) {
