@@ -57,9 +57,10 @@
             </div>
 
 
-            <?php if (mw()->ui->enable_service_links): ?>
+
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
+                        <?php if (mw()->ui->enable_service_links): ?>
                         <div class="mw-ui-navigation">
                             <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.third'); ?>
                             <?php if (!empty($dash_menu)): ?>
@@ -79,10 +80,11 @@
                             <?php endif; ?>
                             <?php event_trigger('mw.admin.dashboard.links3'); ?>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
-            <?php endif; ?>
+
 
 
         </div>
