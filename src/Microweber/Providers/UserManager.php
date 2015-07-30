@@ -716,13 +716,13 @@ class UserManager {
         } elseif (mw_var('force_save_user')) {
             $force = mw_var('force_save_user');
         }
-
-        if (defined("MW_API_CALL") and mw_is_installed()==true){
-            if (isset($params['is_admin']) and $this->is_admin()==false and !is_null(User::first())){
-                unset($params['is_admin']);
+        if (!$force){
+            if (defined("MW_API_CALL") and mw_is_installed()==true){
+                if (isset($params['is_admin']) and $this->is_admin()==false and !is_null(User::first())){
+                    unset($params['is_admin']);
+                }
             }
         }
-
         if ($force==false){
             if (isset($params['id']) and $params['id']!=0){
                 $adm = $this->is_admin();
