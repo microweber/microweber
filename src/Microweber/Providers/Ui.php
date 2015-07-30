@@ -3,8 +3,7 @@
 namespace Microweber\Providers;
 
 
-class Ui
-{
+class Ui {
 
 
     public $custom_fields = array();
@@ -17,18 +16,17 @@ class Ui
     public $disable_marketplace = false;
     public $marketplace_provider_id = false;
     public $marketplace_access_code = false;
+    public $enable_service_links = true;
 
     public $modules_ui = array();
 
-    function __construct()
-    {
+    function __construct() {
         $this->admin_logo_login = mw_includes_url() . 'images/logo-login.svg';
         $this->defaults();
     }
 
 
-    function defaults()
-    {
+    function defaults() {
         $btn = array();
         $btn['content_type'] = 'page';
         $btn['title'] = _e("Page", true);
@@ -50,7 +48,7 @@ class Ui
 
         $notif_count = mw()->notifications_manager->get('is_read=0&count=1');
         $notif_count_html = false;
-        if (intval($notif_count) > 0) {
+        if (intval($notif_count) > 0){
             $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
         }
         $admin_dashboard_btn = array();
@@ -86,7 +84,7 @@ class Ui
 
         $notif_count = 0;
         $notif_count_html = false;
-        if (intval($notif_count) > 0) {
+        if (intval($notif_count) > 0){
             $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
         }
         $admin_dashboard_btn = array();
@@ -103,19 +101,19 @@ class Ui
 
 
         $fields = array(
-            "price" => "Price",
-            "text" => "Text Field",
-            "radio" => "Single Choice",
+            "price"    => "Price",
+            "text"     => "Text Field",
+            "radio"    => "Single Choice",
             "dropdown" => "Dropdown",
             "checkbox" => "Multiple choices",
-            "number" => "Number",
+            "number"   => "Number",
 
-            "phone" => "Phone",
-            "site" => "Web Site",
-            "email" => "E-mail",
-            "address" => "Address",
-            "date" => "Date",
-            "upload" => "File Upload"
+            "phone"    => "Phone",
+            "site"     => "Web Site",
+            "email"    => "E-mail",
+            "address"  => "Address",
+            "date"     => "Date",
+            "upload"   => "File Upload"
 
         );
 
@@ -124,54 +122,48 @@ class Ui
     }
 
 
-    public function module($name = false, $arr = false)
-    {
-        if (!isset($this->modules_ui[$name])) {
-            $this->modules_ui[$name] = array();
+    public function module($name = false, $arr = false) {
+        if (!isset($this->modules_ui[ $name ])){
+            $this->modules_ui[ $name ] = array();
         }
-        if ($arr != false) {
-            array_push($this->modules_ui[$name], $arr);
+        if ($arr!=false){
+            array_push($this->modules_ui[ $name ], $arr);
         }
-        return $this->modules_ui[$name];
+
+        return $this->modules_ui[ $name ];
     }
 
-    public function brand_name()
-    {
+    public function brand_name() {
         return $this->brand_name;
     }
 
-    public function live_edit_logo()
-    {
+    public function live_edit_logo() {
         return $this->logo_live_edit;
     }
 
-    public function admin_logo_login()
-    {
+    public function admin_logo_login() {
         return $this->admin_logo_login;
     }
 
-    public function admin_logo()
-    {
+    public function admin_logo() {
         return $this->admin_logo;
     }
 
-    function create_content_menu()
-    {
+    function create_content_menu() {
         return $this->create_content_menu;
     }
 
-    function custom_fields()
-    {
+    function custom_fields() {
         return $this->custom_fields;
     }
 
 
-    function powered_by_link()
-    {
+    function powered_by_link() {
         $link = '<a href="https://microweber.com/" title="Create free Website &amp; Online Shop">Create Website</a> with <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a>';
-        if ($this->powered_by_link != false) {
+        if ($this->powered_by_link!=false){
             $link = $this->powered_by_link;
         }
+
         return $link;
     }
 

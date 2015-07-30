@@ -511,7 +511,11 @@ $is_chosen = false;
                     $selected = false;
                     $attrs = '';
                     foreach ($item as $k => $v): ?>
-                        <?php $attrs .= "data-$k='{$v}'"; ?>
+
+                        <?php if (is_string($v)): ?>
+                            <?php $attrs .= "data-$k='{$v}'"; ?>
+                        <?php endif ?>
+
                     <?php endforeach ?>
                     <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
                         <option
