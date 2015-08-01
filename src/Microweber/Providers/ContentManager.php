@@ -2458,10 +2458,10 @@ class ContentManager {
                             $check_if_page = $this->get_by_id($content_id);
                             if (is_array($check_if_page)
                                 and isset($check_if_page['content_type'])
-                                    and isset($check_if_page['parent'])
-                                        and $check_if_page['content_type']!=''
-                                            and intval($check_if_page['parent'])!=0
-                                                and $check_if_page['content_type']!='page'
+                                and isset($check_if_page['parent'])
+                                and $check_if_page['content_type']!=''
+                                and intval($check_if_page['parent'])!=0
+                                and $check_if_page['content_type']!='page'
                             ){
                                 $inh = $check_if_page['parent'];
                                 if ($inh!=false){
@@ -3329,18 +3329,18 @@ class ContentManager {
                 DB::table($this->tables['custom_fields'])
                     ->whereSessionId($sid)
                     ->where(function ($query) {
-                        $query->whereRelId(0)->orWhere('rel_id', null);
+                        $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                     })
                     ->whereRelType('content')
-                    ->update(['rel_type' => 'categories', 'rel_id' => $id]);
+                    ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
-                DB::table($this->tables['media'])
+                DB::table($this->tables['media']) 
                     ->whereSessionId($sid)
                     ->where(function ($query) {
-                        $query->whereRelId(0)->orWhere('rel_id', null);
+                        $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                     })
                     ->whereRelType('content')
-                    ->update(['rel_type' => 'categories', 'rel_id' => $id]);
+                    ->update(['rel_type' => 'content', 'rel_id' => $id]);
             });
         }
 
