@@ -56,8 +56,7 @@ if( $id != 0){
 					 if(mw.notification != undefined){
 			 mw.notification.success('Menu changes are saved');
 			 }
-			 
-				
+			  
  				mw.menu_item_after_save();
         	});
         }
@@ -65,6 +64,14 @@ if( $id != 0){
  
 mw.menu_item_after_save = function(){
 	mw.reload_module_parent('menu')
+	
+ 
+ if(mw.menu_curenlty_editing_item_id == false){
+	 mw.reload_module('menu/edit_items');
+ }
+ 
+ 
+ 
 		if(mw.menu_curenlty_editing_item_id != false){
 			if(mw.$("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id).length>0){
 				 //	mw.reload_module_parent("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id)

@@ -173,7 +173,8 @@ $(document).ready(function(){
 				if(no_reload === undefined){
         		mw.reload_module('menu/edit_items');
 				}
-
+				
+				 
 
         		if(self!==parent && typeof parent.mw === 'object'){
         			parent.mw.reload_module('menu');
