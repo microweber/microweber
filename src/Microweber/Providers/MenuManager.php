@@ -630,7 +630,7 @@ class MenuManager
 
         $to_print .= '</' . $ul_tag . '>';
         if ($orig_depth == 0) {
-            $this->app->cache_manager->save($to_print, $function_cache_id, $cache_group);
+           // $this->app->cache_manager->save($to_print, $function_cache_id, $cache_group);
         }
 
         if($has_items){

@@ -317,14 +317,12 @@ class Database {
     }
 
     public function update_position_field($table, $data = array()) {
-        $table_real = $this->real_table_name($table);
         $i = 0;
         if (is_array($data)){
             foreach ($data as $value) {
                 $value = intval($value);
                 if ($value!=0){
-                    $q = "UPDATE $table_real SET position={$i} WHERE id={$value} ";
-                    DB::statement($q);
+                    DB::table($table)->whereId($value)->update(['position' => $i]);
                 }
                 $i ++;
             }

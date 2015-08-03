@@ -3334,7 +3334,7 @@ class ContentManager {
                     ->whereRelType('content')
                     ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
-                DB::table($this->tables['media']) 
+                DB::table($this->tables['media'])
                     ->whereSessionId($sid)
                     ->where(function ($query) {
                         $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
