@@ -1,5 +1,8 @@
 <?php
 namespace Microweber\Providers;
+
+use DB;
+
 //event_bind('mw_db_init_default', mw()->shop_manager->db_init());
 
     /**
@@ -327,43 +330,32 @@ class ShopManager
 
     public function place_order($place_order)
     {
-
         $sid = mw()->user_manager->session_id();
         if ($sid == false) {
             return $sid;
         }
 
-        $cart_table = $this->tables['cart'];
-        $table_orders = $this->tables['cart_orders'];
-        $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
-        $order_table_real = $this->app->database_manager->real_table_name($table_orders);
-
-        $ord = $this->app->database_manager->save($table_orders, $place_order);
+        $ord = $this->app->database_manager->save($this->tables['cart_orders'], $place_order);
         $place_order['id'] = $ord;
-        $q = " UPDATE $cart_table_real SET
-		order_id='{$ord}'
-		WHERE order_completed=0  AND session_id='{$sid}'  ";
-        $this->app->database_manager->q($q);
-        if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
-            $q = " UPDATE $cart_table_real SET
-			order_completed=1, order_id='{$ord}'
 
-			WHERE order_completed=0  AND session_id='{$sid}' ";
-            $this->app->database_manager->q($q);
-            if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                $q = " UPDATE $order_table_real SET
-				order_completed=1
-				WHERE order_completed=0 AND
-				id='{$ord}' AND session_id='{$sid}' ";
-                $this->app->database_manager->q($q);
+        DB::transaction(function() {
+            DB::table($this->tables['cart'])->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
+
+            if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
+                DB::table($this->tables['cart'])->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
+
+                if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {               
+                    DB::table($this->tables['cart_orders'])->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
+                }
+                $this->app->cache_manager->delete('cart');
+                $this->app->cache_manager->delete('cart_orders');
+                if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
+                    $this->update_quantities($ord);
+                }
+                $this->after_checkout($ord);
             }
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-            if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                $this->update_quantities($ord);
-            }
-            $this->after_checkout($ord);
-        }
+        });
+
         mw()->user_manager->session_set('order_id', $ord);
 
         return $ord;
@@ -974,7 +966,7 @@ class ShopManager
         $update_qty_new = 0;
 
         if (isset($data['qty'])) {
-            $update_qty_new = intval($data['qty']);
+            $update_qty_new = $update_qty = intval($data['qty']);
             unset($data['qty']);
         }
         if (!isset($data['for']) or !isset($data['for_id'])) {
@@ -1189,6 +1181,7 @@ class ShopManager
 
 
             mw_var('FORCE_SAVE', $table);
+
             $cart_saved_id = $this->app->database_manager->save($table, $cart);
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders/global');

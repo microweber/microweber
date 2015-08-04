@@ -2,8 +2,6 @@
 namespace Microweber\Providers;
 
 
-
-
 class MediaManager
 {
 
@@ -321,23 +319,25 @@ class MediaManager
     {
 
         $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+
         if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)) {
             $data = array('id' => intval($data));
         }
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $pic_data = $this->get("one=1&id=" . $c_id);
+            $pic_data = $this->get_by_id($c_id);
+            if ($adm == false) {
+                if ($pic_data['created_by'] != $this->app->user_manager->id()) {
+                    mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+                }
+            }
             if (isset($pic_data['filename'])) {
                 $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
                 if (is_file($fn_remove)) {
                     @unlink($fn_remove);
                 }
             }
-
-            $this->app->database_manager->delete_by_id('media', $c_id);
+            return $this->app->database_manager->delete_by_id('media', $c_id);
         }
     }
 
@@ -372,7 +372,7 @@ class MediaManager
         if (!isset($params['rel_type']) and isset($params['for'])) {
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
         }
-        if (!isset($params['rel_type'])){
+        if (!isset($params['rel_type'])) {
             $params['rel_type'] = 'content';
         }
 
@@ -380,7 +380,6 @@ class MediaManager
             $params['limit'] = "nolimit";
         }
 
-       
 
         $params['table'] = $table;
         $params['order_by'] = 'position ASC';
@@ -898,7 +897,7 @@ class MediaManager
 
         $cache_id = array();
         $cache_id['base_src'] = $base_src;
-		$cache_id['src'] = $src;
+        $cache_id['src'] = $src;
 
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;

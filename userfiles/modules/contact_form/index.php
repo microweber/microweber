@@ -107,6 +107,11 @@ $(document).ready(function(){
 
 
 		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
+		
+		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
+
+
+
 
     	return false;
     });

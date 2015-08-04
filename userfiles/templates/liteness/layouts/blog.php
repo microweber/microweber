@@ -14,7 +14,7 @@
 ?>
 <?php include TEMPLATE_DIR. "header.php"; ?>
 
-<div class="container">
+<div class="container" id="page-container-<?php print PAGE_ID; ?>">
   <div class="box-container">
     <div class="row">
       <div class="col-md-9">

@@ -6,12 +6,20 @@ function get_picture($content_id, $for = 'post', $full = false)
 
 }
 
+
 function get_picture_by_id($media_id)
+{
+    return get_media_by_id($media_id);;
+
+}
+
+api_expose_admin('get_media_by_id');
+
+function get_media_by_id($media_id)
 {
     return mw()->media_manager->get_by_id($media_id);
 
 }
-
 
 api_expose('upload_progress_check');
 
@@ -30,7 +38,7 @@ function upload($data)
 }
 
 
-api_expose('reorder_media');
+api_expose_admin('reorder_media');
 
 function reorder_media($data)
 {
@@ -54,6 +62,8 @@ function save_media($data)
 {
     return save_picture($data);
 }
+
+api_expose_admin('save_picture');
 
 function save_picture($data)
 {
@@ -86,8 +96,16 @@ if (!function_exists('thumbnail')) {
 
     }
 }
+api_expose_admin('get_media');
+function get_media($params)
+{
+    return mw()->media_manager->get($params);
+}
+
 function get_pictures($params)
 {
+
+
     return mw()->media_manager->get($params);
 }
 

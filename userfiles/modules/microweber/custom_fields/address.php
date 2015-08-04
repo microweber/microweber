@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($data['id'])) {
-    include('empty_field_vals.php');
+    include(__DIR__.DS.'empty_field_vals.php');
 }
 
 $is_required = (isset($data['options']) == true and is_array($data['options']) and in_array('required', $data['options']) == true);
@@ -11,7 +11,7 @@ if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
     $skips = array_trim($skips);
 }
 
-if (!is_array($data['values'])) {
+if ($data['values'] == false or !is_array($data['values']) or !is_array($data['values'][0])) {
     $default_data = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
     $data['values'] = $default_data;
 }
@@ -24,6 +24,7 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
     $data['input_class'] = 'form-control';
 
 }
+ 
 if (!isset($data['options']) or !is_array($data['options']) or empty($data['options'])) {
 
     $data['options'] = array(

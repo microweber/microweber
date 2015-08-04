@@ -791,9 +791,6 @@ class ModuleController extends Controller
         }
 
 
-        // $render_file = $this->app->template->get_layout($page);
-//d($page['render_file']);
-        //    $page['render_file'] = $render_file;
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {
 

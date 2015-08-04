@@ -340,7 +340,17 @@ if (isset($params['data-page-number'])) {
 
 <?php else: ?>
     <div class="mw-no-posts-foot">
-        <?php if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product')) : ?>
+        <?php 
+		$page_is_shop = false;
+		if(isset($post_params["page-id"])){
+			$page_is_shop_check = get_content_by_id($post_params["page-id"]);
+			if(isset($page_is_shop_check['is_shop']) and $page_is_shop_check['is_shop'] == 1){
+				$page_is_shop = true;
+			}
+			 
+		}
+ 
+		if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) : ?>
 
             <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
 

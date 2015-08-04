@@ -14,15 +14,8 @@ class OptionsTest extends TestCase
         $data['option_value'] = $now;
         $data['option_key'] = 'a_test';
         $data['option_group'] = 'test';
-
         $save = save_option($data);
-
         $get = get_option('a_test', 'test');
-
         $this->assertEquals($now, $get);
-
-
     }
-
-
 }

@@ -48,7 +48,7 @@ if($for == false and isset($data['rel_type'])){
 
 
 if (intval($data['id']) == 0) {
-include('empty_field_vals.php');
+include(__DIR__.DS.'empty_field_vals.php');
 }
 foreach ($data_orig as $key => $value) {
 	//$data[$key] =  $value;

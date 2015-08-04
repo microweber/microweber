@@ -220,16 +220,11 @@ trait QueryFilter
                     } elseif (is_int($ids)) {
                         $ids = array($ids);
                     }
-
-
                     if (is_array($ids)) {
-
                         $query = $query->leftJoin('categories_items'
                             , 'categories_items.rel_id', '=', $table . '.id')
                             ->where('categories_items.rel_type', $table)
                             ->whereIn('categories_items.parent_id', $ids);
-
-
                     }
                     unset($params[$filter]);
 
@@ -273,7 +268,7 @@ trait QueryFilter
 
                     if ($value > 1) {
                         if ($is_limit != false) {
-                            $criteria = intval($value-1) * intval($is_limit);
+                            $criteria = intval($value - 1) * intval($is_limit);
                         }
                     }
                     if ($criteria > 1) {
@@ -361,11 +356,7 @@ trait QueryFilter
                         }
                     }
                     break;
-
-
             }
-
-
         }
 
 
@@ -384,15 +375,11 @@ trait QueryFilter
         if (!is_array($array)) {
             return $array;
         }
-
         $r = $this->get_fields($table);
         $r = array_diff($r, $this->filter_keys);
-
         $r = array_intersect($r, array_keys($array));
         $r = array_flip($r);
         $r = array_intersect_key($array, $r);
-
-
         return $r;
     }
 

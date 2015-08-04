@@ -363,7 +363,7 @@
 
 
                 <?php
-                $templates = mw()->template->site_templates();
+                $templates = site_templates();
 
 
                 ?>

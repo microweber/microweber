@@ -19,4 +19,4 @@ $fields_to_add['visit_time'] = 'time';
 $fields_to_add['last_page'] = 'string';
 $fields_to_add['session_id'] = 'string';
 
-$config['tables']['stats_users_online'] = $fields_to_add;
+$config['tables']['stats_users_online'] = $fields_to_add; 

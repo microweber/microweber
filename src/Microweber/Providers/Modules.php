@@ -309,28 +309,28 @@ class Modules
                     }
 
 
-                    $configs[] = $config;
+
 
 
                     if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
                         if (trim($config['module']) != '') {
-
                             if ($list_as_element == true) {
-
                                 $this->app->layouts_manager->save($config);
                             } else {
                                 $config['installed'] = 'auto';
-                                $this->save($config);
-
                                 $tablesData = false;
                                 $schemaFileName = $moduleDir . 'schema.json';
-                                if (isset($config['tables']) && !empty($config['tables'])) {
+                                if (isset($config['tables']) && is_array($config['tables']) && !empty($config['tables'])) {
                                     $tablesData = $config['tables'];
+                                } else if (isset($config['tables']) && is_callable($config['tables'])) {
+                                    call_user_func($config['tables']);
+                                    unset($config['tables']);
                                 } else if (file_exists($schemaFileName)) {
                                     $json = file_get_contents($schemaFileName);
-                                    $json = json_decode($json, true);
+                                    $json = @json_decode($json, true);
                                     $tablesData = $json;
                                 }
+                                $this->save($config);
 
                                 if ($tablesData) {
                                     (new Database)->build_tables($tablesData);
@@ -338,7 +338,7 @@ class Modules
                             }
                         }
                     }
-
+                    $configs[] = $config;
                 }
             }
 
@@ -866,6 +866,7 @@ class Modules
                 $attrs1 = str_replace('%20', '-', $attrs1);
                 $attrs1 = str_replace(' ', '-', $attrs1);
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
+
             }
             if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);

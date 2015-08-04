@@ -217,7 +217,7 @@ function __store_lang_file()
     }
 
 }
-
+api_expose('set_current_lang');
 function set_current_lang($lang = 'en')
 {
     $lang = str_replace('.', '', $lang);

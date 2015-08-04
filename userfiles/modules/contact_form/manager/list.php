@@ -96,7 +96,9 @@ if(is_array($data)){
         <div class="mw-date" title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']);; ?></div></td>
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as  $key =>$value): ?>
-      <td><?php
+      <td>
+	  <div style="word-break:break-all;">
+	  <?php
       		 
       		    $values_plain = mw('format')->clean_html( $value);;
       	 
@@ -109,7 +111,9 @@ if(is_array($data)){
              else {
            print mw('format')->autolink( $value);
              }
-        ?></td>
+        ?>
+        </div>
+        </td>
       <?php endforeach ; ?>
       <?php endif; ?>
       <td class="mw-ui-table-delete-item"><a class="show-on-hover mw-icon-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
