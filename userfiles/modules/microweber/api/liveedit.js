@@ -1126,7 +1126,7 @@ mw.drag = {
                     var target = event.target;
 
 
-                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit')) {
+                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown')) {
                         $(window).trigger("onIconElementClick", target);
 
                     } else if ($(target).hasClass("element")) {
