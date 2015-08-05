@@ -338,7 +338,7 @@ class ShopManager
         $ord = $this->app->database_manager->save($this->tables['cart_orders'], $place_order);
         $place_order['id'] = $ord;
 
-        DB::transaction(function() {
+        DB::transaction(function() use ($sid,$ord,$place_order) {
             DB::table($this->tables['cart'])->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
