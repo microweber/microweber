@@ -101,6 +101,54 @@ complete_order = window.complete_order || function(){
         </div>
         <div class="alert hide"></div>
         <div class="mw-cart-action-holder">
+        
+        <?php
+$tems = get_option('shop_require_terms', 'website') == 1;	
+ 
+
+ ?>
+       <?php if($tems): ?>
+    <script>
+
+
+
+$( document ).ready(function() {
+   
+  
+   
+       $('#i_agree_with_terms_row').click(function() {
+		var el = $('#i_agree_with_terms');
+		if(el.is(':checked')) {
+			 $('#complete_order_button').removeAttr('disabled');
+		} else {
+		 	 $('#complete_order_button').attr('disabled','disabled');
+
+		}
+	});
+   
+   
+});
+
+
+    
+    </script>
+    
+    
+    <div class="mw-ui-row" id="i_agree_with_terms_row">
+    <label class="mw-ui-check">
+      <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off" />
+      <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
+      I agree with
+      <a href="<?php print site_url('tems') ?>" target="_blank">
+       terms and conditions
+      </a>
+      
+      </span>
+      </label>
+      </div>
+      <br>
+    <?php endif; ?>
+        
 
 
             <?php $shop_page = get_content('is_shop=0');      ?>
@@ -113,7 +161,9 @@ complete_order = window.complete_order || function(){
 
                 <button class="btn btn-warning mw-checkout-btn"
                         onclick="complete_order();"
-                        type="button"><?php _e("Complete order"); ?></button>
+                        type="button" id="complete_order_button" <?php if($tems): ?> disabled="disabled"   <?php endif; ?> >
+    <?php _e("Complete order"); ?>
+    </button>
 
         </div>
     </form>

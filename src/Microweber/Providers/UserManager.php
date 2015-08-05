@@ -1220,6 +1220,8 @@ class UserManager {
         $save['username'] = $username;
         $save['is_active'] = 1;
         $save['is_admin'] = is_null(User::first());
+        $save['first_name'] = '';
+        $save['last_name'] = '';
         if ($name!=false){
             $names = explode(' ', $name);
             if (isset($names[0])){
