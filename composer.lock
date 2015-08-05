@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8894ca295534b002bb6fff931e2d206b",
+    "hash": "e3bca861e669fd7b989ecebd031401ae",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "c6cc6dd6070871f4b198ed39f76dd8047c116b02"
+                "reference": "c83650f299cfff1049cd61ea72ee5345bd4f92d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/c6cc6dd6070871f4b198ed39f76dd8047c116b02",
-                "reference": "c6cc6dd6070871f4b198ed39f76dd8047c116b02",
+                "url": "https://api.github.com/repos/composer/composer/zipball/c83650f299cfff1049cd61ea72ee5345bd4f92d3",
+                "reference": "c83650f299cfff1049cd61ea72ee5345bd4f92d3",
                 "shasum": ""
             },
             "require": {
@@ -136,7 +136,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2015-07-21 13:46:38"
+            "time": "2015-08-04 13:59:03"
         },
         {
             "name": "composer/installers",
@@ -605,44 +605,31 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "4.2.3",
+            "version": "5.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c"
+                "reference": "fd861570a9c3c28d98f418feea1f43f6268bdfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd916e9f9130bc22c51450476823391cb2f67c",
-                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/fd861570a9c3c28d98f418feea1f43f6268bdfa0",
+                "reference": "fd861570a9c3c28d98f418feea1f43f6268bdfa0",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
-                "guzzlehttp/streams": "~2.1",
+                "guzzlehttp/ringphp": "^1.1",
                 "php": ">=5.4.0"
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "~4.0",
-                "psr/log": "~1.0"
-            },
-            "suggest": {
-                "ext-curl": "Guzzle will use specific adapters if cURL is present"
+                "phpunit/phpunit": "^4.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -666,41 +653,44 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-10-05 19:29:14"
+            "time": "2015-06-03 05:11:42"
         },
         {
-            "name": "guzzlehttp/streams",
-            "version": "2.1.0",
+            "name": "guzzlehttp/ringphp",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/streams.git",
-                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534"
+                "url": "https://github.com/guzzle/RingPHP.git",
+                "reference": "9465032ac5d6beaa55f10923403e6e1c36018d9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/streams/zipball/f91b721d73f0e561410903b3b3c90a5d0e40b534",
-                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/9465032ac5d6beaa55f10923403e6e1c36018d9c",
+                "reference": "9465032ac5d6beaa55f10923403e6e1c36018d9c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "guzzlehttp/streams": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
             },
             "require-dev": {
+                "ext-curl": "*",
                 "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "GuzzleHttp\\Stream\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
+                    "GuzzleHttp\\Ring\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -713,13 +703,58 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
+            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "time": "2015-05-21 17:23:02"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "d1f8a6c55f0f753cfd6f6755856473eb02cedb19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/d1f8a6c55f0f753cfd6f6755856473eb02cedb19",
+                "reference": "d1f8a6c55f0f753cfd6f6755856473eb02cedb19",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
                 "Guzzle",
                 "stream"
             ],
-            "time": "2014-08-17 21:15:53"
+            "time": "2015-01-22 00:01:34"
         },
         {
             "name": "illuminate/html",
@@ -1148,20 +1183,20 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v2.0.0",
+            "version": "v2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "ca028df357d9585be55ec2db48f591dbbfbdd3cf"
+                "reference": "b36860a599669a80b45216ee9d3b39083dc767fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/ca028df357d9585be55ec2db48f591dbbfbdd3cf",
-                "reference": "ca028df357d9585be55ec2db48f591dbbfbdd3cf",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/b36860a599669a80b45216ee9d3b39083dc767fe",
+                "reference": "b36860a599669a80b45216ee9d3b39083dc767fe",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~4.0",
+                "guzzlehttp/guzzle": "~5.0|~6.0",
                 "illuminate/contracts": "~5.0",
                 "illuminate/http": "~5.0",
                 "illuminate/support": "~5.0",
@@ -1198,7 +1233,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2015-01-23 19:59:22"
+            "time": "2015-08-03 12:55:40"
         },
         {
             "name": "league/commonmark",
@@ -1267,12 +1302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "864cd3ecca6f912f6c41a4fe482029d092daed4a"
+                "reference": "f05e882457722b96b9027ceba87a8db9ca8eaa08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/864cd3ecca6f912f6c41a4fe482029d092daed4a",
-                "reference": "864cd3ecca6f912f6c41a4fe482029d092daed4a",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f05e882457722b96b9027ceba87a8db9ca8eaa08",
+                "reference": "f05e882457722b96b9027ceba87a8db9ca8eaa08",
                 "shasum": ""
             },
             "require": {
@@ -1340,7 +1375,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-07-21 20:38:14"
+            "time": "2015-07-28 20:37:53"
         },
         {
             "name": "league/oauth1-client",
@@ -1411,12 +1446,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "e4f45be5dcfeb54c45f85b50cdbb3ef8a2bfbd81"
+                "reference": "d93492fb60e05e67522f38796b54b9c5205bba90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/e4f45be5dcfeb54c45f85b50cdbb3ef8a2bfbd81",
-                "reference": "e4f45be5dcfeb54c45f85b50cdbb3ef8a2bfbd81",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/d93492fb60e05e67522f38796b54b9c5205bba90",
+                "reference": "d93492fb60e05e67522f38796b54b9c5205bba90",
                 "shasum": ""
             },
             "require": {
@@ -1479,7 +1514,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-07-20 18:31:46"
+            "time": "2015-07-31 10:19:40"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -2139,16 +2174,16 @@
         },
         {
             "name": "omnipay/firstdata",
-            "version": "v2.1.1",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/omnipay-firstdata.git",
-                "reference": "3c198a29ab36c0d2fa17495444e5ab6e1d79e212"
+                "reference": "0853bba0ee313f5557eb1c696d3ce5538dbd4aca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay-firstdata/zipball/3c198a29ab36c0d2fa17495444e5ab6e1d79e212",
-                "reference": "3c198a29ab36c0d2fa17495444e5ab6e1d79e212",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-firstdata/zipball/0853bba0ee313f5557eb1c696d3ce5538dbd4aca",
+                "reference": "0853bba0ee313f5557eb1c696d3ce5538dbd4aca",
                 "shasum": ""
             },
             "require": {
@@ -2193,7 +2228,7 @@
                 "pay",
                 "payment"
             ],
-            "time": "2014-09-17 00:39:22"
+            "time": "2015-07-28 17:50:44"
         },
         {
             "name": "omnipay/gocardless",
@@ -3406,6 +3441,50 @@
             "time": "2015-03-26 18:43:54"
         },
         {
+            "name": "react/promise",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "3b6fca09c7d56321057fa8867c8dbe1abf648627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/3b6fca09c7d56321057fa8867c8dbe1abf648627",
+                "reference": "3b6fca09c7d56321057fa8867c8dbe1abf648627",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "time": "2015-07-03 13:48:55"
+        },
+        {
             "name": "seld/cli-prompt",
             "version": "dev-master",
             "source": {
@@ -4528,12 +4607,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2aea161c61aaa7780a8416c736146757331cb601"
+                "reference": "40103f9b335f1d84daed099f180b9de12ba080e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2aea161c61aaa7780a8416c736146757331cb601",
-                "reference": "2aea161c61aaa7780a8416c736146757331cb601",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/40103f9b335f1d84daed099f180b9de12ba080e7",
+                "reference": "40103f9b335f1d84daed099f180b9de12ba080e7",
                 "shasum": ""
             },
             "require": {
@@ -4541,7 +4620,7 @@
                 "phpunit/php-file-iterator": "~1.3",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-token-stream": "~1.3",
-                "sebastian/environment": "~1.3",
+                "sebastian/environment": "^1.3.2",
                 "sebastian/version": "~1.0"
             },
             "require-dev": {
@@ -4582,7 +4661,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-07-27 10:57:15"
+            "time": "2015-08-04 03:45:55"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -4838,16 +4917,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42"
+                "reference": "ca2e42cad8446a05691cc4327b7ce3ed45bfdb11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ca2e42cad8446a05691cc4327b7ce3ed45bfdb11",
+                "reference": "ca2e42cad8446a05691cc4327b7ce3ed45bfdb11",
                 "shasum": ""
             },
             "require": {
-                "doctrine/instantiator": "~1.0,>=1.0.2",
+                "doctrine/instantiator": "^1.0.2",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2",
                 "sebastian/exporter": "~1.2"
@@ -4886,7 +4965,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-07-10 06:54:24"
+            "time": "2015-08-02 07:29:52"
         },
         {
             "name": "sebastian/comparator",
@@ -5010,12 +5089,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "70c3ba9398826b0d0117c2e9f1922c3bc47644ce"
+                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/70c3ba9398826b0d0117c2e9f1922c3bc47644ce",
-                "reference": "70c3ba9398826b0d0117c2e9f1922c3bc47644ce",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6324c907ce7a52478eeeaede764f48733ef5ae44",
+                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44",
                 "shasum": ""
             },
             "require": {
@@ -5052,7 +5131,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2015-07-26 09:06:39"
+            "time": "2015-08-03 06:14:51"
         },
         {
             "name": "sebastian/exporter",
@@ -5060,12 +5139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "7ae5513327cb536431847bcc0c10edba2701064e"
+                "reference": "66fb20c9e1b3617651c3f66be7a1747479d96ba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/7ae5513327cb536431847bcc0c10edba2701064e",
-                "reference": "7ae5513327cb536431847bcc0c10edba2701064e",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/66fb20c9e1b3617651c3f66be7a1747479d96ba5",
+                "reference": "66fb20c9e1b3617651c3f66be7a1747479d96ba5",
                 "shasum": ""
             },
             "require": {
@@ -5073,12 +5152,13 @@
                 "sebastian/recursion-context": "~1.0"
             },
             "require-dev": {
+                "ext-mbstring": "*",
                 "phpunit/phpunit": "~4.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -5118,7 +5198,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2015-06-21 07:55:53"
+            "time": "2015-07-30 09:58:30"
         },
         {
             "name": "sebastian/global-state",
@@ -5265,12 +5345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b7bf092bc2b3af532ef916805e214febec89ae4b"
+                "reference": "6eef1477f3c4451b6024fadb1254009be4602908"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b7bf092bc2b3af532ef916805e214febec89ae4b",
-                "reference": "b7bf092bc2b3af532ef916805e214febec89ae4b",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6eef1477f3c4451b6024fadb1254009be4602908",
+                "reference": "6eef1477f3c4451b6024fadb1254009be4602908",
                 "shasum": ""
             },
             "require": {
@@ -5306,7 +5386,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-07-26 09:09:29"
+            "time": "2015-07-29 07:12:56"
         }
     ],
     "aliases": [],
