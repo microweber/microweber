@@ -2955,7 +2955,9 @@ $(window).bind("load", function () {
         mw.smallEditorCanceled = true;
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function (e) {
-        if (e.target.nodeName != 'INPUT') {
+
+
+        if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();
         }
         if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {

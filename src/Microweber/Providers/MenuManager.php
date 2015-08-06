@@ -422,6 +422,7 @@ class MenuManager
                 $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
             }
             if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
+
                 if ($item['url'] == $cur_url) {
                     $active_class = 'active';
                 } else {
@@ -446,6 +447,7 @@ class MenuManager
                 $active_class = 'active';
 
             } elseif (trim($item['url'] != '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
+
                 $cont_link = $this->app->content_manager->link(PAGE_ID);
                 if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
                     $active_class = 'active';

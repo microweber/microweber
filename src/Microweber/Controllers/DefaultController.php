@@ -1116,8 +1116,6 @@ class DefaultController extends Controller {
                 $page_url = $this->app->url_manager->param_unset('view', $page_url);
             }
         }
-        event_trigger('mw_frontend');
-        event_trigger('mw.front');
 
 
         $is_editmode = $this->app->url_manager->param('editmode');
@@ -1615,6 +1613,8 @@ class DefaultController extends Controller {
 
         $this->app->content_manager->define_constants($content);
 
+        event_trigger('mw.front',$content);
+        event_trigger('mw_frontend',$content);
 
         $render_file = $this->app->template->get_layout($content);
 

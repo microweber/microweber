@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.5] - WIP
+
+- [] TODO - KNOWN BUG: custom field address
+- [] TODO - use template config for default content
+- Added: various UI hooks 
+- Fix: facebook login bug
+- Fix: mw.front was calling before constants are defined
 
 ## [1.0.4] - 2015-08-04
 - Vendor: added Laravel HTML helper class

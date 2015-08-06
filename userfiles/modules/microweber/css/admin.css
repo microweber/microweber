@@ -225,6 +225,13 @@ h3 > [class*="mw-icon-"]:first-child{
     max-width: 100%;
 }
 
+.tree-column-holder-custom-item {
+ margin-left:auto;
+ margin-right:auto;
+ text-align:center;
+ margin-top:25px;
+}
+
 .main-content-column > .mw-ui-col-container, .admin-section-container{
   padding-left: 35px;
   background-color: white;
@@ -2065,13 +2072,22 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   padding-top: 5px;
 }
 
-#titlepricecolumn{
+#titlepricecolumn, .titlepricecolumn{
   width: 160px;
   padding-left: 20px;
   vertical-align: bottom;
 }
 
-
+.mw-admin-content-edit-title-column {
+	padding-left: 20px;
+  vertical-align: middle;
+  padding-top: 16px;
+}
+.mw-admin-content-edit-title-column-end {
+	 vertical-align: middle;
+  padding-top: 16px;
+  padding-left: 10px;
+}
 
 #content-title-field-row .mw-ui-dropdown-content,
 #content-title-field-row .mw-ui-dropdown-content *{
@@ -2094,6 +2110,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 
 #pricedropdown{
   width: 100%;
+  margin-top:7px;
 }
 
 #pricedropdown .mw-ui-btn{

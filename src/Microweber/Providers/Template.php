@@ -79,6 +79,8 @@ class Template {
     public function url($add = false) {
         if (!defined('TEMPLATE_URL')){
             $this->app->content_manager->define_constants();
+
+
         }
         if (defined('TEMPLATE_URL')){
             $val = TEMPLATE_URL;

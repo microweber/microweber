@@ -254,6 +254,32 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
             <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
               <ul class="mw-ui-btn-vertical-nav">
                 <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
+                
+                
+                
+                
+                
+                
+                
+                 <?php $custom_ui = mw()->modules->ui('live_edit.toolbar.action_menu.start'); ?>
+                            <?php if (!empty($custom_ui)): ?>
+                                <?php foreach ($custom_ui as $item): ?>
+                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                    <li  class="mw-defaults <?php print $class; ?>"
+                                     <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
+                                         title="<?php print $title; ?>"><div class="mw-ui-btn"><?php print $html; ?></div></li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                
+                
+                
+                
+                
+                
+                
                 <li>
                     <a class="mw-ui-btn" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
                 <li>

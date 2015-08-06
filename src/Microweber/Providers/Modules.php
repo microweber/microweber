@@ -1102,6 +1102,7 @@ class Modules
                 } else if (is_file($tf_theme)) {
                     return $tf_theme;
                 } else if (is_file($tf)) {
+
                     return $tf;
                 } else if (strtolower($template_name_orig) != 'default' and is_file($tf_other_module)) {
                     return $tf_other_module;
