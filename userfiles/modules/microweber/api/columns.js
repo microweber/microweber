@@ -16,9 +16,16 @@ mw.drag.columns = {
     resize:function(e){
         if( !mw.drag.columns.resizer.curr ) return false;
         var w = parseFloat(mw.drag.columns.resizer.curr.style.width);
+        if(isNaN(w)){
+            w = $(mw.drag.columns.resizer.curr).outerWidth();
+        }
         var next = mw.drag.columns.nextColumn(mw.drag.columns.resizer.curr);
         var w2 = parseFloat(next.style.width);
-
+        if(isNaN(w2)){
+            w2 = $(next).outerWidth();
+        }
+        d(w);
+        d(w2);
         if(mw.drag.columns.resizer.pos < e.pageX){
            if(w2 < 10) return false;
             mw.drag.columns.resizer.curr.style.width = (w + mw.drag.columns.step) + '%';
