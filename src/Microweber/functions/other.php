@@ -385,6 +385,7 @@ function array_trim($Input) {
  * @category Files
  */
 function get_file_extension($LoSFileName) {
+    $LoSFileName = rtrim($LoSFileName, '.');
     $LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.') + 1);
 
     return $LoSFileExtensions;
@@ -400,9 +401,9 @@ function get_file_extension($LoSFileName) {
  * @category Files
  */
 function no_ext($filename) {
+    $filename = rtrim($filename, '.');
     $filebroken = explode('.', $filename);
     array_pop($filebroken);
-
     return implode('.', $filebroken);
 
 }
