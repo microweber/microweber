@@ -723,7 +723,7 @@ class MenuManager
 
                     $i++;
                 }
-                $this->app->database_manager->update_position_field($table, $indx);
+                $this->app->database_manager->update_position_field('menus', $indx);
                 $return_res = $indx;
             }
         }

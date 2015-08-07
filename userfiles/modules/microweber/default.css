@@ -112,14 +112,14 @@ img[src*=pixum_img]{
   zoom:1;
 }
 
-.mw-row:after{
+/*.mw-row:after{
   content: ".";
   display: block;
   clear: both;
   visibility: hidden;
   line-height: 0;
   height: 0;
-}
+}*/
 
 .mw-col, .mw-row, .element {
     position: relative;

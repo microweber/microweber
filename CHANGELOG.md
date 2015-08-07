@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [] TODO - KNOWN BUG: custom field address
 - [] TODO - use template config for default content
 - Added: various UI hooks 
+- Fix: editor improvements
+- Fix: menu reorder bug
+- Fix: google fonts loading
 - Fix: facebook login bug
 - Fix: mw.front was calling before constants are defined
 

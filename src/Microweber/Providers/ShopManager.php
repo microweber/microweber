@@ -1496,6 +1496,9 @@ class ShopManager
         $amount = floatval($amount);
         $sym = $this->currency_symbol($curr);
 
+        if($sym == ''){
+            $sym = $curr;
+        }
 
         $cur_pos = $this->app->option_manager->get('currency_symbol_position', 'payments');
 
