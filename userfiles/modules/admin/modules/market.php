@@ -21,12 +21,12 @@ if($parent_module and isset($_GET)){
 <script>
 var frame = document.getElementById('mw-update-frame');
         frame.style.height = window.innerHeight + 'px';
-        frame.style.width = (window.innerWidth - document.getElementById('main-menu').offsetWidth) + 'px';
+        frame.style.width = (window.innerWidth - document.getElementById('mw-admin-main-menu').offsetWidth) + 'px';
 
     $(window).bind('resize', function(){
         var frame = document.getElementById('mw-update-frame');
         frame.style.height = window.innerHeight + 'px';
-        frame.style.width = (window.innerWidth - document.getElementById('main-menu').offsetWidth) + 'px';
+        frame.style.width = (window.innerWidth - document.getElementById('mw-admin-main-menu').offsetWidth) + 'px';
     })
 </script>
 <?php else: ?>

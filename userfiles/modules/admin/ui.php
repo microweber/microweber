@@ -1334,13 +1334,13 @@ $(document).ready(function(){
           pick2 = mw.colorPicker({
             element:'#resr',
             onchange:function(color){
-              $("#main-menu").css("background", color);
+              $("#mw-admin-main-menu").css("background", color);
             }
           });
           pick3 = mw.colorPicker({
             element:'#resr2',
             onchange:function(color){
-              $("#main-menu").css("background", color);
+              $("#mw-admin-main-menu").css("background", color);
             }
           });
         });

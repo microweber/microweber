@@ -7,6 +7,11 @@ mw.admin = {
     scrollBox: function (selector, settings) {
         var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
         var el = mw.$(selector);
+
+        if(typeof(el.slimScroll) == 'undefined'){
+            return;
+        }
+
         el.slimScroll(settings);
         var scroller = mw.$('.slimScrollBar', el[0].parentNode);
         scroller.bind('mousedown', function () {
@@ -26,6 +31,7 @@ mw.admin = {
         mw.$('.scroll-height-exception', exceptor).each(function () {
             mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight(true);
         });
+
         return $(window).height() - mw.admin.contentScrollBoxHeightMinus;
     },
     contentScrollBox: function (selector, settings) {
@@ -768,7 +774,7 @@ $(mwd).ready(function () {
 
 $(mww).bind('load', function () {
     mw.admin.contentScrollBox('.fixed-side-column-container');
-    mw.admin.contentScrollBox('#main-menu', {color: 'white'});
+    mw.admin.contentScrollBox('#mw-admin-main-menu', {color: 'white'});
     mw.admin.treeboxwidth();
     mw.on.moduleReload('pages_tree_toolbar', function () {
         mw.admin.treeboxwidth();
@@ -850,7 +856,7 @@ $(mww).bind('scroll resize load', function (e) {
         mw.admin.manageToolbarSet();
     }
     if (self === top) {
-        var bottommenu = mwd.getElementById('main-menu-bottom');
+        var bottommenu = mwd.getElementById('mw-admin-main-menu-bottom');
         if (bottommenu !== null) {
             var usermenu = mwd.getElementById('user-menu'),
                 lft = bottommenu.previousElementSibling,

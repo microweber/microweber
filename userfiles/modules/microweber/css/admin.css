@@ -841,15 +841,15 @@ a:hover .mw_ed_tree_content{
 }
 
 
-#main-menu li{
+#mw-admin-main-menu li{
   list-style: none;
 }
-#main-menu li a{
+#mw-admin-main-menu li a{
   list-style: none;
   position: relative;
 }
 
-#main-menu > li > a{
+#mw-admin-main-menu > li > a{
   color: #999;
   font-size: 13px;
   display: block;
@@ -857,33 +857,33 @@ a:hover .mw_ed_tree_content{
   padding: 10px 0;
 }
 
-#main-menu > li > ul > li > a{
+#mw-admin-main-menu > li > ul > li > a{
     color: #999;
     text-align: center;
     display: block;
     padding: 5px 0;
 }
-#main-menu li li .relative .mw-notification-count{
+#mw-admin-main-menu li li .relative .mw-notification-count{
   right: auto;
   top: 0px;
   left: -22px;
 }
 
-#main-menu > li > ul > li:first-child > a{
+#mw-admin-main-menu > li > ul > li:first-child > a{
   padding-top: 0px;
 }
-#main-menu > li > ul > li:last-child > a{
+#mw-admin-main-menu > li > ul > li:last-child > a{
   padding-bottom: 10px;
 }
 
-#main-menu > li > ul > li > a:hover,
-#main-menu > li > ul > li > a:focus,
-#main-menu > li > ul > li.active,
-#main-menu li.active-parent > a{
+#mw-admin-main-menu > li > ul > li > a:hover,
+#mw-admin-main-menu > li > ul > li > a:focus,
+#mw-admin-main-menu > li > ul > li.active,
+#mw-admin-main-menu li.active-parent > a{
   color: white
 }
 
-#main-menu > li #main-nav-live{
+#mw-admin-main-menu > li #main-nav-live{
   margin-top: 10px;
   padding-top: 0;
 }
@@ -893,7 +893,7 @@ a:hover .mw_ed_tree_content{
   background: #4494C7;
 }
 
-#main-menu a strong, #main-bar-mw-icon strong{
+#mw-admin-main-menu a strong, #main-bar-mw-icon strong{
   display: block;
   position: relative;
   padding-top: 4px;
@@ -901,61 +901,61 @@ a:hover .mw_ed_tree_content{
   color: white;
   font-weight: normal;
 }
-#main-menu li.active, #main-menu li.active-parent{
+#mw-admin-main-menu li.active, #mw-admin-main-menu li.active-parent{
   background-color:#3B3B3B
 }
 
-#main-menu li:hover > a strong, #main-menu li.active > a strong, #main-menu li.active-parent a strong, #main-menu li a:focus strong{
+#mw-admin-main-menu li:hover > a strong, #mw-admin-main-menu li.active > a strong, #mw-admin-main-menu li.active-parent a strong, #mw-admin-main-menu li a:focus strong{
   visibility: visible;
 }
 
-#main-menu li.active-parent a strong{
+#mw-admin-main-menu li.active-parent a strong{
   color: #888;
 }
-#main-menu li.active-parent a:hover strong{
+#mw-admin-main-menu li.active-parent a:hover strong{
   color: white;
 }
 
 
-#main-menu li ul{
+#mw-admin-main-menu li ul{
   display: none;
 }
-#main-menu li.active ul, #main-menu li.active-parent ul, #main-menu li#main-menu-bottom ul{
+#mw-admin-main-menu li.active ul, #mw-admin-main-menu li.active-parent ul, #mw-admin-main-menu li#mw-admin-main-menu-bottom ul{
   display: block;
 }
 
-#main-menu-bottom{
+#mw-admin-main-menu-bottom{
   position: absolute;
   bottom: 0;
   padding-bottom: 20px;
   width: 100%;
 }
 
-#main-menu a [class*='mw-icon-']{ font-size: 36px; }
-#main-menu a .mw-icon-menu{ font-size: 30px; }
+#mw-admin-main-menu a [class*='mw-icon-']{ font-size: 36px; }
+#mw-admin-main-menu a .mw-icon-menu{ font-size: 30px; }
 
-#main-menu li.active > a{
+#mw-admin-main-menu li.active > a{
   color: white;
   background: #3B3B3B;
 }
-#main-menu > li > a:hover,
-#main-menu > li > a:focus{
+#mw-admin-main-menu > li > a:hover,
+#mw-admin-main-menu > li > a:focus{
   color: white;
 }
 
-#main-menu > li > a:active{
+#mw-admin-main-menu > li > a:active{
   box-shadow: inset 0 0 6px -3px #000;
 }
 
-#main-menu > li > a#main-nav-live:active{
+#mw-admin-main-menu > li > a#main-nav-live:active{
   box-shadow: inset 0 0 6px -2px #000;
 }
 
-#main-menu-back, #main-menu-toggle{
+#mw-admin-main-menu-back, #mw-admin-main-menu-toggle{
   display: none;
 }
 
-#main-menu li li.active > a:after, #main-menu li.active strong:after, #main-bar-mw-icon.active strong:after{
+#mw-admin-main-menu li li.active > a:after, #mw-admin-main-menu li.active strong:after, #main-bar-mw-icon.active strong:after{
     display: block;
     position: absolute;
     right: -5px;
@@ -973,22 +973,22 @@ a:hover .mw_ed_tree_content{
     -ms-transform: rotate(45deg) ;
 }
 
-#main-menu li#main-menu-bottom li.active > a:after{
+#mw-admin-main-menu li#mw-admin-main-menu-bottom li.active > a:after{
   display: none;
 }
 
-#main-menu li.active strong:after{
+#mw-admin-main-menu li.active strong:after{
   margin-top: -1px;
 }
 
-.main-menu-active{
+.mw-admin-main-menu-active{
     display: block;
     width: 10px;
     height: 10px;
     position: absolute;
     right: -5px;
 }
-.main-menu-active:after{
+.mw-admin-main-menu-active:after{
     display: block;
     overflow: hidden;
     width: 10px;
@@ -3863,64 +3863,64 @@ body.is_admin .mw-admin-container{
     #main-bar-mw-icon{
       display: none;
     }
-    #main-menu > li,  #main-menu > li strong{
+    #mw-admin-main-menu > li,  #mw-admin-main-menu > li strong{
       display: none;
     }
-    #main-menu > li#main-menu-back,
-    #main-menu > li#main-menu-toggle,
-    #main-menu > li.active,
-    #main-menu > li.active-parent{
+    #mw-admin-main-menu > li#mw-admin-main-menu-back,
+    #mw-admin-main-menu > li#mw-admin-main-menu-toggle,
+    #mw-admin-main-menu > li.active,
+    #mw-admin-main-menu > li.active-parent{
       display: list-item;
     }
-    #main-menu li.active, #main-menu li.active-parent{
+    #mw-admin-main-menu li.active, #mw-admin-main-menu li.active-parent{
       background-color: transparent;
     }
 
-    #main-menu > li.active > a, #main-menu > li.active-parent > a{
+    #mw-admin-main-menu > li.active > a, #mw-admin-main-menu > li.active-parent > a{
       display: block;
       float: left;
     }
 
-    #main-menu li ul{
+    #mw-admin-main-menu li ul{
       float: left;
     }
 
-    #main-menu > li.active > a{
+    #mw-admin-main-menu > li.active > a{
       background-color: #3B3B3B;
     }
-    #main-menu li.active-parent > a{
+    #mw-admin-main-menu li.active-parent > a{
       color: #999;
     }
-    #main-menu li.active-parent > a:hover,
-    #main-menu li.active-parent > a:focus{
+    #mw-admin-main-menu li.active-parent > a:hover,
+    #mw-admin-main-menu li.active-parent > a:focus{
       color: white;
     }
 
-    #main-menu li{
+    #mw-admin-main-menu li{
       float: left;
     }
-    #main-menu li#main-menu-toggle{
+    #mw-admin-main-menu li#mw-admin-main-menu-toggle{
       float: right;
     }
 
-    #main-menu li a, #main-menu > li > ul > li > a, #main-menu > li > ul > li:first-child > a, #main-menu > li > ul > li:last-child > a{
+    #mw-admin-main-menu li a, #mw-admin-main-menu > li > ul > li > a, #mw-admin-main-menu > li > ul > li:first-child > a, #mw-admin-main-menu > li > ul > li:last-child > a{
       padding: 21px;
       height: 60px;
       overflow: hidden;
     }
-    #main-menu > li.active > a,
-    #main-menu > li.active-parent > a{
+    #mw-admin-main-menu > li.active > a,
+    #mw-admin-main-menu > li.active-parent > a{
       padding: 12px;
     }
 
-    #main-menu li#main-menu-back a{
+    #mw-admin-main-menu li#mw-admin-main-menu-back a{
       padding: 10px 21px;
     }
-    #main-menu li#main-menu-toggle a{
+    #mw-admin-main-menu li#mw-admin-main-menu-toggle a{
       padding: 16px 21px;
     }
 
-    #main-menu li li.active > a:after, #main-menu li.active strong:after{
+    #mw-admin-main-menu li li.active > a:after, #mw-admin-main-menu li.active strong:after{
       bottom: -5px;
       top: auto;
       left: 50%;
