@@ -69,30 +69,33 @@
 </script>
 <script type="text/javascript">
 
-  function mw_shipping_<?php print $rand; ?>(){
-    mw.form.post( '#<?php print $rand; ?>', '<?php print $config['module_api']; ?>/shipping_to_country/set',function() {
-	 mw.reload_module('shop/cart');
- mw.reload_module('shop/shipping');
- 
-	 if(this.shipping_country != undefined){
-		 
-		mw.$("[name='country']").val(this.shipping_country)
-	 }
+  function mw_shipping_<?php print $rand; ?>(country){
+	  
+	  
+	  var data = {};
+	  data.country = country;
 
- mw.reload_module('<?php print $config['module']; ?>');
-
-
-	});
+	  
+	  
+	  $.post( "<?php print $config['module_api']; ?>/shipping_to_country/set", data)
+		  .done(function( msg ) {
+			
+			 if(msg.shipping_country != undefined){
+				 		 mw.$("[name='country']").val(this.shipping_country)
+			 }
+			 mw.reload_module('shop/cart');
+ 			 mw.reload_module('shop/shipping');
+			 mw.reload_module('<?php print $config['module']; ?>');
+			
+		  });
   }
 
 
 
 $(document).ready(function(){
-	//mw_shipping_<?php print $rand; ?>();
-	mw.$('#<?php print $rand; ?>').change(function() {
-	 mw_shipping_<?php print $rand; ?>();
+	mw.$("#<?php print $rand; ?> [name='country']").change(function() {
+	mw_shipping_<?php print $rand; ?>($(this).val());
 	});
-
 });
 
 
