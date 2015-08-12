@@ -179,14 +179,12 @@ class Template {
 
 
                             case 'css':
-                                $src .= '<link rel="stylesheet" href="' . $header
-                                    . '" type="text/css" media="all">' . "\n";
+                                $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="' . $header
-                                    . '"></script>' . "\n";
+                                    .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
                                 break;
 
 
@@ -228,14 +226,12 @@ class Template {
 
 
                             case 'css':
-                                $src .= '<link rel="stylesheet" href="' . $header
-                                    . '" type="text/css" media="all">' . "\n";
+                                $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="' . $header
-                                    . '"></script>' . "\n";
+                                    .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
                                 break;
 
 
@@ -291,16 +287,13 @@ class Template {
                         $ext = get_file_extension($footer);
                         switch (strtolower($ext)) {
 
-
                             case 'css':
-                                $src .= '<link rel="stylesheet" href="' . $footer
-                                    . '" type="text/css" media="all">' . "\n";
+                                $src .= '<link rel="stylesheet" href="' . $footer . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="' . $footer
-                                    . '"></script>' . "\n";
+                                    .= '<script type="text/javascript" src="' . $footer . '"></script>' . "\n";
                                 break;
 
 
@@ -310,17 +303,21 @@ class Template {
                         }
                     }
                 }
-
                 return $src;
             } elseif (is_callable($script_src)) {
                 if (!in_array($script_src, $this->foot_callable)){
                     $this->foot_callable[] = $script_src;
-
                     return $this->foot_callable;
                 }
             }
         }
     }
+
+
+
+
+
+
 
 
     /**

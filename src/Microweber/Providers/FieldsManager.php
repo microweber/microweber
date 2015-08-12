@@ -114,7 +114,7 @@ class FieldsManager {
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_type);
-                        $make_field['value'] = false;
+                        $make_field['value'] = '';
                         $make_field['type'] = $field_type;
                         $this->save($make_field);
                         $pos ++;
