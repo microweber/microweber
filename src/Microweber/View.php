@@ -69,7 +69,8 @@ class View {
 
             }
         }
-        if (is_object($res)){
+
+        if (isset($res) and is_object($res)){
             if ($res instanceOf RedirectResponse){
                 return $res;
             } else if ($res instanceOf Response){

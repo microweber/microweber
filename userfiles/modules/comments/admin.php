@@ -130,7 +130,10 @@ $(document).ready(function(){
             <?php _e("Current Post"); ?>
             </option>
             <?php $posts = get_posts("is_active=1&limit=1000"); $html = ''; ?>
-            <?php
+            
+			
+			<?php if(is_array($posts)): ?>
+			<?php
                     foreach ($posts as $post) {
                         $sel_html = '';
                         if ($display_comments_from_which_post == $post['id']) {
@@ -140,6 +143,9 @@ $(document).ready(function(){
                     }
                     print $html;
                     ?>
+                    
+                    
+                    <?php endif; ?>
           </select>
         </div>
         <div class="mw-ui-field-holder">

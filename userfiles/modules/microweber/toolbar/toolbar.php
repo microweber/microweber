@@ -147,7 +147,7 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
     </div>
   </div>
 </div>
-<div class="mw-defaults" id="live_edit_toolbar_holder">
+<div class="mw-defaults" id="live_edit_toolbar_holder" dir="ltr" lang="en">
   <div id="live_edit_toolbar">
     <div id="mw-text-editor" class="mw-defaults mw_editor">
       <div class="toolbar-sections-tabs">

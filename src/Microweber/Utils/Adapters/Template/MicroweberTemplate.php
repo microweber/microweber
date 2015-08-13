@@ -18,9 +18,21 @@ class MicroweberTemplate {
         $l->page_id = $params['page_id'];
         $l->content_id = $params['content_id'];
         $l->post_id = $params['post_id'];
-        $l->category_id = $params['category_id'];
-        $l->content = $params['content'];
-        $l->category = $params['category'];
+       // $l->category_id = $params['category_id'];
+
+
+        if (isset($params['content'])){
+            $l->content = $params['content'];
+
+        }
+        if (isset($params['category_id'])){
+            $l->category_id = $params['category_id'];
+        }
+
+        if (isset($params['category'])){
+            $l->category = $params['category'];
+        }
+       // $l->category = $params['category'];
         $l->page = $params['page'];
         $l->application = $this->app;
 

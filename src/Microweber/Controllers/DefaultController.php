@@ -2503,7 +2503,7 @@ class DefaultController extends Controller {
         //    $page['render_file'] = $render_file;
         if (!$standalone_edit){
             if (isset($page['render_file'])){
-
+                event_trigger('mw.front',$page);
                 $l = new \Microweber\View($page['render_file']);
                 $l->page_id = PAGE_ID;
                 $l->content_id = CONTENT_ID;
@@ -2515,6 +2515,25 @@ class DefaultController extends Controller {
                 $l->page = $page;
                 $l->application = $this->app;
                 $l = $l->__toString();
+//
+//
+//                $render_params = array();
+//                $render_params['render_file'] = $p;
+//                $render_params['page_id'] = PAGE_ID;
+//                $render_params['content_id'] = CONTENT_ID;
+//                $render_params['post_id'] = POST_ID;
+//                $render_params['category_id'] = CATEGORY_ID;
+//                $render_params['page'] = $page;
+//                $render_params['params'] = $params;
+//                $render_params['application'] = $this->app;
+
+              //  $l = $this->app->template->render($render_params);
+            if (is_object($l)){
+                return $l;
+            }
+
+
+
 
                 $l = $this->app->parser->process($l, $options = false);
 
@@ -2568,6 +2587,9 @@ class DefaultController extends Controller {
 
             $layout = str_replace('{content}', $page['content'], $layout);
         }
+
+        $layout = mw()->template->process_meta($layout);
+
 
         $layout = $this->app->parser->process($layout, $options = false);
 

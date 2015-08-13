@@ -40,6 +40,9 @@ class Template {
     public $foot = array();
     public $foot_callable = array();
 
+    public $meta_tags = array();
+    public $html_opening_tag = array();
+
 
     public $adapter_current = null;
     public $adapter_default = null;
@@ -59,6 +62,15 @@ class Template {
         $this->adapter_current
             = $this->adapter_default = new MicroweberTemplate($app);
 
+    }
+
+
+    public function meta($name, $value = false) {
+        $this->meta_tags[ $name ] = $value;
+    }
+
+    public function html_opening_tag($name, $value = false) {
+        $this->html_opening_tag[ $name ] = $value;
     }
 
     public function dir($add = false) {
@@ -303,21 +315,17 @@ class Template {
                         }
                     }
                 }
+
                 return $src;
             } elseif (is_callable($script_src)) {
                 if (!in_array($script_src, $this->foot_callable)){
                     $this->foot_callable[] = $script_src;
+
                     return $this->foot_callable;
                 }
             }
         }
     }
-
-
-
-
-
-
 
 
     /**
@@ -328,12 +336,50 @@ class Template {
         return $this->adapter('get_layout', $params);
     }
 
+
+    public function process_meta($layout) {
+        $count = 1;
+        $replace = '';
+        if (!empty($this->html_opening_tag)){
+
+            foreach ($this->html_opening_tag as $key => $item) {
+                if (is_string($item)){
+                    $replace .= $key . '="' . $item . '" ';
+                }
+            }
+        }
+
+        $layout = str_replace('<html ', '<html ' . $replace, $layout, $count);
+        $count = 1;
+        $replace = '';
+        if (!empty($this->meta_tags)){
+
+            foreach ($this->meta_tags as $key => $item) {
+                if (is_string($item)){
+                    $replace .= '<meta name="' . $key . '" content="' . $item . '">' . "\n";
+
+                }
+            }
+        }
+        $count = 1;
+        $layout = str_replace('<head>', '<head>' . $replace, $layout, $count);
+
+        return $layout;
+
+    }
+
+
     /**
      * Renders the file returned by the get_layout method
      *
      */
     public function render($params = array()) {
-        return $this->adapter('render', $params);
+
+        $layout = $this->adapter('render', $params);
+
+        $layout = $this->process_meta($layout);
+
+        return $layout;
     }
 
 }

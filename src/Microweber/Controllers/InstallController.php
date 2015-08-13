@@ -161,7 +161,6 @@ class InstallController extends Controller
             $installer->run();
 
 
-            Config::set('microweber.is_installed', 1);
 
             if (isset($input['admin_password']) && strlen($input['admin_password'])) {
                 $this->install_log("Adding admin user");
@@ -177,6 +176,10 @@ class InstallController extends Controller
             }
 
             $this->install_log("Saving ready config");
+			
+			Config::set('microweber.is_installed', 1);
+
+
             Config::save($allowed_configs);
             $this->install_log("done");
             return 'done';

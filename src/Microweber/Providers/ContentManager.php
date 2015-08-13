@@ -2664,7 +2664,9 @@ class ContentManager {
 
 
             if (isset($data['is_home'])){
+				if(!is_admin()){
                 unset($data['is_home']);
+				}
             }
             if ($stop==true){
                 if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL==__FUNCTION__){
@@ -2987,6 +2989,7 @@ class ContentManager {
 
 
         if (isset($data_to_save['is_home']) and $data_to_save['is_home']==1){
+			$data_to_save['is_home'] = strval($data_to_save['is_home']);
             if ($adm==true){
                 $q = Content::where('is_home', 1)
                     ->update(array(
@@ -2995,6 +2998,7 @@ class ContentManager {
             } else {
                 $data_to_save['is_home'] = 0;
             }
+			//
         }
 
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type'])=='post'){
@@ -3260,6 +3264,38 @@ class ContentManager {
 
 
         $save = $this->app->database->extended_save($table, $data_to_save);
+		
+		
+		
+		/* SQLITE FIX */
+		
+		if (isset($data_to_save['is_home'])){
+		 $q = Content::where('id', $save)
+                    ->update(array(
+                        'is_home' => intval($data_to_save['is_home']),
+                    ));
+		
+		}
+		if (isset($data_to_save['is_shop'])){
+		 $q = Content::where('id', $save)
+                    ->update(array(
+                        'is_shop' => intval($data_to_save['is_shop']),
+                    ));
+		
+		}
+		
+		if (isset($data_to_save['require_login'])){
+		 $q = Content::where('id', $save)
+                    ->update(array(
+                        'require_login' => intval($data_to_save['require_login']),
+                    ));
+		
+		}
+		/* END SQLITE FIX */
+		
+		
+		
+		
 
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent']!=0){
