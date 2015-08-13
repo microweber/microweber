@@ -3268,7 +3268,7 @@ class ContentManager {
 		
 		
 		/* SQLITE FIX */
-		
+		if($adm == true){
 		if (isset($data_to_save['is_home'])){
 		 $q = Content::where('id', $save)
                     ->update(array(
@@ -3290,6 +3290,7 @@ class ContentManager {
                         'require_login' => intval($data_to_save['require_login']),
                     ));
 		
+		}
 		}
 		/* END SQLITE FIX */
 		

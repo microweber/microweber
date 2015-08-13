@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [] TODO - KNOWN BUG: custom field address
 - [] TODO - use template config for default content
 - Added: various UI hooks 
+- Fix: is_home bug under sqlite
+- Fix: install bug
+- Fix: shipping to country bug with the select menu
+- Fix: custom field default values were showing 0
 - Fix: editor improvements
 - Fix: menu reorder bug
 - Fix: google fonts loading
