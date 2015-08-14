@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/microweber/microweber.png?label=ready&title=Ready)](https://waffle.io/microweber/microweber)
 # Microweber: Drag-and-Drop CMS
 
 **Current version: 1.0 running on Laravel 5!** 
