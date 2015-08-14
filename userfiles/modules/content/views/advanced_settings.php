@@ -26,7 +26,24 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
     $show_page_settings = 1;
 }
 
+$template_config = mw()->template->get_config();
+$data_fields_conf = false;
+$data_fields_values = false;
 
+if(!empty($template_config)){
+	if (isset($params['content-type'])) {
+			if (isset($template_config['data-fields-'.$params['content-type']]) and is_array($template_config['data-fields-'.$params['content-type']])) {
+				$data_fields_conf = $template_config['data-fields-'.$params['content-type']];
+				if (isset($params['content-id'])) {
+					$data_fields_values = content_data($params['content-id']);
+				}
+//		d($params);
+//		d($data_fields_values);
+			}
+	}
+}
+
+ 
 ?>
 <script type="text/javascript">
 	mw.reset_current_page = function (a, callback) {
@@ -110,7 +127,42 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
 		
     }
 </script>
+<?php if(is_array($data_fields_conf)): ?>
 
+<div class="mw-ui-row">
+  <div class="mw-ui-col">
+    <div class="mw-ui-col-container">
+      <?php foreach($data_fields_conf as $item): ?>
+        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+		<?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+        <?php $type = (isset($item['type'])) ? ($item['type']) : 'text'; ?>
+        <?php $default_value = (isset($item['default_value'])) ? ($item['default_value']) : ''; ?>
+        <?php $type = (isset($item['default_value'])) ? ($item['default_value']) : ''; ?>
+        <?php $name = (isset($item['name'])) ? ($item['name']) : url_title($item['title']); ?>
+        <?php $value = (isset($item['value'])) ? ($item['value']) : false; ?>
+
+
+      <?php 
+	  
+	  if(is_array($data_fields_values) and isset($data_fields_values[$name])){
+		  $value = $data_fields_values[$name];
+	  }
+	 
+	  ?>
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">
+          <?php print $title; ?>
+         </label>
+        <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+      </div>
+      
+      
+      <?php endforeach; ?>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
 <div class="mw-ui-row">
   <div class="mw-ui-col">
     <div class="mw-ui-col-container">
@@ -287,20 +339,18 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
 <?php endif; ?>
 <?php if(isset($data['id']) and $data['id'] != 0): ?>
 <div class=""> <small> id: <?php print $data['id'] ?></small></div>
-
 <?php if(isset($data['created_at'])): ?>
-<div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()"> <small>  <?php _e("Created on"); ?>: 
-<span class="mw-admin-edit-post-display-created-at-value"><?php print $data['created_at'] ?></span>
-<input class="mw-admin-edit-post-change-created-at-value" style="display:none" type="datetime" name="created_at" value="<?php print $data['created_at'] ?>" disabled="disabled">
-</small></div>
+<div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()"> <small>
+  <?php _e("Created on"); ?>
+  : <span class="mw-admin-edit-post-display-created-at-value"><?php print $data['created_at'] ?></span>
+  <input class="mw-admin-edit-post-change-created-at-value" style="display:none" type="datetime" name="created_at" value="<?php print $data['created_at'] ?>" disabled="disabled">
+  </small></div>
 <?php endif; ?>
-
-
 <?php if(isset($data['updated_at'])): ?>
-<div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()"> <small>  <?php _e("updated on"); ?>: 
-<span class="mw-admin-edit-post-display-updated-at-value"><?php print $data['updated_at'] ?></span>
-<input class="mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
-</small></div>
+<div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()"> <small>
+  <?php _e("updated on"); ?>
+  : <span class="mw-admin-edit-post-display-updated-at-value"><?php print $data['updated_at'] ?></span>
+  <input class="mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
+  </small></div>
 <?php endif; ?>
 <?php endif; ?>
- 

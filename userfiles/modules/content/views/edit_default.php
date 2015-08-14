@@ -371,8 +371,8 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                 <?php _e("not found"); ?>
                                 .</h3>
                             <br>
-<?php /*                            <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(3)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span> 
-*/ ?>                        </div>
+                              <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(3)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span> 
+                           </div>
                         <div id="parent-category-selector-block">
                             <h3>
                                 <?php _e("Select parent"); ?>
