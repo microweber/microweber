@@ -2416,6 +2416,12 @@ class DefaultController extends Controller {
             //  $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
 
         }
+        $default_css = '';
+        $apijs_settings_loaded = '';
+        $apijs_loaded = '';
+
+
+
 
         $p = normalize_path($p, false);
 
