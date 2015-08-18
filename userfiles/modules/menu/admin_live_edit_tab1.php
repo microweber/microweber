@@ -37,12 +37,14 @@
 
 
  requestLink = function(){
+   // mw.$(".menu_item_edit").remove();
 
     mw.$("#menu-selector").toggle();
     mw.$("#custom_link_controller").hide();
  }
 
  requestCustomLink = function(){
+   // mw.$(".menu_item_edit").remove();
 
     mw.$("#custom_link_controller").toggle();
     mw.$("#menu-selector").hide();
@@ -102,6 +104,14 @@ mw.menu_edit_items = function($menu_id, $selector){
 
         var content_id =  mw.$(".module-menu-edit-item input[name='content_id']");
         var categories_id =  mw.$(".module-menu-edit-item input[name='categories_id']");
+		
+				
+		var data = {};
+		data.content_id = content_id.val();
+		data.categories_id = content_id.val();
+		
+		
+		
 
         var el = this;
 
@@ -114,7 +124,10 @@ mw.menu_edit_items = function($menu_id, $selector){
         else if(mw.tools.hasParentsWithClass(el, 'pages_tree_item')){
             content_id.val(el.value);
         }
-        mw.menu_save_new_item('.menu_item_edit');
+		
+
+  
+        mw.menu_save_new_item('#custom_link_inline_controller_edit_0');
         mw.$(selector).hide();
      });
 

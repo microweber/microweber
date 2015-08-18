@@ -129,7 +129,7 @@ class MenuManager
         }
 
         if ($url_from_content != false) {
-            if (isset($data_to_save['title'])) {
+            if (!isset($data_to_save['title'])) {
                 $data_to_save['title'] = '';
             }
         }
@@ -368,6 +368,9 @@ class MenuManager
             $title = '';
             $url = '';
             $is_active = true;
+
+
+
             if (intval($item['content_id']) > 0) {
 
 
@@ -408,8 +411,10 @@ class MenuManager
             }
 
             if ($item['title'] == '') {
+
                 $item['title'] = $title;
             } else {
+
                 $title = $item['title'];
             }
 
