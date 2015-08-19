@@ -332,34 +332,43 @@ mw.drag = {
                         if (mw.mm_target === mw.image_resizer) {
                             $(window).trigger("onElementOver", mw.image.currentResizing[0]);
                         }
-                        //trigger on row
-                        if (mw.$mm_target.hasClass("mw-row")) {
-                            $(window).trigger("onRowOver", mw.mm_target);
-                        }
-                        else if (mw.tools.hasParentsWithClass(mw.mm_target, 'mw-row')) {
-                            $(window).trigger("onRowOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-row'));
-                        }
-                        else if (mw.mm_target.id != 'mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length == 0) {
-                            $(window).trigger("onRowLeave", mw.mm_target);
-                        }
 
 
-                        //onColumn
-                        if (mw.drag.columns.resizing === false && mw.tools.hasClass(mw.mm_target, 'mw-col')) {
-                            mw.drag.columnout = false;
-                            $(window).trigger("onColumnOver", mw.mm_target);
-                        }
-                        else if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'mw-col')) {
-                            mw.drag.columnout = false;
-                            $(window).trigger("onColumnOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-col'));
-                        }
-                        else {
-                            if (!mw.drag.columnout && !mw.tools.hasClass(mw.mm_target, 'mw-columns-resizer')) {
-                                mw.drag.columnout = true;
-                                $(window).trigger("onColumnOut", mw.mm_target)
+
+
+                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'module') ) {
+
+                            //trigger on row
+                            if (mw.$mm_target.hasClass("mw-row")) {
+                                $(window).trigger("onRowOver", mw.mm_target);
                             }
-                            ;
+                            else if (mw.tools.hasParentsWithClass(mw.mm_target, 'mw-row')) {
+                                $(window).trigger("onRowOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-row'));
+                            }
+                            else if (mw.mm_target.id != 'mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length == 0) {
+                                $(window).trigger("onRowLeave", mw.mm_target);
+                            }
+
+                            //onColumn
+
+                            if (mw.drag.columns.resizing === false && mw.tools.hasClass(mw.mm_target, 'mw-col')) {
+                                mw.drag.columnout = false;
+                                $(window).trigger("onColumnOver", mw.mm_target);
+                            }
+                            else if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'mw-col')) {
+                                mw.drag.columnout = false;
+                                $(window).trigger("onColumnOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-col'));
+                            }
+                            else {
+                                if (!mw.drag.columnout && !mw.tools.hasClass(mw.mm_target, 'mw-columns-resizer')) {
+                                    mw.drag.columnout = true;
+                                    $(window).trigger("onColumnOut", mw.mm_target)
+                                }
+
+                            }
                         }
+
+
 
                         if (mw.$mm_target.parents(".edit,.mw_master_handle").length == 0) {
                             if (!mw.$mm_target.hasClass(".edit") && !mw.$mm_target.hasClass("mw_master_handle")) {
