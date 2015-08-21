@@ -838,7 +838,9 @@ class Modules {
             if (!isset($attrs['id'])){
                 global $mw_mod_counter;
                 $mw_mod_counter ++;
-                $seg_clean = $this->app->url_manager->segment(0);
+                $seg_clean = $this->app->url_manager->segment(0, url_current());
+
+               // $seg_clean = $this->app->url_manager->segment(0);
                 if (defined('IS_HOME')){
                     $seg_clean = '';
                 }

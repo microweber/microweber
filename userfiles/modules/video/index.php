@@ -4,6 +4,8 @@ if (!function_exists('video_module_url2embed')) {
     include_once(__DIR__ . DS . 'functions.php');
 }
 
+
+ 
 $prior = get_option('prior', $params['id']);
 
 $code = get_option('embed_url', $params['id']);

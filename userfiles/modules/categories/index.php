@@ -7,6 +7,13 @@ if (isset($params['content-id'])) {
 }
 
 
+
+if (isset($params['for-content-id'])) {
+    $params['for-content-id'] = ($params['for-content-id']);
+ 
+	 
+}
+
 if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
     $params['content_id'] = PAGE_ID;
 }

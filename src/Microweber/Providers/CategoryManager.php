@@ -210,6 +210,7 @@ class CategoryManager {
             $add_ids = false;
         }
 
+
         if (isset($params['orderby'])){
             $orderby = $params['orderby'];
         } else {
@@ -315,7 +316,24 @@ class CategoryManager {
             $add_ids = explode(',', $add_ids);
         }
 
-        if (isset($params['rel_type']) and $params['rel_type']!=false and isset($params['rel_id'])){
+        $tree_only_ids = false;
+
+        if (isset($params['for-content-id'])){
+            $content_cats = $this->get_for_content($params['for-content-id']);
+            $fors = array();
+            if (is_array($content_cats) and !empty($content_cats)){
+                if (!is_array($add_ids)){
+                    $add_ids = array();
+                }
+                foreach ($content_cats as $content_cat_item) {
+                    if (isset($content_cat_item['id'])){
+                        $add_ids[] = $content_cat_item['id'];
+                        $tree_only_ids[] = $content_cat_item['id'];
+                    }
+                }
+            }
+
+        } else if (isset($params['rel_type']) and $params['rel_type']!=false and isset($params['rel_id'])){
             $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel_type']);
             $skip123 = true;
             $users_can_create_content_q = false;
@@ -340,7 +358,12 @@ class CategoryManager {
 
 
         ob_start();
-        if ($skip123==false){
+
+        if($tree_only_ids != false){
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep,$tree_only_ids);
+
+        } else if ($skip123==false){
+
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         } else {
 
@@ -380,11 +403,14 @@ class CategoryManager {
      * @since   Version 1.0
      *
      */
-    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false) {
+    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false, $only_ids = false) {
 
         $db_t_content = $this->tables['content'];
 
         $table = $db_categories = $this->tables['categories'];
+
+
+
 
         if ($parent==false){
 
@@ -461,7 +487,24 @@ class CategoryManager {
         //	$inf_loop_fix = "     ";
 
 
-        if ($content_type==false){
+
+        if($only_ids != false){
+
+
+            if(is_string($only_ids)){
+                $only_ids = explode(',',$only_ids);
+            }
+
+
+            $sql = "SELECT * FROM $table WHERE id IN (".implode(',',$only_ids).") ";
+            $sql = $sql . " and data_type='category'   and is_deleted=0  ";
+         //   $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
+            $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+
+
+
+        } else  if ($content_type==false){
+
 
             if ($include_first==true){
 
@@ -469,7 +512,6 @@ class CategoryManager {
                 $sql = $sql . " and data_type='category'   and is_deleted=0  ";
                 $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
                 $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
-
 
             } else {
 
@@ -484,11 +526,14 @@ class CategoryManager {
 
                 $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted=0  ";
                 $sql = $sql . "$remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
+
             } else {
 
                 $sql = "SELECT * FROM $table WHERE parent_id=$parent AND is_deleted=0 AND data_type='category' AND (categories_content_type='$content_type' OR categories_content_type='inherit' ) ";
                 $sql = $sql . " $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
+
             }
+
         }
 
         if (!empty($limit)){
@@ -501,6 +546,7 @@ class CategoryManager {
             $my_limit_q = false;
         }
         $output = '';
+
         //$q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
         $q = $this->app->database_manager->query($sql, false);
 
@@ -729,7 +775,11 @@ class CategoryManager {
                             $remove_ids = array();
                         }
                         $remove_ids[] = $item['id'];
-                        $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
+
+                        if($only_ids == false){
+                            $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
+
+                        }
                         print "</{$list_item_tag}>";
                     }
                 }

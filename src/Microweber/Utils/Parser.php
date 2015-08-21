@@ -128,9 +128,7 @@ class Parser
                 foreach ($mw_script_matches [0] as $key => $value) {
                     if ($value != '') {
                         $v1 = crc32($value);
-                        //$v1 = '[[[mw_replace_back_this_code_' . $v1 . ' ]]]';
                         $v1 = '<tag>mw_replace_back_this_code_' . $v1 . '</tag>';
-
                         $layout = str_replace($value, $v1, $layout);
                         if (!isset($replaced_scripts[$v1])) {
                             $this->_replaced_codes[$v1] = $value;
@@ -168,8 +166,6 @@ class Parser
 
 
             if (!empty($replaced_scripts)) {
-
-
                 foreach ($replaced_scripts as $key => $value) {
                     if ($value != '') {
                         $layout = str_replace($key, $value, $layout);
@@ -177,7 +173,6 @@ class Parser
                     unset($replaced_scripts[$key]);
                 }
             }
-
 
             if (is_array($this->mw_replaced_modules)) {
                 $attribute_pattern = '@
@@ -324,8 +319,9 @@ class Parser
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;
                                     $mw_mod_counter1 = crc32(serialize($attrs));
-                                    $seg_clean = $this->app->url_manager->segment(0);
+                                    $seg_clean = $this->app->url_manager->segment(0, url_current());
 
+                                   //
                                     if (defined('IS_HOME')) {
                                         $seg_clean = '';
                                     }
@@ -335,11 +331,36 @@ class Parser
                                     $seg_clean = str_replace('%20', '-', $seg_clean);
                                     $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
 
+
+
+
+                                        //
+
                                     if ($this->_current_parser_rel == 'global') {
-                                        $mod_id = $module_class . ($mw_mod_counter1);
+                                         $mod_id = $module_class . ($mw_mod_counter1).crc32($replace_key);
+                                         $mod_id = $module_class . ($mw_mod_counter1);
+                                        if(defined('CONTENT_ID') and CONTENT_ID == 0){
+                                            $mod_id = $mod_id.uniqid();
+                                        }
+
+
+
+//                                        if(isset($attrs['data-type']) && $attrs['data-type'] == 'video'){
+//                                            d($attrs);
+//                                            d($mod_id);
+//                                            d(CONTENT_ID);
+//                                        }
                                     } else {
                                         $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
                                     }
+
+
+
+
+
+
+
+
 
                                     if (!in_array($mod_id, $this->_existing_module_ids)) {
                                         $this->_existing_module_ids[] = $mod_id;
@@ -415,6 +436,7 @@ class Parser
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
 
+//                                d($attrs);
                                 $mod_content = $this->load($module_name, $attrs);
                                 $plain_modules = mw_var('plain_modules');
 
@@ -706,6 +728,7 @@ class Parser
                     $field_content = false;
                     $orig_rel = $rel;
 
+                    $this->_current_parser_rel = $rel;
 
                     if (!empty($this->filter)) {
                         foreach ($this->filter as $filter) {
@@ -1421,7 +1444,9 @@ class Parser
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 $mw_mod_counter++;
-                $seg_clean = $this->app->url_manager->segment(0);
+              //  $seg_clean = $this->app->url_manager->segment(0);
+                $seg_clean = $this->app->url_manager->segment(0, url_current());
+
                 if (defined('IS_HOME')) {
                     $seg_clean = '';
                 }
@@ -1432,6 +1457,10 @@ class Parser
                 $attrs1 = str_replace('%20', '-', $attrs1);
                 $attrs1 = str_replace(' ', '-', $attrs1);
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
+
+
+
+
             }
             if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);

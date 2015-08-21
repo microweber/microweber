@@ -2,6 +2,15 @@
 <?php $posts_parent_page = get_option('data-content-id', $params['id']); ?>
 
 
+<?php
+
+if(isset($params['for-content-id'])){
+return print '<module type="content/edit" content-id="'.intval($params['for-content-id']).'" />'	;
+}
+
+ ?>
+
+
  
 
 <script type="text/javascript">
