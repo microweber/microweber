@@ -10,7 +10,9 @@
     $pinterest_enabled = get_option('pinterest_enabled', $params['id']) == 'y';
     $youtube_enabled = get_option('youtube_enabled', $params['id']) == 'y';
     $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
+    $instagram_enabled = get_option('instagram_enabled', $params['id']) == 'y';
 
+    $instagram_url =  get_option('instagram_url', $params['id']);
     $facebook_url =  get_option('facebook_url', $params['id']);
     $twitter_url =  get_option('twitter_url', $params['id']);
     $googleplus_url =  get_option('googleplus_url', $params['id']);
@@ -98,6 +100,13 @@
                 <input type="checkbox" class="mw_option_field" name="linkedin_enabled" value="y" <?php if($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
             </label></td>
       <td><label class="mw-ui-inline-label">linkedin.com/</label><input type="text" class="mw_option_field mw-ui-field mw-ui-field-medium" name="linkedin_url"  value="<?php print $linkedin_url; ?>" /></td>
+    </tr>
+    <tr>
+      <td><span class="mw-icon-social-instagram"></span></td>
+      <td><label class="mw-ui-check">
+                <input type="checkbox" class="mw_option_field" name="instagram_enabled" value="y" <?php if($instagram_enabled) print 'checked="checked"'; ?>><span></span>
+            </label></td>
+      <td><label class="mw-ui-inline-label">instagram.com/</label><input type="text" class="mw_option_field mw-ui-field mw-ui-field-medium" name="instagram_url"  value="<?php print $instagram_url; ?>" /></td>
     </tr>
   </tbody>
 </table>

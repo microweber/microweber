@@ -6,7 +6,9 @@
     $pinterest_enabled = get_option('pinterest_enabled', $params['id']) == 'y';
     $youtube_enabled = get_option('youtube_enabled', $params['id']) == 'y';
     $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
+    $instagram_enabled = get_option('instagram_enabled', $params['id']) == 'y';
 
+    $instagram_url =  get_option('instagram_url', $params['id']);
     $facebook_url =  get_option('facebook_url', $params['id']);
     $twitter_url =  get_option('twitter_url', $params['id']);
     $googleplus_url =  get_option('googleplus_url', $params['id']);
@@ -59,6 +61,12 @@
 <?php  if($youtube_enabled){ ?>
 
     <a href="//youtube.com/<?php print $youtube_url; ?>" target="_blank"><span class="mw-icon-social-youtube"></span></a>
+
+<?php } ?>
+
+<?php  if($instagram_enabled){ ?>
+
+    <a href="https://instagram.com/<?php print $linkedin_url; ?>" target="_blank"><span class="mw-icon-social-instagram"></span></a>
 
 <?php } ?>
 

@@ -179,9 +179,9 @@ mw.tools = {
             }
             tooltip.tooltipData.element = el[0];
             var w = el.outerWidth(),
-                tipwidth = $(tooltip).width(),
+                tipwidth = $(tooltip).outerWidth(),
                 h = el.outerHeight(),
-                tipheight = $(tooltip).height(),
+                tipheight = $(tooltip).outerHeight(),
                 off = el.offset(),
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
@@ -1744,7 +1744,6 @@ mw.tools = {
         else {
             curr[id] = is_active;
             mw.cookie.ui(page, curr);
-            mw.log(mw.cookie.ui(page))
         }
 
     },
@@ -2462,6 +2461,7 @@ mw.tools = {
         o.width = o.width != 'auto' ? o.width : '100%';
         $(frame).css({width: o.width, height: o.height});
         frame.setValue = function (val) {
+            frame.contentWindow.pauseChange = true;
             frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
             if (frame.richtextEditorSettings.element.nodeName !== 'TEXTAREA') {
                 frame.richtextEditorSettings.element.innerHTML = val
@@ -2470,6 +2470,7 @@ mw.tools = {
                 frame.richtextEditorSettings.element.value = val;
             }
             frame.value = val;
+            frame.contentWindow.pauseChange = false;
         }
         return frame;
     },
@@ -3074,6 +3075,8 @@ mw.tools = {
             $(mw.tools._titleTip).hide();
             return false;
         }
+        var skin = $(el).dataset('tipskin');
+        var skin = (skin!='') ? skin : 'mw-tooltip-dark';
         var pos = $(el).dataset('tipposition');
         var iscircle = $(el).dataset('tipcircle') == 'true';
 
@@ -3097,11 +3100,11 @@ mw.tools = {
             var el = mw.$(showon)[0];
         }
         if (!mw.tools._titleTip) {
-            mw.tools._titleTip = mw.tooltip({skin: 'dark', element: el, position: pos, content: text});
+            mw.tools._titleTip = mw.tooltip({skin: skin, element: el, position: pos, content: text});
             $(mw.tools._titleTip).addClass('mw-universal-tooltip');
         }
         else {
-            mw.tools._titleTip.className = 'mw-tooltip ' + pos + ' mw-tooltip-dark mw-universal-tooltip';
+            mw.tools._titleTip.className = 'mw-tooltip ' + pos + ' '+ skin +' mw-universal-tooltip';
             mw.$('.mw-tooltip-content', mw.tools._titleTip).html(text);
             mw.tools.tooltip.setPosition(mw.tools._titleTip, el, pos);
         }
