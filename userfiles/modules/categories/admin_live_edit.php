@@ -3,6 +3,9 @@
 
 
 <?php
+if (isset($params['for-current-content-id'])) {
+    $params['for-content-id'] =  CONTENT_ID;
+}
 
 if(isset($params['for-content-id'])){
 return print '<module type="content/edit" content-id="'.intval($params['for-content-id']).'" />'	;

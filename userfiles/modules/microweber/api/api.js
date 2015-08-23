@@ -2,6 +2,8 @@
 
 
     $haystack = load_web_component_file('jquery/jquery.min.js');
+	 
+ 
 	$needle = '//@ sourceMappingURL=';
 	$replace = '//@ disabled_sourceMappingURL=';
 	$pos = strpos($haystack,$needle);

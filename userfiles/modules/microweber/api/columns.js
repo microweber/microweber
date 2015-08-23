@@ -12,6 +12,8 @@ mw.drag.columns = {
             mw.drag.columns.resizer.pos = 0;
         });
         mwd.body.appendChild(mw.drag.columns.resizer);
+
+        $(mw.drag.columns.resizer).hide();
     },
     resize: function (e) {
         if (!mw.drag.columns.resizer.curr) return false;

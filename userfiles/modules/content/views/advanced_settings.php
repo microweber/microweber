@@ -297,7 +297,7 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
   <small>
   <?php _e("Content type"); ?>
   : </small> <a  class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:$('.mw_adm_cont_type_change_holder').toggle(); void(0);"> <?php print($data['content_type'])?> <span
+            href="javascript:$('.mw_adm_cont_type_change_holder').toggle();void(0);"> <?php print($data['content_type'])?> <span
                 class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
   <div class="mw_adm_cont_type_change_holder mw-ui-box mw-ui-box-content" style="display:none;margin-top: 12px;">
     <div class="mw-ui-field-holder"> Warning! Advanced action!<br/>

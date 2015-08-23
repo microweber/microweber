@@ -2962,8 +2962,11 @@ $(window).bind("load", function () {
         }
     });
     $(window).bind("scroll", function (e) {
-        mw.smallEditor.css("visibility", "hidden");
-        mw.smallEditorCanceled = true;
+		if(typeof(mw.smallEditor) != "undefined"){
+			
+			mw.smallEditor.css("visibility", "hidden");
+			mw.smallEditorCanceled = true;
+		}
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function (e) {
 

@@ -339,6 +339,9 @@ $form_show_address = get_option('form_show_address','users');
   </a>
   <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
   <?php _e("Register form settings"); ?>
+  </a>  
+  <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
+  Social links
   </a>
   <div id="user-login-urls-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
     <div class="mw-ui-box mw-ui-box-content">
@@ -387,4 +390,34 @@ $form_show_address = get_option('form_show_address','users');
              
     </div>
   </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="mw-global-fields-social-profile-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
+
+ 
+ 
+ 
+ <module type="social_links/admin" module-id="website" />
+   
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
 </div>

@@ -142,6 +142,9 @@ class Parser
 
                 $layout = $this->_replace_editable_fields($layout);
 
+
+               // d($this->_mw_parser_passed_replaces);
+
             }
 
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
@@ -329,19 +332,26 @@ class Parser
 
                                     $seg_clean = str_replace('.', '', $seg_clean);
                                     $seg_clean = str_replace('%20', '-', $seg_clean);
-                                    $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
+                                   // $mod_id = $module_class . '-' . crc32($seg_clean) . ($mw_mod_counter1);
+                                    if(defined('CONTENT_ID') and CONTENT_ID != 0){
+                                        $mod_id = $module_class . '-' . ($mw_mod_counter1);
+                                    }
 
 
-
+                                //    $mod_id = $module_class . ($mw_mod_counter1).crc32($replace_key);
+                                    $mod_id = $module_class . ($mw_mod_counter1);
+                                    if(defined('CONTENT_ID') and CONTENT_ID == 0){
+                                        $last_content_id = $this->app->database_manager->last_id('content');;
+                                        $last_content_id = intval($last_content_id) + 1;
+                                        $mod_id = $mod_id.'-'.$last_content_id;
+                                    } elseif(defined('CONTENT_ID')) {
+                                        $mod_id = $mod_id.'-'.CONTENT_ID;
+                                    }
 
                                         //
 
                                     if ($this->_current_parser_rel == 'global') {
-                                         $mod_id = $module_class . ($mw_mod_counter1).crc32($replace_key);
-                                         $mod_id = $module_class . ($mw_mod_counter1);
-                                        if(defined('CONTENT_ID') and CONTENT_ID == 0){
-                                            $mod_id = $mod_id.uniqid();
-                                        }
+
 
 
 
@@ -351,7 +361,7 @@ class Parser
 //                                            d(CONTENT_ID);
 //                                        }
                                     } else {
-                                        $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
+                                        //$mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
                                     }
 
 
@@ -1437,7 +1447,7 @@ class Parser
                 $config['license'] = $lic;
             }
 
-            if (!isset($attrs['id']) and isset($attrs['module-id']) and $attrs['module-id'] != false) {
+            if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
                 $attrs['id'] = $attrs['module-id'];
             }
 

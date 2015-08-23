@@ -111,10 +111,4 @@ $(document).ready(function(){
   
   
   
-  
-  
-  
-  
-  
-  
 </div>

@@ -499,6 +499,10 @@ class DatabaseManager extends DbUtils
      */
     public function last_id($table)
     {
+
+       // DB::getPdo()->lastInsertId();
+
+
         $last_id = $this->table($table)->orderBy('id', 'DESC')->take(1)->first();
         if (isset($last_id->id)) {
             return $last_id->id;

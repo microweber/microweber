@@ -172,6 +172,9 @@ class MediaManager
 
     public function upload($data)
     {
+
+
+
         if ($this->app->user_manager->is_admin() == false) {
 
             mw_error('not logged in as admin');
@@ -202,6 +205,7 @@ class MediaManager
         $rerturn = array();
 
         if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
+
             if (isset($data['name'])) {
                 $f = $target_path . $data['name'];
                 if (is_file($f)) {
@@ -220,7 +224,7 @@ class MediaManager
 
                 $rerturn['src'] = $this->app->url_manager->link_to_file($f);
                 $rerturn['name'] = $data['name'];
-                exit(json_encode($rerturn));
+                return(json_encode($rerturn));
             }
         } else {
 
