@@ -35,8 +35,8 @@ before_script:
 script: phpunit 
 
 # configure notifications (email, IRC, campfire etc)
-notifications:
-  irc: "irc.freenode.org#microweber"
+#notifications:
+#  irc: "irc.freenode.org#microweber"
 
 branches:
   only:
