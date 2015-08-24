@@ -92,4 +92,4 @@ We are looking for people who want to help us improve Microweber.
 If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes and submit a pull request.
 
 ## Build Status
-[![Build Status](https://api.travis-ci.org/microweber/microweber.svg)](https://travis-ci.org/microweber/microweber)
+[![Build Status](https://api.travis-ci.org/Dalboz/microweber.svg)](https://travis-ci.org/Dalboz/microweber)
