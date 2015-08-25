@@ -971,7 +971,12 @@ class ShopManager
         }
         if (!isset($data['for']) or !isset($data['for_id'])) {
             if (!isset($data['id'])) {
-                $this->app->error('Invalid data');
+
+//                if (!isset($data['title']) and !isset($data['price'])) {
+//                    $this->app->error('Invalid data');
+//
+//                }
+
             } else {
                 $cart = array();
                 $cart['id'] = intval($data['id']);

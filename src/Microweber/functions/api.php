@@ -143,10 +143,10 @@ function mw_var($key, $new_val = false)
             return false;
         }
     } else {
-        if (isset($mw_var_storage[$contstant]) == false) {
+        //if (isset($mw_var_storage[$contstant]) == false) {
             $mw_var_storage[$contstant] = $new_val;
             return $new_val;
-        }
+        //}
     }
     return false;
 }

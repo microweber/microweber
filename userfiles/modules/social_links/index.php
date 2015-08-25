@@ -1,20 +1,73 @@
 <?php
 
-    $facebook_enabled = get_option('facebook_enabled', $params['id']) == 'y';
-    $twitter_enabled = get_option('twitter_enabled', $params['id']) == 'y';
-    $googleplus_enabled = get_option('googleplus_enabled', $params['id']) == 'y';
-    $pinterest_enabled = get_option('pinterest_enabled', $params['id']) == 'y';
-    $youtube_enabled = get_option('youtube_enabled', $params['id']) == 'y';
-    $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
-    $instagram_enabled = get_option('instagram_enabled', $params['id']) == 'y';
+$option_group=$params['id'];
 
-    $instagram_url =  get_option('instagram_url', $params['id']);
-    $facebook_url =  get_option('facebook_url', $params['id']);
-    $twitter_url =  get_option('twitter_url', $params['id']);
-    $googleplus_url =  get_option('googleplus_url', $params['id']);
-    $pinterest_url =  get_option('pinterest_url', $params['id']);
-    $youtube_url =  get_option('youtube_url', $params['id']);
-    $linkedin_url =  get_option('linkedin_url', $params['id']);
+if(isset($params['option-group'])){
+$option_group=$params['option-group'];	
+	
+}
+
+
+
+    $facebook_enabled = get_option('facebook_enabled', $option_group) == 'y';
+    $twitter_enabled = get_option('twitter_enabled', $option_group) == 'y';
+    $googleplus_enabled = get_option('googleplus_enabled', $option_group) == 'y';
+    $pinterest_enabled = get_option('pinterest_enabled', $option_group) == 'y';
+    $youtube_enabled = get_option('youtube_enabled', $option_group) == 'y';
+    $linkedin_enabled = get_option('linkedin_enabled', $option_group) == 'y';
+    $instagram_enabled = get_option('instagram_enabled', $option_group) == 'y';
+
+    $instagram_url =  get_option('instagram_url', $option_group);
+	if($instagram_url == false){
+	$instagram_url =  get_option('instagram_url', 'website');
+	}
+	
+	
+    $facebook_url =  get_option('facebook_url', $option_group);
+	
+	if($facebook_url == false){
+	$facebook_url =  get_option('facebook_url', 'website');
+	}
+	
+    $twitter_url =  get_option('twitter_url', $option_group);
+	
+	if($twitter_url == false){
+	$twitter_url =  get_option('twitter_url', 'website');
+	}
+	
+	
+	
+	
+    $googleplus_url =  get_option('googleplus_url', $option_group);
+	
+	if($googleplus_url == false){
+	$googleplus_url =  get_option('googleplus_url', 'website');
+	}
+	
+	
+    $pinterest_url =  get_option('pinterest_url', $option_group);
+	
+	
+	if($pinterest_url == false){
+	$pinterest_url =  get_option('pinterest_url', 'website');
+	}
+	
+	
+    $youtube_url =  get_option('youtube_url', $option_group);
+	
+	if($youtube_url == false){
+	$youtube_url =  get_option('youtube_url', 'website');
+	}
+	
+	
+	
+	
+    $linkedin_url =  get_option('linkedin_url', $option_group);
+	
+	if($linkedin_url == false){
+	$linkedin_url =  get_option('linkedin_url', 'website');
+	}
+	
 
     $social_links_has_enabled = false;
 
@@ -66,13 +119,13 @@
 
 <?php  if($instagram_enabled){ ?>
 
-    <a href="https://instagram.com/<?php print $linkedin_url; ?>" target="_blank"><span class="mw-icon-social-instagram"></span></a>
+    <a href="https://instagram.com/<?php print $instagram_url; ?>" target="_blank"><span class="mw-icon-social-instagram"></span></a>
 
 <?php } ?>
 
 <?php  if($linkedin_enabled){ ?>
 
-    <a href="//youtube.com/<?php print $linkedin_url; ?>" target="_blank"><span class="mw-icon-social-linkedin"></span></a>
+    <a href="//linkedin.com/<?php print $linkedin_url; ?>" target="_blank"><span class="mw-icon-social-linkedin"></span></a>
 
 <?php } ?>
 
