@@ -81,8 +81,8 @@
 		  .done(function( msg ) {
 			
 			 if(msg.shipping_country != undefined){
-				 		 mw.$("[name='country']").val(this.shipping_country)
-			 }
+			//	 		 mw.$("[name='country']").val(this.shipping_country)
+			 } 
 			 mw.reload_module('shop/cart');
  			 mw.reload_module('shop/shipping');
 			 mw.reload_module('<?php print $config['module']; ?>');

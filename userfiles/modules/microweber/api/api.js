@@ -111,7 +111,7 @@ mw.askusertostay = false;
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
-      var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+      var string = t != "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
       if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
          mwd.write(string);
       }
