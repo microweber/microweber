@@ -22,7 +22,8 @@ class Shop
 				'skip_promo_code' => "string",
 				'created_by' => 'integer',
 				'custom_fields_data' => 'longText',
-				'$index' => ['rel_type', 'rel_id']
+                'item_image' => "string",
+                '$index' => ['rel_type', 'rel_id']
 			],
 
 			'cart_orders' => [

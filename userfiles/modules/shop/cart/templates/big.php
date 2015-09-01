@@ -44,8 +44,15 @@ description: Full width cart template
        $total += $item['price']* $item['qty'];
        ?>
       <tr class="mw-cart-item mw-cart-item-<?php print $item['id'] ?>">
-      	 <?php $p = get_picture($item['rel_id']); ?>
          <td>
+         
+       <?php if(isset($item['item_image']) and $item['item_image'] != false): ?>  
+               <?php $p = $item['item_image']; ?>
+
+       <?php else: ?>
+         
+      <?php $p = get_picture($item['rel_id']); ?>
+  <?php endif; ?>
       <?php if($p != false): ?>
       <img height="70" class="img-polaroid img-rounded mw-order-item-image mw-order-item-image-<?php print $item['id'] ; ?>" src="<?php print thumbnail($p, 70,70); ?>"  />
       <?php endif; ?>

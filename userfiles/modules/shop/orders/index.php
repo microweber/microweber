@@ -79,8 +79,19 @@
           <?php  $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . '');  ?>
 
 
+
+
           <?php if(isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
           <?php $p = get_picture($cart_item[0]['rel_id'],$cart_item[0]['rel_type']); ?>
+          
+             
+       <?php  if($p == false and isset($cart_item[0]['item_image']) and $cart_item[0]['item_image'] != false): ?>  
+		 <?php $p = $cart_item[0]['item_image']; ?>
+     
+      <?php endif; ?>
+  
+  
+  
           <?php
 
 

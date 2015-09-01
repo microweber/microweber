@@ -36,10 +36,26 @@ else {
           <?php if (is_array($cart_items)) : ?>
           <div class="mw-order-images">
             <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
-            <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
-            <?php if ($p != false): ?>
+                <?php  if(isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>  
+      <?php 
+	  
+	  $p = $cart_items[$i]['item_image']; ?>
+     <?php if ($p != false): ?>
+      <a data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);" href="<?php print ($p); ?>" target="_blank"></a>
+            <?php endif; ?>
+     
+         <?php else: ?>
+          <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
+     <?php if ($p != false): ?>
             <span data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
             <?php endif; ?>
+      <?php endif; ?>
+            
+           
+            
+            
+            
+            
             <?php } ?>
           </div>
           <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">

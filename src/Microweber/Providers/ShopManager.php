@@ -1184,6 +1184,9 @@ class ShopManager
                 $cart['other_info'] = strip_tags($data['other_info']);
             }
 
+            if (isset($data['item_image']) and is_string($data['item_image'])) {
+                $cart['item_image'] = mw()->format->clean_xss(strip_tags($data['item_image']));
+            }
 
             mw_var('FORCE_SAVE', $table);
 
