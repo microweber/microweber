@@ -12,6 +12,7 @@ description: Full width cart template
 
 ?>
 <script>mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");</script>
+
 <div class="mw-cart mw-cart-big mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix;  ?>">
   <div class="mw-cart-title mw-cart-<?php print $params['id']?>">
     <h4 class="edit" rel="<?php print $params['id']?>" field="cart_title">
@@ -21,11 +22,11 @@ description: Full width cart template
   <?php if(is_array($data)) :?>
   <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium mw-cart-big-table">
     <colgroup>
-        <col width="60">
-        <col width="620">
-        <col width="120">
-        <col width="140">
-        <col width="140">
+    <col width="60">
+    <col width="620">
+    <col width="120">
+    <col width="140">
+    <col width="140">
     </colgroup>
     <thead>
       <tr>
@@ -44,21 +45,15 @@ description: Full width cart template
        $total += $item['price']* $item['qty'];
        ?>
       <tr class="mw-cart-item mw-cart-item-<?php print $item['id'] ?>">
-         <td>
-         
-       <?php if(isset($item['item_image']) and $item['item_image'] != false): ?>  
-               <?php $p = $item['item_image']; ?>
-
-       <?php else: ?>
-         
-      <?php $p = get_picture($item['rel_id']); ?>
-  <?php endif; ?>
-      <?php if($p != false): ?>
-      <img height="70" class="img-polaroid img-rounded mw-order-item-image mw-order-item-image-<?php print $item['id'] ; ?>" src="<?php print thumbnail($p, 70,70); ?>"  />
-      <?php endif; ?>
-      </td>
-        <td class="mw-cart-table-product">
-	   <?php print $item['title'] ?>
+        <td><?php if(isset($item['item_image']) and $item['item_image'] != false): ?>
+          <?php $p = $item['item_image']; ?>
+          <?php else: ?>
+          <?php $p = get_picture($item['rel_id']); ?>
+          <?php endif; ?>
+          <?php if($p != false): ?>
+          <img height="70" class="img-polaroid img-rounded mw-order-item-image mw-order-item-image-<?php print $item['id'] ; ?>" src="<?php print thumbnail($p, 70,70); ?>"  />
+          <?php endif; ?></td>
+        <td class="mw-cart-table-product"><?php print $item['title'] ?>
           <?php if(isset($item['custom_fields'])): ?>
           <?php print $item['custom_fields'] ?>
           <?php  endif ?></td>
@@ -71,9 +66,8 @@ description: Full width cart template
       <?php endforeach; ?>
     </tbody>
   </table>
-
-   <?php  $shipping_options =  mw('shop\shipping\shipping_api')->get_active(); ?>
-	<?php
+  <?php  $shipping_options =  mw('shop\shipping\shipping_api')->get_active(); ?>
+  <?php
 	
 	$show_shipping_info =  get_option('show_shipping', $params['id']);
  
@@ -84,10 +78,12 @@ description: Full width cart template
 	}
 
 	 if(is_array($shipping_options)) :?>
-    <div>
-    <h3><?php _e("Order summary"); ?></h3>
+  <div>
+    <h3>
+      <?php _e("Order summary"); ?>
+    </h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table" width="100%">
-        <style scoped="scoped">
+      <style scoped="scoped">
             td{
               white-space: nowrap;
             }
@@ -107,32 +103,34 @@ description: Full width cart template
             }
 
         </style>
-        <col width="60%">
-        <col width="">
-        <col width="">
-        <tbody>
-
-            <tr <?php if(!$show_shipping_stuff) :?> style="display:none" <?php endif ; ?>>
-                <td></td>
-                <td class="cell-shipping-country">
-                    <label><?php _e("Shipping to"); ?>:</label>
-                </td>
-                <td class="cell-shipping-country">
-                    <module type="shop/shipping"  view="select" />
-                </td>
-            </tr>
-
-            <tr>
-                 <td></td>
-                 <td><label><?php _e("Shipping price"); ?>:</label></td>
-                <td  class="cell-shipping-price"><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
-            </tr>
-            <tr>
-               <td></td>
-               <td><label><?php _e("Total Price"); ?>:</label></td>
-               <td  class="cell-shipping-total"> <span class="total_cost"><?php print currency_format($total + floatval(mw()->user_manager->session_get('shipping_cost'))); ?></span></td>
-            </tr>
-        </tbody>
+      <col width="60%">
+      <col width="">
+      <col width="">
+      <tbody>
+        <tr <?php if(!$show_shipping_stuff) :?> style="display:none" <?php endif ; ?>>
+          <td></td>
+          <td class="cell-shipping-country"><label>
+              <?php _e("Shipping to"); ?>
+              :</label></td>
+          <td class="cell-shipping-country"><module type="shop/shipping"  view="select" /></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><label>
+              <?php _e("Shipping price"); ?>
+              :</label></td>
+          <td  class="cell-shipping-price"><div class="mw-big-cart-shipping-price" style="display:inline-block">
+              <module type="shop/shipping"  view="cost" />
+            </div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><label>
+              <?php _e("Total Price"); ?>
+              :</label></td>
+          <td  class="cell-shipping-total"><span class="total_cost"><?php print currency_format($total + floatval(mw()->user_manager->session_get('shipping_cost'))); ?></span></td>
+        </tr>
+      </tbody>
     </table>
   </div>
   <?php endif ; ?>
@@ -151,12 +149,13 @@ description: Full width cart template
 	   $checkout_page_link = site_url('checkout');;
    }
    ?>
-  <a class="btn  btn-warning pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
-
-  
-
+  <a class="btn  btn-warning pull-right" href="<?php print $checkout_page_link; ?>">
+  <?php _e("Checkout"); ?>
+  </a>
   <?php endif ; ?>
   <?php else : ?>
-  <h4 class="alert alert-warning"><?php _e("Your cart is empty."); ?></h4>
+  <h4 class="alert alert-warning">
+    <?php _e("Your cart is empty."); ?>
+  </h4>
   <?php endif ; ?>
 </div>

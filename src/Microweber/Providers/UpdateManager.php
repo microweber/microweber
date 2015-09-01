@@ -616,12 +616,13 @@ class UpdateManager {
             $url = $item['download'];
 
             $download_target = $this->temp_dir . md5($url) . basename($url);
+
             $download_target_extract_lock = $this->temp_dir . md5($url) . basename($url) . '.unzip_lock';
             $this->_log_msg('Downloading from marketplace');
 
-            if (!is_file($download_target)){
+            //if (!is_file($download_target)){
                 $dl = $this->http()->url($url)->download($download_target);
-            }
+            //}
         } else if (isset($item['download']) and isset($item['size'])){
             $expected = intval($item['size']);
 
