@@ -2,9 +2,9 @@
 
 function mw_is_installed()
 {
-    static $is = false;
+    static $is = null;
 
-    if ($is == false) {
+    if ($is === null) {
         $is = Config::get('microweber.is_installed');
     }
     return (bool)$is;
