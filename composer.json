@@ -19,6 +19,7 @@
         "graham-campbell/markdown": "~3.0",
         "guzzlehttp/guzzle": "~5.0",
         "composer/installers": "1.*",
+        "keboola/csv": "1.1.*", 
         "omnipay/omnipay": "~2.0"
     },
     "require-dev": {

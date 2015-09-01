@@ -12,7 +12,7 @@ namespace Microweber\Utils;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-
+use \Keboola\Csv\CsvFile;
 
 api_expose_admin('Microweber\Utils\Import\delete');
 api_expose_admin('Microweber\Utils\Import\create');
