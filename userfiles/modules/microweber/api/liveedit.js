@@ -684,12 +684,14 @@ mw.drag = {
 
             var o = el.offset();
             var width = el.width();
+
             var pleft = parseFloat(el.css("paddingLeft"));
             var left_spacing = o.left;
             var right_spacing = o.right;
             if (mw.tools.hasClass(element, 'jumbotron')) {
                 left_spacing = left_spacing + pleft;
             }
+
             $(mw.handle_element).css({
                 top: o.top - 17,
                 left: left_spacing,
@@ -2955,7 +2957,9 @@ $(window).bind("load", function () {
         mw.smallEditorCanceled = true;
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function (e) {
-        if (e.target.nodeName != 'INPUT') {
+
+
+        if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();
         }
         if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {

@@ -497,17 +497,28 @@ class Front
 
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
+						
+						
+						
                         $item['description'] = character_limiter(strip_tags($item['content']), $character_limit);
                         $item['full_description'] = strip_tags($item['content']);
                     } elseif (isset($item['content_body']) and $item['content_body'] != '') {
                         $item['full_description'] = strip_tags($item['content']);
                         $item['description'] = character_limiter(strip_tags($item['content_body']), $character_limit);
                     }
+					
+					
+					
+					
                 } else {
                     $item['full_description'] = $item['description'];
                     $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
 
                 }
+				
+				
+				
+				
 
                 if (isset($item['title']) and $item['title'] != '') {
                     $item['full_title'] = $item['title'];

@@ -822,7 +822,6 @@ class UpdateManager {
 
             $curl_result = $curl->post($post_params);
 
-
         } else {
             $curl_result = false;
         }

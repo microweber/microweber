@@ -75,10 +75,26 @@ class Template {
         return $val;
     }
 
+    public function get_config($template = false) {
+        if ($template==false){
+            $dir = template_dir();
+            $file = $dir . 'config.php';
+            if (is_file($file)){
+                include($file);
+                if (isset($config)){
+                    return $config;
+                }
+
+                return false;
+            }
+        }
+    }
 
     public function url($add = false) {
         if (!defined('TEMPLATE_URL')){
             $this->app->content_manager->define_constants();
+
+
         }
         if (defined('TEMPLATE_URL')){
             $val = TEMPLATE_URL;
@@ -164,13 +180,13 @@ class Template {
 
                             case 'css':
                                 $src .= '<link rel="stylesheet" href="' . $header
-                                        . '" type="text/css" media="all">' . "\n";
+                                    . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
                                     .= '<script type="text/javascript" src="' . $header
-                                       . '"></script>' . "\n";
+                                    . '"></script>' . "\n";
                                 break;
 
 
@@ -213,13 +229,13 @@ class Template {
 
                             case 'css':
                                 $src .= '<link rel="stylesheet" href="' . $header
-                                        . '" type="text/css" media="all">' . "\n";
+                                    . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
                                     .= '<script type="text/javascript" src="' . $header
-                                       . '"></script>' . "\n";
+                                    . '"></script>' . "\n";
                                 break;
 
 
@@ -278,13 +294,13 @@ class Template {
 
                             case 'css':
                                 $src .= '<link rel="stylesheet" href="' . $footer
-                                        . '" type="text/css" media="all">' . "\n";
+                                    . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
                                     .= '<script type="text/javascript" src="' . $footer
-                                       . '"></script>' . "\n";
+                                    . '"></script>' . "\n";
                                 break;
 
 

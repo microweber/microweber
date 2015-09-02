@@ -68,7 +68,7 @@ event_bind('module.content.edit.main', function ($data) {
         $btn = array();
         $btn['title'] = _e("Price", true);
         $btn['html'] = ' <module type="custom_fields" template="shop/products/edit_price" content_id="' . $data['id'] . '" />';
-        //   $btn['class'] = 'mw-icon-product';
+        $btn['class'] = 'titlepricecolumn';
         mw()->modules->ui('content.edit.title.after', $btn);
     }
 });

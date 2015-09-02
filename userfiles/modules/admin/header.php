@@ -23,6 +23,8 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
         <script type="text/javascript">
+	    mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
+
         mw.require("liveadmin.js");
         mw.require("jquery-ui.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
@@ -42,7 +44,6 @@
         mw.require("content.js");
 		mw.require("upgrades.js");
 
-        mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
     </script>
@@ -123,8 +124,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
             <strong>
     <?php _e("Dashboard"); ?>
     </strong> </a>
-    <ul id="main-menu">
-              <li id="main-menu-back"> <a href="javascript:;"><span class="mw-icon-back"></span></a> </li>
+    <ul id="mw-admin-main-menu">
+              <li id="mw-admin-main-menu-back"> <a href="javascript:;"><span class="mw-icon-back"></span></a> </li>
               <li
 					<?php if ($view == 'content' and $action==false): ?>
                     class="active"
@@ -194,7 +195,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
       </ul>
               </li>
               <?php endif; ?>
-              <li id="main-menu-bottom">
+              <li id="mw-admin-main-menu-bottom">
         <ul>
                   <li class="user-menu-sub"> <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank"> <span class="mw-icon-live" style="font-size: 24px;"></span> <strong>
                   <?php _e("Live Edit"); ?>
@@ -214,7 +215,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   <li <?php if ($view == 'settings' or $view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
                   <?php _e("Settings"); ?>
                   </strong> </a> </li>
-                  <li id="main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
+                  <li id="mw-admin-main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
                 </ul>
       </li>
             </ul>

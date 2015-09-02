@@ -1511,11 +1511,14 @@ class ContentManager {
      * @return void
      */
     public function define_constants($content = false) {
+
         if ($content==false){
             if (isset($_SERVER['HTTP_REFERER'])){
                 $ref_page = $_SERVER['HTTP_REFERER'];
                 if ($ref_page!=''){
                     $ref_page = $this->get_by_url($ref_page);
+//                    $e = new \Exception();
+//                    print_r($e->getTraceAsString());
                     if ($ref_page!=false and !empty($ref_page)){
                         $content = $ref_page;
                     }

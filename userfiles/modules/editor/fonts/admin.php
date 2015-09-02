@@ -97,7 +97,44 @@ if(is_string($enabled_custom_fonts)){
  
 
 ?>
+<div class="async-css">
+<?php foreach($fonts['items'] as $font): ?>
+<link family="<?php print ($font['family']); ?>"  />
+<?php endforeach; ?>
+</div>
+<script>
 
+
+   
+function load_font_css_async(t){
+      $('link',"div.async-css").each(function(){
+	   var $family = $(this).attr("family");
+	  
+	   mw_fonts_preview_load_stylesheet($family);
+	   $(this).remove();
+	    
+		
+	  });
+    setTimeout(function(){load_font_css_async(t)},t);
+}
+
+
+ $(document).ready(function () {
+	 
+	 var load_font_init_temp = setTimeout(function() {
+		 
+		  load_font_css_async(3000);
+		 
+		 
+		 }, 1000);
+
+
+
+
+
+   });
+
+</script>
 <div class="module-live-edit-settings enabled_custom_fonts_table">
   <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
@@ -107,12 +144,14 @@ if(is_string($enabled_custom_fonts)){
       </tr>
     </thead>
     <tbody>
+      <?php  $i=0;?>
       <?php foreach($fonts['items'] as $font): ?>
       <?php if(isset($font['family']) and $font['family']  != ''): ?>
       <tr onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')" onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
-        <td width="30"><input type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" /></td>
-        <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')" onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><span style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></span></td>
+        <td width="30"><input id="custom-font-select-<?php print $i;?>" type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" /></td>
+        <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')" onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><label for="custom-font-select-<?php print $i;?>" style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label></td>
       </tr>
+      <?php  $i++;?>
      <?php endif; ?>
       <?php endforeach; ?>
 

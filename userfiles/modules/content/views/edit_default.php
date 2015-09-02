@@ -75,7 +75,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                         <div class="mw-ui-row-nodrop" id="content-title-field-row">
                             <div class="mw-ui-col" style="width: 30px;"><span
                                     class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span></div>
-                            <div class="mw-ui-col">
+                            <div class="mw-ui-col" >
                                 <input type="text" class="mw-ui-invisible-field mw-ui-field-big"
                                        value="<?php print ($title_for_input) ?>"
                                        id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
@@ -87,10 +87,29 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                     <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                                     <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                     <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                                    <div id="titlepricecolumn" class="mw-ui-col <?php print $class; ?>"
+                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                    <div  class="mw-ui-col <?php print $class; ?>"
+                                     <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
                                          title="<?php print $title; ?>"><?php print $html; ?></div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
+                            
+                            
+                            <?php $custom_title_ui = mw()->modules->ui('content.edit.title.end'); ?>
+                            <?php if (!empty($custom_title_ui)): ?>
+                                <?php foreach ($custom_title_ui as $item): ?>
+                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                    <div  class="mw-ui-col <?php print $class; ?>"
+                                     <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
+                                         title="<?php print $title; ?>"><?php print $html; ?></div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            
+                            
+                            
                         </div>
                         <script>mwd.getElementById('content-title-field').focus();</script>
                     <?php else: ?>

@@ -581,13 +581,49 @@ function mw_make_pages_tree_sortable() {
           <?php endif ?>
           <?php event_trigger('admin_content_after_website_tree', $params); ?>
 
+
+ 
+
+      
+ 
+      <?php $custom_title_ui = mw()->modules->ui('content.manager.tree.after'); ?>
+                            <?php if (!empty($custom_title_ui)): ?>
+                                <?php foreach ($custom_title_ui as $item): ?>
+                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                    <div  class="tree-column-holder-custom-item <?php print $class; ?>"
+                                     <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
+                                         title="<?php print $title; ?>"><?php print $html; ?></div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+      
+
         </div>
+        
+        
+        
+        
         <div class="tree-show-hide-nav scroll-height-exception">
             
         <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
                        onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Open All"); ?></a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
                        onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Close All"); ?></a></div>
+      
+      
+      
+      
+     
       </div>
+      
+      
+      
+      
+      
+      
+      
+      
     </div>
   </div>
   <?php endif ?>
