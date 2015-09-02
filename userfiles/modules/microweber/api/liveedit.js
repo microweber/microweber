@@ -1137,7 +1137,7 @@ mw.drag = {
                     var target = event.target;
 
 
-                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown')) {
+                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') && !mw.tools.hasParentsWithClass(target, 'module')) {
                         $(window).trigger("onIconElementClick", target);
 
                     } else if ($(target).hasClass("element")) {
