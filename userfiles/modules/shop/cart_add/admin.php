@@ -52,3 +52,14 @@ if(isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'pa
        });
     });
 </script>
+
+
+<script>
+    $(document).ready(function(){
+     $( window ).on( "custom_fields.save", function(event) {
+		   mw.reload_module_parent('#<?php print $params['id'] ?>');
+		});
+    });
+</script>
+
+

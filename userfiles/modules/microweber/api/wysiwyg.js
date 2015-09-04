@@ -1784,13 +1784,17 @@ window.mw.iconSelector = window.mw.iconSelector || {
     select: function (icon) {
         if (mw.iconSelector._activeElement !== null && typeof mw.iconSelector._activeElement !== 'undefined') {
             mw.tools.removeClass(mw.iconSelector._activeElement, mw.iconSelector.iconFontClasses);
-
             mw.wysiwyg.elementRemoveFontIconClasses(mw.iconSelector._activeElement);
-
-
             mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'mw-icon-');
-
             mw.$(mw.iconSelector._activeElement).addClass(icon + ' mw-wysiwyg-custom-icon ');
+
+
+            if(typeof(mw.iconSelector._activeElement) != 'undefined' && typeof(mw.iconSelector._activeElement.nodeName) != 'undefined'){
+                if(mw.iconSelector._activeElement.nodeName == "INPUT"){
+                    $(mw.iconSelector._activeElement).val(icon).trigger( "change");
+                }
+            }
+
         }
         $(mw.tools.firstParentWithClass(mw.iconSelector._activeElement, 'edit')).addClass('changed');
         mw.iconSelector._activeElement = null;

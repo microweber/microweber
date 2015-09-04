@@ -324,6 +324,7 @@ class Modules {
                                 $this->save($config);
 
                                 if ($tablesData){
+
                                     (new Database)->build_tables($tablesData);
                                 }
                             }

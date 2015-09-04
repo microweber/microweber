@@ -4,13 +4,13 @@ mw.custom_fields = {
     },
     saveurl: mw.settings.api_url + 'fields/save',
     create: function (obj, callback, error) {
-        var obj = $.extend( {} , this.settings, obj);
+        var obj = $.extend({}, this.settings, obj);
         obj.id = 0;
         this.edit(obj, callback, error);
     },
     edit: function (obj, callback, error) {
-        var obj = $.extend( {} , this.settings, obj);
- 
+        var obj = $.extend({}, this.settings, obj);
+
         $.post(mw.custom_fields.saveurl, obj, function (data) {
             if (typeof callback === 'function') {
                 if (!!data.error) {
@@ -21,22 +21,22 @@ mw.custom_fields = {
                 else {
                     callback.call(data);
                 }
-		    } else {
+            } else {
 
-            	mw.custom_fields.after_save();
-		    }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            if (typeof error === 'function') {
-                error.call(textStatus);
+                mw.custom_fields.after_save();
             }
-        });
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (typeof error === 'function') {
+                    error.call(textStatus);
+                }
+            });
     },
     sort: function (group) {
         var group = mwd.getElementById(group);
-		if(group == null){
-		return;	
-		}
+        if (group == null) {
+            return;
+        }
         if (group.querySelectorAll('.mw-custom-field-form-controls').length > 0) {
             $(group).sortable({
                 handle: '.custom-fields-handle-field',
@@ -49,28 +49,28 @@ mw.custom_fields = {
                 },
                 //scroll:false,
                 update: function () {
-					var par = mw.tools.firstParentWithClass(group,'mw-admin-custom-field-edit-item-wrapper');
-					if(par != null && par != false){
-                    mw.custom_fields.save(par);
-					}
+                    var par = mw.tools.firstParentWithClass(group, 'mw-admin-custom-field-edit-item-wrapper');
+                    if (par != null && par != false) {
+                        mw.custom_fields.save(par);
+                    }
                 }
             });
         }
     },
-    remove:function(id, callback, err){
-      var obj = {
-         id: id
-      }
-      $.post(mw.settings.api_url + "fields/delete", obj, function (data) {
-        if(typeof callback === 'function'){
-          callback.call(data);
+    remove: function (id, callback, err) {
+        var obj = {
+            id: id
         }
-		mw.custom_fields.after_save();
-      }).fail(function(){
-        if(typeof err === 'function'){
-          err.call();
-        }
-      });
+        $.post(mw.settings.api_url + "fields/delete", obj, function (data) {
+            if (typeof callback === 'function') {
+                callback.call(data);
+            }
+            mw.custom_fields.after_save();
+        }).fail(function () {
+            if (typeof err === 'function') {
+                err.call();
+            }
+        });
     },
 
     save: function (id, callback) {
@@ -99,27 +99,28 @@ mw.custom_fields = {
             if (typeof load_iframe_editor === 'function') {
                 load_iframe_editor();
             }
-			
-			 mw.reload_module('#mw-admin-custom-field-edit-item-preview-'+data);
 
+            mw.reload_module('#mw-admin-custom-field-edit-item-preview-' + data);
 
-			
 
             mw.reload_module_parent('custom_fields/list', function () {
                 if (!!callback) callback.call(data);
                 $(window).trigger('customFieldSaved', [id, data]);
             });
-			mw.custom_fields.after_save();
+            mw.custom_fields.after_save();
         });
     },
 
     after_save: function () {
-      //  mw.reload_module('custom_fields/list');
-		  mw.reload_module('custom_fields');
-		
-			mw.reload_module_parent('custom_fields/list');
+        //  mw.reload_module('custom_fields/list');
 
-			 mw.reload_module_parent('custom_fields');
+        mw.reload_module('custom_fields');
+        mw.reload_module_parent('custom_fields/list');
+        mw.reload_module_parent('custom_fields');
+
+
+        $(window).trigger("custom_fields.save");
+
     },
 
     autoSaveOnWriting: function (el, id) {
