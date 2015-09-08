@@ -79,7 +79,7 @@ mw.cart = {
     checkout: function (selector, callback) {
         var form = mw.$(selector);
 
-
+ 
 
         var state = form.dataset("loading");
         if (state == 'true') return false;
@@ -108,6 +108,8 @@ mw.cart = {
                         mw.$(selector + ' .mw-cart-data-holder').show();
                         mw.response(selector, data2);
                     } else if (typeof(data2.success) != 'undefined') {
+						
+						
 
                         if (typeof callback === 'function') {
                             callback.call(data2.success);
@@ -121,6 +123,12 @@ mw.cart = {
                             mw.$(selector + ' .mw-cart-data-holder').hide();
                             mw.response(selector, data2);
                         }
+						
+						if (typeof(data2.redirect) != 'undefined') {
+							window.location.href = data2.redirect;
+						}
+						
+						
 
                     } else if (parseInt(data) > 0) {
                         mw.$('[data-type="shop/checkout"]').attr('view', 'completed');

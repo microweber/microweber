@@ -192,7 +192,39 @@ class Front
                 $post_params['parent'] = $cfg_page_id;
             }
         }
-
+		
+		if (isset($post_params['most_ordered'])) {
+          // 
+		  $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
+          $orders = db_get($str0);
+		  if(!empty($orders)){
+			  $ids = array();
+			foreach($orders as $order){
+				$ids[] = $order['rel_id'];
+			}
+			$post_params['ids'] = $ids;
+		  }
+        }
+		if (isset($post_params['recently_viewed'])) {
+			if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
+			  $str0 = 'table=stats_pageviews&limit=30&main_page_id='.MAIN_PAGE_ID.'&page_id=[neq]'.CONTENT_ID.'&fields=page_id&order_by=id desc&no_cache=true';
+			  $orders = db_get($str0);
+			  if(!empty($orders)){
+				  $ids = array();
+				foreach($orders as $order){
+					$ids[] = $order['page_id'];
+				}
+				$post_params['ids'] = $ids;
+			  }
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
         if ($posts_parent_related == false) {
             if (intval($cfg_page_id_force) or !isset($params['global'])) {
                 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {

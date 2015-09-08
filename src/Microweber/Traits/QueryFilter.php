@@ -391,12 +391,14 @@ trait QueryFilter
             switch ($value) {
                 case '[not_null]':
                     $query->whereNotNull($column);
-                    // unset($params[$column]);
+                     unset($params[$column]);
                     break;
 
                 case '[null]':
+
                     $query->whereNull($column);
-                    // unset($params[$column]);
+
+                    unset($params[$column]);
                     break;
             }
 
