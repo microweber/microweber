@@ -40,9 +40,9 @@ description: Full width cart template
     </thead>
     <tbody>
       <?php
-       $total = 0;
+       $total = cart_sum();;
        foreach ($data as $item) :
-       $total += $item['price']* $item['qty'];
+       //$total += $item['price']* $item['qty'];
        ?>
       <tr class="mw-cart-item mw-cart-item-<?php print $item['id'] ?>">
         <td><?php if(isset($item['item_image']) and $item['item_image'] != false): ?>

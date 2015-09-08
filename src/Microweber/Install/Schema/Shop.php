@@ -30,7 +30,8 @@ class Shop
 		        'updated_at' => 'dateTime',
 		        'created_at' => 'dateTime',
 
-		        'promo_code' => 'longText',
+                'order_id' => 'string',
+
 		        'amount' => 'float',
 		        'transaction_id' => 'longText',
 		        'shipping_service' => 'longText',
@@ -97,7 +98,8 @@ class Shop
         		'rel_type' => 'string',
         		'price' => 'float',
         		'other_info' => 'longText',
-        		'order_id' => 'string',
+
+                'promo_code' => 'longText',
         		'skip_promo_code' => "integer",
 
         		'$index' => ['session_id']

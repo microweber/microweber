@@ -685,11 +685,12 @@ class ShopManager {
                         $title = substr($value['option_key'], $l);
                         $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
                         $value['gw_file'] = $title;
-
                         $mod_infp = $this->app->modules->get('ui=any&one=1&module=' . $title);
 
                         if (!empty($mod_infp)){
                             $value = $mod_infp;
+                            $title = str_replace('..', '', $title);
+
                             $value['gw_file'] = $title;
                             $valid[] = $value;
                         }
@@ -705,6 +706,11 @@ class ShopManager {
 
     }
 
+    /**
+     * @param bool $return_amount
+     *
+     * @return array|false|float|int|mixed
+     */
     public function cart_sum($return_amount = true) {
 
 
@@ -721,6 +727,17 @@ class ShopManager {
                 $different_items = $different_items + $value['qty'];
                 $amount = $amount + (intval($value['qty']) * floatval($value['price']));
             }
+        }
+        $modify_amount = $this->app->event_manager->trigger('mw.cart.sum', $amount);
+
+        if ($modify_amount!==null and $modify_amount!==false){
+            if (is_array($modify_amount)){
+                $amount = array_pop($modify_amount);
+            } else {
+                $amount = $modify_amount;
+            }
+
+
         }
         if ($return_amount==false){
             return $different_items;
