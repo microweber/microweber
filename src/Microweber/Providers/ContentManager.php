@@ -900,7 +900,7 @@ class ContentManager {
             if (isset($params['no_cache'])){
                 $cache_content = false;
             }
-            //      $cache_content = false;
+             // $cache_content = false;
             if (($cache_content)!=false){
                 if (isset($params['return_data'])){
                     return $cache_content;
@@ -976,8 +976,11 @@ class ContentManager {
 
             $include_categories = $params['include_categories'];
         }
+        $include_all_content = false;
+        if (isset($params['include_all_content'])){
+            $include_all_content = $params['include_all_content'];
 
-
+        }
         ob_start();
 
         $table = $this->tables['content'];
@@ -992,9 +995,20 @@ class ContentManager {
 
 
         if ($include_first==true){
-            $sql = "SELECT * from $table where  id={$parent}    and   is_deleted=0 and content_type='page' " . $is_shop . "  order by position desc  limit 0,1";
+            $content_type_q = " and content_type='page'  ";
+            if($include_all_content){
+                $content_type_q = ' ';
+            }
+
+            $sql = "SELECT * from $table where  id={$parent}    and   is_deleted=0 " . $content_type_q . $is_shop . "  order by position desc  limit 0,1";
         } else {
-            $sql = "SELECT * from $table where  " . $par_q . "  content_type='page' and   is_deleted=0 $is_shop  order by position desc limit 0,100";
+            $content_type_q = "  content_type='page'  ";
+            if($include_all_content){
+                $content_type_q = ' ';
+            }
+
+            $sql = "SELECT * from $table where  " . $par_q .  $content_type_q . "   and   is_deleted=0 $is_shop  order by position desc limit 0,100";
+
         }
         $cid = __FUNCTION__ . crc32($sql);
         $cidg = 'content/' . $parent;
@@ -1045,8 +1059,10 @@ class ContentManager {
             $the_active_class = $params['active_class'];
         }
 
+        if(!$include_all_content){
+            $params['content_type'] = 'page';
+        }
 
-        $params['content_type'] = 'page';
 
         $include_first_set = false;
 
@@ -1658,12 +1674,15 @@ class ContentManager {
                     }
 
                 }
-
+                if (defined('PARENT_PAGE_ID')==false and isset($content['parent'])){
+                    define('PARENT_PAGE_ID', $content['parent']);
+                }
                 if (defined('PARENT_PAGE_ID')==false){
                     define('PARENT_PAGE_ID', $page['parent']);
                 }
             }
         }
+
 
         if (defined('ACTIVE_PAGE_ID')==false){
 
@@ -2664,9 +2683,9 @@ class ContentManager {
 
 
             if (isset($data['is_home'])){
-				if(!is_admin()){
-                unset($data['is_home']);
-				}
+                if (!is_admin()){
+                    unset($data['is_home']);
+                }
             }
             if ($stop==true){
                 if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL==__FUNCTION__){
@@ -2989,7 +3008,7 @@ class ContentManager {
 
 
         if (isset($data_to_save['is_home']) and $data_to_save['is_home']==1){
-			$data_to_save['is_home'] = strval($data_to_save['is_home']);
+            $data_to_save['is_home'] = strval($data_to_save['is_home']);
             if ($adm==true){
                 $q = Content::where('is_home', 1)
                     ->update(array(
@@ -2998,7 +3017,7 @@ class ContentManager {
             } else {
                 $data_to_save['is_home'] = 0;
             }
-			//
+            //
         }
 
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type'])=='post'){
@@ -3264,39 +3283,35 @@ class ContentManager {
 
 
         $save = $this->app->database->extended_save($table, $data_to_save);
-		
-		
-		
-		/* SQLITE FIX */
-		if($adm == true){
-		if (isset($data_to_save['is_home'])){
-		 $q = Content::where('id', $save)
+
+
+        /* SQLITE FIX */
+        if ($adm==true){
+            if (isset($data_to_save['is_home'])){
+                $q = Content::where('id', $save)
                     ->update(array(
                         'is_home' => intval($data_to_save['is_home']),
                     ));
-		
-		}
-		if (isset($data_to_save['is_shop'])){
-		 $q = Content::where('id', $save)
+
+            }
+            if (isset($data_to_save['is_shop'])){
+                $q = Content::where('id', $save)
                     ->update(array(
                         'is_shop' => intval($data_to_save['is_shop']),
                     ));
-		
-		}
-		
-		if (isset($data_to_save['require_login'])){
-		 $q = Content::where('id', $save)
+
+            }
+
+            if (isset($data_to_save['require_login'])){
+                $q = Content::where('id', $save)
                     ->update(array(
                         'require_login' => intval($data_to_save['require_login']),
                     ));
-		
-		}
-		}
-		/* END SQLITE FIX */
-		
-		
-		
-		
+
+            }
+        }
+        /* END SQLITE FIX */
+
 
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent']!=0){

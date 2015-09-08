@@ -178,6 +178,7 @@ class Content
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'is_active' => "integer",
+                'auto_populate' => 'string',
                 'description' => 'text',
                 'url' => 'longText',
             ],

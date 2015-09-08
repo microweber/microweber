@@ -124,6 +124,23 @@ if( $id != 0){
   <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
   <input type="hidden" name="content_id" value="<?php  print $data['content_id'] ?>" />
   <input type="hidden" name="categories_id" value="<?php  print $data['categories_id'] ?>" />
+  
+<?php 
+/*  <ul class="mw-ui-inline-list">
+<li><span>Auto populate</span></li>
+          <li>
+            <label class="mw-ui-check">
+                <input type="checkbox" <?php  if(isset($data['auto_populate']) and $data['auto_populate'] != false): ?> checked="" <?php endif; ?> name="auto_populate" value="1"><span></span><span>Yes</span>
+            </label>
+          </li>
+         </ul>*/
+
+
+?>
+  
+  
+  
+  
   <?php  if(isset($params['menu-parent-id'])): ?>
   <input type="hidden" name="parent_id" value="<?php  print $params['menu-parent-id'] ?>" />
   <?php  elseif(isset($data['parent_id']) and $data['parent_id'] !=0): ?>

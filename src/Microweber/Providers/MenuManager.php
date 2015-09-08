@@ -133,7 +133,9 @@ class MenuManager
                 $data_to_save['title'] = '';
             }
         }
-
+        if (!isset($data_to_save['auto_populate'])) {
+            $data_to_save['auto_populate'] = '';
+        }
         if (isset($data_to_save['categories'])) {
             unset($data_to_save['categories']);
         }
@@ -298,13 +300,92 @@ class MenuManager
 
         $q = $this->app->database_manager->get($menu_params);
 
+
+
+
+
+
+
+
+
+
+
         $has_items = false;
+
+        $active_class = '';
+        $a_class = '';
+        $auto_populate = false;
+
+
+        if (isset($params_o['auto_populate']) != false) {
+            $auto_populate = $params_o['auto_populate'];
+        }
+
+   /*     if($auto_populate != false){
+            $auto_populate = trim($auto_populate);
+            if($auto_populate == 1){
+                if (isset($params_o['parent_id']) and isset($params_o['auto_populate_item']) and !empty($params_o['auto_populate_item'])) {
+                    $menu_item = $params_o['auto_populate_item'];
+                    if(isset($menu_item['content_id']) and intval($menu_item['content_id']) != 0){
+                        $pt = $params_o;
+                        $pt['parent'] = intval($menu_item['content_id']);
+                        $pt['include_all_content'] = intval($menu_item['content_id']);
+                     //   dd($pt);
+                        return $this->app->content_manager->pages_tree($pt);
+
+                    }
+
+//                    if(!is_array($q)){
+//                        $q = array();
+//                    }
+//                    if(isset($menu_item['content_id']) and intval($menu_item['content_id']) != 0){
+//                        $more_menu_items = array();
+//                        $sub_menu_items_params = array();
+//                        $sub_menu_items_params['parent'] = $menu_item['content_id'];
+//                        $sub_menu_items_params['no_limit'] = true;
+//                        $content_items = $this->app->content_manager->get($sub_menu_items_params);
+//                        if(!empty($content_items)){
+//                            foreach($content_items as $content_item){
+//                                $a = array();
+//                                $a['title'] = $content_item['title'];
+//                             //   $a['item_type'] = 'menu_item';
+//                                $a['content_id'] = $content_item['id'];
+//                                $a['id'] = $params_o['parent_id'].$content_item['id'];
+//                               $a['cccid'] = $menu_item['id'];
+//                              //   $a['parent_id'] =$content_item['id'];
+//                                 $a['parent_id'] =$params_o['parent_id'];
+//                                 $a['parent_id'] = $params_o['parent_id'].$content_item['id'];;
+//                                // $a['parent_id'] =$params_o['parent_id'];
+//                                $a['url'] = $this->app->content_manager->link($content_item['id']);
+//                                $more_menu_items[] =$a;
+//                             //   $q[] =$a;
+//                            }
+//                        }
+//                        if(!empty($more_menu_items)){
+//
+//                          $q = array_merge($q,$more_menu_items);
+//                         //  dd($q);
+//                        }
+//                       //dd($more_menu_items);
+//                        //dd($menu_item);
+//
+//                    }
+                }
+
+            }
+
+        }
+
+*/
+
+
+
         if (empty($q)) {
 
             return false;
         }
-        $active_class = '';
-        $a_class = '';
+
+
         if (!isset($ul_class)) {
             $ul_class = 'menu';
         }
@@ -548,6 +629,26 @@ class MenuManager
 
                         if (isset($params) and is_array($params)) {
 
+
+//                            if (isset($item['auto_populate']) and $item['auto_populate'] !=false) {
+//                                $menu_item = $item;
+////dd($menu_item);
+//                                if(isset($menu_item['content_id']) and intval($menu_item['content_id']) != 0){
+//                                    $pt = $params_o;
+//                                    $pt['parent'] = intval($menu_item['content_id']);
+//                                    $pt['include_all_content'] = intval($menu_item['content_id']);
+//
+//                                    $to_print .= $this->app->content_manager->pages_tree($pt);
+//
+//                                    //$to_print .= strval($test1);
+//
+//                                }
+//
+//
+//
+//                            } else {
+
+
                             $menu_params['menu_id'] = $item['id'];
                             $menu_params['link'] = $link;
                             if (isset($menu_params['item_parent'])) {
@@ -586,7 +687,11 @@ class MenuManager
                             }
 
 
+
                             $test1 = $this->menu_tree($menu_params);
+
+                         //   }
+
                         } else {
 
                             $test1 = $this->menu_tree($item['id']);
@@ -611,6 +716,7 @@ class MenuManager
                         }
                     }
                 }
+
                 if (isset($li_class_empty) and isset($test1) and trim($test1) == '') {
                     if ($depth > 0) {
                         $li_class = $li_class_empty;

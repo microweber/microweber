@@ -1892,7 +1892,7 @@ body.dragStart .empty-element { display: block; }
 *****************************/
 
 
-[class*='tst-']{
+#live_edit_toolbar_holder [class*='tst-']{
   display: block;
   position: relative;
   width: 55px;
