@@ -455,8 +455,9 @@ class Front
                         $sub_categories[] = $item_more_subcat;
                     }
                 }
-                $post_params['category'] = $sub_categories;
-
+				//$post_params['category']
+               $post_params['category'] = $sub_categories;
+   			//$post_params['category'] = $post_params['category'];
             } else if (isset($post_params['category']) and is_array($post_params['category']) and empty($post_params['category']) and isset($post_params['related']) and $post_params['related'] != false) {
                 if (defined('CATEGORY_ID') and CATEGORY_ID > 0) {
 

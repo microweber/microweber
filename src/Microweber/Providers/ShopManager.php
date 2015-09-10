@@ -732,7 +732,11 @@ class ShopManager {
 
         if ($modify_amount!==null and $modify_amount!==false){
             if (is_array($modify_amount)){
-                $amount = array_pop($modify_amount);
+                $pop = array_pop($modify_amount);
+                if($pop != false){
+                    $amount = $pop;
+
+                }
             } else {
                 $amount = $modify_amount;
             }

@@ -106,7 +106,7 @@ if ($cur_template == false) {
 
 
         
-        
+        <?php if (!isset($params['simple'])) { ?>
         
         <label class="mw-ui-label">
             <hr>
@@ -119,5 +119,9 @@ if ($cur_template == false) {
         </label>
         <a class="mw-ui-link" target="_blank" href="<?php print mw()->update->marketplace_admin_link($params); ?>">
             <?php _e("Browse Templates"); ?>
-        </a></div>
+        </a>
+        
+        <?php } ?>
+        
+        </div>
  <?php endif; ?>

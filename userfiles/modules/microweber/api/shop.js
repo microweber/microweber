@@ -125,7 +125,11 @@ mw.cart = {
                         }
 						
 						if (typeof(data2.redirect) != 'undefined') {
+							
+							setTimeout(function(){
 							window.location.href = data2.redirect;
+							}, 10)
+							
 						}
 						
 						

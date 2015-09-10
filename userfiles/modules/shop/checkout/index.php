@@ -18,8 +18,8 @@ if(isset($_REQUEST['mw_payment_success'])){
 
 
 
-$requires_registration = get_option('shop_require_registration', 'website') == 'y';
-$requires_terms = get_option('shop_require_terms', 'website')  == 'y';
+$requires_registration = get_option('shop_require_registration', 'website') == '1';
+$requires_terms = get_option('shop_require_terms', 'website')  == '1';
 
  
 

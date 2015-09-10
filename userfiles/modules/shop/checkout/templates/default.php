@@ -9,7 +9,7 @@ name: Default
 description: Default cart template
 
 */
-
+ 
 ?>
 <?php if($requires_registration and is_logged() == false): ?>
 <module type="users/register" />
