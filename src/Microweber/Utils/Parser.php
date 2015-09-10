@@ -321,7 +321,16 @@ class Parser
                                 if (!isset($attrs['id'])) {
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;
-                                    $mw_mod_counter1 = crc32(serialize($attrs));
+									
+									if(!defined('MW_1_0_4_COMPAT')){
+ 										$mw_mod_counter1 = md5(serialize($attrs));
+										
+									} else {
+										$mw_mod_counter1 = crc32(serialize($attrs));
+									}
+                               
+								    
+
                                     $seg_clean = $this->app->url_manager->segment(0, url_current());
 
                                    //
@@ -340,8 +349,13 @@ class Parser
 
                                 //    $mod_id = $module_class . ($mw_mod_counter1).crc32($replace_key);
                                     $mod_id = $module_class . ($mw_mod_counter1);
+									
+									static $last_content_id = null;
+								  
                                     if(defined('CONTENT_ID') and CONTENT_ID == 0){
-                                        $last_content_id = $this->app->database_manager->last_id('content');;
+										if($last_content_id == null){
+                                        $last_content_id = $this->app->database_manager->last_id('content');
+										}
                                         $last_content_id = intval($last_content_id) + 1;
                                         $mod_id = $mod_id.'-'.$last_content_id;
                                     } elseif(defined('CONTENT_ID')) {
