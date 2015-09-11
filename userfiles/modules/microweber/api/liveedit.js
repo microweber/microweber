@@ -1213,7 +1213,11 @@ mw.drag = {
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
-                        if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
+ 
+						   if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row')) {
+							     $(mw.currentDragMouseOver).before(mw.dragCurrent);
+ 								 return false;
+						   } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                             }
