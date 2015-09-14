@@ -1214,7 +1214,7 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
  
-						   if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row')) {
+						   if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')) {
 							     $(mw.currentDragMouseOver).before(mw.dragCurrent);
  								 return false;
 						   } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {

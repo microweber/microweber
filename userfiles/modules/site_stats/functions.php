@@ -52,6 +52,11 @@ event_bind('frontend', function ($params = false) {
     }
 });
 function mw_stats_track_pageview() {
+	if (!get_option('track_pageviews', 'stats')){
+        return;
+    }
+	
+	
     if (defined('CONTENT_ID') and CONTENT_ID!=0){
         $visit_date = date("Y-m-d H:i:s");
         $existing = DB::table('stats_pageviews')->where('page_id', CONTENT_ID)->take(1)->pluck('id');

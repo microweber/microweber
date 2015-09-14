@@ -116,6 +116,7 @@ if($hasmultiple):
 <?php
       $val = false;
       if ($item['value'] != false) {
+		  $item['value'] = str_replace(',','.',$item['value']);
           $val = number_format($item['value'],2);
       }
 
