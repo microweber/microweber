@@ -342,15 +342,15 @@ $form_show_address = get_option('form_show_address','users');
     <div class="mw-ui-box mw-ui-box-content"> 
       <script  type="text/javascript">
 
- runMailEditor = function(){
+ runRegisterMailEditor = function(){
     
         RegisterMailEditor = mw.editor({
             element:"#register_email_content",
-            addControls:mwd.getElementById('editorctrls').innerHTML,
+            addControls:mwd.getElementById('register_mail_editorctrls').innerHTML,
             ready:function(content){
               content.defaultView.mw.dropdown();
-              mw.$("#dynamic_vals li", content).bind('click', function(){
-                  MailEditor.api.insert_html($(this).attr('value'));
+              mw.$("#register_mail_dynamic_vals li", content).bind('click', function(){
+                  RegisterMailEditor.api.insert_html($(this).attr('value'));
               });
             }
         });
@@ -362,7 +362,7 @@ $form_show_address = get_option('form_show_address','users');
 
   $(document).ready(function(){
 
-runMailEditor();
+runRegisterMailEditor();
 
 
  })
@@ -398,8 +398,8 @@ runMailEditor();
         </label>
         <textarea class="mw-ui-field mw_option_field"  data-option-group="users" id="register_email_content" name="register_email_content"><?php print get_option('register_email_content', 'users') ?></textarea>
       </div>
-      <div id="editorctrls" style="display: none"> <span class="mw_dlm"></span>
-        <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">
+      <div id="register_mail_editorctrls" style="display: none"> <span class="mw_dlm"></span>
+        <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="register_mail_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">
           <?php _e("E-mail Values"); ?>
           </span> </span>
           <div class="mw-dropdown-content">

@@ -28,8 +28,8 @@ class FormsManager {
 
 
     public function get_entires($params) {
-        $params          = parse_params($params);
-        $table           = MW_DB_TABLE_FORMS_DATA;
+        $params = parse_params($params);
+        $table = MW_DB_TABLE_FORMS_DATA;
         $params['table'] = $table;
 
 
@@ -42,12 +42,12 @@ class FormsManager {
 
 
         $data = $this->app->database_manager->get($params);
-        $ret  = array();
+        $ret = array();
         if (is_array($data)){
             foreach ($data as $item) {
                 $fields = @json_decode($item["form_values"], true);
-                if(!$fields){
-                $fields = @json_decode(html_entity_decode($item["form_values"]), true);
+                if (!$fields){
+                    $fields = @json_decode(html_entity_decode($item["form_values"]), true);
                 }
 
                 if (is_array($fields)){
@@ -76,8 +76,8 @@ class FormsManager {
         $table = MW_DB_TABLE_FORMS_LISTS;
 
         if (isset($params['mw_new_forms_list'])){
-            $params['id']    = 0;
-            $params['id']    = 0;
+            $params['id'] = 0;
+            $params['id'] = 0;
             $params['title'] = $params['mw_new_forms_list'];
         }
         if (isset($params['for_module'])){
@@ -85,12 +85,12 @@ class FormsManager {
         }
 
         $params['table'] = $table;
-        $id              = $this->app->database_manager->save($table, $params);
+        $id = $this->app->database_manager->save($table, $params);
         if (isset($params['for_module_id'])){
-            $data                 = array();
-            $data['module']       = $params['module_name'];
+            $data = array();
+            $data['module'] = $params['module_name'];
             $data['option_group'] = $params['for_module_id'];
-            $data['option_key']   = 'list_id';
+            $data['option_key'] = 'list_id';
             $data['option_value'] = $id;
             $this->app->option_manager->save($data);
         }
@@ -137,10 +137,10 @@ class FormsManager {
             $for_id = $params['rel_id'];
         }
 
+
         if (!isset($for_id)){
             return array('error' => 'Please provide for_id parameter with module id');
         }
-
 
         $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id)=='y';
 
@@ -165,11 +165,12 @@ class FormsManager {
             }
         }
 
+
         if ($for=='module'){
             $list_id = $this->app->option_manager->get('list_id', $for_id);
         }
-        $email_to          = $this->app->option_manager->get('email_to', $for_id);
-        $email_bcc         = $this->app->option_manager->get('email_bcc', $for_id);
+        $email_to = $this->app->option_manager->get('email_to', $for_id);
+        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
 
@@ -179,13 +180,13 @@ class FormsManager {
             $list_id = 0;
         }
 
-        $to_save     = array();
+        $to_save = array();
         $fields_data = array();
 
 
-        $get_fields                = array();
-        $get_fields['rel_type']    = $for;
-        $get_fields['rel_id']      = $for_id;
+        $get_fields = array();
+        $get_fields['rel_type'] = $for;
+        $get_fields['rel_id'] = $for_id;
         $get_fields['return_full'] = true;
 
 
@@ -202,12 +203,12 @@ class FormsManager {
 
                     if (isset($params[ $cfn2 ]) and $params[ $cfn2 ]!=false){
                         $fields_data[ $cfn2 ] = $params[ $cfn2 ];
-                        $item['value']        = $params[ $cfn2 ];
-                        $cf_to_save[ $cfn ]   = $item;
+                        $item['value'] = $params[ $cfn2 ];
+                        $cf_to_save[ $cfn ] = $item;
                     } elseif (isset($params[ $cfn ]) and $params[ $cfn ]!=false) {
                         $fields_data[ $cfn ] = $params[ $cfn ];
-                        $item['value']       = $params[ $cfn2 ];
-                        $cf_to_save[ $cfn ]  = $item;
+                        $item['value'] = $params[ $cfn2 ];
+                        $cf_to_save[ $cfn ] = $item;
                     }
 
                 }
@@ -215,8 +216,8 @@ class FormsManager {
         }
 
 
-        $to_save['list_id']  = $list_id;
-        $to_save['rel_id']   = $for_id;
+        $to_save['list_id'] = $list_id;
+        $to_save['rel_id'] = $for_id;
         $to_save['rel_type'] = $for;
 
         $to_save['user_ip'] = MW_USER_IP;
@@ -226,9 +227,10 @@ class FormsManager {
             $to_save['module_name'] = $params['module_name'];
         }
 
-
         if (!empty($fields_data)){
             $to_save['form_values'] = json_encode($fields_data);
+        } else {
+            $to_save['form_values'] = json_encode($params);
         }
 
         $save = $this->app->database_manager->save($table, $to_save);
@@ -236,7 +238,7 @@ class FormsManager {
 
         if (isset($params['module_name'])){
 
-            $pp_arr       = $params;
+            $pp_arr = $params;
             $pp_arr['ip'] = MW_USER_IP;
             unset($pp_arr['module_name']);
             if (isset($pp_arr['rel_type'])){
@@ -259,13 +261,13 @@ class FormsManager {
                 unset($pp_arr['for_id']);
             }
 
-            $notif                = array();
-            $notif['module']      = $params['module_name'];
-            $notif['rel_type']    = 'forms_lists';
-            $notif['rel_id']      = $list_id;
-            $notif['title']       = "New form entry";
+            $notif = array();
+            $notif['module'] = $params['module_name'];
+            $notif['rel_type'] = 'forms_lists';
+            $notif['rel_id'] = $list_id;
+            $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
-            $notif['content']     = "You have new form entry from " . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
+            $notif['content'] = "You have new form entry from " . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
             $this->app->notifications_manager->save($notif);
 
             if ($email_to==false){
@@ -278,7 +280,7 @@ class FormsManager {
                     foreach ($admins as $admin) {
                         if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))){
                             $admin_user_mails[] = $admin['email'];
-                            $email_to           = $admin['email'];
+                            $email_to = $admin['email'];
                         }
                     }
                 }
@@ -286,7 +288,7 @@ class FormsManager {
 
 
             if ($email_to!=false){
-                $mail_sj       = "Thank you!";
+                $mail_sj = "Thank you!";
                 $mail_autoresp = "Thank you for your request!";
 
                 if ($email_autorespond_subject!=false){
@@ -314,7 +316,7 @@ class FormsManager {
                         $to = $value['value'];
                         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
                             $user_mails[] = $to;
-                            $email_from   = $to;
+                            $email_from = $to;
                         }
                     }
                 }
@@ -336,8 +338,8 @@ class FormsManager {
     }
 
     public function get_lists($params) {
-        $params          = parse_params($params);
-        $table           = MW_DB_TABLE_FORMS_LISTS;
+        $params = parse_params($params);
+        $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
 
         return $this->app->database_manager->get($params);
@@ -418,10 +420,10 @@ class FormsManager {
             return array('error' => 'Please specify list id! By posting field id=the list id ');
 
         } else {
-            $lid  = intval($params['id']);
+            $lid = intval($params['id']);
             $data = get_form_entires('limit=100000&list_id=' . $lid);
 
-            $surl       = $this->app->url_manager->site();
+            $surl = $this->app->url_manager->site();
             $csv_output = '';
             if (is_array($data)){
                 $csv_output = 'id,';
@@ -461,8 +463,8 @@ class FormsManager {
             }
 
 
-            $filename            = 'export' . "_" . date("Y-m-d_H-i", time()) . uniqid() . '.csv';
-            $filename_path       = userfiles_path() . 'export' . DS . 'forms' . DS;
+            $filename = 'export' . "_" . date("Y-m-d_H-i", time()) . uniqid() . '.csv';
+            $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
             $filename_path_index = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
             if (!is_dir($filename_path)){
                 mkdir_recursive($filename_path);
