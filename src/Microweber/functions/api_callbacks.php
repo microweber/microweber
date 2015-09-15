@@ -35,7 +35,7 @@ api_expose_admin('get_content_children');
 api_expose_admin('page_link');
 api_expose_admin('post_link');
 api_expose_admin('pages_tree');
-api_expose('save_edit');
+api_expose_admin('save_edit');
 api_expose_admin('save_content');
 api_expose('save_content_admin');
 api_expose_admin('get_content_field_draft');

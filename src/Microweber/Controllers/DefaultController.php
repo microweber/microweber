@@ -235,7 +235,7 @@ class DefaultController extends Controller {
         $api_exposed .= 'user_login user_logout social_login_process';
 
         // content functions
-        $api_exposed .= 'save_edit ';
+
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
 

@@ -1952,9 +1952,11 @@ mw.drag = {
             data['is_draft'] = true;
             mw.drag.DraftSaving = true;
             var xhr = mw.drag.coreSave(data);
-            xhr.always(function () {
+            xhr.always(function (msg) {
                 mw.drag.DraftSaving = false;
                 mw.drag.initDraft = false;
+                $(window).trigger('saveDraftCompleted');
+
             });
         }
     }

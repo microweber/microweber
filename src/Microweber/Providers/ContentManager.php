@@ -900,7 +900,7 @@ class ContentManager {
             if (isset($params['no_cache'])){
                 $cache_content = false;
             }
-             // $cache_content = false;
+            // $cache_content = false;
             if (($cache_content)!=false){
                 if (isset($params['return_data'])){
                     return $cache_content;
@@ -996,18 +996,18 @@ class ContentManager {
 
         if ($include_first==true){
             $content_type_q = " and content_type='page'  ";
-            if($include_all_content){
+            if ($include_all_content){
                 $content_type_q = ' ';
             }
 
             $sql = "SELECT * from $table where  id={$parent}    and   is_deleted=0 " . $content_type_q . $is_shop . "  order by position desc  limit 0,1";
         } else {
             $content_type_q = "  content_type='page'  ";
-            if($include_all_content){
+            if ($include_all_content){
                 $content_type_q = ' ';
             }
 
-            $sql = "SELECT * from $table where  " . $par_q .  $content_type_q . "   and   is_deleted=0 $is_shop  order by position desc limit 0,100";
+            $sql = "SELECT * from $table where  " . $par_q . $content_type_q . "   and   is_deleted=0 $is_shop  order by position desc limit 0,100";
 
         }
         $cid = __FUNCTION__ . crc32($sql);
@@ -1059,7 +1059,7 @@ class ContentManager {
             $the_active_class = $params['active_class'];
         }
 
-        if(!$include_all_content){
+        if (!$include_all_content){
             $params['content_type'] = 'page';
         }
 
@@ -2538,6 +2538,7 @@ class ContentManager {
 
 
                                 if ($is_draft!=false){
+                                    $cont_id = $content_id_for_con_field;
                                     $cont_field['is_draft'] = 1;
                                     $cont_field['rel_type'] = $rel_ch;
                                     $cont_field['url'] = $url;
@@ -2548,10 +2549,8 @@ class ContentManager {
                                     }
                                 }
 
-
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
-
 
                                 $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)){
@@ -3583,7 +3582,9 @@ class ContentManager {
             $history_files_params['rel_type'] = $data['rel_type'];
             $history_files_params['rel_id'] = $data['rel_id'];
             $history_files_params['is_draft'] = 1;
-            $history_files_params['limit'] = 20;
+            $history_files_params['limit'] = 200;
+            $history_files_params['no_cache'] = true;
+
             $history_files_params['url'] = $draft_url;
             $history_files_params['current_page'] = 2;
             $history_files_params['created_at'] = '[lt]' . $last_saved_date;
