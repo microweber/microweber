@@ -40,13 +40,15 @@ var mw_history_reload_timer;
 
 
 $( document ).ready(function() {
-     $(window).bind( "saveDraftCompleted", function() {
+	$( window).unbind( "saveDraftCompleted.history_reload_timer" );
+
+     $(window).bind( "saveDraftCompleted.history_reload_timer", function() {
 	   window.clearTimeout(mw_history_reload_timer);
   		mw_history_reload_timer = window.setTimeout(function(){
 			
 			mw.history.init();
 			
-			},1500); 
+			},2000); 
 	});
 });
 

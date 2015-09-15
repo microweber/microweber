@@ -2542,7 +2542,19 @@ class ContentManager {
                                     $cont_field['is_draft'] = 1;
                                     $cont_field['rel_type'] = $rel_ch;
                                     $cont_field['url'] = $url;
-                                    $cont_field1 = $this->save_content_field($cont_field);
+                                    $to_save_draft = true;
+                                    if (isset($cont_field['value'])){
+                                        $draftmd5 = md5($cont_field['value']);
+                                        $draftmd5_last = $this->app->user_manager->session_get('content_draft_save_md5');
+                                        if($draftmd5_last == $draftmd5){
+                                            $to_save_draft = false;
+                                         } else {
+                                            $this->app->user_manager->session_set('content_draft_save_md5',$draftmd5);
+                                        }
+                                    }
+                                    if ($to_save_draft){
+                                        $cont_field1 = $this->save_content_field($cont_field);
+                                    }
                                 } else {
                                     if ($field!='content'){
                                         $cont_field1 = $this->save_content_field($cont_field);
