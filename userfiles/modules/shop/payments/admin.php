@@ -77,7 +77,7 @@ runMailEditor = function(){
         });
 
         $(MailEditor).bind('change', function(){
-          d(this.value)
+          
         })
     }
 }

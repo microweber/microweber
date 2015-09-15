@@ -1,13 +1,13 @@
 <?php
 namespace Microweber\Utils;
+
 $_mw_email_transport_object = false;
 api_expose_admin('Microweber/Utils/MailSender/test');
 
 use \Config;
 use \View;
 
-class MailSender
-{
+class MailSender {
 
     public $transport = false;
     public $debug = false;
@@ -22,15 +22,14 @@ class MailSender
     public $smtp_secure = false;
     private $here = false;
 
-    function __construct()
-    {
+    function __construct() {
 
         $views = MW_PATH . 'Views' . DS;
 
         View::addNamespace('mw_email_send', $views);
 
         $email_from = mw()->option_manager->get('email_from_name', 'email');
-        if ($email_from == false or trim($email_from) == '') {
+        if ($email_from==false or trim($email_from)==''){
             $email_from = getenv("USERNAME");
         }
         $this->email_from_name = $email_from;
@@ -49,14 +48,18 @@ class MailSender
         $this->smtp_secure = intval($sec);
 
         $email_from = mw()->option_manager->get('email_from', 'email');
-        if ($email_from == false or trim($email_from) == '') {
-            if ($this->email_from_name != '') {
+
+
+        if ($email_from==false or trim($email_from)==''){
+
+            if ($this->email_from_name!=''){
                 $email_from = ($this->email_from_name) . "@" . mw()->url_manager->hostname();
 
             } else {
                 $email_from = "noreply@" . mw()->url_manager->hostname();
 
             }
+            $email_from = str_replace(' ', '-', $email_from);
         }
         $this->email_from = $email_from;
 
@@ -69,11 +72,11 @@ class MailSender
         Config::set('mail.username', $this->smtp_username);
         Config::set('mail.password', $this->smtp_password);
 
-        if ($this->transport == '' or $this->transport == 'php') {
+        if ($this->transport=='' or $this->transport=='php'){
             Config::set('mail.driver', 'mail');
         }
 
-        if ($this->transport == 'gmail') {
+        if ($this->transport=='gmail'){
             Config::set('mail.host', 'smtp.gmail.com');
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
@@ -87,8 +90,7 @@ class MailSender
     }
 
 
-    public function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false)
-    {
+    public function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false) {
 
         $function_cache_id = false;
 
@@ -103,29 +105,30 @@ class MailSender
         $cache_group = "notifications/email";
         $cache_content = mw()->cache_manager->get($function_cache_id, $cache_group);
 
-        if ($no_cache == false and ($cache_content) != false) {
+        if ($no_cache==false and ($cache_content)!=false){
 
             return $cache_content;
         }
 
 
         $email_from = mw()->option_manager->get('email_from', 'email');
-        if ($email_from == false or $email_from == '') {
-        } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
+        if ($email_from==false or $email_from==''){
+        } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)){
         }
 
-        if ($add_hostname_to_subject != false) {
+        if ($add_hostname_to_subject!=false){
             $subject = '[' . mw()->url_manager->hostname() . '] ' . $subject;
         }
 
-        if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+        if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
 
 
             $this->exec_send($to, $subject, $message);
-            if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
+            if (isset($cc) and ($cc)!=false and (filter_var($cc, FILTER_VALIDATE_EMAIL))){
                 $this->exec_send($cc, $subject, $message);
             }
             mw()->cache_manager->save(true, $function_cache_id, $cache_group);
+
             return true;
         } else {
             return false;
@@ -134,27 +137,26 @@ class MailSender
 
     }
 
-    public function test($params)
-    {
+    public function test($params) {
 
         $is_admin = is_admin();
-        if ($is_admin == false) {
+        if ($is_admin==false){
 
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
 
         $email_from = mw()->option_manager->get('email_from', 'email');
-        if ($email_from == false or $email_from == '') {
+        if ($email_from==false or $email_from==''){
             return array('error' => 'Sender E-mail is not set');
-        } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
+        } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)){
             return array('error' => 'Sender E-mail is not valid');
         }
-        if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
+        if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))){
             $to = $params['to'];
             $subject = "Test mail";
 
-            if (isset($params['subject'])) {
+            if (isset($params['subject'])){
                 $subject = $params['subject'];
             }
 
@@ -168,17 +170,16 @@ class MailSender
 
     }
 
-    public static function email_get_transport_object()
-    {
+    public static function email_get_transport_object() {
 
         global $_mw_email_transport_object;
 
-        if (is_object($_mw_email_transport_object)) {
+        if (is_object($_mw_email_transport_object)){
             return $_mw_email_transport_object;
         }
 
         $email_advanced = mw()->option_manager->get('email_transport', 'email');
-        if ($email_advanced == false or $email_advanced == '') {
+        if ($email_advanced==false or $email_advanced==''){
             $email_advanced = 'php';
         }
 
@@ -187,6 +188,7 @@ class MailSender
         try {
             $_mw_email_obj = new \Microweber\email\Sender($transport_type);
             $_mw_email_transport_object = $_mw_email_obj;
+
             return $_mw_email_obj;
         } catch (Exception $e) {
             return ($e->getMessage());
@@ -196,14 +198,12 @@ class MailSender
 
     }
 
-    public function setCc($to)
-    {
+    public function setCc($to) {
         $this->cc = $to;
     }
 
 
-    public function exec_send($to, $subject, $text, $from = false)
-    {
+    public function exec_send($to, $subject, $text, $from = false) {
         $from_address = $this->email_from;
         $from_name = $this->email_from_name;
         $text = mw()->url_manager->replace_site_url_back($text);
@@ -217,7 +217,7 @@ class MailSender
 
         return \Mail::send('mw_email_send::emails.simple', $content, function ($message) use ($to, $subject, $from) {
 
-            if ($from != false) {
+            if ($from!=false){
                 $message->from($from, $from);
             }
 

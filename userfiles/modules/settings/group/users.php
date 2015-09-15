@@ -57,10 +57,10 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 }
 .social-providers-list [class*='mw-icon-'] {
 	font-size: 30px;
-    margin-right: 0;
+	margin-right: 0;
 }
 .social-providers-list .mw-icon-twitter {
-	color:#55acee
+	color: #55acee
 }
 .social-providers-list .mw-icon-facebook {
 	color: #3B5999;
@@ -73,9 +73,9 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 }
 </style>
 <div class="<?php print $config['module_class'] ?>">
-
-<h2><?php _e("Login & Register"); ?></h2>
-
+  <h2>
+    <?php _e("Login & Register"); ?>
+  </h2>
   <?php  $curent_val = get_option('enable_user_registration','users'); ?>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -140,37 +140,18 @@ $form_show_last_name = get_option('form_show_last_name','users');
 $form_show_address = get_option('form_show_address','users');
 
   ?>
-
-
-
-
-
-
-
   <ul class="social-providers-list mw-ui-btn-nav">
-    <li class="mw-ui-btn mw-ui-btn-big active">
-      <span class="mw-icon-facebook login-tab-group active"></span>
-    </li>
-    <li class="mw-ui-btn mw-ui-btn-big">
-        <span class="mw-icon-googleplus login-tab-group"></span>
-    </li>
-    <li class="mw-ui-btn mw-ui-btn-big">
-      <span class="mw-icon-social-github login-tab-group"></span>
-    </li>
-    <li class="mw-ui-btn mw-ui-btn-big">
-      <span class="mw-icon-twitter login-tab-group"></span>
-    </li>
-    <li class="mw-ui-btn mw-ui-btn-big">
-      <span class="mw-icon-mw login-tab-group"></span>
-    </li>
+    <li class="mw-ui-btn mw-ui-btn-big active"> <span class="mw-icon-facebook login-tab-group active"></span> </li>
+    <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-googleplus login-tab-group"></span> </li>
+    <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-social-github login-tab-group"></span> </li>
+    <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-twitter login-tab-group"></span> </li>
+    <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-mw login-tab-group"></span> </li>
   </ul>
   <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
-  <label class="mw-ui-check">
-    <input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
-    <span></span>
-    <span>Facebook login enabled?</span>
-</label>
-<hr>
+    <label class="mw-ui-check">
+      <input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
+      <span></span> <span>Facebook login enabled?</span> </label>
+    <hr>
     <ol class="ol">
       <li>
         <?php _e("Api access"); ?>
@@ -198,12 +179,10 @@ $form_show_address = get_option('form_show_address','users');
     </div>
   </div>
   <div class="mw-ui-box mw-ui-box-content group-logins">
-  <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users">
-        <span></span>
-        <span>Google login enabled?</span>
-</label>
-<hr>
+    <label class="mw-ui-check">
+      <input type="checkbox" value="y" <?php if($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users">
+      <span></span> <span>Google login enabled?</span> </label>
+    <hr>
     <ol class="ol">
       <li>
         <?php _e("Set your"); ?>
@@ -226,12 +205,10 @@ $form_show_address = get_option('form_show_address','users');
     </div>
   </div>
   <div class="mw-ui-box mw-ui-box-content group-logins">
-  <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users">
-        <span></span>
-        <span>Github login enabled?</span>
-</label>
-<hr>
+    <label class="mw-ui-check">
+      <input type="checkbox" value="y" <?php if($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users">
+      <span></span> <span>Github login enabled?</span> </label>
+    <hr>
     <ol class="ol">
       <li>
         <?php _e("Register your application"); ?>
@@ -261,12 +238,10 @@ $form_show_address = get_option('form_show_address','users');
     <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('github_app_secret','users'); ?>" />
   </div>
   <div class="mw-ui-box mw-ui-box-content group-logins">
-  <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
-        <span></span>
-        <span>Twitter login enabled?</span>
-</label>
-<hr>
+    <label class="mw-ui-check">
+      <input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
+      <span></span> <span>Twitter login enabled?</span> </label>
+    <hr>
     <ol class="ol">
       <li>
         <?php _e("Register your application"); ?>
@@ -295,14 +270,11 @@ $form_show_address = get_option('form_show_address','users');
     </label>
     <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
   </div>
-
   <div class="mw-ui-box mw-ui-box-content group-logins">
-  <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
-        <span></span>
-        <span>Microweber login enabled?</span>
-</label>
-<hr>
+    <label class="mw-ui-check">
+      <input type="checkbox" value="y" <?php if($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
+      <span></span> <span>Microweber login enabled?</span> </label>
+    <hr>
     <label class="mw-ui-label">
       <?php _e("Client ID"); ?>
     </label>
@@ -312,7 +284,6 @@ $form_show_address = get_option('form_show_address','users');
     </label>
     <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('microweber_app_secret','users'); ?>" />
   </div>
-   
   <hr>
   <script>
 
@@ -333,16 +304,12 @@ $form_show_address = get_option('form_show_address','users');
    })
  })
 
- </script>
+ </script> 
   <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
   <?php _e("Users URL settings"); ?>
-  </a>
-  <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
-  <?php _e("Register form settings"); ?>
-  </a>  
-  <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
-  Social links
-  </a>
+  </a> <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
+  <?php _e("Register settings"); ?>
+  </a> <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"> Social links </a>
   <div id="user-login-urls-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
     <div class="mw-ui-box mw-ui-box-content">
       <h3>
@@ -372,52 +339,124 @@ $form_show_address = get_option('form_show_address','users');
     </div>
   </div>
   <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
+    <div class="mw-ui-box mw-ui-box-content"> 
+      <script  type="text/javascript">
+
+ runMailEditor = function(){
+    
+        RegisterMailEditor = mw.editor({
+            element:"#register_email_content",
+            addControls:mwd.getElementById('editorctrls').innerHTML,
+            ready:function(content){
+              content.defaultView.mw.dropdown();
+              mw.$("#dynamic_vals li", content).bind('click', function(){
+                  MailEditor.api.insert_html($(this).attr('value'));
+              });
+            }
+        });
+
+      
+ 
+}
 
 
-  <?php  $captcha_disabled = get_option('captcha_disabled','users');     ?>
-    <div class="mw-ui-box mw-ui-box-content">
+  $(document).ready(function(){
+
+runMailEditor();
+
+
+ })
+  </script>
+       
+        <h2>
+          <?php _e("Send email on new user registration"); ?>
+        </h2>
+      <div class="mw-ui-field-holder">
+      <label class="mw-ui-check" style="margin-right: 15px;">
+        <input name="register_email_enabled" class="mw_option_field"    data-option-group="users"  value="1"  type="radio"  <?php if(get_option('register_email_enabled', 'users') == 1): ?> checked="checked" <?php endif; ?> >
+        <span></span><span>
+        <?php _e("Yes"); ?>
+        </span></label>
       <label class="mw-ui-check">
-                <input type="checkbox" class="mw_option_field"   option-group="users" name="captcha_disabled" <?php if($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y"><span></span><span>Disable Captcha?</span>
-            </label>
+        <input name="register_email_enabled" class="mw_option_field"     data-option-group="users"  value="0"  type="radio"  <?php if(get_option('register_email_enabled', 'users') != 1): ?> checked="checked" <?php endif; ?> >
+        <span></span><span>
+        <?php _e("No"); ?>
+        </span></label>
+        </div>
+          <div class="mw-ui-field-holder">
+        
+              <label class="mw-ui-label">
+                        <?php _e("Email subject"); ?>
+                      </label>
+                      <input name="register_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="orders"  value="<?php print get_option('register_email_subject', 'users') ?>"  type="text" />
+        
+          </div>
+        
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">
+          <?php _e("Email content"); ?>
+        </label>
+        <textarea class="mw-ui-field mw_option_field"  data-option-group="users" id="register_email_content" name="register_email_content"><?php print get_option('register_email_content', 'users') ?></textarea>
+      </div>
+      <div id="editorctrls" style="display: none"> <span class="mw_dlm"></span>
+        <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">
+          <?php _e("E-mail Values"); ?>
+          </span> </span>
+          <div class="mw-dropdown-content">
+            <ul>
+              <li value="{id}"><a href="javascript:;">
+               User ID
+                </a></li>
+              <li value="{username}"><a href="javascript:;">
+            Username
+                </a></li>
+               
+              <li value="{email}"><a href="javascript:;">
+               Email
+                </a></li>
+              <li value="{first_name}"><a href="javascript:;">
+               First Name
+                </a></li>
+                  <li value="{last_name}"><a href="javascript:;">
+               Last Name
+                </a></li>
+                
+                   <li value="{created_at}"><a href="javascript:;">
+               Date of registration
+                </a></li>
+                 
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <hr>
-    <label class="mw-ui-check">
-                <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_first_name" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> value="y"><span></span><span>First name</span>
-            </label><br>
-     <label class="mw-ui-check">
-                <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_last_name" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> value="y"><span></span><span>Last name</span>
-            </label>
-            
-             
+    <?php  $captcha_disabled = get_option('captcha_disabled','users');     ?>
+    <div class="mw-ui-box mw-ui-box-content">
+    
+    
+    
+        <h2>
+          <?php _e("Register form settings"); ?>
+        </h2>
+    
+    
+    
+      <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="captcha_disabled" <?php if($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>Disable Captcha?</span> </label>
+      <hr>
+      <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_first_name" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>First name</span> </label>
+      <br>
+      <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_last_name" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>Last name</span> </label>
     </div>
   </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   <div id="mw-global-fields-social-profile-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
-
- 
- 
- 
- <module type="social_links/admin" module-id="website" />
-   
-    </div>
+    <module type="social_links/admin" module-id="website" />
   </div>
-  
-  
-  
-  
-  
-  
-  
+</div>
 </div>

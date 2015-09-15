@@ -611,17 +611,8 @@ class UserManager {
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
 
-                    $notif = array();
-                    $notif['module'] = "users";
-                    $notif['rel_type'] = 'users';
-                    $notif['rel_id'] = $next;
-                    $notif['title'] = "New user registration";
-                    $notif['description'] = "You have new user registration";
-                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    $this->app->notifications_manager->save($notif);
 
-                    $this->app->log_manager->save($notif);
-
+                    $this->after_register($next);
 
                     $params = $data;
                     $params['id'] = $next;
@@ -629,7 +620,6 @@ class UserManager {
                         $params['password2'] = $pass2;
                     }
                     $this->make_logged($params['id']);
-                    $this->app->event_manager->trigger('after_user_register', $params);
 
 
                     return array('success' => 'You have registered successfully');
@@ -649,6 +639,68 @@ class UserManager {
 
     }
 
+
+    public function after_register($user_id, $suppress_output = true) {
+        if ($suppress_output==true){
+            ob_start();
+        }
+        $data = $this->get_by_id($user_id);
+        if (!$data){
+            return;
+        }
+
+        $notif = array();
+        $notif['module'] = "users";
+        $notif['rel_type'] = 'users';
+        $notif['rel_id'] = $user_id;
+        $notif['title'] = "New user registration";
+        $notif['description'] = "You have new user registration";
+        $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $user_id . ']';
+        $this->app->notifications_manager->save($notif);
+
+        $this->app->log_manager->save($notif);
+        $this->register_email_send($user_id);
+
+        $this->app->event_manager->trigger('mw.user.after_register', $data);
+        if ($suppress_output==true){
+            ob_end_clean();
+        }
+
+    }
+
+
+    public function register_email_send($user_id) {
+
+        $data = $this->get_by_id($user_id);
+        if (!$data){
+            return;
+        }
+        if (is_array($data)){
+            $register_email_enabled = $this->app->option_manager->get('register_email_enabled', 'users');
+            if ($register_email_enabled==true){
+                $register_email_subject = $this->app->option_manager->get('register_email_subject', 'users');
+                $register_email_content = $this->app->option_manager->get('register_email_content', 'users');
+                if ($register_email_subject==false or trim($register_email_subject)==''){
+                    $register_email_subject = "Thank you for your registration!";
+                }
+                $to = $data['email'];
+                if ($register_email_content!=false and trim($register_email_subject)!=''){
+                    if (!empty($data)){
+                        foreach ($data as $key => $value) {
+                            if (!is_array($value) and is_string($key)){
+                                $register_email_content = str_ireplace('{' . $key . '}', $value, $register_email_content);
+                            }
+                        }
+                    }
+                    if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
+                        $sender = new \Microweber\Utils\MailSender();
+                        $sender->send($to, $register_email_subject, $register_email_content);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
 
     function csrf_validate(&$data) {
         $session_token = Session::token();
@@ -1245,6 +1297,8 @@ class UserManager {
             $this->make_logged($existing['id']);
         } else {
             $new_user = $this->save($save);
+            $this->after_register($new_user);
+
             $this->make_logged($new_user);
         }
 
