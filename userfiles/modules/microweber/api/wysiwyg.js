@@ -1217,6 +1217,10 @@ mw.wysiwyg = {
     },
 
     initFontFamilies: function () {
+        if(window.getComputedStyle(mwd.body) == null){
+          return;
+        }
+
         var body_font = window.getComputedStyle(mwd.body, null).fontFamily.split(',')[0].replace(/'/g, "").replace(/"/g, '');
         if (mw.wysiwyg.fontFamilies.indexOf(body_font) === -1) {
             mw.wysiwyg.fontFamilies.push(body_font);
