@@ -192,6 +192,8 @@ $(mwd).ready(function(){
                   $(theImage).wrap('<a href="'+link_url+'"></a>');
               }
           }
+		 parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(theImage,'edit'));
+
 
          parent.document.getElementById('mw-image-settings-modal').modal.remove();
 
