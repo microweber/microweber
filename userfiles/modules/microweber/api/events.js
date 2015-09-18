@@ -83,8 +83,22 @@ hashParamEventInit:function(){
 DOMChangePause:false,
 DOMChangeTime:1500,
 DOMChange:function(element, callback, attr, a){
-    var attr = attr || false;
+    var attr = attr || true;
     var a = a || false;
+
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+    if(typeof MutationObserver == 'xfunction'){
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation){
+            if( !mw.on.DOMChangePause ) {
+                console.log(mutation)
+                callback.call(mutation.target);
+            }
+          });
+        });
+        var config = { attributes: attr, childList: true, characterData: true };
+        observer.observe(element, config);
+    }
     element.addEventListener("DOMCharacterDataModified", function(e){
         if( !mw.on.DOMChangePause ) {
             if(!a){
