@@ -23,7 +23,9 @@ class ContentManager {
     static $precached_links = array();
     public $tables = array();
     public $table_prefix = false;
-    public $app = null;
+
+    /** @var \Microweber\Application  */
+    public $app;
 
     /**
      *  Boolean that indicates the usage of cache while making queries

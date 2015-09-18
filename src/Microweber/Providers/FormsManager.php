@@ -3,6 +3,10 @@ namespace Microweber\Providers;
 
 
 class FormsManager {
+
+
+
+    /** @var \Microweber\Application  */
     public $app;
 
     function __construct($app = null) {
@@ -110,6 +114,14 @@ class FormsManager {
 //                    return array('error' => 'Invalid token!');
 //                }
 //            }
+        }
+        $before_process = $this->app->event_manager->trigger('mw.forms_manager.before_post', $params);
+        if(is_array($before_process) and !empty($before_process)){
+            foreach($before_process as $before_process_item){
+                if($before_process_item === false){
+                    return;
+                }
+            }
         }
 
         $table = MW_DB_TABLE_FORMS_DATA;
@@ -234,7 +246,10 @@ class FormsManager {
         }
 
         $save = $this->app->database_manager->save($table, $to_save);
+        $event_params = $params;
+        $event_params['saved_form_entry_id'] = $save;
 
+        $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
         if (isset($params['module_name'])){
 
@@ -320,6 +335,7 @@ class FormsManager {
                         }
                     }
                 }
+
                 if (!empty($user_mails)){
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {

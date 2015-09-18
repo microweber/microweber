@@ -24,7 +24,9 @@ class DatabaseManager extends DbUtils
 
 
     public $use_cache = true;
-    public $app = null;
+
+    /** @var \Microweber\Application  */
+    public $app;
 
     use QueryFilter; //trait with db functions
     use ExtendedSave; //trait to save extended data, such as attributes, categories and images

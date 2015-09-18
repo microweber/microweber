@@ -103,6 +103,10 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('forms_manager', function ($app) {
             return new Providers\FormsManager($app);
         });
+
+        $this->app->singleton('email_notifications_manager', function ($app) {
+            return new Providers\EmailNotificationsManager($app);
+        });
         $this->app->singleton('notifications_manager', function ($app) {
             return new Providers\NotificationsManager($app);
         });

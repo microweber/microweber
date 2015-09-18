@@ -1613,8 +1613,8 @@ class DefaultController extends Controller {
 
         $this->app->content_manager->define_constants($content);
 
-        event_trigger('mw.front',$content);
-        event_trigger('mw_frontend',$content);
+        event_trigger('mw.front', $content);
+        event_trigger('mw_frontend', $content);
 
         $render_file = $this->app->template->get_layout($content);
 
@@ -1956,6 +1956,10 @@ class DefaultController extends Controller {
                 if (isset($meta['description']) and $meta['description']!=''){
                     $meta['content_meta_description'] = strip_tags($meta['description']);
                     unset($meta['description']);
+                } else if (isset($meta['content']) and $meta['content']!=''){
+                    $meta['content_meta_description'] = strip_tags($meta['content']);
+                } else if (isset($meta['title']) and $meta['title']!=''){
+                    $meta['content_meta_description'] = strip_tags($meta['title']);
                 }
 
                 if (isset($meta['title']) and $meta['title']!=''){
@@ -2031,8 +2035,8 @@ class DefaultController extends Controller {
                 $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group);
             }
 
-            print $l;
-            unset($l);
+//            print $l;
+//            unset($l);
 
             if (isset($_REQUEST['debug'])){
                 if ($this->app->make('config')->get('app.debug')){
@@ -2043,7 +2047,7 @@ class DefaultController extends Controller {
                 }
             }
 
-            return;
+            return $l;
         } else {
 
             print 'Error! Page is not found? Please login in the admin and make a page.';
@@ -2421,8 +2425,6 @@ class DefaultController extends Controller {
         $apijs_loaded = '';
 
 
-
-
         $p = normalize_path($p, false);
 
         $l = new \Microweber\View($p_index);
@@ -2509,7 +2511,7 @@ class DefaultController extends Controller {
         //    $page['render_file'] = $render_file;
         if (!$standalone_edit){
             if (isset($page['render_file'])){
-                event_trigger('mw.front',$page);
+                event_trigger('mw.front', $page);
                 $l = new \Microweber\View($page['render_file']);
                 $l->page_id = PAGE_ID;
                 $l->content_id = CONTENT_ID;
@@ -2533,12 +2535,10 @@ class DefaultController extends Controller {
 //                $render_params['params'] = $params;
 //                $render_params['application'] = $this->app;
 
-              //  $l = $this->app->template->render($render_params);
-            if (is_object($l)){
-                return $l;
-            }
-
-
+                //  $l = $this->app->template->render($render_params);
+                if (is_object($l)){
+                    return $l;
+                }
 
 
                 $l = $this->app->parser->process($l, $options = false);

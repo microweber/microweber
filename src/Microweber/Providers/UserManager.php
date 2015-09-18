@@ -33,6 +33,8 @@ if (!defined('MW_USER_IP')){
 class UserManager {
     public $tables = array();
 
+    /** @var \Microweber\Application  */
+    public $app;
 
     function __construct($app = null) {
         $this->set_table_names();
