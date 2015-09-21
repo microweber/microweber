@@ -111,11 +111,7 @@ class DefaultController extends Controller {
             define('MW_API_CALL', true);
         }
 
-        if (!mw()->user_manager->session_id()){
 
-            // //session_start();
-
-        }
 
         $set_constants = true;
         $mod_class_api = false;
