@@ -658,6 +658,7 @@ class Parser
                     }
                     if ($data_id == false) {
                         $data_id = pq($elem)->attr('rel_id');
+
                     }
                     if ($data_id == false) {
                         $data_id = pq($elem)->attr('data-rel-id');
@@ -681,6 +682,7 @@ class Parser
 
 
                     $try_inherited = false;
+                   //
                     if ($rel == 'content') {
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = content_id();
@@ -799,13 +801,14 @@ class Parser
                                     $field_content = $cont_field;
                                 }
                             } else {
-                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+                                $field_content =  $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
                             }
                         }
 
                         if ($cont_field != false) {
                             $field_content = $cont_field;
                         }
+
                         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $field_content;
 
                     }
@@ -827,6 +830,7 @@ class Parser
 
 
                     if ($field_content == false) {
+
                         if ($get_global == true) {
                             if (isset($data_id)) {
                                 $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
@@ -887,7 +891,10 @@ class Parser
                     }
 
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
-                        $parser_mem_crc2 = 'parser_field_content_' . $field . crc32($field_content);
+                        $parser_mem_crc2 = 'parser_field_content_' . $field.$rel .$data_id. crc32($field_content);
+
+
+
                         $ch2 = mw_var($parser_mem_crc);
                         if ($ch2 == false) {
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
@@ -897,6 +904,7 @@ class Parser
 
                                 $mw_found_elems = ',' . $parser_mem_crc2;
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
+                               // $rep = pq($elem)->html();
                                 $rep = pq($elem)->html();
 
                                 if ($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] != false)) {
@@ -909,6 +917,7 @@ class Parser
                                     $is_editable = 1;
 
                                 }
+
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content);
 
 
@@ -937,15 +946,13 @@ class Parser
                         if (isset($v['s'])) {
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
-                            //$reps_arr2[] = $k;
-                          //   $layout = str_replace($v['s'], $v['r'], $layout, $repc);
+                             $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
+
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }
 
                     }
-
-
-                 $layout = str_replace($reps_arr, $reps_arr2, $layout,$repc);
+                // $layout = str_replace($reps_arr, $reps_arr2, $layout,$repc);
                 }
 
 
@@ -985,13 +992,22 @@ class Parser
 
                             $val_rep = $this->_replace_editable_fields($val_rep, true);
                             $rep = 'mw_replace_back_this_editable_' . $elk . '';
-                            $modified_layout = str_replace($rep, $val_rep, $modified_layout);
+                            $ct = 1;
+
+
+
+
+                         //   $modified_layout = str_replace($rep, $val_rep, $modified_layout,$ct);
+                            $modified_layout = $this->_str_replace_first($rep, $val_rep, $modified_layout);
 
 
                         }
                     } else {
+
                         $rep = 'mw_replace_back_this_editable_' . $elk . '';
-                        $modified_layout = str_replace($rep, $value, $modified_layout);
+                        $modified_layout = $this->_str_replace_first($rep, $value, $modified_layout);
+
+                       // $modified_layout = str_replace($rep, $value, $modified_layout);
                     }
                 }
 
@@ -1588,4 +1604,12 @@ class Parser
         $module_class = 'module-' . $module_class;
         return $module_class;
     }
+
+    private function _str_replace_first($search, $replace, $subject) {
+    $pos = strpos($subject, $search);
+    if ($pos !== false) {
+        $subject = substr_replace($subject, $replace, $pos, strlen($search));
+    }
+    return $subject;
+}
 }
