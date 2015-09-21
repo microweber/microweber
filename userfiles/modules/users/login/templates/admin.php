@@ -71,8 +71,15 @@ $link = mw()->ui->admin_logo_login_link;
       </a>
       <?php else:  ?>
       
-      <?php if (get_option('enable_user_microweber_registration', 'users') == 'y'): ?>
-      <div style="text-align: center; margin-bottom: 1em;">
+      
+      <?php if (get_option('enable_user_microweber_registration', 'users') == 'y' and get_option('microweber_app_id', 'users') != false and get_option('microweber_app_secret', 'users') != false): ?>
+   <?php
+  
+  /*
+  // TBA
+  
+  
+     <div style="text-align: center; margin-bottom: 1em;">
         <p>
           <a href="<?php echo api_url(); ?>user_social_login?provider=microweber" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info">
             Use <?php echo mw()->ui->brand_name; ?> Account
@@ -80,6 +87,13 @@ $link = mw()->ui->admin_logo_login_link;
         </p>
         <div style="margin-top: 1em;"><i>- or -</i></div>
       </div>
+  
+  */ 
+   
+   
+   
+   
+    ?>
       <?php endif; ?>
       
       <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print api_link('user_login') ?>"  >
