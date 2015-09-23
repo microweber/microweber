@@ -2151,9 +2151,9 @@ class DefaultController extends Controller {
         $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
         //set last-modified header
-       // header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
-       // header('Cache-Control: public');
-       // header("Etag: $etagFile");
+        // header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
+        // header('Cache-Control: public');
+        // header("Etag: $etagFile");
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader==$etagFile){
             // header("HTTP/1.1 304 Not Modified");
@@ -2187,7 +2187,7 @@ class DefaultController extends Controller {
             }
         }
 
-       // header("Content-type: text/javascript");
+        // header("Content-type: text/javascript");
 
         $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
 
@@ -2196,7 +2196,7 @@ class DefaultController extends Controller {
 
         $l = $l->__toString();
 
-       // print $l;
+        // print $l;
 
         $response = \Response::make($l);
 
@@ -2205,7 +2205,7 @@ class DefaultController extends Controller {
 
         return $response;
 
-       // return;
+        // return;
     }
 
     public function apijs() {
@@ -2252,7 +2252,7 @@ class DefaultController extends Controller {
         $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
         //set last-modified header
-     //   header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
+        //   header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
 
         //set etag-header
 
