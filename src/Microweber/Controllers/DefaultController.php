@@ -2213,9 +2213,7 @@ class DefaultController extends Controller {
         if (!defined('MW_NO_SESSION')){
             define("MW_NO_SESSION", 1);
         }
-
         $ref_page = false;
-
         if (isset($_REQUEST['id'])){
             $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
         } else if (isset($_SERVER['HTTP_REFERER'])){
@@ -2233,62 +2231,48 @@ class DefaultController extends Controller {
                 }
             }
         }
-
-        //header("Content-type: text/javascript");
-
         $file = mw_includes_path() . 'api' . DS . 'api.js';
-        $lastModified = filemtime($file);
 
-        // 2 mins hardcoded cache header
+        $last_modified_time = $lastModified = filemtime($file);
 
-        //get a unique hash of this file (etag)
-
-        //get the HTTP_IF_MODIFIED_SINCE header if set
 
         $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+         $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+        if (defined('MW_VERSION')){
+            $etag = md5(md5_file($file) . MW_VERSION);
 
-        //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+        } else {
+            $etag = md5_file($file);
+        }
 
-        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+//        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader==$etag){
+//
+//
+//
+////            header("HTTP/1.1 304 Not Modified");
+////
+////            exit;
+//        }
 
-        //set last-modified header
-        //   header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
-
-        //set etag-header
 
         $this->app->content_manager->define_constants($ref_page);
         $l = new \Microweber\View($file);
 
         $l = $l->__toString();
-        $etagFile = md5($l);
-
-        //header("Etag: $etagFile");
-
-        // make sure caching is turned on
-        //header('Cache-Control: public');
-
-//        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader==$etagFile){
-//             header("HTTP/1.1 304 Not Modified");
-//
-//              exit;
-//        }
-
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
-        //  print $l;
-
-
         $response = \Response::make($l);
-
         $response->header('Content-Type', 'application/javascript');
 
-
+        if (!$this->app->make('config')->get('app.debug')){
+            // enable caching if in not in debug mode
+            $response->header('Etag', $etag);
+            $response->header('Last-Modified', gmdate("D, d M Y H:i:s", $last_modified_time) . " GMT");
+            $response->setTtl(30);
+        }
         return $response;
-
-
-        //  return;
     }
 
     public function editor_tools() {
