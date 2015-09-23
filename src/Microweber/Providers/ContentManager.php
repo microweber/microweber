@@ -3603,6 +3603,7 @@ class ContentManager {
             $history_files_params['current_page'] = 2;
             $history_files_params['created_at'] = '[lt]' . $last_saved_date;
             $history_files = $this->edit_field($history_files_params);
+
             if (is_array($history_files)){
                 $history_files_ids = $this->app->format->array_values($history_files);
             }

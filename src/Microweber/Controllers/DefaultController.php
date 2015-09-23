@@ -1816,7 +1816,7 @@ class DefaultController extends Controller {
             }
 
 
-            $liv_ed_css = '<link rel="stylesheet" href="' . api_url('template/print_custom_css') . '" id="mw-custom-user-css" type="text/css" />';
+            $liv_ed_css = '<link rel="stylesheet" href="' . api_nosession_url('template/print_custom_css') . '" id="mw-custom-user-css" type="text/css" />';
             $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
 
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
