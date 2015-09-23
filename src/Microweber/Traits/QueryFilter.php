@@ -172,6 +172,7 @@ trait QueryFilter
                             $to_search_keyword = strip_tags($to_search_keyword);
                             $to_search_keyword = str_replace('\\', '', $to_search_keyword);
                             $to_search_keyword = str_replace('*', '', $to_search_keyword);
+                            $to_search_keyword = str_replace(';', '', $to_search_keyword);
                             if ($to_search_keyword != '') {
 
                                 $dbDriver = Config::get("database.default");

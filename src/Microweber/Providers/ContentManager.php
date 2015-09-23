@@ -436,7 +436,7 @@ class ContentManager {
             $params['keyword'] = $params['search_by_keyword'];
         }
 
-        if (isset($params['keyword'])){
+        if (isset($params['keyword']) and !isset($params['search_in_fields'])){
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
 

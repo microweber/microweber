@@ -378,7 +378,13 @@ class ShopManager {
                 $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
                 $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
                 $order_email_cc = $this->app->option_manager->get('order_email_cc', 'orders');
-
+                $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
+                if($order_email_send_when == 'order_paid'){
+                    if(isset($ord_data['is_paid']) and $ord_data['is_paid'] == false){
+                        return;
+                    }
+                }
+ 
                 if ($order_email_subject==false or trim($order_email_subject)==''){
                     $order_email_subject = "Thank you for your order!";
                 }

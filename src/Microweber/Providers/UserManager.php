@@ -33,7 +33,7 @@ if (!defined('MW_USER_IP')){
 class UserManager {
     public $tables = array();
 
-    /** @var \Microweber\Application  */
+    /** @var \Microweber\Application */
     public $app;
 
     function __construct($app = null) {
@@ -697,6 +697,7 @@ class UserManager {
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
                         $sender = new \Microweber\Utils\MailSender();
                         $sender->send($to, $register_email_subject, $register_email_content);
+
                         return true;
                     }
                 }
@@ -1249,59 +1250,71 @@ class UserManager {
         }
 
         $auth_provider = $_REQUEST['provider'];
-        $this->socialite_config($auth_provider);
-
-        $user = $this->socialite->driver($auth_provider)->user();
-
-        $email = $user->getEmail();
-
-        $username = $user->getNickname();
-        $oauth_id = $user->getId();
-        $avatar = $user->getAvatar();
-        $name = $user->getName();
-
-        $existing = array();
 
 
-        if ($email!=false){
-            $existing['email'] = $email;
-        } else {
-            $existing['oauth_uid'] = $oauth_id;
-            $existing['oauth_provider'] = $auth_provider;
-        }
-        $save = $existing;
-        $save['thumbnail'] = $avatar;
-        $save['username'] = $username;
-        $save['is_active'] = 1;
-        $save['is_admin'] = is_null(User::first());
-        $save['first_name'] = '';
-        $save['last_name'] = '';
-        if ($name!=false){
-            $names = explode(' ', $name);
-            if (isset($names[0])){
-                $save['first_name'] = array_shift($names);
-                if (!empty($names)){
-                    $last = implode(' ', $names);
-                    $save['last_name'] = $last;
+        try {
+            $this->socialite_config($auth_provider);
+            $user = $this->socialite->driver($auth_provider)->user();
+            $email = $user->getEmail();
+
+            $username = $user->getNickname();
+            $oauth_id = $user->getId();
+            $avatar = $user->getAvatar();
+            $name = $user->getName();
+
+            $existing = array();
+
+
+            if ($email!=false){
+                $existing['email'] = $email;
+            } else {
+                $existing['oauth_uid'] = $oauth_id;
+                $existing['oauth_provider'] = $auth_provider;
+            }
+            $save = $existing;
+            $save['thumbnail'] = $avatar;
+            $save['username'] = $username;
+            $save['is_active'] = 1;
+            $save['is_admin'] = is_null(User::first());
+            $save['first_name'] = '';
+            $save['last_name'] = '';
+            if ($name!=false){
+                $names = explode(' ', $name);
+                if (isset($names[0])){
+                    $save['first_name'] = array_shift($names);
+                    if (!empty($names)){
+                        $last = implode(' ', $names);
+                        $save['last_name'] = $last;
+                    }
                 }
             }
-        }
-        $existing['single'] = true;
-        $existing['limit'] = 1;
-        $existing = $this->get_all($existing);
-        if (!defined('MW_FORCE_USER_SAVE')){
-            define('MW_FORCE_USER_SAVE', true);
-        }
-        if (isset($existing['id'])){
-            if ($save['is_active']!=1){
-                return;
+            $existing['single'] = true;
+            $existing['limit'] = 1;
+            $existing = $this->get_all($existing);
+            if (!defined('MW_FORCE_USER_SAVE')){
+                define('MW_FORCE_USER_SAVE', true);
             }
-            $this->make_logged($existing['id']);
-        } else {
-            $new_user = $this->save($save);
-            $this->after_register($new_user);
+            if (isset($existing['id'])){
+                if ($save['is_active']!=1){
+                    return;
+                }
+                $this->make_logged($existing['id']);
+            } else {
+                $new_user = $this->save($save);
+                $this->after_register($new_user);
 
-            $this->make_logged($new_user);
+                $this->make_logged($new_user);
+            }
+
+
+        } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
+            //do nothing
+        }  catch (\GuzzleHttp\Exception\ClientException $e) {
+            //do nothing
+        } catch (\InvalidArgumentException $e) {
+            //do nothing
+        } catch (\Exception $e) {
+            //do nothing
         }
 
         if ($user_after_login!=false){
@@ -1310,6 +1323,7 @@ class UserManager {
         } else {
             return $this->app->url_manager->redirect(site_url());
         }
+
 
     }
 

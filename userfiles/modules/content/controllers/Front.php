@@ -481,6 +481,11 @@ class Front
 //            }
             $post_params['order_by'] = 'position desc';
         }
+		
+		if (isset($params['search_in_fields']) and $params['search_in_fields'] != false) {
+			$post_params['search_in_fields'] = $params['search_in_fields'];
+		}
+		
 
 
         $content = get_content($post_params);
