@@ -46,6 +46,7 @@ class FormsManager {
 
 
         $data = $this->app->database_manager->get($params);
+
         $ret = array();
         if (is_array($data)){
             foreach ($data as $item) {
@@ -72,10 +73,6 @@ class FormsManager {
     }
 
     public function save_list($params) {
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm==false){
-            exit('You must be admin');
-        }
 
         $table = MW_DB_TABLE_FORMS_LISTS;
 

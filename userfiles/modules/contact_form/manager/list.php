@@ -52,12 +52,16 @@ $data['current_page'] = url_param('current_page');
 
 $custom_fields = array();
  $data = get_form_entires($data);
+ 
 if(is_array($data)){
   foreach ($data as $item) {
+	  
    if(isset($item['custom_fields'])){
     foreach ($item['custom_fields'] as $k=>$value) {
      $custom_fields[$k] =$value;
     }
+   } else  if(isset($item['form_values'])){
+	 
    }
   }
 }
@@ -133,8 +137,13 @@ if(is_array($data)){
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php endif; ?>
-<div id="start-email-campaign"> <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" >
+<?php 
+
+
+/*<div id="start-email-campaign"> <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" >
   <?php _e("Start an Email Campaign"); ?>
   </a> <span class="pull-right" style="margin: 9px 20px 0 0;">
   <?php _e("Get more from your mailing lists, send email to your users"); ?>
-  </span> </div>
+  </span> </div>*/
+
+?>

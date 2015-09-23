@@ -1,11 +1,5 @@
 <script  type="text/javascript">
 
-
- 
-
-$(document).ready(function(){
-runOnNewOrderMailEditor();
-})
 runOnNewOrderMailEditor = function(){
     if(!window.OnNewOrderMailEditor){
         OnNewOrderMailEditor = mw.editor({
@@ -24,6 +18,12 @@ runOnNewOrderMailEditor = function(){
         })
     }
 }
+ 
+
+$(document).ready(function(){
+runOnNewOrderMailEditor();
+})
+
 </script>
 
 <div class="section-header">

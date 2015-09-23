@@ -131,6 +131,9 @@ class Template {
 
 
     public function get_custom_css() {
+        if (!defined('MW_NO_SESSION')){
+            define("MW_NO_SESSION", 1);
+        }
         ob_start();
 
 

@@ -384,7 +384,7 @@ class ShopManager {
                         return;
                     }
                 }
- 
+
                 if ($order_email_subject==false or trim($order_email_subject)==''){
                     $order_email_subject = "Thank you for your order!";
                 }

@@ -25,7 +25,7 @@ if(trim($load_list) == 'default'){
 	$data = get_form_lists('single=1&id='.$load_list); 
 
 }
-
+ 
 ?>
 
 <style>
