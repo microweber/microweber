@@ -93,8 +93,13 @@ mw.settings.libs = {
         'bootstrap.min.js'
       ],
       bootstrap3ns:[
-
-        'dist/css/bootstrap.min.css'
+        'dist/css/bootstrap.min.css',
+          function(){
+              var bootstrap_enabled = (typeof $().modal == 'function');
+              if(bootstrap_enabled == false){
+                  mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/dist/js/bootstrap.min.js');
+              }
+          }
       ],
       flatstrap3:[
         function(){
