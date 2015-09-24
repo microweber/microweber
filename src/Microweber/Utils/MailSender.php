@@ -107,7 +107,7 @@ class MailSender {
 
         if ($no_cache==false and ($cache_content)!=false){
 
-            return $cache_content;
+           // return $cache_content;
         }
 
 

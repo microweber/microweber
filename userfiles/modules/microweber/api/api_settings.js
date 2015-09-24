@@ -93,14 +93,8 @@ mw.settings.libs = {
         'bootstrap.min.js'
       ],
       bootstrap3ns:[
-        function(){
-            var v = mwd.querySelector('meta[name="viewport"]');
-            if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
-            v.content = "width=device-width, initial-scale=1.0";
-            mwhead.appendChild(v);
-        },
-        'bootstrap.min.css',
-        'bootstrap.min.js'
+
+        'dist/css/bootstrap.min.css'
       ],
       flatstrap3:[
         function(){

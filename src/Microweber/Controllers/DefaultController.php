@@ -1090,6 +1090,11 @@ class DefaultController extends Controller {
             $page_url = '';
         }
 
+
+        if($this->create_new_page==true and $this->page_url!=false){
+            $page_url = $this->page_url;
+        }
+
         $page = false;
 
         if ($page==false and !empty($this->page)){
@@ -1172,6 +1177,7 @@ class DefaultController extends Controller {
         $preview_module = false;
         $preview_module_template = false;
         $preview_module_id = false;
+        $template_relative_layout_file_from_url = false;
         $is_preview_module = $this->app->url_manager->param('preview_module');
 
         if ($is_preview_module!=false){
@@ -1290,7 +1296,7 @@ class DefaultController extends Controller {
             $date_format = "Y-m-d H:i:s";
         }
 
-        if ($page==false){
+        if ($page==false or $this->create_new_page==true){
             if (trim($page_url)=='' and $preview_module==false){
                 $page = $this->app->content_manager->homepage();
             } else {
@@ -1490,6 +1496,7 @@ class DefaultController extends Controller {
                             $page['simply_a_file'] = $simply_a_file;
 
                             template_var('new_page', $page);
+                            template_var('simply_a_file', $simply_a_file);
                         }
                     }
                 }
@@ -2239,16 +2246,13 @@ class DefaultController extends Controller {
         $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
          $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
         if (defined('MW_VERSION')){
-            $etag = md5(md5_file($file) . MW_VERSION);
+            $etag = md5(filemtime($file) . MW_VERSION);
 
         } else {
-            $etag = md5_file($file);
+            $etag = filemtime($file);
         }
 
-//        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader==$etag){
-//
-//
-//
+//        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) and @strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader==$etag){
 ////            header("HTTP/1.1 304 Not Modified");
 ////
 ////            exit;
@@ -2303,15 +2307,8 @@ class DefaultController extends Controller {
             if (intval($_REQUEST["content_id"])==0){
                 $this->create_new_page = true;
                 $this->return_data = 1;
-
                 $page = $this->frontend();
-
-                // $page = array();
-
-                // $page['id'] = 0;
-
             } else {
-
                 $page = $this->app->content_manager->get_by_id($_REQUEST["content_id"]);
             }
         } elseif (isset($_SERVER["HTTP_REFERER"])) {
@@ -2345,10 +2342,6 @@ class DefaultController extends Controller {
         $this->app->content_manager->define_constants($page);
 
         $page['render_file'] = $this->app->template->get_layout($page);
-
-        //        if (!isset($page['render_file'])) {
-        //
-        //        }
 
         if (defined('TEMPLATE_DIR')){
             $load_template_functions = TEMPLATE_DIR . 'functions.php';

@@ -64,6 +64,15 @@
                 });
             });
             mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+
+            $(window).load(function () {
+                if($(".bootstrap3ns").size() > 0){
+                    mw.lib.require("bootstrap3ns");
+                }
+            });
+
+
+
         </script>
         <?php endif; ?>
         <?php event_trigger('admin_head'); ?>

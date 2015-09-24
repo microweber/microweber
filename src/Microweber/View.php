@@ -60,13 +60,11 @@ class View {
             foreach ($this->v as $item) {
                 if (is_file($item)){
                     $res = include($item);
-
                 }
             }
         } elseif (is_string($this->v)) {
             if (is_file($this->v)){
                 $res = include($this->v);
-
             }
         }
 

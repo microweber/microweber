@@ -608,6 +608,11 @@ class UserManager {
                     }
 
                     $this->force_save = true;
+                    if (isset($params['attributes'])){
+                        $reg['attributes'] = $params['attributes'];
+
+                    }
+
                     $next = $this->save($reg);
                     $this->force_save = false;
                     $this->app->cache_manager->delete('users/global');
@@ -836,7 +841,20 @@ class UserManager {
                     return array('error' => 'User with this email already exists! Try different email address!');
                 }
             }
+
         }
+
+        if (isset($data_to_save['username']) and $data_to_save['username']!=false and isset($data_to_save['id']) and $data_to_save['id']!=false){
+            $check_existing = array();
+            $check_existing['username'] = $data_to_save['username'];
+            $check_existing['single'] = 1;
+            $check_existing = $this->get_all($check_existing);
+            if (isset($check_existing['id']) and $check_existing['id']!=$data_to_save['id']){
+                return array('error' => 'User with this username already exists! Try different username!');
+            }
+        }
+
+
         if (isset($params['id']) and intval($params['id'])!=0){
             $user = User::find($params['id']);
         } else {
@@ -848,19 +866,26 @@ class UserManager {
         if ($user->validateAndFill($data_to_save)){
             $save = $user->save();
 
+            if (isset($user->id)){
+                $data_to_save['id'] = $params['id'] = $user->id;
+            }
+
+
             if (isset($params['attributes']) or isset($params['data_fields'])){
                 $params['extended_save'] = true;
             }
 
             if (isset($params['extended_save'])){
+
                 if (isset($data_to_save['password'])){
                     unset($data_to_save['password']);
                 }
+
                 if (isset($data_to_save['id'])){
                     $data_to_save['table'] = 'users';
-
                     $this->app->database->extended_save($data_to_save);
                 }
+
             }
 
             if (isset($params['id']) and intval($params['id'])!=0){
@@ -1309,7 +1334,7 @@ class UserManager {
 
         } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             //do nothing
-        }  catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             //do nothing
         } catch (\InvalidArgumentException $e) {
             //do nothing

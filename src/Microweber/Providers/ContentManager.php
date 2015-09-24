@@ -24,7 +24,7 @@ class ContentManager {
     public $tables = array();
     public $table_prefix = false;
 
-    /** @var \Microweber\Application  */
+    /** @var \Microweber\Application */
     public $app;
 
     /**
@@ -2214,6 +2214,8 @@ class ContentManager {
     }
 
     public function save_edit($post_data) {
+
+
         $is_module = false;
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data){
@@ -2294,6 +2296,13 @@ class ContentManager {
                 $pd = $guess_page_data->index();
                 $ustr = $this->app->url_manager->string(1);
                 $is_module = false;
+                $pd['url'] = $ustr;
+
+                if(isset($pd['active_site_template']) and $pd['active_site_template'] == template_name()){
+                    $pd['active_site_template'] = '';
+                }
+
+
 
                 if ($this->app->modules->is_installed($ustr)){
                     $is_module = true;
@@ -2342,7 +2351,9 @@ class ContentManager {
                     if (isset($save_page['content_type']) and $save_page['content_type']=='page'){
                         if (!isset($save_page['subtype'])){
                             $save_page['subtype'] = 'static';
-                            $save_page['layout_file'] = 'inherit';
+                            if (!isset($save_page['layout_file']) or $save_page['layout_file']==false){
+                                $save_page['layout_file'] = 'inherit';
+                            }
                         }
                     }
                     if ($save_page!=false){
@@ -2548,10 +2559,10 @@ class ContentManager {
                                     if (isset($cont_field['value'])){
                                         $draftmd5 = md5($cont_field['value']);
                                         $draftmd5_last = $this->app->user_manager->session_get('content_draft_save_md5');
-                                        if($draftmd5_last == $draftmd5){
+                                        if ($draftmd5_last==$draftmd5){
                                             $to_save_draft = false;
-                                         } else {
-                                            $this->app->user_manager->session_set('content_draft_save_md5',$draftmd5);
+                                        } else {
+                                            $this->app->user_manager->session_set('content_draft_save_md5', $draftmd5);
                                         }
                                     }
                                     if ($to_save_draft){
