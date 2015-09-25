@@ -107,7 +107,7 @@ class MailSender {
 
         if ($no_cache==false and ($cache_content)!=false){
 
-           // return $cache_content;
+            return $cache_content;
         }
 
 
@@ -127,7 +127,7 @@ class MailSender {
             if (isset($cc) and ($cc)!=false and (filter_var($cc, FILTER_VALIDATE_EMAIL))){
                 $this->exec_send($cc, $subject, $message);
             }
-            mw()->cache_manager->save(true, $function_cache_id, $cache_group);
+            mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
 
             return true;
         } else {

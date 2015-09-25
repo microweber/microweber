@@ -379,8 +379,8 @@ class ShopManager {
                 $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
                 $order_email_cc = $this->app->option_manager->get('order_email_cc', 'orders');
                 $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
-                if($order_email_send_when == 'order_paid'){
-                    if(isset($ord_data['is_paid']) and $ord_data['is_paid'] == false){
+                if ($order_email_send_when=='order_paid'){
+                    if (isset($ord_data['is_paid']) and $ord_data['is_paid']==false){
                         return;
                     }
                 }
@@ -739,7 +739,7 @@ class ShopManager {
         if ($modify_amount!==null and $modify_amount!==false){
             if (is_array($modify_amount)){
                 $pop = array_pop($modify_amount);
-                if($pop != false){
+                if ($pop!=false){
                     $amount = $pop;
 
                 }
@@ -1547,6 +1547,7 @@ class ShopManager {
             $sym = $curr;
         }
 
+
         $cur_pos = $this->app->option_manager->get('currency_symbol_position', 'payments');
 
         switch ($cur_pos) {
@@ -1593,7 +1594,9 @@ class ShopManager {
                     if ($key==false){
                         return $value;
                     } else {
-                        return $value[ $key ];
+                        $sym = $value[ $key ];
+
+                        return $sym;
                     }
                 }
             }

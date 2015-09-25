@@ -1110,10 +1110,14 @@ mw.wysiwyg = {
     },
     select_element: function (el) {
         var range = document.createRange();
-        range.selectNode(el);
-        var selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
+        try {
+            range.selectNode(el);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } catch (e) {
+
+        }
     },
     format: function (command) {
         if (!window.MSStream) {

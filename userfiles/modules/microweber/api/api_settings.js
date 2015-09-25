@@ -34,7 +34,7 @@ mw.settings = {
     resize_started: false,
     sorthandle_click: false,
     row_id: false,
-	 
+
     edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _e("Please drag items here"); ?></span></div>',
     empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>',
     handles: {
@@ -93,11 +93,11 @@ mw.settings.libs = {
         'bootstrap.min.js'
       ],
       bootstrap3ns:[
-        'dist/css/bootstrap.min.css',
           function(){
               var bootstrap_enabled = (typeof $().modal == 'function');
               if(bootstrap_enabled == false){
                   mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/dist/js/bootstrap.min.js');
+                  mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/dist/css/bootstrap.min.css');
               }
           }
       ],
