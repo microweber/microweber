@@ -83,15 +83,16 @@ hashParamEventInit:function(){
 DOMChangePause:false,
 DOMChangeTime:1500,
 DOMChange:function(element, callback, attr, a){
-    var attr = attr || true;
+    var attr = attr || false;
     var a = a || false;
 
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-    if(typeof MutationObserver == 'xfunction'){
+
+    if(typeof MutationObserver == 'function'){
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation){
             if( !mw.on.DOMChangePause ) {
-                console.log(mutation)
+               // console.log(mutation)
                 callback.call(mutation.target);
             }
           });
@@ -133,6 +134,7 @@ DOMChange:function(element, callback, attr, a){
 
     if(attr){
       element.addEventListener("DOMAttrModified", function(e){
+
           var attr = e.attrName;
           if(attr != "contenteditable"){
              if( !mw.on.DOMChangePause ) {
