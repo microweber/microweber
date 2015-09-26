@@ -6,6 +6,7 @@ namespace Microweber\Utils\Adapters\Cache;
 use Closure;
 use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
 use Microweber\Utils\Adapters\Cache\Storage\ApcStorage;
+use Microweber\Utils\Adapters\Cache\Storage\XCacheStorage;
 
 
 class CacheStore {
@@ -28,6 +29,11 @@ class CacheStore {
             if (function_exists('apc_fetch') || function_exists('apcu_fetch')){
                 $use_file_cache = false;
                 $this->adapter = new ApcStorage($prefix);
+            }
+        } elseif ($adapter_from_config=='xcache') {
+            if (function_exists('xcache_get')){
+                $use_file_cache = false;
+                $this->adapter = new XCacheStorage($prefix);
             }
         }
 
