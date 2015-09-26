@@ -13,7 +13,7 @@
  function save_sysconf_form(){
 
 
- mw.form.post('#sysconfig-form-<?php print $params['id'] ?>', '<?php print api_link('Adapters/save_config'); ?>',
+ mw.form.post('#sysconfig-form-<?php print $params['id'] ?>', '<?php print api_link('mw_save_config_file'); ?>',
 			function(msg) {
 mw.notification.msg(this);
  return false;
@@ -27,7 +27,6 @@ mw.notification.msg(this);
 
 Internal settings
 <div class="mw_clear"></div>
-
 <style>
     .send-your-sysconf{
       float: right;
@@ -62,29 +61,34 @@ Internal settings
 
 
  
-$cache_adapters = mw()->adapters->get_adapters('Cache');
- $system_cache_adapter = mw()->adapters->get_config('cache');
- if($system_cache_adapter == false){
-$system_cache_adapter = 'default';	
+$cache_adapters = array();
+$cache_adapters[] = array('title'=>'Auto','adapter'=>'auto');
+$cache_adapters[] = array('title'=>'Files','adapter'=>'file');
+$cache_adapters[] = array('title'=>'Apc','adapter'=>'apc');
+$cache_adapters[] = array('title'=>'Xcache','adapter'=>'xcache');
+
+$system_cache_adapter =Config::get('microweber.cache_adapter');
+if($system_cache_adapter == false){
+$system_cache_adapter = 'file';	
 }
-  
+ 
 
  ?>
-<form id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();">
+<form id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();" autocomplete="off">
   <?php if(!empty($cache_adapters)): ?>
-  <select name="cache" onChange="save_sysconf_form()">
+  <select name="microweber[cache_adapter]" onChange="save_sysconf_form()">
     <?php foreach($cache_adapters as $cache_adapter): ?>
     <?php if(isset($cache_adapter['title']) and isset($cache_adapter['adapter'])): ?>
     <option value="<?php print $cache_adapter['adapter'] ?>"
     <?php if(isset($system_cache_adapter) and is_string($system_cache_adapter) and 
-	stristr($cache_adapter['adapter'],$system_cache_adapter) == true): ?> selected <?php endif;  ?>
+	$cache_adapter['adapter'] ==  $system_cache_adapter): ?> selected <?php endif;  ?>
    >
     <?php  print  $cache_adapter['title'] ?>
     </option>
     <?php endif; ?>
     <?php endforeach; ?>
   </select>
-    <?php endif; ?>
+  <?php endif; ?>
   <?php event_trigger('mw_admin_internal_settings', $params); ?>
   <input type="submit" value="Save" class="mw-ui-btn" />
 </form>
