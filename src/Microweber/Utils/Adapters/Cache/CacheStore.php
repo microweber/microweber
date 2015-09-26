@@ -1,4 +1,7 @@
-<?php namespace Microweber\Providers;
+<?php
+
+
+namespace Microweber\Utils\Adapters\Cache;
 
 use Illuminate\Contracts\Cache\Store,
     Illuminate\Filesystem\Filesystem,

@@ -47,11 +47,11 @@ class MicroweberServiceProvider extends ServiceProvider {
             });
         }
 
-        $this->app->instance('config', new Providers\ConfigSave($this->app));
+        $this->app->instance('config', new Utils\Adapters\Config\ConfigSave($this->app));
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
-            'Microweber\Providers\CacheStore'
+            'Microweber\Utils\Adapters\Cache\CacheStore'
         );
 
 
@@ -169,7 +169,7 @@ class MicroweberServiceProvider extends ServiceProvider {
         App::instance('path.public', base_path());
 
         Cache::extend('file', function ($app) {
-            return new Providers\CacheStore;
+            return new Utils\Adapters\Cache\CacheStore;
         });
 
         // If installed load module functions and set locale
