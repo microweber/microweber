@@ -11,13 +11,23 @@ function mw_is_installed() {
 }
 
 
-api_expose_admin('mw_save_config_file', function ($params) {
-    if(empty($params)){
+api_expose_admin('mw_save_framework_config_file', function ($params) {
+    if (empty($params)){
         return;
     }
-
+    $save_configs = array();
     foreach ($params as $k => $item) {
-
+        if (is_array($item) and !empty($item)){
+            foreach ($item as $config_k => $config) {
+                if (is_string($config_k)){
+                    Config::set($k . '.' . $config_k, $config);
+                    $save_configs[] = $k;
+                }
+            }
+        }
     }
-    dd($params);
+    if (!empty($save_configs)){
+        Config::save($save_configs);
+    }
+
 });

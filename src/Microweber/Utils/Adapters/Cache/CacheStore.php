@@ -5,13 +5,35 @@ namespace Microweber\Utils\Adapters\Cache;
 
 use Closure;
 use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
+use Microweber\Utils\Adapters\Cache\Storage\ApcStorage;
 
 
 class CacheStore {
+
+    /** @var \Microweber\Utils\Adapters\Cache\Storage\FileStorage */
     public $adapter;
 
     public function __construct($prefix = '') {
-        $this->adapter = new FileStorage($prefix);
+
+        if ($prefix==false){
+            $prefix = md5(app()->environment()) . '_';
+        }
+
+        $adapter_from_config = \Config::get('microweber.cache_adapter');
+        $use_file_cache = true;
+
+        if (!$adapter_from_config || $adapter_from_config=='file'){
+            $use_file_cache = true;
+        } elseif ($adapter_from_config=='auto' || $adapter_from_config=='apc') {
+            if (function_exists('apc_fetch') || function_exists('apcu_fetch')){
+                $use_file_cache = false;
+                $this->adapter = new ApcStorage($prefix);
+            }
+        }
+
+        if ($use_file_cache){
+            $this->adapter = new FileStorage($prefix);
+        }
     }
 
 
@@ -37,7 +59,6 @@ class CacheStore {
      */
     public function put($key, $value, $minutes) {
         return $this->adapter->put($key, $value, $minutes);
-
     }
 
     /**
@@ -49,7 +70,6 @@ class CacheStore {
      */
     public function tags($tags) {
         return $this->adapter->tags($tags);
-
     }
 
 
