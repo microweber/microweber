@@ -36,26 +36,19 @@ else {
           <?php if (is_array($cart_items)) : ?>
           <div class="mw-order-images">
             <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
-                <?php  if(isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>  
-      <?php 
+            <?php  if(isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
+            <?php 
 	  
 	  $p = $cart_items[$i]['item_image']; ?>
-     <?php if ($p != false): ?>
-      <a data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);" href="<?php print ($p); ?>" target="_blank"></a>
+            <?php if ($p != false): ?>
+            <a data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);" href="<?php print ($p); ?>" target="_blank"></a>
             <?php endif; ?>
-     
-         <?php else: ?>
-          <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
-     <?php if ($p != false): ?>
+            <?php else: ?>
+            <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
+            <?php if ($p != false): ?>
             <span data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
             <?php endif; ?>
-      <?php endif; ?>
-            
-           
-            
-            
-            
-            
+            <?php endif; ?>
             <?php } ?>
           </div>
           <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
@@ -215,6 +208,27 @@ else {
               </div>
             </div>
           </div>
+          <?php event_trigger('mw.ui.admin.shop.order.edit.status.after', $ord); ?>
+          <?php $edit_order_custom_items = mw()->ui->module('mw.ui.admin.shop.order.edit.status.after'); ?>
+          <?php if (!empty($edit_order_custom_items)): ?>
+          <?php foreach ($edit_order_custom_items as $item): ?>
+          <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
+          <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
+          <?php $text = (isset($item['text']) ? $item['text'] : false); ?>
+          <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
+          <?php $html = (isset($item['html']) ? $item['html'] : false); ?>
+
+          <?php if ($view==false and $link!=false){
+                                    $btnurl = $link;
+                                } else {
+                                    $btnurl = admin_url('view:') . $view;
+           } ?>
+          <div class="mw-ui-box" style="margin-bottom: 20px;">
+            <div class="mw-ui-box-header"><?php if ($icon){ ?><span class="<?php print $icon; ?>"></span><?php } ?><span><?php print $text; ?></span></div>
+            <div class="mw-ui-box-content"><?php print $html; ?></div>
+          </div>
+          <?php endforeach; ?>
+          <?php endif; ?>
           <div class="mw-ui-box">
             <div class="mw-ui-box-header">
               <?php _e("Payment Information"); ?>

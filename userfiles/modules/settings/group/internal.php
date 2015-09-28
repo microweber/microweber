@@ -13,7 +13,7 @@
  function save_sysconf_form(){
 
 
- mw.form.post('#sysconfig-form-<?php print $params['id'] ?>', '<?php print api_link('mw_save_config_file'); ?>',
+ mw.form.post('#sysconfig-form-<?php print $params['id'] ?>', '<?php print api_link('mw_save_framework_config_file'); ?>',
 			function(msg) {
 mw.notification.msg(this);
  return false;
@@ -60,12 +60,13 @@ Internal settings
 <?php
 
 
- 
+  
 $cache_adapters = array();
 $cache_adapters[] = array('title'=>'Auto','adapter'=>'auto');
 $cache_adapters[] = array('title'=>'Files','adapter'=>'file');
 $cache_adapters[] = array('title'=>'Apc','adapter'=>'apc');
 $cache_adapters[] = array('title'=>'Xcache','adapter'=>'xcache');
+$cache_adapters[] = array('title'=>'Memcached','adapter'=>'memcached');
 
 $system_cache_adapter =Config::get('microweber.cache_adapter');
 if($system_cache_adapter == false){
@@ -74,9 +75,21 @@ $system_cache_adapter = 'file';
  
 
  ?>
-<form id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();" autocomplete="off">
-  <?php if(!empty($cache_adapters)): ?>
-  <select name="microweber[cache_adapter]" onChange="save_sysconf_form()">
+<div id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();" autocomplete="off">
+
+
+
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-label">
+      Cache settings    </label>
+         
+                
+                
+                
+                
+                
+                  <?php if(!empty($cache_adapters)): ?>
+  <select name="microweber[cache_adapter]" class="mw-ui-field" onChange="save_sysconf_form()">
     <?php foreach($cache_adapters as $cache_adapter): ?>
     <?php if(isset($cache_adapter['title']) and isset($cache_adapter['adapter'])): ?>
     <option value="<?php print $cache_adapter['adapter'] ?>"
@@ -91,4 +104,9 @@ $system_cache_adapter = 'file';
   <?php endif; ?>
   <?php event_trigger('mw_admin_internal_settings', $params); ?>
   <input type="submit" value="Save" class="mw-ui-btn" />
-</form>
+                
+  </div>
+
+
+
+</div>

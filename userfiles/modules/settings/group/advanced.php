@@ -28,8 +28,8 @@ $(document).ready(function(){
 
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);"><?php _e("Custom head tags"); ?></a>
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a>
-       <!-- <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
-       -->
+      <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
+       
     </div>
 
 
@@ -73,4 +73,6 @@ $(document).ready(function(){
   <div id="mw-advanced-settings-dev-tools-output"></div>
 
   </div>
-</div>
+</div> <div id="mw-advanced-settings-module-load-holder"></div>
+
+  </div>

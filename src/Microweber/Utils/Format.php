@@ -3,30 +3,29 @@
 
 namespace Microweber\Utils;
 
-class Format
-{
+class Format {
 
 
     /**
      * Prints an array in unordered list - <ul>
      *
      * @param array $arr
+     *
      * @return string
-     * @package Utils
+     * @package  Utils
      * @category Arrays
      */
-    public function array_to_ul($arr)
-    {
+    public function array_to_ul($arr) {
         $retStr = '<ul>';
-        if (is_array($arr)) {
+        if (is_array($arr)){
             foreach ($arr as $key => $val) {
 
                 $key = str_replace('_', ' ', $key);
                 $key = ucwords($key);
 
-                if (is_array($val)) {
-                    if (!empty($val)) {
-                        if (is_numeric($key)) {
+                if (is_array($val)){
+                    if (!empty($val)){
+                        if (is_numeric($key)){
                             $retStr .= '<ul>';
                             $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
                             $retStr .= '</ul>';
@@ -36,7 +35,7 @@ class Format
                         }
                     }
                 } else {
-                    if (is_string($val) != false and trim($val) != '') {
+                    if (is_string($val)!=false and trim($val)!=''){
                         $retStr .= '<li>' . $key . ': ' . $val . '</li>';
                     }
 
@@ -44,68 +43,73 @@ class Format
             }
         }
         $retStr .= '</ul>';
+
         return $retStr;
     }
 
     /**
      * Formats a date by given pattern
      *
-     * @param $date Your date
+     * @param             $date        Your date
      * @param bool|string $date_format The format for example 'Y-m-d'
+     *
      * @return bool|string $date The formatted date
      *
-     * @package Utils
+     * @package  Utils
      * @category Date
      */
-    public function date($date, $date_format = false)
-    {
-        if ($date_format == false) {
+    public function date($date, $date_format = false) {
+        if ($date_format==false){
             $date_format = mw()->option_manager->get('date_format', 'website');
-            if ($date_format == false) {
+            if ($date_format==false){
                 $date_format = "Y-m-d H:i:s";
             }
         }
         $date = date($date_format, strtotime($date));
+
         return $date;
     }
 
-    function add_slashes_recursive($variable)
-    {
-        if (is_string($variable))
+    function add_slashes_recursive($variable) {
+        if (is_string($variable)){
             return addslashes($variable);
-        elseif (is_array($variable))
-            foreach ($variable as $i => $value)
-                $variable[$i] = $this->add_slashes_recursive($value);
+        } elseif (is_array($variable)) {
+            foreach ($variable as $i => $value) {
+                $variable[ $i ] = $this->add_slashes_recursive($value);
+            }
+        }
+
         return $variable;
     }
 
-    function strip_slashes_recursive($variable)
-    {
-        if (is_string($variable))
+    function strip_slashes_recursive($variable) {
+        if (is_string($variable)){
             return stripslashes($variable);
-        if (is_array($variable))
-            foreach ($variable as $i => $value)
-                $variable[$i] = $this->strip_slashes_recursive($value);
+        }
+        if (is_array($variable)){
+            foreach ($variable as $i => $value) {
+                $variable[ $i ] = $this->strip_slashes_recursive($value);
+            }
+        }
+
         return $variable;
     }
 
-    public function auto_link($text)
-    {
+    public function auto_link($text) {
         return $this->autolink($text);
     }
 
     //http://stackoverflow.com/a/1971451/731166
 
-    function autolink($text)
-    {
+    function autolink($text) {
 
 
         $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
+
         return preg_replace_callback($pattern, array($this, 'auto_link_text_callback'), $text);
     }
 
-    function auto_link_text_callback($matches)
-    {
+    function auto_link_text_callback($matches) {
         $max_url_length = 150;
         $max_depth_if_over_length = 2;
         $ellipsis = '&hellip;';
@@ -113,7 +117,7 @@ class Format
         $url_full = $matches[0];
         $url_short = '';
 
-        if (strlen($url_full) > $max_url_length) {
+        if (strlen($url_full) > $max_url_length){
 
             $parts = parse_url($url_full);
 
@@ -124,18 +128,18 @@ class Format
                 $url_string_components[] = $dir . '/';
             }
 
-            if (!empty($parts['query'])) {
+            if (!empty($parts['query'])){
                 $url_string_components[] = '?' . $parts['query'];
             }
 
-            if (!empty($parts['fragment'])) {
+            if (!empty($parts['fragment'])){
                 $url_string_components[] = '#' . $parts['fragment'];
             }
 
-            for ($k = 0; $k < count($url_string_components); $k++) {
-                $curr_component = $url_string_components[$k];
-                if ($k >= $max_depth_if_over_length || strlen($url_short) + strlen($curr_component) > $max_url_length) {
-                    if ($k == 0 && strlen($url_short) < $max_url_length) {
+            for ($k = 0; $k < count($url_string_components); $k ++) {
+                $curr_component = $url_string_components[ $k ];
+                if ($k >= $max_depth_if_over_length || strlen($url_short) + strlen($curr_component) > $max_url_length){
+                    if ($k==0 && strlen($url_short) < $max_url_length){
                         // Always show a portion of first directory
                         $url_short .= substr($curr_component, 0, $max_url_length - strlen($url_short));
                     }
@@ -148,21 +152,22 @@ class Format
         } else {
             $url_short = $url_full;
         }
+
         // return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
 
 
         return "<a href=\"$url_full\">$url_short</a>";
     }
-    function human_filesize($bytes, $dec = 2)
-    {
-        $size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+
+    function human_filesize($bytes, $dec = 2) {
+        $size = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+        return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[ $factor ];
     }
-    public function ago($time, $granularity = 2)
-    {
-        if (is_int($time)) {
+
+    public function ago($time, $granularity = 2) {
+        if (is_int($time)){
             $date = ($time);
         } else {
             $date = strtotime($time);
@@ -172,45 +177,44 @@ class Format
         $retval = '';
         $periods = array(
             'decade' => 315360000,
-            'year' => 31536000,
-            'month' => 2628000,
-            'week' => 604800,
-            'day' => 86400,
-            'hour' => 3600,
+            'year'   => 31536000,
+            'month'  => 2628000,
+            'week'   => 604800,
+            'day'    => 86400,
+            'hour'   => 3600,
             'minute' => 60,
             'second' => 1
         );
         foreach ($periods as $key => $value) {
-            if ($difference >= $value) {
+            if ($difference >= $value){
                 $time = floor($difference / $value);
                 $difference %= $value;
                 $retval .= ($retval ? ' ' : '') . $time . ' ';
                 $retval .= (($time > 1) ? $key . 's' : $key);
-                $granularity--;
+                $granularity --;
             }
-            if ($granularity == '0') {
+            if ($granularity=='0'){
                 break;
             }
         }
 
-        if ($retval == '') {
+        if ($retval==''){
             return '1 second ago';
         }
 
         return '' . $retval . ' ago';
     }
 
-    public function clean_xss($var, $do_not_strip_tags = false)
-    {
+    public function clean_xss($var, $do_not_strip_tags = false) {
         static $sec;
 
-        if ($sec == false) {
+        if ($sec==false){
             $sec = new \Microweber\Utils\lib\XSSSecurity();
         }
 
-        if (is_array($var)) {
+        if (is_array($var)){
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
+                $output[ $key ] = $this->clean_xss($val, $do_not_strip_tags);
             }
         } else {
 
@@ -229,24 +233,25 @@ class Format
             $var = str_ireplace("HTTP-EQUIV=", '', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
 
-            if ($do_not_strip_tags == false) {
+            if ($do_not_strip_tags==false){
                 $var = strip_tags(trim($var));
             }
 
             $output = $var;
+
             return $output;
         }
+
         return $output;
 
     }
 
 
-    function clean_scripts($input)
-    {
-        if (is_array($input)) {
+    function clean_scripts($input) {
+        if (is_array($input)){
             $output = array();
             foreach ($input as $var => $val) {
-                $output[$var] = $this->clean_scripts($val);
+                $output[ $var ] = $this->clean_scripts($val);
             }
         } elseif (is_string($input)) {
             $search = array(
@@ -258,14 +263,14 @@ class Format
         } else {
             return $input;
         }
+
         return $output;
     }
 
-    public function clean_html($var, $do_not_strip_tags = false)
-    {
-        if (is_array($var)) {
+    public function clean_html($var, $do_not_strip_tags = false) {
+        if (is_array($var)){
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_html($val, $do_not_strip_tags);
+                $output[ $key ] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
             $var = $this->strip_unsafe($var);
@@ -277,21 +282,24 @@ class Format
             $var = str_ireplace("<module", '&lt;module', $var);
             $var = str_ireplace("<Microweber", '&lt;Microweber', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
-            if ($do_not_strip_tags == false) {
+            if ($do_not_strip_tags==false){
                 $var = strip_tags(trim($var));
             }
             $output = $var;
+
             return $output;
         }
-        return $output;
+        if (isset($output)){
+            return $output;
+        }
     }
 
-    function strip_unsafe($string, $img = false)
-    {
-        if (is_array($string)) {
+    function strip_unsafe($string, $img = false) {
+        if (is_array($string)){
             foreach ($string as $key => $val) {
-                $string[$key] = $this->strip_unsafe($val, $img);
+                $string[ $key ] = $this->strip_unsafe($val, $img);
             }
+
             return $string;
         } else {
 
@@ -394,58 +402,61 @@ class Format
                 '/<\/html>/is');
 
             // Remove graphic too if the user wants
-            if ($img == true) {
+            if ($img==true){
                 $unsafe[] = '/<img(.*?)>/is';
             }
             // Remove these tags and all parameters within them
             $string = preg_replace($unsafe, "", $string);
+
             return $string;
         }
     }
 
-    public function string_between($string, $start, $end)
-    {
+    public function string_between($string, $start, $end) {
         $string = " " . $string;
         $ini = strpos($string, $start);
-        if ($ini == 0) return "";
+        if ($ini==0){
+            return "";
+        }
         $ini += strlen($start);
         $len = strpos($string, $end, $ini) - $ini;
+
         return substr($string, $ini, $len);
     }
 
-    public function replace_once($needle, $replace, $haystack)
-    {
+    public function replace_once($needle, $replace, $haystack) {
         $pos = strpos($haystack, $needle);
-        if ($pos === false) {
+        if ($pos===false){
             return $haystack;
         }
+
         return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 
-    function prep_url($str = '')
-    {
-        if ($str === 'http://' OR $str === 'https://' OR $str === '') {
+    function prep_url($str = '') {
+        if ($str==='http://' OR $str==='https://' OR $str===''){
             return '';
         }
         $url = parse_url($str);
-        if (!$url OR !isset($url['scheme'])) {
-            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        if (!$url OR !isset($url['scheme'])){
+            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']!='off'){
                 return 'https://' . $str;
             } else {
                 return 'http://' . $str;
             }
         }
+
         return $str;
     }
 
-    public function percent($num_amount, $num_total)
-    {
-        if ($num_amount == 0 or $num_total == 0) {
+    public function percent($num_amount, $num_total) {
+        if ($num_amount==0 or $num_total==0){
             return 0;
         }
         $count1 = $num_amount / $num_total;
         $count2 = $count1 * 100;
         $count = number_format($count2, 0);
+
         return $count;
     }
 
@@ -453,19 +464,20 @@ class Format
      * Encodes a variable with json_encode and base64_encode
      *
      * @param mixed $var Your $var
+     *
      * @return string Your encoded $var
-     * @package Utils
+     * @package  Utils
      * @category Strings
-     * @see $this->base64_to_array()
+     * @see      $this->base64_to_array()
      */
-    function array_to_base64($var)
-    {
-        if ($var == '') {
+    function array_to_base64($var) {
+        if ($var==''){
             return '';
         }
 
         $var = json_encode($var);
         $var = base64_encode($var);
+
         return $var;
     }
 
@@ -473,17 +485,17 @@ class Format
      * Decodes a variable with base64_decode and json_decode
      *
      * @param string $var Your var that has been put trough encode_var
+     *
      * @return string|array Your encoded $var
-     * @package Utils
+     * @package  Utils
      * @category Strings
-     * @see $this->array_to_base64()
+     * @see      $this->array_to_base64()
      */
-    function base64_to_array($var)
-    {
-        if (is_array($var)) {
+    function base64_to_array($var) {
+        if (is_array($var)){
             return $var;
         }
-        if ($var == '') {
+        if ($var==''){
             return false;
         }
 
@@ -493,35 +505,35 @@ class Format
         } catch (Exception $exc) {
             return false;
         }
+
         return $var;
     }
 
-    function titlelize($string)
-    {
+    function titlelize($string) {
 
         $slug = preg_replace('/-/', ' ', $string);
         $slug = preg_replace('/_/', ' ', $slug);
         $slug = ucwords($slug);
+
         return $slug;
     }
 
-    function array_values($ary)
-    {
+    function array_values($ary) {
         $lst = array();
         foreach (array_keys($ary) as $k) {
-            $v = $ary[$k];
-            if (is_scalar($v)) {
+            $v = $ary[ $k ];
+            if (is_scalar($v)){
                 $lst[] = $v;
             } elseif (is_array($v)) {
                 $lst = array_merge($lst, $this->array_values($v));
             }
         }
+
         return $lst;
     }
 
-    public function lipsum($number_of_characters = false)
-    {
-        if ($number_of_characters == false) {
+    public function lipsum($number_of_characters = false) {
+        if ($number_of_characters==false){
             $number_of_characters = 100;
         }
 
@@ -538,67 +550,65 @@ class Format
         );
         $rand = rand(0, (sizeof($lipsum) - 1));
 
-        return $this->limit($lipsum[$rand], $number_of_characters, '');
+        return $this->limit($lipsum[ $rand ], $number_of_characters, '');
     }
 
     /**
      *
      * Limits a string to a number of characters
      *
-     * @param $str
-     * @param int $n
+     * @param        $str
+     * @param int    $n
      * @param string $end_char
+     *
      * @return string
-     * @package Utils
+     * @package  Utils
      * @category Strings
      */
-    public function limit($str, $n = 500, $end_char = '&#8230;')
-    {
-        if (strlen($str) < $n) {
+    public function limit($str, $n = 500, $end_char = '&#8230;') {
+        if (strlen($str) < $n){
             return $str;
         }
         $str = strip_tags($str);
         $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
-        if (strlen($str) <= $n) {
+        if (strlen($str) <= $n){
             return $str;
         }
         $out = "";
         foreach (explode(' ', trim($str)) as $val) {
             $out .= $val . ' ';
-            if (strlen($out) >= $n) {
+            if (strlen($out) >= $n){
                 $out = trim($out);
-                return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
+
+                return (strlen($out)==strlen($str)) ? $out : $out . $end_char;
             }
         }
     }
 
-    public function random_color()
-    {
+    public function random_color() {
 
         return "#" . sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
     }
 
-    public function lnotif($text, $class = 'success')
-    {
+    public function lnotif($text, $class = 'success') {
         $editmode_sess = mw()->user_manager->session_get('editmode');
 
-        if ($editmode_sess == false) {
-            if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
+        if ($editmode_sess==false){
+            if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS!=false){
                 $editmode_sess = true;
             }
 
         }
 
 
-        if ($editmode_sess == true) {
+        if ($editmode_sess==true){
             return $this->notif($text, $class);
         }
     }
 
-    public function notif($text, $class = 'success')
-    {
+    public function notif($text, $class = 'success') {
 
-        if ($class === true) {
+        if ($class===true){
             $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
             $to_print = $to_print . ($text) . '</div></div>';
         } else {
@@ -610,8 +620,7 @@ class Format
         return $to_print;
     }
 
-    public function no_dashes($string)
-    {
+    public function no_dashes($string) {
 
         $slug = preg_replace('/-/', ' ', $string);
         $slug = preg_replace('/_/', ' ', $slug);
@@ -619,9 +628,8 @@ class Format
         return $slug;
     }
 
-    function unvar_dump($str)
-    {
-        if (strpos($str, "\n") === false) {
+    function unvar_dump($str) {
+        if (strpos($str, "\n")===false){
             //Add new lines:
             $regex = array(
                 '#(\\[.*?\\]=>)#',
@@ -676,17 +684,16 @@ class Format
         return unserialize($serialized);
     }
 
-    function is_base64($data)
-    {
+    function is_base64($data) {
         $decoded = base64_decode($data, true);
-        if (false === $decoded || base64_encode($decoded) != $data) {
+        if (false===$decoded || base64_encode($decoded)!=$data){
             return false;
         }
+
         return true;
     }
 
-    function is_fqdn($FQDN)
-    {
+    function is_fqdn($FQDN) {
         return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
     }
 

@@ -33,6 +33,11 @@ class Database {
 
         if ($use_cache){
             $key = 'mw_build_table' . $table_name;
+            if (defined('MW_VERSION')){
+                $key = $key . MW_VERSION;
+            }
+
+
             $value = Cache::get($key);
             if (!$value){
                 $value = 1;
@@ -284,7 +289,7 @@ class Database {
         if (!$table){
             return false;
         }
-        $key = 'mw_db_get_fields' . crc32($table);
+        $key = 'mw_db_get_fields_' . crc32($table);
         $hash = $table;
         $value = $this->app->cache_manager->get($key, 'db', $expiresAt);
 

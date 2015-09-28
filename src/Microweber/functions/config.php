@@ -29,5 +29,4 @@ api_expose_admin('mw_save_framework_config_file', function ($params) {
     if (!empty($save_configs)){
         Config::save($save_configs);
     }
-
 });
