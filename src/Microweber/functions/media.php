@@ -74,7 +74,7 @@ function pixum_img() {
 }
 
 function pixum($width, $height) {
-    return site_url('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    return mw()->media_manager->pixum($width, $height);
 }
 
 

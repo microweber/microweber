@@ -2846,9 +2846,8 @@ class ContentManager {
             $data['title'] = $data['content_title'];
         }
         if (isset($data['title'])){
-            if ($data['title']=='<br>' or $data['title']=='<br />' or $data['title']=='<br/>'){
-                $data['title'] = '';
-            }
+            $data['title'] = strip_tags($data['title']);
+
             $data['title'] = htmlspecialchars($data['title'], ENT_QUOTES, "UTF-8");
 
             $data_to_save['title'] = $data['title'];

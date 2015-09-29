@@ -1824,9 +1824,11 @@ class DefaultController extends Controller {
             }
 
 
-            $liv_ed_css = '<link rel="stylesheet" href="' . api_nosession_url('template/print_custom_css') . '" id="mw-custom-user-css" type="text/css" />';
-            $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-
+            $liv_ed_css = $this->app->template->get_custom_css_url();
+            if ($liv_ed_css!=false){
+                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
+                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+            }
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
             if ($website_head_tags!=false){
@@ -2274,8 +2276,6 @@ class DefaultController extends Controller {
         } else {
             $etag = filemtime($file);
         }
-
-
 
 
         $this->app->content_manager->define_constants($ref_page);

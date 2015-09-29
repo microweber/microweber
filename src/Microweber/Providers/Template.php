@@ -176,8 +176,7 @@ class Template {
         event_trigger('mw.template.print_custom_css_includes');
 
 
-        $fonts_file
-            = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
+        $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
         if (is_file($fonts_file)){
             include($fonts_file);
         }
@@ -192,10 +191,48 @@ class Template {
         $output = ob_get_contents();
         ob_end_clean();
 
+        $l = $output;
+        $compile_apijs = \Config::get('microweber.compile_apijs');
+        if ($compile_apijs and defined('MW_VERSION')){
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+            if (!is_file($userfiles_cache_filename)){
+                if (!is_dir($userfiles_cache_dir)){
+                    mkdir_recursive($userfiles_cache_dir);
+                }
+                if (is_dir($userfiles_cache_dir)){
+                    @file_put_contents($userfiles_cache_filename, $l);
+                }
+            } else {
+                $fmd5 = md5_file($userfiles_cache_filename);
+                $fmd = md5($l);
+                if ($fmd5!=$fmd){
+                    @file_put_contents($userfiles_cache_filename, $l);
+                }
+
+            }
+        }
+
+
         return $output;
 
     }
 
+    public function get_custom_css_url() {
+        $url = api_nosession_url('template/print_custom_css');
+        $compile_apijs = \Config::get('microweber.compile_apijs');
+        if ($compile_apijs and defined('MW_VERSION')){
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+            if (is_file($userfiles_cache_filename)){
+                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+            }
+        }
+
+        return $url;
+    }
 
     public function name() {
 
@@ -419,6 +456,18 @@ class Template {
         $layout = $this->process_meta($layout);
 
         return $layout;
+    }
+
+
+    public function clear_cache() {
+        $userfiles_dir = userfiles_path();
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+        if (is_dir($userfiles_cache_dir)){
+            if (function_exists('rmdir_recursive')){
+                rmdir_recursive($userfiles_cache_dir);
+            }
+        }
+
     }
 
 }

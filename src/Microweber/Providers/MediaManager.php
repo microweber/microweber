@@ -2,21 +2,19 @@
 namespace Microweber\Providers;
 
 
-class MediaManager
-{
+class MediaManager {
 
     public $app;
     public $tables = array();
     public $table_prefix = false;
     public $no_cache;
 
-    function __construct($app = null)
-    {
+    function __construct($app = null) {
 
 
-        if (!is_object($this->app)) {
+        if (!is_object($this->app)){
 
-            if (is_object($app)) {
+            if (is_object($app)){
                 $this->app = $app;
             } else {
                 $this->app = mw();
@@ -28,13 +26,12 @@ class MediaManager
 
     }
 
-    public function get_picture($content_id, $for = 'content', $full = false)
-    {
+    public function get_picture($content_id, $for = 'content', $full = false) {
 
         $arr = array();
-        if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
+        if ($for=='post' or $for=='posts' or $for=='page' or $for=='pages'){
             $for = 'content';
-        } elseif ($for == 'category' or $for == 'categories') {
+        } elseif ($for=='category' or $for=='categories') {
             $for = 'categories';
         }
 
@@ -46,33 +43,35 @@ class MediaManager
         $imgages = $this->get($arr);
 
 
-        if ($imgages != false and isset($imgages[0])) {
-            if (isset($imgages[0]['filename']) and $full == false) {
+        if ($imgages!=false and isset($imgages[0])){
+            if (isset($imgages[0]['filename']) and $full==false){
                 $surl = $this->app->url_manager->site();
 
                 $img = $this->app->format->replace_once('{SITE_URL}', $surl, $imgages[0]['filename']);
+
                 return $img;
             } else {
                 return $imgages[0];
             }
 
         } else {
-            if ($for == 'content') {
+            if ($for=='content'){
                 $cont_id = $this->app->content_manager->get_by_id($content_id);
 
-                if (isset($cont_id['content'])) {
+                if (isset($cont_id['content'])){
                     $img = $this->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
-                    if ($img != false) {
+                    if ($img!=false){
                         $surl = $this->app->url_manager->site();
 
                         $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
 
                         $media_url = media_base_url();
-                        if (stristr($img, $surl)) {
+                        if (stristr($img, $surl)){
                             return $img;
                         } else {
                             return $img;
+
                             return false;
 
                         }
@@ -84,13 +83,13 @@ class MediaManager
 
 
         }
+
         return false;
 
     }
 
-    public function get_first_image_from_html($html)
-    {
-        if (preg_match('/<img.+?src="(.+?)"/', $html, $matches)) {
+    public function get_first_image_from_html($html) {
+        if (preg_match('/<img.+?src="(.+?)"/', $html, $matches)){
             return $matches[1];
         } elseif (preg_match('/<img.+?src=\'(.+?)\'/', $html, $matches)) {
             return $matches[1];
@@ -99,16 +98,15 @@ class MediaManager
         }
     }
 
-    public function get_by_id($id)
-    {
+    public function get_by_id($id) {
 
-        if ($id == false) {
+        if ($id==false){
             return false;
         }
 
         $table = $this->tables['media'];
         $id = intval($id);
-        if ($id == 0) {
+        if ($id==0){
             return false;
         }
 
@@ -121,7 +119,7 @@ class MediaManager
         $params['cache_group'] = 'media/' . $id;
 
         $q = $this->get($params);
-        if (is_array($q) and isset($q[0])) {
+        if (is_array($q) and isset($q[0])){
             $content = $q[0];
 
         } else {
@@ -131,13 +129,12 @@ class MediaManager
         return $content;
     }
 
-    public function upload_progress_check()
-    {
-        if ($this->app->user_manager->is_admin() == false) {
+    public function upload_progress_check() {
+        if ($this->app->user_manager->is_admin()==false){
 
             mw_error('not logged in as admin');
         }
-        if (isset($_SERVER["HTTP_REFERER"])) {
+        if (isset($_SERVER["HTTP_REFERER"])){
             $ref_str = md5($_SERVER["HTTP_REFERER"]);
         } else {
             $ref_str = 'no_HTTP_REFERER';
@@ -147,22 +144,23 @@ class MediaManager
         $cache_group = 'media/global';
 
         $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
-        if ($cache_content != false) {
-            if (isset($cache_content["tmp_name"]) != false) {
-                if (isset($cache_content["f"]) != false) {
+        if ($cache_content!=false){
+            if (isset($cache_content["tmp_name"])!=false){
+                if (isset($cache_content["f"])!=false){
 
                     $filename = $cache_content["tmp_name"];
-                    if (is_file($filename)) {
+                    if (is_file($filename)){
                         $filesize = filesize($filename);
                     }
 
                     $filename = $cache_content["f"];
 
-                    if (is_file($filename)) {
+                    if (is_file($filename)){
                         $filesize = filesize($filename);
                     }
 
                     $perc = $this->app->format->percent($filesize, $cache_content["size"]);
+
                     return $perc;
                 }
             }
@@ -170,12 +168,10 @@ class MediaManager
 
     }
 
-    public function upload($data)
-    {
+    public function upload($data) {
 
 
-
-        if ($this->app->user_manager->is_admin() == false) {
+        if ($this->app->user_manager->is_admin()==false){
 
             mw_error('not logged in as admin');
         }
@@ -186,7 +182,7 @@ class MediaManager
         ini_set("max_input_time", 9999999);
 
         // ini_set("session.upload_progress.enabled", 1);
-        if (isset($_SERVER["HTTP_REFERER"])) {
+        if (isset($_SERVER["HTTP_REFERER"])){
             $ref_str = md5($_SERVER["HTTP_REFERER"]);
         } else {
             $ref_str = 'no_HTTP_REFERER';
@@ -198,22 +194,22 @@ class MediaManager
         $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 1);
 
-        if (!is_dir($target_path)) {
+        if (!is_dir($target_path)){
 
             mkdir_recursive($target_path);
         }
         $rerturn = array();
 
-        if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
+        if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])){
 
-            if (isset($data['name'])) {
+            if (isset($data['name'])){
                 $f = $target_path . $data['name'];
-                if (is_file($f)) {
+                if (is_file($f)){
                     $f = $target_path . date('YmdHis') . $data['name'];
                 }
 
                 $df = strpos($data['file'], 'base64,');
-                if ($df != false) {
+                if ($df!=false){
                     //   $df = substr($data['file'], 0, $df);
                     $data['file'] = substr($data['file'], $df + 7);
                     $data['file'] = str_replace(' ', '+', $data['file']);
@@ -224,7 +220,8 @@ class MediaManager
 
                 $rerturn['src'] = $this->app->url_manager->link_to_file($f);
                 $rerturn['name'] = $data['name'];
-                return(json_encode($rerturn));
+
+                return (json_encode($rerturn));
             }
         } else {
 
@@ -234,22 +231,22 @@ class MediaManager
             foreach ($_FILES as $item) {
 
                 $extension = end(explode(".", $item["name"]));
-                if (in_array($extension, $allowedExts)) {
-                    if ($item["error"] > 0) {
+                if (in_array($extension, $allowedExts)){
+                    if ($item["error"] > 0){
                         mw_error("Error: " . $item["error"]);
                     } else {
                         $upl = $this->app->cache_manager->save($item, $cache_id, $cache_group);
 
                         $f = $target_path . $item['name'];
-                        if (is_file($f)) {
+                        if (is_file($f)){
                             $f = $target_path . date('YmdHis') . $item['name'];
                         }
 
-                        $progress = (array)$item;
+                        $progress = (array) $item;
                         $progress['f'] = $f;
                         $upl = $this->app->cache_manager->save($progress, $cache_id, $cache_group);
 
-                        if (move_uploaded_file($item['tmp_name'], $f)) {
+                        if (move_uploaded_file($item['tmp_name'], $f)){
                             $rerturn['src'] = $this->app->url_manager->link_to_file($f);
                             $rerturn['name'] = $item['name'];
                         }
@@ -281,11 +278,10 @@ class MediaManager
 
     }
 
-    private function base64_to_file($data, $target)
-    {
+    private function base64_to_file($data, $target) {
 
         touch($target);
-        if (is_writable($target) == false) {
+        if (is_writable($target)==false){
             exit("$target is not writable");
         }
         $whandle = fopen($target, 'wb');
@@ -294,74 +290,73 @@ class MediaManager
         fclose($whandle);
     }
 
-    public function reorder($data)
-    {
+    public function reorder($data) {
 
         $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
+        if ($adm==false){
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = $this->tables['media'];
         foreach ($data as $value) {
-            if (is_array($value)) {
+            if (is_array($value)){
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
-                    $indx[$i] = $value2;
-                    $i++;
+                    $indx[ $i ] = $value2;
+                    $i ++;
                 }
 
                 $this->app->database_manager->update_position_field($table, $indx);
+
                 return true;
                 // d($indx);
             }
         }
     }
 
-    public function delete($data)
-    {
+    public function delete($data) {
 
         $adm = $this->app->user_manager->is_admin();
 
-        if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)) {
+        if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)){
             $data = array('id' => intval($data));
         }
-        if (isset($data['id'])) {
+        if (isset($data['id'])){
             $c_id = intval($data['id']);
             $pic_data = $this->get_by_id($c_id);
-            if ($adm == false) {
-                if ($pic_data['created_by'] != $this->app->user_manager->id()) {
+            if ($adm==false){
+                if ($pic_data['created_by']!=$this->app->user_manager->id()){
                     mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
                 }
             }
-            if (isset($pic_data['filename'])) {
+            if (isset($pic_data['filename'])){
                 $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
-                if (is_file($fn_remove)) {
+                if (is_file($fn_remove)){
                     @unlink($fn_remove);
                 }
             }
+
             return $this->app->database_manager->delete_by_id('media', $c_id);
         }
     }
 
-    public function get_all($params)
-    {
-        if (!is_array($params)) {
+    public function get_all($params) {
+        if (!is_array($params)){
             $params = parse_params($params);
         }
         $table = $this->tables['media'];
         $params['table'] = $table;
+
         return $this->app->database_manager->get($params);
 
     }
 
-    public function get($params)
-    {
+    public function get($params) {
 
         $table = $this->tables['media'];
 
-        if ($params != false and !is_array($params) and intval($params) > 0) {
+        if ($params!=false and !is_array($params) and intval($params) > 0){
             $params2 = array();
 
             $params2['rel_type'] = 'content';
@@ -373,14 +368,14 @@ class MediaManager
         }
 
 
-        if (!isset($params['rel_type']) and isset($params['for'])) {
+        if (!isset($params['rel_type']) and isset($params['for'])){
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
         }
-        if (!isset($params['rel_type'])) {
+        if (!isset($params['rel_type'])){
             $params['rel_type'] = 'content';
         }
 
-        if (!isset($params['limit'])) {
+        if (!isset($params['limit'])){
             $params['limit'] = "nolimit";
         }
 
@@ -391,23 +386,23 @@ class MediaManager
 
         $data = $this->app->database_manager->get($params);
 
-        if (media_base_url()) {
-            if (!empty($data)) {
+        if (media_base_url()){
+            if (!empty($data)){
                 $return = array();
                 foreach ($data as $item) {
-                    if (isset($item['filename']) and $item['filename'] != false) {
+                    if (isset($item['filename']) and $item['filename']!=false){
                         if (!stristr($item['filename'], '{SITE_URL}')
                             and !stristr($item['filename'], '{MEDIA_URL}')
                             and !stristr($item['filename'], '://')
                             and !stristr($item['filename'], media_base_url())
-                        ) {
+                        ){
                             $item['filename'] = media_base_url() . $item['filename'];
 
                         }
                     }
 
 
-                    if (isset($item['title']) and $item['title'] != '') {
+                    if (isset($item['title']) and $item['title']!=''){
                         $item['title'] = html_entity_decode($item['title']);
                         $item['title'] = strip_tags($item['title']);
                         $item['title'] = $this->app->format->clean_html($item['title']);
@@ -417,16 +412,16 @@ class MediaManager
                 $data = $return;
             }
         }
+
         return $data;
     }
 
-    public function save($data)
-    {
+    public function save($data) {
 
         $s = array();
 
 
-        if (isset($data['content-id'])) {
+        if (isset($data['content-id'])){
             $t = trim($data['content-id']);
             $s['rel_id'] = $t;
             $s['rel_type'] = 'content';
@@ -436,50 +431,50 @@ class MediaManager
             $s['rel_type'] = 'content';
         }
 
-        if (isset($data['for'])) {
+        if (isset($data['for'])){
             $t = trim($data['for']);
             $t = $this->app->database_manager->assoc_table_name($t);
             $s['rel_type'] = $t;
         }
-        if (isset($data['rel_id'])) {
+        if (isset($data['rel_id'])){
             $t = $data['rel_id'];
             $s['rel_id'] = $t;
         }
-        if (isset($data['rel_type'])) {
+        if (isset($data['rel_type'])){
             $t = $data['rel_type'];
             $s['rel_type'] = $t;
         }
 
-        if (isset($data['for-id'])) {
+        if (isset($data['for-id'])){
             $t = trim($data['for-id']);
             $s['rel_id'] = $t;
         }
 
-        if (isset($data['for_id'])) {
+        if (isset($data['for_id'])){
             $t = trim($data['for_id']);
             $s['rel_id'] = $t;
         }
 
-        if (isset($data['id'])) {
+        if (isset($data['id'])){
             $t = intval($data['id']);
             $s['id'] = $t;
         }
 
-        if (isset($data['title'])) {
+        if (isset($data['title'])){
             $t = ($data['title']);
             $s['title'] = $t;
         }
-        if (!isset($data['src']) and isset($data['filename'])) {
+        if (!isset($data['src']) and isset($data['filename'])){
             $data['src'] = $data['filename'];
         }
 
-        if (isset($data['src'])) {
+        if (isset($data['src'])){
 
 
             $host = (parse_url(site_url()));
 
             $host_dir = false;
-            if (isset($host['host'])) {
+            if (isset($host['host'])){
                 $host_dir = $host['host'];
                 $host_dir = str_ireplace('www.', '', $host_dir);
                 $host_dir = str_ireplace('.', '-', $host_dir);
@@ -489,12 +484,12 @@ class MediaManager
             $url2dir = $this->app->url_manager->to_path($data['src']);
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
-            if (isset($s['rel_type']) and isset($s['rel_id'])) {
+            if (isset($s['rel_type']) and isset($s['rel_id'])){
                 $move_uploaded_files_dir = media_base_path() . DS . $host_dir . DS . $s['rel_type'] . DS;
                 $move_uploaded_files_dir_index = media_base_path() . DS . $host_dir . DS . $s['rel_type'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
-                if (!is_dir($move_uploaded_files_dir)) {
+                if (!is_dir($move_uploaded_files_dir)){
                     mkdir_recursive($move_uploaded_files_dir);
                     @touch($move_uploaded_files_dir_index);
 
@@ -506,14 +501,14 @@ class MediaManager
                 $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
                 $newfile = $move_uploaded_files_dir . $newfile;
 
-                if (is_file($newfile)) {
+                if (is_file($newfile)){
 
                     $newfile = date('YmdHis') . basename($url2dir);
                     $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
                     $newfile = $move_uploaded_files_dir . $newfile;
                 }
 
-                if (is_file($url2dir)) {
+                if (is_file($url2dir)){
                     $data['src'] = $this->app->url_manager->link_to_file($url2dir);
                 }
 
@@ -522,15 +517,15 @@ class MediaManager
             $s['filename'] = $data['src'];
         }
 
-        if (!isset($data['position']) and !isset($s['id'])) {
+        if (!isset($data['position']) and !isset($s['id'])){
             $s['position'] = 9999999;
         }
 
-        if (isset($data['for_id'])) {
+        if (isset($data['for_id'])){
             $t = trim($data['for_id']);
             $s['rel_id'] = $t;
         }
-        if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])) {
+        if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])){
             $ext = get_file_extension($s['filename']);
             switch ($ext) {
                 case 'jpeg':
@@ -557,17 +552,18 @@ class MediaManager
             }
         }
 
-        if (isset($data['media_type'])) {
+        if (isset($data['media_type'])){
             $t = $this->app->database_manager->escape_string($data['media_type']);
             $s['media_type'] = $t;
         }
 
 
-        if (isset($s['rel_type']) and isset($s['rel_id'])) {
+        if (isset($s['rel_type']) and isset($s['rel_id'])){
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
             $s = $this->app->database_manager->save($table, $s);
             $this->app->cache_manager->delete('media');
+
             return ($s);
         } elseif (isset($s['id'])) {
             $table = $this->tables['media'];
@@ -580,22 +576,21 @@ class MediaManager
         }
     }
 
-    public function thumbnail_img($params)
-    {
+    public function thumbnail_img($params) {
 
         extract($params);
 
 
-        if (!isset($width)) {
+        if (!isset($width)){
             $width = 200;
         }
 
 
-        if (!isset($height)) {
+        if (!isset($height)){
             $width = 200;
         }
 
-        if (!isset($src) or $src == false) {
+        if (!isset($src) or $src==false){
             return $this->pixum($width, $height);
         }
 
@@ -612,7 +607,7 @@ class MediaManager
         $src = str_replace('..', '', $src);
 
 
-        if (strstr($src, $surl) or strpos($src, $surl)) {
+        if (strstr($src, $surl) or strpos($src, $surl)){
 
             $src = str_replace($surl . '/', $surl, $src);
             //$src = str_replace($media_url, '', $src);
@@ -634,7 +629,7 @@ class MediaManager
             $src2 = normalize_path($src2, false);
 
 
-            if (is_file($src1)) {
+            if (is_file($src1)){
                 $src = $src1;
             } elseif (is_file($src2)) {
                 $src = $src2;
@@ -671,7 +666,7 @@ class MediaManager
 //                    }
 //                }
 
-                if ($no_img) {
+                if ($no_img){
                     return $this->pixum_img();
                 }
 
@@ -681,58 +676,58 @@ class MediaManager
         }
         $media_root = media_base_path();
 
-        if (!is_writable($media_root)) {
+        if (!is_writable($media_root)){
             $media_root = mw_cache_path();
         }
 
         $cd = $this->thumbnails_path() . $width . DS;
 
-        if (!is_dir($cd)) {
+        if (!is_dir($cd)){
             mkdir_recursive($cd);
         }
 
         $index_file = $cd . 'index.html';
-        if (!is_file($index_file)) {
+        if (!is_file($index_file)){
             file_put_contents($index_file, 'Thumbnail directory is not allowed');
         }
-        if (!isset($ext)) {
+        if (!isset($ext)){
             $ext = strtolower(get_file_extension($src));
         }
         $cache = md5(serialize($params)) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
 
-        if (isset($cache_id)) {
+        if (isset($cache_id)){
             $cache = str_replace(' ', '_', $cache_id);
             $cache = str_replace('..', '', $cache);
         }
 
         $cache_path = $cd . $cache;
 
-        if (file_exists($cache_path)) {
-            if (!headers_sent()) {
-                if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+        if (file_exists($cache_path)){
+            if (!headers_sent()){
+                if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
                     $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
                 } else {
                     $if_modified_since = '';
                 }
                 $mtime = filemtime($src);
                 $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
-                if ($if_modified_since == $gmdate_mod) {
+                if ($if_modified_since==$gmdate_mod){
                     header("HTTP/1.0 304 Not Modified");
                 }
             }
 
         } else {
-            if (file_exists($src)) {
-                if (($ext) == 'svg') {
+            if (file_exists($src)){
+                if (($ext)=='svg'){
                     $res1 = file_get_contents($src);
                     $res1 = $this->svgScaleHack($res1, $width, $height);
                     file_put_contents($cache_path, $res1);
 
                 } else {
 
-                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
+                    if ($ext=='jpg' || $ext=='jpeg' || $ext=='gif' || $ext=='png' || $ext=='bmp'){
                         $tn = new \Microweber\Utils\Thumbnailer($src);
                         $thumbOptions = array('maxLength' => $height, 'width' => $width);
                         $tn->createThumb($thumbOptions, $cache_path);
@@ -750,7 +745,7 @@ class MediaManager
 
 
         $ext = get_file_extension($cache_path);
-        if ($ext == 'jpg') {
+        if ($ext=='jpg'){
             $ext = 'jpeg';
         }
         header("Content-Type: image/" . $ext);
@@ -759,41 +754,76 @@ class MediaManager
         exit;
     }
 
-    public function pixum($width, $height)
-    {
-        return $this->app->url_manager->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    public function pixum($width = 150, $height) {
+
+        $cache_folder = media_base_path() . 'pixum' . DS;
+        if ($height){
+            $h = $height;
+        } else {
+            $h = 1;
+        }
+        $h = intval($h);
+        $w = intval($width);
+        if ($h==0){
+            $h = 1;
+        }
+
+        if ($w==0){
+            $w = 1;
+        }
+        $extension = ".png";
+
+        $hash = 'pixum-' . ($h) . 'x' . $w;
+        $cachefile = normalize_path($cache_folder . DS . $hash . $extension, false);
+        if (!file_exists($cachefile)){
+            $img = imagecreatetruecolor($w, $h);
+
+            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
+            imagefill($img, 0, 0, $white);
+            imagealphablending($img, false);
+            imagesavealpha($img, true);
+            imagepng($img, $cachefile);
+            imagedestroy($img);
+        }
+        if (file_exists($cachefile)){
+            $url = media_base_url() . 'pixum/' . $hash . $extension;
+
+        } else {
+            $url = $this->app->url_manager->site('api_nosession/pixum_img') . "?width=" . $width . "&height=" . $height;
+        }
+
+        return $url;
     }
 
-    public function pixum_img()
-    {
+    public function pixum_img() {
         $mime_type = "image/png";
         $extension = ".png";
         $cache_folder = media_base_path() . 'pixum' . DS;
         $cache_folder = normalize_path($cache_folder, true);
 
 
-        if (!is_dir($cache_folder)) {
+        if (!is_dir($cache_folder)){
             mkdir_recursive($cache_folder);
         }
 
-        if (isset($_REQUEST['width'])) {
+        if (isset($_REQUEST['width'])){
             $w = $_REQUEST['width'];
         } else {
             $w = 1;
         }
 
-        if (isset($_REQUEST['height'])) {
+        if (isset($_REQUEST['height'])){
             $h = $_REQUEST['height'];
         } else {
             $h = 1;
         }
         $h = intval($h);
         $w = intval($w);
-        if ($h == 0) {
+        if ($h==0){
             $h = 1;
         }
 
-        if ($w == 0) {
+        if ($w==0){
             $w = 1;
         }
         $hash = 'pixum-' . ($h) . 'x' . $w;
@@ -802,9 +832,9 @@ class MediaManager
 
         header("Content-Type: image/png");
 
-        if (!file_exists($cachefile)) {
+        if (!file_exists($cachefile)){
             $img = imagecreatetruecolor($w, $h);
-            $white = imagecolorallocatealpha($img, 255, 255, 255, 127);
+            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
             imagefill($img, 0, 0, $white);
             imagealphablending($img, false);
             imagesavealpha($img, true);
@@ -820,18 +850,17 @@ class MediaManager
         }
     }
 
-    private function svgScaleHack($svg, $minWidth, $minHeight)
-    {
+    private function svgScaleHack($svg, $minWidth, $minHeight) {
         $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
         $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
         preg_match($reW, $svg, $mw);
         preg_match($reH, $svg, $mh);
 
-        if (!isset($mw[2]) and isset($mh[2])) {
+        if (!isset($mw[2]) and isset($mh[2])){
             $mw[2] = $mh[2];
         }
 
-        if (empty($mw)) {
+        if (empty($mw)){
             $width = floatval($minWidth);
             $height = floatval($minHeight);
         } else {
@@ -839,14 +868,16 @@ class MediaManager
             $height = floatval($mh[2]);
         }
 
-        if (!$width || !$height) return false;
+        if (!$width || !$height){
+            return false;
+        }
 
         // scale to make width and height big enough
         $scale = 1;
-        if ($width < $minWidth) {
+        if ($width < $minWidth){
             $scale = $minWidth / $width;
         }
-        if ($height < $minHeight) {
+        if ($height < $minHeight){
             $scale = max($scale, ($minHeight / $height));
         }
         $scale = 1;
@@ -857,11 +888,10 @@ class MediaManager
         return $svg;
     }
 
-    public function thumbnail($src, $width = 200, $height = 200)
-    {
+    public function thumbnail($src, $width = 200, $height = 200) {
 
 
-        if ($src == false) {
+        if ($src==false){
             return $this->pixum($width, $height);
         }
         $src = html_entity_decode($src);
@@ -872,12 +902,12 @@ class MediaManager
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
         $base_src = str_replace($surl, '', $src);
 
-        if (!isset($width)) {
+        if (!isset($width)){
             $width = 200;
         }
 
         $src = strtok($src, '?');
-        if (!isset($height)) {
+        if (!isset($height)){
             $height = 200;
         }
 
@@ -891,8 +921,8 @@ class MediaManager
 
         $ext = strtolower(get_file_extension($src));
         $is_remote = false;
-        if (!stristr($src, $surl)) {
-            if (strstr($src, 'http://')) {
+        if (!stristr($src, $surl)){
+            if (strstr($src, 'http://')){
                 $is_remote = true;
             } elseif (strstr($src, 'https://')) {
                 $is_remote = true;
@@ -909,19 +939,21 @@ class MediaManager
         $cache_path = $cd . $cache_id;
 
 
-        if ($is_remote) {
+        if ($is_remote){
             return $src;
-        } else if (file_exists($cache_path)) {
+        } else if (file_exists($cache_path)){
 
             $cache_path = $this->app->url_manager->link_to_file($cache_path);
+
             return $cache_path;
         } else {
-            if (stristr($base_src, 'pixum_img')) {
+            if (stristr($base_src, 'pixum_img')){
                 return $this->pixum($width, $height);
             }
             $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
             $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
             $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
+
             return $tn_img_url;
         }
 
@@ -985,19 +1017,18 @@ class MediaManager
 //        return false;
     }
 
-    public function create_media_dir($params)
-    {
+    public function create_media_dir($params) {
         only_admin_access();
         $resp = array();
         $target_path = media_base_path() . 'uploaded' . DS;
         $fn_path = media_base_path();
-        if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '') {
+        if (isset($_REQUEST["path"]) and trim($_REQUEST["path"])!=''){
             $_REQUEST["path"] = urldecode($_REQUEST["path"]);
 
             $fn_path = userfiles_path() . DS . $_REQUEST["path"] . DS;
             $fn_path = normalize_path($fn_path, false);
         }
-        if (!isset($_REQUEST["name"])) {
+        if (!isset($_REQUEST["name"])){
             $resp = array('error' => 'You must send new_folder parameter');
         } else {
             $fn_new_folder_path = $_REQUEST["name"];
@@ -1005,7 +1036,7 @@ class MediaManager
             $fn_new_folder_path_new = $fn_path . DS . $fn_new_folder_path;
             $fn_path = normalize_path($fn_new_folder_path_new, false);
             // d($fn_path);
-            if (!is_dir($fn_path)) {
+            if (!is_dir($fn_path)){
                 mkdir_recursive($fn_path);
                 $resp = array('success' => "Folder " . $fn_path . ' is created');
 
@@ -1020,8 +1051,7 @@ class MediaManager
 
     }
 
-    public function delete_media_file($params)
-    {
+    public function delete_media_file($params) {
         only_admin_access();
 
         $target_path = media_base_path() . 'uploaded' . DS;
@@ -1030,12 +1060,12 @@ class MediaManager
 
         $fn_remove_path = $_REQUEST["path"];
         $resp = array();
-        if ($fn_remove_path != false and is_array($fn_remove_path)) {
+        if ($fn_remove_path!=false and is_array($fn_remove_path)){
             foreach ($fn_remove_path as $key => $value) {
 
                 $fn_remove = $this->app->url_manager->to_path($value);
 
-                if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
+                if (isset($fn_remove) and trim($fn_remove)!='' and trim($fn_remove)!='false'){
                     $path = urldecode($fn_remove);
                     $path = normalize_path($path, 0);
                     $path = str_replace('..', '', $path);
@@ -1043,12 +1073,12 @@ class MediaManager
                     $target_path = userfiles_path() . DS . $path;
                     $target_path = normalize_path($target_path, false);
 
-                    if (stristr($target_path, media_base_path())) {
+                    if (stristr($target_path, media_base_path())){
 
-                        if (is_dir($target_path)) {
+                        if (is_dir($target_path)){
                             mw('Microweber\Utils\Files')->rmdir($target_path, false);
                             $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
-                        } else if (is_file($target_path)) {
+                        } else if (is_file($target_path)){
                             unlink($target_path);
                             $resp = array('success' => 'File ' . basename($target_path) . ' is deleted');
                         } else {
@@ -1063,13 +1093,13 @@ class MediaManager
 
             }
         }
+
         return $resp;
 
     }
 
 
-    public function thumbnails_path()
-    {
+    public function thumbnails_path() {
         return media_base_path() . 'thumbnail' . DS;
     }
 

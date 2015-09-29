@@ -119,14 +119,13 @@ if (!function_exists('site_url')){
  * @param boolean $slash_it
  *            If true, ads a slash at the end, false by default
  *
- * @return string The formated string
+ * @return string The formatted string
  *
  */
 function normalize_path($path, $slash_it = true) {
     $path_original = $path;
     $s = DIRECTORY_SEPARATOR;
     $path = preg_replace('/[\/\\\]/', $s, $path);
-    // $path = preg_replace ( '/' . $s . '$/']= '', $path ) . $s;
     $path = str_replace($s . $s, $s, $path);
     if (strval($path)==''){
         $path = $path_original;
@@ -376,7 +375,7 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expirat
 }
 
 
-api_expose('clearcache');
+api_expose_admin('clearcache');
 /**
  * Clears all cache data
  *
@@ -389,8 +388,10 @@ api_expose('clearcache');
  * @package Cache
  */
 function clearcache() {
-    return mw()->cache_manager->clear();
+    mw()->cache_manager->clear();
+    mw()->template->clear_cache();
 
+    return true;
 }
 
 
