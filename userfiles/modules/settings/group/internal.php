@@ -69,7 +69,7 @@ $cache_adapters[] = array('title'=>'Xcache','adapter'=>'xcache');
 $cache_adapters[] = array('title'=>'Memcached','adapter'=>'memcached');
 
 $system_cache_adapter =Config::get('microweber.cache_adapter');
-$compile_apijs =Config::get('microweber.compile_apijs');
+$compile_assets =Config::get('microweber.compile_assets');
 
 if($system_cache_adapter == false){
 $system_cache_adapter = 'file';	
@@ -107,11 +107,11 @@ $system_cache_adapter = 'file';
   
   <label class="mw-ui-label">
       Compile api.js    </label>
-  <select name="microweber[compile_apijs]" class="mw-ui-field">
-   <option value="0" <?php if($compile_apijs ==  0): ?> selected <?php endif;  ?> >
+  <select name="microweber[compile_assets]" class="mw-ui-field">
+   <option value="0" <?php if($compile_assets ==  0): ?> selected <?php endif;  ?> >
     No
     </option>
-<option value="1" <?php if($compile_apijs ==  1): ?> selected <?php endif;  ?> >
+<option value="1" <?php if($compile_assets ==  1): ?> selected <?php endif;  ?> >
     Yes
     </option>  </select>
   

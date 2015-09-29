@@ -2206,8 +2206,8 @@ class DefaultController extends Controller {
 
         $l = $l->__toString();
 
-        $compile_apijs = \Config::get('microweber.compile_apijs');
-        if ($compile_apijs and defined('MW_VERSION')){
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url()) . '.' . MW_VERSION . '.js';
@@ -2289,8 +2289,8 @@ class DefaultController extends Controller {
         $response = \Response::make($l);
         $response->header('Content-Type', 'application/javascript');
 
-        $compile_apijs = \Config::get('microweber.compile_apijs');
-        if ($compile_apijs and defined('MW_VERSION')){
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';

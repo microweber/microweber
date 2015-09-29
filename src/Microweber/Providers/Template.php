@@ -67,8 +67,8 @@ class Template {
 
     public function get_apijs_url() {
         $url = $this->app->url_manager->site('apijs');
-        $compile_apijs = \Config::get('microweber.compile_apijs');
-        if ($compile_apijs and defined('MW_VERSION')){
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';
@@ -83,8 +83,8 @@ class Template {
     public function get_apijs_settings_url() {
 
         $url = $this->app->url_manager->site('apijs_settings');
-        $compile_apijs = \Config::get('microweber.compile_apijs');
-        if ($compile_apijs and defined('MW_VERSION')){
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $fn = 'api_settings.' . md5(site_url()) . '.' . MW_VERSION . '.js';
@@ -192,8 +192,8 @@ class Template {
         ob_end_clean();
 
         $l = $output;
-        $compile_apijs = \Config::get('microweber.compile_apijs');
-        if ($compile_apijs and defined('MW_VERSION')){
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
@@ -221,8 +221,8 @@ class Template {
 
     public function get_custom_css_url() {
         $url = api_nosession_url('template/print_custom_css');
-        $compile_apijs = \Config::get('microweber.compile_apijs');
-        if ($compile_apijs and defined('MW_VERSION')){
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
