@@ -39,6 +39,9 @@ if (get_option('enable_comments', 'comments') == 'y') {
         $data['rel_id'] = intval($params['content-id']);
         $data['rel_type'] = 'content';
     }
+	if (isset($data['rel_type'])) {
+		$data['rel'] = $data['rel_type'];
+	}
 
 
     $are_disabled = get_option('disable_new_comments', $params['id']) == 'y';
@@ -181,7 +184,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
 	$data['rel'] = $comments_data['rel_type'];	
 	}
 
-
+ 
     $comments = get_comments($comments_data);
 
 
