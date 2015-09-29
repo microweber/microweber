@@ -2214,13 +2214,13 @@ class DefaultController extends Controller {
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)){
-                    file_put_contents($userfiles_cache_filename, $l);
+                    @file_put_contents($userfiles_cache_filename, $l);
                 }
             } else {
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5!=$fmd){
-                    file_put_contents($userfiles_cache_filename, $l);
+                    @file_put_contents($userfiles_cache_filename, $l);
                 }
 
             }
@@ -2275,11 +2275,7 @@ class DefaultController extends Controller {
             $etag = filemtime($file);
         }
 
-//        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) and @strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader==$etag){
-////            header("HTTP/1.1 304 Not Modified");
-////
-////            exit;
-//        }
+
 
 
         $this->app->content_manager->define_constants($ref_page);
@@ -2303,13 +2299,13 @@ class DefaultController extends Controller {
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)){
-                    file_put_contents($userfiles_cache_filename, $l);
+                    @file_put_contents($userfiles_cache_filename, $l);
                 }
             } else {
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5!=$fmd){
-                    file_put_contents($userfiles_cache_filename, $l);
+                    @file_put_contents($userfiles_cache_filename, $l);
                 }
 
             }

@@ -387,7 +387,7 @@ mw.askusertostay = false;
 
   mw.clear_cache = function() {
     $.ajax({
-      url: '{SITE_URL}api/clearcache',
+      url: mw.settings.site_url+'api/clearcache',
       type: "POST",
       success: function(data){
         if(mw.notification != undefined){
@@ -403,7 +403,7 @@ mw.askusertostay = false;
     }
     var DONOTREPLACE = DONOTREPLACE || false;
     var sendSpecific = sendSpecific || false;
-    var url = typeof obj.url !== 'undefined' ? obj.url : '{SITE_URL}module/';
+    var url = typeof obj.url !== 'undefined' ? obj.url : mw.settings.site_url+'module/';
     var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
