@@ -69,6 +69,8 @@ $cache_adapters[] = array('title'=>'Xcache','adapter'=>'xcache');
 $cache_adapters[] = array('title'=>'Memcached','adapter'=>'memcached');
 
 $system_cache_adapter =Config::get('microweber.cache_adapter');
+$compile_apijs =Config::get('microweber.compile_apijs');
+
 if($system_cache_adapter == false){
 $system_cache_adapter = 'file';	
 }
@@ -89,7 +91,7 @@ $system_cache_adapter = 'file';
                 
                 
                   <?php if(!empty($cache_adapters)): ?>
-  <select name="microweber[cache_adapter]" class="mw-ui-field" onChange="save_sysconf_form()">
+  <select name="microweber[cache_adapter]" class="mw-ui-field">
     <?php foreach($cache_adapters as $cache_adapter): ?>
     <?php if(isset($cache_adapter['title']) and isset($cache_adapter['adapter'])): ?>
     <option value="<?php print $cache_adapter['adapter'] ?>"
@@ -102,8 +104,20 @@ $system_cache_adapter = 'file';
     <?php endforeach; ?>
   </select>
   <?php endif; ?>
+  
+  <label class="mw-ui-label">
+      Compile api.js    </label>
+  <select name="microweber[compile_apijs]" class="mw-ui-field">
+   <option value="0" <?php if($compile_apijs ==  0): ?> selected <?php endif;  ?> >
+    No
+    </option>
+<option value="1" <?php if($compile_apijs ==  1): ?> selected <?php endif;  ?> >
+    Yes
+    </option>  </select>
+  
   <?php event_trigger('mw_admin_internal_settings', $params); ?>
-  <input type="submit" value="Save" class="mw-ui-btn" />
+  <br />  <br />
+  <input type="button" value="Save" class="mw-ui-btn" onclick="save_sysconf_form()" />
                 
   </div>
 

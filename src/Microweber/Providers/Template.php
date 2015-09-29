@@ -65,6 +65,42 @@ class Template {
     }
 
 
+    public function get_apijs_url() {
+        $url = $this->app->url_manager->site('apijs');
+        $compile_apijs = \Config::get('microweber.compile_apijs');
+        if ($compile_apijs and defined('MW_VERSION')){
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';
+            if (is_file($userfiles_cache_filename)){
+                $url = userfiles_url() . 'cache/' . 'api.' . MW_VERSION . '.js';
+            }
+        }
+
+        return $url;
+    }
+
+    public function get_apijs_settings_url() {
+
+        $url = $this->app->url_manager->site('apijs_settings');
+        $compile_apijs = \Config::get('microweber.compile_apijs');
+        if ($compile_apijs and defined('MW_VERSION')){
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $fn = 'api_settings.' . md5(site_url()) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . $fn;
+            if (is_file($userfiles_cache_filename)){
+                if (is_file($userfiles_cache_filename)){
+                    $url = userfiles_url() . 'cache/' . $fn;
+                }
+            }
+        }
+
+
+        return $url;
+    }
+
+
     public function meta($name, $value = false) {
         $this->meta_tags[ $name ] = $value;
     }

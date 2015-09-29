@@ -1091,7 +1091,7 @@ class DefaultController extends Controller {
         }
 
 
-        if($this->create_new_page==true and $this->page_url!=false){
+        if ($this->create_new_page==true and $this->page_url!=false){
             $page_url = $this->page_url;
         }
 
@@ -1733,9 +1733,9 @@ class DefaultController extends Controller {
                 $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
-            $apijs_loaded = $this->app->url_manager->site('apijs');
+            $apijs_loaded = $this->app->template->get_apijs_url();
 
-            //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
+            //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
@@ -1781,10 +1781,11 @@ class DefaultController extends Controller {
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)){
-                $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;;
-                $default_css = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
-                $default_css .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+                //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;;
+                $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+                $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+                $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+                $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
             }
 
             if (isset($content['active_site_template']) and $content['active_site_template']=='default' and $the_active_site_template!='default' and $the_active_site_template!='mw_default'){
@@ -2203,7 +2204,27 @@ class DefaultController extends Controller {
 
         $l = $l->__toString();
 
-        // print $l;
+        $compile_apijs = \Config::get('microweber.compile_apijs');
+        if ($compile_apijs and defined('MW_VERSION')){
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url()) . '.' . MW_VERSION . '.js';
+            if (!is_file($userfiles_cache_filename)){
+                if (!is_dir($userfiles_cache_dir)){
+                    mkdir_recursive($userfiles_cache_dir);
+                }
+                if (is_dir($userfiles_cache_dir)){
+                    file_put_contents($userfiles_cache_filename, $l);
+                }
+            } else {
+                $fmd5 = md5_file($userfiles_cache_filename);
+                $fmd = md5($l);
+                if ($fmd5!=$fmd){
+                    file_put_contents($userfiles_cache_filename, $l);
+                }
+
+            }
+        }
 
         $response = \Response::make($l);
 
@@ -2220,6 +2241,8 @@ class DefaultController extends Controller {
         if (!defined('MW_NO_SESSION')){
             define("MW_NO_SESSION", 1);
         }
+
+
         $ref_page = false;
         if (isset($_REQUEST['id'])){
             $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
@@ -2244,7 +2267,7 @@ class DefaultController extends Controller {
 
 
         $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
-         $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
         if (defined('MW_VERSION')){
             $etag = md5(filemtime($file) . MW_VERSION);
 
@@ -2270,12 +2293,36 @@ class DefaultController extends Controller {
         $response = \Response::make($l);
         $response->header('Content-Type', 'application/javascript');
 
+        $compile_apijs = \Config::get('microweber.compile_apijs');
+        if ($compile_apijs and defined('MW_VERSION')){
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';
+            if (!is_file($userfiles_cache_filename)){
+                if (!is_dir($userfiles_cache_dir)){
+                    mkdir_recursive($userfiles_cache_dir);
+                }
+                if (is_dir($userfiles_cache_dir)){
+                    file_put_contents($userfiles_cache_filename, $l);
+                }
+            } else {
+                $fmd5 = md5_file($userfiles_cache_filename);
+                $fmd = md5($l);
+                if ($fmd5!=$fmd){
+                    file_put_contents($userfiles_cache_filename, $l);
+                }
+
+            }
+        }
+
+
         if (!$this->app->make('config')->get('app.debug')){
             // enable caching if in not in debug mode
             $response->header('Etag', $etag);
             $response->header('Last-Modified', gmdate("D, d M Y H:i:s", $last_modified_time) . " GMT");
             $response->setTtl(30);
         }
+
         return $response;
     }
 
@@ -2421,9 +2468,10 @@ class DefaultController extends Controller {
         $apijs_loaded = false;
         if ($layout!=false){
 
-            //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
-            $apijs_loaded = $this->app->url_manager->site('apijs');
-            $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
+            //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
+            $apijs_loaded = $this->app->template->get_apijs_url();
+            // $apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
+            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
