@@ -754,13 +754,13 @@ class MediaManager {
         exit;
     }
 
-    public function pixum($width = 150, $height) {
+    public function pixum($width = 150, $height = false) {
 
         $cache_folder = media_base_path() . 'pixum' . DS;
         if ($height){
             $h = $height;
         } else {
-            $h = 1;
+            $h = $width;
         }
         $h = intval($h);
         $w = intval($width);

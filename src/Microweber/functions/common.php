@@ -418,7 +418,6 @@ function cache_debug() {
  *
  * @param string $cache_group
  *            (default is 'global') - this is the subfolder in the cache dir.
- * @param bool   $expiration_in_seconds
  *
  * @return boolean
  *
@@ -439,17 +438,17 @@ function cache_debug() {
  * </code>
  *
  */
-function cache_clear($cache_group = 'global', $cache_storage_type = false) {
+function cache_clear($cache_group = 'global') {
 
-    return mw()->cache_manager->delete($cache_group, $cache_storage_type);
+    return mw()->cache_manager->delete($cache_group);
 
 
 }
 
 //same as cache_clear
-function cache_delete($cache_group = 'global', $cache_storage_type = false) {
+function cache_delete($cache_group = 'global') {
 
-    return mw()->cache_manager->delete($cache_group, $cache_storage_type);
+    return mw()->cache_manager->delete($cache_group);
 
 
 }

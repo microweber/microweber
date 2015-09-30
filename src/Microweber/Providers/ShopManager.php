@@ -1490,6 +1490,7 @@ class ShopManager {
             $c_id = intval($data['id']);
             $this->app->database_manager->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
+            $this->app->event_manager->trigger('mw.cart.delete_order', $c_id);
 
             $c_id = $this->app->database_manager->delete_by_id($table2, $data['id'], 'order_id');
 

@@ -138,7 +138,7 @@ if(!empty($template_config)){
         <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
         <?php $type = (isset($item['type'])) ? ($item['type']) : 'text'; ?>
         <?php $default_value = (isset($item['default_value'])) ? ($item['default_value']) : ''; ?>
-        <?php $type = (isset($item['default_value'])) ? ($item['default_value']) : ''; ?>
+        <?php $type = (isset($item['type'])) ? ($item['type']) : ''; ?>
         <?php $name = (isset($item['name'])) ? ($item['name']) : url_title($item['title']); ?>
         <?php $value = (isset($item['value'])) ? ($item['value']) : false; ?>
 
@@ -154,7 +154,15 @@ if(!empty($template_config)){
         <label class="mw-ui-label">
           <?php print $title; ?>
          </label>
+         
+         <?php if($type=='textarea') { ?>
+         <textarea name="data_<?php print $name; ?>" class="mw-ui-field w100" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
+              
+
+         <?php } else { ?>
+         
         <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+        <?php } ?>
       </div>
       
       
