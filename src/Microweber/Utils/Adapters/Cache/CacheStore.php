@@ -19,7 +19,7 @@ class CacheStore {
     public function __construct($prefix = '') {
 
         if ($prefix==false){
-            $prefix = md5(app()->environment()) . '_';
+            $prefix = md5(app()->environment().site_url()) . '_';
         }
 
         $adapter_from_config = \Config::get('microweber.cache_adapter');

@@ -1906,7 +1906,13 @@ class DefaultController extends Controller {
             $meta = array();
             $meta['content_image'] = '';
             $meta['description'] = '';
-            $meta['content_url'] = $this->app->url_manager->current(1);
+            if(is_home()){
+                $meta['content_url'] = site_url();
+
+            } else {
+                $meta['content_url'] = $this->app->url_manager->current(1);
+
+            }
             $meta['og_description'] = $this->app->option_manager->get('website_description', 'website');
             $meta['og_type'] = 'website';
             $meta_content_id = PAGE_ID;

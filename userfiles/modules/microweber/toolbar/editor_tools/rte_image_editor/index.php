@@ -152,6 +152,7 @@ else{
           frame.width = li.width();
           frame.height = li.height();
           $(frame).bind("progress", function(frame, file){
+			  Progress.show();
               ProgressBar.width(file.percent+'%');
               ProgressPercent.html(file.percent+'%');
               ProgressInfo.html(file.name);
@@ -184,6 +185,7 @@ else{
           });
 
            $(frame).bind("done", function(frame, item){
+			   Progress.hide();
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);

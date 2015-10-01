@@ -100,6 +100,7 @@ setACValue = function(val){
 
     frame.className += ' mw_upload_frame';
     $(frame).bind("progress", function(frame, file){
+		  Progress.show();
           ProgressBar.width(file.percent+'%');
           ProgressInfo.html(file.name);
           ProgressPercent.html(file.percent+'%');
