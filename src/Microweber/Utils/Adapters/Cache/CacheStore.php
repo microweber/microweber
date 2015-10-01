@@ -10,7 +10,6 @@ use Microweber\Utils\Adapters\Cache\Storage\MemcachedStorage;
 use Microweber\Utils\Adapters\Cache\Storage\XCacheStorage;
 
 
-
 class CacheStore {
 
     /** @var \Microweber\Utils\Adapters\Cache\Storage\FileStorage */
@@ -19,7 +18,7 @@ class CacheStore {
     public function __construct($prefix = '') {
 
         if ($prefix==false){
-            $prefix = md5(app()->environment().site_url()) . '_';
+            $prefix = md5(app()->environment() . site_url());
         }
 
         $adapter_from_config = \Config::get('microweber.cache_adapter');
@@ -34,7 +33,7 @@ class CacheStore {
             }
         } elseif ($adapter_from_config=='memcached') {
 
-            if (class_exists('Memcached',false)){
+            if (class_exists('Memcached', false)){
 
                 $use_file_cache = false;
                 $this->adapter = new MemcachedStorage($prefix);
@@ -51,7 +50,9 @@ class CacheStore {
         }
     }
 
-
+    public function setAdapter($adapter) {
+        $this->adapter = $adapter;
+    }
     /**
      * Retrieve an item from the cache by key.
      *

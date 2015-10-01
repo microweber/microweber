@@ -31,7 +31,7 @@ class FileStorage implements Store {
     }
 
 
-    private function appendLocale($key) {
+    public function appendLocale($key) {
 //        static $locale_suffix;
 //        if ($locale_suffix){
 //            $locale_suffix = '_' . app()->getLocale();
