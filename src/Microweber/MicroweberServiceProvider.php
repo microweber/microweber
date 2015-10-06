@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
 use \Cache;
 use \App;
+use \Microweber\Utils\Adapters\Config\ConfigSave as ConfigSave;
 
 if (!defined('MW_VERSION')){
     include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
@@ -47,11 +48,11 @@ class MicroweberServiceProvider extends ServiceProvider {
             });
         }
 
-        $this->app->instance('config', new Utils\Adapters\Config\ConfigSave($this->app));
+        $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
-            'Microweber\Utils\Adapters\Cache\CacheStore'
+            'Utils\Adapters\Cache\CacheStore'
         );
 
 
