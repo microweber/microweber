@@ -776,6 +776,13 @@ class MediaManager {
         $hash = 'pixum-' . ($h) . 'x' . $w;
         $cachefile = normalize_path($cache_folder . DS . $hash . $extension, false);
         if (!file_exists($cachefile)){
+            $dirname_file = dirname($cachefile);
+            if (!is_dir($dirname_file)){
+                mkdir_recursive($dirname_file);
+            }
+
+        
+
             $img = imagecreatetruecolor($w, $h);
 
             $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
