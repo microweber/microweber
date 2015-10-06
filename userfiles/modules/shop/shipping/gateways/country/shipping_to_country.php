@@ -156,21 +156,25 @@ class shipping_to_country
                     $items_items = $this->app->shop_manager->get_cart();
                     if (!empty($items_items)) {
                         foreach ($items_items as $item) {
-                            $content_data = $item['content_data'];
+							if(isset($item['content_data'])){
+								  $content_data = $item['content_data'];
 
-                            if (!isset($content_data['is_free_shipping']) or $content_data['is_free_shipping'] != 'y') {
-                                if (isset($content_data['additional_shipping_cost']) and intval($content_data['additional_shipping_cost']) > 0) {
-
-                                    $volume = floatval($content_data['additional_shipping_cost']) * intval($item['qty']);
-
-                                    $defined_cost = $defined_cost + $volume;
-
-                                } else {
-                                    $volume = $calc * intval($item['qty']);
-
-                                    $calc2 = $calc2 + $volume;
-                                }
-                            }
+									if (!isset($content_data['is_free_shipping']) or $content_data['is_free_shipping'] != 'y') {
+										if (isset($content_data['additional_shipping_cost']) and intval($content_data['additional_shipping_cost']) > 0) {
+		
+											$volume = floatval($content_data['additional_shipping_cost']) * intval($item['qty']);
+		
+											$defined_cost = $defined_cost + $volume;
+		
+										} else {
+											$volume = $calc * intval($item['qty']);
+		
+											$calc2 = $calc2 + $volume;
+										}
+									}
+								
+							}
+                          
 
 
                         }
