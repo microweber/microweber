@@ -4,11 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.5] - WIP
 
-- [] TODO - KNOWN BUG: custom field address
-- [] TODO - use template config for default content
-- Added: various UI hooks 
-- Added: support for custom data fields
-
+- Added: Custom content fields now can be added from the template config file
+- Added: Session-less routes and Middleware
+- Added: Various UI hooks 
+- Added: Support for custom data fields
+- Added: Cache driver support (Files, APC)
+- Added: Template class 
+- Added: Caching option for apijs and frontend assets
+- Fix: parser was outputting the same content in different edit fields
+- Fix: module id is now generated with md5 instead with crc32
 - Fix: is_home bug under sqlite
 - Fix: install bug
 - Fix: shipping to country bug with the select menu
@@ -17,7 +21,28 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: menu reorder bug
 - Fix: google fonts loading
 - Fix: facebook login bug
-- Fix: mw.front was calling before constants are defined
+- Fix: mw.front event was called before constants are defined
+- Fix: bug in image cropping
+- Fix: ConfigSave now replaces the storage_path 
+- Fix: shipping bug
+- Fix:  undo is now working properly
+- Fix: preg_replace bug
+- Fix: icon picker
+- Fix: save edit now uses MutationObserver
+- Fix: category reordering 
+- Fix: live edit changes were not saved when editing an image 
+- Fix: pixum now caches the images 
+- Fix: drag and drop in row was appending the item on the wrong place
+- Fix: upload image shows progress again
+- Fix: resizable columns bug when no width is set
+- Fix: redirect in views and modules was not working 
+- Fix: updated jquery-ui to 1.11.4
+- Fix: captcha is now working on pages with multiple captchas
+- Fix: upload file bug
+- Fix: default controller's render logic now moved in the template class
+- Many other fixes
+
+
 
 ## [1.0.4] - 2015-08-04
 - Vendor: added Laravel HTML helper class
