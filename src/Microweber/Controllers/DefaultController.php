@@ -1620,6 +1620,7 @@ class DefaultController extends Controller {
 
         $render_file = $this->app->template->get_layout($content);
 
+
         $content['render_file'] = $render_file;
 
         if (defined('TEMPLATE_DIR')){
@@ -2384,14 +2385,18 @@ class DefaultController extends Controller {
         if (isset($_GET['preview_template'])){
             $page['active_site_template'] = $_GET['preview_template'];
         }
+        if (isset($_GET['content_type'])){
+            $page['content_type'] = $_GET['content_type'];
+        }
         if (isset($_GET['preview_layout']) and $_GET['preview_layout']!='inherit'){
             $page['layout_file'] = $_GET['preview_layout'];
         }
 
+
         $this->app->content_manager->define_constants($page);
 
         $page['render_file'] = $this->app->template->get_layout($page);
-
+      
         if (defined('TEMPLATE_DIR')){
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
 
