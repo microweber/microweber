@@ -1105,6 +1105,7 @@ class DefaultController extends Controller {
         $is_admin = $this->app->user_manager->is_admin();
         $page_url_orig = $page_url;
         $simply_a_file = false;
+        $show_404_to_non_admin = false;
 
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])){
@@ -1450,7 +1451,7 @@ class DefaultController extends Controller {
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
-
+                                $show_404_to_non_admin = true;
 
                             }
 
@@ -1470,8 +1471,11 @@ class DefaultController extends Controller {
                                         template_var('content', $page['content']);
 
                                         template_var('new_page', $page);
+                                        $show_404_to_non_admin = false;
+
                                     }
                                 }
+
                             }
                         } else {
                             if (!is_array($page)){
@@ -1557,7 +1561,7 @@ class DefaultController extends Controller {
             $content['custom_view'] = $is_custom_view;
         }
 
-        if (isset($content['is_active']) and $content['is_active']=='n'){
+        if (isset($content['is_active']) and ($content['is_active']=='n' or $content['is_active']==0)){
 
             if ($this->app->user_manager->is_admin()==false){
                 $page_non_active = array();
@@ -1657,6 +1661,19 @@ class DefaultController extends Controller {
 
         if ($render_file){
             $render_params = array();
+
+            if($show_404_to_non_admin){
+                if (!is_admin()){
+                    $load_template_404 = template_dir() . '404.php';
+
+                    if (is_file($load_template_404)){
+                        $render_file = $load_template_404;
+                    }
+                   
+
+                }
+            }
+
             $render_params['render_file'] = $render_file;
             $render_params['page_id'] = PAGE_ID;
             $render_params['content_id'] = CONTENT_ID;
