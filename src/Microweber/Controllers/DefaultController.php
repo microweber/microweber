@@ -2396,7 +2396,7 @@ class DefaultController extends Controller {
         $this->app->content_manager->define_constants($page);
 
         $page['render_file'] = $this->app->template->get_layout($page);
-      
+
         if (defined('TEMPLATE_DIR')){
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
 

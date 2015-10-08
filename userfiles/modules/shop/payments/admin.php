@@ -278,6 +278,8 @@ $payment_modules = get_modules('type=payment_gateway');
                 <a class="mw-ui-btn payment-tab active" href="javascript:;"><?php _e("Payments"); ?></a>
                 <a class="mw-ui-btn payment-tab" href="javascript:;" id="payment-tab-email"><?php _e("Emails for order"); ?></a>
                 <a class="mw-ui-btn payment-tab" href="javascript:;"><?php _e("Shipping Units"); ?></a>
+                <a class="mw-ui-btn payment-tab" href="javascript:;"><?php _e("Other"); ?></a>
+
             </div>
 
             </div>
@@ -350,36 +352,7 @@ $payment_modules = get_modules('type=payment_gateway');
                 </div>
                 
                 
-                 <hr>
-                <h4>
-                 <?php _e("Users must agree to Terms and Conditions"); ?>
-                </h4>
-                <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_require_terms" class="mw_option_field"     data-option-group="website"  value="0"  type="radio"  <?php if(get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
-                  <span></span><span>
-                  <?php _e("No"); ?>
-                  </span></label>
-                <label class="mw-ui-check">
-                  <input name="shop_require_terms" class="mw_option_field"    data-option-group="website"  value="1"  type="radio"  <?php if(get_option('shop_require_terms', 'website') == 1): ?> checked="checked" <?php endif; ?> >
-                  <span></span><span>
-                  <?php _e("Yes"); ?>
-                  </span></label>
-                
-                
-                 <hr>
-                <h4>
-                 <?php _e("Purchasing requires registration"); ?>
-                </h4>
-                <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_require_registration" class="mw_option_field"     data-option-group="website"  value="0"  type="radio"  <?php if(get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
-                  <span></span><span>
-                  <?php _e("No"); ?>
-                  </span></label>
-                <label class="mw-ui-check">
-                  <input name="shop_require_registration" class="mw_option_field"    data-option-group="website"  value="1"  type="radio"  <?php if(get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
-                  <span></span><span>
-                  <?php _e("Yes"); ?>
-                  </span></label>
+               
 
 
                 <hr>
@@ -387,27 +360,6 @@ $payment_modules = get_modules('type=payment_gateway');
                 <module type="shop/payments/currency" id="mw_curr_select" />
 
 
-                <h2><?php _e("Checkout URL"); ?></h2>
-                <?php ?>
-                <?php $checkout_url = get_option('checkout_url', 'shop');  ?>
-                <input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
-                <h4>
-                  <?php _e("Disable online shop"); ?>
-                </h4>
-                <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
-                  <span></span><span>
-                  <?php _e("No"); ?>
-                  </span>
-                </label>
-                <label class="mw-ui-check">
-                  <input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
-                  <span></span>
-                  <span>
-                  <?php _e("Yes"); ?>
-                  </span>
-                </label>
-                <br />
                 </div>
               <div class="otab">
                 <module type="shop/orders/settings/setup_emails_on_order" id="setup_emails_on_order" />
@@ -415,6 +367,10 @@ $payment_modules = get_modules('type=payment_gateway');
               </div>
               <div class="otab">
                 <module type="shop/shipping/set_units" id="mw_set_shipping_units" />
+              </div> 
+              
+              <div class="otab"> 
+                <module type="shop/orders/settings/other" id="mw_shop_set_other_settings" />
               </div>
             </div>
           </div>

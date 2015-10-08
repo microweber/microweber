@@ -2290,6 +2290,8 @@ class ContentManager {
             if ($ref_page==false){
                 $guess_page_data = new \Microweber\Controllers\DefaultController();
                 // $guess_page_data =  new  $this->app->controller($this->app);
+                $ref_page_url = strtok($ref_page_url, '?');
+
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
@@ -2298,10 +2300,9 @@ class ContentManager {
                 $is_module = false;
                 $pd['url'] = $ustr;
 
-                if(isset($pd['active_site_template']) and $pd['active_site_template'] == template_name()){
+                if (isset($pd['active_site_template']) and $pd['active_site_template']==template_name()){
                     $pd['active_site_template'] = '';
                 }
-
 
 
                 if ($this->app->modules->is_installed($ustr)){

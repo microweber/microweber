@@ -205,7 +205,7 @@ class ShopManager {
                 $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
             }
 
-
+            $custom_order_id = $this->app->option_manager->get('custom_order_id', 'shop');
             $posted_fields = array();
             $place_order = array();
             $place_order['id'] = false;
@@ -240,6 +240,7 @@ class ShopManager {
             }
 
             $place_order['amount'] = $amount;
+            $place_order['allow_html'] = true;
             $place_order['currency'] = $this->app->option_manager->get('currency', 'payments');
 
             if (isset($data['shipping_gw'])){
@@ -272,7 +273,26 @@ class ShopManager {
                 $place_order['id'] = 0;
             }
 
-            $place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
+            if ($custom_order_id!=false){
+                foreach ($place_order as $key => $value) {
+                    $custom_order_id = str_ireplace('{' . $key . '}', $value, $custom_order_id);
+                }
+
+
+                $custom_order_id = str_ireplace('{YYYYMMDD}', date('Ymd'), $custom_order_id);
+                $custom_order_id = str_ireplace('{date}', date('Y-m-d'), $custom_order_id);
+
+            }
+
+
+            if ($custom_order_id!=false){
+                $place_order['item_name'] = 'Order id:' . ' ' . $custom_order_id;
+                $place_order['order_id'] = $custom_order_id;
+
+            } else {
+                $place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
+
+            }
 
             if ($mw_process_payment==true){
                 $shop_dir = module_dir('shop');

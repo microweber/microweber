@@ -154,6 +154,7 @@ runOnNewOrderMailEditor();
         <li value="{address}"><a href="javascript:;"><?php _e("Address"); ?></a></li>
         <li value="{phone}"><a href="javascript:;"><?php _e("Phone"); ?></a></li>
         <li value="{transaction_id}"><a href="javascript:;"><?php _e("Transaction ID"); ?></a></li>
+        <li value="{order_id}"><a href="javascript:;">Custom order ID</li>
 
       </ul>
     </div>
