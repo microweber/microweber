@@ -16,7 +16,7 @@
 <script>mw.require("wysiwyg.js");</script>
 
 <script>
-SetValueTime = 600;
+SetValueTime = 400;
 SetValueTimeout = null;
 SetValue = function(){
   clearTimeout(SetValueTimeout);
@@ -77,10 +77,11 @@ $(window).load(function(){
       // mw.wysiwyg.paste(e);
    });
 
-   mw.on.DOMChange(Editable, function(){
-    SetValue();
-   })
-
+  setTimeout(function(){
+     mw.on.DOMChange(Editable, function(){
+      SetValue();
+     })
+   }, SetValueTime);
 
    SetHeight();
    mw.linkTip.init(Editable);

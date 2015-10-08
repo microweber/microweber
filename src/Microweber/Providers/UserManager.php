@@ -221,6 +221,9 @@ class UserManager {
         Session::flush();
         $aj = $this->app->url_manager->is_ajax();
         $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
+        if ($redirect_after==false){
+            $redirect_after = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : false;
+        }
         if (isset($_COOKIE['editmode'])){
             setcookie('editmode');
         }
@@ -233,10 +236,9 @@ class UserManager {
         }
 
         if ($redirect_after==true){
-            $redir = site_url($redirect_after);
-
+            $redir = $redirect_after;
+           // $redir = site_url($redirect_after);
             return $this->app->url_manager->redirect($redir);
-
         }
 
         return true;

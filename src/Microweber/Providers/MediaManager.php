@@ -781,7 +781,7 @@ class MediaManager {
                 mkdir_recursive($dirname_file);
             }
 
-        
+
 
             $img = imagecreatetruecolor($w, $h);
 

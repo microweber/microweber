@@ -160,7 +160,7 @@ DOMChange:function(element, callback, attr, a){
     clearTimeout(el.onstopWriting);
     el.onstopWriting = setTimeout(function(){
         c.call(el);
-    }, 600);
+    }, 400);
  },
  scrollBarOnBottom : function(obj, distance, callback){
     if(typeof obj === 'function'){
