@@ -1561,6 +1561,18 @@ class UserManager {
             Config::set('services.github.redirect', $callback_url);
         }
 
+
+
+
+        if (get_option('enable_user_linkedin_registration', 'users')=='y'){
+
+            Config::set('services.linkedin.client_id', get_option('linkedin_app_id', 'users'));
+            Config::set('services.linkedin.client_secret', get_option('linkedin_app_secret', 'users'));
+            Config::set('services.linkedin.redirect', $callback_url);
+        }
+
+
+
         if (get_option('enable_user_microweber_registration', 'users')=='y'){
             $svc = Config::get('services.microweber');
             if (!isset($svc['client_id'])){

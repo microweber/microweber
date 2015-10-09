@@ -106,6 +106,7 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 
 $enable_user_windows_live_registration = get_option('enable_user_windows_live_registration','users');
 
+$enable_user_linkedin_registration = get_option('enable_user_linkedin_registration','users');
 
  if($enable_user_fb_registration == false){
 	$enable_user_fb_registration = 'n';
@@ -131,7 +132,9 @@ $enable_user_windows_live_registration = get_option('enable_user_windows_live_re
     $enable_user_microweber_registration = 'n';
  }
 
-
+ if($enable_user_linkedin_registration == false){
+    $enable_user_linkedin_registration = 'n';
+ }
 
  $form_show_first_name = get_option('form_show_first_name','users');
 
@@ -145,7 +148,10 @@ $form_show_address = get_option('form_show_address','users');
     <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-googleplus login-tab-group"></span> </li>
     <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-social-github login-tab-group"></span> </li>
     <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-twitter login-tab-group"></span> </li>
+     <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-social-linkedin login-tab-group"></span> </li>
+
     <li class="mw-ui-btn mw-ui-btn-big"> <span class="mw-icon-mw login-tab-group"></span> </li>
+    
   </ul>
   <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
     <label class="mw-ui-check">
@@ -270,6 +276,46 @@ $form_show_address = get_option('form_show_address','users');
     </label>
     <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
   </div>
+  
+  
+  
+  
+  
+  <div class="mw-ui-box mw-ui-box-content group-logins">
+    <label class="mw-ui-check">
+      <input type="checkbox" value="y" <?php if($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_linkedin_registration" class="mw_option_field" option-group="users">
+      <span></span> <span>Linked-in login enabled?</span> </label>
+    <hr>
+    <ol class="ol">
+      <li>
+        <?php _e("Register your application"); ?>
+        <a class="mw-ui-link" target="_blank" href="https://www.linkedin.com/secure/developer">https://www.linkedin.com/secure/developer</a></li>
+      <li>
+        <?php _e("In"); ?>
+        <em>
+        <?php _e("Website"); ?>
+        </em>
+        <?php _e("enter"); ?>
+        <em><?php print site_url(); ?></em></li>
+      <li>
+        <?php _e("In"); ?>
+        <em>
+        <?php _e("Callback URL"); ?>
+        </em>
+        <?php _e("enter"); ?>
+        <em><?php print api_link('social_login_process?provider=linkedin') ?></em></li>
+    </ol>
+    <label class="mw-ui-label">
+      <?php _e("Client ID"); ?>
+    </label>
+    <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('linkedin_app_id','users'); ?>" />
+    <label class="mw-ui-label">
+      <?php _e("Client Secret"); ?>
+    </label>
+    <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('linkedin_app_secret','users'); ?>" />
+  </div>
+  
+  
   <div class="mw-ui-box mw-ui-box-content group-logins">
     <label class="mw-ui-check">
       <input type="checkbox" value="y" <?php if($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
