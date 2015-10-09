@@ -96,6 +96,8 @@ if (isset($_GET['type'])) {
 
 
     if (typeof thismodal != 'undefined' && thismodal != false) {
+		
+		 
 
         var modal_title_str = '';
         if(typeof(mw_module_settings_info.name) == "undefined"){
@@ -110,22 +112,46 @@ if (isset($_GET['type'])) {
 		if(ex_title == ''){
         $(thismodal.main).find(".mw_modal_title").html(modal_title_str+'');
 		}
-        thismodal.main.scrollTop(0);
+		if (typeof thismodal.main.scrollTop == 'function') {
+			 thismodal.main.scrollTop(0);
+		}
+		 
+       
         __autoresize = function (force) {
             var force = force || false;
             var _old = thismodal.main.height();
-            thismodal.main.scrollTop(0);
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, mw.$('#settings-container').height() + 25, false);
-            setTimeout(function () {
-                var _new = thismodal.main.height();
-                if (_new > _old || force) {
-                    parent.mw.tools.modal.center("#" + thismodal.main[0].id, 'vertical');
-                }
-            }, 400)
+
+			if (typeof thismodal.main.scrollTop == 'function') {
+				 thismodal.main.scrollTop(0);
+			}
+			
+			if (typeof thismodal.main[0] != 'undefined') {
+			 
+			 
+				 
+					 parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, mw.$('#settings-container').height() + 25, false);
+					setTimeout(function () {
+						var _new = thismodal.main.height();
+						if (_new > _old || force) {
+							parent.mw.tools.modal.center("#" + thismodal.main[0].id, 'vertical');
+						}
+					}, 400)
+				 
+			 
+			 
+			 
+			 
+			}
+			
+			
+            
 
 
         }
-
+		
+		
+		
+if (typeof thismodal.main[0] != 'undefined') {
 
         var toolbar = thismodal.main[0].querySelector('.mw_modal_toolbar');
         is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
@@ -146,7 +172,6 @@ if (isset($_GET['type'])) {
 
         <?php if(is_array( $module_info)): ?>
 		
- 
 		
         <?php $mod_adm =  admin_url('load_module:').module_name_encode($module_info['module']);; ?>
         is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
@@ -177,12 +202,12 @@ if (isset($_GET['type'])) {
             parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
 
         }
-
+		
         <?php endif; ?>
-
+}
 
         $(window).load(function () {
-
+if (typeof thismodal.main[0] != 'undefined') {
 
             if (autoSize) {
 
@@ -211,13 +236,12 @@ if (isset($_GET['type'])) {
 					}
                 });
             }
-
+}
 
         });
 
 
-    }
-    ;
+    };
 
 
     $(window).load(function () {

@@ -16,7 +16,7 @@
 <script>mw.require("wysiwyg.js");</script>
 
 <script>
-SetValueTime = 400;
+SetValueTime = 600;
 SetValueTimeout = null;
 SetValue = function(){
   clearTimeout(SetValueTimeout);

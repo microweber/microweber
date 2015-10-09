@@ -43,8 +43,22 @@ if(isset($params['for-id'])){
 
 
  
- ?> 
-<?php  $rand = uniqid(); ?>
+$rand = uniqid();  
+ 
+if(trim($for_id)  != '' and trim($for_id)  != '0'){
+    $media = get_pictures("rel_id={$for_id}&rel_type={$for}");
+} else {
+	 $sid = mw()->user_manager->session_id();
+	 if($sid == ''){
+ 		$sid = mw()->user_manager->session_id();
+	 }
+ 
+	$media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
+}
+
+
+
+?>
 <script  type="text/javascript">
     after_upld = window.after_upld || function (a, e, f, id, module_id){
     	if(e != 'done' ){
@@ -94,7 +108,27 @@ $(document).ready(function(){
    mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 });
 </script>
+<script  type="text/javascript">
+mw_admin_puctires_upload_browse_existing = function(){
+	
+ 
+   mw_admin_puctires_upload_browse_existing_modal = mw.modalFrame({
+        url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&types=images&id=mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print url() ?>',
+		title: "Browse pictures",
+		id: 'mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>',
+       	onload:function(){
 
+            this.iframe.contentWindow.mw.on.hashParam('select-file', function(){
+               after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+
+			   after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+            })
+        },
+        height: 400
+    })
+  
+}
+</script>
 <?php
    if(!isset($data["thumbnail"])){
 	   $data['thumbnail'] = '';
@@ -105,25 +139,9 @@ $(document).ready(function(){
 
 
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
-<?php
- 
-if(trim($for_id)  != '' and trim($for_id)  != '0'){
-    $media = get_pictures("rel_id={$for_id}&rel_type={$for}");
-} else {
-	 $sid = mw()->user_manager->session_id();
-	 if($sid == ''){
-		// //session_start();
-		$sid = mw()->user_manager->session_id();
-	 }
- 
-	$media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
-}
 
 
-
- ?>
-
-<label class="mw-ui-label"><?php _e("Add Images"); ?> <small>(<?php _e("The first image will be cover photo"); ?>)</small></label>
+<label class="mw-ui-label"><?php _e("Upload Images"); ?> or <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> browse uploaded</a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
 <div class="relative post-thumb-uploader" id="backend_image_uploader"><small id="backend_image_uploader_label"><?php _e("Upload"); ?></small></div>
