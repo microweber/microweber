@@ -8,9 +8,9 @@ if (isset($params['module'])): ?>
 <?php endif; ?>   
        
                
-<script type="text/javascript" src="<?php   print(site_url());  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
+<script type="text/javascript" src="<?php print(mw()->template->get_apijs_settings_url()); ?>"></script>
                                                           
-<script type="text/javascript" src="<?php print(site_url()); ?>apijs"></script>
+<script type="text/javascript" src="<?php print(mw()->template->get_apijs_url()); ?>"></script>
 
 <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 <script type="text/javascript">

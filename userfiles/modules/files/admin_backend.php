@@ -49,6 +49,8 @@
 
 
 
+
+
 .posts-selector span:hover{
   text-decoration: underline
 }
@@ -114,6 +116,35 @@ body.browser-liveedit .mw-browser-list .mw-ui-check{
   height: 8px;
   margin: 8px 0;
 }
+
+
+
+
+/* / View modes */
+
+
+body .mw-file-browser.mw-file-browser-basic #files_ctrl_holder{
+  display:block;
+}
+
+
+body .mw-file-browser.mw-file-browser-basic #files_ctrl_holder_select_all_holder,
+body .mw-file-browser.mw-file-browser-basic #files_ctrl_holder_title_text{
+
+  display:none;
+}
+
+
+body .mw-file-browser.mw-file-browser-basic .modules-index-bar,
+body .mw-file-browser.mw-file-browser-basic .browser-ctrl-bar
+{
+  padding:0px;
+}
+
+
+
+
+
 
 </style>
   <script  type="text/javascript">
@@ -430,15 +461,20 @@ ProgressBar.hide()
 
 
     if(!isset($ui_order_control)){$ui_order_control = 'auto';}
+	
+	if(isset($params['ui'])){
+		 $ui_order_control = $params['ui'];
+	}
+	
 
  ?>
   <div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-    <h2><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;
+    <h2 id="files_ctrl_holder_title_text"><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;
       <?php _e("File Manager"); ?>
       </a></h2>
     <div id="files_ctrl_holder">
       <div class="modules-index-bar">
-        <div class="browser-ctrl-bar"> <span class="mw-ui-link-nav posts-selector pull-left"> <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">
+        <div class="browser-ctrl-bar"> <span id="files_ctrl_holder_select_all_holder" class="mw-ui-link-nav posts-selector pull-left"> <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">
           <?php _e("Select All"); ?>
           </span> <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">
           <?php _e("Unselect All"); ?>
@@ -455,7 +491,7 @@ ProgressBar.hide()
             class="mw-ui-searchfield pull-right"
             type="text" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
         </div>
-        <div id="progressbar"></div>
+        <div id="progressbar" style=""></div>
       </div>
     </div>
     <div id="mw_files_admin"></div>
