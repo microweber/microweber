@@ -5,13 +5,10 @@
 	 var data = {};
 	 data.id = price_field.attr('data-custom-field-id');
 	 data.value = price_field.val();
-	 
  
-	 
 	 mw.custom_fields.edit(data, function(){
-
      mw.reload_module_parent('custom_fields/list');
-
+	 mw.reload_module_parent('shop/cart_add');
 	 mw.reload_module_parent('custom_fields');
 	 mw.reload_module('custom_fields/list');
 
@@ -52,8 +49,8 @@ if($hasmultiple):
 ?>
 <div class="mw-ui-dropdown" id="pricedropdown">
 
-
-<span class="mw-ui-btn mw-ui-btn-big mw-dropdown-button">
+ 
+<span class="mw-ui-btn mw-ui-btn-big mw-dropdown-button" style="padding-right:0px;overflow: hidden;    padding-right: 0;    text-overflow: ellipsis;    white-space: nowrap;">
 
 <span><?php print mw()->shop_manager->currency_symbol(); ?></span> <?php print $val; ?>
 
