@@ -782,7 +782,6 @@ class MediaManager {
             }
 
 
-
             $img = imagecreatetruecolor($w, $h);
 
             $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
@@ -1105,6 +1104,22 @@ class MediaManager {
 
     }
 
+    public function relative_media_start_path() {
+
+        static $path;
+        if ($path==false){
+            $host = (parse_url(site_url()));
+            $host_dir = false;
+            if (isset($host['host'])){
+                $host_dir = $host['host'];
+                $host_dir = str_ireplace('www.', '', $host_dir);
+                $host_dir = str_ireplace('.', '-', $host_dir);
+            }
+            $path = MW_MEDIA_FOLDER_NAME . '/' . $host_dir . '';
+        }
+
+        return $path;
+    }
 
     public function thumbnails_path() {
         return media_base_path() . 'thumbnail' . DS;

@@ -112,9 +112,10 @@ body.browser-liveedit .mw-browser-list .mw-ui-check{
   max-width: 50px;
 }
 
-#progressbar{
+#progressbar .mw-ui-progress-small{
   height: 8px;
   margin: 8px 0;
+  
 }
 
 
@@ -203,12 +204,17 @@ _mw_admin_files_manage = function(param, value, callback){
 
 
 $(window).bind("load", function(){
+	
+
+
+
+
+
+<?php if(isset($params['start_path']) and $params['start_path'] == 'media_host_base') { ?>	
+mw.url.windowHashParam('path', "<?php print mw()->media_manager->relative_media_start_path(); ?>")	
+<?php } else { ?>
  _mw_admin_files_manage('all');
-
-
-
-
-
+<?php }  ?>
 });
 
 
@@ -489,7 +495,7 @@ ProgressBar.hide()
           <input
             name="module_keyword"
             class="mw-ui-searchfield pull-right"
-            type="text" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
+            type="text" onclick="$(this).css('width','200px')" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
         </div>
         <div id="progressbar" style=""></div>
       </div>
