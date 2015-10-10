@@ -43,6 +43,7 @@ class DefaultController extends Controller {
 
 
     public $return_data = false;
+    public $content_data = false;
     public $page_url = false;
     public $create_new_page = false;
     public $render_this_url = false;
@@ -1208,6 +1209,8 @@ class DefaultController extends Controller {
             $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
         }
 
+
+
         if ($is_quick_edit or $is_preview_template==true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page==true){
 
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id'])!=0){
@@ -1260,6 +1263,10 @@ class DefaultController extends Controller {
                     $page['content_type'] = $_REQUEST['content_type'];
                 }
 
+                if ($this->content_data!=false){
+                    $page = $this->content_data;
+
+                }
                 template_var('new_page', $page);
             }
         }
@@ -1662,7 +1669,7 @@ class DefaultController extends Controller {
         if ($render_file){
             $render_params = array();
 
-            if($show_404_to_non_admin){
+            if ($show_404_to_non_admin){
                 if (!is_admin()){
                     $load_template_404 = template_dir() . '404.php';
                     if (is_file($load_template_404)){
@@ -1921,7 +1928,7 @@ class DefaultController extends Controller {
             $meta = array();
             $meta['content_image'] = '';
             $meta['description'] = '';
-            if(is_home()){
+            if (is_home()){
                 $meta['content_url'] = site_url();
 
             } else {
@@ -2370,8 +2377,34 @@ class DefaultController extends Controller {
 
             if (intval($_REQUEST["content_id"])==0){
                 $this->create_new_page = true;
+
+                $custom_content_data_req = $_REQUEST;
+                $custom_content_data = array();
+                if (isset($custom_content_data_req['content_type'])){
+                //    $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
+                }
+                if (isset($custom_content_data_req['content_type'])){
+                     $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
+                }
+                if (isset($custom_content_data_req['subtype'])){
+                      $custom_content_data['subtype'] = $custom_content_data_req['subtype'];
+                }
+                if (isset($custom_content_data_req['parent_page']) and is_numeric($custom_content_data_req['parent_page'])){
+                    $custom_content_data['parent'] = intval($custom_content_data_req['parent_page']);
+                }
+                if (isset($custom_content_data_req['preview_layout'])){
+                    //  $custom_content_data['preview_layout'] =($custom_content_data_req['preview_layout']);
+                }
+                if (!empty($custom_content_data)){
+
+                     $custom_content_data['id'] = 0;
+                     $this->content_data = $custom_content_data;
+
+                }
+
                 $this->return_data = 1;
                 $page = $this->frontend();
+
             } else {
                 $page = $this->app->content_manager->get_by_id($_REQUEST["content_id"]);
             }
