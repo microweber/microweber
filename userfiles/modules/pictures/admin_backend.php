@@ -113,7 +113,7 @@ mw_admin_puctires_upload_browse_existing = function(){
 	
  
    mw_admin_puctires_upload_browse_existing_modal = mw.modalFrame({
-        url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&types=images&id=mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print url() ?>',
+        url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&from_admin=true&file_types=images&id=mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print url() ?>',
 		title: "Browse pictures",
 		id: 'mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>',
        	onload:function(){
@@ -122,6 +122,8 @@ mw_admin_puctires_upload_browse_existing = function(){
                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
 
 			   after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+			   mw.notification.success('<?php _e('The image is added to the gallery') ?>');
+
             })
         },
         height: 400
@@ -141,7 +143,7 @@ mw_admin_puctires_upload_browse_existing = function(){
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
 
 
-<label class="mw-ui-label"><?php _e("Upload Images"); ?> or <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> browse uploaded</a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
+<label class="mw-ui-label"><?php _e("Add Images"); ?> or <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> browse uploaded</a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
 <div class="relative post-thumb-uploader" id="backend_image_uploader"><small id="backend_image_uploader_label"><?php _e("Upload"); ?></small></div>

@@ -195,7 +195,11 @@ if(is_array( $diff) and is_array($more) ){
 
 <script>
       mw.require('admin_custom_fields.js');
+	  
+</script>
+<script>
       $(document).ready(function(){
+		  
         mw.admin.custom_fields.initValues();
 
         mw.$("#custom-fields-post-table tbody").sortable({
