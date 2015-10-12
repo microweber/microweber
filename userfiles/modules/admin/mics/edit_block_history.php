@@ -29,7 +29,7 @@ $url = mw()->url_manager->string(true);
 		$last_saved = get_content_by_id($cont_id);
 		$last_saved_date = $last_saved['updated_at'];
 		 
-		$latest_drafs = get_content_field('no_cache=true&limit=200&order_by=id desc&fields=id&created_at=[mt]'.$last_saved_date.'&is_draft=1&all=1&url='.$url.'&rel_id='.$cont_id);
+		$latest_drafs = get_content_field('no_cache=true&limit=300&order_by=id desc&fields=id&created_at=[mt]'.$last_saved_date.'&is_draft=1&all=1&url='.$url.'&rel_id='.$cont_id);
  		
 		$history_files_fields = get_content_field('group_by=field&order_by=id desc&fields=field,id,created_at&is_draft=1&all=1&url='.$url);
 	 

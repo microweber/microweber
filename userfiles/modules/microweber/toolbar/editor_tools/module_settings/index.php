@@ -22,15 +22,19 @@ if (isset($params['module'])): ?>
     mw.require('<?php print mw_includes_url(); ?>css/components.css');
     mw.require('<?php print mw_includes_url(); ?>css/admin.css');
     mw.require('<?php print mw_includes_url(); ?>css/popup.css');
+	
     mw.require("events.js");
     mw.require("url.js");
     mw.require("tools.js");
+	 mw.require('admin.js');
+ 
+
     mw.require("liveadmin.js");
     mw.require("forms.js");
     mw.require('wysiwyg.js');
     mw.require('options.js');
 
-    mw.require('admin.js');
+   
 </script>
 <style>
 #settings-main {

@@ -71,9 +71,10 @@ class Template {
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';
+            $hash = md5(site_url());
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (is_file($userfiles_cache_filename)){
-                $url = userfiles_url() . 'cache/' . 'api.' . MW_VERSION . '.js';
+                $url = userfiles_url() . 'cache/' . 'api.' . $hash . '.' . MW_VERSION . '.js';
             }
         }
 
