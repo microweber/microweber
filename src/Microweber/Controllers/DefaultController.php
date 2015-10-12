@@ -2320,8 +2320,9 @@ class DefaultController extends Controller {
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';
+            $hash = md5(site_url());
+             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)){
                 if (!is_dir($userfiles_cache_dir)){
                     mkdir_recursive($userfiles_cache_dir);
