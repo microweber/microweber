@@ -2832,6 +2832,10 @@ class ContentManager {
         if (!isset($data['parent']) and isset($data['content_parent'])){
             $data['parent'] = $data['content_parent'];
         }
+        if (isset($data['parent'])){
+            $data['parent'] = intval($data['parent']);
+        }
+
 
         if (isset($data['is_active'])){
             if ($data['is_active']==='y'){

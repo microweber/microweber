@@ -417,7 +417,6 @@ class ShopManager {
                         $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&no_session_id=' . mw()->user_manager->session_id());
                         // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
-                        // dd($order_items_html);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         foreach ($ord_data as $key => $value) {
 
@@ -430,7 +429,7 @@ class ShopManager {
                         }
                     }
 
-                    //
+
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
 
                         $sender = new \Microweber\Utils\MailSender();

@@ -641,11 +641,8 @@ class UpdateManager {
                 foreach ($matches as $match) {
                     if (isset($match[0])){
                         $url = $download_link;
-
                         $download_target = $this->temp_dir . basename($download_link);
                         $download_target_extract_lock = $this->temp_dir . basename($download_link) . '.unzip_lock';
-
-
                         $expectd_item_size = $item['size'];
                         if (!is_file($download_target) or filesize($download_target)!=$item['size']){
 
@@ -653,17 +650,13 @@ class UpdateManager {
                             if ($dl==false){
                                 if (is_file($download_target) and filesize($download_target)!=$item['size']){
                                     $fs = filesize($download_target);
-
                                     return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
                                 }
                             }
                         }
                     }
                 }
-
             }
-
-
         }
 
 
@@ -792,8 +785,8 @@ class UpdateManager {
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = $this->app->modules->get($params);
-            //d($data);
+           // $data = $this->app->modules->get($params);
+
 
         }
 

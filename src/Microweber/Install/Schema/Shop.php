@@ -93,6 +93,7 @@ class Shop
 
         		'payment_shipping' => 'float',
 
+
         		'is_active' => "integer",
         		'rel_id' => 'integer',
         		'rel_type' => 'string',
@@ -101,6 +102,7 @@ class Shop
 
                 'promo_code' => 'longText',
         		'skip_promo_code' => "integer",
+                'tax_percent' => 'float',
 
         		'$index' => ['session_id']
         	],
