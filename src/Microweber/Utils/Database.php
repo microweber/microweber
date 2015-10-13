@@ -37,8 +37,8 @@ class Database {
                 $key = $key . MW_VERSION;
             }
 
-
             $value = Cache::get($key);
+
             if (!$value){
                 $value = 1;
                 $minutes = $this->cache_minutes;
@@ -48,19 +48,23 @@ class Database {
             } else {
                 return $value;
             }
+        } else {
+            return $this->_exec_table_builder($table_name, $fields_to_add);
+
         }
 
 
-        return $this->_exec_table_builder($table_name, $fields_to_add);
     }
 
 
     private function _exec_table_builder($table_name, $fields_to_add) {
+
         $table_name = $this->assoc_table_name($table_name);
         if (!Schema::hasTable($table_name)){
             Schema::create($table_name, function ($table) {
                 $table->increments('id');
             });
+
         }
         if (is_array($fields_to_add)){
             Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name) {

@@ -180,6 +180,10 @@ class DatabaseManager extends DbUtils
             unset($params['orderby']);
         }
 
+        if (isset($orig_params['count']) and ($orig_params['count']) and isset($params['order_by'])) {
+            unset($params['order_by']);
+        }
+
         if (isset($params['groupby'])) {
             $params['group_by'] = $params['groupby'];
             unset($params['groupby']);

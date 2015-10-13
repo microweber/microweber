@@ -263,27 +263,38 @@ function get_visits($range = 'daily') {
         case 'daily' :
             $ago = date("Y-m-d", strtotime("-1 month"));
             $results = DB::table($table)
-                ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
+                ->select('visit_date', DB::raw('count(id) as unique_visits, sum(view_count) as total_visits'))
                 ->where('visit_date', '>', $ago)
-                ->groupBy('visit_date')
+                ->groupBy('id')
                 ->get();
+				
+			
+				
             break;
 
         case 'weekly' :
-            $ago = date("Y-m-d", strtotime("-1 year"));
+			 
+            $ago = date("Y-m-d", strtotime("-1 week"));
             $rows = DB::table($table)
-                ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
+                ->select('visit_date', DB::raw('count(id) as unique_visits, sum(view_count) as total_visits'))
                 ->where('visit_date', '>', $ago)
+				->groupBy('id')
+
                 ->get();
+			
             $results = stats_group_by($rows, 'W');
+			
+			
             break;
 
         case 'monthly' :
             $ago = date("Y-m-d", strtotime("-1 year"));
             $rows = DB::table($table)
-                ->select('visit_date', DB::raw('count(*) as unique_visits, sum(view_count) as total_visits'))
+                ->select('visit_date', DB::raw('count(id) as unique_visits, sum(view_count) as total_visits'))
                 ->where('visit_date', '>', $ago)
+				->groupBy('id')
                 ->get();
+					
             $results = stats_group_by($rows, 'm');
             break;
 
