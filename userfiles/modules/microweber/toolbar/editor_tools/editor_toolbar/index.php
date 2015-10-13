@@ -77,10 +77,11 @@ $(window).load(function(){
       // mw.wysiwyg.paste(e);
    });
 
-   mw.on.DOMChange(Editable, function(){
-    SetValue();
-   })
-
+  setTimeout(function(){
+     mw.on.DOMChange(Editable, function(){
+      SetValue();
+     })
+   }, SetValueTime);
 
    SetHeight();
    mw.linkTip.init(Editable);

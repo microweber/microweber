@@ -178,16 +178,12 @@
 
     $check_pass = true;
     $server_check_errors = array();
-    if (version_compare(phpversion(), "5.3.0", "<=")) {
+    if (version_compare(phpversion(), "5.4.0", "<=")) {
         $check_pass = false;
-        $server_check_errors['php_version'] = _e("You must run PHP 5.3 or greater", true);
+        $server_check_errors['php_version'] = _e("You must run PHP 5.4 or greater", true);
     }
 
-    $here = dirname(__FILE__) . DIRECTORY_SEPARATOR . uniqid();
-    if (is_writable($here)) {
-        $check_pass = false;
-        $server_check_errors['not_wrtiable'] = _e("The current directory is not writable", true);
-    }
+   
     if (function_exists('apache_get_modules')) {
         if (!in_array('mod_rewrite', apache_get_modules())) {
             $check_pass = false;
@@ -228,7 +224,26 @@
         }
     }
 
-
+  	if ($is_pdo_loaded == false) {
+        if (extension_loaded('pdo_sqlite')) {
+            $is_pdo_loaded = true;
+        }
+    }
+ 
+ 
+  	if ($is_pdo_loaded == false) {
+        if (extension_loaded('pdo_mysql')) {
+            $is_pdo_loaded = true;
+        }
+    }
+	
+	
+	if ($is_pdo_loaded == false) {
+        if (extension_loaded('pdo_pgsql')) {
+            $is_pdo_loaded = true;
+        }
+    }
+ 
 
 	 if ($is_pdo_loaded != false) {
 	    if(!defined('PDO::MYSQL_ATTR_LOCAL_INFILE')){
@@ -270,11 +285,7 @@
         $must_be = media_base_path();
         $server_check_errors['media_base_path()'] = _e("The directory " . media_base_path() . " must be writable", true);
     }
-    if (defined('MW_PATH') and is_dir(MW_PATH) and !is_writable(MW_PATH)) {
-        $check_pass = false;
-        $must_be = MW_PATH;
-        $server_check_errors['MW_PATH'] = _e("The directory " . MW_PATH . " must be writable", true);
-    }
+     
 
 
 

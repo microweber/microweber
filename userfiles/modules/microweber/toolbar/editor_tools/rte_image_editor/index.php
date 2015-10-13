@@ -13,6 +13,7 @@
 
 if(array_key_exists('types', $_GET)){
     $types =  explode(',', $_GET['types']);
+	 
 }
 else{
    $types = array('files','images','videos');
@@ -118,8 +119,8 @@ else{
               if(hash == 'editimage'){
                 parent.mw.iframecallbacks[hash](this);
                 parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
-              }
-              else{
+              
+			  } else {
 
                 parent.mw.iframecallbacks[hash](GlobalEmbed);
               }

@@ -43,6 +43,7 @@ class DefaultController extends Controller {
 
 
     public $return_data = false;
+    public $content_data = false;
     public $page_url = false;
     public $create_new_page = false;
     public $render_this_url = false;
@@ -1105,6 +1106,7 @@ class DefaultController extends Controller {
         $is_admin = $this->app->user_manager->is_admin();
         $page_url_orig = $page_url;
         $simply_a_file = false;
+        $show_404_to_non_admin = false;
 
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])){
@@ -1207,6 +1209,8 @@ class DefaultController extends Controller {
             $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
         }
 
+
+
         if ($is_quick_edit or $is_preview_template==true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page==true){
 
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id'])!=0){
@@ -1259,6 +1263,10 @@ class DefaultController extends Controller {
                     $page['content_type'] = $_REQUEST['content_type'];
                 }
 
+                if ($this->content_data!=false){
+                    $page = $this->content_data;
+
+                }
                 template_var('new_page', $page);
             }
         }
@@ -1450,7 +1458,7 @@ class DefaultController extends Controller {
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
-
+                                $show_404_to_non_admin = true;
 
                             }
 
@@ -1470,8 +1478,11 @@ class DefaultController extends Controller {
                                         template_var('content', $page['content']);
 
                                         template_var('new_page', $page);
+                                        $show_404_to_non_admin = false;
+
                                     }
                                 }
+
                             }
                         } else {
                             if (!is_array($page)){
@@ -1557,7 +1568,7 @@ class DefaultController extends Controller {
             $content['custom_view'] = $is_custom_view;
         }
 
-        if (isset($content['is_active']) and $content['is_active']=='n'){
+        if (isset($content['is_active']) and ($content['is_active']=='n' or $content['is_active']==0)){
 
             if ($this->app->user_manager->is_admin()==false){
                 $page_non_active = array();
@@ -1657,6 +1668,16 @@ class DefaultController extends Controller {
 
         if ($render_file){
             $render_params = array();
+
+            if ($show_404_to_non_admin){
+                if (!is_admin()){
+                    $load_template_404 = template_dir() . '404.php';
+                    if (is_file($load_template_404)){
+                        $render_file = $load_template_404;
+                    }
+                }
+            }
+
             $render_params['render_file'] = $render_file;
             $render_params['page_id'] = PAGE_ID;
             $render_params['content_id'] = CONTENT_ID;
@@ -1907,7 +1928,7 @@ class DefaultController extends Controller {
             $meta = array();
             $meta['content_image'] = '';
             $meta['description'] = '';
-            if(is_home()){
+            if (is_home()){
                 $meta['content_url'] = site_url();
 
             } else {
@@ -2299,8 +2320,9 @@ class DefaultController extends Controller {
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . MW_VERSION . '.js';
+            $hash = md5(site_url());
+             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)){
                 if (!is_dir($userfiles_cache_dir)){
                     mkdir_recursive($userfiles_cache_dir);
@@ -2356,8 +2378,34 @@ class DefaultController extends Controller {
 
             if (intval($_REQUEST["content_id"])==0){
                 $this->create_new_page = true;
+
+                $custom_content_data_req = $_REQUEST;
+                $custom_content_data = array();
+                if (isset($custom_content_data_req['content_type'])){
+                //    $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
+                }
+                if (isset($custom_content_data_req['content_type'])){
+                     $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
+                }
+                if (isset($custom_content_data_req['subtype'])){
+                      $custom_content_data['subtype'] = $custom_content_data_req['subtype'];
+                }
+                if (isset($custom_content_data_req['parent_page']) and is_numeric($custom_content_data_req['parent_page'])){
+                    $custom_content_data['parent'] = intval($custom_content_data_req['parent_page']);
+                }
+                if (isset($custom_content_data_req['preview_layout'])){
+                    //  $custom_content_data['preview_layout'] =($custom_content_data_req['preview_layout']);
+                }
+                if (!empty($custom_content_data)){
+
+                     $custom_content_data['id'] = 0;
+                     $this->content_data = $custom_content_data;
+
+                }
+
                 $this->return_data = 1;
                 $page = $this->frontend();
+
             } else {
                 $page = $this->app->content_manager->get_by_id($_REQUEST["content_id"]);
             }
@@ -2396,7 +2444,7 @@ class DefaultController extends Controller {
         $this->app->content_manager->define_constants($page);
 
         $page['render_file'] = $this->app->template->get_layout($page);
-      
+
         if (defined('TEMPLATE_DIR')){
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
 

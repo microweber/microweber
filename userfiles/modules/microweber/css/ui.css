@@ -2178,7 +2178,7 @@ li:hover > .show-on-hover {
 *********************************************/
 .mw-tooltip {
   position: absolute;
-  z-index: 1100;
+  z-index: 1111;
   left: -9999px;
   top: -9999px;
 }

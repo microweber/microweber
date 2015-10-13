@@ -263,19 +263,11 @@ if ($allowed_to_upload==false){
                                 //die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": PECATA - Not finished yet."}}');
 
                             }
-
                         }
                     }
-
                 }
-
             }
-
         }
-
-
-        //d($cfid);
-        //die('{"jsonrpc" : "2.0", "error" : {"code": 99, "message": "Not finished."}, "id" : "id"}');
     } else {
         die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
 

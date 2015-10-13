@@ -1121,7 +1121,11 @@ mw.wysiwyg = {
     },
     format: function (command) {
         if (!window.MSStream) {
-            mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
+            if(command == 'code_text'){
+                mw.wysiwyg.execCommand("insertHTML", false, "<code>"+ document.getSelection()+"</code>");
+            } else {
+                mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
+            }
         }
         else {
             var sel = window.getSelection();
@@ -1521,11 +1525,15 @@ $(window).load(function () {
                     $(div).append("&nbsp;");
                 }
             } else if (val == 'code') {
-                var div = mw.wysiwyg.applier('code', '');
+               // var div = mw.wysiwyg.applier('code', '');
+                var new_insert_html = prompt("Paste your code");
+                if (new_insert_html != null) {
+                    var div = mw.wysiwyg.applier('code');
+                    div.innerHTML = new_insert_html;
+                }
             } else if (val == 'insert_html') {
                 var new_insert_html = prompt("Paste your html code in the box");
                 if (new_insert_html != null) {
-
                     var div = mw.wysiwyg.applier('div');
                     div.innerHTML = new_insert_html;
                 }

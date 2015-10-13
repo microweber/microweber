@@ -221,6 +221,9 @@ class UserManager {
         Session::flush();
         $aj = $this->app->url_manager->is_ajax();
         $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
+        if ($redirect_after==false){
+            $redirect_after = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : false;
+        }
         if (isset($_COOKIE['editmode'])){
             setcookie('editmode');
         }
@@ -233,10 +236,9 @@ class UserManager {
         }
 
         if ($redirect_after==true){
-            $redir = site_url($redirect_after);
-
+            $redir = $redirect_after;
+           // $redir = site_url($redirect_after);
             return $this->app->url_manager->redirect($redir);
-
         }
 
         return true;
@@ -1558,6 +1560,18 @@ class UserManager {
             Config::set('services.github.client_secret', get_option('github_app_secret', 'users'));
             Config::set('services.github.redirect', $callback_url);
         }
+
+
+
+
+        if (get_option('enable_user_linkedin_registration', 'users')=='y'){
+
+            Config::set('services.linkedin.client_id', get_option('linkedin_app_id', 'users'));
+            Config::set('services.linkedin.client_secret', get_option('linkedin_app_secret', 'users'));
+            Config::set('services.linkedin.redirect', $callback_url);
+        }
+
+
 
         if (get_option('enable_user_microweber_registration', 'users')=='y'){
             $svc = Config::get('services.microweber');

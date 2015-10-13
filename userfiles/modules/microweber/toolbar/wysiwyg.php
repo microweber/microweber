@@ -62,13 +62,17 @@
                   </a></li>
 
 
-                  <li value="div"><a href="#">
+                  <li value="pre"><a href="#">
                   <div>
-                    <?php _e("Block"); ?>
+                   <?php _e("Pre formatted"); ?>
                   </div>
                   </a></li>
 
-
+   				 <li value="code_text"><a href="#">
+                  <div>
+                   <?php _e("Code"); ?>
+                  </div>
+                  </a></li>
 
                   <?php
                   if(isset($_GET['d'])): ?>

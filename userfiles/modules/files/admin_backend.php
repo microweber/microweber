@@ -1,21 +1,23 @@
-<div class="mw-module-admin-wrap"> <?php if(isset($params['backend'])): ?>
-<module type="admin/modules/info" />
-<?php endif; ?> <?php
+<div class="mw-module-admin-wrap<?php if(isset($params['from_admin'])): ?>-from-admin<?php endif; ?>">
+  <?php if(isset($params['backend'])): ?>
+  <module type="admin/modules/info" />
+  <?php endif; ?>
+  <?php
  if(is_admin() == false) {return; }
  //$rand = uniqid(); ?>
-<script type="text/javascript">
+  <script type="text/javascript">
 
     if(self !== parent){
       document.body.className += ' browser-liveedit';
     }
-</script>
-<script type="text/javascript">
+</script> 
+  <script type="text/javascript">
     mw.require("events.js");
 	mw.require("forms.js");
     mw.require("url.js");
     mw.require("files.js");
 </script>
-<style type="text/css">
+  <style type="text/css">
 .mw-file-browser-popup .modules-index-bar {
 	padding-top: 12px;
 }
@@ -42,6 +44,8 @@
 .mw-browser-list .mw-icon-category{
   font-size: 37px;
 }
+
+
 
 
 
@@ -108,13 +112,43 @@ body.browser-liveedit .mw-browser-list .mw-ui-check{
   max-width: 50px;
 }
 
-#progressbar{
+#progressbar .mw-ui-progress-small{
   height: 8px;
   margin: 8px 0;
+  
 }
 
+
+
+
+/* / View modes */
+
+
+body .mw-file-browser.mw-file-browser-basic #files_ctrl_holder{
+  display:block;
+}
+
+
+body .mw-file-browser.mw-file-browser-basic #files_ctrl_holder_select_all_holder,
+body .mw-file-browser.mw-file-browser-basic #files_ctrl_holder_title_text{
+
+  display:none;
+}
+
+
+body .mw-file-browser.mw-file-browser-basic .modules-index-bar,
+body .mw-file-browser.mw-file-browser-basic .browser-ctrl-bar
+{
+  padding:0px;
+}
+
+
+
+
+
+
 </style>
-<script  type="text/javascript">
+  <script  type="text/javascript">
 
 
 
@@ -170,12 +204,17 @@ _mw_admin_files_manage = function(param, value, callback){
 
 
 $(window).bind("load", function(){
+	
+
+
+
+
+
+<?php if(isset($params['start_path']) and $params['start_path'] == 'media_host_base') { ?>	
+mw.url.windowHashParam('path', "<?php print mw()->media_manager->relative_media_start_path(); ?>")	
+<?php } else { ?>
  _mw_admin_files_manage('all');
-
-
-
-
-
+<?php }  ?>
 });
 
 
@@ -423,68 +462,47 @@ ProgressBar.hide()
 });
 
 </script>
-
- 
-
-
-<?php
+  <?php
     $ui_order_control = 'dropdown';
 
 
     if(!isset($ui_order_control)){$ui_order_control = 'auto';}
+	
+	if(isset($params['ui'])){
+		 $ui_order_control = $params['ui'];
+	}
+	
 
  ?>
-
-<div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-  <h2><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></a></h2>
-  <div id="files_ctrl_holder">
-    <div class="modules-index-bar">
-    <div class="browser-ctrl-bar">
-
-
-
-            <span class="mw-ui-link-nav posts-selector pull-left">
-              <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');"><?php _e("Select All"); ?></span>
-              <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');"><?php _e("Unselect All"); ?></span>
-            </span>
-
-
-            <div class="mw-ui-btn-nav pull-left">
-          <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-upload"></span><?php _e("Upload File"); ?></span>
-          <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
-          <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
-        </div>
-
-
-
-        <input
+  <div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
+    <h2 id="files_ctrl_holder_title_text"><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;
+      <?php _e("File Manager"); ?>
+      </a></h2>
+    <div id="files_ctrl_holder">
+      <div class="modules-index-bar">
+        <div class="browser-ctrl-bar"> <span id="files_ctrl_holder_select_all_holder" class="mw-ui-link-nav posts-selector pull-left"> <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">
+          <?php _e("Select All"); ?>
+          </span> <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">
+          <?php _e("Unselect All"); ?>
+          </span> </span>
+          <div class="mw-ui-btn-nav pull-left"> <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-upload"></span>
+            <?php _e("Upload File"); ?>
+            </span> <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">
+            <?php _e("Delete selected files"); ?>
+            </span> <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">
+            <?php _e("Create folder"); ?>
+            </span> </div>
+          <input
             name="module_keyword"
             class="mw-ui-searchfield pull-right"
-            type="text" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
-
-
-
-
-
+            type="text" onclick="$(this).css('width','200px')" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
+        </div>
+        <div id="progressbar" style=""></div>
+      </div>
     </div>
-
- 
-
-     <div id="progressbar"></div>
-
-
-
-    </div>
-  </div>
-  
-  <div id="mw_files_admin"></div>
-  <div id="mw_user_edit_admin" ></div>
-  
-
-  <span class="mw-ui-btn pull-right disabled delete_item"><?php _e("Delete Selected"); ?></span>
-
-
-
-</div>
-
+    <div id="mw_files_admin"></div>
+    <div id="mw_user_edit_admin" ></div>
+    <span class="mw-ui-btn pull-right disabled delete_item">
+    <?php _e("Delete Selected"); ?>
+    </span> </div>
 </div>

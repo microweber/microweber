@@ -157,8 +157,14 @@ class MicroweberServiceProvider extends ServiceProvider {
         AliasLoader::getInstance()->alias("HTML", 'Illuminate\Html\HtmlFacade');
 
 
+
         $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         AliasLoader::getInstance()->alias("Markdown", 'GrahamCampbell\Markdown\Facades\Markdown');
+
+
+
+       // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
+
 
 
     }

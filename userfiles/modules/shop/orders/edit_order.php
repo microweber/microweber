@@ -18,13 +18,26 @@ else {
  
 ?>
 
+ 
+<?php 
+			  
+$show_ord_id = $ord['id'];	
+if(isset($ord['order_id']) and $ord['order_id'] != false){
+	$show_ord_id = $ord['order_id'];
+} 
+
+?>
+
+
+
+
 <div id="mw-order-table-holder">
   <div class="section-header"> <a class="mw-ui-btn pull-right" href="#vieworder=0"><span class="mw-icon-back"></span>
     <?php _e("Back to Orders"); ?>
     </a>
     <h2>
       <?php _e("Order"); ?>
-      #<?php print $ord['id'] ?> </h2>
+      #<?php print $show_ord_id ?> </h2>
   </div>
   <div class="mw-ui-row" id="orders-info-row">
     <div class="mw-ui-col">

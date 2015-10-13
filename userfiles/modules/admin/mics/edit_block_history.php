@@ -9,7 +9,14 @@ if(isset($params['post_id']) and intval($params['post_id']) != 0){
 	$cont_id = intval($params['post_id']);
 } else if(isset($params['page_id']) and intval($params['page_id']) != 0){
 	$cont_id = intval($params['page_id']);
+} else if(isset($params['for_url']) and ($params['for_url']) != false){
+	$cont = mw()->content_manager->get_by_url($params['for_url']);
+	if(isset($cont['id'])){
+		$cont_id = $cont['id'];
+	}
+ 
 }
+
 
 
 
@@ -26,8 +33,7 @@ $url = mw()->url_manager->string(true);
  		
 		$history_files_fields = get_content_field('group_by=field&order_by=id desc&fields=field,id,created_at&is_draft=1&all=1&url='.$url);
 	 
-
-	 
+ 
 	}
 
 
