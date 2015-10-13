@@ -430,7 +430,9 @@ class ContentManager {
         }
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
-
+        if (isset($params['id'])){
+            $params['id'] = intval($params['id']);
+        }
 
         if (isset($params['search_by_keyword'])){
             $params['keyword'] = $params['search_by_keyword'];
@@ -919,6 +921,15 @@ class ContentManager {
         if (isset($params['nest_level'])){
             $nest_level = $params['nest_level'];
         }
+        if (isset($params['parent'])){
+            $params['parent'] = intval($params['parent']);
+        }
+
+
+        if (isset($params['id'])){
+            unset($params['id']);
+        }
+
         $max_level = false;
         if (isset($params['max_level'])){
             $max_level = $params['max_level'];
@@ -991,6 +1002,7 @@ class ContentManager {
 
             $parent = (0);
         } else {
+            $parent = intval($parent);
             $par_q = " parent=$parent    and  ";
 
         }
@@ -1047,6 +1059,7 @@ class ContentManager {
         if (isset($remove_ids) and is_string($remove_ids)){
             $remove_ids = explode(',', $remove_ids);
         }
+
         if (isset($active_ids)){
             $active_ids = $active_ids;
         }
@@ -1054,6 +1067,11 @@ class ContentManager {
 
         if (isset($active_ids) and is_string($active_ids)){
             $active_ids = explode(',', $active_ids);
+            if (is_array($active_ids)==true){
+                foreach ($active_ids as $idk => $idv) {
+                    $active_ids[ $idk ] = intval($idv);
+                }
+            }
         }
 
         $the_active_class = 'active';
@@ -1144,6 +1162,9 @@ class ContentManager {
                 if (is_array($item)!=false and isset($item['title']) and $item['title']!=null){
                     $skip_me_cause_iam_removed = false;
                     if (is_array($remove_ids)==true){
+                        foreach ($remove_ids as $idk => $idv) {
+                            $remove_ids[ $idk ] = intval($idv);
+                        }
 
                         if (in_array($item['id'], $remove_ids)){
 
@@ -1321,7 +1342,7 @@ class ContentManager {
                             $to_print = str_replace('{content_link_class}', '', $to_print);
 
                             if ($item['id']==$item['parent']){
-                                $remove_ids[] = $item['id'];
+                                $remove_ids[] = intval($item['id']);
                             }
 
 
@@ -1330,7 +1351,7 @@ class ContentManager {
                                     if ($removed_ids_code==false){
                                         $to_print = false;
                                     } else {
-                                        $remove_ids[] = $item['id'];
+                                        $remove_ids[] = intval($item['id']);
                                         $to_print = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_print);
                                     }
                                 } else {

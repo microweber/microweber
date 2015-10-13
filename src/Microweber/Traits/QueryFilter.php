@@ -296,6 +296,12 @@ trait QueryFilter {
                         $ids = array($ids);
                     }
 
+                    if (isset($ids) and is_array($ids)==true){
+                        foreach ($ids as $idk => $idv) {
+                            $ids[ $idk ] = intval($idv);
+                        }
+                    }
+
                     if (is_array($ids)){
                         $query = $query->whereIn($table . '.id', $ids);
                     }
@@ -313,7 +319,11 @@ trait QueryFilter {
                         $ids = array($ids);
                     }
 
-
+                    if (isset($ids) and is_array($ids)==true){
+                        foreach ($ids as $idk => $idv) {
+                            $ids[ $idk ] = intval($idv);
+                        }
+                    }
                     if (is_array($ids)){
                         $query = $query->whereNotIn($table . '.id', $ids);
                     }
