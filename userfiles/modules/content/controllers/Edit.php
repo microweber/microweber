@@ -106,6 +106,7 @@ class Edit
             $data = $this->app->content_manager->get_by_id(intval($params["content-id"]));
         }
         $recommended_parent = false;
+		 
         if (isset($params['recommended_parent']) and $params['recommended_parent'] != false) {
             $recommended_parent = $params['recommended_parent'];
         } elseif (isset($params['parent']) and $params['parent'] != false) {
@@ -214,6 +215,26 @@ class Edit
                     }
 
                 }
+            } elseif (isset($data['subtype']) and $data['subtype'] == 'product') {
+                if (isset($data['is_shop']) and $data['is_shop'] == 0) {
+                    $parent_content = $this->app->content_manager->get_by_id($recommended_parent);
+                    if (isset($parent_content['is_shop']) and $parent_content['is_shop'] == 0) {
+                        $parent_content_params = array();
+                        $parent_content_params['subtype'] = 'dynamic';
+                        $parent_content_params['content_type'] = 'page';
+                        $parent_content_params['limit'] = 1;
+                        $parent_content_params['one'] = 1;
+						$parent_content_params['is_shop'] = 1;
+                        $parent_content_params['fields'] = 'id';
+                        $parent_content_params['order_by'] = 'posted_at desc, updated_at desc';
+                        $parent_content = $this->app->content_manager->get($parent_content_params);
+                        if (isset($parent_content['id']) and $parent_content['id'] != 0) {
+                            $data['parent'] = $recommended_parent = $parent_content['id'];
+                            $categories_active_ids = false;
+                        }
+                    }
+
+                }
             }
 
         }
@@ -294,6 +315,7 @@ class Edit
         $post_list_view = $this->views_dir . 'edit.php';
         $this->app->event_manager->trigger('module.content.edit.main', $data);
 
+ 
         //d($params);
         //d($data['content_type']);
         //d($data);

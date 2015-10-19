@@ -209,7 +209,7 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
     <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
     <?php $type = ( isset( $item['content_type']))? ($item['content_type']) : false ; ?>
     <?php $subtype = ( isset( $item['subtype']))? ($item['subtype']) : false ; ?>
-    <li><a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>'); return false;" href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
+    <li><a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>', '<?php print MAIN_PAGE_ID; ?>', '<?php print CATEGORY_ID; ?>'); return false;" href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
     <?php endforeach; ?>
     <?php endif; ?>
 
@@ -309,7 +309,20 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
              
                 
              
+                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a>
+                
+                <!--
+                
+                <ul class="mw-ui-btn-vertical-nav w100">
+                
+                
+                <li><span class="mw-icon-dropdown"></span><a class="mw-ui-btn mw-ui-btn"><span class="mw-icon-website"></span>asdasd</a></li>
                 <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
+
+                
+                </ul>
+                -->
+                </li>
 
                 <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>

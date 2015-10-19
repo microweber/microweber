@@ -3046,14 +3046,20 @@ mw.quick = {
         $(modal.main).addClass('mw-add-content-modal');
         modal.overlay.style.backgroundColor = "white";
     },
-    edit: function (id, content_type, subtype) {
-        var str = "&recommended_parent=" + mw.settings.page_id;
+    edit: function (id, content_type, subtype, parent, category) {
+		var str = "";
+		
+		if(typeof(parent) != 'undefined'){
+			 var str = "&recommended_parent=" + parent;
+		}
+       
         if (content_type != undefined && content_type != '') {
             str = str + '&content_type=' + content_type;
         }
-        if (mw.settings.category_id != 0) {
-            str = str + '&category=' + mw.settings.category_id;
-        }
+		
+		if(typeof(category) != 'undefined'){
+            str = str + '&category=' + category;
+		}
 
         if (subtype != undefined && subtype != '') {
             str = str + '&subtype=' + subtype;
