@@ -1,5 +1,3 @@
-
-
 <?php
 
     $before =  get_option('before', $params['id']);

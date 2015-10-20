@@ -916,6 +916,8 @@ class ShopManager {
 
     }
 
+
+
     public function remove_cart_item($data) {
 
         if (!is_array($data)){

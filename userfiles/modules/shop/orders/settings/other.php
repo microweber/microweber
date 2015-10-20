@@ -29,7 +29,6 @@
   <?php _e("Yes"); ?>
   </span></label>
 <hr>
-
 <h4>
   <?php _e("Disable online shop"); ?>
 </h4>
@@ -45,32 +44,19 @@
   </span> </label>
 <br />
 <hr>
-
 <a  class="mw-ui-btn mw-ui-btn-small"
             href="javascript:$('.mw_adm_shop_advanced_settings').toggle();void(0);">Advanced<span
                 class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
-  <div class="mw_adm_shop_advanced_settings mw-ui-box mw-ui-box-content" style="display:snone;margin-top: 12px;">
-
-
-
-<h2>
-  <?php _e("Checkout URL"); ?>
-</h2>
-<?php ?>
-<?php $checkout_url = get_option('checkout_url', 'shop');  ?>
-<input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
-
-
-
-<h2>
-  <?php _e("Custom order id"); ?>
-</h2>
-<?php ?>
-<input name="custom_order_id"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('custom_order_id','shop'); ?>" placeholder="ORD-{id}"  />
-
-
-
-  
-  </div>
-  
-  
+<div class="mw_adm_shop_advanced_settings mw-ui-box mw-ui-box-content" style="display:none;margin-top: 12px;">
+  <h2>
+    <?php _e("Checkout URL"); ?>
+  </h2>
+  <?php ?>
+  <?php $checkout_url = get_option('checkout_url', 'shop');  ?>
+  <input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
+  <h2>
+    <?php _e("Custom order id"); ?>
+  </h2>
+  <?php ?>
+  <input name="custom_order_id"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('custom_order_id','shop'); ?>" placeholder="ORD-{id}"  />
+</div>
