@@ -48,7 +48,7 @@ description: Grid with 3 columns
         <?php $count = -1; foreach ($data as $item): ?>
             <?php $count++; ?>
             <div class="masonry-item masonry-item-grid"
-                 style="background-image:url(<?php print thumbnail($item['filename'], 400); ?>);"
+                 style="background-image:url('<?php print thumbnail($item['filename'], 400); ?>');"
                  onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)">
                 <?php if ($item['title'] != '') { ?>
                     <div class="masonry-item-description"><?php print $item['title']; ?></div>

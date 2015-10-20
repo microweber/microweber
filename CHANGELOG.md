@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.5] - WIP
+## [1.0.5] - 2015-10-10
 
 - Added: Custom content fields now can be added from the template config file
 - Added: Session-less routes and Middleware
@@ -11,10 +11,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added: Cache driver support (Files, APC)
 - Added: Template class 
 - Added: Caching option for apijs and frontend assets
+- Fix: create post/product now have parent page
 - Fix: parser was outputting the same content in different edit fields
 - Fix: module id is now generated with md5 instead with crc32
 - Fix: is_home bug under sqlite
 - Fix: install bug
+- Fix: pqsql fix
 - Fix: shipping to country bug with the select menu
 - Fix: custom field default values were showing 0
 - Fix: editor improvements

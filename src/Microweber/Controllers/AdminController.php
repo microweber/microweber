@@ -35,7 +35,6 @@ class AdminController extends Controller
 
         //create_mw_default_options();
         mw()->content_manager->define_constants();
-        //   mw()->ui();
 
 
         if (defined('TEMPLATE_DIR')) {
