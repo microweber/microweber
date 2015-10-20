@@ -187,16 +187,19 @@ trait QueryFilter {
                                         }
                                     );
                                 }
-                                $raw_search_query = false;
                                 if (!empty($to_search_in_fields)){
-                                    $raw_search_query = '';
-                                    $search_vals = array();
-                                    $search_qs = array();
-                                    foreach ($to_search_in_fields as $to_search_in_field) {
-                                        $search_qs[] = " `{$to_search_in_field}` REGEXP ? ";
-                                        $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
-                                        $search_vals[] = $to_search_keyword;
-                                    }
+                                    $query->where(function ($query) use ($to_search_in_fields, $to_search_keyword, $params) {
+                                        foreach ($to_search_in_fields as $to_search_in_field) {
+                                            $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
+                                        }
+                                        if (isset($params['is_active'])){
+                                            $query->where('is_active', $params['is_active']);
+                                        }
+                                        if (isset($params['is_deleted'])){
+                                            $query->where('is_deleted', $params['is_deleted']);
+                                        }
+                                    });
+
                                 }
                             }
                         }

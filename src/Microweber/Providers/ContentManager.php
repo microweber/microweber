@@ -436,12 +436,19 @@ class ContentManager {
 
         if (isset($params['search_by_keyword'])){
             $params['keyword'] = $params['search_by_keyword'];
+
         }
 
         if (isset($params['keyword']) and !isset($params['search_in_fields'])){
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
+        if (isset($params['keyword'])){
+            if(!is_admin()){
+                $params['is_deleted'] = 0;
+                $params['is_active'] = 1;
 
+            }
+        }
 
         $get = mw()->database_manager->get($params);
 
