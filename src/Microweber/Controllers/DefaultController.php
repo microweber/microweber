@@ -7,6 +7,7 @@ use Microweber\Install;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use \Cache;
@@ -16,6 +17,20 @@ use \Session;
 use Module;
 
 class DefaultController extends Controller {
+
+    /** @var \Microweber\Application */
+    public $app;
+
+    public $return_data = false;
+    public $content_data = false;
+    public $page_url = false;
+    public $create_new_page = false;
+    public $render_this_url = false;
+    public $isolate_by_html_id = false;
+    public $functions = array();
+    public $page = array();
+    public $params = array();
+    public $vars = array();
 
 
     public function __construct($app = null) {
@@ -36,23 +51,18 @@ class DefaultController extends Controller {
             $installer = new InstallController($this->app);
 
             return $installer->index();
+        } else if (defined('MW_VERSION')){
+            $config_version = Config::get('microweber.version');
+            if ($config_version!=MW_VERSION){
+                $this->app->update->post_update(MW_VERSION);
+            }
         }
 
         return $this->frontend();
     }
 
 
-    public $return_data = false;
-    public $content_data = false;
-    public $page_url = false;
-    public $create_new_page = false;
-    public $render_this_url = false;
-    public $isolate_by_html_id = false;
-    public $functions = array();
-    public $page = array();
-    public $params = array();
-    public $vars = array();
-    public $app;
+
 
     public function rss() {
 
@@ -1210,7 +1220,6 @@ class DefaultController extends Controller {
         }
 
 
-
         if ($is_quick_edit or $is_preview_template==true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page==true){
 
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id'])!=0){
@@ -2321,7 +2330,7 @@ class DefaultController extends Controller {
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $hash = md5(site_url());
-             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)){
                 if (!is_dir($userfiles_cache_dir)){
@@ -2382,13 +2391,13 @@ class DefaultController extends Controller {
                 $custom_content_data_req = $_REQUEST;
                 $custom_content_data = array();
                 if (isset($custom_content_data_req['content_type'])){
-                //    $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
+                    //    $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
                 }
                 if (isset($custom_content_data_req['content_type'])){
-                     $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
+                    $custom_content_data['content_type'] = $custom_content_data_req['content_type'];
                 }
                 if (isset($custom_content_data_req['subtype'])){
-                      $custom_content_data['subtype'] = $custom_content_data_req['subtype'];
+                    $custom_content_data['subtype'] = $custom_content_data_req['subtype'];
                 }
                 if (isset($custom_content_data_req['parent_page']) and is_numeric($custom_content_data_req['parent_page'])){
                     $custom_content_data['parent'] = intval($custom_content_data_req['parent_page']);
@@ -2398,8 +2407,8 @@ class DefaultController extends Controller {
                 }
                 if (!empty($custom_content_data)){
 
-                     $custom_content_data['id'] = 0;
-                     $this->content_data = $custom_content_data;
+                    $custom_content_data['id'] = 0;
+                    $this->content_data = $custom_content_data;
 
                 }
 

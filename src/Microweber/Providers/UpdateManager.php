@@ -5,6 +5,7 @@ namespace Microweber\Providers;
 use GuzzleHttp\Stream\Utils;
 use Microweber\Utils\Http;
 use Microweber\Utils\Files;
+use Illuminate\Support\Facades\Config;
 
 
 if (defined("INI_SYSTEM_CHECK_DISABLED")==false){
@@ -570,9 +571,9 @@ class UpdateManager {
 
     }
 
-    function post_update() {
-        $this->_log_msg('Applying post update actions');
 
+    function post_update($version = false) {
+        $this->_log_msg('Applying post update actions');
         $system_refresh = new \Microweber\Install\DbInstaller;
         $system_refresh->createSchema();
         //$system_refresh->run();
@@ -600,8 +601,12 @@ class UpdateManager {
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');
 
-
+        if ($version!=false){
+            Config::set('microweber.version', $version);
+            Config::save('microweber');
+        }
     }
+
 
     private function install_from_market($item) {
         if (isset($item['url']) and !isset($item['download'])){
@@ -621,7 +626,7 @@ class UpdateManager {
             $this->_log_msg('Downloading from marketplace');
 
             //if (!is_file($download_target)){
-                $dl = $this->http()->url($url)->download($download_target);
+            $dl = $this->http()->url($url)->download($download_target);
             //}
         } else if (isset($item['download']) and isset($item['size'])){
             $expected = intval($item['size']);
@@ -650,6 +655,7 @@ class UpdateManager {
                             if ($dl==false){
                                 if (is_file($download_target) and filesize($download_target)!=$item['size']){
                                     $fs = filesize($download_target);
+
                                     return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
                                 }
                             }
@@ -785,7 +791,7 @@ class UpdateManager {
             $params = array();
             $params['skip_cache'] = true;
 
-           // $data = $this->app->modules->get($params);
+            // $data = $this->app->modules->get($params);
 
 
         }

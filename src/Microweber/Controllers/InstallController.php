@@ -111,6 +111,9 @@ class InstallController extends Controller {
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
             Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
 
+            if (defined('MW_VERSION')){
+                Config::set('microweber.version', MW_VERSION);
+            }
 
             if (isset($input['default_template']) and $input['default_template']!=false){
                 Config::set('microweber.install_default_template', $input['default_template']);
@@ -122,6 +125,7 @@ class InstallController extends Controller {
             if (!isset($input['developer_mode'])){
                 Config::set('microweber.compile_assets', 1);
             }
+
 
 
             if (Config::get('app.key')=='YourSecretKey!!!'){
