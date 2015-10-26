@@ -41,6 +41,10 @@ function cart_total() {
     return mw()->shop_manager->cart_total();
 }
 
+function cart_get_tax() {
+    return mw()->cart_manager->get_tax();
+}
+
 
 function checkout_ipn($data) {
     return mw()->shop_manager->checkout_ipn($data);
@@ -104,7 +108,7 @@ function currency_format($amount, $curr = false) {
 
 
 function mw_shop_recover_shopping_cart($sid = false) {
-    return mw()->shop_manager->recover_shopping_cart($sid);
+    return mw()->cart_manager->recover_cart($sid);
 }
 
 

@@ -18,6 +18,7 @@ namespace Microweber;
  * @property \Microweber\Providers\MediaManager                            $media_manager
  * @property \Microweber\Providers\ShopManager                             $shop_manager
  * @property \Microweber\Providers\Shop\CartManager                        $cart_manager
+ * @property \Microweber\Providers\Shop\OrderManager                       $order_manager
  * @property \Microweber\Providers\Shop\TaxManager                         $tax_manager
  * @property \Microweber\Providers\OptionManager                           $option_manager
  * @property \Database                                                     $database

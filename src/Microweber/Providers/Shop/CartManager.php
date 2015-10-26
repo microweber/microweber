@@ -71,21 +71,34 @@ class CartManager {
         $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
         $total = $sum + $shipping;
 
+        if (get_option('enable_taxes', 'shop')==1){
+            if ($total > 0){
+                $tax = $this->app->tax_manager->calculate($sum);
+                $total = $total + $tax;
+            }
+        }
+
         return $total;
     }
 
+    public function get_tax() {
+        $sum = $this->sum();
+        $tax = $this->app->tax_manager->calculate($sum);
+
+        return $tax;
+    }
 
     public function get($params = false) {
 
 
         $time = time();
-        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
+//      $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
 
-        if ($clear_carts_cache==false or ($clear_carts_cache < ($time - 600))){
-            // clears cache for old carts
-            $this->app->cache_manager->delete('cart/global');
-            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
-        }
+//        if ($clear_carts_cache==false or ($clear_carts_cache < ($time - 600))){
+//            // clears cache for old carts
+//            $this->app->cache_manager->delete('cart/global');
+//            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
+//        }
 
 
         $params2 = array();
@@ -136,7 +149,7 @@ class CartManager {
 
             unset($params['order_completed']);
         }
-        // $params['no_cache'] = 1;
+        $params['no_cache'] = 1;
 
         $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count']!=false){
@@ -167,6 +180,29 @@ class CartManager {
         return $return;
     }
 
+
+    public function get_by_order_id($order_id = false) {
+        $order_id = intval($order_id);
+        if ($order_id==false){
+            return;
+        }
+        $params = array();
+        $table = $this->table;
+        $params['table'] = $table;
+        $params['order_id'] = $order_id;
+        $get = $this->app->database_manager->get($params);
+        if (!empty($get)){
+            foreach ($get as $k => $item) {
+                if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
+                    $item = $this->app->format->render_item_custom_fields_data($item);
+                }
+                $get[ $k ] = $item;
+            }
+        }
+
+
+        return $get;
+    }
 
     public function remove_item($data) {
 
@@ -246,6 +282,23 @@ class CartManager {
         $this->app->cache_manager->delete('cart');
         $this->app->cache_manager->delete('cart_orders/global');
 
+    }
+
+    function delete_cart($params) {
+        if (is_string($params)){
+            $params = parse_params($params);
+        }
+        if (isset($params['session_id'])){
+            $id = $params['session_id'];
+            \Cart::where('session_id', $id)->delete();
+
+        }
+        if (isset($params['order_id'])){
+            $id = $params['order_id'];
+            \Cart::where('order_id', $id)->delete();
+        }
+        $this->app->cache_manager->delete('cart');
+        $this->app->cache_manager->delete('cart_orders');
     }
 
     public function update_cart($data) {
@@ -505,6 +558,7 @@ class CartManager {
 
 
     public function recover_cart($sid = false, $ord_id = false) {
+
         if ($sid==false){
             return;
         }
@@ -574,4 +628,5 @@ class CartManager {
         }
 
     }
+
 }

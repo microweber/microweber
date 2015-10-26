@@ -32,3 +32,9 @@ $defined_taxes = mw()->tax_manager->get();
     <?php endif; ?>
   </tbody>
 </table>
+
+
+<br /><br />
+<?php if(!empty($defined_taxes)) : ?>
+<span class="mw-ui-label-help">Example tax for 1000.00 is <?php print mw()->tax_manager->calculate(1000) ?></span>
+<?php endif; ?>

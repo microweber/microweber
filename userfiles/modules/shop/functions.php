@@ -82,3 +82,10 @@ event_bind('mw.user.login', function ($data) {
         mw()->cache_manager->delete('cart');
     }
 });
+
+
+event_bind('recover_shopping_cart', function ($params = false) {
+    return mw()->cart_manager->recover_cart($params);
+});
+
+ 

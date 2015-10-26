@@ -123,6 +123,23 @@ description: Full width cart template
               <module type="shop/shipping"  view="cost" />
             </div></td>
         </tr>
+        
+        
+        <?php if (function_exists('cart_get_tax') and get_option('enable_taxes', 'shop')==1){ ?>
+        
+        <tr>
+          <td></td>
+          <td><label>
+              <?php _e("Tax"); ?>
+              :</label></td>
+          <td  class="cell-shipping-price"><?php print currency_format(cart_get_tax()); ?></td>
+        </tr>
+        
+        <?php }  ?>
+        
+        
+        
+        
         <tr>
           <td></td>
           <td><label>

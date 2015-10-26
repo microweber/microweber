@@ -449,12 +449,16 @@ class Format {
         return $str;
     }
 
-    public function percent($num_amount, $num_total) {
+    public function percent($num_amount, $num_total, $format = true) {
         if ($num_amount==0 or $num_total==0){
             return 0;
         }
         $count1 = $num_amount / $num_total;
         $count2 = $count1 * 100;
+
+        if (!$format){
+            return $count2;
+        }
         $count = number_format($count2, 0);
 
         return $count;
@@ -706,6 +710,7 @@ class Format {
                 $item['custom_fields'] = $tmp_val;
             }
         }
+
         return $item;
     }
 }

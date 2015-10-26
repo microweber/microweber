@@ -452,22 +452,7 @@ class ShopManager {
     }
 
     public function get_order_by_id($id = false) {
-
-
-        $table = $this->tables['cart_orders'];
-        $params['table'] = $table;
-        $params['one'] = true;
-
-        $params['id'] = intval($id);
-
-        $item = $this->app->database_manager->get($params);
-
-        if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
-            $item = $this->app->format->render_item_custom_fields_data($item);
-        }
-
-        return $item;
-
+        return $this->app->order_manager->get_by_id($id);
     }
 
 
@@ -479,9 +464,6 @@ class ShopManager {
         return $this->app->cart_manager->get($params);
     }
 
-    public function recover_shopping_cart($sid = false, $ord_id = false) {
-        return $this->app->cart_manager->recover_cart($sid, $ord_id);
-    }
 
     public function remove_cart_item($data) {
         return $this->app->cart_manager->remove_item($data);
@@ -640,26 +622,7 @@ class ShopManager {
     }
 
     public function order_items($order_id = false) {
-        $order_id = intval($order_id);
-        if ($order_id==false){
-            return;
-        }
-        $params = array();
-        $table = $this->tables['cart'];
-        $params['table'] = $table;
-        $params['order_id'] = $order_id;
-        $get = $this->app->database_manager->get($params);
-        if (!empty($get)){
-            foreach ($get as $k => $item) {
-                if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
-                    $item = $this->app->format->render_item_custom_fields_data($item);
-                }
-                $get[ $k ] = $item;
-            }
-        }
-
-
-        return $get;
+        return $this->app->order_manager->get_items($order_id);
     }
 
     public function after_checkout($order_id, $suppress_output = true) {
@@ -692,34 +655,7 @@ class ShopManager {
     }
 
     public function get_orders($params = false) {
-
-        $params2 = array();
-        if ($params==false){
-            $params = array();
-        }
-        if (is_string($params)){
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        if (defined('MW_API_CALL') and $this->app->user_manager->is_admin()==false){
-
-            if (!isset($params['payment_verify_token'])){
-                $params['session_id'] = mw()->user_manager->session_id();
-            }
-
-        }
-
-
-        if (isset($params['keyword'])){
-            $params['search_in_fields'] = array('first_name', 'last_name', 'email', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code');
-        }
-
-
-        $table = $this->tables['cart_orders'];
-        $params['table'] = $table;
-
-        return $this->app->database_manager->get($params);
-
+        return $this->app->order_manager->get($params);
     }
 
 
@@ -938,42 +874,7 @@ class ShopManager {
     }
 
     public function delete_order($data) {
-
-        $adm = $this->app->user_manager->is_admin();
-
-        if (defined('MW_API_CALL') and $adm==false){
-            return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
-        }
-        $table = $this->tables['cart_orders'];
-        if (!is_array($data)){
-            $data = array('id' => intval($data));
-        }
-        if (isset($data['is_cart']) and trim($data['is_cart'])!='false' and isset($data['id'])){
-            $c_id = $this->app->database_manager->escape_string($data['id']);
-            $table2 = $this->tables['cart'];
-
-            $c_id = $this->app->database_manager->delete_by_id($table2, $c_id, 'session_id');
-
-
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-
-            return $c_id;
-        } else if (isset($data['id'])){
-            $c_id = intval($data['id']);
-            $this->app->database_manager->delete_by_id($table, $c_id);
-            $table2 = $this->tables['cart'];
-            $this->app->event_manager->trigger('mw.cart.delete_order', $c_id);
-
-            $c_id = $this->app->database_manager->delete_by_id($table2, $data['id'], 'order_id');
-
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-
-            return $c_id;
-        }
-
-
+        return $this->app->order_manager->delete_order($data);
     }
 
 
@@ -1186,8 +1087,6 @@ class ShopManager {
 
         return true;
     }*/
-
-
 
 
 }
