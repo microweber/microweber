@@ -33,9 +33,12 @@ function delete_client($data) {
     return mw()->shop_manager->delete_client($data);
 }
 
-
 function cart_sum($return_amount = true) {
     return mw()->shop_manager->cart_sum($return_amount);
+}
+
+function cart_total() {
+    return mw()->shop_manager->cart_total();
 }
 
 

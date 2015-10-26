@@ -697,4 +697,15 @@ class Format {
         return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
     }
 
+
+    function render_item_custom_fields_data($item) {
+        if (isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
+            $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
+            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])){
+                $tmp_val = $this->array_to_ul($item['custom_fields_data']);
+                $item['custom_fields'] = $tmp_val;
+            }
+        }
+        return $item;
+    }
 }
