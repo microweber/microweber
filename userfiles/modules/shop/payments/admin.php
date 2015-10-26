@@ -277,7 +277,7 @@ $payment_modules = get_modules('type=payment_gateway');
             <div class="mw-ui-btn-nav">
                 <a class="mw-ui-btn payment-tab active" href="javascript:;"><?php _e("Payments"); ?></a>
                 <a class="mw-ui-btn payment-tab" href="javascript:;" id="payment-tab-email"><?php _e("Emails for order"); ?></a>
-                <a class="mw-ui-btn payment-tab" href="javascript:;"><?php _e("Shipping Units"); ?></a>
+                <a class="mw-ui-btn payment-tab" href="javascript:;"><?php _e("Taxes"); ?></a>
                 <a class="mw-ui-btn payment-tab" href="javascript:;"><?php _e("Other"); ?></a>
 
             </div>
@@ -366,7 +366,7 @@ $payment_modules = get_modules('type=payment_gateway');
 
               </div>
               <div class="otab">
-                <module type="shop/shipping/set_units" id="mw_set_shipping_units" />
+                <module type="shop/taxes/admin" id="mw_shop_set_tax_settings" />
               </div> 
               
               <div class="otab"> 

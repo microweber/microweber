@@ -623,48 +623,24 @@ class MediaManager {
         } else {
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
-
+ 
 
             $src2 = MW_ROOTPATH . $src;
             $src2 = normalize_path($src2, false);
-
-
+			$src3 = strtolower($src2);
+ 
             if (is_file($src1)){
                 $src = $src1;
             } elseif (is_file($src2)) {
                 $src = $src2;
+					
+            }  elseif (is_file($src3)) {
+                $src = $src3;
+					
             } else {
                 $no_img = true;
 
-
-//                if (function_exists('getimagesize')) {
-//                    $im = @getimagesize($src);
-//                    if ($im) {
-//                        if (isset($im['mime'])) {
-//                            $save_ext = false;
-//                            switch ($im['mime']) {
-//                                case "image/jpeg":
-//                                case "image/jpg":
-//                                    $save_ext = 'jpg';
-//                                    break;
-//                                case "image/gif":
-//                                    $save_ext = 'gif';
-//                                    break;
-//                                case "image/png":
-//                                    $save_ext = 'png';
-//                                    break;
-//                                case "image/bmp":
-//                                    $save_ext = 'bmp';
-//                                    break;
-//                            }
-//                            if ($save_ext != false) {
-//                                $ext = $save_ext;
-//                                $no_img = false;
-//                            }
-//                        }
-//
-//                    }
-//                }
+ 
 
                 if ($no_img){
                     return $this->pixum_img();

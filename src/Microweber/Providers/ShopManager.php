@@ -3,7 +3,6 @@ namespace Microweber\Providers;
 
 use DB;
 
-//event_bind('mw_db_init_default', mw()->shop_manager->db_init());
 
 /**
  *
@@ -13,10 +12,8 @@ use DB;
  * @subpackage        shop
  * @since             Version 0.1
  */
-
 // ------------------------------------------------------------------------
 
-api_expose_admin('shop/update_order');
 
 class ShopManager {
     public $app;
@@ -52,6 +49,9 @@ class ShopManager {
 
         if (!isset($tables['cart_shipping'])){
             $tables['cart_shipping'] = 'cart_shipping';
+        }
+        if (!isset($tables['cart_taxes'])){
+            $tables['cart_taxes'] = 'cart_taxes';
         }
         $this->tables = $tables;
 
@@ -917,7 +917,6 @@ class ShopManager {
     }
 
 
-
     public function remove_cart_item($data) {
 
         if (!is_array($data)){
@@ -1451,7 +1450,7 @@ class ShopManager {
             $params = array();
         }
         if (is_string($params)){
-            $params - parse_params($params);
+            $params = parse_params($params);
         }
 
         if (isset($params['is_paid'])){
@@ -1477,8 +1476,7 @@ class ShopManager {
         $table = $this->tables['cart_orders'];
         if (isset($data['email'])){
             $c_id = $this->app->database_manager->escape_string($data['email']);
-            $q = "DELETE FROM $table WHERE email='$c_id' ";
-            $res = $this->app->database_manager->q($q);
+            $res = $this->app->database_manager->delete_by_id($table, $c_id, 'email');
             $this->app->cache_manager->delete('cart_orders/global');
 
             return $res;
@@ -1675,7 +1673,7 @@ class ShopManager {
         }
     }
 
-    public function create_mw_shop_default_options() {
+    /*public function create_mw_shop_default_options() {
 
         $function_cache_id = __FUNCTION__;
 
@@ -1733,6 +1731,48 @@ class ShopManager {
         $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
 
         return true;
+    }*/
+
+
+    public function get_taxes($params = array()) {
+
+        if (is_string($params)){
+            $params = parse_params($params);
+        }
+
+        $table = $this->tables['cart_taxes'];
+        $params['table'] = $table;
+        $get = $this->app->database_manager->get($params);
+
+        return $get;
+    }
+
+    public function save_tax_item($params = array()) {
+
+        if(isset($params['amount'])){
+            $params['amount'] = floatval($params['amount']);
+        }
+
+        $table = $this->tables['cart_taxes'];
+        $params['table'] = $table;
+        $save = $this->app->database_manager->save($params);
+
+        return $save;
+
+    }
+
+
+
+    public function delete_tax_item($data) {
+        if (!is_array($data)){
+            $id = intval($data);
+            $data = array('id' => $id);
+        }
+        if (!isset($data['id']) or $data['id']==0){
+            return false;
+        }
+        $table = $this->tables['cart_taxes'];
+        $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
     }
 
 }

@@ -1,17 +1,16 @@
 <?php
 
-api_expose('api_index', function($data = false) {
+api_expose('api_index', function ($data = false) {
     $fns = explode(' ', api_expose(true));
     $fns = array_filter($fns);
-    
-    if(is_admin())
-    {
+
+    if (is_admin()){
         $fns2 = explode(' ', api_expose_admin(true));
         $fns2 = array_filter($fns2);
         $fns = array_merge($fns, $fns2);
     }
-    
-    if(isset($data['debug'])) {
+
+    if (isset($data['debug'])){
         dd($fns);
     }
 
@@ -54,6 +53,7 @@ api_expose('template/print_custom_css', function ($data) {
 
     $response = Response::make($contents);
     $response->header('Content-Type', 'text/css');
+
     return $response;
 
 });
@@ -105,9 +105,18 @@ api_expose_admin('delete_client');
 api_expose_admin('delete_order');
 api_expose_admin('update_order');
 
+
 api_bind_admin('shop/update_order', function ($data) {
     return mw()->shop_manager->update_order($data);
 });
+
+api_bind_admin('shop/save_tax_item', function ($data) {
+    return mw()->shop_manager->save_tax_item($data);
+});
+api_bind_admin('shop/delete_tax_item', function ($data) {
+    return mw()->shop_manager->delete_tax_item($data);
+});
+
 
 
 
