@@ -235,7 +235,9 @@ class ShopManager {
                 }
             }
 
-            $amount = $this->cart_sum();
+            $amount = $this->cart_total();
+            $tax = $this->app->cart_manager->get_tax();
+
             if (!empty($checkout_errors)){
                 return array('error' => $checkout_errors);
             }
@@ -248,6 +250,9 @@ class ShopManager {
                 $place_order['shipping_service'] = $data['shipping_gw'];
             }
             $place_order['shipping'] = $shipping_cost;
+            if($tax != 0){
+                $place_order['taxes_amount'] = $tax;
+            }
 
             $items_count = $this->cart_sum(false);
             $place_order['items_count'] = $items_count;
@@ -354,36 +359,9 @@ class ShopManager {
 
 
     public function place_order($place_order) {
-        $sid = mw()->user_manager->session_id();
-        if ($sid==false){
-            return $sid;
-        }
-
-        $ord = $this->app->database_manager->save($this->tables['cart_orders'], $place_order);
-        $place_order['id'] = $ord;
-
-        DB::transaction(function () use ($sid, $ord, $place_order) {
-            DB::table($this->tables['cart'])->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
-
-            if (isset($place_order['order_completed']) and $place_order['order_completed']==1){
-                DB::table($this->tables['cart'])->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
-
-                if (isset($place_order['is_paid']) and $place_order['is_paid']==1){
-                    DB::table($this->tables['cart_orders'])->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
-                }
-                $this->app->cache_manager->delete('cart');
-                $this->app->cache_manager->delete('cart_orders');
-                if (isset($place_order['is_paid']) and $place_order['is_paid']==1){
-                    $this->update_quantities($ord);
-                }
-                $this->after_checkout($ord);
-            }
-        });
-
-        mw()->user_manager->session_set('order_id', $ord);
-
-        return $ord;
+        return $this->app->order_manager->place_order($place_order);
     }
+
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false) {
 
@@ -823,39 +801,10 @@ class ShopManager {
         return $url;
     }
 
-    /**
-     * update_order
-     *
-     * updates order by parameters
-     *
-     * @package        modules
-     * @subpackage     shop
-     * @subpackage     shop\orders
-     * @category       shop module api
-     */
+
     public function update_order($params = false) {
+        return $this->app->order_manager->save($params);
 
-        $params2 = array();
-        if ($params==false){
-            $params = array();
-        }
-        if (is_string($params)){
-            $params = parse_params($params);
-        }
-
-        if (isset($params['is_paid'])){
-            if ($params['is_paid']=='y'){
-                $params['is_paid'] = 1;
-            } elseif ($params['is_paid']=='n') {
-                $params['is_paid'] = 0;
-            }
-        }
-
-        $table = $this->tables['cart_orders'];
-        $params['table'] = $table;
-        $this->app->cache_manager->delete('cart_orders');
-
-        return $this->app->database_manager->save($table, $params);
     }
 
     public function delete_client($data) {

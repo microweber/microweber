@@ -92,13 +92,13 @@ class CartManager {
 
 
         $time = time();
-//      $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
+      $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
 
-//        if ($clear_carts_cache==false or ($clear_carts_cache < ($time - 600))){
-//            // clears cache for old carts
-//            $this->app->cache_manager->delete('cart/global');
-//            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
-//        }
+        if ($clear_carts_cache==false or ($clear_carts_cache < ($time - 600))){
+            // clears cache for old carts
+            $this->app->cache_manager->delete('cart/global');
+            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
+        }
 
 
         $params2 = array();
@@ -627,6 +627,10 @@ class CartManager {
             }
         }
 
+    }
+
+    public function table_name(){
+        return $this->table;
     }
 
 }

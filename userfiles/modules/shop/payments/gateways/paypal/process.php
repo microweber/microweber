@@ -129,8 +129,10 @@ $myPaypal -> addField('business', trim(get_option('paypalexpress_username', 'pay
 $currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
 $currencyCode = $place_order['currency'];
 $amount = $place_order['amount'];
-$place_order['payment_amount'] = $amount;
 
+if(!isset($place_order['payment_amount'])){
+$place_order['payment_amount'] = $amount;
+}
 $place_order['payment_shipping'] = $place_order['shipping'];
 if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
     $payment_currency = get_option('payment_currency', 'payments');
@@ -178,8 +180,8 @@ $myPaypal -> addField('notify_url', $mw_ipn_url);
 // Specify the product information
 $myPaypal -> addField('item_name', $place_order['item_name']);
 $myPaypal -> addField('amount', $place_order['payment_amount']);
-$myPaypal -> addField('shipping', $place_order['payment_shipping']);
-
+//$myPaypal -> addField('shipping', $place_order['payment_shipping']);
+$myPaypal -> addField('shipping', 0);
 //$myPaypal->addField('item_number', $cart['session_id']);
 
 // Specify any custom value

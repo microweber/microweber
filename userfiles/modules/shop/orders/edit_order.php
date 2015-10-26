@@ -116,12 +116,21 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
                 <td><?php _e("Shipping price"); ?></td>
                 <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
               </tr>
+              <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
+               <tr class="mw-ui-table-footer">
+                <td colspan="2">&nbsp;</td>
+                <td><?php _e("Tax"); ?></td>
+                <td class="mw-ui-table-green"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
+              </tr>
+              <?php endif ?>
+              
+              
               <tr class="mw-ui-table-footer last">
                 <td colspan="2">&nbsp;</td>
                 <td class="mw-ui-table-green"><strong>
                   <?php _e("Total:"); ?>
                   </strong></td>
-                <td class="mw-ui-table-green"><strong><?php print  currency_format($grandtotal, $ord['currency']); ?></strong></td>
+                <td class="mw-ui-table-green"><strong><?php print  currency_format($ord['amount'], $ord['currency']); ?></strong></td>
               </tr>
             </tbody>
           </table>
@@ -273,11 +282,22 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
                 <li>
                   <?php _e("Payment Amount"); ?>
                   : <?php print $ord['payment_amount']; ?>
-                  <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
-                  <span>+ <?php print $ord['payment_shipping']; ?>
+                 <?php
+				 
+		/*		  <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
+                  <span> with <?php print $ord['payment_shipping']; ?>
                   <?php _e("for shipping"); ?>
                   </span>
-                  <?php endif; ?>
+                  <?php endif; ?>*/
+				 
+				 
+				  ?>
+                  
+                   
+                  
+                  
+                  
+                  
                   <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Amount paid by the user"); ?>"></span></li>
                 <?php endif; ?>
                 <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>

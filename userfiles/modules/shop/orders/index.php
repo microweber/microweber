@@ -115,7 +115,15 @@
           <?php else : ?>
           <span class="mw-order-item-status-pending"><?php _e("Pending"); ?> </span>
           <?php endif; ?></td>
-        <td class="mw-order-item-amount"><?php  print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
+        <td class="mw-order-item-amount"><?php 
+		
+		 print currency_format(floatval($item['amount']),$item['currency'])
+		
+		// print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?>
+        
+        
+        
+        </td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 1): ?>
           <span class="mw-order-item-status-completed"><?php _e("Yes"); ?></span>
           <?php else : ?>
