@@ -111,13 +111,11 @@ api_bind_admin('shop/update_order', function ($data) {
 });
 
 api_bind_admin('shop/save_tax_item', function ($data) {
-    return mw()->shop_manager->save_tax_item($data);
+    return mw()->tax_manager->save($data);
 });
 api_bind_admin('shop/delete_tax_item', function ($data) {
-    return mw()->shop_manager->delete_tax_item($data);
+    return mw()->tax_manager->delete_by_id($data);
 });
-
-
 
 
 // media

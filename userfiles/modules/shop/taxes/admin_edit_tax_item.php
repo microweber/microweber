@@ -16,7 +16,7 @@ function mw_admin_edit_tax_item_submit_form(form) {
 $default_item = array('id'=>0,'tax_name'=>'','tax_modifier'=>'','amount'=>'');
 $item = array();
 if(isset($params['tax_item_id'])){
-	$get = mw()->shop_manager->get_taxes('single=true&id='.$params['tax_item_id']);	
+	$get = mw()->tax_manager->get('single=true&id='.$params['tax_item_id']);	
 	if($get){
 	$item = $get;	
 }

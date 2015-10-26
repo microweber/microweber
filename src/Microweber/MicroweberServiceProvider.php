@@ -137,9 +137,25 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('user_manager', function ($app) {
             return new Providers\UserManager($app);
         });
+
+
+        // Shop
+
         $this->app->singleton('shop_manager', function ($app) {
             return new Providers\ShopManager($app);
         });
+
+        $this->app->singleton('cart_manager', function ($app) {
+            return new Providers\Shop\CartManager($app);
+        });
+
+        $this->app->singleton('tax_manager', function ($app) {
+            return new Providers\Shop\TaxManager($app);
+        });
+
+
+        // Other
+
         $this->app->singleton('layouts_manager', function ($app) {
             return new Providers\LayoutsManager($app);
         });
@@ -157,14 +173,11 @@ class MicroweberServiceProvider extends ServiceProvider {
         AliasLoader::getInstance()->alias("HTML", 'Illuminate\Html\HtmlFacade');
 
 
-
         $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         AliasLoader::getInstance()->alias("Markdown", 'GrahamCampbell\Markdown\Facades\Markdown');
 
 
-
-       // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
-
+        // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
 
 
     }
@@ -206,8 +219,10 @@ class MicroweberServiceProvider extends ServiceProvider {
         $routesFile = __DIR__ . '/routes.php';
         if (file_exists($routesFile)){
             include $routesFile;
+
             return true;
         }
+
         return false;
     }
 

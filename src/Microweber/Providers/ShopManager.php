@@ -23,10 +23,7 @@ class ShopManager {
     public $no_cache = false;
 
 
-    public $cart_manager = null;
-
     function __construct($app = null) {
-
 
         if (is_object($app)){
             $this->app = $app;
@@ -35,8 +32,6 @@ class ShopManager {
         }
 
         $this->set_table_names();
-
-        $this->cart_manager = new CartManager($this->app);
 
 
     }
@@ -477,28 +472,28 @@ class ShopManager {
 
 
     function empty_cart() {
-        return $this->cart_manager->empty_cart();
+        return $this->app->cart_manager->empty_cart();
     }
 
     public function get_cart($params = false) {
-        return $this->cart_manager->get($params);
+        return $this->app->cart_manager->get($params);
     }
 
     public function recover_shopping_cart($sid = false, $ord_id = false) {
-        return $this->cart_manager->recover_cart($sid, $ord_id);
+        return $this->app->cart_manager->recover_cart($sid, $ord_id);
     }
 
     public function remove_cart_item($data) {
-        return $this->cart_manager->remove_item($data);
+        return $this->app->cart_manager->remove_item($data);
     }
 
 
     public function update_cart_item_qty($data) {
-        return $this->cart_manager->update_item_qty($data);
+        return $this->app->cart_manager->update_item_qty($data);
     }
 
     public function update_cart($data) {
-        return $this->cart_manager->update_cart($data);
+        return $this->app->cart_manager->update_cart($data);
     }
 
     public function payment_options($option_key = false) {
@@ -577,12 +572,12 @@ class ShopManager {
      * @return array|false|float|int|mixed
      */
     public function cart_sum($return_amount = true) {
-        return $this->cart_manager->sum($return_amount);
+        return $this->app->cart_manager->sum($return_amount);
     }
 
 
     public function cart_total() {
-        return $this->cart_manager->total();
+        return $this->app->cart_manager->total();
     }
 
 
@@ -1193,44 +1188,6 @@ class ShopManager {
     }*/
 
 
-    public function get_defined_taxes($params = array()) {
 
-        if (is_string($params)){
-            $params = parse_params($params);
-        }
-
-        $table = $this->tables['cart_taxes'];
-        $params['table'] = $table;
-        $get = $this->app->database_manager->get($params);
-
-        return $get;
-    }
-
-    public function save_tax_item($params = array()) {
-
-        if (isset($params['amount'])){
-            $params['amount'] = floatval($params['amount']);
-        }
-
-        $table = $this->tables['cart_taxes'];
-        $params['table'] = $table;
-        $save = $this->app->database_manager->save($params);
-
-        return $save;
-
-    }
-
-
-    public function delete_tax_item($data) {
-        if (!is_array($data)){
-            $id = intval($data);
-            $data = array('id' => $id);
-        }
-        if (!isset($data['id']) or $data['id']==0){
-            return false;
-        }
-        $table = $this->tables['cart_taxes'];
-        $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
-    }
 
 }

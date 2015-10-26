@@ -1,7 +1,7 @@
 <?php 
 only_admin_access();
 
-$defined_taxes = mw()->shop_manager->get_taxes();
+$defined_taxes = mw()->tax_manager->get();
 //d($defined_taxes);
 ?>
 

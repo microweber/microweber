@@ -3,6 +3,7 @@
 
 namespace Microweber\Providers\Shop;
 
+use DB;
 
 class CartManager {
 
@@ -30,16 +31,19 @@ class CartManager {
         $sid = $this->app->user_manager->session_id();
         $different_items = 0;
         $amount = floatval(0.00);
-        $cart = $this->table;
-        $cart_table_real = $this->app->database_manager->real_table_name($cart);
-        $sumq = " SELECT  price, qty FROM $cart_table_real WHERE order_completed=0  AND session_id='{$sid}'  ";
-        $sumq = $this->app->database_manager->query($sumq);
+        $get_params = array();
+        $get_params['order_completed'] = 0;
+        $get_params['session_id'] = $sid;
+        $get_params['no_cache'] = true;
+        $sumq = $this->app->database_manager->get($this->table, $get_params);
+
         if (is_array($sumq)){
             foreach ($sumq as $value) {
                 $different_items = $different_items + $value['qty'];
                 $amount = $amount + (intval($value['qty']) * floatval($value['price']));
             }
         }
+
         $modify_amount = $this->app->event_manager->trigger('mw.cart.sum', $amount);
         if ($modify_amount!==null and $modify_amount!==false){
             if (is_array($modify_amount)){
@@ -52,6 +56,7 @@ class CartManager {
                 $amount = $modify_amount;
             }
         }
+
         if ($return_amount==false){
             return $different_items;
         }
@@ -64,7 +69,6 @@ class CartManager {
         $sum = $this->sum();
 
         $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
-
         $total = $sum + $shipping;
 
         return $total;
@@ -171,23 +175,19 @@ class CartManager {
             $data = array('id' => $id);
         }
 
-
         if (!isset($data['id']) or $data['id']==0){
             return false;
         }
 
         $cart = array();
         $cart['id'] = intval($data['id']);
-
         if ($this->app->user_manager->is_admin()==false){
             $cart['session_id'] = mw()->user_manager->session_id();
         }
         $cart['order_completed'] = 0;
-
         $cart['one'] = 1;
         $cart['limit'] = 1;
         $check_cart = $this->get($cart);
-
         if ($check_cart!=false and is_array($check_cart)){
             $table = $this->table;
             $this->app->database_manager->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
