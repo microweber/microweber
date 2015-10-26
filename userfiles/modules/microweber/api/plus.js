@@ -5,6 +5,8 @@ mw.drag.plus = {
         mw.drag.plusTop = mwd.querySelector('.mw-plus-top');
         mw.drag.plusBottom = mwd.querySelector('.mw-plus-bottom');
         mw.$(holder).bind('mousemove', function (e) {
+
+
             if (mw.drag.plus.locked === false && mw.isDrag === false) {
                 if (e.pageY % 2 === 0) {
                     var node = mw.drag.plus.selectNode(e.target);

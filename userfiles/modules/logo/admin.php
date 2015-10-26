@@ -239,6 +239,7 @@
           <option value="Miltonian">Miltonian</option>
           <option value="Modern Antiqua">Modern Antiqua</option>
           <option value="Monofett">Monofett</option>
+          <option value="Montserrat">Montserrat.</option>
           <option value="Molengo">Molengo</option>
           <option value="Mountains of Christmas">Mountains of Christmas</option>
           <option value="Muli:300">Muli Light</option>

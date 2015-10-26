@@ -383,6 +383,8 @@ class Front
 
         $schema_org_item_type = false;
         $schema_org_item_type_tag = false;
+		
+		
 
         if (isset($post_params['content_type']) and $post_params['content_type'] == 'page') {
             $schema_org_item_type = 'WebPage';
@@ -486,7 +488,7 @@ class Front
 			$post_params['search_in_fields'] = $params['search_in_fields'];
 		}
 		
-
+ 
 
         $content = get_content($post_params);
 
