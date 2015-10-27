@@ -61,6 +61,7 @@ if(is_array($data)){
      $custom_fields[$k] =$value;
     }
    } else  if(isset($item['form_values'])){
+	// $custom_fields =  json_decode($item['form_values']);
 	 
    }
   }
@@ -98,13 +99,27 @@ if(is_array($data)){
     <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
       <td width="50" style="text-align: center"><?php print $item['id'] ?>
         <div class="mw-date" title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']);; ?></div></td>
+     
+     <?php
+//	 $custom_fields = array();
+//	 if(isset($item['custom_fields'])){
+//    foreach ($item['custom_fields'] as $k=>$value) {
+//     $custom_fields[$k] =$value;
+//    }
+//   }
+	 
+	  ?>
+     
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as  $key =>$value): ?>
       <td>
 	  <div style="word-break:break-all;">
 	  <?php
-      		 
-      		    $values_plain = mw('format')->clean_html( $value);;
+	  $val_print = '';
+      		 if(isset($item['custom_fields']) and isset($item['custom_fields'][$key])){
+				 $val_print = $item['custom_fields'][$key];
+			 }
+      		    $values_plain = mw('format')->clean_html( $val_print);;
       	 
             $max = 150;
              if(strlen($values_plain) > $max){
@@ -113,7 +128,7 @@ if(is_array($data)){
                 print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ...more</a></div>';
              }
              else {
-           print mw('format')->autolink( $value);
+           print mw('format')->autolink( $val_print);
              }
         ?>
         </div>

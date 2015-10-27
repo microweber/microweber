@@ -1092,7 +1092,8 @@ class UserManager {
                     $security = array();
                     $security['ip'] = MW_USER_IP;
                     //  $security['hash'] = $this->app->format->array_to_base64($data_res);
-                    $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
+                   // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
+                    $function_cache_id = md5($data_res['id']) . uniqid() . rand() . str_random(40);
                     if (isset($data_res['id'])){
                         $data_to_save = array();
                         $data_to_save['id'] = $data_res['id'];
@@ -1131,9 +1132,9 @@ class UserManager {
                     $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                     $notif['description'] = $content_notif;
                     $this->app->log_manager->save($notif);
-                    $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
+                    $content .= "Click here to reset your password  <a style='word-break:break-all;' href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
-//custom email
+                    //custom email
 
                     if (get_option('forgot_pass_email_enabled', 'users')){
                         $cust_subject = get_option('forgot_pass_email_subject', 'users');
@@ -1147,10 +1148,10 @@ class UserManager {
                             if ($cust_content_check!=''){
                                 foreach ($security as $key => $value) {
                                     if (!is_array($value) and is_string($key)){
-                                        $cust_content_check = str_ireplace('{' . $key . '}', $value, $cust_content_check);
+                                        $cust_content = str_ireplace('{' . $key . '}', $value, $cust_content);
                                     }
                                 }
-                                $content = $cust_content_check;
+                                $content = $cust_content;
                             }
                         }
                     }
