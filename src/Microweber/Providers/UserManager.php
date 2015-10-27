@@ -237,7 +237,8 @@ class UserManager {
 
         if ($redirect_after==true){
             $redir = $redirect_after;
-           // $redir = site_url($redirect_after);
+
+            // $redir = site_url($redirect_after);
             return $this->app->url_manager->redirect($redir);
         }
 
@@ -1097,7 +1098,6 @@ class UserManager {
                         $data_to_save['id'] = $data_res['id'];
                         $data_to_save['password_reset_hash'] = $function_cache_id;
                         $table = $this->tables['users'];
-                        mw_var('FORCE_SAVE', $table);
                         $save = $this->app->database_manager->save($table, $data_to_save);
                     }
 
@@ -1114,6 +1114,15 @@ class UserManager {
 
 
                     $pass_reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
+                    $security['base_link'] = $base_link;
+                    $security['reset_password_link'] = "<a href='{$pass_reset_link}'>" . $pass_reset_link . "</a>";
+                    $security['username'] = $data_res['username'];
+                    $security['first_name'] = $data_res['first_name'];
+                    $security['last_name'] = $data_res['last_name'];
+                    $security['created_at'] = $data_res['created_at'];
+                    $security['email'] = $data_res['email'];
+                    $security['id'] = $data_res['id'];
+
                     $notif = array();
                     $notif['module'] = "users";
                     $notif['rel_type'] = 'users';
@@ -1123,6 +1132,30 @@ class UserManager {
                     $notif['description'] = $content_notif;
                     $this->app->log_manager->save($notif);
                     $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
+
+//custom email
+
+                    if (get_option('forgot_pass_email_enabled', 'users')){
+                        $cust_subject = get_option('forgot_pass_email_subject', 'users');
+                        $cust_content = get_option('forgot_pass_email_content', 'users');
+                        if (trim($cust_subject)!=''){
+                            $subject = $cust_subject;
+                        }
+                        if ($cust_content!=false){
+                            $cust_content_check = strip_tags($cust_content);
+                            $cust_content_check = trim($cust_content_check);
+                            if ($cust_content_check!=''){
+                                foreach ($security as $key => $value) {
+                                    if (!is_array($value) and is_string($key)){
+                                        $cust_content_check = str_ireplace('{' . $key . '}', $value, $cust_content_check);
+                                    }
+                                }
+                                $content = $cust_content_check;
+                            }
+                        }
+                    }
+
+
                     $sender = new \Microweber\Utils\MailSender();
                     $sender->send($to, $subject, $content);
 
@@ -1562,15 +1595,12 @@ class UserManager {
         }
 
 
-
-
         if (get_option('enable_user_linkedin_registration', 'users')=='y'){
 
             Config::set('services.linkedin.client_id', get_option('linkedin_app_id', 'users'));
             Config::set('services.linkedin.client_secret', get_option('linkedin_app_secret', 'users'));
             Config::set('services.linkedin.redirect', $callback_url);
         }
-
 
 
         if (get_option('enable_user_microweber_registration', 'users')=='y'){
