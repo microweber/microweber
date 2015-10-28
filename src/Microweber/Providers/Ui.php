@@ -123,13 +123,17 @@ class Ui {
 
 
     public function module($name = false, $arr = false) {
+        if (!$name){
+            return;
+        }
         if (!isset($this->modules_ui[ $name ])){
             $this->modules_ui[ $name ] = array();
         }
-        if ($arr!=false){
+        if ($arr!=false and !empty($arr)){
             array_push($this->modules_ui[ $name ], $arr);
+        } else {
+            $this->modules_ui[ $name ] = array_unique($this->modules_ui[ $name ], SORT_REGULAR);
         }
-
         return $this->modules_ui[ $name ];
     }
 

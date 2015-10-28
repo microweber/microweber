@@ -45,6 +45,7 @@ if(!empty($template_config)){
 
  
 ?>
+
 <script type="text/javascript">
 	mw.reset_current_page = function (a, callback) {
         mw.tools.confirm("<?php _e("Are you sure you want to Reset the content of this page?  All your text will be lost forever!!"); ?>", function () {
@@ -127,6 +128,8 @@ if(!empty($template_config)){
 		
     }
 </script>
+ 
+<?php event_trigger('mw.admin.content.edit.advanced_settings', $data); ?>
 <?php if(is_array($data_fields_conf)): ?>
 
 <div class="mw-ui-row">
@@ -361,4 +364,20 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
   <input class="mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
   </small></div>
 <?php endif; ?>
+<?php endif; ?>
+
+<?php $custom = mw()->modules->ui('mw.admin.content.edit.advanced_settings.end'); 
+
+ 
+?>
+ <?php if(!empty($custom)): ?>
+ <div>
+          <?php foreach($custom as $item): ?>
+          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+			<?php print $html; ?>
+
+          <?php endforeach; ?>
+</div>
 <?php endif; ?>

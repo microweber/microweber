@@ -373,12 +373,14 @@ class ShopManager {
             } else {
                 $order_email_enabled = $skip_enabled_check;
             }
+
             if ($order_email_enabled==true){
+
                 $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
                 $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
                 $order_email_cc = $this->app->option_manager->get('order_email_cc', 'orders');
                 $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
-                if ($order_email_send_when=='order_paid'){
+                if ($order_email_send_when=='order_paid' and !$skip_enabled_check){
                     if (isset($ord_data['is_paid']) and $ord_data['is_paid']==false){
                         return;
                     }
@@ -398,6 +400,7 @@ class ShopManager {
                         // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
+                        $order_email_content = str_replace('{date}', date("F jS, Y",strtotime($ord_data['created_at'])), $order_email_content);
                         foreach ($ord_data as $key => $value) {
 
                             if (!is_array($value) and is_string($key)){
@@ -422,7 +425,7 @@ class ShopManager {
                         $cc = false;
                         if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))){
                             $cc = $order_email_cc;
-                            $sender->send($cc, $order_email_subject, $order_email_content);
+                            $sender->send($cc, $order_email_subject, $order_email_content,false,$no_cache);
 
                         }
 

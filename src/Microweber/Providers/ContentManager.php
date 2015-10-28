@@ -2602,6 +2602,7 @@ class ContentManager {
                                         $cont_field1 = $this->save_content_field($cont_field);
                                     }
                                 }
+                                $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
@@ -2610,6 +2611,9 @@ class ContentManager {
                                 if (in_array($field, $is_native_fld)){
                                     $to_save[ $field ] = ($html_to_save);
                                 }
+
+
+
                                 if ($is_no_save!=true and $is_draft==false){
                                     $json_print[] = $to_save;
                                     $saved = $this->save_content_admin($to_save);
@@ -3706,6 +3710,9 @@ class ContentManager {
         $this->app->cache_manager->delete('content_fields/global');
         $data['table'] = $table;
         $data['allow_html'] = 1;
+
+
+
 
         $save = $this->app->database_manager->save($data);
 

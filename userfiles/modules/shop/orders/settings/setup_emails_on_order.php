@@ -138,6 +138,7 @@ runOnNewOrderMailEditor();
   <div class="mw-dropdown-content">
       <ul>
         <li value="{id}"><a href="javascript:;"><?php _e("Order ID"); ?></a></li>
+        <li value="{date}"><a href="javascript:;"><?php _e("Order Date"); ?></a></li>
         <li value="{cart_items}"><a href="javascript:;"><?php _e("Cart items"); ?></a></li>
         <li value="{amount}"><a href="javascript:;"><?php _e("Amount"); ?></a></li>
         <li value="{order_status}"><a href="javascript:;"><?php _e("Order Status"); ?></a></li>

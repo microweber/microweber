@@ -102,17 +102,16 @@ class Content
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'rel_type' => 'string',
-
                 'rel_id' => 'string',
                 'field' => 'text',
                 'value' => 'longText',
-
                 'session_id' => 'string',
                 'is_temp' => "integer",
                 'url' => 'longText',
-
                 '$index' => ['rel_type', 'rel_id']
             ],
+
+
 
             'media' => [
                 'updated_at' => 'dateTime',

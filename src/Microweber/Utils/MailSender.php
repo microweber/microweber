@@ -107,7 +107,7 @@ class MailSender {
 
         if ($no_cache==false and ($cache_content)!=false){
 
-            return $cache_content;
+           // return $cache_content;
         }
 
 
@@ -170,33 +170,7 @@ class MailSender {
 
     }
 
-    public static function email_get_transport_object() {
 
-        global $_mw_email_transport_object;
-
-        if (is_object($_mw_email_transport_object)){
-            return $_mw_email_transport_object;
-        }
-
-        $email_advanced = mw()->option_manager->get('email_transport', 'email');
-        if ($email_advanced==false or $email_advanced==''){
-            $email_advanced = 'php';
-        }
-
-        $transport_type = trim($email_advanced);
-
-        try {
-            $_mw_email_obj = new \Microweber\email\Sender($transport_type);
-            $_mw_email_transport_object = $_mw_email_obj;
-
-            return $_mw_email_obj;
-        } catch (Exception $e) {
-            return ($e->getMessage());
-        }
-
-        return false;
-
-    }
 
     public function setCc($to) {
         $this->cc = $to;

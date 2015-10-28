@@ -26,8 +26,7 @@ class DbInstaller {
             new Schema\Content,
             new Schema\Form,
             new Schema\Options,
-            new Schema\Shop,
-            new Schema\Revisions
+            new Schema\Shop
         ];
     }
 
