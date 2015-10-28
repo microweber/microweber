@@ -27,6 +27,7 @@ SetValue = function(){
       }
 
       var newval = Editable.innerHTML;
+	  
       if(newval != OLDVALUE) {
 
           OLDVALUE = newval;
@@ -53,18 +54,54 @@ SetValue = function(){
 SetHeight = function(height){
    var height = height || window.richtextEditorSettings.height;
    if(height == 'auto'){
+	  
         setInterval(function(){
             parent.mw.$('#' + this.name).height($('#editor-master').height())
         }, 222);
    }
    else{
       var height = parseFloat(height);
-      var _height =  height - mwd.getElementById('mw-admin-text-editor').offsetHeight;
+	  var offset = mwd.getElementById('mw-admin-text-editor').offsetHeight;
+	  if(offset == 0 ){
+		offset = height/9;  
+	  }
+      var _height =  height - offset;
       Editable.style.height =  _height + 'px';
    }
 }
 
+
+toggleHTMLEditorBox = function(){
+	var newval = Editable.innerHTML;
+	$('#editor-area-html-editor-box').val(newval);
+	$('#editor-area-html-editor-box').height(Editable.style.height);
+	$('#editor-area-html-editor-box').width($('#editor-master').width());
+	$('#editor-area').toggle();
+	$('#editor-area-html-editor-box').toggle();
+ 
+	
+	if($('#editor-area').css('display') == 'none') {
+	$( '#editor-html-edit-btn' ).removeClass( 'mw_editor_btn_active' );
+	}
+	
+
+ 
+	//$('#editor-area-html-editor-box').val(newval);
+}
+updateHTMLFromTextArea = function(val){
+ 
+	Editable.innerHTML  = val;
+	
+	setTimeout(function(){
+    //  SetValue();
+   }, SetValueTime);
+}
+	
+
 $(window).load(function(){
+	
+  
+	   
    mw.$("#mw-admin-text-editor").bind('mousedown', function(e){
       e.preventDefault();
       SetValue()
@@ -76,6 +113,15 @@ $(window).load(function(){
    Editable.addEventListener("paste", function(e){
       // mw.wysiwyg.paste(e);
    });
+   
+   
+   mw.$("#editor-html-edit-btn").bind('mousedown', function(e){
+
+	   e.preventDefault();
+	   toggleHTMLEditorBox();
+	   
+   });  
+   
 
   setTimeout(function(){
      mw.on.DOMChange(Editable, function(){
@@ -111,7 +157,7 @@ img{
  clear: both;
 }
 
-#mw-admin-text-editor{
+#mw-admin-text-editor {
   clear: both;
   position: relative;
   -moz-user-select: none;
@@ -129,7 +175,11 @@ img{
 #editor-area a{
   text-decoration: underline;
 }
-
+#editor-area-html-editor-box {
+ font-family:"Lucida Console", Monaco, monospace; 
+ font-size:11px;
+ color:#333;
+}
 </style>
 <div id="editor-master">
 <div id="mw-admin-text-editor" class="mw_editor">
@@ -224,9 +274,10 @@ img{
 
             <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
 
-
+   <span class="mw_editor_btn mw_editor_html_editor" id="editor-html-edit-btn" title="HTML Editor"><span class="ed-ico"></span></span> 
         </div>
 </div>
 <div id="editor-area" contenteditable="true"></div>
+<textarea id="editor-area-html-editor-box" onkeyup="mw.on.stopWriting(this, function(){updateHTMLFromTextArea(this.value)});" style="display:none"></textarea>
 </div>
 <script>OLDVALUE = mwd.getElementById('editor-area').innerHTML</script>
