@@ -179,6 +179,7 @@ img{
  font-family:"Lucida Console", Monaco, monospace; 
  font-size:11px;
  color:#333;
+ resize:none;
 }
 </style>
 <div id="editor-master">

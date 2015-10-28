@@ -392,8 +392,9 @@ class ShopManager {
                     $to = $ord_data['email'];
                 }
                 if ($order_email_content!=false and trim($order_email_subject)!=''){
+                    $cart_items = array();
                     if (!empty($ord_data)){
-                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&no_session_id=' . mw()->user_manager->session_id());
+                        $cart_items = $this->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . mw()->user_manager->session_id());
                         // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
@@ -408,6 +409,11 @@ class ShopManager {
                         }
                     }
 
+                    $twig = new \Twig_Environment(new \Twig_Loader_String());
+                    $order_email_content = $twig->render(
+                        $order_email_content,
+                        array("cart" => $cart_items,"order" => $ord_data)
+                    );
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
 

@@ -158,8 +158,11 @@ class CartManager {
         $return = array();
         if (is_array($get)){
             foreach ($get as $k => $item) {
+
                 if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type']=='content'){
                     $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
+                    $item['url'] = $this->app->content_manager->link($item['rel_id']);
+                    $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
                 }
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
                     $item = $this->app->format->render_item_custom_fields_data($item);
