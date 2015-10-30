@@ -376,6 +376,15 @@ function next_content($content_id = false)
     return mw()->content_manager->next_content($content_id);
 }
 
+function next_post($content_id = false)
+{
+    return mw()->content_manager->next_content($content_id,$mode = 'next',$content_type='post');
+}
+function prev_post($content_id = false)
+{
+    return mw()->content_manager->next_content($content_id,$mode = 'prev',$content_type='post');
+}
+
 
 function prev_content($content_id = false)
 {

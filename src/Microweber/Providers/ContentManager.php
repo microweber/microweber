@@ -443,7 +443,7 @@ class ContentManager {
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
         if (isset($params['keyword'])){
-            if(!is_admin()){
+            if (!is_admin()){
                 $params['is_deleted'] = 0;
                 $params['is_active'] = 1;
 
@@ -2613,7 +2613,6 @@ class ContentManager {
                                 }
 
 
-
                                 if ($is_no_save!=true and $is_draft==false){
                                     $json_print[] = $to_save;
                                     $saved = $this->save_content_admin($to_save);
@@ -3712,8 +3711,6 @@ class ContentManager {
         $data['allow_html'] = 1;
 
 
-
-
         $save = $this->app->database_manager->save($data);
 
 
@@ -4117,7 +4114,7 @@ class ContentManager {
 
     }
 
-    public function next_content($content_id = false, $mode = 'next') {
+    public function next_content($content_id = false, $mode = 'next', $content_type = false) {
         if ($content_id==false){
             if (defined('POST_ID') and POST_ID!=0){
                 $content_id = POST_ID;
@@ -4131,6 +4128,7 @@ class ContentManager {
         if (defined('CATEGORY_ID') and CATEGORY_ID!=0){
             $category_id = CATEGORY_ID;
         }
+
         if ($content_id==false){
             return false;
         } else {
@@ -4151,7 +4149,12 @@ class ContentManager {
         if (trim($mode)=='prev'){
             $compare_q = '[mt]';
         }
-        if (isset($cont_data['content_type'])){
+        if ($content_type){
+            $params['content_type'] = $content_type;
+            if (defined('PAGE_ID') and PAGE_ID!=0){
+                $params['parent'] = PAGE_ID;
+            }
+        } else if (isset($cont_data['content_type'])){
             $params['content_type'] = $cont_data['content_type'];
         }
 

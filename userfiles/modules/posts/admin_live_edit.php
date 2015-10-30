@@ -58,6 +58,13 @@ if ($is_global == false) {
 
 $posts_parent_page = get_option('data-content-id', $params['id']);
 $posts_parent_category = get_option('data-category-id', $params['id']);
+if ($posts_parent_page == false){
+	$posts_parent_page_id = intval(get_option('data-page-id', $params['id']));
+	if($posts_parent_page_id != 0){
+	    $add_post_q .= ' parent-page-id=' . intval($posts_parent_page_id);
+	}
+
+}
  
 if ($posts_parent_page != false and intval($posts_parent_page) > 0) {
     $add_post_q .= ' data-content-id=' . intval($posts_parent_page);
@@ -112,19 +119,17 @@ $add_post_q .= ' content_type="product"   ';
 $add_post_q .= '  ';
 }
 
-?> 
+?>
 <style>
-.mw-ui-box.tab{
-  display: none;
+.mw-ui-box.tab {
+	display: none;
 }
-.post-settings-holder{
-  padding: 20px;
+.post-settings-holder {
+	padding: 20px;
 }
-
-.manage-posts-holder, .manage-post-item{
-  border: none
+.manage-posts-holder, .manage-post-item {
+	border: none
 }
-
 </style>
 <script type="text/javascript">
 
@@ -138,6 +143,9 @@ $add_post_q .= '  ';
 
 resizeModal = function(w,h){
   var type = typeof(thismodal), _w = w||810, _h = h||mw.$('#settings-container').height() + 25;
+  if( type == 'undefined'){
+	return;  
+  }
   if( type !== 'undefined' &&  type !== 'boolean'){
     parent.mw.tools.modal.resize("#" + thismodal.main[0].id, _w, _h, false);
   }
@@ -235,9 +243,10 @@ mw.on.hashParam("action", function () {
 
     $(mwd).ready(function(){
        Tabs = mw.tabs({
-            nav:".mw-ui-btn-nav-tabs .mw-ui-btn",
-            tabs:".tab",
+            nav:".post-settings-holder .mw-ui-btn-nav-tabs .mw-ui-btn",
+            tabs:".mw-ui-box-content-tabs .tab",
             onclick : function(tab, event, index){
+				d(tab);
                 window.name = index;
             }
        });
@@ -253,60 +262,54 @@ mw.on.hashParam("action", function () {
 
 </script>
 
-
 <div class="post-settings-holder">
-	<?php   if (isset($params['global'])) { ?>
-		<a href="javascript:;"
+  <?php   if (isset($params['global'])) { ?>
+    <a href="javascript:;"
            class="mw-ui-btn"
            onclick="mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');"
            style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span
                 class="mw-icon-<?php print trim($set_content_type_mod); ?>"></span>
-		<?php _e("Add new"); ?>
-		<?php print ucwords($set_content_type_mod); ?></a>
-		<?php } else if ($is_shop) { ?>
-		<a href="javascript:;"
+    <?php _e("Add new"); ?>
+    <?php print ucwords($set_content_type_mod); ?></a>
+    <?php } else if ($is_shop) { ?>
+    <a href="javascript:;"
            class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium pull-right"
-           onclick="mw.add_new_content_live_edit('product');"><span class="mw-icon-product"></span><?php _e("New Product"); ?>
-		</a>
-		<?php } else { ?>
-		<a href="javascript:;"
+           onclick="mw.add_new_content_live_edit('product');"><span class="mw-icon-product"></span>
+    <?php _e("New Product"); ?>
+    </a>
+    <?php } else { ?>
+    <a href="javascript:;"
            class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium pull-right"
-           onclick="mw.add_new_content_live_edit('post');"><span class="mw-icon-post"></span><?php _e("New Post"); ?>
-		</a>
-		<?php } ?>
-	<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-		<a href="javascript:;" class="mw-ui-btn active" onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a>
-		<a href="javascript:;" class="mw-ui-btn">
-			<?php _e("Settings"); ?>
-			</a>
-		<a href="javascript:;" class="mw-ui-btn">
-			<?php _e("Skin/Template"); ?>
-		</a>
-	</div>
-    <div class="mw-ui-box mw-ui-box-content">
-	<div class="tab" style="display: block">
-    
- 		<module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
-	</div>
-	<div class="tab" style="display:none">
-
-		<?php include_once($posts_mod); ?>
-	</div>
-	<div class="tab"  style="display:none">
-		<?php if (isset($params['global'])) : ?>
-		<module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
-		<?php else: ?>
-		<module type="admin/modules/templates" id="posts_list_templ"/>
-		<?php endif;  ?>
-	</div>
-	<div class="tab">  
-		<div <?php print $add_post_q ?> id="mw_posts_create_live_edit"></div>
-	</div>
-	<div class="tab">
-    
-     
-    
-		<div id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>
-	</div>
+           onclick="mw.add_new_content_live_edit('post');"><span class="mw-icon-post"></span>
+    <?php _e("New Post"); ?>
+    </a>
+    <?php } ?>
+  <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs"> <a href="javascript:;" class="mw-ui-btn active" onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');">
+    <?php _e("Manage"); ?>
+    </a> <a href="javascript:;" class="mw-ui-btn">
+    <?php _e("Settings"); ?>
+    </a> <a href="javascript:;" class="mw-ui-btn">
+    <?php _e("Skin/Template"); ?>
+    </a> </div>
+  <div class="mw-ui-box mw-ui-box-content mw-ui-box-content-tabs">
+    <div class="tab" style="display: block">
+      <module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
     </div>
+    <div class="tab" style="display:none">
+      <?php include($posts_mod); ?>
+    </div>
+    <div class="tab"  style="display:none">
+      <?php if (isset($params['global'])) : ?>
+      <module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
+      <?php else: ?>
+      <module type="admin/modules/templates" id="posts_list_templ"/>
+      <?php endif;  ?>
+    </div>
+    <div class="tab">
+      <div <?php print $add_post_q ?> id="mw_posts_create_live_edit"></div>
+    </div>
+    <div class="tab">
+      <div id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-
+ 
 return include('manager.php');
 
 

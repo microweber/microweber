@@ -927,6 +927,7 @@ class Parser {
                         if (isset($v['s'])){
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
+
                             $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
 
                             unset($mw_replaced_edit_fields_vals_inner[ $k ]);

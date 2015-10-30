@@ -181,6 +181,8 @@ mw.on.hashParam("pg", function(){
 
 
 
+<?php if(is_array($data) and !empty($data)): ?>
+
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
     <div class="manage-posts-holder-inner">
         <?php if(is_array($data)): ?>
@@ -194,8 +196,7 @@ mw.on.hashParam("pg", function(){
                     $append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">' . _e("Unpublished", true) . '</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</span></div>';
                 }
                 ?>
-                <div
-                    class="mw-ui-row-nodrop manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
+                <div class="mw-ui-row-nodrop manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                     <div class="mw-ui-col manage-post-item-col-1">
                         <label class="mw-ui-check">
                             <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox"
@@ -274,6 +275,12 @@ mw.on.hashParam("pg", function(){
         <?php endforeach; ?>
     </div>
 </div>
+
+<?php endif; ?>
+
+
+
+
 <?php
 
 $numactive = 1;
@@ -339,6 +346,7 @@ if (isset($params['data-page-number'])) {
 
 
 <?php else: ?>
+
     <div class="mw-no-posts-foot">
         <?php 
 		$page_is_shop = false;

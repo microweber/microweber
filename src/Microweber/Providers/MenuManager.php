@@ -414,7 +414,9 @@ class MenuManager
         if (isset($li_tag) == false) {
             $li_tag = 'li';
         }
-
+        if (isset($params['max_depth']) != false) {
+            $params['maxdepth'] = $params['max_depth'];
+        }
         if (isset($params['maxdepth']) != false) {
             $maxdepth = $params['maxdepth'];
         }

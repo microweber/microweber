@@ -55,7 +55,7 @@ class Manager
         // $posts_mod['type'] = 'content/admin_posts_list';
         if (isset($params['data-page-id'])) {
             $posts_mod['page-id'] = $params['data-page-id'];
-        }
+        }  
 
         if (isset($params['no_page_edit'])) {
             $no_page_edit = $params['no_page_edit'];
@@ -118,7 +118,7 @@ class Manager
             }
         }
 		
-
+	
 
         if (isset($params['category-id']) and $params['category-id'] != 'global') {
             $check_if_exist = $this->category_provider->get_page($params['category-id']);
@@ -134,7 +134,7 @@ class Manager
         }
 		
 		
-
+	
 
         $posts_mod['paging_param'] = 'pg';
         $posts_mod['orderby'] = 'position desc';
@@ -162,6 +162,12 @@ class Manager
         if (isset($posts_mod['search_by_keyword'])) {
             $keyword = strip_tags($posts_mod['search_by_keyword']);
         }
+		
+		if (isset($params['parent-page-id'])) {
+		
+            $posts_mod['parent'] = intval($params['parent-page-id']);
+			 
+        }
 
         $data = $this->provider->get($posts_mod);
         if (empty($data) and isset($posts_mod['page'])) {
@@ -174,6 +180,8 @@ class Manager
 
         $post_params_paging = $posts_mod;
         $post_params_paging['page_count'] = true;
+		
+		
         $pages = $this->provider->get($post_params_paging);
         $this->event_manager->trigger('module.content.manager', $posts_mod);
 

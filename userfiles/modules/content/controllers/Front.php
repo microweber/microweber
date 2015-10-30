@@ -152,6 +152,8 @@ class Front
             $cfg_page_id = intval($post_params['content_id']);
         } else if ($cfg_page_id == false and isset($post_params['content-id'])) {
             $cfg_page_id = intval($post_params['content-id']);
+        } elseif ($cfg_page_id == false and isset($post_params['current_page'])) {
+            $cfg_page_id = 'current_page';
         }
 
 
@@ -169,7 +171,7 @@ class Front
             $posts_parent_category = $posts_parent_related = CATEGORY_ID;
 
 
-        }
+        } 
 
         if ($posts_parent_category == false and ($cfg_page_id == 'current_page')) {
             if (defined('PAGE_ID') and PAGE_ID > 0) {
