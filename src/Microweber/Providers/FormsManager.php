@@ -5,8 +5,7 @@ namespace Microweber\Providers;
 class FormsManager {
 
 
-
-    /** @var \Microweber\Application  */
+    /** @var \Microweber\Application */
     public $app;
 
     function __construct($app = null) {
@@ -113,9 +112,9 @@ class FormsManager {
 //            }
         }
         $before_process = $this->app->event_manager->trigger('mw.forms_manager.before_post', $params);
-        if(is_array($before_process) and !empty($before_process)){
-            foreach($before_process as $before_process_item){
-                if($before_process_item === false){
+        if (is_array($before_process) and !empty($before_process)){
+            foreach ($before_process as $before_process_item) {
+                if ($before_process_item===false){
                     return;
                 }
             }
@@ -385,16 +384,25 @@ class FormsManager {
         return $data;
     }
 
+
+    public function states_list($country = false) {
+        if (!$country){
+            return false;
+        }
+        $states = new \Microweber\Utils\CountryState();
+        $res = $states->getStates($country);
+
+        return $res;
+    }
+
     public function delete_entry($data) {
 
         $adm = $this->app->user_manager->is_admin();
         if ($adm==false){
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-
         if (isset($data['id'])){
             $c_id = intval($data['id']);
-
             $this->app->database_manager->delete_by_id('forms_data', $c_id);
         }
 

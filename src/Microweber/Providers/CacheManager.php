@@ -87,7 +87,6 @@ class CacheManager
      * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
      *
      * @param bool $timeout
-     * @internal param bool $cache_storage_type You can pass custom cache object or leave false.
      * @return  mixed returns array of cached data or false
      * @package Cache
      * @example
@@ -108,7 +107,6 @@ class CacheManager
      *
      * @param string $cache_group
      *            (default is 'global') - this is the subfolder in the cache dir.
-     * @internal param bool $cache_storage_type
      * @return boolean
      *
      * @package Cache

@@ -67,6 +67,10 @@ function session_end() {
     return mw()->user_manager->session_end();
 }
 
+function session_all() {
+    return mw()->user_manager->session_all();
+}
+
 
 function api_login($api_key = false) {
     return mw()->user_manager->api_login($api_key);

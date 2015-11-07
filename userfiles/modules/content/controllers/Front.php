@@ -536,7 +536,7 @@ class Front
                 }
 
                 $item['link'] = content_link($item['id']);
-
+				$item['full_description'] = '';
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
 						
@@ -553,7 +553,7 @@ class Front
 					
 					
                 } else {
-                    $item['full_description'] = $item['description'];
+                    $item['full_description'] = trim($item['description']);
                     $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
 
                 }

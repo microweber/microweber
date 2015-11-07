@@ -69,13 +69,15 @@ if (isset($_GET['type'])) {
 ?>
 <script type="text/javascript">
 
+
     autoSize = <?php print $autoSize; ?>;
     settingsType = '<?php print $type; ?>';
 
     window.onbeforeunload = function () {
         $(mwd.body).addClass("mw-external-loading")
     }
-
+ 
+	
     mw_module_settings_info = "";
     <?php if(is_array( $module_info)): ?>
 
@@ -153,7 +155,8 @@ if (isset($_GET['type'])) {
 
         }
 		
-		
+
+				
 		
 if (typeof thismodal.main[0] != 'undefined') {
 
@@ -162,8 +165,8 @@ if (typeof thismodal.main[0] != 'undefined') {
         if (is_module_tml_holder.length == 0) {
             var dd = mwd.createElement('div');
             dd.id = 'module-modal-settings-menu-holder';
-            dd.className = 'mw-ui-dropdown mw-ui-dropdown-click';
-
+            dd.className = 'mw-dropdown mw-dropdown-default mw-dropdown-click';
+			 
            /*******************************************************
             Do not delete !!! Module template: list and 'Crete Module Template'
 
@@ -178,14 +181,19 @@ if (typeof thismodal.main[0] != 'undefined') {
 		
 		
         <?php $mod_adm =  admin_url('load_module:').module_name_encode($module_info['module']);; ?>
+		
+		
+		
+		
         is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
+		
         if (is_module_tml_holder.length > 0) {
 
 
             is_module_tml_holder.empty();
 
             var holder = mwd.createElement('div');
-            holder.className = 'mw-dropdown-content';
+            holder.className = 'mw-dropdown-content mw-dropdown-content-module-settings-dd-menu';
 
 
             var html = ""
@@ -193,17 +201,54 @@ if (typeof thismodal.main[0] != 'undefined') {
                 + "</div>"
                 + "<hr>"
                 + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>"
+				
+				
+			
+				
+			window.parent.modal_preset_manager_html_placeholder_for_reload = function(){
+			var modal_preset_manager_html_placeholder_for_reload = ""
+                + "<div id='module-modal-settings-menu-items' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
+                + "</div>"
+				
+				
+				mw_admin_edit_tax_item_popup_modal_opened = window.parent.mw.modal({
+					content:   modal_preset_manager_html_placeholder_for_reload,
+					title:     'Edit module presets',
+					id:        'modal_preset_manager_html_placeholder_for_reload_pop'
+				});
+   
+ 
+	
+				
+				 window.parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+			
+				
+				}	
+				var html = ""
+              
+                + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='javascript:modal_preset_manager_html_placeholder_for_reload();'>Presets</a></div>"
+			
+	
+	
+ 
+            var btn = "<a class='mw-ui-btn-small'  oxxxnclick='$(this).toggleClass(\"active\")'><span class='mw-icon-dropdown right'></span></a>";
 
-            var btn = "<a class='mw-ui-btn mw-ui-btn-small' onclick='$(this).toggleClass(\"active\")'><span class='ico idownarr right'></span><?php _e("Menu"); ?></a>";
 
+			var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
+			
+			if(typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0],'edit')){
+				      $(holder).append(html);
 
-            $(holder).append(html);
-
-            $(dd).prepend(btn);
-
-            is_module_tml_holder.append(holder);
-
-            parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+					$(dd).prepend(btn);
+		
+					is_module_tml_holder.append(holder);
+		
+				   // parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+					mw.dropdown(toolbar);
+			}
+			
+			
+      
 
         }
 		

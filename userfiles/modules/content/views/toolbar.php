@@ -339,8 +339,8 @@ $( "#content_type_filter_by_select" ).change(function() {
               <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val">Bulk actions</span>
               <div class="mw-dropdown-content">
                 <ul>
-                  <li><a onclick="assign_selected_posts_to_category();">Move to category</a></li>
-                  <li><a onclick="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
+                  <li><a onmousedown="assign_selected_posts_to_category();">Move to category</a></li>
+                  <li><a onmousedown="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
                 </ul>
               </div>
             </div>

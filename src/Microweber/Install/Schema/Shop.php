@@ -66,6 +66,7 @@ class Shop {
                 'payment_city'           => 'text',
                 'payment_state'          => 'string',
                 'payment_zip'            => 'string',
+                'payment_phone'          => 'string',
                 'payer_id'               => 'text',
                 'payer_status'           => 'text',
                 'payment_type'           => 'text',

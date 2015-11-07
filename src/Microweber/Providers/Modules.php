@@ -1453,7 +1453,7 @@ class Modules {
             return false;
         }
 
-        $table = MW_DB_TABLE_MODULE_TEMPLATES;
+        $table = 'module_templates';
 
         $params['table'] = $table;
 
@@ -1470,7 +1470,7 @@ class Modules {
 
         $table = 'module_templates';
         $save = false;
-        // d($table);
+
 
         $adm = $this->app->user_manager->is_admin();
         if ($adm==false){
@@ -1499,7 +1499,7 @@ class Modules {
             return false;
         }
 
-        $table = MW_DB_TABLE_MODULE_TEMPLATES;
+        $table = 'module_templates';
         $save = false;
 
         if (!empty($data_to_save)){

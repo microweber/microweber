@@ -1029,12 +1029,12 @@ mw.tools = {
                 input.onkeyup = function (e) {
                     if (e.keyCode == 13) {
                         return false;
-
                     }
                 }
             }
             mw.$(el).unbind("click");
             mw.$(el).bind("click", function (event) {
+
                 if ($(this).hasClass("disabled")) {
                     return false;
                 }
@@ -1073,7 +1073,7 @@ mw.tools = {
             });
 
             mw.$(el).hover(function () {
-                $(this).addClass("hover");
+                $(this).add(this);
                 if (mw.tools.hasClass(cls, 'other-action')) {
                     $(this).addClass('other-action');
                 }
