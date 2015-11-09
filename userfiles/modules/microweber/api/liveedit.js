@@ -309,6 +309,7 @@ mw.drag = {
                     if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
                         if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
                             mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
+
                             $(window).trigger("onElementOver", mw.mm_target);
                         }
                         else if (mw.$mm_target.parents(".element").length > 0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
@@ -579,15 +580,21 @@ mw.drag = {
                         mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')) {
                         if (el.hasClass("empty-element") || el.hasClass("mw-empty")) {
                             mw.dropable.hide();
-
                         }
                         else {
                             mw.dropable.show();
-
                         }
+                    }  else if (el.hasClass("edit")) {
+                        if(mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')){
+                            mw.dropable.hide();
+                        } else {
+                            mw.dropable.show();
+                        }
+
+
                     }
                     else {
-
+                        d(el);
                         mw.dropable.hide();
 
                     }
@@ -715,7 +722,7 @@ mw.drag = {
         $(window).bind("onModuleOver", function (a, element) {
 
 
-            if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop') || mw.tools.hasParentsWithClass(element, 'module')) {
+            if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop') || (mw.tools.hasParentsWithClass(element, 'module') && !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
                 //return false;
             }
