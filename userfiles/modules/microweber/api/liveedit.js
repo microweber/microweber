@@ -303,9 +303,12 @@ mw.drag = {
                 mw.mm_target = event.target;
                 mw.$mm_target = $(mw.mm_target);
 
+                var mouseover_editable_region_inside_a_module = false;
+
                 if (!mw.isDrag) {
                     if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
-                        if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
+                        if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
+                            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
                             $(window).trigger("onElementOver", mw.mm_target);
                         }
                         else if (mw.$mm_target.parents(".element").length > 0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
@@ -316,6 +319,7 @@ mw.drag = {
                         }
                         if (mw.$mm_target.hasClass("module") && !mw.$mm_target.hasClass("no-settings")) {
                             $(window).trigger("onModuleOver", mw.mm_target);
+
                         }
                         else if (mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
                             var _parentmodule = mw.tools.firstParentWithClass(mw.mm_target, 'module');
@@ -333,10 +337,8 @@ mw.drag = {
                             $(window).trigger("onElementOver", mw.image.currentResizing[0]);
                         }
 
-
-
-
-                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'module') ) {
+                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module')||
+                            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')) ) {
 
                             //trigger on row
                             if (mw.$mm_target.hasClass("mw-row")) {

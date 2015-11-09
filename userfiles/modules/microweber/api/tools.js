@@ -1546,6 +1546,24 @@ mw.tools = {
         return d.toreturn;
     },
 
+
+    hasParentsWithAttr: function (el, cls) {
+        var d = {};
+        d.toreturn = false;
+        mw.tools.foreachParents(el, function (loop) {
+            if(cls in this){
+                d.toreturn = true;
+                mw.tools.stopLoop(loop);
+            } else if(this.hasOwnProperty(cls)){
+                d.toreturn = true;
+                mw.tools.stopLoop(loop);
+            }
+
+
+        });
+        return d.toreturn;
+    },
+
     hasChildrenWithTag: function (el, tag) {
         var tag = tag.toLowerCase();
         var d = {};
