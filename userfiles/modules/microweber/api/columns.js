@@ -26,6 +26,14 @@ mw.drag.columns = {
 
 
         var next = mw.drag.columns.nextColumn(mw.drag.columns.resizer.curr);
+
+        if(typeof(next) == "undefined"){
+            // dirty fix
+            $(mw.drag.columns.resizer).hide();
+            return false;
+
+        }
+
         var w2 = parseFloat(next.style.width);
         if (isNaN(w2)) {
             w2 = $(next).outerWidth();
