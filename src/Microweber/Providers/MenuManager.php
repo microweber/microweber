@@ -506,6 +506,7 @@ class MenuManager
             $active_class = '';
             $site_url = $this->app->url_manager->site();
             $cur_url = $this->app->url_manager->current(1);
+
             if (trim($item['url'] != '')) {
                 $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
             }
@@ -530,9 +531,12 @@ class MenuManager
                 // $active_class = 'active';
             } elseif (trim($item['url'] == '') and isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
                 $active_class = 'active';
+                $active_class = 'active-parent';
+
             } elseif (trim($item['url'] != '') and $item['url'] == $cur_url) {
 
                 $active_class = 'active';
+                $active_class = 'active-parent';
 
             } elseif (trim($item['url'] != '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
 

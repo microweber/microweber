@@ -541,7 +541,7 @@ class ContentManager {
 
     }
 
-    public function data($content_id, $field_name = false) {
+    public function data($content_id) {
 
         $data = array();
         $data['content_id'] = intval($content_id);

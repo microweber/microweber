@@ -12,8 +12,9 @@ class DataFieldsManager extends Crud {
 
 
     public function get_values($params) {
+
         $get = $this->get($params);
-        $res = false;
+
         if (!empty($get)){
             $res = array();
             foreach ($get as $item) {

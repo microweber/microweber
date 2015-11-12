@@ -23,6 +23,7 @@ class Crud {
         }
         $table = $this->table;
         $params['table'] = $table;
+
         $get = $this->app->database_manager->get($params);
 
         return $get;
