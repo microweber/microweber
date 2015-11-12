@@ -1310,6 +1310,9 @@ class CategoryManager {
         $sid = mw()->user_manager->session_id();
 
 
+        $orig_data = $data;
+
+
         if ((isset($data['id']) and ($data['id'])==0) or !isset($data['id'])){
             if (!isset($data['title']) or (isset($data['title']) and $data['title']==false)){
                 return array('error' => 'Title is required');
@@ -1370,6 +1373,8 @@ class CategoryManager {
         }
 
 
+
+
         $no_position_fix = false;
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type'])!='' and trim($data['rel_id'])!=''){
             $no_position_fix = true;
@@ -1419,8 +1424,34 @@ class CategoryManager {
             //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
+         if (!empty($orig_data)){
+            $data_str = 'data_';
+            $data_str_l = strlen($data_str);
+            foreach ($orig_data as $k => $v) {
+                if (is_string($k)){
+                    if (strlen($k) > $data_str_l){
+                        $rest = substr($k, 0, $data_str_l);
+                        $left = substr($k, $data_str_l, strlen($k));
+                        if ($rest==$data_str){
 
-        $id = $save = $this->app->database_manager->save($table, $data);
+                            if (!isset($data['data_fields'])){
+                                $data['data_fields'] = array();
+                            }
+                            $data['data_fields'][ $left ] = $v;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+        $id = $save = $this->app->database->extended_save($table, $data);
+
+       // $id = $save = $this->app->database_manager->save($table, $data);
 
 
         if ($simple_save==true){
