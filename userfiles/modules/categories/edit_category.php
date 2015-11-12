@@ -310,6 +310,27 @@ $(document).ready(function(){
               </span></label>
           </div>
         </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        <?php if (isset($data['id'])): ?>
+ 
+ 
+<module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"  />
+
+
+
+<?php endif; ?>
+        
+        
+        
+        
+        
       </div>
     </div>
   </form>

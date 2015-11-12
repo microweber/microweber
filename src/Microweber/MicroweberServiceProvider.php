@@ -101,6 +101,10 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('fields_manager', function ($app) {
             return new Providers\FieldsManager($app);
         });
+
+        $this->app->singleton('data_fields_manager', function ($app) {
+            return new Providers\Content\DataFieldsManager($app);
+        });
         $this->app->singleton('forms_manager', function ($app) {
             return new Providers\FormsManager($app);
         });

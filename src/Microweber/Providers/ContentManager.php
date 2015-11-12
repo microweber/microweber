@@ -537,45 +537,18 @@ class ContentManager {
 
     public function get_data($params = false) {
 
-        $params2 = array();
+        return $this->app->data_fields_manager->get($params);
 
-        if (is_string($params)){
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        if (!is_array($params)){
-            $params = array();
-        }
-
-        $table = $this->tables['content_data'];
-
-        $params['table'] = $table;
-
-        $get = $this->app->database_manager->get($params);
-
-        return $get;
     }
 
     public function data($content_id, $field_name = false) {
-        $table = $this->tables['content_data'];
-        $data = array();
-        $data['table'] = $table;
-        $data['cache_group'] = 'content_data';
-        $data['content_id'] = intval($content_id);
-        $res = array();
-        $get = $this->app->database_manager->get($data);
-        if (!empty($get)){
-            foreach ($get as $item) {
-                if (isset($item['field_name']) and isset($item['field_value'])){
-                    $res[ $item['field_name'] ] = $item['field_value'];
-                }
-            }
-        }
-        if (!empty($res)){
-            return $res;
-        }
 
-        return $get;
+        $data = array();
+        $data['content_id'] = intval($content_id);
+
+        return $this->app->data_fields_manager->get_values($data);
+
+
     }
 
     public function attributes($content_id) {
@@ -2114,14 +2087,14 @@ class ContentManager {
 
                 if ($cur_content==$content['id']){
                     $result_item['is_active'] = true;
-                } elseif ($cur_content != false and $cur_page==$content['id']){
+                } elseif ($cur_content!=false and $cur_page==$content['id']) {
                     $result_item['is_active_as_parent'] = true;
                     $result_item['is_active'] = false;
 
-                } elseif ($cur_category == false and $cur_content == false and $cur_page==$content['id']){
+                } elseif ($cur_category==false and $cur_content==false and $cur_page==$content['id']) {
                     $result_item['is_active'] = true;
 
-                }else {
+                } else {
                     $result_item['is_active'] = false;
                 }
                 $result_item['parent_content_id'] = $content['parent'];
@@ -4420,7 +4393,7 @@ class ContentManager {
             $is_existing_data['rel_id'] = $data['rel_id'];
             $is_existing_data['rel_type'] = $data['rel_type'];
             $is_existing_data['one'] = true;
-            $is_existing = $this->get_content_data_fields($is_existing_data);
+            $is_existing = $this->get_data($is_existing_data);
             if (is_array($is_existing) and isset($is_existing['id'])){
                 $data['id'] = $is_existing['id'];
             }
@@ -4446,27 +4419,6 @@ class ContentManager {
         return $save;
     }
 
-    public function get_content_data_fields($data, $debug = false) {
-        $table = $this->tables['content_data'];
-
-        if (is_string($data)){
-            $data = parse_params($data);
-        }
-
-        if (!is_array($data)){
-            $data = array();
-        }
-
-
-        $data['table'] = $table;
-        $data['cache_group'] = 'content_data';
-
-
-        $get = $this->app->database_manager->get($data);
-
-        return $get;
-
-    }
 
     public function save_content_attribute($data, $delete_the_cache = true) {
         $table = $this->tables['attributes'];

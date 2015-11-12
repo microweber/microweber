@@ -37,12 +37,9 @@ if(!empty($template_config)){
 				if (isset($params['content-id'])) {
 					$data_fields_values = content_data($params['content-id']);
 				}
-//		d($params);
-//		d($data_fields_values);
 			}
 	}
 }
-
  
 ?>
 
@@ -130,6 +127,18 @@ if(!empty($template_config)){
 </script>
  
 <?php event_trigger('mw.admin.content.edit.advanced_settings', $data); ?>
+
+<?php if (isset($params['content-type']) and isset($params['content-id'])): ?>
+ 
+ 
+<module type="content/views/settings_from_template" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"  />
+
+
+
+<?php endif; ?>
+
+<?php 
+/*
 <?php if(is_array($data_fields_conf)): ?>
 
 <div class="mw-ui-row">
@@ -173,7 +182,9 @@ if(!empty($template_config)){
     </div>
   </div>
 </div>
-<?php endif; ?>
+<?php endif; ?>*/
+
+?>
 <div class="mw-ui-row">
   <div class="mw-ui-col">
     <div class="mw-ui-col-container">
