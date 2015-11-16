@@ -88,7 +88,7 @@ class Template {
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $fn = 'api_settings.' . md5(site_url()) . '.' . MW_VERSION . '.js';
+            $fn = 'api_settings.' . md5(site_url().template_dir()) . '.' . MW_VERSION . '.js';
             $userfiles_cache_filename = $userfiles_cache_dir . $fn;
             if (is_file($userfiles_cache_filename)){
                 if (is_file($userfiles_cache_filename)){
@@ -96,7 +96,6 @@ class Template {
                 }
             }
         }
-
 
         return $url;
     }

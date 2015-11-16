@@ -2,6 +2,28 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.0.6] - WIP
+
+- Vendor: added Twig parser 
+- Added: taxes support
+- Added: tabs module
+- Added: twig parser to shop email template
+- Added: content revisions (beta feature, must be enabled from admin)
+- Added: data fields support for categories
+- Added: country states class
+- Added: .allow-drop css class on live-edit field to allow dropping inside modules
+- Added: custom reset password email
+- Added: custom register user email
+- Refactor: cart moved to own class
+- Refactor: orders moved to own class
+- Refactor: content data fields moved to own class
+- Fix: search function to exclude deleted content #313
+- Fix: uploader makes all files lowercase
+- Fix: live edit fixes on columns
+- Fix: forms module export to excel
+- Other fixes
+
 ## [1.0.5] - 2015-10-10
 
 - Added: Custom content fields now can be added from the template config file
