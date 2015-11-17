@@ -178,7 +178,7 @@ trait ExtendedSave {
                     $save_cat_item['rel_id'] = $data_to_save['id'];
                     $save_cat_item["attribute_name"] = $k;
                     $save_cat_item["attribute_value"] = $v;
-                    $this->app->content_manager->save_content_attribute($save_cat_item);
+                    $this->app->attributes_manager->save($save_cat_item);
                 }
             }
         }

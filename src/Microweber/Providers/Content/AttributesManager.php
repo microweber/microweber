@@ -6,12 +6,12 @@ namespace Microweber\Providers\Content;
 use Microweber\Utils\Crud;
 
 
-class DataFieldsManager extends Crud {
+class AttributesManager extends Crud {
 
     /** @var \Microweber\Application */
     public $app;
 
-    public $table = 'content_data';
+    public $table = 'attributes';
 
 
     function __construct($app = null) {
@@ -29,12 +29,35 @@ class DataFieldsManager extends Crud {
         if (!empty($get)){
             $res = array();
             foreach ($get as $item) {
-                if (isset($item['field_name']) and isset($item['field_value'])){
-                    $res[ $item['field_name'] ] = $item['field_value'];
+                if (isset($item['attribute_name']) and isset($item['attribute_value'])){
+                    $res[ $item['attribute_name'] ] = $item['attribute_value'];
                 }
             }
+
             return $res;
         }
+    }
+
+
+    public function get($data = false) {
+        if (is_string($data)){
+            $data = parse_params($data);
+        }
+        if (!is_array($data)){
+            $data = array();
+        }
+
+        $get = parent::get($data);
+        if (!empty($get)){
+            foreach ($get as $k => $data) {
+                if (isset($data['attribute_value']) and isset($data['attribute_type']) and ($data['attribute_type']=='array')){
+                    $data['attribute_value'] = json_decode($data['attribute_value'], true);
+                    $get[ $k ] = $data;
+                }
+            }
+        }
+
+        return $get;
     }
 
     public function save($data) {
@@ -42,21 +65,20 @@ class DataFieldsManager extends Crud {
             $data = parse_params($data);
         }
         if (!isset($data['id'])){
-            if (!isset($data['field_name'])){
+            if (!isset($data['attribute_name'])){
                 return array('error' => "You must set 'field' parameter");
             }
-            if (!isset($data['field_value'])){
+            if (!isset($data['attribute_value'])){
                 return array('error' => "You must set 'value' parameter");
             }
-
         }
         if (!isset($data['rel_type']) and isset($data['content_id'])){
             $data['rel_type'] = 'content';
             $data['rel_id'] = $data['content_id'];
         }
-        if (isset($data['field_name']) and isset($data['rel_id']) and isset($data['rel_type'])){
+        if (isset($data['attribute_name']) and isset($data['rel_id']) and isset($data['rel_type'])){
             $is_existing_data = array();
-            $is_existing_data['field_name'] = $data['field_name'];
+            $is_existing_data['attribute_name'] = $data['attribute_name'];
             $is_existing_data['rel_id'] = $data['rel_id'];
             $is_existing_data['rel_type'] = $data['rel_type'];
             $is_existing_data['one'] = true;
@@ -68,8 +90,9 @@ class DataFieldsManager extends Crud {
         if (isset($data['content_id'])){
             $data['rel_id'] = intval($data['content_id']);
         }
-        if (isset($data['field_value']) and is_array($data['field_value'])){
-            $data['field_value'] = json_encode($data['field_value']);
+        if (isset($data['attribute_value']) and is_array($data['attribute_value'])){
+            $data['attribute_value'] = json_encode($data['attribute_value']);
+            $data['attribute_type'] = 'array';
         }
         if (!isset($data['rel_type'])){
             $data['rel_type'] = 'content';
@@ -81,6 +104,8 @@ class DataFieldsManager extends Crud {
             }
         }
         $save = parent::save($data);
-        return $save;
+         return $save;
     }
+
+
 }

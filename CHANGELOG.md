@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added: taxes support
 - Added: tabs module
 - Added: twig parser to shop email template
-- Added: content revisions (beta feature, must be enabled from admin)
+- Added: content revisions (for new installs only)
 - Added: data fields support for categories
 - Added: country states class
 - Added: .allow-drop css class on live-edit field to allow dropping inside modules
@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor: cart moved to own class
 - Refactor: orders moved to own class
 - Refactor: content data fields moved to own class
+- Refactor: content attributes moved to own class
 - Fix: search function to exclude deleted content #313
 - Fix: uploader makes all files lowercase
 - Fix: live edit fixes on columns

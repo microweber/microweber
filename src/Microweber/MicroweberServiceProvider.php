@@ -105,6 +105,10 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('data_fields_manager', function ($app) {
             return new Providers\Content\DataFieldsManager($app);
         });
+
+        $this->app->singleton('attributes_manager', function ($app) {
+            return new Providers\Content\AttributesManager($app);
+        });
         $this->app->singleton('forms_manager', function ($app) {
             return new Providers\FormsManager($app);
         });
@@ -121,7 +125,7 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('option_manager', function ($app) {
             return new Providers\OptionManager($app);
         });
-      
+
 
         $this->app->singleton('template', function ($app) {
             return new Providers\Template($app);

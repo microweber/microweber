@@ -296,7 +296,7 @@ class UserManager {
         $data['rel_type'] = 'users';
         $data['rel_id'] = intval($user_id);
         $res = array();
-        $get = $this->app->content_manager->get_attributes($data);
+        $get = $this->app->attributes_manager->get($data);
         if (!empty($get)){
             foreach ($get as $item) {
                 if (isset($item['attribute_name']) and isset($item['attribute_value'])){
