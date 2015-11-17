@@ -23,7 +23,7 @@ position: 4
                   </div>
       			<div class="edit" field="shop-content" rel="page">
       				<div class="box-container">
-                          <module type="shop/products" template="masonry" limit="18" description-length="70" data-show="thumbnail,title,add_to_cart,price" />
+                          <module type="shop/products" template="masonry" description-length="70" data-show="thumbnail,title,add_to_cart,price" />
                       </div>
       			</div>
   			</div>
