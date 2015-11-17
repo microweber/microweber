@@ -373,13 +373,19 @@ class UrlManager {
 
     function slug($text) {
         // Swap out Non "Letters" with a -
+        $text = str_replace("&quot;", '-', $text);
+        $text = str_replace("&#039;", '-', $text);
         $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
         // Trim out extra -'s
         $text = trim($text, '-');
+        $text = str_replace('""', '-', $text);
+        $text = str_replace("'", '-', $text);
+
         $text = URLify::filter($text);
         // Strip out anything we haven't been able to convert
         $text = preg_replace('/[^-\w]+/', '', $text);
         $text = str_replace(':', '-', $text);
+
 
         return $text;
     }
