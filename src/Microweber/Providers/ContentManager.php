@@ -552,10 +552,11 @@ class ContentManager {
     }
 
     public function attributes($content_id) {
-        
+
         $data = array();
         $data['rel_type'] = 'content';
         $data['rel_id'] = intval($content_id);
+
         return $this->app->attributes_manager->get_values($data);
     }
 
@@ -2956,7 +2957,13 @@ class ContentManager {
 
             if (!empty($q)){
                 if ($data['id']!=$q['id']){
-                    $data['url'] = $data['url'] . '-' . $date123;
+                    $orig_slug = $data['url'];
+                    $slug = $data['url'];
+                    $count = 1;
+                    while ($this->get_by_url($slug, true)) {
+                        $slug = $orig_slug . '-' . $count ++;
+                    }
+                    $data['url'] = $slug;
                     $data_to_save['url'] = $data['url'];
                 }
             }
