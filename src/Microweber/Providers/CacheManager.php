@@ -10,12 +10,11 @@ use Microweber\Utils\Adapters\Cache\LaravelCache;
  *
  * These functions will allow you to save and get data from the MW cache system
  *
- * @package Cache
+ * @package  Cache
  * @category Cache
- * @desc  These functions will allow you to save and get data from the MW cache system
+ * @desc     These functions will allow you to save and get data from the MW cache system
  */
-class CacheManager
-{
+class CacheManager {
 
     /**
      * An instance of the Microweber Application class
@@ -30,12 +29,11 @@ class CacheManager
      */
     public $adapter;
 
-    function __construct($app = null)
-    {
+    function __construct($app = null) {
 
 
-        if (!is_object($this->app)) {
-            if (is_object($app)) {
+        if (!is_object($this->app)){
+            if (is_object($app)){
                 $this->app = $app;
             } else {
                 $this->app = mw();
@@ -52,7 +50,7 @@ class CacheManager
      * Stores your data in the cache.
      * It can store any value that can be serialized, such as strings, array, etc.
      *
-     * @param mixed $data_to_cache
+     * @param mixed  $data_to_cache
      *            your data, anything that can be serialized
      * @param string $cache_id
      *            id of the cache, you must define it because you will use it later to
@@ -60,7 +58,6 @@ class CacheManager
      * @param string $cache_group
      *            (default is 'global') - this is the subfolder in the cache dir.
      *
-     * @internal param bool $cache_storage_type
      * @return boolean
      * @package Cache
      * @example
@@ -72,9 +69,8 @@ class CacheManager
      * </code>
      *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'global',$expiration=false)
-    {
-        return $this->adapter->save($data_to_cache, $cache_id, $cache_group,$expiration);
+    public function save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false) {
+        return $this->adapter->save($data_to_cache, $cache_id, $cache_group, $expiration);
 
     }
 
@@ -83,10 +79,12 @@ class CacheManager
      *
      *  If data is not found it return false
      *     *
-     * @param string $cache_id id of the cache
+     *
+     * @param string $cache_id    id of the cache
      * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
      *
-     * @param bool $timeout
+     * @param bool   $timeout
+     *
      * @return  mixed returns array of cached data or false
      * @package Cache
      * @example
@@ -97,8 +95,7 @@ class CacheManager
      *
      * </code>
      */
-    public function get($cache_id, $cache_group = 'global', $timeout = false)
-    {
+    public function get($cache_id, $cache_group = 'global', $timeout = false) {
         return $this->adapter->get($cache_id, $cache_group, $timeout);
     }
 
@@ -107,6 +104,7 @@ class CacheManager
      *
      * @param string $cache_group
      *            (default is 'global') - this is the subfolder in the cache dir.
+     *
      * @return boolean
      *
      * @package Cache
@@ -125,24 +123,23 @@ class CacheManager
      * mw()->cache_manager->delete("my_table");
      * </code>
      */
-    public function delete($cache_group = 'global')
-    {
+    public function delete($cache_group = 'global') {
         $this->adapter->delete($cache_group);
     }
 
     /**
      * Clears all cache data
+     *
      * @example
-     * <code>
-     * //delete all cache
-     *  mw()->cache_manager->clear();
-     * </code>
+     *          <code>
+     *          //delete all cache
+     *          mw()->cache_manager->clear();
+     *          </code>
      * @return boolean
      * @package Cache
      */
 
-    public function clear()
-    {
+    public function clear() {
         return $this->adapter->clear();
     }
 
@@ -159,8 +156,7 @@ class CacheManager
      * print_r($cached_items);
      * </code>
      */
-    public function debug()
-    {
+    public function debug() {
         return $this->adapter->debug();
     }
 

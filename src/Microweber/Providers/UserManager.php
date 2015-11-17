@@ -886,7 +886,7 @@ class UserManager {
 
                 if (isset($data_to_save['id'])){
                     $data_to_save['table'] = 'users';
-                    $this->app->database->extended_save($data_to_save);
+                    $this->app->database_manager->extended_save($data_to_save);
                 }
 
             }

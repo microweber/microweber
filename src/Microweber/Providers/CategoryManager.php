@@ -1449,7 +1449,7 @@ class CategoryManager {
 
 
 
-        $id = $save = $this->app->database->extended_save($table, $data);
+        $id = $save = $this->app->database_manager->extended_save($table, $data);
 
        // $id = $save = $this->app->database_manager->save($table, $data);
 

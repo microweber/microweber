@@ -94,7 +94,7 @@ class Unzip
             $file_locations = array();
             foreach ($files as $file => $trash) {
                 $dirname = pathinfo($file, PATHINFO_DIRNAME);
-                $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                $extension = (pathinfo($file, PATHINFO_EXTENSION));
 
                 $folders = explode('/', $dirname);
                 $out_dn = $this->_target_dir . '/' . $dirname;
@@ -211,7 +211,7 @@ class Unzip
             $file_locations = array();
             foreach ($files as $file => $trash) {
                 $dirname = pathinfo($file, PATHINFO_DIRNAME);
-                $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                $extension = (pathinfo($file, PATHINFO_EXTENSION));
                 $dirname = str_replace('\/', '/', $dirname);
 
                 $folders = explode('/', $dirname);
@@ -684,11 +684,8 @@ class Unzip
         if ($underscore_case) {
             $pathinfo = pathinfo($target_file_name);
             //  $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
-
-            $pathinfo['filename_new'] = strtolower($pathinfo['filename']);
-
-
-            $target_file_name = $pathinfo['dirname'] . '/' . $pathinfo['filename_new'] . '.' . strtolower($pathinfo['extension']);
+             $pathinfo['filename_new'] = ($pathinfo['filename']);
+             $target_file_name = $pathinfo['dirname'] . '/' . $pathinfo['filename_new'] . '.' . ($pathinfo['extension']);
         }
 
         fseek($this->fh, $fdetails['contents_start_offset']);

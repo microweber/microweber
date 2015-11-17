@@ -17,9 +17,12 @@ class Crud {
         }
     }
 
-    public function get($params = array()) {
+    public function get($params) {
         if (is_string($params)){
             $params = parse_params($params);
+        }
+        if($params==false){
+            return;
         }
         $table = $this->table;
         $params['table'] = $table;
@@ -29,7 +32,13 @@ class Crud {
         return $get;
     }
 
-    public function save($params = array()) {
+    public function save($params) {
+        if (is_string($params)){
+            $params = parse_params($params);
+        }
+        if($params==false){
+            return;
+        }
         $table = $this->table;
         $params['table'] = $table;
         $save = $this->app->database_manager->save($params);

@@ -49,7 +49,6 @@ class LaravelCache {
      * @param string $cache_group
      *            (default is 'global') - this is the subfolder in the cache dir.
      *
-     * @internal param bool $cache_storage_type
      * @return boolean
      * @package  Cache
      * @example

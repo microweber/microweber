@@ -339,8 +339,8 @@ function url_param($param, $skip_ajax = false) {
  *
  */
 
-function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = false) {
-    return mw()->cache_manager->get($cache_id, $cache_group, $expiration_in_seconds);
+function cache_get($cache_id, $cache_group = 'global', $expiration = false) {
+    return mw()->cache_manager->get($cache_id, $cache_group, $expiration);
 }
 
 /**

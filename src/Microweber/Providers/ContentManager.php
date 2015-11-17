@@ -3325,7 +3325,7 @@ class ContentManager {
         }
 
 
-        $save = $this->app->database->extended_save($table, $data_to_save);
+        $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
 
         /* SQLITE FIX */
@@ -4370,6 +4370,11 @@ class ContentManager {
     }
 
     public function save_content_data_field($data, $delete_the_cache = true) {
+
+        return $this->app->data_fields_manager->save($data);
+
+
+
         $table = $this->tables['content_data'];
         if (!is_array($data)){
             $data = parse_params($data);

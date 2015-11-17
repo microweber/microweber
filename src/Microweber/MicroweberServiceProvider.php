@@ -121,9 +121,7 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('option_manager', function ($app) {
             return new Providers\OptionManager($app);
         });
-        $this->app->singleton('database', function () {
-            return new \Database();
-        });
+      
 
         $this->app->singleton('template', function ($app) {
             return new Providers\Template($app);
