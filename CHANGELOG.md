@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [1.0.6] - WIP
+## [1.0.6] - 2015-11-19
 
 - Vendor: added Twig parser 
 - Added: taxes support
@@ -23,6 +23,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: uploader makes all files lowercase
 - Fix: live edit fixes on columns
 - Fix: forms module export to excel
+- Fix: Unzip was making all files lowercase
+- Fix: URLs are now sequential
 - Other fixes
 
 ## [1.0.5] - 2015-10-10
