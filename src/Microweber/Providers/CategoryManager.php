@@ -833,7 +833,7 @@ class CategoryManager {
                 $url = $this->app->content_manager->link($content['id']);
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel_type']) and trim($c_infp['rel_type'])=='content'){
-                    $this->app->database_manager->delete_by_id($table, $id);
+                   // $this->app->database_manager->delete_by_id($table, $id);
                 }
             }
 

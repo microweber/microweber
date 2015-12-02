@@ -21,7 +21,7 @@ class Crud {
         if (is_string($params)){
             $params = parse_params($params);
         }
-        if($params==false){
+        if ($params==false){
             return;
         }
         $table = $this->table;
@@ -36,7 +36,7 @@ class Crud {
         if (is_string($params)){
             $params = parse_params($params);
         }
-        if($params==false){
+        if ($params==false){
             return;
         }
 
@@ -44,6 +44,7 @@ class Crud {
         $table = $this->table;
         $params['table'] = $table;
         $save = $this->app->database_manager->save($params);
+
         return $save;
     }
 
@@ -57,24 +58,41 @@ class Crud {
             return false;
         }
         $table = $this->table;
+
         return $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
     }
-    public function get_by_id($id = 0, $field_name = 'id')
-    {
+
+    public function get_by_id($id = 0, $field_name = 'id') {
         $id = intval($id);
-        if ($id == 0) {
+        if ($id==0){
             return false;
         }
-        if ($field_name == false) {
+        if ($field_name==false){
             $field_name = "id";
         }
         $table = $this->table;
         $params = array();
-        $params[$field_name] = $id;
+        $params[ $field_name ] = $id;
         $params['table'] = $table;
         $params['single'] = true;
         $data = $this->get($params);
+
         return $data;
+    }
+
+    public function has_permission($params) {
+        if (!is_logged()){
+            return;
+        }
+        if (isset($params['id']) and $params['id']!=0){
+            $check_author = $this->get_by_id($params['id']);
+            $author_id = user_id();
+            if (isset($check_author['created_by']) and ($check_author['created_by']==$author_id)){
+                return true;
+            }
+        } elseif (!isset($params['id']) or $params['id']==0) {
+            return true;
+        }
     }
 
 }

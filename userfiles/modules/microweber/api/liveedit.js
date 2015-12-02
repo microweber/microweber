@@ -268,6 +268,10 @@ mw.drag = {
 
         $(mwd.body).mousemove(function (event) {
 
+
+
+
+
             mw.tools.removeClass(this, 'isTyping');
 
             if (!mw.settings.resize_started) {
@@ -306,6 +310,8 @@ mw.drag = {
                 var mouseover_editable_region_inside_a_module = false;
 
                 if (!mw.isDrag) {
+
+
                     if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
                         if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
                             mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
@@ -594,7 +600,7 @@ mw.drag = {
 
                     }
                     else {
-                        d(el);
+
                         mw.dropable.hide();
 
                     }
@@ -1820,7 +1826,7 @@ mw.drag = {
                 mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
             }
         }
-    },
+    }, 
     saving: false,
     coreSave: function (data) {
         if (!data) return false;
@@ -1846,6 +1852,10 @@ mw.drag = {
         mw.$('.empty-element', doc).remove();
         mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
+		mw.$('script', doc).remove();
+ 
+		//var doc = $(doc).find('script').remove();
+
         mw.tools.classNamespaceDelete('all', 'ui-', doc, 'starts');
         mw.$("[contenteditable]", doc).removeAttr("contenteditable");
         var all = doc.querySelectorAll('[contenteditable]'), l = all.length, i = 0;
@@ -1886,6 +1896,8 @@ mw.drag = {
                 if (!rel) continue;
                 $(helper.item).removeClass('changed orig_changed');
                 var content = helper.item.innerHTML;
+				//var content = $(content).find('script').remove();
+
                 var attr_obj = {};
                 var attrs = helper.item.attributes;
                 if (attrs.length > 0) {

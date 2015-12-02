@@ -21,7 +21,6 @@ namespace Microweber;
  * @property \Microweber\Providers\Shop\OrderManager                       $order_manager
  * @property \Microweber\Providers\Shop\TaxManager                         $tax_manager
  * @property \Microweber\Providers\OptionManager                           $option_manager
- * @property \Database                                                     $database
  * @property \Microweber\Providers\CacheManager                            $cache_manager
  * @property \Microweber\Providers\UserManager                             $user_manager
  * @property \Microweber\Providers\Modules                                 $modules

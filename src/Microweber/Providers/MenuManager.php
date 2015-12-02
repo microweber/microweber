@@ -626,7 +626,11 @@ class MenuManager
                         $ext_classes .= ' child-' . $res_count . '';
                     }
                 }
+                $ext_classes .= ' menu-item-id-' . $item['id'] . '';
 
+                if (isset($item['parent_id'])){
+                    $ext_classes .= ' menu-item-parent-' . $item['parent_id'] . '';
+                }
 
                 // }
                 if (in_array($item['parent_id'], $passed_ids) == false) {
