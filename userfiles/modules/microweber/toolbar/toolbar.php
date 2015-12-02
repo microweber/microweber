@@ -116,7 +116,7 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
             }, 1000);
 			
 			
-			
+			$(document.body).addClass('notranslate');
         });
 		
 		if(typeof(mw.wysiwyg) != 'undefined'){
