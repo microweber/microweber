@@ -1,9 +1,12 @@
 <IfModule mod_rewrite.c>
-            <IfModule mod_negotiation.c>
-                Options -MultiViews
-            </IfModule>
-            RewriteEngine On
-                RewriteCond %{REQUEST_FILENAME} !-f
-                RewriteCond %{REQUEST_FILENAME} !-d
-                RewriteRule ^(.*)$ index.php [NC,L]
-        </IfModule>
+    <IfModule mod_negotiation.c>
+    Options -MultiViews
+    </IfModule>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [NC,L]
+
+    RedirectMatch 404 /\\.git(/|$)
+    RedirectMatch 404 /\\.env(/|$)
+</IfModule>
