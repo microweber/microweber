@@ -3093,15 +3093,25 @@ mw.tools = {
             $(mw.tools._titleTip).hide();
             return false;
         }
-        var skin = $(el).dataset('tipskin');
-        var skin = (skin!='') ? skin : 'mw-tooltip-dark';
-        var pos = $(el).dataset('tipposition');
-        var iscircle = $(el).dataset('tipcircle') == 'true';
+        var skin = $(el).attr('data-tipskin');
+        var skin = (skin) ? skin : 'mw-tooltip-dark';
+        var pos =  $(el).attr('data-tipposition');
+        var iscircle =  $(el).attr('data-tipcircle') == 'true';
 
-        if (pos == '') {
-            var pos = 'bottom-center';
+        if (!pos) {
+            var pos = 'top-center';
         }
-        var text = $(el).dataset('tip');
+        var text = $(el).attr('data-tip');
+        if(!text){
+            var text = $(el).attr('title');
+        }
+        if(!text){
+            var text = $(el).attr('tip');
+        }
+
+        if(typeof text == 'undefined' || !text){
+            return;
+        }
 
         if (text.indexOf('.') === 0 || text.indexOf('#') === 0) {
             var xitem = mw.$(text);
@@ -3113,8 +3123,8 @@ mw.tools = {
         else {
             var text = text.replace(/\n/g, '<br>');
         }
-        var showon = $(el).dataset('showon');
-        if (showon != '') {
+        var showon = $(el).attr('data-showon');
+        if (showon) {
             var el = mw.$(showon)[0];
         }
         if (!mw.tools._titleTip) {

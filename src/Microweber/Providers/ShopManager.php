@@ -250,7 +250,7 @@ class ShopManager {
                 $place_order['shipping_service'] = $data['shipping_gw'];
             }
             $place_order['shipping'] = $shipping_cost;
-            if($tax != 0){
+            if ($tax!=0){
                 $place_order['taxes_amount'] = $tax;
             }
 
@@ -314,7 +314,9 @@ class ShopManager {
                     $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
-
+//                    $place_order['success_url'] = $mw_return_url;
+//                    $place_order['cancel_url'] = $mw_cancel_url;
+//                    $place_order['notify_url'] = $mw_ipn_url;
                     if (is_file($gw_process)){
                         require_once $gw_process;
                     } else {
@@ -340,7 +342,6 @@ class ShopManager {
                 $return = $place_order;
                 if (isset($place_order['redirect'])){
                     $return['redirect'] = $place_order['redirect'];
-
                 }
 
 
@@ -400,7 +401,7 @@ class ShopManager {
                         // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
-                        $order_email_content = str_replace('{date}', date("F jS, Y",strtotime($ord_data['created_at'])), $order_email_content);
+                        $order_email_content = str_replace('{date}', date("F jS, Y", strtotime($ord_data['created_at'])), $order_email_content);
                         foreach ($ord_data as $key => $value) {
 
                             if (!is_array($value) and is_string($key)){
@@ -415,7 +416,7 @@ class ShopManager {
                     $twig = new \Twig_Environment(new \Twig_Loader_String());
                     $order_email_content = $twig->render(
                         $order_email_content,
-                        array("cart" => $cart_items,"order" => $ord_data)
+                        array("cart" => $cart_items, "order" => $ord_data)
                     );
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
@@ -425,7 +426,7 @@ class ShopManager {
                         $cc = false;
                         if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))){
                             $cc = $order_email_cc;
-                            $sender->send($cc, $order_email_subject, $order_email_content,false,$no_cache);
+                            $sender->send($cc, $order_email_subject, $order_email_content, false, $no_cache);
 
                         }
 

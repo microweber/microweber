@@ -52,7 +52,15 @@ SetValue = function(){
 }
 
 SetHeight = function(height){
-   var height = height || window.richtextEditorSettings.height;
+	
+	if(typeof(window.richtextEditorSettings) == "undefined"){
+	var height = height || 'auto';	
+	} else {
+	var height = height || window.richtextEditorSettings.height;	
+	}
+	
+	
+    
    if(height == 'auto'){
 	  
         setInterval(function(){

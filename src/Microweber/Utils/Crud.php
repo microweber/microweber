@@ -95,4 +95,14 @@ class Crud {
         }
     }
 
+
+    public function table() {
+        $table = $this->table;
+
+        return $this->app->database_manager->table($table);
+    }
+
+
+
+
 }

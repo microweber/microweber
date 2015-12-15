@@ -15,6 +15,7 @@ class UserCrud extends Crud {
             return;
         }
         $params['created_by'] = user_id();
+
         $get = parent::get($params);
         return $get;
     }
