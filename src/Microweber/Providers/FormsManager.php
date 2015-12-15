@@ -174,9 +174,9 @@ class FormsManager {
         }
 
 
-        if ($for=='module'){
+       // if ($for=='module'){
             $list_id = $this->app->option_manager->get('list_id', $for_id);
-        }
+      //  }
         $email_to = $this->app->option_manager->get('email_to', $for_id);
         $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
@@ -221,7 +221,9 @@ class FormsManager {
 
                 }
             }
-        }
+        } else {
+		$cf_to_save  = $params;	
+		}
 
 
         $to_save['list_id'] = $list_id;
@@ -324,15 +326,23 @@ class FormsManager {
                 $email_from = false;
                 if (isset($cf_to_save) and !empty($cf_to_save)){
                     foreach ($cf_to_save as $value) {
-                        $to = $value['value'];
+						if(is_array($value) and isset( $value['value'])){
+							$to = $value['value'];
+						} else {
+							$to = $value;
+						}
+                        
                         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
                             $user_mails[] = $to;
                             $email_from = $to;
                         }
                     }
-                }
+                } else {
+					
+				}
 
                 if (!empty($user_mails)){
+					 
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
                         $sender = new \Microweber\Utils\MailSender();
