@@ -85,8 +85,8 @@ mw.settings.libs = {
             v.content = "width=device-width, initial-scale=1.0";
             mwhead.appendChild(v);
         },
-        'bootstrap.min.css',
-        'bootstrap.min.js'
+        'css/bootstrap.min.css',
+        'js/bootstrap.min.js'
       ],
       bootstrap3ns:[
           function(){
