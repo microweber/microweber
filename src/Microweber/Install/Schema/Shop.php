@@ -21,6 +21,8 @@ class Shop {
                 'created_by'         => 'integer',
                 'custom_fields_data' => 'longText',
                 'item_image'         => "string",
+                'link'               => "string",
+                'description'        => 'longText',
                 '$index'             => ['rel_type', 'rel_id']
             ],
 

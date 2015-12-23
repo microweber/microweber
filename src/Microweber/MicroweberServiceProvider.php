@@ -163,6 +163,9 @@ class MicroweberServiceProvider extends ServiceProvider {
             return new Providers\Shop\TaxManager($app);
         });
 
+        $this->app->singleton('checkout_manager', function ($app) {
+            return new Providers\Shop\CheckoutManager($app);
+        });
 
         // Other
 

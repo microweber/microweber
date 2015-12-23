@@ -1,59 +1,38 @@
 <?php
-namespace Microweber\Providers;
+
+
+namespace Microweber\Providers\Shop;
 
 use DB;
-use Microweber\Providers\Shop\CartManager;
 
+class CheckoutManager {
 
-/**
- *
- * Shop module api
- *
- * @package           modules
- * @subpackage        shop
- * @since             Version 0.1
- */
-// ------------------------------------------------------------------------
-
-
-class ShopManager {
+    /** @var \Microweber\Application */
     public $app;
-    public $tables = array();
-    public $table_prefix = false;
-    public $no_cache = false;
 
+
+    public $table = 'cart';
+    public $tables = array();
 
     function __construct($app = null) {
-
         if (is_object($app)){
             $this->app = $app;
         } else {
             $this->app = mw();
         }
 
-        $this->set_table_names();
+
+        $tables['cart'] = 'cart';
 
 
-    }
+        $tables['cart_orders'] = 'cart_orders';
 
-    public function set_table_names($tables = false) {
 
-        if (!is_array($tables)){
-            $tables = array();
-        }
-        if (!isset($tables['cart'])){
-            $tables['cart'] = 'cart';
-        }
-        if (!isset($tables['cart_orders'])){
-            $tables['cart_orders'] = 'cart_orders';
-        }
+        $tables['cart_shipping'] = 'cart_shipping';
 
-        if (!isset($tables['cart_shipping'])){
-            $tables['cart_shipping'] = 'cart_shipping';
-        }
-        if (!isset($tables['cart_taxes'])){
-            $tables['cart_taxes'] = 'cart_taxes';
-        }
+
+        $tables['cart_taxes'] = 'cart_taxes';
+
         $this->tables = $tables;
 
 
@@ -61,11 +40,11 @@ class ShopManager {
 
 
     public function checkout($data) {
-        return $this->app->checkout_manager->checkout($data);
+
 
         $exec_return = false;
-        $sid = mw()->user_manager->session_id();
-        $sess_order_id = mw()->user_manager->session_get('order_id');
+        $sid = $this->app->user_manager->session_id();
+        $sess_order_id = $this->app->user_manager->session_get('order_id');
         $cart = array();
         $cart_table = $this->tables['cart'];
         $table_orders = $this->tables['cart_orders'];
@@ -75,14 +54,30 @@ class ShopManager {
         $mw_process_payment = true;
         $mw_process_payment_success = false;
         $mw_process_payment_failed = false;
-        if (isset($_REQUEST['mw_payment_success'])){
-            $mw_process_payment = false;
-            $mw_process_payment_success = true;
-            $exec_return = true;
 
-        } else if (isset($_REQUEST['mw_payment_failure'])){
-            $mw_process_payment_failed = true;
-            $exec_return = true;
+        if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])){
+
+            $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
+            if (isset($update_order['payment_gw'])){
+                $gw_return = normalize_path(modules_path() . $update_order['payment_gw'] . DS . 'return.php', false);
+                if (is_file($gw_return)){
+                    include($gw_return);
+                    if ($update_order!=$update_order_orig){
+                        $this->app->order_manager->save($update_order);
+                    }
+                }
+            }
+
+
+            if (isset($_REQUEST['mw_payment_success'])){
+                $mw_process_payment = false;
+                $mw_process_payment_success = true;
+                $exec_return = true;
+
+            } else if (isset($_REQUEST['mw_payment_failure'])){
+                $mw_process_payment_failed = true;
+                $exec_return = true;
+            }
         }
 
 
@@ -90,8 +85,12 @@ class ShopManager {
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
 
         if ($exec_return==true){
-            if (isset($_REQUEST['return_to'])){
-                $return_to = urldecode($_REQUEST['return_to']);
+            $return_url = $this->app->user_manager->session_get('checkout_return_to_url');
+            if (isset($_REQUEST['return_to']) and $_REQUEST['return_to']!=false){
+                $return_url = urldecode($_REQUEST['return_to']);
+            }
+            if ($return_url){
+                $return_to = $return_url;
                 $append = '?';
                 if (strstr($return_to, '?')){
                     $append = '&';
@@ -101,7 +100,6 @@ class ShopManager {
                 } elseif ($mw_process_payment_failed==true) {
                     $return_to = $return_to . $append . 'mw_payment_failure=1';
                 }
-
                 return $this->app->url_manager->redirect($return_to);
             }
         }
@@ -132,7 +130,6 @@ class ShopManager {
                 }
             }
         }
-
         $save_custom_fields_for_order = array();
         if (is_array($additional_fields) and !empty($additional_fields)){
             foreach ($additional_fields as $cf) {
@@ -150,7 +147,7 @@ class ShopManager {
 
 
         $checkout_errors = array();
-        $check_cart = $this->get_cart($cart);
+        $check_cart = $this->app->shop_manager->get_cart($cart);
 
         if (!is_array($check_cart)){
             $checkout_errors['cart_empty'] = 'Your cart is empty';
@@ -175,17 +172,17 @@ class ShopManager {
             $shipping_cost = false;
             $shipping_cost_above = false;
 
-            if ((mw()->user_manager->session_get('shipping_country'))){
-                $shipping_country = mw()->user_manager->session_get('shipping_country');
+            if (($this->app->user_manager->session_get('shipping_country'))){
+                $shipping_country = $this->app->user_manager->session_get('shipping_country');
             }
-            if ((mw()->user_manager->session_get('shipping_cost_max'))){
-                $shipping_cost_max = mw()->user_manager->session_get('shipping_cost_max');
+            if (($this->app->user_manager->session_get('shipping_cost_max'))){
+                $shipping_cost_max = $this->app->user_manager->session_get('shipping_cost_max');
             }
-            if ((mw()->user_manager->session_get('shipping_cost'))){
-                $shipping_cost = mw()->user_manager->session_get('shipping_cost');
+            if (($this->app->user_manager->session_get('shipping_cost'))){
+                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
             }
-            if ((mw()->user_manager->session_get('shipping_cost_above'))){
-                $shipping_cost_above = mw()->user_manager->session_get('shipping_cost_above');
+            if (($this->app->user_manager->session_get('shipping_cost_above'))){
+                $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
             }
 
 
@@ -213,15 +210,19 @@ class ShopManager {
             $place_order['id'] = false;
 
             $return_url_after = '';
+            $return_to_ref = false;
             if ($this->app->url_manager->is_ajax()){
                 $place_order['url'] = $this->app->url_manager->current(true);
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
+                $this->app->user_manager->session_set('checkout_return_to_url', $_SERVER['HTTP_REFERER']);
+
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
                 $place_order['url'] = $_SERVER['HTTP_REFERER'];
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
+                $this->app->user_manager->session_set('checkout_return_to_url', $_SERVER['HTTP_REFERER']);
+
             } else {
                 $place_order['url'] = $this->app->url_manager->current();
-
             }
 
             $place_order['session_id'] = $sid;
@@ -236,7 +237,7 @@ class ShopManager {
                 }
             }
 
-            $amount = $this->cart_total();
+            $amount = $this->app->shop_manager->cart_total();
             $tax = $this->app->cart_manager->get_tax();
 
             if (!empty($checkout_errors)){
@@ -255,14 +256,13 @@ class ShopManager {
                 $place_order['taxes_amount'] = $tax;
             }
 
-            $items_count = $this->cart_sum(false);
+            $items_count = $this->app->shop_manager->cart_sum(false);
             $place_order['items_count'] = $items_count;
 
             $cart_checksum = md5($sid . serialize($check_cart) . uniqid());
 
             $place_order['payment_verify_token'] = $cart_checksum;
 
-            define('FORCE_SAVE', $table_orders);
 
             if (isset($save_custom_fields_for_order) and !empty($save_custom_fields_for_order)){
                 $place_order['custom_fields_data'] = $this->app->format->array_to_base64($save_custom_fields_for_order);
@@ -332,7 +332,7 @@ class ShopManager {
                 if (!empty($checkout_errors)){
                     return array('error' => $checkout_errors);
                 }
-                $ord = $this->place_order($place_order);
+                $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
             }
 
@@ -359,48 +359,7 @@ class ShopManager {
 
     }
 
-
-    public function place_order($place_order) {
-        return $this->app->order_manager->place_order($place_order);
-    }
-
-
-    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false) {
-
-
-        return $this->app->checkout_manager->confirm_email_send($order_id, $to, $no_cache, $skip_enabled_check);
-
-    }
-
-    public function get_order_by_id($id = false) {
-        return $this->app->order_manager->get_by_id($id);
-    }
-
-
-    function empty_cart() {
-        return $this->app->cart_manager->empty_cart();
-    }
-
-    public function get_cart($params = false) {
-        return $this->app->cart_manager->get($params);
-    }
-
-
-    public function remove_cart_item($data) {
-        return $this->app->cart_manager->remove_item($data);
-    }
-
-
-    public function update_cart_item_qty($data) {
-        return $this->app->cart_manager->update_item_qty($data);
-    }
-
-    public function update_cart($data) {
-        return $this->app->cart_manager->update_cart($data);
-    }
-
     public function payment_options($option_key = false) {
-        return $this->app->checkout_manager->payment_options($option_key);
 
         $option_key_q = '';
         if (is_string($option_key)){
@@ -470,116 +429,110 @@ class ShopManager {
 
     }
 
-    /**
-     * @param bool $return_amount
-     *
-     * @return array|false|float|int|mixed
-     */
-    public function cart_sum($return_amount = true) {
-        return $this->app->cart_manager->sum($return_amount);
-    }
-
-
-    public function cart_total() {
-        return $this->app->cart_manager->total();
-    }
-
-
-    /**
-     * Remove quantity from product
-     *
-     * On completed order this function deducts the product quantities.
-     *
-     * @param bool|string $order_id
-     *   The id of the order that is completed
-     *
-     * @return boolean
-     *   True if quantity is updated
-     */
-    function update_quantities($order_id = false) {
-        $order_id = intval($order_id);
-        if ($order_id==false){
-            return;
+    public function after_checkout($order_id, $suppress_output = true) {
+        if ($suppress_output==true){
+            ob_start();
         }
-        $res = false;
-        $ord_data = $this->get_order_by_id($order_id);
+        if ($order_id==false or trim($order_id)==''){
+            return array('error' => 'Invalid order ID');
+        }
 
-        $cart_data = $this->order_items($order_id);
-        if (!empty($cart_data)){
-            $res = array();
-            foreach ($cart_data as $item) {
-                if (isset($item['rel_type']) and isset($item['rel_id']) and $item['rel_type']=='content'){
-                    $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
-                    if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty']!='nolimit'){
-                        $old_qty = intval($data_fields['qty']);
-                        $new_qty = $old_qty - intval($item['qty']);
-                        $new_qty = intval($new_qty);
-                        $notify = false;
-                        $new_q = array();
-                        $new_q['field_name'] = 'qty';
-                        $new_q['content_id'] = $item['rel_id'];
-                        if ($new_qty > 0){
-                            $new_q['field_value'] = $new_qty;
-                        } else {
-                            $notify = true;
-                            $new_q['field_value'] = '0';
-                        }
-                        $res[] = $new_q;
-                        $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
-                        $res = true;
-                        if ($notify){
-                            $notification = array();
-                            $notification['rel_type'] = 'content';
-                            $notification['rel_id'] = $item['rel_id'];
-                            $notification['title'] = "Your item is out of stock!";
-                            $notification['description'] = "You sold all items you had in stock. Please update your quantity";
-                            $this->app->notifications_manager->save($notification);
+        $ord_data = $this->app->shop_manager->get_orders('one=1&id=' . $order_id);
+        if (is_array($ord_data)){
+
+            $ord = $order_id;
+            $notification = array();
+            $notification['module'] = "shop";
+            $notification['rel_type'] = 'cart_orders';
+            $notification['rel_id'] = $ord;
+            $notification['title'] = "You have new order";
+            $notification['description'] = "New order is placed from " . $this->app->url_manager->current(1);
+            $notification['content'] = "New order in the online shop. Order id: " . $ord;
+            $this->app->notifications_manager->save($notification);
+            $this->app->log_manager->save($notification);
+            $this->confirm_email_send($order_id);
+
+        }
+        if ($suppress_output==true){
+            ob_end_clean();
+        }
+    }
+
+
+    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false) {
+
+        $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
+
+        if (is_array($ord_data)){
+            if ($skip_enabled_check==false){
+                $order_email_enabled = $this->app->option_manager->get('order_email_enabled', 'orders');
+            } else {
+                $order_email_enabled = $skip_enabled_check;
+            }
+
+            if ($order_email_enabled==true){
+
+                $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
+                $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
+                $order_email_cc = $this->app->option_manager->get('order_email_cc', 'orders');
+                $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
+                if ($order_email_send_when=='order_paid' and !$skip_enabled_check){
+                    if (isset($ord_data['is_paid']) and $ord_data['is_paid']==false){
+                        return;
+                    }
+                }
+
+                if ($order_email_subject==false or trim($order_email_subject)==''){
+                    $order_email_subject = "Thank you for your order!";
+                }
+                if ($to==false){
+
+                    $to = $ord_data['email'];
+                }
+                if ($order_email_content!=false and trim($order_email_subject)!=''){
+                    $cart_items = array();
+                    if (!empty($ord_data)){
+                        $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
+                        // $cart_items = $this->order_items($ord_data['id']);
+                        $order_items_html = $this->app->format->array_to_ul($cart_items);
+                        $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
+                        $order_email_content = str_replace('{date}', date("F jS, Y", strtotime($ord_data['created_at'])), $order_email_content);
+                        foreach ($ord_data as $key => $value) {
+
+                            if (!is_array($value) and is_string($key)){
+                                if (strtolower($key)=='amount'){
+                                    $value = number_format($value, 2);
+                                }
+                                $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
+                            }
                         }
                     }
+
+                    $twig = new \Twig_Environment(new \Twig_Loader_String());
+                    $order_email_content = $twig->render(
+                        $order_email_content,
+                        array("cart" => $cart_items, "order" => $ord_data)
+                    );
+
+                    if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))){
+
+                        $sender = new \Microweber\Utils\MailSender();
+                        $sender->send($to, $order_email_subject, $order_email_content);
+                        $cc = false;
+                        if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))){
+                            $cc = $order_email_cc;
+                            $sender->send($cc, $order_email_subject, $order_email_content, false, $no_cache);
+
+                        }
+
+                        return true;
+
+                    }
+
                 }
             }
         }
-
-        return $res;
     }
-
-    public function order_items($order_id = false) {
-        return $this->app->order_manager->get_items($order_id);
-    }
-
-    public function after_checkout($order_id, $suppress_output = true) {
-        return $this->app->checkout_manager->after_checkout($order_id, $suppress_output);
-
-    }
-
-    public function get_orders($params = false) {
-        return $this->app->order_manager->get($params);
-    }
-
-
-    public function checkout_confirm_email_test($params) {
-
-        if (!isset($params['to'])){
-            $email_from = $this->app->option_manager->get('email_from', 'email');
-            if ($email_from==false){
-                return array('error' => 'You must set up your email');
-            }
-        } else {
-            $email_from = $params['to'];
-
-        }
-        $ord_data = $this->get_orders('limit=50');
-
-        if (is_array($ord_data[0])){
-            shuffle($ord_data);
-            $ord_test = $ord_data[0];
-
-
-            return $this->app->checkout_manager->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
-        }
-
-    }
-
 
     public function checkout_ipn($data) {
 
@@ -643,7 +596,7 @@ class ShopManager {
             $ord = $this->app->database_manager->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
             if (isset($update_order['is_paid']) and $update_order['is_paid']==1){
-                $this->update_quantities($ord);
+                $this->app->shop_manager->update_quantities($ord);
             }
             if ($ord > 0){
                 $this->app->cache_manager->delete('cart/global');
@@ -724,245 +677,4 @@ class ShopManager {
 
         return $url;
     }
-
-
-    public function update_order($params = false) {
-        return $this->app->order_manager->save($params);
-
-    }
-
-    public function delete_client($data) {
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm==false){
-            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-        $table = $this->tables['cart_orders'];
-        if (isset($data['email'])){
-            $c_id = $this->app->database_manager->escape_string($data['email']);
-            $res = $this->app->database_manager->delete_by_id($table, $c_id, 'email');
-            $this->app->cache_manager->delete('cart_orders/global');
-
-            return $res;
-        }
-    }
-
-    public function delete_order($data) {
-        return $this->app->order_manager->delete_order($data);
-    }
-
-
-    public function currency_get_for_paypal() {
-        $curencies = array('USD', 'EUR', 'GBP', 'AUD', 'CAD', 'JPY', 'NZD', 'CHF', 'HKD', 'SGD', 'SEK', 'DKK', 'PLN', 'NOK', 'HUF', 'CZK', 'ILS', 'MXN', 'MYR', 'BRL', 'PHP', 'TWD', 'THB', 'TRY');
-
-        return $curencies;
-    }
-
-    public function currency_convert_rate($from, $to) {
-        return;
-        $function_cache_id = __FUNCTION__ . md5($from . $to);
-        $cache_group = 'shop';
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-        if (($cache_content)!=false){
-            return $cache_content;
-        }
-        if ($to==''){
-            $to = $from;
-        }
-
-        $remote_host = 'http://api.microweber.com';
-        $service = "/service/currency/?from=" . $from . "&to=" . $to;
-        $remote_host_s = $remote_host . $service;
-
-
-        $curl = new \Microweber\Utils\Http();
-        $curl->set_timeout(3);
-        $curl->url($remote_host_s);
-        $get_remote = $curl->get();
-
-
-        if ($get_remote!=false){
-            $this->app->cache_manager->save($get_remote, $function_cache_id, $cache_group);
-
-            return floatval($get_remote);
-        }
-    }
-
-    function currency_format($amount, $curr = false) {
-        if ($curr==false){
-            $curr = $this->app->option_manager->get('currency', 'payments');
-        }
-        $amount = floatval($amount);
-        $sym = $this->currency_symbol($curr);
-
-        if ($sym==''){
-            $sym = $curr;
-        }
-
-
-        $cur_pos = $this->app->option_manager->get('currency_symbol_position', 'payments');
-
-        switch ($cur_pos) {
-            case "before":
-                $ret = $sym . ' ' . number_format($amount, 2, ".", ",");
-                break;
-            case "after":
-                $ret = number_format($amount, 2, ".", " ") . ' ' . $sym;
-
-                break;
-            case "default":
-            default:
-                switch ($curr) {
-                    case "EUR":
-                        $ret = "&euro; " . number_format($amount, 2, ",", " ");
-                        break;
-                    case "BGN":
-                    case "RUB":
-                        $ret = number_format($amount, 2, ".", " ") . ' ' . $sym;
-                        break;
-                    case "US":
-                    case "USD":
-                        $ret = "&#36; " . number_format($amount, 2, ".", ",");
-                        break;
-                    default:
-                        $ret = $sym . ' ' . number_format($amount, 2, ".", ",");
-                        break;
-                }
-                break;
-
-        }
-
-        return $ret;
-    }
-
-    public function currency_symbol($curr = false, $key = 3) {
-        if ($curr==false){
-            $curr = $this->app->option_manager->get('currency', 'payments');
-        }
-        $all_cur = $this->currency_get();
-        if (is_array($all_cur)){
-            foreach ($all_cur as $value) {
-                if (in_array($curr, $value)){
-                    if ($key==false){
-                        return $value;
-                    } else {
-                        $sym = $value[ $key ];
-
-                        return $sym;
-                    }
-                }
-            }
-        }
-    }
-
-    public function currency_get() {
-
-        static $currencies_list = false;
-
-        if ($currencies_list){
-            return $currencies_list;
-        }
-
-        $row = 1;
-        $cur_file = MW_PATH . 'Utils' . DS . 'lib' . DS . 'currencies.csv';
-        if (is_file($cur_file)){
-            if (($handle = fopen($cur_file, "r"))!==false){
-                $res = array();
-                while (($data = fgetcsv($handle, 1000, ","))!==false) {
-                    $itm = array();
-                    $num = count($data);
-                    $row ++;
-                    for ($c = 0; $c < $num; $c ++) {
-                        $itm[] = $data[ $c ];
-                    }
-                    $res[] = $itm;
-                }
-                fclose($handle);
-                $currencies_list = $res;
-
-                return $res;
-            }
-        }
-    }
-
-    function checkout_url() {
-        $template_dir = $this->app->template->dir();
-        $file = $template_dir . 'checkout.php';
-        if (is_file($file)){
-            $default_url = 'checkout';
-        } else {
-            $default_url = 'shop/checkout';
-        }
-        $checkout_url = $this->app->option_manager->get('checkout_url', 'shop');
-        if ($checkout_url!=false and trim($checkout_url)!=''){
-            $default_url = $checkout_url;
-        }
-        $checkout_url_sess = $this->app->user_manager->session_get('checkout_url');
-        if ($checkout_url_sess==false){
-            return $this->app->url_manager->site($default_url);
-        } else {
-            return $this->app->url_manager->site($checkout_url_sess);
-        }
-    }
-
-    /*public function create_mw_shop_default_options() {
-
-        $function_cache_id = __FUNCTION__;
-
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group = 'db');
-        if (($cache_content)=='--true--'){
-            return true;
-        }
-
-        $datas = array();
-
-        $data = array();
-
-        $data['name'] = 'Currency';
-        $data['help'] = 'The website currency';
-        $data['option_group'] = 'payments';
-        $data['option_key'] = 'currency';
-        $data['option_value'] = 'USD';
-        $data['field_type'] = 'currency';
-
-        $data['position'] = '1';
-        $datas[] = $data;
-
-        $data = array();
-
-        $data['name'] = 'Payment currency';
-        $data['help'] = 'Payment process in currency';
-        $data['option_group'] = 'payments';
-        $data['option_key'] = 'payment_currency';
-        $data['option_value'] = 'USD';
-        $data['field_type'] = 'currency';
-
-        $data['position'] = '2';
-        $datas[] = $data;
-
-        $data['name'] = 'Payment currency rate';
-        $data['help'] = 'Payment currency convert rate to site currency';
-        $data['option_group'] = 'payments';
-        $data['option_key'] = 'payment_currency_rate';
-        $data['option_value'] = '1.2';
-        $data['field_type'] = 'currency';
-
-        $data['position'] = '3';
-        $datas[] = $data;
-
-        $changes = false;
-        foreach ($datas as $val) {
-            $ch = $this->app->option_manager->set_default($val);
-            if ($ch==true){
-                $changes = true;
-            }
-        }
-        if ($changes==true){
-            $this->app->cache_manager->delete('options/global');
-        }
-        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
-
-        return true;
-    }*/
-
-
 }
