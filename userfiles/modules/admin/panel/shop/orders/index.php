@@ -1,3 +1,4 @@
+<?php only_admin_access(); ?>
 <?php 
 
 $show = 'list';
@@ -6,7 +7,11 @@ if(url_param('show')){
 $show = url_param('show');	
 }
 
+if(url_param('vieworder')){
+$show = 'vieworder';	
+$order_id = url_param('vieworder');	
 
+}
 ?>
 <h1 class="mw-admin-main-section-title"><span>Orders</span></h1>
 <div class="mw-admin-normal-spacer"></div>
@@ -44,11 +49,18 @@ $show = url_param('show');
 
 <?php } ?>
 
+<?php if($show == 'vieworder'){ ?>
+
+<module type="admin/panel/shop/orders/order" order-id='<?php print $order_id; ?>' id="mw-admin-manage-orders-inner" />
+
+<?php } ?>
 
 
 
 
-<?php only_admin_access(); ?>
+
+
+
 <script>
     mw.require('forms.js', true);
 

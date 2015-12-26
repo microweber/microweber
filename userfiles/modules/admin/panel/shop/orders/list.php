@@ -14,7 +14,7 @@
 	$kw = '';
 
     if(isset($params['keyword'])){
-      $kw  = '&search_in_fields=email,first_name,last_name,country,created_at,transaction_id,city,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
+      $kw  = '&search_in_fields=email,first_name,last_name,country,created_at,amount,payment_amount,transaction_id,city,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
     }
 
 	if(isset($params['order-type']) and $params['order-type'] == 'carts'){
@@ -29,10 +29,6 @@
  	}
 
 ?>
-
-
-
-
 
 <div id="mw-order-table-holder">
   <?php if($ordert_type == 'completed' and isset($orders) and is_array($orders)) :?>
