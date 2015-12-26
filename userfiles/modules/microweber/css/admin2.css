@@ -64,6 +64,11 @@ html, body, #mw-admin-container, .main-admin-row, .admin-content-column, .module
 	height: 70px;
 	width: 100%;
 }
+.mw-admin-normal-spacer {
+	display: block;
+	height: 40px;
+	width: 100%;
+}
 .mw-admin-main-panel-top-bar {
 	display: block;
 	height: 70px;
@@ -82,6 +87,9 @@ html, body, #mw-admin-container, .main-admin-row, .admin-content-column, .module
 	max-width: 780px;
 }
 }
+/* TYPOGRAPHY */
+
+
 .mw-admin-main-section-title {
 	color: #1b1b1b;
 	font-family: "Open Sans", sans-serif;
@@ -122,3 +130,72 @@ html, body, #mw-admin-container, .main-admin-row, .admin-content-column, .module
 	display: table-cell;
 	float: left;
 }
+.mw-admin-main-section-inner-panel-title {
+	color: #1b1b1b;
+	font-family: "OpenSans", sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 0px;
+	margin: 0px;
+	text-transform: uppercase;
+}
+/* END TYPOGRAPHY */
+
+/* BTNS */
+ 
+.mw-admin-main-section-inner-panel {
+	display: table;
+	vertical-align: middle;
+}
+.mw-admin-main-section-inner-panel .mw-ui-col {
+	display: table-cell;
+	vertical-align: middle;
+}
+.mw-admin-main-section-inner-panel-nav {
+	text-align: center;
+	color: #1b1b1b;
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+.mw-admin-main-section-inner-panel-nav a {
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	min-height: 28px;
+	color: #929292;
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+.mw-admin-main-section-inner-panel-nav a.active {
+	color: #1b1b1b;
+	border: 1px solid rgba(128,128,128,.33);
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	-moz-box-shadow: 1px 2px 4px rgba(0,0,0,.3), 0 0 4px rgba(0,0,0,.03), inset 0 1px 0 #fff;
+	-webkit-box-shadow: 1px 2px 4px rgba(0,0,0,.3), 0 0 4px rgba(0,0,0,.03), inset 0 1px 0 #fff;
+	box-shadow: 1px 2px 4px rgba(0,0,0,.3), 0 0 4px rgba(0,0,0,.03), inset 0 1px 0 #fff;
+	background: -moz-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(232,232,232,0) 100%);
+	background: -webkit-linear-gradient(top, rgba(250,250,250,1) 0%, rgba(232,232,232,0) 100%);
+	background: linear-gradient(to bottom, rgba(250,250,250,1) 0%, rgba(232,232,232,0) 100%);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#00e8e8e8', GradientType=0 );
+}
+@media screen and (max-width: 1100px) {
+.mw-admin-main-section-inner-panel-nav a {
+	display: block;
+	margin-top: 5px;
+}
+}
+
+
+
+
+
+
+
+/* END BTNS */
