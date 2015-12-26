@@ -2,8 +2,10 @@
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
-<?php $v1 = mw()->url_manager->param('load_module'); ?>
-<?php $v = mw()->url_manager->param('view');
+<?php 
+
+$v1 = mw()->url_manager->param('load_module'); 
+$v = mw()->url_manager->param('view');
  
   if($v1 != false){
 	 $holder_cls = mw()->url_manager->slug($v1);
@@ -12,12 +14,13 @@
   } else {
 	  $holder_cls = false;
   }
+  
+
+
+  
   ?>
 
-
 <div class="mw-ui-col admin-content-column <?php print  $holder_cls ?>">
-
-
   <?php if($v1 != false): ?>
   <?php
 

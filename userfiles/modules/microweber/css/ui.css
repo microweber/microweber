@@ -1364,6 +1364,20 @@
 .mw-icon-wrench:before {
   content: "\f2ba";
 }
+
+.mw-icon-bars:before {
+  content: '\014a';
+}
+.mw-icon-money-outline:before {
+  content: '\014b';
+}
+.mw-icon-wrench-outline:before {
+  content: '\014c';
+}
+.mw-icon-customer:before {
+  content: '\014d';
+}
+
 /****************************
  Buttons & button navigation
 *****************************/
@@ -2089,6 +2103,24 @@ li:hover > .show-on-hover {
 .mw-ui-table-basic > thead > tr > th {
   border-top: none;
 }
+
+.mw-ui-table-spacious {
+ background-color:white;	
+}
+
+.mw-ui-table-spacious tr td {
+padding-top:15px;	
+padding-bottom:15px;
+background:white;
+color: #1b1b1b;
+ font-size: 14px;
+font-weight: bold;
+border:0px;
+border-bottom:3px solid #f1f1f1;
+}
+
+
+
 /****************************
       Progress Bars
 *****************************/

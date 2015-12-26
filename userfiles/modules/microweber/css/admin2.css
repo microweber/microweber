@@ -1,0 +1,124 @@
+.main-admin-row .main-bar-column {
+	display: none !important;
+}
+html, body, #mw-admin-container, .main-admin-row, .admin-content-column, .module-admin-panel-index {
+	height: 100%;
+}
+.main-admin-row {
+	max-width: 100%;
+	margin: 0px;
+	padding-right: 0px;
+}
+.mw-admin-main-panel-main-left-col-wrap {
+	height: 100%;
+	width: 200px;
+}
+.mw-admin-main-panel-main-right-col-wrap {
+	height: 100%;
+	background: #f1f1f1;
+}
+.mw-admin-sidebar {
+	background: black;
+	/*position: fixed;*/
+	width: 200px;
+	height: 100%;
+	left: 0;
+	float: left;
+}
+.mw-admin-sidebar ul {
+	width: 100%;
+}
+.mw-admin-sidebar ul li {
+	display: block;
+	width: 100%;
+	margin-bottom: 20px;
+	padding-left: 15px;
+}
+.mw-admin-sidebar ul li {
+	font-size: 15px;
+}
+.mw-admin-sidebar ul li a {
+	color: #818181;
+	font-family: "Open Sans", sans-serif;
+	text-transform: uppercase;
+	line-height: 40px;
+}
+.mw-admin-sidebar a {
+	color: white;
+}
+.mw-admin-sidebar a:hover, .mw-admin-sidebar li.active a .mw-admin-sidebar-icon {
+	color: #439fd6;
+}
+.mw-admin-sidebar li.active {
+	background-image: url(images/triangle-left.png);
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+.mw-admin-sidebar .mw-admin-sidebar-icon {
+	font-size: 35px;
+	float: left;
+	margin-right: 10px;
+}
+.mw-admin-big-spacer {
+	display: block;
+	height: 70px;
+	width: 100%;
+}
+.mw-admin-main-panel-top-bar {
+	display: block;
+	height: 70px;
+	width: 100%;
+	border-bottom: 1px solid #9a9a9a;
+}
+.mw-admin-main-panel-top-bar-right {
+	background: white;
+}
+.mw-admin-main-view-container {
+	margin-left: 35px;
+	max-width: 1200px;
+}
+@media screen and (max-width: 1100px) {
+.mw-admin-main-view-container {
+	max-width: 780px;
+}
+}
+.mw-admin-main-section-title {
+	color: #1b1b1b;
+	font-family: "Open Sans", sans-serif;
+	font-size: 32px;
+	font-weight: 600;
+	margin: 0px;
+	padding: 0px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	width: 100%;
+}
+.mw-admin-main-section-title {
+	overflow: hidden;
+	line-height: 2em;
+}
+.mw-admin-main-section-title span {
+	display: inline-block;
+	position: relative;
+}
+.mw-admin-main-section-title span:after {
+	content: "";
+	position: absolute;
+	height: 5px;
+	border-top: 1px solid #b8b8b8;
+	top: 50%;
+	width: 1000%;
+}
+.mw-admin-main-section-title span:after {
+	left: 100%;
+	margin-left: 25px;
+}
+.mw-admin-main-section-line {
+}
+.mw-admin-main-ssssection-title-holder {
+	display: table;
+}
+.mw-admisn-main-section-title-holder .mw-admin-main-section-title, .mw-admssin-main-section-title-holder .mw-admin-main-section-line {
+	display: table-cell;
+	float: left;
+}
