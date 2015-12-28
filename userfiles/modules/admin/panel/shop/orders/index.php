@@ -13,54 +13,39 @@ $order_id = url_param('vieworder');
 
 }
 ?>
+
 <h1 class="mw-admin-main-section-title"><span>Orders</span></h1>
+
+<?php if($show != 'vieworder'){ ?>
 <div class="mw-admin-normal-spacer"></div>
 <div class="mw-ui-row mw-admin-main-section-inner-panel">
-  <div class="mw-ui-col" style="width:33%;"> <h2 class="mw-admin-main-section-inner-panel-title">List of orders</h2> </div>
-  <div class="mw-ui-col" style="width:33%;"> 
-  
-  <div class="mw-admin-main-section-inner-panel-nav">
-  <a href="?show=list" <?php if($show == 'list'){ ?> class="active" <?php } ?>>Completed orders</a> 
-  <a href="?show=abandoned" <?php if($show == 'abandoned'){ ?> class="active" <?php } ?>>Abandoned carts</a> 
+  <div class="mw-ui-col" style="width:33%;">
+    <h2 class="mw-admin-main-section-inner-panel-title">List of orders</h2>
   </div>
-  
+  <div class="mw-ui-col" style="width:33%;">
+    <div class="mw-admin-main-section-inner-panel-nav"> <a href="?show=list" <?php if($show == 'list'){ ?> class="active" <?php } ?>>Completed orders</a> <a href="?show=abandoned" <?php if($show == 'abandoned'){ ?> class="active" <?php } ?>>Abandoned carts</a> </div>
   </div>
-  <div class="mw-ui-col" style="width:33%;">  
-  
-  
-  <div class="pull-right relative">
-                    <input type="text" id="mw-search-field-orders" class="mw-ui-searchfield pull-right" placeholder="Search for posts" value="" onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})" />
-</div>
-  
-  
+  <div class="mw-ui-col" style="width:33%;">
+    <div class="pull-right relative">
+      <input type="text" id="mw-search-field-orders" class="mw-ui-searchfield pull-right" placeholder="Search for posts" value="" onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})" />
+    </div>
   </div>
 </div>
+<?php } ?>
+
+
+
+
 <div class="mw-admin-normal-spacer"></div>
-
-
 <?php if($show == 'list'){ ?>
-
 <module type="admin/panel/shop/orders/list" id="mw-admin-manage-orders-list" />
-
 <?php } ?>
 <?php if($show == 'abandoned'){ ?>
-
 <module type="admin/panel/shop/orders/list" order-type='carts' id="mw-admin-manage-orders-list" />
-
 <?php } ?>
-
 <?php if($show == 'vieworder'){ ?>
-
 <module type="admin/panel/shop/orders/order" order-id='<?php print $order_id; ?>' id="mw-admin-manage-orders-inner" />
-
 <?php } ?>
-
-
-
-
-
-
-
 <script>
     mw.require('forms.js', true);
 
@@ -164,5 +149,4 @@ ordersSort = function(obj){
 });
 
 
-</script>
- 
+</script> 

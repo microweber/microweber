@@ -26,130 +26,68 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
 
 ?>
 
-
-
-<div class="mw-ui-row">
-
-
-<div class="mw-ui-col">
-
-
-
-
-<h2 class="mw-admin-main-section-inner-panel-title">
+<div class="mw-ui-row mw-admin-main-section-inner-panel">
+  <div class="mw-ui-col">
+    <h2 class="mw-admin-main-section-inner-panel-title">
       <?php _e("Order"); ?>
       #<?php print $show_ord_id ?> </h2>
-
-
-
-
+  </div>
+  <div class="mw-ui-col"> </div>
+  <div class="mw-ui-col"> <a href="?show=list" class="mw-btn-blue pull-right"><span class="mw-icon-back"></span> TO ORDERS LIST </a> </div>
 </div>
-
-
-<div class="mw-ui-col">
-
-
-
-
-
-
-
-
-
+<div class="mw-admin-small-spacer"></div>
+<?php include(__DIR__.DS.'_partials'.DS.'order_inner_table.php'); ?>
+<div class="mw-admin-normal-spacer"></div>
+<?php include(__DIR__.DS.'_partials'.DS.'order_inner_payment_info_bar.php'); ?>
+<div class="mw-admin-normal-spacer"></div>
+<div class="mw-ui-row">
+  <div class="mw-ui-col" style="width:50%">
+    <h2 class="mw-admin-main-section-inner-panel-title">Customer</h2>
+    <div class="mw-ui-box" style="margin-top: 10px;">
+      <div class="mw-ui-box-content">contentcontent</div>
+    </div>
+  </div>
+  <div class="mw-ui-col" style="width:50%; padding-left:10px;">
+  
+  
+  <h2 class="mw-admin-main-section-inner-panel-title">Order Address</h2>
+    <div class="mw-ui-box" style="margin-top: 10px;">
+      <div class="mw-ui-box-content"><?php include(__DIR__.DS.'_partials'.DS.'order_inner_box_shipping_and_address.php'); ?>
 </div>
-
-<div class="mw-ui-col">
-
-
-
-
-
-
-
-
-
+    </div>
+  
+  
+  
+   </div>
 </div>
-
-
-
+<?php event_trigger('mw.ui.admin.shop.order.edit.status.after', $ord); ?>
+<?php $edit_order_custom_items = mw()->ui->module('mw.ui.admin.shop.order.edit.status.after'); ?>
+<?php if (!empty($edit_order_custom_items)): ?>
+<?php foreach ($edit_order_custom_items as $item): ?>
+<?php $view = (isset($item['view']) ? $item['view'] : false); ?>
+<?php $link = (isset($item['link']) ? $item['link'] : false); ?>
+<?php $text = (isset($item['text']) ? $item['text'] : false); ?>
+<?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
+<?php $html = (isset($item['html']) ? $item['html'] : false); ?>
+<?php if ($view==false and $link!=false){
+                                    $btnurl = $link;
+                                } else {
+                                    $btnurl = admin_url('view:') . $view;
+           } ?>
+<div class="mw-ui-box" style="margin-bottom: 20px;">
+  <div class="mw-ui-box-header">
+    <?php if ($icon){ ?>
+    <span class="<?php print $icon; ?>"></span>
+    <?php } ?>
+    <span><?php print $text; ?></span></div>
+  <div class="mw-ui-box-content"><?php print $html; ?></div>
 </div>
-
-
-<table class="mw-ui-table mw-ui-table-spacious" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
-            <thead>
-              <tr>
-                <th><?php _e("Product Name"); ?></th>
-                <!--  <th><?php _e("Custom fields"); ?></th>-->
-                <th><?php _e("Price"); ?></th>
-                <th><?php _e("QTY"); ?></th>
-                <th><?php _e("Total"); ?></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $subtotal = 0; ?>
-              <?php $index = -1; foreach ($cart_items as $item) : ?>
-              <?php
-                $index++;
-                $item_total = floatval($item['qty']) * floatval($item['price']);
-                $subtotal = $subtotal + $item_total;
-                $grandtotal = $subtotal + $ord['shipping'];
-                ?>
-              <tr
-                    data-index="<?php print $index; ?>"
-                    class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
-                <td   class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a>
-                  <?php if ($item['rel_type'] == 'content'): ?>
-                  <?php $data_fields = mw()->content_manager->data($item['rel_id']); ?>
-                  <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
-                  <small class="mw-ui-label-help">
-                  <?php _e("SKU"); ?>
-                  : <?php print $data_fields['sku']; ?></small>
-                  <?php endif; ?>
-                  <?php endif; ?></td>
-                <!--  <td class="mw-order-item-fields"></td>-->
-                <td class="mw-order-item-amount nowrap"><?php print  currency_format($item['price'], $ord['currency']); ?></td>
-                <td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-                <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
-              </tr>
-              <?php    if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-              <tr>
-                <td colspan="4"><?php print $item['custom_fields'] ?></td>
-              </tr>
-              <?php endif ?>
-              <?php endforeach; ?>
-              <tr class="mw-ui-table-footer">
-                <td colspan="2">&nbsp;</td>
-                <td><?php _e("Subtotal"); ?></td>
-                <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
-              </tr>
-              <tr class="mw-ui-table-footer">
-                <td colspan="2">&nbsp;</td>
-                <td><?php _e("Shipping price"); ?></td>
-                <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
-              </tr>
-              <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
-              <tr class="mw-ui-table-footer">
-                <td colspan="2">&nbsp;</td>
-                <td><?php _e("Tax"); ?></td>
-                <td class="mw-ui-table-green"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
-              </tr>
-              <?php endif ?>
-              <tr class="mw-ui-table-footer last">
-                <td colspan="2">&nbsp;</td>
-                <td class="mw-ui-table-green"><strong>
-                  <?php _e("Total:"); ?>
-                  </strong></td>
-                <td class="mw-ui-table-green"><strong><?php print  currency_format($ord['amount'], $ord['currency']); ?></strong></td>
-              </tr>
-            </tbody>
-          </table>
-
-<hr>
-
+<?php endforeach; ?>
+<?php endif; ?>
 <hr>
 <hr>
 <hr>
-
+<hr>
 <div id="mw-order-table-holder">
   <div class="section-header"> <a class="mw-ui-btn pull-right" href="#vieworder=0"><span class="mw-icon-back"></span>
     <?php _e("Back to Orders"); ?>
