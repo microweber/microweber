@@ -171,14 +171,23 @@ body,
     margin: 0px;
     text-transform: uppercase;
 }
-.mw-admin-main-section-inner-panel-sub-title {
-   color: #878787;
-font-family: "Open Sans", sans-serif;
-font-size: 13px;
-font-weight: bold;
-     text-transform: uppercase;
 
+.mw-admin-main-section-inner-panel-sub-title {
+    color: #878787;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
+
+.mw-admin-main-section-inner-panel-sub-title-black {
+    color: black;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
 
 /* END TYPOGRAPHY */
 
@@ -309,9 +318,17 @@ font-weight: bold;
     padding-right: 5px;
 }
 
+.mw-admin-shop-info-blue-link {
+    color: #439fd5;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
 
 /* END BTNS */
-
 
 
 /* SHOP */
@@ -319,10 +336,10 @@ font-weight: bold;
 .mw-admin-main-view-container .order-table-info-list {
     border: 0px;
     color: #1b1b1b;
-font-family: "Open Sans", sans-serif;
-font-size: 13px;
-font-weight: bold;
-text-transform: uppercase;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .mw-ui-table-order-info td {
