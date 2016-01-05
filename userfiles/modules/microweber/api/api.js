@@ -1,3 +1,5 @@
+if (typeof jQuery == 'undefined') {  
+
 <?php
 
 
@@ -12,6 +14,11 @@
 	}
 	print $newstring;
 ?>
+
+
+}  
+
+
 
 
 

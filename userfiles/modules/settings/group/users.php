@@ -395,7 +395,7 @@ runRegisterMailEditor();
         <label class="mw-ui-label">
           <?php _e("Email subject"); ?>
         </label>
-        <input name="register_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="orders"  value="<?php print get_option('register_email_subject', 'users') ?>"  type="text" />
+        <input name="register_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="users"  value="<?php print get_option('register_email_subject', 'users') ?>"  type="text" />
       </div>
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">

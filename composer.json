@@ -16,13 +16,12 @@
         "laravel/socialite": "2.0.12",
         "socialiteproviders/linkedin": "*",
         "illuminate/html": "~5.0",
-        "rcrowe/twigbridge": "0.8.x",
+        "rcrowe/twigbridge": "0.8.x-dev",
 
         "graham-campbell/markdown": "~3.0",
         "guzzlehttp/guzzle": "5.*",
         "composer/installers": "1.*",
-        "keboola/csv": "1.1.*", 
-        "omnipay/omnipay": "~2.0" 
+        "keboola/csv": "1.1.*"
         
     },
     "require-dev": {

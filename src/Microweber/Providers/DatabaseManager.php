@@ -681,14 +681,15 @@ class DatabaseManager extends DbUtils
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-        $id = intval($id);
         if ($id == 0) {
             return false;
         }
         if ($field_name == false) {
             $field_name = "id";
         }
-
+        if($field_name == 'id' or is_numeric($id)){
+            $id = intval($id);
+        }
         $params = array();
         $params[$field_name] = $id;
         $params['table'] = $table;

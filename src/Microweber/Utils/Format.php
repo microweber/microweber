@@ -70,6 +70,13 @@ class Format {
         return $date;
     }
 
+    function array_trim($variable) {
+
+        $result = array_map('trim', $variable);
+
+        return $result;
+    }
+
     function add_slashes_recursive($variable) {
         if (is_string($variable)){
             return addslashes($variable);

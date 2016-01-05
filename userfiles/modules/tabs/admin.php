@@ -14,6 +14,7 @@ $settings = get_option('settings', $params['id']);
 
 $defaults = array(
     'title' => '',
+    'id' => 'tab-'.uniqid(),
     'icon' => ''
 );
 
@@ -33,7 +34,9 @@ if (isset($json) == false or count($json) == 0) {
     foreach($json as $slide){
         $count++;
 
-
+if(!isset($slide['id'])){
+    $slide['id'] = 'tab-'.uniqid();
+}
   ?>
   <div class="mw-ui-box  tab-setting-item" id="tab-setting-item-<?php print $count; ?>">
     <div class="mw-ui-box-header"> <a class="pull-right" href="javascript:tabs.remove('#tab-setting-item-<?php print $count; ?>');">x</a></div>
@@ -49,7 +52,7 @@ if (isset($json) == false or count($json) == 0) {
             <label class="mw-ui-label">Icon</label>
              <input type="text" class="mw-ui-field tab-icon w100" value="<?php print $slide['icon']; ?>" >
 
-           
+           <input type="hidden" name="id" class="tab-id" value="<?php print $slide['id']; ?>">
         
       </div>
     </div>
@@ -85,7 +88,7 @@ if (isset($json) == false or count($json) == 0) {
                 data[i] = {};
                 data[i]['title'] = item.querySelector('.tab-title').value;
                 data[i]['icon'] = item.querySelector('.tab-icon').value;
-
+                data[i]['id'] = item.querySelector('.tab-id').value;
             }
             return data;
         },
@@ -101,6 +104,8 @@ if (isset($json) == false or count($json) == 0) {
             item.className = last.attr("class");
             item.innerHTML = html;
             $(item.querySelectorAll('input')).val('');
+            $(item.querySelectorAll('[name=id]')).val('tab-'+mw.random());
+
             $(item.querySelectorAll('.mw-uploader')).remove();
             last.after(item);
             tabs.init(item);

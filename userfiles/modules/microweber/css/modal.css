@@ -1,0 +1,418 @@
+/****************************
+           Variables
+*****************************/
+@font-face {
+  font-family: 'Microweber';
+  src: url('fonts/font.ttf?mwv=v06') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+/****************************
+           Icons
+*****************************/
+[class*='mw-icon-'] {
+  /*vertical-align: middle;*/
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  position: relative;
+  display: inline-block;
+  font-size: 100%;
+}
+
+
+/*********************************************
+               Modal windows
+*********************************************/
+.mw_modal {
+font-family:Verdana, Geneva, sans-serif;	
+  position: fixed;
+  z-index: 1102;
+  top: 0;
+  left: 0;
+  display: none;
+  background: white;
+  border: 1px solid black;
+  overflow: hidden;
+  box-shadow: 0 0 27px -20px #111111;
+  /*
+  transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
+  -moz-transition:width 0.3s, height 0.3s, left 0.3s, top 0.3s;
+  -webkit-transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
+  -o-transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
+  */
+}
+.mw_modal.ui-draggable-dragging {
+  transition: none;
+  -moz-transition: none;
+  -webkit-transition: none;
+  -o-transition: none;
+}
+.mw_modal_default .mw-modal-close {
+  cursor: pointer;
+  display: block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 11px;
+  position: absolute;
+  right: 0px;
+  text-indent: 0;
+  top: 0px;
+  padding-top: 2px;
+  width: 27px;
+  height: 22px;
+  border-left: 1px solid rgba(196, 196, 196, 0.3);
+  text-align: center;
+  color: rgba(245, 245, 245, 0.5);
+  border-bottom: 1px solid transparent;
+}
+.mw_modal_default .mw-modal-close:hover,
+.mw_modal_default .mw-modal-close:focus {
+  background-color: white;
+  color: black;
+  border-bottom-color: black;
+}
+.mw_modal_default .mw-modal-close:after,
+.mw_modal_default .mw-modal-close:after,
+.mw_modal_basic .mw-modal-close:after {
+  content: "X";
+  xxxfont-family: Microweber;
+  font-size: 12px;
+}
+.mw_modal_default .mw-modal-close:active {
+  box-shadow: inset 0 0 4px #CCCCCC;
+}
+.mw_modal_simple .mw-modal-close,
+.mw_modal_basic .mw-modal-close {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 14px;
+  right: 8px;
+  top: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #444;
+}
+.mw_modal_basic .mw-modal-close {
+  top: 2px;
+  right: 4px;
+}
+.mw_modal_simple .mw-modal-close:hover,
+.mw_modal_basic .mw-modal-close:hover {
+  color: black;
+}
+.mw_modal_title {
+  display: inline-block;
+  float: left;
+  font-size: 11px;
+  height: 15px;
+  white-space: nowrap;
+  margin-left: 6px;
+  margin-top: 3px;
+  overflow: hidden;
+  color: white;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 0 #255F85;
+  text-shadow: none;
+}
+.mw_modal_simple .mw_modal_title {
+  margin-top: 2px;
+}
+.mw_modal_default .mw_modal_title {
+  color: white;
+}
+.mw_modal_minimize {
+  position: absolute;
+  top: 1px;
+  right: 30px;
+  text-indent: -9999px;
+  display: block;
+  background: url(../../img/popup_ctrls.png) no-repeat 0 -20px;
+  cursor: pointer;
+  width: 27px;
+  height: 20px;
+}
+.mw_modal.is_minimized .mw_modal_minimize {
+  background-position: 0 -40px;
+}
+.mw_modal_container {
+  padding: 15px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.iframe_fix {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 995;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: none;
+}
+.mw_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1101;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: .7;
+}
+.mw_modal_type_iframe .mw_modal_container {
+  padding: 0;
+  width: 100%;
+  /* TODO */
+}
+.mw_modal_maximized {
+  overflow: hidden;
+}
+.mw_modal_default .mw_modal_toolbar {
+  height: 22px;
+  width: 100%;
+  cursor: move;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: black;
+}
+.mw-modal-draggable.mw_modal_default .mw_modal_toolbar {
+  background-image: url(../../img/popup_settings_bar.png);
+}
+.mw_modal_simple .mw_modal_toolbar {
+  height: 30px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  position: relative;
+  background: #EEEEEE;
+  cursor: move;
+}
+.mw_modal_basic .mw_modal_toolbar {
+  height: 20px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  position: relative;
+  background: white;
+  cursor: move;
+}
+.mw_modal_gallery .mw_modal_toolbar {
+  height: 0;
+}
+.mw_modal_gallery {
+  background: transparent;
+  border: none;
+}
+.mw_modal_gallery .mw-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: white url(../../img/galleryclose.png) no-repeat right top;
+  text-indent: -9999px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px #000;
+}
+.mw_modal_gallery .mw-modal-close:hover {
+  background-color: #CCCCCC;
+}
+.mw_modal_gallery .mw-modal-close:active {
+  box-shadow: inset 0px 0px 3px #707070;
+}
+.mw_modal_gallery .mw_modal_container {
+  padding: 0;
+}
+.mw_modal_gallery .mw_modal_toolbar {
+  position: absolute;
+  z-index: 12;
+  top: 0;
+  right: 0;
+}
+.mw-modal-frame {
+  position: absolute;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  left: 0;
+  bottom: 0;
+}
+/*********************************************
+               Inline Modal
+*********************************************/
+.mw-inline-modal,
+.mw-inline-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.mw-inline-modal-overlay {
+  background-color: rgba(249, 249, 249, 0.8);
+}
+.mw-inline-modal-container {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  margin: 0 auto;
+}
+.mw-inline-modal-default .mw-inline-modal-container {
+  background-color: #FFFFFF;
+  border: 1px solid #EDEDED;
+  box-shadow: 0 0 6px #F3F3F3;
+  margin-top: 5px;
+  overflow: auto;
+  padding: 10px;
+}
+.mw-inline-modal-default .mw-inline-modal-container-close {
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: url(../../img/galleryclose.png) no-repeat;
+}
+/*********************************************
+                Gallery
+*********************************************/
+.mw_modal_gallery,
+.mw_modal_gallery > * {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+.mw_modal_gallery .mwf-gallery-description {
+  position: absolute;
+  z-index: 9;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 13px;
+  color: white;
+  background: black;
+  background: rgba(10, 0, 0, 0.8);
+}
+.mwf-gallery-description-holder {
+  padding: 20px;
+  max-height: 75px;
+  overflow: auto;
+}
+.mwf-gallery {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.mw_modal_gallery .mwf-gallery-modeHTML {
+  display: inline-block;
+  box-shadow: 0 0 6px #111;
+  position: absolute;
+  overflow: auto;
+  background: #111;
+  color: white;
+}
+.mwf-single-holder {
+  position: absolute;
+  margin: auto;
+  display: inline-block;
+}
+.mwf-single {
+  box-shadow: 0 0 6px #111;
+  position: relative;
+  display: block;
+  background-color: #E0E0E0;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f2f2f2), color-stop(1, #e0e0e0));
+  background-image: -o-linear-gradient(bottom, #f2f2f2 0%, #e0e0e0 100%);
+  background-image: -moz-linear-gradient(bottom, #f2f2f2 0%, #e0e0e0 100%);
+  background-image: -webkit-linear-gradient(bottom, #f2f2f2 0%, #e0e0e0 100%);
+  background-image: -ms-linear-gradient(bottom, #f2f2f2 0%, #e0e0e0 100%);
+  background-image: linear-gradient(to bottom, #f2f2f2 0%, #e0e0e0 100%);
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+}
+.mw_gallery_loading .mwf-single-holder * {
+  visibility: hidden !important;
+}
+.semi_hidden {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
+.mw_modal_gallery .mwf-next,
+.mw_modal_gallery .mwf-prev {
+  font-size: 60px;
+  line-height: 50px;
+  color: #ccc;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  margin-top: -27px;
+  right: 20px;
+  cursor: pointer;
+  height: 55px;
+  width: 50px;
+  text-shadow: 0 0 1px #777;
+  line-height: 40px;
+  font-family: Microweber;
+  border-radius: 1px;
+}
+.mw_modal_gallery .mwf-next:focus,
+.mw_modal_gallery .mwf-next:hover,
+.mw_modal_gallery .mwf-prev:focus,
+.mw_modal_gallery .mwf-prev:hover {
+  background: white;
+  background: rgba(255, 255, 255, 0.5);
+  color: #111;
+}
+.mw_modal_gallery .mwf-next:active,
+.mw_modal_gallery .mwf-prev:active {
+  box-shadow: inset 2px 2px 2px -2px #333333, inset -2px -2px 2px -2px #333333;
+}
+.mw_modal_gallery .mwf-prev {
+  left: 20px;
+  right: auto;
+}
+.mwf-gallery-container {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.mwf-fullscreen {
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  text-indent: -9999px;
+  position: absolute;
+  background: white url(../../img/enter_fullscreen.png) no-repeat;
+  box-shadow: 1px 1px 2px #000;
+  top: 20px;
+  right: 41px;
+  cursor: pointer;
+}
+.fullscreen-mode .mwf-fullscreen {
+  background: white url(../../img/cancel_fullscreen.png) no-repeat;
+}

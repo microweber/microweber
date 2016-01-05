@@ -92,7 +92,7 @@ class CartManager {
 
 
         $time = time();
-      $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
+        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
 
         if ($clear_carts_cache==false or ($clear_carts_cache < ($time - 600))){
             // clears cache for old carts
@@ -380,6 +380,7 @@ class CartManager {
             $data['title'] = (strip_tags($data['title']));
         }
 
+
         $found_price = false;
         $add = array();
 
@@ -537,8 +538,19 @@ class CartManager {
                 $cart['other_info'] = strip_tags($data['other_info']);
             }
 
+
+            if (isset($data['description']) and is_string($data['description'])){
+                $cart_return['description'] = $cart['description'] = $this->app->format->clean_html($data['description']);
+            }
             if (isset($data['item_image']) and is_string($data['item_image'])){
-                $cart['item_image'] = mw()->format->clean_xss(strip_tags($data['item_image']));
+                $cart_return['item_image'] = $cart['item_image'] = $this->app->format->clean_html($data['item_image']);
+            }
+            if (isset($data['link']) and is_string($data['link'])){
+                $cart_return['link'] = $cart['link'] = $this->app->format->clean_html($data['link']);
+            }
+
+            if (isset($data['currency']) and is_string($data['currency'])){
+                $cart_return['currency'] = $cart['currency'] = $this->app->format->clean_html($data['link']);
             }
 
             $cart_saved_id = $this->app->database_manager->save($table, $cart);
@@ -550,8 +562,10 @@ class CartManager {
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
 
             }
+            $cart_sum = $this->sum();
+            $cart_qty = $this->sum();
 
-            return array('success' => 'Item added to cart', 'product' => $cart_return);
+            return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items' => $cart_qty);
 
         } else {
             return array('error' => 'Invalid cart items');
@@ -632,7 +646,7 @@ class CartManager {
 
     }
 
-    public function table_name(){
+    public function table_name() {
         return $this->table;
     }
 
