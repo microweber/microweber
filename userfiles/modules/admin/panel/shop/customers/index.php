@@ -82,6 +82,14 @@ $keyword_search = '&keyword='.$keyword;
     </script>
 <?php endif; ?>
 
+
+
+<h1 class="mw-admin-main-section-title"><span>Customers</span></h1>
+<div class="mw-admin-normal-spacer"></div>
+
+
+
+
 <div class="section-header">
   <h2 class="pull-left"><span class="mw-icon-users"></span>
     <?php _e("Clients List"); ?>
@@ -90,7 +98,7 @@ $keyword_search = '&keyword='.$keyword;
 </div>
 <hr>
 <?php if($is_orders != 0){   ?>
-<table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
+<table class="mw-ui-table mw-order-table mw-ui-table-spacious" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
   <thead>
     <tr>
       <th><?php _e("Name & Number"); ?></th>

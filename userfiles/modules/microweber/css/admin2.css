@@ -73,6 +73,10 @@ body,
     background-repeat: no-repeat;
 }
 
+.mw-admin-sidebar li.active a {
+  color: #efecec;   
+}
+
 .mw-admin-sidebar .mw-admin-sidebar-icon {
     font-size: 35px;
     float: left;

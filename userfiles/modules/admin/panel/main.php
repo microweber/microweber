@@ -15,7 +15,7 @@ if($action){
        
 }
 ?>
-<div class="mw-admin-main-view-container">
+<div class="mw-admin-main-view-container mw-ui-admin">
   <?php
  if(is_file($vf)){
    

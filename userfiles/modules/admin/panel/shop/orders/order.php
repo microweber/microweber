@@ -64,16 +64,9 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
   </div>
   <div class="mw-admin-normal-spacer"></div>
   <?php include(__DIR__.DS.'_partials'.DS.'order_inner_stasus_bar.php'); ?>
-  
-  
-  
   <div class="mw-ui-row mw-admin-main-section-inner-panel">
-    <div class="mw-ui-col">
-      
-    </div>
+    <div class="mw-ui-col"> </div>
     <div class="mw-ui-col"> </div>
     <div class="mw-ui-col"> <a href="?show=list" class="mw-btn-blue pull-right"><span class="mw-icon-back"></span> TO ORDERS LIST </a> </div>
   </div>
-  
-  
 </div>
