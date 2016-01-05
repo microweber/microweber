@@ -128,6 +128,8 @@ mw.menu_edit_items = function($menu_id, $selector){
 
   
         mw.menu_save_new_item('#custom_link_inline_controller_edit_0');
+		        		mw.reload_module('menu/edit_items');
+
         mw.$(selector).hide();
      });
 
@@ -309,7 +311,12 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
 
  ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
-  <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
+<div id="custom_link_inline_controller_edit_0">
+  <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php  print   $menu_id ?>" />
+
+  <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="category_id" input-name="content_id"  />
+  
+  </div>
 </div>
 <div id="custom_link_controller" class="mw-ui-gbox">
 
