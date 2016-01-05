@@ -1,55 +1,59 @@
 {
-    "name": "microweber/microweber",
-    "type": "application",
-    "description": "New generation CMS with drag and drop",
-    "keywords": [
-        "cms",
-        "drag and drop",
-        "shop",
-        "blog",
-        "framework",
-        "laravel"
+  "name": "microweber/microweber",
+  "type": "application",
+  "description": "New generation CMS with drag and drop",
+  "keywords": [
+    "cms",
+    "drag and drop",
+    "shop",
+    "blog",
+    "framework",
+    "laravel"
+  ],
+  "require": {
+    "laravel/framework": "5.0.22",
+    "composer/composer": "dev-master",
+    "laravel/socialite": "2.0.12",
+    "socialiteproviders/linkedin": "*",
+    "illuminate/html": "~5.0",
+    "illuminate/contracts": "5.0.*|5.1.*",
+    "vlucas/phpdotenv": "~1.0",
+    "rcrowe/twigbridge": "0.8.x-dev",
+    "graham-campbell/markdown": "~3.0",
+    "guzzlehttp/guzzle": "5.*",
+    "composer/installers": "1.*",
+    "keboola/csv": "1.1.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.5.*@dev"
+  },
+  "autoload": {
+    "classmap": [
+      "database"
     ],
-    "require": {
-        "laravel/framework": "5.0.22", 
-        "composer/composer": "dev-master",
-        "laravel/socialite": "2.0.12",
-        "socialiteproviders/linkedin": "*",
-        "illuminate/html": "~5.0",
-        "rcrowe/twigbridge": "0.8.x-dev",
-
-        "graham-campbell/markdown": "~3.0",
-        "guzzlehttp/guzzle": "5.*",
-        "composer/installers": "1.*",
-        "keboola/csv": "1.1.*"
-        
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.5.*@dev"
-    },
-    "autoload": {
-        "classmap": [
-            "database"
-        ],
-        "psr-4": {
-            "": "src/",
-            "App\\": "app/"
-        }
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist",
-        "github-protocols": ["https", "http", "git"]
-    },
-    "minimum-stability": "dev",
-    "homepage": "http://microweber.com",
-    "license": "Apache-2.0",
-    "support": {
-        "email": "support@microweber.com",
-        "irc": "irc://irc.freenode.org/microweber"
+    "psr-4": {
+      "": "src/",
+      "App\\": "app/"
     }
+  },
+  "scripts": {
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "github-protocols": [
+      "https",
+      "http",
+      "git"
+    ]
+  },
+  "minimum-stability": "dev",
+  "homepage": "http://microweber.com",
+  "license": "Apache-2.0",
+  "support": {
+    "email": "support@microweber.com",
+    "irc": "irc://irc.freenode.org/microweber"
+  }
 }
