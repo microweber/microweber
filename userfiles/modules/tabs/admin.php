@@ -1,13 +1,7 @@
 <?php only_admin_access() ?>
-
-
-
-
 <script type="text/javascript">
 	    mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
 </script>
-
-
 <?php
 
 $settings = get_option('settings', $params['id']);
@@ -42,18 +36,11 @@ if(!isset($slide['id'])){
     <div class="mw-ui-box-header"> <a class="pull-right" href="javascript:tabs.remove('#tab-setting-item-<?php print $count; ?>');">x</a></div>
     <div class="mw-ui-box-content mw-accordion-content">
       <div class="mw-ui-field-holder">
-        
-           
-            <label class="mw-ui-label">Title</label>
-            <input type="text" class="mw-ui-field tab-title w100 " value="<?php print $slide['title']; ?>" >
-          
-        
-          
-            <label class="mw-ui-label">Icon</label>
-             <input type="text" class="mw-ui-field tab-icon w100" value="<?php print $slide['icon']; ?>" >
-
-           <input type="hidden" name="id" class="tab-id" value="<?php print $slide['id']; ?>">
-        
+        <label class="mw-ui-label">Title</label>
+        <input type="text" class="mw-ui-field tab-title w100 " value="<?php print $slide['title']; ?>" >
+        <label class="mw-ui-label">Icon</label>
+        <input type="text" class="mw-ui-field tab-icon w100" value="<?php print $slide['icon']; ?>" >
+        <input type="hidden" name="id" class="tab-id" value="<?php print $slide['id']; ?>">
       </div>
     </div>
   </div>
@@ -144,6 +131,9 @@ if(!isset($slide['id'])){
 
 
 $( document ).ready(function() {
+	if(typeof(window.parent.mw) != 'undefined'){
+	window.parent.mw.drag.save();	
+	}
 
     $('#tab-settings').sortable({
         handle: '.mw-ui-box-header',
