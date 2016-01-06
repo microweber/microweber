@@ -1,0 +1,351 @@
+.main-admin-row .main-bar-column {
+    display: none !important;
+}
+
+html,
+body,
+#mw-admin-container,
+.main-admin-row,
+.admin-content-column,
+.module-admin-panel-index {
+    height: 100%;
+}
+
+.main-admin-row {
+    max-width: 100%;
+    margin: 0px;
+    padding-right: 0px;
+}
+
+.mw-admin-main-panel-main-left-col-wrap {
+    height: 100%;
+    width: 200px;
+}
+
+.mw-admin-main-panel-main-right-col-wrap {
+    height: 100%;
+    background: #f1f1f1;
+}
+
+.mw-admin-sidebar {
+    background: black;
+    /*position: fixed;*/
+    width: 200px;
+    height: 100%;
+    left: 0;
+    float: left;
+}
+
+.mw-admin-sidebar ul {
+    width: 100%;
+}
+
+.mw-admin-sidebar ul li {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-left: 15px;
+}
+
+.mw-admin-sidebar ul li {
+    font-size: 15px;
+}
+
+.mw-admin-sidebar ul li a {
+    color: #818181;
+    font-family: "Open Sans", sans-serif;
+    text-transform: uppercase;
+    line-height: 40px;
+}
+
+.mw-admin-sidebar a {
+    color: white;
+}
+
+.mw-admin-sidebar a:hover,
+.mw-admin-sidebar li.active a .mw-admin-sidebar-icon {
+    color: #439fd6;
+}
+
+.mw-admin-sidebar li.active {
+    background-image: url(images/triangle-left.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+.mw-admin-sidebar li.active a {
+  color: #efecec;   
+}
+
+.mw-admin-sidebar .mw-admin-sidebar-icon {
+    font-size: 35px;
+    float: left;
+    margin-right: 10px;
+}
+
+.mw-admin-big-spacer {
+    display: block;
+    height: 70px;
+    width: 100%;
+}
+
+.mw-admin-normal-spacer {
+    display: block;
+    height: 40px;
+    width: 100%;
+}
+
+.mw-admin-small-spacer {
+    display: block;
+    height: 20px;
+    width: 100%;
+}
+
+.mw-admin-main-panel-top-bar {
+    display: block;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #9a9a9a;
+}
+
+.mw-admin-main-panel-top-bar-right {
+    background: white;
+}
+
+.mw-admin-main-view-container {
+    margin-left: 50px;
+    max-width: 1200px;
+}
+
+@media screen and (max-width: 1100px) {
+    .mw-admin-main-view-container {
+        max-width: 780px;
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+}
+
+
+/* TYPOGRAPHY */
+
+.mw-admin-main-section-title {
+    color: #1b1b1b;
+    font-family: "Open Sans", sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+.mw-admin-main-section-title {
+    overflow: hidden;
+    line-height: 2em;
+}
+
+.mw-admin-main-section-title span {
+    display: inline-block;
+    position: relative;
+}
+
+.mw-admin-main-section-title span:after {
+    content: "";
+    position: absolute;
+    height: 5px;
+    border-top: 1px solid #b8b8b8;
+    top: 50%;
+    width: 1000%;
+}
+
+.mw-admin-main-section-title span:after {
+    left: 100%;
+    margin-left: 25px;
+}
+
+.mw-admin-main-section-line {}
+
+.mw-admin-main-section-inner-panel-title {
+    color: #1b1b1b;
+    font-family: "OpenSans", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    text-transform: uppercase;
+}
+
+.mw-admin-main-section-inner-panel-sub-title {
+    color: #878787;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.mw-admin-main-section-inner-panel-sub-title-black {
+    color: black;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
+/* END TYPOGRAPHY */
+
+
+/* BTNS and Navigations */
+
+.mw-admin-main-section-inner-panel {
+    display: table;
+    vertical-align: middle;
+}
+
+.mw-admin-main-section-inner-panel .mw-ui-col {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.mw-admin-main-section-inner-panel-nav {
+    text-align: center;
+    color: #1b1b1b;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.mw-admin-main-section-inner-panel-nav a {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-height: 28px;
+    color: #929292;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.mw-admin-main-section-inner-panel-nav a.active {
+    color: #1b1b1b;
+    border: 1px solid rgba(128, 128, 128, .33);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .03), inset 0 1px 0 #fff;
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .03), inset 0 1px 0 #fff;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .03), inset 0 1px 0 #fff;
+    background: -moz-linear-gradient(top, rgba(250, 250, 250, 1) 0%, rgba(232, 232, 232, 0) 100%);
+    background: -webkit-linear-gradient(top, rgba(250, 250, 250, 1) 0%, rgba(232, 232, 232, 0) 100%);
+    background: linear-gradient(to bottom, rgba(250, 250, 250, 1) 0%, rgba(232, 232, 232, 0) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#00e8e8e8', GradientType=0);
+}
+
+@media screen and (max-width: 1100px) {
+    .mw-admin-main-section-inner-panel-nav a {
+        display: block;
+        margin-top: 5px;
+    }
+}
+
+.mw-btn-blue,
+.mw-btn-red,
+.mw-btn-yellow {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-height: 28px;
+    color: #929292;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1b1b1b;
+    border: 1px solid rgba(128, 128, 128, .33);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .03), inset 0 1px 0 #fff;
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .03), inset 0 1px 0 #fff;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .03), inset 0 1px 0 #fff;
+}
+
+.mw-btn-blue {
+    background: #b5cedd;
+    background: -moz-linear-gradient(top, #b5cedd 0%, #c8e1f0 100%);
+    background: -webkit-linear-gradient(top, #b5cedd 0%, #c8e1f0 100%);
+    background: linear-gradient(to bottom, #b5cedd 0%, #c8e1f0 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#b5cedd', endColorstr='#c8e1f0', GradientType=0);
+}
+
+.mw-admin-main-section-inline-bar-controlls ul {}
+
+.mw-admin-main-section-inline-bar-controlls li {
+    display: inline-block;
+    margin-right: 10px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.mw-admin-main-section-inline-bar-controlls li span {
+    color: #878787;
+}
+
+.mw-admin-main-section-inline-bar-controlls select {
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    border: 0px solid #ccc;
+    /*Removes border*/
+    -webkit-appearance: none;
+    /*Removes default chrome and safari style*/
+    -moz-appearance: none;
+    /* Removes Default Firefox style*/
+    background: url('images/arr_down_black.png') no-repeat;
+    /*Adds background-image*/
+    background-position: right center;
+    /*Position of the background-image*/
+    xxxwidth: 100px;
+    /*Width of select dropdown to give space for arrow image*/
+    text-indent: 0.01px;
+    /* Removes default arrow from firefox*/
+    text-overflow: "";
+    /*Removes default arrow from firefox*/
+    padding-right: 5px;
+}
+
+.mw-admin-shop-info-blue-link {
+    color: #439fd5;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
+
+/* END BTNS */
+
+
+/* SHOP */
+
+.mw-admin-main-view-container .order-table-info-list {
+    border: 0px;
+    color: #1b1b1b;
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.mw-ui-table-order-info td {
+    border: 0px;
+}

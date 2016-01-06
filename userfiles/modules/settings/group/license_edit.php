@@ -37,13 +37,16 @@ $(document).ready(function(){
 });
 </script>
 
-<form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
-  <label class="mw-ui-label">License key</label>
   <small>
   
-  <a target="_blank" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>">Get key</a>
+  <a target="_blank" class="mw-ui-btn mw-ui-btn-info" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>">Get activation key</a>
   
   </small>
+
+<br />
+<form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
+  <label class="mw-ui-label">Enter License Key</label>
+
   <input name="activate_on_save" type="hidden" value="1" />
   <?php if($id): ?>
   <input name="id" type="hidden" value="<?php print $id; ?>" />

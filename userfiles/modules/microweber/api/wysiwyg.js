@@ -1692,6 +1692,11 @@ window.mw.iconSelector = window.mw.iconSelector || {
                 }
             } catch (e) {
             }
+			
+			
+			 
+			
+			
 
             //check font awesome
             var faicons = mwd.querySelector('link[href*="/font-awesome.min.css"]');
@@ -1747,6 +1752,23 @@ window.mw.iconSelector = window.mw.iconSelector || {
             }
 
         }
+		
+		
+		try {
+                var icons = mwd.querySelector('link[data-iconset]').sheet.cssRules;
+				d(icons);
+                var l = icons.length, i = 0, html = '';
+                for (; i < l; i++) {
+                    var sel = icons[i].selectorText;
+                    if (!!sel) {
+                        var cls = sel.replace(".", '').split(':')[0];
+                        if (mw.iconSelector.iconFontClasses.indexOf(cls) === -1) {
+                            mw.iconSelector.iconFontClasses.push(cls);
+                        }
+                    }
+                }
+            } catch (e) {
+            }
 
     },
 
