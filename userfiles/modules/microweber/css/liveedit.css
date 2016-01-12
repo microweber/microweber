@@ -2297,7 +2297,7 @@ div[id*='SSDIVEL'] {
 
 .mw_image_resizer{
   position: absolute !important;
-  z-index: 999;
+  z-index: 1100;
   visibility: hidden;
   left: -9999px;
   top: -9999px
