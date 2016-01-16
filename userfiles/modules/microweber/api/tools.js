@@ -158,17 +158,23 @@ mw.tools = {
         return mw.tools.external(o.name, o.callback, o.holder, o.params);
     },
     tooltip: {
-        source: function (content, skin, position) {
+        source: function (content, skin, position,id) {
             if (skin == 'dark') {
                 var skin = 'mw-tooltip-dark';
             }
             if (typeof content === 'object') {
                 var content = mw.$(content).html();
             }
+
+            if (typeof id === 'undefined') {
+                id = 'mw-tooltip-' + mw.random();
+            }
+
             var tooltip = mwd.createElement('div');
             tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
-            tooltip.id = 'mw-tooltip-' + mw.random();
+            tooltip.id = id;
             tooltip.innerHTML = '<div class="mw-tooltip-content">' + content + '</div><span class="mw-tooltip-arrow"></span>';
+
             mwd.body.appendChild(tooltip);
             return tooltip;
         },
@@ -304,10 +310,11 @@ mw.tools = {
             if (typeof o.skin === 'undefined') {
                 o.skin = 'mw-tooltip-default';
             }
-            if (typeof o.content === 'undefined') {
-                o.content = '';
+            if (typeof o.id === 'undefined') {
+                o.id = 'mw-tooltip-' + mw.random();
             }
             return {
+                id: o.id,
                 element: o.element,
                 skin: o.template || o.skin,
                 position: o.position,
@@ -317,12 +324,21 @@ mw.tools = {
         init: function (o, wl) {
             var o = mw.tools.tooltip.prepare(o);
             if (o === false) return false;
-            var tip = mw.tools.tooltip.source(o.content, o.skin, o.position);
+            if (o.id && mw.$('#' + o.id).length > 0) {
+                var tip = mw.$('#' + o.id)[0] ;
+
+                //mw.$('#' + o.id).show();
+               // return;
+            } else {
+                var tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
+
+            }
             tip.tooltipData = o;
             var wl = wl || true;
             if (wl && $.contains(self.document, tip)) {
                 $(self).bind('resize scroll', function (e) {
                     if (self.document.contains(tip)) {
+
                         self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
                     }
                 });
@@ -2784,15 +2800,15 @@ mw.tools = {
         }
 
     },
+
+
     module_settings: function (a, view, liveedit) {
 
         if (typeof liveedit === 'undefined') {
             var liveedit = true;
         }
 
-
         if (typeof a === 'string') {
-
             var module_type = a;
             var module_id = a;
             var mod_sel = mw.$(a+':first');
@@ -2873,12 +2889,19 @@ mw.tools = {
             //data1.from_url = window.top.location;
             data1.from_url = window.parent.location;
         }
+
+
+        var modal_name = 'module-settings-' + curr.id;
+        if(typeof(data1.view.hash) == 'function'){
+             //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
+        }
+
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
         var modal = top.mw.tools.modal.frame({
             url: src,
             width: 532,
             height: 150,
-            name: 'module-settings-' + curr.id,
+            name: modal_name,
             title: '',
             callback: function () {
                 $(this.container).attr('data-settings-for-module', curr.id);
@@ -4710,7 +4733,15 @@ $(mwd).ready(function () {
 
 
 
-
+String.prototype.hash = function() {
+    var self = this, range = Array(this.length);
+    for(var i = 0; i < this.length; i++) {
+        range[i] = i;
+    }
+    return Array.prototype.map.call(range, function(i) {
+        return self.charCodeAt(i).toString(16);
+    }).join('');
+}
 
 
 

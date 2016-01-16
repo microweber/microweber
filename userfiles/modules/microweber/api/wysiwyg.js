@@ -432,11 +432,13 @@ mw.wysiwyg = {
             }
         });
         $(mwd.body).bind('noop', function (event) {
-
-            if (event.keyCode == 46 && event.type == 'keydown') {
+			
+            if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
                 mw.wysiwyg.change('.element-current');
+				
             }
+			
             if (event.type == 'keydown') {
 
                 if (mw.tools.isField(event.target) || !event.target.isContentEditable) {
@@ -1756,7 +1758,7 @@ window.mw.iconSelector = window.mw.iconSelector || {
 		
 		try {
                 var icons = mwd.querySelector('link[data-iconset]').sheet.cssRules;
-				d(icons);
+				 
                 var l = icons.length, i = 0, html = '';
                 for (; i < l; i++) {
                     var sel = icons[i].selectorText;

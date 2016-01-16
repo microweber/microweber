@@ -1,3 +1,5 @@
+@import url("sass/style.css");
+
 /*********************************************
 
       Styles for Live-edit
@@ -413,11 +415,14 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   -ms-user-select: none;
   user-select: none;
 }
-#mw_handle_module .mw_edit_settings{
+#mw_handle_module .mw_edit_settings,
+#mw_handle_module .mw_edit_settings_multiple{
   border-radius: 2px;
 }
 
-a.mw-make-cols, #mw_handle_module .mw_edit_settings {
+a.mw-make-cols, 
+#mw_handle_module .mw_edit_settings,
+#mw_handle_module .mw_edit_settings_multiple {
   color: #111;
   background: #E1E1E1;
   text-decoration: none;
@@ -431,6 +436,7 @@ a.mw-make-cols, #mw_handle_module .mw_edit_settings {
 #mw_handle_row:hover .mw_edit_delete,
 #mw_handle_row:hover a.mw-make-cols,
 #mw_handle_module:hover .mw_edit_settings,
+#mw_handle_module:hover .mw_edit_settings_multiple,
 #mw_handle_row:hover .column_separator_title {
   color: white;
   background: black;

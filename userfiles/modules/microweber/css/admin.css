@@ -1,5 +1,8 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:800,700,600,500,400,300&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext);
 
+@import url("sass/style.css");
+
+
 @font-face {
     font-family: 'mwadmin';
     src: url('fonts/fontadmin.ttf?mwv=9') format('truetype');

@@ -16,7 +16,7 @@ mw.SmallEditorIsDragging = false;
 
 
 mw.states = {}
-
+mw.live_edit_module_settings_array = new Array();
 
 /**
  * Makes Droppable area
@@ -269,9 +269,6 @@ mw.drag = {
         $(mwd.body).mousemove(function (event) {
 
 
-
-
-
             mw.tools.removeClass(this, 'isTyping');
 
             if (!mw.settings.resize_started) {
@@ -344,8 +341,8 @@ mw.drag = {
                             $(window).trigger("onElementOver", mw.image.currentResizing[0]);
                         }
 
-                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module')||
-                            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')) ) {
+                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
+                            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
 
                             //trigger on row
                             if (mw.$mm_target.hasClass("mw-row")) {
@@ -376,7 +373,6 @@ mw.drag = {
 
                             }
                         }
-
 
 
                         if (mw.$mm_target.parents(".edit,.mw_master_handle").length == 0) {
@@ -448,7 +444,7 @@ mw.drag = {
 
 
                     if (mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')) {
-                        if(mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')){
+                        if (mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')) {
                             mw.currentDragMouseOver = mw.mm_target;
 
                         } else {
@@ -590,8 +586,8 @@ mw.drag = {
                         else {
                             mw.dropable.show();
                         }
-                    }  else if (el.hasClass("edit")) {
-                        if(mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')){
+                    } else if (el.hasClass("edit")) {
+                        if (mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')) {
                             mw.dropable.hide();
                         } else {
                             mw.dropable.show();
@@ -747,16 +743,8 @@ mw.drag = {
 
             var el = $(element);
             //var title = el.dataset("filter");
-            var title = el.dataset("mw-title");
-            //$(mw.handle_module).find(".mw-element-name-handle").html(title);
 
-
-            if (title != '') {
-                mw.$(".mw-element-name-handle", mw.handle_module).html(title);
-            }
-            else {
-                mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
-            }
+            mw.drag.make_module_settings_handle(el);
 
             $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
             var o = el.offset();
@@ -1228,11 +1216,11 @@ mw.drag = {
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
- 
-						   if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')) {
-							     $(mw.currentDragMouseOver).before(mw.dragCurrent);
- 								 return false;
-						   } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
+
+                        if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')) {
+                            $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                            return false;
+                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                             }
@@ -1395,6 +1383,89 @@ mw.drag = {
             });
         }//toremove
     },
+
+    make_module_settings_handle: function (element) {
+var     make_module_settings_handle_html = '<div class="microweber">' +
+    '<options class=options3><nav class="options-nav top toggled"><a class=trigger>Menu <span aria-hidden=true></span></a><ul class="open"><li class="open"><a><i class=flaticon-cellphone53></i> <span>bananas2</span></a><modal class="top light"><close></close><panel><h2>bananas2</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas21 checked type=checkbox><label for=bananas21></label></switch><switch><label>parallax</label><input id=bananas22 type=checkbox><label for=bananas22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas23 checked type=checkbox><label for=bananas23></label></switch><h2>more banananas!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas24 checked type=checkbox><label for=bananas24></label></switch><switch><label>parallax</label><input id=bananas25 type=checkbox><label for=bananas25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas26 checked type=checkbox><label for=bananas26></label></switch></panel></modal></li><li><a><i class=flaticon-fast31></i> <span>Video</span></a><modal class="dark bottom"><close></close><panel><h2>kiwis2!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=orangesb1 checked type=checkbox><label for=kiwis21></label></switch><switch><label>parallax</label><input id=kiwis22 type=checkbox><label for=kiwis22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis23 checked type=checkbox><label for=kiwis23></label></switch><h2>more kiwis2!!!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=kiwis24 checked type=checkbox><label for=kiwis24></label></switch><switch><label>parallax</label><input id=kiwis25 type=checkbox><label for=kiwis25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis26 checked type=checkbox><label for=kiwis26></label></switch></panel></modal></li><li><a><i class=flaticon-pencil78></i> <span>apple2s!</span></a><modal class="light bottom"><close></close><panel><h2>effects</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=apple21 type=checkbox><label for=apple21></label></switch><switch><label>parallax</label><input id=apple22 type=checkbox><label for=apple22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 checked name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=apple23 checked type=checkbox><label for=apple23></label></switch></panel></modal></li><li><a><i class=flaticon-weekly12></i> <span>potato2</span></a><modal class="dark bottom"><close></close><panel><h2>potato2es!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=potato21 checked type=checkbox><label for=potato21></label></switch><switch><label>parallax</label><input id=potato22 type=checkbox><label for=potato22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=potato23 type=checkbox><label for=potato23></label></switch></panel></modal></li></ul></nav></options>' +
+    '</div>';
+
+        var el = $(element);
+        var title = el.dataset("mw-title");
+        var id = el.attr("id");
+        var module_type = el.dataset("type");
+        if (!module_type) {
+            var module_type = el.attr("type");
+        }
+
+        if (title != '') {
+            mw.$(".mw-element-name-handle", mw.handle_module).html(title);
+        } else {
+            mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
+        }
+
+        var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-'+id;
+
+      mw.$(".mw_edit_settings_multiple_holder", mw.handle_module).not( "#"+mw_edit_settings_multiple_holder_id ).hide();
+
+
+        if (typeof(mw.live_edit_module_settings_array) != 'undefined'
+            && typeof(mw.live_edit_module_settings_array[module_type]) != 'undefined'
+            && typeof(mw.live_edit_module_settings_array[module_type]) == 'object'
+        ) {
+
+            mw.$(".mw_edit_settings", mw.handle_module).hide();
+            if (mw.$('#' + mw_edit_settings_multiple_holder_id).length == 0) {
+                var new_el = mwd.createElement('div');
+                new_el.className = 'mw_edit_settings_multiple_holder';
+                new_el.id = mw_edit_settings_multiple_holder_id;
+                $('.mw_edit_settings', mw.handle_module).after(new_el);
+
+               // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
+
+
+                var settings = mw.live_edit_module_settings_array[module_type];
+
+                mw.$(settings).each(function () {
+                    if (typeof(this.view) != 'undefined' && typeof(this.title) != 'undefined') {
+                        var new_el = mwd.createElement('a');
+                        new_el.className = 'mw_edit_settings_multiple';
+                        new_el.title = this.title;
+                        new_el.draggable = 'false';
+                        var btn_id = 'mw_edit_settings_multiple_btn_'+mw.random();
+                        new_el.id = btn_id;
+
+                        if (typeof(this.type) != 'undefined' && (this.type) == 'tooltip') {
+                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
+
+                        } else {
+                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
+
+                        }
+
+                        var icon = '';
+                        if (typeof(this.icon) != 'undefined') {
+                            icon = '<span class="mw_edit_settings_multiple_icon_element ' + this.icon + '"></span>'
+                        }
+                        new_el.innerHTML = '<span class="mw-element-name-handle">' + icon + this.title + '</span>';
+                        mw.$('#' + mw_edit_settings_multiple_holder_id).append(new_el);                     }
+
+                });
+            }
+            $('#' + mw_edit_settings_multiple_holder_id+':hidden').show();
+
+
+
+
+
+        } else {
+            mw.$(".mw_edit_settings", mw.handle_module).show();
+
+        }
+
+
+    },
+
+
     /**
      * Various fixes
      *
@@ -1615,6 +1686,113 @@ mw.drag = {
     module_settings: function (a, view) {
         return mw.tools.module_settings(a, view);
     },
+
+
+    current_module_settings_tooltip_show_on_element: function (element_id,view, type) {
+        if(!element_id){
+            return;
+        }
+        if (mw.$('#' + element_id).length == 0) {
+            return;
+        }
+
+        var curr = $("#mw_handle_module").data("curr");
+        var tooltip_element = $("#"+element_id);
+        var attributes = {};
+
+
+        var type = type || 'modal';
+
+
+        $.each(curr.attributes, function (index, attr) {
+            attributes[attr.name] = attr.value;
+        });
+        var data1 = attributes;
+        var module_type = null
+        if (data1['data-type'] != undefined) {
+            module_type = data1['data-type'];
+            data1['data-type'] = data1['data-type'] + '/admin';
+        }
+        if (data1['data-module-name'] != undefined) {
+            delete(data1['data-module-name']);
+        }
+        if (data1['type'] != undefined) {
+            module_type = data1['type'];
+            data1['type'] = data1['type'] + '/admin';
+        }
+        if (module_type != null && view != undefined) {
+            data1['data-type'] = data1['type'] = module_type + '/' + view;
+        }
+
+        if (typeof data1['class'] != 'undefined') {
+            delete(data1['class']);
+        }
+        if (typeof data1['style'] != 'undefined') {
+            delete(data1['style']);
+        }
+        if (typeof data1.contenteditable != 'undefined') {
+            delete(data1.contenteditable);
+        }
+        data1.live_edit = 'true';
+        data1.module_settings = 'true';
+        if (view != undefined) {
+            data1.view = view;
+        }
+        else {
+            data1.view = 'admin';
+        }
+        if (data1.from_url == undefined) {
+            //data1.from_url = window.top.location;
+            data1.from_url = window.parent.location;
+        }
+
+
+        var modal_name = 'module-settings-' + curr.id;
+        if (typeof(data1.view.hash) == 'function') {
+            var modal_name = 'module-settings-' + curr.id + (data1.view.hash());
+        }
+
+        if (mw.$('#' + modal_name).length > 0) {
+            var m = mw.$('#' + modal_name)[0];
+            m.scrollIntoView();
+            mw.tools.highlight(m);
+            return false;
+        }
+
+
+        var src = mw.settings.site_url + "api/module?" + json2url(data1);
+
+        if (type == 'modal') {
+            var modal = top.mw.tools.modal.frame({
+                url: src,
+                width: 532,
+                height: 150,
+                name: modal_name,
+                title: '',
+                callback: function () {
+                    $(this.container).attr('data-settings-for-module', curr.id);
+                }
+            });
+            return modal;
+        }
+        if (type == 'tooltip') {
+        //    mw.tools.inlineModal({
+        //        element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
+        //        content: string, Node or jQuery Object *: content for the 'inlineModal'.
+        //        template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
+        //});
+            mw.tooltip({
+                id: 'module-settings-tooltip-'+modal_name,
+                content: '<iframe height="300" width="100%" src="'+src+'"></iframe>',
+                zcontent: 'Tooltip <b>content</b>',
+                element: tooltip_element
+            });
+
+        }
+
+    },
+
+
     ModuleSettingsPopupLoaded: function (id) {
 
         mw.$("#" + id + " .mw_option_field").bind("change blur", function () {
@@ -1826,7 +2004,7 @@ mw.drag = {
                 mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
             }
         }
-    }, 
+    },
     saving: false,
     coreSave: function (data) {
         if (!data) return false;
@@ -1852,9 +2030,9 @@ mw.drag = {
         mw.$('.empty-element', doc).remove();
         mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
-		mw.$('script', doc).remove();
- 
-		//var doc = $(doc).find('script').remove();
+        mw.$('script', doc).remove();
+
+        //var doc = $(doc).find('script').remove();
 
         mw.tools.classNamespaceDelete('all', 'ui-', doc, 'starts');
         mw.$("[contenteditable]", doc).removeAttr("contenteditable");
@@ -1896,7 +2074,7 @@ mw.drag = {
                 if (!rel) continue;
                 $(helper.item).removeClass('changed orig_changed');
                 var content = helper.item.innerHTML;
-				//var content = $(content).find('script').remove();
+                //var content = $(content).find('script').remove();
 
                 var attr_obj = {};
                 var attrs = helper.item.attributes;
@@ -2989,11 +3167,11 @@ $(window).bind("load", function () {
         }
     });
     $(window).bind("scroll", function (e) {
-		if(typeof(mw.smallEditor) != "undefined"){
-			
-			mw.smallEditor.css("visibility", "hidden");
-			mw.smallEditorCanceled = true;
-		}
+        if (typeof(mw.smallEditor) != "undefined") {
+
+            mw.smallEditor.css("visibility", "hidden");
+            mw.smallEditorCanceled = true;
+        }
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function (e) {
 
@@ -3068,19 +3246,19 @@ mw.quick = {
         modal.overlay.style.backgroundColor = "white";
     },
     edit: function (id, content_type, subtype, parent, category) {
-		var str = "";
-		
-		if(typeof(parent) != 'undefined'){
-			 var str = "&recommended_parent=" + parent;
-		}
-       
+        var str = "";
+
+        if (typeof(parent) != 'undefined') {
+            var str = "&recommended_parent=" + parent;
+        }
+
         if (content_type != undefined && content_type != '') {
             str = str + '&content_type=' + content_type;
         }
-		
-		if(typeof(category) != 'undefined'){
+
+        if (typeof(category) != 'undefined') {
             str = str + '&category=' + category;
-		}
+        }
 
         if (subtype != undefined && subtype != '') {
             str = str + '&subtype=' + subtype;
@@ -3138,12 +3316,12 @@ mw.quick = {
 
 
 mw.beforeleave_html = ""
-+ "<div class='mw-before-leave-container'>"
-+ "<p>Leave page by choosing an option</p>"
-+ "<span class='mw-ui-btn mw-ui-btn-important'>" + mw.msg.before_leave + "</span>"
-+ "<span class='mw-ui-btn mw-ui-btn-notification' >" + mw.msg.save_and_continue + "</span>"
-+ "<span class='mw-ui-btn' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>"
-+ "</div>";
+    + "<div class='mw-before-leave-container'>"
+    + "<p>Leave page by choosing an option</p>"
+    + "<span class='mw-ui-btn mw-ui-btn-important'>" + mw.msg.before_leave + "</span>"
+    + "<span class='mw-ui-btn mw-ui-btn-notification' >" + mw.msg.save_and_continue + "</span>"
+    + "<span class='mw-ui-btn' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>"
+    + "</div>";
 
 mw.beforeleave = function (url) {
     if (mw.askusertostay && mw.$(".edit.orig_changed").length > 0) {

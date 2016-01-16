@@ -28,7 +28,9 @@ class Base
             'ui_admin_iframe' => 'integer',
             'is_system' => 'integer',
             'version' => 'string',
-            'notifications' => 'integer'
+            'notifications' => 'integer',
+            'settings' => 'text'
+
         ];
 
         return [
