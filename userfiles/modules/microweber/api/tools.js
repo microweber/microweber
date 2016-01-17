@@ -183,7 +183,7 @@ mw.tools = {
             if (el.length === 0) {
                 return false;
             }
-    
+
             tooltip.tooltipData.element = el[0];
             var w = el.outerWidth(),
                 tipwidth = $(tooltip).outerWidth(),
@@ -320,12 +320,17 @@ mw.tools = {
             if (typeof o.id === 'undefined') {
                 o.id = 'mw-tooltip-' + mw.random();
             }
+
+            if (typeof o.group === 'undefined') {
+                o.group = null;
+            }
             return {
                 id: o.id,
                 element: o.element,
                 skin: o.template || o.skin,
                 position: o.position,
-                content: o.content
+                content: o.content,
+                group: o.group
             }
         },
         init: function (o, wl) {
@@ -334,10 +339,26 @@ mw.tools = {
             if (o.id && mw.$('#' + o.id).length > 0) {
                 var tip = mw.$('#' + o.id)[0] ;
 
+
             } else {
                 var tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
 
             }
+            if (o.group){
+                var tip_group_class = 'mw-tooltip-group-'+o.group;
+                var cur_tip = $(tip)
+                if (!cur_tip.hasClass(tip_group_class)) {
+                    cur_tip.addClass(tip_group_class)
+                }
+                var cur_tip_id = cur_tip.attr('id');
+                if(cur_tip_id){
+                    mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
+                    mw.$( "#"+cur_tip_id ).show();
+
+                }
+            }
+
+
             tip.tooltipData = o;
             var wl = wl || true;
             if (wl && $.contains(self.document, tip)) {
