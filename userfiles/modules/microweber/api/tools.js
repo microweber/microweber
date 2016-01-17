@@ -183,6 +183,7 @@ mw.tools = {
             if (el.length === 0) {
                 return false;
             }
+    
             tooltip.tooltipData.element = el[0];
             var w = el.outerWidth(),
                 tipwidth = $(tooltip).outerWidth(),
@@ -191,12 +192,18 @@ mw.tools = {
                 off = el.offset(),
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
+
+
+
+
             mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
-            if (off.top < 0 || off.left < 0) {
+            if (off.top <= 0 || off.left <= 0) {
                 return false;
             }
+
+
             if (position == 'bottom-left') {
                 $(tooltip).css({
                     top: off.top + h + arrheight,
@@ -327,8 +334,6 @@ mw.tools = {
             if (o.id && mw.$('#' + o.id).length > 0) {
                 var tip = mw.$('#' + o.id)[0] ;
 
-                //mw.$('#' + o.id).show();
-               // return;
             } else {
                 var tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
 

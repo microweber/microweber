@@ -1405,7 +1405,7 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
 
         var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-'+id;
 
-      mw.$(".mw_edit_settings_multiple_holder", mw.handle_module).not( "#"+mw_edit_settings_multiple_holder_id ).hide();
+      mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not( "#"+mw_edit_settings_multiple_holder_id ).hide();
 
 
         if (typeof(mw.live_edit_module_settings_array) != 'undefined'
@@ -1692,6 +1692,7 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
         if(!element_id){
             return;
         }
+
         if (mw.$('#' + element_id).length == 0) {
             return;
         }
@@ -1783,8 +1784,9 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
         //});
             mw.tooltip({
                 id: 'module-settings-tooltip-'+modal_name,
+                group: 'module_settings_tooltip_show_on_btn',
                 content: '<iframe height="300" width="100%" src="'+src+'"></iframe>',
-                zcontent: 'Tooltip <b>content</b>',
+
                 element: tooltip_element
             });
 
