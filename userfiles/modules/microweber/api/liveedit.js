@@ -1385,9 +1385,9 @@ mw.drag = {
     },
 
     make_module_settings_handle: function (element) {
-var     make_module_settings_handle_html = '<div class="microweber">' +
-    '<options class=options3><nav class="options-nav top toggled"><a class=trigger>Menu <span aria-hidden=true></span></a><ul class="open"><li class="open"><a><i class=flaticon-cellphone53></i> <span>bananas2</span></a><modal class="top light"><close></close><panel><h2>bananas2</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas21 checked type=checkbox><label for=bananas21></label></switch><switch><label>parallax</label><input id=bananas22 type=checkbox><label for=bananas22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas23 checked type=checkbox><label for=bananas23></label></switch><h2>more banananas!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas24 checked type=checkbox><label for=bananas24></label></switch><switch><label>parallax</label><input id=bananas25 type=checkbox><label for=bananas25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas26 checked type=checkbox><label for=bananas26></label></switch></panel></modal></li><li><a><i class=flaticon-fast31></i> <span>Video</span></a><modal class="dark bottom"><close></close><panel><h2>kiwis2!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=orangesb1 checked type=checkbox><label for=kiwis21></label></switch><switch><label>parallax</label><input id=kiwis22 type=checkbox><label for=kiwis22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis23 checked type=checkbox><label for=kiwis23></label></switch><h2>more kiwis2!!!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=kiwis24 checked type=checkbox><label for=kiwis24></label></switch><switch><label>parallax</label><input id=kiwis25 type=checkbox><label for=kiwis25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis26 checked type=checkbox><label for=kiwis26></label></switch></panel></modal></li><li><a><i class=flaticon-pencil78></i> <span>apple2s!</span></a><modal class="light bottom"><close></close><panel><h2>effects</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=apple21 type=checkbox><label for=apple21></label></switch><switch><label>parallax</label><input id=apple22 type=checkbox><label for=apple22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 checked name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=apple23 checked type=checkbox><label for=apple23></label></switch></panel></modal></li><li><a><i class=flaticon-weekly12></i> <span>potato2</span></a><modal class="dark bottom"><close></close><panel><h2>potato2es!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=potato21 checked type=checkbox><label for=potato21></label></switch><switch><label>parallax</label><input id=potato22 type=checkbox><label for=potato22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=potato23 type=checkbox><label for=potato23></label></switch></panel></modal></li></ul></nav></options>' +
-    '</div>';
+        var make_module_settings_handle_html = '<div class="microweber">' +
+            '<options class=options3><nav class="options-nav top toggled"><a class=trigger>Menu <span aria-hidden=true></span></a><ul class="open"><li class="open"><a><i class=flaticon-cellphone53></i> <span>bananas2</span></a><modal class="top light"><close></close><panel><h2>bananas2</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas21 checked type=checkbox><label for=bananas21></label></switch><switch><label>parallax</label><input id=bananas22 type=checkbox><label for=bananas22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas23 checked type=checkbox><label for=bananas23></label></switch><h2>more banananas!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas24 checked type=checkbox><label for=bananas24></label></switch><switch><label>parallax</label><input id=bananas25 type=checkbox><label for=bananas25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas26 checked type=checkbox><label for=bananas26></label></switch></panel></modal></li><li><a><i class=flaticon-fast31></i> <span>Video</span></a><modal class="dark bottom"><close></close><panel><h2>kiwis2!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=orangesb1 checked type=checkbox><label for=kiwis21></label></switch><switch><label>parallax</label><input id=kiwis22 type=checkbox><label for=kiwis22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis23 checked type=checkbox><label for=kiwis23></label></switch><h2>more kiwis2!!!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=kiwis24 checked type=checkbox><label for=kiwis24></label></switch><switch><label>parallax</label><input id=kiwis25 type=checkbox><label for=kiwis25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis26 checked type=checkbox><label for=kiwis26></label></switch></panel></modal></li><li><a><i class=flaticon-pencil78></i> <span>apple2s!</span></a><modal class="light bottom"><close></close><panel><h2>effects</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=apple21 type=checkbox><label for=apple21></label></switch><switch><label>parallax</label><input id=apple22 type=checkbox><label for=apple22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 checked name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=apple23 checked type=checkbox><label for=apple23></label></switch></panel></modal></li><li><a><i class=flaticon-weekly12></i> <span>potato2</span></a><modal class="dark bottom"><close></close><panel><h2>potato2es!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=potato21 checked type=checkbox><label for=potato21></label></switch><switch><label>parallax</label><input id=potato22 type=checkbox><label for=potato22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=potato23 type=checkbox><label for=potato23></label></switch></panel></modal></li></ul></nav></options>' +
+            '</div>';
 
         var el = $(element);
         var title = el.dataset("mw-title");
@@ -1403,9 +1403,9 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
             mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
         }
 
-        var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-'+id;
+        var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-' + id;
 
-      mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not( "#"+mw_edit_settings_multiple_holder_id ).hide();
+        mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not("#" + mw_edit_settings_multiple_holder_id).hide();
 
 
         if (typeof(mw.live_edit_module_settings_array) != 'undefined'
@@ -1414,13 +1414,19 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
         ) {
 
             mw.$(".mw_edit_settings", mw.handle_module).hide();
+ 
+            if(document.getElementsByTagName('iframe').length > 90){
+                mw.$(".mw_edit_settings_multiple_holder").remove();
+
+            }
+
             if (mw.$('#' + mw_edit_settings_multiple_holder_id).length == 0) {
                 var new_el = mwd.createElement('div');
                 new_el.className = 'mw_edit_settings_multiple_holder';
                 new_el.id = mw_edit_settings_multiple_holder_id;
                 $('.mw_edit_settings', mw.handle_module).after(new_el);
 
-               // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
+                // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
 
 
                 var settings = mw.live_edit_module_settings_array[module_type];
@@ -1431,7 +1437,7 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
                         new_el.className = 'mw_edit_settings_multiple';
                         new_el.title = this.title;
                         new_el.draggable = 'false';
-                        var btn_id = 'mw_edit_settings_multiple_btn_'+mw.random();
+                        var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
                         new_el.id = btn_id;
 
                         if (typeof(this.type) != 'undefined' && (this.type) == 'tooltip') {
@@ -1444,17 +1450,20 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
 
                         var icon = '';
                         if (typeof(this.icon) != 'undefined') {
-                            icon = '<span class="mw_edit_settings_multiple_icon_element ' + this.icon + '"></span>'
+                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>'
                         }
-                        new_el.innerHTML = '<span class="mw-element-name-handle">' + icon + this.title + '</span>';
-                        mw.$('#' + mw_edit_settings_multiple_holder_id).append(new_el);                     }
+                        new_el.innerHTML = '' +
+                            icon +
+                                '<span class="mw-edit-module-settings-tooltip-btn-title">' +
+                                this.title +
+                                '</span>' +
+                            '';
+                            mw.$('#' + mw_edit_settings_multiple_holder_id).append(new_el);
+                    }
 
                 });
             }
-            $('#' + mw_edit_settings_multiple_holder_id+':hidden').show();
-
-
-
+            $('#' + mw_edit_settings_multiple_holder_id + ':hidden').show();
 
 
         } else {
@@ -1688,8 +1697,8 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
     },
 
 
-    current_module_settings_tooltip_show_on_element: function (element_id,view, type) {
-        if(!element_id){
+    current_module_settings_tooltip_show_on_element: function (element_id, view, type) {
+        if (!element_id) {
             return;
         }
 
@@ -1698,7 +1707,7 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
         }
 
         var curr = $("#mw_handle_module").data("curr");
-        var tooltip_element = $("#"+element_id);
+        var tooltip_element = $("#" + element_id);
         var attributes = {};
 
 
@@ -1777,15 +1786,16 @@ var     make_module_settings_handle_html = '<div class="microweber">' +
             return modal;
         }
         if (type == 'tooltip') {
-        //    mw.tools.inlineModal({
-        //        element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
-        //        content: string, Node or jQuery Object *: content for the 'inlineModal'.
-        //        template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
-        //});
+            //    mw.tools.inlineModal({
+            //        element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
+            //        content: string, Node or jQuery Object *: content for the 'inlineModal'.
+            //        template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
+            //});
             mw.tooltip({
-                id: 'module-settings-tooltip-'+modal_name,
+                id: 'module-settings-tooltip-' + modal_name,
                 group: 'module_settings_tooltip_show_on_btn',
-                content: '<iframe height="300" width="100%" src="'+src+'"></iframe>',
+                close_on_click_outside: true,
+                content: '<iframe height="300" width="100%" frameborder="0" src="' + src + '"></iframe>',
 
                 element: tooltip_element
             });

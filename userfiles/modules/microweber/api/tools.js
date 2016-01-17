@@ -334,6 +334,7 @@ mw.tools = {
             }
         },
         init: function (o, wl) {
+            var orig_options = o;
             var o = mw.tools.tooltip.prepare(o);
             if (o === false) return false;
             if (o.id && mw.$('#' + o.id).length > 0) {
@@ -344,6 +345,8 @@ mw.tools = {
                 var tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
 
             }
+            tip.tooltipData = o;
+            var wl = wl || true;
             if (o.group){
                 var tip_group_class = 'mw-tooltip-group-'+o.group;
                 var cur_tip = $(tip)
@@ -356,11 +359,11 @@ mw.tools = {
                     mw.$( "#"+cur_tip_id ).show();
 
                 }
+
             }
 
 
-            tip.tooltipData = o;
-            var wl = wl || true;
+
             if (wl && $.contains(self.document, tip)) {
                 $(self).bind('resize scroll', function (e) {
                     if (self.document.contains(tip)) {
@@ -368,6 +371,13 @@ mw.tools = {
                         self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
                     }
                 });
+                if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
+                    $(self).bind('click', function (e,target) {
+                        mw.$("."+tip_group_class).hide();
+
+                    });
+
+                }
             }
             mw.tools.tooltip.setPosition(tip, o.element, o.position);
             return tip;
