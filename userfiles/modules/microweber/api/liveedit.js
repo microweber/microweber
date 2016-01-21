@@ -458,6 +458,9 @@ mw.drag = {
                         mw.currentDragMouseOver = mw.mm_target;
 
 
+                    } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'edit') &&
+                        (mw.tools.hasClass(mw.mm_target.className, 'mw-col') || mw.tools.hasClass(mw.mm_target.className, 'mw-col-container'))) {
+                        mw.currentDragMouseOver = mw.mm_target;
                     } else {
 
                         if (
@@ -1208,7 +1211,7 @@ mw.drag = {
                         if (mw.currentDragMouseOver === null) {
                             return false;
                         }
-                        ;
+
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
                         var curr_parent = $(mw.dragCurrent).parent();
@@ -1217,16 +1220,28 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
 
-                        if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')) {
-                            $(mw.currentDragMouseOver).before(mw.dragCurrent);
-                            return false;
-                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
+                        if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                             }
                             else {
                                 mw.currentDragMouseOver.appendChild(mw.dragCurrent);
                             }
+                            return false;
+                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col')) {
+                            if (position == 'top') {
+                                $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
+                            }
+                            else {
+                                mw.currentDragMouseOver.appendChild(mw.dragCurrent);
+                            }
+                            return false;
+                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')
+                            && !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container'))
+                            && !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col'))
+                        ) {
+
+                            $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;
                         }
 
@@ -1385,9 +1400,6 @@ mw.drag = {
     },
 
     make_module_settings_handle: function (element) {
-        var make_module_settings_handle_html = '<div class="microweber">' +
-            '<options class=options3><nav class="options-nav top toggled"><a class=trigger>Menu <span aria-hidden=true></span></a><ul class="open"><li class="open"><a><i class=flaticon-cellphone53></i> <span>bananas2</span></a><modal class="top light"><close></close><panel><h2>bananas2</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas21 checked type=checkbox><label for=bananas21></label></switch><switch><label>parallax</label><input id=bananas22 type=checkbox><label for=bananas22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas23 checked type=checkbox><label for=bananas23></label></switch><h2>more banananas!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=bananas24 checked type=checkbox><label for=bananas24></label></switch><switch><label>parallax</label><input id=bananas25 type=checkbox><label for=bananas25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=bananas26 checked type=checkbox><label for=bananas26></label></switch></panel></modal></li><li><a><i class=flaticon-fast31></i> <span>Video</span></a><modal class="dark bottom"><close></close><panel><h2>kiwis2!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=orangesb1 checked type=checkbox><label for=kiwis21></label></switch><switch><label>parallax</label><input id=kiwis22 type=checkbox><label for=kiwis22></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis23 checked type=checkbox><label for=kiwis23></label></switch><h2>more kiwis2!!!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=kiwis24 checked type=checkbox><label for=kiwis24></label></switch><switch><label>parallax</label><input id=kiwis25 type=checkbox><label for=kiwis25></label></switch><range><label for=price-max>Shadow</label><input type=range step=2 name=price-max id=price-max value=0 min=-10 max=10></range><switch><label>wow</label><input id=kiwis26 checked type=checkbox><label for=kiwis26></label></switch></panel></modal></li><li><a><i class=flaticon-pencil78></i> <span>apple2s!</span></a><modal class="light bottom"><close></close><panel><h2>effects</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=apple21 type=checkbox><label for=apple21></label></switch><switch><label>parallax</label><input id=apple22 type=checkbox><label for=apple22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 checked name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=apple23 checked type=checkbox><label for=apple23></label></switch></panel></modal></li><li><a><i class=flaticon-weekly12></i> <span>potato2</span></a><modal class="dark bottom"><close></close><panel><h2>potato2es!</h2><p>Lorem ipsum dolor sit amet, cons.</p><switch><label>dark</label><input id=potato21 checked type=checkbox><label for=potato21></label></switch><switch><label>parallax</label><input id=potato22 type=checkbox><label for=potato22></label></switch><range><label for=price-max>Shadow</label><input type=range step=10 name=price-max id=price-max value=0 max=10 min=0></range><switch><label>wow</label><input id=potato23 type=checkbox><label for=potato23></label></switch></panel></modal></li></ul></nav></options>' +
-            '</div>';
 
         var el = $(element);
         var title = el.dataset("mw-title");
