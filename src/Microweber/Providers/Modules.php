@@ -410,9 +410,9 @@ class Modules {
 
             if (isset($s["settings"]) and is_array($s["settings"])){
                 $s["settings"] = json_encode($s["settings"]);
-                $s["allow_html"] = true;
             }
 
+            $s["allow_html"] = true;
 
             if (!isset($s["id"]) and isset($s["module"])){
                 $s["module"] = $data_to_save["module"];

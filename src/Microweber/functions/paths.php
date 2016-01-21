@@ -96,7 +96,7 @@ function admin_url($add_string = false)
 //Microweber system
 
 
-function mw_cache_path()
+function mw_cache_path() 
 {
     return storage_path() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
 }

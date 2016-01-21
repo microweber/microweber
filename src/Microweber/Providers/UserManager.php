@@ -813,6 +813,9 @@ class UserManager {
                     } else {
                         if (!isset($params['id'])){
                             $params['id'] = $this->id();
+                            if (!$params['id']){
+                                return array('error' => "You cant register user from the save function");
+                            }
                         }
                     }
                 }

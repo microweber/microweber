@@ -1414,7 +1414,7 @@ mw.drag = {
         ) {
 
             mw.$(".mw_edit_settings", mw.handle_module).hide();
- 
+
             if(document.getElementsByTagName('iframe').length > 90){
                 mw.$(".mw_edit_settings_multiple_holder").remove();
 
@@ -1786,11 +1786,7 @@ mw.drag = {
             return modal;
         }
         if (type == 'tooltip') {
-            //    mw.tools.inlineModal({
-            //        element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
-            //        content: string, Node or jQuery Object *: content for the 'inlineModal'.
-            //        template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
-            //});
+
             mw.tooltip({
                 id: 'module-settings-tooltip-' + modal_name,
                 group: 'module_settings_tooltip_show_on_btn',

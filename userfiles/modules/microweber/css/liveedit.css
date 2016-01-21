@@ -420,6 +420,10 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   border-radius: 2px;
 }
 
+.mw_edit_settings_multiple {
+ margin-right:3px;	
+}
+
 a.mw-make-cols, 
 #mw_handle_module .mw_edit_settings,
 #mw_handle_module .mw_edit_settings_multiple {

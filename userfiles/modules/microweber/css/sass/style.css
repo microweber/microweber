@@ -1177,7 +1177,7 @@ Primary style
 .microweber .dark range input[type=range]::-moz-range-thumb {
   background: #39263a;
 }
-.mw_edit_settings_multiple_holder .mw_edit_settings_multiple {
+.xxxxmw_edit_settings_multiple_holder .mw_edit_settings_multiple {
  background:transparent !important;
 }
 .mw-edit-module-settings-tooltip-btn {
