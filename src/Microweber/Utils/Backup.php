@@ -1125,6 +1125,13 @@ class Backup
         $id = str_replace('..', '', $id);
         $filename = str_replace('..', '', $filename);
 
+        $ext = get_file_extension(strtolower($filename));
+        if($ext != 'zip' and $ext != 'sql'){
+            return array('error' => "You are now allowed to delete {$ext} files.");
+        }
+
+
+
         if (is_file($filename)) {
             unlink($filename);
             return array('success' => "$id was deleted!");
