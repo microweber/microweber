@@ -805,8 +805,10 @@ class UserManager {
                     if ($adm==false){
                         $params['id'] = $this->id();
                         $is_logged = user_id();
-                        if (intval($params['id'])!=0 and $is_logged!=$params['id']){
+                        if (intval($params['id'])!=0 and $is_logged and $is_logged!=$params['id']){
                             return array('error' => 'You must be logged save your settings');
+                        } elseif (intval($params['id'])==0) {
+                            return array('error' => "You cant register user from the save function");
                         }
                     } else {
                         if (!isset($params['id'])){
@@ -1092,7 +1094,7 @@ class UserManager {
                     $security = array();
                     $security['ip'] = MW_USER_IP;
                     //  $security['hash'] = $this->app->format->array_to_base64($data_res);
-                   // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
+                    // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
                     $function_cache_id = md5($data_res['id']) . uniqid() . rand() . str_random(40);
                     if (isset($data_res['id'])){
                         $data_to_save = array();
