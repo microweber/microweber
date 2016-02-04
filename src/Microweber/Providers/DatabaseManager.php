@@ -360,8 +360,8 @@ class DatabaseManager extends DbUtils
             }
         }
 
-        $user_sid = mw()->user_manager->session_id();
-        $the_user_id = mw()->user_manager->id();
+        $user_sid = $this->app->user_manager->session_id();
+        $the_user_id = $this->app->user_manager->id();
 
 
         if (!isset($data['session_id']) and $user_sid) {

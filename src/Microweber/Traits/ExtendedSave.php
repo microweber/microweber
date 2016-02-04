@@ -199,6 +199,14 @@ trait ExtendedSave {
                         $save_cat_item = array();
                         $save_cat_item['rel_type'] = $data_to_save['table'];
                         $save_cat_item['rel_id'] = $data_to_save['id'];
+
+                        if (isset($v['name']) and !isset($v['type'])){
+                            if($v['name'] == 'price'){
+                                $v['type'] = 'price';
+                            }
+                        }
+
+
                         if (isset($v['type'])){
                             $save_cat_item['type'] = $v['type'];
                             if (isset($v['name'])){

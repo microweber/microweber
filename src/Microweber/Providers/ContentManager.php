@@ -450,7 +450,7 @@ class ContentManager {
             }
         }
 
-        $get = mw()->database_manager->get($params);
+        $get = $this->app->database_manager->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])){
             if (isset($get['url'])){
@@ -2500,7 +2500,7 @@ class ContentManager {
                             }
                         }
                         $html_to_save = $the_field_data['html'];
-                        $html_to_save = $content = mw()->parser->make_tags($html_to_save);
+                        $html_to_save = $content = $this->app->parser->make_tags($html_to_save);
 
                         if ($save_global==false and $save_layout==false){
                             if ($content_id){
@@ -3128,7 +3128,7 @@ class ContentManager {
 
 
                     $site_url = $this->app->url_manager->site();
-                    $images = mw()->parser->query($data_to_save['content'], 'img');
+                    $images = $this->app->parser->query($data_to_save['content'], 'img');
                     $to_download = array();
                     $to_replace = array();
                     $possible_sources = array();
@@ -3194,7 +3194,7 @@ class ContentManager {
                 }
 
 
-                $data_to_save['content'] = mw()->parser->make_tags($data_to_save['content']);
+                $data_to_save['content'] = $this->app->parser->make_tags($data_to_save['content']);
             }
         }
 
@@ -3214,7 +3214,7 @@ class ContentManager {
                 } else {
                     $pos_params['max'] = 'position';
                 }
-                $get_max_pos = mw()->database_manager->get($pos_params);
+                $get_max_pos = $this->app->database_manager->get($pos_params);
                 if (is_null($get_max_pos)){
                     $data_to_save['position'] = 1;
                 } else if (is_int($get_max_pos) or is_string($get_max_pos)){
@@ -3388,11 +3388,11 @@ class ContentManager {
 
 
         $custom_field_table = $this->tables['custom_fields'];
-        $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
+        $custom_field_table = $this->app->database_manager->real_table_name($custom_field_table);
 
-        $sid = mw()->user_manager->session_id();
+        $sid = $this->app->user_manager->session_id();
         $media_table = $this->tables['media'];
-        $media_table = mw()->database_manager->real_table_name($media_table);
+        $media_table = $this->app->database_manager->real_table_name($media_table);
 
         if ($sid!=false and $sid!='' and $id!=false){
 
@@ -4044,7 +4044,7 @@ class ContentManager {
             if (isset($item['value'])){
                 $field_content = htmlspecialchars_decode($item['value']);
                 $field_content = $this->_decode_entities($field_content);
-                $item['value'] = mw()->parser->process($field_content, $options = false);
+                $item['value'] = $this->app->parser->process($field_content, $options = false);
 
             }
 
@@ -4345,55 +4345,7 @@ class ContentManager {
     public function save_content_data_field($data, $delete_the_cache = true) {
 
         return $this->app->data_fields_manager->save($data);
-
-
-        $table = $this->tables['content_data'];
-        if (!is_array($data)){
-            $data = parse_params($data);
-        }
-        if (!isset($data['id'])){
-            if (!isset($data['field_name'])){
-                return array('error' => "You must set 'field' parameter");
-            }
-            if (!isset($data['field_value'])){
-                return array('error' => "You must set 'value' parameter");
-            }
-
-        }
-        if (!isset($data['rel_type']) and isset($data['content_id'])){
-            $data['rel_type'] = 'content';
-            $data['rel_id'] = $data['content_id'];
-        }
-        if (isset($data['field_name']) and isset($data['rel_id']) and isset($data['rel_type'])){
-            $is_existing_data = array();
-            $is_existing_data['field_name'] = $data['field_name'];
-            $is_existing_data['rel_id'] = $data['rel_id'];
-            $is_existing_data['rel_type'] = $data['rel_type'];
-            $is_existing_data['one'] = true;
-            $is_existing = $this->get_data($is_existing_data);
-            if (is_array($is_existing) and isset($is_existing['id'])){
-                $data['id'] = $is_existing['id'];
-            }
-        }
-        if (isset($data['content_id'])){
-            $data['rel_id'] = intval($data['content_id']);
-        }
-        if (isset($data['field_value']) and is_array($data['field_value'])){
-            $data['field_value'] = json_encode($data['field_value']);
-        }
-        if (!isset($data['rel_type'])){
-            $data['rel_type'] = 'content';
-        }
-
-        if (isset($data['rel_type']) and $data['rel_type']=='content'){
-            if (isset($data['rel_id'])){
-                $data['content_id'] = $data['rel_id'];
-            }
-        }
-        $save = $this->app->database_manager->save($table, $data);
-        $this->app->cache_manager->delete('content_data');
-
-        return $save;
+ 
     }
 
 
@@ -4727,174 +4679,7 @@ class ContentManager {
 
     }
 
-
-    private function _map_params_to_schema_external($content_items) {
-
-
-        if (empty($content_items)){
-            return false;
-        }
-
-        $res = array();
-        $map_keys = array();
-
-        //title keys
-        $map_keys['name'] = 'title';
-        $map_keys['product_name'] = 'title';
-        $map_keys['productname'] = 'title';
-        $map_keys['content_title'] = 'title';
-
-        //description keys
-        $map_keys['introtext'] = 'description';
-        $map_keys['short_description'] = 'description';
-        $map_keys['summary'] = 'description';
-        $map_keys['excerpt'] = 'description';
-
-        $map_keys['encoded'] = 'content';
-        $map_keys['fulltext'] = 'content';
-
-
-        $map_keys['post_type'] = 'content_type';
-
-
-        //url keys
-        $map_keys['url_rewritten'] = 'url';
-        $map_keys['content_url'] = 'url';
-
-        $map_keys['alias'] = 'url';
-        //  $map_keys['link'] = 'url';
-
-        //parent
-        $map_keys['content_parent'] = 'parent';
-
-
-        //content type
-        $map_keys['content_subtype'] = 'subtype';
-        $map_keys['type'] = 'content_type';
-
-
-        //image keys
-        $map_keys['image_urls_xyz'] = 'insert_content_image';
-        $map_keys['picture_url'] = 'insert_content_image';
-
-
-        //categories keys
-        $map_keys['categories_xyz'] = 'categories';
-        $map_keys['categorysubcategory'] = 'categories';
-
-
-        //custom fields
-        $map_keys['wholesale_price'] = 'custom_field_price';
-        $map_keys['price'] = 'custom_field_price';
-
-        //data fields
-        $map_keys['manufacturer'] = 'data_manufacturer';
-        $map_keys['supplier'] = 'data_supplier';
-        $map_keys['ean13'] = 'data_ean13';
-        $map_keys['weight'] = 'data_weight';
-        $map_keys['quantity'] = 'data_qty';
-        $map_keys['qty'] = 'data_qty';
-        $map_keys['reference'] = 'data_reference';
-
-
-        //meta fields
-        $map_keys['meta_title'] = 'content_meta_title';
-        $map_keys['meta_keywords'] = 'content_meta_keywords';
-        $map_keys['meta_keyword'] = 'content_meta_keywords';
-        $map_keys['meta_description'] = 'content_meta_description';
-
-        //date fields
-        $map_keys['product_creation_date'] = 'created_at';
-        $map_keys['product_available_date'] = 'updated_at';
-        $map_keys['created'] = 'created_at';
-        $map_keys['modified'] = 'updated_at';
-        $map_keys['published'] = 'created_at';
-        $map_keys['updated'] = 'updated_at';
-        $map_keys['pubDate'] = 'created_at';
-
-
-        if (isset($item['is_home']) and $item['is_home']=='y'){
-            $item['is_home'] = 1;
-        }
-
-
-        if (isset($item['is_active']) and $item['is_active']=='y'){
-            $item['is_active'] = 1;
-        }
-
-        if (isset($item['is_shop']) and $item['is_shop']=='y'){
-            $item['is_shop'] = 1;
-        } else if (isset($item['is_shop']) and $item['is_shop']=='n'){
-            $item['is_shop'] = 0;
-        }
-        if (isset($item['is_deleted']) and $item['is_deleted']=='y'){
-            $item['is_deleted'] = 1;
-        } else if (isset($item['is_deleted']) and $item['is_deleted']=='n'){
-            $item['is_deleted'] = 0;
-        }
-        foreach ($content_items as $item) {
-            if (isset($item['id'])){
-                unset($item['id']);
-            }
-            $skip = false;
-            $new_item = array();
-            foreach ($map_keys as $map_key => $map_val) {
-                if ((isset($item[ $map_key ]) and $item[ $map_key ]!=false) and (!isset($item[ $map_val ]) or $item[ $map_val ]==false)){
-                    $new_val = $item[ $map_key ];
-                    if ($map_key=='categorysubcategory'){
-                        $new_val = explode('/', $new_val);
-                    }
-
-                    if ($map_key=='category'){
-
-                    }
-
-
-                    $item[ $map_val ] = $new_val;
-                    $new_item[ $map_val ] = $new_val;
-                }
-
-            }
-
-
-            if (isset($item["category"]) and isset($item["category"]["@attributes"])){
-                $attrs = $item["category"]["@attributes"];
-                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')){
-                    if (stristr($attrs['term'], 'kind#post')){
-                        $skip = false;
-                    } else {
-                        $skip = 1;
-                    }
-                }
-            } elseif (isset($item["category"]) and is_array($item["category"])) {
-                $cats = array();
-                foreach ($item["category"] as $cat) {
-                    if (is_array($cat) and isset($cat["@attributes"])){
-
-                        $attrs = $cat["@attributes"];
-
-                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')){
-                            $cats[] = $attrs['nicename'];
-                        }
-                    }
-                }
-                if (!empty($cats)){
-                    $item["category"] = $cats;
-                }
-
-
-            }
-
-
-            if ($skip==false and isset($item['title'])){
-                //$res[] = $new_item;
-                $res[] = $item;
-            }
-
-        }
-
-        return $res;
-    }
+ 
 
 }
 
