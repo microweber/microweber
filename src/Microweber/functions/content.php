@@ -336,15 +336,12 @@ function save_content_admin($data, $delete_the_cache = true) {
 
 
 function save_content_field($data, $delete_the_cache = true) {
-
     return mw()->content_manager->save_content_field($data, $delete_the_cache);
-
 }
 
+
 function content_custom_fields($content_id, $full = true, $field_type = false) {
-
     return mw()->content_manager->custom_fields($content_id, $full, $field_type);
-
 }
 
 
@@ -383,17 +380,8 @@ function prev_content($content_id = false) {
 }
 
 function breadcrumb($params = false) {
-
-
     return mw()->content_manager->breadcrumb($params);
-
-
 }
-
-
-
-
-
 
 
 

@@ -69,6 +69,7 @@ trait ExtendedSave {
                 $this->extended_save_categories($ext_params);
             }
             if (isset($ext_params['data_fields'])){
+
                 $this->extended_save_data_fields($ext_params);
             }
             if (isset($ext_params['images'])){
@@ -221,6 +222,7 @@ trait ExtendedSave {
     }
 
     function extended_save_data_fields($params) {
+
         if ($this->extended_save_has_permission()){
             event_trigger('mw.database.extended_save_data_fields', $params);
             $data_to_save = $params;

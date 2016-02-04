@@ -4672,20 +4672,20 @@ class ContentManager {
 
     function map_params_to_schema($params) {
 
-        $map_common = array('custom_field' => 'custom_fields', 'data' => 'data_fields', 'attribute' => 'attributes');
-        if (!empty($params)){
-            foreach ($map_common as $k => $v) {
-                if (!isset($params[ $k ]) and isset($params[ $v ])){
-                    $params[ $k ] = $params[ $v ];
-                }
-            }
-        }
+//        $map_common = array('custom_field' => 'custom_fields', 'data' => 'data_fields', 'attribute' => 'attributes');
+//        if (!empty($params)){
+//            foreach ($map_common as $k => $v) {
+//                if (!isset($params[ $k ]) and isset($params[ $v ])){
+//                    $params[ $k ] = $params[ $v ];
+//                }
+//            }
+//        }
 
 
         $prefixes = array(
             'attributes'     => array('attribute', 'attributes'),
             'data_fields'   => array('data_fields', 'data_field'),
-            'custom_fields' => array('fields', 'custom_fields', 'custom_field'),
+            'custom_fields' => array('custom_fields', 'custom_field'),
             'categories'    => array('categories', 'category'),
         );
 
@@ -4706,6 +4706,7 @@ class ContentManager {
                                     }
 
                                     $params[ $prefix_group ][ $left ] = $v;
+                                   // unset($params[ $k ]);
                                 }
                             }
                         }
