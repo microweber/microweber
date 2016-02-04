@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\Config;
 //use Illuminate\Support\Facades\Schema;
 //use Illuminate\Database\;
 //use Illuminate\Database\Eloquent\Builder as Eloquent;
-//use Microweber\Utils\Database;
+//use Microweber\Providers\Database\Utils;
 use Module;
 use Illuminate\Support\Facades\DB;
-use Microweber\Utils\Database;
+use Microweber\Providers\Database\Utils as DbUtils;
+
+;
 
 
 //use Config;
@@ -324,7 +326,7 @@ class Modules {
 
                                 if ($tablesData){
 
-                                    (new Database)->build_tables($tablesData);
+                                    (new DbUtils)->build_tables($tablesData);
                                 }
                             }
                         }
@@ -446,7 +448,7 @@ class Modules {
     }
 
     public function get_modules($params) {
-return $this->get($params);
+        return $this->get($params);
 //        if (is_string($params)){
 //            $params = parse_str($params, $params2);
 //            $params = $params2;

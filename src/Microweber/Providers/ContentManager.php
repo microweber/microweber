@@ -3297,7 +3297,7 @@ class ContentManager {
 
         }
 
-
+        $data_to_save = $this->map_params_to_schema($data_to_save);
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
 
@@ -4670,6 +4670,206 @@ class ContentManager {
 
     }
 
+    function map_params_to_schema($params) {
+
+        $prefixes = array('attribute', 'data_fields', 'custom_fields', 'categories');
+        if (!empty($params)){
+            foreach ($prefixes as $prefix) {
+                $data_str = $prefix . '_';
+                $data_str_l = strlen($data_str);
+                foreach ($params as $k => $v) {
+                    if (is_string($k)){
+                        if (strlen($k) > $data_str_l){
+                            $rest = substr($k, 0, $data_str_l);
+                            $left = substr($k, $data_str_l, strlen($k));
+                            if ($rest==$data_str){
+                                if (!isset($params[ $prefix ])){
+                                    $params[ $prefix ] = array();
+                                }
+                                $params[ $prefix ][ $left ] = $v;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+     //   $params = $this->_map_params_to_schema_external($params);
+
+        return $params;
+
+    }
+
+
+    private function _map_params_to_schema_external($content_items) {
+
+
+
+        if (empty($content_items)) {
+            return false;
+        }
+
+        $res = array();
+        $map_keys = array();
+
+        //title keys
+        $map_keys['name'] = 'title';
+        $map_keys['product_name'] = 'title';
+        $map_keys['productname'] = 'title';
+        $map_keys['content_title'] = 'title';
+
+        //description keys
+        $map_keys['introtext'] = 'description';
+        $map_keys['short_description'] = 'description';
+        $map_keys['summary'] = 'description';
+        $map_keys['excerpt'] = 'description';
+
+        $map_keys['encoded'] = 'content';
+        $map_keys['fulltext'] = 'content';
+
+
+        $map_keys['post_type'] = 'content_type';
+
+
+        //url keys
+        $map_keys['url_rewritten'] = 'url';
+        $map_keys['content_url'] = 'url';
+
+        $map_keys['alias'] = 'url';
+        //  $map_keys['link'] = 'url';
+
+        //parent
+        $map_keys['content_parent'] = 'parent';
+
+
+        //content type
+        $map_keys['content_subtype'] = 'subtype';
+        $map_keys['type'] = 'content_type';
+
+
+        //image keys
+        $map_keys['image_urls_xyz'] = 'insert_content_image';
+        $map_keys['picture_url'] = 'insert_content_image';
+
+
+        //categories keys
+        $map_keys['categories_xyz'] = 'categories';
+        $map_keys['categorysubcategory'] = 'categories';
+
+
+        //custom fields
+        $map_keys['wholesale_price'] = 'custom_field_price';
+        $map_keys['price'] = 'custom_field_price';
+
+        //data fields
+        $map_keys['manufacturer'] = 'data_manufacturer';
+        $map_keys['supplier'] = 'data_supplier';
+        $map_keys['ean13'] = 'data_ean13';
+        $map_keys['weight'] = 'data_weight';
+        $map_keys['quantity'] = 'data_qty';
+        $map_keys['qty'] = 'data_qty';
+        $map_keys['reference'] = 'data_reference';
+
+
+        //meta fields
+        $map_keys['meta_title'] = 'content_meta_title';
+        $map_keys['meta_keywords'] = 'content_meta_keywords';
+        $map_keys['meta_keyword'] = 'content_meta_keywords';
+        $map_keys['meta_description'] = 'content_meta_description';
+
+        //date fields
+        $map_keys['product_creation_date'] = 'created_at';
+        $map_keys['product_available_date'] = 'updated_at';
+        $map_keys['created'] = 'created_at';
+        $map_keys['modified'] = 'updated_at';
+        $map_keys['published'] = 'created_at';
+        $map_keys['updated'] = 'updated_at';
+        $map_keys['pubDate'] = 'created_at';
+
+
+
+
+        if (isset($item['is_home']) and $item['is_home'] == 'y') {
+            $item['is_home'] = 1;
+        }
+
+
+        if (isset($item['is_active']) and $item['is_active'] == 'y') {
+            $item['is_active'] = 1;
+        }
+
+        if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
+            $item['is_shop'] = 1;
+        } else if (isset($item['is_shop']) and $item['is_shop'] == 'n') {
+            $item['is_shop'] = 0;
+        }
+        if (isset($item['is_deleted']) and $item['is_deleted'] == 'y') {
+            $item['is_deleted'] = 1;
+        } else if (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
+            $item['is_deleted'] = 0;
+        }
+        foreach ($content_items as $item) {
+            if (isset($item['id'])) {
+                unset($item['id']);
+            }
+            $skip = false;
+            $new_item = array();
+            foreach ($map_keys as $map_key => $map_val) {
+                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
+                    $new_val = $item[$map_key];
+                    if ($map_key == 'categorysubcategory') {
+                        $new_val = explode('/', $new_val);
+                    }
+
+                    if ($map_key == 'category') {
+
+                    }
+
+
+                    $item[$map_val] = $new_val;
+                    $new_item[$map_val] = $new_val;
+                }
+
+            }
+
+
+            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
+                $attrs = $item["category"]["@attributes"];
+                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
+                    if (stristr($attrs['term'], 'kind#post')) {
+                        $skip = false;
+                    } else {
+                        $skip = 1;
+                    }
+                }
+            } elseif (isset($item["category"]) and is_array($item["category"])) {
+                $cats = array();
+                foreach ($item["category"] as $cat) {
+                    if (is_array($cat) and isset($cat["@attributes"])) {
+
+                        $attrs = $cat["@attributes"];
+
+                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
+                            $cats[] = $attrs['nicename'];
+                        }
+                    }
+                }
+                if (!empty($cats)) {
+                    $item["category"] = $cats;
+                }
+
+
+            }
+
+
+            if ($skip == false and isset($item['title'])) {
+                //$res[] = $new_item;
+                $res[] = $item;
+            }
+
+        }
+
+        return $res;
+    }
 
 }
 

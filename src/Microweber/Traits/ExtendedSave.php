@@ -38,22 +38,26 @@ trait ExtendedSave {
 
 
         if (!empty($ext_params)){
-            $data_str = 'attribute_';
-            $data_str_l = strlen($data_str);
-            foreach ($ext_params as $k => $v) {
-                if (is_string($k)){
-                    if (strlen($k) > $data_str_l){
-                        $rest = substr($k, 0, $data_str_l);
-                        $left = substr($k, $data_str_l, strlen($k));
-                        if ($rest==$data_str){
-                            if (!isset($ext_params['attributes'])){
-                                $ext_params['attributes'] = array();
-                            }
-                            $ext_params['attributes'][ $left ] = $v;
-                        }
-                    }
-                }
+            if (!isset($ext_params['attributes']) and isset($ext_params['attribute'])){
+                $ext_params['attributes'] = $ext_params['attribute'];
             }
+
+//            $data_str = 'attribute_';
+//            $data_str_l = strlen($data_str);
+//            foreach ($ext_params as $k => $v) {
+//                if (is_string($k)){
+//                    if (strlen($k) > $data_str_l){
+//                        $rest = substr($k, 0, $data_str_l);
+//                        $left = substr($k, $data_str_l, strlen($k));
+//                        if ($rest==$data_str){
+//                            if (!isset($ext_params['attributes'])){
+//                                $ext_params['attributes'] = array();
+//                            }
+//                            $ext_params['attributes'][ $left ] = $v;
+//                        }
+//                    }
+//                }
+//            }
         }
 
 

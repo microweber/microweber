@@ -4,7 +4,7 @@
 namespace Microweber\Install;
 
 use Microweber\Module;
-use Microweber\Utils\Database as DbUtils;
+use Microweber\Providers\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
 

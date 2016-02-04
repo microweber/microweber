@@ -62,6 +62,14 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('database_manager', function ($app) {
             return new Providers\DatabaseManager($app);
         });
+
+        $this->app->singleton('crud', function ($app) {
+            return new Providers\Database\Crud($app);
+        });
+
+        $this->app->singleton('user_crud', function ($app) {
+            return new Providers\Database\UserCrud($app);
+        });
         $this->app->singleton('format', function ($app) {
             return new Utils\Format($app);
         });
