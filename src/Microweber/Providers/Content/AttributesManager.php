@@ -3,7 +3,7 @@
 
 namespace Microweber\Providers\Content;
 
-use Microweber\Utils\Crud;
+use Microweber\Providers\Database\Crud;
 
 
 class AttributesManager extends Crud {

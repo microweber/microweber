@@ -38,9 +38,7 @@ trait ExtendedSave {
 
 
         if (!empty($ext_params)){
-            if (!isset($ext_params['attributes']) and isset($ext_params['attribute'])){
-                $ext_params['attributes'] = $ext_params['attribute'];
-            }
+
 
 //            $data_str = 'attribute_';
 //            $data_str_l = strlen($data_str);

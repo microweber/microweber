@@ -341,6 +341,12 @@ function save_content_field($data, $delete_the_cache = true) {
 
 }
 
+function content_custom_fields($content_id, $full = true, $field_type = false) {
+
+    return mw()->content_manager->custom_fields($content_id, $full, $field_type);
+
+}
+
 
 function get_content_field_draft($data) {
     return mw()->content_manager->edit_field_draft($data);

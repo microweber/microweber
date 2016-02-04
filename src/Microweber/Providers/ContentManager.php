@@ -4672,28 +4672,55 @@ class ContentManager {
 
     function map_params_to_schema($params) {
 
-        $prefixes = array('attribute', 'data_fields', 'custom_fields', 'categories');
+        $map_common = array('custom_field' => 'custom_fields', 'data' => 'data_fields', 'attribute' => 'attributes');
         if (!empty($params)){
-            foreach ($prefixes as $prefix) {
-                $data_str = $prefix . '_';
-                $data_str_l = strlen($data_str);
-                foreach ($params as $k => $v) {
-                    if (is_string($k)){
-                        if (strlen($k) > $data_str_l){
-                            $rest = substr($k, 0, $data_str_l);
-                            $left = substr($k, $data_str_l, strlen($k));
-                            if ($rest==$data_str){
-                                if (!isset($params[ $prefix ])){
-                                    $params[ $prefix ] = array();
+            foreach ($map_common as $k => $v) {
+                if (!isset($params[ $k ]) and isset($params[ $v ])){
+                    $params[ $k ] = $params[ $v ];
+                }
+            }
+        }
+
+
+        $prefixes = array(
+            'attributes'     => array('attribute', 'attributes'),
+            'data_fields'   => array('data_fields', 'data_field'),
+            'custom_fields' => array('fields', 'custom_fields', 'custom_field'),
+            'categories'    => array('categories', 'category'),
+        );
+
+        if (!empty($params)){
+            foreach ($prefixes as $prefix_group => $keys) {
+                foreach ($keys as $prefix) {
+                    $data_str = $prefix . '_';
+                    $data_str_l = strlen($data_str);
+                    foreach ($params as $k => $v) {
+                        if (is_string($k)){
+
+                            if (strlen($k) > $data_str_l){
+                                $rest = substr($k, 0, $data_str_l);
+                                $left = substr($k, $data_str_l, strlen($k));
+                                if ($rest==$data_str){
+                                    if (!isset($params[ $prefix_group ])){
+                                        $params[ $prefix_group ] = array();
+                                    }
+
+                                    $params[ $prefix_group ][ $left ] = $v;
                                 }
-                                $params[ $prefix ][ $left ] = $v;
                             }
                         }
                     }
                 }
             }
         }
-     //   $params = $this->_map_params_to_schema_external($params);
+        //dd($params);
+        if (!isset($params['attributes']) and isset($params['attribute'])){
+           // $params['attributes'] = $params['attribute'];
+        }
+
+
+         //dd($params);
+        //   $params = $this->_map_params_to_schema_external($params);
 
         return $params;
 
@@ -4703,8 +4730,7 @@ class ContentManager {
     private function _map_params_to_schema_external($content_items) {
 
 
-
-        if (empty($content_items)) {
+        if (empty($content_items)){
             return false;
         }
 
@@ -4786,56 +4812,54 @@ class ContentManager {
         $map_keys['pubDate'] = 'created_at';
 
 
-
-
-        if (isset($item['is_home']) and $item['is_home'] == 'y') {
+        if (isset($item['is_home']) and $item['is_home']=='y'){
             $item['is_home'] = 1;
         }
 
 
-        if (isset($item['is_active']) and $item['is_active'] == 'y') {
+        if (isset($item['is_active']) and $item['is_active']=='y'){
             $item['is_active'] = 1;
         }
 
-        if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
+        if (isset($item['is_shop']) and $item['is_shop']=='y'){
             $item['is_shop'] = 1;
-        } else if (isset($item['is_shop']) and $item['is_shop'] == 'n') {
+        } else if (isset($item['is_shop']) and $item['is_shop']=='n'){
             $item['is_shop'] = 0;
         }
-        if (isset($item['is_deleted']) and $item['is_deleted'] == 'y') {
+        if (isset($item['is_deleted']) and $item['is_deleted']=='y'){
             $item['is_deleted'] = 1;
-        } else if (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
+        } else if (isset($item['is_deleted']) and $item['is_deleted']=='n'){
             $item['is_deleted'] = 0;
         }
         foreach ($content_items as $item) {
-            if (isset($item['id'])) {
+            if (isset($item['id'])){
                 unset($item['id']);
             }
             $skip = false;
             $new_item = array();
             foreach ($map_keys as $map_key => $map_val) {
-                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
-                    $new_val = $item[$map_key];
-                    if ($map_key == 'categorysubcategory') {
+                if ((isset($item[ $map_key ]) and $item[ $map_key ]!=false) and (!isset($item[ $map_val ]) or $item[ $map_val ]==false)){
+                    $new_val = $item[ $map_key ];
+                    if ($map_key=='categorysubcategory'){
                         $new_val = explode('/', $new_val);
                     }
 
-                    if ($map_key == 'category') {
+                    if ($map_key=='category'){
 
                     }
 
 
-                    $item[$map_val] = $new_val;
-                    $new_item[$map_val] = $new_val;
+                    $item[ $map_val ] = $new_val;
+                    $new_item[ $map_val ] = $new_val;
                 }
 
             }
 
 
-            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
+            if (isset($item["category"]) and isset($item["category"]["@attributes"])){
                 $attrs = $item["category"]["@attributes"];
-                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
-                    if (stristr($attrs['term'], 'kind#post')) {
+                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')){
+                    if (stristr($attrs['term'], 'kind#post')){
                         $skip = false;
                     } else {
                         $skip = 1;
@@ -4844,16 +4868,16 @@ class ContentManager {
             } elseif (isset($item["category"]) and is_array($item["category"])) {
                 $cats = array();
                 foreach ($item["category"] as $cat) {
-                    if (is_array($cat) and isset($cat["@attributes"])) {
+                    if (is_array($cat) and isset($cat["@attributes"])){
 
                         $attrs = $cat["@attributes"];
 
-                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
+                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')){
                             $cats[] = $attrs['nicename'];
                         }
                     }
                 }
-                if (!empty($cats)) {
+                if (!empty($cats)){
                     $item["category"] = $cats;
                 }
 
@@ -4861,7 +4885,7 @@ class ContentManager {
             }
 
 
-            if ($skip == false and isset($item['title'])) {
+            if ($skip==false and isset($item['title'])){
                 //$res[] = $new_item;
                 $res[] = $item;
             }
