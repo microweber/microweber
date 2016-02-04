@@ -52,6 +52,7 @@ switch ($is_ext) {
     case 'hphp':
     case 'html':
     case 'xhtml':
+    case 'phtml':
     case 'shtml':
     case 'htm':
     case 'pl':
@@ -157,6 +158,7 @@ if ($allowed_to_upload==false){
                                 case 'ptml':
                                 case 'html':
                                 case 'xhtml':
+                                case 'phtml':
                                 case 'shtml':
                                 case 'htm':
                                 case 'pl':
