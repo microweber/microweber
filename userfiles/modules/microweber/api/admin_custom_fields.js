@@ -213,8 +213,14 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.is.func(callback) ? callback.call(this) : '';
             mw.custom_fields.sort($selector);
-            mw.$($selector + " input").bind("change", function () {
-                mw.custom_fields.save_form($selector);
+			 
+            mw.$("input,textarea,select,checkbox,date,radio",$selector).bind("change keyup paste", function () {
+				var el = $(this)[0]
+				mw.on.stopWriting(el, function () {
+				mw.custom_fields.save_form($selector);
+				});
+				
+               
             });
             mw.$($selector + " input").bind('focus blur', function (e) {
                 var func = e.type === 'focus' ? 'addClass' : 'removeClass';

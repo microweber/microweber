@@ -35,7 +35,7 @@ if (!empty($params)) {
         $field_type = $params['type'];
     }
 }
-?><?php
+
 if (!isset($data['id'])) {
     $data['id'] = 0;
 	
@@ -234,7 +234,7 @@ var master = mwd.getElementById('custom_fields_edit<?php print $rand; ?>');
 
 var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
 
-
+ 
 
 if( typeof is_body_click_binded === 'undefined' ){
        is_body_click_binded = true;
