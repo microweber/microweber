@@ -403,7 +403,7 @@ mw.askusertostay = false;
       }
     });
   }
-
+  mw.temp_reload_module_queue_holder = [];
   mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
     if(mw.on != undefined){
         mw.on.DOMChangePause = true;
@@ -422,7 +422,27 @@ mw.askusertostay = false;
     if(mw.session != undefined){
         mw.session.checkPause = true;
     }
-    var attrs = $(obj.selector)[0].attributes;
+    var node = $(obj.selector)[0]
+    var attrs = node.attributes;
+
+
+
+     // wait between many reloads
+      if(typeof(node.id) != 'undefined' && typeof(node.id) != 'null') {
+          if ( mw.temp_reload_module_queue_holder.indexOf(node.id) == -1){
+          mw.temp_reload_module_queue_holder.push(node.id);
+              setTimeout(function() {
+                  var reload_index = mw.temp_reload_module_queue_holder.indexOf(node.id);
+                  delete mw.temp_reload_module_queue_holder[reload_index];
+              }, 100);
+          } else {
+              return;
+          }
+
+       }
+
+
+
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""

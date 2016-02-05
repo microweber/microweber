@@ -196,6 +196,10 @@ trait ExtendedSave {
                 if (is_array($custom_fields) and !empty($custom_fields)){
 
                     foreach ($custom_fields as $k => $v) {
+
+
+
+
                         $save_cat_item = array();
                         $save_cat_item['rel_type'] = $data_to_save['table'];
                         $save_cat_item['rel_id'] = $data_to_save['id'];

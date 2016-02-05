@@ -113,7 +113,8 @@ class Ui {
             "email"    => "E-mail",
             "address"  => "Address",
             "date"     => "Date",
-            "upload"   => "File Upload"
+            "upload"   => "File Upload",
+            "info"     => "Information"
 
         );
 
@@ -134,6 +135,7 @@ class Ui {
         } else {
             $this->modules_ui[ $name ] = array_unique($this->modules_ui[ $name ], SORT_REGULAR);
         }
+
         return $this->modules_ui[ $name ];
     }
 

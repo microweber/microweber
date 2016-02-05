@@ -221,9 +221,13 @@ if($for == false){
 <input type="hidden" name="copy_rel_id" value="<?php print strval($save_to_content_id) ?>" />
 <?php endif; ?>
 <input type="hidden" name="type" value="<?php print trim($field_type) ?>" />
-<input type="hidden" name="position" value="<?php print $data['position'] ?>" />
- 
 
+<?php 
+
+
+/*<input type="hidden" name="position" value="<?php print $data['position'] ?>" /> */
+
+?>
 
 <script>
 
