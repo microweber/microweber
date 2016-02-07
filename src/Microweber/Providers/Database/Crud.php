@@ -32,6 +32,25 @@ class Crud {
         return $get;
     }
 
+    public function get_by_id($id = 0, $field_name = 'id') {
+        $id = intval($id);
+        if ($id==0){
+            return false;
+        }
+        if ($field_name==false){
+            $field_name = "id";
+        }
+        $table = $this->table;
+        $params = array();
+        $params[ $field_name ] = $id;
+        $params['table'] = $table;
+        $params['single'] = true;
+        $data = $this->get($params);
+
+        return $data;
+    }
+
+
     public function save($params) {
         if (is_string($params)){
             $params = parse_params($params);
@@ -62,23 +81,6 @@ class Crud {
         return $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
     }
 
-    public function get_by_id($id = 0, $field_name = 'id') {
-        $id = intval($id);
-        if ($id==0){
-            return false;
-        }
-        if ($field_name==false){
-            $field_name = "id";
-        }
-        $table = $this->table;
-        $params = array();
-        $params[ $field_name ] = $id;
-        $params['table'] = $table;
-        $params['single'] = true;
-        $data = $this->get($params);
-
-        return $data;
-    }
 
     public function has_permission($params) {
         if (!is_logged()){
@@ -101,8 +103,6 @@ class Crud {
 
         return $this->app->database_manager->table($table);
     }
-
-
 
 
 }

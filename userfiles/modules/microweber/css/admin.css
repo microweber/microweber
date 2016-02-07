@@ -1228,7 +1228,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	min-width: 40px;
 	padding: 0 20px 0 3px;
 	position: relative;
-	white-space: pre;
+	white-space: pre-line;
 }
 .mw-admin-custom-field-value-edit-inline:before, .mw-admin-custom-field-name-edit-inline:before {
 	content: '\f2bf';
@@ -2469,7 +2469,7 @@ body.grabbing, body.grabbing * {
 .mw-custom-field-icon-dropdown:before {
 	content: '\0113';
 }
-.mw-custom-field-icon-info:before {
+.mw-custom-field-icon-property:before {
 	font-family: 'Microweber';
 	content: "\f14a";
 }

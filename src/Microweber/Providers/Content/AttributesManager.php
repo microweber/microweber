@@ -104,7 +104,8 @@ class AttributesManager extends Crud {
             }
         }
         $save = parent::save($data);
-         return $save;
+
+        return $save;
     }
 
 
