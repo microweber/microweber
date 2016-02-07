@@ -1156,5 +1156,57 @@ class ContentManagerCrud extends Crud {
         return $params;
 
     }
+    public function get_edit_field($data, $debug = false) {
+        $table = $this->tables['content_fields'];
+        $table_drafts = $this->tables['content_fields_drafts'];
+        if (is_string($data)){
+            $data = parse_params($data);
+        }
+        if (!is_array($data)){
+            $data = array();
+        }
+
+        if (isset($data['is_draft'])){
+            $table = $table_drafts;
+        }
+        if (!isset($data['rel_type'])){
+            if (isset($data['rel_type'])){
+                if ($data['rel_type']=='content' or $data['rel_type']=='page' or $data['rel_type']=='post' or $data['rel_type']=='product'){
+                    $data['rel_type'] = 'content';
+                } else {
+                    $data['rel_type'] = $data['rel_type'];
+                }
+            }
+        }
+        if (!isset($data['rel_id'])){
+            if (isset($data['data-id'])){
+                $data['rel_id'] = $data['data-id'];
+            } else {
+
+            }
+        }
+        if ((isset($data['rel_type']) and isset($data['rel_id']))){
+            $data['cache_group'] = ('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
+        } else {
+            $data['cache_group'] = ('content_fields/global');
+
+        }
+        if (!isset($data['all'])){
+            $data['one'] = 1;
+            $data['limit'] = 1;
+        }
+        $data['table'] = $table;
+        $get = $this->app->database_manager->get($data);
+        if (!isset($data['full']) and isset($get['value'])){
+            return $get['value'];
+        } else {
+            return $get;
+        }
+
+        return false;
+    }
+
+
+
 
 }

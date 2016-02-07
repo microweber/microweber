@@ -261,7 +261,7 @@ class Edit
                 if (isset($parent_content['id'])) {
                     $data['parent'] = $parent_content['id'];
                 } else {
-                    $this->app->content_manager->create_default_content('blog');
+                    $this->app->content_manager_helpers->create_default_content('blog');
                     $parent_content_params['no_cache'] = true;
                     $parent_content = $this->app->content_manager->get($parent_content_params);
 
@@ -273,7 +273,7 @@ class Edit
                 if (isset($parent_content['id'])) {
                     $data['parent'] = $parent_content['id'];
                 } else {
-                    $this->app->content_manager->create_default_content('shop');
+                    $this->app->content_manager_helpers->create_default_content('shop');
                     $parent_content_params['no_cache'] = true;
                     $parent_content = $this->app->content_manager->get($parent_content_params);
                 }

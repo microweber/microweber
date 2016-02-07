@@ -72,13 +72,13 @@ api_bind_admin('content/reorder', function ($data) {
 });
 
 api_bind_admin('content/reset_edit', function ($data) {
-    return mw()->content_manager->reset_edit($data);
+    return mw()->content_manager_helpers->reset_edit_field($data);
 });
 api_bind_admin('content/bulk_assign', function ($data) {
-    return mw()->content_manager->bulk_assign($data);
+    return mw()->content_manager_helpers->bulk_assign($data);
 });
 api_bind_admin('content/copy', function ($data) {
-    return mw()->content_manager->copy($data);
+    return mw()->content_manager_helpers->copy($data);
 });
 
 

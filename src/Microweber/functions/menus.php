@@ -79,7 +79,7 @@ function is_in_menu($menu_id = false, $content_id = false)
 api_expose_admin('add_content_to_menu');
 function add_content_to_menu($content_id, $menu_id = false)
 {
-    return mw()->content_manager->add_content_to_menu($content_id, $menu_id);
+    return mw()->content_manager_helpers->add_content_to_menu($content_id, $menu_id);
 }
 
 
