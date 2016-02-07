@@ -114,7 +114,7 @@ class Ui {
             "address"  => "Address",
             "date"     => "Date",
             "upload"   => "File Upload",
-            "info"     => "Information"
+            "property" => "Property"
 
         );
 
