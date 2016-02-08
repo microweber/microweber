@@ -38,7 +38,7 @@
 
     <input type="text" onkeyup="" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
-    
+    <br />
 
     <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[as_text_area]"  <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch"><span></span><span><?php _e("Use as Text Area"); ?></span></label>
     

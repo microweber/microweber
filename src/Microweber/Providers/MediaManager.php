@@ -623,24 +623,23 @@ class MediaManager {
         } else {
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
- 
+
 
             $src2 = MW_ROOTPATH . $src;
             $src2 = normalize_path($src2, false);
-			$src3 = strtolower($src2);
- 
+            $src3 = strtolower($src2);
+
             if (is_file($src1)){
                 $src = $src1;
             } elseif (is_file($src2)) {
                 $src = $src2;
-					
-            }  elseif (is_file($src3)) {
+
+            } elseif (is_file($src3)) {
                 $src = $src3;
-					
+
             } else {
                 $no_img = true;
 
- 
 
                 if ($no_img){
                     return $this->pixum_img();
@@ -1099,6 +1098,72 @@ class MediaManager {
 
     public function thumbnails_path() {
         return media_base_path() . 'thumbnail' . DS;
+    }
+
+
+    public function download_remote_images_from_text($text) {
+        $site_url = $this->app->url_manager->site();
+        $images = $this->app->parser->query($text, 'img');
+        $to_download = array();
+        $to_replace = array();
+        $possible_sources = array();
+
+
+        if (!empty($images)){
+            foreach ($images as $image) {
+                $srcs = array();
+                preg_match('/src="([^"]*)"/i', $image, $srcs);
+                if (!empty($srcs) and isset($srcs[1]) and $srcs[1]!=false){
+                    $possible_sources[] = $srcs[1];
+                }
+            }
+        }
+
+        if (!empty($possible_sources)){
+            foreach ($possible_sources as $image_src) {
+                if (!stristr($image_src, $site_url)){
+
+                    $to_replace[] = $image_src;
+                    $image_src = strtok($image_src, '?');
+                    $ext = get_file_extension($image_src);
+                    switch (strtolower($ext)) {
+                        case 'jpg':
+                        case 'jpeg':
+                        case 'png':
+                        case 'gif':
+                        case 'svg':
+                            $to_download[] = $image_src;
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+        }
+
+        if (!empty($to_download)){
+            $to_download = array_unique($to_download);
+
+            if (!empty($to_download)){
+                foreach ($to_download as $src) {
+                    $dl_dir = media_base_path() . 'downloaded' . DS;
+                    if (!is_dir($dl_dir)){
+                        mkdir_recursive($dl_dir);
+                    }
+                    $dl_file = $dl_dir . md5($src) . basename($src);
+                    if (!is_file($dl_file)){
+                        $is_dl = $this->app->url_manager->download($src, false, $dl_file);
+                    }
+                    if (is_file($dl_file)){
+                        $url_local = dir2url($dl_file);
+                        $text = str_ireplace($src, $url_local, $text);
+                    }
+                }
+            }
+        }
+
+        return $text;
     }
 
 

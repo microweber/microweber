@@ -983,7 +983,7 @@ class CategoryManager {
 
             }
 
-            if (isset($category["rel_id"]) and intval($category["rel_id"])==0 and intval($category["parent_id"]) > 0){
+            if ((!isset($category["rel_id"]) or (isset($category["rel_id"]) and intval($category["rel_id"])==0) )and intval($category["parent_id"]) > 0){
                 $category1 = $this->get_parents($category["id"]);
                 if (is_array($category1)){
                     foreach ($category1 as $value) {
@@ -1309,7 +1309,9 @@ class CategoryManager {
     public function save($data, $preserve_cache = false) {
         $sid = mw()->user_manager->session_id();
 
-
+        if (is_string($data)){
+            $data = parse_params($data);
+        }
         $orig_data = $data;
 
 

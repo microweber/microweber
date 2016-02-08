@@ -23,8 +23,7 @@ api_expose_admin('Microweber\Utils\Import\restore');
 api_expose_admin('Microweber\Utils\Import\export');
 api_expose_admin('Microweber\Utils\Import\batch_process');
 
-class Import
-{
+class Import {
 
     public $import_to_page_id = false;
     public $imports_folder = false;
@@ -32,9 +31,9 @@ class Import
     public $app;
     public $batch_size = 5;
     public $xml_paths = array('channel' => 'item',
-        'feed' => 'entry',
-        'feed' => 'post_item',
-        'records' => 'record');
+                              'feed'    => 'entry',
+                              'feed'    => 'post_item',
+                              'records' => 'record');
     /**
      * The import class is used for making or restoring exported files from other CMS
      *
@@ -46,46 +45,41 @@ class Import
     private $file_q_sep = '; /* MW_QUERY_SEPERATOR */';
     private $prefix_placeholder = '/* MW_PREFIX_PLACEHOLDER */';
 
-    function __construct($app = null)
-    {
+    function __construct($app = null) {
 
-        spl_autoload_register(function($class) {
+        spl_autoload_register(function ($class) {
             $prefix = 'QueryPath';
 
-            if ( ! substr($class, 0, 8) === $prefix) {
+            if (!substr($class, 0, 8)===$prefix){
                 return;
             }
 
             $class = substr($class, strlen($prefix));
             $location = __DIR__ . '/lib/QueryPath' . str_replace('\\', '/', $class) . '.php';
 
-            if (is_file($location)) {
+            if (is_file($location)){
                 require_once($location);
             }
         });
 
 
-
-
-
-        if (!defined('USER_IP')) {
-            if (isset($_SERVER["REMOTE_ADDR"])) {
+        if (!defined('USER_IP')){
+            if (isset($_SERVER["REMOTE_ADDR"])){
                 define("USER_IP", $_SERVER["REMOTE_ADDR"]);
             } else {
                 define("USER_IP", '127.0.0.1');
 
             }
         }
-        if (is_object($app)) {
+        if (is_object($app)){
             $this->app = $app;
         } else {
             $this->app = mw();
         }
     }
 
-    public function get()
-    {
-        if (!is_admin()) {
+    public function get() {
+        if (!is_admin()){
             error("must be admin");
         }
 
@@ -98,9 +92,9 @@ class Import
         });
 
         $backups = array();
-        if (!empty($files)) {
+        if (!empty($files)){
             foreach ($files as $file) {
-                if (is_file($file)) { //if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
+                if (is_file($file)){ //if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
                     $mtime = filemtime($file);
                     // Get time and date from filename
                     $date = date("F d Y", $mtime);
@@ -127,10 +121,9 @@ class Import
 
     }
 
-    function move_uploaded_file_to_import($params)
-    {
+    function move_uploaded_file_to_import($params) {
         only_admin_access();
-        if (!isset($params['src'])) {
+        if (!isset($params['src'])){
 
             return array('error' => "You have not provided src to the file.");
 
@@ -138,10 +131,11 @@ class Import
 
         $check = url2dir(trim($params['src']));
         $here = $this->get_import_location();
-        if (is_file($check)) {
+        if (is_file($check)){
             $fn = basename($check);
-            if (copy($check, $here . $fn)) {
+            if (copy($check, $here . $fn)){
                 @unlink($check);
+
                 return array('success' => "$fn was moved!");
 
             } else {
@@ -156,9 +150,8 @@ class Import
 
     }
 
-    function delete($params)
-    {
-        if (!is_admin()) {
+    function delete($params) {
+        if (!is_admin()){
             error("must be admin");
         }
 
@@ -167,7 +160,7 @@ class Import
         $id = $params['id'];
 
         // Check if the file has needed args
-        if ($id == NULL) {
+        if ($id==null){
             return array('error' => "You have not provided filename to be deleted.");
         }
 
@@ -178,42 +171,43 @@ class Import
         $id = str_replace('..', '', $id);
         $filename = str_replace('..', '', $filename);
 
-        if (is_file($filename)) {
+        if (is_file($filename)){
 
             unlink($filename);
+
             return array('success' => "$id was deleted!");
         } else {
 
             $filename = $here . $id . '.sql';
-            if (is_file($filename)) {
+            if (is_file($filename)){
                 unlink($filename);
+
                 return array('success' => "$id was deleted!");
             }
         }
 
     }
 
-    function download($params)
-    {
-        if (!is_admin()) {
+    function download($params) {
+        if (!is_admin()){
             mw_error("must be admin");
         }
 
         ini_set('memory_limit', '512M');
         set_time_limit(0);
 
-        if (isset($params['id'])) {
+        if (isset($params['id'])){
             $id = $params['id'];
-        } else if (isset($_GET['filename'])) {
+        } else if (isset($_GET['filename'])){
             $id = $params['filename'];
-        } else if (isset($_GET['file'])) {
+        } else if (isset($_GET['file'])){
             $id = $params['file'];
         }
         $id = str_replace('..', '', $id);
 
 
         // Check if the file has needed args
-        if ($id == NULL) {
+        if ($id==null){
             return array('error' => "You have not provided filename to download.");
 
             die();
@@ -224,13 +218,13 @@ class Import
 
         $filename = $here . $id;
         $filename = str_replace('..', '', $filename);
-        if (!is_file($filename)) {
+        if (!is_file($filename)){
             return array('error' => "You have not provided a existing filename to download.");
 
             die();
         }
         // Check if the file exist.
-        if (file_exists($filename)) {
+        if (file_exists($filename)){
             // Add headers
             $name = basename($filename);
             $type = 'sql';
@@ -245,13 +239,11 @@ class Import
         }
     }
 
-    function get_bakup_location()
-    {
+    function get_bakup_location() {
         return $this->get_import_location();
     }
 
-    function readfile_chunked($filename, $retbytes = TRUE)
-    {
+    function readfile_chunked($filename, $retbytes = true) {
 
 
         $filename = str_replace('..', '', $filename);
@@ -261,7 +253,7 @@ class Import
         $cnt = 0;
         // $handle = fopen($filename, "rb");
         $handle = fopen($filename, "rb");
-        if ($handle === false) {
+        if ($handle===false){
             return false;
         }
 
@@ -271,31 +263,31 @@ class Import
             echo $buffer;
             ob_flush();
             flush();
-            if ($retbytes) {
+            if ($retbytes){
                 $cnt += strlen($buffer);
             }
         }
         $status = fclose($handle);
-        if ($retbytes && $status) {
+        if ($retbytes && $status){
             return $cnt; // return num. bytes delivered like readfile() does.
         }
+
         return $status;
     }
 
-    function restore($params)
-    {
+    function restore($params) {
         only_admin_access();
 
         $id = null;
-        if (isset($params['id'])) {
+        if (isset($params['id'])){
             $id = $params['id'];
-        } else if (isset($_GET['filename'])) {
+        } else if (isset($_GET['filename'])){
             $id = $params['filename'];
-        } else if (isset($_GET['file'])) {
+        } else if (isset($_GET['file'])){
             $id = $params['file'];
         }
 
-        if ($id == NULL) {
+        if ($id==null){
 
             return array('error' => "You have not provided a file to restore.");
             die();
@@ -306,11 +298,11 @@ class Import
         $filename = $here . $id;
 
 
-        if (isset($_POST['import_to_page_id'])) {
+        if (isset($_POST['import_to_page_id'])){
             $this->import_to_page_id = intval($_POST['import_to_page_id']);
         }
 
-        if (!is_file($filename)) {
+        if (!is_file($filename)){
             return array('error' => "You have not provided a existing backup to restore.");
 
         } else {
@@ -321,27 +313,132 @@ class Import
         return $params;
     }
 
-    public function import_file($filename)
-    {
+    public function import_file($filename) {
         only_admin_access();
-        if (!is_file($filename)) {
+        if (!is_file($filename)){
             return array('error' => "You have not provided a existing backup to restore.");
         }
         $ext = get_file_extension($filename);
         $import_method = strtolower('queue_import_' . $ext);
-        if (method_exists($this, $import_method)) {
+        if (method_exists($this, $import_method)){
             ini_set('memory_limit', '512M');
             set_time_limit(900);
+
             return $this->$import_method($filename);
         } else {
             return array('error' => "Cannot find method for importing $ext files.");
         }
     }
 
-    public function queue_import_json($filename)
-    {
+
+    public function save_content_item($content) {
+
+
+        // make categories
+        if (isset($content['categories']) and is_string($content['categories'])){
+            $category_sets = explode(',', $content['categories']);
+            $cats_ids = array();
+            foreach ($category_sets as $category_set) {
+                if (is_string($category_set)){
+                    $category_set_items = explode('/', $content['categories']);
+                    $nest_level = 0;
+                    $prev_parent_cat = 0;
+                    foreach ($category_set_items as $category_set_item) {
+                        $cat_item = $this->app->category_manager->get('single=true&rel_type=content&title=' . $category_set_item);
+
+                        if (!isset($cat_item['id'])){
+                            $new = array();
+                            $new['rel_type'] = 'content';
+                            $new['title'] = $category_set_item;
+                            if (isset($content['parent']) and $nest_level==0){
+                                $new['parent_page'] = $content['parent'];
+                            }
+                            if ($nest_level > 0 and $prev_parent_cat){
+                                $new['parent_id'] = $prev_parent_cat;
+                            }
+
+                            $new_cat = $this->app->category_manager->save($new);
+                            $cat_item = $this->app->category_manager->get_by_id($new_cat);
+
+                        }
+                        if (isset($cat_item['id'])){
+                            $prev_parent_cat = $cat_item['id'];
+                            $cats_ids[] = $cat_item['id'];
+                        }
+
+
+                        $nest_level ++;
+
+                    }
+
+                }
+
+            }
+            if (!empty($cats_ids)){
+                $content['categories'] = $cats_ids;
+            }
+
+        }
+
+
+
+       // dd($content);
+        if (isset($content['images']) and is_string($content['images'])){
+            $content['images'] = explode(',', $content['images']);
+        }
+
+
+        $is_saved = get_content('one=true&title=' . $content['title']);
+
+
+        if (isset($content['description']) and (!isset($content['content']) or $content['content']==false)){
+            //$content['content'] = $content['description'];
+        }
+
+
+        if (isset($content['parent'])){
+            $par = get_content_by_id($content['parent']);
+
+            if ($par!=false){
+                if (isset($par['is_shop']) and $par['is_shop']==1){
+                    $content['content_type'] = 'product';
+                    $content['subtype'] = 'product';
+                }
+            }
+        }
+
+
+        if (!isset($content['content_type'])){
+            $content['content_type'] = 'post';
+        }
+        if (!isset($content['subtype'])){
+            $content['subtype'] = 'post';
+        }
+        // $content['subtype'] = 'post';
+        $content['is_active'] = 1;
+        if (isset($content['debug'])){
+            unset($content['debug']);
+        }
+        //  $content['debug'] = 'y';
+        //  $content['download_remote_images'] = true;
+        if ($is_saved!=false){
+            $content['id'] = $is_saved['id'];
+            if (!isset($content['content_type'])){
+                $content['content_type'] = $is_saved['content_type'];
+                $content['subtype'] = $is_saved['subtype'];
+            }
+        }
+
+        //  dd($content);
+
+        return save_content($content);
+
+
+    }
+
+    public function queue_import_json($filename) {
         only_admin_access();
-        if (!is_file($filename)) {
+        if (!is_file($filename)){
             return array('error' => "You have not provided a existing backup to restore.");
         }
         $json = file_get_contents($filename);
@@ -354,13 +451,12 @@ class Import
 
     }
 
-    function batch_process($content_items = false)
-    {
+    function batch_process($content_items = false) {
 
 
         $chunks_folder = $this->get_import_location() . '_process_import' . DS;
         $index_file = $chunks_folder . 'index.php';
-        if (!is_dir($chunks_folder)) {
+        if (!is_dir($chunks_folder)){
             mkdir_recursive($chunks_folder);
 
         }
@@ -368,18 +464,19 @@ class Import
         $total = 0;
         $remaining = 0;
         $batch_file = false;
-        if (!is_array($content_items) or empty($content_items)) {
+        if (!is_array($content_items) or empty($content_items)){
             $content_items = array();
-            if (is_file($index_file)) {
+            if (is_file($index_file)){
                 $total = file_get_contents($index_file);
             }
-            if ($total == 0) {
+            if ($total==0){
                 $total = 0;
                 $dir = $chunks_folder;
-                if ($handle = opendir($dir)) {
-                    while (($file = readdir($handle)) !== false) {
-                        if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_'))
-                            $total++;
+                if ($handle = opendir($dir)){
+                    while (($file = readdir($handle))!==false) {
+                        if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')){
+                            $total ++;
+                        }
                     }
                 }
                 file_put_contents($index_file, $total);
@@ -392,19 +489,19 @@ class Import
             $process_xml_files = array();
             $chunk_size = $this->batch_size;
 
-            if ($handle = opendir($dir)) {
-                while (($file = readdir($handle)) !== false) {
-                    if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')) {
+            if ($handle = opendir($dir)){
+                while (($file = readdir($handle))!==false) {
+                    if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')){
                         //if (!is_array($content_items)) {
-                        if ($i < $chunk_size) {
+                        if ($i < $chunk_size){
                             $batch_file = $chunks_folder . $file;
 
                             $batch_file_content = file_get_contents($batch_file);
-                            if (strstr($file, 'import_chunk_xml')) {
+                            if (strstr($file, 'import_chunk_xml')){
 
                                 // for ($x=0; $x<=10; $x++){
                                 $content_from_xml = $this->parse_content_from_xml_string($batch_file_content);
-                                if (is_array($content_from_xml)) {
+                                if (is_array($content_from_xml)){
                                     foreach ($content_from_xml as $content_from_x) {
                                         $content_items[] = $content_from_x;
                                     }
@@ -415,7 +512,7 @@ class Import
 
                             } else {
                                 $content_items_from_file = @unserialize($batch_file_content);
-                                if (!empty($content_items_from_file)) {
+                                if (!empty($content_items_from_file)){
                                     foreach ($content_items_from_file as $content_from_x) {
                                         $content_items[] = $content_from_x;
                                     }
@@ -423,11 +520,11 @@ class Import
 
                             }
 
-                            if ($batch_file != false and is_file($batch_file)) {
+                            if ($batch_file!=false and is_file($batch_file)){
                                 @unlink($batch_file);
                             }
                         }
-                        $i++;
+                        $i ++;
                     }
                 }
                 $remaining = $i;
@@ -437,17 +534,17 @@ class Import
         } else {
             $total = count($content_items);
         }
-       // dd($content_items);
-        if ($content_items != false and is_array($content_items)) {
+        // dd($content_items);
+        if ($content_items!=false and is_array($content_items)){
 
-            if (!empty($content_items)) {
+            if (!empty($content_items)){
 
 
                 $parent = get_content('one=true&subtype=dynamic&is_deleted=0&is_active=1');
-                if ($parent == false) {
+                if ($parent==false){
                     $parent = get_content('one=true&content_type=page&is_deleted=0&is_active=1');
                 }
-                if ($parent == false) {
+                if ($parent==false){
                     $parent = 0;
                 }
 
@@ -457,51 +554,13 @@ class Import
                 $parent_id = $parent['id'];
                 $restored_items = array();
                 foreach ($content_items as $content) {
-                    if (isset($content['title'])) {
-                        $is_saved = get_content('one=true&title=' . $content['title']);
+                    if (isset($content['title'])){
 
-
-                        if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
-                            //$content['content'] = $content['description'];
-                        }
-
-                        if (!isset($content['parent'])) {
+                        if (!isset($content['parent'])){
                             $content['parent'] = $parent_id;
                         }
-                        if (isset($content['parent'])) {
-                            $par = get_content_by_id($content['parent']);
 
-                            if ($par != false) {
-                                if (isset($par['is_shop']) and $par['is_shop'] == 1) {
-                                    $content['content_type'] = 'product';
-                                    $content['subtype'] = 'product';
-                                }
-                            }
-                        }
-
-
-                        if (!isset($content['content_type'])) {
-                            $content['content_type'] = 'post';
-                        }
-                        if (!isset($content['subtype'])) {
-                            $content['subtype'] = 'post';
-                        }
-                        // $content['subtype'] = 'post';
-                        $content['is_active'] = 1;
-                        if (isset($content['debug'])) {
-                            unset($content['debug']);
-                        }
-                        //  $content['debug'] = 'y';
-                      //  $content['download_remote_images'] = true;
-                        if ($is_saved != false) {
-                            $content['id'] = $is_saved['id'];
-                            if (!isset($content['content_type'])) {
-                                $content['content_type'] = $is_saved['content_type'];
-                                $content['subtype'] = $is_saved['subtype'];
-                            }
-                        }
-                        $import = save_content($content);
-                        $restored_items[] = $import;
+                        $restored_items[] = $this->save_content_item($content);
                     }
                 }
                 cache_clear('categories');
@@ -509,17 +568,18 @@ class Import
 
 
                 $remaining = $remaining - 1;
-                if ($remaining <= 0) {
+                if ($remaining <= 0){
                     file_put_contents($index_file, '0');
                 }
 
-                if ($total < $remaining) {
+                if ($total < $remaining){
                     $total = 0;
                     $dir = $chunks_folder;
-                    if ($handle = opendir($dir)) {
-                        while (($file = readdir($handle)) !== false) {
-                            if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_'))
-                                $total++;
+                    if ($handle = opendir($dir)){
+                        while (($file = readdir($handle))!==false) {
+                            if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')){
+                                $total ++;
+                            }
                         }
                     }
                     file_put_contents($index_file, $total);
@@ -527,8 +587,8 @@ class Import
 
 
                 $ret = array('success' => count($restored_items) . " items restored"
-                , 'total' => ($total)
-                , 'remaining' => ($remaining)
+                , 'total'              => ($total)
+                , 'remaining'          => ($remaining)
                 );
 
                 return $ret;
@@ -537,16 +597,13 @@ class Import
             }
 
         }
+
         return false;
     }
 
-    function parse_content_from_xml_string($xml_string)
-    {
+    function parse_content_from_xml_string($xml_string) {
 
         libxml_use_internal_errors(true);
-
-
-
 
 
         $parser2 = __DIR__ . DIRECTORY_SEPARATOR . 'lib/QueryPath/QueryPath.php';
@@ -561,7 +618,7 @@ class Import
 
 
         $items = qp($xml_string, 'item');
-        if (count($items) == 0) {
+        if (count($items)==0){
             $items = qp($xml_string, 'item');
         }
 
@@ -579,7 +636,7 @@ class Import
             // $el = qp($item, 'channel>item>encoded');
             //$el = $item->find('encoded');
             $content_item['content'] = false;
-            if ($content_item['content'] == false) {
+            if ($content_item['content']==false){
                 $el = $item->find('content');
                 $content_item['content'] = $el->eq(0)->text();
                 $content_item['content'] = $el->eq(0)->text();
@@ -588,38 +645,38 @@ class Import
 
             $content_item['created_at'] = false;
 
-            if ($content_item['created_at'] == false) {
+            if ($content_item['created_at']==false){
 
-            $el = $item->find('post_date_gmt');
-            $content_item['created_at'] = $el->eq(0)->text();
+                $el = $item->find('post_date_gmt');
+                $content_item['created_at'] = $el->eq(0)->text();
 
             }
 
-            if ($content_item['created_at'] == false) {
+            if ($content_item['created_at']==false){
                 $el = $item->find('post_date');
                 $content_item['created_at'] = $el->eq(0)->text();
             }
-            if ($content_item['created_at'] == false) {
+            if ($content_item['created_at']==false){
                 $el = $item->find('pubDate');
                 $content_item['created_at'] = $el->eq(0)->text();
             }
-            if ($content_item['created_at'] != false) {
+            if ($content_item['created_at']!=false){
                 $content_item['updated_at'] = $content_item['created_at'];
             }
             //$el = qp($item, 'channel>item>description');
             $el = $item->find('description');
             $content_item['description'] = $el->eq(0)->text();
 
-            if ($content_item['content'] == false) {
+            if ($content_item['content']==false){
                 $content_item['content'] = $c = ($item->find('content')->eq(0)->innerHTML());
             }
-            if ($content_item['content'] == false) {
+            if ($content_item['content']==false){
                 $el = $item->find('summary');
 
                 $content_item['content'] = $el->eq(0)->text();
             }
 
-            if ($content_item['content'] == false) {
+            if ($content_item['content']==false){
                 $el = $item->find('encoded');
                 $content_item['content'] = $el->eq(0)->text();
 
@@ -650,11 +707,10 @@ class Import
 
     }
 
-    public function queue_import_xml($filename)
-    {
+    public function queue_import_xml($filename) {
         only_admin_access();
 
-        if (!is_file($filename)) {
+        if (!is_file($filename)){
             return array('error' => "You have not provided a existing backup to restore.");
         }
         $chunk_size = $this->batch_size;
@@ -675,22 +731,22 @@ class Import
             $XMLReader->open($xml_file_path);
 
 // Move to the first "[item name]" node in the file.
-            while ($XMLReader->read() && $XMLReader->name != $xml_path) {
+            while ($XMLReader->read() && $XMLReader->name!=$xml_path) {
 
                 //$xml_str = $XMLReader->readOuterXML();
                 // d($xml_str);
             }
 // Now that we're at the right depth, hop to the next "[item name]" until the end of tree/file.
-            while ($XMLReader->name === $xml_path) {
+            while ($XMLReader->name===$xml_path) {
                 $xml_str = $XMLReader->readOuterXML();
-                if ($xml_str != '') {
+                if ($xml_str!=''){
                     //$content_batch = $content_batch . $xml_str . "\n";
                     $content_batch = $xml_str;
 
                     //if ($i % $chunk_size == 0) {
                     $file_name = 'import_chunk_xml_' . md5($content_batch);
                     $file_location = $chunks_folder . $file_name;
-                    if (!is_file($file_location)) {
+                    if (!is_file($file_location)){
 
                         $content_batch = str_replace('content:encoded', 'content', $content_batch);
                         $content_batch = str_replace('<' . $xml_path, '<item', $content_batch);
@@ -703,7 +759,7 @@ class Import
                     $content_batch = "";
                     // }
 
-                    $i++;
+                    $i ++;
                     $XMLReader->next($xml_path);
                 }
             }
@@ -712,7 +768,7 @@ class Import
         }
         $file_name = 'import_chunk_xml_' . md5($content_batch);
         $file_location = $chunks_folder . $file_name;
-        if (!is_file($file_location)) {
+        if (!is_file($file_location)){
             file_put_contents($file_location, $content_batch);
         }
 
@@ -722,13 +778,11 @@ class Import
 
     }
 
-    public function queue_import_xlsx($filename)
-    {
+    public function queue_import_xlsx($filename) {
         return $this->queue_import_xls($filename);
     }
 
-    public function queue_import_xls($filename)
-    {
+    public function queue_import_xls($filename) {
         only_admin_access();
         $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
         $file_name_with_full_path = realpath($filename);
@@ -736,21 +790,21 @@ class Import
         $result = $this->app->http->url($target_url)->post($post);
 
         $err = false;
-        if ($result != false) {
+        if ($result!=false){
             $result = json_decode($result, true);
-            if (!isset($result['result'])) {
+            if (!isset($result['result'])){
                 $err = true;
             }
         } else {
             $err = true;
         }
-        if ($err == true) {
+        if ($err==true){
             return array('error' => "Could not contact the Microweber remote server to parse the Excel file. Please try uploading a CSV file.");
         } else {
-            if (isset($result['result'])) {
+            if (isset($result['result'])){
                 $url = $result['result'];
                 $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . 'excel' . DS;
-                if (!is_dir($target_dir)) {
+                if (!is_dir($target_dir)){
                     mkdir_recursive($target_dir);
                 }
                 $local_target_file = basename($url);
@@ -765,6 +819,7 @@ class Import
                 curl_exec($ch); // get curl response
                 curl_close($ch);
                 fclose($fp);
+
                 return $this->queue_import_csv($local_save_path);
 
             }
@@ -773,10 +828,9 @@ class Import
 
     }
 
-    public function queue_import_csv($filename)
-    {
+    public function queue_import_csv($filename) {
         only_admin_access();
-        if (!is_file($filename)) {
+        if (!is_file($filename)){
             return array('error' => "You have not provided a existing backup to restore.");
         }
 
@@ -784,51 +838,51 @@ class Import
         $csv = new \Keboola\Csv\CsvFile($filename);
 
         $head = $csv->getHeader();
-        if (!isset($head[2])) {
+        if (!isset($head[2])){
             $csv = new \Keboola\Csv\CsvFile($filename, ';');
             $head = $csv->getHeader();
-        } else if (isset($head[0]) and stristr($head[0], ';')) {
+        } else if (isset($head[0]) and stristr($head[0], ';')){
             $csv = new \Keboola\Csv\CsvFile($filename, ';');
             $head = $csv->getHeader();
         }
 
-        if (empty($head) or empty($csv)) {
+        if (empty($head) or empty($csv)){
             return array('error' => "CSV file cannot be parsed properly.");
         }
         $rows = array();
         $i = 0;
         foreach ($csv as $row) {
-            if ($i > 0) {
+            if ($i > 0){
                 $r = array();
-                if (is_array($row)) {
+                if (is_array($row)){
                     foreach ($row as $k => $v) {
-                        if (isset($head[$k])) {
-                            $row[$head[$k]] = $v;
-                            $new_k = strtolower($head[$k]);
+                        if (isset($head[ $k ])){
+                            $row[ $head[ $k ] ] = $v;
+                            $new_k = strtolower($head[ $k ]);
                             $new_k = str_replace(' ', '_', $new_k);
                             $new_k = str_replace('__', '_', $new_k);
                             // $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
                             $new_k = rtrim($new_k, '_');
-                            $r[$new_k] = $v;
+                            $r[ $new_k ] = $v;
                         }
                     }
                 }
                 $rows[] = $r;
             }
-            $i++;
+            $i ++;
         }
         $content_items = $rows;
         $content_items = $this->map_array($rows);
+
         return $this->batch_save($content_items);
 
 
     }
 
-    function map_array($content_items)
-    {
+    function map_array($content_items) {
 
 
-        if (empty($content_items)) {
+        if (empty($content_items)){
             return false;
         }
 
@@ -874,8 +928,13 @@ class Import
         $map_keys['image_urls_xyz'] = 'insert_content_image';
         $map_keys['picture_url'] = 'insert_content_image';
 
+        $map_keys['pictures'] = 'pictures';
+        $map_keys['img'] = 'pictures';
+        $map_keys['image'] = 'pictures';
+
 
         //categories keys
+        $map_keys['categories'] = 'categories';
         $map_keys['categories_xyz'] = 'categories';
         $map_keys['categorysubcategory'] = 'categories';
 
@@ -910,56 +969,48 @@ class Import
         $map_keys['pubDate'] = 'created_at';
 
 
-
-
-        if (isset($item['is_home']) and $item['is_home'] == 'y') {
+        if (isset($item['is_home']) and $item['is_home']=='y'){
             $item['is_home'] = 1;
         }
 
 
-        if (isset($item['is_active']) and $item['is_active'] == 'y') {
+        if (isset($item['is_active']) and $item['is_active']=='y'){
             $item['is_active'] = 1;
         }
 
-        if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
+        if (isset($item['is_shop']) and $item['is_shop']=='y'){
             $item['is_shop'] = 1;
-        } else if (isset($item['is_shop']) and $item['is_shop'] == 'n') {
+        } else if (isset($item['is_shop']) and $item['is_shop']=='n'){
             $item['is_shop'] = 0;
         }
-        if (isset($item['is_deleted']) and $item['is_deleted'] == 'y') {
+        if (isset($item['is_deleted']) and $item['is_deleted']=='y'){
             $item['is_deleted'] = 1;
-        } else if (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
+        } else if (isset($item['is_deleted']) and $item['is_deleted']=='n'){
             $item['is_deleted'] = 0;
         }
         foreach ($content_items as $item) {
-            if (isset($item['id'])) {
+            if (isset($item['id'])){
                 unset($item['id']);
             }
             $skip = false;
             $new_item = array();
             foreach ($map_keys as $map_key => $map_val) {
-                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
-                    $new_val = $item[$map_key];
-                    if ($map_key == 'categorysubcategory') {
-                        $new_val = explode('/', $new_val);
-                    }
-
-                    if ($map_key == 'category') {
-
-                    }
+                if ((isset($item[ $map_key ]) and $item[ $map_key ]!=false) and (!isset($item[ $map_val ]) or $item[ $map_val ]==false)){
+                    $new_val = $item[ $map_key ];
 
 
-                    $item[$map_val] = $new_val;
-                    $new_item[$map_val] = $new_val;
+                    $item[ $map_val ] = $new_val;
+                    $new_item[ $map_val ] = $new_val;
+                    unset($item[ $map_key ]);
                 }
 
             }
 
 
-            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
+            if (isset($item["category"]) and isset($item["category"]["@attributes"])){
                 $attrs = $item["category"]["@attributes"];
-                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
-                    if (stristr($attrs['term'], 'kind#post')) {
+                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')){
+                    if (stristr($attrs['term'], 'kind#post')){
                         $skip = false;
                     } else {
                         $skip = 1;
@@ -968,16 +1019,16 @@ class Import
             } elseif (isset($item["category"]) and is_array($item["category"])) {
                 $cats = array();
                 foreach ($item["category"] as $cat) {
-                    if (is_array($cat) and isset($cat["@attributes"])) {
+                    if (is_array($cat) and isset($cat["@attributes"])){
 
                         $attrs = $cat["@attributes"];
 
-                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
+                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')){
                             $cats[] = $attrs['nicename'];
                         }
                     }
                 }
-                if (!empty($cats)) {
+                if (!empty($cats)){
                     $item["category"] = $cats;
                 }
 
@@ -985,8 +1036,7 @@ class Import
             }
 
 
-            if ($skip == false and isset($item['title'])) {
-                //$res[] = $new_item;
+            if ($skip==false and isset($item['title'])){
                 $res[] = $item;
             }
 
@@ -995,18 +1045,17 @@ class Import
         return $res;
     }
 
-    function batch_save($content_items)
-    {
+    function batch_save($content_items) {
 
 
         $chunk_size = $this->batch_size;
         $content_items = $this->map_array($content_items);
 
-        if (!empty($content_items)) {
+        if (!empty($content_items)){
             $copy = array();
             foreach ($content_items as $content_item) {
-                if (!isset($content_item['parent'])) {
-                    if ($this->import_to_page_id != false) {
+                if (!isset($content_item['parent'])){
+                    if ($this->import_to_page_id!=false){
                         $content_item['parent'] = $this->import_to_page_id;
                     }
                 }
@@ -1019,25 +1068,25 @@ class Import
         $chunks_folder = $this->get_chunks_location();
         $index_file = $chunks_folder . 'index.php';
 
-        if (!is_dir($chunks_folder)) {
+        if (!is_dir($chunks_folder)){
             mkdir_recursive($chunks_folder);
             @touch($index_file);
         }
 
-        if (!is_writable($chunks_folder)) {
+        if (!is_writable($chunks_folder)){
             return array('error' => "Import folder is not writable!");
         }
 
 
         $chunks = (array_chunk($content_items, $chunk_size, true));
 
-        if (!empty($chunks)) {
+        if (!empty($chunks)){
             foreach ($chunks as $chunk) {
                 $chunk_data = serialize($chunk);
                 $file_name = 'import_chunk_' . md5($chunk_data);
                 $file_location = $chunks_folder . $file_name;
 
-                if (!is_file($file_location)) {
+                if (!is_file($file_location)){
                     file_put_contents($file_location, $chunk_data);
 
                 }
@@ -1051,13 +1100,12 @@ class Import
 
     }
 
-    function get_chunks_location()
-    {
+    function get_chunks_location() {
 
         $chunks_folder = $this->get_import_location() . '_process_import' . DS;
         $index_file = $chunks_folder . 'index.php';
 
-        if (!is_dir($chunks_folder)) {
+        if (!is_dir($chunks_folder)){
             mkdir_recursive($chunks_folder);
             @touch($index_file);
         }
@@ -1066,22 +1114,21 @@ class Import
         return $chunks_folder;
     }
 
-    function get_import_location()
-    {
+    function get_import_location() {
 
-        if (defined('MW_CRON_EXEC')) {
+        if (defined('MW_CRON_EXEC')){
 
-        } else if (!is_admin()) {
+        } else if (!is_admin()){
             return false;
         }
 
         $loc = $this->imports_folder;
 
-        if ($loc != false) {
+        if ($loc!=false){
             return $loc;
         }
         $folder_root = false;
-        if (function_exists('userfiles_path')) {
+        if (function_exists('userfiles_path')){
             $folder_root = userfiles_path();
         } elseif (mw_cache_path()) {
             $folder_root = normalize_path(mw_cache_path());
@@ -1089,10 +1136,10 @@ class Import
 
         $here = $folder_root . "import" . DS;
 
-        if (!is_dir($here)) {
+        if (!is_dir($here)){
             mkdir_recursive($here);
             $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
+            if (!is_file($hta)){
                 touch($hta);
                 file_put_contents($hta, 'Deny from all');
             }
@@ -1100,18 +1147,18 @@ class Import
 
         $here = $folder_root . "import" . DS . get_table_prefix() . DS;
         $here2 = $this->app->option_manager->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+        if ($here2!=false and is_string($here2) and trim($here2)!='default' and trim($here2)!=''){
             $here2 = normalize_path($here2, true);
-            if (!is_dir($here2)) {
+            if (!is_dir($here2)){
                 mkdir_recursive($here2);
             }
-            if (is_dir($here2)) {
+            if (is_dir($here2)){
                 $here = $here2;
             }
         }
 
 
-        if (!is_dir($here)) {
+        if (!is_dir($here)){
             mkdir_recursive($here);
         }
 
@@ -1120,12 +1167,12 @@ class Import
 
 
         $this->imports_folder = $loc;
+
         return $here;
     }
 
 
-    public function export()
-    {
+    public function export() {
         only_admin_access();
 
         $cont = get_content("is_active=1&is_deleted=0&limit=250000&orderby=updated_at desc");
@@ -1138,13 +1185,11 @@ class Import
 
 }
 
-class SimpleXmlStreamer extends \Microweber\Utils\lib\XmlStreamer
-{
+class SimpleXmlStreamer extends \Microweber\Utils\lib\XmlStreamer {
 
     public $content_items = array();
 
-    public function processNode($xmlString, $elementName, $nodeIndex)
-    {
+    public function processNode($xmlString, $elementName, $nodeIndex) {
         $xml_items = \simplexml_load_string($xmlString);
         $skip = false;
         $content = array();
@@ -1153,8 +1198,8 @@ class SimpleXmlStreamer extends \Microweber\Utils\lib\XmlStreamer
         foreach ($xmls as $xml) {
             $encoded = json_encode($xml);
             $a = (json_decode($encoded, true));
-            if (is_array($a)) {
-                if (isset($a['item']) and is_array($a['item'])) {
+            if (is_array($a)){
+                if (isset($a['item']) and is_array($a['item'])){
 
                     $a_item = $a['item'];
                     foreach ($a_item as $a_ite) {
@@ -1165,16 +1210,17 @@ class SimpleXmlStreamer extends \Microweber\Utils\lib\XmlStreamer
                 }
             }
         }
+
         return true;
     }
 
     /**
      * Called after a file chunk was processed (16KB by default, see constructor)
      */
-    public function chunkCompleted()
-    {
+    public function chunkCompleted() {
         $import = mw('Microweber\Utils\Import')->batch_save($this->content_items);
         $this->content_items = array();
+
         return true;
     }
 }

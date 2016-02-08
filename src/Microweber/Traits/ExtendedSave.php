@@ -217,9 +217,10 @@ trait ExtendedSave {
                                 $save_cat_item['name'] = $v['name'];
                             }
                             $check = $save_cat_item;
-                            $save_cat_item['single'] = true;
+                            $check['single'] = true;
 
                             $check = $this->app->fields_manager->get_all($check);
+                          
                             if (isset($check['id'])){
                                 $save_cat_item['id'] = $check['id'];
                             }

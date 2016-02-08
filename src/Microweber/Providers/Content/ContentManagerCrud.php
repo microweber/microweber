@@ -660,74 +660,75 @@ class ContentManagerCrud extends Crud {
             } else {
 
                 if (isset($data['download_remote_images']) and $data['download_remote_images']!=false and $adm==true){
+                    $data_to_save['content'] = $this->app->media_manager->download_remote_images_from_text($data_to_save['content']);
 
-
-                    $site_url = $this->app->url_manager->site();
-                    $images = $this->app->parser->query($data_to_save['content'], 'img');
-                    $to_download = array();
-                    $to_replace = array();
-                    $possible_sources = array();
-
-                    if (isset($data['insert_content_image']) and $data['insert_content_image']!=false and isset($data['content'])){
-                        $data['content'] = "<img src='{$data['insert_content_image']}' /> " . $data['content'];
-                    }
-
-
-                    if (!empty($images)){
-                        foreach ($images as $image) {
-                            $srcs = array();
-                            preg_match('/src="([^"]*)"/i', $image, $srcs);
-                            if (!empty($srcs) and isset($srcs[1]) and $srcs[1]!=false){
-                                $possible_sources[] = $srcs[1];
-                            }
-                        }
-                    }
-
-                    if (!empty($possible_sources)){
-                        foreach ($possible_sources as $image_src) {
-                            if (!stristr($image_src, $site_url)){
-
-                                $to_replace[] = $image_src;
-                                $image_src = strtok($image_src, '?');
-                                $ext = get_file_extension($image_src);
-                                switch (strtolower($ext)) {
-                                    case 'jpg':
-                                    case 'jpeg':
-                                    case 'png':
-                                    case 'gif':
-                                    case 'svg':
-                                        $to_download[] = $image_src;
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                            }
-                        }
-                    }
-
-                    if (!empty($to_download)){
-                        $to_download = array_unique($to_download);
-
-                        if (!empty($to_download)){
-                            foreach ($to_download as $src) {
-                                $dl_dir = media_base_path() . 'downloaded' . DS;
-                                if (!is_dir($dl_dir)){
-                                    mkdir_recursive($dl_dir);
-                                }
-                                $dl_file = $dl_dir . md5($src) . basename($src);
-                                if (!is_file($dl_file)){
-                                    $is_dl = $this->app->url_manager->download($src, false, $dl_file);
-                                }
-                                if (is_file($dl_file)){
-                                    $url_local = dir2url($dl_file);
-                                    $data_to_save['content'] = str_ireplace($src, $url_local, $data_to_save['content']);
-                                }
-                            }
-                        }
-                    }
+// code moved in $this->app->media_manager->download_remote_images_from_text
+//                    $site_url = $this->app->url_manager->site();
+//                    $images = $this->app->parser->query($data_to_save['content'], 'img');
+//                    $to_download = array();
+//                    $to_replace = array();
+//                    $possible_sources = array();
+//
+//                    if (isset($data['insert_content_image']) and $data['insert_content_image']!=false and isset($data['content'])){
+//                        $data['content'] = "<img src='{$data['insert_content_image']}' /> " . $data['content'];
+//                    }
+//
+//
+//                    if (!empty($images)){
+//                        foreach ($images as $image) {
+//                            $srcs = array();
+//                            preg_match('/src="([^"]*)"/i', $image, $srcs);
+//                            if (!empty($srcs) and isset($srcs[1]) and $srcs[1]!=false){
+//                                $possible_sources[] = $srcs[1];
+//                            }
+//                        }
+//                    }
+//
+//                    if (!empty($possible_sources)){
+//                        foreach ($possible_sources as $image_src) {
+//                            if (!stristr($image_src, $site_url)){
+//
+//                                $to_replace[] = $image_src;
+//                                $image_src = strtok($image_src, '?');
+//                                $ext = get_file_extension($image_src);
+//                                switch (strtolower($ext)) {
+//                                    case 'jpg':
+//                                    case 'jpeg':
+//                                    case 'png':
+//                                    case 'gif':
+//                                    case 'svg':
+//                                        $to_download[] = $image_src;
+//                                        break;
+//                                    default:
+//                                        break;
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//
+//                    if (!empty($to_download)){
+//                        $to_download = array_unique($to_download);
+//
+//                        if (!empty($to_download)){
+//                            foreach ($to_download as $src) {
+//                                $dl_dir = media_base_path() . 'downloaded' . DS;
+//                                if (!is_dir($dl_dir)){
+//                                    mkdir_recursive($dl_dir);
+//                                }
+//                                $dl_file = $dl_dir . md5($src) . basename($src);
+//                                if (!is_file($dl_file)){
+//                                    $is_dl = $this->app->url_manager->download($src, false, $dl_file);
+//                                }
+//                                if (is_file($dl_file)){
+//                                    $url_local = dir2url($dl_file);
+//                                    $data_to_save['content'] = str_ireplace($src, $url_local, $data_to_save['content']);
+//                                }
+//                            }
+//                        }
+//                    }
+//
                 }
-
 
                 $data_to_save['content'] = $this->app->parser->make_tags($data_to_save['content']);
             }
@@ -833,6 +834,8 @@ class ContentManagerCrud extends Crud {
         }
 
         $data_to_save = $this->map_params_to_schema($data_to_save);
+
+        //dd($data_to_save);
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
 
@@ -1102,20 +1105,43 @@ class ContentManagerCrud extends Crud {
 
     private function map_params_to_schema($params) {
 
-//        $map_common = array('custom_field' => 'custom_fields', 'data' => 'data_fields', 'attribute' => 'attributes');
-//        if (!empty($params)){
-//            foreach ($map_common as $k => $v) {
-//                if (!isset($params[ $k ]) and isset($params[ $v ])){
-//                    $params[ $k ] = $params[ $v ];
-//                }
-//            }
-//        }
+
+
+
+        // map custom fields
+        $prefix = 'custom_field';
+        $data_str = $prefix . '_';
+        $data_str_l = strlen($data_str);
+        foreach ($params as $k => $v) {
+            if (is_string($k)){
+                if (strlen($k) > $data_str_l){
+                    $rest = substr($k, 0, $data_str_l);
+                    $left = substr($k, $data_str_l, strlen($k));
+                    if ($rest==$data_str){
+                        if (!isset($params['custom_fields'])){
+                            $params['custom_fields'] = array();
+                        }
+                        $new_cf = array();
+                        $new_cf['name'] = $left;
+                        $new_cf['type'] = 'text';
+                        $new_cf['value'] = $v;
+                        if ($new_cf['name']=='price'){
+                            $new_cf['type'] = 'price';
+                        } elseif (is_array($v)) {
+                            $new_cf['type'] = 'dropdown';
+                        }
+                        $params['custom_fields'][] = $new_cf;
+                        unset($params[$k]);
+                    }
+                }
+            }
+        }
 
 
         $prefixes = array(
             'attributes'    => array('attribute', 'attributes'),
             'data_fields'   => array('data_fields', 'data_field'),
-            'custom_fields' => array('custom_fields', 'custom_field'),
+       //     'custom_fields' => array('custom_fields', 'custom_field'),
             'categories'    => array('categories', 'category'),
         );
 
@@ -1134,9 +1160,7 @@ class ContentManagerCrud extends Crud {
                                     if (!isset($params[ $prefix_group ])){
                                         $params[ $prefix_group ] = array();
                                     }
-
                                     $params[ $prefix_group ][ $left ] = $v;
-                                    // unset($params[ $k ]);
                                 }
                             }
                         }
@@ -1144,18 +1168,12 @@ class ContentManagerCrud extends Crud {
                 }
             }
         }
-        //dd($params);
-        if (!isset($params['attributes']) and isset($params['attribute'])){
-            // $params['attributes'] = $params['attribute'];
-        }
 
-
-        //dd($params);
-        //   $params = $this->_map_params_to_schema_external($params);
 
         return $params;
 
     }
+
     public function get_edit_field($data, $debug = false) {
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];
@@ -1205,8 +1223,6 @@ class ContentManagerCrud extends Crud {
 
         return false;
     }
-
-
 
 
 }
