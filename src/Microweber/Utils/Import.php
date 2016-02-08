@@ -381,8 +381,7 @@ class Import {
         }
 
 
-
-       // dd($content);
+        // dd($content);
         if (isset($content['images']) and is_string($content['images'])){
             $content['images'] = explode(',', $content['images']);
         }
@@ -420,7 +419,7 @@ class Import {
             unset($content['debug']);
         }
         //  $content['debug'] = 'y';
-        //  $content['download_remote_images'] = true;
+        $content['download_remote_images'] = true;
         if ($is_saved!=false){
             $content['id'] = $is_saved['id'];
             if (!isset($content['content_type'])){

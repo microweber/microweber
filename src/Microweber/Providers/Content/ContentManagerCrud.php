@@ -653,81 +653,18 @@ class ContentManagerCrud extends Crud {
                 }
             }
         }
+        $allow_remote_images_download = false;
+        if ($adm==true and isset($data['download_remote_images']) and $data['download_remote_images']!=false){
+            $allow_remote_images_download = true;
+        }
 
         if (isset($data_to_save['content'])){
             if (trim($data_to_save['content'])=='' or $data_to_save['content']==false){
                 $data_to_save['content'] = null;
             } else {
 
-                if (isset($data['download_remote_images']) and $data['download_remote_images']!=false and $adm==true){
-                    $data_to_save['content'] = $this->app->media_manager->download_remote_images_from_text($data_to_save['content']);
-
-// code moved in $this->app->media_manager->download_remote_images_from_text
-//                    $site_url = $this->app->url_manager->site();
-//                    $images = $this->app->parser->query($data_to_save['content'], 'img');
-//                    $to_download = array();
-//                    $to_replace = array();
-//                    $possible_sources = array();
-//
-//                    if (isset($data['insert_content_image']) and $data['insert_content_image']!=false and isset($data['content'])){
-//                        $data['content'] = "<img src='{$data['insert_content_image']}' /> " . $data['content'];
-//                    }
-//
-//
-//                    if (!empty($images)){
-//                        foreach ($images as $image) {
-//                            $srcs = array();
-//                            preg_match('/src="([^"]*)"/i', $image, $srcs);
-//                            if (!empty($srcs) and isset($srcs[1]) and $srcs[1]!=false){
-//                                $possible_sources[] = $srcs[1];
-//                            }
-//                        }
-//                    }
-//
-//                    if (!empty($possible_sources)){
-//                        foreach ($possible_sources as $image_src) {
-//                            if (!stristr($image_src, $site_url)){
-//
-//                                $to_replace[] = $image_src;
-//                                $image_src = strtok($image_src, '?');
-//                                $ext = get_file_extension($image_src);
-//                                switch (strtolower($ext)) {
-//                                    case 'jpg':
-//                                    case 'jpeg':
-//                                    case 'png':
-//                                    case 'gif':
-//                                    case 'svg':
-//                                        $to_download[] = $image_src;
-//                                        break;
-//                                    default:
-//                                        break;
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//
-//                    if (!empty($to_download)){
-//                        $to_download = array_unique($to_download);
-//
-//                        if (!empty($to_download)){
-//                            foreach ($to_download as $src) {
-//                                $dl_dir = media_base_path() . 'downloaded' . DS;
-//                                if (!is_dir($dl_dir)){
-//                                    mkdir_recursive($dl_dir);
-//                                }
-//                                $dl_file = $dl_dir . md5($src) . basename($src);
-//                                if (!is_file($dl_file)){
-//                                    $is_dl = $this->app->url_manager->download($src, false, $dl_file);
-//                                }
-//                                if (is_file($dl_file)){
-//                                    $url_local = dir2url($dl_file);
-//                                    $data_to_save['content'] = str_ireplace($src, $url_local, $data_to_save['content']);
-//                                }
-//                            }
-//                        }
-//                    }
-//
+                if ($allow_remote_images_download){
+                    $data_to_save['content'] = $this->app->content_manager_helpers->download_remote_images_from_text($data_to_save['content']);
                 }
 
                 $data_to_save['content'] = $this->app->parser->make_tags($data_to_save['content']);
@@ -891,6 +828,7 @@ class ContentManagerCrud extends Crud {
         if (isset($data_to_save['images']) and is_string($data_to_save['images'])){
             $data_to_save['images'] = explode(',', $data_to_save['images']);
         }
+
         if (isset($data_to_save['images']) and is_array($data_to_save['images']) and !empty($data_to_save['images'])){
             $images_to_save = $data_to_save['images'];
             foreach ($images_to_save as $image_to_save) {
@@ -903,6 +841,9 @@ class ContentManagerCrud extends Crud {
                         $save_media['filename'] = $image_to_save;
                         $check = $this->app->media_manager->get($save_media);
                         $save_media['media_type'] = 'picture';
+                        if ($allow_remote_images_download){
+                            $save_media['allow_remote_download'] = true;
+                        }
                         if ($check==false){
                             $this->app->media_manager->save($save_media);
                         }
@@ -910,6 +851,9 @@ class ContentManagerCrud extends Crud {
                 } elseif (is_array($image_to_save) and !empty($image_to_save)) {
                     $save_media = $image_to_save;
                     $save_media['content_id'] = $id;
+                    if ($allow_remote_images_download){
+                        $save_media['allow_remote_download'] = true;
+                    }
                     $this->app->media_manager->save($save_media);
                 }
             }
@@ -1106,8 +1050,6 @@ class ContentManagerCrud extends Crud {
     private function map_params_to_schema($params) {
 
 
-
-
         // map custom fields
         $prefix = 'custom_field';
         $data_str = $prefix . '_';
@@ -1131,7 +1073,7 @@ class ContentManagerCrud extends Crud {
                             $new_cf['type'] = 'dropdown';
                         }
                         $params['custom_fields'][] = $new_cf;
-                        unset($params[$k]);
+                        unset($params[ $k ]);
                     }
                 }
             }
@@ -1139,10 +1081,10 @@ class ContentManagerCrud extends Crud {
 
 
         $prefixes = array(
-            'attributes'    => array('attribute', 'attributes'),
-            'data_fields'   => array('data_fields', 'data_field'),
-       //     'custom_fields' => array('custom_fields', 'custom_field'),
-            'categories'    => array('categories', 'category'),
+            'attributes'  => array('attribute', 'attributes'),
+            'data_fields' => array('data_fields', 'data_field'),
+            //     'custom_fields' => array('custom_fields', 'custom_field'),
+            'categories'  => array('categories', 'category'),
         );
 
         if (!empty($params)){

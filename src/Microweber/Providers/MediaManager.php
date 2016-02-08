@@ -9,6 +9,7 @@ class MediaManager {
     public $table_prefix = false;
     public $no_cache;
 
+
     function __construct($app = null) {
 
 
@@ -468,6 +469,7 @@ class MediaManager {
             $data['src'] = $data['filename'];
         }
 
+
         if (isset($data['src'])){
 
 
@@ -485,8 +487,8 @@ class MediaManager {
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])){
-                $move_uploaded_files_dir = media_base_path() . DS . $host_dir . DS . $s['rel_type'] . DS;
-                $move_uploaded_files_dir_index = media_base_path() . DS . $host_dir . DS . $s['rel_type'] . DS . 'index.php';
+                $move_uploaded_files_dir = media_base_path() . $host_dir . DS . $s['rel_type'] . DS;
+                $move_uploaded_files_dir_index = media_base_path() . $host_dir . DS . $s['rel_type'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)){
@@ -496,17 +498,53 @@ class MediaManager {
                 }
 
                 $url2dir = normalize_path($url2dir, false);
-                $newfile = basename($url2dir);
 
-                $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-                $newfile = $move_uploaded_files_dir . $newfile;
 
-                if (is_file($newfile)){
+                if (isset($data['allow_remote_download']) and $data['allow_remote_download'] and isset($data['src'])){
+                    $ext = get_file_extension($data['src']);
+                    $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
+                    if ($data['media_type']!=false){
+                        // starting download
+                        $is_remote = strtolower($data['src']);
 
-                    $newfile = date('YmdHis') . basename($url2dir);
-                    $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-                    $newfile = $move_uploaded_files_dir . $newfile;
+                        if (strstr($is_remote, 'http:') || strstr($is_remote, 'https:')){
+
+                            $dl_host = (parse_url($is_remote));
+
+                            $dl_host_host_dir = false;
+                            if (isset($dl_host['host'])){
+                                $dl_host_host_dir = $dl_host['host'];
+                                $dl_host_host_dir = str_ireplace('www.', '', $dl_host_host_dir);
+                                $dl_host_host_dir = str_ireplace('.', '-', $dl_host_host_dir);
+                            }
+
+                            $move_uploaded_files_dir = $move_uploaded_files_dir . 'external' . DS;
+                            if ($dl_host_host_dir){
+                                $move_uploaded_files_dir = $move_uploaded_files_dir . $dl_host_host_dir . DS;
+                            }
+
+
+                            if (!is_dir($move_uploaded_files_dir)){
+                                mkdir_recursive($move_uploaded_files_dir);
+                            }
+
+                            $newfile = basename($data['src']);
+
+                            $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
+                            $newfile = $move_uploaded_files_dir . $newfile;
+                            if (!is_file($newfile)){
+                                mw()->http->url($data['src'])->download($newfile);
+                            }
+                            if (is_file($newfile)){
+                                $url2dir = $this->app->url_manager->to_path($newfile);
+                            }
+
+
+                        }
+                    }
+
                 }
+
 
                 if (is_file($url2dir)){
                     $data['src'] = $this->app->url_manager->link_to_file($url2dir);
@@ -525,31 +563,23 @@ class MediaManager {
             $t = trim($data['for_id']);
             $s['rel_id'] = $t;
         }
+
+        if (!isset($s['id']) and isset($s['filename']) and isset($s['rel_id']) and isset($s['rel_type'])){
+            $check = array();
+            $check['rel_type'] = $s['rel_type'];
+            $check['rel_id'] = $s['rel_id'];
+            $check['filename'] = $s['filename'];
+            $check['single'] = true;
+            $check = $this->get($check);
+            if (isset($check['id'])){
+                $s['id'] = $check['id'];
+            }
+        }
+
         if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])){
             $ext = get_file_extension($s['filename']);
-            switch ($ext) {
-                case 'jpeg':
-                case 'jpg':
-                case 'png':
-                case 'gif':
-                case 'bpm':
-                case 'svg':
-                    $data['media_type'] = 'picture';
-                    break;
-                case 'avi':
-                case 'ogg':
-                case 'flv':
-                case 'mp4':
-                case 'qt':
-                case 'mpeg':
-                    $data['media_type'] = 'video';
-                    break;
-                case 'mp3':
-                case 'wav':
-                case 'flac':
-                    $data['media_type'] = 'audio';
-                    break;
-            }
+            $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
+
         }
 
         if (isset($data['media_type'])){
@@ -831,6 +861,35 @@ class MediaManager {
         }
     }
 
+    private function _guess_media_type_from_file_ext($ext) {
+        $type = false;
+        switch ($ext) {
+            case 'jpeg':
+            case 'jpg':
+            case 'png':
+            case 'gif':
+            case 'bpm':
+            case 'svg':
+                $type = 'picture';
+                break;
+            case 'avi':
+            case 'ogg':
+            case 'flv':
+            case 'mp4':
+            case 'qt':
+            case 'mpeg':
+                $type = 'video';
+                break;
+            case 'mp3':
+            case 'wav':
+            case 'flac':
+                $type = 'audio';
+                break;
+        }
+
+        return $type;
+    }
+
     private function svgScaleHack($svg, $minWidth, $minHeight) {
         $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
         $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
@@ -1098,72 +1157,6 @@ class MediaManager {
 
     public function thumbnails_path() {
         return media_base_path() . 'thumbnail' . DS;
-    }
-
-
-    public function download_remote_images_from_text($text) {
-        $site_url = $this->app->url_manager->site();
-        $images = $this->app->parser->query($text, 'img');
-        $to_download = array();
-        $to_replace = array();
-        $possible_sources = array();
-
-
-        if (!empty($images)){
-            foreach ($images as $image) {
-                $srcs = array();
-                preg_match('/src="([^"]*)"/i', $image, $srcs);
-                if (!empty($srcs) and isset($srcs[1]) and $srcs[1]!=false){
-                    $possible_sources[] = $srcs[1];
-                }
-            }
-        }
-
-        if (!empty($possible_sources)){
-            foreach ($possible_sources as $image_src) {
-                if (!stristr($image_src, $site_url)){
-
-                    $to_replace[] = $image_src;
-                    $image_src = strtok($image_src, '?');
-                    $ext = get_file_extension($image_src);
-                    switch (strtolower($ext)) {
-                        case 'jpg':
-                        case 'jpeg':
-                        case 'png':
-                        case 'gif':
-                        case 'svg':
-                            $to_download[] = $image_src;
-                            break;
-                        default:
-                            break;
-                    }
-
-                }
-            }
-        }
-
-        if (!empty($to_download)){
-            $to_download = array_unique($to_download);
-
-            if (!empty($to_download)){
-                foreach ($to_download as $src) {
-                    $dl_dir = media_base_path() . 'downloaded' . DS;
-                    if (!is_dir($dl_dir)){
-                        mkdir_recursive($dl_dir);
-                    }
-                    $dl_file = $dl_dir . md5($src) . basename($src);
-                    if (!is_file($dl_file)){
-                        $is_dl = $this->app->url_manager->download($src, false, $dl_file);
-                    }
-                    if (is_file($dl_file)){
-                        $url_local = dir2url($dl_file);
-                        $text = str_ireplace($src, $url_local, $text);
-                    }
-                }
-            }
-        }
-
-        return $text;
     }
 
 
