@@ -788,6 +788,7 @@ class ShopManager {
     }
 
     function currency_format($amount, $curr = false) {
+
         if ($curr==false){
             $curr = $this->app->option_manager->get('currency', 'payments');
         }

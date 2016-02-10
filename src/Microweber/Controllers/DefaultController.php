@@ -2077,8 +2077,6 @@ class DefaultController extends Controller {
                 $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group);
             }
 
-//            print $l;
-//            unset($l);
 
             if (isset($_REQUEST['debug'])){
                 if ($this->app->make('config')->get('app.debug')){

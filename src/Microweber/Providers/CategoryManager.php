@@ -1423,7 +1423,7 @@ class CategoryManager {
             if (isset($old_category['parent_id'])){
                 $old_parent = $old_category['parent_id'];
             }
-            //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+           //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
          if (!empty($orig_data)){
@@ -1522,7 +1522,7 @@ class CategoryManager {
         if ($old_parent!=false){
             // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
-
+       // $this->app->cache_manager->clear('categories');
 
         return $save;
     }
@@ -1548,6 +1548,7 @@ class CategoryManager {
      * @since       Version 1.0
      */
     public function get_by_id($id = 0) {
+
         if ($id==0){
             return false;
         }

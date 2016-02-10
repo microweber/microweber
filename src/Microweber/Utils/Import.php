@@ -333,6 +333,10 @@ class Import {
 
     public function save_content_item($content) {
 
+        if (!isset($content['title'])){
+            return;
+        }
+
 
         // make categories
         if (isset($content['categories']) and is_string($content['categories'])){
@@ -344,9 +348,12 @@ class Import {
                     $nest_level = 0;
                     $prev_parent_cat = 0;
                     foreach ($category_set_items as $category_set_item) {
-                        $cat_item = $this->app->category_manager->get('single=true&rel_type=content&title=' . $category_set_item);
+                        $category_set_item = trim($category_set_item);
+
+                        $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
 
                         if (!isset($cat_item['id'])){
+                            // dd($category_set_item);
                             $new = array();
                             $new['rel_type'] = 'content';
                             $new['title'] = $category_set_item;
@@ -384,6 +391,7 @@ class Import {
         // dd($content);
         if (isset($content['images']) and is_string($content['images'])){
             $content['images'] = explode(',', $content['images']);
+            $content['images'] = array_unique($content['images']);
         }
 
 
@@ -1112,6 +1120,8 @@ class Import {
 
         return $chunks_folder;
     }
+
+ 
 
     function get_import_location() {
 

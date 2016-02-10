@@ -299,6 +299,7 @@ class ContentManager {
      *
      */
     public function get($params = false) {
+
         return $this->app->content_manager_crud->get($params);
     }
 
@@ -407,6 +408,7 @@ class ContentManager {
      * @return string - html string with ul/li
      */
     public function paging($params) {
+
         $params = parse_params($params);
         $pages_count = 1;
         $base_url = false;
@@ -525,6 +527,7 @@ class ContentManager {
     }
 
     public function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword') {
+
         if ($base_url==false){
             if ($this->app->url_manager->is_ajax()==false){
                 $base_url = $this->app->url_manager->current(1);
