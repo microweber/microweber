@@ -29,7 +29,7 @@ class Import {
     public $imports_folder = false;
     public $import_file = false;
     public $app;
-    public $batch_size = 5;
+    public $batch_size = 3;
     public $xml_paths = array('channel' => 'item',
                               'feed'    => 'entry',
                               'feed'    => 'post_item',
@@ -336,109 +336,141 @@ class Import {
         if (!isset($content['title'])){
             return;
         }
+        $this->app->media_manager->download_remote_images = true;
+
+        if (isset($content['content_type']) and $content['content_type']=='category'){
+            unset($content['content_type']);
+
+            if (isset($content['title']) and is_string($content['title'])){
+                $category_set_item = $content['title'];
+                $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $content['title']);
+
+                if (!isset($cat_item['id'])){
+                    $new = array();
+                    $new['rel_type'] = 'content';
+                    $new['title'] = $category_set_item;
+                    $new_cat = $this->app->category_manager->save($new);
+                    $cat_item = $this->app->category_manager->get_by_id($new_cat);
+
+                }
+                if (isset($cat_item['id'])){
+                    if (isset($content['parent'])){
+                        unset($content['parent']);
+                    }
+
+                    $new = $content;
+                    $new['id'] = $cat_item['id'];
+
+                    return $this->app->category_manager->save($new);
+
+                }
+            }
+
+            //return save_category($content);
+
+        } else {
 
 
-        // make categories
-        if (isset($content['categories']) and is_string($content['categories'])){
-            $category_sets = explode(',', $content['categories']);
-            $cats_ids = array();
-            foreach ($category_sets as $category_set) {
-                if (is_string($category_set)){
-                    $category_set_items = explode('/', $content['categories']);
-                    $nest_level = 0;
-                    $prev_parent_cat = 0;
-                    foreach ($category_set_items as $category_set_item) {
-                        $category_set_item = trim($category_set_item);
+            // make categories
+            if (isset($content['categories']) and is_string($content['categories'])){
+                $category_sets = explode(',', $content['categories']);
+                $cats_ids = array();
+                foreach ($category_sets as $category_set) {
+                    if (is_string($category_set)){
+                        $category_set_items = explode('/', $content['categories']);
+                        $nest_level = 0;
+                        $prev_parent_cat = 0;
+                        foreach ($category_set_items as $category_set_item) {
+                            $category_set_item = trim($category_set_item);
 
-                        $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
+                            $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
 
-                        if (!isset($cat_item['id'])){
-                            // dd($category_set_item);
-                            $new = array();
-                            $new['rel_type'] = 'content';
-                            $new['title'] = $category_set_item;
-                            if (isset($content['parent']) and $nest_level==0){
-                                $new['parent_page'] = $content['parent'];
+                            if (!isset($cat_item['id'])){
+                                // dd($category_set_item);
+                                $new = array();
+                                $new['rel_type'] = 'content';
+                                $new['title'] = $category_set_item;
+                                if (isset($content['parent']) and $nest_level==0){
+                                    $new['parent_page'] = $content['parent'];
+                                }
+                                if ($nest_level > 0 and $prev_parent_cat){
+                                    $new['parent_id'] = $prev_parent_cat;
+                                }
+
+                                $new_cat = $this->app->category_manager->save($new);
+                                $cat_item = $this->app->category_manager->get_by_id($new_cat);
+
                             }
-                            if ($nest_level > 0 and $prev_parent_cat){
-                                $new['parent_id'] = $prev_parent_cat;
+                            if (isset($cat_item['id'])){
+                                $prev_parent_cat = $cat_item['id'];
+                                $cats_ids[] = $cat_item['id'];
                             }
 
-                            $new_cat = $this->app->category_manager->save($new);
-                            $cat_item = $this->app->category_manager->get_by_id($new_cat);
+
+                            $nest_level ++;
 
                         }
-                        if (isset($cat_item['id'])){
-                            $prev_parent_cat = $cat_item['id'];
-                            $cats_ids[] = $cat_item['id'];
-                        }
-
-
-                        $nest_level ++;
 
                     }
 
                 }
+                if (!empty($cats_ids)){
+                    $content['categories'] = $cats_ids;
+                }
 
             }
-            if (!empty($cats_ids)){
-                $content['categories'] = $cats_ids;
+
+
+            // dd($content);
+            if (isset($content['images']) and is_string($content['images'])){
+                $content['images'] = explode(',', $content['images']);
+                $content['images'] = array_unique($content['images']);
             }
 
-        }
+
+            $is_saved = get_content('one=true&title=' . $content['title']);
 
 
-        // dd($content);
-        if (isset($content['images']) and is_string($content['images'])){
-            $content['images'] = explode(',', $content['images']);
-            $content['images'] = array_unique($content['images']);
-        }
+            if (isset($content['description']) and (!isset($content['content']) or $content['content']==false)){
+                //$content['content'] = $content['description'];
+            }
 
 
-        $is_saved = get_content('one=true&title=' . $content['title']);
+            if (isset($content['parent'])){
+                $par = get_content_by_id($content['parent']);
 
-
-        if (isset($content['description']) and (!isset($content['content']) or $content['content']==false)){
-            //$content['content'] = $content['description'];
-        }
-
-
-        if (isset($content['parent'])){
-            $par = get_content_by_id($content['parent']);
-
-            if ($par!=false){
-                if (isset($par['is_shop']) and $par['is_shop']==1){
-                    $content['content_type'] = 'product';
-                    $content['subtype'] = 'product';
+                if ($par!=false){
+                    if (isset($par['is_shop']) and $par['is_shop']==1){
+                        $content['content_type'] = 'product';
+                        $content['subtype'] = 'product';
+                    }
                 }
             }
-        }
 
 
-        if (!isset($content['content_type'])){
-            $content['content_type'] = 'post';
-        }
-        if (!isset($content['subtype'])){
-            $content['subtype'] = 'post';
-        }
-        // $content['subtype'] = 'post';
-        $content['is_active'] = 1;
-        if (isset($content['debug'])){
-            unset($content['debug']);
-        }
-        //  $content['debug'] = 'y';
-        $content['download_remote_images'] = true;
-        if ($is_saved!=false){
-            $content['id'] = $is_saved['id'];
             if (!isset($content['content_type'])){
-                $content['content_type'] = $is_saved['content_type'];
-                $content['subtype'] = $is_saved['subtype'];
+                $content['content_type'] = 'post';
             }
+            if (!isset($content['subtype'])){
+                $content['subtype'] = 'post';
+            }
+            // $content['subtype'] = 'post';
+            $content['is_active'] = 1;
+            if (isset($content['debug'])){
+                unset($content['debug']);
+            }
+            //  $content['debug'] = 'y';
+            $content['download_remote_images'] = true;
+            if ($is_saved!=false){
+                $content['id'] = $is_saved['id'];
+                if (!isset($content['content_type'])){
+                    $content['content_type'] = $is_saved['content_type'];
+                    $content['subtype'] = $is_saved['subtype'];
+                }
+            }
+
+            return save_content($content);
         }
-
-        //  dd($content);
-
-        return save_content($content);
 
 
     }
@@ -1121,7 +1153,6 @@ class Import {
         return $chunks_folder;
     }
 
- 
 
     function get_import_location() {
 

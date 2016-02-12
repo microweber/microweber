@@ -96,13 +96,17 @@ trait ExtendedSave {
 
                 if (is_array($data_fields) and !empty($data_fields)){
                     foreach ($data_fields as $k => $v) {
+                        if(is_string($v)){
+                            $v = array('filename'=>$v);
+                        }
+
                         if (isset($v['filename'])){
 
                             $save_cat_item = array();
                             $save_cat_item['rel_type'] = $data_to_save['table'];
                             $save_cat_item['rel_id'] = $data_to_save['id'];
 
-                            if (isset($data_to_save['download_remote_images']) and $data_to_save['download_remote_images']!=false){
+                         /*   if (isset($data_to_save['download_remote_images']) and $data_to_save['download_remote_images']!=false){
                                 $is_url = false;
                                 if (filter_var($v['filename'], FILTER_VALIDATE_URL)){
                                     if (!stristr($v['filename'], site_url())){
@@ -147,10 +151,10 @@ trait ExtendedSave {
                                     }
 
                                 }
-                            }
+                            }*/
 
-
-                            $save_cat_item["filename"] = $v['filename'];
+                            $v['filename'] = str_replace(site_url(), '{SITE_URL}', $v['filename']);
+                             $save_cat_item["filename"] = $v['filename'];
 
                             $check = $this->app->media_manager->get($save_cat_item);
                             if ($check==false){

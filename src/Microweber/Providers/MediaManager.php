@@ -7,6 +7,7 @@ class MediaManager {
     public $app;
     public $tables = array();
     public $table_prefix = false;
+    public $download_remote_images = false;
     public $no_cache;
 
 
@@ -487,6 +488,9 @@ class MediaManager {
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])){
+
+                $s['rel_type'] = str_replace('..', '', $s['rel_type']);
+
                 $move_uploaded_files_dir = media_base_path() . $host_dir . DS . $s['rel_type'] . DS;
                 $move_uploaded_files_dir_index = media_base_path() . $host_dir . DS . $s['rel_type'] . DS . 'index.php';
 
@@ -499,15 +503,24 @@ class MediaManager {
 
                 $url2dir = normalize_path($url2dir, false);
 
+                $dl_remote = $this->download_remote_images;
 
-                if (isset($data['allow_remote_download']) and $data['allow_remote_download'] and isset($data['src'])){
+
+                if (isset($data['allow_remote_download']) and $data['allow_remote_download']){
+                    $dl_remote = $data['allow_remote_download'];
+                }
+
+
+                if ($dl_remote and isset($data['src'])){
                     $ext = get_file_extension($data['src']);
                     $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
                     if ($data['media_type']!=false){
                         // starting download
+
                         $is_remote = strtolower($data['src']);
 
                         if (strstr($is_remote, 'http:') || strstr($is_remote, 'https:')){
+
 
                             $dl_host = (parse_url($is_remote));
 
@@ -532,11 +545,17 @@ class MediaManager {
 
                             $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
                             $newfile = $move_uploaded_files_dir . $newfile;
+
+
                             if (!is_file($newfile)){
+
                                 mw()->http->url($data['src'])->download($newfile);
                             }
                             if (is_file($newfile)){
+
+
                                 $url2dir = $this->app->url_manager->to_path($newfile);
+
                             }
 
 
@@ -548,6 +567,7 @@ class MediaManager {
 
                 if (is_file($url2dir)){
                     $data['src'] = $this->app->url_manager->link_to_file($url2dir);
+
                 }
 
             }
@@ -564,7 +584,15 @@ class MediaManager {
             $s['rel_id'] = $t;
         }
 
-        if (!isset($s['id']) and isset($s['filename']) and isset($s['rel_id']) and isset($s['rel_type'])){
+        if ((!isset($s['id']) or (isset($s['id']) and $s['id']==0))
+            and isset($s['filename'])
+            and isset($s['rel_id'])
+            and isset($s['rel_type'])
+        ){
+            $s['filename'] = str_replace(site_url(), '{SITE_URL}', $s['filename']);
+
+
+
             $check = array();
             $check['rel_type'] = $s['rel_type'];
             $check['rel_id'] = $s['rel_id'];
