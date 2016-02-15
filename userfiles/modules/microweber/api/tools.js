@@ -982,8 +982,10 @@ mw.tools = {
                 var dh = parseFloat($(img).dataset("height"));
                 var mxw = ((dw > ww) ? (ww - 33) : dw);
                 var mxh = ((dh > wh) ? (wh - 33) : dh);
-                img.style.maxWidth = mxw + 'px';
-                img.style.maxHeight = mxh + 'px';
+               // img.style.maxWidth = mxw + 'px';
+			    img.style.maxWidth = 'auto';
+               // img.style.maxHeight = mxh + 'px';
+			    img.style.maxHeight = 'auto';
                 var holder = img.parentNode;
                 mw.tools.modal.center(holder);
             }

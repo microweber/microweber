@@ -52,6 +52,8 @@ class Thumbnailer
 
     public function createThumb(Array $specifications, $outputPath)
     {
+
+
         if (!strlen($this->image))
             return;
         $sizes = $this->sizes;
@@ -59,7 +61,9 @@ class Thumbnailer
         $newWidth = 0;
         $newHeight = 0;
 
-        if (isset($specifications['width']) && !isset($specifications['height'])) {
+
+
+        if ( isset($specifications['width']) && !isset($specifications['height']) && !isset($specifications['maxLength'])) {
             $newWidth = $specifications['width'];
             $newHeight = $sizes[1] * ($newWidth / $sizes[0]);
         } elseif (isset($specifications['height']) && !isset($specifications['width'])) {
@@ -68,15 +72,21 @@ class Thumbnailer
         } elseif (isset($specifications['height']) && isset($specifications['width'])) {
             $newWidth = $specifications['width'];
             $newHeight = $specifications['height'];
+           // $newHeight = (int)(100 * $newWidth / $newHeight);
         } elseif (isset($specifications['maxLength'])) {
 
             if ($sizes[0] >= $sizes[1]) {
-                $newWidth = $specifications['maxLength'];
+                $newWidth = $specifications['width'];
                 $newHeight = $sizes[1] * ($newWidth / $sizes[0]);
             } else {
                 $newHeight = $specifications['maxLength'];
                 $newWidth = $sizes[0] * ($newHeight / $sizes[1]);
+
             }
+
+
+
+
         } else {
             $newWidth = $sizes[0];
             $newHeight = $sizes[1];

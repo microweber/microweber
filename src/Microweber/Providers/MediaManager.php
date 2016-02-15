@@ -651,7 +651,7 @@ class MediaManager {
         if (!isset($src) or $src==false){
             return $this->pixum($width, $height);
         }
-
+        
 
         $src = strtok($src, '?');
 
@@ -736,8 +736,7 @@ class MediaManager {
         }
 
         $cache_path = $cd . $cache;
-
-        if (file_exists($cache_path)){
+         if (file_exists($cache_path)){
             if (!headers_sent()){
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
                     $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
