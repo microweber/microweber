@@ -1104,11 +1104,13 @@ mw.tools = {
                     }
 
                     $(this).toggleClass("active");
+	 
                     $(".mw-dropdown").not(this).removeClass("active").find(".mw-dropdown-content").hide();
-
+ 
                     if (mw.$(".other-action-hover", this).length == 0) {
                         var item = mw.$(".mw-dropdown-content", this);
                         if (item.is(":visible")) {
+							
                             item.hide();
                             item.focus();
                         }
@@ -1142,11 +1144,14 @@ mw.tools = {
             });
         }
         /* end For loop */
-
+ 
         if (typeof mw.tools.dropdownActivated === 'undefined') {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
-                if (mw.$('.mw-dropdown.hover').length == 0) {
+				
+				if($(e.target).hasClass('mw-dropdown-content') || $(e.target).hasClass('mw-dropdown')){
+				// dont hide the dropdown	
+				} else if (mw.$('.mw-dropdown.hover').length == 0) {
                     mw.$(".mw-dropdown").removeClass("active");
                     mw.$(".mw-dropdown-content").hide();
                 }
