@@ -1,7 +1,5 @@
 <?php $pages = get_content('content_type=page&subtype=dynamic&limit=1000'); ?>
 <?php $posts_parent_page = get_option('data-content-id', $params['id']); ?>
-
-
 <?php
 if (isset($params['for-current-content-id'])) {
     $params['for-content-id'] =  CONTENT_ID;
@@ -12,10 +10,6 @@ return print '<module type="content/edit" content-id="'.intval($params['for-cont
 }
 
  ?>
-
-
- 
-
 <script type="text/javascript">
 
 
@@ -83,52 +77,36 @@ return print '<module type="content/edit" content-id="'.intval($params['for-cont
   
 </script>
 
-
-
-
 <div class="mw-ui-box-content" >
-    <style scoped="scoped">
+  <style scoped="scoped">
 
     .tab{
       display: none;
     }
 
     </style>
-
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a class="mw-ui-btn active" href="javascript:;">
-                <?php _e("Options"); ?>
-            </a>
-        <a class="mw-ui-btn" href="javascript:;">
-                <?php _e("Skin/Template"); ?>
-            </a>
-        <a class="mw-ui-btn" href="javascript:;" id="mw-live-edit-cats-tab" onclick="mw.live_edit_load_cats_list()">
-                <?php _e("Edit categories"); ?>
-            </a>
-    </div>
-    <a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right">
-    <span class="mw-icon-category"></span>
-    <span>
-	<?php _e("New category"); ?>
-	</span></a>
-
-<div class="mw-ui-box mw-ui-box-content">    <div class="tab" style="display: block">
-        <label class="mw-ui-label">
-            <?php _e("Show Categories From"); ?>
-        </label>
-<input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>" />
-
-
-
-
-
-
-        <select name="data-content-id" id="mw_set_categories_tree_root_page" class="mw-ui-field mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>">
-            <option value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
+  <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs"> <a class="mw-ui-btn active" href="javascript:;">
+    <?php _e("Options"); ?>
+    </a> <a class="mw-ui-btn" href="javascript:;">
+    <?php _e("Skin/Template"); ?>
+    </a> <a class="mw-ui-btn" href="javascript:;" id="mw-live-edit-cats-tab" onclick="mw.live_edit_load_cats_list()">
+    <?php _e("Edit categories"); ?>
+    </a> </div>
+  <a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right"> <span class="mw-icon-category"></span> <span>
+  <?php _e("New category"); ?>
+  </span></a>
+  <div class="mw-ui-box mw-ui-box-content">
+    <div class="tab" style="display: block">
+      <label class="mw-ui-label">
+        <?php _e("Show Categories From"); ?>
+      </label>
+      <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>" />
+      <select name="data-content-id" id="mw_set_categories_tree_root_page" class="mw-ui-field mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>">
+        <option value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                     title="<?php _e("None"); ?>">
-                <?php _e("None"); ?>
-            </option>
-            <?php
+        <?php _e("None"); ?>
+        </option>
+        <?php
             $pt_opts = array();
             $pt_opts['link'] = "{empty}{title}";
             $pt_opts['list_tag'] = " ";
@@ -140,22 +118,18 @@ return print '<module type="content/edit" content-id="'.intval($params['for-cont
 
 
             ?>
-        </select>
-        
-        
-     
-     
-     <?php if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
-<?php $category_id =  get_option('data-category-id', $params['id']); ?>
- 
-<div class="mw-ui-field-holder">
-<label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
-
-  <select name="data-category-id" id="selcted_categogy_for_parent_category"  class="mw-ui-field mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
-
-    <option  value=''  <?php if((0 == intval($category_id))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
-
-    <?php
+      </select>
+      <?php if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
+      <?php $category_id =  get_option('data-category-id', $params['id']); ?>
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">
+          <?php _e("Show only from category"); ?>
+        </label>
+        <select name="data-category-id" id="selcted_categogy_for_parent_category"  class="mw-ui-field mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
+          <option  value=''  <?php if((0 == intval($category_id))): ?>   selected="selected"  <?php endif; ?>>
+          <?php _e("Select a category"); ?>
+          </option>
+          <?php
         $pt_opts = array();
         $pt_opts['link'] = "{empty}{title}";
         $pt_opts['list_tag'] = " ";
@@ -166,26 +140,31 @@ return print '<module type="content/edit" content-id="'.intval($params['for-cont
         $pt_opts['rel_id'] = $posts_parent_page;
         category_tree($pt_opts);
   ?>
-  	    </option>
-
-  </select>
-
-</div>
-<?php endif; ?>
-     
-        
-        
-        
-        
-        
-        
-        
-
+        </select>
+      </div>
+      <?php endif; ?>
+      <?php $selected_max_depth =  get_option('data-max-depth', $params['id']); ?>
+      <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">
+          <?php _e("Max depth"); ?>
+        </label>
+        <select name="data-max-depth"   class="mw-ui-field mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
+          <option  value='0'  <?php if(0 == intval($selected_max_depth)): ?>   selected="selected"  <?php endif; ?>>
+          <?php _e("None"); ?>
+          </option>
+          <?php ?>
+        <?php for($i = 1; $i <= 10; $i++):?>
+         <option  value='<?php print $i; ?>'  <?php if(($i == intval($selected_max_depth))): ?>   selected="selected"  <?php endif; ?>><?php print $i; ?></option>
+		<?php endfor; ?>
+      
+        </select>
+      </div>
     </div>
     <div class="tab">
-        <module type="admin/modules/templates"/>
+      <module type="admin/modules/templates"/>
     </div>
     <div class="tab">
-        <div id="mw_add_cat_live_edit"></div>
-     </div></div>
+      <div id="mw_add_cat_live_edit"></div>
+    </div>
+  </div>
 </div>
