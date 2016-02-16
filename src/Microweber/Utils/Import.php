@@ -29,7 +29,7 @@ class Import {
     public $imports_folder = false;
     public $import_file = false;
     public $app;
-    public $batch_size = 3;
+    public $batch_size = 5;
     public $xml_paths = array('channel' => 'item',
                               'feed'    => 'entry',
                               'feed'    => 'post_item',

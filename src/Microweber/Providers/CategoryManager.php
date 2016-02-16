@@ -359,8 +359,8 @@ class CategoryManager {
 
         ob_start();
 
-        if($tree_only_ids != false){
-            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep,$tree_only_ids);
+        if ($tree_only_ids!=false){
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
 
         } else if ($skip123==false){
 
@@ -408,8 +408,6 @@ class CategoryManager {
         $db_t_content = $this->tables['content'];
 
         $table = $db_categories = $this->tables['categories'];
-
-
 
 
         if ($parent==false){
@@ -487,23 +485,21 @@ class CategoryManager {
         //	$inf_loop_fix = "     ";
 
 
+        if ($only_ids!=false){
 
-        if($only_ids != false){
 
-
-            if(is_string($only_ids)){
-                $only_ids = explode(',',$only_ids);
+            if (is_string($only_ids)){
+                $only_ids = explode(',', $only_ids);
             }
 
 
-            $sql = "SELECT * FROM $table WHERE id IN (".implode(',',$only_ids).") ";
+            $sql = "SELECT * FROM $table WHERE id IN (" . implode(',', $only_ids) . ") ";
             $sql = $sql . " and data_type='category'   and is_deleted=0  ";
-         //   $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
+            //   $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
             $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
 
 
-
-        } else  if ($content_type==false){
+        } else if ($content_type==false){
 
 
             if ($include_first==true){
@@ -776,7 +772,7 @@ class CategoryManager {
                         }
                         $remove_ids[] = $item['id'];
 
-                        if($only_ids == false){
+                        if ($only_ids==false){
                             $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
 
                         }
@@ -818,6 +814,7 @@ class CategoryManager {
         } else {
             $table = $this->tables['categories'];
             $c_infp = $this->get_by_id($id);
+
             if (!isset($c_infp['rel_type'])){
                 return;
             }
@@ -833,7 +830,7 @@ class CategoryManager {
                 $url = $this->app->content_manager->link($content['id']);
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel_type']) and trim($c_infp['rel_type'])=='content'){
-                   // $this->app->database_manager->delete_by_id($table, $id);
+                    // $this->app->database_manager->delete_by_id($table, $id);
                 }
             }
 
@@ -983,7 +980,7 @@ class CategoryManager {
 
             }
 
-            if ((!isset($category["rel_id"]) or (isset($category["rel_id"]) and intval($category["rel_id"])==0) )and intval($category["parent_id"]) > 0){
+            if ((!isset($category["rel_id"]) or (isset($category["rel_id"]) and intval($category["rel_id"])==0)) and intval($category["parent_id"]) > 0){
                 $category1 = $this->get_parents($category["id"]);
                 if (is_array($category1)){
                     foreach ($category1 as $value) {
@@ -1321,7 +1318,7 @@ class CategoryManager {
             }
         } elseif ((isset($data['id']) and ($data['id'])!=0)) {
             if ((isset($data['title']) and $data['title']==false)){
-                return array('error' => 'Title is cannot be blank');
+                return array('error' => 'Title cannot be blank');
             }
         }
 
@@ -1375,8 +1372,6 @@ class CategoryManager {
         }
 
 
-
-
         $no_position_fix = false;
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type'])!='' and trim($data['rel_id'])!=''){
             $no_position_fix = true;
@@ -1423,10 +1418,10 @@ class CategoryManager {
             if (isset($old_category['parent_id'])){
                 $old_parent = $old_category['parent_id'];
             }
-           //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+            //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
-         if (!empty($orig_data)){
+        if (!empty($orig_data)){
             $data_str = 'data_';
             $data_str_l = strlen($data_str);
             foreach ($orig_data as $k => $v) {
@@ -1447,13 +1442,9 @@ class CategoryManager {
         }
 
 
-
-
-
-
         $id = $save = $this->app->database_manager->extended_save($table, $data);
 
-       // $id = $save = $this->app->database_manager->save($table, $data);
+        // $id = $save = $this->app->database_manager->save($table, $data);
 
 
         if ($simple_save==true){
@@ -1522,7 +1513,8 @@ class CategoryManager {
         if ($old_parent!=false){
             // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
-       // $this->app->cache_manager->clear('categories');
+
+        // $this->app->cache_manager->clear('categories');
 
         return $save;
     }

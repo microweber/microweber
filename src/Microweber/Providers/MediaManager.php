@@ -388,6 +388,10 @@ class MediaManager {
 
         $data = $this->app->database_manager->get($params);
 
+        if(isset($params['single'])){
+            return $data;
+        }
+
         if (media_base_url()){
             if (!empty($data)){
                 $return = array();
@@ -590,19 +594,16 @@ class MediaManager {
             and isset($s['rel_type'])
         ){
             $s['filename'] = str_replace(site_url(), '{SITE_URL}', $s['filename']);
-
-
-
             $check = array();
             $check['rel_type'] = $s['rel_type'];
             $check['rel_id'] = $s['rel_id'];
             $check['filename'] = $s['filename'];
             $check['single'] = true;
-            $check = $this->get($check);
+            $check = $this->get_all($check);
             if (isset($check['id'])){
                 $s['id'] = $check['id'];
             }
-        }
+         }
 
         if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])){
             $ext = get_file_extension($s['filename']);

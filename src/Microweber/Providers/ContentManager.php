@@ -1905,6 +1905,7 @@ class ContentManager {
             $cur_category_data = $this->app->category_manager->get_by_id($cur_category);
             if ($cur_category_data!=false and isset($cur_category_data['id'])){
                 $cat_parents = $this->app->category_manager->get_parents($cur_category);
+
                 if (!empty($cat_parents)){
                     foreach (($cat_parents) as $item) {
                         $item = intval($item);

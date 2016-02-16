@@ -56,7 +56,7 @@ function delete_media($data) {
 
 }
 
-api_expose('save_media');
+api_expose_admin('save_media');
 function save_media($data) {
     return save_picture($data);
 }

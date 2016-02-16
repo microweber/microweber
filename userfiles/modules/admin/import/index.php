@@ -74,23 +74,22 @@ mw.ok_import_file = function(){
 <div id="mw_import_to_page_holder">
   <?php $all_pages = get_pages(); ?>
   <?php if(!empty($all_pages)): ?>
-  <h5><?php _e("Select a page to import the content to"); ?>:</h5>
-
-
+  <h5>
+    <?php _e("Select a page to import the content to"); ?>
+    :</h5>
   <select name="import_to_page" id="mw_import_to_page_selector" class="mw-ui-field">
     <?php foreach($all_pages as $page): ?>
     <option value="<?php print $page['id']  ?>"><?php print $page['title']; ?></option>
     <?php endforeach; ?>
   </select>
-
   <?php endif; ?>
   <input type="hidden" name="filename" id="mw_import_file" class="mw_import_file" />
-  
-  <button onclick="mw.ok_import_file()" class="mw-ui-btn"><?php _e("Start import"); ?></button>
+  <button onclick="mw.ok_import_file()" class="mw-ui-btn">
+  <?php _e("Start import"); ?>
+  </button>
 </div>
-<div style="padding: 10px 0;">
-    <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span><?php _e("Upload file"); ?><span id="upload_backup_info"></span></span></span>
-</div>
-
+<div style="padding: 10px 0;"> <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
+  <?php _e("Upload file"); ?>
+  <span id="upload_backup_info"></span></span></span> </div>
 <module type="admin/import/process" />
 <module type="admin/import/manage" />
