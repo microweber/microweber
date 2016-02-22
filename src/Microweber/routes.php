@@ -31,6 +31,8 @@ Route::group(['namespace' => '\Microweber\Controllers'], function () {
     Route::any('/module/', 'ModuleController@index');
     Route::any('module/{all}', array('as' => 'module', 'uses' => 'ModuleController@index'))->where('all', '.*');;
     Route::any('robots.txt', 'DefaultController@robotstxt');
+    Route::any('sitemap.xml', 'DefaultController@sitemapxml');
+    Route::any('rss', 'DefaultController@rss');
     Route::any('{all}', array('as' => 'all', 'uses' => 'DefaultController@index'))->where('all', '.*');;
 
 });
