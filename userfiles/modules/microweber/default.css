@@ -611,3 +611,9 @@ table[class*='mw-wysiwyg-table'].valign td{
 }
 /* Title is hidden in admin panel */
 .mw-admin-view [rel='content'][field='title']{ display: none !important; }
+
+
+
+span.mw-powered-by {
+ display:inline !important;
+}

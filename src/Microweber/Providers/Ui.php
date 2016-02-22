@@ -13,6 +13,7 @@ class Ui {
     public $logo_live_edit = '';
     public $brand_name = 'Microweber';
     public $powered_by_link = false;
+    public $disable_powered_by_link = false;
     public $disable_marketplace = false;
     public $marketplace_provider_id = false;
     public $marketplace_access_code = false;
@@ -165,7 +166,10 @@ class Ui {
 
 
     function powered_by_link() {
-        $link = '<a href="https://microweber.com/" title="Create free Website &amp; Online Shop">Create Website</a> with <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a>';
+        if ($this->disable_powered_by_link!=false){
+            return;
+        }
+        $link = '<span class="mw-powered-by"><a href="https://microweber.com/" title="Create free Website &amp; Online Shop">Create Website</a> with <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a></span>';
         if ($this->powered_by_link!=false){
             $link = $this->powered_by_link;
         }

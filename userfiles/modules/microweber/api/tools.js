@@ -179,6 +179,7 @@ mw.tools = {
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {
+
             var el = mw.$(el);
             if (el.length === 0) {
                 return false;
@@ -193,6 +194,11 @@ mw.tools = {
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
 
+            //if (off.top != 0 || off.left <= 0) {
+            //    var left = $(el).offsetParent().width()-$(el).outerWidth()
+            //    d(left);
+            //    off.left = left;
+            //}
 
 
 
@@ -281,6 +287,9 @@ mw.tools = {
             }
         },
         fixPosition: function (tooltip) {
+
+
+
             /* mw_todo */
             var max = 5;
             var arr = mw.$('.mw-tooltip-arrow', tooltip);
@@ -301,6 +310,8 @@ mw.tools = {
             if (parseFloat(tt.css('top')) < 0) {
                 tt.css('top', 0);
             }
+
+
         },
         prepare: function (o) {
 
@@ -371,14 +382,18 @@ mw.tools = {
                         self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
                     }
                 });
+
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
+
                     $(self).bind('click', function (e,target) {
+
                         mw.$("."+tip_group_class).hide();
 
                     });
 
                 }
             }
+
             mw.tools.tooltip.setPosition(tip, o.element, o.position);
             return tip;
         }
@@ -2963,6 +2978,21 @@ mw.tools = {
             //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-css-editor-front',
             title:'CSS Editor',
+            template: 'default',
+            center: false,
+            resize: true,
+            draggable: true
+        });
+    },
+
+    open_global_module_settings_modal:function(module_type, module_id){
+        var src = mw.settings.site_url + 'api/module?id='+module_id+'&live_edit=true&module_settings=true&type='+module_type+'&autosize=true';
+        var modal = mw.tools.modal.frame({
+            url: src,
+            // width: 500,
+            //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+            name: 'mw-module-settings-editor-front',
+            title:'Settings',
             template: 'default',
             center: false,
             resize: true,

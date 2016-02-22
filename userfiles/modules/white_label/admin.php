@@ -1,7 +1,19 @@
 <?php only_admin_access(); ?>
 <?php if (!have_license('modules/white_label')): ?>
-    <module type="admin/modules/activate" prefix="modules/white_label"/>
-    <?php return; ?>
+<style>
+.mw-lssssicense-key-activate {
+	margin-top: 10%;
+	margin-left: 30%;
+	margin-right: 30%;
+	width: auto;
+}
+</style>
+
+<div class="module-live-edit-settings">
+  <h2>Enter the license key to activate White Label</h2>
+  <module type="admin/modules/activate" prefix="modules/white_label"/>
+</div>
+<?php return; ?>
 <?php endif; ?>
 <?php
 $logo_admin = false;
@@ -11,6 +23,8 @@ $powered_by_link = false;
 $powered_by_link = false;
 $brand_name = false;
 $disable_marketplace = false;
+$disable_powered_by_link = false;
+
 $enable_service_links = true;
 $admin_logo_login_link = false;
 
@@ -36,6 +50,10 @@ if (isset($settings['powered_by_link'])){
 if (isset($settings['disable_marketplace']) and $settings['disable_marketplace']!=false){
     $disable_marketplace = $settings['disable_marketplace'];
 }
+if (isset($settings['disable_powered_by_link']) and $settings['disable_powered_by_link']!=false){
+    $disable_powered_by_link = $settings['disable_powered_by_link'];
+}
+
 if (isset($settings['enable_service_links'])){
     $enable_service_links = $settings['enable_service_links'];
 }
@@ -69,7 +87,7 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
 
 
     });
-</script>
+</script> 
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -99,12 +117,45 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
 
     });
 </script>
-
 <div class="module-live-edit-settings">
-    <form id="white_label_settings_holder">
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Logo Admin (36x36 px)</label>
-            <input
+  <form id="white_label_settings_holder">
+    <div class="mw-ui-box   ">
+      <div class="mw-ui-box-header"> <span class="mw-icon-gear"></span><span>Branding</span> </div>
+      <div class="mw-ui-box-content">
+        <div class="mw-ui-row">
+          <div class="mw-ui-col" style="width: 50%">
+            <div class="mw-ui-col-container">
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Brand Name</label>
+                <input
+                name="brand_name"
+                option-group="whitelabel"
+                placeholder="Enter the name of your company"
+
+                class="mw-ui-field w100"
+                type="text"
+                value="<?php print  $brand_name; ?>"
+                />
+              </div>
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Logo login link</label>
+                <input
+                name="admin_logo_login_link"
+                option-group="whitelabel"
+                placeholder="Enter website url of your company"
+
+                class="mw-ui-field w100"
+                type="text"
+                value="<?php print  $admin_logo_login_link; ?>"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="mw-ui-col" style="width: 50%">
+            <div class="mw-ui-col-container">
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Logo for Admin panel (36x36 px)</label>
+                <input
                 name="logo_admin"
                 option-group="whitelabel"
                 placeholder="Upload your logo"
@@ -113,10 +164,10 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
                 type="text"
                 value="<?php print  $logo_admin; ?>"
                 />
-        </div>
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Logo Live Edit</label>
-            <input
+              </div>
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Logo for Live-Edit toolbar</label>
+                <input
                 name="logo_live_edit"
                 option-group="whitelabel"
                 placeholder="Upload your logo"
@@ -125,10 +176,10 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
                 type="text"
                 value="<?php print  $logo_live_edit; ?>"
                 />
-        </div>
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Logo Login (max width 290px)</label>
-            <input
+              </div>
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Logo for Login screen (max width 290px)</label>
+                <input
                 name="logo_login"
                 option-group="whitelabel"
                 placeholder="Upload your logo"
@@ -137,93 +188,101 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
                 type="text"
                 value="<?php print  $logo_login; ?>"
                 />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Powered-by link HTML</label>
-            <textarea name="powered_by_link" option-group="whitelabel"
+        <div class="mw-ui-row">
+        <div class="mw-ui-col" style="width: 50%">
+            <div class="mw-ui-col-container">
+              <div class="mw-ui-field-holder"> 
+                <script>
+				$(document).ready(function () {
+				
+					mw.editor({
+						element: '#powered_by_link_text',
+						height: 'auto',
+						hideControls: ['fontfamily','fontsize','image','format','alignment','ol','ul']
+					});
+				
+				});
+				</script>
+                <label class="mw-ui-label">"Powered By" HTML</label>
+                <textarea name="powered_by_link" id="powered_by_link_text" option-group="whitelabel"
                       placeholder="HTML code for template footer link"
                       class="mw-ui-field"
-                      type="text"><?php print  $powered_by_link; ?></textarea>
-        </div>
-        
-        
-        
-        
-        
-         <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Logo login link</label>
-            <input
-                name="admin_logo_login_link"
-                option-group="whitelabel"
-                placeholder="Enter website url of your company"
-
-                class="mw-ui-field "
-                type="text"
-                value="<?php print  $admin_logo_login_link; ?>"
-                />
-        </div>
-        
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Brand Name</label>
-            <input
-                name="brand_name"
-                option-group="whitelabel"
-                placeholder="Enter the name of your company"
-
-                class="mw-ui-field "
-                type="text"
-                value="<?php print  $brand_name; ?>"
-                />
-        </div>
-        <div class="mw-ui-field-holder">
-            <ul class="mw-ui-inline-list">
-                <li><span>Microweber Marketplace</span></li>
-                <li>
+                      type="text"><?php print $powered_by_link; ?></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="mw-ui-col" style="width: 50%">
+            <div class="mw-ui-col-container">
+              <div class="mw-ui-field-holder">
+                <ul class="mw-ui-inline-list">
+                  <li><span>Microweber Marketplace</span></li>
+                  <li>
                     <label class="mw-ui-check">
-                        <input
+                      <input
                             type="radio" <?php if (!$disable_marketplace): ?> checked="" <?php endif; ?>
                             name="disable_marketplace" value="0">
-                        <span></span><span>Enabled</span> </label>
-                </li>
-                <li>
+                      <span></span><span>Enabled</span> </label>
+                  </li>
+                  <li>
                     <label class="mw-ui-check">
-                        <input
+                      <input
                             type="radio" <?php if ($disable_marketplace): ?> checked="" <?php endif; ?>
                             name="disable_marketplace" value="1">
-                        <span></span><span>Disabled</span> </label>
-                </li>
-            </ul>
-        </div>
-
-        <div class="mw-ui-field-holder">
-            <ul class="mw-ui-inline-list">
-                <li><span>Enable service links
-                    <br>
-
-                        <small>(such as "suggest a feature" and "support")
-                        </small>
-
-                    </span></li>
-                <li>
+                      <span></span><span>Disabled</span> </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="mw-ui-field-holder">
+                <ul class="mw-ui-inline-list">
+                  <li><span>"Powered By"</span></li>
+                  <li>
                     <label class="mw-ui-check">
-                        <input
+                      <input
+                            type="radio" <?php if (!$disable_powered_by_link): ?> checked="" <?php endif; ?>
+                            name="disable_powered_by_link" value="0">
+                      <span></span><span>Enabled</span> </label>
+                  </li>
+                  <li>
+                    <label class="mw-ui-check">
+                      <input
+                            type="radio" <?php if ($disable_powered_by_link): ?> checked="" <?php endif; ?>
+                            name="disable_powered_by_link" value="1">
+                      <span></span><span>Disabled</span> </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="mw-ui-field-holder">
+                <ul class="mw-ui-inline-list">
+                  <li><span>Enable service links <small data-help="such as 'suggest a feature' and 'support'" class="mw-help"> (?) </small> </span></li>
+                  <li>
+                    <label class="mw-ui-check">
+                      <input
                             type="radio" <?php if ($enable_service_links): ?> checked="" <?php endif; ?>
                             name="enable_service_links" value="1">
-                        <span></span><span>Yes</span> </label>
-                </li>
-
-
-                <li>
+                      <span></span><span>Yes</span> </label>
+                  </li>
+                  <li>
                     <label class="mw-ui-check">
-                        <input
+                      <input
                             type="radio" <?php if (!$enable_service_links): ?> checked="" <?php endif; ?>
                             name="enable_service_links" value="0">
-                        <span></span><span>No</span> </label>
-                </li>
-
-
-            </ul>
+                      <span></span><span>No</span> </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="mw-ui-field-holder">
+                <input type="submit" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification" value="Save settings"/>
+              </div>
+            </div>
+          </div>
+          
         </div>
-        <input type="submit" class="mw-ui-btn" value="Save settings"/>
-    </form>
+      </div>
+      
+    </div>
+  </form>
 </div>

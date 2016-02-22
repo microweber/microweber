@@ -298,6 +298,7 @@ class CategoryManager {
             $remove_ids = array($page['subtype_value']);
         }
 
+
         $max_level = false;
         if (isset($params['max_level'])){
             $max_level = $params['max_level'];
@@ -342,18 +343,13 @@ class CategoryManager {
             $cat_get_params['order_by'] = 'position asc';
             $cat_get_params['limit'] = '1000';
             $cat_get_params['data_type'] = 'category';
-            // $cat_get_params['what'] = 'categories';
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
             if ($users_can_create_content!=false){
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
-
-            //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel_type=' . $table_assoc_name;
             $fors = $this->app->database_manager->get($cat_get_params);
-
-
         }
 
 

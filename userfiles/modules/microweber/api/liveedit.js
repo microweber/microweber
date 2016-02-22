@@ -206,6 +206,12 @@ $(document).ready(function () {
         }
     });
 
+
+    $('span.mw-powered-by').bind("click", function (e) {
+     mw.tools.open_global_module_settings_modal('white_label/admin','mw-powered-by')
+    return false;
+    });
+
 });
 
 

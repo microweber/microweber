@@ -8,6 +8,11 @@ if (!defined('MW_WHITE_LABEL_SETTINGS_FILE')){
 api_expose_admin('save_white_label_config');
 function save_white_label_config($params) {
     $file = MW_WHITE_LABEL_SETTINGS_FILE;
+	
+	if(isset($params['powered_by_link']) and trim(strip_tags($params['powered_by_link'])) == ''){
+		unset($params['powered_by_link']);
+	}
+	
     $params = json_encode($params);
 
     return file_put_contents($file, $params);
@@ -61,6 +66,7 @@ function make_white_label() {
     }
     if (isset($settings['powered_by_link']) and $settings['powered_by_link']!=false){
         $powered_by_link = $settings['powered_by_link'];
+	  
         mw()->ui->powered_by_link = $powered_by_link;
 
     }
@@ -78,6 +84,10 @@ function make_white_label() {
     }
 
 
+    if (isset($settings['disable_powered_by_link']) and intval($settings['disable_powered_by_link']) != 0){
+               mw()->ui->disable_powered_by_link = true;
+
+    }
 
 
 

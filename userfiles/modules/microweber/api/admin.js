@@ -787,25 +787,38 @@ $(mww).bind('load', function () {
 
 
     if (mwd.getElementById('main-bar-user-menu-link') !== null) {
-        mainbarusermenulink = mw.tooltip({
-            content: mw.$('#main-bar-user-tip').html(),
-            position: 'top-left',
-            element: mwd.getElementById('main-bar-user-menu-link')
-        });
-        mainbarusermenulink.id = 'main-bar-user-menu-tooltip';
 
-        mw.tools.addClass(mainbarusermenulink, 'main-bar-user-menu-tooltip');
-        mw.tools.tooltip.setPosition(mainbarusermenulink, mwd.getElementById('main-bar-user-menu-link'), 'top-left');
-        mainbarusermenulink.style.display = 'none';
+        //mainbarusermenulink = mw.tooltip({
+        //    content: mw.$('#main-bar-user-tip').html(),
+        //    position: 'center-right',
+        //    group: 'main-bar-user-tip',
+        //    element: mwd.getElementById('main-bar-user-menu-link')
+        //});
+        //mainbarusermenulink.id = 'main-bar-user-menu-tooltip';
 
-        $(mwd.body).bind('click', function (e) {
-            mainbarusermenulink.style.display = 'block';
+       // mw.tools.addClass(mainbarusermenulink, 'main-bar-user-menu-tooltip');
+      //  mw.tools.tooltip.setPosition(mainbarusermenulink, mwd.getElementById('main-bar-user-menu-link'), 'top-left');
+      //  mainbarusermenulink.style.display = 'none';
+
+        $(document.body).bind('click', function (e) {
+          //  mainbarusermenulink.style.display = 'block';
+// @todo cleanup  mess
+
+        //    mw.$('#main-bar-user-tip').toggle();
+            //
             if (e.target !== mwd.getElementById('main-bar-user-menu-link') && e.target.parentNode !== mwd.getElementById('main-bar-user-menu-link')) {
-                mw.$('.main-bar-user-menu-tooltip').removeClass('main-bar-user-menu-tooltip-active');
+               // mw.$('.main-bar-user-menu-tooltip').removeClass('main-bar-user-menu-tooltip-active');
+                mw.$('#main-bar-user-tip').removeClass('main-bar-user-tip-active');
+               //  mw.$('#main-bar-user-tip:visible').hide();
             }
             else {
-                mw.$('.main-bar-user-menu-tooltip').toggleClass('main-bar-user-menu-tooltip-active');
+
+              //  mw.$('#main-bar-user-tip').show();
+              //  mw.$('.main-bar-user-menu-tooltip').toggleClass('main-bar-user-menu-tooltip-active');
+                mw.$('#main-bar-user-tip').toggleClass('main-bar-user-tip-active');
             }
+            //mw.tools.tooltip.setPosition(mainbarusermenulink, mwd.getElementById('main-bar-user-menu-link'), 'center-right');
+
         });
     }
 

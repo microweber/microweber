@@ -885,12 +885,26 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	-webkit-transform-origin: left bottom;
 	opacity: 0;
 }
+#main-bar-user-tip {
+	font-size: 11px;
+	display: none;
+}
 #main-bar-user-menu-tooltip.main-bar-user-menu-tooltip-active {
 	-webkit-transform: scale(1, 1);
 	-moz-transform: scale(1, 1);
 	-ms-transform: scale(1, 1);
 	transform: scale(1, 1);
 	opacity: 1;
+}
+.main-bar-user-tip-active {
+	display: block !important;
+	position: absolute;
+	left: 100px;
+	bottom: 0px;
+	width: 100%;
+	-webkit-box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
+	-moz-box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
+	box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
 }
 #main-bar-user-menu-tooltip .mw-ui-btn-vertical-nav {
 	display: block;
@@ -2473,14 +2487,12 @@ body.grabbing, body.grabbing * {
 	font-family: 'Microweber';
 	content: "\f14a";
 }
-
-.mw-ui-btn > [class*="mw-custom-field-icon-"] {
+ .mw-ui-btn > [class*="mw-custom-field-icon-"] {
  font-size: 132%;
  margin: -2px 7px 0 0;
  text-align: center;
  float: left;
 }
-
 .mw-dropdown-content li [class*="mw-custom-field-icon-"] {
 	margin: -3px 5px 0 0;
 	position: relative;

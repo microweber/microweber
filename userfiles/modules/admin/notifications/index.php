@@ -182,7 +182,7 @@ mw.notif_mark_all_as_read = function(){
     	<a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a>
     	<a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
 	</div>
-	<a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications_manager/system_log','#admin_notifications')">
+	<a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">
 	    <?php _e("Show system log"); ?>
 	</a>
 	<?php endif; ?>

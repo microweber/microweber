@@ -286,7 +286,7 @@ if ($last_page_front != false) {
               <?php } else { ?>
               <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
               <?php } }  ?>
-              <div id="main-bar-user-tip" style="display: none">
+              <div id="main-bar-user-tip">
         <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
           <?php _e("My Profile"); ?>
           </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn">
