@@ -40,11 +40,20 @@ api_expose('save_content_admin');
 api_expose_admin('get_content_field_draft');
 
 
-api_expose('notifications_manager/delete');
-api_expose('notifications_manager/reset');
-api_expose('notifications_manager/read');
+api_expose_admin('notifications_manager/delete',function($data){
+    return mw()->notifications_manager->delete($data);
+});
 
-api_expose('notifications_manager/mark_all_as_read');
+api_expose_admin('notifications_manager/reset',function($data){
+    return mw()->notifications_manager->reset($data);
+});
+api_expose_admin('notifications_manager/reset',function($data){
+    return mw()->notifications_manager->reset($data);
+});
+api_expose_admin('notifications_manager/mark_all_as_read',function($data){
+    return mw()->notifications_manager->mark_all_as_read($data);
+});
+ 
 
 
 api_expose('template/print_custom_css', function ($data) {
