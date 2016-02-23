@@ -10,7 +10,6 @@ Route::group(['middleware' => '\Microweber\App\Http\Middleware\SessionlessMiddle
 
 Route::group(['namespace' => '\Microweber\Controllers'], function () {
     Route::any('/', 'DefaultController@index');
-    Route::controller('alou', 'TestController');
 
     Route::any('/api', 'DefaultController@api');
     Route::any('/api/{slug}', 'DefaultController@api');

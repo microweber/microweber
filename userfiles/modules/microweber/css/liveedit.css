@@ -2076,6 +2076,7 @@ body.design_hover .element-current{
   top: 40px;
   cursor: pointer;
   width: 140px;
+  font-size:11px;
 }
 
 #toolbar-back-to-admin{

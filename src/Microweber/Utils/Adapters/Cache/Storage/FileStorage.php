@@ -95,12 +95,13 @@ class FileStorage implements Store {
      */
     public function put($key, $value, $minutes) {
         $key = $this->appendLocale($key);
-
+        $this->memory[ $key ] = $value;
         $value = $this->expiration($minutes) . serialize($value);
         $path = $this->path($key);
         $path = $this->normalize_path($path, false);
 
         $this->createCacheDirectory($path);
+
         $skip = false;
         if (!empty($this->tags)){
             foreach ($this->tags as $tag) {
