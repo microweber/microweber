@@ -789,25 +789,22 @@ class CategoryManager {
             return false;
         }
 
-        $function_cache_id = '';
 
-        $args = func_get_args();
+        $function_cache_id = __FUNCTION__;
 
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
+        $id = intval($id);
+        $cache_group = 'categories';
 
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
-        if (($cache_content)!=false){
+        if (($cache_content)!=false and isset($cache_content[ $id ])){
 
-            return $cache_content;
+            return $cache_content[ $id ];
         } else {
+            if ($cache_content==false){
+                $cache_content = array();
+            }
+
             $table = $this->tables['categories'];
             $c_infp = $this->get_by_id($id);
 
@@ -822,138 +819,23 @@ class CategoryManager {
             $content = $this->get_page($id);
 
             if (!empty($content)){
-                $url = $content['url'];
                 $url = $this->app->content_manager->link($content['id']);
-            } else {
-                if (!empty($c_infp) and isset($c_infp['rel_type']) and trim($c_infp['rel_type'])=='content'){
-                    // $this->app->database_manager->delete_by_id($table, $id);
-                }
+            }
+
+            if (isset($url)==false and defined('PAGE_ID')){
+                $url = $this->app->content_manager->link(PAGE_ID);
             }
 
             if (isset($url)!=false){
                 $url = $url . '/category:' . $id;
-                $this->app->cache_manager->save($url, $function_cache_id, $cache_group);
+                $cache_content[ $id ] = $url;
+                $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
 
                 return $url;
             }
 
             return;
         }
-
-        //todo delete
-
-        $function_cache_id = '';
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
-        if (($cache_content)!=false){
-
-            return $cache_content;
-        } else {
-
-            $data = array();
-
-            $data['id'] = $id;
-
-            $data = $this->get_by_id($id);
-
-            if (empty($data)){
-
-                return false;
-            }
-            //$this->load->model ( 'Content_model', 'content_model' );
-
-            $table = $this->tables['categories'];
-            $db_t_content = $this->tables['content'];
-
-            $content = array();
-
-            $content['subtype'] = 'dynamic';
-
-            $content['subtype_value'] = $id;
-
-            //$orderby = array ('id', 'desc' );
-
-            $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$id} LIMIT 0,1";
-            //p($q,1);
-            $q = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), $cache_group);
-
-            //$content = $this->content_model->getContentAndCache ( $content, $orderby );
-
-            $content = $q[0];
-
-            $url = false;
-
-            $parent_ids = $this->get_parents($data['id']);
-            //   $parent_ids = array_rpush($parent_ids, $data['id']);
-            $parent_ids = array_pad($parent_ids, - (count($parent_ids) + 1), $data['id']);
-            foreach ($parent_ids as $item) {
-
-                $content = array();
-
-                $content['subtype'] = 'dynamic';
-
-                $content['subtype_value'] = $item;
-
-                $orderby = array('id', 'desc');
-
-                $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$item} LIMIT 0,1";
-                //p($q);
-                $q = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), $cache_group);
-
-                //$content = $this->content_model->getContentAndCache ( $content, $orderby );
-
-                $content = $q[0];
-
-                //$content = $content [0];
-
-                $url = false;
-
-                if (!empty($content)){
-
-                    if ($content['content_type']=='page'){
-                        if (function_exists('page_link')){
-                            $url = $this->app->content_manager->link($content['id']);
-                            //$url = $url . '/category:' . $data ['title'];
-
-                            $str = $data['title'];
-                            if (function_exists('mb_strtolower')){
-                                $str = mb_strtolower($str, "UTF-8");
-                            } else {
-                                $str = strtolower($str);
-                            }
-
-                            $string1 = ($str);
-
-                            $url = $url . '/' . $this->app->url_manager->slug($string1) . '/categories:' . $data['id'];
-
-                            //$url = $url . '/categories:' . $data ['id'];
-                        }
-                    }
-
-                }
-
-                //if ($url != false) {
-                $this->app->cache_manager->save($url, $function_cache_id, $cache_group);
-
-                return $url;
-                //}
-            }
-
-            return false;
-        }
-
     }
 
     public function get_page($category_id) {
