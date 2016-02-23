@@ -1295,6 +1295,12 @@ class CategoryManager {
             $data['is_deleted'] = 0;
         }
 
+        if ((!isset($data['id']) or $data['id']==0)
+            and (!isset($data['url']) or  trim($data['url'])==false)
+            and isset($data['title'])){
+            $data['url'] = $data['title'];
+        }
+
         $old_parent = false;
         if (isset($data['id'])){
             $old_category = $this->get_by_id($data['id']);
