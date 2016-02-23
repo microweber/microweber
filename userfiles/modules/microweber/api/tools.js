@@ -1119,7 +1119,7 @@ mw.tools = {
                     }
 
                     $(this).toggleClass("active");
-	 
+
                     $(".mw-dropdown").not(this).removeClass("active").find(".mw-dropdown-content").hide();
  
                     if (mw.$(".other-action-hover", this).length == 0) {
@@ -1163,8 +1163,11 @@ mw.tools = {
         if (typeof mw.tools.dropdownActivated === 'undefined') {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
-				
-				if($(e.target).hasClass('mw-dropdown-content') || $(e.target).hasClass('mw-dropdown')){
+
+				if($(e.target).hasClass('mw-dropdown-content')
+                    || $(e.target).hasClass('mw-dropdown')
+                    || mw.tools.hasParentsWithClass(e.target, 'mw-dropdown')
+                ){
 				// dont hide the dropdown	
 				} else if (mw.$('.mw-dropdown.hover').length == 0) {
                     mw.$(".mw-dropdown").removeClass("active");

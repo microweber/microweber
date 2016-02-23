@@ -312,10 +312,7 @@ function url_title($text) {
 }
 
 function url_param($param, $skip_ajax = false) {
-    if($param == 'category'){
-        return mw()->category_manager->get_category_id_from_url();
 
-    }
     return mw()->url_manager->param($param, $skip_ajax);
 }
 
