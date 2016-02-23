@@ -376,12 +376,18 @@ mw.tools = {
 
 
             if (wl && $.contains(self.document, tip)) {
-                $(self).bind('resize scroll', function (e) {
+
+             /*
+              //position bug: resize fires in modal frame
+              $(self).bind('resize scroll', function (e) {
+
+
                     if (self.document.contains(tip)) {
 
                         self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
                     }
-                });
+
+                });*/
 
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 
@@ -2903,7 +2909,7 @@ mw.tools = {
         }
         var curr = a || $("#mw_handle_module").data("curr");
         var attributes = {};
-        if (mw.$('#module-settings-' + curr.id).length > 0) {
+        if (typeof(curr.id) != 'undefined' && mw.$('#module-settings-' + curr.id).length > 0) {
             var m = mw.$('#module-settings-' + curr.id)[0];
             m.scrollIntoView();
             mw.tools.highlight(m);

@@ -251,7 +251,7 @@ class DatabaseManager extends DbUtils
         }
 
 
-        if ($this->use_cache == false) {
+        if ($use_cache == false) {
             $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {

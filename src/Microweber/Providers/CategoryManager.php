@@ -346,6 +346,8 @@ class CategoryManager {
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
+            $cat_get_params['no_cache'] = 1;
+
             if ($users_can_create_content!=false){
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
@@ -1455,11 +1457,38 @@ class CategoryManager {
             return false;
         }
         $id = intval($id);
-        $table = $this->tables['categories'];
-        $id = intval($id);
-        $q = $this->app->database_manager->get_by_id($table, $id);
 
-        return $q;
+        $cache_group_suffix = ceil($id / 50) * 50;
+
+
+        $function_cache_id = __FUNCTION__.'-'.$cache_group_suffix;
+
+        $id = intval($id);
+        $cache_group = 'categories';
+
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+
+        if (($cache_content)!=false and isset($cache_content[ $id ])){
+
+            return $cache_content[ $id ];
+        } else {
+            if ($cache_content==false){
+                $cache_content = array();
+            }
+
+            $table = $this->tables['categories'];
+
+            $get = array();
+            $get['id'] = $id;
+            $get['no_cache'] =true;
+            $get['single'] =true;
+            $q = $this->app->database_manager->get($table, $get);
+            $cache_content[ $id ] = $q;
+            $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
+
+            return $q;
+        }
+
 
     }
 
