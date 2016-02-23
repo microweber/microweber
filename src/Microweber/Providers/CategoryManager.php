@@ -827,7 +827,12 @@ class CategoryManager {
             }
 
             if (isset($url)!=false){
-                $url = $url . '/category:' . $id;
+                if (isset($c_infp['url']) and trim($c_infp['url'])!=''){
+                    $url = $url . '/category:' . trim($c_infp['url']);
+                } else {
+                    $url = $url . '/category:' . $id;
+
+                }
                 $cache_content[ $id ] = $url;
                 $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
 
@@ -1296,7 +1301,28 @@ class CategoryManager {
             if (isset($old_category['parent_id'])){
                 $old_parent = $old_category['parent_id'];
             }
-            //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+        }
+
+        if (isset($data['url']) and trim($data['url'])!=false){
+            $possible_slug = $this->app->url_manager->slug($data['url']);
+            if ($possible_slug){
+                $possible_slug_check = $this->get_by_slug($possible_slug);
+                if (isset($possible_slug_check['id'])){
+                    if (isset($data['id']) and $data['id']==$possible_slug_check['id']){
+                        //slug is the same
+                    } else {
+                        $possible_slug = $possible_slug . '-' . date("YmdHis");
+                    }
+                }
+            }
+            if ($possible_slug){
+                $data['url'] = $possible_slug;
+            } else {
+                $data['url'] = false;
+            }
+
+        } elseif (isset($data['url']) and trim($data['url'])!=false) {
+            $data['url'] = false;
         }
 
         if (!empty($orig_data)){
@@ -1431,6 +1457,19 @@ class CategoryManager {
 
     }
 
+    public function get_by_slug($slug) {
+
+        if ($slug==false){
+            return false;
+        }
+        $id = trim(strip_tags($slug));
+        $table = $this->tables['categories'];
+        $q = $this->app->database_manager->get_by_id($table, $id, 'url');
+
+        return $q;
+
+    }
+
     public function delete($data) {
 
         if (is_array($data) and isset($data['id'])){
@@ -1481,5 +1520,21 @@ class CategoryManager {
         return $res;
     }
 
+
+    public function get_category_id_from_url($url = false) {
+        if ($url){
+            $cat_url = $this->app->url_manager->param('category', true, $url);
+        } else {
+            $cat_url = $this->app->url_manager->param('category', true);
+        }
+        if ($cat_url!=false and !is_numeric($cat_url)){
+            $cat_url_by_slug = $this->get_by_slug($cat_url);
+            if (isset($cat_url_by_slug['id'])){
+                $cat_url = $cat_url_by_slug['id'];
+            }
+        }
+
+        return intval($cat_url);
+    }
 
 }

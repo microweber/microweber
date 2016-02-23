@@ -1414,7 +1414,8 @@ class ContentManager {
             }
 
             if (defined('CATEGORY_ID')==false){
-                $cat_url = $this->app->url_manager->param('category', $skip_ajax = true);
+                $cat_url = $this->app->category_manager->get_category_id_from_url();
+
                 if ($cat_url!=false){
                     define('CATEGORY_ID', intval($cat_url));
                 }
@@ -2209,12 +2210,9 @@ class ContentManager {
     }
 
 
-
     public function save($data, $delete_the_cache = true) {
         return $this->save_content($data, $delete_the_cache);
     }
-
-
 
 
     public function prev_content($content_id = false) {
@@ -2459,8 +2457,6 @@ class ContentManager {
     }
 
 
-
-
     public function get_pages($params = false) {
         $params2 = array();
 
@@ -2526,8 +2522,6 @@ class ContentManager {
             return $content['title'];
         }
     }
-
-
 
 
     public function site_templates() {

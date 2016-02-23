@@ -681,9 +681,11 @@ class DatabaseManager extends DbUtils
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-        if ($id == 0) {
+
+        if ($field_name == 'id'  and $id == 0) {
             return false;
         }
+
         if ($field_name == false) {
             $field_name = "id";
         }
@@ -694,6 +696,7 @@ class DatabaseManager extends DbUtils
         $params[$field_name] = $id;
         $params['table'] = $table;
         $params['single'] = true;
+
         $data = $this->get($params);
         return $data;
     }

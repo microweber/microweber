@@ -52,7 +52,7 @@ class Front
             $paging_param = 'current_page' . crc32($post_params['id']);
             unset($post_params['id']);
         }
-        $cat_from_url = url_param('category');
+        $cat_from_url = get_category_id_from_url();
         $posts_parent_related = false;
         if (isset($params['current_page'])) {
             // $params['current_page'] = $params['current_page'];

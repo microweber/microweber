@@ -312,7 +312,12 @@ $(document).ready(function(){
         </div>
         
         
-        
+         <div class="mw-ui-field-holder">
+          <label class="mw-ui-label">
+            <?php _e("Slug"); ?>
+          </label>
+          <input type="text"  class="mw-ui-field w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']): ''?>" /> 
+        </div>
         
         
         

@@ -2222,7 +2222,7 @@ class DefaultController extends Controller {
         if (isset($_REQUEST['category_id'])){
             $cat_url = intval($_REQUEST['category_id']);
         } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
             $cat_url = intval($cat_url);
         }
 
@@ -2291,8 +2291,9 @@ class DefaultController extends Controller {
             }
         }
         if (isset($_SERVER['HTTP_REFERER'])){
-            $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
             if ($cat_url!=false){
+
                 if (!defined('CATEGORY_ID')){
                     define('CATEGORY_ID', intval($cat_url));
                 }
