@@ -24,7 +24,7 @@ $powered_by_link = false;
 $brand_name = false;
 $disable_marketplace = false;
 $disable_powered_by_link = false;
-
+$custom_support_url = false;
 $enable_service_links = true;
 $admin_logo_login_link = false;
 
@@ -62,6 +62,9 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
     $brand_name = $settings['brand_name'];
 }
 
+if (isset($settings['custom_support_url']) and $settings['custom_support_url']!=false){
+    $custom_support_url = $settings['custom_support_url'];
+}
 
 
 ?>
@@ -149,6 +152,21 @@ if (isset($settings['brand_name']) and $settings['brand_name']!=false){
                 value="<?php print  $admin_logo_login_link; ?>"
                 />
               </div>
+              
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Support page link</label>
+                <input
+                name="custom_support_url"
+                option-group="whitelabel"
+                placeholder="Enter url of your contact page"
+
+                class="mw-ui-field w100"
+                type="text"
+                value="<?php print  $custom_support_url; ?>"
+                />
+              </div>
+              
+              
             </div>
           </div>
           <div class="mw-ui-col" style="width: 50%">

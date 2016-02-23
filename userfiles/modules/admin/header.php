@@ -289,15 +289,21 @@ if ($last_page_front != false) {
               <div id="main-bar-user-tip">
         <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
           <?php _e("My Profile"); ?>
-          </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn">
+          </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank" class="mw-ui-btn">
           <?php _e("Manage Users"); ?>
 
           </a>
 
           <?php if(mw()->ui->enable_service_links): ?>
+          <?php if(mw()->ui->custom_support_url): ?>
+           <a href="<?php print mw()->ui->custom_support_url ?>"  class="mw-ui-btn">
+          <?php _e("Support"); ?>
+          </a>
+          <?php else: ?>
           <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn">
           <?php _e("Support"); ?>
           </a>
+          <?php endif; ?>
           <?php endif; ?>
 
             <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set">
