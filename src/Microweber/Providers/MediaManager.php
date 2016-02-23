@@ -102,21 +102,16 @@ class MediaManager {
 
     public function get_by_id($id) {
 
-        if ($id==false){
-            return false;
-        }
 
         $table = $this->tables['media'];
         $id = intval($id);
         if ($id==0){
             return false;
         }
-
-        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
-
         $params = array();
         $params['id'] = $id;
         $params['limit'] = 1;
+
         $params['table'] = $table;
         $params['cache_group'] = 'media/' . $id;
 
@@ -129,6 +124,8 @@ class MediaManager {
         }
 
         return $content;
+
+
     }
 
     public function upload_progress_check() {
@@ -388,7 +385,7 @@ class MediaManager {
 
         $data = $this->app->database_manager->get($params);
 
-        if(isset($params['single'])){
+        if (isset($params['single'])){
             return $data;
         }
 
@@ -603,7 +600,7 @@ class MediaManager {
             if (isset($check['id'])){
                 $s['id'] = $check['id'];
             }
-         }
+        }
 
         if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])){
             $ext = get_file_extension($s['filename']);
@@ -652,7 +649,7 @@ class MediaManager {
         if (!isset($src) or $src==false){
             return $this->pixum($width, $height);
         }
-        
+
 
         $src = strtok($src, '?');
 
@@ -737,7 +734,7 @@ class MediaManager {
         }
 
         $cache_path = $cd . $cache;
-         if (file_exists($cache_path)){
+        if (file_exists($cache_path)){
             if (!headers_sent()){
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
                     $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);

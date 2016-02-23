@@ -354,10 +354,8 @@ $payment_modules = get_modules('type=payment_gateway');
                 
                
 
-
-                <hr>
-
-                <module type="shop/payments/currency" id="mw_curr_select" />
+ 
+              
 
 
                 </div>

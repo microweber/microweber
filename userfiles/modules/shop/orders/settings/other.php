@@ -60,6 +60,14 @@
     <?php ?>
     <input name="custom_order_id"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('custom_order_id','shop'); ?>" placeholder="ORD-{id}"  />
   </div>
+    <br />
+    <hr>
+    <br />
+    <module type="shop/payments/currency" id="mw_curr_select" />
+  <br />
+  
   <hr>
   <module type="shop/shipping/set_units" id="mw_set_shipping_units" />
+  
+  
 </div>

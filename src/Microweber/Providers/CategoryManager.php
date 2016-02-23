@@ -97,7 +97,7 @@ class CategoryManager {
         }
 
 
-        $cat_url = $this->app->url_manager->param('category', true);
+        $cat_url = $this->get_category_id_from_url();
         if ($cat_url!=false){
             $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
@@ -1145,6 +1145,7 @@ class CategoryManager {
 
         $data['table'] = $table;
         if (isset($params['id'])){
+
             $data['cache_group'] = $cache_group = 'categories/' . $params['id'];
         } else {
             $data['cache_group'] = $cache_group = 'categories/global';
@@ -1451,19 +1452,27 @@ class CategoryManager {
      * @version     1.0
      * @since       Version 1.0
      */
-    public function get_by_id($id = 0) {
+    public function get_by_id($id = 0, $by_field_name = 'id') {
 
-        if ($id==0){
+        if(!$id){
+            return;
+        }
+        if ($by_field_name == 'id' and intval($id)==0){
             return false;
         }
-        $id = intval($id);
+        if(is_numeric($id)){
+            $id = intval($id);
+            $cache_group_suffix = ceil($id / 50) * 50;
+        } else {
+            $id = trim($id);
+            $cache_group_suffix = substr($id, 0, 1);
+        }
 
-        $cache_group_suffix = ceil($id / 50) * 50;
 
 
-        $function_cache_id = __FUNCTION__.'-'.$cache_group_suffix;
+        $function_cache_id = __FUNCTION__.'-'.$by_field_name.'-'.$cache_group_suffix;
 
-        $id = intval($id);
+
         $cache_group = 'categories';
 
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
@@ -1479,7 +1488,8 @@ class CategoryManager {
             $table = $this->tables['categories'];
 
             $get = array();
-            $get['id'] = $id;
+
+            $get[$by_field_name] = $id;
             $get['no_cache'] =true;
             $get['single'] =true;
             $q = $this->app->database_manager->get($table, $get);
@@ -1494,14 +1504,8 @@ class CategoryManager {
 
     public function get_by_slug($slug) {
 
-        if ($slug==false){
-            return false;
-        }
-        $id = trim(strip_tags($slug));
-        $table = $this->tables['categories'];
-        $q = $this->app->database_manager->get_by_id($table, $id, 'url');
+        return $this->get_by_id($slug,'url');
 
-        return $q;
 
     }
 
