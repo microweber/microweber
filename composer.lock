@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b845c14c36b763f60645d6ca7c6479df",
-    "content-hash": "5612a32bec8f91f354f2fa3747bdd2b0",
+    "hash": "3e13080551bbfc82cbd7daaa93a07a2c",
+    "content-hash": "2f158166f7bd448d64895956eb65d954",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -134,12 +134,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "cdea645eabe658e08fb2f4e5b80bddbd61c3adef"
+                "reference": "fff0aed3a6ad69618ff84b1540f79323a3bc9097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/cdea645eabe658e08fb2f4e5b80bddbd61c3adef",
-                "reference": "cdea645eabe658e08fb2f4e5b80bddbd61c3adef",
+                "url": "https://api.github.com/repos/composer/composer/zipball/fff0aed3a6ad69618ff84b1540f79323a3bc9097",
+                "reference": "fff0aed3a6ad69618ff84b1540f79323a3bc9097",
                 "shasum": ""
             },
             "require": {
@@ -201,7 +201,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2016-02-24 13:07:17"
+            "time": "2016-02-24 17:34:20"
         },
         {
             "name": "composer/installers",
