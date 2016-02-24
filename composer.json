@@ -22,7 +22,14 @@
     "graham-campbell/markdown": "~3.0",
     "guzzlehttp/guzzle": "5.*",
     "composer/installers": "1.*",
-    "keboola/csv": "1.1.*"
+    "keboola/csv": "1.1.*",
+    "omnipay/omnipay": "2.*",
+    "omnipay/stripe": "~2.0",
+    "omnipay/paypal": "~2.0",
+    "omnipay/mollie": "~3.0",
+    "paragonie/random_compat": "1.*",
+    "coduo/php-humanizer": "*",
+    "omnipay/common": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "4.5.*@dev"
