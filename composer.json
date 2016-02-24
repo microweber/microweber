@@ -26,7 +26,7 @@
     "omnipay/omnipay": "2.*",
     "omnipay/stripe": "~2.0",
     "omnipay/paypal": "~2.0",
-    "omnipay/mollie": "~3.0",
+    "omnipay/mollie": "3.*",
     "paragonie/random_compat": "1.*",
     "coduo/php-humanizer": "*",
     "omnipay/common": "*"

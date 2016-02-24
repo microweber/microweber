@@ -7,8 +7,8 @@ $api_key = get_option('stripe_api_key', 'payments');
 $gateway = Omnipay::create('Stripe');
 $gateway->setApiKey($api_key);
 
-
-$formData = include(dirname(__DIR__) . DS . 'partials' . DS . 'omnipay_populate_form_data.php');
+ 
+$formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
 
 
 try {
@@ -28,8 +28,8 @@ try {
         $place_order['order_completed'] = 1;
 
     } elseif ($response->isRedirect()) {
-
-        return $response->redirect();
+		$place_order['error'] = 'Stripe redirect is not supported yet';
+       // return $response->redirect();
 
     } else {
         $place_order['error'] = $response->getMessage();

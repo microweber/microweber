@@ -12,4 +12,4 @@ $pay_on_delivery_msg = get_option('pay_on_delivery_msg', 'payments');
 
 <?php 
 
-include(dirname(__DIR__).DS.'partials'.DS.'cc_form_fields.php'); 
+include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'cc_form_fields.php'); 
