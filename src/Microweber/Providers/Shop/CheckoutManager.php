@@ -100,6 +100,7 @@ class CheckoutManager {
                 } elseif ($mw_process_payment_failed==true) {
                     $return_to = $return_to . $append . 'mw_payment_failure=1';
                 }
+
                 return $this->app->url_manager->redirect($return_to);
             }
         }
@@ -332,6 +333,12 @@ class CheckoutManager {
                 if (!empty($checkout_errors)){
                     return array('error' => $checkout_errors);
                 }
+
+                if (isset($place_order['error'])){
+                    return array('error' => $place_order['error']);
+                }
+
+
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
             }

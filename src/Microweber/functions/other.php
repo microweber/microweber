@@ -788,3 +788,10 @@ function rmdir_recursive($directory, $empty = true) {
         return true;
     }
 }
+
+
+if(!function_exists('titlelize')){
+    function titlelize($str){
+        return mw()->format->titlelize($str);
+    }
+}
