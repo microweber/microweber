@@ -149,8 +149,9 @@ if (isset($params['active_ids'])) {
  
 
 if (isset($params['categories_active_ids'])) {
+	 
 	$tree['categories_active_ids'] = $params['categories_active_ids'];
-	if(is_numeric($tree['categories_active_ids'])){
+	if(is_numeric($tree['categories_active_ids']) and isset($params['for-id']) and $params['for-id'] == 0){
 	$all_parents = mw()->category_manager->get_parents($tree['categories_active_ids']);
 	if(!empty($all_parents)){
 		foreach($all_parents as $all_parent){

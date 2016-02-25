@@ -2399,6 +2399,17 @@ li:hover > .show-on-hover {
   top: 50%;
   margin-top: -5px;
 }
+.mw-tooltip-warning {
+  color: #ef924d;
+  box-shadow: 0 0 4px #ef924d;
+}
+.mw-tooltip-warning .mw-tooltip-content {
+  background: #ef924d;
+  color: white;
+}
+.mw-tooltip-warning .mw-tooltip-arrow:after {
+  background: #ef924d;
+}
 /*********************************************
          Form elements and cotrolls
 *********************************************/

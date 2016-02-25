@@ -161,6 +161,8 @@ mw.tools = {
         source: function (content, skin, position,id) {
             if (skin == 'dark') {
                 var skin = 'mw-tooltip-dark';
+            } else if (skin == 'warning') {
+                var skin = 'mw-tooltip-default mw-tooltip-warning';
             }
             if (typeof content === 'object') {
                 var content = mw.$(content).html();
@@ -194,14 +196,12 @@ mw.tools = {
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
 
-            //if (off.top != 0 || off.left <= 0) {
-            //    var left = $(el).offsetParent().width()-$(el).outerWidth()
-            //    d(left);
-            //    off.left = left;
-            //}
+             if (off.top != 0 || off.left <= 0) {
+              var off = $(el).parent().offset()
+             }
 
 
-
+ 
             mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
@@ -367,7 +367,14 @@ mw.tools = {
                 var cur_tip_id = cur_tip.attr('id');
                 if(cur_tip_id){
                     mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
-                    mw.$( "#"+cur_tip_id ).show();
+					if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
+					   
+						setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 300);
+
+					} else {
+					   mw.$( "#"+cur_tip_id ).show();
+
+					}
 
                 }
 
@@ -388,17 +395,18 @@ mw.tools = {
                     }
 
                 });*/
-
+ 
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 
                     $(self).bind('click', function (e,target) {
 
-                        mw.$("."+tip_group_class).hide();
+                      mw.$("."+tip_group_class).hide();
 
                     });
 
                 }
-            }
+ 				
+             }
 
             mw.tools.tooltip.setPosition(tip, o.element, o.position);
             return tip;

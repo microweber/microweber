@@ -366,10 +366,7 @@ class ShopManager {
 
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false) {
-
-
         return $this->app->checkout_manager->confirm_email_send($order_id, $to, $no_cache, $skip_enabled_check);
-
     }
 
     public function get_order_by_id($id = false) {
