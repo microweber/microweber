@@ -1,3 +1,4 @@
+
 mw.CSSParser = function(el){
     if(el === null ) return false;
     if(typeof el !== 'object') return false;

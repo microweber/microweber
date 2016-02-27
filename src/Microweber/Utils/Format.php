@@ -19,27 +19,29 @@ class Format {
         $retStr = '<ul>';
         if (is_array($arr)){
             foreach ($arr as $key => $val) {
+                if (!is_array($key)){
+                    $key = str_replace('_', ' ', $key);
+                    $key = ucwords($key);
 
-                $key = str_replace('_', ' ', $key);
-                $key = ucwords($key);
+                    if (is_array($val)){
+                        if (!empty($val)){
+                            if (is_numeric($key)){
+                                $retStr .= '<ul>';
+                                $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
+                                $retStr .= '</ul>';
+                            } else {
+                                $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
 
-                if (is_array($val)){
-                    if (!empty($val)){
-                        if (is_numeric($key)){
-                            $retStr .= '<ul>';
-                            $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
-                            $retStr .= '</ul>';
-                        } else {
-                            $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
-
+                            }
                         }
-                    }
-                } else {
-                    if (is_string($val)!=false and trim($val)!=''){
-                        $retStr .= '<li>' . $key . ': ' . $val . '</li>';
-                    }
+                    } else {
+                        if (is_string($val)!=false and trim($val)!=''){
+                            $retStr .= '<li>' . $key . ': ' . $val . '</li>';
+                        }
 
+                    }
                 }
+
             }
         }
         $retStr .= '</ul>';

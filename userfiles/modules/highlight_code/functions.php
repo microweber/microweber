@@ -6,7 +6,7 @@
 
 function mw_hl_code_css(){
 	
-		template_head('//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css');
+	/*	template_head('//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css');
 		template_head('//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js');
 		
 		template_head("
@@ -20,8 +20,8 @@ function mw_hl_code_css(){
 		
 		
 		</script>
-		");
-
+		");  
+*/
 
 
 
