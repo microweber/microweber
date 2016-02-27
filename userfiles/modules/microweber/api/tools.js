@@ -1,6 +1,6 @@
 mw.require("files.js");
 mw.require("css_parser.js");
-mw.require(mw.settings.includes_url + "css/ui.css");
+//mw.require(mw.settings.includes_url + "css/ui.css");
 
 
 (function () {
@@ -196,8 +196,10 @@ mw.tools = {
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
 
-             if (off.top != 0 || off.left <= 0) {
-              var off = $(el).parent().offset()
+             if (off.top == 0 && off.left == 0) {
+
+               var off = $(el).parent().offset()
+
              }
 
 
@@ -369,7 +371,7 @@ mw.tools = {
                     mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
 					if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 					   
-						setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 300);
+						setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 100);
 
 					} else {
 					   mw.$( "#"+cur_tip_id ).show();

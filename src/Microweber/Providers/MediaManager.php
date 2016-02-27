@@ -707,9 +707,6 @@ class MediaManager {
         }
         $media_root = media_base_path();
 
-        if (!is_writable($media_root)){
-            $media_root = mw_cache_path();
-        }
 
         $cd = $this->thumbnails_path() . $width . DS;
 
@@ -1181,7 +1178,13 @@ class MediaManager {
     }
 
     public function thumbnails_path() {
-        return media_base_path() . 'thumbnail' . DS;
+
+        $userfiles_dir = userfiles_path();
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS. 'thumbnails'. DS );
+
+        // media_base_path() . 'thumbnail' . DS;
+
+        return $userfiles_cache_dir;
     }
 
 

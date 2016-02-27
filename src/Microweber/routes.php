@@ -6,6 +6,13 @@ Route::group(['middleware' => '\Microweber\App\Http\Middleware\SessionlessMiddle
     Route::any('/apijs_settings', 'DefaultController@apijs_settings');
     Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
     Route::any('/api_nosession', 'DefaultController@api');
+    Route::any('/favicon.ico', function(){
+        return;
+    });
+
+
+
+
 });
 
 Route::group(['namespace' => '\Microweber\Controllers'], function () {

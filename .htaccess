@@ -7,10 +7,11 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
     Options -MultiViews
     </IfModule>
     RewriteEngine On
-	RewriteRule ^/favicon.ico -[L,QSA]
 
+    RewriteCond %{REQUEST_URI} !=/favicon.ico
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+
     RewriteRule ^(.*)$ index.php [NC,L]
 
     RedirectMatch 404 /\\.git(/|$)

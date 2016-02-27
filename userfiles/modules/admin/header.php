@@ -63,7 +63,7 @@
                     }
                 });
             });
-            mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+           // mw.require("<?php print mw_includes_url(); ?>css/ui.css"); 
 
             $(window).load(function () {
                 if($(".bootstrap3ns").size() > 0){

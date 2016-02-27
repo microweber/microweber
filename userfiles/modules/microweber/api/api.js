@@ -730,14 +730,15 @@ mw.user = {
 
 
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
-mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/url.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
 //mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 
 
 <?php  // include "jquery.js";  ?>
@@ -747,6 +748,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
 <?php  include "forms.js"; ?>
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
+<?php  include "shop.js"; ?>
 
 
 
