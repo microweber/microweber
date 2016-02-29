@@ -16,15 +16,17 @@ class Format {
      * @category Arrays
      */
     public function array_to_ul($arr) {
+        $has_items = false;
         $retStr = '<ul>';
         if (is_array($arr)){
             foreach ($arr as $key => $val) {
-                if (!is_array($key)){
+                if (!is_array($key) and $key and $val){
                     $key = str_replace('_', ' ', $key);
                     $key = ucwords($key);
 
                     if (is_array($val)){
                         if (!empty($val)){
+                            $has_items = true;
                             if (is_numeric($key)){
                                 $retStr .= '<ul>';
                                 $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
@@ -36,6 +38,8 @@ class Format {
                         }
                     } else {
                         if (is_string($val)!=false and trim($val)!=''){
+                            $has_items = true;
+
                             $retStr .= '<li>' . $key . ': ' . $val . '</li>';
                         }
 
@@ -45,8 +49,9 @@ class Format {
             }
         }
         $retStr .= '</ul>';
-
-        return $retStr;
+        if ($has_items){
+            return $retStr;
+        }
     }
 
     /**
@@ -250,8 +255,9 @@ class Format {
 
             return $output;
         }
-
-        return $output;
+        if (isset($output)){
+            return $output;
+        }
 
     }
 
@@ -715,6 +721,7 @@ class Format {
         if (isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
             $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])){
+
                 $tmp_val = $this->array_to_ul($item['custom_fields_data']);
                 $item['custom_fields'] = $tmp_val;
             }

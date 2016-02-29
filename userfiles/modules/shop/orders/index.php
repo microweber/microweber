@@ -24,8 +24,8 @@
 			//$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=0&'.$ord);
 			
 	} else {
-		$orders = get_orders('limit=2000&order_completed=1&'.$ord.$kw);
-		// 
+		$orders = get_orders('no_limit=true&order_completed=1&'.$ord.$kw);
+ 
  	}
 
 ?>

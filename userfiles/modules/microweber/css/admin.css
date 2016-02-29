@@ -3114,6 +3114,11 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 #order-information-table tr.mw-order-item.hovered td a, #order-information-table tr.mw-order-item:hover td a {
 	color: white;
 }
+
+#order-information-table ul {
+	list-style:inside;
+}
+
 .mw-order-item-image {
 	border: 1px solid transparent;
 	margin: 0 9px 9px 0;

@@ -42,8 +42,7 @@ class OrderManager {
         }
         $table = $table = $this->table;
         $params['table'] = $table;
-
-        return $this->app->database_manager->get($params);
+         return $this->app->database_manager->get($params);
 
     }
 
