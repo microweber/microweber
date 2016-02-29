@@ -71,6 +71,7 @@ class ConfigSave extends Repository {
 
         // $allow_in_cli = array('database', 'microweber');
         // Preparing data
+
         foreach ($aggr as $file => $items) {
 
 
@@ -81,17 +82,17 @@ class ConfigSave extends Repository {
 
 
             $to_save = true;
-
             if (is_string($allowed)){
-                if ($file!=$allowed){
-                    $to_save = false;
-                }
-            } elseif (!empty($allowed)) {
-                if (!in_array($file, $allowed)){
-                    $to_save = false;
-                }
+                $allowed = explode(',', $allowed);
             }
 
+            if (is_array($allowed)){
+                if (!empty($allowed)){
+                    if (!in_array($file, $allowed) and !array_search($file, $allowed)){
+                        $to_save = false;
+                    }
+                }
+            }
 
             if ($to_save){
                 if (!file_exists($path)){
@@ -102,7 +103,7 @@ class ConfigSave extends Repository {
                 if (is_string($val)){
                     $temp = str_replace('\\', '\\\\', storage_path());
                     $val = str_replace("'" . $temp . "\\\\", "storage_path().DIRECTORY_SEPARATOR.'", $val);
-                    $val = str_replace("'" . storage_path().DIRECTORY_SEPARATOR, "storage_path().DIRECTORY_SEPARATOR.'", $val);
+                    $val = str_replace("'" . storage_path() . DIRECTORY_SEPARATOR, "storage_path().DIRECTORY_SEPARATOR.'", $val);
                     $val = str_replace("'" . $val, "storage_path().'", $val);
                     $val = str_replace('\\', DIRECTORY_SEPARATOR, $val);
                     $code = '<?php return ' . $val . ';';
@@ -116,17 +117,20 @@ class ConfigSave extends Repository {
         }
     }
 
-    protected function callBeforeSave($namespace, $group, $items) {
+    protected
+    function callBeforeSave($namespace, $group, $items) {
         $callback = $this->beforeSave[ $namespace ];
 
         return call_user_func($callback, $this, $group, $items);
     }
 
-    public function beforeSaving($namespace, Closure $callback) {
+    public
+    function beforeSaving($namespace, Closure $callback) {
         $this->beforeSave[ $namespace ] = $callback;
     }
 
-    protected function parseCollection($collection) {
+    protected
+    function parseCollection($collection) {
         list($namespace, $group) = explode('::', $collection);
         if ($namespace=='*'){
             $namespace = null;
@@ -135,7 +139,8 @@ class ConfigSave extends Repository {
         return [$namespace, $group];
     }
 
-    public function getBeforeSaveCallbacks() {
+    public
+    function getBeforeSaveCallbacks() {
         return $this->beforeSave;
     }
 }

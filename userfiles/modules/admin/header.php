@@ -117,8 +117,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 </div>*/ ?>
-<?php if(is_admin()): ?>
 <div id="mw-admin-container">
+<?php if(is_admin()): ?>
+
 <div class="mw-ui-row main-admin-row">
 <div class="mw-ui-col main-bar-column">
           <div id="main-bar" class="scroll-height-exception-master">
