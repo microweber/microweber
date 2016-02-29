@@ -38,4 +38,12 @@ $cur_pos = get_option('currency_symbol_position', 'payments');
      </div>
   </div>
 </div>
+
+<br />
+ <a href="javascript:$('#mw_currency_render_holder').toggle();void(0);" class="pull-right"> Advanced <span style="opacity:0.3" class="mw-icon-arrow-down-b"></span> </a>
+        <div id="mw_currency_render_holder" style="display:none;"><br />
+        
+        
+        
 <module type="shop/payments/currency_render" id="mw_curr_rend" />
+</div>

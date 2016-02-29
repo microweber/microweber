@@ -19,6 +19,7 @@ if($payment_currency_rate != false){
  $payment_currency_rate = trim( $payment_currency_rate);
 
 }
+ 
  ?>
 <?php if(is_array($curencies )): ?>
 
@@ -26,7 +27,8 @@ if($payment_currency_rate != false){
 	<?php _e("Accept payments in currency"); ?>
 </h2>
 
-	<select name="payment_currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
+	<select name="payment_currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" autocomplete="off">
+    <option value="" <?php if($payment_currency == false): ?> selected="selected" <?php endif; ?>>Default</option>
 		<?php foreach($curencies  as $item): ?>
 		<option  value="<?php print $item ?>" <?php if($payment_currency == $item): ?> selected="selected" <?php endif; ?>><?php print $item ?></option>
 		<?php endforeach ; ?>

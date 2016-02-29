@@ -193,10 +193,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     href="<?php print admin_url(); ?>view:shop/action:clients">
           <?php _e("Clients"); ?>
           </a></li>
-        <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
+      <!--  <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:shipping">
           <?php _e("Shipping"); ?>
-          </a></li>
+          </a></li>-->
         <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:options">
           <?php _e("Options"); ?>
