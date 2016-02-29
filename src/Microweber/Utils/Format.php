@@ -15,9 +15,9 @@ class Format {
      * @package  Utils
      * @category Arrays
      */
-    public function array_to_ul($arr) {
+    public function array_to_ul($arr, $ul_tag='ul',$li_tag='li') {
         $has_items = false;
-        $retStr = '<ul>';
+        $retStr = '<'.$ul_tag.'>';
         if (is_array($arr)){
             foreach ($arr as $key => $val) {
                 if (!is_array($key) and $key and $val){
@@ -28,11 +28,11 @@ class Format {
                         if (!empty($val)){
                             $has_items = true;
                             if (is_numeric($key)){
-                                $retStr .= '<ul>';
-                                $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
-                                $retStr .= '</ul>';
+                                $retStr .= '<'.$ul_tag.'>';
+                                $retStr .= '<'.$li_tag.'>' . $this->array_to_ul($val,$ul_tag,$li_tag) .  '</'.$li_tag.'>';
+                                $retStr .= '</'.$ul_tag.'>';
                             } else {
-                                $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
+                                $retStr .= '<'.$li_tag.'>' . $key . ': ' . $this->array_to_ul($val,$ul_tag,$li_tag) .  '</'.$li_tag.'>';
 
                             }
                         }
@@ -40,15 +40,20 @@ class Format {
                         if (is_string($val)!=false and trim($val)!=''){
                             $has_items = true;
 
-                            $retStr .= '<li>' . $key . ': ' . $val . '</li>';
+                            $retStr .= '<'.$li_tag.'>' . $key . ': ' . $val .  '</'.$li_tag.'>';
                         }
 
+                    }
+                } else {
+                    if (!empty($val)){
+                        $has_items = true;
+                        $retStr .= $this->array_to_ul($val, $ul_tag, $li_tag);
                     }
                 }
 
             }
         }
-        $retStr .= '</ul>';
+        $retStr .=  '</'.$ul_tag.'>';
         if ($has_items){
             return $retStr;
         }

@@ -28,7 +28,7 @@ api_expose('content_link');
 api_expose_admin('get_content_by_id');
 api_expose_admin('get_products');
 api_expose_admin('delete_content');
-api_bind_admin('content/delete', 'delete_content');
+api_expose_admin('content/delete', 'delete_content');
 api_expose_admin('content_parents');
 api_expose_admin('get_content_children');
 api_expose_admin('page_link');
@@ -68,30 +68,30 @@ api_expose('template/print_custom_css', function ($data) {
 });
 
 
-api_bind_admin('content/set_published', function ($data) {
+api_expose_admin('content/set_published', function ($data) {
     return mw()->content_manager->set_published($data);
 });
 
 
-api_bind_admin('content/set_unpublished', function ($data) {
+api_expose_admin('content/set_unpublished', function ($data) {
     return mw()->content_manager->set_unpublished($data);
 });
-api_bind_admin('content/reorder', function ($data) {
+api_expose_admin('content/reorder', function ($data) {
     return mw()->content_manager->reorder($data);
 });
 
-api_bind_admin('content/reset_edit', function ($data) {
+api_expose_admin('content/reset_edit', function ($data) {
     return mw()->content_manager_helpers->reset_edit_field($data);
 });
-api_bind_admin('content/bulk_assign', function ($data) {
+api_expose_admin('content/bulk_assign', function ($data) {
     return mw()->content_manager_helpers->bulk_assign($data);
 });
-api_bind_admin('content/copy', function ($data) {
+api_expose_admin('content/copy', function ($data) {
     return mw()->content_manager_helpers->copy($data);
 });
 
 
-api_bind_admin('current_template_save_custom_css', function ($data) {
+api_expose_admin('current_template_save_custom_css', function ($data) {
     return mw()->layouts_manager->template_save_css($data);
 });
 
@@ -115,16 +115,21 @@ api_expose_admin('delete_order');
 api_expose_admin('update_order');
 
 
-api_bind_admin('shop/update_order', function ($data) {
+api_expose_admin('shop/update_order', function ($data) {
     return mw()->shop_manager->update_order($data);
 });
 
-api_bind_admin('shop/save_tax_item', function ($data) {
+api_expose_admin('shop/save_tax_item', function ($data) {
     return mw()->tax_manager->save($data);
 });
-api_bind_admin('shop/delete_tax_item', function ($data) {
+api_expose_admin('shop/delete_tax_item', function ($data) {
     return mw()->tax_manager->delete_by_id($data);
 });
+
+api_expose_admin('shop/export_orders', function ($data) {
+    return mw()->order_manager->export_orders($data);
+});
+
 
 
 // media

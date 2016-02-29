@@ -29,7 +29,8 @@
     "omnipay/mollie": "3.*",
     "paragonie/random_compat": "1.*",
     "coduo/php-humanizer": "*",
-    "omnipay/common": "*"
+    "omnipay/common": "*",
+    "league/csv": "^7.2"
   },
   "require-dev": {
     "phpunit/phpunit": "4.5.*@dev"
