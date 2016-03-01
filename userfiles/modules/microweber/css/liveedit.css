@@ -1117,6 +1117,9 @@ body.loaded #live_edit_toolbar{
 
 
 #modules-and-layouts .modules-list li {
+	list-style-position: inside;
+	list-style-image: none;
+	list-style-type: none;
 	float:left;
 	font-size: 11px;
     text-decoration: none;
@@ -1442,16 +1445,22 @@ body.loaded #live_edit_toolbar{
 	}
 	
 	.mw-toolbar-add-new-content-ctrl    {
-		margin: 10px 8px 0 !important;
+		margin: 8px 8px 0 !important;
 	}
+	
 	
 	
 	.mw-toolbar-add-new-content-ctrl:before {
 	content: "+";	
 	font-family:Microweber;
 	font-size:16px;
-	 
+	 line-height:1;
 	}
+	
+	.mw-toolbar-modules-open-ctrl {
+		 padding: 4px 9px;
+	}
+	
 }
 
 
@@ -2011,6 +2020,7 @@ body.design_hover .element-current{
 .mw-toolbar-btn-menu > a.mw-ui-btn{
   margin: 8px 8px 0;
   background-color: #fff;
+  color:#212121;
 }
 
 .editor-template-settings .ed-ico{
