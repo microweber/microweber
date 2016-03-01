@@ -18,6 +18,14 @@ if (isset($params['for-current-content-id'])) {
 
 
 
+$selected_max_depth =  get_option('data-max-depth', $params['id']); 
+if(intval($selected_max_depth) > 0){
+	    $params['max_level'] = intval($selected_max_depth);
+}
+
+
+
+
 if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
     $params['content_id'] = PAGE_ID;
 }

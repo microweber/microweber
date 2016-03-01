@@ -1,6 +1,6 @@
 <?php
 
-$job = mw('admin/developer_tools/media_cleanup/Worker')->run();
+$job = mw('admin\developer_tools\media_cleanup\Worker')->run();
 
 if (is_array($job) and !empty($job) and isset($job['remaining'])) {
 

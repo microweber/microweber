@@ -43,6 +43,7 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
 
 
         node.onchange = function (e) {
+			
             var data = {
                 id: $(this).dataset('id'),
                 value: $(this).val()
@@ -128,7 +129,9 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
     });
     $(input).bind('keydown', function (e) {
+		 
         var code = (e.keyCode ? e.keyCode : e.which);
+		 
         if (code == 9) {
             var parent = mw.tools.firstParentWithClass(e.target, 'mw-admin-custom-field-value-edit-inline-holder');
             if (!e.shiftKey) {
@@ -149,7 +152,20 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
             }
 
             return false;
-        }
+        } else {
+			
+	/*		
+				var el = $( e.target)[0];
+				mw.on.stopWriting(el, function () {
+				
+		             var parent = mw.tools.firstParentWithClass(el, 'mw-admin-custom-field-value-edit-inline');
+					 d(parent);
+                    mw.admin.custom_fields.valueLiveEdit(parent);
+
+				
+			 });*/
+					
+		}
     });
 }
 mw.admin.custom_fields.make_fields_sortable = function () {
@@ -213,8 +229,14 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.is.func(callback) ? callback.call(this) : '';
             mw.custom_fields.sort($selector);
-            mw.$($selector + " input").bind("change", function () {
-                mw.custom_fields.save_form($selector);
+			 
+            mw.$("input,textarea,select,checkbox,date,radio",$selector).bind("change keyup paste", function () {
+				var el = $(this)[0]
+				mw.on.stopWriting(el, function () {
+				mw.custom_fields.save_form($selector);
+				});
+				
+               
             });
             mw.$($selector + " input").bind('focus blur', function (e) {
                 var func = e.type === 'focus' ? 'addClass' : 'removeClass';

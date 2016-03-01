@@ -16,7 +16,7 @@ mw.SmallEditorIsDragging = false;
 
 
 mw.states = {}
-
+mw.live_edit_module_settings_array = new Array();
 
 /**
  * Makes Droppable area
@@ -206,6 +206,12 @@ $(document).ready(function () {
         }
     });
 
+
+    $('span.mw-powered-by').bind("click", function (e) {
+     mw.tools.open_global_module_settings_modal('white_label/admin','mw-powered-by')
+    return false;
+    });
+
 });
 
 
@@ -267,9 +273,6 @@ mw.drag = {
         mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
         $(mwd.body).mousemove(function (event) {
-
-
-
 
 
             mw.tools.removeClass(this, 'isTyping');
@@ -344,8 +347,8 @@ mw.drag = {
                             $(window).trigger("onElementOver", mw.image.currentResizing[0]);
                         }
 
-                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module')||
-                            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')) ) {
+                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
+                            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
 
                             //trigger on row
                             if (mw.$mm_target.hasClass("mw-row")) {
@@ -376,7 +379,6 @@ mw.drag = {
 
                             }
                         }
-
 
 
                         if (mw.$mm_target.parents(".edit,.mw_master_handle").length == 0) {
@@ -448,7 +450,7 @@ mw.drag = {
 
 
                     if (mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')) {
-                        if(mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')){
+                        if (mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')) {
                             mw.currentDragMouseOver = mw.mm_target;
 
                         } else {
@@ -462,6 +464,9 @@ mw.drag = {
                         mw.currentDragMouseOver = mw.mm_target;
 
 
+                    } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'edit') &&
+                        (mw.tools.hasClass(mw.mm_target.className, 'mw-col') || mw.tools.hasClass(mw.mm_target.className, 'mw-col-container'))) {
+                        mw.currentDragMouseOver = mw.mm_target;
                     } else {
 
                         if (
@@ -590,8 +595,8 @@ mw.drag = {
                         else {
                             mw.dropable.show();
                         }
-                    }  else if (el.hasClass("edit")) {
-                        if(mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')){
+                    } else if (el.hasClass("edit")) {
+                        if (mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')) {
                             mw.dropable.hide();
                         } else {
                             mw.dropable.show();
@@ -747,16 +752,8 @@ mw.drag = {
 
             var el = $(element);
             //var title = el.dataset("filter");
-            var title = el.dataset("mw-title");
-            //$(mw.handle_module).find(".mw-element-name-handle").html(title);
 
-
-            if (title != '') {
-                mw.$(".mw-element-name-handle", mw.handle_module).html(title);
-            }
-            else {
-                mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
-            }
+            mw.drag.make_module_settings_handle(el);
 
             $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
             var o = el.offset();
@@ -1220,7 +1217,7 @@ mw.drag = {
                         if (mw.currentDragMouseOver === null) {
                             return false;
                         }
-                        ;
+
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
                         var curr_parent = $(mw.dragCurrent).parent();
@@ -1228,17 +1225,29 @@ mw.drag = {
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
- 
-						   if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')) {
-							     $(mw.currentDragMouseOver).before(mw.dragCurrent);
- 								 return false;
-						   } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
+
+                        if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                             }
                             else {
                                 mw.currentDragMouseOver.appendChild(mw.dragCurrent);
                             }
+                            return false;
+                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col')) {
+                            if (position == 'top') {
+                                $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
+                            }
+                            else {
+                                mw.currentDragMouseOver.appendChild(mw.dragCurrent);
+                            }
+                            return false;
+                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row')
+                            && !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container'))
+                            && !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col'))
+                        ) {
+
+                            $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;
                         }
 
@@ -1395,6 +1404,95 @@ mw.drag = {
             });
         }//toremove
     },
+
+    make_module_settings_handle: function (element) {
+
+        var el = $(element);
+        var title = el.dataset("mw-title");
+        var id = el.attr("id");
+        var module_type = el.dataset("type");
+        if (!module_type) {
+            var module_type = el.attr("type");
+        }
+
+        if (title != '') {
+            mw.$(".mw-element-name-handle", mw.handle_module).html(title);
+        } else {
+            mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
+        }
+
+        var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-' + id;
+
+        mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not("#" + mw_edit_settings_multiple_holder_id).hide();
+
+
+        if (typeof(mw.live_edit_module_settings_array) != 'undefined'
+            && typeof(mw.live_edit_module_settings_array[module_type]) != 'undefined'
+            && typeof(mw.live_edit_module_settings_array[module_type]) == 'object'
+        ) {
+
+            mw.$(".mw_edit_settings", mw.handle_module).hide();
+
+            if(document.getElementsByTagName('iframe').length > 90){
+                mw.$(".mw_edit_settings_multiple_holder").remove();
+
+            }
+
+            if (mw.$('#' + mw_edit_settings_multiple_holder_id).length == 0) {
+                var new_el = mwd.createElement('div');
+                new_el.className = 'mw_edit_settings_multiple_holder';
+                new_el.id = mw_edit_settings_multiple_holder_id;
+                $('.mw_edit_settings', mw.handle_module).after(new_el);
+
+                // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
+
+
+                var settings = mw.live_edit_module_settings_array[module_type];
+
+                mw.$(settings).each(function () {
+                    if (typeof(this.view) != 'undefined' && typeof(this.title) != 'undefined') {
+                        var new_el = mwd.createElement('a');
+                        new_el.className = 'mw_edit_settings_multiple';
+                        new_el.title = this.title;
+                        new_el.draggable = 'false';
+                        var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
+                        new_el.id = btn_id;
+
+                        if (typeof(this.type) != 'undefined' && (this.type) == 'tooltip') {
+                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
+
+                        } else {
+                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
+
+                        }
+
+                        var icon = '';
+                        if (typeof(this.icon) != 'undefined') {
+                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>'
+                        }
+                        new_el.innerHTML = '' +
+                            icon +
+                                '<span class="mw-edit-module-settings-tooltip-btn-title">' +
+                                this.title +
+                                '</span>' +
+                            '';
+                            mw.$('#' + mw_edit_settings_multiple_holder_id).append(new_el);
+                    }
+
+                });
+            }
+            $('#' + mw_edit_settings_multiple_holder_id + ':hidden').show();
+
+
+        } else {
+            mw.$(".mw_edit_settings", mw.handle_module).show();
+
+        }
+
+
+    },
+
+
     /**
      * Various fixes
      *
@@ -1615,6 +1713,112 @@ mw.drag = {
     module_settings: function (a, view) {
         return mw.tools.module_settings(a, view);
     },
+
+
+    current_module_settings_tooltip_show_on_element: function (element_id, view, type) {
+        if (!element_id) {
+            return;
+        }
+
+        if (mw.$('#' + element_id).length == 0) {
+            return;
+        }
+
+        var curr = $("#mw_handle_module").data("curr");
+        var tooltip_element = $("#" + element_id);
+        var attributes = {};
+
+
+        var type = type || 'modal';
+
+
+        $.each(curr.attributes, function (index, attr) {
+            attributes[attr.name] = attr.value;
+        });
+        var data1 = attributes;
+        var module_type = null
+        if (data1['data-type'] != undefined) {
+            module_type = data1['data-type'];
+            data1['data-type'] = data1['data-type'] + '/admin';
+        }
+        if (data1['data-module-name'] != undefined) {
+            delete(data1['data-module-name']);
+        }
+        if (data1['type'] != undefined) {
+            module_type = data1['type'];
+            data1['type'] = data1['type'] + '/admin';
+        }
+        if (module_type != null && view != undefined) {
+            data1['data-type'] = data1['type'] = module_type + '/' + view;
+        }
+
+        if (typeof data1['class'] != 'undefined') {
+            delete(data1['class']);
+        }
+        if (typeof data1['style'] != 'undefined') {
+            delete(data1['style']);
+        }
+        if (typeof data1.contenteditable != 'undefined') {
+            delete(data1.contenteditable);
+        }
+        data1.live_edit = 'true';
+        data1.module_settings = 'true';
+        if (view != undefined) {
+            data1.view = view;
+        }
+        else {
+            data1.view = 'admin';
+        }
+        if (data1.from_url == undefined) {
+            //data1.from_url = window.top.location;
+            data1.from_url = window.parent.location;
+        }
+
+
+        var modal_name = 'module-settings-' + curr.id;
+        if (typeof(data1.view.hash) == 'function') {
+            var modal_name = 'module-settings-' + curr.id + (data1.view.hash());
+        }
+
+        if (mw.$('#' + modal_name).length > 0) {
+            var m = mw.$('#' + modal_name)[0];
+            m.scrollIntoView();
+            mw.tools.highlight(m);
+            return false;
+        }
+
+
+        var src = mw.settings.site_url + "api/module?" + json2url(data1);
+
+        if (type == 'modal') {
+            var modal = top.mw.tools.modal.frame({
+                url: src,
+                width: 532,
+                height: 150,
+                name: modal_name,
+                title: '',
+                callback: function () {
+                    $(this.container).attr('data-settings-for-module', curr.id);
+                }
+            });
+            return modal;
+        }
+        if (type == 'tooltip') {
+
+            mw.tooltip({
+                id: 'module-settings-tooltip-' + modal_name,
+                group: 'module_settings_tooltip_show_on_btn',
+                close_on_click_outside: true,
+                content: '<iframe height="300" width="100%" frameborder="0" src="' + src + '"></iframe>',
+
+                element: tooltip_element
+            });
+
+        }
+
+    },
+
+
     ModuleSettingsPopupLoaded: function (id) {
 
         mw.$("#" + id + " .mw_option_field").bind("change blur", function () {
@@ -1826,7 +2030,7 @@ mw.drag = {
                 mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
             }
         }
-    }, 
+    },
     saving: false,
     coreSave: function (data) {
         if (!data) return false;
@@ -1852,9 +2056,9 @@ mw.drag = {
         mw.$('.empty-element', doc).remove();
         mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
-		mw.$('script', doc).remove();
- 
-		//var doc = $(doc).find('script').remove();
+        mw.$('script', doc).remove();
+
+        //var doc = $(doc).find('script').remove();
 
         mw.tools.classNamespaceDelete('all', 'ui-', doc, 'starts');
         mw.$("[contenteditable]", doc).removeAttr("contenteditable");
@@ -1896,7 +2100,7 @@ mw.drag = {
                 if (!rel) continue;
                 $(helper.item).removeClass('changed orig_changed');
                 var content = helper.item.innerHTML;
-				//var content = $(content).find('script').remove();
+                //var content = $(content).find('script').remove();
 
                 var attr_obj = {};
                 var attrs = helper.item.attributes;
@@ -2989,11 +3193,11 @@ $(window).bind("load", function () {
         }
     });
     $(window).bind("scroll", function (e) {
-		if(typeof(mw.smallEditor) != "undefined"){
-			
-			mw.smallEditor.css("visibility", "hidden");
-			mw.smallEditorCanceled = true;
-		}
+        if (typeof(mw.smallEditor) != "undefined") {
+
+            mw.smallEditor.css("visibility", "hidden");
+            mw.smallEditorCanceled = true;
+        }
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function (e) {
 
@@ -3068,19 +3272,19 @@ mw.quick = {
         modal.overlay.style.backgroundColor = "white";
     },
     edit: function (id, content_type, subtype, parent, category) {
-		var str = "";
-		
-		if(typeof(parent) != 'undefined'){
-			 var str = "&recommended_parent=" + parent;
-		}
-       
+        var str = "";
+
+        if (typeof(parent) != 'undefined') {
+            var str = "&recommended_parent=" + parent;
+        }
+
         if (content_type != undefined && content_type != '') {
             str = str + '&content_type=' + content_type;
         }
-		
-		if(typeof(category) != 'undefined'){
+
+        if (typeof(category) != 'undefined') {
             str = str + '&category=' + category;
-		}
+        }
 
         if (subtype != undefined && subtype != '') {
             str = str + '&subtype=' + subtype;
@@ -3138,12 +3342,12 @@ mw.quick = {
 
 
 mw.beforeleave_html = ""
-+ "<div class='mw-before-leave-container'>"
-+ "<p>Leave page by choosing an option</p>"
-+ "<span class='mw-ui-btn mw-ui-btn-important'>" + mw.msg.before_leave + "</span>"
-+ "<span class='mw-ui-btn mw-ui-btn-notification' >" + mw.msg.save_and_continue + "</span>"
-+ "<span class='mw-ui-btn' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>"
-+ "</div>";
+    + "<div class='mw-before-leave-container'>"
+    + "<p>Leave page by choosing an option</p>"
+    + "<span class='mw-ui-btn mw-ui-btn-important'>" + mw.msg.before_leave + "</span>"
+    + "<span class='mw-ui-btn mw-ui-btn-notification' >" + mw.msg.save_and_continue + "</span>"
+    + "<span class='mw-ui-btn' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>"
+    + "</div>";
 
 mw.beforeleave = function (url) {
     if (mw.askusertostay && mw.$(".edit.orig_changed").length > 0) {

@@ -403,7 +403,7 @@ mw.askusertostay = false;
       }
     });
   }
-
+  mw.temp_reload_module_queue_holder = [];
   mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
     if(mw.on != undefined){
         mw.on.DOMChangePause = true;
@@ -422,7 +422,27 @@ mw.askusertostay = false;
     if(mw.session != undefined){
         mw.session.checkPause = true;
     }
-    var attrs = $(obj.selector)[0].attributes;
+    var node = $(obj.selector)[0]
+    var attrs = node.attributes;
+
+
+
+     // wait between many reloads
+      if(typeof(node.id) != 'undefined' && typeof(node.id) != 'null') {
+          if ( mw.temp_reload_module_queue_holder.indexOf(node.id) == -1){
+          mw.temp_reload_module_queue_holder.push(node.id);
+              setTimeout(function() {
+                  var reload_index = mw.temp_reload_module_queue_holder.indexOf(node.id);
+                  delete mw.temp_reload_module_queue_holder[reload_index];
+              }, 100);
+          } else {
+              return;
+          }
+
+       }
+
+
+
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
@@ -711,20 +731,24 @@ mw.user = {
 
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/url.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
 //mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 
 
 <?php  // include "jquery.js";  ?>
 <?php  include "tools.js"; ?>
+<?php  include "css_parser.js"; ?>
 <?php  include "files.js"; ?>
 <?php  include "forms.js"; ?>
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
+<?php  include "shop.js"; ?>
 
 
 

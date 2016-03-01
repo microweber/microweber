@@ -100,6 +100,7 @@ class CheckoutManager {
                 } elseif ($mw_process_payment_failed==true) {
                     $return_to = $return_to . $append . 'mw_payment_failure=1';
                 }
+
                 return $this->app->url_manager->redirect($return_to);
             }
         }
@@ -315,9 +316,7 @@ class CheckoutManager {
                     $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
-//                    $place_order['success_url'] = $mw_return_url;
-//                    $place_order['cancel_url'] = $mw_cancel_url;
-//                    $place_order['notify_url'] = $mw_ipn_url;
+
                     if (is_file($gw_process)){
                         require_once $gw_process;
                     } else {
@@ -332,6 +331,12 @@ class CheckoutManager {
                 if (!empty($checkout_errors)){
                     return array('error' => $checkout_errors);
                 }
+
+                if (isset($place_order['error'])){
+                    return array('error' => $place_order['error']);
+                }
+
+
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
             }

@@ -41,14 +41,14 @@ $is_quick = $notif_params['quick'];
 <script  type="text/javascript">
 
 mw.notif_item_read = function($item_id){
-     	  $.get("<?php print api_link('Notifications/read'); ?>?id="+$item_id, function(){
+     	  $.get("<?php print api_link('notifications_manager/read'); ?>?id="+$item_id, function(){
   
     	  });
  
 }
 mw.notif_item_delete = function($item_id){
      mw.tools.confirm(mw.msg.del, function(){
-    	  $.get("<?php print api_link('Notifications/delete'); ?>?id="+$item_id, function(){
+    	  $.get("<?php print api_link('notifications_manager/delete'); ?>?id="+$item_id, function(){
     		 	//mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
 						 	mw.reload_module('admin/notifications');
 							//mw.reload_module('#<?php print $params['id'] ?>');
@@ -62,7 +62,7 @@ mw.notif_item_delete = function($item_id){
 
  
 mw.notif_reset_all = function(){
-	 $.get("<?php print api_link('Notifications/reset'); ?>", function(){
+	 $.get("<?php print api_link('notifications_manager/reset'); ?>", function(){
 		 	mw.reload_module('admin/notifications');
 									//	mw.reload_module('#<?php print $params['id'] ?>');
 
@@ -71,7 +71,7 @@ mw.notif_reset_all = function(){
 
 
 mw.notif_mark_all_as_read = function(){
-	 $.get("<?php print api_link('Notifications/mark_all_as_read'); ?>", function(){
+	 $.get("<?php print api_link('notifications_manager/mark_all_as_read'); ?>", function(){
 		 	mw.reload_module('admin/notifications');
 									//	mw.reload_module('#<?php print $params['id'] ?>');
 

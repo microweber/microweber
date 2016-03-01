@@ -1,68 +1,63 @@
 <?php
 
 
-
 /**
- * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+ * @desc        Get a single row from the categories_table by given ID and returns it as one dimensional array
+ *
  * @param int
+ *
  * @return array
  * @author      Peter Ivanov
- * @version 1.0
- * @since Version 1.0
+ * @version     1.0
+ * @since       Version 1.0
  */
 
-function get_category_by_id($id = 0)
-{
+function get_category_by_id($id = 0) {
     return mw()->category_manager->get_by_id($id);
 }
 
 
-function get_categories($data)
-{
+function get_categories($data) {
     return mw()->category_manager->get($data);
 }
 
 
-function save_category($data)
-{
+function save_category($data) {
 
     $s = mw()->category_manager->save($data);
+
     return $s;
 }
 
-function delete_category($data)
-{
+function delete_category($data) {
     return mw()->category_manager->delete($data);
 }
 
 
-function reorder_categories($data)
-{
+function reorder_categories($data) {
     return mw()->category_manager->reorder($data);
 }
 
 
-function content_categories($content_id = false, $data_type = 'categories')
-{
+function content_categories($content_id = false, $data_type = 'categories') {
     return get_categories_for_content($content_id, $data_type);
 }
 
-function get_categories_for_content($content_id = false, $data_type = 'categories')
-{
-    if (intval($content_id) == 0) {
-        if (!defined("CONTENT_ID")) {
+function get_categories_for_content($content_id = false, $data_type = 'categories') {
+    if (intval($content_id)==0){
+        if (!defined("CONTENT_ID")){
             return false;
         } else {
             $content_id = CONTENT_ID;
         }
     }
+
     return mw()->category_manager->get_for_content($content_id, $data_type);
 }
 
 
-function category_link($id)
-{
-    if (intval($id) == 0) {
+function category_link($id) {
+    if (intval($id)==0){
         return false;
     }
 
@@ -71,26 +66,29 @@ function category_link($id)
 }
 
 
-function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false)
-{
+function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false) {
     return mw()->category_manager->get_children($parent_id, $type, $visible_on_frontend);
 }
 
 
-function get_page_for_category($category_id)
-{
+function get_page_for_category($category_id) {
     return mw()->category_manager->get_page($category_id);
+}
+
+function get_category_id_from_url($url = false) {
+    return mw()->category_manager->get_category_id_from_url($url);
 }
 
 
 /**
  * category_tree
  *
- * @desc prints category_tree of UL and LI
+ * @desc        prints category_tree of UL and LI
  * @access      public
  * @category    categories
  * @author      Microweber
- * @param $params = array();
+ *
+ * @param  $params = array();
  * @param  $params ['parent'] = false; //parent id
  * @param  $params ['link'] = false; // the link on for the <a href
  * @param  $params ['active_ids'] = array(); //ids of active categories
@@ -108,18 +106,15 @@ function get_page_for_category($category_id)
  *
  */
 
-function category_tree($params = false)
-{
+function category_tree($params = false) {
     return mw()->category_manager->tree($params);
 }
 
-function get_category_items($category_id)
-{
+function get_category_items($category_id) {
     return mw()->category_manager->get_items('parent_id=' . intval($category_id));
 }
 
-function get_category_items_count($category_id, $rel_type = false)
-{
+function get_category_items_count($category_id, $rel_type = false) {
     return mw()->category_manager->get_items_count($category_id, $rel_type);
 }
 

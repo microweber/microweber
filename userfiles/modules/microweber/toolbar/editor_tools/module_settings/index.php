@@ -95,9 +95,11 @@ if (isset($_GET['type'])) {
 
     <?php endif; ?>
 
-    if (typeof thismodal == 'undefined' && self !== parent) {
+    if (typeof thismodal == 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
+		 
         var frame = parent.mw.$('#' + this.name)[0];
         thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
+		 
     }
 
 
@@ -235,7 +237,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
 			var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
-			
+		 
 			if(typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0],'edit')){
 				      $(holder).append(html);
 
@@ -259,7 +261,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 if (typeof thismodal.main[0] != 'undefined') {
 
             if (autoSize) {
-
+ 
                 parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
 
                 $(mwd.body).bind('mouseup click DOMNodeInserted',function () {

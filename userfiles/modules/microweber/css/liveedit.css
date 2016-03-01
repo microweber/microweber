@@ -1,3 +1,5 @@
+@import url("sass/style.css");
+
 /*********************************************
 
       Styles for Live-edit
@@ -413,11 +415,18 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   -ms-user-select: none;
   user-select: none;
 }
-#mw_handle_module .mw_edit_settings{
+#mw_handle_module .mw_edit_settings,
+#mw_handle_module .mw_edit_settings_multiple{
   border-radius: 2px;
 }
 
-a.mw-make-cols, #mw_handle_module .mw_edit_settings {
+.mw_edit_settings_multiple {
+ margin-right:3px;	
+}
+
+a.mw-make-cols, 
+#mw_handle_module .mw_edit_settings,
+#mw_handle_module .mw_edit_settings_multiple {
   color: #111;
   background: #E1E1E1;
   text-decoration: none;
@@ -431,6 +440,7 @@ a.mw-make-cols, #mw_handle_module .mw_edit_settings {
 #mw_handle_row:hover .mw_edit_delete,
 #mw_handle_row:hover a.mw-make-cols,
 #mw_handle_module:hover .mw_edit_settings,
+#mw_handle_module:hover .mw_edit_settings_multiple,
 #mw_handle_row:hover .column_separator_title {
   color: white;
   background: black;
@@ -1017,6 +1027,10 @@ li .ts_action_item:last-child{
   color: #222;
 }
 
+#toolbar-dropdown-actions a {
+	color: #222;
+}
+
 #live_edit_toolbar.scrolling{
   box-shadow:0 2px 7px -8px #111;
 }
@@ -1107,6 +1121,9 @@ body.loaded #live_edit_toolbar{
 
 
 #modules-and-layouts .modules-list li {
+	list-style-position: inside;
+	list-style-image: none;
+	list-style-type: none;
 	float:left;
 	font-size: 11px;
     text-decoration: none;
@@ -1432,16 +1449,22 @@ body.loaded #live_edit_toolbar{
 	}
 	
 	.mw-toolbar-add-new-content-ctrl    {
-		margin: 10px 8px 0 !important;
+		margin: 8px 8px 0 !important;
 	}
+	
 	
 	
 	.mw-toolbar-add-new-content-ctrl:before {
 	content: "+";	
 	font-family:Microweber;
 	font-size:16px;
-	 
+	 line-height:1;
 	}
+	
+	.mw-toolbar-modules-open-ctrl {
+		 padding: 4px 9px;
+	}
+	
 }
 
 
@@ -2001,6 +2024,7 @@ body.design_hover .element-current{
 .mw-toolbar-btn-menu > a.mw-ui-btn{
   margin: 8px 8px 0;
   background-color: #fff;
+  color:#212121;
 }
 
 .editor-template-settings .ed-ico{
@@ -2066,6 +2090,7 @@ body.design_hover .element-current{
   top: 40px;
   cursor: pointer;
   width: 140px;
+  font-size:11px;
 }
 
 #toolbar-back-to-admin{
@@ -2297,7 +2322,7 @@ div[id*='SSDIVEL'] {
 
 .mw_image_resizer{
   position: absolute !important;
-  z-index: 999;
+  z-index: 1100;
   visibility: hidden;
   left: -9999px;
   top: -9999px

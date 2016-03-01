@@ -20,6 +20,7 @@ class Shop {
                 'skip_promo_code'    => "string",
                 'created_by'         => 'integer',
                 'custom_fields_data' => 'longText',
+                'custom_fields_json' => 'longText',
                 'item_image'         => "string",
                 'link'               => "string",
                 'description'        => 'longText',

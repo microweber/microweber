@@ -196,6 +196,7 @@ class CartManager {
         $get = $this->app->database_manager->get($params);
         if (!empty($get)){
             foreach ($get as $k => $item) {
+
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
                     $item = $this->app->format->render_item_custom_fields_data($item);
                 }
@@ -493,17 +494,20 @@ class CartManager {
         if (is_array($prices)){
             ksort($add);
             asort($add);
+            $add = mw()->format->clean_xss($add);
             $table = $this->table;
             $cart = array();
             $cart['rel_type'] = ($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
-            $cart['title'] = ($data['title']);
+            $cart['title'] = mw()->format->clean_html($data['title']);
             $cart['price'] = floatval($found_price);
 
             $cart_return = $cart;
             $cart_return['custom_fields_data'] = $add;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
+            $cart['custom_fields_json'] = json_encode($add);
             $cart['order_completed'] = 0;
+            $cart['allow_html'] = 1;
             $cart['session_id'] = mw()->user_manager->session_id();
 
             $cart['limit'] = 1;

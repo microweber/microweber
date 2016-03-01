@@ -7,7 +7,9 @@ class MediaManager {
     public $app;
     public $tables = array();
     public $table_prefix = false;
+    public $download_remote_images = false;
     public $no_cache;
+
 
     function __construct($app = null) {
 
@@ -100,21 +102,16 @@ class MediaManager {
 
     public function get_by_id($id) {
 
-        if ($id==false){
-            return false;
-        }
 
         $table = $this->tables['media'];
         $id = intval($id);
         if ($id==0){
             return false;
         }
-
-        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
-
         $params = array();
         $params['id'] = $id;
         $params['limit'] = 1;
+
         $params['table'] = $table;
         $params['cache_group'] = 'media/' . $id;
 
@@ -127,6 +124,8 @@ class MediaManager {
         }
 
         return $content;
+
+
     }
 
     public function upload_progress_check() {
@@ -386,6 +385,10 @@ class MediaManager {
 
         $data = $this->app->database_manager->get($params);
 
+        if (isset($params['single'])){
+            return $data;
+        }
+
         if (media_base_url()){
             if (!empty($data)){
                 $return = array();
@@ -468,6 +471,7 @@ class MediaManager {
             $data['src'] = $data['filename'];
         }
 
+
         if (isset($data['src'])){
 
 
@@ -485,8 +489,11 @@ class MediaManager {
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])){
-                $move_uploaded_files_dir = media_base_path() . DS . $host_dir . DS . $s['rel_type'] . DS;
-                $move_uploaded_files_dir_index = media_base_path() . DS . $host_dir . DS . $s['rel_type'] . DS . 'index.php';
+
+                $s['rel_type'] = str_replace('..', '', $s['rel_type']);
+
+                $move_uploaded_files_dir = media_base_path() . $host_dir . DS . $s['rel_type'] . DS;
+                $move_uploaded_files_dir_index = media_base_path() . $host_dir . DS . $s['rel_type'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)){
@@ -496,20 +503,72 @@ class MediaManager {
                 }
 
                 $url2dir = normalize_path($url2dir, false);
-                $newfile = basename($url2dir);
 
-                $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-                $newfile = $move_uploaded_files_dir . $newfile;
+                $dl_remote = $this->download_remote_images;
 
-                if (is_file($newfile)){
 
-                    $newfile = date('YmdHis') . basename($url2dir);
-                    $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-                    $newfile = $move_uploaded_files_dir . $newfile;
+                if (isset($data['allow_remote_download']) and $data['allow_remote_download']){
+                    $dl_remote = $data['allow_remote_download'];
                 }
+
+
+                if ($dl_remote and isset($data['src'])){
+                    $ext = get_file_extension($data['src']);
+                    $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
+                    if ($data['media_type']!=false){
+                        // starting download
+
+                        $is_remote = strtolower($data['src']);
+
+                        if (strstr($is_remote, 'http:') || strstr($is_remote, 'https:')){
+
+
+                            $dl_host = (parse_url($is_remote));
+
+                            $dl_host_host_dir = false;
+                            if (isset($dl_host['host'])){
+                                $dl_host_host_dir = $dl_host['host'];
+                                $dl_host_host_dir = str_ireplace('www.', '', $dl_host_host_dir);
+                                $dl_host_host_dir = str_ireplace('.', '-', $dl_host_host_dir);
+                            }
+
+                            $move_uploaded_files_dir = $move_uploaded_files_dir . 'external' . DS;
+                            if ($dl_host_host_dir){
+                                $move_uploaded_files_dir = $move_uploaded_files_dir . $dl_host_host_dir . DS;
+                            }
+
+
+                            if (!is_dir($move_uploaded_files_dir)){
+                                mkdir_recursive($move_uploaded_files_dir);
+                            }
+
+                            $newfile = basename($data['src']);
+
+                            $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
+                            $newfile = $move_uploaded_files_dir . $newfile;
+
+
+                            if (!is_file($newfile)){
+
+                                mw()->http->url($data['src'])->download($newfile);
+                            }
+                            if (is_file($newfile)){
+
+
+                                $url2dir = $this->app->url_manager->to_path($newfile);
+
+                            }
+
+
+                        }
+                    }
+
+                }
+
 
                 if (is_file($url2dir)){
                     $data['src'] = $this->app->url_manager->link_to_file($url2dir);
+
                 }
 
             }
@@ -525,31 +584,28 @@ class MediaManager {
             $t = trim($data['for_id']);
             $s['rel_id'] = $t;
         }
+
+        if ((!isset($s['id']) or (isset($s['id']) and $s['id']==0))
+            and isset($s['filename'])
+            and isset($s['rel_id'])
+            and isset($s['rel_type'])
+        ){
+            $s['filename'] = str_replace(site_url(), '{SITE_URL}', $s['filename']);
+            $check = array();
+            $check['rel_type'] = $s['rel_type'];
+            $check['rel_id'] = $s['rel_id'];
+            $check['filename'] = $s['filename'];
+            $check['single'] = true;
+            $check = $this->get_all($check);
+            if (isset($check['id'])){
+                $s['id'] = $check['id'];
+            }
+        }
+
         if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])){
             $ext = get_file_extension($s['filename']);
-            switch ($ext) {
-                case 'jpeg':
-                case 'jpg':
-                case 'png':
-                case 'gif':
-                case 'bpm':
-                case 'svg':
-                    $data['media_type'] = 'picture';
-                    break;
-                case 'avi':
-                case 'ogg':
-                case 'flv':
-                case 'mp4':
-                case 'qt':
-                case 'mpeg':
-                    $data['media_type'] = 'video';
-                    break;
-                case 'mp3':
-                case 'wav':
-                case 'flac':
-                    $data['media_type'] = 'audio';
-                    break;
-            }
+            $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
+
         }
 
         if (isset($data['media_type'])){
@@ -623,24 +679,23 @@ class MediaManager {
         } else {
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
- 
+
 
             $src2 = MW_ROOTPATH . $src;
             $src2 = normalize_path($src2, false);
-			$src3 = strtolower($src2);
- 
+            $src3 = strtolower($src2);
+
             if (is_file($src1)){
                 $src = $src1;
             } elseif (is_file($src2)) {
                 $src = $src2;
-					
-            }  elseif (is_file($src3)) {
+
+            } elseif (is_file($src3)) {
                 $src = $src3;
-					
+
             } else {
                 $no_img = true;
 
- 
 
                 if ($no_img){
                     return $this->pixum_img();
@@ -652,9 +707,6 @@ class MediaManager {
         }
         $media_root = media_base_path();
 
-        if (!is_writable($media_root)){
-            $media_root = mw_cache_path();
-        }
 
         $cd = $this->thumbnails_path() . $width . DS;
 
@@ -679,7 +731,6 @@ class MediaManager {
         }
 
         $cache_path = $cd . $cache;
-
         if (file_exists($cache_path)){
             if (!headers_sent()){
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
@@ -830,6 +881,35 @@ class MediaManager {
             fpassthru($fp);
             exit;
         }
+    }
+
+    private function _guess_media_type_from_file_ext($ext) {
+        $type = false;
+        switch ($ext) {
+            case 'jpeg':
+            case 'jpg':
+            case 'png':
+            case 'gif':
+            case 'bpm':
+            case 'svg':
+                $type = 'picture';
+                break;
+            case 'avi':
+            case 'ogg':
+            case 'flv':
+            case 'mp4':
+            case 'qt':
+            case 'mpeg':
+                $type = 'video';
+                break;
+            case 'mp3':
+            case 'wav':
+            case 'flac':
+                $type = 'audio';
+                break;
+        }
+
+        return $type;
     }
 
     private function svgScaleHack($svg, $minWidth, $minHeight) {
@@ -1098,7 +1178,13 @@ class MediaManager {
     }
 
     public function thumbnails_path() {
-        return media_base_path() . 'thumbnail' . DS;
+
+        $userfiles_dir = userfiles_path();
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS. 'thumbnails'. DS );
+
+        // media_base_path() . 'thumbnail' . DS;
+
+        return $userfiles_cache_dir;
     }
 
 

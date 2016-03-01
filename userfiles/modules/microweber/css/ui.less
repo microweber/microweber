@@ -2,7 +2,7 @@
            Variables
 *****************************/
 
-@radius: 3px;
+@radius: 3px; 
 @linkColor: #212121;
 @textColor: #212121;
 @borderColor: #e5e5e5;
@@ -3093,6 +3093,22 @@ font-weight: bold;
     margin-top: -5px;
 }
 
+
+
+.mw-tooltip-warning {
+ 
+    color: @warn;
+    box-shadow: 0 0 4px @warn;
+
+}
+.mw-tooltip-warning .mw-tooltip-content {
+    background: @warn;
+    color: white;
+    
+}
+.mw-tooltip-warning .mw-tooltip-arrow:after {
+     background: @warn;
+}
 
 /*********************************************
          Form elements and cotrolls

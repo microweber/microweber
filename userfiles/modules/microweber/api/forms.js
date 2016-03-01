@@ -94,7 +94,7 @@ mw.form = {
         return obj.checked == true;
     },
     field:function(obj){
-        return FieldUnify(obj).replace(/\s/g, '') != '';
+		return FieldUnify(obj).replace(/\s/g, '') != '';
     },
     email:function(obj){
         var regexmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/;
@@ -172,7 +172,7 @@ mw.form = {
       }
     },
     checkFields:function(form){
-        $(form).find(".required").each(function(){
+        $(form).find(".required,[required]").each(function(){
           var type = $(this).attr("type");
           if(type=='checkbox'){
              mw.form.validate.proceed.checkbox(this);

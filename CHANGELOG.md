@@ -3,6 +3,40 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.7] - 2015-03-01
+
+- Vendor: added Omnipay library
+- Vendor: added coduo/php-humanizer library
+- Vendor: added league/csv library
+- Added: taxes support
+- Added: caching with .htaccess on some folders 
+- Added: payment providers (Mollie,Stripe and Authorize.net)
+- Added: taxes support
+- Added: url support for categories
+- Added: crud class
+- Added: custom field type "property"
+- Added: "max depth" setting to the categories module
+- Added: Portuguese language
+- Added: LinkedIn login
+- Added: export orders to SCV
+- Refactor: database, content manager, orders and shop classes
+- Fix: general UI improvements 
+- Fix: security fixes
+- Fix: bugfixes in custom fields
+- Fix: bugfixes drag and drop
+- Fix: thumbnail resize fix
+- Fix: fixed dropdown bug when you click on the scroll
+- Fix: mw.tooltip issues
+- Fix: mw.modal issues
+- Fix: sitemap and rss feed
+- Fix: performance improvements when there are many categories
+- Fix: cache files number reduced
+- Fix: fix of notifications  
+- Fix: fix of import module
+- Various other fixes
+
+
+
 ## [1.0.6] - 2015-11-19
 
 - Vendor: added Twig parser 

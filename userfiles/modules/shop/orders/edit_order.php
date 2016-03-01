@@ -102,7 +102,9 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
               </tr>
               <?php    if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
               <tr>
-                <td colspan="4"><?php print $item['custom_fields'] ?></td>
+                <td colspan="4"><?php
+				 
+				 print $item['custom_fields'] ?></td>
               </tr>
               <?php endif ?>
               <?php endforeach; ?>
@@ -415,6 +417,16 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
             </tr>
           </table>
           <?php endif; ?>
+          
+          
+                    <?php if ($ord['payment_name'] 
+					|| $ord['payment_country']
+					|| $ord['payment_city']
+					|| $ord['payment_state']
+					|| $ord['payment_zip']
+					|| $ord['payment_address']
+					): ?>
+
           <div class="mw-ui-box order-details-box" style="margin-top: 20px;">
             <div class="mw-ui-box-header">
               <?php _e("Billing Details"); ?>
@@ -439,6 +451,9 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
               </table>
             </div>
           </div>
+           <?php endif; ?>
+          
+          
         </div>
       </div>
     </div>

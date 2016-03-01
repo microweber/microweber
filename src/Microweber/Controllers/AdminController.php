@@ -70,6 +70,8 @@ class AdminController extends Controller {
         if (!$hasNoAdmin){
             $this->hasNoAdmin();
         }
+        $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
+
         $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
 
         $layout = new View($view);
@@ -139,8 +141,9 @@ class AdminController extends Controller {
             $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);
             $body = trim($body);
             $body = (array) json_decode($body);
+
             Config::set('services.microweber', $body);
-            Config::save();
+            Config::save(array('microweber','services'));
 
             save_option([
                 'option_value' => 'y',
@@ -164,7 +167,7 @@ class AdminController extends Controller {
             $adminUser->is_active = 1;
             $adminUser->save();
             Config::set('microweber.has_admin', 1);
-            Config::save();
+            Config::save(array('microweber'));
             Auth::login($adminUser);
         }
     }

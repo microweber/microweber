@@ -14,7 +14,7 @@ namespace Microweber\Providers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
-use Microweber\Utils\Database as DbUtils;
+use Microweber\Providers\Database\Utils as DbUtils;
 use Microweber\Traits\QueryFilter;
 use Microweber\Traits\ExtendedSave;
 use Illuminate\Support\Facades\User as DefaultUserProvider;
@@ -251,7 +251,7 @@ class DatabaseManager extends DbUtils
         }
 
 
-        if ($this->use_cache == false) {
+        if ($use_cache == false) {
             $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
@@ -360,8 +360,8 @@ class DatabaseManager extends DbUtils
             }
         }
 
-        $user_sid = mw()->user_manager->session_id();
-        $the_user_id = mw()->user_manager->id();
+        $user_sid = $this->app->user_manager->session_id();
+        $the_user_id = $this->app->user_manager->id();
 
 
         if (!isset($data['session_id']) and $user_sid) {
@@ -681,9 +681,11 @@ class DatabaseManager extends DbUtils
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-        if ($id == 0) {
+
+        if ($field_name == 'id'  and $id == 0) {
             return false;
         }
+
         if ($field_name == false) {
             $field_name = "id";
         }
@@ -694,6 +696,7 @@ class DatabaseManager extends DbUtils
         $params[$field_name] = $id;
         $params['table'] = $table;
         $params['single'] = true;
+
         $data = $this->get($params);
         return $data;
     }

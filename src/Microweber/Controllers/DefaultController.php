@@ -2077,8 +2077,6 @@ class DefaultController extends Controller {
                 $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group);
             }
 
-//            print $l;
-//            unset($l);
 
             if (isset($_REQUEST['debug'])){
                 if ($this->app->make('config')->get('app.debug')){
@@ -2224,7 +2222,7 @@ class DefaultController extends Controller {
         if (isset($_REQUEST['category_id'])){
             $cat_url = intval($_REQUEST['category_id']);
         } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
             $cat_url = intval($cat_url);
         }
 
@@ -2246,7 +2244,7 @@ class DefaultController extends Controller {
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS. 'apijs' );
             $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url().template_dir()) . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)){
                 if (!is_dir($userfiles_cache_dir)){
@@ -2293,8 +2291,9 @@ class DefaultController extends Controller {
             }
         }
         if (isset($_SERVER['HTTP_REFERER'])){
-            $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
             if ($cat_url!=false){
+
                 if (!defined('CATEGORY_ID')){
                     define('CATEGORY_ID', intval($cat_url));
                 }
@@ -2330,7 +2329,7 @@ class DefaultController extends Controller {
         if ($compile_assets and defined('MW_VERSION')){
             $userfiles_dir = userfiles_path();
             $hash = md5(site_url());
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS. 'apijs' );
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)){
                 if (!is_dir($userfiles_cache_dir)){
@@ -2737,18 +2736,6 @@ class DefaultController extends Controller {
         echo $v;
     }
 
-    public function load_apijs($page = false) {
-        $this->app->content_manager->define_constants($page);
-        $l = new \Microweber\View(mw_includes_path() . 'api' . DS . 'api.js');
-
-        $l = $l->__toString();
-
-        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
-
-        return $l;
-    }
 
     function __get($name) {
         if (isset($this->vars[ $name ])){

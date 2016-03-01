@@ -312,6 +312,7 @@ function url_title($text) {
 }
 
 function url_param($param, $skip_ajax = false) {
+
     return mw()->url_manager->param($param, $skip_ajax);
 }
 

@@ -55,7 +55,7 @@ if(isset($params['content-id'])){
 }
 $module_id = $for_id;
 //$rand = rand();
-$fields = mw('ui')->custom_fields();
+$fields = mw()->ui->custom_fields(); 
 ?> 
   <script type="text/javascript">
 

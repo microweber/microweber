@@ -157,6 +157,7 @@ class UserManager {
         }
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
+ 
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
         $return_resp = false;

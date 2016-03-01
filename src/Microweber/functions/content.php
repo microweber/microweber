@@ -237,7 +237,7 @@ function content_title($id = false) {
  */
 
 function delete_content($data) {
-    return mw()->content_manager->delete($data);
+    return mw()->content_manager_helpers->delete($data);
 }
 
 
@@ -336,14 +336,17 @@ function save_content_admin($data, $delete_the_cache = true) {
 
 
 function save_content_field($data, $delete_the_cache = true) {
-
     return mw()->content_manager->save_content_field($data, $delete_the_cache);
+}
 
+
+function content_custom_fields($content_id, $full = true, $field_type = false) {
+    return mw()->content_manager->custom_fields($content_id, $full, $field_type);
 }
 
 
 function get_content_field_draft($data) {
-    return mw()->content_manager->edit_field_draft($data);
+    return mw()->content_manager_helpers->get_edit_field_draft($data);
 }
 
 function get_content_field($data, $debug = false) {
@@ -377,17 +380,8 @@ function prev_content($content_id = false) {
 }
 
 function breadcrumb($params = false) {
-
-
     return mw()->content_manager->breadcrumb($params);
-
-
 }
-
-
-
-
-
 
 
 

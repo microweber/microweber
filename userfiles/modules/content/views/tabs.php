@@ -15,14 +15,17 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 
         <div class="mw-ui-btn-nav" style="margin-right:20px;">
-        <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
+        <?php 
+		/*<span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
             <span class="mw-icon-plus"  style="font-size: 14px;"></span>
             <span class="mw-icon-picture" style="display: inline-block"></span>
 
             <span>
             <?php _e("Add Images"); ?>
             </span>
-        </span>
+        </span>*/
+		
+		?>
 
         <span class="mw-ui-btn tip" data-tip="<?php _e("Thumbnail (Main gallery)"); ?>">
             <span class="mw-icon-image-frame"></span>
@@ -72,7 +75,8 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
       </div>
       <div id="quick-add-post-options-items-holder" class="tip-box"><span class="mw-tooltip-arrow"></span>
         <div id="quick-add-post-options-items-holder-container">
-          <div class="quick-add-post-options-item" id="quick-add-gallery-items">
+          <?php 
+		/* <div class="quick-add-post-options-item" id="quick-add-gallery-items">
             <div id="images-manager">
 
               <span class="image-manage-item" id="insert-image-uploader">
@@ -90,7 +94,9 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
                 <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
                 <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
-          </div>
+          </div>*/
+		
+		?>
 
 
           <div  id="post-gallery-manager" class="quick-add-post-options-item">

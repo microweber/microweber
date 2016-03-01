@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 /*
  * This file is part of the Microweber framework.
  *
@@ -20,10 +18,12 @@ use Illuminate\Support\Facades\Config;
 //use Illuminate\Support\Facades\Schema;
 //use Illuminate\Database\;
 //use Illuminate\Database\Eloquent\Builder as Eloquent;
-//use Microweber\Utils\Database;
+//use Microweber\Providers\Database\Utils;
 use Module;
 use Illuminate\Support\Facades\DB;
-use Microweber\Utils\Database;
+use Microweber\Providers\Database\Utils as DbUtils;
+
+;
 
 
 //use Config;
@@ -289,6 +289,7 @@ class Modules {
                         $config['ui'] = 0;
                     }
 
+
                     if (isset($config['is_system'])){
                         $config['is_system'] = intval($config['is_system']);
                     } else {
@@ -325,7 +326,7 @@ class Modules {
 
                                 if ($tablesData){
 
-                                    (new Database)->build_tables($tablesData);
+                                    (new DbUtils)->build_tables($tablesData);
                                 }
                             }
                         }
@@ -409,6 +410,12 @@ class Modules {
                 $s["installed"] = 1;
             }
 
+            if (isset($s["settings"]) and is_array($s["settings"])){
+                $s["settings"] = json_encode($s["settings"]);
+            }
+
+            $s["allow_html"] = true;
+
             if (!isset($s["id"]) and isset($s["module"])){
                 $s["module"] = $data_to_save["module"];
 
@@ -441,32 +448,34 @@ class Modules {
     }
 
     public function get_modules($params) {
-
-        if (is_string($params)){
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        $params['table'] = $this->table;
-        $params['group_by'] = 'module';
-        $params['order_by'] = 'position asc';
-        $params['cache_group'] = 'modules/global';
-        if (isset($params['id'])){
-            $params['limit'] = 1;
-        } else {
-            $params['limit'] = 1000;
-        }
-        if (isset($params['module'])){
-            $params['module'] = str_replace('/admin', '', $params['module']);
-        }
-        if (isset($params['keyword'])){
-            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
-        }
-
-        if (isset($params['ui']) and $params['ui']=='any'){
-            unset($params['ui']);
-        }
-
-        return mw()->database_manager->get($params);
+        return $this->get($params);
+//        if (is_string($params)){
+//            $params = parse_str($params, $params2);
+//            $params = $params2;
+//        }
+//        $params['table'] = $this->table;
+//        $params['group_by'] = 'module';
+//        $params['order_by'] = 'position asc';
+//        $params['cache_group'] = 'modules/global';
+//        if (isset($params['id'])){
+//            $params['limit'] = 1;
+//        } else {
+//            $params['limit'] = 1000;
+//        }
+//        if (isset($params['module'])){
+//            $params['module'] = str_replace('/admin', '', $params['module']);
+//        }
+//        if (isset($params['keyword'])){
+//            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
+//        }
+//
+//        if (isset($params['ui']) and $params['ui']=='any'){
+//            unset($params['ui']);
+//        }
+//
+//
+//
+//        return mw()->database_manager->get($params);
 
     }
 
@@ -502,7 +511,22 @@ class Modules {
             unset($params['ui']);
         }
 
-        return $this->app->database_manager->get($params);
+        $data = $this->app->database_manager->get($params);
+        if (is_array($data) and !empty($data)){
+            if (isset($data["settings"]) and !is_array($data["settings"])){
+                $data["settings"] = json_decode($data["settings"]);
+            } else {
+                foreach ($data as $k => $v) {
+                    if (isset($v["settings"]) and !is_array($v["settings"])){
+                        $v["settings"] = json_decode($v["settings"]);
+                        $data[ $k ] = $v;
+                    }
+                }
+            }
+        }
+
+
+        return $data;
     }
 
     public function exists($module_name) {

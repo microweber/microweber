@@ -1,0 +1,1212 @@
+/* --------------------------------
+
+Primary style
+
+-------------------------------- */
+.microweber {
+  /* http://meyerweb.com/eric/tools/css/reset/ 
+     v2.0 | 20110126
+     License: none (public domain)
+  */
+  /* HTML5 display-role reset for older browsers */
+  /* --------------------------------
+  
+  options-nav navigation style
+  
+  -------------------------------- */
+}
+.microweber html, .microweber body, .microweber div, .microweber span, .microweber applet, .microweber object, .microweber iframe,
+.microweber h1, .microweber h2, .microweber h3, .microweber h4, .microweber h5, .microweber h6, .microweber p, .microweber blockquote, .microweber pre,
+.microweber a, .microweber abbr, .microweber acronym, .microweber address, .microweber big, .microweber cite, .microweber code,
+.microweber del, .microweber dfn, .microweber em, .microweber img, .microweber ins, .microweber kbd, .microweber q, .microweber s, .microweber samp,
+.microweber small, .microweber strike, .microweber strong, .microweber sub, .microweber sup, .microweber tt, .microweber var,
+.microweber b, .microweber u, .microweber i, .microweber center,
+.microweber dl, .microweber dt, .microweber dd, .microweber ol, .microweber ul, .microweber li,
+.microweber fieldset, .microweber form, .microweber label, .microweber legend,
+.microweber table, .microweber caption, .microweber tbody, .microweber tfoot, .microweber thead, .microweber tr, .microweber th, .microweber td,
+.microweber article, .microweber aside, .microweber canvas, .microweber details, .microweber embed,
+.microweber figure, .microweber figcaption, .microweber footer, .microweber header, .microweber hgroup,
+.microweber menu, .microweber nav, .microweber output, .microweber ruby, .microweber section, .microweber summary,
+.microweber time, .microweber mark, .microweber audio, .microweber video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+.microweber article, .microweber aside, .microweber details, .microweber figcaption, .microweber figure,
+.microweber footer, .microweber header, .microweber hgroup, .microweber menu, .microweber nav, .microweber section, .microweber main {
+  display: block;
+}
+.microweber body {
+  line-height: 1;
+}
+.microweber ol, .microweber ul {
+  list-style: none;
+}
+.microweber blockquote, .microweber q {
+  quotes: none;
+}
+.microweber blockquote:before, .microweber blockquote:after,
+.microweber q:before, .microweber q:after {
+  content: '';
+  content: none;
+}
+.microweber table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.microweber html {
+  font-size: 62.5%;
+  width: 100%;
+  height: 100%;
+}
+.microweber body {
+  width: 100%;
+  height: 100%;
+  font-size: 1.6rem;
+  font-family: "avenir next", sans-serif;
+}
+.microweber *,
+.microweber *::after,
+.microweber *::before {
+  box-sizing: border-box;
+}
+.microweber menu {
+  position: fixed;
+  width: 50px;
+  left: 0;
+  height: 100%;
+  -webkit-transition: width 0.1s;
+  transition: width 0.1s;
+  top: 0;
+  z-index: 99999;
+  display: inline-block;
+  box-shadow: 0 0 10px 0 #332234;
+}
+.light .microweber menu {
+  background-color: rgba(204, 221, 203, 0.97);
+  color: #332234;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.light .microweber menu p {
+  color: color-offset-dark;
+}
+.dark .microweber menu {
+  background-color: rgba(51, 34, 52, 0.97);
+  color: #ccddcb;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.dark .microweber menu p {
+  color: color-offset-light;
+}
+.microweber menu panel {
+  opacity: 0;
+  -webkit-transition: opacity width 0.2s;
+  transition: opacity width 0.2s;
+}
+.microweber menu:hover {
+  width: 300px;
+  -webkit-transition: width opacity 0.2s;
+  transition: width opacity 0.2s;
+}
+.microweber menu:hover panel {
+  overflow-y: scroll;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  padding: 15px;
+  opacity: 1;
+  -webkit-transition: opacity width 0.2s;
+  transition: opacity width 0.2s;
+}
+.microweber menu:hover panel img {
+  box-sizing: content-box;
+  max-width: 300px;
+  width: 100%;
+  opacity: .6;
+  margin-bottom: 14px;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.microweber menu:hover panel img:hover {
+  box-sizing: content-box;
+  max-width: 300px;
+  width: 100%;
+  opacity: 1;
+  -webkit-transform: scale(1.01);
+  -ms-transform: scale(1.01);
+  transform: scale(1.01);
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+.microweber .ui-draggable {
+  max-width: 300px;
+}
+.microweber h2 {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+.microweber label {
+  font-size: 22px;
+  line-height: 30px;
+}
+.microweber a {
+  position: relative;
+  color: #332234;
+  text-decoration: none;
+}
+.microweber img {
+  max-width: 100%;
+}
+.microweber droppableArea {
+  height: 100px;
+  width: 100%;
+  display: block;
+  position: relative;
+  background-color: rgba(21, 14, 21, 0.9);
+  -webkit-transition: height 0.4s, color 0.3s;
+  transition: height 0.4s, color 0.3s;
+}
+.microweber droppableArea.hover {
+  background-color: #1ACC2F;
+  height: 300px;
+  -webkit-transition: height 0.4s, color 0.3s;
+  transition: height 0.4s, color 0.3s;
+}
+.microweber options {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.microweber options:hover nav {
+  opacity: 1;
+}
+.microweber options nav,
+.microweber options nav:hover {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.microweber options nav.toggled {
+  opacity: 1;
+}
+.microweber options.options1 {
+  background: URL("../img/1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  background-position: center center;
+  height: 100%;
+  position: relative;
+}
+.microweber options.options2 {
+  background: URL("../img/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.microweber options.options3 {
+  background: URL("../img/3.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 60%;
+  position: relative;
+}
+.microweber nav {
+  position: absolute;
+  z-index: 2;
+  right: 5%;
+  opacity: 0;
+}
+.microweber div:hover + nav {
+  opacity: 1;
+}
+.microweber .trigger {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  /* replace text with image */
+  overflow: hidden;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.microweber .trigger span,
+.microweber .trigger span::after,
+.microweber .trigger span::before {
+  /* this is the hamburger icon */
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #ccddcb;
+}
+.microweber .trigger span {
+  /* middle line of the hamburger icon */
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  right: auto;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.microweber .trigger span::after,
+.microweber .trigger span::before {
+  /* top and bottom lines of the hamburger icon */
+  content: '';
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+}
+.microweber .trigger span::before {
+  -webkit-transform: translateY(-6px);
+  -ms-transform: translateY(-6px);
+  transform: translateY(-6px);
+}
+.microweber .trigger span::after {
+  -webkit-transform: translateY(6px);
+  -ms-transform: translateY(6px);
+  transform: translateY(6px);
+}
+.no-touch .microweber .trigger:hover ~ nav-bg {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+.toggled .microweber .trigger {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  -webkit-animation-name: scaleIn;
+  animation-name: scaleIn;
+  -webkit-transform: scale(1.3);
+  -ms-transform: scale(1.3);
+  transform: scale(1.3);
+}
+.toggled .microweber .trigger span {
+  background-color: transparent;
+}
+.toggled .microweber .trigger span,
+.toggled .microweber .trigger span::after,
+.toggled .microweber .trigger span::before {
+  /* this is the hamburger icon */
+  background-color: #ccddcb;
+}
+.toggled .microweber .trigger span::before {
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.toggled .microweber .trigger span::after {
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.microweber nav ul {
+  position: relative;
+  z-index: 2;
+  padding: 60px 0 0;
+  visibility: hidden;
+  -webkit-transition: visibility 0.3s;
+  transition: visibility 0.3s;
+  text-align: right;
+}
+.microweber nav ul a {
+  position: relative;
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 calc(1em + 60px) 0 1em;
+  color: rgba(204, 221, 203, 0.7);
+  font-size: 1.4rem;
+  color: #ccddcb;
+  -webkit-animation: slideIn 0.2s reverse;
+  animation: slideIn 0.2s reverse;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+.microweber nav.toggled ul {
+  visibility: visible;
+}
+.microweber nav.toggled ul a::after {
+  /* navigation item icons */
+}
+.microweber nav.toggled ul a {
+  color: #ccddcb;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+.microweber nav.toggled ul span {
+  opacity: 1;
+  -webkit-animation: scaleIn 0.15s backwards;
+  animation: scaleIn 0.15s backwards;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+}
+.no-touch .microweber nav.toggled ul a:hover {
+  color: #ccddcb;
+}
+.no-touch .microweber nav.toggled ul a:hover::after {
+  opacity: 1;
+}
+.microweber nav.toggled ul li:first-of-type a::after,
+.microweber nav.toggled ul li:first-of-type span {
+  -webkit-animation-delay: 0.05s;
+  animation-delay: 0.05s;
+}
+.microweber nav.toggled ul li:nth-of-type(2) a::after,
+.microweber nav.toggled ul li:nth-of-type(2) span {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+.microweber nav.toggled ul li:nth-of-type(3) a::after,
+.microweber nav.toggled ul li:nth-of-type(3) span {
+  -webkit-animation-delay: 0.15s;
+  animation-delay: 0.15s;
+}
+.microweber nav.toggled ul li:nth-of-type(4) a::after,
+.microweber nav.toggled ul li:nth-of-type(4) span {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+.microweber nav.toggled ul li:nth-of-type(5) a::after,
+.microweber nav.toggled ul li:nth-of-type(5) span {
+  -webkit-animation-delay: 0.25s;
+  animation-delay: 0.25s;
+}
+.microweber nav.options-nav {
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 400px;
+}
+.microweber nav.options-nav.bottom {
+  bottom: 50px;
+}
+.microweber nav.options-nav.top {
+  top: 50px;
+}
+.microweber nav.options-nav.center {
+  top: 50%;
+  bottom: auto;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.microweber nav.options-nav.toggled nav-bg {
+  width: 100%;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+.microweber nav.options-nav .trigger {
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  background-color: #324A9A;
+}
+.microweber nav.options-nav .trigger span {
+  background-color: transparent;
+}
+.microweber nav.options-nav .trigger span::before {
+  /* used to create the plus icon */
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.microweber nav.options-nav .trigger span::after {
+  /* used to create the plus icon */
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.microweber nav.options-nav .trigger:hover span::before {
+  /* used to create the plus icon */
+  -webkit-transform: scale(1.34) rotate(90deg);
+  -ms-transform: scale(1.34) rotate(90deg);
+  transform: scale(1.34) rotate(90deg);
+}
+.microweber nav.options-nav .trigger:hover span::after {
+  /* used to create the plus icon */
+  -webkit-transform: scale(1.34) rotate(0deg);
+  -ms-transform: scale(1.34) rotate(0deg);
+  transform: scale(1.34) rotate(0deg);
+}
+.microweber nav.options-nav.toggled .trigger {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  background-color: #1ACC2F;
+}
+.microweber nav.options-nav.toggled .trigger span::before {
+  -webkit-transform: translateX(-50%) translateY(300%) scale(1) rotate(-135deg);
+  -ms-transform: translateX(-50%) translateY(300%) scale(1) rotate(-135deg);
+  transform: translateX(-50%) translateY(300%) scale(1) rotate(-135deg);
+}
+.microweber nav.options-nav.toggled .trigger span::after {
+  -webkit-transform: translateX(35%) translateY(120%) scale(1.6) rotate(140deg);
+  -ms-transform: translateX(35%) translateY(120%) scale(1.6) rotate(140deg);
+  transform: translateX(35%) translateY(120%) scale(1.6) rotate(140deg);
+}
+.microweber nav.options-nav.toggled .trigger:hover span::before {
+  -webkit-transform: translateX(-60%) translateY(320%) scale(0.9) rotate(-140deg);
+  -ms-transform: translateX(-60%) translateY(320%) scale(0.9) rotate(-140deg);
+  transform: translateX(-60%) translateY(320%) scale(0.9) rotate(-140deg);
+}
+.microweber nav.options-nav.toggled .trigger:hover span::after {
+  -webkit-transform: translateX(50%) translateY(100%) scale(2) rotate(140deg);
+  -ms-transform: translateX(50%) translateY(100%) scale(2) rotate(140deg);
+  transform: translateX(50%) translateY(100%) scale(2) rotate(140deg);
+}
+.microweber nav.options-nav ul {
+  padding-top: 0;
+}
+.microweber nav.options-nav ul::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.microweber nav.options-nav ul li {
+  z-index: 5000;
+  display: inline-block;
+  float: left;
+  width: 60px;
+}
+.microweber nav.options-nav ul li:nth-of-type(odd) {
+  /* space occupied by the navigation trigger */
+  margin-right: 30px;
+  float: left;
+}
+.microweber nav.options-nav ul li:nth-of-type(even) {
+  /* space occupied by the navigation trigger */
+  float: right;
+  margin-left: 30px;
+}
+.microweber nav.options-nav ul li .open {
+  z-index: 9999;
+}
+.microweber nav.options-nav ul li .open a {
+  padding: 0;
+  height: 60px;
+  width: 60px;
+  position: relative;
+  background-color: #332234;
+}
+.microweber nav.options-nav ul li a {
+  padding: 0;
+  height: 60px;
+  width: 60px;
+  border-radius: 30px;
+  position: relative;
+  background-color: #332234;
+}
+.microweber nav.options-nav ul li:first-of-type a,
+.microweber nav.options-nav ul li:nth-of-type(4) a {
+  -webkit-animation: slideIn 0.2s;
+  animation: slideIn 0.2s;
+  -webkit-transition: opacity 0.1s, color 0.1s;
+  transition: opacity 0.1s, color 0.1s;
+}
+.microweber nav.options-nav ul li:nth-of-type(2) a,
+.microweber nav.options-nav ul li:nth-of-type(3) a {
+  -webkit-animation: slideIn 0.2s;
+  animation: slideIn 0.2s;
+  -webkit-transition: opacity 0.4s, color 0.4s;
+  transition: opacity 0.4s, color 0.4s;
+}
+.microweber nav.options-nav ul span {
+  position: absolute;
+  left: 0;
+  top: 120%;
+  min-width: 100%;
+  padding: .6em 0;
+  opacity: 0;
+  visibility: hidden;
+  background-color: transparent;
+  color: #ccddcb;
+  border-radius: 2px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-transition: opacity 0.2s, visibility 0.2s;
+  transition: opacity 0.2s, visibility 0.2s;
+  /* reset default style */
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+}
+.microweber nav.options-nav.toggled ul span {
+  /* reset default style */
+  -webkit-animation: none;
+  animation: none;
+}
+.microweber .no-touch nav.options-nav.toggled ul a:hover span {
+  opacity: 1;
+  visibility: visible;
+  text-shadow: 1px 1px 1px #000000;
+  /* reset default style */
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+}
+@-webkit-keyframes scaleIn {
+  from {
+    -webkit-transform: translateY(-50%) scale(0);
+  }
+  to {
+    -webkit-transform: translateY(-50%) scale(1);
+  }
+}
+@keyframes scaleIn {
+  from {
+    -webkit-transform: translateY(-50%) scale(0);
+    -ms-transform: translateY(-50%) scale(0);
+    transform: translateY(-50%) scale(0);
+  }
+  to {
+    -webkit-transform: translateY(-50%) scale(1);
+    -ms-transform: translateY(-50%) scale(1);
+    transform: translateY(-50%) scale(1);
+  }
+}
+@-webkit-keyframes slideIn {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(-25px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(-25px);
+    -ms-transform: translateX(-25px);
+    transform: translateX(-25px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.microweber .light {
+  background-color: rgba(204, 221, 203, 0.94);
+  color: #332234;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.microweber .light p {
+  color: color-offset-dark;
+}
+.microweber .dark {
+  background-color: rgba(51, 34, 52, 0.94);
+  color: #ccddcb;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+.microweber .dark p {
+  color: color-offset-light;
+}
+.microweber .open > modal,
+.microweber modal.open {
+  display: inline-block;
+  visibility: visible;
+  z-index: 5000;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s 0s, visibility 0s, -webkit-transform 0.3s 0s, top 0.3s 0s, bottom 0.3s 0s, left 0.3s 0s, right 0.3s 0s;
+  transition: opacity 0.3s 0s, visibility 0s, transform 0.3s 0s, top 0.3s 0s, bottom 0.3s 0s, left 0.3s 0s, right 0.3s 0s;
+}
+.microweber modal {
+  width: 300px;
+  height: 500px;
+  opacity: 0;
+  display: none;
+  max-width: 300px;
+  max-height: 500px;
+  position: absolute;
+  border-radius: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -webkit-animation: fadeIn 0.2s;
+  animation: fadeIn 0.2s;
+  -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s, -webkit-transform 0.3s 0s, top 0.3s 0s, bottom 0.3s 0s, left 0.3s 0s, right 0.3s 0s;
+  transition: opacity 0.3s 0s, visibility 0s 0.3s, transform 0.3s 0s, top 0.3s 0s, bottom 0.3s 0s, left 0.3s 0s, right 0.3s 0s;
+  -webkit-overflow-scrolling: touch;
+  text-align: left;
+  line-height: 1.5
+  /* close the interest point description - only on mobile */
+}
+.microweber modal.fixed {
+  top: 50px;
+  left: 100px;
+  position: fixed;
+  cursor: move;
+}
+.microweber modal::before {
+  /* triangle next to the interest point description - hidden on mobile */
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 0;
+  bottom: -8px;
+  display: none;
+  border: 8px solid transparent;
+}
+.microweber modal::before {
+  /* triangle next to the interest point description - hidden on mobile */
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 0;
+  bottom: -8px;
+  display: none;
+  border: 8px solid transparent;
+}
+@media only screen and (min-width: 480px) {
+  .microweber modal {
+    position: absolute;
+    line-height: 1.4;
+    border-radius: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+  .microweber modal::before {
+    display: block;
+  }
+  .microweber modal.left, .microweber modal.right {
+    top: 50%;
+    bottom: auto;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  .microweber modal.left::before, .microweber modal.right::before {
+    top: 50%;
+    bottom: auto;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  .microweber modal.top, .microweber modal.bottom {
+    left: 50%;
+    right: auto;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  .microweber modal.top::before, .microweber modal.bottom::before {
+    left: 50%;
+    right: auto;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  .microweber modal.left {
+    right: 160%;
+    left: auto;
+  }
+  .microweber modal.left::before {
+    left: 100%;
+  }
+  .microweber modal.right {
+    left: 160%;
+  }
+  .microweber modal.right::before {
+    right: 100%;
+  }
+  .microweber modal.top {
+    bottom: 160%;
+    top: auto;
+  }
+  .microweber modal.top::before {
+    top: 100%;
+  }
+  .microweber modal.bottom {
+    top: 160%;
+  }
+  .microweber modal.bottom::before {
+    bottom: 100%;
+  }
+  .microweber modal.light.left::before {
+    border-left-color: rgba(204, 221, 203, 0.95);
+    left: 100%;
+  }
+  .microweber modal.light.right::before {
+    border-right-color: rgba(204, 221, 203, 0.95);
+    right: 100%;
+  }
+  .microweber modal.light.top::before {
+    border-top-color: rgba(204, 221, 203, 0.95);
+    top: 100%;
+  }
+  .microweber modal.light.bottom::before {
+    border-bottom-color: rgba(204, 221, 203, 0.95);
+    bottom: 100%;
+  }
+  .microweber modal.dark.left::before {
+    border-left-color: rgba(51, 34, 52, 0.95);
+    left: 100%;
+  }
+  .microweber modal.dark.right::before {
+    border-right-color: rgba(51, 34, 52, 0.95);
+    right: 100%;
+  }
+  .microweber modal.dark.top::before {
+    border-top-color: rgba(51, 34, 52, 0.95);
+    top: 100%;
+  }
+  .microweber modal.dark.bottom::before {
+    border-bottom-color: rgba(51, 34, 52, 0.95);
+    bottom: 100%;
+  }
+}
+@media only screen and (min-width: 480px) {
+  .microweber modal close {
+    position: absolute !important;
+    top: 10px;
+    right: 10px;
+    background-color: transparent !important;
+  }
+  .microweber modal close::after, .microweber modal close:before {
+    content: '';
+    position: absolute !important;
+    right: 15px !important;
+    top: 15px !important;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+  }
+  .microweber modal close::after {
+    -webkit-transform: translateX(50%) translateY(-50%) rotate(45deg);
+    -ms-transform: translateX(50%) translateY(-50%) rotate(45deg);
+    transform: translateX(50%) translateY(-50%) rotate(45deg);
+    background-color: #888888 !important;
+    height: 2px;
+    width: 16px;
+  }
+  .microweber modal close::before {
+    -webkit-transform: translateY(-50%) translateX(50%) rotate(45deg);
+    -ms-transform: translateY(-50%) translateX(50%) rotate(45deg);
+    transform: translateY(-50%) translateX(50%) rotate(45deg);
+    background-color: #888888 !important;
+    height: 16px;
+    width: 2px;
+  }
+  .microweber modal close:hover::after, .microweber modal close:hover:before {
+    content: '';
+    position: absolute !important;
+    right: 15px !important;
+    top: 15px !important;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+  }
+  .microweber modal close:hover::after {
+    -webkit-transform: translateX(50%) translateY(-50%) rotate(45deg);
+    -ms-transform: translateX(50%) translateY(-50%) rotate(45deg);
+    transform: translateX(50%) translateY(-50%) rotate(45deg);
+    background-color: #888888 !important;
+    height: 3px;
+    width: 20px;
+  }
+  .microweber modal close:hover::before {
+    -webkit-transform: translateY(-50%) translateX(50%) rotate(45deg);
+    -ms-transform: translateY(-50%) translateX(50%) rotate(45deg);
+    transform: translateY(-50%) translateX(50%) rotate(45deg);
+    background-color: #888888 !important;
+    height: 20px;
+    width: 3px;
+  }
+}
+.microweber modal panel {
+  max-width: 100%;
+  max-height: 100%;
+  display: inline-block;
+  padding: 20px;
+  overflow: scroll;
+  box-sizing: border-box;
+}
+.microweber modal panel section {
+  padding-bottom: 30px;
+}
+.microweber modal panel *,
+.microweber modal panel *:before,
+.microweber modal panel *:after {
+  box-sizing: inherit;
+}
+.microweber modal div:before {
+  content: '';
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  left: 0;
+  height: 20px;
+}
+.microweber modal div:after {
+  content: '';
+  width: 100%;
+  position: absolute;
+  top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  left: 0;
+  height: 20px;
+}
+.microweber modal div > section {
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+.microweber ul li {
+  position: relative;
+}
+@media only screen and (min-width: 480px) {
+  .microweber ul li.is-open modal.left {
+    right: 120%;
+  }
+  .microweber ul li.is-open modal.right {
+    left: 120%;
+  }
+  .microweber ul li.is-open modal.top {
+    bottom: 120%;
+  }
+  .microweber ul li.is-open modal.bottom {
+    top: 120%;
+  }
+}
+.microweber range,
+.microweber switch {
+  width: 100%;
+  height: auto;
+  box-sizing: content-box;
+  display: inline-block;
+  clear: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.microweber switch {
+  height: 30px;
+}
+.microweber switch input {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.microweber switch input + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.microweber switch input + label {
+  padding: 3px;
+  float: right;
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  z-index: 3003;
+}
+.microweber switch input + label:before, .microweber switch input + label:after {
+  display: block;
+  position: absolute;
+  content: "";
+}
+.microweber switch input + label:before {
+  height: 30px;
+  width: 60px;
+  border-radius: 27px;
+  border-radius: 15px;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+  top: 0;
+  left: 0;
+}
+.microweber switch input + label:after {
+  width: 24px;
+  height: 24px;
+  border-radius: 27px;
+  -webkit-transition: margin .4s ease;
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+}
+.microweber switch label {
+  width: 66.66%;
+  float: left;
+}
+.microweber switch input {
+  width: 33.32%;
+  float: right;
+}
+.microweber .light switch input:checked + label:after {
+  background-color: #1ACC2F;
+  margin-left: 30px;
+  -webkit-transition: margin 0.4s, color 0.2s;
+  transition: margin 0.4s, color 0.2s;
+}
+.microweber .light switch input:hover + label:after {
+  background-color: #1ACC2F;
+  -webkit-transition: margin 0.4s, color 0.2s;
+  transition: margin 0.4s, color 0.2s;
+}
+.microweber .light switch input + label:after {
+  background-color: #d2e1d1;
+}
+.microweber .light switch input + label::before {
+  background-color: rgba(174, 201, 172, 0.9);
+  box-shadow: inset 0 0 8px -3px #aec9ac;
+}
+.microweber .light switch input + label {
+  background-color: rgba(174, 201, 172, 0.9);
+  box-shadow: inset 0 0 8px -3px #aec9ac;
+}
+.microweber .light switch input input + label:before {
+  background-color: #d2e1d1;
+}
+.microweber .dark switch input:checked + label:after {
+  background-color: #1ACC2F;
+  margin-left: 30px;
+  -webkit-transition: margin 0.4s, color 0.2s;
+  transition: margin 0.4s, color 0.2s;
+}
+.microweber .dark switch input:hover + label:after {
+  background-color: #1ACC2F;
+  -webkit-transition: margin 0.4s, color 0.2s;
+  transition: margin 0.4s, color 0.2s;
+}
+.microweber .dark switch input + label:after {
+  background-color: #39263a;
+}
+.microweber .dark switch input + label::before {
+  background-color: rgba(21, 14, 21, 0.9);
+  box-shadow: inset 0 0 8px -3px #150e15;
+}
+.microweber .dark switch input + label {
+  background-color: rgba(21, 14, 21, 0.9);
+  box-shadow: inset 0 0 8px -3px #aec9ac;
+}
+.microweber .dark switch input input + label:before {
+  background-color: #39263a;
+}
+.microweber range {
+  box-sizing: content-box;
+  box-sizing: content-box;
+  width: 100%;
+}
+.microweber range * {
+  box-sizing: content-box;
+}
+.microweber range label {
+  width: 33.33%;
+  max-width: 33.33%;
+  text-align: left;
+  float: left;
+}
+.microweber range input[type=range] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  border: none;
+  width: 50%;
+  float: right;
+  padding: 0;
+  box-sizing: content-box;
+  background-color: transparent;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.microweber range input[type=range]:focus {
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.microweber range input[type=range]::-webkit-slider-runnable-track {
+  width: 50%;
+  float: right;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 1px #000000, 0 0 1px #0d0d0d;
+  border-radius: 15px;
+  border: .2px solid #010101;
+  height: 30px;
+  padding: 3px;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.microweber range input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+  -webkit-transition: background 0.2s;
+  transition: background 0.2s;
+}
+.microweber range input[type=range]:hover::-webkit-slider-thumb {
+  background: #1ACC2F;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.microweber range input[type=range]::-moz-range-track {
+  height: 30px;
+  border-radius: 30px;
+  padding: 0.75px;
+  float: right;
+}
+.microweber range input[type=range]::-moz-range-thumb {
+  border: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+}
+.microweber range input[type=range]:hover::-moz-range-thumb {
+  background: #1ACC2F;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.microweber range input[type=range]::-ms-track {
+  height: 30px;
+  background: transparent;
+  border-color: transparent;
+  border-width: 0 0;
+  color: transparent;
+}
+.microweber range input[type=range]::-ms-fill-lower {
+  background: #777;
+  border-radius: 10px;
+}
+.microweber range input[type=range]::-ms-fill-upper {
+  background: rgba(174, 201, 172, 0.9);
+  border-radius: 10px;
+}
+.microweber range input[type=range]::-ms-thumb {
+  border: none;
+  height: 28px;
+  width: 30px -2;
+  border-radius: 25px;
+  background: #ccddcb;
+}
+.microweber range input[type=range] :focus::-ms-fill-lower {
+  background: #888;
+}
+.microweber range input[type=range] :focus::-ms-fill-upper {
+  background: #ccc;
+}
+.microweber .light range input[type=range]::-webkit-slider-runnable-track {
+  background: rgba(174, 201, 172, 0.9);
+  box-shadow: inset 0 0 8px -3px #aec9ac;
+}
+.microweber .light range input[type=range]::-webkit-slider-thumb {
+  background: #d2e1d1;
+}
+.microweber .light range input[type=range]::-moz-range-track {
+  background: rgba(174, 201, 172, 0.9);
+}
+.microweber .light range input[type=range]::-moz-range-thumb {
+  background: #d2e1d1;
+}
+.microweber .dark range input[type=range]::-webkit-slider-runnable-track {
+  background: rgba(21, 14, 21, 0.9);
+  box-shadow: inset 0 0 8px -3px #150e15;
+}
+.microweber .dark range input[type=range]::-webkit-slider-thumb {
+  background: #39263a;
+}
+.microweber .dark range input[type=range]::-moz-range-track {
+  background: rgba(21, 14, 21, 0.9);
+}
+.microweber .dark range input[type=range]::-moz-range-thumb {
+  background: #39263a;
+}
+.xxxxmw_edit_settings_multiple_holder .mw_edit_settings_multiple {
+ background:transparent !important;
+}
+.mw-edit-module-settings-tooltip-btn {
+  position: relative;
+  display: block;
+  height: 60px;
+  line-height: 50px;
+  padding: 0 calc(1em + 60px) 0 1em;
+  color: rgba(204, 221, 203, 0.7);
+  font-size: 1.4rem;
+  color: #ccddcb;
+  background-color: black;
+  
+  
+      padding: 0;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    position: relative;
+    background-color: #332234;
+ 
+   
+}
+.mw-edit-module-settings-tooltip-btn .mw-edit-module-settings-tooltip-icon  {
+  font-size: 50px;
+  top: 5px;
+  left: 5.7px;
+  position: absolute;
+  line-height: 100%;
+  text-align: center;
+  font-style: normal;
+}

@@ -63,7 +63,7 @@
                     }
                 });
             });
-            mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+           // mw.require("<?php print mw_includes_url(); ?>css/ui.css"); 
 
             $(window).load(function () {
                 if($(".bootstrap3ns").size() > 0){
@@ -117,8 +117,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 </div>*/ ?>
-<?php if(is_admin()): ?>
 <div id="mw-admin-container">
+<?php if(is_admin()): ?>
+
 <div class="mw-ui-row main-admin-row">
 <div class="mw-ui-col main-bar-column">
           <div id="main-bar" class="scroll-height-exception-master">
@@ -193,10 +194,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     href="<?php print admin_url(); ?>view:shop/action:clients">
           <?php _e("Clients"); ?>
           </a></li>
-        <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
+      <!--  <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:shipping">
           <?php _e("Shipping"); ?>
-          </a></li>
+          </a></li>-->
         <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:options">
           <?php _e("Options"); ?>
@@ -286,18 +287,24 @@ if ($last_page_front != false) {
               <?php } else { ?>
               <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
               <?php } }  ?>
-              <div id="main-bar-user-tip" style="display: none">
+              <div id="main-bar-user-tip">
         <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
           <?php _e("My Profile"); ?>
-          </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn">
+          </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank" class="mw-ui-btn">
           <?php _e("Manage Users"); ?>
 
           </a>
 
           <?php if(mw()->ui->enable_service_links): ?>
+          <?php if(mw()->ui->custom_support_url): ?>
+           <a href="<?php print mw()->ui->custom_support_url ?>"  class="mw-ui-btn">
+          <?php _e("Support"); ?>
+          </a>
+          <?php else: ?>
           <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn">
           <?php _e("Support"); ?>
           </a>
+          <?php endif; ?>
           <?php endif; ?>
 
             <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set">

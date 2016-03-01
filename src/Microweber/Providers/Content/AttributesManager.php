@@ -3,7 +3,7 @@
 
 namespace Microweber\Providers\Content;
 
-use Microweber\Utils\Crud;
+use Microweber\Providers\Database\Crud;
 
 
 class AttributesManager extends Crud {
@@ -104,7 +104,8 @@ class AttributesManager extends Crud {
             }
         }
         $save = parent::save($data);
-         return $save;
+
+        return $save;
     }
 
 

@@ -2,6 +2,7 @@
 
 
 namespace Microweber\Providers\Shop;
+
 use DB;
 
 class OrderManager {
@@ -97,8 +98,7 @@ class OrderManager {
         }
 
     }
-    
-    
+
 
     public function place_order($place_order) {
 
@@ -168,5 +168,130 @@ class OrderManager {
 
         return $this->app->database_manager->save($table, $params);
     }
+
+    public function export_orders() {
+        $data = get_orders('no_limit=true&order_completed=1');
+        if (!$data){
+            return array('error' => 'You do not have any orders');
+
+        }
+        $allowed = array(
+            'id', 'created_at', 'created_at', 'amount', 'transaction_id', 'shipping', 'currency', 'is_paid',
+            'user_ip', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'phone', 'payment_gw',
+            'order_status', 'taxes_amount', 'cart', 'transaction_id'
+
+        );
+        $export = array();
+        foreach ($data as $item) {
+            $cart_items = mw()->shop_manager->order_items($item['id']);
+            $cart_items_str = mw()->format->array_to_ul($cart_items, 'div', 'span');
+            $cart_items_str = (strip_tags($cart_items_str, '<span>'));
+            $cart_items_str = str_replace('</span>', "\r\n", $cart_items_str);
+            $cart_items_str = (strip_tags($cart_items_str));
+
+            if (!empty($cart_items)){
+                $item['cart'] = $cart_items_str;
+            }
+            foreach ($item as $key => $value) {
+
+                if (!in_array($key, $allowed)){
+                    unset($item[ $key ]);
+                }
+            }
+            $export[] = $item;
+        }
+
+
+
+        if (empty($export)){
+            return;
+        }
+
+
+        // dd($export);
+        $filename = 'orders' . "_" . date("Y-m-d_H-i", time()) . uniqid() . '.csv';
+        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
+        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
+        if (!is_dir($filename_path)){
+            mkdir_recursive($filename_path);
+
+        }
+        if (!is_file($filename_path_index)){
+            @touch($filename_path_index);
+        }
+        $filename_path_full = $filename_path . $filename;
+
+        // $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+        $csv = \League\Csv\Writer::createFromPath($filename_path_full, 'w'); //to work make sure you have the write permission
+        $csv->setEncodingFrom("UTF-8"); // this probably is not needed?
+
+        $csv->setOutputBOM(\League\Csv\Writer::BOM_UTF8); //adding the BOM sequence on output
+
+        //we insert the CSV header
+        $csv->insertOne(array_keys(reset($export)));
+
+        $csv->insertAll($export);
+
+
+        $download = $this->app->url_manager->link_to_file($filename_path_full);
+
+        return array('success' => 'Your file has been exported!', 'download' => $download);
+
+
+    }
+
+    public function export_orders1() {
+        $data = get_orders('no_limit=true&order_completed=1');
+        if (!$data){
+            return array('error' => 'You do not have any orders');
+
+        }
+
+        $csv_output = '';
+        $head = reset($data);
+        foreach ($head as $k => $v) {
+            $csv_output .= $this->app->format->no_dashes($k) . ",";
+            // $csv_output .= "\t";
+        }
+        $csv_output .= "\n";
+        foreach ($data as $item) {
+            foreach ($item as $k => $v) {
+                $csv_output .= $this->app->format->no_dashes($v) . ",";
+                //  $csv_output .= "\t";
+            }
+            $cart_items = mw()->shop_manager->order_items($item['id']);
+            if (!empty($cart_items)){
+
+            }
+
+            dd($cart_items);
+
+            $csv_output .= "\n";
+        }
+
+
+//dd($csv_output);
+
+
+        $filename = 'orders' . "_" . date("Y-m-d_H-i", time()) . uniqid() . '.csv';
+        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
+        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
+        if (!is_dir($filename_path)){
+            mkdir_recursive($filename_path);
+
+        }
+        if (!is_file($filename_path_index)){
+            @touch($filename_path_index);
+        }
+        $filename_path_full = $filename_path . $filename;
+        file_put_contents($filename_path_full, $csv_output);
+        $download = $this->app->url_manager->link_to_file($filename_path_full);
+
+        return array('success' => 'Your file has been exported!', 'download' => $download);
+
+
+        dd('export_orders');
+    }
+
 
 } 

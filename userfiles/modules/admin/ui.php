@@ -1,4 +1,6 @@
-
+<script>
+mw.require("<?php print mw_includes_url(); ?>css/ui.css"); 
+</script>
 
 <style scoped="scoped">
     #ui-info-table{

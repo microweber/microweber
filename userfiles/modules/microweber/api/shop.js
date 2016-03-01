@@ -1,3 +1,4 @@
+
 // JavaScript Document
 mw.require('forms.js');
 
@@ -30,12 +31,40 @@ mw.cart = {
 
     add: function (selector, price, c) {
         var data = mw.form.serialize(selector);
-        console.log(price)
+
+
+		var is_form_valid = true;
+		$('[required],.required',selector).each(function()
+		{
+
+			if(!this.validity.valid)
+			{
+				is_form_valid = false
+
+				var is_form_valid_check_all_fields_tip = mw.tooltip({
+					id: 'mw-cart-add-invalid-form-tooltip-show',
+					content: 'This field is required',
+					close_on_click_outside: true,
+					group: 'mw-cart-add-invalid-tooltip',
+					skin:'warning',
+					element: this
+				}); 
+				
+				
+				 return false;
+			}
+		});
+
+		 if(!is_form_valid){
+			 return;
+		 }
+		 
+      
         if (price != undefined && data != undefined) {
             data.price = price;
         }
         if (data.price == null) {
-            return;
+            data.price = 0;
         }
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
@@ -158,3 +187,4 @@ mw.cart = {
             });
     }
 }
+

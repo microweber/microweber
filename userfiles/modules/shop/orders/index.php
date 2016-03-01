@@ -24,8 +24,8 @@
 			//$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=0&'.$ord);
 			
 	} else {
-		$orders = get_orders('limit=2000&order_completed=1&'.$ord.$kw);
-		// 
+		$orders = get_orders('no_limit=true&order_completed=1&'.$ord.$kw);
+ 
  	}
 
 ?>
@@ -140,6 +140,34 @@
       <?php endforeach; ?>
     </tbody>
   </table>
+  
+  <div class="mw-clear"></div>
+  <br />
+  
+  <script>
+  export_orders_to_excel = function(id){
+    
+	   
+	   
+	  data = {}
+       $.post(mw.settings.api_url+'shop/export_orders', data ,
+         function(resp) {
+            mw.notification.msg(resp);
+			if(resp.download != undefined){
+				    window.location= resp.download;
+
+				
+			}
+         });
+    
+  }
+  </script>
+<div class="export-label">
+    <span><?php _e("Export data"); ?>:</span>
+    <a class="mw-ui-btn mw-ui-btn-small" href="javascript:export_orders_to_excel()"><?php _e("Excel"); ?></a>
+</div>
+  
+  
   <?php elseif($ordert_type == 'carts' and isset($orders) and is_array($orders)) :?>
     <label class="mw-ui-label"><?php _e("Abandoned Carts Section helps you analyze why some customers aren't checking out."); ?></label>
     <div class="mw-ui-box-content">

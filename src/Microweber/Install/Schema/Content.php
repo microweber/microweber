@@ -189,11 +189,13 @@ class Content
                 'edited_by' => 'integer',
                 'data_type' => 'string',
                 'title' => 'text',
+                'url' => 'longText',
+
                 'parent_id' => 'integer',
                 'description' => 'text',
                 'content' => 'longText',
-                'rel_type' => 'string',
 
+                'rel_type' => 'string',
                 'rel_id' => 'integer',
 
                 'position' => 'integer',

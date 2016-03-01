@@ -62,6 +62,8 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('database_manager', function ($app) {
             return new Providers\DatabaseManager($app);
         });
+
+
         $this->app->singleton('format', function ($app) {
             return new Utils\Format($app);
         });
@@ -101,6 +103,7 @@ class MicroweberServiceProvider extends ServiceProvider {
         $this->app->singleton('fields_manager', function ($app) {
             return new Providers\FieldsManager($app);
         });
+
 
         $this->app->singleton('data_fields_manager', function ($app) {
             return new Providers\Content\DataFieldsManager($app);
@@ -180,6 +183,13 @@ class MicroweberServiceProvider extends ServiceProvider {
             return new Providers\Ui($app);
         });
 
+        $this->app->singleton('content_manager_crud', function ($app) {
+            return new Providers\Content\ContentManagerCrud($app);
+        });
+
+        $this->app->singleton('content_manager_helpers', function ($app) {
+            return new Providers\Content\ContentManagerHelpers($app);
+        });
 
         $this->app->register('Illuminate\Html\HtmlServiceProvider');
         AliasLoader::getInstance()->alias("Form", 'Illuminate\Html\FormFacade');

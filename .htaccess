@@ -1,10 +1,17 @@
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
     Options -MultiViews
     </IfModule>
     RewriteEngine On
+
+    RewriteCond %{REQUEST_URI} !=/favicon.ico
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+
     RewriteRule ^(.*)$ index.php [NC,L]
 
     RedirectMatch 404 /\\.git(/|$)

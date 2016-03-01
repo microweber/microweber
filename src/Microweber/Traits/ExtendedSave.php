@@ -38,22 +38,24 @@ trait ExtendedSave {
 
 
         if (!empty($ext_params)){
-            $data_str = 'attribute_';
-            $data_str_l = strlen($data_str);
-            foreach ($ext_params as $k => $v) {
-                if (is_string($k)){
-                    if (strlen($k) > $data_str_l){
-                        $rest = substr($k, 0, $data_str_l);
-                        $left = substr($k, $data_str_l, strlen($k));
-                        if ($rest==$data_str){
-                            if (!isset($ext_params['attributes'])){
-                                $ext_params['attributes'] = array();
-                            }
-                            $ext_params['attributes'][ $left ] = $v;
-                        }
-                    }
-                }
-            }
+
+
+//            $data_str = 'attribute_';
+//            $data_str_l = strlen($data_str);
+//            foreach ($ext_params as $k => $v) {
+//                if (is_string($k)){
+//                    if (strlen($k) > $data_str_l){
+//                        $rest = substr($k, 0, $data_str_l);
+//                        $left = substr($k, $data_str_l, strlen($k));
+//                        if ($rest==$data_str){
+//                            if (!isset($ext_params['attributes'])){
+//                                $ext_params['attributes'] = array();
+//                            }
+//                            $ext_params['attributes'][ $left ] = $v;
+//                        }
+//                    }
+//                }
+//            }
         }
 
 
@@ -67,6 +69,7 @@ trait ExtendedSave {
                 $this->extended_save_categories($ext_params);
             }
             if (isset($ext_params['data_fields'])){
+
                 $this->extended_save_data_fields($ext_params);
             }
             if (isset($ext_params['images'])){
@@ -93,13 +96,17 @@ trait ExtendedSave {
 
                 if (is_array($data_fields) and !empty($data_fields)){
                     foreach ($data_fields as $k => $v) {
+                        if(is_string($v)){
+                            $v = array('filename'=>$v);
+                        }
+
                         if (isset($v['filename'])){
 
                             $save_cat_item = array();
                             $save_cat_item['rel_type'] = $data_to_save['table'];
                             $save_cat_item['rel_id'] = $data_to_save['id'];
 
-                            if (isset($data_to_save['download_remote_images']) and $data_to_save['download_remote_images']!=false){
+                         /*   if (isset($data_to_save['download_remote_images']) and $data_to_save['download_remote_images']!=false){
                                 $is_url = false;
                                 if (filter_var($v['filename'], FILTER_VALIDATE_URL)){
                                     if (!stristr($v['filename'], site_url())){
@@ -144,10 +151,10 @@ trait ExtendedSave {
                                     }
 
                                 }
-                            }
+                            }*/
 
-
-                            $save_cat_item["filename"] = $v['filename'];
+                            $v['filename'] = str_replace(site_url(), '{SITE_URL}', $v['filename']);
+                             $save_cat_item["filename"] = $v['filename'];
 
                             $check = $this->app->media_manager->get($save_cat_item);
                             if ($check==false){
@@ -193,18 +200,31 @@ trait ExtendedSave {
                 if (is_array($custom_fields) and !empty($custom_fields)){
 
                     foreach ($custom_fields as $k => $v) {
+
+
+
+
                         $save_cat_item = array();
                         $save_cat_item['rel_type'] = $data_to_save['table'];
                         $save_cat_item['rel_id'] = $data_to_save['id'];
+
+                        if (isset($v['name']) and !isset($v['type'])){
+                            if($v['name'] == 'price'){
+                                $v['type'] = 'price';
+                            }
+                        }
+
+
                         if (isset($v['type'])){
                             $save_cat_item['type'] = $v['type'];
                             if (isset($v['name'])){
                                 $save_cat_item['name'] = $v['name'];
                             }
                             $check = $save_cat_item;
-                            $save_cat_item['single'] = true;
+                            $check['single'] = true;
 
                             $check = $this->app->fields_manager->get_all($check);
+
                             if (isset($check['id'])){
                                 $save_cat_item['id'] = $check['id'];
                             }
@@ -219,6 +239,7 @@ trait ExtendedSave {
     }
 
     function extended_save_data_fields($params) {
+
         if ($this->extended_save_has_permission()){
             event_trigger('mw.database.extended_save_data_fields', $params);
             $data_to_save = $params;

@@ -141,7 +141,7 @@ if (isset($orig_params['is_shop']) and trim($orig_params['is_shop']) == 'y') {
 
 
 }
-
+ 
 if (isset($params['active_ids'])) {
 	$tree['active_ids'] = $params['active_ids'];
 
@@ -149,8 +149,22 @@ if (isset($params['active_ids'])) {
  
 
 if (isset($params['categories_active_ids'])) {
+	 
 	$tree['categories_active_ids'] = $params['categories_active_ids'];
-$active_cats[] = $tree['categories_active_ids'];
+	if(is_numeric($tree['categories_active_ids']) and isset($params['for-id']) and $params['for-id'] == 0){
+	$all_parents = mw()->category_manager->get_parents($tree['categories_active_ids']);
+	if(!empty($all_parents)){
+		foreach($all_parents as $all_parent){
+			if(intval($all_parent) != 0){
+			$active_cats[] = 	$all_parent;
+			}
+		}
+	}
+	$active_cats[] = $tree['categories_active_ids'];
+	$active_cats = array_unique($active_cats);
+	$tree['categories_active_ids'] = $active_cats;
+	}
+
 } else if (!empty($active_cats1)) {
  	 // $tree['categories_active_ids'] = $active_cats1;
 
@@ -254,6 +268,7 @@ pages_tree($tree);
 	}
 
 }
+
 
 
 ?>

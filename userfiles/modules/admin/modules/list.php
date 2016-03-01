@@ -29,7 +29,7 @@ if (isset($is_elements) and $is_elements == true) {
 
 } else {
     $modules = mw()->modules->get('installed=1&ui=1');
-
+ 
     $sortout_el = array();
     $sortout_mod = array();
     if (!empty($modules)) {
@@ -106,6 +106,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             }
         }
     }
+	 
 }
 
 
@@ -189,6 +190,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 class="module-item <?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span
                     unselectable="on" class="mw_module_hold"
                     title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
+                    
+                      
+                    
   <?php if (!isset($params['clean'])) { ?>
       <script type="text/javascript">
           Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
@@ -197,7 +201,30 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
               title: '<?php print $module_item["name"] ?>',
               description: '<?php print addslashes($module_item["description"]) ?>'
           }
+		  
+		  		       
+
+		  
+		  
+		        <?php if (isset($module_item['settings']) and is_array($module_item['settings']) and !empty($module_item['settings'])): ?>
+				if(typeof(mw.live_edit_module_settings_array) != 'undefined'){
+		  			mw.live_edit_module_settings_array['<?php print $module_item["module"] ?>'] = <?php print json_encode($module_item['settings']) ?>
+				}
+				<?php endif; ?>
+
+		  
+		  
+		  
       </script>
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
   <?php } ?>
                     <?php if ($module_item['icon']): ?>

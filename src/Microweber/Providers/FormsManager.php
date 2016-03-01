@@ -499,9 +499,10 @@ class FormsManager {
             $filename_path_index = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
             if (!is_dir($filename_path)){
                 mkdir_recursive($filename_path);
-                if (!is_file($filename_path_index)){
-                    @touch($filename_path_index);
-                }
+
+            }
+            if (!is_file($filename_path_index)){
+                @touch($filename_path_index);
             }
             $filename_path_full = $filename_path . $filename;
             file_put_contents($filename_path_full, $csv_output);

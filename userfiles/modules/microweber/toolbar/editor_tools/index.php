@@ -2,6 +2,8 @@
 <html>
   <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta charset="UTF-8">
+
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
        <script>mw.require('<?php print mw_includes_url(); ?>api/editor_externals.js');</script>

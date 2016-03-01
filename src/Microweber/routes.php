@@ -6,11 +6,17 @@ Route::group(['middleware' => '\Microweber\App\Http\Middleware\SessionlessMiddle
     Route::any('/apijs_settings', 'DefaultController@apijs_settings');
     Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
     Route::any('/api_nosession', 'DefaultController@api');
+    Route::any('/favicon.ico', function(){
+        return;
+    });
+
+
+
+
 });
 
 Route::group(['namespace' => '\Microweber\Controllers'], function () {
     Route::any('/', 'DefaultController@index');
-    Route::controller('alou', 'TestController');
 
     Route::any('/api', 'DefaultController@api');
     Route::any('/api/{slug}', 'DefaultController@api');
@@ -31,6 +37,8 @@ Route::group(['namespace' => '\Microweber\Controllers'], function () {
     Route::any('/module/', 'ModuleController@index');
     Route::any('module/{all}', array('as' => 'module', 'uses' => 'ModuleController@index'))->where('all', '.*');;
     Route::any('robots.txt', 'DefaultController@robotstxt');
+    Route::any('sitemap.xml', 'DefaultController@sitemapxml');
+    Route::any('rss', 'DefaultController@rss');
     Route::any('{all}', array('as' => 'all', 'uses' => 'DefaultController@index'))->where('all', '.*');;
 
 });

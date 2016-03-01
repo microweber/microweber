@@ -15,36 +15,48 @@ class Format {
      * @package  Utils
      * @category Arrays
      */
-    public function array_to_ul($arr) {
-        $retStr = '<ul>';
+    public function array_to_ul($arr, $ul_tag='ul',$li_tag='li') {
+        $has_items = false;
+        $retStr = '<'.$ul_tag.'>';
         if (is_array($arr)){
             foreach ($arr as $key => $val) {
+                if (!is_array($key) and $key and $val){
+                    $key = str_replace('_', ' ', $key);
+                    $key = ucwords($key);
 
-                $key = str_replace('_', ' ', $key);
-                $key = ucwords($key);
+                    if (is_array($val)){
+                        if (!empty($val)){
+                            $has_items = true;
+                            if (is_numeric($key)){
+                                $retStr .= '<'.$ul_tag.'>';
+                                $retStr .= '<'.$li_tag.'>' . $this->array_to_ul($val,$ul_tag,$li_tag) .  '</'.$li_tag.'>';
+                                $retStr .= '</'.$ul_tag.'>';
+                            } else {
+                                $retStr .= '<'.$li_tag.'>' . $key . ': ' . $this->array_to_ul($val,$ul_tag,$li_tag) .  '</'.$li_tag.'>';
 
-                if (is_array($val)){
-                    if (!empty($val)){
-                        if (is_numeric($key)){
-                            $retStr .= '<ul>';
-                            $retStr .= '<li>' . $this->array_to_ul($val) . '</li>';
-                            $retStr .= '</ul>';
-                        } else {
-                            $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
-
+                            }
                         }
+                    } else {
+                        if (is_string($val)!=false and trim($val)!=''){
+                            $has_items = true;
+
+                            $retStr .= '<'.$li_tag.'>' . $key . ': ' . $val .  '</'.$li_tag.'>';
+                        }
+
                     }
                 } else {
-                    if (is_string($val)!=false and trim($val)!=''){
-                        $retStr .= '<li>' . $key . ': ' . $val . '</li>';
+                    if (!empty($val)){
+                        $has_items = true;
+                        $retStr .= $this->array_to_ul($val, $ul_tag, $li_tag);
                     }
-
                 }
+
             }
         }
-        $retStr .= '</ul>';
-
-        return $retStr;
+        $retStr .=  '</'.$ul_tag.'>';
+        if ($has_items){
+            return $retStr;
+        }
     }
 
     /**
@@ -248,8 +260,9 @@ class Format {
 
             return $output;
         }
-
-        return $output;
+        if (isset($output)){
+            return $output;
+        }
 
     }
 
@@ -713,6 +726,7 @@ class Format {
         if (isset($item['custom_fields_data']) and $item['custom_fields_data']!=''){
             $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])){
+
                 $tmp_val = $this->array_to_ul($item['custom_fields_data']);
                 $item['custom_fields'] = $tmp_val;
             }
