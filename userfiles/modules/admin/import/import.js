@@ -22,7 +22,7 @@ mw.admin_import = {
 	 $.post(mw.settings.api_url+'Microweber/Utils/Import/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/import/manage');
-	 		mw.notification.msg(msg, 5000);
+	 		mw.notification.msg(msg, 15000);
 	 	});
 
 	},
@@ -34,8 +34,8 @@ mw.admin_import = {
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/restore', data ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
-				mw.notification.msg(msg, 5000);
-				mw.reload_module('admin/import/process');
+				mw.notification.msg(msg, 15000);
+				//mw.reload_module('admin/import/process');
 			});
 	},
 
@@ -45,8 +45,8 @@ mw.admin_import = {
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/restore', data ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
-				mw.notification.msg(msg, 5000);
-				mw.reload_module('admin/import/process');
+				mw.notification.msg(msg, 15000);
+				//mw.reload_module('admin/import/process');
 			});
 	},
 

@@ -1027,6 +1027,10 @@ li .ts_action_item:last-child{
   color: #222;
 }
 
+#toolbar-dropdown-actions a {
+	color: #222;
+}
+
 #live_edit_toolbar.scrolling{
   box-shadow:0 2px 7px -8px #111;
 }
