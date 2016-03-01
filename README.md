@@ -10,6 +10,9 @@
 [Getting Started](#getting-started) |
 [Contribute](#contribute)**
 </center>
+
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://deploy.azure.com/?repository=https://github.com/microweber/microweber)
+
 ---
 
 ![Live edit](https://microweber.com/cdn/microweber_screen_1.jpg "")
