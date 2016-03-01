@@ -1,4 +1,6 @@
-<?php namespace Microweber\Install\Schema;
+<?php
+
+namespace Microweber\Install\Schema;
 
 class Options
 {
@@ -20,8 +22,8 @@ class Options
                 'field_type' => 'string',
                 'field_values' => 'string',
                 'module' => 'string',
-                'is_system' => 'integer'
-            ]
+                'is_system' => 'integer',
+            ],
         ];
     }
 }

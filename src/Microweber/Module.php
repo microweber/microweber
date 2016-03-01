@@ -2,7 +2,6 @@
 
 class Module extends BaseModel
 {
-
     public $table = 'modules';
 
     // called once when Post is first used
@@ -16,7 +15,4 @@ class Module extends BaseModel
     {
         return $this->morphMany('Notifications', 'rel');
     }
-
-
 }
-

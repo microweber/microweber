@@ -257,133 +257,112 @@ $dangerous = array(
     'xys',        //    XYplorer Script File',
     'zl9',        //    ZoneAlarm Quarantined EXE File
 
-
 );
 
-if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all()==false)){
+if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
     // //session_start();
 }
 $validate_token = false;
-if (!isset($_SERVER['HTTP_REFERER'])){
+if (!isset($_SERVER['HTTP_REFERER'])) {
     die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
 } elseif (!stristr($_SERVER['HTTP_REFERER'], site_url())) {
-//    if (!is_logged()){
+    //    if (!is_logged()){
 //        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 //    }
 }
 
-
-if (!is_admin()){
+if (!is_admin()) {
     $validate_token = mw()->user_manager->csrf_validate($_GET);
-    if ($validate_token==false){
+    if ($validate_token == false) {
         die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
     }
 
-
     $is_ajax = mw()->url_manager->is_ajax();
-    if ($is_ajax!=false){
+    if ($is_ajax != false) {
         die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
     }
-
-
 }
 
 $host = (parse_url(site_url()));
 
 $host_dir = false;
-if (isset($host['host'])){
+if (isset($host['host'])) {
     $host_dir = $host['host'];
     $host_dir = str_ireplace('www.', '', $host_dir);
     $host_dir = str_ireplace('.', '-', $host_dir);
 }
 
-
-$fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
-
+$fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 
 $is_ext = get_file_extension($fileName_ext);
 $is_ext = strtolower($is_ext);
 
-if (in_array($is_ext, $dangerous)){
-
-
+if (in_array($is_ext, $dangerous)) {
     die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
 }
 
-
 $allowed_to_upload = false;
 
-if (is_admin()!=false){
+if (is_admin() != false) {
     $allowed_to_upload = true;
-
 } else {
     $uid = user_id();
-    if ($uid!=0){
+    if ($uid != 0) {
         $user = mw()->user_manager->get_by_id($uid);
-        if (!empty($user) and isset($user["is_active"]) and $user["is_active"]==1){
+        if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
             $are_allowed = 'img';
-            $_REQUEST["path"] = 'media/' . $host_dir . DS . 'user_uploads/user/' . DS . $user["id"] . DS;
+            $_REQUEST['path'] = 'media/'.$host_dir.DS.'user_uploads/user/'.DS.$user['id'].DS;
             $allowed_to_upload = true;
         }
     } else {
-        $_REQUEST["path"] = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
+        $_REQUEST['path'] = 'media/'.$host_dir.DS.'user_uploads/anonymous/';
         $allowed_to_upload = true;
     }
-
 }
 
-
-if ($allowed_to_upload==false){
-
-    if (isset($_REQUEST["rel_type"]) and isset($_REQUEST["custom_field_id"]) and trim($_REQUEST["rel_type"])!='' and trim($_REQUEST["rel_type"])!='false'){
-
-        $cfid = mw()->fields_manager->get_by_id(intval($_REQUEST["custom_field_id"]));
-        if ($cfid==false){
+if ($allowed_to_upload == false) {
+    if (isset($_REQUEST['rel_type']) and isset($_REQUEST['custom_field_id']) and trim($_REQUEST['rel_type']) != '' and trim($_REQUEST['rel_type']) != 'false') {
+        $cfid = mw()->fields_manager->get_by_id(intval($_REQUEST['custom_field_id']));
+        if ($cfid == false) {
             die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
-
         } else {
-
             $rel_error = false;
-            if (!isset($_REQUEST["rel_id"])){
+            if (!isset($_REQUEST['rel_id'])) {
                 $rel_error = true;
             }
-            if (!isset($cfid["rel_id"])){
-                $rel_error = true;
-            }
-
-            if (($_REQUEST["rel_id"])!=$cfid["rel_id"]){
+            if (!isset($cfid['rel_id'])) {
                 $rel_error = true;
             }
 
-            if ($rel_error){
+            if (($_REQUEST['rel_id']) != $cfid['rel_id']) {
+                $rel_error = true;
+            }
+
+            if ($rel_error) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 91, "message": "You are not allowed to upload"}}');
             }
         }
 
-
-        if ($cfid!=false and isset($cfid['custom_field_type'])){
-            if ($cfid['custom_field_type']!='upload'){
+        if ($cfid != false and isset($cfid['custom_field_type'])) {
+            if ($cfid['custom_field_type'] != 'upload') {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Custom field is not file upload type"}}');
-
             }
-            if ($cfid!=false and (!isset($cfid['options']) or !isset($cfid['options']['file_types']))){
+            if ($cfid != false and (!isset($cfid['options']) or !isset($cfid['options']['file_types']))) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "File types is not set."}}');
-
             }
-            if ($cfid!=false and isset($cfid['file_types']) and empty($cfid['file_types'])){
+            if ($cfid != false and isset($cfid['file_types']) and empty($cfid['file_types'])) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "File types cannot by empty."}}');
             }
 
-            if ($cfid!=false and isset($cfid['options']) and isset($cfid['options']['file_types'])){
-
+            if ($cfid != false and isset($cfid['options']) and isset($cfid['options']['file_types'])) {
                 $alloled_ft = array_values(($cfid['options']['file_types']));
-                if (empty($alloled_ft)){
+                if (empty($alloled_ft)) {
                     die('{"jsonrpc" : "2.0", "error" : {"code": 104, "message": "File types cannot by empty."}}');
                 } else {
                     $are_allowed = '';
-                    $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
+                    $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
                     foreach ($alloled_ft as $allowed_file_type_item) {
-                        if (trim($allowed_file_type_item)!='' and $fileName_ext!=''){
+                        if (trim($allowed_file_type_item) != '' and $fileName_ext != '') {
                             $is_ext = get_file_extension($fileName_ext);
                             $is_ext = strtolower($is_ext);
 
@@ -415,9 +394,7 @@ if ($allowed_to_upload==false){
                                     break;
                             }
 
-
                             switch ($allowed_file_type_item) {
-
 
                                 case 'img':
                                 case 'image':
@@ -449,58 +426,50 @@ if ($allowed_to_upload==false){
                                     break;
                                 default:
 
-
-                                    $are_allowed .= ',' . $allowed_file_type_item;
-
+                                    $are_allowed .= ','.$allowed_file_type_item;
 
                             }
                             $pass_type_check = false;
-                            if ($are_allowed!=false){
+                            if ($are_allowed != false) {
                                 $are_allowed_a = explode(',', $are_allowed);
-                                if (!empty($are_allowed_a)){
+                                if (!empty($are_allowed_a)) {
                                     foreach ($are_allowed_a as $are_allowed_a_item) {
                                         $are_allowed_a_item = strtolower(trim($are_allowed_a_item));
                                         $is_ext = strtolower(trim($is_ext));
 
-
-                                        if ($are_allowed_a_item=='*'){
+                                        if ($are_allowed_a_item == '*') {
                                             $pass_type_check = 1;
                                         }
 
-                                        if ($are_allowed_a_item!='' and $are_allowed_a_item==$is_ext){
+                                        if ($are_allowed_a_item != '' and $are_allowed_a_item == $is_ext) {
                                             $pass_type_check = 1;
                                         }
                                     }
-
                                 }
                             }
-                            if ($pass_type_check==false){
-                                die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
-
+                            if ($pass_type_check == false) {
+                                die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload '.$are_allowed.' files."}}');
                             } else {
-                                if (!isset($_REQUEST['captcha'])){
-                                    if (!$validate_token){
+                                if (!isset($_REQUEST['captcha'])) {
+                                    if (!$validate_token) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
                                     }
                                 } else {
                                     $cap = mw()->user_manager->session_get('captcha');
-                                    if ($cap==false){
+                                    if ($cap == false) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
-
                                     }
                                     $validate_captcha = $this->app->captcha->validate($_REQUEST['captcha']);
-                                    if (!$validate_captcha){
+                                    if (!$validate_captcha) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
                                     } else {
-                                        if (!isset($_REQUEST["path"])){
-                                            $_REQUEST["path"] = 'media/' . $host_dir . '/user_uploads' . DS . $_REQUEST["rel_type"] . DS;
+                                        if (!isset($_REQUEST['path'])) {
+                                            $_REQUEST['path'] = 'media/'.$host_dir.'/user_uploads'.DS.$_REQUEST['rel_type'].DS;
                                         }
                                     }
                                 }
 
-
                                 //die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": PECATA - Not finished yet."}}');
-
                             }
                         }
                     }
@@ -509,11 +478,10 @@ if ($allowed_to_upload==false){
         }
     } else {
         die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
-
     }
 }
 
-/**
+/*
  * upload.php
  *
  * Copyright 2009, Moxiecode Systems AB
@@ -523,45 +491,39 @@ if ($allowed_to_upload==false){
  * Contributing: http://www.plupload.com/contributing
  */
 // HTTP headers for no cache etc
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
 
 // Settings
-$target_path = media_base_path() . DS;
-$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
+$target_path = media_base_path().DS;
+$target_path = media_base_path().DS.$host_dir.DS.'uploaded'.DS;
 $target_path = normalize_path($target_path, 0);
 
-
 $path_restirct = userfiles_path(); // the path the script should access
-if (isset($_REQUEST["path"]) and trim($_REQUEST["path"])!='' and trim($_REQUEST["path"])!='false'){
-    $path = urldecode($_REQUEST["path"]);
+if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '' and trim($_REQUEST['path']) != 'false') {
+    $path = urldecode($_REQUEST['path']);
 
     $path = html_entity_decode($path);
     $path = htmlspecialchars_decode($path, ENT_NOQUOTES);
 
-
     //$path = urldecode($path);
     $path = str_replace('%2F', '/', $path);
     //$path = str_replace('%25252F','/',$path);
-
 
     $path = normalize_path($path, 0);
 
     $path = str_replace('..', '', $path);
     $path = str_replace($path_restirct, '', $path);
 
-
-    $target_path = userfiles_path() . DS . $path;
+    $target_path = userfiles_path().DS.$path;
     $target_path = normalize_path($target_path, 1);
 }
 
-
 $targetDir = $target_path;
-if (!is_dir($targetDir)){
+if (!is_dir($targetDir)) {
     mkdir_recursive($targetDir);
 }
 //$targetDir = 'uploads';
@@ -576,43 +538,42 @@ $maxFileAge = 5 * 3600;
 // Uncomment this one to fake upload time
 // usleep(5000);
 // Get parameters
-$chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
-$chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-$fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
+$chunk = isset($_REQUEST['chunk']) ? intval($_REQUEST['chunk']) : 0;
+$chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
+$fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 
 // Clean the fileName for security reasons
 $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 // Make sure the fileName is unique but only if chunking is disabled
-if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)){
+if ($chunks < 2 && file_exists($targetDir.DIRECTORY_SEPARATOR.$fileName)) {
     $ext = strrpos($fileName, '.');
     $fileName_a = substr($fileName, 0, $ext);
     $fileName_b = substr($fileName, $ext);
 
     $count = 1;
-    while (file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName_a . '_' . $count . $fileName_b)) {
-        $count ++;
+    while (file_exists($targetDir.DIRECTORY_SEPARATOR.$fileName_a.'_'.$count.$fileName_b)) {
+        ++$count;
     }
 
-    $fileName = $fileName_a . '_' . $count . $fileName_b;
+    $fileName = $fileName_a.'_'.$count.$fileName_b;
 }
 
-$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+$filePath = $targetDir.DIRECTORY_SEPARATOR.$fileName;
 
 // Create target dir
-if (!is_dir($targetDir)){
+if (!is_dir($targetDir)) {
     @mkdir_recursive($targetDir);
 }
 
 // Remove old temp files
-if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))){
-    while (($file = readdir($dir))!==false) {
-        $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
+if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
+    while (($file = readdir($dir)) !== false) {
+        $tmpfilePath = $targetDir.DIRECTORY_SEPARATOR.$file;
 
         // Remove temp file if it is older than the max age and is not the current file
-        if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge) && ($tmpfilePath!="{$filePath}.part")){
-
+        if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge) && ($tmpfilePath != "{$filePath}.part")) {
             @unlink($tmpfilePath);
         }
     }
@@ -622,50 +583,46 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))){
     die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
 }
 
-if (isset($_SERVER["CONTENT_LENGTH"]) and isset($_FILES['file'])){
+if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
     $filename_log = mw()->url_manager->slug($fileName);
-    $check = mw()->log_manager->get("one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . MW_USER_IP);
-    $upl_size_log = $_SERVER["CONTENT_LENGTH"];
-    if (is_array($check) and isset($check['id'])){
+    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id='.$filename_log.'&user_ip='.MW_USER_IP);
+    $upl_size_log = $_SERVER['CONTENT_LENGTH'];
+    if (is_array($check) and isset($check['id'])) {
         $upl_size_log = intval($upl_size_log) + intval($check['value']);
-        mw()->log_manager->save("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP . "&id=" . $check['id']);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id='.$filename_log.'&value='.$upl_size_log.'&user_ip='.MW_USER_IP.'&id='.$check['id']);
     } else {
-        mw()->log_manager->save("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id='.$filename_log.'&value='.$upl_size_log.'&user_ip='.MW_USER_IP);
     }
 }
 
 // Look for the content type header
-if (isset($_SERVER["HTTP_CONTENT_TYPE"])){
-    $contentType = $_SERVER["HTTP_CONTENT_TYPE"];
+if (isset($_SERVER['HTTP_CONTENT_TYPE'])) {
+    $contentType = $_SERVER['HTTP_CONTENT_TYPE'];
 }
 
-if (isset($_SERVER["CONTENT_TYPE"])){
-    $contentType = $_SERVER["CONTENT_TYPE"];
+if (isset($_SERVER['CONTENT_TYPE'])) {
+    $contentType = $_SERVER['CONTENT_TYPE'];
 }
 
 // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
 
-if (isset($contentType)){
-    if (strpos($contentType, "multipart")!==false){
-
-
-        if ($_FILES['file']['error']===UPLOAD_ERR_OK){
-//uploading successfully done 
+if (isset($contentType)) {
+    if (strpos($contentType, 'multipart') !== false) {
+        if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
+            //uploading successfully done 
         } else {
             throw new UploadException($_FILES['file']['error']);
         }
-
     }
 
-
-    if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])){
+    if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
         // Open temp file
-        $out = fopen("{$filePath}.part", $chunk==0 ? "wb" : "ab");
-        if ($out){
+        $out = fopen("{$filePath}.part", $chunk == 0 ? 'wb' : 'ab');
+        if ($out) {
             // Read binary input stream and append it to temp file
-            $in = fopen($_FILES['file']['tmp_name'], "rb");
+            $in = fopen($_FILES['file']['tmp_name'], 'rb');
 
-            if ($in){
+            if ($in) {
                 while ($buff = fread($in, 4096)) {
                     fwrite($out, $buff);
                 }
@@ -680,17 +637,15 @@ if (isset($contentType)){
         }
     } else {
         die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
-
-
     }
 } else {
     // Open temp file
-    $out = fopen("{$filePath}.part", $chunk==0 ? "wb" : "ab");
-    if ($out){
+    $out = fopen("{$filePath}.part", $chunk == 0 ? 'wb' : 'ab');
+    if ($out) {
         // Read binary input stream and append it to temp file
-        $in = fopen("php://input", "rb");
+        $in = fopen('php://input', 'rb');
 
-        if ($in){
+        if ($in) {
             while ($buff = fread($in, 4096)) {
                 fwrite($out, $buff);
             }
@@ -706,12 +661,11 @@ if (isset($contentType)){
 }
 
 // Check if file has been uploaded
-if (!$chunks || $chunk==$chunks - 1){
+if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
     rename("{$filePath}.part", $filePath);
-    mw()->log_manager->delete("is_system=y&rel=uploader&created_at=[lt]30 min ago");
-    mw()->log_manager->delete("is_system=y&rel=uploader&session_id=" . mw()->user_manager->session_id());
-
+    mw()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
+    mw()->log_manager->delete('is_system=y&rel=uploader&session_id='.mw()->user_manager->session_id());
 }
 $f_name = explode(DS, $filePath);
 
@@ -719,58 +673,57 @@ $rerturn = array();
 $rerturn['src'] = mw()->url_manager->link_to_file($filePath);
 $rerturn['name'] = end($f_name);
 
-if (isset($upl_size_log) and $upl_size_log > 0){
+if (isset($upl_size_log) and $upl_size_log > 0) {
     $rerturn['bytes_uploaded'] = $upl_size_log;
 }
 //$rerturn['ORIG_REQUEST'] = $_GET;
 
-
-print json_encode($rerturn);
-if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all()==false)){
+echo json_encode($rerturn);
+if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
     // @//session_write_close();
-
 }
 
-
-class UploadException extends Exception {
-    public function __construct($code) {
+class UploadException extends Exception
+{
+    public function __construct($code)
+    {
         $message = $this->codeToMessage($code);
         parent::__construct($message, $code);
     }
 
-    private function codeToMessage($code) {
+    private function codeToMessage($code)
+    {
         switch ($code) {
             case UPLOAD_ERR_INI_SIZE:
-                $message = "The uploaded file exceeds the upload_max_filesize directive in php.ini";
+                $message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
                 break;
             case UPLOAD_ERR_FORM_SIZE:
-                $message = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form";
+                $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
                 break;
             case UPLOAD_ERR_PARTIAL:
-                $message = "The uploaded file was only partially uploaded";
+                $message = 'The uploaded file was only partially uploaded';
                 break;
             case UPLOAD_ERR_NO_FILE:
-                $message = "No file was uploaded";
+                $message = 'No file was uploaded';
                 break;
             case UPLOAD_ERR_NO_TMP_DIR:
-                $message = "Missing a temporary folder";
+                $message = 'Missing a temporary folder';
                 break;
             case UPLOAD_ERR_CANT_WRITE:
-                $message = "Failed to write file to disk";
+                $message = 'Failed to write file to disk';
                 break;
             case UPLOAD_ERR_EXTENSION:
-                $message = "File upload stopped by extension";
+                $message = 'File upload stopped by extension';
                 break;
 
             default:
-                $message = "Unknown upload error";
+                $message = 'Unknown upload error';
                 break;
         }
 
         return $message;
     }
 }
-
 
 exit;
 

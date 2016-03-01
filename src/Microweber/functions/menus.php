@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 function get_menus($params = false)
 {
     return mw()->menu_manager->get_menus($params);
@@ -34,7 +32,6 @@ api_bind_admin('content/menu_items_reorder', function ($data) {
 api_bind_admin('content/menu_item_delete', function ($data) {
     return mw()->menu_manager->menu_delete($data);
 });
-
 
 api_expose_admin('menu_delete');
 function menu_delete($id = false)
@@ -73,7 +70,6 @@ function menu_tree($menu_id = false, $maxdepth = false)
 function is_in_menu($menu_id = false, $content_id = false)
 {
     return mw()->menu_manager->is_in_menu($menu_id, $content_id);
-
 }
 
 api_expose_admin('add_content_to_menu');
@@ -81,5 +77,3 @@ function add_content_to_menu($content_id, $menu_id = false)
 {
     return mw()->content_manager_helpers->add_content_to_menu($content_id, $menu_id);
 }
-
-

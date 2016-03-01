@@ -1,17 +1,16 @@
 <?php
 
-
 namespace Microweber\Install;
 
-use Microweber\Module;
 use Microweber\Providers\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
-
 use Cache;
 
-class DbInstaller {
-    public function run() {
+class DbInstaller
+{
+    public function run()
+    {
         Cache::flush();
         $this->createSchema();
         $this->seed();
@@ -19,19 +18,21 @@ class DbInstaller {
         mw()->modules->install();
     }
 
-    public function getSystemSchemas() {
+    public function getSystemSchemas()
+    {
         return [
-            new Schema\Base,
-            new Schema\Comments,
-            new Schema\Content,
-            new Schema\Form,
-            new Schema\Options,
-            new Schema\Shop
+            new Schema\Base(),
+            new Schema\Comments(),
+            new Schema\Content(),
+            new Schema\Form(),
+            new Schema\Options(),
+            new Schema\Shop(),
         ];
     }
 
-    public function createSchema() {
-        if (!DbSchema::hasTable('sessions')){
+    public function createSchema()
+    {
+        if (!DbSchema::hasTable('sessions')) {
             try {
                 DbSchema::create('sessions', function ($table) {
                     $table->string('id')->unique();
@@ -39,18 +40,17 @@ class DbInstaller {
                     $table->integer('last_activity');
                 });
             } catch (QueryException $e) {
-
             }
         }
         $exec = $this->getSystemSchemas();
         $builder = new DbUtils();
         foreach ($exec as $data) {
             // Creates the schema
-            if (!method_exists($data, 'get')){
+            if (!method_exists($data, 'get')) {
                 break;
             }
             $schemaArray = $data->get();
-            if (!is_array($schemaArray)){
+            if (!is_array($schemaArray)) {
                 break;
             }
             foreach ($schemaArray as $table => $columns) {
@@ -59,13 +59,14 @@ class DbInstaller {
         }
     }
 
-    public function seed() {
+    public function seed()
+    {
         $exec = $this->getSystemSchemas();
         foreach ($exec as $data) {
-            if (method_exists($data, 'up')){
+            if (method_exists($data, 'up')) {
                 $data->up();
             }
-            if (method_exists($data, 'seed')){
+            if (method_exists($data, 'seed')) {
                 $data->seed();
             }
         }

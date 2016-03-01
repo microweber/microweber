@@ -4,36 +4,33 @@ namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Cache\LaravelCache;
 
-
 /**
- * Cache class
+ * Cache class.
  *
  * These functions will allow you to save and get data from the MW cache system
  *
- * @package  Cache
  * @category Cache
  * @desc     These functions will allow you to save and get data from the MW cache system
  */
-class CacheManager {
-
+class CacheManager
+{
     /**
-     * An instance of the Microweber Application class
+     * An instance of the Microweber Application class.
      *
-     * @var $app
+     * @var
      */
     public $app;
     /**
-     * An instance of the cache adapter to use
+     * An instance of the cache adapter to use.
      *
-     * @var $adapter
+     * @var
      */
     public $adapter;
 
-    function __construct($app = null) {
-
-
-        if (!is_object($this->app)){
-            if (is_object($app)){
+    public function __construct($app = null)
+    {
+        if (!is_object($this->app)) {
+            if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw();
@@ -41,25 +38,22 @@ class CacheManager {
         }
 
         $this->adapter = new LaravelCache($app);
-
-
     }
-
 
     /**
      * Stores your data in the cache.
      * It can store any value that can be serialized, such as strings, array, etc.
      *
      * @param mixed  $data_to_cache
-     *            your data, anything that can be serialized
+     *                              your data, anything that can be serialized
      * @param string $cache_id
-     *            id of the cache, you must define it because you will use it later to
-     *            retrieve the cached content.
+     *                              id of the cache, you must define it because you will use it later to
+     *                              retrieve the cached content.
      * @param string $cache_group
-     *            (default is 'global') - this is the subfolder in the cache dir.
+     *                              (default is 'global') - this is the subfolder in the cache dir.
      *
-     * @return boolean
-     * @package Cache
+     * @return bool
+     *
      * @example
      * <code>
      * //store custom data in cache
@@ -67,11 +61,10 @@ class CacheManager {
      * $cache_id = 'my_cache_id';
      * $cache_content = mw()->cache_manager->save($data, $cache_id, 'my_cache_group');
      * </code>
-     *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false) {
+    public function save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false)
+    {
         return $this->adapter->save($data_to_cache, $cache_id, $cache_group, $expiration);
-
     }
 
     /**
@@ -82,11 +75,10 @@ class CacheManager {
      *
      * @param string $cache_id    id of the cache
      * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
-     *
      * @param bool   $timeout
      *
-     * @return  mixed returns array of cached data or false
-     * @package Cache
+     * @return mixed returns array of cached data or false
+     *
      * @example
      * <code>
      *
@@ -95,7 +87,8 @@ class CacheManager {
      *
      * </code>
      */
-    public function get($cache_id, $cache_group = 'global', $timeout = false) {
+    public function get($cache_id, $cache_group = 'global', $timeout = false)
+    {
         return $this->adapter->get($cache_id, $cache_group, $timeout);
     }
 
@@ -103,11 +96,10 @@ class CacheManager {
      * Deletes cache for given $cache_group recursively.
      *
      * @param string $cache_group
-     *            (default is 'global') - this is the subfolder in the cache dir.
+     *                            (default is 'global') - this is the subfolder in the cache dir.
      *
-     * @return boolean
+     * @return bool
      *
-     * @package Cache
      * @example
      * <code>
      * //delete the cache for the content
@@ -123,32 +115,32 @@ class CacheManager {
      * mw()->cache_manager->delete("my_table");
      * </code>
      */
-    public function delete($cache_group = 'global') {
+    public function delete($cache_group = 'global')
+    {
         $this->adapter->delete($cache_group);
     }
 
     /**
-     * Clears all cache data
+     * Clears all cache data.
      *
      * @example
      *          <code>
      *          //delete all cache
      *          mw()->cache_manager->clear();
      *          </code>
-     * @return boolean
-     * @package Cache
+     *
+     * @return bool
      */
-
-    public function clear() {
+    public function clear()
+    {
         return $this->adapter->clear();
     }
 
-
     /**
-     * Prints cache debug information
+     * Prints cache debug information.
      *
      * @return array
-     * @package Cache
+     *
      * @example
      * <code>
      * //get cache items info
@@ -156,8 +148,8 @@ class CacheManager {
      * print_r($cached_items);
      * </code>
      */
-    public function debug() {
+    public function debug()
+    {
         return $this->adapter->debug();
     }
-
 }

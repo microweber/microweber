@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Microweber\Traits\QueryFilter as QueryFilter;
 
 class BaseModel extends Eloquent
 {
@@ -17,14 +16,13 @@ class BaseModel extends Eloquent
             return false;
         }
         $this->fill($data);
+
         return true;
     }
 
     protected static function boot()
     {
-        static::observe(new BaseModelObserver);
+        static::observe(new BaseModelObserver());
         parent::boot();
     }
-
 }
-

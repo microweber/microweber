@@ -2,17 +2,16 @@
 
 namespace Microweber\Providers;
 
-use Illuminate\Filesystem\Filesystem;
-
 class FileLoader extends \Illuminate\Config\FileLoader
 {
     /**
      * Save the given configuration group.
      *
-     * @param  array   $items
-     * @param  string  $environment
-     * @param  string  $group
-     * @param  string  $namespace
+     * @param array  $items
+     * @param string $environment
+     * @param string $group
+     * @param string $namespace
+     *
      * @return array
      */
     public function save($items, $environment, $group, $namespace = null)
@@ -22,10 +21,7 @@ class FileLoader extends \Illuminate\Config\FileLoader
         // as any environment folders with their specific configuration items.
         $path = $this->getPath($namespace);
 
-
-
-        if (is_null($path))
-        {
+        if (is_null($path)) {
             return;
         }
 
@@ -36,6 +32,6 @@ class FileLoader extends \Illuminate\Config\FileLoader
             ? "{$path}/{$group}.php"
             : "{$path}/{$environment}/{$group}.php";
 
-        $this->files->put($file, '<?php return ' . var_export($items, true) . ';');
+        $this->files->put($file, '<?php return '.var_export($items, true).';');
     }
 }

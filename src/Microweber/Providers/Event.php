@@ -11,36 +11,29 @@
  *
  */
 
-
 namespace Microweber\Providers;
-
 
 use Microweber\Utils\Adapters\Event\LaravelEvent as LaravelEvent;
 
-
 /**
- * Event
+ * Event.
  *
- * @package Event
  * @category Event
  * @desc  Event
- *
  */
 class Event
 {
-
     /**
-     * An instance of the event adapter to use
+     * An instance of the event adapter to use.
      *
-     * @var $adapter
+     * @var
      */
-    static $adapter;
+    public static $adapter;
 
     private $callbacks = array(); // array to store user callbacks
 
-    function __construct()
+    public function __construct()
     {
-
         if (!is_object(self::$adapter)) {
             self::$adapter = new LaravelEvent();
         }
@@ -54,38 +47,40 @@ class Event
     }
 
     /**
-     * Emits event
+     * Emits event.
      *
      * @param $event_name
      * @param bool|callable|mixed $data
+     *
      * @return array|mixed|false
      */
     public function trigger($event_name, $data = false)
     {
-
         $args = func_get_args();
         $query = array_shift($args);
-        if(count($args) == 1){
+        if (count($args) == 1) {
             $args = $args[0];
         }
 
         return self::$adapter->fire($event_name, $args);
     }
 
-
     public function registerShutdownEvent()
     {
         $callback = func_get_args();
 
         if (empty($callback)) {
-            trigger_error('No callback passed to ' . __FUNCTION__ . ' method', E_USER_ERROR);
+            trigger_error('No callback passed to '.__FUNCTION__.' method', E_USER_ERROR);
+
             return false;
         }
         if (!is_callable($callback[0])) {
-            trigger_error('Invalid callback passed to the ' . $callback[0] . __FUNCTION__ . ' method', E_USER_ERROR);
+            trigger_error('Invalid callback passed to the '.$callback[0].__FUNCTION__.' method', E_USER_ERROR);
+
             return false;
         }
         $this->callbacks[] = $callback;
+
         return true;
     }
 
@@ -98,7 +93,4 @@ class Event
             }
         }
     }
-
 }
-
-

@@ -6,19 +6,16 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     private $sqlite_file = 'phpunit.sqlite';
 
-
     public function createApplication()
     {
-
-        $config_folder = __DIR__ . '/../../../config/testing/';
-        $mw_file = $config_folder . 'microweber.php';
-
+        $config_folder = __DIR__.'/../../../config/testing/';
+        $mw_file = $config_folder.'microweber.php';
 
         if (!is_dir($config_folder)) {
             mkdir($config_folder);
         }
 
-        file_put_contents($mw_file,"<?php return array (
+        file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'install_default_template' => 'default',
             'install_default_template_content' => 1,
@@ -27,16 +24,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $unitTesting = true;
         $testEnvironment = 'testing';
-        $app = require(__DIR__ . '/../../../bootstrap/app.php');
+        $app = require __DIR__.'/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-
-
-
 
         $this->assertEquals(true, is_dir($config_folder));
 
-
-        $this->sqlite_file = storage_path() . '/phpunit.sqlite';
+        $this->sqlite_file = storage_path().'/phpunit.sqlite';
 
         // make fresh install
         $install_params = array(
@@ -49,7 +42,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_user' => '',
             'db_pass' => '',
             'db_name' => $this->sqlite_file,
-            '--env' => 'testing'
+            '--env' => 'testing',
         );
 
         $is_installed = mw_is_installed();
@@ -58,12 +51,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(0, $install);
         }
 
-
         \Mail::pretend(true);
 
         return $app;
     }
-
-
-
 }

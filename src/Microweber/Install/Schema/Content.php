@@ -1,4 +1,6 @@
-<?php namespace Microweber\Install\Schema;
+<?php
+
+namespace Microweber\Install\Schema;
 
 class Content
 {
@@ -6,7 +8,6 @@ class Content
     {
         return [
             'content' => [
-
 
                 'content_type' => 'string',
                 'subtype' => 'string',
@@ -29,12 +30,10 @@ class Content
                 'content_filename' => 'string',
                 'original_link' => 'string',
 
-
                 'is_home' => array('type' => 'integer', 'default' => 0),
                 'is_pinged' => array('type' => 'integer', 'default' => 0),
                 'is_shop' => array('type' => 'integer', 'default' => 0),
                 'is_deleted' => array('type' => 'integer', 'default' => 0),
-
 
                 'require_login' => array('type' => 'integer', 'default' => 0),
                 'status' => 'string',
@@ -53,7 +52,7 @@ class Content
                 'draft_of' => 'integer',
                 'copy_of' => 'integer',
 
-                '$index' => ['url' => 'title']
+                '$index' => ['url' => 'title'],
             ],
 
             'content_data' => [
@@ -66,7 +65,7 @@ class Content
                 'field_value' => 'longText',
                 'session_id' => 'string',
                 'rel_type' => 'string',
-                'rel_id' => 'string'
+                'rel_id' => 'string',
             ],
 
             'attributes' => [
@@ -79,7 +78,7 @@ class Content
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
-                'edited_by' => 'integer'
+                'edited_by' => 'integer',
             ],
 
             'content_fields' => [
@@ -93,7 +92,7 @@ class Content
                 'field' => 'text',
                 'value' => 'longText',
 
-                '$index' => ['rel_type', 'rel_id']
+                '$index' => ['rel_type', 'rel_id'],
             ],
 
             'content_fields_drafts' => [
@@ -106,12 +105,10 @@ class Content
                 'field' => 'text',
                 'value' => 'longText',
                 'session_id' => 'string',
-                'is_temp' => "integer",
+                'is_temp' => 'integer',
                 'url' => 'longText',
-                '$index' => ['rel_type', 'rel_id']
+                '$index' => ['rel_type', 'rel_id'],
             ],
-
-
 
             'media' => [
                 'updated_at' => 'dateTime',
@@ -121,7 +118,7 @@ class Content
                 'session_id' => 'string',
                 'rel_type' => 'string',
 
-                'rel_id' => "string",
+                'rel_id' => 'string',
                 'media_type' => 'longText',
                 'position' => 'integer',
                 'title' => 'longText',
@@ -129,7 +126,7 @@ class Content
                 'embed_code' => 'text',
                 'filename' => 'text',
 
-                '$index' => ['rel_type', 'rel_id', 'media_type']
+                '$index' => ['rel_type', 'rel_id', 'media_type'],
             ],
 
             'custom_fields' => [
@@ -146,15 +143,13 @@ class Content
                 'edited_by' => 'integer',
                 'session_id' => 'string',
 
-
                 'options' => 'longText',
 
-
-                'is_active' => "integer",
-                'required' => "integer",
+                'is_active' => 'integer',
+                'required' => 'integer',
                 'copy_of_field' => 'integer',
 
-                '$index' => ['rel_type', 'rel_id', 'type']
+                '$index' => ['rel_type', 'rel_id', 'type'],
             ],
 
             'custom_fields_values' => [
@@ -163,8 +158,7 @@ class Content
                 'value' => 'text',
                 'position' => 'integer',
 
-
-                '$index' => ['custom_field_id', 'value']
+                '$index' => ['custom_field_id', 'value'],
             ],
 
             'menus' => [
@@ -176,7 +170,7 @@ class Content
                 'position' => 'integer',
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
-                'is_active' => "integer",
+                'is_active' => 'integer',
                 'auto_populate' => 'string',
                 'description' => 'text',
                 'url' => 'longText',
@@ -199,15 +193,15 @@ class Content
                 'rel_id' => 'integer',
 
                 'position' => 'integer',
-                'is_deleted' => "integer",
-                'users_can_create_subcategories' => "integer",
-                'users_can_create_content' => "integer",
+                'is_deleted' => 'integer',
+                'users_can_create_subcategories' => 'integer',
+                'users_can_create_content' => 'integer',
                 'users_can_create_content_allowed_usergroups' => 'string',
 
                 'categories_content_type' => 'longText',
                 'categories_silo_keywords' => 'longText',
 
-                '$index' => ['rel_type', 'rel_id', 'parent_id']
+                '$index' => ['rel_type', 'rel_id', 'parent_id'],
             ],
 
             'categories_items' => [
@@ -216,9 +210,8 @@ class Content
 
                 'rel_id' => 'integer',
 
-
-                '$index' => ['rel_id', 'parent_id']
-            ]
+                '$index' => ['rel_id', 'parent_id'],
+            ],
         ];
     }
 }

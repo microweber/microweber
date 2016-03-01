@@ -2,22 +2,18 @@
 
 namespace Microweber\tests;
 
-use \Cache;
+use Cache;
 
 class CacheTest extends TestCase
 {
-
-
     public function testCache()
     {
-
         $tags = array('phpunit', 'phpunit_second_tag');
 
         $now = date('Ymdhis');
         $unique = uniqid();
 
-        $key = 'phpunit-' . $now;
-
+        $key = 'phpunit-'.$now;
 
         Cache::tags($tags)->put($key, $now, 10);
 
@@ -35,9 +31,5 @@ class CacheTest extends TestCase
         Cache::tags('phpunit_second_tag')->flush();
         $some = Cache::tags($tags)->get($unique);
         $this->assertEquals(null, $some);
-
-
     }
-
-
 }

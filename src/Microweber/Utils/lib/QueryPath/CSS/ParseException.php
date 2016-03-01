@@ -12,4 +12,6 @@ namespace QueryPath\CSS;
  *
  * @ingroup querypath_css
  */
-class ParseException extends \QueryPath\Exception {}
+class ParseException extends \QueryPath\Exception
+{
+}

@@ -12,6 +12,7 @@
  * @author M Butcher <matt@aleph-null.tv>
  * @license MIT
  */
+
 namespace QueryPath\CSS;
 
 /** @addtogroup querypath_css CSS Parsing
@@ -40,8 +41,9 @@ namespace QueryPath\CSS;
  *
  * @ingroup querypath_css
  */
-interface EventHandler {
-  /** The is-exactly (=) operator. */
+interface EventHandler
+{
+    /** The is-exactly (=) operator. */
   const isExactly = 0; // =
   /** The contains-with-space operator (~=). */
   const containsWithSpace = 1; // ~=
@@ -66,35 +68,39 @@ interface EventHandler {
   public function elementID($id); // #name
   /**
    * Handle an element name.
-   * Example: name
+   * Example: name.
+   *
    * @param string $name
    *  The name of the element.
    */
   public function element($name); // name
   /**
    * Handle a namespaced element name.
-   * example: namespace|name
+   * example: namespace|name.
+   *
    * @param string $name
    *  The tag name.
    * @param string $namespace
    *  The namespace identifier (Not the URI)
    */
-  public function elementNS($name, $namespace = NULL);
+  public function elementNS($name, $namespace = null);
   /**
    * Handle an any-element (*) operator.
-   * Example: *
+   * Example: *.
    */
   public function anyElement(); // *
   /**
    * Handle an any-element operator that is constrained to a namespace.
-   * Example: ns|*
+   * Example: ns|*.
+   *
    * @param string $ns
    *  The namespace identifier (not the URI).
    */
   public function anyElementInNS($ns); // ns|*
   /**
    * Handle a CSS class selector.
-   * Example: .name
+   * Example: .name.
+   *
    * @param string $name
    *  The name of the class.
    */
@@ -102,7 +108,8 @@ interface EventHandler {
   /**
    * Handle an attribute selector.
    * Example: [name=attr]
-   * Example: [name~=attr]
+   * Example: [name~=attr].
+   *
    * @param string $name
    *  The attribute name.
    * @param string $value
@@ -111,11 +118,12 @@ interface EventHandler {
    *  The operation to be used for matching. See {@link EventHandler}
    *  constants for a list of supported operations.
    */
-  public function attribute($name, $value = NULL, $operation = EventHandler::isExactly); // [name=attr]
+  public function attribute($name, $value = null, $operation = self::isExactly); // [name=attr]
   /**
    * Handle an attribute selector bound to a specific namespace.
    * Example: [ns|name=attr]
-   * Example: [ns|name~=attr]
+   * Example: [ns|name~=attr].
+   *
    * @param string $name
    *  The attribute name.
    * @param string $ns
@@ -126,46 +134,48 @@ interface EventHandler {
    *  The operation to be used for matching. See {@link EventHandler}
    *  constants for a list of supported operations.
    */
-  public function attributeNS($name, $ns, $value = NULL, $operation = EventHandler::isExactly);
+  public function attributeNS($name, $ns, $value = null, $operation = self::isExactly);
   /**
    * Handle a pseudo-class.
-   * Example: :name(value)
+   * Example: :name(value).
+   *
    * @param string $name
    *  The pseudo-class name.
    * @param string $value
    *  The value, if one is found.
    */
-  public function pseudoClass($name, $value = NULL); //:name(value)
+  public function pseudoClass($name, $value = null); //:name(value)
   /**
    * Handle a pseudo-element.
-   * Example: ::name
+   * Example: ::name.
+   *
    * @param string $name
    *  The pseudo-element name.
    */
   public function pseudoElement($name); // ::name
   /**
    * Handle a direct descendant combinator.
-   * Example: >
+   * Example: >.
    */
   public function directDescendant(); // >
   /**
    * Handle a adjacent combinator.
-   * Example: +
+   * Example: +.
    */
   public function adjacent(); // +
   /**
    * Handle an another-selector combinator.
-   * Example: ,
+   * Example: ,.
    */
   public function anotherSelector(); // ,
   /**
    * Handle a sibling combinator.
-   * Example: ~
+   * Example: ~.
    */
   public function sibling(); // ~ combinator
   /**
    * Handle an any-descendant combinator.
-   * Example: ' '
+   * Example: ' '.
    */
   public function anyDescendant(); // ' ' (space) operator.
 }

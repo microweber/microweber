@@ -74,21 +74,24 @@
  *
  * @author M Butcher <matt @aleph-null.tv>
  * @license MIT
+ *
  * @see QueryPath
  * @see qp()
  * @see http://querypath.org The QueryPath home page.
  * @see http://api.querypath.org An online version of the API docs.
  * @see http://technosophos.com For how-tos and examples.
- * @copyright Copyright (c) 2009-2012, Matt Butcher.
- * @version -UNSTABLE% (3.x.x)
  *
+ * @copyright Copyright (c) 2009-2012, Matt Butcher.
+ *
+ * @version -UNSTABLE% (3.x.x)
  */
 
 /**
  *
  */
-class QueryPath {
-  /**
+class QueryPath
+{
+    /**
    * The version string for this version of QueryPath.
    *
    * Standard releases will be of the following form: <MAJOR>.<MINOR>[.<PATCH>][-STABILITY].
@@ -145,10 +148,12 @@ class QueryPath {
    * This can be passed into {@link qp()} to begin a new basic HTML document.
    *
    * Example:
+   *
    * @code
    * $qp = qp(QueryPath::XHTML_STUB); // Creates a new XHTML document
    * $qp->writeXML(); // Writes the document as well-formed XHTML.
    * @endcode
+   *
    * @since 2.0
    */
   const XHTML_STUB = '<?xml version="1.0"?>
@@ -161,28 +166,32 @@ class QueryPath {
   <body></body>
   </html>';
 
+    public static function with($document = null, $selector = null, $options = array())
+    {
+        $qpClass = isset($options['QueryPath_class']) ? $options['QueryPath_class'] : '\QueryPath\DOMQuery';
 
-  public static function with($document = NULL, $selector = NULL, $options = array()) {
-    $qpClass = isset($options['QueryPath_class']) ? $options['QueryPath_class'] : '\QueryPath\DOMQuery';
+        $qp = new $qpClass($document, $selector, $options);
 
-    $qp = new $qpClass($document, $selector, $options);
-    return $qp;
-  }
+        return $qp;
+    }
 
-  public static function withXML($source = NULL, $selector = NULL, $options = array()) {
-    $options += array(
+    public static function withXML($source = null, $selector = null, $options = array())
+    {
+        $options += array(
       'use_parser' => 'xml',
     );
-    return self::with($source, $selector, $options);
-  }
 
-  public static function withHTML($source = NULL, $selector = NULL, $options = array()) {
-    // Need a way to force an HTML parse instead of an XML parse when the
+        return self::with($source, $selector, $options);
+    }
+
+    public static function withHTML($source = null, $selector = null, $options = array())
+    {
+        // Need a way to force an HTML parse instead of an XML parse when the
     // doctype is XHTML, since many XHTML documents are not valid XML
     // (because of coding errors, not by design).
 
     $options += array(
-      'ignore_parser_warnings' => TRUE,
+      'ignore_parser_warnings' => true,
       'convert_to_encoding' => 'ISO-8859-1',
       'convert_from_encoding' => 'auto',
       //'replace_entities' => TRUE,
@@ -190,8 +199,9 @@ class QueryPath {
       // This is stripping actually necessary low ASCII.
       //'strip_low_ascii' => TRUE,
     );
-    return @self::with($source, $selector, $options);
-  }
+
+        return @self::with($source, $selector, $options);
+    }
 
   /**
    * Enable one or more extensions.
@@ -200,6 +210,7 @@ class QueryPath {
    * extension, you can use this method.
    *
    * In this example, we enable the QPTPL extension:
+   *
    * @code
    * <?php
    * QueryPath::enable('\QueryPath\QPTPL');
@@ -226,22 +237,22 @@ class QueryPath {
    *   QueryPath assumes that these are extension class names,
    *   and attempts to register these as QueryPath extensions.
    */
-  public static function enable($extensionNames) {
-
-    if (is_array($extensionNames)) {
-      foreach ($extensionNames as $extension) {
-        \QueryPath\ExtensionRegistry::extend($extension);
+  public static function enable($extensionNames)
+  {
+      if (is_array($extensionNames)) {
+          foreach ($extensionNames as $extension) {
+              \QueryPath\ExtensionRegistry::extend($extension);
+          }
+      } else {
+          \QueryPath\ExtensionRegistry::extend($extensionNames);
       }
-    }
-    else {
-      \QueryPath\ExtensionRegistry::extend($extensionNames);
-    }
   }
 
   /**
    * Get a list of all of the enabled extensions.
    *
    * This example dumps a list of extensions to standard output:
+   *
    * @code
    * <?php
    * $extensions = QueryPath::enabledExtensions();
@@ -254,11 +265,10 @@ class QueryPath {
    *
    * @see QueryPath::ExtensionRegistry
    */
-  public static function enabledExtensions() {
-    return \QueryPath\ExtensionRegistry::extensionNames();
+  public static function enabledExtensions()
+  {
+      return \QueryPath\ExtensionRegistry::extensionNames();
   }
-
-
 
   /**
    * A static function for transforming data into a Data URL.
@@ -281,20 +291,20 @@ class QueryPath {
    * @param resource $context
    *  A valid context. Use this only if you need to pass a stream context. This is only necessary
    *  if $data is a URL. (See {@link stream_context_create()}).
+   *
    * @return
    *  An encoded data URL.
    */
-  public static function encodeDataURL($data, $mime = 'application/octet-stream', $context = NULL) {
-    if (is_resource($data)) {
-      $data = stream_get_contents($data);
-    }
-    elseif (filter_var($data, FILTER_VALIDATE_URL)) {
-      $data = file_get_contents($data, FALSE, $context);
-    }
+  public static function encodeDataURL($data, $mime = 'application/octet-stream', $context = null)
+  {
+      if (is_resource($data)) {
+          $data = stream_get_contents($data);
+      } elseif (filter_var($data, FILTER_VALIDATE_URL)) {
+          $data = file_get_contents($data, false, $context);
+      }
 
-    $encoded = base64_encode($data);
+      $encoded = base64_encode($data);
 
-    return 'data:' . $mime . ';base64,' . $encoded;
+      return 'data:'.$mime.';base64,'.$encoded;
   }
-
 }

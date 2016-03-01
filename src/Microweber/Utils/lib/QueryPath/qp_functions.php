@@ -54,6 +54,7 @@
  * as a factory.
  *
  * Example:
+ *
  * @code
  * <?php
  * qp(); // New empty QueryPath
@@ -140,15 +141,18 @@
  *    cases for an example.
  *
  * @ingroup querypath_core
- * @param mixed $document
- *  A document in one of the forms listed above.
+ *
+ * @param mixed  $document
+ *                         A document in one of the forms listed above.
  * @param string $string
- *  A CSS 3 selector.
- * @param array $options
- *  An associative array of options. Currently supported options are listed above.
+ *                         A CSS 3 selector.
+ * @param array  $options
+ *                         An associative array of options. Currently supported options are listed above.
+ *
  * @return QueryPath
  */
-function qp($document = NULL, $string = NULL, $options = array()) {
+function qp($document = null, $string = null, $options = array())
+{
     return QueryPath::with($document, $string, $options);
 }
 
@@ -174,8 +178,10 @@ function qp($document = NULL, $string = NULL, $options = array()) {
  * is installed and enabled. This is usually enabled, but not always.
  *
  * @ingroup querypath_core
+ *
  * @see qp()
  */
-function htmlqp($document = NULL, $selector = NULL, $options = array()) {
+function htmlqp($document = null, $selector = null, $options = array())
+{
     return QueryPath::withHTML($document, $selector, $options);
 }

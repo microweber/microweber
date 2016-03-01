@@ -2,18 +2,15 @@
 
 namespace Microweber\tests;
 
-use \Config;
-
+use Config;
 
 class ConfigFileTest extends TestCase
 {
-
     public function testSomethingIsTrue()
     {
         $this->assertTrue(true);
     }
 
-   
     public function testConfigRead()
     {
         $connection = Config::get('database.connections');
@@ -23,13 +20,13 @@ class ConfigFileTest extends TestCase
 
     public function testConfigWrite()
     {
-        $now = date("Y-m-d H:i:s");
+        $now = date('Y-m-d H:i:s');
         $old = Config::get('microweber_tests.last_test');
 
         Config::set('microweber_tests.last_test', $now);
         $current = Config::get('microweber_tests.last_test');
 
-         Config::save('microweber_tests');
+        Config::save('microweber_tests');
 
         $get = Config::get('microweber_tests.last_test');
 
@@ -38,5 +35,4 @@ class ConfigFileTest extends TestCase
         $this->assertTrue(true, $current == $get);
         $this->assertTrue(true, $old != $get);
     }
-
 }

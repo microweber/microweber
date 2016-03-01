@@ -21,24 +21,26 @@ namespace QueryPath\CSS;
  *
  * @ingroup querypath_css
  */
-class Parser {
-  protected $scanner = NULL;
-  protected $buffer = '';
-  protected $handler = NULL;
-  protected $strict = FALSE;
+class Parser
+{
+    protected $scanner = null;
+    protected $buffer = '';
+    protected $handler = null;
+    protected $strict = false;
 
-  protected $DEBUG = FALSE;
+    protected $DEBUG = false;
 
   /**
    * Construct a new CSS parser object. This will attempt to
    * parse the string as a CSS selector. As it parses, it will
    * send events to the EventHandler implementation.
    */
-  public function __construct($string, EventHandler $handler) {
-    $this->originalString = $string;
-    $is = new InputStream($string);
-    $this->scanner = new Scanner($is);
-    $this->handler = $handler;
+  public function __construct($string, EventHandler $handler)
+  {
+      $this->originalString = $string;
+      $is = new InputStream($string);
+      $this->scanner = new Scanner($is);
+      $this->handler = $handler;
   }
 
   /**
@@ -47,32 +49,31 @@ class Parser {
    * This begins an event-based parsing process that will
    * fire events as the selector is handled. A EventHandler
    * implementation will be responsible for handling the events.
+   *
    * @throws ParseException
    */
-  public function parse() {
-
-    $this->scanner->nextToken();
-    while ($this->scanner->token !== FALSE) {
-      // Primitive recursion detection.
+  public function parse()
+  {
+      $this->scanner->nextToken();
+      while ($this->scanner->token !== false) {
+          // Primitive recursion detection.
       $position = $this->scanner->position();
 
-      if ($this->DEBUG) {
-        print "PARSE " . $this->scanner->token. "\n";
-      }
-      $this->selector();
+          if ($this->DEBUG) {
+              echo 'PARSE '.$this->scanner->token."\n";
+          }
+          $this->selector();
 
-      $finalPosition = $this->scanner->position();
+          $finalPosition = $this->scanner->position();
 
-      if ($this->scanner->token !== FALSE && $finalPosition == $position) {
-        // If we get here, then the scanner did not pop a single character
+          if ($this->scanner->token !== false && $finalPosition == $position) {
+              // If we get here, then the scanner did not pop a single character
         // off of the input stream during a full run of the parser, which
         // means that the current input does not match any recognizable
         // pattern.
         throw new ParseException('CSS selector is not well formed.');
+          }
       }
-
-    }
-
   }
 
   /**
@@ -101,36 +102,47 @@ class Parser {
   /**
    * Handle an entire CSS selector.
    */
-  private function selector() {
-    if ($this->DEBUG) print "SELECTOR{$this->scanner->position()}\n";
-    $this->consumeWhitespace(); // Remove leading whitespace
+  private function selector()
+  {
+      if ($this->DEBUG) {
+          print "SELECTOR{$this->scanner->position()}\n";
+      }
+      $this->consumeWhitespace(); // Remove leading whitespace
     $this->simpleSelectors();
-    $this->combinator();
+      $this->combinator();
   }
 
   /**
    * Consume whitespace and return a count of the number of whitespace consumed.
    */
-  private function consumeWhitespace() {
-    if ($this->DEBUG) print "CONSUME WHITESPACE\n";
-    $white = 0;
-    while ($this->scanner->token == Token::white) {
-      $this->scanner->nextToken();
-      ++$white;
-    }
-    return $white;
+  private function consumeWhitespace()
+  {
+      if ($this->DEBUG) {
+          print "CONSUME WHITESPACE\n";
+      }
+      $white = 0;
+      while ($this->scanner->token == Token::white) {
+          $this->scanner->nextToken();
+          ++$white;
+      }
+
+      return $white;
   }
 
   /**
    * Handle one of the five combinators: '>', '+', ' ', '~', and ','.
    * This will call the appropriate event handlers.
+   *
    * @see EventHandler::directDescendant(),
    * @see EventHandler::adjacent(),
    * @see EventHandler::anyDescendant(),
    * @see EventHandler::anotherSelector().
    */
-  private function combinator() {
-    if ($this->DEBUG) print "COMBINATOR\n";
+  private function combinator()
+  {
+      if ($this->DEBUG) {
+          print "COMBINATOR\n";
+      }
     /*
      * Problem: ' ' and ' > ' are both valid combinators.
      * So we have to track whitespace consumption to see
@@ -139,103 +151,116 @@ class Parser {
      */
 
     // Flag to indicate that post-checks need doing
-    $inCombinator = FALSE;
-    $white = $this->consumeWhitespace();
-    $t = $this->scanner->token;
+    $inCombinator = false;
+      $white = $this->consumeWhitespace();
+      $t = $this->scanner->token;
 
-    if ($t == Token::rangle) {
-      $this->handler->directDescendant();
-      $this->scanner->nextToken();
-      $inCombinator = TRUE;
+      if ($t == Token::rangle) {
+          $this->handler->directDescendant();
+          $this->scanner->nextToken();
+          $inCombinator = true;
       //$this->simpleSelectors();
-    }
-    elseif ($t == Token::plus) {
-      $this->handler->adjacent();
-      $this->scanner->nextToken();
-      $inCombinator = TRUE;
+      } elseif ($t == Token::plus) {
+          $this->handler->adjacent();
+          $this->scanner->nextToken();
+          $inCombinator = true;
       //$this->simpleSelectors();
-    }
-    elseif ($t == Token::comma) {
-      $this->handler->anotherSelector();
-      $this->scanner->nextToken();
-      $inCombinator = TRUE;
+      } elseif ($t == Token::comma) {
+          $this->handler->anotherSelector();
+          $this->scanner->nextToken();
+          $inCombinator = true;
       //$this->scanner->selectors();
-    }
-    elseif ($t == Token::tilde) {
-      $this->handler->sibling();
-      $this->scanner->nextToken();
-      $inCombinator = TRUE;
-    }
+      } elseif ($t == Token::tilde) {
+          $this->handler->sibling();
+          $this->scanner->nextToken();
+          $inCombinator = true;
+      }
 
     // Check that we don't get two combinators in a row.
     if ($inCombinator) {
-      $white = 0;
-      if ($this->DEBUG) print "COMBINATOR: " . Token::name($t) . "\n";
-      $this->consumeWhitespace();
-      if ($this->isCombinator($this->scanner->token)) {
-        throw new ParseException("Illegal combinator: Cannot have two combinators in sequence.");
-      }
+        $white = 0;
+        if ($this->DEBUG) {
+            print 'COMBINATOR: '.Token::name($t)."\n";
+        }
+        $this->consumeWhitespace();
+        if ($this->isCombinator($this->scanner->token)) {
+            throw new ParseException('Illegal combinator: Cannot have two combinators in sequence.');
+        }
     }
     // Check to see if we have whitespace combinator:
     elseif ($white > 0) {
-      if ($this->DEBUG) print "COMBINATOR: any descendant\n";
-      $inCombinator = TRUE;
-      $this->handler->anyDescendant();
-    }
-    else {
-      if ($this->DEBUG) print "COMBINATOR: no combinator found.\n";
+        if ($this->DEBUG) {
+            print "COMBINATOR: any descendant\n";
+        }
+        $inCombinator = true;
+        $this->handler->anyDescendant();
+    } else {
+        if ($this->DEBUG) {
+            print "COMBINATOR: no combinator found.\n";
+        }
     }
   }
 
   /**
    * Check if the token is a combinator.
    */
-  private function isCombinator($tok) {
-    $combinators = array(Token::plus, Token::rangle, Token::comma, Token::tilde);
-    return in_array($tok, $combinators);
+  private function isCombinator($tok)
+  {
+      $combinators = array(Token::plus, Token::rangle, Token::comma, Token::tilde);
+
+      return in_array($tok, $combinators);
   }
 
   /**
    * Handle a simple selector.
    */
-  private function simpleSelectors() {
-    if ($this->DEBUG) print "SIMPLE SELECTOR\n";
-    $this->allElements();
-    $this->elementName();
-    $this->elementClass();
-    $this->elementID();
-    $this->pseudoClass();
-    $this->attribute();
+  private function simpleSelectors()
+  {
+      if ($this->DEBUG) {
+          print "SIMPLE SELECTOR\n";
+      }
+      $this->allElements();
+      $this->elementName();
+      $this->elementClass();
+      $this->elementID();
+      $this->pseudoClass();
+      $this->attribute();
   }
 
   /**
    * Handles CSS ID selectors.
    * This will call EventHandler::elementID().
    */
-  private function elementID() {
-    if ($this->DEBUG) print "ELEMENT ID\n";
-    if ($this->scanner->token == Token::octo) {
-      $this->scanner->nextToken();
-      if ($this->scanner->token !== Token::char) {
-        throw new ParseException("Expected string after #");
+  private function elementID()
+  {
+      if ($this->DEBUG) {
+          print "ELEMENT ID\n";
       }
-      $id = $this->scanner->getNameString();
-      $this->handler->elementID($id);
-    }
+      if ($this->scanner->token == Token::octo) {
+          $this->scanner->nextToken();
+          if ($this->scanner->token !== Token::char) {
+              throw new ParseException('Expected string after #');
+          }
+          $id = $this->scanner->getNameString();
+          $this->handler->elementID($id);
+      }
   }
 
   /**
    * Handles CSS class selectors.
    * This will call the EventHandler::elementClass() method.
    */
-  private function elementClass() {
-    if ($this->DEBUG) print "ELEMENT CLASS\n";
-    if ($this->scanner->token == Token::dot) {
-      $this->scanner->nextToken();
-      $this->consumeWhitespace(); // We're very fault tolerent. This should prob through error.
+  private function elementClass()
+  {
+      if ($this->DEBUG) {
+          print "ELEMENT CLASS\n";
+      }
+      if ($this->scanner->token == Token::dot) {
+          $this->scanner->nextToken();
+          $this->consumeWhitespace(); // We're very fault tolerent. This should prob through error.
       $cssClass = $this->scanner->getNameString();
-      $this->handler->elementClass($cssClass);
-    }
+          $this->handler->elementClass($cssClass);
+      }
   }
 
   /**
@@ -248,49 +273,51 @@ class Parser {
    * This will call EventHandler::pseudoClass() when a
    * pseudo-class is parsed.
    */
-  private function pseudoClass($restricted = FALSE) {
-    if ($this->DEBUG) print "PSEUDO-CLASS\n";
-    if ($this->scanner->token == Token::colon) {
+  private function pseudoClass($restricted = false)
+  {
+      if ($this->DEBUG) {
+          print "PSEUDO-CLASS\n";
+      }
+      if ($this->scanner->token == Token::colon) {
 
       // Check for CSS 3 pseudo element:
-      $isPseudoElement = FALSE;
-      if ($this->scanner->nextToken() === Token::colon) {
-        $isPseudoElement = TRUE;
-        $this->scanner->nextToken();
-      }
+      $isPseudoElement = false;
+          if ($this->scanner->nextToken() === Token::colon) {
+              $isPseudoElement = true;
+              $this->scanner->nextToken();
+          }
 
-      $name = $this->scanner->getNameString();
-      if ($restricted && $name == 'not') {
-        throw new ParseException("The 'not' pseudo-class is illegal in this context.");
-      }
+          $name = $this->scanner->getNameString();
+          if ($restricted && $name == 'not') {
+              throw new ParseException("The 'not' pseudo-class is illegal in this context.");
+          }
 
-      $value = NULL;
-      if ($this->scanner->token == Token::lparen) {
-        if ($isPseudoElement) {
-          throw new ParseException("Illegal left paren. Pseudo-Element cannot have arguments.");
-        }
-        $value = $this->pseudoClassValue();
-      }
+          $value = null;
+          if ($this->scanner->token == Token::lparen) {
+              if ($isPseudoElement) {
+                  throw new ParseException('Illegal left paren. Pseudo-Element cannot have arguments.');
+              }
+              $value = $this->pseudoClassValue();
+          }
 
       // FIXME: This should throw errors when pseudo element has values.
       if ($isPseudoElement) {
-        if ($restricted) {
-          throw new ParseException("Pseudo-Elements are illegal in this context.");
-        }
-        $this->handler->pseudoElement($name);
-        $this->consumeWhitespace();
+          if ($restricted) {
+              throw new ParseException('Pseudo-Elements are illegal in this context.');
+          }
+          $this->handler->pseudoElement($name);
+          $this->consumeWhitespace();
 
         // Per the spec, pseudo-elements must be the last items in a selector, so we
         // check to make sure that we are either at the end of the stream or that a
         // new selector is starting. Only one pseudo-element is allowed per selector.
-        if ($this->scanner->token !== FALSE && $this->scanner->token !== Token::comma) {
-          throw new ParseException("A Pseudo-Element must be the last item in a selector.");
+        if ($this->scanner->token !== false && $this->scanner->token !== Token::comma) {
+            throw new ParseException('A Pseudo-Element must be the last item in a selector.');
         }
+      } else {
+          $this->handler->pseudoClass($name, $value);
       }
-      else {
-        $this->handler->pseudoClass($name, $value);
       }
-    }
   }
 
   /**
@@ -303,9 +330,10 @@ class Parser {
    *  other pseudo-classes as values, which means :pseudo(::pseudo)
    *  is legal.
    */
-  private function pseudoClassValue() {
-    if ($this->scanner->token == Token::lparen) {
-      $buf = '';
+  private function pseudoClassValue()
+  {
+      if ($this->scanner->token == Token::lparen) {
+          $buf = '';
 
       // For now, just leave pseudoClass value vague.
       /*
@@ -340,8 +368,9 @@ class Parser {
       return $buf;
       */
       $buf .= $this->scanner->getQuotedString();
-      return $buf;
-    }
+
+          return $buf;
+      }
   }
 
   /**
@@ -356,41 +385,39 @@ class Parser {
    *  ns|* (EventHandler::elementNS())
    * </code>
    */
-  private function elementName() {
-    if ($this->DEBUG) print "ELEMENT NAME\n";
-    if ($this->scanner->token === Token::pipe) {
-      // We have '|name', which is equiv to 'name'
+  private function elementName()
+  {
+      if ($this->DEBUG) {
+          print "ELEMENT NAME\n";
+      }
+      if ($this->scanner->token === Token::pipe) {
+          // We have '|name', which is equiv to 'name'
       $this->scanner->nextToken();
-      $this->consumeWhitespace();
-      $elementName =  $this->scanner->getNameString();
-      $this->handler->element($elementName);
-    }
-    elseif ($this->scanner->token === Token::char) {
-      $elementName =  $this->scanner->getNameString();
-      if ($this->scanner->token == Token::pipe) {
-        // Get ns|name
-        $elementNS = $elementName;
-        $this->scanner->nextToken();
-        $this->consumeWhitespace();
-        if ($this->scanner->token === Token::star) {
-          // We have ns|*
-          $this->handler->anyElementInNS($elementNS);
-          $this->scanner->nextToken();
-        }
-        elseif ($this->scanner->token !== Token::char) {
-          $this->throwError(Token::char, $this->scanner->token);
-        }
-        else {
+          $this->consumeWhitespace();
           $elementName = $this->scanner->getNameString();
+          $this->handler->element($elementName);
+      } elseif ($this->scanner->token === Token::char) {
+          $elementName = $this->scanner->getNameString();
+          if ($this->scanner->token == Token::pipe) {
+              // Get ns|name
+        $elementNS = $elementName;
+              $this->scanner->nextToken();
+              $this->consumeWhitespace();
+              if ($this->scanner->token === Token::star) {
+                  // We have ns|*
+          $this->handler->anyElementInNS($elementNS);
+                  $this->scanner->nextToken();
+              } elseif ($this->scanner->token !== Token::char) {
+                  $this->throwError(Token::char, $this->scanner->token);
+              } else {
+                  $elementName = $this->scanner->getNameString();
           // We have ns|name
           $this->handler->elementNS($elementName, $elementNS);
-        }
-
+              }
+          } else {
+              $this->handler->element($elementName);
+          }
       }
-      else {
-        $this->handler->element($elementName);
-      }
-    }
   }
 
   /**
@@ -400,29 +427,28 @@ class Parser {
    *
    * Calls EventHandler::anyElement() or EventHandler::elementName().
    */
-  private function allElements() {
-    if ($this->scanner->token === Token::star) {
-      $this->scanner->nextToken();
-      if ($this->scanner->token === Token::pipe) {
-        $this->scanner->nextToken();
-        if ($this->scanner->token === Token::star) {
-          // We got *|*. According to spec, this requires
+  private function allElements()
+  {
+      if ($this->scanner->token === Token::star) {
+          $this->scanner->nextToken();
+          if ($this->scanner->token === Token::pipe) {
+              $this->scanner->nextToken();
+              if ($this->scanner->token === Token::star) {
+                  // We got *|*. According to spec, this requires
           // that the element has a namespace, so we pass it on
           // to the handler:
           $this->scanner->nextToken();
-          $this->handler->anyElementInNS('*');
-        }
-        else {
-          // We got *|name, which means the name MUST be in a namespce,
+                  $this->handler->anyElementInNS('*');
+              } else {
+                  // We got *|name, which means the name MUST be in a namespce,
           // so we pass this off to elementNameNS().
           $name = $this->scanner->getNameString();
-          $this->handler->elementNS($name, '*');
-        }
+                  $this->handler->elementNS($name, '*');
+              }
+          } else {
+              $this->handler->anyElement();
+          }
       }
-      else {
-        $this->handler->anyElement();
-      }
-    }
   }
 
   /**
@@ -430,50 +456,50 @@ class Parser {
    * An attribute can be in one of two forms:
    * <code>[attrName]</code>
    * or
-   * <code>[attrName="AttrValue"]</code>
+   * <code>[attrName="AttrValue"]</code>.
    *
    * This may call the following event handlers: EventHandler::attribute().
    */
-  private function attribute() {
-    if($this->scanner->token == Token::lsquare) {
-      $attrVal = $op = $ns = NULL;
+  private function attribute()
+  {
+      if ($this->scanner->token == Token::lsquare) {
+          $attrVal = $op = $ns = null;
 
-      $this->scanner->nextToken();
-      $this->consumeWhitespace();
-
-      if ($this->scanner->token === Token::at) {
-        if ($this->strict) {
-          throw new ParseException('The @ is illegal in attributes.');
-        }
-        else {
           $this->scanner->nextToken();
           $this->consumeWhitespace();
-        }
-      }
 
-      if ($this->scanner->token === Token::star) {
-        // Global namespace... requires that attr be prefixed,
+          if ($this->scanner->token === Token::at) {
+              if ($this->strict) {
+                  throw new ParseException('The @ is illegal in attributes.');
+              } else {
+                  $this->scanner->nextToken();
+                  $this->consumeWhitespace();
+              }
+          }
+
+          if ($this->scanner->token === Token::star) {
+              // Global namespace... requires that attr be prefixed,
         // so we pass this on to a namespace handler.
         $ns = '*';
+              $this->scanner->nextToken();
+          }
+          if ($this->scanner->token === Token::pipe) {
+              // Skip this. It's a global namespace.
         $this->scanner->nextToken();
-      }
-      if ($this->scanner->token === Token::pipe) {
-        // Skip this. It's a global namespace.
-        $this->scanner->nextToken();
-        $this->consumeWhitespace();
-      }
+              $this->consumeWhitespace();
+          }
 
-      $attrName = $this->scanner->getNameString();
-      $this->consumeWhitespace();
+          $attrName = $this->scanner->getNameString();
+          $this->consumeWhitespace();
 
       // Check for namespace attribute: ns|attr. We have to peek() to make
       // sure that we haven't hit the |= operator, which looks the same.
       if ($this->scanner->token === Token::pipe && $this->scanner->peek() !== '=') {
-        // We have a namespaced attribute.
+          // We have a namespaced attribute.
         $ns = $attrName;
-        $this->scanner->nextToken();
-        $attrName = $this->scanner->getNameString();
-        $this->consumeWhitespace();
+          $this->scanner->nextToken();
+          $attrName = $this->scanner->getNameString();
+          $this->consumeWhitespace();
       }
 
       // Note: We require that operators do not have spaces
@@ -487,40 +513,40 @@ class Parser {
           break;
         case Token::tilde:
           if ($this->scanner->nextToken() !== Token::eq) {
-            $this->throwError(Token::eq, $this->scanner->token);
+              $this->throwError(Token::eq, $this->scanner->token);
           }
           $op = EventHandler::containsWithSpace;
           break;
         case Token::pipe:
           if ($this->scanner->nextToken() !== Token::eq) {
-            $this->throwError(Token::eq, $this->scanner->token);
+              $this->throwError(Token::eq, $this->scanner->token);
           }
           $op = EventHandler::containsWithHyphen;
           break;
         case Token::star:
           if ($this->scanner->nextToken() !== Token::eq) {
-            $this->throwError(Token::eq, $this->scanner->token);
+              $this->throwError(Token::eq, $this->scanner->token);
           }
           $op = EventHandler::containsInString;
           break;
         case Token::dollar;
           if ($this->scanner->nextToken() !== Token::eq) {
-            $this->throwError(Token::eq, $this->scanner->token);
+              $this->throwError(Token::eq, $this->scanner->token);
           }
           $op = EventHandler::endsWith;
           break;
         case Token::carat:
           if ($this->scanner->nextToken() !== Token::eq) {
-            $this->throwError(Token::eq, $this->scanner->token);
+              $this->throwError(Token::eq, $this->scanner->token);
           }
           $op = EventHandler::beginsWith;
           break;
       }
 
-      if (isset($op)) {
-        // Consume '=' and go on.
+          if (isset($op)) {
+              // Consume '=' and go on.
         $this->scanner->nextToken();
-        $this->consumeWhitespace();
+              $this->consumeWhitespace();
 
         // So... here we have a problem. The grammer suggests that the
         // value here is String1 or String2, both of which are enclosed
@@ -532,43 +558,39 @@ class Parser {
         // the String1/String2 rules.
 
         if ($this->scanner->token === Token::quote || $this->scanner->token === Token::squote) {
-          $attrVal = $this->scanner->getQuotedString();
+            $attrVal = $this->scanner->getQuotedString();
+        } else {
+            $attrVal = $this->scanner->getNameString();
         }
-        else {
-          $attrVal = $this->scanner->getNameString();
-        }
 
-        if ($this->DEBUG) {
-          print "ATTR: $attrVal AND OP: $op\n";
-        }
-      }
+              if ($this->DEBUG) {
+                  echo "ATTR: $attrVal AND OP: $op\n";
+              }
+          }
 
-      $this->consumeWhitespace();
+          $this->consumeWhitespace();
 
-      if ($this->scanner->token != Token::rsquare) {
-        $this->throwError(Token::rsquare, $this->scanner->token);
-      }
+          if ($this->scanner->token != Token::rsquare) {
+              $this->throwError(Token::rsquare, $this->scanner->token);
+          }
 
-      if (isset($ns)) {
-        $this->handler->attributeNS($attrName, $ns, $attrVal, $op);
+          if (isset($ns)) {
+              $this->handler->attributeNS($attrName, $ns, $attrVal, $op);
+          } elseif (isset($attrVal)) {
+              $this->handler->attribute($attrName, $attrVal, $op);
+          } else {
+              $this->handler->attribute($attrName);
+          }
+          $this->scanner->nextToken();
       }
-      elseif (isset($attrVal)) {
-        $this->handler->attribute($attrName, $attrVal, $op);
-      }
-      else {
-        $this->handler->attribute($attrName);
-      }
-      $this->scanner->nextToken();
-    }
   }
 
   /**
    * Utility for throwing a consistantly-formatted parse error.
    */
-  private function throwError($expected, $got) {
-    $filter = sprintf('Expected %s, got %s', Token::name($expected), Token::name($got));
-    throw new ParseException($filter);
+  private function throwError($expected, $got)
+  {
+      $filter = sprintf('Expected %s, got %s', Token::name($expected), Token::name($got));
+      throw new ParseException($filter);
   }
-
 }
-

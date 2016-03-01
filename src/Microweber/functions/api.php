@@ -3,17 +3,16 @@
 
 function api_expose($function_name, $callback = null)
 {
-
-
     static $index = ' ';
     if (is_bool($function_name)) {
         return $index;
     }
     if (is_callable($callback)) {
-        $index .= ' ' . $function_name;
+        $index .= ' '.$function_name;
+
         return api_bind($function_name, $callback);
     } else {
-        $index .= ' ' . $function_name;
+        $index .= ' '.$function_name;
     }
 }
 
@@ -24,13 +23,13 @@ function api_expose_admin($function_name, $callback = null)
         return $index;
     }
     if (is_callable($callback)) {
-        $index .= ' ' . $function_name;
+        $index .= ' '.$function_name;
+
         return api_bind_admin($function_name, $callback);
     } else {
-        $index .= ' ' . $function_name;
+        $index .= ' '.$function_name;
     }
 }
-
 
 function api_bind($function_name, $callback = false)
 {
@@ -38,13 +37,12 @@ function api_bind($function_name, $callback = false)
     if (is_bool($function_name)) {
         if (is_array($mw_api_binds)) {
             $index = ($mw_api_binds);
+
             return $index;
         }
-
     } else {
         $function_name = trim($function_name);
         $mw_api_binds[$function_name][] = $callback;
-
     }
 }
 
@@ -54,13 +52,12 @@ function api_bind_admin($function_name, $callback = false)
     if (is_bool($function_name)) {
         if (is_array($mw_api_binds)) {
             $index = ($mw_api_binds);
+
             return $index;
         }
-
     } else {
         $function_name = trim($function_name);
         $mw_api_binds[$function_name][] = $callback;
-
     }
 }
 
@@ -68,16 +65,14 @@ function document_ready($function_name)
 {
     static $index = ' ';
     if (is_bool($function_name)) {
-
         return $index;
     } else {
-        $index .= ' ' . $function_name;
+        $index .= ' '.$function_name;
     }
 }
 
 function execute_document_ready($l)
 {
-
     $document_ready_exposed = (document_ready(true));
 
     if ($document_ready_exposed != false) {
@@ -95,30 +90,27 @@ function execute_document_ready($l)
     return $l;
 }
 
-
 function array_to_module_params($params, $filter = false)
 {
     $str = '';
     if (is_array($params)) {
         foreach ($params as $key => $value) {
-
             if ($filter == false) {
-                $str .= $key . '="' . $value . '" ';
-            } else if (is_array($filter) and !empty($filter)) {
+                $str .= $key.'="'.$value.'" ';
+            } elseif (is_array($filter) and !empty($filter)) {
                 if (in_array($key, $filter)) {
-                    $str .= $key . '="' . $value . '" ';
+                    $str .= $key.'="'.$value.'" ';
                 }
             } else {
                 if ($key == $filter) {
-                    $str .= $key . '="' . $value . '" ';
+                    $str .= $key.'="'.$value.'" ';
                 }
             }
-
         }
     }
+
     return $str;
 }
-
 
 function parse_params($params)
 {
@@ -128,6 +120,7 @@ function parse_params($params)
         $params = $params2;
         unset($params2);
     }
+
     return $params;
 }
 
@@ -145,22 +138,21 @@ function mw_var($key, $new_val = false)
     } else {
         //if (isset($mw_var_storage[$contstant]) == false) {
             $mw_var_storage[$contstant] = $new_val;
-            return $new_val;
+
+        return $new_val;
         //}
     }
+
     return false;
 }
 
-
 function autoload_add($dirname)
 {
-    set_include_path($dirname .
-        PATH_SEPARATOR . get_include_path());
+    set_include_path($dirname.
+        PATH_SEPARATOR.get_include_path());
 }
-
 
 function api_link($str = '')
 {
     return mw()->url_manager->api_link($str);
-
 }

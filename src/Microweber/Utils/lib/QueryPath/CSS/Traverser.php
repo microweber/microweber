@@ -9,8 +9,9 @@ namespace QueryPath\CSS;
 /**
  * An object capable of walking (and searching) a datastructure.
  */
-interface Traverser {
-  /**
+interface Traverser
+{
+    /**
    * Process a CSS selector and find matches.
    *
    * This specifies a query to be run by the Traverser. A given

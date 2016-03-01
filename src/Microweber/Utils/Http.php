@@ -1,25 +1,23 @@
 <?php
+
 namespace Microweber\Utils;
-
-
-
 
 class Http
 {
     /**
-     * An instance of the HTTP adapter to use
+     * An instance of the HTTP adapter to use.
      *
-     * @var $adapter
+     * @var
      */
     public $adapter;
     /**
-     * An instance of the Microweber Application class
+     * An instance of the Microweber Application class.
      *
-     * @var $app
+     * @var
      */
     public $app;
 
-    function __construct($app = null)
+    public function __construct($app = null)
     {
         if (!is_object($this->app)) {
             if (is_object($app)) {
@@ -29,10 +27,8 @@ class Http
             }
         }
         if (!is_object($this->adapter)) {
-
             $this->adapter = new Adapters\Http\Guzzle($app);
         }
-
     }
 
     public function url($url)
@@ -43,12 +39,14 @@ class Http
     public function set_url($url)
     {
         $this->adapter->url = $url;
+
         return $this;
     }
 
     public function set_timeout($seconds)
     {
         $this->adapter->timeout = $seconds;
+
         return $this;
     }
 
@@ -60,7 +58,6 @@ class Http
     public function post($params = false)
     {
         return $this->adapter->post($params);
-
     }
 
     public function download($save_to_filename, $post_params = false)

@@ -10,7 +10,6 @@
  *
  */
 
-
 namespace Microweber;
 
 namespace Microweber\Providers;
@@ -21,7 +20,6 @@ use Cache;
 
 class OptionManager
 {
-
     public $app;
     public $options_memory = array(); //internal array to hold options in cache 
     public $tables = array();
@@ -49,15 +47,13 @@ class OptionManager
             $tables['options'] = 'options';
         }
         $this->tables = $tables;
-        if (!defined("MW_DB_TABLE_OPTIONS")) {
+        if (!defined('MW_DB_TABLE_OPTIONS')) {
             define('MW_DB_TABLE_OPTIONS', $tables['options']);
         }
     }
 
-
     public function get_all($params = '')
     {
-
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
@@ -91,7 +87,6 @@ class OptionManager
 
     public function get_groups($is_system = false)
     {
-
         $table = $this->tables['options'];
         $is_systemq = '';
         if ($is_system != false) {
@@ -100,10 +95,9 @@ class OptionManager
             $is_systemq = ' and is_system=0 ';
         }
         $q = "SELECT option_group FROM $table WHERE module IS NULL";
-        $q = $q . $is_systemq . "AND option_group  IS NOT NULL GROUP BY option_group ORDER BY position ASC ";
-        $function_cache_id = __FUNCTION__ . crc32($q);
+        $q = $q.$is_systemq.'AND option_group  IS NOT NULL GROUP BY option_group ORDER BY position ASC ';
+        $function_cache_id = __FUNCTION__.crc32($q);
         $res1 = false;
-
 
         $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
         if (is_array($res) and !empty($res)) {
@@ -112,6 +106,7 @@ class OptionManager
                 $res1[] = $item['option_group'];
             }
         }
+
         return $res1;
     }
 
@@ -131,7 +126,7 @@ class OptionManager
             $module_id = $this->app->database_manager->escape_string($module_id);
             $module_id_q1 = "and module='{$module_id}'";
         }
-        $q = "DELETE FROM $table WHERE option_key='$key' " . $option_group_q1 . $module_id_q1;
+        $q = "DELETE FROM $table WHERE option_key='$key' ".$option_group_q1.$module_id_q1;
         $q = trim($q);
 
         $this->app->database_manager->q($q);
@@ -142,7 +137,6 @@ class OptionManager
 
     public function _create_mw_default_options()
     {
-
         $function_cache_id = 'default_opts';
 
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group = 'db');
@@ -234,7 +228,6 @@ class OptionManager
         $data['field_values'] = array('y' => 'yes', 'n' => 'no');
         $datas[] = $data;
 
-
         $changes = false;
         foreach ($datas as $value) {
             $ch = $this->set_default($value);
@@ -269,12 +262,12 @@ class OptionManager
         } else {
             return false;
         }
+
         return $changes;
     }
 
     /**
-     *
-     * Getting options from the database
+     * Getting options from the database.
      *
      * @param $key array|string - if array it will replace the db params
      * @param $option_group string - your option group
@@ -282,42 +275,32 @@ class OptionManager
      * @param $module string - if set it will store option for module
      * Example usage:
      * $this->get('my_key', 'my_group');
-     *
-     *
-     *
      */
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
-
         if ($option_group != false) {
-
-            $cache_group = 'options/' . $option_group;
-
+            $cache_group = 'options/'.$option_group;
         } else {
             $cache_group = 'options/global';
         }
-        if ($this->options_memory == NULL) {
+        if ($this->options_memory == null) {
             $this->options_memory = array();
         }
-
 
         $function_cache_id = false;
 
         $args = func_get_args();
 
         foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
         }
 
-        $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
+        $function_cache_id = 'option_'.__FUNCTION__.'_'.$option_group.'_'.crc32($function_cache_id);
         if (isset($this->options_memory[$function_cache_id])) {
             return $this->options_memory[$function_cache_id];
         }
 
-
         $table = $this->tables['options'];
-
 
         $data = array();
 
@@ -341,10 +324,9 @@ class OptionManager
 
         $data['limit'] = 1;
         $ok = $this->app->database_manager->escape_string($data['option_key']);
-        $ob = " order by id desc ";
-        $q = "select * from $table where option_key='{$ok}'  " . $option_key_1 . $option_key_2 . $ob;
-        $q = "select * from $table where option_key is not null  " . $option_key_1 . $option_key_2 . $ob;
-
+        $ob = ' order by id desc ';
+        $q = "select * from $table where option_key='{$ok}'  ".$option_key_1.$option_key_2.$ob;
+        $q = "select * from $table where option_key is not null  ".$option_key_1.$option_key_2.$ob;
 
         $filter = array();
         //  $filter['limit'] = 1;
@@ -364,7 +346,6 @@ class OptionManager
         //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
 
         if (!is_array($get_all)) {
-
             return false;
         }
         $get = array();
@@ -375,12 +356,10 @@ class OptionManager
         }
 
         if (!empty($get)) {
-
             if ($return_full == false) {
                 if (!is_array($get)) {
                     return false;
                 }
-
 
                 $get = $get[0]['option_value'];
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
@@ -388,9 +367,9 @@ class OptionManager
                 }
 
                 $this->options_memory[$function_cache_id] = $get;
+
                 return $get;
             } else {
-
                 $get = $get[0];
 
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
@@ -401,16 +380,17 @@ class OptionManager
                     $get['field_values'] = unserialize(base64_decode($get['field_values']));
                 }
                 $this->options_memory[$function_cache_id] = $get;
+
                 return $get;
             }
         } else {
             $this->options_memory[$function_cache_id] = false;
-            return FALSE;
+
+            return false;
         }
     }
 
     /**
-     *
      * You can use this function to store options in the database.
      *
      * @param $data array|string
@@ -421,14 +401,9 @@ class OptionManager
      * $option['option_key'] = 'my_option';
      * $option['option_group'] = 'my_option_group';
      * mw()->option_manager->save($option);
-     *
-     *
-     *
      */
-
     public function save($data)
     {
-
         if (defined('MW_API_CALL')) {
             $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
@@ -439,7 +414,6 @@ class OptionManager
         if (is_string($data)) {
             $data = parse_params($data);
         }
-
 
         $option_group = false;
         if (is_array($data)) {
@@ -452,7 +426,7 @@ class OptionManager
                     if (isset($option_key_1[1])) {
                         $data['module'] = $option_key_1[1];
                         if (isset($data['id']) and intval($data['id']) > 0) {
-                            $chck = $this->get('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
+                            $chck = $this->get('limit=1&module='.$data['module'].'&option_key='.$data['option_key']);
                             if (isset($chck[0]) and isset($chck[0]['id'])) {
                                 $data['id'] = $chck[0]['id'];
                             } else {
@@ -460,12 +434,10 @@ class OptionManager
                                 $copy = $this->app->database_manager->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
                             }
-
                         }
                     }
                 }
             }
-
 
             $delete_content_cache = false;
             if (!isset($data['id']) or intval($data['id']) == 0) {
@@ -488,23 +460,19 @@ class OptionManager
             }
             if (isset($data['module'])) {
                 $data['module'] = str_ireplace('/admin', '', $data['module']);
-
             }
-
 
             if (strval($data['option_key']) != '') {
                 if ($data['option_key'] == 'current_template') {
                     $delete_content_cache = true;
                 }
                 if (isset($data['option_group']) and strval($data['option_group']) == '') {
-
                     unset($data['option_group']);
                 }
 
                 if (isset($data['option_value']) and $data['option_value'] != false) {
                     $data['option_value'] = $this->app->url_manager->replace_site_url($data['option_value']);
                 }
-
 
                 $data['allow_html'] = true;
                 $data['allow_scripts'] = true;
@@ -513,17 +481,16 @@ class OptionManager
                 $save = $this->app->database_manager->save($data);
 
                 if ($option_group != false) {
-                    $cache_group = 'options/' . $option_group;
+                    $cache_group = 'options/'.$option_group;
                     $this->app->cache_manager->delete($cache_group);
                 } else {
-                    $cache_group = 'options/' . 'global';
+                    $cache_group = 'options/'.'global';
                     $this->app->cache_manager->delete($cache_group);
                 }
                 if ($save != false) {
-                    $cache_group = 'options/' . $save;
+                    $cache_group = 'options/'.$save;
                     $this->app->cache_manager->delete($cache_group);
                 }
-
 
                 if ($delete_content_cache != false) {
                     $cache_group = 'content/global';
@@ -533,10 +500,10 @@ class OptionManager
                 if (isset($data['id']) and intval($data['id']) > 0) {
                     $opt = $this->get_by_id($data['id']);
                     if (isset($opt['option_group'])) {
-                        $cache_group = 'options/' . $opt['option_group'];
+                        $cache_group = 'options/'.$opt['option_group'];
                         $this->app->cache_manager->delete($cache_group);
                     }
-                    $cache_group = 'options/' . intval($data['id']);
+                    $cache_group = 'options/'.intval($data['id']);
                     $this->app->cache_manager->delete($cache_group);
                 }
 
@@ -546,7 +513,6 @@ class OptionManager
             }
         }
     }
-
 
     public function get_by_id($id)
     {
@@ -558,13 +524,12 @@ class OptionManager
         $params = array();
         $params['id'] = $id;
         $params['single'] = true;
+
         return $this->get_all($params);
     }
 
-
     public function get_items_per_page($group = 'website')
     {
-
         if (!isset($this->options_memory['items_per_page'])) {
             $this->options_memory = array();
         }
@@ -576,30 +541,24 @@ class OptionManager
             $table = $this->tables['options'];
             $ttl = '99999';
 
-
-            $cache_key = $table . '_items_per_page_' . $group;
+            $cache_key = $table.'_items_per_page_'.$group;
             $items_per_page = Cache::tags($table)->remember($cache_key, $ttl, function () use ($table, $group) {
                 $items_per_page = DB::table($table)->where('option_key', 'items_per_page')
                     ->where('option_group', $group)
                     ->first();
+
                 return $items_per_page;
             });
 
-
             if (!empty($items_per_page)) {
-                $items_per_page = (array)$items_per_page;
+                $items_per_page = (array) $items_per_page;
                 if (isset($items_per_page['option_value'])) {
                     $result = $items_per_page['option_value'];
                     $this->options_memory['items_per_page'][$group] = $result;
+
                     return $result;
                 }
-
-
             }
-
-
         }
-
     }
 }
-

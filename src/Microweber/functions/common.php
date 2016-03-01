@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Constructor function
+ * Constructor function.
  *
  * @param null $class
  *
  * @return \Microweber\Application Microweber Application object
  */
-function mw($class = null) {
-
+function mw($class = null)
+{
     return app($class);
 
     $app = \Microweber\Application::getInstance();
     $class = str_replace('/', '\\', $class);
-    if ($class==null or $class==false or strtolower($class)=='application'){
+    if ($class == null or $class == false or strtolower($class) == 'application') {
         return $app;
     } else {
         //return $app->make($class);
@@ -21,65 +21,66 @@ function mw($class = null) {
     }
 }
 
-if (!function_exists('d')){
-    function d($dump) {
+if (!function_exists('d')) {
+    function d($dump)
+    {
         var_dump($dump);
     }
 }
 
-if (!function_exists('site_url')){
-    function site_url($add_string = false) {
+if (!function_exists('site_url')) {
+    function site_url($add_string = false)
+    {
         static $site_url;
 
-        if (defined('MW_SITE_URL')){
+        if (defined('MW_SITE_URL')) {
             $site_url = MW_SITE_URL;
         }
-        if ($site_url==false){
+        if ($site_url == false) {
             $pageURL = 'http';
-            if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"]=="on")){
-                $pageURL .= "s";
+            if (isset($_SERVER['HTTPS']) and ($_SERVER['HTTPS'] == 'on')) {
+                $pageURL .= 's';
             }
             $subdir_append = false;
-            if (isset($_SERVER['PATH_INFO'])){
+            if (isset($_SERVER['PATH_INFO'])) {
                 // $subdir_append = $_SERVER ['PATH_INFO'];
             } elseif (isset($_SERVER['REDIRECT_URL'])) {
                 $subdir_append = $_SERVER['REDIRECT_URL'];
             }
 
-            $pageURL .= "://";
+            $pageURL .= '://';
 
-            if (isset($_SERVER["HTTP_HOST"])){
-                $pageURL .= $_SERVER["HTTP_HOST"];
-            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"]!="80" and $_SERVER["SERVER_PORT"]!="443") {
-                $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
-            } elseif (isset($_SERVER["SERVER_NAME"])) {
-                $pageURL .= $_SERVER["SERVER_NAME"];
-            } else if (isset($_SERVER["HOSTNAME"])){
-                $pageURL .= $_SERVER["HOSTNAME"];
+            if (isset($_SERVER['HTTP_HOST'])) {
+                $pageURL .= $_SERVER['HTTP_HOST'];
+            } elseif (isset($_SERVER['SERVER_NAME']) and isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] != '80' and $_SERVER['SERVER_PORT'] != '443') {
+                $pageURL .= $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
+            } elseif (isset($_SERVER['SERVER_NAME'])) {
+                $pageURL .= $_SERVER['SERVER_NAME'];
+            } elseif (isset($_SERVER['HOSTNAME'])) {
+                $pageURL .= $_SERVER['HOSTNAME'];
             }
             $pageURL_host = $pageURL;
             $pageURL .= $subdir_append;
             $d = '';
-            if (isset($_SERVER['SCRIPT_NAME'])){
+            if (isset($_SERVER['SCRIPT_NAME'])) {
                 $d = dirname($_SERVER['SCRIPT_NAME']);
                 $d = trim($d, DIRECTORY_SEPARATOR);
             }
 
-            if ($d==''){
+            if ($d == '') {
                 $pageURL = $pageURL_host;
             } else {
-                $pageURL_host = rtrim($pageURL_host, '/') . '/';
+                $pageURL_host = rtrim($pageURL_host, '/').'/';
                 $d = ltrim($d, '/');
                 $d = ltrim($d, DIRECTORY_SEPARATOR);
-                $pageURL = $pageURL_host . $d;
-
+                $pageURL = $pageURL_host.$d;
             }
-            if (isset($_SERVER['QUERY_STRING'])){
+            if (isset($_SERVER['QUERY_STRING'])) {
                 $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
             }
 
             $uz = parse_url($pageURL);
-            if (isset($uz['query'])){
+            if (isset($uz['query'])) {
                 $pageURL = str_replace($uz['query'], '', $pageURL);
                 $pageURL = rtrim($pageURL, '?');
             }
@@ -89,83 +90,77 @@ if (!function_exists('site_url')){
             $i = 0;
             $unset = false;
             foreach ($url_segs as $v) {
-                if ($unset==true and $d!=''){
-
+                if ($unset == true and $d != '') {
                     unset($url_segs[ $i ]);
                 }
-                if ($v==$d and $d!=''){
-
+                if ($v == $d and $d != '') {
                     $unset = true;
                 }
 
-                $i ++;
+                ++$i;
             }
             $url_segs[] = '';
             $site_url = implode('/', $url_segs);
-
         }
 
-        return $site_url . $add_string;
+        return $site_url.$add_string;
     }
-
 }
 
-
 /**
- * Converts a path in the appropriate format for win or linux
+ * Converts a path in the appropriate format for win or linux.
  *
- * @param string  $path
- *            The directory path.
- * @param boolean $slash_it
- *            If true, ads a slash at the end, false by default
+ * @param string $path
+ *                         The directory path.
+ * @param bool   $slash_it
+ *                         If true, ads a slash at the end, false by default
  *
  * @return string The formatted string
- *
  */
-function normalize_path($path, $slash_it = true) {
+function normalize_path($path, $slash_it = true)
+{
     $path_original = $path;
     $s = DIRECTORY_SEPARATOR;
     $path = preg_replace('/[\/\\\]/', $s, $path);
-    $path = str_replace($s . $s, $s, $path);
-    if (strval($path)==''){
+    $path = str_replace($s.$s, $s, $path);
+    if (strval($path) == '') {
         $path = $path_original;
     }
-    if ($slash_it==false){
+    if ($slash_it == false) {
         $path = rtrim($path, DIRECTORY_SEPARATOR);
     } else {
         $path .= DIRECTORY_SEPARATOR;
-        $path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+        $path = rtrim($path, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
     }
-    if (strval(trim($path))=='' or strval(trim($path))=='/'){
+    if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
         $path = $path_original;
     }
-    if ($slash_it==false){
+    if ($slash_it == false) {
     } else {
-        $path = $path . DIRECTORY_SEPARATOR;
+        $path = $path.DIRECTORY_SEPARATOR;
         $path = reduce_double_slashes($path);
     }
-
 
     return $path;
 }
 
-
-if (!function_exists('reduce_double_slashes')){
+if (!function_exists('reduce_double_slashes')) {
     /**
-     * Removes double slashes from sting
+     * Removes double slashes from sting.
      *
      * @param $str
      *
      * @return string
      */
-    function reduce_double_slashes($str) {
-        return preg_replace("#([^:])//+#", "\\1/", $str);
+    function reduce_double_slashes($str)
+    {
+        return preg_replace('#([^:])//+#', '\\1/', $str);
     }
 }
 
-
-function lipsum($number_of_characters = false) {
-    if ($number_of_characters==false){
+function lipsum($number_of_characters = false)
+{
+    if ($number_of_characters == false) {
         $number_of_characters = 100;
     }
 
@@ -188,134 +183,140 @@ function lipsum($number_of_characters = false) {
     return character_limiter($lipsum, $number_of_characters, '');
 }
 
-
 /**
- * Returns the current microtime
+ * Returns the current microtime.
  *
  * @return bool|string $date The current microtime
  *
- * @package  Utils
  * @category Date
+ *
  * @link     http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
  */
-function microtime_float() {
-    list ($msec, $sec) = explode(' ', microtime());
+function microtime_float()
+{
+    list($msec, $sec) = explode(' ', microtime());
     $microtime = (float) $msec + (float) $sec;
 
     return $microtime;
 }
 
-
 /**
- *
- * Limits a string to a number of characters
+ * Limits a string to a number of characters.
  *
  * @param        $str
  * @param int    $n
  * @param string $end_char
  *
  * @return string
- * @package  Utils
+ *
  * @category Strings
  */
-function character_limiter($str, $n = 500, $end_char = '&#8230;') {
-    if (strlen($str) < $n){
+function character_limiter($str, $n = 500, $end_char = '&#8230;')
+{
+    if (strlen($str) < $n) {
         return $str;
     }
     $str = strip_tags($str);
     $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 
-    if (strlen($str) <= $n){
+    if (strlen($str) <= $n) {
         return $str;
     }
 
-    $out = "";
+    $out = '';
     foreach (explode(' ', trim($str)) as $val) {
-        $out .= $val . ' ';
+        $out .= $val.' ';
 
-        if (strlen($out) >= $n){
+        if (strlen($out) >= $n) {
             $out = trim($out);
 
-            return (strlen($out)==strlen($str)) ? $out : $out . $end_char;
+            return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
         }
     }
 }
 
-
-function api_url($str = '') {
+function api_url($str = '')
+{
     $str = ltrim($str, '/');
 
-    return site_url('api/' . $str);
+    return site_url('api/'.$str);
 }
 
-function api_nosession_url($str = '') {
+function api_nosession_url($str = '')
+{
     $str = ltrim($str, '/');
 
-    return site_url('api_nosession/' . $str);
+    return site_url('api_nosession/'.$str);
 }
 
-function auto_link($text) {
+function auto_link($text)
+{
     return mw()->format->auto_link($text);
 }
 
-function prep_url($text) {
+function prep_url($text)
+{
     return mw()->format->prep_url($text);
 }
 
-
-function is_arr($var) {
+function is_arr($var)
+{
     return isarr($var);
 }
 
-function isarr($var) {
-    if (is_array($var) and !empty($var)){
+function isarr($var)
+{
+    if (is_array($var) and !empty($var)) {
         return true;
     } else {
         return false;
     }
 }
 
-function is_ajax() {
+function is_ajax()
+{
     return mw()->url_manager->is_ajax();
-
 }
 
-function url_current($skip_ajax = false, $no_get = false) {
+function url_current($skip_ajax = false, $no_get = false)
+{
     return mw()->url_manager->current($skip_ajax, $no_get);
 }
 
-function url_segment($k = - 1, $page_url = false) {
+function url_segment($k = -1, $page_url = false)
+{
     return mw()->url_manager->segment($k, $page_url);
-
 }
 
 /**
- * Returns the curent url path, does not include the domain name
+ * Returns the curent url path, does not include the domain name.
  *
  * @return string the url string
  */
-function url_path($skip_ajax = false) {
+function url_path($skip_ajax = false)
+{
     return mw()->url_manager->string($skip_ajax);
 }
 
 /**
- * Returns the curent url path, does not include the domain name
+ * Returns the curent url path, does not include the domain name.
  *
  * @return string the url string
  */
-function url_string($skip_ajax = false) {
+function url_string($skip_ajax = false)
+{
     return mw()->url_manager->string($skip_ajax);
 }
 
-function url_title($text) {
+function url_title($text)
+{
     return mw()->url_manager->slug($text);
 }
 
-function url_param($param, $skip_ajax = false) {
-
+function url_param($param, $skip_ajax = false)
+{
     return mw()->url_manager->param($param, $skip_ajax);
 }
-
 
 /**
  *  Gets the data from the cache.
@@ -330,17 +331,15 @@ function url_param($param, $skip_ajax = false) {
  * $cache_content = cache_get_content($cache_id, 'my_cache_group');
  *
  * </code>
+ *
  * @param string $cache_id              id of the cache
  * @param string $cache_group           (default is 'global') - this is the subfolder in the cache dir.
- *
  * @param bool   $expiration_in_seconds You can pass custom cache object or leave false.
  *
- * @return  mixed returns array of cached data or false
- * @package Cache
- *
+ * @return mixed returns array of cached data or false
  */
-
-function cache_get($cache_id, $cache_group = 'global', $expiration = false) {
+function cache_get($cache_id, $cache_group = 'global', $expiration = false)
+{
     return mw()->cache_manager->get($cache_id, $cache_group, $expiration);
 }
 
@@ -357,50 +356,46 @@ function cache_get($cache_id, $cache_group = 'global', $expiration = false) {
  * </code>
  *
  * @param mixed  $data_to_cache
- *            your data, anything that can be serialized
+ *                                      your data, anything that can be serialized
  * @param string $cache_id
- *            id of the cache, you must define it because you will use it later to
- *            retrieve the cached content.
+ *                                      id of the cache, you must define it because you will use it later to
+ *                                      retrieve the cached content.
  * @param string $cache_group
- *            (default is 'global') - this is the subfolder in the cache dir.
- *
+ *                                      (default is 'global') - this is the subfolder in the cache dir.
  * @param bool   $expiration_in_seconds
  *
- * @return boolean
- * @package Cache
+ * @return bool
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false) {
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false)
+{
     return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration);
-
-
 }
-
 
 api_expose_admin('clearcache');
 /**
- * Clears all cache data
+ * Clears all cache data.
  *
  * @example
  *          <code>
  *          //delete all cache
  *          clearcache();
  *          </code>
- * @return boolean
- * @package Cache
+ *
+ * @return bool
  */
-function clearcache() {
+function clearcache()
+{
     mw()->cache_manager->clear();
     mw()->template->clear_cache();
 
     return true;
 }
 
-
 /**
- * Prints cache debug information
+ * Prints cache debug information.
  *
  * @return array
- * @package Cache
+ *
  * @example
  * <code>
  * //get cache items info
@@ -408,21 +403,19 @@ function clearcache() {
  * print_r($cached_items);
  * </code>
  */
-function cache_debug() {
+function cache_debug()
+{
     return mw()->cache_manager->debug();
-
 }
-
 
 /**
  * Deletes cache for given $cache_group recursively.
  *
  * @param string $cache_group
- *            (default is 'global') - this is the subfolder in the cache dir.
+ *                            (default is 'global') - this is the subfolder in the cache dir.
  *
- * @return boolean
+ * @return bool
  *
- * @package Cache
  * @example
  * <code>
  * //delete the cache for the content
@@ -437,20 +430,14 @@ function cache_debug() {
  * //delete the cache for your custom table eg. my_table
  * cache_clear("my_table");
  * </code>
- *
  */
-function cache_clear($cache_group = 'global') {
-
+function cache_clear($cache_group = 'global')
+{
     return mw()->cache_manager->delete($cache_group);
-
-
 }
 
 //same as cache_clear
-function cache_delete($cache_group = 'global') {
-
+function cache_delete($cache_group = 'global')
+{
     return mw()->cache_manager->delete($cache_group);
-
-
 }
-

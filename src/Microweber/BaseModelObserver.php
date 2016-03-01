@@ -2,14 +2,11 @@
 
 class BaseModelObserver
 {
-
     protected function clearCache($model)
     {
-
         $model_name = $model->table;
 
         Cache::tags($model_name)->flush();
-
 
 //        $ql = DB::getQueryLog();
 //        $ql = end($ql);

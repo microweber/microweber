@@ -11,18 +11,18 @@ namespace QueryPath;
  *
  * @ingroup querypath_util
  */
-class Entities {
-
-  /**
-   * This is three regexes wrapped into 1. The | divides them.
-   * 1: Match any char-based entity. This will go in $matches[1]
-   * 2: Match any num-based entity. This will go in $matches[2]
-   * 3: Match any hex-based entry. This will go in $matches[3]
-   * 4: Match any ampersand that is not an entity. This goes in $matches[4]
-   *    This last rule will only match if one of the previous two has not already
-   *    matched.
-   * XXX: Are octal encodings for entities acceptable?
-   */
+class Entities
+{
+    /**
+ * This is three regexes wrapped into 1. The | divides them.
+ * 1: Match any char-based entity. This will go in $matches[1]
+ * 2: Match any num-based entity. This will go in $matches[2]
+ * 3: Match any hex-based entry. This will go in $matches[3]
+ * 4: Match any ampersand that is not an entity. This goes in $matches[4]
+ *    This last rule will only match if one of the previous two has not already
+ *    matched.
+ * XXX: Are octal encodings for entities acceptable?
+ */
   //protected static $regex = '/&([\w]+);|&#([\d]+);|&([\w]*[\s$]+)/m';
   protected static $regex = '/&([\w]+);|&#([\d]+);|&#(x[0-9a-fA-F]+);|(&)/m';
 
@@ -34,12 +34,14 @@ class Entities {
    *
    * @param string $string
    *  The string to perform replacements on.
+   *
    * @return string
    *  Returns a string that is similar to the original one, but with
    *  all entity replacements made.
    */
-  public static function replaceAllEntities($string) {
-    return preg_replace_callback(self::$regex, '\QueryPath\Entities::doReplacement', $string);
+  public static function replaceAllEntities($string)
+  {
+      return preg_replace_callback(self::$regex, '\QueryPath\Entities::doReplacement', $string);
   }
 
   /**
@@ -48,21 +50,22 @@ class Entities {
    * @param array $matches
    *  The regular expression replacement array.
    */
-  protected static function doReplacement($matches) {
-    // See how the regex above works out.
+  protected static function doReplacement($matches)
+  {
+      // See how the regex above works out.
     //print_r($matches);
 
     // From count, we can tell whether we got a
     // char, num, or bare ampersand.
     $count = count($matches);
-    switch ($count) {
+      switch ($count) {
       case 2:
         // We have a character entity
-        return '&#' . self::replaceEntity($matches[1]) . ';';
+        return '&#'.self::replaceEntity($matches[1]).';';
       case 3:
       case 4:
         // we have a numeric entity
-        return '&#' . $matches[$count-1] . ';';
+        return '&#'.$matches[$count - 1].';';
       case 5:
         // We have an unescaped ampersand.
         return '&#38;';
@@ -74,13 +77,16 @@ class Entities {
    *
    * @param string $entity
    *  The entity whose numeric value is needed.
+   *
    * @return int
    *  The integer value corresponding to the entity.
+   *
    * @author Matt Butcher
    * @author Ryan Mahoney
    */
-  public static function replaceEntity($entity) {
-    return self::$entity_array[$entity];
+  public static function replaceEntity($entity)
+  {
+      return self::$entity_array[$entity];
   }
 
   /**
@@ -92,6 +98,7 @@ class Entities {
    * This code comes from Rhizome ({@link http://code.google.com/p/sinciput})
    *
    * @todo See if we can do this as a const.
+   *
    * @see get_html_translation_table()
    */
   private static $entity_array = array(
@@ -156,7 +163,6 @@ class Entities {
     'perp' => 8869, 'sdot' => 8901, 'lceil' => 8968, 'rceil' => 8969,
     'lfloor' => 8970, 'rfloor' => 8971, 'lang' => 9001, 'rang' => 9002,
     'loz' => 9674, 'spades' => 9824, 'clubs' => 9827, 'hearts' => 9829,
-    'diams' => 9830
+    'diams' => 9830,
   );
 }
-

@@ -9,17 +9,18 @@
  * top-level pluggable registry that will allow custom pseudoclasses.
  * For now, though, we just handle the core pseudoclasses.
  */
+
 namespace QueryPath\CSS\DOMTraverser;
 
-use \QueryPath\CSS\NotImplementedException;
-use \QueryPath\CSS\EventHandler;
+use QueryPath\CSS\NotImplementedException;
+use QueryPath\CSS\EventHandler;
+
 /**
  *  The PseudoClass handler.
- *
  */
-class PseudoClass {
-
-  /**
+class PseudoClass
+{
+    /**
    * Tests whether the given element matches the given pseudoclass.
    *
    * @param string $pseudoclass
@@ -34,10 +35,11 @@ class PseudoClass {
    * @retval boolean
    *   TRUE if the node matches, FALSE otherwise.
    */
-  public function elementMatches($pseudoclass, $node, $scope, $value = NULL) {
-    $name = strtolower($pseudoclass);
+  public function elementMatches($pseudoclass, $node, $scope, $value = null)
+  {
+      $name = strtolower($pseudoclass);
     // Need to handle known pseudoclasses.
-    switch($name) {
+    switch ($name) {
       case 'current':
       case 'past':
       case 'future':
@@ -65,15 +67,16 @@ class PseudoClass {
         // FIXME: Can we do this for HTML?
       case 'target':
         // This requires a location URL, which we don't have.
-        return FALSE;
+        return false;
       case 'indeterminate':
         // Because sometimes screwing with people is fun.
         return (boolean) mt_rand(0, 1);
       case 'lang':
         // No value = exception.
         if (!isset($value)) {
-          throw new NotImplementedException(":lang() requires a value.");
+            throw new NotImplementedException(':lang() requires a value.');
         }
+
         return $this->lang($node, $value);
       case 'any-link':
         return Util::matchesAttribute($node, 'href')
@@ -101,11 +104,11 @@ class PseudoClass {
       case 'nth-child':
         return $this->isNthChild($node, $value);
       case 'nth-last-child':
-        return $this->isNthChild($node, $value, TRUE);
+        return $this->isNthChild($node, $value, true);
       case 'nth-of-type':
-        return $this->isNthChild($node, $value, FALSE, TRUE);
+        return $this->isNthChild($node, $value, false, true);
       case 'nth-last-of-type':
-        return $this->isNthChild($node, $value, TRUE, TRUE);
+        return $this->isNthChild($node, $value, true, true);
       case 'first-of-type':
         return $this->isFirstOfType($node);
       case 'last-of-type':
@@ -118,13 +121,15 @@ class PseudoClass {
         // I'm treating this as "less than or equal to".
         $rule = sprintf('-n + %d', (int) $value);
         $rule = '-n+15';
+
         return $this->isNthChild($node, $rule);
       case 'gt':
         // I'm treating this as "greater than"
         return $this->nodePositionFromEnd($node) > (int) $value;
       case 'nth':
       case 'eq':
-        $rule = (int)$value;
+        $rule = (int) $value;
+
         return $this->isNthChild($node, $rule);
       case 'first':
         return $this->isNthChild($node, 1);
@@ -163,8 +168,9 @@ class PseudoClass {
         break;
       case 'not':
         if (empty($value)) {
-          throw new ParseException(":not() requires a value.");
+            throw new ParseException(':not() requires a value.');
         }
+
         return $this->isNot($node, $value);
       // Contains == text matches.
       // In QP 2.1, this was changed.
@@ -174,63 +180,65 @@ class PseudoClass {
       case 'contains-exactly':
         return $this->containsExactly($node, $value);
       default:
-        throw new \QueryPath\CSS\ParseException("Unknown Pseudo-Class: " . $name);
+        throw new \QueryPath\CSS\ParseException('Unknown Pseudo-Class: '.$name);
     }
-    $this->findAnyElement = FALSE;
+      $this->findAnyElement = false;
   }
 
   /**
-   * Pseudo-class handler for :lang
+   * Pseudo-class handler for :lang.
    *
    * Note that this does not implement the spec in its entirety because we do
    * not presume to "know the language" of the document. If anyone is interested
    * in making this more intelligent, please do so.
    */
-  protected function lang($node, $value) {
-    // TODO: This checks for cases where an explicit language is
+  protected function lang($node, $value)
+  {
+      // TODO: This checks for cases where an explicit language is
     // set. The spec seems to indicate that an element should inherit
     // language from the parent... but this is unclear.
-    $operator = (strpos($value, '-') !== FALSE) ? EventHandler::isExactly : EventHandler::containsWithHyphen;
+    $operator = (strpos($value, '-') !== false) ? EventHandler::isExactly : EventHandler::containsWithHyphen;
 
-    $match = TRUE;
-    foreach ($node->attributes as $attrNode) {
-      if ($attrNode->localName == 'lang') {
-
-        if ($attrNode->nodeName == $attrNode->localName) {
-          // fprintf(STDOUT, "%s in NS %s\n", $attrNode->name, $attrNode->nodeName);
+      $match = true;
+      foreach ($node->attributes as $attrNode) {
+          if ($attrNode->localName == 'lang') {
+              if ($attrNode->nodeName == $attrNode->localName) {
+                  // fprintf(STDOUT, "%s in NS %s\n", $attrNode->name, $attrNode->nodeName);
           return Util::matchesAttribute($node, 'lang', $value, $operator);
-        }
-        else {
-          $nsuri = $attrNode->namespaceURI;
+              } else {
+                  $nsuri = $attrNode->namespaceURI;
           // fprintf(STDOUT, "%s in NS %s\n", $attrNode->name, $nsuri);
           return Util::matchesAttributeNS($node, 'lang', $nsuri, $value, $operator);
-        }
-
+              }
+          }
       }
-    }
-    return FALSE;
+
+      return false;
   }
 
   /**
    * Provides jQuery pseudoclass ':header'.
    */
-  protected function header($node) {
-    return preg_match('/^h[1-9]$/i', $node->tagName) == 1;
+  protected function header($node)
+  {
+      return preg_match('/^h[1-9]$/i', $node->tagName) == 1;
   }
 
   /**
    * Provides pseudoclass :empty.
    */
-  protected function isEmpty($node) {
-    foreach ($node->childNodes as $kid) {
-      // We don't want to count PIs and comments. From the spec, it
+  protected function isEmpty($node)
+  {
+      foreach ($node->childNodes as $kid) {
+          // We don't want to count PIs and comments. From the spec, it
       // appears that CDATA is also not counted.
       if ($kid->nodeType == XML_ELEMENT_NODE || $kid->nodeType == XML_TEXT_NODE) {
-        // As soon as we hit a FALSE, return.
-        return FALSE;
+          // As soon as we hit a FALSE, return.
+        return false;
       }
-    }
-    return TRUE;
+      }
+
+      return true;
   }
 
   /**
@@ -239,124 +247,143 @@ class PseudoClass {
    * @todo
    *   This can be replaced by isNthChild().
    */
-  protected function isFirst($node) {
-    while (isset($node->previousSibling)) {
-      $node = $node->previousSibling;
-      if ($node->nodeType == XML_ELEMENT_NODE) {
-        return FALSE;
+  protected function isFirst($node)
+  {
+      while (isset($node->previousSibling)) {
+          $node = $node->previousSibling;
+          if ($node->nodeType == XML_ELEMENT_NODE) {
+              return false;
+          }
       }
-    }
-    return TRUE;
+
+      return true;
   }
   /**
    * Fast version of first-of-type.
    */
-  protected function isFirstOfType($node) {
-    $type = $node->tagName;
-    while (isset($node->previousSibling)) {
-      $node = $node->previousSibling;
-      if ($node->nodeType == XML_ELEMENT_NODE && $node->tagName == $type) {
-        return FALSE;
+  protected function isFirstOfType($node)
+  {
+      $type = $node->tagName;
+      while (isset($node->previousSibling)) {
+          $node = $node->previousSibling;
+          if ($node->nodeType == XML_ELEMENT_NODE && $node->tagName == $type) {
+              return false;
+          }
       }
-    }
-    return TRUE;
+
+      return true;
   }
   /**
    * Fast version of jQuery :last.
    */
-  protected function isLast($node) {
-    while (isset($node->nextSibling)) {
-      $node = $node->nextSibling;
-      if ($node->nodeType == XML_ELEMENT_NODE) {
-        return FALSE;
+  protected function isLast($node)
+  {
+      while (isset($node->nextSibling)) {
+          $node = $node->nextSibling;
+          if ($node->nodeType == XML_ELEMENT_NODE) {
+              return false;
+          }
       }
-    }
-    return TRUE;
+
+      return true;
   }
   /**
    * Provides last-of-type.
    */
-  protected function isLastOfType($node) {
-    $type = $node->tagName;
-    while (isset($node->nextSibling)) {
-      $node = $node->nextSibling;
-      if ($node->nodeType == XML_ELEMENT_NODE && $node->tagName == $type) {
-        return FALSE;
+  protected function isLastOfType($node)
+  {
+      $type = $node->tagName;
+      while (isset($node->nextSibling)) {
+          $node = $node->nextSibling;
+          if ($node->nodeType == XML_ELEMENT_NODE && $node->tagName == $type) {
+              return false;
+          }
       }
-    }
-    return TRUE;
+
+      return true;
   }
   /**
    * Provides :contains() as the original spec called for.
    *
    * This is an INEXACT match.
    */
-  protected function contains($node, $value) {
-    $text = $node->textContent;
-    $value = Util::removeQuotes($value);
-    return isset($text) && (stripos($text, $value) !== FALSE);
+  protected function contains($node, $value)
+  {
+      $text = $node->textContent;
+      $value = Util::removeQuotes($value);
+
+      return isset($text) && (stripos($text, $value) !== false);
   }
   /**
    * Provides :contains-exactly QueryPath pseudoclass.
    *
    * This is an EXACT match.
    */
-  protected function containsExactly($node, $value) {
-    $text = $node->textContent;
-    $value = Util::removeQuotes($value);
-    return isset($text) && $text == $value;
+  protected function containsExactly($node, $value)
+  {
+      $text = $node->textContent;
+      $value = Util::removeQuotes($value);
+
+      return isset($text) && $text == $value;
   }
 
   /**
    * Provides :has pseudoclass.
    */
-  protected function has($node, $selector) {
-    $splos = new \SPLObjectStorage();
-    $splos->attach($node);
-    $traverser = new \QueryPath\CSS\DOMTraverser($splos, TRUE);
-    $results = $traverser->find($selector)->matches();
-    return count($results) > 0;
+  protected function has($node, $selector)
+  {
+      $splos = new \SPLObjectStorage();
+      $splos->attach($node);
+      $traverser = new \QueryPath\CSS\DOMTraverser($splos, true);
+      $results = $traverser->find($selector)->matches();
+
+      return count($results) > 0;
   }
 
   /**
    * Provides :not pseudoclass.
    */
-  protected function isNot($node, $selector) {
-    return !$this->has($node, $selector);
+  protected function isNot($node, $selector)
+  {
+      return !$this->has($node, $selector);
   }
 
   /**
    * Get the relative position of a node in its sibling set.
    */
-  protected function nodePositionFromStart($node, $byType = FALSE) {
-    $i = 1;
-    $tag = $node->tagName;
-    while (isset($node->previousSibling)) {
-      $node = $node->previousSibling;
-      if ($node->nodeType == XML_ELEMENT_NODE && (!$byType || $node->tagName == $tag)) {
-        ++$i;
+  protected function nodePositionFromStart($node, $byType = false)
+  {
+      $i = 1;
+      $tag = $node->tagName;
+      while (isset($node->previousSibling)) {
+          $node = $node->previousSibling;
+          if ($node->nodeType == XML_ELEMENT_NODE && (!$byType || $node->tagName == $tag)) {
+              ++$i;
+          }
       }
-    }
-    return $i;
+
+      return $i;
   }
   /**
    * Get the relative position of a node in its sibling set.
    */
-  protected function nodePositionFromEnd($node, $byType = FALSE) {
-    $i = 1;
-    $tag = $node->tagName;
-    while (isset($node->nextSibling)) {
-      $node = $node->nextSibling;
-      if ($node->nodeType == XML_ELEMENT_NODE && (!$byType || $node->tagName == $tag)) {
-        ++$i;
+  protected function nodePositionFromEnd($node, $byType = false)
+  {
+      $i = 1;
+      $tag = $node->tagName;
+      while (isset($node->nextSibling)) {
+          $node = $node->nextSibling;
+          if ($node->nodeType == XML_ELEMENT_NODE && (!$byType || $node->tagName == $tag)) {
+              ++$i;
+          }
       }
-    }
-    return $i;
+
+      return $i;
   }
 
   /**
    * Provides functionality for all "An+B" rules.
-   * Provides ntoh-child and also the functionality required for:
+   * Provides ntoh-child and also the functionality required for:.
    *
    *- nth-last-child
    *- even
@@ -372,49 +399,49 @@ class PseudoClass {
    *
    * See also QueryPath::CSS::DOMTraverser::Util::parseAnB().
    */
-  protected function isNthChild($node, $value, $reverse = FALSE, $byType = FALSE) {
-    list($groupSize, $elementInGroup) = Util::parseAnB($value);
-    $parent = $node->parentNode;
-    if (empty($parent)
+  protected function isNthChild($node, $value, $reverse = false, $byType = false)
+  {
+      list($groupSize, $elementInGroup) = Util::parseAnB($value);
+      $parent = $node->parentNode;
+      if (empty($parent)
       || ($groupSize == 0 && $elementInGroup == 0)
       || ($groupSize > 0 && $elementInGroup > $groupSize)
     ) {
-      return FALSE;
-    }
+          return false;
+      }
 
     // First we need to find the position of $node in other elements.
     if ($reverse) {
-      $pos = $this->nodePositionFromEnd($node, $byType);
-    }
-    else {
-      $pos = $this->nodePositionFromStart($node, $byType);
+        $pos = $this->nodePositionFromEnd($node, $byType);
+    } else {
+        $pos = $this->nodePositionFromStart($node, $byType);
     }
 
     // If group size is 0, we just check to see if this
     // is the nth element:
     if ($groupSize == 0) {
-      return $pos == $elementInGroup;
+        return $pos == $elementInGroup;
     }
 
     // Next, we normalize $elementInGroup
     if ($elementInGroup < 0) {
-      $elementInGroup = $groupSize + $elementInGroup;
+        $elementInGroup = $groupSize + $elementInGroup;
     }
 
-
-    $prod = ($pos - $elementInGroup) / $groupSize;
+      $prod = ($pos - $elementInGroup) / $groupSize;
     // fprintf(STDOUT, "%d n + %d on %d is %3.5f\n", $groupSize, $elementInGroup, $pos, $prod);
 
     return is_int($prod) && $prod >= 0;
   }
 
-  protected function isLocalLink($node) {
-    if (!$node->hasAttribute('href')) {
-      return FALSE;
-    }
-    $url = $node->getAttribute('href');
-    $scheme = parse_url($url, PHP_URL_SCHEME);
-    return empty($scheme) || $scheme == 'file';
-  }
+    protected function isLocalLink($node)
+    {
+        if (!$node->hasAttribute('href')) {
+            return false;
+        }
+        $url = $node->getAttribute('href');
+        $scheme = parse_url($url, PHP_URL_SCHEME);
 
+        return empty($scheme) || $scheme == 'file';
+    }
 }

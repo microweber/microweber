@@ -1,4 +1,6 @@
-<?php namespace Microweber\Install\Schema;
+<?php
+
+namespace Microweber\Install\Schema;
 
 class Base
 {
@@ -29,7 +31,7 @@ class Base
             'is_system' => 'integer',
             'version' => 'string',
             'notifications' => 'integer',
-            'settings' => 'text'
+            'settings' => 'text',
 
         ];
 
@@ -65,7 +67,7 @@ class Base
                 'service_id' => 'integer',
                 'billing_cycle' => 'text',
                 'reg_on' => 'dateTime',
-                'due_on' => 'dateTime'
+                'due_on' => 'dateTime',
             ],
 
             'users' => [
@@ -80,11 +82,11 @@ class Base
                 'password' => 'string',
                 'email' => 'string',
                 'remember_token' => 'string',
-                'is_active' => "integer",
-                'is_admin' => "integer",
-                'is_verified' => "integer",
-                'is_public' => "integer",
-                'basic_mode' => "string",
+                'is_active' => 'integer',
+                'is_admin' => 'integer',
+                'is_verified' => 'integer',
+                'is_public' => 'integer',
+                'basic_mode' => 'string',
                 'first_name' => 'string',
                 'last_name' => 'string',
                 'thumbnail' => 'string',
@@ -101,7 +103,7 @@ class Base
                 'profile_url' => 'string',
                 'website_url' => 'string',
                 'password_reset_hash' => 'string',
-                '$index' => ['username', 'email']
+                '$index' => ['username', 'email'],
             ],
 
             'users_oauth' => [
@@ -112,7 +114,7 @@ class Base
                 'data_email' => 'string',
                 'data_token' => 'string',
                 'data_avatar' => 'string',
-                'data_raw' => 'string'
+                'data_raw' => 'string',
             ],
 
             'log' => [
@@ -132,7 +134,7 @@ class Base
                 'content' => 'text',
                 'user_ip' => 'text',
                 'session_id' => 'text',
-                'is_system' => "string"
+                'is_system' => 'string',
             ],
 
             'notifications' => [
@@ -147,8 +149,8 @@ class Base
                 'module' => 'text',
                 'title' => 'text',
                 'description' => 'text',
-                'content' => 'text'
-            ]
+                'content' => 'text',
+            ],
         ];
     }
 }

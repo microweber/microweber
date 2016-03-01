@@ -1,9 +1,8 @@
 <?php
+
 namespace Microweber\Utils\Adapters\Event;
 
-
 use Illuminate\Support\Facades\Event;
-
 
 class LaravelEvent
 {
@@ -17,6 +16,7 @@ class LaravelEvent
     /**
      * @param $api_function
      * @param mixed $data
+     *
      * @return mixed
      */
     public static function fire($api_function, $data = false)

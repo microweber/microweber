@@ -1,4 +1,6 @@
-<?php namespace Microweber\Install\Schema;
+<?php
+
+namespace Microweber\Install\Schema;
 
 class Comments
 {
@@ -16,15 +18,15 @@ class Comments
                 'comment_body' => 'longText',
                 'comment_email' => 'string',
                 'comment_website' => 'string',
-                'is_moderated' => "integer",
+                'is_moderated' => 'integer',
                 'from_url' => 'string',
                 'comment_subject' => 'string',
 
-                'is_new' => "integer",
+                'is_new' => 'integer',
 
-                'send_email' => "integer",
-                'session_id' => 'string'
-            ]
+                'send_email' => 'integer',
+                'session_id' => 'string',
+            ],
         ];
     }
 }

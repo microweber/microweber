@@ -1,5 +1,5 @@
 <?php
-/** @mainpage QueryPath: Find Your Way
+/* @mainpage QueryPath: Find Your Way
  * @image html querypath-200x333.png
  * QueryPath is a PHP library for working with XML and HTML. It is a PHP implementation of jQuery's
  * traversal and modification libraries.
@@ -91,9 +91,8 @@
  * QueryPathExtension is the master interface for all extensions.
  *
  */
- 
 
-/** @page CSSReference CSS Selector Reference
+/* @page CSSReference CSS Selector Reference
  * QueryPath provides two query 'languages' that you can use to search through XML and HTML 
  * documents. The main query language is an implementation of the CSS3 Selectors specification. This
  * is the query language that jQuery and CSS use -- and more recently, FireFox itself supports it

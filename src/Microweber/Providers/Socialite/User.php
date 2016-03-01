@@ -1,15 +1,17 @@
-<?php namespace Microweber\Providers\Socialite;
+<?php
+
+namespace Microweber\Providers\Socialite;
 
 use Laravel\Socialite\AbstractUser;
 
 class User extends AbstractUser
 {
-	public $token;
+    public $token;
 
-	public function setToken($token)
-	{
-		$this->token = $token;
+    public function setToken($token)
+    {
+        $this->token = $token;
 
-		return $this;
-	}
+        return $this;
+    }
 }

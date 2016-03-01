@@ -3,7 +3,9 @@
  * @file
  * The extension registry.
  */
+
 namespace QueryPath;
+
 /**
  * A registry for QueryPath extensions.
  *
@@ -21,29 +23,31 @@ namespace QueryPath;
  *
  * @ingroup querypath_extensions
  */
-class ExtensionRegistry {
-  /**
+class ExtensionRegistry
+{
+    /**
    * Internal flag indicating whether or not the registry should
    * be used for automatic extension loading. If this is false, then
    * implementations should not automatically load extensions.
    */
-  public static $useRegistry = TRUE;
+  public static $useRegistry = true;
   /**
    * The extension registry. This should consist of an array of class
    * names.
    */
   protected static $extensionRegistry = array();
-  protected static $extensionMethodRegistry = array();
+    protected static $extensionMethodRegistry = array();
   /**
    * Extend a Query with the given extension class.
    */
-  public static function extend($classname) {
-    self::$extensionRegistry[] = $classname;
-    $class = new \ReflectionClass($classname);
-    $methods = $class->getMethods();
-    foreach ($methods as $method) {
-      self::$extensionMethodRegistry[$method->getName()] = $classname;
-    }
+  public static function extend($classname)
+  {
+      self::$extensionRegistry[] = $classname;
+      $class = new \ReflectionClass($classname);
+      $methods = $class->getMethods();
+      foreach ($methods as $method) {
+          self::$extensionMethodRegistry[$method->getName()] = $classname;
+      }
   }
 
   /**
@@ -53,11 +57,13 @@ class ExtensionRegistry {
    *
    * @param string $name
    *  The name of the method to search for.
-   * @return boolean
+   *
+   * @return bool
    *  TRUE if the method exists, false otherwise.
    */
-  public static function hasMethod($name) {
-    return isset(self::$extensionMethodRegistry[$name]);
+  public static function hasMethod($name)
+  {
+      return isset(self::$extensionMethodRegistry[$name]);
   }
 
   /**
@@ -68,11 +74,13 @@ class ExtensionRegistry {
    *
    * @param string $name
    *  The name of the class.
-   * @return boolean
+   *
+   * @return bool
    *  TRUE if the class is registered, FALSE otherwise.
    */
-  public static function hasExtension($name) {
-    return in_array($name, self::$extensionRegistry);
+  public static function hasExtension($name)
+  {
+      return in_array($name, self::$extensionRegistry);
   }
 
   /**
@@ -86,11 +94,13 @@ class ExtensionRegistry {
    *
    * @param string $name
    *  The name of the method.
+   *
    * @return string
    *  The name of the class.
    */
-  public static function getMethodClass($name) {
-    return self::$extensionMethodRegistry[$name];
+  public static function getMethodClass($name)
+  {
+      return self::$extensionMethodRegistry[$name];
   }
 
   /**
@@ -102,20 +112,24 @@ class ExtensionRegistry {
    *
    * @param Query $qp
    *  The Query into which the extensions should be registered.
+   *
    * @return array
    *  An associative array of classnames to instances.
    */
-  public static function getExtensions(Query $qp) {
-    $extInstances = array();
-    foreach (self::$extensionRegistry as $ext) {
-      $extInstances[$ext] = new $ext($qp);
-    }
-    return $extInstances;
+  public static function getExtensions(Query $qp)
+  {
+      $extInstances = array();
+      foreach (self::$extensionRegistry as $ext) {
+          $extInstances[$ext] = new $ext($qp);
+      }
+
+      return $extInstances;
   }
 
-  public static function extensionNames() {
-    return self::$extensionRegistry;
-  }
+    public static function extensionNames()
+    {
+        return self::$extensionRegistry;
+    }
 
   /**
    * Enable or disable automatic extension loading.
@@ -124,7 +138,8 @@ class ExtensionRegistry {
    * automatically load all registred extensions when a new Query
    * object is created using qp().
    */
-  public static function autoloadExtensions($boolean = TRUE) {
-    self::$useRegistry = $boolean;
+  public static function autoloadExtensions($boolean = true)
+  {
+      self::$useRegistry = $boolean;
   }
 }

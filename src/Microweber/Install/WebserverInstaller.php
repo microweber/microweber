@@ -1,12 +1,11 @@
 <?php
+
 namespace Microweber\Install;
 
 class WebserverInstaller
 {
     public function run()
     {
-
-
         $prefix = 'setup';
         $prefixLenght = strlen($prefix);
         $supported = get_class_methods(get_class());
@@ -17,32 +16,33 @@ class WebserverInstaller
             }
         }
         $serverName = $this->detectServer($match);
-        $serverName = $prefix . $serverName;
+        $serverName = $prefix.$serverName;
 
         if (method_exists($this, $serverName)) {
-
             return $this->$serverName();
         } else {
             return $this->setupApache();
         }
+
         return false;
     }
 
     private function storeConfig($file, $data)
     {
-        $file = public_path() . '/' . $file;
+        $file = public_path().'/'.$file;
         $data = trim($data);
+
         return \File::put($file, $data);
     }
 
     private function detectServer($match)
     {
-        if (isset($_SERVER["SERVER_SOFTWARE"])) {
-            $server = $_SERVER["SERVER_SOFTWARE"];
+        if (isset($_SERVER['SERVER_SOFTWARE'])) {
+            $server = $_SERVER['SERVER_SOFTWARE'];
             if (stristr($server, 'Apache')) {
-                return "Apache";
-            } else if (stristr($server, 'Ngix')) {
-                return "Ngix";
+                return 'Apache';
+            } elseif (stristr($server, 'Ngix')) {
+                return 'Ngix';
             }
         }
     }
@@ -51,12 +51,11 @@ class WebserverInstaller
     {
         $forbidDirs = ['app', 'bootstrap', 'config', 'database', 'resources', 'src', 'storage', 'tests', 'vendor'];
 
-
         if (function_exists('base_path')) {
             $rwBase = base_path();
-        } else if (isset($_SERVER['SCRIPT_NAME'])) {
+        } elseif (isset($_SERVER['SCRIPT_NAME'])) {
             $rwBase = dirname($_SERVER['SCRIPT_NAME']);
-        } else if (isset($_SERVER['PHP_SELF'])) {
+        } elseif (isset($_SERVER['PHP_SELF'])) {
             $rwBase = dirname($_SERVER['PHP_SELF']);
         }
 
@@ -66,7 +65,7 @@ class WebserverInstaller
                 Options -MultiViews
             </IfModule>
             RewriteEngine On
-                # RewriteRule ^(.*)/$ ' . $rwBase . '/$1 [R=301,L]
+                # RewriteRule ^(.*)/$ '.$rwBase.'/$1 [R=301,L]
                 RewriteCond %{REQUEST_FILENAME} !-f
                 RewriteCond %{REQUEST_FILENAME} !-d
                 RewriteRule ^(.*)$ index.php [NC,L]
@@ -74,16 +73,16 @@ class WebserverInstaller
         ';
 
         foreach ($forbidDirs as $dir) {
-            $root = base_path() . DS;;
-            if (is_dir($root . $dir)) {
-                $writable_path = $dir . '/.htaccess';
+            $root = base_path().DS;
+            if (is_dir($root.$dir)) {
+                $writable_path = $dir.'/.htaccess';
                 if (is_writable($writable_path)) {
                     $this->storeConfig($writable_path, 'Deny from all');
                 }
             }
         }
 
-        $is_htaccess = public_path() . DS . '.htaccess';
+        $is_htaccess = public_path().DS.'.htaccess';
         if (!is_file($is_htaccess)) {
             return $this->storeConfig('.htaccess', $data);
         }

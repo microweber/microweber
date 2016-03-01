@@ -7,20 +7,19 @@ class DbTest extends TestCase
     public function testSimpeSave()
     {
         $save = array(
-            "content_type" => "page",
-            "subtype" => "static",
-            "title" => "one page",
-            "parent" => "0",
-            "is_deleted" => "0"
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'title' => 'one page',
+            'parent' => '0',
+            'is_deleted' => '0',
         );
         $save_post = array(
-            "content_type" => "post",
-            "subtype" => "static",
-            "title" => "one post",
-            "parent" => "0",
-            "is_deleted" => "0"
+            'content_type' => 'post',
+            'subtype' => 'static',
+            'title' => 'one post',
+            'parent' => '0',
+            'is_deleted' => '0',
         );
-
 
         $content = db_save('content', $save);
         $content2 = db_save('content', $save);
@@ -28,8 +27,6 @@ class DbTest extends TestCase
         $content4 = db_save('content', $save);
         $content5 = db_save('content', $save_post);
         $content6 = db_save('content', $save_post);
-
-
 
         $this->assertTrue(true, !$content);
         $this->assertTrue(true, !$content2);
@@ -48,7 +45,6 @@ class DbTest extends TestCase
         $this->assertTrue(true, !empty($content));
     }
 
-
     public function testSimpleCount()
     {
         $content_count = db_get('content', 'count=true');
@@ -56,18 +52,14 @@ class DbTest extends TestCase
         $this->assertTrue(true, is_int($content_count));
     }
 
-
     public function testPageCount()
     {
         $content_count = db_get('content', 'count=true');
         $pages_count = db_get('content', 'limit=2&count_paging=1');
 
-
         $must_be = intval(floor($content_count / 2));
         $this->assertEquals($pages_count, $must_be);
-
     }
-
 
     public function testOrderBy()
     {
@@ -82,7 +74,6 @@ class DbTest extends TestCase
 
     public function testLimitAndPaging()
     {
-
         $pages_count = db_get('content', 'limit=2&count_paging=1');
 
         $first_page = db_get('content', 'limit=2');
@@ -100,13 +91,11 @@ class DbTest extends TestCase
         foreach ($second_page as $item) {
             $this->assertTrue(true, isset($item['id']));
             $this->assertTrue(true, in_array($item['id'], $ids_on_first_page));
-
         }
 
         $this->assertEquals($first_page_items, $second_page_items);
         $this->assertTrue(true, ($pages_count > 1));
         $this->assertTrue(true, is_int($pages_count));
-
     }
 
     public function testIncludeExcludeIds()
@@ -121,19 +110,17 @@ class DbTest extends TestCase
         shuffle($some_ids);
         $some_ids = array_slice($some_ids, $half);
 
-        $content_ids = db_get('content', 'ids=' . implode(',', $some_ids));
+        $content_ids = db_get('content', 'ids='.implode(',', $some_ids));
         foreach ($content as $item) {
             $this->assertTrue(true, in_array($item['id'], $some_ids));
         }
         $this->assertTrue(true, is_array($content_ids));
 
-        $content_ids = db_get('content', 'exclude_ids=' . implode(',', $some_ids));
+        $content_ids = db_get('content', 'exclude_ids='.implode(',', $some_ids));
         foreach ($content as $item) {
             $this->assertTrue(true, !in_array($item['id'], $some_ids));
         }
         $this->assertTrue(true, is_array($content_ids));
-
-
     }
 
     public function testMinMaxAvg()
@@ -170,7 +157,6 @@ class DbTest extends TestCase
             $this->assertTrue(true, ($item['content_type'] != 'post'));
         }
     }
-
 
     public function testSelectOnlyfields()
     {

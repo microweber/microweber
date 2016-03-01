@@ -3,7 +3,7 @@
 $curencies = mw()->shop_manager->currency_get_for_paypal();
 //the  $currencies array now have a list of supported currencies supported by pal
 
-
+ 
 
 
 

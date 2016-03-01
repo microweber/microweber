@@ -13,6 +13,7 @@
 
 //namespace GrahamCampbell\Security;
 namespace Microweber\Utils\lib;
+
 /**
  * This is the security class.
  *
@@ -43,8 +44,6 @@ class XSSSecurity
      * Create a new security instance.
      *
      * @param string[]|null $evil
-     *
-     * @return void
      */
     public function __construct(array $evil = null)
     {
@@ -70,7 +69,7 @@ class XSSSecurity
 
         $i = 0;
         do {
-            $i++;
+            ++$i;
             $processed = $this->process($str);
         } while ($i < 3 && $processed !== $str);
 
@@ -229,7 +228,7 @@ class XSSSecurity
 
                 $replace = [];
                 $matches = array_unique(array_map('strtolower', $matches[0]));
-                for ($i = 0, $c = count($matches); $i < $c; $i++) {
+                for ($i = 0, $c = count($matches); $i < $c; ++$i) {
                     if (($char = array_search(array_get($matches, $i).';', $entities, true)) !== false) {
                         $replace[array_get($matches, $i)] = $char;
                     }
@@ -391,15 +390,15 @@ class XSSSecurity
     protected function doNeverAllowed($str)
     {
         $never = [
-            'document.cookie'   => '[removed]',
-            'document.write'    => '[removed]',
-            '.parentNode'       => '[removed]',
-            '.innerHTML'        => '[removed]',
-            '-moz-binding'      => '[removed]',
-            '<!--'              => '&lt;!--',
-            '-->'               => '--&gt;',
-            '<![CDATA['         => '&lt;![CDATA[',
-            '<comment>'         => '&lt;comment&gt;',
+            'document.cookie' => '[removed]',
+            'document.write' => '[removed]',
+            '.parentNode' => '[removed]',
+            '.innerHTML' => '[removed]',
+            '-moz-binding' => '[removed]',
+            '<!--' => '&lt;!--',
+            '-->' => '--&gt;',
+            '<![CDATA[' => '&lt;![CDATA[',
+            '<comment>' => '&lt;comment&gt;',
         ];
 
         $str = str_replace(array_keys($never), $never, $str);

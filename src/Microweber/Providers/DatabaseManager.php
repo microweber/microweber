@@ -12,17 +12,13 @@
 namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Microweber\Providers\Database\Utils as DbUtils;
 use Microweber\Traits\QueryFilter;
 use Microweber\Traits\ExtendedSave;
-use Illuminate\Support\Facades\User as DefaultUserProvider;
 
 class DatabaseManager extends DbUtils
 {
-
-
     public $use_cache = true;
 
     /** @var \Microweber\Application  */
@@ -31,7 +27,7 @@ class DatabaseManager extends DbUtils
     use QueryFilter; //trait with db functions
     use ExtendedSave; //trait to save extended data, such as attributes, categories and images
 
-    function __construct($app = null)
+    public function __construct($app = null)
     {
         if (!is_object($this->app)) {
             if (is_object($app)) {
@@ -40,12 +36,10 @@ class DatabaseManager extends DbUtils
                 $this->app = mw();
             }
         }
-
     }
 
-
     /**
-     * Get items from the database
+     * Get items from the database.
      *
      * You can use this handy function to get whatever you need from any db table.
      *
@@ -68,38 +62,32 @@ class DatabaseManager extends DbUtils
      *| limit            | limit the results |  ex. get("table=content&limit=5")
      *| curent_page    | get the current page by limit offset |  ex. get("table=content&limit=5&curent_page=2")
      *
-     *
      * @param string|array $params parameters for the DB
-     * @param string $params ['table'] the table name ex. content
-     * @param string $params ['debug'] if true print the sql
-     * @param string $params ['cache_group'] sets the cache folder to use to cache the query result
-     * @param string $params ['no_cache']  if true it will no cache the sql
-     * @param string $params ['count']  if true it will return results count
-     * @param string $params ['page_count']  if true it will return pages count
+     * @param string       $params ['table'] the table name ex. content
+     * @param string       $params ['debug'] if true print the sql
+     * @param string       $params ['cache_group'] sets the cache folder to use to cache the query result
+     * @param string       $params ['no_cache']  if true it will no cache the sql
+     * @param string       $params ['count']  if true it will return results count
+     * @param string       $params ['page_count']  if true it will return pages count
      * @param string|array $params ['limit']  if set it will limit the results
      *
      * @function get
+     *
      * @return mixed Array with data or false or integer if page_count is set
-     *
-     *
      *
      * @example
      * <code>
      * //get content
      *  $results = $this->get("table=content&is_active=1");
      * </code>
-     *
      * @example
      *  <code>
      *  //get users
      *  $results = $this->get("table=users&is_admin=0");
      * </code>
-     *
-     * @package Database
      */
     public function get($table, $params = null)
     {
-
         if ($params === null) {
             $params = $table;
         } else {
@@ -125,14 +113,12 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-
         $use_connection = false;
 
         if (isset($params['connection_name']) and !isset($_REQUEST['connection_name'])) {
             $use_connection = $params['connection_name'];
             unset($params['connection_name']);
         }
-
 
         if ($use_connection == false) {
             $query = $this->table($table);
@@ -148,13 +134,11 @@ class DatabaseManager extends DbUtils
         }
         if (isset($params['no_limit'])) {
             unset($params['limit']);
-
         }
 
         if (isset($orig_params['page_count'])) {
             $orig_params['count_paging'] = $orig_params['page_count'];
         }
-
 
         if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
             if (isset($params['limit'])) {
@@ -172,7 +156,6 @@ class DatabaseManager extends DbUtils
                 unset($params['current_page']);
             }
             $orig_params['count'] = true;
-
         }
 
         if (isset($params['orderby'])) {
@@ -200,15 +183,13 @@ class DatabaseManager extends DbUtils
 
         $query = $this->map_values_to_query($query, $params);
 
-
         $ttl = $this->table_cache_ttl;
 
         if (!isset($params['no_limit'])) {
-            $cache_key = $table . crc32(serialize($orig_params) . $this->default_limit);
+            $cache_key = $table.crc32(serialize($orig_params).$this->default_limit);
         } else {
-            $cache_key = $table . crc32(serialize($params));
+            $cache_key = $table.crc32(serialize($params));
         }
-
 
         if (is_array($params) and !empty($params)) {
             $query = $query->where($params);
@@ -221,35 +202,37 @@ class DatabaseManager extends DbUtils
                 $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                     return $query->count();
                 });
-
             }
             if ($items_per_page != false) {
                 $query = intval(floor($query / $items_per_page));
-
             }
+
             return $query;
         }
         if (isset($orig_params['min']) and ($orig_params['min'])) {
             $column = $orig_params['min'];
             $query = $query->min($column);
+
             return $query;
         }
         if (isset($orig_params['max']) and ($orig_params['max'])) {
             $column = $orig_params['max'];
             $query = $query->max($column);
+
             return $query;
         }
         if (isset($orig_params['avg']) and ($orig_params['avg'])) {
             $column = $orig_params['avg'];
             $query = $query->avg($column);
+
             return $query;
         }
         if (isset($orig_params['sum']) and ($orig_params['sum'])) {
             $column = $orig_params['sum'];
             $query = $query->sum($column);
+
             return $query;
         }
-
 
         if ($use_cache == false) {
             $data = $query->get();
@@ -264,7 +247,7 @@ class DatabaseManager extends DbUtils
         }
         if (is_array($data)) {
             foreach ($data as $k => $v) {
-                $data[$k] = (array)$v;
+                $data[$k] = (array) $v;
             }
         }
         if (empty($data)) {
@@ -272,7 +255,6 @@ class DatabaseManager extends DbUtils
         } else {
             $data = $this->app->url_manager->replace_site_url_back($data);
         }
-
 
         if (!is_array($data)) {
             return $data;
@@ -284,21 +266,22 @@ class DatabaseManager extends DbUtils
             }
 
             if (is_object($data[0]) and isset($data[0]->id)) {
-                return (array)$data[0];
+                return (array) $data[0];
             }
 
             return $data[0];
         }
+
         return $data;
     }
 
-
     /**
-     * Generic save data function, it saves data to the database
+     * Generic save data function, it saves data to the database.
      *
      * @param $table
      * @param $data
      * @param bool $data_to_save_options
+     *
      * @return string|int The id of the saved row.
      *
      * @example
@@ -310,11 +293,9 @@ class DatabaseManager extends DbUtils
      * $data['content'] = '<p>Something</p>';
      * $save = save($table, $data);
      * </code>
-     * @package Database
      */
     public function save($table, $data = false, $data_to_save_options = false)
     {
-
         if (is_array($table) and isset($table['table'])) {
             $data = $table;
             $table = $table['table'];
@@ -337,18 +318,17 @@ class DatabaseManager extends DbUtils
         if (!isset($params['skip_timestamps'])) {
             if (!isset($params['id']) or (isset($params['id']) and $params['id'] == 0)) {
                 if (!isset($params['created_at'])) {
-                    $params['created_at'] = date("Y-m-d H:i:s");
+                    $params['created_at'] = date('Y-m-d H:i:s');
                 }
             }
             if (!isset($params['updated_at'])) {
-                $params['updated_at'] = date("Y-m-d H:i:s");
+                $params['updated_at'] = date('Y-m-d H:i:s');
             }
         }
 
-
         if ($is_quick == false) {
             if (isset($data['updated_at']) == false) {
-                $data['updated_at'] = date("Y-m-d H:i:s");
+                $data['updated_at'] = date('Y-m-d H:i:s');
             }
         }
 
@@ -362,7 +342,6 @@ class DatabaseManager extends DbUtils
 
         $user_sid = $this->app->user_manager->session_id();
         $the_user_id = $this->app->user_manager->id();
-
 
         if (!isset($data['session_id']) and $user_sid) {
             $data['session_id'] = $user_sid;
@@ -405,7 +384,7 @@ class DatabaseManager extends DbUtils
         }
         if (intval($data['id']) == 0) {
             if (isset($data['created_at']) == false) {
-                $data['created_at'] = date("Y-m-d H:i:s");
+                $data['created_at'] = date('Y-m-d H:i:s');
             }
             if ($the_user_id) {
                 $data['created_by'] = $the_user_id;
@@ -423,13 +402,11 @@ class DatabaseManager extends DbUtils
             $data['position'] = intval($data['position']);
         }
 
-
         $table_assoc_name = $this->assoc_table_name($table);
 
         $criteria_orig = $data;
 
         $criteria = $this->map_array_to_table($table, $data);
-
 
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
@@ -437,7 +414,6 @@ class DatabaseManager extends DbUtils
             if ($allow_scripts == false) {
                 $criteria = $this->clean_input($criteria);
             }
-
         }
 
         $table = $this->app->format->clean_html($table);
@@ -445,7 +421,6 @@ class DatabaseManager extends DbUtils
         $criteria = $this->app->url_manager->replace_site_url($criteria);
 
         if ($data_to_save_options['use_this_field_for_id'] != false) {
-
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
         }
 
@@ -478,22 +453,23 @@ class DatabaseManager extends DbUtils
 
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
-            $this->app->cache_manager->delete($cache_group . '/global');
-            $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
+            $this->app->cache_manager->delete($cache_group.'/global');
+            $this->app->cache_manager->delete($cache_group.'/'.$id_to_return);
             if (isset($criteria['parent_id'])) {
-                $this->app->cache_manager->delete($cache_group . '/' . intval($criteria['parent_id']));
+                $this->app->cache_manager->delete($cache_group.'/'.intval($criteria['parent_id']));
             }
         }
-        return $id_to_return;
 
+        return $id_to_return;
     }
 
     /**
-     * Get last id from a table
+     * Get last id from a table.
      *
      * @desc Get last inserted id from a table, you must have 'id' column in it.
-     * @package Database
+     *
      * @param $table
+     *
      * @return bool|int
      *
      * @example
@@ -501,13 +477,11 @@ class DatabaseManager extends DbUtils
      * $table_name = $this->table_prefix . 'content';
      * $id = $this->last_id($table_name);
      * </pre>
-     *
      */
     public function last_id($table)
     {
 
        // DB::getPdo()->lastInsertId();
-
 
         $last_id = $this->table($table)->orderBy('id', 'DESC')->take(1)->first();
         if (isset($last_id->id)) {
@@ -530,7 +504,6 @@ class DatabaseManager extends DbUtils
         } catch (\Illuminate\Database\QueryException $e) {
             return;
         }
-
     }
 
     /**
@@ -541,15 +514,15 @@ class DatabaseManager extends DbUtils
      *
      *
      * @note Please ensure your variables are escaped before calling this function.
-     * @package Database
      * @function $this->query
      * @desc Executes plain query in the database.
      *
-     * @param string $q Your SQL query
-     * @param string|bool $cache_id It will save the query result in the cache. Set to false to disable
-     * @param string|bool $cache_group Stores the result in certain cache group. Set to false to disable
-     * @param bool $only_query If set to true, will perform only a query without returning a result
-     * @param array|bool $connection_settings
+     * @param string      $q                   Your SQL query
+     * @param string|bool $cache_id            It will save the query result in the cache. Set to false to disable
+     * @param string|bool $cache_group         Stores the result in certain cache group. Set to false to disable
+     * @param bool        $only_query          If set to true, will perform only a query without returning a result
+     * @param array|bool  $connection_settings
+     *
      * @return array|bool|mixed
      *
      * @example
@@ -560,9 +533,6 @@ class DatabaseManager extends DbUtils
      *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
      *
      * </code>
-     *
-     *
-     *
      */
     public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
     {
@@ -570,13 +540,11 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-
         $error['error'] = array();
         $results = false;
 
         if ($cache_id != false and $cache_group != false) {
-
-            $cache_id = $cache_id . crc32($q);
+            $cache_id = $cache_id.crc32($q);
             $results = $this->app->cache_manager->get($cache_id, $cache_group);
             if ($results != false) {
                 if ($results == '---empty---' or (is_array($results) and empty($results))) {
@@ -587,26 +555,23 @@ class DatabaseManager extends DbUtils
             }
         }
 
-
         $q = DB::select($q);
-
 
         if ($only_query != false) {
             return true;
         }
-        $q = (array)$q;
+        $q = (array) $q;
         if (isset($q[0])) {
             foreach ($q as $k => $v) {
-                $q[$k] = (array)$v;
+                $q[$k] = (array) $v;
             }
         }
 
-
         if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
             if ($cache_id != false) {
-
                 $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
             }
+
             return false;
         }
         if ($only_query == false) {
@@ -621,29 +586,27 @@ class DatabaseManager extends DbUtils
         if ($cache_id != false) {
             $this->app->cache_manager->save($q, $cache_id, $cache_group);
         }
+
         return $q;
     }
 
-
     /**
-     * Deletes item by id from db table
+     * Deletes item by id from db table.
      *
-     * @param string $table Your da table name
-     * @param int|string $id The id to delete
-     * @param string $field_name You can set custom column to delete by it, default is id
+     * @param string     $table      Your da table name
+     * @param int|string $id         The id to delete
+     * @param string     $field_name You can set custom column to delete by it, default is id
      *
      * @return bool
+     *
      * @example
      * <code>
      * //delete content with id 5
      *  $this->delete_by_id('content', $id=5);
      * </code>
-     *
-     * @package Database
      */
     public function delete_by_id($table, $id = 0, $field_name = 'id')
     {
-
         if ($id === 0) {
             return false;
         }
@@ -657,39 +620,37 @@ class DatabaseManager extends DbUtils
         }
 
         Cache::tags($table)->flush();
+
         return $c_id;
     }
 
     /**
-     * Get table row by id
+     * Get table row by id.
      *
      * It returns full db row from a db table
      *
-     * @param string $table Your table
-     * @param int|string $id The id to get
-     * @param string $field_name You can set custom column to get by it, default is id
+     * @param string     $table      Your table
+     * @param int|string $id         The id to get
+     * @param string     $field_name You can set custom column to get by it, default is id
      *
      * @return array|bool|mixed
+     *
      * @example
      * <code>
      * //get content with id 5
      * $cont = $this->get_by_id('content', $id=5);
      * </code>
-     *
-     * @package Database
-     * @subpackage Advanced
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-
         if ($field_name == 'id'  and $id == 0) {
             return false;
         }
 
         if ($field_name == false) {
-            $field_name = "id";
+            $field_name = 'id';
         }
-        if($field_name == 'id' or is_numeric($id)){
+        if ($field_name == 'id' or is_numeric($id)) {
             $id = intval($id);
         }
         $params = array();
@@ -698,9 +659,9 @@ class DatabaseManager extends DbUtils
         $params['single'] = true;
 
         $data = $this->get($params);
+
         return $data;
     }
-
 
     public function table($table)
     {

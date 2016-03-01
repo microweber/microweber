@@ -1,4 +1,6 @@
-<?php namespace Microweber\Install\Schema;
+<?php
+
+namespace Microweber\Install\Schema;
 
 class Form
 {
@@ -15,7 +17,7 @@ class Form
                 'module_name' => 'string',
                 'url' => 'string',
                 'user_ip' => 'string',
-                '$index' => ['rel_type', 'rel_id', 'list_id']
+                '$index' => ['rel_type', 'rel_id', 'list_id'],
             ],
             'forms_lists' => [
                 'created_at' => 'dateTime',
@@ -26,9 +28,8 @@ class Form
                 'module_name' => 'string',
                 'last_export' => 'dateTime',
                 'last_sent' => 'dateTime',
-                '$index' => ['title']
-            ]
+                '$index' => ['title'],
+            ],
         ];
     }
-
 }

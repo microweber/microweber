@@ -1,38 +1,40 @@
 <?php
+
 namespace Microweber;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 // Handles working with PHP output templates
-class View {
+class View
+{
+    public $v;
 
-    var $v;
-
-    function __construct($v) {
+    public function __construct($v)
+    {
         $this->v = realpath($v);
     }
 
-    function set($a) {
+    public function set($a)
+    {
         foreach ($a as $k => $v) {
             $this->$k = $v;
         }
     }
 
-    function assign($var, $val) {
+    public function assign($var, $val)
+    {
         $this->$var = $val;
     }
 
-    function __get_vars() {
-
+    public function __get_vars()
+    {
         ob_start();
         extract((array) $this);
 
+        $file_dir = dirname($this->v).DS;
 
-        $file_dir = dirname($this->v) . DS;
-
-
-        require($this->v);
+        require $this->v;
 
         $content = ob_get_clean();
         unset($content);
@@ -41,7 +43,7 @@ class View {
         $var_names = array_keys(get_defined_vars());
 
         foreach ($var_names as $var_name) {
-            if ($var_name!='defined_vars' and $var_name!='this'){
+            if ($var_name != 'defined_vars' and $var_name != 'this') {
                 $defined_vars[ $var_name ] = $$var_name;
             }
         }
@@ -49,29 +51,31 @@ class View {
         return $defined_vars;
     }
 
-    function display() {
-        print $this->__toString();
+    public function display()
+    {
+        echo $this->__toString();
     }
 
-    function __toString() {
+    public function __toString()
+    {
         extract((array) $this);
         ob_start();
-        if (is_array($this->v)){
+        if (is_array($this->v)) {
             foreach ($this->v as $item) {
-                if (is_file($item)){
-                    $res = include($item);
+                if (is_file($item)) {
+                    $res = include $item;
                 }
             }
         } elseif (is_string($this->v)) {
-            if (is_file($this->v)){
-                $res = include($this->v);
+            if (is_file($this->v)) {
+                $res = include $this->v;
             }
         }
 
-        if (isset($res) and is_object($res)){
-            if ($res instanceOf RedirectResponse){
+        if (isset($res) and is_object($res)) {
+            if ($res instanceof RedirectResponse) {
                 return $res;
-            } else if ($res instanceOf Response){
+            } elseif ($res instanceof Response) {
                 return $res;
             }
         }
@@ -79,5 +83,4 @@ class View {
 
         return $content;
     }
-
 }

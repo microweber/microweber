@@ -1,38 +1,32 @@
 <?php
+
 namespace Microweber\Providers;
 
 use DB;
-use SystemLogger;
 
 class LogManager
 {
-
     public $app;
     public $table = 'log';
 
-    function __construct($app = null)
+    public function __construct($app = null)
     {
-
-
         if (is_object($app)) {
             $this->app = $app;
         } else {
             $this->app = mw();
         }
-
-
     }
 
     public function get_entry_by_id($id)
     {
-
         $params = array();
         $params['id'] = intval($id);
         $params['one'] = true;
 
         $get = $this->get($params);
-        return $get;
 
+        return $get;
     }
 
     public function get($params)
@@ -53,13 +47,14 @@ class LogManager
     public function reset()
     {
         $adm = $this->app->user_manager->is_admin();
-        if (defined("MW_API_CALL") and $adm == false) {
-            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if (defined('MW_API_CALL') and $adm == false) {
+            return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
         }
         $table = $this->table;
         DB::table($table)->truncate();
         $cg = guess_cache_group($table);
         $this->app->cache_manager->delete($cg);
+
         return array('success' => 'System log is cleaned up.');
     }
 
@@ -77,15 +72,14 @@ class LogManager
                 $c_id = intval($val['id']);
                 $this->app->database_manager->delete_by_id('log', $c_id);
             }
-
         }
-        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('log'.DIRECTORY_SEPARATOR.'global');
+
         return true;
     }
 
     public function save($params)
     {
-
         $table = $this->table;
         $params = parse_params($params);
         $params['user_ip'] = MW_USER_IP;
@@ -93,29 +87,30 @@ class LogManager
 
         $save = $this->app->database_manager->save($params);
         $id = $save;
-        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('log'.DIRECTORY_SEPARATOR.'global');
+
         return $id;
     }
 
     public function delete_entry($data)
     {
-
         $id = false;
         if (!isset($data['id'])) {
             $id = intval($data);
-        } else if (isset($data['id'])) {
+        } elseif (isset($data['id'])) {
             $id = intval($data['id']);
         }
         if ($id > 0) {
             $c_id = intval($id);
             $table = $this->table;
-            $old = date("Y-m-d H:i:s", strtotime('-1 month'));
-             mw()->database_manager->table($table)->where('created_at', '<', $old)->delete();
+            $old = date('Y-m-d H:i:s', strtotime('-1 month'));
+            mw()->database_manager->table($table)->where('created_at', '<', $old)->delete();
             mw()->database_manager->table($table)->where('id', '=', $c_id)->delete();
-            $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . $c_id);
-            return $c_id;
+            $this->app->cache_manager->delete('log'.DIRECTORY_SEPARATOR.$c_id);
 
+            return $c_id;
         }
+
         return $id;
     }
 }

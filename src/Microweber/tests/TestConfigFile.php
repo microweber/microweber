@@ -4,7 +4,6 @@ namespace Microweber\tests;
 
 class TestConfigFile extends TestCase
 {
-
     public function testSomethingIsTrue()
     {
         $this->assertTrue(true);
@@ -13,15 +12,14 @@ class TestConfigFile extends TestCase
     public function testOptions()
     {
         $data = array();
-        $data['today'] = date("Y-m-d");
+        $data['today'] = date('Y-m-d');
         $data['option_key'] = 'a_test';
 
         $data = json_encode($data);
         $save = save_option($data);
 
-        $get =  get_option('a_test', $data);
+        $get = get_option('a_test', $data);
         d($get);
-
     }
     public function testConfigRead()
     {
@@ -31,7 +29,7 @@ class TestConfigFile extends TestCase
 
     public function testConfigWrite()
     {
-        $now = date("Y-m-d H:i:s");
+        $now = date('Y-m-d H:i:s');
         $old = Config::get('Microweber_tests.last_test');
 
         Config::set('Microweber_tests.last_test', $now);
@@ -46,5 +44,4 @@ class TestConfigFile extends TestCase
         $this->assertTrue(true, $current == $get);
         $this->assertTrue(true, $old != $get);
     }
-
 }

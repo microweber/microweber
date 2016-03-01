@@ -13,9 +13,11 @@
  *
  * @author M Butcher <matt@aleph-null.tv>
  * @license MIT
+ *
  * @see Extension
  * @see ExtensionRegistry::extend()
  */
+
 namespace QueryPath;
 
 /** @addtogroup querypath_extensions Extensions
@@ -34,6 +36,7 @@ namespace QueryPath;
  * Query object as a parameter.
  *
  * Here is an example QueryPath extension:
+ *
  * @code
  * <?php
  * class StubExtensionOne implements \QueryPath\Extension {
@@ -89,6 +92,7 @@ namespace QueryPath;
  *
  * @ingroup querypath_extensions
  */
-interface Extension {
-  public function __construct(\QueryPath\Query $qp);
+interface Extension
+{
+    public function __construct(\QueryPath\Query $qp);
 }

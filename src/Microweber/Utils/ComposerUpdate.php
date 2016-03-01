@@ -1,47 +1,38 @@
 <?php
 
-
 namespace Microweber\Utils;
-
 
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
 use Composer\Config;
 use Symfony\Component\Console\Input\ArrayInput;
-
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-
 class ComposerUpdate
 {
-
     public $composer_home = null;
 
     public function __construct($composer_path = false)
     {
         if ($composer_path == false) {
-            $composer_path = normalize_path(base_path() . '/', false);
+            $composer_path = normalize_path(base_path().'/', false);
         }
         $this->composer_home = $composer_path;
-        putenv('COMPOSER_HOME=' . $composer_path);
+        putenv('COMPOSER_HOME='.$composer_path);
     }
 
     public function run($config_params = array())
     {
-
         ob_start();
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
         $config = new Config();
-
-
-
 
         if (!empty($config_params)) {
             $config_composer = array('config' => $config_params);
@@ -58,7 +49,6 @@ class ComposerUpdate
 //            'no-autoloader' => true
 //        ));
 
-
         $output->setVerbosity(0);
         $io = new ConsoleIO($input, $output, $helper);
         $composer = Factory::create($io);
@@ -67,15 +57,14 @@ class ComposerUpdate
         $update->setComposer($composer);
         $out = $update->run($input, $output);
         ob_end_clean();
+
         return $out;
 
 //        $update = new InstallCommand();
 //        $update->setComposer($composer);
 //        $out = $update->run($input, $output);
 
-
         //  dd($output);
-
 
 //        $input = new ArrayInput(array('command' => 'update'));
 //
@@ -95,7 +84,6 @@ class ComposerUpdate
         $helper = new HelperSet();
         $config = new Config();
 
-
         $output->setVerbosity(0);
         $io = new ConsoleIO($input, $output, $helper);
         $composer = Factory::create($io);
@@ -104,13 +92,13 @@ class ComposerUpdate
         $update->setComposer($composer);
         $out = $update->run($input, $output);
         ob_end_clean();
+
         return $out;
     }
 
-
     public function get_require()
     {
-        $conf = $this->composer_home . '/composer.json';
+        $conf = $this->composer_home.'/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -121,13 +109,12 @@ class ComposerUpdate
             if (isset($conf_items['require'])) {
                 return $conf_items['require'];
             }
-
         }
     }
 
     public function save_require($required)
     {
-        $conf = $this->composer_home . '/composer.json';
+        $conf = $this->composer_home.'/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -144,14 +131,12 @@ class ComposerUpdate
                     $save = file_put_contents($conf, $conf_items);
                 }
             }
-
         }
     }
 
     public function merge($with_file)
     {
-
-        $conf = $this->composer_home . '/composer.json';
+        $conf = $this->composer_home.'/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -162,7 +147,6 @@ class ComposerUpdate
             if (!isset($conf_items['require'])) {
                 $conf_items['require'] = array();
             }
-
         }
         if (is_file($with_file)) {
             $new_conf_items = array();
@@ -181,9 +165,8 @@ class ComposerUpdate
                     $save = file_put_contents($conf, $conf_items);
                 }
             }
-
         }
-        return $conf_items;
 
+        return $conf_items;
     }
 }

@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-//use Sofa\Revisionable\Laravel\RevisionableTrait;
 
+//use Sofa\Revisionable\Laravel\RevisionableTrait;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -35,7 +34,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'is_verified',
         'is_public',
         'oauth_uid',
-        'oauth_provider'
+        'oauth_provider',
     ];
 
     // Or revisionable blacklist - if $revisionable is not set
@@ -44,9 +43,6 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'created_at',
         'updated_at',
     ];
-
-
-
 
     //protected $hidden = array('password', 'remember_token');
     protected $fillable = array(
@@ -77,17 +73,16 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'oauth_uid',
         'oauth_provider',
         'profile_url',
-        'website_url'
+        'website_url',
 
     );
 
-    function setPasswordAttribute($pass)
+    public function setPasswordAttribute($pass)
     {
         $this->attributes['password'] = Hash::make($pass);
-
     }
 
-    function getPingAttribute()
+    public function getPingAttribute()
     {
         return 'pong';
     }

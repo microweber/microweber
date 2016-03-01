@@ -1,17 +1,17 @@
 <?php
+
 namespace Microweber\Utils\Adapters\Http;
+
 /**
  * @original_author    Jason Michels https://thebizztech@github.com/thebizztech/Simple-Codeigniter-Curl-PHP-Class.git
  */
-
 class Curl
 {
-
-    public $url = "";
+    public $url = '';
     public $debug = false;
     public $timeout = 60;
     public $save_to_file = false; // path to save
-    var $mimeTypes = array(
+    public $mimeTypes = array(
         'txt' => 'text/plain',
         'css' => 'text/css',
         'js' => 'application/javascript',
@@ -64,11 +64,11 @@ class Curl
     );
     private $headers = array(); //Headers are built in set_headers() and passed in execute()
     private $uploads = array();
-    private $post_data = "";
-    private $fields_string = "";
-    private $log = "";
+    private $post_data = '';
+    private $fields_string = '';
+    private $log = '';
     private $log_request_response = 1;
-    private $http_headers = "";
+    private $http_headers = '';
 
     public function __construct()
     {
@@ -78,6 +78,7 @@ class Curl
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -86,6 +87,7 @@ class Curl
     public function setHttpHeaders($headers)
     {
         $this->http_headers = $headers;
+
         return $this;
     }
 
@@ -111,12 +113,10 @@ class Curl
 
                     return $ex;
                 } else {
-
                     $ex = $this->execute($post_data);
                     $this->save_to_file = false;
 
                     return $ex;
-
                 }
             }
         }
@@ -127,12 +127,9 @@ class Curl
 
     public function post($data = false)
     {
-
         $is_new_curl = class_exists('CurlFile', false);
 
         if (is_array($data)) {
-
-
             if ($is_new_curl) {
                 if (is_array($data)) {
                     foreach ($data as $k => $v) {
@@ -148,11 +145,9 @@ class Curl
                                 }
                             }
                         }
-
                     }
                 }
             }
-
 
             $this->post_data = $data;
             $this->buildPostString();
@@ -160,6 +155,7 @@ class Curl
             return $this->setHeaders('post')->execute();
         } else {
             $this->fields_string = $data;
+
             return $this->setHeaders()->execute();
         }
     }
@@ -171,10 +167,11 @@ class Curl
         $ext = strtolower(end($dots));
         if (array_key_exists($ext, $this->mimeTypes)) {
             return $this->mimeTypes[$ext];
-        } else if (function_exists('finfo_open')) {
+        } elseif (function_exists('finfo_open')) {
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $filename);
             finfo_close($finfo);
+
             return $mimetype;
         } else {
             return 'application/octet-stream';
@@ -184,31 +181,23 @@ class Curl
     private function buildPostString()
     {
         $is_new_curl = class_exists('CurlFile', false);
-        if (function_exists("curl_init")) {
+        if (function_exists('curl_init')) {
             $this->fields_string = null;
             foreach ($this->post_data as $key => $value) {
                 if (is_string($key) and is_string($value)) {
-
-                    $this->fields_string .= $key . '=' . $value . '&';
+                    $this->fields_string .= $key.'='.$value.'&';
                 } elseif (is_array($value)) {
-
                 }
             }
-            $this->fields_string = rtrim($this->fields_string, "&");
-
+            $this->fields_string = rtrim($this->fields_string, '&');
 
             return $this->fields_string;
         }
-
     }
 
     public function execute()
     {
-
-
-        if (function_exists("curl_init")) {
-
-
+        if (function_exists('curl_init')) {
             $ch = curl_init();
             if (is_array($this->headers) != false) {
             }
@@ -216,13 +205,12 @@ class Curl
             curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
             if ($this->timeout != false) {
                 if (function_exists('set_time_limit')) {
                     @set_time_limit(600);
                 }
-
             }
 
             $save_to = $this->save_to_file;
@@ -234,16 +222,14 @@ class Curl
 
                 $save_to = normalize_path($save_to, false);
 
-
                 if (file_exists($save_to)) {
                     $dl = true;
                     $from = filesize($save_to);
-                    curl_setopt($ch, CURLOPT_RANGE, $from . "-");
-                    $fp = fopen($save_to, "a");
+                    curl_setopt($ch, CURLOPT_RANGE, $from.'-');
+                    $fp = fopen($save_to, 'a');
                 } elseif ($save_to != false) {
                     $dl = true;
                     $fp = fopen($save_to, 'w+'); //This is the file where we save the    information
-
                 }
 
                 if (isset($fp) and $fp != false) {
@@ -256,19 +242,16 @@ class Curl
                     curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 }
-
-
             }
             if ($dl == false) {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             }
 
-            curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
             $is_new_curl = class_exists('CurlFile', false);
             if (is_array($this->post_data) and !empty($this->post_data)) {
                 $str = http_build_query($this->post_data);
-                curl_setopt($ch, CURLOPT_POSTFIELDS,$str );
-
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
             } elseif ($this->fields_string != false) {
                 curl_setopt($ch, CURLOPT_POST, 1);
                 if (isset($this->post_data) and is_array($this->post_data) and !empty($this->post_data)) {
@@ -277,12 +260,12 @@ class Curl
                     } else {
                         $str = array_merge($this->post_data, $this->uploads);
                     }
-                     if (is_array($str)) {
+                    if (is_array($str)) {
                         // //$str = http_build_query($str);
                     $str = $this->buildPostString($str);
                     }
 
-                     curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
                 } else {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $this->fields_string);
                 }
@@ -295,54 +278,41 @@ class Curl
             }
             $this->headers = array();
             curl_close($ch);
-
-
         } else {
-
-
             $data = $this->post_data;
             if (is_array($data)) {
-
                 $data = http_build_query($data);
-
 
                 $context = stream_context_create(array(
                     'http' => array(
                         'method' => 'POST',
                         'header' => 'Content-Type: application/x-www-form-urlencoded',
-                        'content' => $data
-                    )
+                        'content' => $data,
+                    ),
                 ));
-
 
                 $result = @file_get_contents($this->url, false, $context);
             } else {
                 $result = @file_get_contents($this->url, false);
-
             }
-
-
         }
-
 
         return $result;
     }
 
     private function setHeaders($type = '')
     {
-
-
-        if (function_exists("curl_init")) {
+        if (function_exists('curl_init')) {
             $this->headers = array(
                 CURLOPT_URL => $this->url,
                 CURLOPT_VERBOSE => 1,
-                CURLOPT_SSL_VERIFYPEER => FALSE,
+                CURLOPT_SSL_VERIFYPEER => false,
                 //CURLOPT_TIMEOUT => 30,
-                CURLOPT_RETURNTRANSFER => TRUE
+                CURLOPT_RETURNTRANSFER => true,
             );
 
             if ($type == 'post') {
-                $this->headers[CURLOPT_POST] = TRUE;
+                $this->headers[CURLOPT_POST] = true;
                 $this->headers[CURLOPT_POSTFIELDS] = $this->fields_string;
             }
 
@@ -350,9 +320,10 @@ class Curl
                 $this->headers[CURLOPT_HTTPHEADER] = $this->http_headers;
                 //$this->headers[CURLINFO_HEADER_OUT] = TRUE;
                 //$this->headers[CURLOPT_HEADER] = 1;
-                $this->headers[CURLOPT_SSL_VERIFYHOST] = FALSE;
+                $this->headers[CURLOPT_SSL_VERIFYHOST] = false;
             }
         }
+
         return $this;
     }
 
@@ -360,12 +331,9 @@ class Curl
 
     private function is_multidim_array($myarray)
     {
-        if (count($myarray) == count($myarray, COUNT_RECURSIVE))
-        {
-           return false;
-        }
-        else
-        {
+        if (count($myarray) == count($myarray, COUNT_RECURSIVE)) {
+            return false;
+        } else {
             return true;
         }
     }

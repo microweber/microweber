@@ -21,7 +21,7 @@ abstract class XmlStreamer
     private $totalBytes;
     private $readBytes = 0;
     private $nodeIndex = 0;
-    private $chunk = "";
+    private $chunk = '';
     private $chunkSize;
     private $readFromChunkPos;
 
@@ -37,16 +37,16 @@ abstract class XmlStreamer
     public function __construct($mixed, $chunkSize = 16384, $customRootNode = null, $totalBytes = null, $customChildNode = null)
     {
         if (is_string($mixed)) {
-            $this->handle = fopen($mixed, "r");
+            $this->handle = fopen($mixed, 'r');
             if (isset($totalBytes)) {
                 $this->totalBytes = $totalBytes;
             } else {
                 $this->totalBytes = filesize($mixed);
             }
-        } else if (is_resource($mixed)) {
+        } elseif (is_resource($mixed)) {
             $this->handle = $mixed;
             if (!isset($totalBytes)) {
-                throw new \Exception("totalBytes parameter required when supplying a file handle.");
+                throw new \Exception('totalBytes parameter required when supplying a file handle.');
             }
             $this->totalBytes = $totalBytes;
         }
@@ -72,16 +72,18 @@ abstract class XmlStreamer
     }
 
     /**
-     * Gets called for every XML node that is found as a child to the root node
+     * Gets called for every XML node that is found as a child to the root node.
+     *
      * @param $xmlString     Complete XML tree of the node as a string
      * @param $elementName   Name of the node for easy access
      * @param $nodeIndex     Zero-based index that increments for every node
-     * @return               If false is returned, the streaming will stop
+     *
+     * @return If false is returned, the streaming will stop
      */
     abstract public function processNode($xmlString, $elementName, $nodeIndex);
 
     /**
-     * Gets the total read bytes so far
+     * Gets the total read bytes so far.
      */
     public function getReadBytes()
     {
@@ -89,7 +91,7 @@ abstract class XmlStreamer
     }
 
     /**
-     * Gets the total file size of the xml
+     * Gets the total file size of the xml.
      */
     public function getTotalBytes()
     {
@@ -97,7 +99,7 @@ abstract class XmlStreamer
     }
 
     /**
-     * Starts the streaming and parsing of the XML file
+     * Starts the streaming and parsing of the XML file.
      */
     public function parse()
     {
@@ -106,7 +108,7 @@ abstract class XmlStreamer
         while ($continue) {
             $continue = $this->readNextChunk();
 
-            $counter++;
+            ++$counter;
             if (!isset($this->rootNode)) {
                 // Find root node
                 if (isset($this->customRootNode)) {
@@ -114,7 +116,7 @@ abstract class XmlStreamer
                     if ($customRootNodePos !== false) {
                         // Found custom root node
                         // Support attributes
-                        $closer = strpos(substr($this->chunk, $customRootNodePos), ">");
+                        $closer = strpos(substr($this->chunk, $customRootNodePos), '>');
                         $readFromChunkPos = $customRootNodePos + $closer + 1;
 
                         // Custom child node?
@@ -135,7 +137,7 @@ abstract class XmlStreamer
                     } else {
                         // Clear chunk to save memory, it doesn't contain the root anyway
                         $this->readFromChunkPos = 0;
-                        $this->chunk = "";
+                        $this->chunk = '';
                         continue;
                     }
                 } else {
@@ -150,14 +152,13 @@ abstract class XmlStreamer
                     } else {
                         // Clear chunk to save memory, it doesn't contain the root anyway
                         $this->readFromChunkPos = 0;
-                        $this->chunk = "";
+                        $this->chunk = '';
                         continue;
                     }
                 }
             }
 
             while (true) {
-
                 $fromChunkPos = substr($this->chunk, $this->readFromChunkPos);
 
                 // Find element
@@ -170,7 +171,7 @@ abstract class XmlStreamer
                     $element = $matches[1];
 
                     // Is there an end to this element tag?
-                    $spacePos = strpos($element, " ");
+                    $spacePos = strpos($element, ' ');
                     $crPos = strpos($element, "\r");
                     $lfPos = strpos($element, "\n");
                     $tabPos = strpos($element, "\t");
@@ -188,7 +189,7 @@ abstract class XmlStreamer
 
                     if ($minPos !== false && $minPos != 0) {
                         $sElementName = substr($element, 0, $minPos);
-                        $endTag = "</" . $sElementName . ">";
+                        $endTag = '</'.$sElementName.'>';
                     } else {
                         $sElementName = $element;
                         $endTag = "</$sElementName>";
@@ -199,11 +200,11 @@ abstract class XmlStreamer
                     // try selfclosing first!
                     // NOTE: selfclosing is inside the element
                     $lastCharPos = strlen($element) - 1;
-                    if (substr($element, $lastCharPos) == "/") {
-                        $endTag = "/>";
+                    if (substr($element, $lastCharPos) == '/') {
+                        $endTag = '/>';
                         $endTagPos = $lastCharPos;
 
-                        $iPos = strpos($fromChunkPos, "<");
+                        $iPos = strpos($fromChunkPos, '<');
                         if ($iPos !== false) {
 
                             // correct difference between $element and $fromChunkPos
@@ -239,6 +240,7 @@ abstract class XmlStreamer
             }
             $this->chunkCompleted();
         }
+
         return isset($this->rootNode);
         fclose($this->handle);
     }
@@ -249,8 +251,10 @@ abstract class XmlStreamer
         $this->readBytes += $this->chunkSize;
         if ($this->readBytes >= $this->totalBytes) {
             $this->readBytes = $this->totalBytes;
+
             return false;
         }
+
         return true;
     }
 }

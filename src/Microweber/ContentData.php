@@ -8,6 +8,4 @@ class ContentData extends DataFields
         return parent::newQuery($excludeDeleted)
             ->whereRelType('content');
     }
-
 }
-

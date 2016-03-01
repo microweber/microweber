@@ -1,4 +1,6 @@
-<?php namespace Microweber\Install\Schema;
+<?php
+
+namespace Microweber\Install\Schema;
 
 class Countries
 {
@@ -12,15 +14,14 @@ class Countries
                 'surfacearea' => 'float',
                 'population' => 'integer',
                 'localname' => 'string',
-            ]
+            ],
         ];
     }
 
-    function seed()
+    public function seed()
     {
-        $table_sql = MW_PATH . 'Utils'.DS.'lib' . DS . 'countries.sql';
+        $table_sql = MW_PATH.'Utils'.DS.'lib'.DS.'countries.sql';
 
         mw()->database_manager->import_sql_file($table_sql);
     }
-
 }

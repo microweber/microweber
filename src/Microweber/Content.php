@@ -3,7 +3,6 @@
 
 class Content extends BaseModel
 {
-
     public $table = 'content';
 
     public function notifications()
@@ -20,6 +19,4 @@ class Content extends BaseModel
     {
         return $this->morphMany('ContentData', 'rel');
     }
-
 }
-

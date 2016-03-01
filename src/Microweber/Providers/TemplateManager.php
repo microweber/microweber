@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 /*
  * This file is part of the Microweber framework.
  *
@@ -15,59 +13,52 @@
 
 namespace Microweber\Providers;
 
-
 /**
  * Content class is used to get and save content in the database.
  *
- * @package  Content
  * @category Content
  * @desc     These functions will allow you to get and save content in the database.
- *
  */
-class TemplateManager {
-
+class TemplateManager
+{
     /**
-     * An instance of the Microweber Application class
+     * An instance of the Microweber Application class.
      *
-     * @var $app
+     * @var
      */
     public $app;
 
-
-    function __construct($app = null) {
-
-        if (!is_object($this->app)){
-            if (is_object($app)){
+    public function __construct($app = null)
+    {
+        if (!is_object($this->app)) {
+            if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw();
             }
         }
-
-
     }
 
-
-    public function get_styles() {
+    public function get_styles()
+    {
         $config = mw()->template->get_config();
-        if (isset($config['styles'])){
+        if (isset($config['styles'])) {
             $styles = $config['styles'];
 
-            if (is_array($styles) and !empty($styles)){
+            if (is_array($styles) and !empty($styles)) {
                 foreach ($styles as $k => $style) {
-                    if (isset($style['name']) and isset($style['tag'])){
+                    if (isset($style['name']) and isset($style['tag'])) {
                         $style['tag_string'] = '';
-                        if (isset($style['tag'])){
-                            if (is_array($style['tag'])){
+                        if (isset($style['tag'])) {
+                            if (is_array($style['tag'])) {
                                 $style['tag_string'] = implode(',', $style['tag']);
                             } elseif (is_string($style['tag'])) {
                                 $style['tag_string'] = $style['tag'];
                             }
                         }
                         $style['class_string'] = '';
-                        if (isset($style['class'])){
-
-                            if (is_array($style['class'])){
+                        if (isset($style['class'])) {
+                            if (is_array($style['class'])) {
                                 $style['class_string'] = implode(',', $style['class']);
                             } elseif (is_string($style['class'])) {
                                 $style['class_string'] = $style['class'];
@@ -75,8 +66,8 @@ class TemplateManager {
                         }
 
                         $style['except_string'] = '';
-                        if (isset($style['except'])){
-                            if (is_array($style['except'])){
+                        if (isset($style['except'])) {
+                            if (is_array($style['except'])) {
                                 $style['except_string'] = implode(',', $style['except']);
                             } elseif (is_string($style['except'])) {
                                 $style['except_string'] = $style['except'];
@@ -93,7 +84,6 @@ class TemplateManager {
         return false;
     }
 
-
     /**
      * @desc      Get the template layouts info under the layouts subdir on your active template
      *
@@ -101,24 +91,26 @@ class TemplateManager {
      * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
      *
      * @return array
+     *
      * @author    Microweber Dev Team
+     *
      * @since     Version 1.0
      */
-    public function site_templates($options = false) {
-
+    public function site_templates($options = false)
+    {
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
         }
-        $cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $cache_id = __FUNCTION__.crc32($function_cache_id);
         $cache_group = 'templates';
         $cache_content = false;
         //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
-        if (($cache_content)!=false){
+        if (($cache_content) != false) {
             // return $cache_content;
         }
-        if (!isset($options['path'])){
+        if (!isset($options['path'])) {
             $path = templates_path();
         } else {
             $path = $options['path'];
@@ -128,29 +120,29 @@ class TemplateManager {
         $layout_path = $path;
         $map = $this->directory_map($path, true, true);
         $to_return = array();
-        if (!is_array($map) or empty($map)){
+        if (!is_array($map) or empty($map)) {
             return false;
         }
         foreach ($map as $dir) {
             //$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
-            $filename = $path . DIRECTORY_SEPARATOR . $dir;
+            $filename = $path.DIRECTORY_SEPARATOR.$dir;
             $filename_location = false;
             $filename_dir = false;
             $filename = normalize_path($filename);
             $filename = rtrim($filename, '\\');
-            $filename = (substr($filename, 0, 1)==='.' ? substr($filename, 1) : $filename);
-            if (!@is_file($filename) and @is_dir($filename)){
-                $fn1 = normalize_path($filename, true) . 'config.php';
+            $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
+            if (!@is_file($filename) and @is_dir($filename)) {
+                $fn1 = normalize_path($filename, true).'config.php';
                 $fn2 = normalize_path($filename);
-                if (is_file($fn1)){
+                if (is_file($fn1)) {
                     $config = false;
-                    include($fn1);
-                    if (!empty($config)){
+                    include $fn1;
+                    if (!empty($config)) {
                         $c = $config;
                         $c['dir_name'] = $dir;
-                        $screensshot_file = $fn2 . '/screenshot.png';
+                        $screensshot_file = $fn2.'/screenshot.png';
                         $screensshot_file = normalize_path($screensshot_file, false);
-                        if (is_file($screensshot_file)){
+                        if (is_file($screensshot_file)) {
                             $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file);
                         }
                         $to_return[] = $c;
@@ -160,7 +152,6 @@ class TemplateManager {
                 }
                 //	$path = $filename;
             }
-
         }
 
         //$this->app->cache_manager->save($to_return, $cache_id, $cache_group, 'files');
@@ -168,7 +159,7 @@ class TemplateManager {
     }
 
     /**
-     * Create a Directory Map
+     * Create a Directory Map.
      *
      *
      * Reads the specified directory and builds an array
@@ -176,35 +167,35 @@ class TemplateManager {
      * directory will be mapped as well.
      *
      * @author        ExpressionEngine Dev Team
+     *
      * @link          http://codeigniter.com/user_guide/helpers/directory_helper.html
-     * @access        public
      *
      * @param    string     path to source
      * @param    int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
      *
-     * @return    array
+     * @return array
      */
-    private function directory_map($source_dir, $directory_depth = 0, $hidden = false, $full_path = false) {
-        if ($fp = @opendir($source_dir)){
+    private function directory_map($source_dir, $directory_depth = 0, $hidden = false, $full_path = false)
+    {
+        if ($fp = @opendir($source_dir)) {
             $filedata = array();
             $new_depth = $directory_depth - 1;
-            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 
-            while (false!==($file = readdir($fp))) {
+            while (false !== ($file = readdir($fp))) {
                 // Remove '.', '..', and hidden files [optional]
-                if (!trim($file, '.') OR ($hidden==false && $file[0]=='.')){
+                if (!trim($file, '.') or ($hidden == false && $file[0] == '.')) {
                     continue;
                 }
 
-                if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file)){
-                    $filedata[ $file ] = $this->directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
+                if (($directory_depth < 1 or $new_depth > 0) && @is_dir($source_dir.$file)) {
+                    $filedata[ $file ] = $this->directory_map($source_dir.$file.DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
                 } else {
-                    if ($full_path==false){
+                    if ($full_path == false) {
                         $filedata[] = $file;
                     } else {
-                        $filedata[] = $source_dir . $file;
+                        $filedata[] = $source_dir.$file;
                     }
-
                 }
             }
 
@@ -215,5 +206,4 @@ class TemplateManager {
 
         return false;
     }
-
 }

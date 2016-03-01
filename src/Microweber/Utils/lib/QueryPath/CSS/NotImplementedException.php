@@ -3,7 +3,9 @@
  * @file
  * An exception for CSS errors.
  */
+
 namespace QueryPath\CSS;
+
 /**
  * Exception thrown for unimplemented CSS.
  *
@@ -12,4 +14,6 @@ namespace QueryPath\CSS;
  *
  * @ingroup querypath_css
  */
-class NotImplementedException extends \Exception {}
+class NotImplementedException extends \Exception
+{
+}

@@ -1,4 +1,5 @@
 <?php
+
 namespace Microweber\Utils;
 
 /*
@@ -6,41 +7,34 @@ namespace Microweber\Utils;
  * from http://www.hardcode.nl/subcategory_4/article_503-thumbnail-class
  */
 
-
 class Thumbnailer
 {
-
     private $image = '';
     //image filename and path
     private $sizes = null;
 
     public function __construct($image = false)
     {
-
-        if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
-            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+        if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
+            define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
         }
-
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
             @ini_set('memory_limit', '128M');
-            @ini_set("set_time_limit", 90);
+            @ini_set('set_time_limit', 90);
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             @set_time_limit(90);
         }
 
-
         if ($image) {
             $this->setImage($image);
         }
-
-
     }
 
     public function setImage($image)
     {
-        if (is_file($image) && ($this->sizes = @getimagesize($image))){
+        if (is_file($image) && ($this->sizes = @getimagesize($image))) {
             $this->image = $image;
         }
     }
@@ -50,20 +44,17 @@ class Thumbnailer
      * 	specifications = array(maxLength=>100,width=>100,height=100,mime=>'image/jpeg')
      */
 
-    public function createThumb(Array $specifications, $outputPath)
+    public function createThumb(array $specifications, $outputPath)
     {
-
-
-        if (!strlen($this->image))
+        if (!strlen($this->image)) {
             return;
+        }
         $sizes = $this->sizes;
         $originalImage = $this->loadImage($this->image, $sizes['mime']);
         $newWidth = 0;
         $newHeight = 0;
 
-
-
-        if ( isset($specifications['width']) && !isset($specifications['height']) && !isset($specifications['maxLength'])) {
+        if (isset($specifications['width']) && !isset($specifications['height']) && !isset($specifications['maxLength'])) {
             $newWidth = $specifications['width'];
             $newHeight = $sizes[1] * ($newWidth / $sizes[0]);
         } elseif (isset($specifications['height']) && !isset($specifications['width'])) {
@@ -74,19 +65,13 @@ class Thumbnailer
             $newHeight = $specifications['height'];
            // $newHeight = (int)(100 * $newWidth / $newHeight);
         } elseif (isset($specifications['maxLength'])) {
-
             if ($sizes[0] >= $sizes[1]) {
                 $newWidth = $specifications['width'];
                 $newHeight = $sizes[1] * ($newWidth / $sizes[0]);
             } else {
                 $newHeight = $specifications['maxLength'];
                 $newWidth = $sizes[0] * ($newHeight / $sizes[1]);
-
             }
-
-
-
-
         } else {
             $newWidth = $sizes[0];
             $newHeight = $sizes[1];
@@ -131,6 +116,7 @@ class Thumbnailer
             case 'image/png' :
                 $im = $this->LoadPNG($imgname);
         }
+
         return $im;
     }
 
@@ -141,6 +127,7 @@ class Thumbnailer
         if (!$im) { /* See if it failed */
             $im = $this->imageerror();
         }
+
         return $im;
     }
 
@@ -152,7 +139,8 @@ class Thumbnailer
         $tc = imagecolorallocate($im, 0, 0, 0);
         imagefilledrectangle($im, 0, 0, 150, 30, $bgc);
         /* Output an errmsg */
-        imagestring($im, 1, 5, 5, "Error loading image", $tc);
+        imagestring($im, 1, 5, 5, 'Error loading image', $tc);
+
         return $im;
     }
 
@@ -163,6 +151,7 @@ class Thumbnailer
         if (!$im) { /* See if it failed */
             $im = $this->imageerror();
         }
+
         return $im;
     }
 
@@ -174,6 +163,7 @@ class Thumbnailer
         if (!$im) { /* See if it failed */
             $im = $this->imageerror();
         }
+
         return $im;
     }
 
@@ -191,7 +181,7 @@ class Thumbnailer
                 //
                 $im = imagepng($image, $imgname, 9);
         }
+
         return $im;
     }
-
 }

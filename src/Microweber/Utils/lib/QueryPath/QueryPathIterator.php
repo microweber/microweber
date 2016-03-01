@@ -4,6 +4,7 @@
  *
  * Utility iterator for QueryPath.
  */
+
 namespace QueryPath;
 
 /**
@@ -15,19 +16,21 @@ namespace QueryPath;
  *
  * @ingroup querypath_util
  */
-class QueryPathIterator extends \IteratorIterator {
-  public $options = array();
-  private $qp = NULL;
+class QueryPathIterator extends \IteratorIterator
+{
+    public $options = array();
+    private $qp = null;
 
-  public function current() {
-    if (!isset($this->qp)) {
-      $this->qp = \QueryPath::with(parent::current(), NULL, $this->options);
+    public function current()
+    {
+        if (!isset($this->qp)) {
+            $this->qp = \QueryPath::with(parent::current(), null, $this->options);
+        } else {
+            $splos = new \SplObjectStorage();
+            $splos->attach(parent::current());
+            $this->qp->setMatches($splos);
+        }
+
+        return $this->qp;
     }
-    else {
-      $splos = new \SplObjectStorage();
-      $splos->attach(parent::current());
-      $this->qp->setMatches($splos);
-    }
-    return $this->qp;
-  }
 }

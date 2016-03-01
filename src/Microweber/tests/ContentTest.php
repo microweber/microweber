@@ -1,18 +1,16 @@
 <?php
 
-
 namespace Microweber\tests;
 
 class ContentTest extends TestCase
 {
-
     public function testPosts()
     {
         $params = array(
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         //saving
         $save_post = save_content($params);
         //getting
@@ -37,8 +35,8 @@ class ContentTest extends TestCase
         $params = array(
             'title' => 'My test page',
             'content_type' => 'page',
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         //saving
         $parent_page = save_content($params);
         $page_link = content_link($parent_page);
@@ -46,16 +44,16 @@ class ContentTest extends TestCase
             'title' => 'My test sub page',
             'content_type' => 'page',
             'parent' => $parent_page,
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         $sub_page = save_content($params);
         //getting
         $params = array(
             'parent' => $parent_page,
             'content_type' => 'page',
             'single' => true,
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         $get_sub_page = get_content($params);
         $sub_page_parents = content_parents($get_sub_page['id']);
         //clean
@@ -77,8 +75,8 @@ class ContentTest extends TestCase
         $params = array(
             'title' => 'My test page is here',
             'content_type' => 'page',
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         //saving
         $new_page_id = save_content($params);
         $get_pages = get_pages($params);
@@ -107,8 +105,8 @@ class ContentTest extends TestCase
             'title' => 'My test post is here',
             'content_type' => 'post',
             'subtype' => 'product',
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         //saving
         $new_page_id = save_content($params);
         $get_pages = get_products($params);
@@ -137,8 +135,8 @@ class ContentTest extends TestCase
         $params = array(
             'title' => 'My test post is here',
             'content_type' => 'post',
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         //saving
         $new_post_id = save_content($params);
         $get_posts = get_posts($params);
@@ -168,16 +166,15 @@ class ContentTest extends TestCase
             'title' => 'My categories page',
             'content_type' => 'page',
             'subtype' => 'dynamic',
-            
-            'is_active' =>  1);
 
+            'is_active' => 1, );
 
         //saving
         $parent_page_id = save_content($params);
         $parent_page_data = get_content_by_id($parent_page_id);
         $params = array(
             'title' => 'Test Category 1',
-            'parent_page' => $parent_page_id
+            'parent_page' => $parent_page_id,
         );
         //saving
         $category_id = save_category($params);
@@ -187,14 +184,11 @@ class ContentTest extends TestCase
         $delete_page = delete_content($parent_page_id);
         $deleted_page = get_content_by_id($parent_page_id);
 
-
-
         $params = array(
             'title' => 'Test Category with invalid position',
-            'position' => 'uga buga'
+            'position' => 'uga buga',
         );
         $category_with_invalid_pos = save_category($params);
-
 
         //PHPUnit
         $this->assertEquals(true, intval($parent_page_id) > 0);
@@ -214,8 +208,8 @@ class ContentTest extends TestCase
         $params = array(
             'title' => 'this is my test next prev post',
             'content_type' => 'post',
-            
-            'is_active' =>  1);
+
+            'is_active' => 1, );
         //saving
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
@@ -224,8 +218,6 @@ class ContentTest extends TestCase
         $next = next_content($save_post1);
 
         $prev = prev_content($save_post2);
-
-
 
         $this->assertEquals($save_post2, ($next['id']));
         $this->assertEquals($save_post1, ($prev['id']));
@@ -242,7 +234,4 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($del3));
         $this->assertEquals(true, is_array($next));
     }
- 
- 
-
 }
