@@ -111,7 +111,7 @@ mw_admin_puctires_upload_browse_existing = function(){
 	
  
    mw_admin_puctires_upload_browse_existing_modal = window.top.mw.modalFrame({
-        url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print url() ?>',
+        url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
 		title: "Browse pictures",
 		id: 'mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>',
        	onload:function(){
