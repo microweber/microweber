@@ -51,7 +51,7 @@ class InstallController extends Controller {
             ){
                 $input['table_prefix'] = 'p' . $input['table_prefix'];
             }
- 
+
             $errors = array();
             if (!isset($input['db_host'])){
                 $errors[] = 'Parameter "db_host" is required';
@@ -190,6 +190,9 @@ class InstallController extends Controller {
             if (!extension_loaded("pdo_$driver")){
                 unset($dbEngines[ $driver ]);
             }
+        }
+        if(!isset($dbEngines[ $defaultDbEngine ])){
+            $dbEngines[ $defaultDbEngine ] = false;
         }
         $viewData = [
             'config'          => $dbEngines[ $defaultDbEngine ],
