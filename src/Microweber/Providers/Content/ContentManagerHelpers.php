@@ -115,6 +115,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function delete($data)
     {
+
         $to_trash = false;
         $to_untrash = false;
 
@@ -145,6 +146,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $this->app->event_manager->trigger('content.before.delete', $data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
+
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
                 $del_ids[] = $c_id;

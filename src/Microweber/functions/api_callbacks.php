@@ -4,13 +4,13 @@ api_expose('api_index', function ($data = false) {
     $fns = explode(' ', api_expose(true));
     $fns = array_filter($fns);
 
-    if (is_admin()) {
+    if (is_admin()){
         $fns2 = explode(' ', api_expose_admin(true));
         $fns2 = array_filter($fns2);
         $fns = array_merge($fns, $fns2);
     }
 
-    if (isset($data['debug'])) {
+    if (isset($data['debug'])){
         dd($fns);
     }
 
@@ -28,7 +28,9 @@ api_expose('content_link');
 api_expose_admin('get_content_by_id');
 api_expose_admin('get_products');
 api_expose_admin('delete_content');
-api_expose_admin('content/delete', 'delete_content');
+api_expose_admin('content/delete', function ($data) {
+    return mw()->content_manager_helpers->delete($data);
+});
 api_expose_admin('content_parents');
 api_expose_admin('get_content_children');
 api_expose_admin('page_link');
