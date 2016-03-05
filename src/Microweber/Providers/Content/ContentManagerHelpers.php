@@ -161,9 +161,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                 foreach ($del_ids as $value) {
                     $c_id = intval($value);
                     if ($to_untrash == true) {
-                        DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 1]);
-                        DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 1]);
-
+                        DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
+                        DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
+ 
                         if (isset($this->tables['categories'])) {
                             DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         }
