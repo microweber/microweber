@@ -116,7 +116,7 @@ class ContentManagerHelpers extends ContentManagerCrud
     public function delete($data)
     {
 
-        $to_trash = false;
+        $to_trash = true;
         $to_untrash = false;
 
         if (!is_array($data)) {
