@@ -833,7 +833,13 @@ img{
   position: relative;
   margin-left: 80px;
   padding: 0;
+  padding-left:7px;
 }
+.module-posts-template-sidebar ul{
+	list-style:none;
+}
+
+
 .module-posts-template-sidebar .btn-link{
   padding-left: 0;
 }
@@ -1441,5 +1447,6 @@ label.mw-price{
 
 
 
+ 
 
 
