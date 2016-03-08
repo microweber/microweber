@@ -105,7 +105,7 @@ if ($cur_template == false) {
 <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" />
 
 
-        
+ 
         <?php if (!isset($params['simple'])) { ?>
         
         <label class="mw-ui-label">

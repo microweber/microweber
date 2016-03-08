@@ -130,8 +130,8 @@ class UpdateManager {
     public function marketplace_link($params = false) {
         if (!isset($params['marketplace_provider_id']) and isset(mw()->ui->marketplace_provider_id) and mw()->ui->marketplace_provider_id){
             $params['marketplace_provider_id'] = mw()->ui->marketplace_provider_id;
-        } elseif ($this->app->make('config')->get('microwber.marketplace_provider_id')) {
-            $params['marketplace_provider_id'] = $this->app->make('config')->get('microwber.marketplace_provider_id');
+        } elseif ($this->app->make('config')->get('microweber.marketplace_provider_id')) {
+            $params['marketplace_provider_id'] = $this->app->make('config')->get('microweber.marketplace_provider_id');
         }
 
         if (!isset($params['marketplace_access_code']) and isset(mw()->ui->marketplace_access_code)){

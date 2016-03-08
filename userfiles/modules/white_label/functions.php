@@ -85,11 +85,14 @@ function make_white_label() {
 
     }
 
-
+    if (isset($settings['marketplace_provider_id']) and trim($settings['marketplace_provider_id'])!=false){
+        mw()->ui->marketplace_provider_id = trim($settings['marketplace_provider_id']);
+    }
+    if (isset($settings['marketplace_access_code']) and trim($settings['marketplace_access_code'])!=false){
+        mw()->ui->marketplace_access_code = trim($settings['marketplace_access_code']);
+    }
     if (isset($settings['custom_support_url']) and trim($settings['custom_support_url'])!=''){
         mw()->ui->custom_support_url = $settings['custom_support_url'];
-
     }
-
 }
 
