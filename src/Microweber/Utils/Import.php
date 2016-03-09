@@ -303,7 +303,7 @@ class Import
 
     public function save_content_item($content)
     {
-        if (!isset($content['title'])) {
+        if (!isset($content['title']) or $content['title'] == false) {
             return;
         }
         $this->app->media_manager->download_remote_images = true;
@@ -533,7 +533,7 @@ class Import
                 $parent_id = $parent['id'];
                 $restored_items = array();
                 foreach ($content_items as $content) {
-                    if (isset($content['title'])) {
+                    if (isset($content['title']) and $content['title'] != false) {
                         if (!isset($content['parent'])) {
                             $content['parent'] = $parent_id;
                         }

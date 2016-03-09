@@ -27,13 +27,9 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
   <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
   <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
   <?php endif; ?>
-  <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?>
+   
   <div class="controls">
-    <textarea <?php if ($is_required): ?> required="true"  <?php endif; ?> class="mw-ui-field"   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" placeholder="<?php print $data["value"]; ?>"></textarea>
+    <?php print $data["value"]; ?>
   </div>
-  <?php else : ?>
-  <div class="controls">
-    <input type="text"   <?php if ($is_required): ?> required="true"  <?php endif; ?> class="mw-ui-field"   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>"  placeholder="<?php print $data["value"]; ?>" />
-  </div>
-  <?php endif; ?>
+  
 </div>
