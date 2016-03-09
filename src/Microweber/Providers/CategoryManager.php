@@ -462,7 +462,7 @@ class CategoryManager
                 $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted=0  ";
                 $sql = $sql."$remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
             } else {
-                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND is_deleted=0 AND data_type='category' AND (categories_content_type='$content_type' OR categories_content_type='inherit' ) ";
+                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND is_deleted=0 AND data_type='category' AND (category_subtype='$content_type' OR category_subtype='inherit' ) ";
                 $sql = $sql." $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 
             }
@@ -600,7 +600,7 @@ class CategoryManager
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
 
-                            $to_print = str_ireplace('{categories_content_type}', trim($item['categories_content_type']), $to_print);
+                            $to_print = str_ireplace('{category_subtype}', trim($item['category_subtype']), $to_print);
                             $to_print = str_replace('{empty}', $empty, $to_print);
 
                             $active_found = false;
@@ -1043,6 +1043,8 @@ class CategoryManager
 
         $data = $this->app->database_manager->get($data);
 
+
+
         return $data;
     }
 
@@ -1107,6 +1109,10 @@ class CategoryManager
 
         if (isset($data['position'])) {
             $data['position'] = intval($data['position']);
+        }
+
+        if (isset($data['category_subtype_settings_json'])) {
+            $data['category_subtype_settings_json'] = @json_encode($data['category_subtype_settings_json']);
         }
 
         $no_position_fix = false;
@@ -1199,10 +1205,11 @@ class CategoryManager
                 }
             }
         }
+        $data['allow_html'] = true;
+
 
         $id = $save = $this->app->database_manager->extended_save($table, $data);
 
-        // $id = $save = $this->app->database_manager->save($table, $data);
 
         if ($simple_save == true) {
             return $save;
@@ -1333,6 +1340,12 @@ class CategoryManager
             $get['no_cache'] = true;
             $get['single'] = true;
             $q = $this->app->database_manager->get($table, $get);
+
+            if (isset($q['category_subtype_settings_json'])) {
+                $q['category_subtype_settings_json'] = @json_decode($q['category_subtype_settings_json'],true);
+            }
+
+
             $cache_content[ $id ] = $q;
             $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
 

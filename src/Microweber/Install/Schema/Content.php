@@ -198,8 +198,10 @@ class Content
                 'users_can_create_content' => 'integer',
                 'users_can_create_content_allowed_usergroups' => 'string',
 
-                'categories_content_type' => 'longText',
-                'categories_silo_keywords' => 'longText',
+              //  'categories_content_type' => 'longText',
+
+                'category_subtype' => 'string',
+                'category_subtype_settings_json' => 'longText',
 
                 '$index' => ['rel_type', 'rel_id', 'parent_id'],
             ],

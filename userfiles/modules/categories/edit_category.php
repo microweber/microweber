@@ -192,7 +192,6 @@ $(document).ready(function(){
     }
 
 ?>
-
   <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
     <input name="table" type="hidden" value="categories" />
@@ -217,26 +216,16 @@ $(document).ready(function(){
           <?php endif; ?>
         </div>
         <div class="mw-ui-col" id="content-title-field-buttons">
-
-            <div class="content-title-field-buttons">
-
+          <div class="content-title-field-buttons">
             <?php if(intval($data['id']) != 0): ?>
-            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
-              <a href="<?php print admin_url(); ?>view:content#action=new:category" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("Add new category"); ?>">
-                <span class="mw-icon-plus"></span>
-                <span class="mw-icon-category"></span>
-              </a>
-              <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a>
-            </div>
+            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;"> <a href="<?php print admin_url(); ?>view:content#action=new:category" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("Add new category"); ?>"> <span class="mw-icon-plus"></span> <span class="mw-icon-category"></span> </a> <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a> </div>
             <?php endif; ?>
-             <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert pull-right" id="mw-admin-cat-save">
-                <?php _e("Save"); ?>
+            <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert pull-right" id="mw-admin-cat-save">
+            <?php _e("Save"); ?>
             </button>
-            </div>
-
-
+          </div>
         </div>
-        <script>mw.admin.titleColumnNavWidth();</script>
+        <script>mw.admin.titleColumnNavWidth();</script> 
       </div>
     </div>
     <div class="mw-ui-field-holder">
@@ -274,68 +263,102 @@ $(document).ready(function(){
   </script>
     <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
     <div class="advanced_settings">
-      <label class="mw-ui-label"><?php _e("Category images and settings"); ?></label>
-      <div class="mw-ui-btn-nav" id="tabsnav">
-        <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span><?php _e("Picture Gallery"); ?></span></span>
-        <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span><?php _e("Advanced"); ?></span></span> </div>
+      <label class="mw-ui-label">
+        <?php _e("Category images and settings"); ?>
+      </label>
+      <div class="mw-ui-btn-nav" id="tabsnav"> <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>
+        <?php _e("Picture Gallery"); ?>
+        </span></span> <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
+        <?php _e("Advanced"); ?>
+        </span></span> </div>
       <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
         <div class="pictures-editor-holder">
           <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />
         </div>
       </div>
       <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+        <?php if (isset($data['id']) and $data['id'] != 0): ?>
+        <div class="mw-ui-field-holder">
+          <label class="mw-ui-label">
+            <?php _e("Link"); ?>
+          </label>
+          <small> <a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a> </small> </div>
+        <?php endif; ?>
+        <div class="mw-ui-field-holder">
+          <label class="mw-ui-label">
+            <?php _e("Slug"); ?>
+          </label>
+          <input type="text"  class="mw-ui-field w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']): ''?>" />
+        </div>
         <div class="mw-ui-field-holder">
           <label class="mw-ui-label">
             <?php _e("Description"); ?>
           </label>
           <textarea  class="mw-ui-field w100" name="description"><?php print ($data['description'])?></textarea>
         </div>
-        
-        
-        <div class="mw-ui-field-holder">
-          <?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 0; } 	?>
-          <div class="mw-ui-check-selector">
-            <div class="mw-ui-label left" style="width: 230px">
-              <?php _e("Can users create content"); ?>
-              <small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
-            <label class="mw-ui-check">
-              <input name="users_can_create_content" type="radio"  value="0" <?php if( '' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-              <span></span><span>
-              <?php _e("No"); ?>
-              </span></label>
-            <label class="mw-ui-check">
-              <input name="users_can_create_content" type="radio"  value="1" <?php if( '1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-              <span></span><span>
-              <?php _e("Yes"); ?>
-              </span></label>
-          </div>
-        </div>
-        
-        
-         <div class="mw-ui-field-holder">
-          <label class="mw-ui-label">
-            <?php _e("Slug"); ?>
-          </label>
-          <input type="text"  class="mw-ui-field w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']): ''?>" /> 
-        </div>
-        
-        
-        
-        
-        
         <?php if (isset($data['id'])): ?>
- 
- 
-<module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"  />
+        <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"  />
+        <?php endif; ?>
+        <div><small><a  href="javascript:$('.mw-edit-cat-edit-mote-advanced-toggle').toggle();void(0);"> <span class="mw-icon-more" style="opacity:0.3"></span> </a></small> </div>
+        <div class="mw-edit-cat-edit-mote-advanced-toggle" style="display:none">
+          <div class="mw-ui-field-holder">
+            <?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 0; } 	?>
+            <div class="mw-ui-check-selector">
+              <div class="mw-ui-label left" style="width: 230px">
+                <?php _e("Can users create content"); ?>
+                <small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
+              <label class="mw-ui-check">
+                <input name="users_can_create_content" type="radio"  value="0" <?php if( '' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+                <span></span><span>
+                <?php _e("No"); ?>
+                </span></label>
+              <label class="mw-ui-check">
+                <input name="users_can_create_content" type="radio"  value="1" <?php if( '1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+                <span></span><span>
+                <?php _e("Yes"); ?>
+                </span></label>
+            </div>
+          </div>
+          <?php if (isset($data['id'])): ?>
+          <?php if(!isset($data['category_subtype'])) { $data['category_subtype'] = 'default'; } 	?>
+          <input type="hidden" name="category_subtype" value="<?php print $data['category_subtype'] ?>" />
+          <script  type="text/javascript">
 
-
-
-<?php endif; ?>
-        
-        
-        
-        
-        
+			$(document).ready(function(){
+			
+				mw.dropdown();
+			
+			
+			$('.edit-category-choose-subtype-dd').on('change',function(){
+				var val = $(this).getDropdownValue();
+				$('[name="category_subtype"]','#admin_edit_category_form_<?php print $form_rand_id ?>').val(val)
+				
+				$('#admin_edit_category_subtype_settings_<?php print $form_rand_id ?>').attr('category_subtype',val);
+				mw.reload_module('#admin_edit_category_subtype_settings_<?php print $form_rand_id ?>');
+				
+				});
+			});
+			
+			
+			
+			</script>
+          <div class="mw-ui-field-holder">
+            <div class="mw-ui-label" style="width: 230px">
+              <?php _e("Category"); ?>
+              <?php _e("Subtype"); ?>
+              <small class="mw-help" data-help="You can set the category behaviour by changing its subtype">(?)</small></div>
+            <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
+              <div class="mw-dropdown-content" style="display: none;">
+                <ul>
+                  <li value="default">Default</li>
+                  <li value="smart">Smart</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <module type="categories/edit_category_subtype_settings" category_subtype="<?php print $data['category_subtype'] ?>" category-id="<?php print $data['id'] ?>" id="admin_edit_category_subtype_settings_<?php print $form_rand_id ?>"  />
+          <?php endif; ?>
+        </div>
       </div>
     </div>
   </form>
