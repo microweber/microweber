@@ -20,14 +20,14 @@ if($data == false or empty($data )){
   
 ?>
 <?php
- if(!isset($data['category_subtype_settings_json'])) { 
- $data['category_subtype_settings_json'] = array();
+ if(!isset($data['category_subtype_settings'])) { 
+ $data['category_subtype_settings'] = array();
   } 
   
   $filter_content_by_keywords= false;
-  if(is_array($data['category_subtype_settings_json'])){
-	  if(isset($data['category_subtype_settings_json']['filter_content_by_keywords'])){
-		  $filter_content_by_keywords = $data['category_subtype_settings_json']['filter_content_by_keywords'];
+  if(is_array($data['category_subtype_settings'])){
+	  if(isset($data['category_subtype_settings']['filter_content_by_keywords'])){
+		  $filter_content_by_keywords = $data['category_subtype_settings']['filter_content_by_keywords'];
 	  }
   }
   
@@ -37,5 +37,5 @@ if($data == false or empty($data )){
           <label class="mw-ui-label">
             Filter content by keywords
           </label>
-          <input type="text"  class="mw-ui-field w100" name="category_subtype_settings_json[filter_content_by_keywords]" value="<?php print $filter_content_by_keywords; ?>" />
+          <input type="text"  class="mw-ui-field w100" name="category_subtype_settings[filter_content_by_keywords]" value="<?php print $filter_content_by_keywords; ?>" />
 </div>

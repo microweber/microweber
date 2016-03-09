@@ -1111,8 +1111,8 @@ class CategoryManager
             $data['position'] = intval($data['position']);
         }
 
-        if (isset($data['category_subtype_settings_json'])) {
-            $data['category_subtype_settings_json'] = @json_encode($data['category_subtype_settings_json']);
+        if (isset($data['category_subtype_settings'])) {
+            $data['category_subtype_settings'] = @json_encode($data['category_subtype_settings']);
         }
 
         $no_position_fix = false;
@@ -1341,8 +1341,8 @@ class CategoryManager
             $get['single'] = true;
             $q = $this->app->database_manager->get($table, $get);
 
-            if (isset($q['category_subtype_settings_json'])) {
-                $q['category_subtype_settings_json'] = @json_decode($q['category_subtype_settings_json'],true);
+            if (isset($q['category_subtype_settings'])) {
+                $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'],true);
             }
 
 

@@ -201,7 +201,7 @@ class Content
               //  'categories_content_type' => 'longText',
 
                 'category_subtype' => 'string',
-                'category_subtype_settings_json' => 'longText',
+                'category_subtype_settings' => 'longText',
 
                 '$index' => ['rel_type', 'rel_id', 'parent_id'],
             ],

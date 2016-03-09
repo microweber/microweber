@@ -189,9 +189,8 @@ trait QueryFilter
                                          if ($to_search_keyword!=''){
                                             if (!empty($to_search_in_fields)){
                                                 $where_or_where = 'orWhere';
-                                                if($kw_number_counter == 0){
+                                                if (isset($params['keywords_exact_match'])) {
                                                     $where_or_where = 'where';
-
                                                 }
                                                 $query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params) {
                                                     foreach ($to_search_in_fields as $to_search_in_field) {
@@ -243,20 +242,9 @@ trait QueryFilter
 //
 //                        })->whereIn('categories_items.parent_id', $ids)->groupBy('categories_items.rel_id');
 
-                        if (!isset($params['category_no_distinct_select'])) {
-                            $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
-                                ->where('categories_items.rel_type', $table)
-                                ->whereIn('categories_items.parent_id', $ids)->distinct();
-                        } else {
-                            //dd($params);
-                            $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
-                                ->where('categories_items.rel_type', $table)
-                                ->whereIn('categories_items.parent_id', $ids);
-
-
-
-
-                        }
+                        $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
+                            ->where('categories_items.rel_type', $table)
+                            ->whereIn('categories_items.parent_id', $ids)->distinct();
 
 
 
@@ -409,9 +397,7 @@ trait QueryFilter
             }
             call_user_func_array($callback, [$query, $params[ $name ], $table]);
         }
-        if (isset($params['category_no_distinct_select'])){
-            // dd($query->toSql(),$params);
-        }
+
         return $query;
     }
 

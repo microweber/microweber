@@ -154,21 +154,18 @@ class ContentManagerCrud extends Crud
             $params['keyword'] = $params['search_by_keyword'];
         }
 
-        if (isset($params['category']) and is_int($params['category'])) {
-
+        if (isset($params['category']) and is_numeric($params['category'])) {
+            $params['category'] = intval($params['category']);
             //check if this is smart category
             $cat_id = $params['category'];
             $category = $this->app->category_manager->get_by_id($cat_id);
             if (is_array($category)
-
-                and isset($category['category_subtype_settings_json'])
-                and isset($category['category_subtype_settings_json']['filter_content_by_keywords'])
-                and trim($category['category_subtype_settings_json']['filter_content_by_keywords']) != '') {
-                $params['keyword'] = $category['category_subtype_settings_json']['filter_content_by_keywords'];
-                $params['category_no_distinct_select'] = true;
-                //$params['no_cache'] = true;
-
-                // unset($params['category']);
+                and isset($category['category_subtype'])
+                and ($category['category_subtype'] == 'dynamic')
+                and isset($category['category_subtype_settings'])
+                and isset($category['category_subtype_settings']['filter_content_by_keywords'])
+                and trim($category['category_subtype_settings']['filter_content_by_keywords']) != '') {
+                $params['keyword'] = $category['category_subtype_settings']['filter_content_by_keywords'];
 
             }
         }
