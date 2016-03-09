@@ -152,46 +152,69 @@ trait QueryFilter
 
                         if (isset($params['keyword'])) {
                             $to_search_keyword = $params['keyword'];
-                        }
+                         }
 
-                        if ($to_search_in_fields != false and $to_search_keyword != false) {
-                            if (is_string($to_search_in_fields)) {
-                                $to_search_in_fields = explode(',', $to_search_in_fields);
+                        if ($to_search_in_fields != false and $to_search_keyword != false){
+                            if ($dbDriver=='sqlite'){
+                                $pdo = DB::connection('sqlite')->getPdo();
+                                $pdo->sqliteCreateFunction('regexp',
+                                    function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
+                                        if (isset($pattern, $data)===true){
+                                            return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
+                                        }
+
+                                        return;
+                                    }
+                                );
                             }
-                            $to_search_keyword = preg_replace("/(^\s+)|(\s+$)/us", '', $to_search_keyword);
-                            $to_search_keyword = strip_tags($to_search_keyword);
-                            $to_search_keyword = str_replace('\\', '', $to_search_keyword);
-                            $to_search_keyword = str_replace('*', '', $to_search_keyword);
-                            $to_search_keyword = str_replace(';', '', $to_search_keyword);
-                            if ($to_search_keyword != '') {
-                                if ($dbDriver == 'sqlite') {
-                                    $pdo = DB::connection('sqlite')->getPdo();
-                                    $pdo->sqliteCreateFunction('regexp',
-                                        function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
-                                            if (isset($pattern, $data) === true) {
-                                                return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
+
+
+                            $to_search_keywords = explode(',',$to_search_keyword);
+
+                            if(!empty($to_search_keywords)){
+                                $kw_number_counter = 0;
+                                foreach($to_search_keywords as $to_search_keyword){
+                                    $to_search_keyword = trim($to_search_keyword);
+
+
+                                    if ($to_search_keyword!=false){
+                                        if (is_string($to_search_in_fields)){
+                                            $to_search_in_fields = explode(',', $to_search_in_fields);
+                                        }
+                                        $to_search_keyword = preg_replace("/(^\s+)|(\s+$)/us", '', $to_search_keyword);
+                                        $to_search_keyword = strip_tags($to_search_keyword);
+                                        $to_search_keyword = str_replace('\\', '', $to_search_keyword);
+                                        $to_search_keyword = str_replace('*', '', $to_search_keyword);
+                                        $to_search_keyword = str_replace(';', '', $to_search_keyword);
+                                         if ($to_search_keyword!=''){
+                                            if (!empty($to_search_in_fields)){
+                                                $where_or_where = 'orWhere';
+                                                if($kw_number_counter == 0){
+                                                    $where_or_where = 'where';
+
+                                                }
+                                                $query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params) {
+                                                    foreach ($to_search_in_fields as $to_search_in_field) {
+                                                        $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
+                                                    }
+
+                                                    if (isset($params['is_active'])){
+                                                        $query->where('is_active', $params['is_active']);
+                                                    }
+                                                    if (isset($params['is_deleted'])){
+                                                        $query->where('is_deleted', $params['is_deleted']);
+                                                    }
+                                                });
                                             }
-
-                                            return;
                                         }
-                                    );
-                                }
-                                if (!empty($to_search_in_fields)) {
-                                    $query->where(function ($query) use ($to_search_in_fields, $to_search_keyword, $params) {
-                                        foreach ($to_search_in_fields as $to_search_in_field) {
-                                            $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
-                                        }
-                                        if (isset($params['is_active'])) {
-                                            $query->where('is_active', $params['is_active']);
-                                        }
-                                        if (isset($params['is_deleted'])) {
-                                            $query->where('is_deleted', $params['is_deleted']);
-                                        }
-                                    });
+                                    }
+                                    $kw_number_counter++;
                                 }
                             }
+
                         }
                     }
+
 
                     unset($params[ $filter ]);
                     break;
@@ -220,9 +243,23 @@ trait QueryFilter
 //
 //                        })->whereIn('categories_items.parent_id', $ids)->groupBy('categories_items.rel_id');
 
-                        $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
-                            ->where('categories_items.rel_type', $table)
-                            ->whereIn('categories_items.parent_id', $ids)->distinct();
+                        if (!isset($params['category_no_distinct_select'])) {
+                            $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
+                                ->where('categories_items.rel_type', $table)
+                                ->whereIn('categories_items.parent_id', $ids)->distinct();
+                        } else {
+                            //dd($params);
+                            $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
+                                ->where('categories_items.rel_type', $table)
+                                ->whereIn('categories_items.parent_id', $ids);
+
+
+
+
+                        }
+
+
+
                     }
                     unset($params[ $filter ]);
 
@@ -372,7 +409,9 @@ trait QueryFilter
             }
             call_user_func_array($callback, [$query, $params[ $name ], $table]);
         }
-
+        if (isset($params['category_no_distinct_select'])){
+            // dd($query->toSql(),$params);
+        }
         return $query;
     }
 

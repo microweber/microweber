@@ -154,6 +154,27 @@ class ContentManagerCrud extends Crud
             $params['keyword'] = $params['search_by_keyword'];
         }
 
+        if (isset($params['category']) and is_int($params['category'])) {
+
+            //check if this is smart category
+            $cat_id = $params['category'];
+            $category = $this->app->category_manager->get_by_id($cat_id);
+            if (is_array($category)
+
+                and isset($category['category_subtype_settings_json'])
+                and isset($category['category_subtype_settings_json']['filter_content_by_keywords'])
+                and trim($category['category_subtype_settings_json']['filter_content_by_keywords']) != '') {
+                $params['keyword'] = $category['category_subtype_settings_json']['filter_content_by_keywords'];
+                $params['category_no_distinct_select'] = true;
+                //$params['no_cache'] = true;
+
+                // unset($params['category']);
+
+            }
+        }
+
+
+
         if (isset($params['keyword']) and !isset($params['search_in_fields'])) {
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
@@ -163,6 +184,8 @@ class ContentManagerCrud extends Crud
                 $params['is_active'] = 1;
             }
         }
+
+
 
         $get = parent::get($params);
 
