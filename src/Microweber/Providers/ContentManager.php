@@ -1759,7 +1759,15 @@ class ContentManager
                                 $result_item = array();
                                 $result_item['title'] = $content['title'];
                                 $result_item['description'] = $content['description'];
-                                $result_item['url'] = $this->app->category_manager->link($content['id']);
+
+                                if(isset($params['current-page-as-root'])){
+                                    $result_item['url'] = page_link().'/category:'.$content['id'];
+
+                                } else {
+                                    $result_item['url'] = $this->app->category_manager->link($content['id']);
+
+                                }
+
 
                                 $result_item['content_type'] = 'category';
                                 if ($cur_content == false and $cur_category == $content['id']) {

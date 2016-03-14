@@ -66,6 +66,8 @@ class CategoryManager
      */
     public function tree($params = false)
     {
+        //this whole code must be reworked
+
         $p2 = array();
         if (!is_array($params)) {
             if (is_string($params)) {

@@ -156,7 +156,7 @@ class ContentManagerCrud extends Crud
 
         if (isset($params['category']) and is_numeric($params['category'])) {
             $params['category'] = intval($params['category']);
-            //check if this is smart category
+            //check if this is dynamic category
             $cat_id = $params['category'];
             $category = $this->app->category_manager->get_by_id($cat_id);
             if (is_array($category)
@@ -165,6 +165,7 @@ class ContentManagerCrud extends Crud
                 and isset($category['category_subtype_settings'])
                 and isset($category['category_subtype_settings']['filter_content_by_keywords'])
                 and trim($category['category_subtype_settings']['filter_content_by_keywords']) != '') {
+
                 $params['keyword'] = $category['category_subtype_settings']['filter_content_by_keywords'];
 
             }

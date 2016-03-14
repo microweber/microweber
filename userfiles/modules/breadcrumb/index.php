@@ -1,11 +1,13 @@
 <?php 
 
  
+$breacrumb_params = array();
 
-$data = breadcrumb();
 
- 
-
+if(isset($params['current-page-as-root'])){
+	$breacrumb_params['current-page-as-root'] = $params['current-page-as-root'];
+}
+$data = breadcrumb($breacrumb_params);
 
 
 $module_template = get_option('data-template', $params['id']);
