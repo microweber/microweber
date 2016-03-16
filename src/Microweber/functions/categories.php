@@ -46,6 +46,11 @@ function content_categories($content_id = false, $data_type = 'categories')
     return get_categories_for_content($content_id, $data_type);
 }
 
+function content_tags($content_id = false)
+{
+    return get_categories_for_content($content_id, 'tags');
+}
+
 function get_categories_for_content($content_id = false, $data_type = 'categories')
 {
     if (intval($content_id) == 0) {

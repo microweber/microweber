@@ -215,6 +215,13 @@ if(!empty($template_config)){
               placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords'])?>
 </textarea>
       </div>
+      
+      
+      <module type="content/views/content_tags" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"  />
+ 
+      
+      
+      
     </div>
   </div>
   <div class="mw-ui-col">
