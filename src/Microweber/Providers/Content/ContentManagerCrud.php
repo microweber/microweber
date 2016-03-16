@@ -189,7 +189,7 @@ class ContentManagerCrud extends Crud
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
-                $get['url'] = $this->app->url_manager->site($get['url']);
+               $get['full_url'] = $this->app->url_manager->site($get['url']);
             }
 
             return $get;
@@ -263,6 +263,7 @@ class ContentManagerCrud extends Crud
         if (isset(self::$precached_links[ $link_hash ])) {
             return self::$precached_links[ $link_hash ];
         }
+
         $get = array();
         $get['url'] = $url;
         $get['single'] = true;
