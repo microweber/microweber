@@ -351,7 +351,7 @@ $(document).ready(function(){
               <div class="mw-dropdown-content" style="display: none;">
                 <ul>
                   <li value="default">Default</li>
-                  <li value="dynamic">Dynamic</li>
+                  <li value="content_filter">Content filter</li>
                 </ul>
               </div>
             </div>

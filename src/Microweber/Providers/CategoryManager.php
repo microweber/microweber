@@ -112,7 +112,7 @@ class CategoryManager {
         if (!isset($params['no_cache'])){
             if ($nest_level_orig==0){
                 $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-                // $cache_content = false;
+                 $cache_content = false;
                 if (($cache_content)!=false){
                     echo $cache_content;
 
@@ -367,7 +367,7 @@ class CategoryManager {
      *
      * @since   Version 1.0
      */
-    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false, $only_ids = false) {
+    private function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false, $only_ids = false) {
         $db_t_content = $this->tables['content'];
 
         $table = $db_categories = $this->tables['categories'];
@@ -1265,6 +1265,7 @@ class CategoryManager {
                 $item_save['parent_id'] = intval($save);
 
                 $item_save = $this->app->database_manager->save($table_items, $item_save);
+
             }
         }
         if ($old_parent!=false){

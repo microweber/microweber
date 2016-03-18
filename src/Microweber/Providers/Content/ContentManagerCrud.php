@@ -161,7 +161,7 @@ class ContentManagerCrud extends Crud
             $category = $this->app->category_manager->get_by_id($cat_id);
             if (is_array($category)
                 and isset($category['category_subtype'])
-                and ($category['category_subtype'] == 'dynamic')
+                and ($category['category_subtype'] == 'content_filter')
                 and isset($category['category_subtype_settings'])
                 and isset($category['category_subtype_settings']['filter_content_by_keywords'])
                 and trim($category['category_subtype_settings']['filter_content_by_keywords']) != '') {

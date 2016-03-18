@@ -340,10 +340,10 @@ class Utils
     public function clean_input($input)
     {
 
-        return $this->app->format->clean_xss($input,true);
+       // return $this->app->format->clean_xss($input,true);
 
 
-        /*if (is_array($input)) {
+      if (is_array($input)) {
             $output = array();
             foreach ($input as $var => $val) {
                 $output[ $var ] = $this->clean_input($val);
@@ -363,7 +363,7 @@ class Utils
             return $input;
         }
 
-        return $output;*/
+        return $output; 
     }
 
     /**

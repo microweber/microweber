@@ -216,9 +216,9 @@ if(!empty($template_config)){
 </textarea>
       </div>
       
-      
+       <?php if ($show_page_settings == false): ?>
       <module type="content/views/content_tags" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"  />
- 
+ 		<?php endif; ?>
       
       
       
