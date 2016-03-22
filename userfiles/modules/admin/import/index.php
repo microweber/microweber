@@ -10,9 +10,10 @@
 
  
 		$(document).ready(function(){
+			  mw.admin_import.start_batch_process();
+
 			
-			
-			 mw.reload_module_interval('admin/import/process', 1500);
+			// mw.reload_module_interval('admin/import/process', 1500);
 		
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
@@ -95,6 +96,15 @@ mw.ok_import_file = function(){
  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
   <?php _e("Upload file"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
-<module type="admin/import/process" />
+  
+  <div id="import-progress-log-holder" style="display:none">
+  Progress: <span id="import-progress-log-holder-values"></span>  
+<meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter">Import progress</meter>
+
+<span data-tip="Cancel" class="mw-icon-close show-on-hover tip" onclick="mw.admin_import.cancel_batch_process();"></span>
+
+
+  </div>
+ 
 <module type="admin/import/manage" />
 </div>

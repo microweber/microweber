@@ -363,7 +363,7 @@ class Utils
             return $input;
         }
 
-        return $output; 
+        return $output;
     }
 
     /**

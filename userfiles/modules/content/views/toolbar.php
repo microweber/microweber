@@ -57,6 +57,9 @@ if ($last_page_front != false) {
     </script>
 <?php endif; ?>
 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>
+<?php
+ 
+ $params['keyword'] = urldecode($params['keyword']); ?>
 <script>
         $(function () {
 

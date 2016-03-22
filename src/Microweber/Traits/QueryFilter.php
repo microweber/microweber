@@ -151,6 +151,7 @@ trait QueryFilter
                         $to_search_in_fields = $params['search_in_fields'];
 
                         if (isset($params['keyword'])) {
+                            $params['keyword'] = urldecode($params['keyword']);
                             $to_search_keyword = $params['keyword'];
                          }
 

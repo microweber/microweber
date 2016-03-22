@@ -103,4 +103,62 @@ mw.admin_import = {
       			);
         })
 	},
+	
+	
+	start_batch_process : function(){
+	 
+		$.post(mw.settings.api_url+'Microweber/Utils/Import/batch_process', {process:true} ,
+			function(msg) {
+				
+				
+				if(typeof(msg.percent) != 'undefined'){
+				$('#import-progress-log-holder:hidden').show();	
+				 if(typeof(msg.total) != 'undefined' && typeof(msg.remaining) != 'undefined'){
+					 
+				$('#import-progress-log-holder-values').html(msg.total+'/'+msg.remaining);		 
+				 }
+				 
+	 
+	 
+	 
+				$('#import-progress-log-meter').attr('value',msg.percent);	
+			 
+				} else {
+				$('#import-progress-log-holder:visible').hide();	
+	
+				}
+				
+				 
+				
+				//mw.reload_module('admin/import/process');
+				setTimeout(function(){ 
+				mw.admin_import.start_batch_process();
+				
+				 }, 2000);
+ 
+
+			
+			});
+
+	},
+	cancel_batch_process : function(){
+	 var r = confirm("Are you sure you want to cancel the import?");
+		if (r == true) {
+		$.post(mw.settings.api_url+'Microweber/Utils/Import/batch_process', {cancel:true} ,
+			function(msg) {
+				
+				
+			});
+		} 
+
+
+		
+
+	},
+			
+	
+	
+	
+	
+	
 }

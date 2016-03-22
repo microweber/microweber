@@ -61,6 +61,7 @@ class Manager
             $no_page_edit = $params['no_page_edit'];
         }
         if (isset($params['keyword'])) {
+			 
             $posts_mod['search_by_keyword'] = $params['keyword'];
         }
         if (isset($params['content_type']) and $params['content_type'] != false) {
