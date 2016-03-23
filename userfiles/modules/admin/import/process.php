@@ -2,6 +2,8 @@
 $total = 0;
 $remaining = 0;
 $batch = mw('Microweber\Utils\Import')->batch_process();
+
+//$batch = mw('Microweber\Utils\Import')->log();
 if(isset($batch['total'])){
 	$total = intval($batch['total']);
 }

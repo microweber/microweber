@@ -389,7 +389,7 @@ class Import {
                 $content['images'] = array_unique($content['images']);
             }
 
-            $is_saved = get_content('one=true&title=' . $content['title']);
+            $is_saved = get_content('no_cache=true&one=true&title=' . $content['title']);
 
             if (isset($content['description']) and (!isset($content['content']) or $content['content']==false)){
                 //$content['content'] = $content['description'];
@@ -454,7 +454,7 @@ class Import {
         $total = 0;
         $remaining = 0;
         $batch_file = false;
-        $save_log_info = $this->log();
+       // $save_log_info = $this->log();
 
         if (is_array($content_items) and isset($content_items['process'])){
             $content_items = false;
@@ -482,7 +482,7 @@ class Import {
                     }
                 }
                 $save_log_info['total'] = $total;
-                $this->log($save_log_info);
+              //  $this->log($save_log_info);
                 file_put_contents($index_file, $total);
             }
 
@@ -530,7 +530,7 @@ class Import {
 
                 $remaining = $i;
                 $save_log_info['remaining'] = $remaining;
-                $this->log($save_log_info);
+              //  $this->log($save_log_info);
             }
         } else {
             $total = count($content_items);
@@ -584,7 +584,7 @@ class Import {
 
                 $save_log_info['remaining'] = $remaining;
                 $save_log_info['total'] = $total;
-                $this->log($save_log_info);
+               // $this->log($save_log_info);
                 $ret = array(
                     'success'   => count($restored_items) . ' items restored',
                     'total'     => ($total),
@@ -1039,7 +1039,10 @@ class Import {
         if (!empty($chunks)){
             foreach ($chunks as $chunk) {
                 $chunk_data = serialize($chunk);
-                $file_name = 'import_chunk_' . $i;
+                $pad = str_pad($i, 8, '0', STR_PAD_LEFT);
+
+
+                $file_name = 'import_chunk_' . $pad;
                 $file_location = $chunks_folder . $file_name;
 
                 if (!is_file($file_location)){

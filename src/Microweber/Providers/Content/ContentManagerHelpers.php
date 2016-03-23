@@ -532,7 +532,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             if (isset($ustr) and trim($ustr) == 'favicon.ico') {
                 return false;
             } elseif ($ustr2 == '' or $ustr2 == '/') {
-                $ref_page = $this->homepage();
+                $ref_page = $this->app->content_manager->homepage();
                 if ($ref_page_url) {
                     $page_url_ref = $this->app->url_manager->param('content_id', $ref_page_url);
                     if ($page_url_ref !== false) {
@@ -591,7 +591,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $save_page['title'] = $title;
                         if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
                             $save_page['url'] = 'home';
-                            $home_exists = $this->homepage();
+                            $home_exists = $this->app->content_manager->homepage();
                             if ($home_exists == false) {
                                 $save_page['is_home'] = 1;
                             }
@@ -886,9 +886,8 @@ class ContentManagerHelpers extends ContentManagerCrud
             $url = $url[0];
 
             if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
-                //$page = $this->get_by_url($url);
-                $page = $this->homepage();
-                // var_dump($page);
+                 $page = $this->app->content_manager->homepage();
+           
             } else {
                 $page = $this->get_by_url($url);
             }
