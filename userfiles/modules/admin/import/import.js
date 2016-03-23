@@ -108,6 +108,7 @@ mw.admin_import = {
 	start_batch_process : function(){
 	 
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/batch_process', {process:true} ,
+		
 			function(msg) {
 				
 				
@@ -115,7 +116,7 @@ mw.admin_import = {
 				$('#import-progress-log-holder:hidden').show();	
 				 if(typeof(msg.total) != 'undefined' && typeof(msg.remaining) != 'undefined'){
 					 
-				$('#import-progress-log-holder-values').html(msg.total+'/'+msg.remaining);		 
+				$('#import-progress-log-holder-values').html(msg.remaining+'/'+msg.total);		 
 				 }
 				 
 	 
@@ -138,7 +139,10 @@ mw.admin_import = {
  
 
 			
-			});
+			}).error(function(){
+								mw.admin_import.start_batch_process();
+
+				});
 
 	},
 	cancel_batch_process : function(){

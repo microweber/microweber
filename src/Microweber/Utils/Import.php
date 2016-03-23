@@ -303,8 +303,14 @@ class Import {
 
             if (isset($content['title']) and is_string($content['title'])){
                 $category_set_item = $content['title'];
-                $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $content['title']);
+                $category_set_item = trim($category_set_item);
+                $possible_slug = $this->app->url_manager->slug($category_set_item);
 
+                $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&url=' . $possible_slug);
+
+                if (!isset($cat_item['id'])){
+                    $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
+                }
                 if (!isset($cat_item['id'])){
                     $new = $content;
                     $new['rel_type'] = 'content';
@@ -321,8 +327,8 @@ class Import {
 
                     $new = $content;
                     $new['id'] = $cat_item['id'];
-
-                    //  dd($new);
+                 //  \Log::info(print_r($new, true));
+                   //  dd($new);
                     return $this->app->category_manager->save($new);
                 }
             }
@@ -347,7 +353,17 @@ class Import {
                             }
 
                             if ($category_set_item!=false){
-                                $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
+
+                                $possible_slug = $this->app->url_manager->slug($category_set_item);
+                               // \Log::info('------'.print_r($category_set_item, true));
+                                $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&url=' . $possible_slug);
+                               // \Log::info('000000----'.print_r($cat_item, true));
+                                if (!isset($cat_item['id'])){
+                                //    \Log::info('111000000----'.print_r($cat_item, true));
+                                    $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
+                                }
+
+                              //  $cat_item = $this->app->category_manager->get('no_cache=true&single=true&rel_type=content&title=' . $category_set_item);
                                 // dd($category_set_items,$category_set_item);
                                 //if (!isset($cat_item['id'])) {
 
@@ -365,7 +381,9 @@ class Import {
                                     $new['parent_id'] = $prev_parent_cat;
                                 }
                                 // d($category_set_items);
+                             //   \Log::info(print_r($new, true));
                                 $new_cat = $this->app->category_manager->save($new);
+                            //    \Log::info(print_r($new_cat, true));
                                 $cat_item = $this->app->category_manager->get_by_id($new_cat);
                                 //  }
                                 if (isset($cat_item['id'])){

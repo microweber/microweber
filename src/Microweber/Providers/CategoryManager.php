@@ -1495,7 +1495,7 @@ class CategoryManager {
          }*/
         $data['allow_html'] = true;
 
-
+     // \Log::info(print_r($data, true));
         $id = $save = $this->app->database_manager->extended_save($table, $data);
 
 
