@@ -286,10 +286,17 @@ class UrlManager
             }
 
             if (isset($_SERVER['SERVER_PORT']) and isset($_SERVER['HTTP_HOST'])) {
-                $u = $protocol.'://'.$_SERVER['HTTP_HOST'].$port.$serverrequri;
+                if(strstr($_SERVER['HTTP_HOST'], ':')){
+                    // port is contained in HTTP_HOST
+                    $u = $protocol.'://'.$_SERVER['HTTP_HOST'].$serverrequri;
+                } else {
+                    $u = $protocol.'://'.$_SERVER['HTTP_HOST'].$port.$serverrequri;
+                }
             } elseif (isset($_SERVER['HOSTNAME'])) {
                 $u = $protocol.'://'.$_SERVER['HOSTNAME'].$port.$serverrequri;
             }
+
+
         }
 
         if ($no_get == true) {
@@ -329,33 +336,25 @@ class UrlManager
     {
         $u = false;
         if ($page_url == false or $page_url == '') {
-            $u1 = $this->current();
+            $current_url = $this->current();
         } else {
-            $u1 = $page_url;
+            $current_url = $page_url;
         }
-        $u2 = $this->site_url();
+        $site_url = $this->site_url();
+        $site_url = rtrim($site_url, '\\');
+        $site_url = rtrim($site_url, '/');
+        $site_url = reduce_double_slashes($site_url);
+        $site_url = rawurldecode($site_url);
 
-        $u1 = rtrim($u1, '\\');
-        $u1 = rtrim($u1, '/');
-        $u2 = rtrim($u2, '\\');
-        $u2 = rtrim($u2, '/');
-        $u2 = reduce_double_slashes($u2);
-        $u1 = reduce_double_slashes($u1);
-        $u2 = rawurldecode($u2);
-        $u1 = rawurldecode($u1);
-        $u1 = str_replace($u2, '', $u1);
-        $u1 = str_replace(' ', '%20', $u1);
+        $current_url = rtrim($current_url, '\\');
+        $current_url = rtrim($current_url, '/');
+        $current_url = rawurldecode($current_url);
+        $current_url = str_replace($site_url, '', $current_url);
+        $current_url = str_replace(' ', '%20', $current_url);
+        $current_url = reduce_double_slashes($current_url);
+
         if (!isset($u) or $u == false) {
-             $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-             if(isset($u[0])){
-                //check for port
-                 $string = substr($u[0],0,1);
-                 if($string == ':'){
-                     unset($u[0]);
-                     $u = array_values($u);
-                 }
-             }
-
+            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
         }
 
         if ($num != -1) {
