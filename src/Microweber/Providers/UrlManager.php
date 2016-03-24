@@ -334,6 +334,7 @@ class UrlManager
             $u1 = $page_url;
         }
         $u2 = $this->site_url();
+
         $u1 = rtrim($u1, '\\');
         $u1 = rtrim($u1, '/');
         $u2 = rtrim($u2, '\\');
@@ -345,8 +346,18 @@ class UrlManager
         $u1 = str_replace($u2, '', $u1);
         $u1 = str_replace(' ', '%20', $u1);
         if (!isset($u) or $u == false) {
-            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+             $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+             if(isset($u[0])){
+                //check for port
+                 $string = substr($u[0],0,1);
+                 if($string == ':'){
+                     unset($u[0]);
+                     $u = array_values($u);
+                 }
+             }
+
         }
+
         if ($num != -1) {
             if (isset($u[ $num ])) {
                 return $u[ $num ];
