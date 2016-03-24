@@ -10,6 +10,7 @@ description: Default
 
 */
 ?>
+
 <div class="<?php print $config['module_class'] ?>">
   <div id="<?php print $rand; ?>">
     <label>
@@ -25,6 +26,6 @@ description: Default
     </select>
   </div> 
    
-   <module type="custom_fields" id="shipping-info-<?php print $params['id'] ?>" data-for="module"  default-fields="address" input-class="field-full form-control" data-skip-fields="country"   />
+   <module type="custom_fields" id="shipping-info-address-<?php print $params['id'] ?>" data-for="module"  default-fields="address" input-class="field-full form-control" data-skip-fields="country"   />
 
 </div>

@@ -134,7 +134,9 @@ class FieldsManager
 
         $table_custom_field = $this->table;
         $table_values = $this->table_values;
-
+        if (isset($data['cf_id']) and !isset($data['id'])) {
+            $data['id'] = $data['cf_id'];
+        }
         if (isset($data['field_type']) and !isset($data['type'])) {
             $data['type'] = $data['field_type'];
         }
@@ -204,7 +206,7 @@ class FieldsManager
             $data_to_save['rel_id'] = '0';
         }
         if (isset($data['options'])) {
-            $data_to_save['options'] = $this->app->format->array_to_base64($data['options']);
+            $data_to_save['options'] = $this->_encode_options($data['options']);
         }
 
         $data_to_save['session_id'] = mw()->user_manager->session_id();
@@ -386,6 +388,7 @@ class FieldsManager
         if (isset($params['for_id'])) {
             $params['rel_id'] = $id = $this->app->database_manager->escape_string($params['for_id']);
         }
+
         if (isset($params['field_type'])) {
             $params['type'] = $params['field_type'];
         }
@@ -436,6 +439,7 @@ class FieldsManager
                 $id = $this->app->database_manager->escape_string($id);
 
                 $params['rel_id'] = $id;
+
             }
         }
         if (isset($params['content'])) {
@@ -461,6 +465,9 @@ class FieldsManager
             $vals = $this->get_values($get_values);
 
             foreach ($q as $k => $v) {
+                if (isset($v['options']) and is_string($v['options'])) {
+                    $v['options'] = $this->_decode_options($v['options']);
+                }
                 $default_values = $v;
                 $default_values['values_plain'] = '';
                 $default_values['value'] = '';
@@ -503,9 +510,10 @@ class FieldsManager
                     $it = $this->decode_array_vals($it);
                     //  $it['type'] = $it['type'];
                     $it['position'] = $i;
-                    if (isset($it['options'])) {
-                        $it['options'] = $this->app->format->base64_to_array($it['options']);
+                    if (isset($it['options']) and is_string($it['options'])) {
+                       // $it['options'] = $this->_decode_options($it['options']);
                     }
+
                     $it['title'] = $it['name'];
                     $to_ret[] = $it;
                     ++$i;
@@ -649,8 +657,9 @@ class FieldsManager
                 }
             }
         }
-        if (isset($it['options'])) {
-            $it['options'] = $this->app->format->base64_to_array($it['options']);
+
+        if (isset($it['options']) and is_string($it['options'])) {
+            $it['options'] = $this->_decode_options($it['options']);
         }
 
         return $it;
@@ -812,7 +821,7 @@ class FieldsManager
         $data['type'] = $field_type;
 
         if (isset($data['options']) and is_string($data['options'])) {
-            $data['options'] = $this->app->format->base64_to_array($data['options']);
+            $data['options'] = $this->_decode_options($data['options']);
         }
 
         $data = $this->app->url_manager->replace_site_url_back($data);
@@ -911,5 +920,12 @@ class FieldsManager
         if (is_array($results)) {
             return $results;
         }
+    }
+
+    private function _encode_options($data){
+        return json_encode($data);
+    }
+    private function _decode_options($data){
+        return @json_decode($data,true);
     }
 }

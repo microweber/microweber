@@ -10,7 +10,7 @@ if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
     $skips = explode(',', $params['skip-fields']);
     $skips = array_trim($skips);
 }
-
+ 
 if ($data['values'] == false or !is_array($data['values']) or !is_array($data['values'][0])) {
     $default_data = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
     $data['values'] = $default_data;
@@ -24,18 +24,24 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
     $data['input_class'] = 'form-control';
 
 }
- 
-if (!isset($data['options']) or !is_array($data['options']) or empty($data['options'])) {
-
-    $data['options'] = array(
+$defaults =array(
         'country' => _e('Country',true),
         'city' => _e('City',true),
         'address' => _e('Address',true),
         'state' => _e('State/Province',true),
         'zip' => _e('Zip/Postal Code',true)
-    );
+    ); 
+if (!isset($data['options']) or !is_array($data['options']) or empty($data['options'])) {
+    $data['options'] = $defaults;
 }
-
+if(is_array($data['values']) and isset($data['options']) and is_array($data['options']) and !empty($data['options'])){
+	foreach ($data['values'] as $k => $v){
+		if(!in_array( $k,$data['options'])){
+		 unset($data['values'][$k]);
+		}
+	}
+	
+}
 ?>
 <?php if (is_array($data['values'])) : ?>
 
