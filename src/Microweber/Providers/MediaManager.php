@@ -399,6 +399,7 @@ class MediaManager
             $t = trim($data['content_id']);
             $s['rel_id'] = $t;
             $s['rel_type'] = 'content';
+            $s['rel_type'] = 'content';
         }
 
         if (isset($data['for'])) {
@@ -454,8 +455,8 @@ class MediaManager
             if (isset($s['rel_type']) and isset($s['rel_id'])) {
                 $s['rel_type'] = str_replace('..', '', $s['rel_type']);
 
-                $move_uploaded_files_dir = media_base_path().$host_dir.DS.$s['rel_type'].DS;
-                $move_uploaded_files_dir_index = media_base_path().$host_dir.DS.$s['rel_type'].DS.'index.php';
+                $move_uploaded_files_dir = media_base_path().'downloaded'.DS.$s['rel_type'].DS;
+                $move_uploaded_files_dir_index = media_base_path().'downloaded'.DS.$s['rel_type'].DS.'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)) {
