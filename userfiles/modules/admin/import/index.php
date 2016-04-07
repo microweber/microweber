@@ -94,6 +94,11 @@ mw.ok_import_file = function(){
 <h1><?php _e("Import Content"); ?></h1>
 
  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
+ 
+  <span id="mw_uploader_loading"></span>
+
+ 
+ 
   <?php _e("Upload file"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
   

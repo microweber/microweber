@@ -257,6 +257,7 @@ trait QueryFilter
                     $order_by_criteria = explode(',', $value);
 
                     foreach ($order_by_criteria as $c) {
+                        $c = urldecode($c);
                         $c = explode(' ', $c);
                         if (isset($c[0]) and trim($c[0]) != '') {
                             $c[0] = trim($c[0]);
