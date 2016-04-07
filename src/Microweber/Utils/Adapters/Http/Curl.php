@@ -206,6 +206,8 @@ class Curl
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__.DS.'cacert.pem.txt');
+
 
             if ($this->timeout != false) {
                 if (function_exists('set_time_limit')) {
@@ -309,6 +311,8 @@ class Curl
                 CURLOPT_SSL_VERIFYPEER => false,
                 //CURLOPT_TIMEOUT => 30,
                 CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CAINFO => __DIR__.DS.'cacert.pem.txt',
+
             );
 
             if ($type == 'post') {

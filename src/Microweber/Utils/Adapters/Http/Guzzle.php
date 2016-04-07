@@ -24,7 +24,15 @@ class Guzzle
     public function get()
     {
         $client = new Client();
-        $response = $client->get($this->url, ['timeout' => $this->timeout]);
+
+
+
+
+
+
+
+        $response = $client->get($this->url, ['timeout' => $this->timeout, 'verify'=>__DIR__.DS.'cacert.pem.txt']);
+
         $body = $response->getBody();
         $r = '';
 
@@ -75,6 +83,7 @@ class Guzzle
         $response = $client->post($this->url, [
             'body' => $data,
             'timeout' => $this->timeout,
+            'verify'=>__DIR__.DS.'cacert.pem.txt'
         ]);
 
         $r = '';
