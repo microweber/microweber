@@ -73,6 +73,9 @@ mw.menu_item_after_save = function(){
  
  
 		if(mw.menu_curenlty_editing_item_id != false){
+			
+			
+			
 			if(mw.$("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id).length>0){
 				 //	mw.reload_module_parent("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id)
 
@@ -209,7 +212,9 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
   <?php endif; ?>
   <script  type="text/javascript">
 $(document).ready(function(){
-   $("#add-custom-link-parent-id").val('<?php print $id ?>');
+   $(".add-custom-link-parent-id").val('<?php print $id ?>');
+   
+   
 
 
  });

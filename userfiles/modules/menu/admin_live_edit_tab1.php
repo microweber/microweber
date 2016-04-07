@@ -73,11 +73,11 @@ data.id = $id
 
 
 
-mw.menu_edit_items = function($menu_id, $selector){
+mw.menu_edit_items = function($menu_name, $selector){
 
-   mw.$($selector).attr('menu-name',$menu_id);
+   mw.$($selector).attr('menu-name',$menu_name);
 
-
+ 
    mw.load_module('menu/edit_items',$selector);
     menuSelectorInit();
 
@@ -226,19 +226,24 @@ $(document).ready(function(){
 
   if($menu_id == false and $menu_name != false){
   $menu_id = get_menus('one=1&title='.$menu_name);
+ 
 	  if($menu_id == false and isset($params['title'])){
 	  mw()->menu_manager->menu_create('id=0&title=' . $params['title']);
 	    $menu_id = get_menus('one=1&title='.$menu_name);
 	  }
 
   }
+ 
  if(isset($menu_id['title'])){
 	 $active_menu =   $menu_id['title'];
  }
  $menu_id = get_menus('one=1&title='.$menu_name);
  if($menu_id == false){
 	 $active_menu = $menu_name = 'header_menu';
+	  $menu_id = get_menus('one=1&title='.$menu_name);
+
  }
+   
  ?>
 
 <?php  print $active_menu ?>
@@ -334,8 +339,8 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   </div>
 
   <br>
-
-  <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php  print   $menu_id ?>" />
+ 
+  <input type="text" name="parent_id" id="add-custom-link-parent-id" class="add-custom-link-parent-id" value="<?php  print   $menu_id ?>" />
   <button class="mw-ui-btn mw-ui-btn-info pull-right" onclick="mw.menu_save_new_item('#custom_link_controller');">
   <?php _e("Add to menu"); ?>
   </button>
