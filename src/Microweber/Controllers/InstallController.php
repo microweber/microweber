@@ -65,6 +65,8 @@ class InstallController extends Controller {
             }
             if (!isset($input['db_user'])){
                 $errors[] = 'Parameter "db_user" is required';
+            } else {
+                $input['db_user'] = trim($input['db_user']);
             }
             if (!isset($input['admin_email'])){
                 $errors[] = 'Parameter "admin_email" is required';
