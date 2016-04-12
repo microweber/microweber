@@ -323,9 +323,18 @@ class FormsManager
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
+                        if($value == $email_to || $value == $email_bcc){
+                            $msg = $this->app->format->array_to_ul($pp_arr);
+                        } else {
+                            $msg = $mail_autoresp;
+                        }
+
+
+
+
                         $sender = new \Microweber\Utils\MailSender();
 
-                        $sender->send($value, $mail_sj, $mail_autoresp);
+                        $sender->send($value, $mail_sj, $msg);
                     }
                 }
             }
