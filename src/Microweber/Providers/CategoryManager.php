@@ -1165,6 +1165,7 @@ class CategoryManager {
 
         $params = array();
         $params['table'] = $table;
+        $params['no_limit'] =true;
         $params['parent_id'] = $parent_id;
 
         $save = $this->app->database_manager->get($params);
@@ -1197,9 +1198,10 @@ class CategoryManager {
         if($data_type == 'tags'){
             $data_type = 'tag' ;
         }
-        $get_category_items = $this->get_items('rel_type=content&rel_id=' . ($content_id));
+        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
+
         if (!empty($get_category_items)){
             foreach ($get_category_items as $get_category_item) {
                 if (isset($get_category_item['parent_id'])){
@@ -1211,6 +1213,7 @@ class CategoryManager {
         if (empty($get_category)){
             $get_category = array();
         }
+
         if (!empty($include_parents)){
             $include_parents_str = 'order_by=position desc&data_type='.$data_type.'&rel_type=content&ids=' . implode(',', $include_parents);
             $get_category2 = $this->get($include_parents_str);
@@ -1221,6 +1224,7 @@ class CategoryManager {
                 }
             }
         }
+
 //        if (is_array($get_category) and !empty($get_category)) {
 //            array_unique($get_category);
 //        }
@@ -1277,6 +1281,9 @@ class CategoryManager {
         $data = $params;
 
         $data['table'] = $table_items;
+        if(!isset($params['limit'])){
+        //$data['no_limit'] =true;
+        }
 
         $data = $this->app->database_manager->get($data);
 
@@ -1314,6 +1321,7 @@ class CategoryManager {
 
         if (isset($params['rel_id'])){
             $data['rel_id'] = $params['rel_id'];
+
         }
 
         if (isset($data['parent_page'])){
@@ -1326,10 +1334,10 @@ class CategoryManager {
                 unset($data['rel_type']);
             }
             if (isset($data['rel_id'])){
-                unset($data['rel_id']);
+             unset($data['rel_id']);
             }
         }
-
+//dd($data);
         $data = $this->app->database_manager->get($data);
 
 
