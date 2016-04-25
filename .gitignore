@@ -4,6 +4,8 @@ userfiles/language/
 userfiles/css/
 userfiles/media/*
 userfiles/export/*
+userfiles/import/*
+userfiles/cache/*
 storage/cache/*
 old_mw/
 phpinfo.php
