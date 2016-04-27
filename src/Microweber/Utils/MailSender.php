@@ -82,8 +82,16 @@ class MailSender
         }
     }
 
-    public function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false)
-    {
+    public function send(
+        $to,
+        $subject,
+        $message,
+        $add_hostname_to_subject = false,
+        $no_cache = false,
+        $cc = false,
+        $email_from = false,
+        $from_name = false
+    ) {
         $function_cache_id = false;
 
         $args = func_get_args();
@@ -101,7 +109,8 @@ class MailSender
            // return $cache_content;
         }
 
-        $email_from = mw()->option_manager->get('email_from', 'email');
+        $email_from = $email_from ?: mw()->option_manager->get('email_from', 'email');
+
         if ($email_from == false or $email_from == '') {
         } elseif (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
         }
@@ -111,7 +120,7 @@ class MailSender
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-            $this->exec_send($to, $subject, $message);
+            $this->exec_send($to, $subject, $message, $email_from, $from_name);
             if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
                 $this->exec_send($cc, $subject, $message);
             }
@@ -157,26 +166,32 @@ class MailSender
         $this->cc = $to;
     }
 
-    public function exec_send($to, $subject, $text, $from = false)
+    public function exec_send($to, $subject, $text, $from_address = false, $from_name = false)
     {
-        $from_address = $this->email_from;
-        $from_name = $this->email_from_name;
+        $from_address = $from_address ?: $this->email_from;
+        $from_name = $from_name ?: $this->email_from_name;
         $text = mw()->url_manager->replace_site_url_back($text);
-        $self = $this;
+
         $content = array();
         $content['content'] = $text;
         $content['subject'] = $subject;
         $content['to'] = $to;
-        $content['from'] = $from;
+        $content['from'] = $from_address;
+        $content['from_name'] = $from_name;
 
-        return \Mail::send('mw_email_send::emails.simple', $content, function ($message) use ($to, $subject, $from) {
+        return \Mail::send(
+            'mw_email_send::emails.simple',
+            $content,
+            function ($message) use ($to, $subject, $from_address, $from_name) {
 
-            if ($from != false) {
-                $message->from($from, $from);
+                $from_name = $from_name ?: $from_address;
+                if ($from_address != false) {
+                    $message->from($from_address, $from_name);
+                }
+
+                $message->to($to)->subject($subject);
             }
-
-            $message->to($to)->subject($subject);
-        });
+        );
 
         return;
     }
