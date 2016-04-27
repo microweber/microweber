@@ -1768,12 +1768,10 @@ class ContentManager
                                 $result_item['title'] = $content['title'];
                                 $result_item['description'] = $content['description'];
 
-                                if (isset($params['current-page-as-root'])) {
+                                if (isset($params['current-page-as-root']) and $params['current-page-as-root'] != false) {
                                     $result_item['url'] = page_link() . '/category:' . $content['id'];
-
                                 } else {
                                     $result_item['url'] = $this->app->category_manager->link($content['id']);
-
                                 }
 
 
