@@ -261,7 +261,7 @@ trait ExtendedSave {
                     $check = $this->app->category_manager->get_items($save_cat_item);
                     if (is_array($check) and !empty($check)){
                         foreach ($check as $item) {
-                            if (!in_array($item['parent_id'], $categories)){
+                            if (!in_array($item['parent_id'], $categories) and !array_search($item['parent_id'], $categories)){
                                 $this->app->category_manager->delete_item($item['id']);
                             }
                         }

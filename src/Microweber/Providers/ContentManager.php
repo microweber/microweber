@@ -444,7 +444,7 @@ class ContentManager
                 $item_to_print .= "<li class=\"{$li_class} {$act_class}\" data-page-number=\"$key\">";
                 $item_to_print .= "<a class=\"{$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
                 $item_to_print .= '</li>';
-                $paging_items[ $key ] = $item_to_print;
+                $paging_items[$key] = $item_to_print;
             }
 
             if ($limit != false and count($paging_items) > $limit) {
@@ -456,36 +456,36 @@ class ContentManager
                     if ($key == $active_item) {
                         $steps = $steps2 = floor($limit / 2);
                         for ($i = 1; $i <= $steps; ++$i) {
-                            if (isset($paging_items[ $key - $i ])) {
-                                $limited_paging_begin[ $key - $i ] = $paging_items[ $key - $i ];
+                            if (isset($paging_items[$key - $i])) {
+                                $limited_paging_begin[$key - $i] = $paging_items[$key - $i];
                                 // $steps2--;
                             } else {
                                 ++$steps2;
                             }
                         }
 
-                        $limited_paging[ $key ] = $paging_item;
+                        $limited_paging[$key] = $paging_item;
                         for ($i = 1; $i <= $steps2; ++$i) {
-                            if (isset($paging_items[ $key + $i ])) {
-                                $limited_paging[ $key + $i ] = $paging_items[ $key + $i ];
+                            if (isset($paging_items[$key + $i])) {
+                                $limited_paging[$key + $i] = $paging_items[$key + $i];
                             }
                         }
                     }
                 }
                 $prev_link = '#';
                 $next_link = '#';
-                if (isset($data[ $active_item - 1 ])) {
-                    $prev_link = $data[ $active_item - 1 ];
-                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a data-page-number="'.($active_item - 1).'" href="'.$prev_link.'">&laquo;</a></li>';
+                if (isset($data[$active_item - 1])) {
+                    $prev_link = $data[$active_item - 1];
+                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a></li>';
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
 
                 $limited_paging = array_merge($limited_paging_begin, $limited_paging);
 
-                if (isset($data[ $active_item + 1 ])) {
-                    $next_link = $data[ $active_item + 1 ];
-                    $limited_paging[] = '<li class="mw-next-page-item"><a data-page-number="'.($active_item + 1).'" href="'.$next_link.'">&raquo;</a></li>';
+                if (isset($data[$active_item + 1])) {
+                    $next_link = $data[$active_item + 1];
+                    $limited_paging[] = '<li class="mw-next-page-item"><a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a></li>';
                 }
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
@@ -533,18 +533,18 @@ class ContentManager
                 $new[] = implode(':', $itm);
             }
             $new_url = implode('/', $new);
-            $page_links[ $x ] = $new_url.$append_to_links;
+            $page_links[$x] = $new_url . $append_to_links;
         }
         $count = count($page_links);
         for ($x = 1; $x <= $count; ++$x) {
-            if (stristr($page_links[ $x ], $paging_param.':') == false) {
+            if (stristr($page_links[$x], $paging_param . ':') == false) {
                 if ($in_empty_url == false) {
-                    $l = reduce_double_slashes($page_links[ $x ].'/'.$paging_param.':'.$x);
+                    $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
                 } else {
-                    $l = reduce_double_slashes($page_links[ $x ].'?'.$paging_param.':'.$x);
+                    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . ':' . $x);
                 }
                 $l = str_ireplace('module/', '', $l);
-                $page_links[ $x ] = $l.$append_to_links;
+                $page_links[$x] = $l . $append_to_links;
             }
         }
 
@@ -584,7 +584,7 @@ class ContentManager
      * $pt_opts['id_prefix'] = 'my_id';
      * </pre>
      *
-     * @param int  $parent
+     * @param int $parent
      * @param bool $link
      * @param bool $active_ids
      * @param bool $active_code
@@ -619,9 +619,9 @@ class ContentManager
         $function_cache_id = false;
         $args = func_get_args();
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = __FUNCTION__.crc32($function_cache_id).PAGE_ID.$parent;
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . PAGE_ID . $parent;
         if ($parent == 0) {
             $cache_group = 'content/global';
         } else {
@@ -741,17 +741,17 @@ class ContentManager
                 $content_type_q = ' ';
             }
 
-            $sql = "SELECT * from $table where  id={$parent}    and   is_deleted=0 ".$content_type_q.$is_shop.'  order by position desc  limit 0,1';
+            $sql = "SELECT * from $table where  id={$parent}    and   is_deleted=0 " . $content_type_q . $is_shop . '  order by position desc  limit 0,1';
         } else {
             $content_type_q = "  content_type='page'  ";
             if ($include_all_content) {
                 $content_type_q = ' ';
             }
 
-            $sql = "SELECT * from $table where  ".$par_q.$content_type_q."   and   is_deleted=0 $is_shop  order by position desc limit 0,100";
+            $sql = "SELECT * from $table where  " . $par_q . $content_type_q . "   and   is_deleted=0 $is_shop  order by position desc limit 0,100";
         }
-        $cid = __FUNCTION__.crc32($sql);
-        $cidg = 'content/'.$parent;
+        $cid = __FUNCTION__ . crc32($sql);
+        $cidg = 'content/' . $parent;
         if (!is_array($params)) {
             $params = array();
         }
@@ -763,7 +763,7 @@ class ContentManager
         }
 
         if (isset($link) == false) {
-            $link = '<span data-page-id="{id}" class="pages_tree_link {nest_level} {active_class} {active_parent_class}" href="{link}'.$append_to_link.'">{title}</span>';
+            $link = '<span data-page-id="{id}" class="pages_tree_link {nest_level} {active_class} {active_parent_class}" href="{link}' . $append_to_link . '">{title}</span>';
         }
 
         if (isset($list_tag) == false) {
@@ -794,7 +794,7 @@ class ContentManager
             $active_ids = explode(',', $active_ids);
             if (is_array($active_ids) == true) {
                 foreach ($active_ids as $idk => $idv) {
-                    $active_ids[ $idk ] = intval($idv);
+                    $active_ids[$idk] = intval($idv);
                 }
             }
         }
@@ -861,7 +861,7 @@ class ContentManager
         }
 
         if ($include_first_set != false) {
-            $q = $this->get('id='.$include_first_set);
+            $q = $this->get('id=' . $include_first_set);
         } else {
             $q = $this->get($params2);
         }
@@ -881,7 +881,7 @@ class ContentManager
                     $skip_me_cause_iam_removed = false;
                     if (is_array($remove_ids) == true) {
                         foreach ($remove_ids as $idk => $idv) {
-                            $remove_ids[ $idk ] = intval($idv);
+                            $remove_ids[$idk] = intval($idv);
                         }
 
                         if (in_array($item['id'], $remove_ids)) {
@@ -895,7 +895,7 @@ class ContentManager
                         }
                     }
                     if ($skip_me_cause_iam_removed == false) {
-                        $output = $output.$item['title'];
+                        $output = $output . $item['title'];
                         $content_type_li_class = false;
                         switch ($item ['subtype']) {
                             case 'dynamic' :
@@ -933,7 +933,7 @@ class ContentManager
                         }
                         $iid = $item['id'];
 
-                        $to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes} menu-item-id-{$item['id']}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='".addslashes($item['title'])."' >";
+                        $to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes} menu-item-id-{$item['id']}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='" . addslashes($item['title']) . "' >";
 
                         if ($link != false) {
                             $active_parent_class = '';
@@ -965,12 +965,12 @@ class ContentManager
                             $ext_classes = '';
                             if ($res_count == 0) {
                                 $ext_classes .= ' first-child ';
-                                $ext_classes .= ' child-'.$res_count.'';
-                            } elseif (!isset($result[ $res_count + 1 ])) {
+                                $ext_classes .= ' child-' . $res_count . '';
+                            } elseif (!isset($result[$res_count + 1])) {
                                 $ext_classes .= ' last-child';
-                                $ext_classes .= ' child-'.$res_count.'';
+                                $ext_classes .= ' child-' . $res_count . '';
                             } else {
-                                $ext_classes .= ' child-'.$res_count.'';
+                                $ext_classes .= ' child-' . $res_count . '';
                             }
 
                             if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -982,7 +982,7 @@ class ContentManager
                             }
 
                             if (isset($item['is_active']) and $item['is_active'] == 'n') {
-                                $ext_classes = $ext_classes.' content-unpublished ';
+                                $ext_classes = $ext_classes . ' content-unpublished ';
                             }
 
                             $ext_classes = trim($ext_classes);
@@ -998,7 +998,7 @@ class ContentManager
                             $to_pr_2 = str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
 
                             $to_print = str_replace('{title}', $item['title'], $to_print);
-                            $to_print = str_replace('{nest_level}', 'depth-'.$nest_level, $to_print);
+                            $to_print = str_replace('{nest_level}', 'depth-' . $nest_level, $to_print);
                             $to_print = str_replace('{content_link_class}', $content_link_class, $to_print);
 
                             if (strstr($to_print, '{link}')) {
@@ -1008,7 +1008,7 @@ class ContentManager
                             $empty1 = intval($nest_level);
                             $empty = '';
                             for ($i1 = 0; $i1 < $empty1; ++$i1) {
-                                $empty = $empty.'&nbsp;&nbsp;';
+                                $empty = $empty . '&nbsp;&nbsp;';
                             }
                             $to_print = str_replace('{empty}', $empty, $to_print);
 
@@ -1016,7 +1016,7 @@ class ContentManager
                                 $to_print = str_replace('{tn}', thumbnail($item['id'], 'original'), $to_print);
                             }
                             foreach ($item as $item_k => $item_v) {
-                                $to_print = str_replace('{'.$item_k.'}', $item_v, $to_print);
+                                $to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
                             }
                             ++$res_count;
                             if (isset($active_ids) and is_array($active_ids) == true) {
@@ -1436,29 +1436,29 @@ class ContentManager
         }
 
         if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
-            define('THIS_TEMPLATE_DIR', templates_path().$the_active_site_template.DS);
+            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
         }
 
         if (defined('THIS_TEMPLATE_FOLDER_NAME') == false and $the_active_site_template != false) {
             define('THIS_TEMPLATE_FOLDER_NAME', $the_active_site_template);
         }
 
-        $the_active_site_template_dir = normalize_path(templates_path().$the_active_site_template.DS);
+        $the_active_site_template_dir = normalize_path(templates_path() . $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {
-            define('DEFAULT_TEMPLATE_DIR', templates_path().'default'.DS);
+            define('DEFAULT_TEMPLATE_DIR', templates_path() . 'default' . DS);
         }
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
-            define('DEFAULT_TEMPLATE_URL', templates_url().'/default/');
+            define('DEFAULT_TEMPLATE_URL', templates_url() . '/default/');
         }
 
         if (trim($the_active_site_template) != 'default') {
             if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
-                $use_default_layouts = $the_active_site_template_dir.'use_default_layouts.php';
+                $use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
                 if (is_file($use_default_layouts)) {
                     if (isset($page['layout_file'])) {
-                        $template_view = DEFAULT_TEMPLATE_DIR.$page['layout_file'];
+                        $template_view = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
                     } else {
                         $template_view = DEFAULT_TEMPLATE_DIR;
                     }
@@ -1472,19 +1472,19 @@ class ContentManager
                                 $the_active_site_template = $par_page['active_site_template'];
                                 $page['layout_file'] = $par_page['layout_file'];
                                 $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = templates_path().$page['active_site_template'].DS.$page['layout_file'];
+                                $template_view = templates_path() . $page['active_site_template'] . DS . $page['layout_file'];
                             }
                         }
                     }
 
                     if (is_file($template_view) == true) {
                         if (defined('THIS_TEMPLATE_DIR') == false) {
-                            define('THIS_TEMPLATE_DIR', templates_path().$the_active_site_template.DS);
+                            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
                         }
 
                         if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = templates_url().'/'.$the_active_site_template;
-                            $the_template_url = $the_template_url.'/';
+                            $the_template_url = templates_url() . '/' . $the_active_site_template;
+                            $the_template_url = $the_template_url . '/';
                             if (defined('THIS_TEMPLATE_URL') == false) {
                                 define('THIS_TEMPLATE_URL', $the_template_url);
                             }
@@ -1508,9 +1508,9 @@ class ContentManager
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = templates_url().'/'.$the_active_site_template;
+            $the_template_url = templates_url() . '/' . $the_active_site_template;
 
-            $the_template_url = $the_template_url.'/';
+            $the_template_url = $the_template_url . '/';
 
             if (defined('THIS_TEMPLATE_URL') == false) {
                 define('THIS_TEMPLATE_URL', $the_template_url);
@@ -1532,15 +1532,15 @@ class ContentManager
             define('TEMPLATES_DIR', templates_path());
         }
 
-        $the_template_url = templates_url().$the_active_site_template;
+        $the_template_url = templates_url() . $the_active_site_template;
 
-        $the_template_url = $the_template_url.'/';
+        $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {
             define('TEMPLATE_URL', $the_template_url);
         }
 
         if (defined('LAYOUTS_DIR') == false) {
-            $layouts_dir = TEMPLATE_DIR.'layouts/';
+            $layouts_dir = TEMPLATE_DIR . 'layouts/';
 
             define('LAYOUTS_DIR', $layouts_dir);
         } else {
@@ -1548,7 +1548,7 @@ class ContentManager
         }
 
         if (defined('LAYOUTS_URL') == false) {
-            $layouts_url = reduce_double_slashes($this->app->url_manager->link_to_file($layouts_dir).'/');
+            $layouts_url = reduce_double_slashes($this->app->url_manager->link_to_file($layouts_dir) . '/');
 
             define('LAYOUTS_URL', $layouts_url);
         }
@@ -1695,53 +1695,61 @@ class ContentManager
             $cur_category = CATEGORY_ID;
         }
 
+
+        $start_from = false;
+        if (isset($params['start_from'])) {
+            $start_from = trim($params['start_from']);
+        }
+
         if ($cur_page != false) {
-            $content_parents = $this->get_parents($cur_page);
-            if (!empty($content_parents)) {
-                foreach (($content_parents) as $item) {
-                    $item = intval($item);
-                    if ($item > 0) {
-                        $content = $this->get_by_id($item);
-                        if (isset($content['id'])) {
-                            $result_item = array();
-                            $result_item['title'] = $content['title'];
-                            $result_item['url'] = $this->link($content['id']);
-                            $result_item['description'] = $content['description'];
-                            if ($cur_content == $content['id']) {
-                                $result_item['is_active'] = true;
-                            } else {
-                                $result_item['is_active'] = false;
+            if ($start_from != 'category') {
+                $content_parents = $this->get_parents($cur_page);
+                if (!empty($content_parents)) {
+                    foreach (($content_parents) as $item) {
+                        $item = intval($item);
+                        if ($item > 0) {
+                            $content = $this->get_by_id($item);
+                            if (isset($content['id'])) {
+                                $result_item = array();
+                                $result_item['title'] = $content['title'];
+                                $result_item['url'] = $this->link($content['id']);
+                                $result_item['description'] = $content['description'];
+                                if ($cur_content == $content['id']) {
+                                    $result_item['is_active'] = true;
+                                } else {
+                                    $result_item['is_active'] = false;
+                                }
+                                $result_item['parent_content_id'] = $content['parent'];
+                                $result_item['content_type'] = $content['content_type'];
+                                $result_item['subtype'] = $content['subtype'];
+                                $result[] = $result_item;
                             }
-                            $result_item['parent_content_id'] = $content['parent'];
-                            $result_item['content_type'] = $content['content_type'];
-                            $result_item['subtype'] = $content['subtype'];
-                            $result[] = $result_item;
                         }
                     }
                 }
-            }
-            $content = $this->get_by_id($cur_page);
-            if (isset($content['id'])) {
-                $result_item = array();
-                $result_item['title'] = $content['title'];
-                $result_item['url'] = $this->link($content['id']);
-                $result_item['description'] = $content['description'];
-                $result_item['is_active'] = false;
+                $content = $this->get_by_id($cur_page);
+                if (isset($content['id'])) {
+                    $result_item = array();
+                    $result_item['title'] = $content['title'];
+                    $result_item['url'] = $this->link($content['id']);
+                    $result_item['description'] = $content['description'];
+                    $result_item['is_active'] = false;
 
-                if ($cur_content == $content['id']) {
-                    $result_item['is_active'] = true;
-                } elseif ($cur_content != false and $cur_page == $content['id']) {
-                    $result_item['is_active_as_parent'] = true;
-                    $result_item['is_active'] = false;
-                } elseif ($cur_category == false and $cur_content == false and $cur_page == $content['id']) {
-                    $result_item['is_active'] = true;
-                } else {
-                    $result_item['is_active'] = false;
+                    if ($cur_content == $content['id']) {
+                        $result_item['is_active'] = true;
+                    } elseif ($cur_content != false and $cur_page == $content['id']) {
+                        $result_item['is_active_as_parent'] = true;
+                        $result_item['is_active'] = false;
+                    } elseif ($cur_category == false and $cur_content == false and $cur_page == $content['id']) {
+                        $result_item['is_active'] = true;
+                    } else {
+                        $result_item['is_active'] = false;
+                    }
+                    $result_item['parent_content_id'] = $content['parent'];
+                    $result_item['content_type'] = $content['content_type'];
+                    $result_item['subtype'] = $content['subtype'];
+                    $result[] = $result_item;
                 }
-                $result_item['parent_content_id'] = $content['parent'];
-                $result_item['content_type'] = $content['content_type'];
-                $result_item['subtype'] = $content['subtype'];
-                $result[] = $result_item;
             }
         }
 
@@ -1760,12 +1768,10 @@ class ContentManager
                                 $result_item['title'] = $content['title'];
                                 $result_item['description'] = $content['description'];
 
-                                if(isset($params['current-page-as-root'])){
-                                    $result_item['url'] = page_link().'/category:'.$content['id'];
-
+                                if (isset($params['current-page-as-root']) and $params['current-page-as-root'] != false) {
+                                    $result_item['url'] = page_link() . '/category:' . $content['id'];
                                 } else {
                                     $result_item['url'] = $this->app->category_manager->link($content['id']);
-
                                 }
 
 
@@ -1974,13 +1980,13 @@ class ContentManager
                 } else {
                     $cats_check[] = intval($data['category']);
                 }
-                $check_if_user_can_publish = $this->app->category_manager->get('ids='.implode(',', $cats_check));
+                $check_if_user_can_publish = $this->app->category_manager->get('ids=' . implode(',', $cats_check));
                 if (!empty($check_if_user_can_publish)) {
                     $user_cats = array();
                     foreach ($check_if_user_can_publish as $item) {
                         if (isset($item['users_can_create_content']) and $item['users_can_create_content'] == 1) {
                             $user_cats[] = $item['id'];
-                            $cont_cat = $this->get('limit=1&content_type=page&subtype_value='.$item['id']);
+                            $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item['id']);
                         }
                     }
 
@@ -2116,10 +2122,10 @@ class ContentManager
                     //$categories[] = $category_id;
                 }
             }
-            $params['position'] = $compare_q.$cont_data['position'];
+            $params['position'] = $compare_q . $cont_data['position'];
         } else {
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $params['position'] = $compare_q.$cont_data['position'];
+                $params['position'] = $compare_q . $cont_data['position'];
             }
             $params['order_by'] = 'created_at asc';
             if (trim($mode) == 'prev') {

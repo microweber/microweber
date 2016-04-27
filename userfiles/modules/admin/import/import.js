@@ -135,7 +135,7 @@ mw.admin_import = {
 				setTimeout(function(){ 
 				mw.admin_import.start_batch_process();
 				
-				 }, 2000);
+				 }, 500);
  
 
 			

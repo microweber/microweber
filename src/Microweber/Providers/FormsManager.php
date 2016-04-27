@@ -171,6 +171,7 @@ class FormsManager
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
         $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $for_id);
+        $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $for_id);
 
         if (!isset($list_id) or $list_id == false) {
             $list_id = 0;
@@ -260,7 +261,7 @@ class FormsManager
             $notif['rel_type'] = 'forms_lists';
             $notif['rel_id'] = $list_id;
             $notif['title'] = 'New form entry';
-            $notif['description'] = 'You have new form entry';
+            $notif['description'] = $email_notification_subject ?: 'You have new form entry';
             $notif['content'] = 'You have new form entry from '.$this->app->url_manager->current(1).'<br />'.$this->app->format->array_to_ul($pp_arr);
             $this->app->notifications_manager->save($notif);
 
@@ -281,17 +282,11 @@ class FormsManager
             }
 
             if ($email_to != false) {
-                $mail_sj = 'Thank you!';
                 $mail_autoresp = 'Thank you for your request!';
 
-                if ($email_autorespond_subject != false) {
-                    $mail_sj = $email_autorespond_subject;
-                }
                 if ($email_autorespond != false) {
                     $mail_autoresp = $email_autorespond;
                 }
-
-                $mail_autoresp = $mail_autoresp.$this->app->format->array_to_ul($pp_arr);
 
                 $user_mails = array();
                 if (isset($admin_user_mails) and !empty($admin_user_mails)) {
@@ -322,10 +317,20 @@ class FormsManager
 
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
-                    foreach ($user_mails as $value) {
-                        $sender = new \Microweber\Utils\MailSender();
+                    $sender = new \Microweber\Utils\MailSender();
 
-                        $sender->send($value, $mail_sj, $mail_autoresp);
+                    foreach ($user_mails as $value) {
+                        if ($value == $email_to || $value == $email_bcc) {
+                            $msg = $notif['content'];
+                            $subj = $notif['description'];
+                            $from = $email_from;
+                        } else {
+                            $msg = $mail_autoresp;
+                            $subj = $email_autorespond_subject ?: 'Thank you!';
+                            $from = false;
+                        }
+
+                        $sender->send($value, $subj, $msg, $from);
                     }
                 }
             }

@@ -295,7 +295,7 @@ class Import {
         if (!isset($content['title']) or $content['title']==false){
             return;
         }
-
+$orig = $content;
         $this->app->media_manager->download_remote_images = true;
 
         if (isset($content['content_type']) and $content['content_type']=='category'){
@@ -397,7 +397,10 @@ class Import {
                     }
                 }
                 if (!empty($cats_ids)){
+                   // \Log::info(print_r($orig, true));
                     $content['categories'] = $cats_ids;
+
+
                 }
             }
 
@@ -444,7 +447,14 @@ class Import {
                     $content['subtype'] = $is_saved['subtype'];
                 }
             }
-
+//            \Log::info('----------------   ================   ----------------');
+//            \Log::info('----------------   SAVING CONTENT   ----------------');
+//            \Log::info('----------------   ================   ----------------');
+//
+//
+//
+//
+//            \Log::info(print_r($content, true));
             return save_content($content);
         }
     }
@@ -463,6 +473,14 @@ class Import {
     }
 
     public function batch_process($content_items = false) {
+       // \DB::connection()->enableQueryLog();
+//        \DB::enableQueryLog();
+//        \Event::listen('illuminate.query', function($sql)
+//        {
+//            \Log::error($sql);
+//        });
+
+
         $chunks_folder = $this->get_import_location() . '_process_import' . DS;
         $index_file = $chunks_folder . 'index.php';
         if (!is_dir($chunks_folder)){
@@ -579,6 +597,8 @@ class Import {
                         $restored_items[] = $this->save_content_item($content);
                     }
                 }
+              //   $query = \DB::getQueryLog();
+              //  \Log::info('$query----'.print_r(($query), true));
                 cache_clear('categories');
                 cache_clear('content');
 

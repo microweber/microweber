@@ -73,21 +73,21 @@ class OrderManager
         $adm = $this->app->user_manager->is_admin();
 
         if (defined('MW_API_CALL') and $adm == false) {
-            return $this->app->error('Not logged in as admin.'.__FILE__.__LINE__);
+            return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $table = $this->table;
         if (!is_array($data)) {
             $data = array('id' => intval($data));
         }
         if (isset($data['is_cart']) and trim($data['is_cart']) != 'false' and isset($data['id'])) {
-            $this->app->cart_manager->delete_cart('session_id='.$data['id']);
+            $this->app->cart_manager->delete_cart('session_id=' . $data['id']);
 
             return $data['id'];
         } elseif (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->database_manager->delete_by_id($table, $c_id);
             $this->app->event_manager->trigger('mw.cart.delete_order', $c_id);
-            $this->app->cart_manager->delete_cart('order_id='.$data['id']);
+            $this->app->cart_manager->delete_cart('order_id=' . $data['id']);
 
             return $c_id;
         }
@@ -183,7 +183,7 @@ class OrderManager
             }
             foreach ($item as $key => $value) {
                 if (!in_array($key, $allowed)) {
-                    unset($item[ $key ]);
+                    unset($item[$key]);
                 }
             }
             $export[] = $item;
@@ -194,16 +194,16 @@ class OrderManager
         }
 
         // dd($export);
-        $filename = 'orders'.'_'.date('Y-m-d_H-i', time()).uniqid().'.csv';
-        $filename_path = userfiles_path().'export'.DS.'orders'.DS;
-        $filename_path_index = userfiles_path().'export'.DS.'orders'.DS.'index.php';
+        $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
+        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
+        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
         if (!is_dir($filename_path)) {
             mkdir_recursive($filename_path);
         }
         if (!is_file($filename_path_index)) {
             @touch($filename_path_index);
         }
-        $filename_path_full = $filename_path.$filename;
+        $filename_path_full = $filename_path . $filename;
 
         // $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
         $csv = \League\Csv\Writer::createFromPath($filename_path_full, 'w'); //to work make sure you have the write permission
@@ -231,13 +231,13 @@ class OrderManager
         $csv_output = '';
         $head = reset($data);
         foreach ($head as $k => $v) {
-            $csv_output .= $this->app->format->no_dashes($k).',';
+            $csv_output .= $this->app->format->no_dashes($k) . ',';
             // $csv_output .= "\t";
         }
         $csv_output .= "\n";
         foreach ($data as $item) {
             foreach ($item as $k => $v) {
-                $csv_output .= $this->app->format->no_dashes($v).',';
+                $csv_output .= $this->app->format->no_dashes($v) . ',';
                 //  $csv_output .= "\t";
             }
             $cart_items = mw()->shop_manager->order_items($item['id']);
@@ -251,16 +251,16 @@ class OrderManager
 
 //dd($csv_output);
 
-        $filename = 'orders'.'_'.date('Y-m-d_H-i', time()).uniqid().'.csv';
-        $filename_path = userfiles_path().'export'.DS.'orders'.DS;
-        $filename_path_index = userfiles_path().'export'.DS.'orders'.DS.'index.php';
+        $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
+        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
+        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
         if (!is_dir($filename_path)) {
             mkdir_recursive($filename_path);
         }
         if (!is_file($filename_path_index)) {
             @touch($filename_path_index);
         }
-        $filename_path_full = $filename_path.$filename;
+        $filename_path_full = $filename_path . $filename;
         file_put_contents($filename_path_full, $csv_output);
         $download = $this->app->url_manager->link_to_file($filename_path_full);
 
