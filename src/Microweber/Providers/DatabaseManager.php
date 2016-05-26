@@ -186,9 +186,9 @@ class DatabaseManager extends DbUtils
         $ttl = $this->table_cache_ttl;
 
         if (!isset($params['no_limit'])) {
-            $cache_key = $table.crc32(serialize($orig_params).$this->default_limit);
+            $cache_key = $table.crc32(json_encode($orig_params).$this->default_limit);
         } else {
-            $cache_key = $table.crc32(serialize($params));
+            $cache_key = $table.crc32(json_encode($params));
         }
 
         if (is_array($params) and !empty($params)) {

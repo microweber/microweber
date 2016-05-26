@@ -365,6 +365,21 @@ trait QueryFilter
                     $this->useCache = false;
                     break;
 
+                case 'search_params':
+                    $search_items = $value;
+                   // dd($search_items);
+                    if(is_array($search_items) and !empty($search_items)){
+                        foreach($search_items as $search_item_key=>$search_kay_value){
+                            $query = $query->where($search_item_key, '=', $search_kay_value);
+
+                           // dd($search_item_key,$search_kay_value);
+                        }
+                    }
+
+
+
+                    break;
+
                 default:
                     if ($compare_sign != false) {
                         unset($params[ $filter ]);
