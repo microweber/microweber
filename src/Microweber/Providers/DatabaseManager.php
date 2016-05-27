@@ -173,7 +173,7 @@ class DatabaseManager extends DbUtils
         }
 
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
-            $use_cache = false;
+            $use_cache = $this->use_cache = false;
         } else {
             $use_cache = $this->use_cache;
         }
@@ -185,6 +185,8 @@ class DatabaseManager extends DbUtils
 
         $ttl = $this->table_cache_ttl;
 
+
+
         if (!isset($params['no_limit'])) {
             $cache_key = $table.crc32(json_encode($orig_params).$this->default_limit);
         } else {
@@ -192,7 +194,11 @@ class DatabaseManager extends DbUtils
         }
 
         if (is_array($params) and !empty($params)) {
-            $query = $query->where($params);
+            //$query = $query->where($params);
+            foreach($params as $k=>$v){
+            $query = $query->where($table . '.' . $k, '=', $v);
+            }
+
         }
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
@@ -233,6 +239,8 @@ class DatabaseManager extends DbUtils
 
             return $query;
         }
+
+
 
         if ($use_cache == false) {
             $data = $query->get();
