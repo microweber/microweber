@@ -15,36 +15,27 @@
         $size = $params['button_size'];
 
      }
+	 
+	 
+	 
+$module_template = get_option('data-template', $params['id']);
+if ($module_template == false and isset($params['template'])) {
+    $module_template = $params['template'];
+}
 
-?>
-<?php if($action=='url' or $action==''){ ?>
 
-<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
-<?php } else if($action=='popup') { ?>
-<?php
+if ($module_template != false) {
+    $template_file = module_templates($config['module'], $module_template);
+} else {
+    $template_file = module_templates($config['module'], 'default');
+}
 
-     $rand = uniqid();
 
-     ?>
-<script>
-  mw.require('tools.js', true);
-  mw.require('ui.css', true);
-</script> 
-<a href="javascript:;" id="btn<?php print $rand; ?>" class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
-<textarea id="area<?php print $rand; ?>" class="hide"><?php print $action_content; ?></textarea>
-<script>
+if (isset($template_file) and is_file($template_file) != false) {
+    include($template_file);
+} else {
+    $template_file = module_templates($config['module'], 'default');
+    include($template_file);
+}
 
-$(document).ready(function(){
-  mw.$("#btn<?php print $rand; ?>").click(function(){
-      mw.modal({
-        name:'frame<?php print $rand; ?>',
-        html:mwd.getElementById('area<?php print $rand; ?>').value,
-        template:'basic',
-        title:"<?php print $text; ?>"
-      });
-  })
-
-});
-
-</script>
-<?php } ?>
+ 

@@ -72,6 +72,7 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 	padding-top: 20px;
 }
 </style>
+
 <div class="<?php print $config['module_class'] ?>">
   <h2>
     <?php _e("Login & Register"); ?>
@@ -588,4 +589,4 @@ runForgotPassEmailEditor();
     
   </div>
 </div>
-</div>
+ 

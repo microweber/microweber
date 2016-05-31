@@ -411,9 +411,9 @@ class Parser
                                 } else {
                                     $coming_from_parent_strz1 = $coming_from_parent_id;
                                 }
-                                if ($coming_from_parent_strz1 == true) {
+                                if ($coming_from_parent == true) {
                                     $attrs['data-parent-module'] = $coming_from_parent;
-                                }
+                                 }
                                 if ($coming_from_parent_id == true) {
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
