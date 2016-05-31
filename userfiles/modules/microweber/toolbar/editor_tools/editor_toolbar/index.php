@@ -59,9 +59,11 @@ SetHeight = function(height){
 	var height = height || window.richtextEditorSettings.height;	
 	}
 	
-	
+
     
    if(height == 'auto'){
+	   
+	 
 	  
         setInterval(function(){
             parent.mw.$('#' + this.name).height($('#editor-master').height())
@@ -107,7 +109,7 @@ updateHTMLFromTextArea = function(val){
 	
 
 $(window).load(function(){
-	
+
   
 	   
    mw.$("#mw-admin-text-editor").bind('mousedown', function(e){

@@ -38,7 +38,7 @@ if ($cur_template == false) {
 }
 
 
-
+ 
  
 ?> 
 <?php if (is_array($templates)): ?>
@@ -80,6 +80,24 @@ if ($cur_template == false) {
                             ?>
     <?php if (is_array($templates)): ?>
     <?php if ($site_template['dir_name'] == template_name()) { ?>
+    
+    
+     <?php
+	 
+	  $has_items= false;
+	 
+	   foreach ($templates as $item) { 
+		 if (!in_array($item['name'], $default_item_names)){
+		 $has_items= true;
+		   }
+     
+	   } 
+	   
+	   
+	  
+	   
+	   ?>
+    <?php if (is_array($has_items)): ?>
     <optgroup label="<?php print $site_template['name']; ?>">
     <?php  foreach ($templates as $item): ?>
     <?php if ((strtolower($item['name']) != 'default')): ?>
@@ -92,6 +110,10 @@ if ($cur_template == false) {
     <?php endif; ?>
     <?php endforeach; ?>
     </optgroup>
+    <?php endif; ?>
+    
+    
+    
     <?php } ?>
     <?php endif; ?>
     <?php endif; ?>

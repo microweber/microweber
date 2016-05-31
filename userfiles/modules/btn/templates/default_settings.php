@@ -5,6 +5,8 @@
     $url =  get_option('url', $params['id']);
     $popupcontent =  get_option('popupcontent', $params['id']);
     $text =  get_option('text', $params['id']);
+	$description = get_option('description', $params['id']);
+
     $url_blank = get_option('url_blank', $params['id']);
 ?>
 <div class="mw-ui-field-holder">

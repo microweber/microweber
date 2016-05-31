@@ -315,17 +315,24 @@ if (typeof thismodal.main[0] != 'undefined') {
 <script type="text/javascript">
 
 
-    $(document).ready(function () {
+function mw_option_save_rebind_form_fields(){
+	
+	
 
 
+		mw.$(".mw_option_field").addClass('mw-options-form-binded'); 
 
 
-         mw.$(".mw_option_field").addClass('mw-options-form-binded');
+        
         mw.$(".mw_option_field").bind("change", function (e) {
 			
 			if($(this).hasClass('mw-options-form-binded-custom')){
 			return;
 			}
+			
+		 
+			
+			
 			
 			
 			
@@ -452,8 +459,11 @@ if (typeof thismodal.main[0] != 'undefined') {
                                 if (window.mw.reload_module != undefined) {
 
 
-                                    window.mw.reload_module(also_reload);
-									
+                                    window.mw.reload_module(also_reload, function(){
+										
+										 mw_option_save_rebind_form_fields()	
+									});
+								
 									
 									if(self !== top){
 										mw.reload_module_parent(also_reload);
@@ -472,7 +482,21 @@ if (typeof thismodal.main[0] != 'undefined') {
             });
 
         });
-    });
+    
+	
+}
+
+
+
+
+
+    $(document).ready(function () {
+		
+		
+		
+	mw_option_save_rebind_form_fields()	
+		
+	});
 </script>
 </head>
 <body class="mw-external-loading loading">
