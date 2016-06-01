@@ -616,11 +616,22 @@ class ContentManager
         if (!defined('CONTENT_ID')) {
             $this->define_constants();
         }
+
+        $cache_id_params=$params;
+        if(isset($cache_id_params['link']) and is_callable($cache_id_params['link'])){
+            unset($cache_id_params['link']);
+            $params['no_cache'] = true;
+        }
+
+
         $function_cache_id = false;
         $args = func_get_args();
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+
         }
+        $function_cache_id = $function_cache_id . serialize($cache_id_params);
+
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . PAGE_ID . $parent;
         if ($parent == 0) {
             $cache_group = 'content/global';
@@ -988,7 +999,19 @@ class ContentManager
                             $ext_classes = trim($ext_classes);
                             $the_active_class = $active_class;
 
-                            $to_print = str_replace('{id}', $item['id'], $link);
+
+
+
+
+
+                            if(is_callable($link)){
+                                $to_print = call_user_func_array($link, array($item));
+                            } else {
+                                $to_print = $link;
+                            }
+
+
+                            $to_print = str_replace('{id}', $item['id'], $to_print);
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
@@ -1013,7 +1036,12 @@ class ContentManager
                             $to_print = str_replace('{empty}', $empty, $to_print);
 
                             if (strstr($to_print, '{tn}')) {
-                                $to_print = str_replace('{tn}', thumbnail($item['id'], 'original'), $to_print);
+                                $content_img = get_picture($item['id']);
+                                if($content_img){
+                                    $to_print = str_replace('{tn}', $content_img, $to_print);
+                                } else {
+                                    $to_print = str_replace('{tn}','', $to_print);
+                                }
                             }
                             foreach ($item as $item_k => $item_v) {
                                 $to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
