@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Issue #430: Do not validate empty fields that is not required.</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../css/validationEngine.jquery.css" />
+    <script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="../js/languages/jquery.validationEngine-en.js"></script>
+    <script type="text/javascript" src="../js/jquery.validationEngine.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Define a custom validation function.
+        $.validationEngineLanguage.allRules['test_value'] = {
+          "func": function(field, rules, i, options) {
+            return (field.val() == 'test');
+          },
+          "alertText": "* Value must be 'test'."
+        };
+
+        // Initiate the validation engine.
+        $('#form').validationEngine();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Issue #430: Do not validate empty fields that is not required.</h1>
+    <p>
+      See <a href="https://github.com/posabsolute/jQuery-Validation-Engine/issues/430">https://github.com/posabsolute/jQuery-Validation-Engine/issues/430</a>
+      for information.
+    </p>
+    <form id="form" action="/" method="POST">
+      <p>
+        <label for="test_case_1">Not required, but validate input if value is present.</label><br />
+        <input type="text" name="test_case_1" class="validate[custom[test_value]]" /><br />
+      </p>
+      <p>
+        <label for="test_case_2">Required, validate input.</label><br />
+        <input type="text" name="test_case_2" class="validate[required, custom[test_value]]" />
+      </p>
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>

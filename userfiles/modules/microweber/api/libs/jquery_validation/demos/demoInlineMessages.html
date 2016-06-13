@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>JQuery Validation Engine</title>
+	<link rel="stylesheet" href="../css/validationEngine.jquery.css" type="text/css"/>
+	<link rel="stylesheet" href="../css/template.css" type="text/css"/>
+	<script src="../js/jquery-1.8.2.min.js" type="text/javascript">
+	</script>
+	<script src="../js/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script>
+		jQuery(document).ready(function(){
+			// binds form submission and fields to the validation engine
+			jQuery("#formID").validationEngine({promptPosition: 'inline'});
+		});
+
+		/**
+		*
+		* @param {jqObject} the field where the validation applies
+		* @param {Array[String]} validation rules for this field
+		* @param {int} rule index
+		* @param {Map} form options
+		* @return an error string if validation failed
+		*/
+		function checkHELLO(field, rules, i, options){
+			if (field.val() != "HELLO") {
+				// this allows to use i18 for the error msgs
+				return options.allrules.validate2fields.alertText;
+			}
+		}
+	</script>
+</head>
+<body>
+	<p>
+		<a href="#" onclick="alert('is the form valid? '+jQuery('#formID').validationEngine('validate'))">Evaluate form</a>
+		| <a href="#" onclick="jQuery('#sport').validationEngine('validate')">Validate sport1 select field</a>
+		| <a href="#" onclick="jQuery('#sport').validationEngine('hide')">Close favorite sport 1 prompt</a>
+		| <a href="#" onclick="jQuery('#formID').validationEngine('hide')">Close all prompts on form</a>
+		| <a href="#" onclick="jQuery('#formID').validationEngine('updatePromptsPosition')">Update all prompts positions</a>
+		| <a href="#" onclick="jQuery('#test').validationEngine('showPrompt', 'This is an example', 'pass')">Build a prompt on a div</a>
+		| <a href="#" onclick="jQuery('#test').validationEngine('hide')">Close div prompt</a>
+		| <a href="../index.html" >Back to index</a>
+	</p>
+	<p>
+		This demonstration shows the different validators available
+		<br/>
+	</p>
+	<div id="test" class="test" style="width:150px;">This is a div element</div>
+	<form id="formID" class="formular" method="post">
+		<fieldset>
+			<legend>
+				Required!
+			</legend>
+			<label>
+				<span>Field is required : </span>
+				<input value="" class="validate[required] text-input" type="text" name="req" id="req" data-errormessage-value-missing="This input is required!" />
+			</label>
+			<legend>
+				Placeholder & required
+			</legend>
+			<label>
+				<span>Favorite sport 1:</span>
+				<select name="sport" id="sport" class="validate[required]" data-errormessage-value-missing="This select is required!" >
+					<option value="">Choose a sport</option>
+					<option value="option1">Tennis</option>
+					<option value="option2">Football</option>
+					<option value="option3">Golf</option>
+				</select>
+			</label>
+			<br/>
+		</fieldset>
+			
+			
+		<fieldset>
+			<legend>
+				Function
+			</legend>
+			<label>
+				<span>Write 'HELLO' : </span>
+				<input value="" class="validate[required,funcCall[checkHELLO]] text-input" type="text" id="lastname" name="lastname" data-errormessage-custom-error="Let me give you a hint: write HELLO"  />
+				<br/>
+				validate[required,funcCall[checkHELLO]]
+			</label>
+		</fieldset>
+			
+		<fieldset>
+			<legend>
+				MinSize
+			</legend>
+			<label>
+				Minimum field size
+				<br/>
+				<input value="" class="validate[required,minSize[6]] text-input" type="text" name="minsize" id="minsize" data-errormessage-range-underflow="You do not have the minimum required" />
+				<br/>
+				validate[required,minSize[6]]
+			</label>
+		</fieldset>
+			
+		<fieldset>
+			<legend>
+				MaxSize
+			</legend>
+			<label>
+				Maximum field size, optional
+				<br/>
+				<input value="0123456789" class="validate[optional,maxSize[6]] text-input" type="text" name="maxsize" id="maxsize"  data-errormessage-range-overflow="You went too far"  />
+				<br/>
+				validate[maxSize[6]]<br/>
+				note that the field is optional - it won't fail if it has no value
+			</label>
+		</fieldset>
+			
+		<fieldset>
+			<legend>
+				Past
+			</legend>
+			<label>
+				Checks that the value is a date in the past
+				<br/>
+				<span>Please enter a date ealier than 2010/01/01</span>
+				<input value="2012/06/30" class="validate[custom[date],past[2010/01/01]] text-input" type="text" name="past" id="past" data-errormessage-value-missing="Stop being in the past" data-errormessage-custom-error="Stop being in the past" data-errormessage-type-mismatch="Stop being in the past" />
+				<br/>
+				validate[custom[date],past[2010/01/01]]
+			</label>
+		</fieldset>
+		<fieldset>
+			<legend>
+				IP Address
+			</legend>
+			<label>
+				<span>IP: </span>
+				<input value="192.168.3." class="validate[required,custom[ipv4]] text-input" type="text" name="ip" id="ip"  data-errormessage-custom-error="Wrong IP" />
+			</label>
+		</fieldset>
+
+	
+		
+	
+			<script>
+		/**
+		* 
+		* @param {input[type=checkbox]} the checkbox to read
+		* @param {input[type=textbox]} the field bound to the checkbox that gets enabled or disabled
+		*/
+		    function ToggleState(checkbox, field) {
+					if ($(checkbox).attr('checked'))
+						$(field).attr('disabled', 'disabled');
+					else
+						$(field).removeAttr('disabled');
+		    }
+			</script>
+
+		<input class="submit" type="submit" value="Validate &amp; Send the form!"/><hr/>
+	</form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "validationengine",
+  "description": "Validate your forms with style. Complete api included for advanced users",
+  "main": [
+    "js/jquery.validationEngine.js",
+    "css/validationEngine.jquery.css"
+  ],
+  "dependencies": {
+    "jquery": ">=1.6"
+  },
+  "keywords": [
+    "form",
+    "field",
+    "validation"
+  ],
+  "authors": [
+    { "name": "Cedric Dugas", "homepage": "http://www.position-absolute.com" },
+    { "name": "Olivier Refalo", "homepage": "http://www.crionics.com" }
+  ],
+  "license": "MIT",
+  "ignore": [
+    "test/",
+    "tests/"
+  ]
+}
