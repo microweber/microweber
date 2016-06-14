@@ -55,6 +55,12 @@ class MicroweberServiceProvider extends ServiceProvider
             'Utils\Adapters\Cache\CacheStore'
         );
 
+        $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
+        $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
+
+
+
+
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
         });
@@ -192,6 +198,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         AliasLoader::getInstance()->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
+        AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }

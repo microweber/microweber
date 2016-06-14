@@ -16,7 +16,7 @@ return [
 	|
 	*/
 
-	'default' => env('QUEUE_DRIVER') ?: 'sync',
+	'default' => env('QUEUE_DRIVER') ?: 'database',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
 	*/
 
 	'failed' => [
-		'database' => 'mysql', 'table' => 'failed_jobs',
+		 'table' => 'failed_jobs',
 	],
 
 ];

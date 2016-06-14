@@ -11,7 +11,7 @@
     "laravel"
   ],
   "require": {
-    "laravel/framework": "5.0.22",
+    "laravel/framework": "5.1.*",
     "composer/composer": "dev-master",
     "laravel/socialite": "2.0.12",
     "socialiteproviders/linkedin": "*",
@@ -27,7 +27,7 @@
     "omnipay/stripe": "~2.0",
     "omnipay/paypal": "~2.0",
     "omnipay/mollie": "3.*",
-    "paragonie/random_compat": "1.*",
+    "paragonie/random_compat": "2.*",
     "coduo/php-humanizer": "*",
     "omnipay/common": "*",
     "league/csv": "^7.2"
