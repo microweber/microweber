@@ -42,6 +42,27 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 
 
 });
+
+
+mw.register_email_send_test = function(){
+
+	var email_to = {}
+	email_to.to = $('#test_email_to').val();
+	email_to.subject = $('#test_email_subject').val();
+
+	 $.post("<?php print site_url('api_html/users/register_email_send_test'); ?>", email_to, function(msg){
+		 
+		 mw.tools.modal.init({
+			
+			 html:"<pre>"+msg+"</pre>",	
+			 title:"Email send results..."
+		 });
+	  });
+}
+
+
+
+
 </script>
 <style type="text/css">
 .group-logins {
@@ -416,11 +437,18 @@ runRegisterMailEditor();
               <li value="{first_name}"><a href="javascript:;"> First Name </a></li>
               <li value="{last_name}"><a href="javascript:;"> Last Name </a></li>
               <li value="{created_at}"><a href="javascript:;"> Date of registration </a></li>
+              <li value="{verify_email_link}"><a href="javascript:;"> Verify email link </a></li>
+
             </ul>
           </div>
         </div>
       </div>
     </div>
+
+    <br />
+
+          <a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn mw-ui-btn-small pull-right">Test</a>
+<br />
     <hr>
     
     
