@@ -88,6 +88,7 @@ class Base
                 'is_public' => 'integer',
                 'basic_mode' => 'string',
                 'first_name' => 'string',
+                'middle_name' => 'string',
                 'last_name' => 'string',
                 'thumbnail' => 'string',
                 'parent_id' => 'integer',

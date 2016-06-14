@@ -139,3 +139,10 @@ api_expose('create_media_dir');
 
 api_expose('media/upload');
 api_expose('media/delete_media_file');
+
+
+// queue
+
+api_expose('queue_dispatch', function () {
+    mw()->event_manager->trigger('mw.queue.dispatch');
+});
