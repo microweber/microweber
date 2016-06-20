@@ -151,6 +151,7 @@ class Base
                 'title' => 'text',
                 'description' => 'text',
                 'content' => 'text',
+                'notification_data' => 'text',
             ],
         ];
     }
