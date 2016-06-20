@@ -30,7 +30,8 @@
     "paragonie/random_compat": "2.*",
     "coduo/php-humanizer": "*",
     "omnipay/common": "*",
-    "league/csv": "^7.2"
+    "league/csv": "^7.2",
+    "ezyang/htmlpurifier": "^4.7"
   },
   "require-dev": {
     "phpunit/phpunit": "4.5.*@dev"

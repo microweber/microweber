@@ -296,7 +296,9 @@ class Format
             }
         } else {
             $var = $this->strip_unsafe($var);
-            $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
+            $purifier = new \HTMLPurifier();
+            $var = $purifier->purify($var);
+           // $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
             $var = str_ireplace('<script>', '', $var);
             $var = str_ireplace('</script>', '', $var);
             $var = str_replace('<?', '&lt;?', $var);
