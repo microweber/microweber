@@ -263,7 +263,6 @@ function get_users($params = false)
  *
  * @param bool $id
  *
- * @internal param bool|int the $id of the user;
  *
  * @return array
  */

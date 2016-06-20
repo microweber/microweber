@@ -200,6 +200,7 @@ class MicroweberServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
         AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
 
+
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }
 
@@ -226,6 +227,7 @@ class MicroweberServiceProvider extends ServiceProvider
             if ($this->app->runningInConsole()) {
                 $this->commands('Microweber\Commands\UpdateCommand');
             }
+
         } else {
             // Otherwise register the install command
             $this->commands('Microweber\Commands\InstallCommand');
@@ -233,7 +235,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Register routes
         $this->registerRoutes();
+        $this->app->event_manager->trigger('mw.after.boot',$this);
     }
+
+
 
     private function registerRoutes()
     {
