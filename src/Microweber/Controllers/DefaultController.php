@@ -231,9 +231,16 @@ class DefaultController extends Controller
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
 
+        if (is_logged()) {
+            $api_exposed .= (api_expose_user(true));
+        }
+
         if (is_admin()) {
             $api_exposed .= (api_expose_admin(true));
         }
+
+
+
 
         $api_exposed = explode(' ', $api_exposed);
         $api_exposed = array_unique($api_exposed);

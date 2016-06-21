@@ -61,6 +61,40 @@ function api_bind_admin($function_name, $callback = false)
     }
 }
 
+
+function api_bind_user($function_name, $callback = false)
+{
+    static $mw_api_binds_user;
+    if (is_bool($function_name)) {
+        if (is_array($mw_api_binds_user)) {
+            $index = ($mw_api_binds_user);
+
+            return $index;
+        }
+    } else {
+        $function_name = trim($function_name);
+        $mw_api_binds_user[$function_name][] = $callback;
+    }
+}
+
+
+
+function api_expose_user($function_name, $callback = null)
+{
+    static $index = ' ';
+    if (is_bool($function_name)) {
+        return $index;
+    }
+    if (is_callable($callback)) {
+        $index .= ' '.$function_name;
+
+        return api_bind_user($function_name, $callback);
+    } else {
+        $index .= ' '.$function_name;
+    }
+}
+
+
 function document_ready($function_name)
 {
     static $index = ' ';
