@@ -247,6 +247,12 @@ class DefaultController extends Controller
         $api_exposed = array_trim($api_exposed);
 
         $hooks = api_bind(true);
+        if (is_logged()) {
+            $hooks_admin = api_bind_user(true);
+            if (is_array($hooks_admin)) {
+                $hooks = array_merge($hooks, $hooks_admin);
+            }
+        }
 
         if (is_admin()) {
             $hooks_admin = api_bind_admin(true);
