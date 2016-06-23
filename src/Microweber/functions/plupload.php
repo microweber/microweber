@@ -312,12 +312,19 @@ if (is_admin() != false) {
         if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
             $are_allowed = 'img';
             $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user/' . DS . $user['id'] . DS;
+            if (isset($_REQUEST['autopath']) and $_REQUEST['autopath'] == 'user_hash') {
+                $up_path = md5(mw()->format->encrypt($user['id']));
+                $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
+
+            }
             $allowed_to_upload = true;
         }
     } else {
         $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
         $allowed_to_upload = true;
     }
+
+
 }
 
 if ($allowed_to_upload == false) {
@@ -568,6 +575,12 @@ if (!is_dir($targetDir)) {
     @mkdir_recursive($targetDir);
 }
 
+$has_index = $targetDir . DIRECTORY_SEPARATOR . 'index.html';
+
+if (!is_file($has_index)) {
+    @touch($has_index);
+}
+
 // Remove old temp files
 if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
     while (($file = readdir($dir)) !== false) {
@@ -620,15 +633,15 @@ if (isset($contentType)) {
         if (function_exists('finfo_open') and function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
             $mime = @finfo_file($finfo, $_FILES['file']['tmp_name']);
-            if($mime){
-                $upl_mime_ext = explode('/',$mime);
+            if ($mime) {
+                $upl_mime_ext = explode('/', $mime);
                 $upl_mime_ext = end($upl_mime_ext);
-                $upl_mime_ext = explode('-',$upl_mime_ext);
+                $upl_mime_ext = explode('-', $upl_mime_ext);
                 $upl_mime_ext = end($upl_mime_ext);
                 $upl_mime_ext = strtolower($upl_mime_ext);
 
-                if(in_array($upl_mime_ext,$dangerous)){
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type '.$upl_mime_ext.'"}, "id" : "id"}');
+                if (in_array($upl_mime_ext, $dangerous)) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
                 }
             }
             finfo_close($finfo);
@@ -649,7 +662,6 @@ if (isset($contentType)) {
             }
             fclose($in);
             fclose($out);
-
 
             @unlink($_FILES['file']['tmp_name']);
         } else {
@@ -685,6 +697,22 @@ if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
 
     rename("{$filePath}.part", $filePath);
+
+
+    if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
+        try {
+            $size = getimagesize($filePath);
+
+
+        } catch (Exception $e) {
+            @unlink($filePath);
+
+            die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+
+        }
+    }
+
+
     mw()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
     mw()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
 }
@@ -693,7 +721,6 @@ $f_name = explode(DS, $filePath);
 $rerturn = array();
 $rerturn['src'] = mw()->url_manager->link_to_file($filePath);
 $rerturn['name'] = end($f_name);
-
 
 
 if (isset($upl_size_log) and $upl_size_log > 0) {

@@ -44,6 +44,11 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
     if (!!Params.path) {
         urlparams += 'path=' + Params.path + '&';
     }
+	 if (!!Params.autopath) {
+		 
+        urlparams += 'autopath=' + Params.autopath + '&';
+    }
+	
     urlparams += 'token=<?php print mw_csrf_token($uid); ?>';
 
     $(document).ready(function () {
