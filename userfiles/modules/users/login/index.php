@@ -29,6 +29,8 @@ $(document).ready(function(){
 					  <?php if(isset($params['return'])): ?>
 					  <?php 
     					  $goto =  urldecode($params['return']);
+						  $goto = mw()->format->clean_xss($goto);
+						  
     					  if(stristr($goto, "http://") == false and stristr($goto, "https://") == false ){
     						$goto = site_url($goto);
     					  }
