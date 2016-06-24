@@ -390,8 +390,8 @@ trait QueryFilter
                                         $query = $query->join('custom_fields_values', function ($join) use ($table, $search_key_value, $query) {
                                             $join->on('custom_fields_values.custom_field_id', '=', 'custom_fields.id');
                                             foreach ($search_key_value as $search_key_value_k => $search_key_value_v) {
-                                              //  $join->on('custom_fields.name_key', '=', $search_key_value_k);
-                                             //   $join->on('custom_fields.name_key', '=', $search_key_value_k);
+                                                //  $join->on('custom_fields.name_key', '=', $search_key_value_k);
+                                                //   $join->on('custom_fields.name_key', '=', $search_key_value_k);
                                                 $join->on('custom_fields_values.value', '=', $search_key_value_v);
                                             }
 
@@ -403,7 +403,7 @@ trait QueryFilter
                                                 $join->orOn('custom_fields_names_q.name_key', '=', $search_key_value_k);
                                                 $join->orOn('custom_fields_names_q.name', '=', $search_key_value_k);
                                                 $join->orOn('custom_fields_names_q.type', '=', $search_key_value_k);
-                                             }
+                                            }
 
                                         });
 
@@ -418,6 +418,21 @@ trait QueryFilter
 
                     break;
 
+
+                case $this->_is_closure($params[$filter]):
+
+
+                    $query = $query->where(function ($query) use (&$params, $filter) {
+                        $call = $params[$filter];
+                        unset($params[$filter]);
+                        //call_user_func_array($call, $params);
+                        call_user_func($call, $query, $params);
+
+
+                    });
+
+
+                    break;
                 default:
                     if ($compare_sign != false) {
                         unset($params[$filter]);
@@ -494,5 +509,10 @@ trait QueryFilter
     public function __call($method, $params)
     {
         return Filter::get($method, $params, $this);
+    }
+
+    private function _is_closure($t)
+    {
+        return is_object($t) && ($t instanceof \Closure);
     }
 }
