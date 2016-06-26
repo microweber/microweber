@@ -544,86 +544,8 @@ class ShopManager
 
     public function checkout_ipn($data)
     {
-        if (isset($data['payment_verify_token'])) {
-            $payment_verify_token = ($data['payment_verify_token']);
-        }
-        if (!isset($data['payment_gw'])) {
-            return array('error' => 'You must provide a payment gateway parameter!');
-        }
+        return $this->app->checkout_manager->checkout_ipn($data);
 
-        $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
-
-        $hostname = $this->get_domain_from_str($_SERVER['REMOTE_ADDR']);
-
-        $payment_verify_token = $this->app->database_manager->escape_string($payment_verify_token);
-        $table = $this->tables['cart_orders'];
-
-        $query = array();
-        $query['payment_verify_token'] = $payment_verify_token;
-        if (isset($data['order_id'])) {
-            $query['id'] = intval($data['order_id']);
-        } else {
-            $query['transaction_id'] = '[null]';
-        }
-        $query['limit'] = 1;
-        $query['table'] = $table;
-        $query['no_cache'] = true;
-
-        $ord_data = $this->app->database_manager->get($query);
-        if (!isset($ord_data[0]) or !is_array($ord_data[0])) {
-            return array('error' => 'Order is completed or expired.');
-        } else {
-            $ord_data = $ord_data[0];
-            $ord = $ord_data['id'];
-        }
-
-        $cart_table = $this->tables['cart'];
-        $table_orders = $this->tables['cart_orders'];
-
-        $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
-        $gw_process = modules_path().$data['payment_gw'].'_checkout_ipn.php';
-        if (!is_file($gw_process)) {
-            $gw_process = normalize_path(modules_path().$data['payment_gw'].DS.'checkout_ipn.php', false);
-        }
-        if (!is_file($gw_process)) {
-            $gw_process = normalize_path(modules_path().$data['payment_gw'].DS.'notify.php', false);
-        }
-
-        $update_order = array();
-        if (is_file($gw_process)) {
-            include $gw_process;
-        } else {
-            return array('error' => 'The payment gateway is not found!');
-        }
-
-        if (!empty($update_order) and isset($update_order['order_completed']) and trim($update_order['order_completed']) == 1) {
-            $update_order['id'] = $ord;
-            $update_order['payment_gw'] = $data['payment_gw'];
-            $ord = $this->app->database_manager->save($table_orders, $update_order);
-            $this->confirm_email_send($ord);
-            if (isset($update_order['is_paid']) and $update_order['is_paid'] == 1) {
-                $this->update_quantities($ord);
-            }
-            if ($ord > 0) {
-                $this->app->cache_manager->delete('cart/global');
-                $this->app->cache_manager->delete('cart_orders/global');
-                //return true;
-            }
-        }
-
-        if (isset($data['return_to'])) {
-            $return_to = urldecode($data['return_to']);
-
-            $append = '?';
-            if (strstr($return_to, '?')) {
-                $append = '&';
-            }
-            $return_to = $return_to.$append.'mw_payment_success=1';
-
-            return $this->app->url_manager->redirect($return_to);
-        }
-
-        return;
     }
 
     private function get_domain_from_str($address)

@@ -27,6 +27,7 @@
     "omnipay/stripe": "~2.0",
     "omnipay/paypal": "~2.0",
     "omnipay/mollie": "3.*",
+    "microweber-dev/omnipay-przelewy24": "dev-master",
     "paragonie/random_compat": "2.*",
     "coduo/php-humanizer": "*",
     "omnipay/common": "*",
