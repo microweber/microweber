@@ -194,7 +194,23 @@ trait QueryFilter
                                                 if (isset($params['keywords_exact_match'])) {
                                                     $where_or_where = 'where';
                                                 }
-                                                $query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params) {
+
+
+                                                //check search in joined table
+                                                $search_joined_tables_check = array();
+                                                foreach ($to_search_in_fields as $to_search_in_field) {
+                                                    $check_if_join_is_needed = explode('.', $to_search_in_field);
+                                                    if (isset($check_if_join_is_needed[1])) {
+                                                        $rest = $check_if_join_is_needed[0];
+                                                        if (!isset($search_joined_tables_check[$rest])) {
+                                                            $query = $query->join($rest, $rest . '.rel_id', '=', $table . '.id')
+                                                                ->where($rest . '.rel_type', $table)->distinct();
+                                                            $search_joined_tables_check[$rest] = true;
+                                                        }
+                                                    }
+                                                }
+
+                                                $query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params, $table) {
                                                     foreach ($to_search_in_fields as $to_search_in_field) {
                                                         $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
                                                     }
@@ -206,6 +222,7 @@ trait QueryFilter
                                                         $query->where('is_deleted', $params['is_deleted']);
                                                     }
                                                 });
+                                                //  $query->distinct();
                                             }
                                         }
                                     }
