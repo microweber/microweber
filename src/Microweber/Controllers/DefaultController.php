@@ -545,6 +545,8 @@ class DefaultController extends Controller
 
                 // print $api_function;
             } else {
+                $api_function = mw()->format->clean_html($api_function);
+                $api_function = mw()->format->clean_xss($api_function);
                 mw_error('The api function '.$api_function.' is not defined in the allowed functions list');
             }
 

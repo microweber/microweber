@@ -47,7 +47,7 @@ class CheckoutManager
         if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
             $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
             if (isset($update_order['payment_gw'])) {
-                $gw_return = normalize_path(modules_path().$update_order['payment_gw'].DS.'return.php', false);
+                $gw_return = normalize_path(modules_path() . $update_order['payment_gw'] . DS . 'return.php', false);
                 if (is_file($gw_return)) {
                     include $gw_return;
                     if ($update_order != $update_order_orig) {
@@ -81,9 +81,9 @@ class CheckoutManager
                     $append = '&';
                 }
                 if ($mw_process_payment_success == true) {
-                    $return_to = $return_to.$append.'mw_payment_success=1';
+                    $return_to = $return_to . $append . 'mw_payment_success=1';
                 } elseif ($mw_process_payment_failed == true) {
-                    $return_to = $return_to.$append.'mw_payment_failure=1';
+                    $return_to = $return_to . $append . 'mw_payment_failure=1';
                 }
 
                 return $this->app->url_manager->redirect($return_to);
@@ -103,10 +103,10 @@ class CheckoutManager
                 if (is_array($v)) {
                     foreach ($seach_address_keys as $item) {
                         $case1 = ucfirst($item);
-                        if (!isset($data[ $item ]) and (isset($v[ $item ]) or isset($v[ $case1 ]))) {
-                            $data[ $item ] = $v[ $item ];
+                        if (!isset($data[$item]) and (isset($v[$item]) or isset($v[$case1]))) {
+                            $data[$item] = $v[$item];
                             if ($addr_found_from_search_in_post == false) {
-                                unset($data[ $k ]);
+                                unset($data[$k]);
                             }
                             $addr_found_from_search_in_post = 1;
                         }
@@ -122,7 +122,7 @@ class CheckoutManager
                         $key1 = str_replace('_', ' ', $cf['name']);
                         $key2 = str_replace('_', ' ', $k);
                         if ($key1 == $key2) {
-                            $save_custom_fields_for_order[ $key1 ] = $this->app->format->clean_html($item);
+                            $save_custom_fields_for_order[$key1] = $this->app->format->clean_html($item);
                         }
                     }
                 }
@@ -139,7 +139,7 @@ class CheckoutManager
                 $data['payment_gw'] = 'none';
             } else {
                 if ($mw_process_payment == true) {
-                    $gw_check = $this->payment_options('payment_gw_'.$data['payment_gw']);
+                    $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
                     if (is_array($gw_check[0])) {
                         $gateway = $gw_check[0];
                     } else {
@@ -193,11 +193,11 @@ class CheckoutManager
             $return_to_ref = false;
             if ($this->app->url_manager->is_ajax()) {
                 $place_order['url'] = $this->app->url_manager->current(true);
-                $return_url_after = '&return_to='.urlencode($_SERVER['HTTP_REFERER']);
+                $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
                 $this->app->user_manager->session_set('checkout_return_to_url', $_SERVER['HTTP_REFERER']);
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
                 $place_order['url'] = $_SERVER['HTTP_REFERER'];
-                $return_url_after = '&return_to='.urlencode($_SERVER['HTTP_REFERER']);
+                $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
                 $this->app->user_manager->session_set('checkout_return_to_url', $_SERVER['HTTP_REFERER']);
             } else {
                 $place_order['url'] = $this->app->url_manager->current();
@@ -208,9 +208,9 @@ class CheckoutManager
             $items_count = 0;
 
             foreach ($flds_from_data as $value) {
-                if (isset($data[ $value ]) and ($data[ $value ]) != false) {
-                    $place_order[ $value ] = $data[ $value ];
-                    $posted_fields[ $value ] = $data[ $value ];
+                if (isset($data[$value]) and ($data[$value]) != false) {
+                    $place_order[$value] = $data[$value];
+                    $posted_fields[$value] = $data[$value];
                 }
             }
 
@@ -236,7 +236,7 @@ class CheckoutManager
             $items_count = $this->app->shop_manager->cart_sum(false);
             $place_order['items_count'] = $items_count;
 
-            $cart_checksum = md5($sid.serialize($check_cart).uniqid());
+            $cart_checksum = md5($sid . serialize($check_cart) . uniqid());
 
             $place_order['payment_verify_token'] = $cart_checksum;
 
@@ -257,7 +257,7 @@ class CheckoutManager
 
             if ($custom_order_id != false) {
                 foreach ($place_order as $key => $value) {
-                    $custom_order_id = str_ireplace('{'.$key.'}', $value, $custom_order_id);
+                    $custom_order_id = str_ireplace('{' . $key . '}', $value, $custom_order_id);
                 }
 
                 $custom_order_id = str_ireplace('{YYYYMMDD}', date('Ymd'), $custom_order_id);
@@ -265,25 +265,25 @@ class CheckoutManager
             }
 
             if ($custom_order_id != false) {
-                $place_order['item_name'] = 'Order id:'.' '.$custom_order_id;
+                $place_order['item_name'] = 'Order id:' . ' ' . $custom_order_id;
                 $place_order['order_id'] = $custom_order_id;
             } else {
-                $place_order['item_name'] = 'Order id:'.' '.$place_order['id'];
+                $place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
             }
 
             if ($mw_process_payment == true) {
                 $shop_dir = module_dir('shop');
-                $shop_dir = $shop_dir.DS.'payments'.DS.'gateways'.DS;
+                $shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 
                 if ($data['payment_gw'] != 'none') {
-                    $gw_process = modules_path().$data['payment_gw'].'_process.php';
+                    $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
                     if (!is_file($gw_process)) {
-                        $gw_process = normalize_path(modules_path().$data['payment_gw'].DS.'process.php', false);
+                        $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
                     }
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout').'?mw_payment_success=1&order_id='.$place_order['id'].'&payment_gw='.$data['payment_gw'].'&payment_verify_token='.$place_order['payment_verify_token'].'&order_id='.$place_order['id'].$return_url_after;
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout').'?mw_payment_failure=1&order_id='.$place_order['id'].'&payment_gw='.$data['payment_gw'].'&payment_verify_token='.$place_order['payment_verify_token'].'&order_id='.$place_order['id'].$return_url_after;
-                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn').'?payment_gw='.$data['payment_gw'].'&order_id='.$place_order['id'].'&payment_verify_token='.$place_order['payment_verify_token'].$return_url_after;
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
 
                     if (is_file($gw_process)) {
                         require_once $gw_process;
@@ -332,7 +332,7 @@ class CheckoutManager
         if (is_string($option_key)) {
             $option_key_q = "&limit=1&option_key={$option_key}";
         }
-        $providers = $this->app->option_manager->get_all('option_group=payments'.$option_key_q);
+        $providers = $this->app->option_manager->get_all('option_group=payments' . $option_key_q);
 
         $payment_modules = get_modules('type=payment_gateway');
         $str = 'payment_gw_';
@@ -372,7 +372,7 @@ class CheckoutManager
                         $title = substr($value['option_key'], $l);
                         $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
                         $value['gw_file'] = $title;
-                        $mod_infp = $this->app->modules->get('ui=any&one=1&module='.$title);
+                        $mod_infp = $this->app->modules->get('ui=any&one=1&module=' . $title);
 
                         if (!empty($mod_infp)) {
                             $value = $mod_infp;
@@ -398,7 +398,7 @@ class CheckoutManager
             return array('error' => 'Invalid order ID');
         }
 
-        $ord_data = $this->app->shop_manager->get_orders('one=1&id='.$order_id);
+        $ord_data = $this->app->shop_manager->get_orders('one=1&id=' . $order_id);
         if (is_array($ord_data)) {
             $ord = $order_id;
             $notification = array();
@@ -406,8 +406,8 @@ class CheckoutManager
             $notification['rel_type'] = 'cart_orders';
             $notification['rel_id'] = $ord;
             $notification['title'] = 'You have new order';
-            $notification['description'] = 'New order is placed from '.$this->app->url_manager->current(1);
-            $notification['content'] = 'New order in the online shop. Order id: '.$ord;
+            $notification['description'] = 'New order is placed from ' . $this->app->url_manager->current(1);
+            $notification['content'] = 'New order in the online shop. Order id: ' . $ord;
             $this->app->notifications_manager->save($notification);
             $this->app->log_manager->save($notification);
             $this->confirm_email_send($order_id);
@@ -448,7 +448,7 @@ class CheckoutManager
                 if ($order_email_content != false and trim($order_email_subject) != '') {
                     $cart_items = array();
                     if (!empty($ord_data)) {
-                        $cart_items = $this->app->shop_manager->get_cart('order_id='.$ord_data['id'].'&no_session_id='.$this->app->user_manager->session_id());
+                        $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
                         // $cart_items = $this->order_items($ord_data['id']);
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
@@ -458,7 +458,7 @@ class CheckoutManager
                                 if (strtolower($key) == 'amount') {
                                     $value = number_format($value, 2);
                                 }
-                                $order_email_content = str_ireplace('{'.$key.'}', $value, $order_email_content);
+                                $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
                             }
                         }
                     }
@@ -524,12 +524,12 @@ class CheckoutManager
         $table_orders = $this->tables['cart_orders'];
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
-        $gw_process = modules_path().$data['payment_gw'].'_checkout_ipn.php';
+        $gw_process = modules_path() . $data['payment_gw'] . '_checkout_ipn.php';
         if (!is_file($gw_process)) {
-            $gw_process = normalize_path(modules_path().$data['payment_gw'].DS.'checkout_ipn.php', false);
+            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'checkout_ipn.php', false);
         }
         if (!is_file($gw_process)) {
-            $gw_process = normalize_path(modules_path().$data['payment_gw'].DS.'notify.php', false);
+            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
 
         $update_order = array();
@@ -561,7 +561,7 @@ class CheckoutManager
             if (strstr($return_to, '?')) {
                 $append = '&';
             }
-            $return_to = $return_to.$append.'mw_payment_success=1';
+            $return_to = $return_to . $append . 'mw_payment_success=1';
 
             return $this->app->url_manager->redirect($return_to);
         }
@@ -619,12 +619,12 @@ class CheckoutManager
         $bits = explode('.', $domainb);
         $idz = count($bits);
         $idz -= 3;
-        if (strlen($bits[ ($idz + 2) ]) == 2) {
-            $url = $bits[ $idz ].'.'.$bits[ ($idz + 1) ].'.'.$bits[ ($idz + 2) ];
-        } elseif (strlen($bits[ ($idz + 2) ]) == 0) {
-            $url = $bits[ ($idz) ].'.'.$bits[ ($idz + 1) ];
+        if (strlen($bits[($idz + 2)]) == 2) {
+            $url = $bits[$idz] . '.' . $bits[($idz + 1)] . '.' . $bits[($idz + 2)];
+        } elseif (strlen($bits[($idz + 2)]) == 0) {
+            $url = $bits[($idz)] . '.' . $bits[($idz + 1)];
         } else {
-            $url = $bits[ ($idz + 1) ].'.'.$bits[ ($idz + 2) ];
+            $url = $bits[($idz + 1)] . '.' . $bits[($idz + 2)];
         }
 
         return $url;
