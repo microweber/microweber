@@ -317,7 +317,7 @@ if (is_admin() != false) {
 
             $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
             if (isset($_REQUEST['autopath']) and $_REQUEST['autopath'] == 'user_hash') {
-                $up_path = md5(mw()->format->encrypt($user['id']));
+                $up_path = md5($user['id'].$user['created_at']);
                 $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
 
 

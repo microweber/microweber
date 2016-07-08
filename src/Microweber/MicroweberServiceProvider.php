@@ -32,6 +32,12 @@ class MicroweberServiceProvider extends ServiceProvider
     public function register()
     {
 
+//https://twitter.com/jeremeamia/status/748986303367217152
+//        if (PHP_VERSION_ID < 70000) {
+//            class_alias('Exception', 'Throwable');
+//        }
+
+
         // Set environment
 
         if (!$this->app->runningInConsole()) {
