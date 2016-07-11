@@ -69,7 +69,7 @@ class TaxManager
                             $difference = $difference + $amt;
                         } elseif ($tax['tax_modifier'] == 'percent') {
                             $difference_precent = $sum * ($amt / 100);
-                            $difference_precent = round($difference_precent);
+                           // $difference_precent = round($difference_precent);
                             $difference = $difference + floatval($difference_precent);
                         }
                     }

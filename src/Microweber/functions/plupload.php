@@ -311,19 +311,10 @@ if (is_admin() != false) {
         $user = mw()->user_manager->get_by_id($uid);
         if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
             $are_allowed = 'img';
-
-
-
-
             $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
             if (isset($_REQUEST['autopath']) and $_REQUEST['autopath'] == 'user_hash') {
-                $up_path = md5($user['id'].$user['created_at']);
+                $up_path = md5($user['id'] . $user['created_at']);
                 $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
-
-
-
-
-
             }
             $allowed_to_upload = true;
         }

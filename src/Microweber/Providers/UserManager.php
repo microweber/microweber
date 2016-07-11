@@ -511,6 +511,7 @@ class UserManager
         $email = isset($params['email']) ? $params['email'] : false;
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
+        $middle_name = isset($params['middle_name']) ? $params['middle_name'] : false;
         $confirm_password = isset($params['confirm_password']) ? $params['confirm_password'] : false;
         $pass2 = $pass;
 
@@ -591,6 +592,9 @@ class UserManager
                     }
                     if ($last_name != false) {
                         $reg['last_name'] = $last_name;
+                    }
+                    if ($middle_name != false) {
+                        $reg['middle_name'] = $middle_name;
                     }
 
                     $this->force_save = true;
