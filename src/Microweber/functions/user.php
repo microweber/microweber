@@ -96,7 +96,7 @@ function user_register($params)
     return mw()->user_manager->register($params);
 }
 
-api_expose('save_user');
+api_expose_user('save_user');
 
 /**
  * Allows you to save users in the database.

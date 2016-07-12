@@ -1607,8 +1607,7 @@ class DefaultController extends Controller
 
         if ($render_file) {
             $render_params = array();
-
-            if ($show_404_to_non_admin) {
+             if ($show_404_to_non_admin) {
                 if (!is_admin()) {
                     $load_template_404 = template_dir().'404.php';
                     if (is_file($load_template_404)) {
@@ -1997,6 +1996,13 @@ class DefaultController extends Controller
                         include mw_includes_path().'debug.php';
                     }
                 }
+            }
+
+
+            if($show_404_to_non_admin){
+                $response = \Response::make($l);
+                $response->setStatusCode(404);
+                return $response;
             }
 
             return $l;

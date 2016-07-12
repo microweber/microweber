@@ -546,9 +546,18 @@ class UserManager
             }
         }
 
-        if (isset($params['password']) and ($params['password']) == '') {
+        if (!isset($params['password']) or (isset($params['password']) and ($params['password']) == '')) {
             return array('error' => 'Please set password!');
         }
+
+
+        if (!isset($params['username']) and !isset($params['email'])) {
+            return array('error' => 'Please set username or email!');
+        }
+        if (!isset($params['password'])) {
+            return array('error' => 'Please set a password!');
+        }
+
 
         if (isset($params['password']) and ($params['password']) != '') {
             if ($confirm_password != false) {
@@ -558,6 +567,8 @@ class UserManager
             }
 
             if ($email != false) {
+
+
                 $data = array();
                 $data['email'] = $email;
                 $data['one'] = true;
@@ -829,15 +840,6 @@ class UserManager
             }
         }
 
-        if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
-            $check_existing = array();
-            $check_existing['username'] = $data_to_save['username'];
-            $check_existing['single'] = 1;
-            $check_existing = $this->get_all($check_existing);
-            if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
-                return array('error' => 'User with this username already exists! Try different username!');
-            }
-        }
 
         if (isset($params['id']) and intval($params['id']) != 0) {
             $user = User::find($params['id']);
@@ -854,6 +856,18 @@ class UserManager
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
 
+
+            if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
+                $check_existing = array();
+                $check_existing['username'] = $data_to_save['username'];
+                $check_existing['single'] = 1;
+                $check_existing = $this->get_all($check_existing);
+                if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
+                    return array('error' => 'User with this username already exists! Try different username!');
+                }
+            }
+
+
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
             }
@@ -868,6 +882,8 @@ class UserManager
                     $this->app->database_manager->extended_save($data_to_save);
                 }
             }
+
+
 
             if (isset($params['id']) and intval($params['id']) != 0) {
                 $id_to_return = intval($params['id']);
