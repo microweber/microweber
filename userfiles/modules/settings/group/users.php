@@ -575,8 +575,17 @@ runForgotPassEmailEditor();
     
     
     
-    
-    
+        <?php  $login_captcha_enabled = get_option('login_captcha_enabled','users');     ?>
+
+    <div class="mw-ui-box mw-ui-box-content">
+      <h2>
+        <?php _e("Login form settings"); ?>
+      </h2>
+      <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="login_captcha_enabled" <?php if($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>Require captcha to login?</span> </label>
+     
+    </div>
     
     
     
@@ -584,6 +593,12 @@ runForgotPassEmailEditor();
     
     
     <div class="mw-ui-box mw-ui-box-content">
+    
+     <h2>
+        <?php _e("Other settings"); ?>
+      </h2>
+    <hr />
+    
       <h3>
         <?php _e("Register URL"); ?>
       </h3>

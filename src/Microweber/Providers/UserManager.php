@@ -147,6 +147,20 @@ class UserManager
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
+        $login_captcha_enabled = get_option('login_captcha_enabled','users') == 'y';
+        if ($login_captcha_enabled) {
+            if (!isset($params['captcha'])) {
+                return array('error' => 'Please enter the captcha answer!');
+            } else {
+                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                if (!$validate_captcha) {
+                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+                }
+            }
+        }
+
+
+
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
 
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;

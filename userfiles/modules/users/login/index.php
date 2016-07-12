@@ -69,6 +69,9 @@ $(document).ready(function(){
 });
 </script>
 <?php
+
+$login_captcha_enabled = get_option('login_captcha_enabled','users') == 'y';
+
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
     $module_template =$params['template'];

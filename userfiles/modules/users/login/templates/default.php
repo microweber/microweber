@@ -34,6 +34,29 @@ description: Login default
     <div class="control-group form-group">
       <input  class="large-field form-control"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
+    
+    
+    
+    
+    
+    <?php  if(isset($login_captcha_enabled) and $login_captcha_enabled):	?>
+        <div class="control-group form-group">
+         
+        <div class="mw-ui-row captcha-holder">
+        		<div class="mw-ui-col">
+                <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $params['id']; ?>" src="<?php print api_link('captcha') ?>" />
+              </div>
+              
+              <div class="mw-ui-col">
+                  <input name="captcha" type="text" required class="mw-ui-field mw-captcha-input w100" placeholder="<?php _e("Security code"); ?>"/>
+              </div>
+              
+          </div>
+      </div>
+        <?php endif;  ?>
+    
+    
+    
     <a class="reset-password-link" href="<?php print forgot_password_url(); ?>"><?php _e("Forgot password"); ?>?</a>
 
 
