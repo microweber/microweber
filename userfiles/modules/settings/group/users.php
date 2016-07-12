@@ -563,13 +563,21 @@ runForgotPassEmailEditor();
         <input type="checkbox" class="mw_option_field"   option-group="users" name="captcha_disabled" <?php if($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>Disable Captcha?</span> </label>
       <hr>
-      <label class="mw-ui-check">
+          <?php  $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email','users');     ?>
+
+       <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="disable_registration_with_temporary_email" <?php if($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>Disable registration with temporary email?</span> </label>
+      <hr>
+      
+      
+     <!-- <label class="mw-ui-check">
         <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_first_name" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>First name</span> </label>
       <br>
       <label class="mw-ui-check">
         <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_last_name" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> value="y">
-        <span></span><span>Last name</span> </label>
+        <span></span><span>Last name</span> </label>-->
     </div>
     
     

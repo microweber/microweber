@@ -1,0 +1,29 @@
+<?php
+
+namespace Microweber\Utils\lib;
+
+
+class DisposableEmailChecker
+{
+    public function check($mail)
+    {
+
+        $file = __DIR__ . DS . 'disposable_email_addresses.txt';
+        $file = normalize_path($file, false);
+
+
+        $mail_domains_ko = file_get_contents($file);
+        $mail_domains_ko = explode("\n", $mail_domains_ko);
+        if (empty($mail_domains_ko)) {
+            return false;
+        }
+
+        foreach ($mail_domains_ko as $ko_mail) {
+            list(, $mail_domain) = explode('@', $mail);
+            if (strcasecmp($mail_domain, trim($ko_mail)) == 0) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+}

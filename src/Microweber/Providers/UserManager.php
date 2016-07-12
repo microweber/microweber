@@ -530,6 +530,16 @@ class UserManager
         $pass2 = $pass;
 
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+        $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email','users') == 'y';
+        if ($email != false and $disable_registration_with_temporary_email) {
+            $checker = new \Microweber\Utils\lib\DisposableEmailChecker();
+            $is_temp_email = $checker->check($email);
+            if($is_temp_email){
+                $domain = substr(strrchr($email, "@"), 1);
+                return array('error' => 'You cannot register with email from '.$domain.' domain');
+            }
+        }
+
 
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {
