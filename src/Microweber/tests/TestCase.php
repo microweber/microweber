@@ -1,6 +1,7 @@
 <?php
 
 namespace Microweber\tests;
+use Illuminate\Support\Facades\DB;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -41,7 +42,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_host' => '',
             'db_user' => '',
             'db_pass' => '',
-            'db_name' => $this->sqlite_file,
+            'db_name' => ':memory:',
             '--env' => 'testing',
         );
 
@@ -54,5 +55,17 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         \Mail::pretend(true);
 
         return $app;
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+        //DB::beginTransaction();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        //DB::rollBack();
     }
 }

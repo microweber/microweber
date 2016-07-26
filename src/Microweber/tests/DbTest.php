@@ -4,28 +4,43 @@ namespace Microweber\tests;
 
 class DbTest extends TestCase
 {
+    private $save = array(
+        'content_type' => 'page',
+        'subtype' => 'static',
+        'title' => 'one page',
+        'parent' => '0',
+        'is_deleted' => '0',
+    );
+    private $save_post = array(
+        'content_type' => 'post',
+        'subtype' => 'static',
+        'title' => 'one post',
+        'parent' => '0',
+        'is_deleted' => '0',
+    );
+
+    private $content;
+    private $content5;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->content = db_save('content', $this->save);
+        $this->content5 = db_save('content', $this->save_post);
+    }
+
     public function testSimpleSave()
     {
-        $save = array(
-            'content_type' => 'page',
-            'subtype' => 'static',
-            'title' => 'one page',
-            'parent' => '0',
-            'is_deleted' => '0',
-        );
-        $save_post = array(
-            'content_type' => 'post',
-            'subtype' => 'static',
-            'title' => 'one post',
-            'parent' => '0',
-            'is_deleted' => '0',
-        );
+        $save = $this->save;
+        $save_post = $this->save_post;
+        $content = $this->content;
+        $content5 = $this->content5;
 
-        $content = db_save('content', $save);
+        //$content = db_save('content', $save);
         $content2 = db_save('content', $save);
         $content3 = db_save('content', $save);
         $content4 = db_save('content', $save);
-        $content5 = db_save('content', $save_post);
+        //$content5 = db_save('content', $save_post);
         $content6 = db_save('content', $save_post);
 
         $this->assertTrue(true, !$content);
@@ -40,9 +55,8 @@ class DbTest extends TestCase
     public function testSimpleGet()
     {
         $content = db_get('content', 'limit=2');
-        $count = count($content);
-        $this->assertEquals(2, $count);
         $this->assertTrue(true, !empty($content));
+        $this->assertEquals(2, count($content));
     }
 
     public function testSimpleCount()
