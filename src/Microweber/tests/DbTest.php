@@ -4,7 +4,7 @@ namespace Microweber\tests;
 
 class DbTest extends TestCase
 {
-    public function testSimpeSave()
+    public function testSimpleSave()
     {
         $save = array(
             'content_type' => 'page',
@@ -37,10 +37,10 @@ class DbTest extends TestCase
         $this->assertTrue(true, $content5 != $content6);
     }
 
-    public function testSimpeGet()
+    public function testSimpleGet()
     {
         $content = db_get('content', 'limit=2');
-        $count = (count($content));
+        $count = count($content);
         $this->assertEquals(2, $count);
         $this->assertTrue(true, !empty($content));
     }
