@@ -411,8 +411,19 @@ class OptionManager
             }
         }
 
-        if (is_string($data)) {
-            $data = parse_params($data);
+        // first check to see if $data is a json object - since we're running on L5.0 or better,
+        // that implies PHP 5.4 or better, so we can directly try json_decode($data) and cast
+        // the result to an array if result is an object
+
+        $rawDecode = is_array($data) ? null : json_decode($data);
+
+        if(is_object($rawDecode))
+        {
+            $data = (array)$rawDecode;
+        } else {
+            if (is_string($data)) {
+                $data = parse_params($data);
+            }
         }
 
         $option_group = false;
