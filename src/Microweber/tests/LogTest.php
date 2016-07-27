@@ -4,12 +4,19 @@ namespace Microweber\tests;
 
 class LogTest extends TestCase
 {
+    private $data;
+
     public $value;
 
     public function __construct()
     {
         $now = date('YmdHis');
         $this->value = $now;
+        $this->data = array (
+            'value' => $this->value,
+            'field' => 'log_test',
+            'rel_type' => 'log_unit_test'
+        );
     }
 
     public function testLogWrite()
@@ -25,6 +32,8 @@ class LogTest extends TestCase
 
     public function testLogRead()
     {
+        mw()->log_manager->save($this->data);
+
         $data = array();
         $data['field'] = 'log_test';
         $data['value'] = $this->value;
@@ -36,6 +45,8 @@ class LogTest extends TestCase
 
     public function testDelete()
     {
+        mw()->log_manager->save($this->data);
+
         $data = array();
         $data['field'] = 'log_test';
         $get = mw()->log_manager->get($data);

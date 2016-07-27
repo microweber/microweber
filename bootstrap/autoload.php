@@ -1,6 +1,6 @@
 <?php
 
-define('LARAVEL_START', microtime(true));
+define('LARAVEL_START_' . getmypid(), microtime(true));
 
 /*
 |--------------------------------------------------------------------------

@@ -33,7 +33,7 @@
     "league/csv": "^7.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.5.*@dev"
+    "phpunit/phpunit": "4.8.*@dev"
   },
   "autoload": {
     "classmap": [
