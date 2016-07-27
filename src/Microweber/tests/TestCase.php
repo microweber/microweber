@@ -42,7 +42,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_host' => '',
             'db_user' => '',
             'db_pass' => '',
-            'db_name' => ':memory:',
+            'db_name' => $this->sqlite_file,
             '--env' => 'testing',
         );
 

@@ -1,7 +1,7 @@
 <?php
-
-define('LARAVEL_START_' . getmypid(), microtime(true));
-
+if(!defined('LARAVEL_START')){
+    define('LARAVEL_START', microtime(true));
+}
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader
