@@ -22,6 +22,7 @@ class OptionManager
 {
     public $app;
     public $options_memory = array(); //internal array to hold options in cache 
+    public $override_memory = array(); //array to hold options values that are not persistent in DB and changed on runtime
     public $tables = array();
     public $table_prefix = false;
     public $adapters_dir = false;
@@ -95,8 +96,8 @@ class OptionManager
             $is_systemq = ' and is_system=0 ';
         }
         $q = "SELECT option_group FROM $table WHERE module IS NULL";
-        $q = $q.$is_systemq.'AND option_group  IS NOT NULL GROUP BY option_group ORDER BY position ASC ';
-        $function_cache_id = __FUNCTION__.crc32($q);
+        $q = $q . $is_systemq . 'AND option_group  IS NOT NULL GROUP BY option_group ORDER BY position ASC ';
+        $function_cache_id = __FUNCTION__ . crc32($q);
         $res1 = false;
 
         $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
@@ -126,7 +127,7 @@ class OptionManager
             $module_id = $this->app->database_manager->escape_string($module_id);
             $module_id_q1 = "and module='{$module_id}'";
         }
-        $q = "DELETE FROM $table WHERE option_key='$key' ".$option_group_q1.$module_id_q1;
+        $q = "DELETE FROM $table WHERE option_key='$key' " . $option_group_q1 . $module_id_q1;
         $q = trim($q);
 
         $this->app->database_manager->q($q);
@@ -279,7 +280,7 @@ class OptionManager
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
         if ($option_group != false) {
-            $cache_group = 'options/'.$option_group;
+            $cache_group = 'options/' . $option_group;
         } else {
             $cache_group = 'options/global';
         }
@@ -287,15 +288,20 @@ class OptionManager
             $this->options_memory = array();
         }
 
+        if (isset($this->override_memory[$option_group]) and isset($this->override_memory[$option_group][$key])) {
+            return $this->override_memory[$option_group][$key];
+        }
+
+
         $function_cache_id = false;
 
         $args = func_get_args();
 
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'option_'.__FUNCTION__.'_'.$option_group.'_'.crc32($function_cache_id);
+        $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
         if (isset($this->options_memory[$function_cache_id])) {
             return $this->options_memory[$function_cache_id];
         }
@@ -313,7 +319,6 @@ class OptionManager
         $option_key_2 = '';
         if ($option_group != false) {
             $option_group = $this->app->database_manager->escape_string($option_group);
-            $option_key_1 = " AND option_group='{$option_group}' ";
             $data['option_group'] = $option_group;
         }
 
@@ -324,9 +329,6 @@ class OptionManager
 
         $data['limit'] = 1;
         $ok = $this->app->database_manager->escape_string($data['option_key']);
-        $ob = ' order by id desc ';
-        $q = "select * from $table where option_key='{$ok}'  ".$option_key_1.$option_key_2.$ob;
-        $q = "select * from $table where option_key is not null  ".$option_key_1.$option_key_2.$ob;
 
         $filter = array();
         //  $filter['limit'] = 1;
@@ -342,8 +344,6 @@ class OptionManager
 
         $get_all = mw()->database_manager->get($filter);
 
-        $q_cache_id = crc32($q);
-        //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
 
         if (!is_array($get_all)) {
             return false;
@@ -411,19 +411,8 @@ class OptionManager
             }
         }
 
-        // first check to see if $data is a json object - since we're running on L5.0 or better,
-        // that implies PHP 5.4 or better, so we can directly try json_decode($data) and cast
-        // the result to an array if result is an object
-
-        $rawDecode = is_array($data) ? null : json_decode($data);
-
-        if(is_object($rawDecode))
-        {
-            $data = (array)$rawDecode;
-        } else {
-            if (is_string($data)) {
-                $data = parse_params($data);
-            }
+        if (is_string($data)) {
+            $data = parse_params($data);
         }
 
         $option_group = false;
@@ -437,7 +426,7 @@ class OptionManager
                     if (isset($option_key_1[1])) {
                         $data['module'] = $option_key_1[1];
                         if (isset($data['id']) and intval($data['id']) > 0) {
-                            $chck = $this->get('limit=1&module='.$data['module'].'&option_key='.$data['option_key']);
+                            $chck = $this->get('limit=1&module=' . $data['module'] . '&option_key=' . $data['option_key']);
                             if (isset($chck[0]) and isset($chck[0]['id'])) {
                                 $data['id'] = $chck[0]['id'];
                             } else {
@@ -492,14 +481,14 @@ class OptionManager
                 $save = $this->app->database_manager->save($data);
 
                 if ($option_group != false) {
-                    $cache_group = 'options/'.$option_group;
+                    $cache_group = 'options/' . $option_group;
                     $this->app->cache_manager->delete($cache_group);
                 } else {
-                    $cache_group = 'options/'.'global';
+                    $cache_group = 'options/' . 'global';
                     $this->app->cache_manager->delete($cache_group);
                 }
                 if ($save != false) {
-                    $cache_group = 'options/'.$save;
+                    $cache_group = 'options/' . $save;
                     $this->app->cache_manager->delete($cache_group);
                 }
 
@@ -511,10 +500,10 @@ class OptionManager
                 if (isset($data['id']) and intval($data['id']) > 0) {
                     $opt = $this->get_by_id($data['id']);
                     if (isset($opt['option_group'])) {
-                        $cache_group = 'options/'.$opt['option_group'];
+                        $cache_group = 'options/' . $opt['option_group'];
                         $this->app->cache_manager->delete($cache_group);
                     }
-                    $cache_group = 'options/'.intval($data['id']);
+                    $cache_group = 'options/' . intval($data['id']);
                     $this->app->cache_manager->delete($cache_group);
                 }
 
@@ -552,7 +541,7 @@ class OptionManager
             $table = $this->tables['options'];
             $ttl = '99999';
 
-            $cache_key = $table.'_items_per_page_'.$group;
+            $cache_key = $table . '_items_per_page_' . $group;
             $items_per_page = Cache::tags($table)->remember($cache_key, $ttl, function () use ($table, $group) {
                 $items_per_page = DB::table($table)->where('option_key', 'items_per_page')
                     ->where('option_group', $group)
@@ -562,7 +551,7 @@ class OptionManager
             });
 
             if (!empty($items_per_page)) {
-                $items_per_page = (array) $items_per_page;
+                $items_per_page = (array)$items_per_page;
                 if (isset($items_per_page['option_value'])) {
                     $result = $items_per_page['option_value'];
                     $this->options_memory['items_per_page'][$group] = $result;
@@ -571,5 +560,14 @@ class OptionManager
                 }
             }
         }
+    }
+
+
+    public function override($option_group, $key, $value)
+    {
+        if (!isset($this->override_memory[$option_group])) {
+            $this->override_memory[$option_group] = array();
+        }
+        $this->override_memory[$option_group][$key] = $value;
     }
 }

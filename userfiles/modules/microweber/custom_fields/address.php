@@ -52,6 +52,7 @@ if(is_array($data['values']) and isset($data['options']) and is_array($data['opt
   <label class="mw-ui-label mw-address-label">
     <?php _e($data['name']) ?>
   </label>
+  <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
   <?php else : ?>
   <?php endif; ?>
   <?php if (isset($data['help']) == true and $data['help'] != ''): ?>

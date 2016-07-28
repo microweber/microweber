@@ -123,7 +123,21 @@ $(document).ready(function () {
 
     $(mwd.body).bind("keydown", function (e) {
 
+
+
         if (e.keyCode == 83 && e.ctrlKey) {
+
+            if (e.altKey) {
+                return;
+            }
+
+            if(typeof(mw.settings.live_edit_disable_keyboard_shortcuts) != 'undefined'){
+                if(mw.settings.live_edit_disable_keyboard_shortcuts === true) {
+                    return;
+                }
+            }
+
+
             mw.event.cancel(e, true);
             mw.drag.save();
         }

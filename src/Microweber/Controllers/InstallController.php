@@ -52,6 +52,9 @@ class InstallController extends Controller {
                 $input['table_prefix'] = 'p' . $input['table_prefix'];
             }
 
+            $input['table_prefix'] = str_replace(':','',$input['table_prefix']);
+
+
             $errors = array();
             if (!isset($input['db_host'])){
                 $errors[] = 'Parameter "db_host" is required';

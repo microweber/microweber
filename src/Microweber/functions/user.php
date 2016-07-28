@@ -96,7 +96,7 @@ function user_register($params)
     return mw()->user_manager->register($params);
 }
 
-api_expose('save_user');
+api_expose_user('save_user');
 
 /**
  * Allows you to save users in the database.
@@ -215,7 +215,7 @@ function is_live_edit()
  * gets the user's FULL name
  *
  * @param        $user_id the id of the user. If false it will use the curent user (you)
- * @param string $mode    full|first|last|username
+ * @param string $mode full|first|last|username
  *                        'full' //prints full name (first +last)
  *                        'first' //prints first name
  *                        'last' //prints last name
@@ -263,7 +263,6 @@ function get_users($params = false)
  *
  * @param bool $id
  *
- * @internal param bool|int the $id of the user;
  *
  * @return array
  */
@@ -271,3 +270,35 @@ function get_user($id = false)
 {
     return mw()->user_manager->get($id);
 }
+
+
+api_expose_admin('users/register_email_send_test', function () {
+    mw()->option_manager->override('users', 'register_email_enabled', true);
+    return mw()->user_manager->register_email_send();
+});
+api_expose('users/register_email_send', function () {
+    return mw()->user_manager->register_email_send();
+});
+
+
+api_expose('users/verify_email_link', function ($params) {
+    if (isset($params['key'])) {
+
+        try {
+            $decoded = mw()->format->decrypt($params['key']);
+            if ($decoded) {
+                $decoded = intval($decoded);
+                $adminUser = \User::findOrFail($decoded);
+                $adminUser->is_verified = 1;
+                $adminUser->save();
+                mw()->cache_manager->delete('users/global');
+                mw()->cache_manager->delete('users/'.$decoded);
+                return  mw()->url_manager->redirect(site_url());
+            }
+
+        } catch (Exception $e) {
+            echo 'Exception: ', $e->getMessage(), "\n";
+        }
+    }
+
+});

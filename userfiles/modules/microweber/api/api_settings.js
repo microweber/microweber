@@ -97,6 +97,15 @@ mw.settings.libs = {
               }
           }
       ],
+	  validation:[
+          function(){
+                  mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/jquery.validationEngine.js');
+				  mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/languages/jquery.validationEngine-en.js');
+                  mw.require(mw.settings.libs_url + 'jquery_validation' + '/css/validationEngine.jquery.css');
+          }
+      ],
+	  
+	  
       flatstrap3:[
         function(){
         var v = mwd.querySelector('meta[name="viewport"]');

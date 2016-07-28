@@ -20,6 +20,7 @@ class Parser
     private $mw_replaced_modules_values = array();
 
     private $_mw_parser_passed_hashes = array();
+    private $_mw_parser_passed_hashes_rel = array();
     private $_mw_parser_passed_replaces = array();
     private $_replaced_modules_values = array();
     private $_replaced_modules = array();
@@ -126,8 +127,6 @@ class Parser
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
                 $layout = $this->_replace_editable_fields($layout);
-
-                // d($this->_mw_parser_passed_replaces);
             }
 
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
@@ -295,6 +294,7 @@ class Parser
                                 $module_title = module_info($module_name);
 
                                 if (!isset($attrs['id'])) {
+
                                     global $mw_mod_counter;
                                     ++$mw_mod_counter;
 
@@ -314,6 +314,7 @@ class Parser
                                     $seg_clean = str_replace('.', '', $seg_clean);
                                     $seg_clean = str_replace('%20', '-', $seg_clean);
                                     // $mod_id = $module_class . '-' . crc32($seg_clean) . ($mw_mod_counter1);
+
                                     if (defined('CONTENT_ID') and CONTENT_ID != 0) {
                                         $mod_id = $module_class.'-'.($mw_mod_counter1);
                                     }
@@ -336,6 +337,7 @@ class Parser
                                     //
 
                                     if ($this->_current_parser_rel == 'global') {
+                                        $mod_id = $module_class.($mw_mod_counter1);
 
 //                                        if(isset($attrs['data-type']) && $attrs['data-type'] == 'video'){
 //                                            d($attrs);
@@ -409,9 +411,9 @@ class Parser
                                 } else {
                                     $coming_from_parent_strz1 = $coming_from_parent_id;
                                 }
-                                if ($coming_from_parent_strz1 == true) {
+                                if ($coming_from_parent == true) {
                                     $attrs['data-parent-module'] = $coming_from_parent;
-                                }
+                                 }
                                 if ($coming_from_parent_id == true) {
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
@@ -623,7 +625,7 @@ class Parser
                     }
 
                     $try_inherited = false;
-                    //
+
                     if ($rel == 'content') {
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = content_id();
@@ -820,6 +822,7 @@ class Parser
                         $ch2 = mw_var($parser_mem_crc);
                         if ($ch2 == false) {
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
+                            $this->_mw_parser_passed_hashes_rel[$rel][]= $parser_mem_crc2;
                             if (!isset($mw_replaced_edit_fields_vals[ $parser_mem_crc2 ]) and $field_content != false and $field_content != '') {
                                 $mw_replaced_edit_fields_vals[ $parser_mem_crc2 ] = $ch2;
                                 $parser_mem_crc3 = 'mw_replace_back_this_editable_'.$parser_mem_crc2.'';
@@ -838,7 +841,7 @@ class Parser
                                     $is_editable = 1;
                                 }
 
-                                $mw_replaced_edit_fields_vals_inner[ $parser_mem_crc3 ] = array('s' => $rep, 'r' => $field_content);
+                                $mw_replaced_edit_fields_vals_inner[ $parser_mem_crc3 ] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel);
                             }
                         }
                         mw_var($parser_mem_crc2, 1);
@@ -1359,6 +1362,8 @@ class Parser
                 //  $seg_clean = $this->app->url_manager->segment(0);
                 $seg_clean = $this->app->url_manager->segment(0, url_current());
 
+
+
                 if (defined('IS_HOME')) {
                     $seg_clean = '';
                 }
@@ -1374,6 +1379,7 @@ class Parser
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
+
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;

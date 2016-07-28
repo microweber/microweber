@@ -116,6 +116,7 @@ $dangerous = array(
     'dek',        //    Eavesdropper Batch File',
     'dld',        //    EdLog Compiled Program',
     'dmc',        //    Medical Manager Script',
+    'dosexec',
     'ds',        //    TWAIN Data Source',
     'dxl',        //    Rational DOORS Script',
     'e_e',        //    Renamed EXE File',
@@ -256,7 +257,6 @@ $dangerous = array(
     'xqt',        //    SuperCalc Macro File',
     'xys',        //    XYplorer Script File',
     'zl9',        //    ZoneAlarm Quarantined EXE File
-
 );
 
 if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
@@ -311,13 +311,19 @@ if (is_admin() != false) {
         $user = mw()->user_manager->get_by_id($uid);
         if (!empty($user) and isset($user['is_active']) and $user['is_active'] == 1) {
             $are_allowed = 'img';
-            $_REQUEST['path'] = 'media/'.$host_dir.DS.'user_uploads/user/'.DS.$user['id'].DS;
+            $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user/' . $user['id'] . DS;
+            if (isset($_REQUEST['autopath']) and $_REQUEST['autopath'] == 'user_hash') {
+                $up_path = md5($user['id'] . $user['created_at']);
+                $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/user_hash/' . DS . $up_path . DS;
+            }
             $allowed_to_upload = true;
         }
     } else {
-        $_REQUEST['path'] = 'media/'.$host_dir.DS.'user_uploads/anonymous/';
+        $_REQUEST['path'] = 'media/' . $host_dir . DS . 'user_uploads/anonymous/';
         $allowed_to_upload = true;
     }
+
+
 }
 
 if ($allowed_to_upload == false) {
@@ -426,7 +432,7 @@ if ($allowed_to_upload == false) {
                                     break;
                                 default:
 
-                                    $are_allowed .= ','.$allowed_file_type_item;
+                                    $are_allowed .= ',' . $allowed_file_type_item;
 
                             }
                             $pass_type_check = false;
@@ -448,7 +454,7 @@ if ($allowed_to_upload == false) {
                                 }
                             }
                             if ($pass_type_check == false) {
-                                die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload '.$are_allowed.' files."}}');
+                                die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
                             } else {
                                 if (!isset($_REQUEST['captcha'])) {
                                     if (!$validate_token) {
@@ -464,7 +470,7 @@ if ($allowed_to_upload == false) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
                                     } else {
                                         if (!isset($_REQUEST['path'])) {
-                                            $_REQUEST['path'] = 'media/'.$host_dir.'/user_uploads'.DS.$_REQUEST['rel_type'].DS;
+                                            $_REQUEST['path'] = 'media/' . $host_dir . '/user_uploads' . DS . $_REQUEST['rel_type'] . DS;
                                         }
                                     }
                                 }
@@ -481,6 +487,7 @@ if ($allowed_to_upload == false) {
     }
 }
 
+
 /*
  * upload.php
  *
@@ -492,14 +499,14 @@ if ($allowed_to_upload == false) {
  */
 // HTTP headers for no cache etc
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
 
 // Settings
-$target_path = media_base_path().DS;
-$target_path = media_base_path().DS.$host_dir.DS.'uploaded'.DS;
+$target_path = media_base_path() . DS;
+$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
 $target_path = normalize_path($target_path, 0);
 
 $path_restirct = userfiles_path(); // the path the script should access
@@ -518,7 +525,7 @@ if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '' and trim($_REQUES
     $path = str_replace('..', '', $path);
     $path = str_replace($path_restirct, '', $path);
 
-    $target_path = userfiles_path().DS.$path;
+    $target_path = userfiles_path() . DS . $path;
     $target_path = normalize_path($target_path, 1);
 }
 
@@ -547,30 +554,36 @@ $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 // Make sure the fileName is unique but only if chunking is disabled
-if ($chunks < 2 && file_exists($targetDir.DIRECTORY_SEPARATOR.$fileName)) {
+if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
     $ext = strrpos($fileName, '.');
     $fileName_a = substr($fileName, 0, $ext);
     $fileName_b = substr($fileName, $ext);
 
     $count = 1;
-    while (file_exists($targetDir.DIRECTORY_SEPARATOR.$fileName_a.'_'.$count.$fileName_b)) {
+    while (file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName_a . '_' . $count . $fileName_b)) {
         ++$count;
     }
 
-    $fileName = $fileName_a.'_'.$count.$fileName_b;
+    $fileName = $fileName_a . '_' . $count . $fileName_b;
 }
 
-$filePath = $targetDir.DIRECTORY_SEPARATOR.$fileName;
+$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
 // Create target dir
 if (!is_dir($targetDir)) {
     @mkdir_recursive($targetDir);
 }
 
+$has_index = $targetDir . DIRECTORY_SEPARATOR . 'index.html';
+
+if (!is_file($has_index)) {
+    @touch($has_index);
+}
+
 // Remove old temp files
 if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
     while (($file = readdir($dir)) !== false) {
-        $tmpfilePath = $targetDir.DIRECTORY_SEPARATOR.$file;
+        $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
 
         // Remove temp file if it is older than the max age and is not the current file
         if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge) && ($tmpfilePath != "{$filePath}.part")) {
@@ -585,13 +598,13 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 
 if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
     $filename_log = mw()->url_manager->slug($fileName);
-    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id='.$filename_log.'&user_ip='.MW_USER_IP);
+    $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . MW_USER_IP);
     $upl_size_log = $_SERVER['CONTENT_LENGTH'];
     if (is_array($check) and isset($check['id'])) {
         $upl_size_log = intval($upl_size_log) + intval($check['value']);
-        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id='.$filename_log.'&value='.$upl_size_log.'&user_ip='.MW_USER_IP.'&id='.$check['id']);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . MW_USER_IP . '&id=' . $check['id']);
     } else {
-        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id='.$filename_log.'&value='.$upl_size_log.'&user_ip='.MW_USER_IP);
+        mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . MW_USER_IP);
     }
 }
 
@@ -609,13 +622,30 @@ if (isset($_SERVER['CONTENT_TYPE'])) {
 if (isset($contentType)) {
     if (strpos($contentType, 'multipart') !== false) {
         if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
-            //uploading successfully done 
+            //uploading successfully done
         } else {
             throw new UploadException($_FILES['file']['error']);
         }
     }
 
     if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
+        if (function_exists('finfo_open') and function_exists('finfo_file')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+            $mime = @finfo_file($finfo, $_FILES['file']['tmp_name']);
+            if ($mime) {
+                $upl_mime_ext = explode('/', $mime);
+                $upl_mime_ext = end($upl_mime_ext);
+                $upl_mime_ext = explode('-', $upl_mime_ext);
+                $upl_mime_ext = end($upl_mime_ext);
+                $upl_mime_ext = strtolower($upl_mime_ext);
+
+                if (in_array($upl_mime_ext, $dangerous)) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
+                }
+            }
+            finfo_close($finfo);
+        }
+
         // Open temp file
         $out = fopen("{$filePath}.part", $chunk == 0 ? 'wb' : 'ab');
         if ($out) {
@@ -631,6 +661,7 @@ if (isset($contentType)) {
             }
             fclose($in);
             fclose($out);
+
             @unlink($_FILES['file']['tmp_name']);
         } else {
             die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
@@ -663,15 +694,33 @@ if (isset($contentType)) {
 // Check if file has been uploaded
 if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
+
     rename("{$filePath}.part", $filePath);
+
+
+    if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
+        try {
+            $size = getimagesize($filePath);
+
+
+        } catch (Exception $e) {
+            @unlink($filePath);
+
+            die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+
+        }
+    }
+
+
     mw()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
-    mw()->log_manager->delete('is_system=y&rel=uploader&session_id='.mw()->user_manager->session_id());
+    mw()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
 }
 $f_name = explode(DS, $filePath);
 
 $rerturn = array();
 $rerturn['src'] = mw()->url_manager->link_to_file($filePath);
 $rerturn['name'] = end($f_name);
+
 
 if (isset($upl_size_log) and $upl_size_log > 0) {
     $rerturn['bytes_uploaded'] = $upl_size_log;

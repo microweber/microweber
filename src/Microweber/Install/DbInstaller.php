@@ -27,6 +27,7 @@ class DbInstaller
             new Schema\Form(),
             new Schema\Options(),
             new Schema\Shop(),
+            new Schema\JobsQueue(),
         ];
     }
 
@@ -46,9 +47,16 @@ class DbInstaller
         $builder = new DbUtils();
         foreach ($exec as $data) {
             // Creates the schema
+
+            if (method_exists($data, 'up')) {
+                $data->up();
+                break;
+            }
+
             if (!method_exists($data, 'get')) {
                 break;
             }
+
             $schemaArray = $data->get();
             if (!is_array($schemaArray)) {
                 break;
@@ -63,9 +71,7 @@ class DbInstaller
     {
         $exec = $this->getSystemSchemas();
         foreach ($exec as $data) {
-            if (method_exists($data, 'up')) {
-                $data->up();
-            }
+
             if (method_exists($data, 'seed')) {
                 $data->seed();
             }

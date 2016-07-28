@@ -231,15 +231,28 @@ class DefaultController extends Controller
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
 
+        if (is_logged()) {
+            $api_exposed .= (api_expose_user(true));
+        }
+
         if (is_admin()) {
             $api_exposed .= (api_expose_admin(true));
         }
+
+
+
 
         $api_exposed = explode(' ', $api_exposed);
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
 
         $hooks = api_bind(true);
+        if (is_logged()) {
+            $hooks_admin = api_bind_user(true);
+            if (is_array($hooks_admin)) {
+                $hooks = array_merge($hooks, $hooks_admin);
+            }
+        }
 
         if (is_admin()) {
             $hooks_admin = api_bind_admin(true);
@@ -532,6 +545,8 @@ class DefaultController extends Controller
 
                 // print $api_function;
             } else {
+                $api_function = mw()->format->clean_html($api_function);
+                $api_function = mw()->format->clean_xss($api_function);
                 mw_error('The api function '.$api_function.' is not defined in the allowed functions list');
             }
 
@@ -1592,8 +1607,7 @@ class DefaultController extends Controller
 
         if ($render_file) {
             $render_params = array();
-
-            if ($show_404_to_non_admin) {
+             if ($show_404_to_non_admin) {
                 if (!is_admin()) {
                     $load_template_404 = template_dir().'404.php';
                     if (is_file($load_template_404)) {
@@ -1982,6 +1996,13 @@ class DefaultController extends Controller
                         include mw_includes_path().'debug.php';
                     }
                 }
+            }
+
+
+            if($show_404_to_non_admin){
+                $response = \Response::make($l);
+                $response->setStatusCode(404);
+                return $response;
             }
 
             return $l;

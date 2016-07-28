@@ -29,7 +29,7 @@ class NotificationsManager
         if (defined('MW_API_CALL')) {
             $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
-                return array('error' => 'You must be logged in as admin to perform: '.__CLASS__.'->'.__FUNCTION__);
+                return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
             }
         }
 
@@ -49,8 +49,8 @@ class NotificationsManager
             $save['is_read'] = 1;
             $table = $this->table;
             $data = $this->app->database_manager->save($table, $save);
-            $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.$data);
-            $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.'global');
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . $data);
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
         }
 
         return $get;
@@ -78,7 +78,7 @@ class NotificationsManager
                 }
             }
 
-            $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.'global');
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
             $this->app->cache_manager->delete('notifications');
 
             return $data;
@@ -89,11 +89,11 @@ class NotificationsManager
     {
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
-            return array('error' => 'You must be logged in as admin to perform: '.__CLASS__.'->'.__FUNCTION__);
+            return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
         }
 
         \DB::table($this->table)->whereIsRead(0)->update(['is_read' => 1]);
-        $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.'global');
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
     }
@@ -102,7 +102,7 @@ class NotificationsManager
     {
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
-            return array('error' => 'You must be logged in as admin to perform: '.__CLASS__.'->'.__FUNCTION__);
+            return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
         }
         if (is_array($id)) {
             $id = array_pop($id);
@@ -119,9 +119,9 @@ class NotificationsManager
             $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
         }
 
-        $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.intval($id));
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . intval($id));
 
-        $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.'global');
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
     }
@@ -145,7 +145,7 @@ class NotificationsManager
                 $this->app->database_manager->q($cleanup);
             }
 
-            $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.'global');
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
             return true;
         }
@@ -182,7 +182,12 @@ class NotificationsManager
             $params['is_read'] = 0;
         }
 
-        $this->app->cache_manager->delete('notifications'.DIRECTORY_SEPARATOR.'global');
+        if (isset($params['notification_data'])) {
+            $params['notification_data'] = @json_encode($params['notification_data']);
+        }
+
+
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         $data = $this->app->database_manager->save($table_orig, $params);
 
@@ -232,6 +237,18 @@ class NotificationsManager
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
             $return = $this->app->database_manager->get($params);
+
+
+            if ($return and is_array($return)) {
+                foreach ($return as $k => $v) {
+                    if (isset($v['notification_data']) and is_string($v['notification_data'])) {
+                        $v['notification_data'] = @json_decode($v['notification_data'], true);
+                        $return[$k] = $v;
+                    }
+                }
+            }
+
+
         }
 
         return $return;

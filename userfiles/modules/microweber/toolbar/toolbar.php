@@ -100,6 +100,17 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
  
 ?>
+<?php
+        $disable_keyboard_shortcuts = get_option('disable_keyboard_shortcuts','website');
+          
+    ?>
+
+<?php if($disable_keyboard_shortcuts): ?> 
+<script type="text/javascript">
+mw.settings.live_edit_disable_keyboard_shortcuts = true;
+</script>
+<?php endif; ?>
+
 <script type="text/javascript">
         $(document).ready(function () {
 			if(typeof(mw.toolbar) != "undefined"){

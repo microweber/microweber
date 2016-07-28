@@ -32,6 +32,12 @@ class MicroweberServiceProvider extends ServiceProvider
     public function register()
     {
 
+//https://twitter.com/jeremeamia/status/748986303367217152
+//        if (PHP_VERSION_ID < 70000) {
+//            class_alias('Exception', 'Throwable');
+//        }
+
+
         // Set environment
 
         if (!$this->app->runningInConsole()) {
@@ -54,6 +60,12 @@ class MicroweberServiceProvider extends ServiceProvider
             'Illuminate\Cache\StoreInterface',
             'Utils\Adapters\Cache\CacheStore'
         );
+
+        $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
+        $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
+
+
+
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
@@ -186,12 +198,14 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\Content\ContentManagerHelpers($app);
         });
 
-        $this->app->register('Illuminate\Html\HtmlServiceProvider');
-        AliasLoader::getInstance()->alias('Form', 'Illuminate\Html\FormFacade');
-        AliasLoader::getInstance()->alias('HTML', 'Illuminate\Html\HtmlFacade');
+        $this->app->register('Collective\Html\HtmlServiceProvider');
+        AliasLoader::getInstance()->alias('Form', 'Collective\Html\FormFacade');
+        AliasLoader::getInstance()->alias('HTML', 'Collective\Html\HtmlFacade');
 
         $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         AliasLoader::getInstance()->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
+        AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
+
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }
@@ -219,6 +233,7 @@ class MicroweberServiceProvider extends ServiceProvider
             if ($this->app->runningInConsole()) {
                 $this->commands('Microweber\Commands\UpdateCommand');
             }
+
         } else {
             // Otherwise register the install command
             $this->commands('Microweber\Commands\InstallCommand');
@@ -226,7 +241,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Register routes
         $this->registerRoutes();
+        $this->app->event_manager->trigger('mw.after.boot',$this);
     }
+
+
 
     private function registerRoutes()
     {

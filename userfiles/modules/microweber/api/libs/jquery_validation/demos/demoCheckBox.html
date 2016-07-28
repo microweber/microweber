@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>JQuery Validation Engine</title>
+	<link rel="stylesheet" href="../css/validationEngine.jquery.css" type="text/css"/>
+	<link rel="stylesheet" href="../css/template.css" type="text/css"/>
+	<script src="../js/jquery-1.8.2.min.js" type="text/javascript">
+	</script>
+	<script src="../js/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script>
+		jQuery(document).ready(function(){
+			// binds form submission and fields to the validation engine
+			jQuery("#formID").validationEngine();
+		});
+	</script>
+</head>
+<body>
+	<p>
+		<a href="#" onclick="alert('is the form valid? '+jQuery('#formID').validationEngine('validate'))">Evaluate form</a>
+		| <a href="#" onclick="jQuery('#formID').validationEngine('showPrompt', 'This is an example', 'pass')">Build a prompt on a div</a>
+		| <a href="#" onclick="jQuery('#formID').validationEngine('hide')">Close all prompts</a>
+		| <a href="../index.html" onclick="">Back to index</a>
+	</p>
+	<p>
+		This demonstration shows extended features around checkboxes
+	</p>
+	<form id="formID" class="formular" method="post" action="">
+		<fieldset>
+			<legend>
+				Phone
+			</legend>
+			<div>
+				<span>Radio Groupe : 
+					<br/>
+				</span>
+				<span>radio 1: </span>
+				<input class="validate[required] radio" type="radio" name="group0" id="radio1" value="5"/><span>radio 2: </span>
+				<input class="validate[required] radio" type="radio" name="group0" id="radio2" value="3"/><span>radio 3: </span>
+				<input class="validate[required] radio" type="radio" name="group0" id="radio3" value="9"/>
+			</div>
+			<div>
+				<span>Minimum 2 checkbox : 
+					<br/>
+				</span>
+				<input class="validate[minCheckbox[2]] checkbox" type="checkbox" name="group[group]" id="maxcheck1" value="5"/>
+				<input class="validate[minCheckbox[2]] checkbox" type="checkbox" name="group[group]" id="maxcheck2" value="3"/>
+				<input class="validate[minCheckbox[2]] checkbox" type="checkbox" name="group[group]" id="maxcheck3" value="9"/>
+			</div>
+			<div>
+				<span><b>Maximum</b> 2 checkbox : 
+					<br/>
+				</span>
+				<input class="validate[maxCheckbox[2]] checkbox" type="checkbox" name="group2" id="maxcheck4" value="5"/>
+				<input class="validate[maxCheckbox[2]] checkbox" type="checkbox" name="group2" id="maxcheck5" value="3"/>
+				<input class="validate[maxCheckbox[2]] checkbox" type="checkbox" name="group2" id="maxcheck6" value="9"/>
+			</div>
+                
+                
+		</fieldset>
+		<fieldset>
+			<legend>Conditional Require (Checkbox)</legend>
+			<div class="infos">
+				The text field is only required when the last checkbox is selected
+			</div>
+			<div>
+				<input class="checkbox" type="checkbox" name="group3" id="group3-1"/>Option 1<br/>
+				<input class="checkbox" type="checkbox" name="group3" id="group3-2"/>Option 2<br/>
+				<input class="checkbox" type="checkbox" name="group3" id="group3-3"/>Other: <input class="validate[condRequired[group3-3]]"/>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Conditional Require (Radio)</legend>
+			<div class="infos">
+				The text field is only required when the last radiobutton is selected
+			</div>
+			<div>
+				<input class="radio" type="radio" name="group4" id="group4-1"/>Option 1<br/>
+				<input class="radio" type="radio" name="group4" id="group4-2"/>Option 2<br/>
+				<input class="radio" type="radio" name="group4" id="group4-3"/>Other: <input class="validate[condRequired[group4-3]]"/>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Conditions
+			</legend>
+			<div class="infos">
+				Checking this box indicates that you accept terms of use. If you do not accept these terms, do not use this website : 
+			</div>
+			<label>
+				<span class="checkbox">I accept terms of use : </span>
+				<input class="validate[required] checkbox" type="checkbox" id="agree" name="agree"/>
+			</label>
+		</fieldset><input class="submit" type="submit" value="Validate & Send the form!"/><hr/>
+	</form>
+</body>
+</html>

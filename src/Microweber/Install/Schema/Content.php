@@ -193,7 +193,8 @@ class Content
                 'rel_id' => 'integer',
 
                 'position' => 'integer',
-                'is_deleted' => 'integer',
+                'is_deleted' => array('type' => 'integer', 'default' => 0),
+                'is_hidden' => array('type' => 'integer', 'default' => 0),
                 'users_can_create_subcategories' => 'integer',
                 'users_can_create_content' => 'integer',
                 'users_can_create_content_allowed_usergroups' => 'string',

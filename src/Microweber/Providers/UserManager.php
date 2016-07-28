@@ -131,21 +131,35 @@ class UserManager
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip='.MW_USER_IP);
+        $check = $this->app->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
         $url = $this->app->url->current(1);
         if ($check == 5) {
             $url_href = "<a href='$url' target='_blank'>$url</a>";
-            $this->app->log_manager->save('title=User IP '.MW_USER_IP.' is blocked for 1 minute for 5 failed logins.&content=Last login url was '.$url_href.'&is_system=n&rel_type=login_failed&user_ip='.MW_USER_IP);
+            $this->app->log_manager->save('title=User IP ' . MW_USER_IP . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . MW_USER_IP);
         }
         if ($check > 5) {
             $check = $check - 1;
 
-            return array('error' => 'There are '.$check.' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
         }
-        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip='.MW_USER_IP);
+        $check2 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . MW_USER_IP);
         if ($check2 > 25) {
-            return array('error' => 'There are '.$check2.' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
+
+        $login_captcha_enabled = get_option('login_captcha_enabled','users') == 'y';
+        if ($login_captcha_enabled) {
+            if (!isset($params['captcha'])) {
+                return array('error' => 'Please enter the captcha answer!');
+            } else {
+                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                if (!$validate_captcha) {
+                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+                }
+            }
+        }
+
+
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
 
@@ -287,7 +301,7 @@ class UserManager
         if (!empty($get)) {
             foreach ($get as $item) {
                 if (isset($item['attribute_name']) and isset($item['attribute_value'])) {
-                    $res[ $item['attribute_name'] ] = $item['attribute_value'];
+                    $res[$item['attribute_name']] = $item['attribute_value'];
                 }
             }
         }
@@ -315,7 +329,7 @@ class UserManager
         if (!empty($get)) {
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
-                    $res[ $item['field_name'] ] = $item['field_value'];
+                    $res[$item['field_name']] = $item['field_value'];
                 }
             }
         }
@@ -328,6 +342,11 @@ class UserManager
 
     public function picture($user_id = false)
     {
+
+        if (!$user_id) {
+            $user_id = $this->id();
+        }
+
         $name = $this->get_by_id($user_id);
         if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
             return $name['thumbnail'];
@@ -339,7 +358,7 @@ class UserManager
      * gets the user's FULL name
      *
      * @param        $user_id the id of the user. If false it will use the curent user (you)
-     * @param string $mode    full|first|last|username
+     * @param string $mode full|first|last|username
      *                        'full' //prints full name (first +last)
      *                        'first' //prints first name
      *                        'last' //prints last name
@@ -422,7 +441,7 @@ class UserManager
 
                 if (isset($user_data['last_name'])) {
                     if ($user_data['last_name']) {
-                        $name .= ' '.$user_data['last_name'];
+                        $name .= ' ' . $user_data['last_name'];
                     }
                 }
                 $name = ucwords($name);
@@ -506,10 +525,21 @@ class UserManager
         $email = isset($params['email']) ? $params['email'] : false;
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
+        $middle_name = isset($params['middle_name']) ? $params['middle_name'] : false;
         $confirm_password = isset($params['confirm_password']) ? $params['confirm_password'] : false;
         $pass2 = $pass;
 
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+        $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email','users') == 'y';
+        if ($email != false and $disable_registration_with_temporary_email) {
+            $checker = new \Microweber\Utils\lib\DisposableEmailChecker();
+            $is_temp_email = $checker->check($email);
+            if($is_temp_email){
+                $domain = substr(strrchr($email, "@"), 1);
+                return array('error' => 'You cannot register with email from '.$domain.' domain');
+            }
+        }
+
 
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {
@@ -535,11 +565,23 @@ class UserManager
             if (isset($params['is_admin']) and $this->is_admin() == false) {
                 unset($params['is_admin']);
             }
+            if (isset($params['is_verified']) and $this->is_admin() == false) {
+                unset($params['is_verified']);
+            }
         }
 
-        if (isset($params['password']) and ($params['password']) == '') {
+        if (!isset($params['password']) or (isset($params['password']) and ($params['password']) == '')) {
             return array('error' => 'Please set password!');
         }
+
+
+        if (!isset($params['username']) and !isset($params['email'])) {
+            return array('error' => 'Please set username or email!');
+        }
+        if (!isset($params['password'])) {
+            return array('error' => 'Please set a password!');
+        }
+
 
         if (isset($params['password']) and ($params['password']) != '') {
             if ($confirm_password != false) {
@@ -549,6 +591,8 @@ class UserManager
             }
 
             if ($email != false) {
+
+
                 $data = array();
                 $data['email'] = $email;
                 $data['one'] = true;
@@ -583,6 +627,9 @@ class UserManager
                     }
                     if ($last_name != false) {
                         $reg['last_name'] = $last_name;
+                    }
+                    if ($middle_name != false) {
+                        $reg['middle_name'] = $middle_name;
                     }
 
                     $this->force_save = true;
@@ -633,7 +680,7 @@ class UserManager
         $notif['rel_id'] = $user_id;
         $notif['title'] = 'New user registration';
         $notif['description'] = 'You have new user registration';
-        $notif['content'] = 'You have new user registered with the username ['.$data['username'].'] and id ['.$user_id.']';
+        $notif['content'] = 'You have new user registered with the username [' . $data['username'] . '] and id [' . $user_id . ']';
         $this->app->notifications_manager->save($notif);
 
         $this->app->log_manager->save($notif);
@@ -645,8 +692,14 @@ class UserManager
         }
     }
 
-    public function register_email_send($user_id)
+    public function register_email_send($user_id = false)
     {
+        if ($user_id == false) {
+            $user_id = $this->id();
+        }
+        if ($user_id == false) {
+            return;
+        }
         $data = $this->get_by_id($user_id);
         if (!$data) {
             return;
@@ -664,15 +717,19 @@ class UserManager
                     if (!empty($data)) {
                         foreach ($data as $key => $value) {
                             if (!is_array($value) and is_string($key)) {
-                                $register_email_content = str_ireplace('{'.$key.'}', $value, $register_email_content);
+                                $register_email_content = str_ireplace('{' . $key . '}', $value, $register_email_content);
                             }
                         }
                     }
+                    $verify_email_link = $this->app->format->encrypt($data['id']);
+                    $verify_email_link = api_url('users/verify_email_link') . '?key=' . $verify_email_link;
+                    $register_email_content = str_ireplace('{verify_email_link}', $verify_email_link, $register_email_content);
+
+
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                         $sender = new \Microweber\Utils\MailSender();
-                        $sender->send($to, $register_email_subject, $register_email_content);
+                        return $sender->send($to, $register_email_subject, $register_email_content);
 
-                        return true;
                     }
                 }
             }
@@ -686,7 +743,7 @@ class UserManager
             foreach ($data as $k => $v) {
                 if ($k == 'token' or $k == '_token') {
                     if ($session_token === $v) {
-                        unset($data[ $k ]);
+                        unset($data[$k]);
 
                         return true;
                     }
@@ -787,7 +844,7 @@ class UserManager
             if (isset($old_user_data['email']) and $old_user_data['email'] != false) {
                 if ($data_to_save['email'] != $old_user_data['email']) {
                     if (isset($old_user_data['password_reset_hash']) and $old_user_data['password_reset_hash'] != false) {
-                        $hash_cache_id = md5(serialize($old_user_data)).uniqid().rand();
+                        $hash_cache_id = md5(serialize($old_user_data)) . uniqid() . rand();
                         $data_to_save['password_reset_hash'] = $hash_cache_id;
                     }
                 }
@@ -807,15 +864,6 @@ class UserManager
             }
         }
 
-        if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
-            $check_existing = array();
-            $check_existing['username'] = $data_to_save['username'];
-            $check_existing['single'] = 1;
-            $check_existing = $this->get_all($check_existing);
-            if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
-                return array('error' => 'User with this username already exists! Try different username!');
-            }
-        }
 
         if (isset($params['id']) and intval($params['id']) != 0) {
             $user = User::find($params['id']);
@@ -832,6 +880,18 @@ class UserManager
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
 
+
+            if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
+                $check_existing = array();
+                $check_existing['username'] = $data_to_save['username'];
+                $check_existing['single'] = 1;
+                $check_existing = $this->get_all($check_existing);
+                if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
+                    return array('error' => 'User with this username already exists! Try different username!');
+                }
+            }
+
+
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
             }
@@ -847,6 +907,8 @@ class UserManager
                 }
             }
 
+
+
             if (isset($params['id']) and intval($params['id']) != 0) {
                 $id_to_return = intval($params['id']);
             } else {
@@ -857,16 +919,16 @@ class UserManager
         } else {
             return array('error' => 'Error saving the user!');
         }
-        $this->app->cache_manager->delete('users'.DIRECTORY_SEPARATOR.'global');
-        $this->app->cache_manager->delete('users'.DIRECTORY_SEPARATOR.'0');
-        $this->app->cache_manager->delete('users'.DIRECTORY_SEPARATOR.$id_to_return);
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . $id_to_return);
 
         return $id_to_return;
     }
 
     public function login_set_failed_attempt()
     {
-        $this->app->log_manager->save('title=Failed login&is_system=y&rel_type=login_failed&user_ip='.MW_USER_IP);
+        $this->app->log_manager->save('title=Failed login&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
     }
 
     public function get($params = false)
@@ -952,7 +1014,7 @@ class UserManager
         $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
         $table = $this->tables['users'];
 
-        $check = $this->get_all('single=true&password_reset_hash=[not_null]&password_reset_hash='.$data1['password_reset_hash'].'&id='.$data1['id']);
+        $check = $this->get_all('single=true&password_reset_hash=[not_null]&password_reset_hash=' . $data1['password_reset_hash'] . '&id=' . $data1['id']);
         if (!is_array($check)) {
             return array('error' => 'Invalid data or expired link!');
         } else {
@@ -1041,12 +1103,12 @@ class UserManager
                 if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                     $subject = 'Password reset!';
                     $content = "Hello, {$data_res['username']} <br> ";
-                    $content .= 'You have requested a password reset link from IP address: '.MW_USER_IP.'<br><br> ';
+                    $content .= 'You have requested a password reset link from IP address: ' . MW_USER_IP . '<br><br> ';
                     $security = array();
                     $security['ip'] = MW_USER_IP;
                     //  $security['hash'] = $this->app->format->array_to_base64($data_res);
-                   // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
-                    $function_cache_id = md5($data_res['id']).uniqid().rand().str_random(40);
+                    // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
+                    $function_cache_id = md5($data_res['id']) . uniqid() . rand() . str_random(40);
                     if (isset($data_res['id'])) {
                         $data_to_save = array();
                         $data_to_save['id'] = $data_res['id'];
@@ -1058,17 +1120,17 @@ class UserManager
                     $base_link = $this->app->url_manager->current(1);
 
                     $cur_template = template_dir();
-                    $cur_template_file = normalize_path($cur_template.'login.php', false);
-                    $cur_template_file2 = normalize_path($cur_template.'forgot_password.php', false);
+                    $cur_template_file = normalize_path($cur_template . 'login.php', false);
+                    $cur_template_file2 = normalize_path($cur_template . 'forgot_password.php', false);
                     if (is_file($cur_template_file)) {
                         $base_link = site_url('login');
                     } elseif (is_file($cur_template_file2)) {
                         $base_link = site_url('forgot_password');
                     }
 
-                    $pass_reset_link = $base_link.'?reset_password_link='.$function_cache_id;
+                    $pass_reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
                     $security['base_link'] = $base_link;
-                    $security['reset_password_link'] = "<a href='{$pass_reset_link}'>".$pass_reset_link.'</a>';
+                    $security['reset_password_link'] = "<a href='{$pass_reset_link}'>" . $pass_reset_link . '</a>';
                     $security['username'] = $data_res['username'];
                     $security['first_name'] = $data_res['first_name'];
                     $security['last_name'] = $data_res['last_name'];
@@ -1084,7 +1146,7 @@ class UserManager
                     $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                     $notif['description'] = $content_notif;
                     $this->app->log_manager->save($notif);
-                    $content .= "Click here to reset your password  <a style='word-break:break-all;' href='{$pass_reset_link}'>".$pass_reset_link.'</a><br><br> ';
+                    $content .= "Click here to reset your password  <a style='word-break:break-all;' href='{$pass_reset_link}'>" . $pass_reset_link . '</a><br><br> ';
 
                     //custom email
 
@@ -1100,7 +1162,7 @@ class UserManager
                             if ($cust_content_check != '') {
                                 foreach ($security as $key => $value) {
                                     if (!is_array($value) and is_string($key)) {
-                                        $cust_content = str_ireplace('{'.$key.'}', $value, $cust_content);
+                                        $cust_content = str_ireplace('{' . $key . '}', $value, $cust_content);
                                     }
                                 }
                                 $content = $cust_content;
@@ -1111,7 +1173,7 @@ class UserManager
                     $sender = new \Microweber\Utils\MailSender();
                     $sender->send($to, $subject, $content);
 
-                    return array('success' => 'Your password reset link has been sent to '.$to);
+                    return array('success' => 'Your password reset link has been sent to ' . $to);
                 } else {
                     return array('error' => 'Error: the user doesn\'t have a valid email address!');
                 }
@@ -1236,7 +1298,7 @@ class UserManager
             $table = $this->tables['users'];
             $save = $this->app->database_manager->save($table, $data_to_save);
 
-            $this->app->log_manager->delete('is_system=y&rel_type=login_failed&user_ip='.MW_USER_IP);
+            $this->app->log_manager->delete('is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
         }
     }
 
@@ -1382,7 +1444,7 @@ class UserManager
     public function register_url()
     {
         $template_dir = $this->app->template->dir();
-        $file = $template_dir.'register.php';
+        $file = $template_dir . 'register.php';
         $default_url = false;
         if (is_file($file)) {
             $default_url = 'register';
@@ -1412,7 +1474,7 @@ class UserManager
     public function login_url()
     {
         $template_dir = $this->app->template->dir();
-        $file = $template_dir.'login.php';
+        $file = $template_dir . 'login.php';
         $default_url = false;
         if (is_file($file)) {
             $default_url = 'login';
@@ -1437,7 +1499,7 @@ class UserManager
     public function forgot_password_url()
     {
         $template_dir = $this->app->template->dir();
-        $file = $template_dir.'forgot_password.php';
+        $file = $template_dir . 'forgot_password.php';
         $default_url = false;
         if (is_file($file)) {
             $default_url = 'forgot_password';
@@ -1471,7 +1533,7 @@ class UserManager
 
         $token = $this->csrf_token($unique_form_name);
 
-        $input = '<input type="hidden" value="'.$token.'" name="_token">';
+        $input = '<input type="hidden" value="' . $token . '" name="_token">';
 
         return $input;
     }
@@ -1507,7 +1569,7 @@ class UserManager
 
     public function socialite_config($provider = false)
     {
-        $callback_url = api_url('social_login_process?provider='.$provider);
+        $callback_url = api_url('social_login_process?provider=' . $provider);
 
         if (get_option('enable_user_fb_registration', 'users') == 'y') {
             Config::set('services.facebook.client_id', get_option('fb_app_id', 'users'));

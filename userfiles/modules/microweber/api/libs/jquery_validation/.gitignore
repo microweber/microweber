@@ -1,0 +1,5 @@
+.tmp_*~
+.DS_Store
+/js/jquery.validationEngine.log.txt
+/js/jquery.validationEngine.js.min.js.log.txt
+/js/jquery.validationEngine-en.log.txt

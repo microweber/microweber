@@ -96,6 +96,9 @@ class UrlManager {
         return $this->param($param = '__MW_GET_ALL_PARAMS__', $skip_ajax);
     }
 
+
+
+
     public function param($param, $skip_ajax = false, $force_url = false) {
         if ($_POST){
             if (isset($_POST['search_by_keyword'])){
@@ -156,6 +159,8 @@ class UrlManager {
         return $all_params;
     }
 
+
+
     public function param_set($param, $value = false, $url = false) {
         if ($url==false){
             $url = $this->string();
@@ -170,7 +175,8 @@ class UrlManager {
             $segment = explode(':', $segment);
             if ($segment[0]==$param){
                 $segment[1] = $value;
-                $origsegment = impode(':', $segment);
+
+                $origsegment = implode(':', $segment);
                 $found = true;
                 $segs_clean[] = $origsegment;
             } else {
@@ -179,11 +185,13 @@ class UrlManager {
         }
 
         if ($found==false){
+
             $segment = array();
             $segment[] = $param;
             $segment[] = $value;
-            $origsegment = impode(':', $segment);
+            $origsegment = implode(':', $segment);
             $segs_clean[] = $origsegment;
+
         }
 
         $segs_clean = implode('/', $segs_clean);
