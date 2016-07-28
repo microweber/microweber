@@ -298,7 +298,7 @@ class Format
             $var = $this->strip_unsafe($var);
             $purifier = new \HTMLPurifier();
             $var = $purifier->purify($var);
-           // $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
+            // $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
             $var = str_ireplace('<script>', '', $var);
             $var = str_ireplace('</script>', '', $var);
             $var = str_replace('<?', '&lt;?', $var);
@@ -755,8 +755,24 @@ class Format
     {
         return Crypt::encrypt($string);
     }
+
     public function decrypt($string)
     {
         return Crypt::decrypt($string);
     }
+
+
+    public function encode_ids($data)
+    {
+        $hashids = new \Hashids\Hashids();
+        return $hashids->encode($data);;
+    }
+
+    public function decode_ids($data)
+    {
+        $hashids = new \Hashids\Hashids();
+        return $hashids->decode($data);
+    }
+
+
 }

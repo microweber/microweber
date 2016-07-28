@@ -53,7 +53,7 @@ if (!function_exists('site_url')) {
             if (isset($_SERVER['HTTP_HOST'])) {
                 $pageURL .= $_SERVER['HTTP_HOST'];
             } elseif (isset($_SERVER['SERVER_NAME']) and isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] != '80' and $_SERVER['SERVER_PORT'] != '443') {
-                $pageURL .= $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
+                $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
             } elseif (isset($_SERVER['SERVER_NAME'])) {
                 $pageURL .= $_SERVER['SERVER_NAME'];
             } elseif (isset($_SERVER['HOSTNAME'])) {
@@ -70,10 +70,10 @@ if (!function_exists('site_url')) {
             if ($d == '') {
                 $pageURL = $pageURL_host;
             } else {
-                $pageURL_host = rtrim($pageURL_host, '/').'/';
+                $pageURL_host = rtrim($pageURL_host, '/') . '/';
                 $d = ltrim($d, '/');
                 $d = ltrim($d, DIRECTORY_SEPARATOR);
-                $pageURL = $pageURL_host.$d;
+                $pageURL = $pageURL_host . $d;
             }
             if (isset($_SERVER['QUERY_STRING'])) {
                 $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
@@ -91,7 +91,7 @@ if (!function_exists('site_url')) {
             $unset = false;
             foreach ($url_segs as $v) {
                 if ($unset == true and $d != '') {
-                    unset($url_segs[ $i ]);
+                    unset($url_segs[$i]);
                 }
                 if ($v == $d and $d != '') {
                     $unset = true;
@@ -103,7 +103,7 @@ if (!function_exists('site_url')) {
             $site_url = implode('/', $url_segs);
         }
 
-        return $site_url.$add_string;
+        return $site_url . $add_string;
     }
 }
 
@@ -112,7 +112,7 @@ if (!function_exists('site_url')) {
  *
  * @param string $path
  *                         The directory path.
- * @param bool   $slash_it
+ * @param bool $slash_it
  *                         If true, ads a slash at the end, false by default
  *
  * @return string The formatted string
@@ -122,7 +122,7 @@ function normalize_path($path, $slash_it = true)
     $path_original = $path;
     $s = DIRECTORY_SEPARATOR;
     $path = preg_replace('/[\/\\\]/', $s, $path);
-    $path = str_replace($s.$s, $s, $path);
+    $path = str_replace($s . $s, $s, $path);
     if (strval($path) == '') {
         $path = $path_original;
     }
@@ -130,14 +130,14 @@ function normalize_path($path, $slash_it = true)
         $path = rtrim($path, DIRECTORY_SEPARATOR);
     } else {
         $path .= DIRECTORY_SEPARATOR;
-        $path = rtrim($path, DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR);
+        $path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
     }
     if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
         $path = $path_original;
     }
     if ($slash_it == false) {
     } else {
-        $path = $path.DIRECTORY_SEPARATOR;
+        $path = $path . DIRECTORY_SEPARATOR;
         $path = reduce_double_slashes($path);
     }
 
@@ -195,7 +195,7 @@ function lipsum($number_of_characters = false)
 function microtime_float()
 {
     list($msec, $sec) = explode(' ', microtime());
-    $microtime = (float) $msec + (float) $sec;
+    $microtime = (float)$msec + (float)$sec;
 
     return $microtime;
 }
@@ -204,7 +204,7 @@ function microtime_float()
  * Limits a string to a number of characters.
  *
  * @param        $str
- * @param int    $n
+ * @param int $n
  * @param string $end_char
  *
  * @return string
@@ -225,12 +225,12 @@ function character_limiter($str, $n = 500, $end_char = '&#8230;')
 
     $out = '';
     foreach (explode(' ', trim($str)) as $val) {
-        $out .= $val.' ';
+        $out .= $val . ' ';
 
         if (strlen($out) >= $n) {
             $out = trim($out);
 
-            return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
+            return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
         }
     }
 }
@@ -239,14 +239,14 @@ function api_url($str = '')
 {
     $str = ltrim($str, '/');
 
-    return site_url('api/'.$str);
+    return site_url('api/' . $str);
 }
 
 function api_nosession_url($str = '')
 {
     $str = ltrim($str, '/');
 
-    return site_url('api_nosession/'.$str);
+    return site_url('api_nosession/' . $str);
 }
 
 function auto_link($text)
@@ -318,6 +318,15 @@ function url_param($param, $skip_ajax = false)
     return mw()->url_manager->param($param, $skip_ajax);
 }
 
+function url_set_param($param, $value)
+{
+    return site_url(mw()->url_manager->param_set($param, $value));
+}
+function url_unset_param($param)
+{
+    return site_url(mw()->url_manager->param_unset($param));
+}
+
 /**
  *  Gets the data from the cache.
  *
@@ -332,9 +341,9 @@ function url_param($param, $skip_ajax = false)
  *
  * </code>
  *
- * @param string $cache_id              id of the cache
- * @param string $cache_group           (default is 'global') - this is the subfolder in the cache dir.
- * @param bool   $expiration_in_seconds You can pass custom cache object or leave false.
+ * @param string $cache_id id of the cache
+ * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
+ * @param bool $expiration_in_seconds You can pass custom cache object or leave false.
  *
  * @return mixed returns array of cached data or false
  */
@@ -355,14 +364,14 @@ function cache_get($cache_id, $cache_group = 'global', $expiration = false)
  * $cache_content = cache_save($data, $cache_id, 'my_cache_group');
  * </code>
  *
- * @param mixed  $data_to_cache
+ * @param mixed $data_to_cache
  *                                      your data, anything that can be serialized
  * @param string $cache_id
  *                                      id of the cache, you must define it because you will use it later to
  *                                      retrieve the cached content.
  * @param string $cache_group
  *                                      (default is 'global') - this is the subfolder in the cache dir.
- * @param bool   $expiration_in_seconds
+ * @param bool $expiration_in_seconds
  *
  * @return bool
  */

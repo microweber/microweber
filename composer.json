@@ -33,6 +33,7 @@
     "omnipay/common": "*",
     "league/csv": "^7.2",
     "ezyang/htmlpurifier": "^4.7",
+    "hashids/hashids": "^1.0",
     "giggsey/libphonenumber-for-php": "^7.4"
   },
   "require-dev": {

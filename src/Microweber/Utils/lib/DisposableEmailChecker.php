@@ -8,6 +8,7 @@ class DisposableEmailChecker
     public function check($mail)
     {
 
+        // list is from here https://gist.github.com/hassanazimi/d6e49469258d7d06f9f4
         $file = __DIR__ . DS . 'disposable_email_addresses.txt';
         $file = normalize_path($file, false);
 

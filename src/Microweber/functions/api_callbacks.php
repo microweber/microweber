@@ -19,7 +19,7 @@ api_expose('api_index', function ($data = false) {
 
 // content
 
-api_expose('get_content_admin');
+api_expose_admin('get_content_admin');
 api_expose_admin('get_content');
 api_expose_admin('get_posts');
 api_expose_admin('content_title');
