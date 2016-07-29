@@ -257,6 +257,10 @@ $dangerous = array(
     'xqt',        //    SuperCalc Macro File',
     'xys',        //    XYplorer Script File',
     'zl9',        //    ZoneAlarm Quarantined EXE File
+
+
+    'swf',        //    Flash File
+
 );
 
 if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {

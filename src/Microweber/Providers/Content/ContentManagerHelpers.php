@@ -529,6 +529,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             } else {
                 $ref_page = $ref_page2;
             }
+
             if (isset($ustr) and trim($ustr) == 'favicon.ico') {
                 return false;
             } elseif ($ustr2 == '' or $ustr2 == '/') {
@@ -641,6 +642,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         foreach ($the_field_data_all as $the_field_data) {
             $save_global = false;
             $save_layout = false;
+
             if (isset($page_id) and $page_id != 0 and !empty($the_field_data)) {
                 $save_global = false;
 
@@ -725,7 +727,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $save_global = false;
                             $save_layout = false;
                             $content_id = $page_id;
-                            $inh = $this->get_inherited_parent($page_id);
+                            $inh = $this->app->content_manager->get_inherited_parent($page_id);
                             if ($inh != false) {
                                 $content_id_for_con_field = $content_id = $inh;
                             }
@@ -795,6 +797,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save_draft = true;
                                     if (isset($cont_field['value'])) {
                                         $draftmd5 = md5($cont_field['value']);
+
                                         $draftmd5_last = $this->app->user_manager->session_get('content_draft_save_md5');
                                         if ($draftmd5_last == $draftmd5) {
                                             $to_save_draft = false;
@@ -808,6 +811,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 } else {
                                     if ($field != 'content') {
                                         $cont_field1 = $this->app->content_manager->save_content_field($cont_field);
+                                    } else {
+                                        $cont_table_save = array();
+
                                     }
                                 }
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
@@ -849,11 +855,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
                             }
                             $cont_field['field'] = $the_field_data['attributes']['field'];
+
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url_manager->string(true);
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             } else {
+
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             }
 
@@ -1029,6 +1037,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $del_params['rel_type'] = $fld_rel;
             $del_params['field'] = $fld;
             $del_params['table'] = $table;
+            $del_params['no_cache'] = true;
 
             if (isset($data['rel_id'])) {
                 $i = ($data['rel_id']);

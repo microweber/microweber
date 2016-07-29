@@ -49,7 +49,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
                 $domain = str_ireplace('www.', '', $domain);
                 $domain = str_ireplace(':'.$_SERVER['SERVER_PORT'], '', $domain);
-
+                $domain = strtolower($domain);
                 return $domain;
             });
         }

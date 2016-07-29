@@ -630,6 +630,7 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = content_id();
                         }
+
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
@@ -663,6 +664,7 @@ class Parser
                         } else {
                             $inh = $this->app->content_manager->get_inherited_parent($data_id);
                         }
+
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
@@ -715,6 +717,9 @@ class Parser
                         if ($rel == 'post') {
                             $rel = 'content';
                         }
+
+
+
                         $cont_field = false;
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
                             $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
@@ -731,13 +736,18 @@ class Parser
                                 }
                             }
                         } else {
+
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
                                 $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
+
+
                                 $field_content = $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+
+
                             }
                         }
 

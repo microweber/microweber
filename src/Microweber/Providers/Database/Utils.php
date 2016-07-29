@@ -297,7 +297,7 @@ class Utils
         }
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
 
-        // TODO: Temp fix for Laravel
+
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name))) {
             $fields = array_map(function ($f) {
                 if (isset($f->column_name)) {
