@@ -1183,44 +1183,39 @@ body.loaded #live_edit_toolbar{
   clear: both;
   min-width: 95px;
 }
-
-
-#modules-and-layouts .mw_module_image{
-  width: 95px;
-  height: 33px;
-  display: block;
+#modules-and-layouts .mw_module_image {
+    width: 95px;
+    height: 33px;
+    display: block;
 }
 
-#modules-and-layouts .mw_module_image_holder{
-  width: 95px;
-  height: 33px;
-  display: table-cell;
-  vertical-align: middle;
+#modules-and-layouts .mw_module_image_holder {
+    width: 95px;
+    height: 33px;
+    display: table-cell;
+    vertical-align: middle;
 }
+
 #modules-and-layouts .list-elements .mw_module_image_holder,
-#modules-and-layouts .list-elements .mw_module_image{
-  height: 72px;
+#modules-and-layouts .list-elements .mw_module_image {}
+
+#modules-and-layouts .mw_module_image_holder img {
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
 }
 
-
-#modules-and-layouts .mw_module_image_holder img{
-  vertical-align: middle;
-  max-width: 100%;
-  max-height: 100%;
+#modules-and-layouts .list-elements .module-item span.module_name {
+    text-overflow: ellipsis;
+    max-width: 100px;
 }
-
-
-#modules-and-layouts .list-elements .module-item span.module_name{
-  display: none;
-}
-
 
 #modules-and-layouts .list-elements span.mw_module_hold,
 #modules-and-layouts .list-elements span.mw_module_image{
-  padding: 0;
+   
 }
 #modules-and-layouts .list-elements .mw_module_image_shadow{
-  height: 12px;
+ 
 }
 
 #modules-and-layouts .module_name{

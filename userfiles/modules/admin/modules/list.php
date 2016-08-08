@@ -137,14 +137,14 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <span class="mw_module_image"> <span class="mw_module_image_holder">
     <img
         alt="<?php print $dynamic_layout['name'] ?>"
-        title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"
+        title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?>"
         class="module_draggable"
         data-module-name-enc="layout_<?php print date("YmdHis") ?>"
         data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
         src="<?php print $dynamic_layout['icon'] ?>"
         /> </span></span> <span class="module_name"
                                 alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
-    <?php _e($dynamic_layout['name']); ?>
+    <?php print titlelize(_e($dynamic_layout['name'], true)); ?>
     </span> </span></li>
             <?php endif; ?>
         <?php endforeach; ?>
@@ -185,6 +185,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
             <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                 data-module-name="<?php print $module_item['module'] ?>"
+
                 data-filter="<?php print $module_item['name'] ?>"
                 ondrop="true"
                 data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
