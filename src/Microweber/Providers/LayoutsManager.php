@@ -126,10 +126,12 @@ class LayoutsManager
         $glob_patern = '*.php';
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
+           // $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
             $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
+            $possible_dir2 = TEMPLATE_DIR;
 
             if (is_dir($possible_dir)) {
-                $template_dirs[] = $possible_dir;
+                $template_dirs[] = $possible_dir2;
                 $dir2 = rglob($possible_dir.'*.php', 0);
                 if (!empty($dir2)) {
                     foreach ($dir2 as $dir_glob) {
@@ -141,13 +143,14 @@ class LayoutsManager
 
         if (!isset($options['get_dynamic_layouts'])) {
             if (!isset($options['filename'])) {
-                $dir = rglob($glob_patern, 0, $path);
+                 $dir = rglob($glob_patern, 0, $path);
             } else {
                 $dir = array();
                 $dir[] = $options['filename'];
             }
         } else {
         }
+
 
         $configs = array();
         if (!empty($dir)) {
@@ -276,7 +279,11 @@ class LayoutsManager
                             }
 
                             $layout_file = str_replace($path, '', $filename);
+                            if (isset($options['get_dynamic_layouts'])) {
+                             //   dd($template_dirs);
+                                $layout_file = str_replace($possible_dir2, '', $layout_file);
 
+                            }
                             if (isset($template_dirs) and !empty($template_dirs)) {
                                 foreach ($template_dirs as $template_dir) {
                                     $layout_file = str_replace($template_dir, '', $layout_file);

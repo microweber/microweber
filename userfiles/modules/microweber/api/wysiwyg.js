@@ -432,13 +432,13 @@ mw.wysiwyg = {
             }
         });
         $(mwd.body).bind('noop', function (event) {
-			
+
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
                 mw.wysiwyg.change('.element-current');
-				
+
             }
-			
+
             if (event.type == 'keydown') {
 
                 if (mw.tools.isField(event.target) || !event.target.isContentEditable) {
@@ -1289,6 +1289,7 @@ mw.wysiwyg = {
         icon_classes.push('mw-wysiwyg-custom-icon');
 
         if (el.tagName == 'I' || el.tagName == 'SPAN') {
+          return;
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
                 return true;
             }
@@ -1722,11 +1723,11 @@ window.mw.iconSelector = window.mw.iconSelector || {
                 }
             } catch (e) {
             }
-			
-			
-			 
-			
-			
+
+
+
+
+
 
             //check font awesome
             var faicons = mwd.querySelector('link[href*="/font-awesome.min.css"]');
@@ -1782,11 +1783,11 @@ window.mw.iconSelector = window.mw.iconSelector || {
             }
 
         }
-		
-		
+
+
 		try {
                 var icons = mwd.querySelector('link[data-iconset]').sheet.cssRules;
-				 
+
                 var l = icons.length, i = 0, html = '';
                 for (; i < l; i++) {
                     var sel = icons[i].selectorText;
@@ -1889,6 +1890,3 @@ window.mw.iconSelector = window.mw.iconSelector || {
 
     }
 }
-
-
-

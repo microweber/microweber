@@ -123,6 +123,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php
     $def_icon = modules_path() . 'default.png';
     $def_icon = mw()->url_manager->link_to_file($def_icon);
+
+     
     ?>
     <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
         <?php foreach ($dynamic_layouts as $dynamic_layout): ?>

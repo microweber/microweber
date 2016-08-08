@@ -3,7 +3,7 @@ if (typeof jQuery == 'undefined') {
 <?php
 
 
-    $haystack = load_web_component_file('jquery/jquery-3.1.0.js');
+    $haystack = load_web_component_file('jquery/jquery-3.1.0.min.js');
     $haystack .= "\n\n".load_web_component_file('jquery/jquery-migrate-3.0.0.js');
 	 
  

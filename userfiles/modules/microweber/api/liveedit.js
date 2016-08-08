@@ -1,3 +1,5 @@
+mw.require('wysiwyg.js');
+
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -268,7 +270,7 @@ mw.drag = {
                 var el = els[i];
                 var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
 
-                //Bootrap 3 classes 
+                //Bootrap 3 classes
                 var noelements_bs3 = mw.drag.external_grids_col_classes;
                 var noelements_ext = mw.drag.external_css_no_element_classes;
                 var noelements = noelements.concat(noelements_bs3);
@@ -3394,6 +3396,3 @@ mw.beforeleave = function (url) {
         return false;
     }
 }
-
-
-
