@@ -140,6 +140,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"
         class="module_draggable"
         data-module-name-enc="layout_<?php print date("YmdHis") ?>"
+        data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
         src="<?php print $dynamic_layout['icon'] ?>"
         /> </span></span> <span class="module_name"
                                 alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">

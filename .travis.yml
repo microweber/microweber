@@ -1,8 +1,8 @@
 language: php
 php:
-  - 5.4
   - 5.5
   - 5.6
+  - 7
   - hhvm
   
 
@@ -41,5 +41,4 @@ notifications:
 branches:
   only:
     - master
-    - 1.0
-    - 1.0.3
+    - 1.0.8

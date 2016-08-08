@@ -149,7 +149,12 @@ mw.drag.plus = {
         });
         mw.$('#plus-modules-list li').each(function () {
             var name = $(this).attr('data-module-name');
-            $(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
+            if(name === 'layout'){
+                var template = $(this).attr('template');
+                $(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
+            } else {
+                $(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
+            }
         });
     },
     search: function (val, root) {
@@ -181,7 +186,7 @@ InsertModule = function (module, cls) {
     else if (mw.drag.plusActive == 'bottom') {
         $(mw.drag.plusBottom.currentNode).after(el);
     }
-
+d(cls);
     mw.load_module(module, '#' + id, function () {
         mw.wysiwyg.change(document.getElementById(id));
         mw.drag.plus.locked = false;
