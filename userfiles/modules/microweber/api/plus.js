@@ -64,6 +64,8 @@ mw.drag.plus = {
         }
         else if (mw.tools.hasClass(target, 'mw-empty')) {
             return target;
+        } else if (mw.tools.hasParentsWithClass(target, 'element')) {
+            return mw.tools.lastParentWithClass(target, 'element');
         }
         else {
             mw.drag.plusTop.style.top = -9999 + 'px';

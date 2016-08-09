@@ -205,7 +205,7 @@ mw.tools = {
              }
 
 
- 
+
             mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
@@ -372,7 +372,7 @@ mw.tools = {
                 if(cur_tip_id){
                     mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
 					if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
-					   
+
 						setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 100);
 
 					} else {
@@ -399,7 +399,7 @@ mw.tools = {
                     }
 
                 });*/
- 
+
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 
                     $(self).bind('click', function (e,target) {
@@ -409,7 +409,7 @@ mw.tools = {
                     });
 
                 }
- 				
+
              }
 
             mw.tools.tooltip.setPosition(tip, o.element, o.position);
@@ -1139,11 +1139,11 @@ mw.tools = {
                     $(this).toggleClass("active");
 
                     $(".mw-dropdown").not(this).removeClass("active").find(".mw-dropdown-content").hide();
- 
+
                     if (mw.$(".other-action-hover", this).length == 0) {
                         var item = mw.$(".mw-dropdown-content", this);
                         if (item.is(":visible")) {
-							
+
                             item.hide();
                             item.focus();
                         }
@@ -1177,7 +1177,7 @@ mw.tools = {
             });
         }
         /* end For loop */
- 
+
         if (typeof mw.tools.dropdownActivated === 'undefined') {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
@@ -1186,7 +1186,7 @@ mw.tools = {
                     || $(e.target).hasClass('mw-dropdown')
                     || mw.tools.hasParentsWithClass(e.target, 'mw-dropdown')
                 ){
-				// dont hide the dropdown	
+				// dont hide the dropdown
 				} else if (mw.$('.mw-dropdown.hover').length == 0) {
                     mw.$(".mw-dropdown").removeClass("active");
                     mw.$(".mw-dropdown-content").hide();
@@ -3005,7 +3005,20 @@ mw.tools = {
             draggable: true
         });
     },
-
+    open_custom_html_editor:function(){
+        var src = mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/html_editor&autosize=true';
+        var modal = mw.tools.modal.frame({
+            url: src,
+           // width: 500,
+            //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+            name: 'mw-html-editor-front',
+            title:'HTML Editor',
+            template: 'default',
+            center: false,
+            resize: true,
+            draggable: true
+        });
+    },
     open_global_module_settings_modal:function(module_type, module_id){
         var src = mw.settings.site_url + 'api/module?id='+module_id+'&live_edit=true&module_settings=true&type='+module_type+'&autosize=true';
         var modal = mw.tools.modal.frame({
@@ -3274,12 +3287,19 @@ mw.wait('jQuery', function () {
     };
     jQuery.fn.setDropdownValue = function (val, triggerChange, isCustom, customValueToDisplay) {
 
+//var _t1;
+//var _that = this;
+//clearTimeout(_t1);
+
+  //  _t1 =  setTimeout(function(){
+
 
         var isCustom = isCustom || false;
         var triggerChange = triggerChange || false;
         var isValidOption = false;
         var customValueToDisplay = customValueToDisplay || false;
         var el = this;
+
         if (isCustom) {
             var isValidOption = true;
             el.dataset("value", val);
@@ -3306,6 +3326,8 @@ mw.wait('jQuery', function () {
             });
         }
         this.dataset("value", val);
+
+    //    }, 100);
     };
 
     jQuery.fn.commuter = function (a, b) {
@@ -4126,10 +4148,10 @@ mw.inline = {
                 var row = rows[i];
                 var cell = $(row).children('td')[index];
                 if (dir == 'left' || dir == 'both') {
-                    $(cell).before("<td onclick='mw.inline.setActiveCell(this, event);'>&nbsp;</td>");
+                    $(cell).before("<td>&nbsp;</td>");
                 }
                 if (dir == 'right' || dir == 'both') {
-                    $(cell).after("<td onclick='mw.inline.setActiveCell(this, event);'>&nbsp;</td>");
+                    $(cell).after("<td>&nbsp;</td>");
                 }
             }
         },
@@ -4141,7 +4163,7 @@ mw.inline = {
             var dir = dir || 'under';
             var parent = cell.parentNode, cells = $(parent).children('td'), i = 0, l = cells.length, html = '';
             for (; i < l; i++) {
-                html += '<td onclick="mw.inline.setActiveCell(this, event);">&nbsp;</td>';
+                html += '<td>&nbsp;</td>';
             }
             var html = '<tr>' + html + '</tr>';
             if (dir == 'under' || dir == 'both') {
@@ -4836,8 +4858,3 @@ String.prototype.hash = function() {
         return self.charCodeAt(i).toString(16);
     }).join('');
 }
-
-
-
-
-

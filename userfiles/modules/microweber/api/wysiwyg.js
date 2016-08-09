@@ -1289,7 +1289,6 @@ mw.wysiwyg = {
         icon_classes.push('mw-wysiwyg-custom-icon');
 
         if (el.tagName == 'I' || el.tagName == 'SPAN') {
-          return;
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
                 return true;
             }
@@ -1521,7 +1520,9 @@ $(window).load(function () {
 
     mw.$("#wysiwyg_insert").bind("change", function () {
         if (mw.wysiwyg.isSelectionEditable()) {
+
             var val = $(this).getDropdownValue();
+
             if (val == 'hr') {
                 mw.wysiwyg._do('InsertHorizontalRule');
             }
@@ -1559,7 +1560,9 @@ $(window).load(function () {
             }
             else if (val === 'table') {
                 var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});
-                el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr></tbody></table>';
+                //el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr></tbody></table>';
+                el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td>Lorem Ipsum</td><td  >Lorem Ipsum</td></tr><tr><td  >Lorem Ipsum</td><td  >Lorem Ipsum</td></tr></tbody></table>';
+
                 el.querySelector('table').setAttribute('onclick', 'mw.inline.tableController(this, event);');
             }
             else if (val === 'quote') {
@@ -1568,7 +1571,7 @@ $(window).load(function () {
             }
 
 
-            $(this).setDropdownValue("Insert", true, true, "Insert");
+          //  $(this).setDropdownValue("Insert", true, true, "Insert");
         }
     });
 

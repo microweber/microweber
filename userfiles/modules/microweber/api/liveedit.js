@@ -110,6 +110,9 @@ $(document).ready(function () {
     mw.$("#mw-toolbar-css-editor-btn").click(function () {
         mw.tools.open_custom_css_editor();
     });
+    mw.$("#mw-toolbar-html-editor-btn").click(function () {
+        mw.tools.open_custom_html_editor();
+    });
     mw.drag.create();
     $(mwd.body).keyup(function (e) {
         mw.$(".mw_master_handle").css({
@@ -193,6 +196,21 @@ $(document).ready(function () {
             $(mw.iconSelectorToolTip).hide();
             // mw.iconSelector.hide();
         }
+    });
+    $(window).bind("onTableClick", function (e, el) {
+        if(typeof(mw.inline) != 'undefined'){
+        mw.inline.tableController(el);
+        }
+
+    });
+    $(window).bind("onTableTdClick", function (e, el) {
+      if(typeof(mw.inline) != 'undefined'){
+        mw.inline.setActiveCell(el, e);
+        var td_parent_table =  mw.tools.firstParentWithTag(el, 'table');
+        if(td_parent_table){
+          mw.inline.tableController(td_parent_table);
+        }
+      }
     });
 
 
@@ -494,6 +512,7 @@ mw.drag = {
                             || mw.tools.hasParentsWithClass(mw.mm_target, "element")
                             || mw.tools.hasParentsWithClass(mw.mm_target, "module")
                             || mw.isDragItem(mw.mm_target)
+                          //   || mw.mm_target.tagName == 'DIV'
                             || mw.mm_target.tagName == 'IMG') {
 
 
@@ -1192,6 +1211,15 @@ mw.drag = {
                     if (target.tagName == 'BODY') {
                         $(window).trigger("onBodyClick", target);
                     }
+
+                    if (target.tagName == 'TABLE') {
+                        $(window).trigger("onTableClick", target);
+                    }
+                    if (target.tagName == 'TD') {
+                        $(window).trigger("onTableTdClick", target);
+                    }
+
+
                     if (mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty')) {
                         // mw.$("#modules-and-layouts").addClass("hovered");
                     }
@@ -1282,8 +1310,7 @@ mw.drag = {
                             }
                             return false;
                         }
-
-                        if ($(mw.currentDragMouseOver).hasClass("edit")) {
+                         if ($(mw.currentDragMouseOver).hasClass("edit")) {
 
                             if (hasAbilityToDropElementsInside(mw.currentDragMouseOver)) {
                                 if (position == 'top') {
@@ -1331,8 +1358,15 @@ mw.drag = {
                             $(window).trigger("onFreeEnter", mw.currentDragMouseOver);
                             return false;
                         }
+
+
+
                         if (mw.currentDragMouseOver == null || (mw.currentDragMouseOver.id === mw.dragCurrent.id)) {
                             $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
+                            if (mw.currentDragMouseOver != null && !$(mw.currentDragMouseOver).hasClass("mw_dropable")){
+                                $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                            }
+
                         }
                         else {
 
@@ -3199,8 +3233,10 @@ $(window).bind("load", function () {
             var off = mw.smallEditor.offset();
             if (typeof off !== 'undefined') {
                 if (((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY - mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX + mw.smallEditorOff) < (off.left)) || ((e.pageY + mw.smallEditorOff) < (off.top))) {
+                    if (typeof mw.smallEditor !== 'undefined') {
                     mw.smallEditor.css("visibility", "hidden");
                     mw.smallEditorCanceled = true;
+                    }
                 }
                 else {
                     //mw.smallEditor.css("visibility", "visible");
