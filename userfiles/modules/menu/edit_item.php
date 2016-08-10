@@ -88,7 +88,7 @@ if( $id != 0){
     <h4><?php _e("Edit menu item"); ?></h4>
 
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
-
+<module type="editor/icon_picker" />
     <div class="mw-ui-field-holder">
         <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field w100" name="title" value="<?php  print $data['title'] ?>"  />
     </div>
