@@ -126,6 +126,12 @@ trait QueryFilter
                 } elseif (stristr($value, '[not_in]')) {
                     $value = str_replace('[not_in]', '', $value);
                     $compare_sign = 'not_in';
+                } elseif (strtolower($value) == '[null]') {
+                    $value = str_replace('[null]', '', $value);
+                    $compare_sign = 'null';
+                } elseif (strtolower($value) == '[not_null]') {
+                    $value = str_replace('[not_null]', '', $value);
+                    $compare_sign = 'not_null';
                 }
                 if ($filter == 'created_at' or $filter == 'updated_at') {
                     $compare_value = date('Y-m-d H:i:s', strtotime($value));
@@ -456,7 +462,16 @@ trait QueryFilter
                         if ($compare_value != false) {
                             $query = $query->where($table . '.' . $filter, $compare_sign, $compare_value);
                         } else {
-                            if ($compare_sign == 'in' || $compare_sign == 'not_in') {
+                            if ($compare_sign == 'null' || $compare_sign == 'not_null') {
+                                if ($compare_sign == 'null') {
+                                    $query = $query->whereNull($table . '.' . $filter);
+                                }
+                                if ($compare_sign == 'not_null') {
+                                    $query = $query->whereNotNull($table . '.' . $filter);
+                                }
+
+
+                            } else if ($compare_sign == 'in' || $compare_sign == 'not_in') {
                                 if (is_string($value)) {
                                     $value = explode(',', $value);
                                 } elseif (is_int($value)) {
