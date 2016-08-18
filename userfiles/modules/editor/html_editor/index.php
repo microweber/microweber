@@ -1,19 +1,52 @@
 <?php only_admin_access(); ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/codemirror.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/css/css.min.js"></script>
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/htmlmixed/htmlmixed.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/php/php.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/xml/xml.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/selection/selection-pointer.js"></script>
-
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/lint/lint.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/hint/html-hint.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/hint/xml-hint.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/hint/javascript-hint.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/edit/closetag.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/edit/matchbrackets.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/edit/matchtags.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/fold/foldcode.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/codemirror.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/theme/material.css">
+<script type="text/javascript">
+    $time_out_handle = 0;
+    $(document).ready(function () {
+        editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
+            lineNumbers: true,
+            indentWithTabs: true,
+            matchBrackets: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            mode: "htmlmixed"
+        });
+
+        editor.setOption("theme", 'material');
+		 
+        editor.on("change", function (cm, change) {
+            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
+            custom_html_code_mirror.value = cm.getValue();
+
+            window.clearTimeout($time_out_handle);
+            $time_out_handle = window.setTimeout(function () {
+                $(custom_html_code_mirror).change();
+            }, 2000);
+
+        });
 
 
+    })
 
+
+</script>
 <script>
+
+
     mw.html_editor = {};
     mw.html_editor.map = {};
     mw.html_editor.init = function () {
@@ -28,8 +61,8 @@
         var fields_arr = new Array();
         var get_edit_fields = $(parent.document).contents().find('.edit').each(function () {
             var is_in_module = mw.tools.firstParentWithClass(this, 'module');
-            if(!is_in_module){
-            fields_arr.push(this);
+            if (!is_in_module) {
+                fields_arr.push(this);
             }
         });
         return fields_arr;
@@ -39,15 +72,15 @@
         $(fields_array).each(function () {
             var dd_grp = $(this).attr('rel');
             var dd_field = $(this).attr('field');
-            if(dd_grp && dd_grp){
-              if (typeof(html_dd[dd_grp]) == 'undefined') {
-                  html_dd[dd_grp] = new Array();
-              }
-              var temp = {};
-              temp.field = dd_field;
-              temp.rel = dd_grp;
-              mw.html_editor.map[dd_grp + '/' + dd_field] = this;
-              html_dd[dd_grp].push(temp);
+            if (dd_grp && dd_grp) {
+                if (typeof(html_dd[dd_grp]) == 'undefined') {
+                    html_dd[dd_grp] = new Array();
+                }
+                var temp = {};
+                temp.field = dd_field;
+                temp.rel = dd_grp;
+                mw.html_editor.map[dd_grp + '/' + dd_field] = this;
+                html_dd[dd_grp].push(temp);
             }
 
         });
@@ -55,6 +88,8 @@
 
         var $select = $("<select>");
         $select.attr('id', 'select_edit_field');
+        $select.attr('class', 'mw-ui-field');
+
         $select.attr('onchange', 'mw.html_editor.populate_editor()');
 
         $select.appendTo("#select_edit_field_wrap");
@@ -104,7 +139,7 @@
         } else {
             var ed_val = 'Select element to edit';
         }
-
+        editor.setValue(ed_val);
 
         $('#custom_html_code_mirror').val(ed_val);
         $('#custom_html_code_mirror').attr('current', dd_grp + '/' + dd_field);
@@ -172,39 +207,19 @@
 
 
 </script>
+<table>
+  <tr>
+    <td>
+      <div id="select_edit_field_wrap"></div>
 
-<script type="text/javascript">
-    $time_out_handle = 0;
-    $(document).ready(function () {
-        var editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
-            lineNumbers: true,
-            indentWithTabs: true,
-			matchBrackets: true,
-            extraKeys: {"Ctrl-Space": "autocomplete"},
-            mode: "htmlmixed"
-        });
+    </td>
+    <td>
+      <button onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert">Apply</button>
 
- editor.setOption("theme", 'material');
-        editor.on("change", function (cm, change) {
-            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
-            custom_html_code_mirror.value = cm.getValue();
-
-            window.clearTimeout($time_out_handle);
-            $time_out_handle = window.setTimeout(function () {
-                $(custom_html_code_mirror).change();
-            }, 2000);
-
-        });
+    </td>
+  </tr>
+</table>
 
 
-    })
-
-
-</script>
-
-<div id="select_edit_field_wrap">
-
-</div>
-<button onclick="mw.html_editor.apply();">Apply</button>
 <textarea class="mw-ui-field w100" name="custom_html" id="custom_html_code_mirror" rows="30"
           option-group="template" placeholder="Type your HTML code here"></textarea>
