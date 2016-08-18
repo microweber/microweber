@@ -1,45 +1,17 @@
 <?php only_admin_access(); ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/codemirror.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/css/css.min.js"></script>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/htmlmixed/htmlmixed.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/php/php.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/xml/xml.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/selection/selection-pointer.js"></script>
 
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/codemirror.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/theme/material.css">
 
 
-<script type="text/javascript">
-    mw.require('options.js');
-</script>
-
-<script type="xxxxtext/javascript">
-    $time_out_handle = 0;
-    $(document).ready(function () {
-        var editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
-            lineNumbers: true,
-            indentWithTabs: true,
-			matchBrackets: true,
-            extraKeys: {"Ctrl-Space": "autocomplete"},
-            mode: "htmlmixed"
-        });
-
-
-        editor.on("change", function (cm, change) {
-            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
-            custom_html_code_mirror.value = cm.getValue();
-
-            window.clearTimeout($time_out_handle);
-            $time_out_handle = window.setTimeout(function () {
-                $(custom_html_code_mirror).change();
-            }, 2000);
-
-        });
-
-
-    })
-
-
-</script>
 
 <script>
     mw.html_editor = {};
@@ -55,7 +27,10 @@
     mw.html_editor.get_edit_fields = function () {
         var fields_arr = new Array();
         var get_edit_fields = $(parent.document).contents().find('.edit').each(function () {
+            var is_in_module = mw.tools.firstParentWithClass(this, 'module');
+            if(!is_in_module){
             fields_arr.push(this);
+            }
         });
         return fields_arr;
     };
@@ -64,14 +39,16 @@
         $(fields_array).each(function () {
             var dd_grp = $(this).attr('rel');
             var dd_field = $(this).attr('field');
-            if (typeof(html_dd[dd_grp]) == 'undefined') {
-                html_dd[dd_grp] = new Array();
+            if(dd_grp && dd_grp){
+              if (typeof(html_dd[dd_grp]) == 'undefined') {
+                  html_dd[dd_grp] = new Array();
+              }
+              var temp = {};
+              temp.field = dd_field;
+              temp.rel = dd_grp;
+              mw.html_editor.map[dd_grp + '/' + dd_field] = this;
+              html_dd[dd_grp].push(temp);
             }
-            var temp = {};
-            temp.field = dd_field;
-            temp.rel = dd_grp;
-            mw.html_editor.map[dd_grp + '/' + dd_field] = this;
-            html_dd[dd_grp].push(temp);
 
         });
 
@@ -189,6 +166,35 @@
     $(document).ready(function () {
 
         mw.html_editor.init();
+
+
+    })
+
+
+</script>
+
+<script type="text/javascript">
+    $time_out_handle = 0;
+    $(document).ready(function () {
+        var editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
+            lineNumbers: true,
+            indentWithTabs: true,
+			matchBrackets: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            mode: "htmlmixed"
+        });
+
+ editor.setOption("theme", 'material');
+        editor.on("change", function (cm, change) {
+            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
+            custom_html_code_mirror.value = cm.getValue();
+
+            window.clearTimeout($time_out_handle);
+            $time_out_handle = window.setTimeout(function () {
+                $(custom_html_code_mirror).change();
+            }, 2000);
+
+        });
 
 
     })
