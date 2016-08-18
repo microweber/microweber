@@ -1811,6 +1811,13 @@ window.mw.iconSelector = window.mw.iconSelector || {
         if (mw.iconSelector.iconFontClasses.length == 0) {
             mw.iconSelector.init();
         }
+
+        if (mw.iconSelector.iconFontClasses.length == 0) {
+            // if no icon sets, disable the icon editor
+            return;
+        }
+
+
         if (mw.iconSelector._string == '') {
 
 

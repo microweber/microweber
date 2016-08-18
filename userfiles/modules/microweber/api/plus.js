@@ -188,7 +188,7 @@ InsertModule = function (module, cls) {
     else if (mw.drag.plusActive == 'bottom') {
         $(mw.drag.plusBottom.currentNode).after(el);
     }
-d(cls);
+
     mw.load_module(module, '#' + id, function () {
         mw.wysiwyg.change(document.getElementById(id));
         mw.drag.plus.locked = false;

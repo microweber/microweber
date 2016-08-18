@@ -3617,7 +3617,7 @@ mw.dump = function () {
 
 mw.notification = {
     msg: function (data, timeout, _alert) {
-        var timeout = timeout || 1000;
+        var timeout = timeout || 3000;
         var _alert = _alert || false;
         if (data != undefined) {
             if (data.success != undefined) {
@@ -3644,7 +3644,7 @@ mw.notification = {
         return div;
     },
     append: function (type, text, timeout) {
-        var timeout = timeout || 1000;
+        var timeout = timeout || 3000;
 
         var div = mw.notification.build(type, text);
         if (typeof mw.notification._holder === 'undefined') {
@@ -3659,19 +3659,19 @@ mw.notification = {
             div.style.opacity = 0;
             setTimeout(function () {
                 $(div).remove();
-            }, 1000);
+            }, 3000);
         }, timeout);
     },
     success: function (text, timeout) {
-        var timeout = timeout || 1000;
+        var timeout = timeout || 3000;
         mw.notification.append('success', text, timeout);
     },
     error: function (text, timeout) {
-        var timeout = timeout || 1000;
+        var timeout = timeout || 3000;
         mw.notification.append('error', text, timeout);
     },
     warning: function (text, timeout) {
-        var timeout = timeout || 1000;
+        var timeout = timeout || 3000;
         mw.notification.append('warning', text, timeout);
     }
 }
