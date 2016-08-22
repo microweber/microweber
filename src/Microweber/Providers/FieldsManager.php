@@ -239,7 +239,7 @@ class FieldsManager
 
             // $this->skip_cache = true;
             $data_to_save['table'] = $table_custom_field;
-            $data_to_save['allow_html'] = true;
+            $data_to_save['allow_html'] = false;
             $data_to_save_parent = $data_to_save;
             if (isset($data_to_save_parent['value'])) {
                 unset($data_to_save_parent['value']);
@@ -274,7 +274,7 @@ class FieldsManager
                             $save_value['value'] = implode(',', array_values($value_to_save));
                         }
                         $save_value['position'] = $i;
-                        $save_value['allow_html'] = true;
+                        $save_value['allow_html'] = false;
                         $save_value = $this->app->database_manager->save($table_values, $save_value);
                         ++$i;
                     }

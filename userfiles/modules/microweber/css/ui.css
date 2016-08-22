@@ -1427,6 +1427,7 @@
   position: relative;
   border-radius: 3px;
   text-decoration: none;
+  font-size: 12px;
   color: #212121;
 }
 input.mw-ui-btn {
@@ -3556,3 +3557,4 @@ body.bup.dragStart.state-element .edit .element:empty {
   background-image: none;
   opacity: 0.6;
 }
+/*# sourceMappingURL=ui.css.map */

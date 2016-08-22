@@ -3009,8 +3009,9 @@ mw.tools = {
         var src = mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/html_editor&autosize=true';
         var modal = mw.tools.modal.frame({
             url: src,
-           // width: 500,
-            //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+
+            // width: 500,
+            // height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-html-editor-front',
             title:'HTML Editor',
             template: 'default',
@@ -3617,7 +3618,7 @@ mw.dump = function () {
 
 mw.notification = {
     msg: function (data, timeout, _alert) {
-        var timeout = timeout || 3000;
+        var timeout = timeout || 1000;
         var _alert = _alert || false;
         if (data != undefined) {
             if (data.success != undefined) {
@@ -3644,7 +3645,7 @@ mw.notification = {
         return div;
     },
     append: function (type, text, timeout) {
-        var timeout = timeout || 3000;
+        var timeout = timeout || 1000;
 
         var div = mw.notification.build(type, text);
         if (typeof mw.notification._holder === 'undefined') {
@@ -3659,19 +3660,19 @@ mw.notification = {
             div.style.opacity = 0;
             setTimeout(function () {
                 $(div).remove();
-            }, 3000);
+            }, 1000);
         }, timeout);
     },
     success: function (text, timeout) {
-        var timeout = timeout || 3000;
+        var timeout = timeout || 1000;
         mw.notification.append('success', text, timeout);
     },
     error: function (text, timeout) {
-        var timeout = timeout || 3000;
+        var timeout = timeout || 1000;
         mw.notification.append('error', text, timeout);
     },
     warning: function (text, timeout) {
-        var timeout = timeout || 3000;
+        var timeout = timeout || 1000;
         mw.notification.append('warning', text, timeout);
     }
 }
