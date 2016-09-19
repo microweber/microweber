@@ -775,4 +775,75 @@ class Format
     }
 
 
+    public function text_to_image($text)
+    {
+        $options = array();
+        if (is_array($text)) {
+            $options = $text;
+            if (isset($options['text'])) {
+                $text = $options['text'];
+            } else {
+                $text = 'Hello world!';
+            }
+
+        }
+
+
+        $simple_text_image = new lib\SimpleTextImage($text);
+        if (isset($options['font_size'])) {
+            $simple_text_image->setFontSize(intval($options['font_size']));
+        }
+
+        if (isset($options['padding'])) {
+            $simple_text_image->setPadding(intval($options['padding']));
+        }
+
+        if (isset($options['bg_color'])) {
+            $color = $options['bg_color'];
+            $rgb = $this->hex_to_rgb($color);
+            $simple_text_image->setBackground($rgb['r'],$rgb['g'],$rgb['b']);
+        }
+
+        if (isset($options['fg_color'])) {
+            $color = $options['fg_color'];
+            $rgb = $this->hex_to_rgb($color);
+            $simple_text_image->setForeground($rgb['r'],$rgb['g'],$rgb['b']);
+        }
+
+        // Enable output buffering
+        ob_start();
+        $simple_text_image->render('png');
+        $imagedata = ob_get_contents();
+
+        ob_end_clean();
+
+
+        return 'data:image/png;base64,' . base64_encode($imagedata);
+
+
+    }
+
+    public function hex_to_rgb($hex, $alpha = false)
+    {
+        $hex = str_replace('#', '', $hex);
+        if (strlen($hex) == 6) {
+            $rgb['r'] = hexdec(substr($hex, 0, 2));
+            $rgb['g'] = hexdec(substr($hex, 2, 2));
+            $rgb['b'] = hexdec(substr($hex, 4, 2));
+        } else if (strlen($hex) == 3) {
+            $rgb['r'] = hexdec(str_repeat(substr($hex, 0, 1), 2));
+            $rgb['g'] = hexdec(str_repeat(substr($hex, 1, 1), 2));
+            $rgb['b'] = hexdec(str_repeat(substr($hex, 2, 1), 2));
+        } else {
+            $rgb['r'] = '0';
+            $rgb['g'] = '0';
+            $rgb['b'] = '0';
+        }
+        if ($alpha) {
+            $rgb['a'] = $alpha;
+        }
+        return $rgb;
+    }
+
+
 }

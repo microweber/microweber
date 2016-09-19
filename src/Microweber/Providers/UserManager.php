@@ -147,7 +147,7 @@ class UserManager
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
-        $login_captcha_enabled = get_option('login_captcha_enabled','users') == 'y';
+        $login_captcha_enabled = get_option('login_captcha_enabled', 'users') == 'y';
         if ($login_captcha_enabled) {
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
@@ -158,7 +158,6 @@ class UserManager
                 }
             }
         }
-
 
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
@@ -530,13 +529,13 @@ class UserManager
         $pass2 = $pass;
 
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
-        $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email','users') == 'y';
+        $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
         if ($email != false and $disable_registration_with_temporary_email) {
             $checker = new \Microweber\Utils\lib\DisposableEmailChecker();
             $is_temp_email = $checker->check($email);
-            if($is_temp_email){
+            if ($is_temp_email) {
                 $domain = substr(strrchr($email, "@"), 1);
-                return array('error' => 'You cannot register with email from '.$domain.' domain');
+                return array('error' => 'You cannot register with email from ' . $domain . ' domain');
             }
         }
 
@@ -908,7 +907,6 @@ class UserManager
             }
 
 
-
             if (isset($params['id']) and intval($params['id']) != 0) {
                 $id_to_return = intval($params['id']);
             } else {
@@ -946,6 +944,19 @@ class UserManager
         }
 
         return $res;
+    }
+
+    public function get_by_email($email)
+    {
+        $data = array();
+        $data['email'] = $email;
+        $data['limit'] = 1;
+        $data = $this->get_all($data);
+        if (isset($data[0])) {
+            $data = $data[0];
+        }
+
+        return $data;
     }
 
     public function get_by_username($username)

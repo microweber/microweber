@@ -114,7 +114,7 @@ $link = mw()->ui->admin_logo_login_link;
               </div>
               
               <div class="mw-ui-col">
-                  <input name="captcha" type="text" required class="mw-ui-field mw-captcha-input" placeholder="<?php _e("Security code"); ?>"/>
+                  <input name="captcha" type="text" required class="mw-ui-field mw-captcha-input"  tabindex="3" placeholder="<?php _e("Security code"); ?>"/>
               </div>
               
           </div>
@@ -147,7 +147,7 @@ $link = mw()->ui->admin_logo_login_link;
             </li>
           </ul>
           <input  type="hidden" name="where_to" value="admin_content" />
-          <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
+          <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="4" value="<?php _e("Login"); ?>" />
         </div>
       </form>
     </div>

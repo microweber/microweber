@@ -9,7 +9,24 @@ $requests_num = false;
   <h2><?php _e("Basic statistics"); ?>
   <span class="mw-ui-btn mw-ui-btn-small tip default-invert request-stats-btn" data-tip="<?php _e("Upgrade your real-time statistics"); ?>" data-tipposition="top-center"><?php _e("Upgrade"); ?></span>
   </h2>
+<style>
+.stat-ip .tip, .stat-page a.tip {
+  /* essential */
 
+max-width: 300px;
+
+text-overflow: ellipsis;
+white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+white-space: -webkit-pre-wrap; /*Chrome & Safari */
+white-space: -pre-wrap;      /* Opera 4-6 */
+white-space: -o-pre-wrap;    /* Opera 7 */
+white-space: pre-wrap;       /* css-3 */
+word-wrap: break-word;       /* Internet Explorer 5.5+ */
+word-break: break-all;
+white-space: normal;
+
+}
+</style>
 
 <div class="mw-ui-row valign">
     <div class="mw-ui-col" style="width: 170px;">
@@ -55,7 +72,7 @@ $requests_num = false;
         <td class="stat-ip">
             <span class="<?php if(strlen(($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ($item['user_ip']); ?>" data-tipposition="top-center"><?php print ($item['user_ip']); ?></span>
         </td>
-        <td class="stat-page"><a href="<?php print $item['last_page'] ?>" class="<?php if(strlen($item['last_page']) > 40){ ?>tip<?php } ?>" data-tip="<?php print $item['last_page'] ?>" data-tipposition="top-center"><?php print $item['last_page']; ?></a></td>
+        <td class="stat-page"><a target="_blank" href="<?php print $item['last_page'] ?>" class="<?php if(strlen($item['last_page']) > 40){ ?>tip<?php } ?>" data-tip="<?php print $item['last_page'] ?>" data-tipposition="top-center"><?php print $item['last_page']; ?></a></td>
         <td class="stat-views"><?php print $item['view_count'] ?></td>
       </tr>
       <?php $i++; endforeach; ?>
