@@ -428,6 +428,11 @@ class UserManager
                 $name = $user_data['username'];
                 break;
 
+
+            case 'email' :
+                $name = $user_data['email'];
+                break;
+
             case 'full' :
             default :
 

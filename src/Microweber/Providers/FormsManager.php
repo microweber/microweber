@@ -54,7 +54,7 @@ class FormsManager
                     ksort($fields);
                     $item['custom_fields'] = array();
                     foreach ($fields as $key => $value) {
-                        $item['custom_fields'][ $key ] = $value;
+                        $item['custom_fields'][$key] = $value;
                     }
                 }
 
@@ -151,6 +151,9 @@ class FormsManager
             } else {
                 if ($for_id != false) {
                     $validate_captcha = mw()->captcha->validate($params['captcha'], $for_id);
+                    if (!$validate_captcha) {
+                        $validate_captcha = mw()->captcha->validate($params['captcha']);
+                    }
                 } else {
                     $validate_captcha = mw()->captcha->validate($params['captcha']);
                 }
@@ -162,16 +165,34 @@ class FormsManager
                 }
             }
         }
+        if (isset($params['_token'])) {
+            unset($params['_token']);
+        }
+        if (isset($params['token'])) {
+            unset($params['token']);
+        }
+        if (isset($params['captcha'])) {
+            unset($params['captcha']);
+        }
+        if (isset($params['id'])) {
+            unset($params['id']);
+        }
 
-       // if ($for=='module'){
-            $list_id = $this->app->option_manager->get('list_id', $for_id);
-      //  }
+
+        // if ($for=='module'){
+        $list_id = $this->app->option_manager->get('list_id', $for_id);
+        //  }
         $email_to = $this->app->option_manager->get('email_to', $for_id);
         $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
         $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $for_id);
         $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $for_id);
+
+
+        if (isset($params['subject'])) {
+            $email_notification_subject = $params['subject'];
+        }
 
         if (!isset($list_id) or $list_id == false) {
             $list_id = 0;
@@ -195,14 +216,14 @@ class FormsManager
 
                     $cfn2 = str_replace(' ', '_', $cfn);
 
-                    if (isset($params[ $cfn2 ]) and $params[ $cfn2 ] != false) {
-                        $fields_data[ $cfn2 ] = $params[ $cfn2 ];
-                        $item['value'] = $params[ $cfn2 ];
-                        $cf_to_save[ $cfn ] = $item;
-                    } elseif (isset($params[ $cfn ]) and $params[ $cfn ] != false) {
-                        $fields_data[ $cfn ] = $params[ $cfn ];
-                        $item['value'] = $params[ $cfn2 ];
-                        $cf_to_save[ $cfn ] = $item;
+                    if (isset($params[$cfn2]) and $params[$cfn2] != false) {
+                        $fields_data[$cfn2] = $params[$cfn2];
+                        $item['value'] = $params[$cfn2];
+                        $cf_to_save[$cfn] = $item;
+                    } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
+                        $fields_data[$cfn] = $params[$cfn];
+                        $item['value'] = $params[$cfn2];
+                        $cf_to_save[$cfn] = $item;
                     }
                 }
             }
@@ -256,13 +277,25 @@ class FormsManager
                 unset($pp_arr['for_id']);
             }
 
+
+
+            if (isset($pp_arr['message'])) {
+                $temp = $pp_arr['message'];
+                $temp = nl2br($temp);
+                unset($pp_arr['message']);
+                $pp_arr['message'] = $temp; // push to end of array
+            }
+
+
+
+
             $notif = array();
             $notif['module'] = $params['module_name'];
             $notif['rel_type'] = 'forms_lists';
             $notif['rel_id'] = $list_id;
             $notif['title'] = 'New form entry';
             $notif['description'] = $email_notification_subject ?: 'You have new form entry';
-            $notif['content'] = 'You have new form entry from '.$this->app->url_manager->current(1).'<br />'.$this->app->format->array_to_ul($pp_arr);
+            $notif['content'] = 'You have new form entry from ' . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
             $this->app->notifications_manager->save($notif);
 
             if ($email_to == false) {
@@ -353,7 +386,7 @@ class FormsManager
         static $data = array();
 
         if (empty($data)) {
-            $countries_file = normalize_path(MW_PATH.'Utils/lib/country.csv', false);
+            $countries_file = normalize_path(MW_PATH . 'Utils/lib/country.csv', false);
             if (is_file($countries_file)) {
                 $data = array_map('str_getcsv', file($countries_file));
                 if (isset($data[0])) {
@@ -389,7 +422,7 @@ class FormsManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
+            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
@@ -406,7 +439,7 @@ class FormsManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
+            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data['id'])) {
@@ -425,13 +458,13 @@ class FormsManager
 
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
+            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         if (!isset($params['id'])) {
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
             $lid = intval($params['id']);
-            $data = get_form_entires('limit=100000&list_id='.$lid);
+            $data = get_form_entires('limit=100000&list_id=' . $lid);
 
             $surl = $this->app->url_manager->site();
             $csv_output = '';
@@ -442,7 +475,7 @@ class FormsManager
                 foreach ($data as $item) {
                     if (isset($item['custom_fields'])) {
                         foreach ($item['custom_fields'] as $k => $v) {
-                            $csv_output .= $this->app->format->no_dashes($k).',';
+                            $csv_output .= $this->app->format->no_dashes($k) . ',';
                             $csv_output .= "\t";
                         }
                     }
@@ -452,11 +485,11 @@ class FormsManager
 
                 foreach ($data as $item) {
                     if (isset($item['custom_fields'])) {
-                        $csv_output .= $item['id'].',';
+                        $csv_output .= $item['id'] . ',';
                         $csv_output .= "\t";
-                        $csv_output .= $item['created_at'].',';
+                        $csv_output .= $item['created_at'] . ',';
                         $csv_output .= "\t";
-                        $csv_output .= $item['user_ip'].',';
+                        $csv_output .= $item['user_ip'] . ',';
                         $csv_output .= "\t";
 
                         foreach ($item['custom_fields'] as $item1 => $val) {
@@ -464,7 +497,7 @@ class FormsManager
 
                             $output_val = str_replace('{SITE_URL}', $surl, $output_val);
 
-                            $csv_output .= $output_val.',';
+                            $csv_output .= $output_val . ',';
                             $csv_output .= "\t";
                         }
                         $csv_output .= "\n";
@@ -472,16 +505,16 @@ class FormsManager
                 }
             }
 
-            $filename = 'export'.'_'.date('Y-m-d_H-i', time()).uniqid().'.csv';
-            $filename_path = userfiles_path().'export'.DS.'forms'.DS;
-            $filename_path_index = userfiles_path().'export'.DS.'forms'.DS.'index.php';
+            $filename = 'export' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
+            $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
+            $filename_path_index = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
             if (!is_dir($filename_path)) {
                 mkdir_recursive($filename_path);
             }
             if (!is_file($filename_path_index)) {
                 @touch($filename_path_index);
             }
-            $filename_path_full = $filename_path.$filename;
+            $filename_path_full = $filename_path . $filename;
             file_put_contents($filename_path_full, $csv_output);
             $download = $this->app->url_manager->link_to_file($filename_path_full);
 

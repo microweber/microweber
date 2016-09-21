@@ -208,7 +208,6 @@ class DatabaseManager extends DbUtils
             foreach ($params as $k => $v) {
                 $query = $query->where($table . '.' . $k, '=', $v);
             }
-
         }
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {

@@ -228,6 +228,12 @@ function user_name($user_id = false, $mode = 'full')
     return mw()->user_manager->name($user_id, $mode);
 }
 
+
+function user_email($user_id = false)
+{
+    return user_name($user_id, $mode='email');
+}
+
 function user_picture($user_id = false)
 {
     return mw()->user_manager->picture($user_id);
