@@ -357,13 +357,16 @@ class FormsManager
                             $msg = $notif['content'];
                             $subj = $notif['description'];
                             $from = $email_from;
+
+                            $sender->send($value, $subj, $msg, $from,false,false,false,false,$email_from);
                         } else {
                             $msg = $mail_autoresp;
                             $subj = $email_autorespond_subject ?: 'Thank you!';
                             $from = false;
+                            $sender->send($value, $subj, $msg, $from);
                         }
 
-                        $sender->send($value, $subj, $msg, $from);
+
                     }
                 }
             }
