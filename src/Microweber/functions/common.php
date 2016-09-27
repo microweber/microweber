@@ -468,11 +468,7 @@ if (!function_exists('is_cli')) {
             return true;
         }
 
-        if (empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0) {
-            return true;
-        }
-
-        if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
+        if (isset($_SERVER['REMOTE_ADDR']) and empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0) {
             return true;
         }
 
