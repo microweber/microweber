@@ -464,11 +464,11 @@ if (!function_exists('is_cli')) {
             return true;
         }
 
-        if (array_key_exists('SHELL', $_ENV)) {
+        if (php_sapi_name() === 'cli-server') {
             return true;
         }
 
-        if (isset($_SERVER['REMOTE_ADDR']) and empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0) {
+        if (array_key_exists('SHELL', $_ENV)) {
             return true;
         }
 
