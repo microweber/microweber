@@ -18,7 +18,7 @@
     "illuminate/html": "~5.0",
     "illuminate/contracts": "5.0.*|5.1.*",
     "vlucas/phpdotenv": "~1.0",
-    "rcrowe/twigbridge": "0.8.x-dev",
+    "rcrowe/twigbridge": "*",
     "graham-campbell/markdown": "~3.0",
     "guzzlehttp/guzzle": "5.*",
     "composer/installers": "1.*",

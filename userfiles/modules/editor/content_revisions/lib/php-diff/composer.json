@@ -1,0 +1,19 @@
+{
+    "name": "amazephp/php-diff",
+    "type": "library",
+    "keywords": ["php", "diff"],
+    "license": "MIT",
+    "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
+    "authors": [{
+            "name": "Chris Boulton"
+        }, {
+            "name": "amazephp",
+            "email": "msl-138@163.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+           "PhpDiff\\": "src/"
+        }
+    }
+}
