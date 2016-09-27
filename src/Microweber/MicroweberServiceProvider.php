@@ -40,7 +40,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Set environment
 
-        if (!$this->app->runningInConsole()) {
+        if (!is_cli()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
                 if (getenv('APP_ENV')) {
@@ -230,7 +230,7 @@ class MicroweberServiceProvider extends ServiceProvider
             if ($language != false) {
                 set_current_lang($language);
             }
-            if ($this->app->runningInConsole()) {
+            if (is_cli()) {
                 $this->commands('Microweber\Commands\UpdateCommand');
             }
 

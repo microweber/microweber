@@ -123,7 +123,7 @@ class InstallController extends Controller {
             }
 
             if (Config::get('app.key')=='YourSecretKey!!!'){
-                if (!$this->app->runningInConsole()){
+                if (!is_cli()){
                     $_SERVER['argv'] = array();
                 }
                 Artisan::call('key:generate');
