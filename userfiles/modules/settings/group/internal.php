@@ -70,6 +70,7 @@ $cache_adapters[] = array('title'=>'Memcached','adapter'=>'memcached');
 
 $system_cache_adapter =Config::get('microweber.cache_adapter');
 $compile_assets =Config::get('microweber.compile_assets');
+$force_https =Config::get('microweber.force_https');
 
 if($system_cache_adapter == false){
 $system_cache_adapter = 'file';	
@@ -107,12 +108,27 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
       <?php endif; ?>
       <?php endforeach; ?>
     </select>
+
+        </div> <div class="mw-ui-field-holder">
+
+
     <?php endif; ?>
     <label class="mw-ui-label"> Compile api.js </label>
     <select name="microweber[compile_assets]" class="mw-ui-field">
       <option value="0" <?php if($compile_assets ==  0): ?> selected <?php endif;  ?> > No </option>
       <option value="1" <?php if($compile_assets ==  1): ?> selected <?php endif;  ?> > Yes </option>
     </select>
+
+    </div> <div class="mw-ui-field-holder">
+
+      <label class="mw-ui-label"> Force HTTPS </label>
+      <select name="microweber[force_https]" class="mw-ui-field">
+          <option value="0" <?php if($force_https ==  0): ?> selected <?php endif;  ?> > No </option>
+          <option value="1" <?php if($force_https ==  1): ?> selected <?php endif;  ?> > Yes </option>
+      </select>
+
+
+
     <?php event_trigger('mw_admin_internal_settings', $params); ?>
     <br />
     <br />
