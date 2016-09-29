@@ -135,7 +135,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
 		}
     </script>
 <?php
-    $back_url = site_url() . 'admin/view:content';
+    $back_url = admin_url() . 'view:content';
     if (defined('CONTENT_ID')) {
         if ((!defined('POST_ID') or POST_ID == false) and !defined('PAGE_ID') or PAGE_ID != false and PAGE_ID == CONTENT_ID) {
             $back_url .= '#action=showposts:' . PAGE_ID;
