@@ -1194,10 +1194,10 @@ mw.drag = {
                         $(window).trigger("onBodyClick", target);
                     }
 
-                    if (target.tagName == 'TABLE' && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') && !mw.tools.hasParentsWithClass(target, 'module')) {
+                    if (target.tagName == 'TABLE' && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'module')) {
                         $(window).trigger("onTableClick", target);
                     }
-                    if (target.tagName == 'TD' && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') && !mw.tools.hasParentsWithClass(target, 'module')) {
+                    if (target.tagName == 'TD' && mw.tools.hasParentsWithClass(target, 'edit')  && !mw.tools.hasParentsWithClass(target, 'module')) {
                         $(window).trigger("onTableTdClick", target);
                     }
 
