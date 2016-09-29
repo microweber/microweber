@@ -1097,6 +1097,7 @@ mw.drag = {
             }
         }
     },
+    
     toolbar_modules: function(selector) {
         var items = selector || ".modules-list li";
         mw.$(items).draggable({
