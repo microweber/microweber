@@ -95,6 +95,28 @@ mw.external_tool = function (url) {
 }
 
 mw.tools = {
+    isEditable:function(item){
+        var el = item;
+        if(!!item.type && !!item.target){
+            el = item.target;
+        }
+        if(mw.tools.hasClass(el, 'edit')) return true;
+        var hasParentsModule = mw.tools.hasParentsWithClass(el, 'module');
+        var hasParentsEdit = mw.tools.hasParentsWithClass(el, 'edit');
+        if(hasParentsModule && !hasParentsEdit) return false;
+        if(!hasParentsModule && hasParentsEdit) return true;
+
+        if(hasParentsModule && hasParentsEdit){
+            var order = mw.tools.parentsOrder(item, ['edit', 'module']);
+            if(order.edit < order.module) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+    },
     createStyle: function (c, css, ins) {
         var ins = ins || mwd.getElementsByTagName('head')[0];
         var style = mw.$(c)[0];
