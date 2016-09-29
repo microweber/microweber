@@ -232,6 +232,8 @@ class CartManager
         if (!isset($data['qty'])) {
             $this->app->error('Invalid data');
         }
+        $data_fields = false;
+
         $cart = array();
         $cart['id'] = intval($data['id']);
         $cart['session_id'] = mw()->user_manager->session_id();
@@ -249,11 +251,23 @@ class CartManager
                 }
             }
         }
+
         if ($check_cart != false and is_array($check_cart)) {
             $cart['qty'] = intval($data['qty']);
             if ($cart['qty'] < 0) {
                 $cart['qty'] = 0;
             }
+
+
+            if (isset($data_fields['max_qty_per_order']) and intval($data_fields['max_qty_per_order']) != 0) {
+
+                if ($cart['qty'] > intval($data_fields['max_qty_per_order'])) {
+                    $cart['qty'] = intval($data_fields['max_qty_per_order']);
+                }
+            }
+
+
+
             $table = $this->table;
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
@@ -513,6 +527,14 @@ class CartManager
                     $cart['qty'] = $cont_data['qty'];
                 }
             }
+
+
+            if (isset($cont_data['max_qty_per_order']) and intval($cont_data['max_qty_per_order']) != 0) {
+                if ($cart['qty'] > intval($cont_data['max_qty_per_order'])) {
+                    $cart['qty'] = intval($cont_data['max_qty_per_order']);
+                }
+            }
+            
 
             if (isset($data['other_info']) and is_string($data['other_info'])) {
                 $cart['other_info'] = strip_tags($data['other_info']);
