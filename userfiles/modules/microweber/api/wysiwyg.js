@@ -588,7 +588,7 @@ mw.wysiwyg = {
         }
 
     },
-    
+
     editable: function (el) {
         var el = mw.wysiwyg.validateCommonAncestorContainer(el);
         return el.isContentEditable;

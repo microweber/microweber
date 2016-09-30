@@ -39,7 +39,7 @@ if($show_testimonials_per_project){
 	}
 	
 	$get['project_name'] = $show_testimonials_per_project;
-	$data = get_testimonials($get); 
+	$data = get_testimonials($get);
 
 } else {
 	$get = array();
@@ -59,7 +59,7 @@ if($show_testimonials_per_project){
 
 
 if(empty($data)){
-return print lnotif("Click here to edit Testimonials");	
+    return print lnotif("Click here to edit Testimonials");
 }
 
 $openquote = get_option('openquote', 'fourtestimonials');
