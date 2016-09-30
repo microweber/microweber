@@ -38,12 +38,12 @@ description: Testimonials Default
 
 <?php $data = get_testimonials(); ?>
 
-<pre><?php var_dump($data); ?></pre>
+
 	<?php
 
 
         foreach($data as $item){
-       
+
 
       ?>
 

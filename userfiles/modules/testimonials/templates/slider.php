@@ -41,7 +41,7 @@ description: Testimonials displayed in Slider
 
 
         foreach($data as $item){
-        foreach($data as $item){
+       
 
       ?>
 
@@ -54,9 +54,11 @@ description: Testimonials displayed in Slider
             <h5><?php print $item['name']; ?></h5>
         <?php } ?>
             <span class="mw-testimonials-item-role"><em><?php print $item['client_role']; ?></em> &nbsp;at&nbsp;<strong><?php print $item['client_company']; ?></strong></span>
+            <hr>
             <?php if(isset($item["project_name"])){ ?>
                 <h5><?php print $item["project_name"]; ?></h5>
             <?php } ?>
+
             <p><?php print $item['content']; ?></p>
             <?php if(isset($item["read_more_url"])){ ?>
                 <div><a href="<?php print $item["read_more_url"]; ?>" target="_blank">Read more</a></div>
@@ -64,6 +66,6 @@ description: Testimonials displayed in Slider
         </div>
       </div>
 
-    <?php } ?>
+
     <?php } ?>
 </div>

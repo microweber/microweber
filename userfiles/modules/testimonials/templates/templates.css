@@ -195,6 +195,15 @@
         max-width: 650px;
         margin: auto;
     }
+    .mw-testimonials-slider hr{
+        clear:both;
+        width: 55px;
+        height: 1px;
+        background: #ccc;
+        margin: 25px auto;
+        border: none
+    }
+
     .mw-testimonials-slider .slick-dots{
         text-align: center;
     }

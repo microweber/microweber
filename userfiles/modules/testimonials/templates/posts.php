@@ -20,12 +20,12 @@ description: Testimonials displayed as posts
 
 <?php $data = get_testimonials(); ?>
 
-<pre><?php var_dump($data); ?></pre>
+
 	<?php
 
 
         foreach($data as $item){
-        foreach($data as $item){
+
 
       ?>
 
@@ -48,6 +48,6 @@ description: Testimonials displayed as posts
         </div>
       </div>
 
-    <?php } ?>
+   
     <?php } ?>
 </div>
