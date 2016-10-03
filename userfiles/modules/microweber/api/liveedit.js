@@ -191,6 +191,11 @@ $(document).ready(function() {
             $(mw.iconSelectorToolTip).hide();
             // mw.iconSelector.hide();
         }
+        if($(el).attr('contenteditable') == 'false'){
+           if($(el).parent().attr('contenteditable') == 'true'){
+            $(el).attr('contenteditable', true);
+           }
+        }
     });
     $(window).bind("onTableClick", function(e, el) {
         if (typeof(mw.inline) != 'undefined') {
@@ -1134,6 +1139,8 @@ mw.drag = {
         });
         mw.$(items).bind("click mousedown mouseup", function(e) {
             e.preventDefault();
+
+
             if (e.type == 'click') {
                 return false;
             }
@@ -3216,7 +3223,7 @@ $(window).bind("load", function() {
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function(e) {
 
-
+       $(".wysiwyg_external").empty()
         if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();
         }

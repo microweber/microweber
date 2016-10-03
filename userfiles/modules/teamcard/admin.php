@@ -16,9 +16,32 @@ if (isset($json) == false or count($json) == 0) {
 }
 
 ?>
+<div class="module-live-edit-settings">
+<style scoped="scoped">
+#teamcard-settings{
+    clear: both;
+}
 
+#teamcard-settings > div{
+    margin-top: 15px;
+    clear: both;
+}
+
+.add-new{
+    float: right;
+    margin-bottom: 20px;
+    width: 100px;
+}
+
+.mw-ui-box-header{
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+</style>
 <input type="hidden" class="mw_option_field" name="settings" id="settingsfield" />
-<a class="mw-ui-btn" href="javascript:teamcards.create()">Add new</a>
+<a class="mw-ui-btn mw-ui-btn-invert pull-right add-new" href="javascript:teamcards.create()">+ Add new</a>
 <div id="teamcard-settings">
     <?php
     $count = 0;
@@ -51,7 +74,7 @@ if (isset($json) == false or count($json) == 0) {
             </div>
         </div>
     <?php } ?>
-</div>
+</div></div>
 <script>
 
     teamcards = {

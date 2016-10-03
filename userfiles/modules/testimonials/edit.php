@@ -54,7 +54,7 @@ if(!isset($data['id'])){
  $data['id']= 0;
 }
 if(!isset($data['name'])){
- $data['name']= 'name';
+ $data['name']= '';
 }
 if(!isset($data['content'])){
  $data['content']= '';
@@ -93,7 +93,7 @@ if(!isset($data['client_company'])){
   <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">Client Name</label>
-    <input type="text" name="name" value="<?php print $data['name'] ?>" class="mw-ui-field w100">
+    <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" class="mw-ui-field w100">
   </div>
 
      <div class="mw-ui-field-holder">
@@ -106,6 +106,9 @@ if(!isset($data['client_company'])){
     <textarea  name="content" class="mw-ui-field w100"><?php print $data['content'] ?></textarea>
   </div>
 
+  <span class="mw-ui-btn" onclick="$('#more-testimonial-settings').slideToggle()" style="background: #efecec;">
+    <span class="mw-icon-app-gear"></span>More Settings</span>
+  <div id="more-testimonial-settings" style="display: none">
     <div class="mw-ui-field-holder">
     <label class="mw-ui-label">Client Role</label>
     <input type="text" name="client_role" placeholder="CEO, CTO, etc" value="<?php print $data['client_role'] ?>" class="mw-ui-field w100">
@@ -143,6 +146,10 @@ if(!isset($data['client_company'])){
     <label class="mw-ui-label">Project name</label>
     <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="mw-ui-field w100">
   </div>
-  <hr>
-  <input type="submit" name="submit" value="Save" class="mw-ui-btn mw-ui-btn-invert pull-right"/>
+  </div>
+ <div class="mw-popup-footer">
+     <div class="mw-popup-footer-content">
+      <input type="submit" name="submit" value="Save" class="mw-ui-btn mw-ui-btn-invert pull-right"/>
+     </div>
+ </div>
 </form>

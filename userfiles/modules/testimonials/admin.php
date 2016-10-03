@@ -38,6 +38,19 @@
        margin-bottom: 12px;
      }
 
+     #add-testimonial{
+         position: absolute;
+         right:0;
+         top:0;
+         width: 100px;
+         border-left-width:1px;
+         border-left-style:solid;
+     }
+
+     #ttabnav{
+         width: 100%;
+     }
+
     </style>
   <script>
         $(document).ready(function(){
@@ -49,9 +62,11 @@
         })
 
     </script>
-  <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="ttabnav"> <a class="mw-ui-btn active" href="javascript:;">Explore</a> <a class="mw-ui-btn" href="javascript:;" onclick="add_testimonial()">Add new</a> <a class="mw-ui-btn" href="javascript:;">Options</a> 
-    <!--    <input type="text" class="mw-ui-field pull-right" placeholder="Search" onkeyup="search_events(this.value)">
---> 
+  <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="ttabnav">
+    <a class="mw-ui-btn active" href="javascript:;">Explore</a>
+    <a class="mw-ui-btn" href="javascript:;" onclick="add_testimonial()" id="add-testimonial">+ Add new</a>
+    <a class="mw-ui-btn" href="javascript:;">Options</a>
+
   </div>
   <div class="mw-ui-box mw-ui-box-content">
     <div class="ttab" style="display: block;">
