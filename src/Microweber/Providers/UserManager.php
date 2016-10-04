@@ -397,9 +397,17 @@ class UserManager
      *
      * @uses $this->get_by_id()
      */
-    public function nice_name($id, $mode = 'full')
+    public function nice_name($id = false, $mode = 'full')
     {
+
+        if(!$id){
+            $id = $this->id();
+        }
+
         $user = $this->get_by_id($id);
+
+
+
         $user_data = $user;
         if (empty($user)) {
             return false;

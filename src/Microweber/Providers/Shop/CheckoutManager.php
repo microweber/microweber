@@ -170,14 +170,22 @@ class CheckoutManager
             $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw');
 
             if (!isset($data['email']) or $data['email'] == '') {
+                $data['email'] = user_name(user_id(), 'email');
+            }
+            if (!isset($data['email']) or $data['email'] == '') {
                 $checkout_errors['email'] = 'Email is required';
+            }
+
+            if (!isset($data['first_name']) or $data['first_name'] == '') {
+                $data['first_name'] = user_name(user_id(), 'first');
             }
             if (!isset($data['first_name']) or $data['first_name'] == '') {
                 $checkout_errors['first_name'] = 'First name is required';
             }
 
             if (!isset($data['last_name']) or $data['last_name'] == '') {
-                $checkout_errors['last_name'] = 'Last name is required';
+                // $checkout_errors['last_name'] = 'Last name is required';
+                $data['last_name'] = user_name(user_id(), 'last');
             }
 
             if (isset($data['payment_gw']) and $data['payment_gw'] != '') {

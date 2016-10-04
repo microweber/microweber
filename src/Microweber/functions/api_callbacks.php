@@ -101,6 +101,12 @@ api_expose('payment_options');
 api_expose('remove_cart_item');
 api_expose('update_cart');
 api_expose('update_cart_item_qty');
+
+api_expose('shop/redirect_to_checkout', function () {
+    return mw()->shop_manager->redirect_to_checkout();
+});
+
+
 api_expose_admin('get_cart');
 api_expose_admin('get_orders');
 api_expose_admin('get_order_by_id');
@@ -146,3 +152,5 @@ api_expose('media/delete_media_file');
 api_expose('queue_dispatch', function () {
     mw()->event_manager->trigger('mw.queue.dispatch');
 });
+
+

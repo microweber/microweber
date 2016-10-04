@@ -5,6 +5,14 @@ mw.require('forms.js');
 
 mw.cart = {
 
+    add_and_checkout: function (content_id, price, c) {
+        if (typeof(c) == 'undefined') {
+          var c = function(){
+            window.location.href=mw.settings.api_url+'shop/redirect_to_checkout';
+          }
+        }
+      return  mw.cart.add_item(content_id, price, c);
+    },
 
     add_item: function (content_id, price, c) {
         var data = {};
@@ -48,9 +56,9 @@ mw.cart = {
 					group: 'mw-cart-add-invalid-tooltip',
 					skin:'warning',
 					element: this
-				}); 
-				
-				
+				});
+
+
 				 return false;
 			}
 		});
@@ -58,8 +66,8 @@ mw.cart = {
 		 if(!is_form_valid){
 			 return;
 		 }
-		 
-      
+
+
         if (price != undefined && data != undefined) {
             data.price = price;
         }
@@ -68,11 +76,12 @@ mw.cart = {
         }
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
-                console.log(data)
+
                 mw.reload_module('shop/cart');
                 if (typeof c === 'function') {
                     c.call(data);
                 }
+
                 $(window).trigger('mw.cart.add', [data]);
             });
     },
@@ -108,7 +117,7 @@ mw.cart = {
     checkout: function (selector, callback) {
         var form = mw.$(selector);
 
- 
+
 
         var state = form.dataset("loading");
         if (state == 'true') return false;
@@ -137,8 +146,8 @@ mw.cart = {
                         mw.$(selector + ' .mw-cart-data-holder').show();
                         mw.response(selector, data2);
                     } else if (typeof(data2.success) != 'undefined') {
-						
-						
+
+
 
                         if (typeof callback === 'function') {
                             callback.call(data2.success);
@@ -152,16 +161,16 @@ mw.cart = {
                             mw.$(selector + ' .mw-cart-data-holder').hide();
                             mw.response(selector, data2);
                         }
-						
+
 						if (typeof(data2.redirect) != 'undefined') {
-							
+
 							setTimeout(function(){
 							window.location.href = data2.redirect;
 							}, 10)
-							
+
 						}
-						
-						
+
+
 
                     } else if (parseInt(data) > 0) {
                         mw.$('[data-type="shop/checkout"]').attr('view', 'completed');
@@ -187,4 +196,3 @@ mw.cart = {
             });
     }
 }
-

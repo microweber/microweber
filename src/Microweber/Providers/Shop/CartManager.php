@@ -534,7 +534,7 @@ class CartManager
                     $cart['qty'] = intval($cont_data['max_qty_per_order']);
                 }
             }
-            
+
 
             if (isset($data['other_info']) and is_string($data['other_info'])) {
                 $cart['other_info'] = strip_tags($data['other_info']);

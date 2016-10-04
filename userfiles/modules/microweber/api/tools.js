@@ -1114,6 +1114,11 @@ mw.tools = {
     },
     dropdown: function (root) {
         var root = root || mwd.body;
+
+        if(root === null){
+          return;
+        }
+
         var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
         for (; i < l; i++) {
             var el = items[i];
