@@ -906,6 +906,11 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	-moz-box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
 	box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
 }
+#main-bar-user-tip > .mw-ui-btn-vertical-nav{
+    width: 140px;
+    box-shadow: 0 0 7px -2px rgba(0, 0, 0, 0.16);
+}
+
 #main-bar-user-menu-tooltip .mw-ui-btn-vertical-nav {
 	display: block;
 	border-radius: 3px;

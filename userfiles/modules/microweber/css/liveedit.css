@@ -275,14 +275,15 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 .mw-sorthandle-moveit:before{
   display: inline-block;
   position: absolute;
-  right: 20px;
+  left: 50%;
+  margin-left: -25px;
   top:0;
   background-color: #E1E1E1;
-  width: 20px;
+  width: 50px;
   height: 20px;
   content: "\0100";
   font-family: Microweber;
-  border-radius: 3px 0 0 3px;
+  border-radius:3px;
   color: black;
   font-size: 19px;
   line-height: 19px;
@@ -1028,7 +1029,14 @@ li .ts_action_item:last-child{
 }
 
 #toolbar-dropdown-actions a {
-	color: #222;
+	color: #626262;
+}
+#toolbar-dropdown-actions .mw-ui-navigation li ul{
+    left: auto;
+    right: 100%;
+}
+#toolbar-dropdown-actions .mw-ui-navigation li{
+    margin: 0;
 }
 
 #live_edit_toolbar.scrolling{
@@ -2082,10 +2090,34 @@ body.design_hover .element-current{
 #live-edit-dropdown-actions-content{
   right: -20px;
   left: auto;
-  top: 40px;
+  top: 30px;
   cursor: pointer;
   width: 140px;
   font-size:11px;
+  padding-top: 12px;
+}
+
+#live-edit-dropdown-actions-content a{
+    text-decoration: none;
+    line-height: 18px;
+}
+
+
+#live-edit-dropdown-actions-content [class*='mw-icon-']{
+
+    font-size: 16px;
+}
+
+#live-edit-dropdown-actions-content .mw-icon-css{
+    font-size: 13px;
+}
+
+#live-edit-dropdown-actions-content .mw-ui-box{
+    border-radius: 0;
+}
+
+#live-edit-dropdown-actions-content .mw-icon-arrowleft{
+    font-size: 11px;
 }
 
 #toolbar-back-to-admin{

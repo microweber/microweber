@@ -208,9 +208,7 @@
     <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
 
      <div class="wysiwyg-cell"> <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span></div>
-         <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_css_editor" id="mw-toolbar-css-editor-btn" title="<?php _e("CSS Editor"); ?>"><span class="ed-ico"></span></span></div>
-         <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_html_editor" id="mw-toolbar-html-editor-btn" title="<?php _e("HTML Editor"); ?>"><span class="ed-ico"></span></span></div>
-
+         
     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
     <div class="wysiwyg-cell"><span class="mw_editor_btn editor-template-settings" id="toolbar-template-settings" title="<?php _e("Template Settings"); ?>"><span class="ed-ico"></span></span></div>
     <?php } ?>

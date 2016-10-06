@@ -263,14 +263,9 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
           <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" style="padding-left: 10px;">
             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span class="mw-icon-dropdown"></span></span>
             <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
-              <ul class="mw-ui-btn-vertical-nav">
+              <ul class="mw-ui-box mw-ui-navigation">
                 <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
-                
-                
-                
-                
-                
-                
+
                 
                  <?php $custom_ui = mw()->modules->ui('live_edit.toolbar.action_menu.start'); ?>
                             <?php if (!empty($custom_ui)): ?>
@@ -292,50 +287,46 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
                 
                 
                 <li>
-                    <a class="mw-ui-btn" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
-                <li>
+                    <a  title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
+                <li style="display: none">
                   <script>mw.userCanSwitchMode = false;</script>
                   <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
                   <script>mw.userCanSwitchMode = true;</script>
                   <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
-                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none"><?php _e("Simple Mode"); ?></a>
+                  <a  href="javascript:;" onclick="mw.setMode('simple');" style="display:none"><?php _e("Simple Mode"); ?></a>
                   <?php } else { ?>
-                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('advanced')" style="display:none"><?php _e("Advanced Mode"); ?></a>
+                  <a  href="javascript:;" onclick="mw.setMode('advanced');" style="display:none"><?php _e("Advanced Mode"); ?></a>
                   <?php } ?>
                   <?php }  ?>
                 </li>
-                <li><a class="mw-ui-btn" href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+                <li><a  href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
                 <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                 <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
-                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 1): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
+                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 1): ?> style="display:none" <?php endif; ?>> <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Unpublish"); ?>
                   </span></a> </li>
-                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 1): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
+                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 1): ?> style="display:none" <?php endif; ?>> <a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
-                
-             
-                
-             
-                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a>
-                
-                <!--
-                
-                <ul class="mw-ui-btn-vertical-nav w100">
-                
-                
-                <li><span class="mw-icon-dropdown"></span><a class="mw-ui-btn mw-ui-btn"><span class="mw-icon-website"></span>asdasd</a></li>
-                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
 
+             
                 
-                </ul>
-                -->
+             
+                <li>
+                    <a><span class="mw-icon-arrowleft"></span><?php _e("Design"); ?></a>
+                    <ul>
+                        <li><a  href="#design_bnav" class="mw_ex_tools"><span class="mw-icon-monitor"></span><?php _e("Visual editor"); ?></a></li>
+                        <li><a  class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
+                        <li><a  class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
+
+
+                    </ul>
                 </li>
 
-                <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" class="mw-ui-btn"><span>
+                <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" ><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>

@@ -21,7 +21,7 @@ mw.drag.plus = {
             //}, 1300);
 
             if (mw.drag.plus.locked === false && mw.isDrag === false) {
-                if (e.pageY % 2 === 0) {
+                if (e.pageY % 2 === 0 && mw.tools.isEditable(e)) {
                     var node = mw.drag.plus.selectNode(e.target);
                     mw.drag.plus.set(node);
                     $(mwd.body).removeClass('editorKeyup');
