@@ -164,13 +164,13 @@ class ContentManagerCrud extends Crud
                 and ($category['category_subtype'] == 'content_filter')
                 and isset($category['category_subtype_settings'])
                 and isset($category['category_subtype_settings']['filter_content_by_keywords'])
-                and trim($category['category_subtype_settings']['filter_content_by_keywords']) != '') {
+                and trim($category['category_subtype_settings']['filter_content_by_keywords']) != ''
+            ) {
 
                 $params['keyword'] = $category['category_subtype_settings']['filter_content_by_keywords'];
 
             }
         }
-
 
 
         if (isset($params['keyword']) and !isset($params['search_in_fields'])) {
@@ -184,12 +184,11 @@ class ContentManagerCrud extends Crud
         }
 
 
-
         $get = parent::get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
-               $get['full_url'] = $this->app->url_manager->site($get['url']);
+                $get['full_url'] = $this->app->url_manager->site($get['url']);
             }
 
             return $get;
@@ -214,7 +213,7 @@ class ContentManagerCrud extends Crud
     {
         static $passed = array();
 
-        $passed[ $url ] = 1;
+        $passed[$url] = 1;
         if (strval($url) == '') {
             $url = $this->app->url_manager->string();
         }
@@ -259,9 +258,9 @@ class ContentManagerCrud extends Crud
             }
         }
 
-        $link_hash = 'link'.crc32($url);
-        if (isset(self::$precached_links[ $link_hash ])) {
-            return self::$precached_links[ $link_hash ];
+        $link_hash = 'link' . crc32($url);
+        if (isset(self::$precached_links[$link_hash])) {
+            return self::$precached_links[$link_hash];
         }
 
         $get = array();
@@ -269,7 +268,7 @@ class ContentManagerCrud extends Crud
         $get['single'] = true;
         $content = $this->get($get);
         if (!empty($content)) {
-            self::$precached_links[ $link_hash ] = $content;
+            self::$precached_links[$link_hash] = $content;
 
             return $content;
         }
@@ -284,7 +283,7 @@ class ContentManagerCrud extends Crud
                         $url = $this->get_by_url($test[0], true);
                     }
                     if (!empty($url)) {
-                        self::$precached_links[ $link_hash ] = $url;
+                        self::$precached_links[$link_hash] = $url;
 
                         return $url;
                     }
@@ -292,13 +291,13 @@ class ContentManagerCrud extends Crud
             }
         } else {
             if (isset($content['id']) and intval($content['id']) != 0) {
-                $content['id'] = ((int) $content['id']);
+                $content['id'] = ((int)$content['id']);
             }
-            self::$precached_links[ $link_hash ] = $content;
+            self::$precached_links[$link_hash] = $content;
 
             return $content;
         }
-        self::$precached_links[ $link_hash ] = false;
+        self::$precached_links[$link_hash] = false;
 
         return false;
     }
@@ -360,6 +359,7 @@ class ContentManagerCrud extends Crud
             $data['parent'] = intval($data['parent']);
         }
 
+
         if (isset($data['is_active'])) {
             if ($data['is_active'] === 'y') {
                 $data['is_active'] = 1;
@@ -405,9 +405,9 @@ class ContentManagerCrud extends Crud
             if (!isset($data['title']) or ($data['title']) == '') {
                 $data['title'] = 'New page';
                 if (isset($data['content_type']) and ($data['content_type']) != 'page') {
-                    $data['title'] = 'New '.$data['content_type'];
+                    $data['title'] = 'New ' . $data['content_type'];
                     if (isset($data['subtype']) and ($data['subtype']) != 'page' and ($data['subtype']) != 'post' and ($data['subtype']) != 'static' and ($data['subtype']) != 'dynamic') {
-                        $data['title'] = 'New '.$data['subtype'];
+                        $data['title'] = 'New ' . $data['subtype'];
                     }
                 }
                 $data_to_save['title'] = $data['title'];
@@ -441,20 +441,22 @@ class ContentManagerCrud extends Crud
             $newstr = '';
             $len = strlen($str);
             for ($b = 0; $b < $len + 1; ++$b) {
-                if (isset($str[ $b ]) and in_array(ord($str[ $b ]), $good)) {
-                    $newstr .= $str[ $b ];
+                if (isset($str[$b]) and in_array(ord($str[$b]), $good)) {
+                    $newstr .= $str[$b];
                 }
             }
 
             $newstr = str_replace('--', '-', $newstr);
             $newstr = str_replace('--', '-', $newstr);
             if ($newstr == '-' or $newstr == '--') {
-                $newstr = 'post-'.date('YmdHis');
+                $newstr = 'post-' . date('YmdHis');
             }
             $data['url'] = $newstr;
 
             $url_changed = true;
             $data_to_save['url'] = $data['url'];
+
+
         }
 
         if (isset($data['category']) or isset($data['categories'])) {
@@ -486,7 +488,7 @@ class ContentManagerCrud extends Crud
                     $slug = $data['url'];
                     $count = 1;
                     while ($this->get_by_url($slug, true)) {
-                        $slug = $orig_slug.'-'.$count++;
+                        $slug = $orig_slug . '-' . $count++;
                     }
                     $data['url'] = $slug;
                     $data_to_save['url'] = $data['url'];
@@ -494,11 +496,11 @@ class ContentManagerCrud extends Crud
             }
 
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
-                $data_to_save['url'] = $data_to_save['url'].'-'.$date123;
+                $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
             }
 
             if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and (isset($data_to_save['quick_save']) == false)) {
-                $data_to_save['title'] = 'post-'.$date123;
+                $data_to_save['title'] = 'post-' . $date123;
             }
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
                 $data_to_save['url'] = strtolower(reduce_double_slashes($data['url']));
@@ -567,7 +569,7 @@ class ContentManagerCrud extends Crud
             }
             if ($check_ex == false) {
                 if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-                    $test2 = $this->app->category_manager->get('data_type=category&rel_type=content&rel_id='.intval(($data_to_save['id'])));
+                    $test2 = $this->app->category_manager->get('data_type=category&rel_type=content&rel_id=' . intval(($data_to_save['id'])));
                     if (isset($test2[0])) {
                         $check_ex = $test2[0];
                         $data_to_save['subtype_value'] = $test2[0]['id'];
@@ -600,7 +602,7 @@ class ContentManagerCrud extends Crud
                     $data_to_save['categories'] = '';
                 }
                 if (is_string($data_to_save['categories']) and isset($par_page['subtype_value']) and intval($par_page['subtype_value']) != 0) {
-                    $data_to_save['categories'] = $data_to_save['categories'].', '.intval($par_page['subtype_value']);
+                    $data_to_save['categories'] = $data_to_save['categories'] . ', ' . intval($par_page['subtype_value']);
                 }
             }
             $c1 = false;
@@ -615,7 +617,7 @@ class ContentManagerCrud extends Crud
                         foreach ($c1 as $item) {
                             $item = intval($item);
                             if ($item > 0) {
-                                $cont_cat = $this->get('limit=1&content_type=page&subtype_value='.$item);
+                                $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item);
                                 if (isset($cont_cat[0]) and is_array($cont_cat[0])) {
                                     $cont_cat = $cont_cat[0];
                                     if (isset($cont_cat['subtype_value']) and intval($cont_cat['subtype_value']) > 0) {
@@ -651,6 +653,21 @@ class ContentManagerCrud extends Crud
         }
 
         if ((isset($data_to_save['id']) and intval($data_to_save['id']) == 0) or !isset($data_to_save['id'])) {
+
+            if (isset($data['auto_discover_id']) and $data['auto_discover_id']) {
+                $try_id = false;
+                if (isset($data_to_save['url'])) {
+                    $try_id = $this->get_by_id($data_to_save['url'], 'url');
+                }
+                if (!$try_id and isset($data_to_save['title'])) {
+                    $try_id = $this->get_by_id($data_to_save['title'], 'title');
+                }
+                if ($try_id and is_array($try_id) and isset($try_id['id'])) {
+                    $data_to_save['id'] = $try_id['id'];
+                }
+            }
+
+
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
                 $pos_params = array();
                 $pos_params['table'] = 'content';
@@ -675,6 +692,39 @@ class ContentManagerCrud extends Crud
         }
 
         $cats_modified = true;
+
+
+        if (isset($data['auto_discover_parent']) and $data['auto_discover_parent']) {
+            if (!isset($data['parent']) or !$data['parent']) {
+                $parent_auto_found = false;
+                if (isset($data_to_save['url']) and $data_to_save['url']) {
+                    $get_url_segs = explode('/', $data_to_save['url']);
+                    if ($get_url_segs and !empty($get_url_segs)) {
+
+                        $count = count($get_url_segs);
+                        for ($i = 1; $i <= $count; $i++) {
+                            if (!$parent_auto_found) {
+                                $url_try = implode('/', $get_url_segs);
+                                if ($url_try) {
+                                    $try_id = $this->get_by_id($url_try, 'url');
+                                    if ($try_id and isset($try_id['id'])) {
+                                        $parent_auto_found = $try_id['id'];
+                                    }
+                                }
+                            }
+                            array_pop($get_url_segs);
+                        }
+                    }
+                }
+
+                if ($parent_auto_found) {
+                    $data_to_save['parent'] = $parent_auto_found;
+                 }
+
+            }
+
+        }
+
 
         if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url_manager->site()) {
             unset($data_to_save['url']);
@@ -721,7 +771,7 @@ class ContentManagerCrud extends Crud
                             if (!isset($data_to_save['data_fields'])) {
                                 $data_to_save['data_fields'] = array();
                             }
-                            $data_to_save['data_fields'][ $left ] = $v;
+                            $data_to_save['data_fields'][$left] = $v;
                         }
                     }
                 }
@@ -775,7 +825,7 @@ class ContentManagerCrud extends Crud
         $after_save = $data_to_save;
         $after_save['id'] = $id;
         $this->app->event_manager->trigger('content.after.save', $after_save);
-        $this->app->cache_manager->delete('content/'.$save);
+        $this->app->cache_manager->delete('content/' . $save);
 
         $this->app->cache_manager->delete('content_fields/global');
         if ($url_changed != false) {
@@ -852,13 +902,13 @@ class ContentManagerCrud extends Crud
         $this->app->cache_manager->delete('media/global');
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
-            $this->app->cache_manager->delete('content'.DIRECTORY_SEPARATOR.intval($data_to_save['parent']));
+            $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
         }
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
-            $this->app->cache_manager->delete('content'.DIRECTORY_SEPARATOR.intval($data_to_save['id']));
+            $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
-        $this->app->cache_manager->delete('content'.DIRECTORY_SEPARATOR.'global');
-        $this->app->cache_manager->delete('content'.DIRECTORY_SEPARATOR.'0');
+        $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache_manager->delete('content_fields/global');
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('categories/global');
@@ -868,7 +918,7 @@ class ContentManagerCrud extends Crud
                 foreach ($c1 as $item) {
                     $item = intval($item);
                     if ($item > 0) {
-                        $this->app->cache_manager->delete('categories/'.$item);
+                        $this->app->cache_manager->delete('categories/' . $item);
                     }
                 }
             }
@@ -902,7 +952,7 @@ class ContentManagerCrud extends Crud
         $i = 1;
         foreach ($ids as $id) {
             $id = intval($id);
-            $this->app->cache_manager->delete('content/'.$id);
+            $this->app->cache_manager->delete('content/' . $id);
 
             $pox = $maxpos - $i;
             DB::table($this->tables['content'])->whereId($id)->update(['position' => $pox]);
@@ -1009,7 +1059,7 @@ class ContentManagerCrud extends Crud
 
         // map custom fields
         $prefix = 'custom_field';
-        $data_str = $prefix.'_';
+        $data_str = $prefix . '_';
         $data_str_l = strlen($data_str);
         foreach ($params as $k => $v) {
             if (is_string($k)) {
@@ -1030,7 +1080,7 @@ class ContentManagerCrud extends Crud
                             $new_cf['type'] = 'dropdown';
                         }
                         $params['custom_fields'][] = $new_cf;
-                        unset($params[ $k ]);
+                        unset($params[$k]);
                     }
                 }
             }
@@ -1046,7 +1096,7 @@ class ContentManagerCrud extends Crud
         if (!empty($params)) {
             foreach ($prefixes as $prefix_group => $keys) {
                 foreach ($keys as $prefix) {
-                    $data_str = $prefix.'_';
+                    $data_str = $prefix . '_';
                     $data_str_l = strlen($data_str);
                     foreach ($params as $k => $v) {
                         if (is_string($k)) {
@@ -1054,10 +1104,10 @@ class ContentManagerCrud extends Crud
                                 $rest = substr($k, 0, $data_str_l);
                                 $left = substr($k, $data_str_l, strlen($k));
                                 if ($rest == $data_str) {
-                                    if (!isset($params[ $prefix_group ])) {
-                                        $params[ $prefix_group ] = array();
+                                    if (!isset($params[$prefix_group])) {
+                                        $params[$prefix_group] = array();
                                     }
-                                    $params[ $prefix_group ][ $left ] = $v;
+                                    $params[$prefix_group][$left] = $v;
                                 }
                             }
                         }
@@ -1099,7 +1149,7 @@ class ContentManagerCrud extends Crud
             }
         }
         if ((isset($data['rel_type']) and isset($data['rel_id']))) {
-            $data['cache_group'] = ('content_fields/global/'.$data['rel_type'].'/'.$data['rel_id']);
+            $data['cache_group'] = ('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
         } else {
             $data['cache_group'] = ('content_fields/global');
         }
