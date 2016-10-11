@@ -695,10 +695,12 @@ class ContentManagerCrud extends Crud
 
 
         if (isset($data['auto_discover_parent']) and $data['auto_discover_parent']) {
-            if (!isset($data['parent']) or !$data['parent']) {
+            if (!isset($data_to_save['parent']) or !$data_to_save['parent']) {
+
                 $parent_auto_found = false;
                 if (isset($data_to_save['url']) and $data_to_save['url']) {
                     $get_url_segs = explode('/', $data_to_save['url']);
+
                     if ($get_url_segs and !empty($get_url_segs)) {
 
                         $count = count($get_url_segs);
@@ -707,6 +709,10 @@ class ContentManagerCrud extends Crud
                                 $url_try = implode('/', $get_url_segs);
                                 if ($url_try) {
                                     $try_id = $this->get_by_id($url_try, 'url');
+                                    if (!$try_id) {
+                                        $url_try = rtrim($url_try, '/');
+                                        $try_id = $this->get_by_id($url_try, 'url');
+                                    }
                                     if ($try_id and isset($try_id['id'])) {
                                         $parent_auto_found = $try_id['id'];
                                     }
@@ -719,9 +725,11 @@ class ContentManagerCrud extends Crud
 
                 if ($parent_auto_found) {
                     $data_to_save['parent'] = $parent_auto_found;
-                 }
-
+                } else {
+                    $data_to_save['parent'] = 0;
+                }
             }
+
 
         }
 
