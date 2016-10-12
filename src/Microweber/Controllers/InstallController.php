@@ -38,7 +38,7 @@ class InstallController extends Controller {
         $view = MW_PATH . 'Views/install.php';
 
         $connection = Config::get('database.connections');
-        $this->install_log('Preparing to install');
+        $this->log('Preparing to install');
         if (isset($input['make_install'])){
             if (!isset($input['db_pass'])){
                 $input['db_pass'] = '';
@@ -128,7 +128,7 @@ class InstallController extends Controller {
                 }
                 Artisan::call('key:generate');
             }
-            $this->install_log('Saving config');
+            $this->log('Saving config');
             Config::save($allowed_configs);
             Cache::flush();
 
@@ -145,23 +145,24 @@ class InstallController extends Controller {
                 @set_time_limit(0);
             }
 
-            $this->install_log('Setting up database');
+            $this->log('Setting up database');
             $installer = new Install\DbInstaller();
+            $installer->logger = $this;
             $installer->run();
 
             $installer = new Install\WebserverInstaller();
             $installer->run();
 
-            $this->install_log('Setting up template');
+            $this->log('Setting up template');
             $installer = new Install\TemplateInstaller();
             $installer->run();
 
-            $this->install_log('Setting up default options');
+            $this->log('Setting up default options');
             $installer = new Install\DefaultOptionsInstaller();
             $installer->run();
 
             if (isset($input['admin_password']) && strlen($input['admin_password'])){
-                $this->install_log('Adding admin user');
+                $this->log('Adding admin user');
 
                 $adminUser = new \User();
                 $adminUser->username = $input['admin_username'];
@@ -173,12 +174,12 @@ class InstallController extends Controller {
                 Config::set('microweber.has_admin', 1);
             }
 
-            $this->install_log('Saving ready config');
+            $this->log('Saving ready config');
 
             Config::set('microweber.is_installed', 1);
 
             Config::save($allowed_configs);
-            $this->install_log('done');
+            $this->log('done');
 
             return 'done';
         }
@@ -238,7 +239,7 @@ class InstallController extends Controller {
         return $layout;
     }
 
-    private function install_log($text) {
+    public function log($text) {
         $log_file = userfiles_path() . 'install_log.txt';
         if (!is_file($log_file)){
             @touch($log_file);

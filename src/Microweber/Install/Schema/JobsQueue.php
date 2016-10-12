@@ -28,7 +28,8 @@ class JobsQueue extends Migration
                 $table->unsignedInteger('reserved_at')->nullable();
                 $table->unsignedInteger('available_at');
                 $table->unsignedInteger('created_at');
-                $table->index(['queue', 'reserved', 'reserved_at']);
+                //$table->index(['queue', 'reserved', 'reserved_at']);
+                // error on index SQLSTATE[HY000]: General error: 1 index jobs_queue_reserved_reserved_at_index already exists (SQL: create index jobs_queue_reserved_reserved_at_index on "localhost_jobs" ("queue", "reserved", "reserved_at"))
             });
         }
         if (!DbSchema::hasTable('failed_jobs')) {

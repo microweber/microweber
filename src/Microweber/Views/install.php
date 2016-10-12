@@ -34,9 +34,9 @@
                 def = def || setFormDisplay(select.options[i].value, v);
             }
             $('#db_name_value').val('');
-            
-             
-            
+
+
+
             setFormDisplay('', !def);
         }
 
@@ -117,7 +117,7 @@
                     l = arr.length,
                     i = 0,
                     last = arr[l-2],
-                    percentage = Math.round( ((l-1) / 30) * 100);
+                    percentage = Math.round( ((l-1) / 60) * 100);
                 bar[0].style.width = percentage + '%';
                 percent.html(percentage + '%');
                 if(last == 'done') {

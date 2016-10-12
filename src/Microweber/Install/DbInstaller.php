@@ -9,12 +9,16 @@ use Cache;
 
 class DbInstaller
 {
+    public $logger = null;
+
     public function run()
     {
         Cache::flush();
         $this->createSchema();
         $this->seed();
         Cache::flush();
+        $this->log('Installing modules');
+
         mw()->modules->install();
     }
 
@@ -49,6 +53,8 @@ class DbInstaller
             // Creates the schema
 
             if (method_exists($data, 'up')) {
+                $this->log('Setting up schema '.get_class($data));
+
                 $data->up();
                 break;
             }
@@ -62,6 +68,8 @@ class DbInstaller
                 break;
             }
             foreach ($schemaArray as $table => $columns) {
+                $this->log('Setting up table "'.$table.'"');
+
                 $builder->build_table($table, $columns);
             }
         }
@@ -73,8 +81,17 @@ class DbInstaller
         foreach ($exec as $data) {
 
             if (method_exists($data, 'seed')) {
+                $this->log('Seeding '.get_class($data));
+
                 $data->seed();
             }
+        }
+    }
+
+    public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
         }
     }
 }
