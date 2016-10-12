@@ -175,13 +175,17 @@ class Parser
                 $attrs = array();
                 foreach ($this->mw_replaced_modules as $key => $value) {
                     if ($value != '') {
+                        $mw_attrs_key_value_seperator="__MW_PARSER_ATTR_VAL__";
                         $replace_key = $key;
                         $attrs = array();
                         if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
                             foreach ($attrs1 as $item) {
                                 $m_tag = trim($item[0], "\x22\x27");
                                 $m_tag = trim($m_tag, "\x27\x22");
-                                $m_tag = explode('=', $m_tag);
+                                $m_tag = preg_replace('/=/',$mw_attrs_key_value_seperator,$m_tag,1);
+
+
+                                $m_tag = explode($mw_attrs_key_value_seperator, $m_tag);
 
                                 $a = trim($m_tag[0], "''");
                                 $a = trim($a, '""');
@@ -195,7 +199,7 @@ class Parser
                                     if (isset($rest_pieces[1])) {
                                         unset($rest_pieces[1]);
                                     }
-                                    $rest_pieces = implode('=', $rest_pieces);
+                                    $rest_pieces = implode($mw_attrs_key_value_seperator, $rest_pieces);
                                     $b = $b.$rest_pieces;
                                 }
 
