@@ -697,6 +697,7 @@ class ContentManagerCrud extends Crud
 
 
         if (isset($data['auto_discover_parent']) and $data['auto_discover_parent']) {
+
             if (!isset($data_to_save['parent']) or !$data_to_save['parent']) {
 
                 $parent_auto_found = false;
@@ -709,13 +710,14 @@ class ContentManagerCrud extends Crud
                         for ($i = 1; $i <= $count; $i++) {
                             if (!$parent_auto_found) {
                                 $url_try = implode('/', $get_url_segs);
+
                                 if ($url_try) {
                                     $try_id = $this->get_by_id($url_try, 'url');
                                     if (!$try_id) {
                                         $url_try = rtrim($url_try, '/');
                                         $try_id = $this->get_by_id($url_try, 'url');
                                     }
-                                    if ($try_id and isset($try_id['id'])) {
+                                    if ($try_id and isset($try_id['id']) and $try_id['id'] != $data['id']) {
                                         $parent_auto_found = $try_id['id'];
                                     }
                                 }
@@ -724,7 +726,7 @@ class ContentManagerCrud extends Crud
                         }
                     }
                 }
-
+                
                 if ($parent_auto_found) {
                     $data_to_save['parent'] = $parent_auto_found;
                 } else {
@@ -799,6 +801,8 @@ class ContentManagerCrud extends Crud
         $data_to_save = $this->map_params_to_schema($data_to_save);
 
 
+
+        //dd($data_to_save);
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
         /* SQLITE FIX */
