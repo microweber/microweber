@@ -1672,10 +1672,17 @@ mw.linkTip = {
 
         if (!mw.linkTip._tip) {
 
-            var content = '<a href="' + node.href + '" edit-id="' + link_id + '" class="mw-link-tip-link">' + node.href + '</a><span>-</span><a edit-href="' + node.href + '" edit-id="' + link_id + '" href="javascript:;" class="mw-link-tip-edit">Edit</a>';
+            var href_target = '_self';
+
+            if(node.href.indexOf(location.host) !== -1){
+                 //different page
+                 var href_target = '_blank';
+            }
+
+            var content = '<a href="' + node.href + '" target="' + href_target + '"  edit-id="' + link_id + '" class="mw-link-tip-link">' + node.href + '</a><span>-</span><a edit-href="' + node.href + '" edit-id="' + link_id + '" href="javascript:;" class="mw-link-tip-edit">Edit</a>';
             mw.linkTip._tip = mw.tooltip({content: content, position: 'bottom-center', skin: 'dark', element: node});
             $(mw.linkTip._tip).addClass('mw-link-tip');
-            mw.$('.mw-link-tip-edit, .mw-link-tip-link').click(function () {
+            mw.$('.mw-link-tip-edit, .mw-link-tip-link-edit').click(function () {
                 var prepolulate = '';
                 var node_id = null;
                 if ($(this).hasClass('mw-link-tip-edit')) {
@@ -1695,6 +1702,7 @@ mw.linkTip = {
         else {
             mw.$('.mw-link-tip-link', mw.linkTip._tip).attr('href', node.href).html(node.href);
             mw.$('.mw-link-tip-link', mw.linkTip._tip).attr('edit-id', link_id);
+
 
             mw.$('.mw-link-tip-edit', mw.linkTip._tip).attr('edit-href', node.href);
             mw.$('.mw-link-tip-edit', mw.linkTip._tip).attr('edit-id', link_id);
