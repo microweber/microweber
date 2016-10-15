@@ -468,6 +468,21 @@ class ContentManagerCrud extends Crud
             $data['url'] = $this->app->url_manager->slug($data_to_save['title']);
         }
 
+        if ((isset($data['id']) and intval($data['id']) == 0) or !isset($data['id'])) {
+
+            if (isset($data['auto_discover_id']) and $data['auto_discover_id']) {
+                $try_id = false;
+                if (isset($data['url'])) {
+                    $try_id = $this->get_by_id($data['url'], 'url');
+                }
+                if (!$try_id and isset($data['title'])) {
+                    $try_id = $this->get_by_id($data['title'], 'title');
+                }
+                if ($try_id and is_array($try_id) and isset($try_id['id'])) {
+                    $data_to_save['id'] = $data['id'] = $try_id['id'];
+                }
+            }
+        }
         if (isset($data['url']) and $data['url'] != false) {
             if (trim($data['url']) == '') {
                 $data['url'] = $this->app->url_manager->slug($data['title']);
@@ -654,19 +669,6 @@ class ContentManagerCrud extends Crud
 
         if ((isset($data_to_save['id']) and intval($data_to_save['id']) == 0) or !isset($data_to_save['id'])) {
 
-            if (isset($data['auto_discover_id']) and $data['auto_discover_id']) {
-                $try_id = false;
-                if (isset($data_to_save['url'])) {
-                    $try_id = $this->get_by_id($data_to_save['url'], 'url');
-                }
-                if (!$try_id and isset($data_to_save['title'])) {
-                    $try_id = $this->get_by_id($data_to_save['title'], 'title');
-                }
-                if ($try_id and is_array($try_id) and isset($try_id['id'])) {
-                    $data_to_save['id'] = $try_id['id'];
-                }
-            }
-
 
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
                 $pos_params = array();
@@ -796,7 +798,7 @@ class ContentManagerCrud extends Crud
 
         $data_to_save = $this->map_params_to_schema($data_to_save);
 
-        //dd($data_to_save);
+
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
 
         /* SQLITE FIX */
