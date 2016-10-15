@@ -12,7 +12,7 @@ class Options
                 'created_at' => 'dateTime',
 
                 'option_key' => 'string',
-                'option_value' => 'text',
+                'option_value' => 'longText',
                 'option_key2' => 'string',
                 'option_value2' => 'text',
                 'position' => 'integer',
