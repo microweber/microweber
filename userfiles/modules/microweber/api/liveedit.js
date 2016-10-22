@@ -35,6 +35,7 @@ mw.dropables = {
         mw.dropable.bind("mouseenter", function() {
             $(this).hide();
         });
+
     },
     display: function(el) {
 
@@ -551,6 +552,18 @@ mw.drag = {
                         mw.currentDragMouseOver = mw.mm_target;
 
                     }
+                    mw.currentRedirected = false;
+                    var off =  mw.$mm_target.offset(), theight = mw.$mm_target.height();
+                    mw.tools.foreachParents(mw.mm_target, function(loop, i){
+                        if(mw.tools.hasAnyOfClasses(this, ['edit','mw-row','mw-ui-row','wrap_blocks_index', 'element'])){
+                            if((off.top - 40) < $(this).offset().top){
+                                mw.currentDragMouseOver = mw.mm_target = this;
+                                mw.$mm_target = $(mw.mm_target);
+                                mw.tools.stopLoop(loop);
+                                mw.currentRedirected = true;
+                            }
+                        }
+                    });
 
                 }
 
@@ -629,6 +642,8 @@ mw.drag = {
                     }
                 }
             }
+
+
 
             $(".currentDragMouseOver").removeClass("currentDragMouseOver");
             $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
@@ -752,6 +767,9 @@ mw.drag = {
             $(mw.handle_element).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
             mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+
+
         });
         $(window).bind("onModuleOver", function(a, element) {
 
@@ -1258,7 +1276,7 @@ mw.drag = {
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
-  d(mw.currentDragMouseOver)
+
                         if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
@@ -1273,9 +1291,9 @@ mw.drag = {
                                 mw.currentDragMouseOver.appendChild(mw.dragCurrent);
                             }
                             return false;
-                        } else if (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row') &&
+                        } else if (mw.currentRedirected || (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row') &&
                             !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) &&
-                            !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col'))
+                            !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col')) )
                         ) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
