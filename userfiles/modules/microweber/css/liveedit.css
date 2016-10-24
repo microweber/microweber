@@ -21,6 +21,10 @@ html,body{
   background: #555555;
 }
 
+body.mw-live-edit {
+  margin-top: 53px;
+}
+
 
 /****************************
            Plus
@@ -2635,7 +2639,6 @@ div[id*='SSDIVEL'] {
   max-width: 1250px;
   min-width: 320px;
 }
-
 
 
 
