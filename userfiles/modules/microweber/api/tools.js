@@ -920,10 +920,28 @@ mw.tools = {
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             var arr = modal.gallery.array, curr = modal.gallery.curr;
             var next = typeof arr[curr + 1] !== 'undefined' ? curr + 1 : 0;
+
             mw.tools.gallery.generateHTML(arr[next], function () {
                 galeryContainer.html(this);
                 modal.gallery.curr = next;
                 mw.tools.gallery.normalize(modal);
+
+                var next_of_next = typeof arr[next + 1] !== 'undefined' ? next + 1 : 0;
+
+                if(typeof arr[next_of_next] !== 'undefined'){
+                    if(typeof arr[next_of_next]['image'] !== 'undefined'){
+                    var next_of_next_url = arr[next_of_next]['image']
+                    var src_regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+                    if(src_regex.test(next_of_next_url)) {
+                            try {
+                                var _prelaod_img = new Image();
+                                _prelaod_img.src = next_of_next_url;
+                            } catch (e) {
+
+                            }
+                    }
+                   }
+                 }
             }, modal);
         },
         prev: function (modal) {
