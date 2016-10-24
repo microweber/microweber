@@ -3,8 +3,18 @@ mw.drag.plus = {
     locked: false,
    // mouse_moved: false,
     init: function (holder) {
+
+
+
         mw.drag.plusTop = mwd.querySelector('.mw-plus-top');
         mw.drag.plusBottom = mwd.querySelector('.mw-plus-bottom');
+
+        if(typeof(mw.drag.plusTop) != 'undefined'){
+        mw.drag.plusTop.style.top = -9999 + 'px';
+        }
+        if(typeof(mw.drag.plusBottom) != 'undefined'){
+        mw.drag.plusBottom.style.top = -9999 + 'px';
+        }
         mw.$(holder).bind('mousemove', function (e) {
 
             //var mwmousmoveplusstarted;
@@ -41,7 +51,12 @@ mw.drag.plus = {
     },
     selectNode: function (target) {
 
-        if (target === undefined || target === null || mw.tools.hasClass(target, 'nodrop') || mw.tools.hasParentsWithClass(target, 'noedit') || mw.tools.hasParentsWithClass(target, 'noplus') || mw.tools.hasParentsWithClass(target, 'nodrop') || mw.tools.hasClass(target, 'edit')) {
+        if (target === undefined || target === null
+          || mw.tools.hasClass(target, 'nodrop')
+          || mw.tools.hasParentsWithClass(target, 'noedit')
+          || mw.tools.hasParentsWithClass(target, 'noplus')
+          || mw.tools.hasParentsWithClass(target, 'nodrop')
+          || mw.tools.hasClass(target, 'edit')) {
 
             mw.drag.plusTop.style.top = -9999 + 'px';
             mw.drag.plusBottom.style.top = -9999 + 'px';
