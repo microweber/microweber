@@ -19,4 +19,11 @@ class Content extends BaseModel
     {
         return $this->morphMany('ContentData', 'rel');
     }
+
+
+    public function tags() {
+        return $this->belongsToMany('Tag');
+    }
+
+
 }

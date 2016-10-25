@@ -31,6 +31,7 @@ class DbInstaller
             new Schema\Form(),
             new Schema\Options(),
             new Schema\Shop(),
+            new Schema\Tags(),
             new Schema\JobsQueue(),
         ];
     }
@@ -56,6 +57,7 @@ class DbInstaller
                 $this->log('Setting up schema '.get_class($data));
 
                 $data->up();
+
                 break;
             }
 
