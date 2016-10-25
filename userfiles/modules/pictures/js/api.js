@@ -43,7 +43,7 @@ if(typeof mw.rotator === 'undefined'){
              if(w > rw){
                  $(this).width(rw);
              }
-             mw.$('.mw-gallery-holder', rotator).height($(this).height())
+             mw.$('.mw-gallery-holder', rotator).height(mw.$('.active img:first', rotator)[0].offsetHeight)
            });
         },
         rotator.setactive = function(i){ //for paging
