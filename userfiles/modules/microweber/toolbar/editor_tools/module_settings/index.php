@@ -371,9 +371,6 @@ function mw_option_save_rebind_form_fields(){
 			}
 
      	$(this).addClass('mw-options-form-binded');
- 
-
-
 
 
             if (mw.notification != undefined) {

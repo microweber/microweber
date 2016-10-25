@@ -151,11 +151,10 @@ class UserManager
         if ($login_captcha_enabled) {
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
-            } else {
-                $validate_captcha = $this->app->captcha->validate($params['captcha']);
-                if (!$validate_captcha) {
-                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
-                }
+            }
+            $validate_captcha = $this->app->captcha->validate($params['captcha'], null, false);
+            if (!$validate_captcha) {
+                return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
             }
         }
 
@@ -203,6 +202,7 @@ class UserManager
             return;
         }
         if ($ok) {
+
             $user = Auth::login(Auth::user());
             $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
@@ -400,12 +400,11 @@ class UserManager
     public function nice_name($id = false, $mode = 'full')
     {
 
-        if(!$id){
+        if (!$id) {
             $id = $this->id();
         }
 
         $user = $this->get_by_id($id);
-
 
 
         $user_data = $user;

@@ -13,10 +13,12 @@ namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Collection;
 use Microweber\Providers\Database\Utils as DbUtils;
 use Microweber\Traits\QueryFilter;
 use Microweber\Traits\ExtendedSave;
 use SuperClosure\SerializableClosure;
+
 
 
 class DatabaseManager extends DbUtils
@@ -261,32 +263,58 @@ class DatabaseManager extends DbUtils
         if ($data == false or empty($data)) {
             return false;
         }
+
+
+        if($data instanceof \Illuminate\Database\Eloquent\Collection){
+            if (isset($orig_params['collection']) and ($orig_params['collection'])) {
+                return $data;
+            } else {
+                $data = $data->toArray();
+
+            }
+        }
+
+
+
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 $data[$k] = (array)$v;
             }
         }
+
+
+
+
         if (empty($data)) {
+
             return false;
         } else {
+
             $data = $this->app->url_manager->replace_site_url_back($data);
         }
 
+
+
         if (!is_array($data)) {
-            return $data;
+
+             return $data;
         }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
+
                 return false;
             }
 
             if (is_object($data[0]) and isset($data[0]->id)) {
+
                 return (array)$data[0];
             }
 
             return $data[0];
         }
+
+
 
         return $data;
     }
@@ -681,6 +709,11 @@ class DatabaseManager extends DbUtils
 
     public function table($table)
     {
+
+        if($table == 'content'){
+            return \Content::query();
+        }
+
         return DB::table($table);
     }
 }

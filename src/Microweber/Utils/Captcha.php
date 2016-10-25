@@ -4,7 +4,7 @@ namespace Microweber\Utils;
 
 class Captcha
 {
-    public function validate($key, $captcha_id = null)
+    public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
         if ($key == false) {
             return false;
@@ -17,11 +17,12 @@ class Captcha
             }, $old_array);
         }
         $existing = mw()->user_manager->session_get('captcha');
-//dd($old_array);
         if (is_array($old_array) and in_array($key, $old_array)) {
             $found_key = array_search($key, $old_array);
             if ($found_key !== false) {
-                unset($old_array[$found_key]);
+                if ($unset_if_found) {
+                    unset($old_array[$found_key]);
+                }
                 mw()->user_manager->session_set('captcha_recent', $old_array);
             }
 
@@ -92,8 +93,8 @@ class Captcha
         $old_array[$captcha_sid] = $answ;
         mw()->user_manager->session_set('captcha_recent', $old_array);
 
- //dd($old_array);
-      //  $sess = mw()->user_manager->session_set($captcha_sid, $answ);
+        //dd($old_array);
+        //  $sess = mw()->user_manager->session_set($captcha_sid, $answ);
 
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);

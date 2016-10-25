@@ -162,13 +162,22 @@ mw.cart = {
                             mw.response(selector, data2);
                         }
 
-						if (typeof(data2.redirect) != 'undefined') {
 
-							setTimeout(function(){
-							window.location.href = data2.redirect;
-							}, 10)
+                        $(window).trigger('mw.cart.checkout.success', data2);
 
-						}
+
+            						if (typeof(data2.redirect) != 'undefined') {
+
+            							setTimeout(function(){
+            							window.location.href = data2.redirect;
+            							}, 10)
+
+						            }
+
+
+
+
+
 
 
 
