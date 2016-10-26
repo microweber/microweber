@@ -8,6 +8,8 @@ $(document).ready(function(){
 });
 </script>
 
+
+
 <h2>
   <?php _e("Website"); ?>
 </h2>
@@ -102,3 +104,65 @@ $(document).ready(function(){
     </select>
   </div>
 </div>
+
+
+
+
+<script>
+
+$(document).ready(function(){
+    favUP = mw.uploader({
+        element:mwd.getElementById('upload-icoimage'),
+        filetypes:'images',
+        multiple:false
+    });
+
+    $(favUP).bind('FileUploaded', function(a,b){
+        mw.$("#favicon_image").val(b.src).trigger('change');
+        mw.$(".the-icoimage").show().attr('src', b.src);
+     });
+  
+});
+
+</script>
+
+
+
+
+<?php
+
+    $favicon_image =  get_option('favicon_image', 'website');
+ 
+
+
+
+?>
+
+
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-label">
+      <?php _e("Change Favicon"); ?>
+    </label>
+  
+  
+  
+  
+  
+  <div id="the-icoimage">
+
+</div>
+
+    <input type="hidden" class="mw_option_field" name="favicon_image" id="favicon_image" value="<?php print $favicon_image; ?>" option-group="website" />
+
+            <img src="<?php print $favicon_image; ?>" class="pull-left the-icoimage" alt="" <?php if($favicon_image != '' and $favicon_image != false){ ?><?php } else{ ?> style="display:block;" <?php } ?> width="40"  />
+
+            <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span>Upload favion</span>
+  
+  
+  </div>
+  
+  
+
+
+
+

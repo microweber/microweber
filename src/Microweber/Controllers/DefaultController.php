@@ -1071,6 +1071,14 @@ class DefaultController extends Controller
             $page_url = $this->page_url;
         }
 
+
+        $favicon_image = get_option('favicon_image', 'website');
+        if ($favicon_image) {
+            mw()->template->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
+        }
+
+
+
         $page = false;
 
         if ($page == false and !empty($this->page)) {
@@ -1571,6 +1579,9 @@ class DefaultController extends Controller
                 define('IS_HOME', true);
             }
         }
+
+
+
 
         $this->app->content_manager->define_constants($content);
 

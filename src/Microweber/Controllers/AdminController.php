@@ -100,6 +100,11 @@ class AdminController extends Controller
             $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
         }
 
+        $favicon_image = get_option('favicon_image', 'website');
+        if ($favicon_image) {
+            mw()->template->admin_head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
+        }
+
         $template_headers_src = mw()->template->admin_head(true);
         if ($template_headers_src != false and $template_headers_src != '') {
             $layout = str_ireplace('</head>', $template_headers_src.'</head>', $layout, $one);
