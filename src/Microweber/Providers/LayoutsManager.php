@@ -486,7 +486,7 @@ class LayoutsManager
             // d($q);
             $this->app->database_manager->q($q);
 
-            $q = "DELETE FROM $db_categories_items WHERE rel_type='elements' AND data_type='category_item' ";
+            $q = "DELETE FROM $db_categories_items WHERE rel_type='elements' ";
             // d($q);
             $this->app->database_manager->q($q);
             $this->app->cache_manager->delete('categories'.DIRECTORY_SEPARATOR.'');
