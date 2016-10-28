@@ -65,6 +65,13 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
 
 
+        $this->app->singleton(
+            'Illuminate\Contracts\Debug\ExceptionHandler',
+            'Microweber\App\Exceptions\Handler'
+        );
+
+
+
 
 
         $this->app->singleton('event_manager', function ($app) {
@@ -199,6 +206,7 @@ class MicroweberServiceProvider extends ServiceProvider
         });
 
         $this->app->register('Collective\Html\HtmlServiceProvider');
+
         AliasLoader::getInstance()->alias('Form', 'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias('HTML', 'Collective\Html\HtmlFacade');
 
@@ -206,6 +214,9 @@ class MicroweberServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
         AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
 
+
+
+     $this->app->register('\Conner\Tagging\Providers\TaggingServiceProvider');
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }
