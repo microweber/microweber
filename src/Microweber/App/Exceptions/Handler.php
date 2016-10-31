@@ -8,7 +8,8 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 
-class Handler  {
+class Handler
+{
 
     /**
      * The log implementation.
@@ -27,7 +28,7 @@ class Handler  {
     /**
      * Create a new exception handler instance.
      *
-     * @param  \Psr\Log\LoggerInterface  $log
+     * @param  \Psr\Log\LoggerInterface $log
      * @return void
      */
     public function __construct(LoggerInterface $log)
@@ -38,7 +39,7 @@ class Handler  {
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return void
      */
     public function report($e)
@@ -51,30 +52,29 @@ class Handler  {
 
         if ($this->shouldntReport($e)) return;
 
-        $this->log->error((string) $e);
+        $this->log->error((string)$e);
     }
 
     /**
      * Determine if the exception should be reported.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return bool
      */
     public function shouldReport(Exception $e)
     {
-        return ! $this->shouldntReport($e);
+        return !$this->shouldntReport($e);
     }
 
     /**
      * Determine if the exception is in the "do not report" list.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return bool
      */
     protected function shouldntReport(Exception $e)
     {
-        foreach ($this->dontReport as $type)
-        {
+        foreach ($this->dontReport as $type) {
             if ($e instanceof $type) return true;
         }
 
@@ -84,22 +84,25 @@ class Handler  {
     /**
      * Render an exception into a response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $e
      * @return \Illuminate\Http\Response
      */
     public function render($request, $e)
     {
         if (!$e instanceof \Exception) {
-            $e = new Exception($e);
+
+
+            if (config('app.debug')) {
+//                header("Content-Type: text/plain");
+//                die($e);
+                 $e = new Exception($e);
+            }
         }
 
-        if ($this->isHttpException($e))
-        {
+        if ($this->isHttpException($e)) {
             return $this->renderHttpException($e);
-        }
-        else
-        {
+        } else {
             return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
         }
     }
@@ -107,8 +110,8 @@ class Handler  {
     /**
      * Render an exception to the console.
      *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  \Exception  $e
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @param  \Exception $e
      * @return void
      */
     public function renderForConsole($output, Exception $e)
@@ -119,19 +122,16 @@ class Handler  {
     /**
      * Render the given HttpException.
      *
-     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException $e
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function renderHttpException(HttpException $e)
     {
         $status = $e->getStatusCode();
 
-        if (view()->exists("errors.{$status}"))
-        {
+        if (view()->exists("errors.{$status}")) {
             return response()->view("errors.{$status}", [], $status);
-        }
-        else
-        {
+        } else {
             return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
         }
     }
@@ -139,7 +139,7 @@ class Handler  {
     /**
      * Determine if the given exception is an HTTP exception.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return bool
      */
     protected function isHttpException(Exception $e)

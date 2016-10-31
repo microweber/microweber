@@ -32,7 +32,8 @@
     "league/csv": "^7.2",
     "giggsey/libphonenumber-for-php": "^7.6",
     "laravelcollective/html": "^5.0",
-    "ezyang/htmlpurifier": "^4.8"
+    "ezyang/htmlpurifier": "^4.8",
+    "rtconner/laravel-tagging": "~2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*@dev"

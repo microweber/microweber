@@ -307,7 +307,7 @@ class DatabaseManager extends DbUtils
             }
 
             if (is_object($data[0]) and isset($data[0]->id)) {
-
+                // might be a bug here?
                 return (array)$data[0];
             }
 
