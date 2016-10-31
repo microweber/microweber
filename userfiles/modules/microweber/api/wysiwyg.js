@@ -195,6 +195,8 @@ mw.wysiwyg = {
         });
     },
     prepareContentEditable: function () {
+
+
         $(window).bind("onEditMouseDown", function (e, el, target) {
             mw.wysiwyg.removeEditable();
 

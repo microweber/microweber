@@ -279,7 +279,7 @@ hasAbilityToDropElementsInside = function(target) {
 setTimeout(function(){
 
     mw.gridComponents =  mw.drag.external_grids_row_classes.concat(mw.drag.external_grids_col_classes);
-    mw.gridComponents.push('edit','mw-row','mw-ui-row','wrap_blocks_index', 'element');
+    mw.gridComponents.push('mw-row','mw-ui-row','wrap_blocks_index', 'element');
 }, 50);
 
 mw.drag = {
@@ -1356,6 +1356,7 @@ mw.drag = {
                                     $(mw.currentDragMouseOver).after(mw.dragCurrent);
                                 }
                             }
+
                             // ????????? must be no return
                             return false;
                         }

@@ -1,4 +1,4 @@
-if (typeof jQuery == 'undefined') {  
+if (typeof jQuery == 'undefined') {
 
 <?php
 
@@ -158,6 +158,8 @@ mw.askusertostay = false;
   mw.moduleJS = mw.module_js = function(url){
     mw.require(url, true);
   }
+
+
 
   mw.wait = function(a, b, max) {
     window[a] === undefined ? setTimeout(function() {
@@ -751,6 +753,9 @@ mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
 <?php  include "shop.js"; ?>
+
+
+
 
 
 
