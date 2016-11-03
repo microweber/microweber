@@ -97,10 +97,39 @@ mw.dropables = {
 }
 
 
+mw.inaccessibleModules = document.createElement('div');
+mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
+
 $(document).ready(function() {
+
+document.body.appendChild(mw.inaccessibleModules);
 
     mw.$("#toolbar-template-settings").click(function() {
         mw.tools.toggle_template_settings();
+    });
+
+    $(window).on('onLayoutOver', function(e, el){
+        mw.inaccessibleModules.innerHTML = '';
+        var modules = mw.$(".inaccessibleModule", el);
+        modules.each(function(){
+              var span = document.createElement('span');
+              span.className = 'mw-ui-btn mw-ui-btn-small';
+              span.innerHTML = '<span class="mw-icon-module"></span>' + $(this).attr('data-type');
+              var el = this;
+              span.onclick = function(){
+                  mw.tools.module_settings(el);
+              }
+              mw.inaccessibleModules.appendChild(span);
+        });
+        if(modules.length > 0){
+            var off = $(el).offset();
+            mw.inaccessibleModules.style.top = off.top + 'px';
+            mw.inaccessibleModules.style.left = off.left + 'px';
+            $(mw.inaccessibleModules).show();
+        }
+        else{
+            $(mw.inaccessibleModules).hide();
+        }
     });
 
 
@@ -364,6 +393,17 @@ mw.drag = {
 
 
                     if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
+
+
+
+                        if(mw.tools.hasClass(mw.mm_target, 'mw-layout-root')){
+                            $(window).trigger("onLayoutOver", mw.mm_target);
+                        }
+                        else if(mw.tools.hasParentsWithClass(mw.mm_target, 'mw-layout-root')){
+                            $(window).trigger("onLayoutOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-layout-root'));
+                        }
+
+
                         if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
                                 mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
 

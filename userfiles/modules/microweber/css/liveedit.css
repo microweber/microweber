@@ -2639,6 +2639,15 @@ div[id*='SSDIVEL'] {
   max-width: 1250px;
   min-width: 320px;
 }
+.mwInaccessibleModulesMenu{
+    position: absolute;
+    z-index: 999;
+    margin: 10px;
+}
+
+.mwInaccessibleModulesMenu .mw-ui-btn{
+    text-transform: capitalize;
+}
 
 
 
