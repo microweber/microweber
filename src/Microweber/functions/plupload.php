@@ -402,6 +402,8 @@ if ($allowed_to_upload == false) {
                                     die('{"jsonrpc" : "2.0", "error" : {"code":105, "message": "You cannot upload scripts or executables"}}');
 
                                     break;
+
+
                             }
 
                             switch ($allowed_file_type_item) {
@@ -633,21 +635,24 @@ if (isset($contentType)) {
     }
 
     if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
-        if (function_exists('finfo_open') and function_exists('finfo_file')) {
-            $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-            $mime = @finfo_file($finfo, $_FILES['file']['tmp_name']);
-            if ($mime) {
-                $upl_mime_ext = explode('/', $mime);
-                $upl_mime_ext = end($upl_mime_ext);
-                $upl_mime_ext = explode('-', $upl_mime_ext);
-                $upl_mime_ext = end($upl_mime_ext);
-                $upl_mime_ext = strtolower($upl_mime_ext);
+        $ext = get_file_extension($filePath);
+        if ($ext != 'sql') {
+            if (function_exists('finfo_open') and function_exists('finfo_file')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+                $mime = @finfo_file($finfo, $_FILES['file']['tmp_name']);
+                if ($mime) {
+                    $upl_mime_ext = explode('/', $mime);
+                    $upl_mime_ext = end($upl_mime_ext);
+                    $upl_mime_ext = explode('-', $upl_mime_ext);
+                    $upl_mime_ext = end($upl_mime_ext);
+                    $upl_mime_ext = strtolower($upl_mime_ext);
 
-                if (in_array($upl_mime_ext, $dangerous)) {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
+                    if (in_array($upl_mime_ext, $dangerous)) {
+                        die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
+                    }
                 }
+                finfo_close($finfo);
             }
-            finfo_close($finfo);
         }
 
         // Open temp file
