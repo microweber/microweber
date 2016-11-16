@@ -3,6 +3,9 @@
 
 class Content extends BaseModel
 {
+   // use \Conner\Tagging\Taggable;
+
+
     public $table = 'content';
 
     public function notifications()
@@ -21,9 +24,9 @@ class Content extends BaseModel
     }
 
 
-    public function tags() {
-        return $this->belongsToMany('Tag');
-    }
-
+//    public function tags() {
+//        return $this->belongsToMany('Tag');
+//    }
+//
 
 }

@@ -11,7 +11,7 @@ use App;
 use Microweber\Utils\Adapters\Config\ConfigSave as ConfigSave;
 
 if (!defined('MW_VERSION')) {
-    include_once __DIR__.DIRECTORY_SEPARATOR.'functions'.DIRECTORY_SEPARATOR.'bootstrap.php';
+    include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
 class MicroweberServiceProvider extends ServiceProvider
@@ -19,7 +19,7 @@ class MicroweberServiceProvider extends ServiceProvider
     public function __construct($app)
     {
         ClassLoader::addDirectories(array(
-            base_path().DIRECTORY_SEPARATOR.'userfiles'.DIRECTORY_SEPARATOR.'modules',
+            base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
             __DIR__,
         ));
 
@@ -48,7 +48,7 @@ class MicroweberServiceProvider extends ServiceProvider
                 }
 
                 $domain = str_ireplace('www.', '', $domain);
-                $domain = str_ireplace(':'.$_SERVER['SERVER_PORT'], '', $domain);
+                $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
                 $domain = strtolower($domain);
                 return $domain;
             });
@@ -69,9 +69,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'Illuminate\Contracts\Debug\ExceptionHandler',
             'Microweber\App\Exceptions\Handler'
         );
-
-
-
 
 
         $this->app->singleton('event_manager', function ($app) {
@@ -215,8 +212,7 @@ class MicroweberServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
 
 
-
-     $this->app->register('\Conner\Tagging\Providers\TaggingServiceProvider');
+     //   $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }
@@ -252,14 +248,13 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Register routes
         $this->registerRoutes();
-        $this->app->event_manager->trigger('mw.after.boot',$this);
+        $this->app->event_manager->trigger('mw.after.boot', $this);
     }
-
 
 
     private function registerRoutes()
     {
-        $routesFile = __DIR__.'/routes.php';
+        $routesFile = __DIR__ . '/routes.php';
         if (file_exists($routesFile)) {
             include $routesFile;
 
@@ -271,7 +266,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function autoloadModules($className)
     {
-        $filename = modules_path().$className.'.php';
+        $filename = modules_path() . $className . '.php';
         $filename = normalize_path($filename, false);
 
         if (!class_exists($className, false)) {

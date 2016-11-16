@@ -775,6 +775,22 @@ class Format
     }
 
 
+
+    function split_dates($min, $max, $parts = 7, $output = "Y-m-d") {
+        $dataCollection[] = date($output, strtotime($min));
+        $diff = (strtotime($max) - strtotime($min)) / $parts;
+        $convert = strtotime($min) + $diff;
+
+        for ($i = 1; $i < $parts; $i++) {
+            $dataCollection[] = date($output, $convert);
+            $convert += $diff;
+        }
+        $dataCollection[] = date($output, strtotime($max));
+        return $dataCollection;
+    }
+
+
+
     public function text_to_image($text)
     {
         $options = array();
