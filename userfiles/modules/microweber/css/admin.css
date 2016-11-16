@@ -2957,6 +2957,13 @@ body.grabbing, body.grabbing * {
 #stats_nav {
 	margin-top: 12px;
 }
+
+#stats_dashboard_last .mw-ui-row .mw-ui-col:first-child{
+    height: 220px;
+    padding-top: 45px;
+    vertical-align: top;
+}
+
 .users-online {
 	float: left;
 	display: block;
