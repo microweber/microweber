@@ -1,6 +1,6 @@
 <?php namespace Microweber\App\Console\Commands;
 
-use Illuminate\Console\Command;
+
 use Illuminate\Foundation\Console\KeyGenerateCommand as KeyGenerate;
 
 class KeyGenerateCommand extends KeyGenerate
@@ -8,20 +8,20 @@ class KeyGenerateCommand extends KeyGenerate
     /**
      * Set the application key in the environment file.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     protected function setKeyInEnvironmentFile($key)
     {
 
-//dd($this->laravel);
-//        dd($this->laravel->environmentFilePath());
 
-//        file_put_contents($this->laravel->environmentFilePath(), str_replace(
-//            'APP_KEY='.$this->laravel['config']['app.key'],
-//            'APP_KEY='.$key,
-//            file_get_contents($this->laravel->environmentFilePath())
-//        ));
+        $app_file_path = config_path() . DIRECTORY_SEPARATOR . 'app.php';
+
+        @file_put_contents($app_file_path, str_replace(
+            'YourSecretKey!!!',
+            $key,
+            @file_get_contents($app_file_path)
+        ));
     }
 
 

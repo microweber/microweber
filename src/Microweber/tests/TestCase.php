@@ -1,6 +1,7 @@
 <?php
 
 namespace Microweber\tests;
+
 use Illuminate\Support\Facades\DB;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
@@ -9,8 +10,10 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     public function createApplication()
     {
-        $config_folder = __DIR__.'/../../../config/testing/';
-        $mw_file = $config_folder.'microweber.php';
+
+
+        $config_folder = __DIR__ . '/../../../config/testing/';
+        $mw_file = $config_folder . 'microweber.php';
 
         if (!is_dir($config_folder)) {
             mkdir($config_folder);
@@ -25,14 +28,22 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $unitTesting = true;
         $testEnvironment = 'testing';
-        $app = require __DIR__.'/../../../bootstrap/app.php';
+        $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         $this->assertEquals(true, is_dir($config_folder));
 
-        $this->sqlite_file = storage_path().'/phpunit.sqlite';
-        if(is_file($this->sqlite_file)){
-           // @unlink($this->sqlite_file);
+        $app->detectEnvironment(function () {
+            return 'testing';
+        });
+
+        $environment = $app->environment();
+        print_r($environment);
+
+
+        $this->sqlite_file = storage_path() . '/phpunit.sqlite';
+        if (is_file($this->sqlite_file)) {
+            @unlink($this->sqlite_file);
         }
 
         // make fresh install
@@ -55,17 +66,15 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(0, $install);
         }
 
-      //  \Mail::pretend(true);
+        //  \Mail::pretend(true);
 
         return $app;
+
+
     }
 
     public function setUp()
     {
-
-
-
-
 
         parent::setUp();
         //DB::beginTransaction();
