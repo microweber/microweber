@@ -43,16 +43,22 @@ class MicroweberServiceProvider extends ServiceProvider
         if (!is_cli()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
-
                 if (getenv('APP_ENV')) {
                     return getenv('APP_ENV');
                 }
+
 
                 $domain = str_ireplace('www.', '', $domain);
                 $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
                 $domain = strtolower($domain);
                 return $domain;
             });
+        } else {
+            if (defined('MW_UNIT_TEST')) {
+                $this->app->detectEnvironment(function () {
+                    return 'testing';
+                });
+            }
         }
 
         $this->app->instance('config', new ConfigSave($this->app));
@@ -216,7 +222,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         AliasLoader::getInstance()->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
         AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
-
 
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');

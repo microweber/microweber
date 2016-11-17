@@ -265,7 +265,6 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-
         if(
             $data instanceof \Illuminate\Database\Eloquent\Collection
             or $data instanceof \Illuminate\Support\Collection

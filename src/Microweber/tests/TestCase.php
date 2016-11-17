@@ -4,12 +4,19 @@ namespace Microweber\tests;
 
 use Illuminate\Support\Facades\DB;
 
+
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
+
     private $sqlite_file = 'phpunit.sqlite';
+
 
     public function createApplication()
     {
+
+        if (!defined('MW_UNIT_TEST')) {
+            define('MW_UNIT_TEST', true);
+        }
 
 
         $config_folder = __DIR__ . '/../../../config/testing/';
@@ -21,20 +28,20 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $unitTesting = true;
         $testEnvironment = 'testing';
+
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-
-        //   $this->assertEquals(true, is_dir($config_folder));
+        $app['env'] = 'testing';
+        $this->assertEquals(true, is_dir($config_folder));
 
         $app->detectEnvironment(function () {
             return 'testing';
         });
-        $app['env'] = 'testing';
+
         $environment = $app->environment();
 
 
         $this->sqlite_file = storage_path() . '/phpunit.sqlite';
-
 
 
         file_put_contents($mw_file, "<?php return array (
@@ -71,26 +78,18 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         return $app;
 
 
-
-
+        return $app;
     }
 
     public function setUp()
     {
+
+
         parent::setUp();
-        $this->prepareForTests();
-        //DB::beginTransaction();
-    }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-        //DB::rollBack();
-    }
-
-    private function prepareForTests()
-    {
 
     }
+
 
 }
+
