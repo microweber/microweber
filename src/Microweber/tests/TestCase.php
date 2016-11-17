@@ -31,6 +31,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $this->assertEquals(true, is_dir($config_folder));
 
         $this->sqlite_file = storage_path().'/phpunit.sqlite';
+        if(is_file($this->sqlite_file)){
+           // @unlink($this->sqlite_file);
+        }
 
         // make fresh install
         $install_params = array(
@@ -52,13 +55,18 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(0, $install);
         }
 
-        \Mail::pretend(true);
+      //  \Mail::pretend(true);
 
         return $app;
     }
 
     public function setUp()
     {
+
+
+
+
+
         parent::setUp();
         //DB::beginTransaction();
     }

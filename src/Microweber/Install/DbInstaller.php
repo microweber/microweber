@@ -33,6 +33,7 @@ class DbInstaller
             new Schema\Shop(),
             new Schema\Tags(),
             new Schema\JobsQueue(),
+            new Schema\PasswordResetsTable(),
         ];
     }
 

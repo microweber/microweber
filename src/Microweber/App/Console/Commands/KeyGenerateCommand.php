@@ -13,6 +13,10 @@ class KeyGenerateCommand extends KeyGenerate
      */
     protected function setKeyInEnvironmentFile($key)
     {
+
+//dd($this->laravel);
+//        dd($this->laravel->environmentFilePath());
+
 //        file_put_contents($this->laravel->environmentFilePath(), str_replace(
 //            'APP_KEY='.$this->laravel['config']['app.key'],
 //            'APP_KEY='.$key,
