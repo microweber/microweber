@@ -43,6 +43,7 @@ class MicroweberServiceProvider extends ServiceProvider
         if (!is_cli()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
+
                 if (getenv('APP_ENV')) {
                     return getenv('APP_ENV');
                 }

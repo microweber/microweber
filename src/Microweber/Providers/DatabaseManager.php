@@ -226,6 +226,7 @@ class DatabaseManager extends DbUtils
 
             return $query;
         }
+
         if (isset($orig_params['min']) and ($orig_params['min'])) {
             $column = $orig_params['min'];
             $query = $query->min($column);
@@ -265,7 +266,11 @@ class DatabaseManager extends DbUtils
         }
 
 
-        if($data instanceof \Illuminate\Database\Eloquent\Collection){
+        if(
+            $data instanceof \Illuminate\Database\Eloquent\Collection
+            or $data instanceof \Illuminate\Support\Collection
+
+        ){
             if (isset($orig_params['collection']) and ($orig_params['collection'])) {
                 return $data;
             } else {

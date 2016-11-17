@@ -19,6 +19,24 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             mkdir($config_folder);
         }
 
+        $unitTesting = true;
+        $testEnvironment = 'testing';
+        $app = require __DIR__ . '/../../../bootstrap/app.php';
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        //   $this->assertEquals(true, is_dir($config_folder));
+
+        $app->detectEnvironment(function () {
+            return 'testing';
+        });
+        $app['env'] = 'testing';
+        $environment = $app->environment();
+
+
+        $this->sqlite_file = storage_path() . '/phpunit.sqlite';
+
+
+
         file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'install_default_template' => 'default',
@@ -26,24 +44,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             );"
         );
 
-        $unitTesting = true;
-        $testEnvironment = 'testing';
-        $app = require __DIR__ . '/../../../bootstrap/app.php';
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-
-        $this->assertEquals(true, is_dir($config_folder));
-
-        $app->detectEnvironment(function () {
-            return 'testing';
-        });
-
-        $environment = $app->environment();
-        print_r($environment);
-
-
-        $this->sqlite_file = storage_path() . '/phpunit.sqlite';
         if (is_file($this->sqlite_file)) {
-            @unlink($this->sqlite_file);
+            //  @unlink($this->sqlite_file);
         }
 
         // make fresh install
@@ -59,24 +61,24 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_name' => $this->sqlite_file,
             '--env' => 'testing',
         );
-
         $is_installed = mw_is_installed();
         if (!$is_installed) {
             $install = \Artisan::call('microweber:install', $install_params);
             $this->assertEquals(0, $install);
         }
 
-        //  \Mail::pretend(true);
 
         return $app;
+
+
 
 
     }
 
     public function setUp()
     {
-
         parent::setUp();
+        $this->prepareForTests();
         //DB::beginTransaction();
     }
 
@@ -85,4 +87,10 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         parent::tearDown();
         //DB::rollBack();
     }
+
+    private function prepareForTests()
+    {
+
+    }
+
 }
