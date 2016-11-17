@@ -3,7 +3,7 @@
 
 class Content extends BaseModel
 {
-   // use \Conner\Tagging\Taggable;
+    use \Conner\Tagging\Taggable;
 
 
     public $table = 'content';
@@ -24,9 +24,10 @@ class Content extends BaseModel
     }
 
 
-//    public function tags() {
-//        return $this->belongsToMany('Tag');
-//    }
-//
+    public function tags()
+    {
+        return $this->belongsToMany('Tag');
+    }
+
 
 }

@@ -253,6 +253,7 @@ trait ExtendedSave {
                     $data_to_save['categories'] = explode(',', $data_to_save['categories']);
                 }
                 $categories = $data_to_save['categories'];
+
                 if (is_array($categories)){
                     $save_cat_item = array();
                     $save_cat_item['rel_type'] = $data_to_save['table'];
@@ -268,11 +269,14 @@ trait ExtendedSave {
                     }
                     $cats_modified = true;
                     foreach ($categories as $category) {
+
                         if ((is_string($category) or is_int($category)) and intval($category)!=0){
+                            // case where we pass array of category ids
                             $save_cat_item = array();
                             $save_cat_item['rel_type'] = $data_to_save['table'];
                             $save_cat_item['rel_id'] = $data_to_save['id'];
                             $save_cat_item['parent_id'] = $category;
+
                             $check = $this->app->category_manager->get_items($save_cat_item);
                             if ($check==false){
                                 $this->app->category_manager->save_item($save_cat_item);

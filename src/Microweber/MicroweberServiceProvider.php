@@ -212,7 +212,8 @@ class MicroweberServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
 
 
-     //   $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
+
+        $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }

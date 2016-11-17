@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e51d7a4b6b00eaf1b6d0c9ffd7ba1c4a",
-    "content-hash": "237f81676cc993fcf24129ef7c68c0ac",
+    "hash": "0f14028cee83b6029c3d585b028d7bfa",
+    "content-hash": "7607172950417ed6b815c58b93c99c7a",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1753,12 +1753,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "17d3c6a16bdc9cda328a90fc433593d0575c08a8"
+                "reference": "a7374be92c961f8fa9af7eccdaf35c2e71059330"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/17d3c6a16bdc9cda328a90fc433593d0575c08a8",
-                "reference": "17d3c6a16bdc9cda328a90fc433593d0575c08a8",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a7374be92c961f8fa9af7eccdaf35c2e71059330",
+                "reference": "a7374be92c961f8fa9af7eccdaf35c2e71059330",
                 "shasum": ""
             },
             "require": {
@@ -1828,7 +1828,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-11-02 08:24:08"
+            "time": "2016-11-16 08:56:22"
         },
         {
             "name": "league/oauth1-client",
@@ -1899,12 +1899,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "2133e01288f8f974645c6548ba1250b5c61d68bc"
+                "reference": "3c782662f9d29c02eb3f200a02dafc8288e28a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/2133e01288f8f974645c6548ba1250b5c61d68bc",
-                "reference": "2133e01288f8f974645c6548ba1250b5c61d68bc",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3c782662f9d29c02eb3f200a02dafc8288e28a9e",
+                "reference": "3c782662f9d29c02eb3f200a02dafc8288e28a9e",
                 "shasum": ""
             },
             "require": {
@@ -1969,7 +1969,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-11-13 19:36:07"
+            "time": "2016-11-17 11:01:44"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -4059,6 +4059,68 @@
             "time": "2016-11-09 19:52:00"
         },
         {
+            "name": "rtconner/laravel-tagging",
+            "version": "dev-laravel-5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/peter-mw/laravel-tagging.git",
+                "reference": "b783874535bf9688de088dca7aa7e92e460ea21d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/peter-mw/laravel-tagging/zipball/b783874535bf9688de088dca7aa7e92e460ea21d",
+                "reference": "b783874535bf9688de088dca7aa7e92e460ea21d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": ">= 5.0",
+                "illuminate/support": ">= 5.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~4.0",
+                "vlucas/phpdotenv": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Conner\\Tagging\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "tests/TestCase.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Conner",
+                    "email": "rtconner@smarter.bz"
+                }
+            ],
+            "description": "Use PHP traits to extend Laravel Eloquent Models to allow Tags. Models can be marked as Taggable.",
+            "homepage": "https://smartersoftware.net/packages/laravel-tagging-taggable",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "laravel5",
+                "tag",
+                "taggable",
+                "tagged",
+                "tagging",
+                "tags"
+            ],
+            "support": {
+                "source": "https://github.com/peter-mw/laravel-tagging/tree/laravel-5"
+            },
+            "time": "2016-10-28 19:23:46"
+        },
+        {
             "name": "seld/cli-prompt",
             "version": "dev-master",
             "source": {
@@ -4108,16 +4170,16 @@
         },
         {
             "name": "seld/jsonlint",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/jsonlint.git",
-                "reference": "e827b5254d3e58c736ea2c5616710983d80b0b70"
+                "reference": "19495c181d6d53a0a13414154e52817e3b504189"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/e827b5254d3e58c736ea2c5616710983d80b0b70",
-                "reference": "e827b5254d3e58c736ea2c5616710983d80b0b70",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/19495c181d6d53a0a13414154e52817e3b504189",
+                "reference": "19495c181d6d53a0a13414154e52817e3b504189",
                 "shasum": ""
             },
             "require": {
@@ -4150,7 +4212,7 @@
                 "parser",
                 "validator"
             ],
-            "time": "2016-09-14 15:17:56"
+            "time": "2016-11-14 17:59:58"
         },
         {
             "name": "seld/phar-utils",
@@ -5269,12 +5331,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "e0c8bd45fdab197ccdd4723125e4ed424f54288d"
+                "reference": "92e2f6deeda11ffaf001caa2e43f7fc13f0eee19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/e0c8bd45fdab197ccdd4723125e4ed424f54288d",
-                "reference": "e0c8bd45fdab197ccdd4723125e4ed424f54288d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/92e2f6deeda11ffaf001caa2e43f7fc13f0eee19",
+                "reference": "92e2f6deeda11ffaf001caa2e43f7fc13f0eee19",
                 "shasum": ""
             },
             "require": {
@@ -5316,7 +5378,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-06 16:24:48"
+            "time": "2016-11-14 16:20:13"
         },
         {
             "name": "twig/twig",
@@ -5324,12 +5386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "863f18e780c9a6010a5a340009f77909afbe4a82"
+                "reference": "d0d5475dc9498fd414baa48bf376eadab06c8150"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/863f18e780c9a6010a5a340009f77909afbe4a82",
-                "reference": "863f18e780c9a6010a5a340009f77909afbe4a82",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d0d5475dc9498fd414baa48bf376eadab06c8150",
+                "reference": "d0d5475dc9498fd414baa48bf376eadab06c8150",
                 "shasum": ""
             },
             "require": {
@@ -5378,7 +5440,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-11-13 03:43:22"
+            "time": "2016-11-15 22:03:16"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5891,12 +5953,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "2ef59c57cd196301eeb88865d25916898dd72872"
+                "reference": "3b402f65a4cc90abf6e1104e388b896ce209631b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/2ef59c57cd196301eeb88865d25916898dd72872",
-                "reference": "2ef59c57cd196301eeb88865d25916898dd72872",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3b402f65a4cc90abf6e1104e388b896ce209631b",
+                "reference": "3b402f65a4cc90abf6e1104e388b896ce209631b",
                 "shasum": ""
             },
             "require": {
@@ -5932,7 +5994,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2016-10-03 07:38:46"
+            "time": "2016-11-15 14:06:22"
         },
         {
             "name": "phpunit/phpunit",
@@ -6352,12 +6414,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "b19cc3298482a335a95f3016d2f8a6950f0fbcd7"
+                "reference": "938df7a6478e72795e5f8266cff24d06e3136f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/b19cc3298482a335a95f3016d2f8a6950f0fbcd7",
-                "reference": "b19cc3298482a335a95f3016d2f8a6950f0fbcd7",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/938df7a6478e72795e5f8266cff24d06e3136f2e",
+                "reference": "938df7a6478e72795e5f8266cff24d06e3136f2e",
                 "shasum": ""
             },
             "require": {
@@ -6397,7 +6459,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2016-10-03 07:41:43"
+            "time": "2016-11-15 06:55:36"
         },
         {
             "name": "sebastian/version",
@@ -6488,6 +6550,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "rtconner/laravel-tagging": 20,
         "phpunit/phpunit": 20
     },
     "prefer-stable": false,
