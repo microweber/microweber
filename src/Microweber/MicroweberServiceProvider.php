@@ -65,9 +65,14 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
 
 
+//        $this->app->singleton(
+//            'Illuminate\Contracts\Debug\ExceptionHandler',
+//            'Microweber\App\Exceptions\Handler'
+//        );
+
         $this->app->singleton(
-            'Illuminate\Contracts\Debug\ExceptionHandler',
-            'Microweber\App\Exceptions\Handler'
+            'Illuminate\Contracts\Console\Kernel',
+            'Microweber\App\Console\Kernel'
         );
 
 
@@ -220,7 +225,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function boot(Request $request)
     {
-        parent::boot();
+        //parent::boot();
 
         // public = /
         App::instance('path.public', base_path());

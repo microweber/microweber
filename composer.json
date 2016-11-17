@@ -17,15 +17,14 @@
     }
   ],
   "require": {
-    "laravel/framework": "5.0.22",
+    "laravel/framework": "5.3.*",
     "laravel/socialite": "2.0.12",
-    "symfony/console": "v2.6.4",
     "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
-    "illuminate/contracts": "5.0.*|5.1.*",
-    "vlucas/phpdotenv": "~1.0",
+    "illuminate/contracts": "5.0.*|5.1.*|5.2.*|5.3.*",
+    "vlucas/phpdotenv": "*",
     "rcrowe/twigbridge": "*",
-    "graham-campbell/markdown": "~3.0",
+    "graham-campbell/markdown": "*",
     "guzzlehttp/guzzle": "5.*",
     "composer/installers": "1.*",
     "keboola/csv": "1.1.*",
@@ -38,7 +37,7 @@
     "omnipay/common": "*",
     "league/csv": "^7.2",
     "giggsey/libphonenumber-for-php": "^7.6",
-    "laravelcollective/html": "^5.0",
+    "laravelcollective/html": "*",
     "ezyang/htmlpurifier": "^4.8",
     "rtconner/laravel-tagging": "dev-laravel-5"
   },
