@@ -268,7 +268,9 @@ function get_visits($range = 'daily') {
                 ->groupBy('id')
                 ->get();
 				
-			
+			if($results){
+					$results = $results->toArray();
+				}
 				
             break;
 
@@ -281,7 +283,9 @@ function get_visits($range = 'daily') {
 				->groupBy('id')
 
                 ->get();
-			
+			if($results){
+					$results = $results->toArray();
+				}
             $results = stats_group_by($rows, 'W');
 			
 			
@@ -294,7 +298,9 @@ function get_visits($range = 'daily') {
                 ->where('visit_date', '>', $ago)
 				->groupBy('id')
                 ->get();
-					
+			if($results){
+					$results = $results->toArray();
+				}		
             $results = stats_group_by($rows, 'm');
             break;
 
@@ -304,6 +310,12 @@ function get_visits($range = 'daily') {
                 ->orderBy('visit_time', 'desc')
                 ->take(5)
                 ->get();
+				
+				if($results){
+					$results = $results->toArray();
+				}
+				
+				
             break;
 
         case 'requests_num' :
@@ -344,6 +356,7 @@ function get_visits($range = 'daily') {
     $res = array();
     if (is_array($results)){
         foreach ($results as &$item) {
+			
             if (is_object($item)){
                 $item = (array) $item;
             }

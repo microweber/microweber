@@ -47,11 +47,18 @@ class MicroweberServiceProvider extends ServiceProvider
                     return getenv('APP_ENV');
                 }
 
+
                 $domain = str_ireplace('www.', '', $domain);
                 $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
                 $domain = strtolower($domain);
                 return $domain;
             });
+        } else {
+            if (defined('MW_UNIT_TEST')) {
+                $this->app->detectEnvironment(function () {
+                    return 'testing';
+                });
+            }
         }
 
         $this->app->instance('config', new ConfigSave($this->app));
@@ -65,9 +72,14 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
 
 
+//        $this->app->singleton(
+//            'Illuminate\Contracts\Debug\ExceptionHandler',
+//            'Microweber\App\Exceptions\Handler'
+//        );
+
         $this->app->singleton(
-            'Illuminate\Contracts\Debug\ExceptionHandler',
-            'Microweber\App\Exceptions\Handler'
+            'Illuminate\Contracts\Console\Kernel',
+            'Microweber\App\Console\Kernel'
         );
 
 
@@ -120,6 +132,11 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->singleton('data_fields_manager', function ($app) {
             return new Providers\Content\DataFieldsManager($app);
+        });
+
+
+        $this->app->singleton('tags_manager', function ($app) {
+            return new Providers\Content\TagsManager($app);
         });
 
         $this->app->singleton('attributes_manager', function ($app) {
@@ -212,7 +229,6 @@ class MicroweberServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
 
 
-
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
@@ -220,7 +236,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function boot(Request $request)
     {
-        parent::boot();
+        //parent::boot();
 
         // public = /
         App::instance('path.public', base_path());

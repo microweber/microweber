@@ -33,6 +33,7 @@ class DbInstaller
             new Schema\Shop(),
             new Schema\Tags(),
             new Schema\JobsQueue(),
+            new Schema\PasswordResetsTable(),
         ];
     }
 
@@ -50,27 +51,26 @@ class DbInstaller
         }
         $exec = $this->getSystemSchemas();
         $builder = new DbUtils();
+        $schemaArray = array();
         foreach ($exec as $data) {
             // Creates the schema
 
             if (method_exists($data, 'up')) {
-                $this->log('Setting up schema '.get_class($data));
+                $this->log('Setting up schema ' . get_class($data));
 
                 $data->up();
 
                 break;
             }
 
-            if (!method_exists($data, 'get')) {
-                break;
-            }
-
-            $schemaArray = $data->get();
-            if (!is_array($schemaArray)) {
-                break;
+            if (method_exists($data, 'get')) {
+                $schemaArray = $data->get();
+                if (!is_array($schemaArray)) {
+                    break;
+                }
             }
             foreach ($schemaArray as $table => $columns) {
-                $this->log('Setting up table "'.$table.'"');
+                $this->log('Setting up table "' . $table . '"');
 
                 $builder->build_table($table, $columns);
             }
@@ -83,7 +83,7 @@ class DbInstaller
         foreach ($exec as $data) {
 
             if (method_exists($data, 'seed')) {
-                $this->log('Seeding '.get_class($data));
+                $this->log('Seeding ' . get_class($data));
 
                 $data->seed();
             }

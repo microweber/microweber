@@ -14,7 +14,7 @@ class ConfigSave extends Repository
     public function __construct($app)
     {
         $this->app = $app;
-        $items = (array) $app->make('config');
+        $items = (array)$app->make('config');
         $items = end($items);
         parent::__construct($items);
         $this->init();
@@ -25,7 +25,7 @@ class ConfigSave extends Repository
         $this->items = array();
 
         $default_dir = $this->app->configPath();
-        $env_dir = $default_dir.DIRECTORY_SEPARATOR.$this->app->environment();
+        $env_dir = $default_dir . DIRECTORY_SEPARATOR . $this->app->environment();
 
         $dirs = array();
         $dirs[] = $default_dir;
@@ -40,7 +40,7 @@ class ConfigSave extends Repository
                     $extension = end($file_info);
                     $key = reset($file_info);
                     if ($key != '' and $extension == 'php') {
-                        $this->set($key, require $dir.DIRECTORY_SEPARATOR.$file);
+                        $this->set($key, require $dir . DIRECTORY_SEPARATOR . $file);
                     }
                 }
             }
@@ -51,14 +51,14 @@ class ConfigSave extends Repository
 
     public function set($key, $val = null)
     {
-        $this->changed_keys[ $key ] = $val;
+        $this->changed_keys[$key] = $val;
 
         return parent::set($key, $val);
     }
 
     public function get($key, $val = null)
     {
-        if (isset($this->changed_keys[ $key ])) {
+        if (isset($this->changed_keys[$key])) {
             //  return $this->changed_keys[$key];
         }
 
@@ -77,9 +77,9 @@ class ConfigSave extends Repository
         // Preparing data
 
         foreach ($aggr as $file => $items) {
-            $path = $this->app->configPath().'/'.$this->app->environment().'/';
+            $path = $this->app->configPath() . '/' . $this->app->environment() . '/';
             if (!is_dir($path)) {
-                $path = $this->app->configPath().'/';
+                $path = $this->app->configPath() . '/';
             }
 
             $to_save = true;
@@ -99,18 +99,19 @@ class ConfigSave extends Repository
                 if (!file_exists($path)) {
                     File::makeDirectory($path);
                 }
-                $path .= $file.'.php';
-                $val = var_export($this->items[ $file ], true);
+                $path .= $file . '.php';
+                $val = var_export($this->items[$file], true);
                 if (is_string($val)) {
                     $temp = str_replace('\\', '\\\\', storage_path());
-                    $val = str_replace("'".$temp.'\\\\', "storage_path().DIRECTORY_SEPARATOR.'", $val);
-                    $val = str_replace("'".storage_path().DIRECTORY_SEPARATOR, "storage_path().DIRECTORY_SEPARATOR.'", $val);
-                    $val = str_replace("'".$val, "storage_path().'", $val);
+                    $val = str_replace("'" . $temp . '\\\\', "storage_path().DIRECTORY_SEPARATOR.'", $val);
+                    $val = str_replace("'" . storage_path() . DIRECTORY_SEPARATOR, "storage_path().DIRECTORY_SEPARATOR.'", $val);
+                    $val = str_replace("'" . $val, "storage_path().'", $val);
                     $val = str_replace('\\', DIRECTORY_SEPARATOR, $val);
-                    $code = '<?php return '.$val.';';
+                    $code = '<?php return ' . $val . ';';
                 } else {
                     $code = $val;
                 }
+                $path = normalize_path($path, false);
 
                 // Storing data
                 File::put($path, $code);
@@ -120,14 +121,14 @@ class ConfigSave extends Repository
 
     protected function callBeforeSave($namespace, $group, $items)
     {
-        $callback = $this->beforeSave[ $namespace ];
+        $callback = $this->beforeSave[$namespace];
 
         return call_user_func($callback, $this, $group, $items);
     }
 
     public function beforeSaving($namespace, Closure $callback)
     {
-        $this->beforeSave[ $namespace ] = $callback;
+        $this->beforeSave[$namespace] = $callback;
     }
 
     protected function parseCollection($collection)

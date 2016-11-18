@@ -7,16 +7,11 @@ only_admin_access();
 if(!isset($params['content-id'])){
 	return;
 }
-$tags = content_tags($params['content-id']);
-$tags_str = array();
-if(!empty($tags)){
-	foreach($tags as $tag){
-		if(isset($tag['title'])){
-			$tags_str[] = $tag['title'];
-		}
-	}
-}
- 
+$tags_str = content_tags($params['content-id']);
+
+ if(!$tags_str){
+	 $tags_str = array();
+ }
 
  ?>
 

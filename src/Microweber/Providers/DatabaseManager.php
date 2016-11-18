@@ -20,7 +20,6 @@ use Microweber\Traits\ExtendedSave;
 use SuperClosure\SerializableClosure;
 
 
-
 class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
@@ -136,6 +135,11 @@ class DatabaseManager extends DbUtils
         if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
         }
+        if (isset($params['nolimit'])) {
+            $params['no_limit'] = $params['nolimit'];
+            unset($params['nolimit']);
+
+        }
         if (isset($params['no_limit'])) {
             unset($params['limit']);
         }
@@ -143,7 +147,9 @@ class DatabaseManager extends DbUtils
         if (isset($orig_params['page_count'])) {
             $orig_params['count_paging'] = $orig_params['page_count'];
         }
-
+        if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+            unset($params['limit']);
+        }
         if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
             if (isset($params['limit'])) {
                 $items_per_page = $params['limit'];
@@ -226,6 +232,7 @@ class DatabaseManager extends DbUtils
 
             return $query;
         }
+
         if (isset($orig_params['min']) and ($orig_params['min'])) {
             $column = $orig_params['min'];
             $query = $query->min($column);
@@ -264,16 +271,15 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-
-        if($data instanceof \Illuminate\Database\Eloquent\Collection){
+        if (is_object($data)
+        ) {
             if (isset($orig_params['collection']) and ($orig_params['collection'])) {
                 return $data;
             } else {
-                $data = $data->toArray();
+                $data = $this->_collection_to_array($data);
 
             }
         }
-
 
 
         if (is_array($data)) {
@@ -281,8 +287,6 @@ class DatabaseManager extends DbUtils
                 $data[$k] = (array)$v;
             }
         }
-
-
 
 
         if (empty($data)) {
@@ -294,10 +298,9 @@ class DatabaseManager extends DbUtils
         }
 
 
-
         if (!is_array($data)) {
 
-             return $data;
+            return $data;
         }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
@@ -313,7 +316,6 @@ class DatabaseManager extends DbUtils
 
             return $data[0];
         }
-
 
 
         return $data;
@@ -536,11 +538,17 @@ class DatabaseManager extends DbUtils
     public function q($q, $silent = false)
     {
         if (!$silent) {
-            return DB::statement($q);
+            $q = DB::statement($q);
+            $q = $this->_collection_to_array($q);
+
+            return $q;
         }
 
         try {
-            return DB::statement($q);
+            $q = DB::statement($q);
+            $q = $this->_collection_to_array($q);
+
+            return $q;
         } catch (Exception $e) {
             return;
         } catch (QueryException $e) {
@@ -600,7 +608,7 @@ class DatabaseManager extends DbUtils
         }
 
         $q = DB::select($q);
-
+        $q = $this->_collection_to_array($q);
         if ($only_query != false) {
             return true;
         }
@@ -710,10 +718,26 @@ class DatabaseManager extends DbUtils
     public function table($table)
     {
 
-        if($table == 'content'){
+        if ($table == 'content') {
             return \Content::query();
+        }
+        if ($table == 'media') {
+            return \Media::query();
         }
 
         return DB::table($table);
+    }
+
+    private function _collection_to_array($data)
+    {
+        if (
+            $data instanceof \Illuminate\Database\Eloquent\Collection
+            or $data instanceof \Illuminate\Support\Collection
+
+        ) {
+            return $data->toArray();
+        }
+        return $data;
+
     }
 }

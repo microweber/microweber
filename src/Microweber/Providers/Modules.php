@@ -289,7 +289,7 @@ class Modules
                                     $json = @json_decode($json, true);
                                     $tablesData = $json;
                                 }
-                                $this->save($config);
+                                $s = $this->save($config);
 
                                 if ($tablesData) {
                                     (new DbUtils())->build_tables($tablesData);
@@ -445,6 +445,7 @@ class Modules
         $params['group_by'] = 'module';
         $params['order_by'] = 'position asc';
         $params['cache_group'] = 'modules/global';
+
         if (isset($params['id'])) {
             $params['limit'] = 1;
         } else {
@@ -467,6 +468,7 @@ class Modules
         }
 
         $data = $this->app->database_manager->get($params);
+
         if (is_array($data) and !empty($data)) {
             if (isset($data['settings']) and !is_array($data['settings'])) {
                 $data['settings'] = json_decode($data['settings']);

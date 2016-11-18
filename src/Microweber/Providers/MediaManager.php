@@ -99,7 +99,7 @@ class MediaManager
         $params['limit'] = 1;
 
         $params['table'] = $table;
-        $params['cache_group'] = 'media/'.$id;
+        $params['cache_group'] = 'media/' . $id;
 
         $q = $this->get($params);
         if (is_array($q) and isset($q[0])) {
@@ -122,7 +122,7 @@ class MediaManager
             $ref_str = 'no_HTTP_REFERER';
         }
         $ref_str = 'no_HTTP_REFERER';
-        $cache_id = 'upload_progress_'.$ref_str;
+        $cache_id = 'upload_progress_' . $ref_str;
         $cache_group = 'media/global';
 
         $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
@@ -166,10 +166,10 @@ class MediaManager
             $ref_str = 'no_HTTP_REFERER';
         }
         $ref_str = 'no_HTTP_REFERER';
-        $cache_id = 'upload_progress_'.$ref_str;
+        $cache_id = 'upload_progress_' . $ref_str;
         $cache_group = 'media/global';
 
-        $target_path = media_base_path().'uploaded'.DS;
+        $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 1);
 
         if (!is_dir($target_path)) {
@@ -179,9 +179,9 @@ class MediaManager
 
         if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
             if (isset($data['name'])) {
-                $f = $target_path.$data['name'];
+                $f = $target_path . $data['name'];
                 if (is_file($f)) {
-                    $f = $target_path.date('YmdHis').$data['name'];
+                    $f = $target_path . date('YmdHis') . $data['name'];
                 }
 
                 $df = strpos($data['file'], 'base64,');
@@ -207,16 +207,16 @@ class MediaManager
                 $extension = end(explode('.', $item['name']));
                 if (in_array($extension, $allowedExts)) {
                     if ($item['error'] > 0) {
-                        mw_error('Error: '.$item['error']);
+                        mw_error('Error: ' . $item['error']);
                     } else {
                         $upl = $this->app->cache_manager->save($item, $cache_id, $cache_group);
 
-                        $f = $target_path.$item['name'];
+                        $f = $target_path . $item['name'];
                         if (is_file($f)) {
-                            $f = $target_path.date('YmdHis').$item['name'];
+                            $f = $target_path . date('YmdHis') . $item['name'];
                         }
 
-                        $progress = (array) $item;
+                        $progress = (array)$item;
                         $progress['f'] = $f;
                         $upl = $this->app->cache_manager->save($progress, $cache_id, $cache_group);
 
@@ -267,7 +267,7 @@ class MediaManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = $this->tables['media'];
@@ -276,7 +276,7 @@ class MediaManager
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
-                    $indx[ $i ] = $value2;
+                    $indx[$i] = $value2;
                     ++$i;
                 }
 
@@ -300,7 +300,7 @@ class MediaManager
             $pic_data = $this->get_by_id($c_id);
             if ($adm == false) {
                 if ($pic_data['created_by'] != $this->app->user_manager->id()) {
-                    mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
+                    mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
                 }
             }
             if (isset($pic_data['filename'])) {
@@ -354,7 +354,6 @@ class MediaManager
         $params['order_by'] = 'position ASC';
 
         $data = $this->app->database_manager->get($params);
-
         if (isset($params['single'])) {
             return $data;
         }
@@ -369,7 +368,7 @@ class MediaManager
                             and !stristr($item['filename'], '://')
                             and !stristr($item['filename'], media_base_url())
                         ) {
-                            $item['filename'] = media_base_url().$item['filename'];
+                            $item['filename'] = media_base_url() . $item['filename'];
                         }
                     }
 
@@ -450,13 +449,13 @@ class MediaManager
             }
 
             $url2dir = $this->app->url_manager->to_path($data['src']);
-            $uploaded_files_dir = media_base_path().DS.'uploaded';
+            $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])) {
                 $s['rel_type'] = str_replace('..', '', $s['rel_type']);
 
-                $move_uploaded_files_dir = media_base_path().'downloaded'.DS.$s['rel_type'].DS;
-                $move_uploaded_files_dir_index = media_base_path().'downloaded'.DS.$s['rel_type'].DS.'index.php';
+                $move_uploaded_files_dir = media_base_path() . 'downloaded' . DS . $s['rel_type'] . DS;
+                $move_uploaded_files_dir_index = media_base_path() . 'downloaded' . DS . $s['rel_type'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)) {
@@ -490,9 +489,9 @@ class MediaManager
                                 $dl_host_host_dir = str_ireplace('.', '-', $dl_host_host_dir);
                             }
 
-                            $move_uploaded_files_dir = $move_uploaded_files_dir.'external'.DS;
+                            $move_uploaded_files_dir = $move_uploaded_files_dir . 'external' . DS;
                             if ($dl_host_host_dir) {
-                                $move_uploaded_files_dir = $move_uploaded_files_dir.$dl_host_host_dir.DS;
+                                $move_uploaded_files_dir = $move_uploaded_files_dir . $dl_host_host_dir . DS;
                             }
 
                             if (!is_dir($move_uploaded_files_dir)) {
@@ -502,7 +501,7 @@ class MediaManager
                             $newfile = basename($data['src']);
 
                             $newfile = preg_replace('/[^\w\._]+/', '_', $newfile);
-                            $newfile = $move_uploaded_files_dir.$newfile;
+                            $newfile = $move_uploaded_files_dir . $newfile;
 
                             if (!is_file($newfile)) {
                                 mw()->http->url($data['src'])->download($newfile);
@@ -558,22 +557,34 @@ class MediaManager
             $s['media_type'] = $t;
         }
 
+        if (isset($data['tags'])) {
+            $s['tags'] = $data['tags'];
+        }
+
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
-            $s = $this->app->database_manager->save($table, $s);
+            $s = $this->app->database_manager->extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
         } elseif (isset($s['id'])) {
             $table = $this->tables['media'];
-            $s = $this->app->database_manager->save($table, $s);
+            $s = $this->app->database_manager->extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
         } else {
             mw_error('Invalid data');
         }
+    }
+    public function tags($content_id)
+    {
+        $data = array();
+        $data['id'] = intval($content_id);
+        $data['table'] = $this->tables['media'];
+
+        return $this->app->tags_manager->get_values($data);
     }
 
     public function thumbnail_img($params)
@@ -604,7 +615,7 @@ class MediaManager
         $src = str_replace('..', '', $src);
 
         if (strstr($src, $surl) or strpos($src, $surl)) {
-            $src = str_replace($surl.'/', $surl, $src);
+            $src = str_replace($surl . '/', $surl, $src);
             //$src = str_replace($media_url, '', $src);
             $src = str_replace($surl, '', $src);
             $src = ltrim($src, DS);
@@ -612,13 +623,13 @@ class MediaManager
             $src = rtrim($src, DS);
             $src = rtrim($src, '/');
             //$src = media_base_path() . $src;
-            $src = MW_ROOTPATH.$src;
+            $src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
         } else {
-            $src1 = media_base_path().$src;
+            $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
 
-            $src2 = MW_ROOTPATH.$src;
+            $src2 = MW_ROOTPATH . $src;
             $src2 = normalize_path($src2, false);
             $src3 = strtolower($src2);
 
@@ -638,20 +649,20 @@ class MediaManager
         }
         $media_root = media_base_path();
 
-        $cd = $this->thumbnails_path().$width.DS;
+        $cd = $this->thumbnails_path() . $width . DS;
 
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
         }
 
-        $index_file = $cd.'index.html';
+        $index_file = $cd . 'index.html';
         if (!is_file($index_file)) {
             file_put_contents($index_file, 'Thumbnail directory is not allowed');
         }
         if (!isset($ext)) {
             $ext = strtolower(get_file_extension($src));
         }
-        $cache = md5(serialize($params)).'.'.$ext;
+        $cache = md5(serialize($params)) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
 
@@ -660,7 +671,7 @@ class MediaManager
             $cache = str_replace('..', '', $cache);
         }
 
-        $cache_path = $cd.$cache;
+        $cache_path = $cd . $cache;
         if (file_exists($cache_path)) {
             if (!headers_sent()) {
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -669,7 +680,7 @@ class MediaManager
                     $if_modified_since = '';
                 }
                 $mtime = filemtime($src);
-                $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime).' GMT';
+                $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
                 if ($if_modified_since == $gmdate_mod) {
                     header('HTTP/1.0 304 Not Modified');
                 }
@@ -698,15 +709,15 @@ class MediaManager
         if ($ext == 'jpg') {
             $ext = 'jpeg';
         }
-        header('Content-Type: image/'.$ext);
-        header('Content-Length: '.filesize($cache_path));
+        header('Content-Type: image/' . $ext);
+        header('Content-Length: ' . filesize($cache_path));
         readfile($cache_path);
         exit;
     }
 
     public function pixum($width = 150, $height = false)
     {
-        $cache_folder = media_base_path().'pixum'.DS;
+        $cache_folder = media_base_path() . 'pixum' . DS;
         if ($height) {
             $h = $height;
         } else {
@@ -723,8 +734,8 @@ class MediaManager
         }
         $extension = '.png';
 
-        $hash = 'pixum-'.($h).'x'.$w;
-        $cachefile = normalize_path($cache_folder.DS.$hash.$extension, false);
+        $hash = 'pixum-' . ($h) . 'x' . $w;
+        $cachefile = normalize_path($cache_folder . DS . $hash . $extension, false);
         if (!file_exists($cachefile)) {
             $dirname_file = dirname($cachefile);
             if (!is_dir($dirname_file)) {
@@ -741,9 +752,9 @@ class MediaManager
             imagedestroy($img);
         }
         if (file_exists($cachefile)) {
-            $url = media_base_url().'pixum/'.$hash.$extension;
+            $url = media_base_url() . 'pixum/' . $hash . $extension;
         } else {
-            $url = $this->app->url_manager->site('api_nosession/pixum_img').'?width='.$width.'&height='.$height;
+            $url = $this->app->url_manager->site('api_nosession/pixum_img') . '?width=' . $width . '&height=' . $height;
         }
 
         return $url;
@@ -753,7 +764,7 @@ class MediaManager
     {
         $mime_type = 'image/png';
         $extension = '.png';
-        $cache_folder = media_base_path().'pixum'.DS;
+        $cache_folder = media_base_path() . 'pixum' . DS;
         $cache_folder = normalize_path($cache_folder, true);
 
         if (!is_dir($cache_folder)) {
@@ -780,8 +791,8 @@ class MediaManager
         if ($w == 0) {
             $w = 1;
         }
-        $hash = 'pixum-'.($h).'x'.$w;
-        $cachefile = $cache_folder.'/'.$hash.$extension;
+        $hash = 'pixum-' . ($h) . 'x' . $w;
+        $cachefile = $cache_folder . '/' . $hash . $extension;
 
         header('Content-Type: image/png');
 
@@ -894,10 +905,10 @@ class MediaManager
             $height = 200;
         }
 
-        $cd = $this->thumbnails_path().$width.DS;
+        $cd = $this->thumbnails_path() . $width . DS;
 
         $ext = strtolower(get_file_extension($base_src));
-        $cache = ($base_src.$width.$height).'.'.$ext;
+        $cache = ($base_src . $width . $height) . '.' . $ext;
 
         $cache = str_replace(' ', '_', $cache);
 
@@ -917,8 +928,8 @@ class MediaManager
 
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;
-        $cache_id = 'tn-'.md5(serialize($cache_id)).'.'.$ext;
-        $cache_path = $cd.$cache_id;
+        $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
+        $cache_path = $cd . $cache_id;
 
         if ($is_remote) {
             return $src;
@@ -930,7 +941,7 @@ class MediaManager
             if (stristr($base_src, 'pixum_img')) {
                 return $this->pixum($width, $height);
             }
-            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img').'?&src='.$base_src.'&width='.$width.'&height='.$height.'&cache_id='.$cache_id;
+            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&cache_id=' . $cache_id;
             $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
             $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
 
@@ -1001,12 +1012,12 @@ class MediaManager
     {
         only_admin_access();
         $resp = array();
-        $target_path = media_base_path().'uploaded'.DS;
+        $target_path = media_base_path() . 'uploaded' . DS;
         $fn_path = media_base_path();
         if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '') {
             $_REQUEST['path'] = urldecode($_REQUEST['path']);
 
-            $fn_path = userfiles_path().DS.$_REQUEST['path'].DS;
+            $fn_path = userfiles_path() . DS . $_REQUEST['path'] . DS;
             $fn_path = normalize_path($fn_path, false);
         }
         if (!isset($_REQUEST['name'])) {
@@ -1014,14 +1025,14 @@ class MediaManager
         } else {
             $fn_new_folder_path = $_REQUEST['name'];
             $fn_new_folder_path = urldecode($fn_new_folder_path);
-            $fn_new_folder_path_new = $fn_path.DS.$fn_new_folder_path;
+            $fn_new_folder_path_new = $fn_path . DS . $fn_new_folder_path;
             $fn_path = normalize_path($fn_new_folder_path_new, false);
             // d($fn_path);
             if (!is_dir($fn_path)) {
                 mkdir_recursive($fn_path);
-                $resp = array('success' => 'Folder '.$fn_path.' is created');
+                $resp = array('success' => 'Folder ' . $fn_path . ' is created');
             } else {
-                $resp = array('error' => 'Folder '.$fn_new_folder_path.' already exists');
+                $resp = array('error' => 'Folder ' . $fn_new_folder_path . ' already exists');
             }
         }
 
@@ -1032,7 +1043,7 @@ class MediaManager
     {
         only_admin_access();
 
-        $target_path = media_base_path().'uploaded'.DS;
+        $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 0);
         $path_restirct = userfiles_path();
 
@@ -1047,21 +1058,21 @@ class MediaManager
                     $path = normalize_path($path, 0);
                     $path = str_replace('..', '', $path);
                     $path = str_replace($path_restirct, '', $path);
-                    $target_path = userfiles_path().DS.$path;
+                    $target_path = userfiles_path() . DS . $path;
                     $target_path = normalize_path($target_path, false);
 
                     if (stristr($target_path, media_base_path())) {
                         if (is_dir($target_path)) {
                             mw('Microweber\Utils\Files')->rmdir($target_path, false);
-                            $resp = array('success' => 'Directory '.$target_path.' is deleted');
+                            $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
                         } elseif (is_file($target_path)) {
                             unlink($target_path);
-                            $resp = array('success' => 'File '.basename($target_path).' is deleted');
+                            $resp = array('success' => 'File ' . basename($target_path) . ' is deleted');
                         } else {
-                            $resp = array('error' => 'Not valid file or folder '.$target_path.' ');
+                            $resp = array('error' => 'Not valid file or folder ' . $target_path . ' ');
                         }
                     } else {
-                        $resp = array('error' => 'Not allowed to delete on '.$target_path.' ');
+                        $resp = array('error' => 'Not allowed to delete on ' . $target_path . ' ');
                     }
                 }
             }
@@ -1081,7 +1092,7 @@ class MediaManager
                 $host_dir = str_ireplace('www.', '', $host_dir);
                 $host_dir = str_ireplace('.', '-', $host_dir);
             }
-            $path = MW_MEDIA_FOLDER_NAME.'/'.$host_dir.'';
+            $path = MW_MEDIA_FOLDER_NAME . '/' . $host_dir . '';
         }
 
         return $path;
@@ -1090,7 +1101,7 @@ class MediaManager
     public function thumbnails_path()
     {
         $userfiles_dir = userfiles_path();
-        $userfiles_cache_dir = normalize_path($userfiles_dir.'cache'.DS.'thumbnails'.DS);
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'thumbnails' . DS);
 
         // media_base_path() . 'thumbnail' . DS;
 
