@@ -373,6 +373,8 @@ trait ExtendedSave
                     $tags = $data_to_save['tags'];
                     if (is_array($tags)) {
                         $tags = array_unique($tags);
+                        $tags = array_filter($tags);
+
                         if (!empty($tags)) {
                             if (isset($params['id']) and $params['id']) {
 
