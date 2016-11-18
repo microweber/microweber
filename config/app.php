@@ -78,7 +78,7 @@ return [
 	|
 	*/
 
-    'key' => 'base64:9VpiGkqW0ha0k8m9y1IlIgaNAakbmzzJUqG1olHG7gw=',
+    'key' => 'YourSecretKey!!!',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
