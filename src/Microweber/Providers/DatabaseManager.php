@@ -20,7 +20,6 @@ use Microweber\Traits\ExtendedSave;
 use SuperClosure\SerializableClosure;
 
 
-
 class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
@@ -136,6 +135,11 @@ class DatabaseManager extends DbUtils
         if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
         }
+        if (isset($params['nolimit'])) {
+            $params['no_limit'] = $params['nolimit'];
+            unset($params['nolimit']);
+
+        }
         if (isset($params['no_limit'])) {
             unset($params['limit']);
         }
@@ -143,7 +147,9 @@ class DatabaseManager extends DbUtils
         if (isset($orig_params['page_count'])) {
             $orig_params['count_paging'] = $orig_params['page_count'];
         }
-
+        if (isset($params['limit']) and ($params['limit'] == 'nolimit' or $params['limit'] == 'no_limit')) {
+            unset($params['limit']);
+        }
         if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
             if (isset($params['limit'])) {
                 $items_per_page = $params['limit'];
@@ -265,11 +271,11 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-        if(
+        if (
             $data instanceof \Illuminate\Database\Eloquent\Collection
             or $data instanceof \Illuminate\Support\Collection
 
-        ){
+        ) {
             if (isset($orig_params['collection']) and ($orig_params['collection'])) {
                 return $data;
             } else {
@@ -279,14 +285,11 @@ class DatabaseManager extends DbUtils
         }
 
 
-
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 $data[$k] = (array)$v;
             }
         }
-
-
 
 
         if (empty($data)) {
@@ -298,10 +301,9 @@ class DatabaseManager extends DbUtils
         }
 
 
-
         if (!is_array($data)) {
 
-             return $data;
+            return $data;
         }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
@@ -317,7 +319,6 @@ class DatabaseManager extends DbUtils
 
             return $data[0];
         }
-
 
 
         return $data;
@@ -714,7 +715,7 @@ class DatabaseManager extends DbUtils
     public function table($table)
     {
 
-        if($table == 'content'){
+        if ($table == 'content') {
             return \Content::query();
         }
 
