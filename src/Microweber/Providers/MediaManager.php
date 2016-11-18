@@ -557,22 +557,34 @@ class MediaManager
             $s['media_type'] = $t;
         }
 
+        if (isset($data['tags'])) {
+            $s['tags'] = $data['tags'];
+        }
+
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
-            $s = $this->app->database_manager->save($table, $s);
+            $s = $this->app->database_manager->extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
         } elseif (isset($s['id'])) {
             $table = $this->tables['media'];
-            $s = $this->app->database_manager->save($table, $s);
+            $s = $this->app->database_manager->extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
         } else {
             mw_error('Invalid data');
         }
+    }
+    public function tags($content_id)
+    {
+        $data = array();
+        $data['id'] = intval($content_id);
+        $data['table'] = $this->tables['media'];
+
+        return $this->app->tags_manager->get_values($data);
     }
 
     public function thumbnail_img($params)

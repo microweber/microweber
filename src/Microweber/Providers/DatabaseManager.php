@@ -721,6 +721,9 @@ class DatabaseManager extends DbUtils
         if ($table == 'content') {
             return \Content::query();
         }
+        if ($table == 'media') {
+            return \Media::query();
+        }
 
         return DB::table($table);
     }

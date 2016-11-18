@@ -50,6 +50,15 @@ function content_tags($content_id = false)
 {
     return mw()->content_manager->tags($content_id);
 }
+function media_tags($media_id = false)
+{
+    return mw()->media_manager->tags($media_id);
+}
+
+function picture_tags($media_id = false)
+{
+    return media_tags($media_id);
+}
 
 function get_categories_for_content($content_id = false, $data_type = 'categories')
 {

@@ -28,6 +28,16 @@ mw.module_pictures = {
                 mw.reload_module_parent('pictures');
             });
     },
+	save_tags: function (id, tags) {
+        var data = {};
+        data.id = id;
+        data.tags = tags;
+        $.post(mw.settings.api_url + 'save_media', data,
+            function (data) {
+                mw.reload_module_parent('pictures');
+                mw.reload_module_parent('tags');
+            });
+    },
     del: function ($id) {
         if (confirm('Are you sure you want to delete this image?')) {
             $.post(mw.settings.api_url + 'delete_media', { id: $id  }, function (data) {

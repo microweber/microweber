@@ -162,6 +162,32 @@ mw_admin_puctires_upload_browse_existing = function(){
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
+	  <hr>
+	
+	<?php
+$tags_str = picture_tags($item['id']);
+if(!$tags_str){
+	 $tags_str = array();
+ }
+ 
+	?>
+	<input
+            placeholder="<?php _e("Image Tags"); ?>"
+            autocomplete="off"
+            value="<?php print implode(',',$tags_str); ?>"
+            onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_tags('<?php print $item['id'] ?>', this.value);});"
+            onfocus="$(this.parentNode).addClass('active');"
+            onblur="$(this.parentNode).removeClass('active');"
+            name="media-tags-<?php print $tn; ?>"
+      />
+	
+	
+	
+	  
+	  
+	  
+	  
+	  
       <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></a> </div>
   </div>
   <?php endforeach; ?>

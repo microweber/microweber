@@ -368,25 +368,27 @@ trait ExtendedSave
                     $data_to_save['tags'] = explode(',', $data_to_save['tags']);
                 }
                 $article = $model->whereId(intval($params['id']))->first();
-                $tags_modified = true;
-                $tags = $data_to_save['tags'];
-                if (is_array($tags)) {
-                    $tags = array_unique($tags);
-                    if (!empty($tags)) {
-                        if (isset($params['id']) and $params['id']) {
+                if ($article) {
+                    $tags_modified = true;
+                    $tags = $data_to_save['tags'];
+                    if (is_array($tags)) {
+                        $tags = array_unique($tags);
+                        if (!empty($tags)) {
+                            if (isset($params['id']) and $params['id']) {
 
-                            $article->retag($tags);
+                                $article->retag($tags);
+                                $article->save();
+                            }
+                        } else {
+                            $article->untag(); // remove all tags
                             $article->save();
                         }
                     } else {
-                        $article->untag(); // remove all tags
-                        $article->save();
-                    }
-                } else {
-                    $tags = trim($tags);
-                    if(!$tags){
-                        $article->untag(); // remove all tags
-                        $article->save();
+                        $tags = trim($tags);
+                        if (!$tags) {
+                            $article->untag(); // remove all tags
+                            $article->save();
+                        }
                     }
                 }
             }
