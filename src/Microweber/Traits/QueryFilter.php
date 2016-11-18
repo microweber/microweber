@@ -247,7 +247,28 @@ trait QueryFilter
                 case 'one':
 
                     break;
+                case 'tag':
+                case 'tags':
+                case 'all_tags':
+                case 'all_tag':
 
+                    $ids = $value;
+
+                    if (is_string($ids)) {
+                        $ids = explode(',', $ids);
+                    } elseif (!is_array($ids)) {
+                        $ids = array($ids);
+                    }
+                    if (is_array($ids) and !empty($ids)) {
+                        if ($this->supports($table, 'tag')) {
+                            if ($filter == 'tag' or $filter == 'tags') {
+                                $query = $query->withAnyTag($ids);
+                            } else if ($filter == 'all_tags' or $filter == 'all_tag') {
+                                $query = $query->withAllTags($ids);
+                            }
+                        }
+                    }
+                    break;
                 case 'category':
                 case 'categories':
 

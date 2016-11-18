@@ -18,7 +18,20 @@ class TagsManager
     }
 
 
-    public function get_values($params)
+
+
+//    public function all(){
+//        Article::withAnyTag(['Gardening','Cooking'])->get(); // fetch articles with any tag listed
+//
+//        Article::withAllTags(['Gardening', 'Cooking'])->get(); // only fetch articles with all the tags
+//
+//        Conner\Tagging\Model\Tag::where('count', '>', 2)->get(); // return all tags used more than twice
+//
+//        Article::existingTags(); // return collection of all existing tags on any articles
+//    }
+
+
+    public function get_values($params, $return_full = false)
     {
 
         if (is_string($params)) {
@@ -27,12 +40,14 @@ class TagsManager
         if ($params == false) {
             return;
         }
-        if (!isset($params['table']) or !isset($params['id'])) {
+        if (!isset($params['table'])) {
             return;
         }
+        $id = false;
         $table = $params['table'];
-        $id = intval($params['id']);
-
+        if (isset($params['id'])) {
+            $id = intval($params['id']);
+        }
         $params['table'] = $table;
 
         $supports_tags = false;
@@ -40,25 +55,42 @@ class TagsManager
 
         $model = $this->app->database_manager->table($params['table']);
 
-        $methodVariable = array($model, 'tags');
-        if (is_callable($methodVariable, true, $callable_name)) {
-            $supports_tags = true;
-        }
+        $supports_tags = $this->app->database_manager->supports($params['table'], 'tags');
 
+        $tags_return = array();
         if ($supports_tags) {
-            $tags_return = array();
-            $article = $model->whereId($id)->first();
+            if ($id) {
+                $article = $model->whereId($id)->first();
+                if ($article) {
+                    if ($return_full) {
+                        return $article->toArray();
+                    }
+                    foreach ($article->tags as $tag) {
+                        if (is_object($tag)) {
+                            $tags_return[] = $tag->name;
+                        }
+                    }
 
-            if ($article) {
-                foreach ($article->tags as $tag) {
-                    if (is_object($tag)) {
-                        $tags_return[] = $tag->name;
+                }
+            } else {
+                $article = $model->with('tagged')->first()->existingTags();
+                if ($article) {
+                    if ($return_full) {
+                        return $article->toArray();
+                    }
+                    foreach ($article as $tag) {
+                        if (is_object($tag)) {
+                            $tags_return[] = $tag->name;
+                        }
                     }
                 }
-                if (!empty($tags_return)) {
-                    return $tags_return;
-                }
             }
+
+
+            if (!empty($tags_return)) {
+                return $tags_return;
+            }
+
         }
     }
 }

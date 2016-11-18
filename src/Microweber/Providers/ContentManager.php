@@ -356,13 +356,14 @@ class ContentManager
         return $this->app->data_fields_manager->get_values($data);
     }
 
-    public function tags($content_id)
+    public function tags($content_id = false, $return_full = false)
     {
         $data = array();
-        $data['id'] = intval($content_id);
         $data['table'] = $this->tables['content'];
-
-        return $this->app->tags_manager->get_values($data);
+        if ($content_id) {
+            $data['id'] = intval($content_id);
+        }
+        return $this->app->tags_manager->get_values($data, $return_full);
     }
 
     public function attributes($content_id)
@@ -626,8 +627,8 @@ class ContentManager
             $this->define_constants();
         }
 
-        $cache_id_params=$params;
-        if(isset($cache_id_params['link']) and is_callable($cache_id_params['link'])){
+        $cache_id_params = $params;
+        if (isset($cache_id_params['link']) and is_callable($cache_id_params['link'])) {
             unset($cache_id_params['link']);
             $params['no_cache'] = true;
         }
@@ -1009,11 +1010,7 @@ class ContentManager
                             $the_active_class = $active_class;
 
 
-
-
-
-
-                            if(is_callable($link)){
+                            if (is_callable($link)) {
                                 $to_print = call_user_func_array($link, array($item));
                             } else {
                                 $to_print = $link;
@@ -1046,10 +1043,10 @@ class ContentManager
 
                             if (strstr($to_print, '{tn}')) {
                                 $content_img = get_picture($item['id']);
-                                if($content_img){
+                                if ($content_img) {
                                     $to_print = str_replace('{tn}', $content_img, $to_print);
                                 } else {
-                                    $to_print = str_replace('{tn}','', $to_print);
+                                    $to_print = str_replace('{tn}', '', $to_print);
                                 }
                             }
                             foreach ($item as $item_k => $item_v) {

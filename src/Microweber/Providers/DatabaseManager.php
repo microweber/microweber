@@ -728,14 +728,16 @@ class DatabaseManager extends DbUtils
 
         return DB::table($table);
     }
-    public function supports($model,$feature)
+
+    public function supports($table, $feature)
     {
-        $model = $this->table($model);
+        $model = $this->table($table);
         $methodVariable = array($model, $feature);
         if (is_callable($methodVariable, true, $callable_name)) {
-          return true;
+            return true;
         }
     }
+
     private function _collection_to_array($data)
     {
         if (

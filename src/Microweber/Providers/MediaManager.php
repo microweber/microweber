@@ -578,13 +578,15 @@ class MediaManager
             mw_error('Invalid data');
         }
     }
-    public function tags($content_id)
+
+    public function tags($media_id = false, $return_full = false)
     {
         $data = array();
-        $data['id'] = intval($content_id);
         $data['table'] = $this->tables['media'];
-
-        return $this->app->tags_manager->get_values($data);
+        if ($media_id) {
+            $data['id'] = intval($media_id);
+        }
+        return $this->app->tags_manager->get_values($data,$return_full);
     }
 
     public function thumbnail_img($params)
