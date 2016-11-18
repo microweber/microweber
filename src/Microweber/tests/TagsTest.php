@@ -32,7 +32,9 @@ class TagsTest extends TestCase
         The  "find" method maybe have a bug where the whole table is selected,
         it executes 2 queries instead of 1 and it returns the whole table as result
 
-        $article = Content::whereId($saved_id)->first();
+        $article = Content::find($saved_id)->first(); - makes 2 queries?
+
+        $article = Content::whereId($saved_id)->first(); - OK
 
         the log shows
 

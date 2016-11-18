@@ -271,15 +271,12 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-        if (
-            $data instanceof \Illuminate\Database\Eloquent\Collection
-            or $data instanceof \Illuminate\Support\Collection
-
+        if (is_object($data)
         ) {
             if (isset($orig_params['collection']) and ($orig_params['collection'])) {
                 return $data;
             } else {
-                $data = $data->toArray();
+                $data = $this->_collection_to_array($data);
 
             }
         }
@@ -541,11 +538,17 @@ class DatabaseManager extends DbUtils
     public function q($q, $silent = false)
     {
         if (!$silent) {
-            return DB::statement($q);
+            $q = DB::statement($q);
+            $q = $this->_collection_to_array($q);
+
+            return $q;
         }
 
         try {
-            return DB::statement($q);
+            $q = DB::statement($q);
+            $q = $this->_collection_to_array($q);
+
+            return $q;
         } catch (Exception $e) {
             return;
         } catch (QueryException $e) {
@@ -605,7 +608,7 @@ class DatabaseManager extends DbUtils
         }
 
         $q = DB::select($q);
-
+        $q = $this->_collection_to_array($q);
         if ($only_query != false) {
             return true;
         }
@@ -720,5 +723,18 @@ class DatabaseManager extends DbUtils
         }
 
         return DB::table($table);
+    }
+
+    private function _collection_to_array($data)
+    {
+        if (
+            $data instanceof \Illuminate\Database\Eloquent\Collection
+            or $data instanceof \Illuminate\Support\Collection
+
+        ) {
+            return $data->toArray();
+        }
+        return $data;
+
     }
 }
