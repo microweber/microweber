@@ -718,6 +718,7 @@ class DatabaseManager extends DbUtils
     public function table($table)
     {
 
+        // @todo move this to external resolver class or array
         if ($table == 'content') {
             return \Content::query();
         }
@@ -727,7 +728,14 @@ class DatabaseManager extends DbUtils
 
         return DB::table($table);
     }
-
+    public function supports($model,$feature)
+    {
+        $model = $this->table($model);
+        $methodVariable = array($model, $feature);
+        if (is_callable($methodVariable, true, $callable_name)) {
+          return true;
+        }
+    }
     private function _collection_to_array($data)
     {
         if (

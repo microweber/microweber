@@ -348,10 +348,7 @@ trait ExtendedSave
 
             if (isset($params['table'])) {
                 $model = $this->table($params['table']);
-                $methodVariable = array($model, 'tags');
-                if (is_callable($methodVariable, true, $callable_name)) {
-                    $supports_tags = true;
-                }
+                $supports_tags = $this->supports($model,'tags');
             }
 
             if (!$supports_tags) {

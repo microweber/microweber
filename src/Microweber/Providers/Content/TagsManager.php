@@ -37,29 +37,26 @@ class TagsManager
 
         $supports_tags = false;
 
-        if (isset($params['table'])) {
-            $model = $this->app->database_manager->table($params['table']);
 
-            $methodVariable = array($model, 'tags');
-            if (is_callable($methodVariable, true, $callable_name)) {
-                $supports_tags = true;
-            }
+        $model = $this->app->database_manager->table($params['table']);
+
+        $methodVariable = array($model, 'tags');
+        if (is_callable($methodVariable, true, $callable_name)) {
+            $supports_tags = true;
         }
+
         if ($supports_tags) {
             $tags_return = array();
             $article = $model->whereId($id)->first();
+
             if ($article) {
-                $tags = $article->existingTags();
-                if ($tags and is_object($tags)) {
-                    $tags = $tags->toArray();
-                    if (!empty($tags)) {
-                        foreach ($tags as $tag) {
-                            if (isset($tag['name'])) {
-                                $tags_return[] = $tag['name'];
-                            }
-                        }
-                        return $tags_return;
+                foreach ($article->tags as $tag) {
+                    if (is_object($tag)) {
+                        $tags_return[] = $tag->name;
                     }
+                }
+                if (!empty($tags_return)) {
+                    return $tags_return;
                 }
             }
         }

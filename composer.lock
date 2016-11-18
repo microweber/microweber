@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "452ea7ade2f0f5625cf6b3214a3385c3",
+    "hash": "ab45790bff8051473e4fb4a084b21fa2",
     "content-hash": "3b20cc59995e50ed44654ae571bed383",
     "packages": [
         {
@@ -1302,12 +1302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "20435003b3a9d5b926d3d315426f3ed4e3bc9c27"
+                "reference": "58be0ca2e7d3a4ba3ebc81a6ea8aa984a4ca72f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/20435003b3a9d5b926d3d315426f3ed4e3bc9c27",
-                "reference": "20435003b3a9d5b926d3d315426f3ed4e3bc9c27",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/58be0ca2e7d3a4ba3ebc81a6ea8aa984a4ca72f3",
+                "reference": "58be0ca2e7d3a4ba3ebc81a6ea8aa984a4ca72f3",
                 "shasum": ""
             },
             "require": {
@@ -1422,7 +1422,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-11-17 14:05:46"
+            "time": "2016-11-18 14:46:14"
         },
         {
             "name": "laravel/socialite",
@@ -3003,12 +3003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/omnipay.git",
-                "reference": "f5e6f5c70d0e2f07fd0c9d92e698248e4513de04"
+                "reference": "f30545893d662d75e1f7123cdcb4aecfd8c8877c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/f5e6f5c70d0e2f07fd0c9d92e698248e4513de04",
-                "reference": "f5e6f5c70d0e2f07fd0c9d92e698248e4513de04",
+                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/f30545893d662d75e1f7123cdcb4aecfd8c8877c",
+                "reference": "f30545893d662d75e1f7123cdcb4aecfd8c8877c",
                 "shasum": ""
             },
             "require": {
@@ -3148,7 +3148,7 @@
                 "twocheckout",
                 "worldpay"
             ],
-            "time": "2016-10-19 16:50:00"
+            "time": "2016-11-18 03:48:20"
         },
         {
             "name": "omnipay/payfast",
@@ -3503,16 +3503,16 @@
         },
         {
             "name": "omnipay/securepay",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/omnipay/securepay.git",
-                "reference": "09503288fdb1efcd81bd0ac3c1800ce0ce13cc6e"
+                "url": "https://github.com/thephpleague/omnipay-securepay.git",
+                "reference": "e68954d455edc8337bb30e6c579d32b6e691d29a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omnipay/securepay/zipball/09503288fdb1efcd81bd0ac3c1800ce0ce13cc6e",
-                "reference": "09503288fdb1efcd81bd0ac3c1800ce0ce13cc6e",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-securepay/zipball/e68954d455edc8337bb30e6c579d32b6e691d29a",
+                "reference": "e68954d455edc8337bb30e6c579d32b6e691d29a",
                 "shasum": ""
             },
             "require": {
@@ -3543,11 +3543,11 @@
                 },
                 {
                     "name": "Omnipay Contributors",
-                    "homepage": "https://github.com/omnipay/securepay/contributors"
+                    "homepage": "https://github.com/thephpleague/omnipay-securepay/contributors"
                 }
             ],
             "description": "SecurePay driver for the Omnipay payment processing library",
-            "homepage": "https://github.com/omnipay/securepay",
+            "homepage": "https://github.com/thephpleague/omnipay-securepay",
             "keywords": [
                 "gateway",
                 "merchant",
@@ -3556,7 +3556,7 @@
                 "payment",
                 "securepay"
             ],
-            "time": "2014-04-14 11:26:20"
+            "time": "2016-11-09 04:52:42"
         },
         {
             "name": "omnipay/stripe",
@@ -5984,12 +5984,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "94518eee406e2916b9737bb75a39b5ac162e9968"
+                "reference": "1488b2e1845f9b10d2402a5ef3cd98baf6899909"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/94518eee406e2916b9737bb75a39b5ac162e9968",
-                "reference": "94518eee406e2916b9737bb75a39b5ac162e9968",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1488b2e1845f9b10d2402a5ef3cd98baf6899909",
+                "reference": "1488b2e1845f9b10d2402a5ef3cd98baf6899909",
                 "shasum": ""
             },
             "require": {
@@ -6048,7 +6048,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-11-14 06:47:25"
+            "time": "2016-11-18 07:08:45"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
