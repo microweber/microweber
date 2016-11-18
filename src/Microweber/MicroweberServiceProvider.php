@@ -134,6 +134,11 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\Content\DataFieldsManager($app);
         });
 
+
+        $this->app->singleton('tags_manager', function ($app) {
+            return new Providers\Content\TagsManager($app);
+        });
+
         $this->app->singleton('attributes_manager', function ($app) {
             return new Providers\Content\AttributesManager($app);
         });

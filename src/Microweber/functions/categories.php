@@ -48,7 +48,7 @@ function content_categories($content_id = false, $data_type = 'categories')
 
 function content_tags($content_id = false)
 {
-    return get_categories_for_content($content_id, 'tags');
+    return mw()->content_manager->tags($content_id);
 }
 
 function get_categories_for_content($content_id = false, $data_type = 'categories')

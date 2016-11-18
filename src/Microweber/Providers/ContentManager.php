@@ -356,6 +356,15 @@ class ContentManager
         return $this->app->data_fields_manager->get_values($data);
     }
 
+    public function tags($content_id)
+    {
+        $data = array();
+        $data['id'] = intval($content_id);
+        $data['table'] = $this->tables['content'];
+
+        return $this->app->tags_manager->get_values($data);
+    }
+
     public function attributes($content_id)
     {
         $data = array();
