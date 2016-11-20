@@ -295,6 +295,8 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
+            $path = mw_cache_path().'html_purifier';
+
             $var = $this->strip_unsafe($var);
             $config = \HTMLPurifier_Config::createDefault();
             $config->set('Cache.SerializerPath', $path);
@@ -303,7 +305,6 @@ class Format
 //         Absolute path with no trailing slash to store serialized definitions in.
 //        Default is within the HTML Purifier library inside DefinitionCache/Serializer. This path must be writable by the webserver.
 
-            $path = mw_cache_path().'html_purifier';
             if(!is_dir($path)){
                 mkdir_recursive($path);
             }
