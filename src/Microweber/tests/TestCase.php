@@ -17,7 +17,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
-
+        $testing_env_name = 'testing';
 
         $config_folder = __DIR__ . '/../../../config/testing/';
         $mw_file = $config_folder . 'microweber.php';
@@ -31,17 +31,17 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-        $app['env'] = 'testing';
+        $app['env'] = $testing_env_name;
         $this->assertEquals(true, is_dir($config_folder));
 
-        $app->detectEnvironment(function () {
-            return 'testing';
+        $app->detectEnvironment(function ()  use ($testing_env_name){
+            return $testing_env_name;
         });
 
         $environment = $app->environment();
 
 
-        $this->sqlite_file = storage_path() . '/phpunit.sqlite';
+        $this->sqlite_file = storage_path() . '/phpunit.' . $environment . '.sqlite';
 
 
         file_put_contents($mw_file, "<?php return array (
@@ -52,7 +52,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         );
 
         if (is_file($this->sqlite_file)) {
-            @unlink($this->sqlite_file);
+            // @unlink($this->sqlite_file);
         }
 
         // make fresh install
@@ -66,7 +66,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_user' => '',
             'db_pass' => '',
             'db_name' => $this->sqlite_file,
-            '--env' => 'testing',
+            // 'db_name' => ':memory:',
+            '--env' => $environment,
         );
         $is_installed = mw_is_installed();
         if (!$is_installed) {
