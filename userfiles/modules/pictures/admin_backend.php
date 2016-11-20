@@ -162,7 +162,7 @@ mw_admin_puctires_upload_browse_existing = function(){
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
-	  <hr>
+
 	
 	<?php
 $tags_str = picture_tags($item['id']);
@@ -174,10 +174,11 @@ if(!$tags_str){
 	<input
             placeholder="<?php _e("Image Tags"); ?>"
             autocomplete="off"
+            class="image-tags"
             value="<?php print implode(',',$tags_str); ?>"
             onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_tags('<?php print $item['id'] ?>', this.value);});"
             onfocus="$(this.parentNode).addClass('active');"
-            onblur="$(this.parentNode).removeClass('active');"
+            onblur="$(this).hide().parent().removeClass('active');"
             name="media-tags-<?php print $tn; ?>"
       />
 	
@@ -194,6 +195,21 @@ if(!$tags_str){
   <?php endif;?>
   <script>mw.require("files.js", true);</script>
   <script>
+      editImageTags = function(event){
+          var parent = null;
+          mw.tools.foreachParents(event.target, function(loop){
+
+              if(mw.tools.hasClass(this, 'admin-thumb-item')){
+                parent = this;
+                mw.tools.stopLoop(loop);
+              }
+
+          });
+          if(parent !== null){
+            $(".image-tags", parent).show() 
+          }
+
+      }
       var uploader = mw.files.uploader({
              filetypes:"images",
              name:'basic-images-uploader'
@@ -218,7 +234,16 @@ if(!$tags_str){
     	    setTimeout(function(){
     	        after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
         	},300);
-         })
+         });
+         $(".image-tag-view").remove();
+         $(".image-tags").each(function(){
+             $(".mw-post-media-img", mw.tools.firstParentWithClass(this, 'admin-thumb-item'))
+                .append('<span class="image-tag-view tip" onclick="editImageTags(event)" data-tip="Tags: '+this.value+'" ><span class="mw-icon-app-pricetag"></span></span>');
+                $(this).on('change', function(){
+                    $(".image-tag-view", mw.tools.firstParentWithClass(this, 'admin-thumb-item')).attr('data-tip', 'Tags: '+this.value);
+                });
+
+         });
       });
   </script>
 </div>
