@@ -71,20 +71,22 @@ if($params['subtype'] == 'graph')
 
 mw.stat = {
   draw:function(data, obj){
-    var el = obj || mwd.getElementById('stats_{rand}');
-    $(el).empty().removeClass('graph-initialised');
-    Morris.Line({
-      element: el,
-      data: data,
-      lineColors:['#9A9A9A', '#E6E6E6'],
-      pointStrokeColors:['#5B5B5B', '#5B5B5B'],
-      pointFillColors:['#ffffff','#5B5B5B'],
-      xkey: 'visit_date',
-      ykeys: ['total_visits', 'unique_visits'],
-      labels: ['Total visits', 'Unique visits'],
-      xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
-      xLabels: 'day'
-    });
+    if(typeof(data[0]) != 'undefined'){
+        var el = obj || mwd.getElementById('stats_{rand}');
+        $(el).empty().removeClass('graph-initialised');
+        Morris.Line({
+          element: el,
+          data: data,
+          lineColors:['#9A9A9A', '#E6E6E6'],
+          pointStrokeColors:['#5B5B5B', '#5B5B5B'],
+          pointFillColors:['#ffffff','#5B5B5B'],
+          xkey: 'visit_date',
+          ykeys: ['total_visits', 'unique_visits'],
+          labels: ['Total visits', 'Unique visits'],
+          xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
+          xLabels: 'day'
+        });
+      }
   }
 }
 

@@ -295,8 +295,23 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
+            $path = mw_cache_path().'html_purifier';
+
             $var = $this->strip_unsafe($var);
-            $purifier = new \HTMLPurifier();
+            $config = \HTMLPurifier_Config::createDefault();
+            $config->set('Cache.SerializerPath', $path);
+            $purifier = new \HTMLPurifier($config);
+
+//         Absolute path with no trailing slash to store serialized definitions in.
+//        Default is within the HTML Purifier library inside DefinitionCache/Serializer. This path must be writable by the webserver.
+
+            if(!is_dir($path)){
+                mkdir_recursive($path);
+            }
+
+
+            //$purifier = new \HTMLPurifier();
+            //Cache.SerializerPath
             $var = $purifier->purify($var);
             // $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
             $var = str_ireplace('<script>', '', $var);
