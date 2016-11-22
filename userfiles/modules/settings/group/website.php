@@ -119,7 +119,8 @@ $(document).ready(function(){
 
     $(favUP).bind('FileUploaded', function(a,b){
         mw.$("#favicon_image").val(b.src).trigger('change');
-        mw.$(".the-icoimage").show().attr('src', b.src);
+        mw.$(".the-icoimage").show().css('backgroundImage', 'url('+b.src+')');
+        mw.$("link[rel*='icon']").attr('href', b.src);
      });
   
 });
@@ -154,7 +155,10 @@ $(document).ready(function(){
 
     <input type="hidden" class="mw_option_field" name="favicon_image" id="favicon_image" value="<?php print $favicon_image; ?>" option-group="website" />
 
-            <img src="<?php print $favicon_image; ?>" class="pull-left the-icoimage" alt="" <?php if($favicon_image != '' and $favicon_image != false){ ?><?php } else{ ?> style="display:block;" <?php } ?> width="40"  />
+
+
+            <span class="pull-left the-icoimage" style="background-image: url(<?php print $favicon_image; ?>);" <?php if($favicon_image != '' and $favicon_image != false){ ?><?php } else{ ?> style="display:block;" <?php } ?>></span>
+
 
             <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span>Upload favion</span>
   
