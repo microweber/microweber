@@ -97,6 +97,13 @@
             var $optgroup = $("<optgroup>", {label: groupName, rel: groupName});
             $optgroup.appendTo($select);
             $.each(options, function (j, option) {
+				 
+				if(!option.field){
+				mw.log('Warning: Your editable region does not have a "field" attribute');
+				mw.log(option);
+				 
+				} else {
+				
                 var $option = $("<option>", {
                     text: option.field,
                     value: option.rel,
@@ -104,6 +111,8 @@
                     field: option.field
                 });
                 $option.appendTo($optgroup);
+				}
+				
             });
         });
     };

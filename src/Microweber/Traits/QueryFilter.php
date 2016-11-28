@@ -37,7 +37,7 @@ trait QueryFilter
         if (isset($params['id'])) {
             $is_id = $params['id'];
         }
-
+        $params_orig = $params;
         $is_fields = false;
         if (isset($params['fields']) and $params['fields'] != false) {
             $is_fields = $params['fields'];
@@ -319,12 +319,21 @@ trait QueryFilter
                     break;
                 case 'group_by':
                     $group_by_criteria = explode(',', $value);
-                    foreach ($group_by_criteria as $c) {
-                        $query = $query->groupBy(trim($c));
+                    if (!empty($group_by_criteria)) {
+                        $group_by_criteria = array_map('trim', $group_by_criteria);
                     }
+
+
                     if ($dbDriver == 'pgsql') {
-                        $query = $query->groupBy($table . '.id');
+                        if (isset($params_orig['order_by']) and $params_orig['order_by']) {
+                            $o = explode(' ', $params_orig['order_by']);
+                            $group_by_criteria[] = $o[0];
+                        }
+                        $group_by_criteria[] = $table . '.id';
                     }
+
+                    $query = $query->groupBy($group_by_criteria);
+
 
                     unset($params[$filter]);
                     break;

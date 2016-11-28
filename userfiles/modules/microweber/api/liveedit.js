@@ -2964,7 +2964,7 @@ $(document).ready(function() {
         var el = this;
         if (!el.isContentEditable) {
             if (el.onclick === null) {
-                if (!(el.href.indexOf("javascript:") === 0 || el.href == '#' || $(el).attr("href").indexOf('#') == 0 || typeof el.attributes['href'] == 'undefined')) {
+                if (!(el.href.indexOf("javascript:") === 0 || el.href == '#' || ($(el).attr("href") && $(el).attr("href").indexOf('#') == 0) || typeof el.attributes['href'] == 'undefined')) {
                     return mw.beforeleave(this.href);
                 }
             }
