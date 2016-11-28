@@ -727,15 +727,14 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	display: block;
 	position: relative;
 	padding-top: 4px;
-	visibility: hidden;
-	color: white;
+    padding-bottom: 12px;
 	font-weight: normal;
 }
 #mw-admin-main-menu li.active, #mw-admin-main-menu li.active-parent {
 	background-color: #3B3B3B
 }
 #mw-admin-main-menu li:hover > a strong, #mw-admin-main-menu li.active > a strong, #mw-admin-main-menu li.active-parent a strong, #mw-admin-main-menu li a:focus strong {
-	visibility: visible;
+	color: white;
 }
 #mw-admin-main-menu li.active-parent a strong {
 	color: #888;
@@ -963,10 +962,18 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	width: 175px;
 }
 #create-content-btn {
-	background-color: #3b3b3b;
+	background-color: #235F99;
 	color: white;
 	border-color: transparent;
 }
+.mw-tooltip-action.mw-tooltip-dark .mw-tooltip-content .create-content-menu a{
+    background-color:#1A4974;
+}
+
+.mw-tooltip-action.mw-tooltip-dark .mw-tooltip-content{
+    background-color: #235F99;
+}
+
 .create-content {
 	padding: 30px 0;
 	text-align: center;
@@ -2258,17 +2265,24 @@ body.grabbing, body.grabbing * {
 }
 .col-bar-live-edit {
 	text-align: right;
-	width: 55px;
+	width: 150px;
 }
 .col-bar-live-edit .mw-ui-btn, .go-live-btn-admin {
-	width: 50px;
+	width: auto;
 	background-color: #3b3b3b;
 	border-color: transparent;
 	color: white;
+    padding: 3px 10px;
+    background: #235F99
 }
+
+
 .col-bar-live-edit .mw-ui-btn .mw-icon-live, .go-live-btn-admin .mw-icon-live {
 	font-size: 25px;
-	margin: -6px -2px 0;
+	margin: 0 0 0 7px;
+    position: relative;
+    top: 2px;
+
 }
 .alert {
 	display: block;

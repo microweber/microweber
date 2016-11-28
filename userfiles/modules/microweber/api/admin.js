@@ -81,7 +81,7 @@ mw.admin = {
                         position: $(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center',
                         content: mw.$('#create-content-menu').html(),
                         element: this,
-                        skin: 'dark'
+                        skin: 'mw-tooltip-dark mw-tooltip-action'
                     });
                     var tip = this.mwtooltip;
                     mw.$('.create-content-menu', this.mwtooltip).click(function () {

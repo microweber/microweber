@@ -2213,7 +2213,11 @@ mw.drag = {
                     });
                 }
                 var rel = mw.tools.mwattr(helper.item, 'rel');
-                if (!rel) continue;
+                if (!rel) {
+                    var field = !!helper.item.id ? '#'+helper.item.id : '';
+                    console.warn('Skipped save: .edit'+field+' element does not have rel attribute.');
+                    continue;
+                }
                 $(helper.item).removeClass('changed orig_changed');
                 var content = helper.item.innerHTML;
                 //var content = $(content).find('script').remove();
