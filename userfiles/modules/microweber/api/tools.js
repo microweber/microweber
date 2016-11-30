@@ -798,7 +798,7 @@ mw.tools = {
             }
             if (!modal || modal === null) return false;
 
-            var trigger = trigger || true;
+            var trigger = trigger || false;
             var root = modal.constructor === {}.constructor ? $(modal.main)[0] : modal;
 
             var win = $(window),
