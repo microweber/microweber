@@ -269,7 +269,11 @@ class UrlManager {
             } else {
                 $serverrequri = $_SERVER['REQUEST_URI'];
             }
-            $s = empty($_SERVER['HTTPS']) ? '' : ($_SERVER['HTTPS']=='on') ? 's' : '';
+            $s = '';
+            if(is_https()){
+                $s = 's';
+            }
+
             $protocol = 'http';
             $port = 80;
             if (isset($_SERVER['SERVER_PROTOCOL'])){
