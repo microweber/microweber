@@ -171,19 +171,24 @@ class Captcha
             imagestring($image, 0, $y21, 2, $text, $gray);
         }
 
-//		$emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
-//		$embize = mt_rand(1, 4);
 
-        header('Content-type: image/png');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Pragma: no-cache');
-
+        ob_start();
         imagepng($image);
         imagecolordeallocate($image, $bgcolor);
         imagecolordeallocate($image, $black);
 
         imagedestroy($image);
+        
+        $stuff = ob_get_clean();
+
+        return response($stuff)
+            ->header('Content-Type','image/png')
+            ->header('Pragma','no-cache')
+            ->header('Cache-Control','no-store, no-cache, must-revalidate')
+            ->header('Cache-Control','max-age=60, must-revalidate');
+
+
+
     }
 
     private function captcha_vector($palette, $startx, $starty, $angle, $length, $colour)

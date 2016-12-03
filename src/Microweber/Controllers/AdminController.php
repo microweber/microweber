@@ -44,7 +44,7 @@ class AdminController extends Controller
         $force_https = \Config::get('microweber.force_https');
 
         if ($force_https and !is_cli()) {
-            if (!isset($_SERVER['HTTPS']) or ($_SERVER['HTTPS'] != 'on')) {
+            if (!is_https()) {
                 $https = str_ireplace('http://', 'https://', url_current());
                 return mw()->url_manager->redirect($https);
             }

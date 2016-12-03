@@ -38,7 +38,7 @@ if (!function_exists('site_url')) {
         }
         if ($site_url == false) {
             $pageURL = 'http';
-            if (isset($_SERVER['HTTPS']) and ($_SERVER['HTTPS'] == 'on')) {
+            if (is_https()) {
                 $pageURL .= 's';
             }
             $subdir_append = false;
@@ -472,6 +472,19 @@ if (!function_exists('is_cli')) {
             return true;
         }
 
+        return false;
+    }
+}
+
+
+if (!function_exists('is_https')) {
+    function is_https()
+    {
+        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on')) {
+            return true;
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) {
+            return true;
+        }
         return false;
     }
 }
