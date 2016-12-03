@@ -279,7 +279,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
                                          title="<?php print $title; ?>"><div class="mw-ui-btn"><?php print $html; ?></div></li>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                
+
                 
                 
                 
@@ -343,7 +343,14 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
 
 
 
-           <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right tip" data-tipposition="left-center" data-tip="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
+           <a
+
+            class=" pull-right"
+            id="back-to-admin-toolbar" href="<?php print $back_url; ?>">
+
+                <?php _e("Back to Admin"); ?>
+                <span class="mw-icon-back"></span>
+            </a>
 
 
 
