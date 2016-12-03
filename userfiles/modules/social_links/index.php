@@ -27,29 +27,31 @@ if(isset($params['option-group'])){
 
 
 
+
+
     if(isset($params['show-icons'])){
         $all = explode(',', $params['show-icons']);
         foreach($all as $item){
             $icon = trim($item);
-            if(strpos($icon, 'facebook') !== false and $facebook_enabled_option != NULL) {
+            if(strpos($icon, 'facebook') !== false and $facebook_enabled_option === false) {
                 $facebook_enabled = true;
             }
-            else if(strpos($icon, 'twitter') !== false and $twitter_enabled_option != NULL){
+            else if(strpos($icon, 'twitter') !== false and $twitter_enabled_option === false){
                 $twitter_enabled = true;
             }
-            else if(strpos($icon, 'googleplus') !== false and $googleplus_enabled_option != NULL){
+            else if(strpos($icon, 'googleplus') !== false and $googleplus_enabled_option === false){
                 $googleplus_enabled = true;
             }
-            else if(strpos($icon, 'pinterest') !== false and $pinterest_enabled_option != NULL){
+            else if(strpos($icon, 'pinterest') !== false and $pinterest_enabled_option === false){
                 $pinterest_enabled = true;
             }
-            else if(strpos($icon, 'youtube') !== false and $youtube_enabled_option != NULL){
+            else if(strpos($icon, 'youtube') !== false and $youtube_enabled_option === false){
                 $youtube_enabled = true;
             }
-            else if(strpos($icon, 'linkedin') !== false and $linkedin_enabled_option != NULL){
+            else if(strpos($icon, 'linkedin') !== false and $linkedin_enabled_option === false){
                 $linkedin_enabled = true;
             }
-            else if(strpos($icon, 'instagram') !== false and $instagram_enabled_option != NULL){
+            else if(strpos($icon, 'instagram') !== false and $instagram_enabled_option == false){
                 $instagram_enabled = true;
             }
         }
