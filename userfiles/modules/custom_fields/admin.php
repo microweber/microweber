@@ -144,7 +144,7 @@ mw_cf_close_edit_window = function(el){
   <script type="text/javascript">
 $(document).ready(function(){
 	  mw.dropdown();
-	  mw.$('#dropdown-custom-fields').bind('change', function(){
+	  mw.$('#dropdown-custom-fields').on('change', function(){
 			var val = $(this).getDropdownValue();
 			var copyof = mw.$('#dropdown-custom-fields li[value="'+val+'"][data-copyof]').dataset('copyof');
 		 copyof = false;
