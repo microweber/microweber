@@ -28,9 +28,10 @@ $address = html_entity_decode($address);
 $address = strip_tags($address);
 //d($address);
 $zoom = false;
-if (isset($params['data-address'])) {
+if (isset($params['data-zoom'])) {
 
     $zoom = $params['data-zoom'];
+
 } else {
     $zoom =  get_option('data-zoom', $params['id']);
 }
