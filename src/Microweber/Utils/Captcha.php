@@ -178,7 +178,7 @@ class Captcha
         imagecolordeallocate($image, $black);
 
         imagedestroy($image);
-        
+
         $stuff = ob_get_clean();
 
         return response($stuff)
