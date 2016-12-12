@@ -142,7 +142,7 @@ if(isset($params['option-group'])){
 
 <?php  if($googleplus_enabled){ ?>
 
-    <a href="//plus.google.com/+<?php print $googleplus_url; ?>" target="_blank"><span class="mw-icon-googleplus"></span></a>
+    <a href="//plus.google.com/<?php print $googleplus_url; ?>" target="_blank"><span class="mw-icon-googleplus"></span></a>
 
 <?php } ?>
 
