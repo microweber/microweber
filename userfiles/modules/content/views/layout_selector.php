@@ -363,8 +363,11 @@ if (!empty($recomended_layouts)) {
             var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true' + preview_template_param + preview_layout_param + '&content_id=<?php print  $iframe_cont_id  ?>' + inherit_from_param + preview_layout_content_type_param
             if (return_url == undefined) {
                 mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
+                <?php if($params['id'] !='mw-quick-add-choose-layout-middle-pos') { ?>
+
                 $(window).trigger('templateSelected');
-                //
+
+                <?php  } ?>
 
             }
             else {
@@ -412,7 +415,16 @@ if (!empty($recomended_layouts)) {
 </script>
 <?php if ($template_selector_position != 'none'): ?>
 
+
+    <?php if (isset($params['small'])): ?>
+
+        <h2><a href="javascript:$('.layouts_box_holder_small').toggleClass('semi_hidden'); void(0)"><?php _e("Template"); ?></a></h2>
+<small><a href="javascript:$('.layouts_box_holder_small').toggleClass('semi_hidden'); void(0)"><?php _e("Change"); ?></a></small>
+
+    <?php else: ?>
     <h2><?php _e("Template"); ?></h2>
+<?php endif; ?>
+
 <?php endif ?>
 
 <div class="layout_selector_wrap">
@@ -479,15 +491,14 @@ if (!empty($recomended_layouts)) {
     <?php if ($template_selector_position != 'none'): ?>
 
 
-    <div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>">
+    <div class="layouts_box_holder <?php if (isset($params['small'])): ?> layouts_box_holder_small semi_hidden  <?php endif; ?>">
 
         <div class="mw-ui-row">
 
             <?php if ($template_selector_position == 'top'): ?>
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
-                    <div class="mw-template-selector" <?php if (isset($params['small'])): ?>display:none;<?php endif; ?>
-                    ">
+                    <div class="mw-template-selector" <?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
                     <label class="mw-ui-label">
                         <?php _e("Template"); ?>
                     </label>
@@ -524,8 +535,9 @@ if (!empty($recomended_layouts)) {
                     </select>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
+        </div>
+
 
 
 
