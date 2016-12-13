@@ -70,7 +70,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
         $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
-
+       // $this->app->register('Illuminate\Auth\AuthServiceProvider');
 
 //        $this->app->singleton(
 //            'Illuminate\Contracts\Debug\ExceptionHandler',
@@ -230,6 +230,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
+
 
         // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }

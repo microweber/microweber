@@ -143,7 +143,7 @@ class Base
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel_id' => 'integer',
+                'rel_id' => 'string',
                 'rel_type' => 'string',
                 'notif_count' => 'integer',
                 'is_read' => 'integer',

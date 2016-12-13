@@ -68,7 +68,7 @@ class Parser
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_html_comment_code_' . $v1 . ' -->';
+                    $v1 = '<tag-comment>mw_replace_back_this_html_comment_code_' . $v1 . '</tag-comment>';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_mw_parser_replaced_html_comments[$v1])) {
                         $this->_mw_parser_replaced_html_comments[$v1] = $value;
@@ -141,7 +141,6 @@ class Parser
                     }
                 }
             }
-
 
 
 //
@@ -509,8 +508,6 @@ class Parser
         }
 
 
-
-
         if (!empty($this->mw_replaced_modules_values)) {
             $reps_arr = array();
             $reps_arr2 = array();
@@ -523,14 +520,19 @@ class Parser
             }
             $layout = str_replace($reps_arr, $reps_arr2, $layout);
         }
-        if (!empty($this->_mw_parser_replaced_html_comments)) {
-            foreach ($this->_mw_parser_replaced_html_comments as $key => $value) {
-                if ($value != '') {
-                    $layout = str_replace($key, $value, $layout);
+
+
+        if (!$coming_from_parent) {
+            if (!empty($this->_mw_parser_replaced_html_comments)) {
+                foreach ($this->_mw_parser_replaced_html_comments as $key => $value) {
+                    if ($value != '') {
+                        $layout = str_replace($key, $value, $layout);
+                    }
+                    unset($this->_mw_parser_replaced_html_comments[$key]);
                 }
-                unset($this->_mw_parser_replaced_html_comments[$key]);
             }
         }
+
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
