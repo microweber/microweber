@@ -57,7 +57,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
           <div class="mw-ui-btn-nav"> <span class="mw-ui-btn tip" data-tip="<?php _e("Advanced"); ?>"> <span class="mw-icon-gear"></span> <span>
             <?php _e("Advanced"); ?>
             </span> </span>
-            <?php if($data['content_type'] == 'page'):  ?>
+            <?php if($data['content_type'] == 'old_page'):  ?>
             <span id="quick-add-post-options-item-template-btn" class="mw-ui-btn tip" data-tip="<?php _e("Template"); ?>"> <span class="mw-icon-template"></span> <span>
             <?php _e("Template"); ?>
             </span> </span>
@@ -143,7 +143,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
             <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
             <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
           </div>
-          <?php if($data['content_type'] == 'page'):  ?>
+          <?php if($data['content_type'] == 'old_page'):  ?>
           
           <?php 
 		  $no_content_type_setup_from_layout = false;
