@@ -899,10 +899,10 @@ mw.tools = {
                 }
                 mw.image.preload(img, function (w, h) {
                     if (typeof desc != 'undefined' && desc != '') {
-                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  class='mwf-single'  width='" + w + "' data-width='" + w + "' data-height='" + h + "' height='" + h + "' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>" + desc + "</div></div></div>");
+                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  class='mwf-single mwf-single-loading '  width='" + w + "' data-width='" + w + "' data-height='" + h + "' height='" + h + "' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>" + desc + "</div></div></div>");
                     }
                     else {
-                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  data-width='" + w + "' width='" + w + "' data-height='" + h + "' height='" + h + "' class='mwf-single' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);' /></div>");
+                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  data-width='" + w + "' width='" + w + "' data-height='" + h + "' height='" + h + "' class='mwf-single mwf-single-loading' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);' /></div>");
                     }
                     $(modal.container).removeClass('mw_gallery_loading');
                 });
@@ -971,7 +971,7 @@ mw.tools = {
             }
         },
         init: function (arr, start, modal) {
-            /* "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList */
+            /* "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum"}, {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList */
             if (arr === null || arr === undefined) {
                 return false;
             }
@@ -1004,14 +1004,14 @@ mw.tools = {
                 + '</div>';
 
             var modal = modal || top.mw.tools.modal.init({
-                    width: "100%",
-                    height: "100%",
-                    html: '',
-                    draggable: false,
-                    overlay: true,
-                    name: "mw_gallery",
-                    template: 'mw_modal_gallery'
-                });
+                width: "100%",
+                height: "100%",
+                html: '',
+                draggable: false,
+                overlay: true,
+                name: "mw_gallery",
+                template: 'mw_modal_gallery'
+            });
             modal.overlay.style.opacity = 0.8;
             modal.container.innerHTML = ghtml;
             modal.gallery = {
@@ -1051,14 +1051,15 @@ mw.tools = {
             var ww = $(window).width();
             var wh = $(window).height();
             if (img !== null) {
+
                 var dw = parseFloat($(img).dataset("width"));
                 var dh = parseFloat($(img).dataset("height"));
                 var mxw = ((dw > ww) ? (ww - 33) : dw);
                 var mxh = ((dh > wh) ? (wh - 33) : dh);
-               // img.style.maxWidth = mxw + 'px';
-			    img.style.maxWidth = 'auto';
-               // img.style.maxHeight = mxh + 'px';
-			    img.style.maxHeight = 'auto';
+                img.style.maxWidth = mxw + 'px';
+			    //img.style.maxWidth = 'auto';
+                img.style.maxHeight = mxh + 'px';
+			    //img.style.maxHeight = 'auto';
                 var holder = img.parentNode;
                 mw.tools.modal.center(holder);
             }
@@ -1074,6 +1075,13 @@ mw.tools = {
         },
         normalize: function (modal) {
             mw.tools.gallery.normalizer(modal);
+            (function(modal){
+                setTimeout(function(){
+                    mw.$('.mwf-single', modal).removeClass('.mwf-single-loading');
+                }, 50);
+            })(modal)
+
+
             if (typeof modal.normalized === 'undefined') {
                 modal.normalized = true;
                 $(window).bind("resize", function () {
