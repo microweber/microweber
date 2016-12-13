@@ -12,20 +12,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 ?>
 
 <script type="text/javascript">
-/*mw.on.hashParam("pg", function(){
-      var dis = $p_id = this;
-      mw.$('#pages_edit_container').attr("paging_param", 'pg');
-      if(dis!==''){
-         mw.$('#pages_edit_container').attr("pg", dis);
-         mw.$('#pages_edit_container').attr("data-page-number", dis);
-      }
-      var $p_id = $(this).attr('data-page-number');
-      var $p_param = $(this).attr('data-paging-param');
-      mw.$('#pages_edit_container').attr('data-page-number',$p_id);
-      mw.$('#pages_edit_container').attr('data-page-param',$p_param);
-      mw.$('#pages_edit_container').removeAttr('data-content-id');
-      mw.reload_module('#pages_edit_container');
-});*/
+
 mw.on.hashParam("search", function(){
    mw.$('#pages_edit_container').attr("data-type",'content/manager');
    var dis = this;
@@ -172,7 +159,7 @@ mw.on.hashParam("action", function () {
 		mw.$(".fix-tabs").removeClass('fix-tabs');
 	}
 	
-	 
+
 
     mw.admin.CategoryTreeWidth(this);
 
