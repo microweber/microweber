@@ -1521,28 +1521,34 @@ td.custom-field-icon, td.custom-field-icon > * {
 	position: relative;
 	overflow: hidden;
 }
-#preview-edit-links {
-	position: absolute;
-	text-align: center;
-	height: 36px;
-	top: 50%;
-	left: 50%;
-	margin-top: -18px;
-	margin-left: -110px;
-	visibility: hidden;
+
+
+
+.live-block-btn{
+    display: block;
+    width: 109px;
+    height: 84px;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+    padding-top: 57px;
+    background: #5F5F5F url(../img/livepen.png) no-repeat center 17px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    margin: -42px 0 0 -55px;
 }
-#preview-edit-links .mw-ui-btn {
-	width: 110px;
+
+.mw-overlay-quick-link{
+    background-color: rgba(97, 97, 97, 0.3);
 }
-.mw-overlay-quick-link:hover {
-	background-color: rgba(255, 255, 255, 0.5);
-}
-.preview_frame_wrapper:hover #preview-edit-links {
-	visibility: visible;
-}
+
+
 #mw-admin-container .preview_frame_small, .preview_frame_small {
 	height: 1000px;
-	;
+
 	width: 200%;
 	-moz-transform: scale(0.5, 0.5);
 	-moz-transform-origin: 0 0;
