@@ -680,7 +680,7 @@ if (!empty($recomended_layouts)) {
                        href="javascript:;"
                        onclick="window.top.mw.edit_content.handle_form_submit(true);event.stopPropagation()">
 
-                        <?php _e("Live Edit"); ?>
+                        <?php _e("Go Live Edit"); ?>
                     </a>
 
             </div>
