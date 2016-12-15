@@ -231,7 +231,11 @@ document.body.appendChild(mw.inaccessibleModules);
                 $(el).attr('contenteditable', true);
             }
         }
+        mw.$('.allow-drop .module').each(function(){
+                    this.contentEditable = false;
 
+
+                })
     });
     $(window).bind("onTableClick", function(e, el) {
         if (typeof(mw.inline) != 'undefined') {
@@ -524,10 +528,15 @@ mw.drag = {
 
 
                     if (mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')) {
-                        if (mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop')) {
-                            mw.currentDragMouseOver = mw.mm_target;
+                        if (mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop') || mw.tools.hasClass(mw.mm_target, 'allow-drop')) {
+                            var targetParentsOrder = mw.tools.parentsOrder(mw.mm_target, ['allow-drop', 'module']);
+                            if(targetParentsOrder['allow-drop'] < targetParentsOrder['module']){
+                                mw.currentDragMouseOver = mw.mm_target;
+                            }
+                            else{mw.currentDragMouseOver = null; return false; }
+                        }
+                        else {
 
-                        } else {
                             mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
 
                         }
@@ -1800,6 +1809,7 @@ mw.drag = {
                 done: function(module) {
                     mw.drag.fancynateLoading(module);
                     mw.pauseSave = false;
+                    mw.wysiwyg.init_editables();
                 }
             }, true);
             need_re_init = true;
