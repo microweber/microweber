@@ -232,10 +232,8 @@ document.body.appendChild(mw.inaccessibleModules);
             }
         }
         mw.$('.allow-drop .module').each(function(){
-                    this.contentEditable = false;
-
-
-                })
+            this.contentEditable = false;
+        });
     });
     $(window).bind("onTableClick", function(e, el) {
         if (typeof(mw.inline) != 'undefined') {
