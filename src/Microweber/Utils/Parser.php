@@ -522,6 +522,7 @@ class Parser
         }
 
 
+
         if (!$coming_from_parent) {
             if (!empty($this->_mw_parser_replaced_html_comments)) {
                 foreach ($this->_mw_parser_replaced_html_comments as $key => $value) {

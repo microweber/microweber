@@ -405,6 +405,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
         <?php  endif; ?>
 
         <?php
+
         $data['recommended_parent'] = $recommended_parent;
         $data['active_categories'] = $categories_active_ids;
         //print load_module('content/edit_default',$data);

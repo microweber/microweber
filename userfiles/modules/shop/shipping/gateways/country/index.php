@@ -100,6 +100,22 @@ $(document).ready(function(){
 
 
 
+$(document).ready(function(){
+	
+	/*var ipinfo_cookie = mw.cookie.get('mw_checkout_page_auto_select_country_ip_info');
+	if(typeof(ipinfo_cookie) === 'undefined'){
+		$.getJSON('//ipinfo.io', function(data){
+			if(typeof(data.country) !== 'undefined'){
+			 console.log(data)
+			 mw.$("#<?php print $rand; ?> [name='country']")
+			}
+		})
+	}*/
+  
+ 
+	
+	
+});
 </script>
 <?php
 

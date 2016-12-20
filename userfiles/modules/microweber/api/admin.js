@@ -208,7 +208,9 @@ mw.admin = {
         var p = p || false;
         var locked = mw.cookie.ui('adminsidebarpin') == 'true';
         AdminCategoryTree = mwd.querySelector('.tree-column');
-
+		if(AdminCategoryTree == null){
+		return;	
+		}
         if ((p != false) && (p.contains('edit') || p.contains('new'))) {
             if (AdminCategoryTree !== null) {
                 AdminCategoryTree.treewidthactivated = true;
