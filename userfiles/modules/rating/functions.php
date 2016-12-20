@@ -8,7 +8,7 @@ template_head(modules_url().'rating/rating.js');
 /*
 template_head(function($page){
   $css = 'http://bootswatch.com/flatly/bootstrap.css';
-  $link = '<link rel="stylesheet" href="'.$css.'" type="text/css">';
+  $link = '<link rel_type="stylesheet" href="'.$css.'" type="text/css">';
   return $link;
 
 });
