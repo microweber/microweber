@@ -2400,8 +2400,9 @@ div[id*='SSDIVEL'] {
 
 #image-edit-nav{
   position: absolute;
-  right: 12px;
+  left: 12px;
   top: 10px;
+  white-space: nowrap;
 }
 
 

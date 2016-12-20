@@ -1532,17 +1532,32 @@ td.custom-field-icon, td.custom-field-icon > * {
     font-size: 12px;
     color: white;
     padding-top: 57px;
-    background: #5F5F5F url(../img/livepen.png) no-repeat center 17px;
+    background: #000 url(../img/livepen.png) no-repeat center 17px;
     border-radius: 5px;
     position: absolute;
     top: 50%;
     left: 50%;
     z-index: 2;
     margin: -42px 0 0 -55px;
+    opacity: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 .mw-overlay-quick-link{
-    background-color: rgba(97, 97, 97, 0.3);
+    background-color: rgba(97, 97, 97, 0);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.mw-overlay-quick-link:hover .live-block-btn{
+    opacity: 1;
+}
+
+.mw-overlay-quick-link:hover{
+    background-color: rgba(97, 97, 97, .5);
 }
 
 

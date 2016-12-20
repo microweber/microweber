@@ -124,7 +124,6 @@ mw.wysiwyg = {
                     mw.on.DOMChange(this, function () {
                         mw.wysiwyg.change(this);
                         if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
-
                             mw.wysiwyg.modify(this, function () {
                                 this.innerHTML = '<p class="element">' + this.innerHTML + '</p>';
                             });
@@ -200,17 +199,18 @@ mw.wysiwyg = {
         $(window).bind("onEditMouseDown", function (e, el, target) {
             mw.wysiwyg.removeEditable();
 
+
             mw.$(".edit").attr("contentEditable", "false");
             $(el).attr("contentEditable", "true");
 
             if (!mw.is.ie) { //Non IE browser
                 var _el = $(el);
                 if (mw.tools.hasParentsWithClass(el, "module")) {
-                    !el.isContentEditable ? el.contentEditable = true : '';
+                   el.contentEditable = true;
                 }
                 else {
                     if (!mw.tools.hasParentsWithClass(target, "module")) {
-                        !el.isContentEditable ? el.contentEditable = true : '';
+                        el.contentEditable = true;
                     }
                     else {
                         el.contentEditable = false;
@@ -241,6 +241,8 @@ mw.wysiwyg = {
                     }
                 }
             }
+
+
         });
     },
 
@@ -1628,6 +1630,8 @@ $(window).load(function () {
         }
 
     }
+
+
 });
 
 
