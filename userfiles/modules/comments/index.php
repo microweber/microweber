@@ -20,6 +20,10 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $paging_param = $params['id'] . '_page';
     $current_page_from_url = url_param($paging_param);
 
+    $disable_captcha = get_option('disable_captcha', 'comments') == 'y';
+    if(!$disable_captcha){
+        $disable_captcha = get_option('disable_captcha', $params['id']) == 'y';
+    }
 
 
     $data = $params;

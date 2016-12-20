@@ -104,20 +104,34 @@ function post_comment($data) {
 			}
 		}
 
-		if (!isset($data['captcha'])){
-			return array('error' => 'Please enter the captcha answer!');
-		} else {
-			if (isset($data['module_id'])){
-				$validate_captcha = mw()->captcha->validate($data['captcha'], $data['module_id']);
-			} else {
-				$validate_captcha = mw()->captcha->validate($data['captcha']);
-			}
-			if (!$validate_captcha){
-				if ($adm==false){
-					return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
-				}
-			}
-		}
+        $disable_captcha = get_option('disable_captcha', 'comments') == 'y';
+        if(!$disable_captcha){
+            if (isset($data['module_id'])) {
+                $disable_captcha = get_option('disable_captcha', $data['module_id']) == 'y';
+            }
+        }
+        if(!$disable_captcha){
+            if (!isset($data['captcha'])){
+                return array('error' => 'Please enter the captcha answer!');
+            } else {
+                if (isset($data['module_id'])){
+                    $validate_captcha = mw()->captcha->validate($data['captcha'], $data['module_id']);
+                } else {
+                    $validate_captcha = mw()->captcha->validate($data['captcha']);
+                }
+
+                if (!$validate_captcha){
+                    if ($adm==false){
+                        return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+                    }
+                }
+            }
+        }
+
+
+
+
+
 	}
 	if (!isset($data['id']) and isset($data['comment_body'])){
 
