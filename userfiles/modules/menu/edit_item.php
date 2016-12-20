@@ -88,8 +88,7 @@ if( $id != 0){
     <h4><?php _e("Edit menu item"); ?></h4>
 
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
-<module type="editor/icon_picker" />
-    <div class="mw-ui-field-holder">
+     <div class="mw-ui-field-holder">
         <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field w100" name="title" value="<?php  print $data['title'] ?>"  />
     </div>
 
@@ -100,7 +99,7 @@ if( $id != 0){
     <?php endif; ?>
 
     <div class="mw-ui-field-holder">
-    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100"  name="url" value="<?php  print $data['url'] ?>"  />
+    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100" autocomplete="off" name="url" value="<?php  print $data['url'] ?>" xxname="x-url" onchange="this.name='custom_link'"   />
     </div>
 
     <button class="mw-ui-btn" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
@@ -109,7 +108,7 @@ if( $id != 0){
 
     <?php if($data['id'] != 0): ?>
     <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="top: 3px;">
-      <microweber module="categories/selector" active_ids="<?php  print $data['content_id'] ?>" categories_active_ids="<?php  print $data['categories_id'] ?>"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
+      <microweber module="categories/selector" active_ids="<?php  print $data['content_id'] ?>" categories_active_ids="<?php  print $data['categories_id'] ?>"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio"  input-name-categories="tree_cat_id" input-name="tree_content_id"  />
     </div>
     <script>mw.treeRenderer.appendUI('#menu-selector-<?php  print $data['id'] ?>');</script>
     <?php endif; ?>
@@ -135,7 +134,7 @@ if( $id != 0){
           </li>
          </ul>*/
 
-
+ 
 ?>
   
   
