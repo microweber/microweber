@@ -86,8 +86,7 @@ mw.menu_edit_items = function($menu_name, $selector){
 
  menuSelectorInit = function(selector){
 
-
-
+ 
      var selector = selector ||  "#menu-selector";
      mw.treeRenderer.appendUI(selector);
 
@@ -101,15 +100,54 @@ mw.menu_edit_items = function($menu_name, $selector){
 
 	  }
     items.commuter(function(){
+		
+		
+			var data = {};
+		
+		
+	var save_selector = '#custom_link_inline_controller_edit_0';
+        var content_id =  mw.$("[name='content_id']:checked");
+        var categories_id =  mw.$("[name='category_id']:checked");
+		
+		
+		if(typeof(mw.menu_curenlty_editing_item_id) != 'undefined' && mw.menu_curenlty_editing_item_id != false){
+				//	data.id = mw.menu_curenlty_editing_item_id;
+				var save_selector = '#custom_link_inline_controller_edit_'+mw.menu_curenlty_editing_item_id;
+					var title_for_item =  mw.$("[name='title']", save_selector);
+				   var tree_content_id =  mw.$("[name='tree_content_id']:checked", save_selector);
+        		var tree_cat_id =  mw.$("[name='tree_cat_id']:checked", save_selector);
+				if(title_for_item){
+				var title_for_item_val = 	 title_for_item.val()
+				if(title_for_item_val){
+					data.title = title_for_item_val;
+				}
+				 
+				}
+		
+			if(tree_content_id){
+				 var content_id =  tree_content_id;
+        		var categories_id =  tree_cat_id;
+			}
+			data.id = mw.menu_curenlty_editing_item_id;
+			data.url = null;
+			 
 
-        var content_id =  mw.$(".module-menu-edit-item input[name='content_id']");
-        var categories_id =  mw.$(".module-menu-edit-item input[name='categories_id']");
+		} else {
+			
+			var get_parent_id = $('#add-custom-link-parent-id').val();
+			if(get_parent_id){
+                data.parent_id = get_parent_id;
+            }
+
+		}
 		
+		
+		
+		d(save_selector);
 				
-		var data = {};
+	
 		data.content_id = content_id.val();
-		data.categories_id = content_id.val();
-		
+		data.categories_id = categories_id.val();
 		
 		
 
@@ -118,17 +156,29 @@ mw.menu_edit_items = function($menu_name, $selector){
         content_id.val('');
         categories_id.val('');
 
-        if(mw.tools.hasParentsWithClass(el, 'category_element')){
-           categories_id.val(el.value);
-        }
-        else if(mw.tools.hasParentsWithClass(el, 'pages_tree_item')){
-            content_id.val(el.value);
-        }
+//        if(mw.tools.hasParentsWithClass(el, 'category_element')){
+//           categories_id.val(el.value);
+//        }
+//        else if(mw.tools.hasParentsWithClass(el, 'pages_tree_item')){
+//            content_id.val(el.value);
+//        }
+//
+//
 		
+		
+		
+		$.post( "<?php print api_link('content/menu_item_save'); ?>",data, function( msg ) {
+		  		 // mw.reload_module('menu');
+        			parent.mw.reload_module('menu');
 
+		  mw.reload_module('menu/edit_items');
+
+
+		});
+ 
   
-        mw.menu_save_new_item('#custom_link_inline_controller_edit_0');
-		mw.reload_module('menu/edit_items');
+      //  mw.menu_save_new_item(save_selector);
+		//mw.reload_module('menu/edit_items');
 
         mw.$(selector).hide();
      });
@@ -180,8 +230,7 @@ $(document).ready(function(){
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector,no_reload){
 
-
-
+ 
         	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
 
 				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');

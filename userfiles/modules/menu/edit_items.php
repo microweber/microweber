@@ -50,15 +50,33 @@ if( $id != 0){
 
 
          mw.menu_save_new_item = function(selector){
+			d(selector);
 			
-        	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
+			var data = mw.form.serialize(selector)
+				d(data);
+				
+				
+				
+				
+
+$.post( "<?php print api_link('content/menu_item_save'); ?>",data, function( msg ) {
+ 	 if(mw.notification != undefined){
+			 mw.notification.success('Menu changes are saved');
+			 }
+			  
+ 				mw.menu_item_after_save();
+});
+				
+				
+				
+      /*  	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
 				
 					 if(mw.notification != undefined){
 			 mw.notification.success('Menu changes are saved');
 			 }
 			  
  				mw.menu_item_after_save();
-        	});
+        	});*/
         }
     
  
