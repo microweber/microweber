@@ -729,7 +729,10 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	padding-top: 4px;
     padding-bottom: 12px;
 	font-weight: normal;
+    color: #888;
 }
+
+
 #mw-admin-main-menu li.active, #mw-admin-main-menu li.active-parent {
 	background-color: #3B3B3B
 }
@@ -2090,6 +2093,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 	right: 100%;
 	margin-right: 10px;
 	max-width: 145px;
+    width: 190px;
 }
 .admin-manage-toolbar-scrolled .admin-manage-toolbar-content:after {
 	bottom: -30px;
@@ -2286,15 +2290,10 @@ body.grabbing, body.grabbing * {
 }
 .col-bar-live-edit {
 	text-align: right;
-	width: 150px;
+	width: 140px;
 }
 .col-bar-live-edit .mw-ui-btn, .go-live-btn-admin {
-	width: auto;
-	background-color: #3b3b3b;
-	border-color: transparent;
-	color: white;
-    padding: 3px 10px;
-    background: #235F99
+    background-color: #000
 }
 
 
@@ -3499,4 +3498,57 @@ body.is_admin .mw-admin-container {
 #upload-icoimage{
     border-radius: 0 3px 3px 0;
     border-left: 0;
+}
+
+.top-search{
+    border: 1px solid #a8a8a8;
+    height: 36px;
+    width: 190px;
+    background: #f5f5f5;
+    border-radius: 2px;
+}
+.top-search input{
+    width: 150px;
+    float: left;
+    height: 36px;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    outline: none;
+    float: left;
+}
+
+.golive-button{
+
+    background: url(../img/golive.png) no-repeat 10px center;
+    padding-left: 35px;
+}
+
+.editbtn{
+    display: inline-block;
+    height: 36px;
+    border: 1px solid #a8a8a8;
+    height: 36px;
+    background: #f5f5f5 url(../img/editpage.png) no-repeat 13px center;
+    border-radius: 2px;
+    cursor: pointer;
+    padding:10px 10px 10px 48px;
+    margin-left: 24px;
+}
+
+.top-form-submit{
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: white;
+    text-align: center;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    top: 1px;
+    right: 1px;
+    font-size: 21px;
+}
+.top-form-submit span{
+    top: 3px;
 }
