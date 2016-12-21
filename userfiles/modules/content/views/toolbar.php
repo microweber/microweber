@@ -283,7 +283,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                         <?php endif; ?>
                             placeholder="<?php _e("Search"); ?>"
                             type="text"
-
+                            onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"
                             />
                            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
                       </div>
