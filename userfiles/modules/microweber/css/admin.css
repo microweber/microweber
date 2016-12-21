@@ -965,16 +965,19 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	width: 175px;
 }
 #create-content-btn {
-	background-color: #235F99;
+	background-color: #5CA230;
 	color: white;
 	border-color: transparent;
 }
 .mw-tooltip-action.mw-tooltip-dark .mw-tooltip-content .create-content-menu a{
-    background-color:#1A4974;
+    background-color:#5CA230;
+}
+.mw-tooltip-action.mw-tooltip-dark .mw-tooltip-arrow:after{
+    background-color:#508D2A;
 }
 
 .mw-tooltip-action.mw-tooltip-dark .mw-tooltip-content{
-    background-color: #235F99;
+    background-color: #508D2A;
 }
 
 .create-content {
@@ -1033,6 +1036,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	display: block;
 	padding-top: 6px;
 	padding-bottom: 12px;
+    color: white;
 }
 /************************************
             Posts and content
