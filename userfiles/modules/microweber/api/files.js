@@ -65,6 +65,9 @@ mw.files = {
         if(typeof obj.path !== 'undefined'){
           params += '&path=' + encodeURIComponent(obj.path);
         }
+		if(typeof obj.autopath !== 'undefined'){
+          params += '&autopath=' + encodeURIComponent(obj.autopath);
+        }
         params+= '&mwv=' + mw.version;
 
         frame.src = mw.external_tool('plupload'+params);

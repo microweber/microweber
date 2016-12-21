@@ -4,17 +4,25 @@ namespace Microweber\Utils;
 
 class Captcha
 {
-    public function validate($key, $captcha_id = null)
+    public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
         if ($key == false) {
             return false;
         }
-
+        $key = trim($key);
         $old_array = mw()->user_manager->session_get('captcha_recent');
+        if (is_array($old_array)) {
+            $old_array = array_map(function ($piece) {
+                return (string)$piece;
+            }, $old_array);
+        }
+        $existing = mw()->user_manager->session_get('captcha');
         if (is_array($old_array) and in_array($key, $old_array)) {
             $found_key = array_search($key, $old_array);
             if ($found_key !== false) {
-                unset($old_array[ $found_key ]);
+                if ($unset_if_found) {
+                    unset($old_array[$found_key]);
+                }
                 mw()->user_manager->session_set('captcha_recent', $old_array);
             }
 
@@ -23,7 +31,7 @@ class Captcha
         if ($captcha_id == false) {
             $existing = mw()->user_manager->session_get('captcha');
         } else {
-            $existing = mw()->user_manager->session_get('captcha_'.$captcha_id);
+            $existing = mw()->user_manager->session_get('captcha_' . $captcha_id);
         }
         if ($existing == $key) {
             return true;
@@ -35,7 +43,7 @@ class Captcha
     public function render($params = array())
     {
         $roit1 = rand(1, 6);
-        $font = dirname(__FILE__).DS.'catcha_fonts'.DS.'font'.$roit1.'.ttf';
+        $font = dirname(__FILE__) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
         $font = normalize_path($font, 0);
 
         if (function_exists('imagettftext')) {
@@ -62,9 +70,9 @@ class Captcha
         $black = imagecolorallocate($image, 0, 0, 0);
         $captcha_sid = 'captcha';
         if (isset($params['id'])) {
-            $captcha_sid = 'captcha_'.$params['id'];
+            $captcha_sid = 'captcha_' . $params['id'];
         } elseif (isset($_GET['id'])) {
-            $captcha_sid = 'captcha_'.$_GET['id'];
+            $captcha_sid = 'captcha_' . $_GET['id'];
         }
 
         $old = mw()->user_manager->session_get('captcha');
@@ -73,12 +81,20 @@ class Captcha
             if (!is_array($old_array)) {
                 $old_array = array();
             }
+            $old_array = array_unique($old_array);
+
             array_unshift($old_array, $old);
             array_slice($old_array, 20);
             mw()->user_manager->session_set('captcha_recent', $old_array);
         }
+        if (!isset($old_array) or !is_array($old_array)) {
+            $old_array = array();
+        }
+        $old_array[$captcha_sid] = $answ;
+        mw()->user_manager->session_set('captcha_recent', $old_array);
 
-        $sess = mw()->user_manager->session_set($captcha_sid, $answ);
+        //dd($old_array);
+        //  $sess = mw()->user_manager->session_set($captcha_sid, $answ);
 
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
@@ -110,7 +126,7 @@ class Captcha
             imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
         } else {
             if (function_exists('imagestring')) {
-                $font = mw_includes_path().DS.'admin'.DS.'catcha_fonts'.DS.'font'.$roit1.'.gdf';
+                $font = mw_includes_path() . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
                 $font = normalize_path($font, 0);
                 $font = imageloadfont($font);
                 imagestring($image, $font, 0, 0, $text, $black);
@@ -155,19 +171,24 @@ class Captcha
             imagestring($image, 0, $y21, 2, $text, $gray);
         }
 
-//		$emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
-//		$embize = mt_rand(1, 4);
 
-        header('Content-type: image/png');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Pragma: no-cache');
-
+        ob_start();
         imagepng($image);
         imagecolordeallocate($image, $bgcolor);
         imagecolordeallocate($image, $black);
 
         imagedestroy($image);
+
+        $stuff = ob_get_clean();
+
+        return response($stuff)
+            ->header('Content-Type','image/png')
+            ->header('Pragma','no-cache')
+            ->header('Cache-Control','no-store, no-cache, must-revalidate')
+            ->header('Cache-Control','max-age=60, must-revalidate');
+
+
+
     }
 
     private function captcha_vector($palette, $startx, $starty, $angle, $length, $colour)

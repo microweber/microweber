@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class BaseModel extends Eloquent
 {
+
     protected $guarded = array();
 
     protected $rules = array();

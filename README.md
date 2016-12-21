@@ -29,7 +29,7 @@ You can easily manipulate the content and the layout of your pages. No coding sk
 
 * HTTP server ([Apache](http://httpd.apache.org/), [IIS](http://www.iis.net/downloads), [nginx](http://nginx.org/en/download.html), etc.)
 * Database server
-* PHP >= 5.4 or [HHVM](http://docs.hhvm.com/manual/en/install-intro.install.php). The following only apply to PHP as they're included in the HHVM core.
+* PHP >= 5.6 or [HHVM](http://docs.hhvm.com/manual/en/install-intro.install.php). The following only apply to PHP as they're included in the HHVM core.
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
   * `Mcrypt` PHP extension

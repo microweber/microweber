@@ -17,5 +17,5 @@
     data-custom-field-id="<?php print $data["id"]; ?>"
     name="<?php print $data["name"]; ?>"
 
-    placeholder="<?php print $data["value"]; ?>" />
+    placeholder="<?php print is_array($data["value"]) ? implode(',', $data["value"]) : $data["value"]; ?>" />
 </div>

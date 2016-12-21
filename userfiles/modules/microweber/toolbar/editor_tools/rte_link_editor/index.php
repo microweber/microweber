@@ -157,8 +157,11 @@ setACValue = function(val){
              var target = '_blank';
            }
          }
-         RegisterChange(hash, val, target);
-         parent.mw.iframecallbacks[hash](val, target);
+		 var link_text_val = mwd.getElementById('customweburl_text').value;
+
+		 
+         RegisterChange(hash, val, target, link_text_val);
+         parent.mw.iframecallbacks[hash](val, target, link_text_val);
          parent.mw.tools.modal.remove('mw_rte_link');
 
          return false;
@@ -240,9 +243,24 @@ setACValue = function(val){
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
                 <div class="media-search-holder">
+                
+                  <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display:none">  
+            <label class="mw-ui-label"><?php _e("Link text"); ?></label>
+<input type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text" /></div>
+                <div class="mw-ui-field-holder">  
+                            <label class="mw-ui-label"><?php _e("URL"); ?></label>
+
                       <input type="text" class="mw-ui-field" id="customweburl" autofocus="" />
-                      <span class="mw-ui-btn" id="insert_url"><?php _e("Insert"); ?></span>
+                      <span class="mw-ui-btn mw-ui-btn-notification" id="insert_url"><?php _e("Insert"); ?></span>
                       <label class="mw-ui-check mw-clear"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
+                      
+                      </div>
+                  
+                      
+                      
+                      
+                      
+                      
                 </div>
             </div>
             <div class="tab">
@@ -274,7 +292,7 @@ setACValue = function(val){
             <div class="tab">
                 <div class="media-search-holder">
                     <input type="text" class="mw-ui-field" id="email_field" placeholder="mail@example.com" />
-                    <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
+                    <span class="mw-ui-btn mw-ui-btn-info right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
                 </div>
             </div>
         </div>

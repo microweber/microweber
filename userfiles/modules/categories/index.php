@@ -68,7 +68,6 @@ if(intval($category_parent) > 0){
 
 
 
-
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];

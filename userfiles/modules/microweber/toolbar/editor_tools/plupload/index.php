@@ -44,6 +44,11 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
     if (!!Params.path) {
         urlparams += 'path=' + Params.path + '&';
     }
+	 if (!!Params.autopath) {
+		 
+        urlparams += 'autopath=' + Params.autopath + '&';
+    }
+	
     urlparams += 'token=<?php print mw_csrf_token($uid); ?>';
 
     $(document).ready(function () {
@@ -60,7 +65,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             browse_button: 'pickfiles_<?php print $uid  ?>',
             debug: 1,
             container: 'container',
-            chunk_size: '500kb',
+            chunk_size: '1000kb',
             url: '<?php print site_url('plupload'); ?>?' + urlparams,
             filters: filters,
             multi_selection: multi

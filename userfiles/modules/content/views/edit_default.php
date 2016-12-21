@@ -75,8 +75,8 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                         <div class="mw-ui-row-nodrop" id="content-title-field-row">
                             <div class="mw-ui-col" style="width: 30px;"><span
                                     class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span></div>
-                            <div class="mw-ui-col" >
-                                <input type="text" class="mw-ui-invisible-field mw-ui-field-big"
+                            <div class="mw-ui-col">
+                                <input type="text" class="mw-ui-invisible-field mw-ui-field-big" style="min-width: 230px;"
                                        value="<?php print ($title_for_input) ?>"
                                        id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
                             </div>
@@ -391,11 +391,21 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
         $data['active_categories'] = $categories_active_ids;
         print load_module('content/views/tabs', $data); ?>
     </div>
-    <?php if (isset($data['subtype']) and isset($data['content_type']) and ($data['content_type'] == 'page') and $data['subtype'] == 'dynamic'): ?>
-        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes"
-                template-selector-position="bottom" content-id="<?php print $data['id']; ?>"
-                inherit_from="<?php print $data['parent']; ?>"/>
+    <?php if (isset($data['content_type']) and ($data['content_type'] == 'page')): ?>
+         <?php if (isset($data['id']) and ($data['id'] == 0)): ?>
+            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes"
+                    template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>"
+                    inherit_from="<?php print $data['parent']; ?>"    />
+
+
+            <?php else: ?>
+            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes"
+                    template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>"
+                    inherit_from="<?php print $data['parent']; ?>" small="true" layout_file"="<?php print $data['layout_file']; ?>"   />
+        <?php  endif; ?>
+
         <?php
+
         $data['recommended_parent'] = $recommended_parent;
         $data['active_categories'] = $categories_active_ids;
         //print load_module('content/edit_default',$data);
@@ -446,10 +456,42 @@ mw.edit_content.close_alert = function () {
 
 };
 
-
-mw.edit_content.load_editor = function (element_id) {
+mw.edit_content.load_page_preview = function (element_id) {
     var element_id = element_id || 'mw-admin-content-iframe-editor';
     var area = mwd.getElementById(element_id);
+    var parent_page = mw.$('#mw-parent-page-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
+    var content_id = mw.$('#mw-content-id-value', '#<?php print $params['id'] ?>').val();
+    var content_type = mw.$('#mw-content-type-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val()
+    var subtype = mw.$('#mw-content-subtype', '#<?php print $params['id'] ?>').val();
+    var subtype_value = mw.$('#mw-content-subtype-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
+    var active_site_template = $('#mw-active-template-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
+    var active_site_layout = $('#mw-layout-file-value-<?php print $rand; ?>').val();
+    // var name = 'content/views/edit_default_inner';
+    var name = 'content/views/layout_selector';
+     var selector = '#mw-admin-edit-content-main-area';
+
+
+
+
+    var callback = false;
+    var attributes = {}
+    attributes.parent_page = parent_page;
+    attributes.content_id = content_id;
+    attributes.content_id = content_id;
+    attributes.content_type = content_type;
+    attributes.subtype = subtype;
+    attributes.subtype_value = subtype_value;
+    attributes.active_site_template = active_site_template;
+    attributes.active_site_layout = active_site_layout;
+    attributes['template-selector-position'] = 'none';
+    attributes['live-edit-overlay'] =true;
+    attributes['edit_page_id'] =content_id;
+    mw.load_module(name, selector, callback, attributes);
+}
+
+
+mw.edit_content.load_editor = function (element_id) {
+
     var parent_page = mw.$('#mw-parent-page-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
     var content_id = mw.$('#mw-content-id-value', '#<?php print $params['id'] ?>').val();
     var content_type = mw.$('#mw-content-type-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val()

@@ -2,6 +2,8 @@
 
 namespace Microweber\tests;
 
+use Config;
+
 class TestConfigFile extends TestCase
 {
     public function testSomethingIsTrue()
@@ -24,7 +26,7 @@ class TestConfigFile extends TestCase
     public function testConfigRead()
     {
         $connection = Config::get('database.connections');
-        $this->assertTrue(true, !empty($connection));
+        $this->assertTrue(!empty($connection));
     }
 
     public function testConfigWrite()
@@ -39,9 +41,9 @@ class TestConfigFile extends TestCase
 
         $get = Config::get('Microweber_tests.last_test');
 
-        $this->assertTrue(true, !empty($get));
-        $this->assertTrue(true, $now == $get);
-        $this->assertTrue(true, $current == $get);
-        $this->assertTrue(true, $old != $get);
+        $this->assertTrue(!empty($get));
+        $this->assertTrue($now == $get);
+        $this->assertTrue($current == $get);
+        $this->assertTrue($old != $get);
     }
 }

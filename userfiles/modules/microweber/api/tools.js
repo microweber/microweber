@@ -95,6 +95,28 @@ mw.external_tool = function (url) {
 }
 
 mw.tools = {
+    isEditable:function(item){
+        var el = item;
+        if(!!item.type && !!item.target){
+            el = item.target;
+        }
+        if(mw.tools.hasClass(el, 'edit')) return true;
+        var hasParentsModule = mw.tools.hasParentsWithClass(el, 'module');
+        var hasParentsEdit = mw.tools.hasParentsWithClass(el, 'edit');
+        if(hasParentsModule && !hasParentsEdit) return false;
+        if(!hasParentsModule && hasParentsEdit) return true;
+
+        if(hasParentsModule && hasParentsEdit){
+            var order = mw.tools.parentsOrder(item, ['edit', 'module']);
+            if(order.edit < order.module) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+    },
     createStyle: function (c, css, ins) {
         var ins = ins || mwd.getElementsByTagName('head')[0];
         var style = mw.$(c)[0];
@@ -205,7 +227,7 @@ mw.tools = {
              }
 
 
- 
+
             mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
@@ -372,7 +394,7 @@ mw.tools = {
                 if(cur_tip_id){
                     mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
 					if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
-					   
+
 						setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 100);
 
 					} else {
@@ -399,7 +421,7 @@ mw.tools = {
                     }
 
                 });*/
- 
+
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 
                     $(self).bind('click', function (e,target) {
@@ -409,7 +431,7 @@ mw.tools = {
                     });
 
                 }
- 				
+
              }
 
             mw.tools.tooltip.setPosition(tip, o.element, o.position);
@@ -776,7 +798,7 @@ mw.tools = {
             }
             if (!modal || modal === null) return false;
 
-            var trigger = trigger || true;
+            var trigger = trigger || false;
             var root = modal.constructor === {}.constructor ? $(modal.main)[0] : modal;
 
             var win = $(window),
@@ -877,10 +899,10 @@ mw.tools = {
                 }
                 mw.image.preload(img, function (w, h) {
                     if (typeof desc != 'undefined' && desc != '') {
-                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  class='mwf-single'  width='" + w + "' data-width='" + w + "' data-height='" + h + "' height='" + h + "' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>" + desc + "</div></div></div>");
+                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  class='mwf-single mwf-single-loading '  width='" + w + "' data-width='" + w + "' data-height='" + h + "' height='" + h + "' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>" + desc + "</div></div></div>");
                     }
                     else {
-                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  data-width='" + w + "' width='" + w + "' data-height='" + h + "' height='" + h + "' class='mwf-single' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);' /></div>");
+                        callback.call("<div class='mwf-single-holder'><img src='" + img + "'  data-width='" + w + "' width='" + w + "' data-height='" + h + "' height='" + h + "' class='mwf-single mwf-single-loading' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);' /></div>");
                     }
                     $(modal.container).removeClass('mw_gallery_loading');
                 });
@@ -898,10 +920,28 @@ mw.tools = {
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             var arr = modal.gallery.array, curr = modal.gallery.curr;
             var next = typeof arr[curr + 1] !== 'undefined' ? curr + 1 : 0;
+
             mw.tools.gallery.generateHTML(arr[next], function () {
                 galeryContainer.html(this);
                 modal.gallery.curr = next;
                 mw.tools.gallery.normalize(modal);
+
+                var next_of_next = typeof arr[next + 1] !== 'undefined' ? next + 1 : 0;
+
+                if(typeof arr[next_of_next] !== 'undefined'){
+                    if(typeof arr[next_of_next]['image'] !== 'undefined'){
+                    var next_of_next_url = arr[next_of_next]['image']
+                    var src_regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+                    if(src_regex.test(next_of_next_url)) {
+                            try {
+                                var _prelaod_img = new Image();
+                                _prelaod_img.src = next_of_next_url;
+                            } catch (e) {
+
+                            }
+                    }
+                   }
+                 }
             }, modal);
         },
         prev: function (modal) {
@@ -931,7 +971,7 @@ mw.tools = {
             }
         },
         init: function (arr, start, modal) {
-            /* "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList */
+            /* "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum"}, {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList */
             if (arr === null || arr === undefined) {
                 return false;
             }
@@ -964,14 +1004,14 @@ mw.tools = {
                 + '</div>';
 
             var modal = modal || top.mw.tools.modal.init({
-                    width: "100%",
-                    height: "100%",
-                    html: '',
-                    draggable: false,
-                    overlay: true,
-                    name: "mw_gallery",
-                    template: 'mw_modal_gallery'
-                });
+                width: "100%",
+                height: "100%",
+                html: '',
+                draggable: false,
+                overlay: true,
+                name: "mw_gallery",
+                template: 'mw_modal_gallery'
+            });
             modal.overlay.style.opacity = 0.8;
             modal.container.innerHTML = ghtml;
             modal.gallery = {
@@ -1011,14 +1051,15 @@ mw.tools = {
             var ww = $(window).width();
             var wh = $(window).height();
             if (img !== null) {
+
                 var dw = parseFloat($(img).dataset("width"));
                 var dh = parseFloat($(img).dataset("height"));
                 var mxw = ((dw > ww) ? (ww - 33) : dw);
                 var mxh = ((dh > wh) ? (wh - 33) : dh);
-               // img.style.maxWidth = mxw + 'px';
-			    img.style.maxWidth = 'auto';
-               // img.style.maxHeight = mxh + 'px';
-			    img.style.maxHeight = 'auto';
+                img.style.maxWidth = mxw + 'px';
+			    //img.style.maxWidth = 'auto';
+                img.style.maxHeight = mxh + 'px';
+			    //img.style.maxHeight = 'auto';
                 var holder = img.parentNode;
                 mw.tools.modal.center(holder);
             }
@@ -1034,6 +1075,13 @@ mw.tools = {
         },
         normalize: function (modal) {
             mw.tools.gallery.normalizer(modal);
+            (function(modal){
+                setTimeout(function(){
+                    mw.$('.mwf-single', modal).removeClass('.mwf-single-loading');
+                }, 50);
+            })(modal)
+
+
             if (typeof modal.normalized === 'undefined') {
                 modal.normalized = true;
                 $(window).bind("resize", function () {
@@ -1092,6 +1140,11 @@ mw.tools = {
     },
     dropdown: function (root) {
         var root = root || mwd.body;
+
+        if(root === null){
+          return;
+        }
+
         var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
         for (; i < l; i++) {
             var el = items[i];
@@ -1139,11 +1192,11 @@ mw.tools = {
                     $(this).toggleClass("active");
 
                     $(".mw-dropdown").not(this).removeClass("active").find(".mw-dropdown-content").hide();
- 
+
                     if (mw.$(".other-action-hover", this).length == 0) {
                         var item = mw.$(".mw-dropdown-content", this);
                         if (item.is(":visible")) {
-							
+
                             item.hide();
                             item.focus();
                         }
@@ -1177,7 +1230,7 @@ mw.tools = {
             });
         }
         /* end For loop */
- 
+
         if (typeof mw.tools.dropdownActivated === 'undefined') {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
@@ -1186,7 +1239,7 @@ mw.tools = {
                     || $(e.target).hasClass('mw-dropdown')
                     || mw.tools.hasParentsWithClass(e.target, 'mw-dropdown')
                 ){
-				// dont hide the dropdown	
+				// dont hide the dropdown
 				} else if (mw.$('.mw-dropdown.hover').length == 0) {
                     mw.$(".mw-dropdown").removeClass("active");
                     mw.$(".mw-dropdown-content").hide();
@@ -3005,7 +3058,21 @@ mw.tools = {
             draggable: true
         });
     },
+    open_custom_html_editor:function(){
+        var src = mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/html_editor&autosize=true';
+        var modal = mw.tools.modal.frame({
+            url: src,
 
+            // width: 500,
+            // height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+            name: 'mw-html-editor-front',
+            title:'HTML Editor',
+            template: 'default',
+            center: false,
+            resize: true,
+            draggable: true
+        });
+    },
     open_global_module_settings_modal:function(module_type, module_id){
         var src = mw.settings.site_url + 'api/module?id='+module_id+'&live_edit=true&module_settings=true&type='+module_type+'&autosize=true';
         var modal = mw.tools.modal.frame({
@@ -3274,12 +3341,19 @@ mw.wait('jQuery', function () {
     };
     jQuery.fn.setDropdownValue = function (val, triggerChange, isCustom, customValueToDisplay) {
 
+//var _t1;
+//var _that = this;
+//clearTimeout(_t1);
+
+  //  _t1 =  setTimeout(function(){
+
 
         var isCustom = isCustom || false;
         var triggerChange = triggerChange || false;
         var isValidOption = false;
         var customValueToDisplay = customValueToDisplay || false;
         var el = this;
+
         if (isCustom) {
             var isValidOption = true;
             el.dataset("value", val);
@@ -3306,6 +3380,8 @@ mw.wait('jQuery', function () {
             });
         }
         this.dataset("value", val);
+
+    //    }, 100);
     };
 
     jQuery.fn.commuter = function (a, b) {
@@ -4126,10 +4202,10 @@ mw.inline = {
                 var row = rows[i];
                 var cell = $(row).children('td')[index];
                 if (dir == 'left' || dir == 'both') {
-                    $(cell).before("<td onclick='mw.inline.setActiveCell(this, event);'>&nbsp;</td>");
+                    $(cell).before("<td>&nbsp;</td>");
                 }
                 if (dir == 'right' || dir == 'both') {
-                    $(cell).after("<td onclick='mw.inline.setActiveCell(this, event);'>&nbsp;</td>");
+                    $(cell).after("<td>&nbsp;</td>");
                 }
             }
         },
@@ -4141,7 +4217,7 @@ mw.inline = {
             var dir = dir || 'under';
             var parent = cell.parentNode, cells = $(parent).children('td'), i = 0, l = cells.length, html = '';
             for (; i < l; i++) {
-                html += '<td onclick="mw.inline.setActiveCell(this, event);">&nbsp;</td>';
+                html += '<td>&nbsp;</td>';
             }
             var html = '<tr>' + html + '</tr>';
             if (dir == 'under' || dir == 'both') {
@@ -4836,8 +4912,3 @@ String.prototype.hash = function() {
         return self.charCodeAt(i).toString(16);
     }).join('');
 }
-
-
-
-
-

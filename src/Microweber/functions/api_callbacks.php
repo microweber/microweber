@@ -19,7 +19,7 @@ api_expose('api_index', function ($data = false) {
 
 // content
 
-api_expose('get_content_admin');
+api_expose_admin('get_content_admin');
 api_expose_admin('get_content');
 api_expose_admin('get_posts');
 api_expose_admin('content_title');
@@ -101,6 +101,12 @@ api_expose('payment_options');
 api_expose('remove_cart_item');
 api_expose('update_cart');
 api_expose('update_cart_item_qty');
+
+api_expose('shop/redirect_to_checkout', function () {
+    return mw()->shop_manager->redirect_to_checkout();
+});
+
+
 api_expose_admin('get_cart');
 api_expose_admin('get_orders');
 api_expose_admin('get_order_by_id');
@@ -139,3 +145,12 @@ api_expose('create_media_dir');
 
 api_expose('media/upload');
 api_expose('media/delete_media_file');
+
+
+// queue
+
+api_expose('queue_dispatch', function () {
+    mw()->event_manager->trigger('mw.queue.dispatch');
+});
+
+

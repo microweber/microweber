@@ -1,7 +1,9 @@
 <?php namespace App\Providers;
 
 use Illuminate\Routing\Router;
+
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use \Route;
 
 class RouteServiceProvider extends ServiceProvider {
 
@@ -20,12 +22,11 @@ class RouteServiceProvider extends ServiceProvider {
 	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function boot(Router $router)
-	{
-		parent::boot($router);
-
-		//
-	}
+    public function boot()
+    {
+        \Route::pattern('domain', '[a-z0-9.\-]+');
+        parent::boot();
+    }
 
 	/**
 	 * Define the routes for the application.

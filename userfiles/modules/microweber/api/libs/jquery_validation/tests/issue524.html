@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Issue #524</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../css/validationEngine.jquery.css" />
+    <script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="../js/languages/jquery.validationEngine-en.js"></script>
+    <script type="text/javascript" src="../js/jquery.validationEngine.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $('#myform').validationEngine();
+      });
+    </script>
+  </head>
+  <body>
+   
+    <p>
+      See <a href="https://github.com/posabsolute/jQuery-Validation-Engine/issues/524">https://github.com/posabsolute/jQuery-Validation-Engine/issues/524</a>
+      for information.
+    </p>
+<form id="myform" >
+    <fieldset>
+        <br/>
+        <div>
+<label for="url1">URL feed:</label>
+<textarea id="url2" cols="40" wrap="soft" class="validate[required,custom[url]]" ></textarea>
+<textarea id="url1" cols="40" wrap="soft" class="validate[custom[url]]" ></textarea>
+</div>
+    </fieldset>
+    <button type="submit">Submit</button>
+</form>
+​
+  </body>
+</html>

@@ -41,6 +41,17 @@ class AdminController extends Controller
             }
         }
 
+        $force_https = \Config::get('microweber.force_https');
+
+        if ($force_https and !is_cli()) {
+            if (!is_https()) {
+                $https = str_ireplace('http://', 'https://', url_current());
+                return mw()->url_manager->redirect($https);
+            }
+        }
+
+
+
         if (!defined('MW_BACKEND')) {
             define('MW_BACKEND', true);
         }
@@ -89,6 +100,11 @@ class AdminController extends Controller
             $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
         }
 
+        $favicon_image = get_option('favicon_image', 'website');
+        if ($favicon_image) {
+            mw()->template->admin_head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
+        }
+
         $template_headers_src = mw()->template->admin_head(true);
         if ($template_headers_src != false and $template_headers_src != '') {
             $layout = str_ireplace('</head>', $template_headers_src.'</head>', $layout, $one);
@@ -100,7 +116,7 @@ class AdminController extends Controller
     private function hasNoAdmin()
     {
         if (!$this->checkServiceConfig()) {
-            $this->registerMwClient();
+           $this->registerMwClient();
         }
         if (mw()->url_manager->param('mw_install_create_user')) {
             $this->execCreateAdmin();
@@ -122,17 +138,21 @@ class AdminController extends Controller
     private function registerMwClient()
     {
         $key = Config::get('app.key');
-
+   
         $client = new \Guzzle\Service\Client('https://login.microweber.com/api/v1/client/');
 
         $domain = site_url();
         $domain = substr($domain, strpos($domain, '://') + 3);
         $domain = str_replace('/', '', $domain);
+        try {
+            $request = $client->createRequest('POST', "config/$domain");
+            //dd($request, $request);
+            $request->setPostField('token', md5($key));
+            $response = $client->send($request);
+        } catch (\Exception $e) {
+            return;
+        }
 
-        $request = $client->createRequest('POST', "config/$domain");
-        //dd($request, $request);
-        $request->setPostField('token', $key);
-        $response = $client->send($request);
         if (200 == $response->getStatusCode()) {
             $body = (string) $response->getBody();
             $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);

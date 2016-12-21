@@ -1,5 +1,5 @@
-@import url(//fonts.googleapis.com/css?family=Open+Sans:800,700,600,500,400,300&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext);
- @import url("sass/style.css");
+/*@import url(//fonts.googleapis.com/css?family=Open+Sans:800,700,600,500,400,300&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext);
+ */
 @font-face {
 	font-family: 'mwadmin';
 	src: url('fonts/fontadmin.ttf?mwv=9') format('truetype');
@@ -727,15 +727,17 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	display: block;
 	position: relative;
 	padding-top: 4px;
-	visibility: hidden;
-	color: white;
+    padding-bottom: 12px;
 	font-weight: normal;
+    color: #888;
 }
+
+
 #mw-admin-main-menu li.active, #mw-admin-main-menu li.active-parent {
 	background-color: #3B3B3B
 }
 #mw-admin-main-menu li:hover > a strong, #mw-admin-main-menu li.active > a strong, #mw-admin-main-menu li.active-parent a strong, #mw-admin-main-menu li a:focus strong {
-	visibility: visible;
+	color: white;
 }
 #mw-admin-main-menu li.active-parent a strong {
 	color: #888;
@@ -906,6 +908,11 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	-moz-box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
 	box-shadow: 5px 5px 10px -10px rgba(0,0,0,0.75);
 }
+#main-bar-user-tip > .mw-ui-btn-vertical-nav{
+    width: 140px;
+    box-shadow: 0 0 7px -2px rgba(0, 0, 0, 0.16);
+}
+
 #main-bar-user-menu-tooltip .mw-ui-btn-vertical-nav {
 	display: block;
 	border-radius: 3px;
@@ -958,10 +965,21 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	width: 175px;
 }
 #create-content-btn {
-	background-color: #3b3b3b;
+	background-color: #5CA230;
 	color: white;
 	border-color: transparent;
 }
+.mw-tooltip-action.mw-tooltip-dark .mw-tooltip-content .create-content-menu a{
+    background-color:#5CA230;
+}
+.mw-tooltip-action.mw-tooltip-dark .mw-tooltip-arrow:after{
+    background-color:#508D2A;
+}
+
+.mw-tooltip-action.mw-tooltip-dark .mw-tooltip-content{
+    background-color: #508D2A;
+}
+
 .create-content {
 	padding: 30px 0;
 	text-align: center;
@@ -1018,6 +1036,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	display: block;
 	padding-top: 6px;
 	padding-bottom: 12px;
+    color: white;
 }
 /************************************
             Posts and content
@@ -1509,28 +1528,49 @@ td.custom-field-icon, td.custom-field-icon > * {
 	position: relative;
 	overflow: hidden;
 }
-#preview-edit-links {
-	position: absolute;
-	text-align: center;
-	height: 36px;
-	top: 50%;
-	left: 50%;
-	margin-top: -18px;
-	margin-left: -110px;
-	visibility: hidden;
+
+
+
+.live-block-btn{
+    display: block;
+    width: 109px;
+    height: 84px;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+    padding-top: 57px;
+    background: #000 url(../img/livepen.png) no-repeat center 17px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    margin: -42px 0 0 -55px;
+    opacity: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
 }
-#preview-edit-links .mw-ui-btn {
-	width: 110px;
+
+.mw-overlay-quick-link{
+    background-color: rgba(97, 97, 97, 0);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
 }
-.mw-overlay-quick-link:hover {
-	background-color: rgba(255, 255, 255, 0.5);
+
+.mw-overlay-quick-link:hover .live-block-btn{
+    opacity: 1;
 }
-.preview_frame_wrapper:hover #preview-edit-links {
-	visibility: visible;
+
+.mw-overlay-quick-link:hover{
+    background-color: rgba(97, 97, 97, .5);
 }
+
+
 #mw-admin-container .preview_frame_small, .preview_frame_small {
 	height: 1000px;
-	;
+
 	width: 200%;
 	-moz-transform: scale(0.5, 0.5);
 	-moz-transform-origin: 0 0;
@@ -2057,6 +2097,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 	right: 100%;
 	margin-right: 10px;
 	max-width: 145px;
+    width: 190px;
 }
 .admin-manage-toolbar-scrolled .admin-manage-toolbar-content:after {
 	bottom: -30px;
@@ -2253,17 +2294,19 @@ body.grabbing, body.grabbing * {
 }
 .col-bar-live-edit {
 	text-align: right;
-	width: 55px;
+	width: 140px;
 }
 .col-bar-live-edit .mw-ui-btn, .go-live-btn-admin {
-	width: 50px;
-	background-color: #3b3b3b;
-	border-color: transparent;
-	color: white;
+    background-color: #000
 }
+
+
 .col-bar-live-edit .mw-ui-btn .mw-icon-live, .go-live-btn-admin .mw-icon-live {
 	font-size: 25px;
-	margin: -6px -2px 0;
+	margin: 0 0 0 7px;
+    position: relative;
+    top: 2px;
+
 }
 .alert {
 	display: block;
@@ -2952,6 +2995,13 @@ body.grabbing, body.grabbing * {
 #stats_nav {
 	margin-top: 12px;
 }
+
+#stats_dashboard_last .mw-ui-row .mw-ui-col:first-child{
+    height: 220px;
+    padding-top: 45px;
+    vertical-align: top;
+}
+
 .users-online {
 	float: left;
 	display: block;
@@ -3436,3 +3486,73 @@ body.is_admin .mw-admin-container {
       display: block;
     }
 }   */
+
+
+.the-icoimage{
+    width: 36px;
+    height: 36px;
+    background-color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    border: solid 1px #e5e5e5;
+    border-radius: 3px 0 0 3px;
+}
+
+#upload-icoimage{
+    border-radius: 0 3px 3px 0;
+    border-left: 0;
+}
+
+.top-search{
+    border: 1px solid #a8a8a8;
+    height: 36px;
+    width: 190px;
+    background: #f5f5f5;
+    border-radius: 2px;
+}
+.top-search input{
+    width: 150px;
+    float: left;
+    height: 36px;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    outline: none;
+    float: left;
+}
+
+.golive-button{
+
+    background: url(../img/golive.png) no-repeat 10px center;
+    padding-left: 35px;
+}
+
+.editbtn{
+    display: inline-block;
+    height: 36px;
+    border: 1px solid #a8a8a8;
+    height: 36px;
+    background: #f5f5f5 url(../img/editpage.png) no-repeat 13px center;
+    border-radius: 2px;
+    cursor: pointer;
+    padding:10px 10px 10px 48px;
+    margin-left: 24px;
+}
+
+.top-form-submit{
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: white;
+    text-align: center;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    top: 1px;
+    right: 1px;
+    font-size: 21px;
+}
+.top-form-submit span{
+    top: 3px;
+}

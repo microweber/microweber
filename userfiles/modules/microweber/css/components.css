@@ -299,6 +299,46 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   border-width: 1px;
 }
 
+.mw-post-media-img-edit .image-tags{
+    display: none;
+    margin-top: 3px;
+}
+
+.mw-post-media-img-edit .mw-icon-close,
+.image-tag-view{
+    position: absolute;
+    border: none;
+    top: 0;
+    right: 0;
+    background: white;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 3px 5px;
+    cursor: pointer;
+    font-size: 12px;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: none;
+    height: 19px;
+}
+
+
+.image-tag-view{
+    left: 0;
+    right: auto;
+    padding-top:2px;
+}
+
+.admin-thumb-item:hover .mw-post-media-img-edit .mw-icon-close,
+.admin-thumb-item:hover .image-tag-view{
+    display: inline-block;
+}
+
+
+
+
 .admin-thumb-item:hover .mw-post-media-img-edit input, .mw-post-media-img-edit input:focus{
   border-color: #BDBDBD
 }

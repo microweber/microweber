@@ -11,14 +11,14 @@
 */
 
 ?>
-<?php include TEMPLATE_DIR. "header.php"; ?>
+<?php include TEMPLATE_DIR.'header.php'; ?>
 
 <div class="container">
-  <div class="edit" field="content" rel="liteness_content">
+  <div class="edit" field="liteness_content" rel="content">
     <div class="content-gallery-slider home-slider">
       <module
           type="pictures"
-          content-id="<?php print PAGE_ID; ?>"
+          content-id="<?php echo PAGE_ID; ?>"
           template="bootstrap_carousel"
         />
     </div>
@@ -32,4 +32,4 @@
     </div>
   </div>
 </div>
-<?php include TEMPLATE_DIR. "footer.php"; ?>
+<?php include TEMPLATE_DIR.'footer.php'; ?>

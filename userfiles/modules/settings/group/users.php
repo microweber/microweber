@@ -42,6 +42,27 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 
 
 });
+
+
+mw.register_email_send_test = function(){
+
+	var email_to = {}
+	email_to.to = $('#test_email_to').val();
+	email_to.subject = $('#test_email_subject').val();
+
+	 $.post("<?php print site_url('api_html/users/register_email_send_test'); ?>", email_to, function(msg){
+		 
+		 mw.tools.modal.init({
+			
+			 html:"<pre>"+msg+"</pre>",	
+			 title:"Email send results..."
+		 });
+	  });
+}
+
+
+
+
 </script>
 <style type="text/css">
 .group-logins {
@@ -72,6 +93,7 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 	padding-top: 20px;
 }
 </style>
+
 <div class="<?php print $config['module_class'] ?>">
   <h2>
     <?php _e("Login & Register"); ?>
@@ -415,11 +437,18 @@ runRegisterMailEditor();
               <li value="{first_name}"><a href="javascript:;"> First Name </a></li>
               <li value="{last_name}"><a href="javascript:;"> Last Name </a></li>
               <li value="{created_at}"><a href="javascript:;"> Date of registration </a></li>
+              <li value="{verify_email_link}"><a href="javascript:;"> Verify email link </a></li>
+
             </ul>
           </div>
         </div>
       </div>
     </div>
+
+    <br />
+
+          <a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn mw-ui-btn-small pull-right">Test</a>
+<br />
     <hr>
     
     
@@ -534,13 +563,36 @@ runForgotPassEmailEditor();
         <input type="checkbox" class="mw_option_field"   option-group="users" name="captcha_disabled" <?php if($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>Disable Captcha?</span> </label>
       <hr>
-      <label class="mw-ui-check">
+          <?php  $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email','users');     ?>
+
+       <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="disable_registration_with_temporary_email" <?php if($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>Disable registration with temporary email?</span> </label>
+      <hr>
+      
+      
+     <!-- <label class="mw-ui-check">
         <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_first_name" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>First name</span> </label>
       <br>
       <label class="mw-ui-check">
         <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_last_name" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> value="y">
-        <span></span><span>Last name</span> </label>
+        <span></span><span>Last name</span> </label>-->
+    </div>
+    
+    
+    
+    
+        <?php  $login_captcha_enabled = get_option('login_captcha_enabled','users');     ?>
+
+    <div class="mw-ui-box mw-ui-box-content">
+      <h2>
+        <?php _e("Login form settings"); ?>
+      </h2>
+      <label class="mw-ui-check">
+        <input type="checkbox" class="mw_option_field"   option-group="users" name="login_captcha_enabled" <?php if($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
+        <span></span><span>Require captcha to login?</span> </label>
+     
     </div>
     
     
@@ -548,13 +600,13 @@ runForgotPassEmailEditor();
     
     
     
-    
-    
-    
-    
-    
-    
     <div class="mw-ui-box mw-ui-box-content">
+    
+     <h2>
+        <?php _e("Other settings"); ?>
+      </h2>
+    <hr />
+    
       <h3>
         <?php _e("Register URL"); ?>
       </h3>
@@ -588,4 +640,4 @@ runForgotPassEmailEditor();
     
   </div>
 </div>
-</div>
+ 

@@ -88,6 +88,7 @@ class Base
                 'is_public' => 'integer',
                 'basic_mode' => 'string',
                 'first_name' => 'string',
+                'middle_name' => 'string',
                 'last_name' => 'string',
                 'thumbnail' => 'string',
                 'parent_id' => 'integer',
@@ -142,7 +143,7 @@ class Base
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel_id' => 'integer',
+                'rel_id' => 'string',
                 'rel_type' => 'string',
                 'notif_count' => 'integer',
                 'is_read' => 'integer',
@@ -150,6 +151,7 @@ class Base
                 'title' => 'text',
                 'description' => 'text',
                 'content' => 'text',
+                'notification_data' => 'text',
             ],
         ];
     }

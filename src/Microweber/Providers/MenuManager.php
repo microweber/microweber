@@ -136,6 +136,11 @@ class MenuManager
             $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
             $this->app->cache_manager->delete('menus/'.$data_to_save['parent_id']);
         }
+        if(isset($data_to_save['custom_link'])){
+            $data_to_save['content_id'] = null;
+            $data_to_save['categories_id'] = null;
+            $data_to_save['url'] = $data_to_save['custom_link'];
+        }
 
         $table = $this->tables['menus'];
 

@@ -36,7 +36,7 @@ description: Basic contact form
                 <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print api_link('captcha') ?>" />
               </div>
               <div class="mw-ui-col">
-                 <span class="ico irefresh" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<?php print $form_id; ?>'));"></span>
+                 <span class="mw-icon-reload" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<?php print $form_id; ?>'));"></span>
               </div>
           </div>
       </div>

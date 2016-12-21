@@ -4,7 +4,7 @@
 namespace content\controllers;
 
 use Microweber\View;
-
+use DB;
 class Front
 {
     public $app = null;
@@ -171,7 +171,7 @@ class Front
             $posts_parent_category = $posts_parent_related = CATEGORY_ID;
 
 
-        } 
+        }
 
         if ($posts_parent_category == false and ($cfg_page_id == 'current_page')) {
             if (defined('PAGE_ID') and PAGE_ID > 0) {
@@ -194,9 +194,9 @@ class Front
                 $post_params['parent'] = $cfg_page_id;
             }
         }
-		
+
 		if (isset($post_params['most_ordered'])) {
-          // 
+          //
 		  $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
           $orders = db_get($str0);
 		  if(!empty($orders)){
@@ -220,13 +220,13 @@ class Front
 			  }
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
         if ($posts_parent_related == false) {
             if (intval($cfg_page_id_force) or !isset($params['global'])) {
                 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
@@ -385,8 +385,8 @@ class Front
 
         $schema_org_item_type = false;
         $schema_org_item_type_tag = false;
-		
-		
+
+
 
         if (isset($post_params['content_type']) and $post_params['content_type'] == 'page') {
             $schema_org_item_type = 'WebPage';
@@ -485,15 +485,32 @@ class Front
 //            }
             $post_params['order_by'] = 'position desc';
         }
-		
+
 		if (isset($params['search_in_fields']) and $params['search_in_fields'] != false) {
 			$post_params['search_in_fields'] = $params['search_in_fields'];
 		}
-		
- 
+
+        $is_search = url_param('search');
+        if($is_search){
+            $search_params = $_GET['search_params'];
+            if($search_params){
+				
+				 //   DB::enableQueryLog();
+
+				
+ $post_params['no_cache'] = $search_params;
+				
+                $post_params['search_params'] = $search_params;
+
+            }
+
+        }
+
 
         $content = get_content($post_params);
-
+ if($is_search){
+  //dd(DB::getQueryLog(), $content);
+ }
 
         if ($posts_parent_related != false and empty($content) and isset($post_params['category'])) {
             unset($post_params['category']);
@@ -539,28 +556,28 @@ class Front
 				$item['full_description'] = '';
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
-						
-						
-						
+
+
+
                         $item['description'] = character_limiter(strip_tags($item['content']), $character_limit);
                         $item['full_description'] = strip_tags($item['content']);
                     } elseif (isset($item['content_body']) and $item['content_body'] != '') {
                         $item['full_description'] = strip_tags($item['content']);
                         $item['description'] = character_limiter(strip_tags($item['content_body']), $character_limit);
                     }
-					
-					
-					
-					
+
+
+
+
                 } else {
                     $item['full_description'] = trim($item['description']);
                     $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
 
                 }
-				
-				
-				
-				
+
+
+
+
 
                 if (isset($item['title']) and $item['title'] != '') {
                     $item['full_title'] = $item['title'];

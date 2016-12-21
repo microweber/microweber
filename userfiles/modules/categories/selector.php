@@ -100,7 +100,6 @@ $is_ex1 = array();
 $for = mw()->database_manager->assoc_table_name($for);
 
 
-
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
   $is_ex = get_content('parent=0&content_type=page&is_shop=1&limit=1000');
 
@@ -234,9 +233,15 @@ if(isset($params['subtype']) and $params['subtype'] == 'post'){
 } 
 if (isset($params['active_ids'])) {
 	 
-//$active_cats[] = $tree['active_ids'];
+ //$active_cats[] = $params['active_ids'];
 
 }
+if (isset($params['categories_active_ids'])) {
+
+ $active_cats[] = $params['categories_active_ids'];
+
+}
+
 
 if (isset($params['categories_removed_ids'])) {
 	 $tree['categories_removed_ids'] = $params['categories_removed_ids'];
@@ -252,7 +257,7 @@ pages_tree($tree);
 <?php endif; ?>
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
 
-	$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
+	$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel_type=content';
  
 	$fors = db_get($str0);
 

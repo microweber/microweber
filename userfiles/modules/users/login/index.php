@@ -29,6 +29,8 @@ $(document).ready(function(){
 					  <?php if(isset($params['return'])): ?>
 					  <?php 
     					  $goto =  urldecode($params['return']);
+						  $goto = mw()->format->clean_xss($goto);
+						  
     					  if(stristr($goto, "http://") == false and stristr($goto, "https://") == false ){
     						$goto = site_url($goto);
     					  }
@@ -67,6 +69,9 @@ $(document).ready(function(){
 });
 </script>
 <?php
+
+$login_captcha_enabled = get_option('login_captcha_enabled','users') == 'y';
+
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
     $module_template =$params['template'];

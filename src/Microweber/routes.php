@@ -18,10 +18,18 @@ Route::group(['namespace' => '\Microweber\Controllers'], function () {
     Route::any('/api', 'DefaultController@api');
     Route::any('/api/{slug}', 'DefaultController@api');
 
-    Route::any('/admin', 'AdminController@index');
-    Route::any('admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
 
-    Route::any('admin/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
+    $custom_admin_url = \Config::get('microweber.admin_url');
+    $admin_url = 'admin';
+    if($custom_admin_url){
+        $admin_url = $custom_admin_url;
+    }
+
+    Route::any('/'.$admin_url, 'AdminController@index');
+    Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
+
+    Route::any($admin_url.'/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
+
 
     Route::any('api/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
     Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'DefaultController@api_html'))->where('all', '.*');

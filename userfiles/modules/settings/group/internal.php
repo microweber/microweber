@@ -70,57 +70,68 @@ $cache_adapters[] = array('title'=>'Memcached','adapter'=>'memcached');
 
 $system_cache_adapter =Config::get('microweber.cache_adapter');
 $compile_assets =Config::get('microweber.compile_assets');
+$force_https =Config::get('microweber.force_https');
 
 if($system_cache_adapter == false){
 $system_cache_adapter = 'file';	
 }
  
 
+
+
+
+
+
  ?>
+ 
+ <?php
+
+$enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+
+ 
+?>
+ 
+ 
 <div id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();" autocomplete="off">
-
-
-
-<div class="mw-ui-field-holder">
-    <label class="mw-ui-label">
-      Cache settings    </label>
-         
-                
-                
-                
-                
-                
-                  <?php if(!empty($cache_adapters)): ?>
-  <select name="microweber[cache_adapter]" class="mw-ui-field">
-    <?php foreach($cache_adapters as $cache_adapter): ?>
-    <?php if(isset($cache_adapter['title']) and isset($cache_adapter['adapter'])): ?>
-    <option value="<?php print $cache_adapter['adapter'] ?>"
+  <div class="mw-ui-field-holder">
+    <label class="mw-ui-label"> Cache settings </label>
+    <?php if(!empty($cache_adapters)): ?>
+    <select name="microweber[cache_adapter]" class="mw-ui-field">
+      <?php foreach($cache_adapters as $cache_adapter): ?>
+      <?php if(isset($cache_adapter['title']) and isset($cache_adapter['adapter'])): ?>
+      <option value="<?php print $cache_adapter['adapter'] ?>"
     <?php if(isset($system_cache_adapter) and is_string($system_cache_adapter) and 
 	$cache_adapter['adapter'] ==  $system_cache_adapter): ?> selected <?php endif;  ?>
    >
-    <?php  print  $cache_adapter['title'] ?>
-    </option>
+      <?php  print  $cache_adapter['title'] ?>
+      </option>
+      <?php endif; ?>
+      <?php endforeach; ?>
+    </select>
+
+        </div> <div class="mw-ui-field-holder">
+
+
     <?php endif; ?>
-    <?php endforeach; ?>
-  </select>
-  <?php endif; ?>
-  
-  <label class="mw-ui-label">
-      Compile api.js    </label>
-  <select name="microweber[compile_assets]" class="mw-ui-field">
-   <option value="0" <?php if($compile_assets ==  0): ?> selected <?php endif;  ?> >
-    No
-    </option>
-<option value="1" <?php if($compile_assets ==  1): ?> selected <?php endif;  ?> >
-    Yes
-    </option>  </select>
-  
-  <?php event_trigger('mw_admin_internal_settings', $params); ?>
-  <br />  <br />
-  <input type="button" value="Save" class="mw-ui-btn" onclick="save_sysconf_form()" />
-                
+    <label class="mw-ui-label"> Compile api.js </label>
+    <select name="microweber[compile_assets]" class="mw-ui-field">
+      <option value="0" <?php if($compile_assets ==  0): ?> selected <?php endif;  ?> > No </option>
+      <option value="1" <?php if($compile_assets ==  1): ?> selected <?php endif;  ?> > Yes </option>
+    </select>
+
+    </div> <div class="mw-ui-field-holder">
+
+      <label class="mw-ui-label"> Force HTTPS </label>
+      <select name="microweber[force_https]" class="mw-ui-field">
+          <option value="0" <?php if($force_https ==  0): ?> selected <?php endif;  ?> > No </option>
+          <option value="1" <?php if($force_https ==  1): ?> selected <?php endif;  ?> > Yes </option>
+      </select>
+
+
+
+    <?php event_trigger('mw_admin_internal_settings', $params); ?>
+    <br />
+    <br />
+    <input type="button" value="Save" class="mw-ui-btn" onclick="save_sysconf_form()" />
   </div>
-
-
-
 </div>

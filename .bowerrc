@@ -1,5 +1,5 @@
 {
-  "directory": "vendor/bower_components",
+  "directory": "userfiles/modules/microweber/api/libs",
   "scripts": {
     "postinstall": "gulp publish"
   }

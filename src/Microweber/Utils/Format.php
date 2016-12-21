@@ -2,6 +2,10 @@
 
 namespace Microweber\Utils;
 
+use Illuminate\Contracts\Encryption\DecryptException;
+use Crypt;
+
+
 class Format
 {
     /**
@@ -16,7 +20,7 @@ class Format
     public function array_to_ul($arr, $ul_tag = 'ul', $li_tag = 'li')
     {
         $has_items = false;
-        $retStr = '<'.$ul_tag.'>';
+        $retStr = '<' . $ul_tag . '>';
         if (is_array($arr)) {
             foreach ($arr as $key => $val) {
                 if (!is_array($key) and $key and $val) {
@@ -27,18 +31,18 @@ class Format
                         if (!empty($val)) {
                             $has_items = true;
                             if (is_numeric($key)) {
-                                $retStr .= '<'.$ul_tag.'>';
-                                $retStr .= '<'.$li_tag.'>'.$this->array_to_ul($val, $ul_tag, $li_tag).'</'.$li_tag.'>';
-                                $retStr .= '</'.$ul_tag.'>';
+                                $retStr .= '<' . $ul_tag . '>';
+                                $retStr .= '<' . $li_tag . '>' . $this->array_to_ul($val, $ul_tag, $li_tag) . '</' . $li_tag . '>';
+                                $retStr .= '</' . $ul_tag . '>';
                             } else {
-                                $retStr .= '<'.$li_tag.'>'.$key.': '.$this->array_to_ul($val, $ul_tag, $li_tag).'</'.$li_tag.'>';
+                                $retStr .= '<' . $li_tag . '>' . $key . ': ' . $this->array_to_ul($val, $ul_tag, $li_tag) . '</' . $li_tag . '>';
                             }
                         }
                     } else {
                         if (is_string($val) != false and trim($val) != '') {
                             $has_items = true;
 
-                            $retStr .= '<'.$li_tag.'>'.$key.': '.$val.'</'.$li_tag.'>';
+                            $retStr .= '<' . $li_tag . '>' . $key . ': ' . $val . '</' . $li_tag . '>';
                         }
                     }
                 } else {
@@ -49,7 +53,7 @@ class Format
                 }
             }
         }
-        $retStr .=  '</'.$ul_tag.'>';
+        $retStr .= '</' . $ul_tag . '>';
         if ($has_items) {
             return $retStr;
         }
@@ -91,7 +95,7 @@ class Format
             return addslashes($variable);
         } elseif (is_array($variable)) {
             foreach ($variable as $i => $value) {
-                $variable[ $i ] = $this->add_slashes_recursive($value);
+                $variable[$i] = $this->add_slashes_recursive($value);
             }
         }
 
@@ -105,7 +109,7 @@ class Format
         }
         if (is_array($variable)) {
             foreach ($variable as $i => $value) {
-                $variable[ $i ] = $this->strip_slashes_recursive($value);
+                $variable[$i] = $this->strip_slashes_recursive($value);
             }
         }
 
@@ -138,23 +142,23 @@ class Format
         if (strlen($url_full) > $max_url_length) {
             $parts = parse_url($url_full);
 
-            $url_short = $parts['scheme'].'://'.preg_replace('/^www\./', '', $parts['host']).'/';
+            $url_short = $parts['scheme'] . '://' . preg_replace('/^www\./', '', $parts['host']) . '/';
 
             $path_components = explode('/', trim($parts['path'], '/'));
             foreach ($path_components as $dir) {
-                $url_string_components[] = $dir.'/';
+                $url_string_components[] = $dir . '/';
             }
 
             if (!empty($parts['query'])) {
-                $url_string_components[] = '?'.$parts['query'];
+                $url_string_components[] = '?' . $parts['query'];
             }
 
             if (!empty($parts['fragment'])) {
-                $url_string_components[] = '#'.$parts['fragment'];
+                $url_string_components[] = '#' . $parts['fragment'];
             }
 
             for ($k = 0; $k < count($url_string_components); ++$k) {
-                $curr_component = $url_string_components[ $k ];
+                $curr_component = $url_string_components[$k];
                 if ($k >= $max_depth_if_over_length || strlen($url_short) + strlen($curr_component) > $max_url_length) {
                     if ($k == 0 && strlen($url_short) < $max_url_length) {
                         // Always show a portion of first directory
@@ -179,7 +183,7 @@ class Format
         $size = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)).@$size[ $factor ];
+        return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 
     public function ago($time, $granularity = 2)
@@ -206,8 +210,8 @@ class Format
             if ($difference >= $value) {
                 $time = floor($difference / $value);
                 $difference %= $value;
-                $retval .= ($retval ? ' ' : '').$time.' ';
-                $retval .= (($time > 1) ? $key.'s' : $key);
+                $retval .= ($retval ? ' ' : '') . $time . ' ';
+                $retval .= (($time > 1) ? $key . 's' : $key);
                 --$granularity;
             }
             if ($granularity == '0') {
@@ -219,7 +223,7 @@ class Format
             return '1 second ago';
         }
 
-        return ''.$retval.' ago';
+        return '' . $retval . ' ago';
     }
 
     public function clean_xss($var, $do_not_strip_tags = false)
@@ -232,7 +236,7 @@ class Format
 
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[ $key ] = $this->clean_xss($val, $do_not_strip_tags);
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
             }
         } else {
             $var = $sec->clean($var);
@@ -268,7 +272,7 @@ class Format
         if (is_array($input)) {
             $output = array();
             foreach ($input as $var => $val) {
-                $output[ $var ] = $this->clean_scripts($val);
+                $output[$var] = $this->clean_scripts($val);
             }
         } elseif (is_string($input)) {
             $search = array(
@@ -288,11 +292,28 @@ class Format
     {
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[ $key ] = $this->clean_html($val, $do_not_strip_tags);
+                $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
+            $path = mw_cache_path().'html_purifier';
+
             $var = $this->strip_unsafe($var);
-            $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
+            $config = \HTMLPurifier_Config::createDefault();
+            $config->set('Cache.SerializerPath', $path);
+            $purifier = new \HTMLPurifier($config);
+
+//         Absolute path with no trailing slash to store serialized definitions in.
+//        Default is within the HTML Purifier library inside DefinitionCache/Serializer. This path must be writable by the webserver.
+
+            if(!is_dir($path)){
+                mkdir_recursive($path);
+            }
+
+
+            //$purifier = new \HTMLPurifier();
+            //Cache.SerializerPath
+            $var = $purifier->purify($var);
+            // $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
             $var = str_ireplace('<script>', '', $var);
             $var = str_ireplace('</script>', '', $var);
             $var = str_replace('<?', '&lt;?', $var);
@@ -316,7 +337,7 @@ class Format
     {
         if (is_array($string)) {
             foreach ($string as $key => $val) {
-                $string[ $key ] = $this->strip_unsafe($val, $img);
+                $string[$key] = $this->strip_unsafe($val, $img);
             }
 
             return $string;
@@ -418,7 +439,7 @@ class Format
                 '/<html(.*?)>/is',
                 '/<iframe(.*?)>/is',
                 '/<iframe(.*?)/is',
-                '/<\/html>/is', );
+                '/<\/html>/is',);
 
             // Remove graphic too if the user wants
             if ($img == true) {
@@ -433,7 +454,7 @@ class Format
 
     public function string_between($string, $start, $end)
     {
-        $string = ' '.$string;
+        $string = ' ' . $string;
         $ini = strpos($string, $start);
         if ($ini == 0) {
             return '';
@@ -462,9 +483,9 @@ class Format
         $url = parse_url($str);
         if (!$url or !isset($url['scheme'])) {
             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-                return 'https://'.$str;
+                return 'https://' . $str;
             } else {
-                return 'http://'.$str;
+                return 'http://' . $str;
             }
         }
 
@@ -553,7 +574,7 @@ class Format
     {
         $lst = array();
         foreach (array_keys($ary) as $k) {
-            $v = $ary[ $k ];
+            $v = $ary[$k];
             if (is_scalar($v)) {
                 $lst[] = $v;
             } elseif (is_array($v)) {
@@ -583,14 +604,14 @@ class Format
         );
         $rand = rand(0, (sizeof($lipsum) - 1));
 
-        return $this->limit($lipsum[ $rand ], $number_of_characters, '');
+        return $this->limit($lipsum[$rand], $number_of_characters, '');
     }
 
     /**
      * Limits a string to a number of characters.
      *
      * @param        $str
-     * @param int    $n
+     * @param int $n
      * @param string $end_char
      *
      * @return string
@@ -609,18 +630,18 @@ class Format
         }
         $out = '';
         foreach (explode(' ', trim($str)) as $val) {
-            $out .= $val.' ';
+            $out .= $val . ' ';
             if (strlen($out) >= $n) {
                 $out = trim($out);
 
-                return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
+                return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
             }
         }
     }
 
     public function random_color()
     {
-        return '#'.sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+        return '#' . sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
     }
 
     public function lnotif($text, $class = 'success')
@@ -642,10 +663,10 @@ class Format
     {
         if ($class === true) {
             $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
-            $to_print = $to_print.($text).'</div></div>';
+            $to_print = $to_print . ($text) . '</div></div>';
         } else {
-            $to_print = '<div class="mw-notification mw-'.$class.' "><div class="mw-notification-text mw-open-module-settings">';
-            $to_print = $to_print.$text.'</div></div>';
+            $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . $text . '</div></div>';
         }
 
         return $to_print;
@@ -743,4 +764,117 @@ class Format
 
         return $item;
     }
+
+
+    public function encrypt($string)
+    {
+        return Crypt::encrypt($string);
+    }
+
+    public function decrypt($string)
+    {
+        return Crypt::decrypt($string);
+    }
+
+
+    public function encode_ids($data)
+    {
+        $hashids = new \Hashids\Hashids();
+        return $hashids->encode($data);;
+    }
+
+    public function decode_ids($data)
+    {
+        $hashids = new \Hashids\Hashids();
+        return $hashids->decode($data);
+    }
+
+
+
+    function split_dates($min, $max, $parts = 7, $output = "Y-m-d") {
+        $dataCollection[] = date($output, strtotime($min));
+        $diff = (strtotime($max) - strtotime($min)) / $parts;
+        $convert = strtotime($min) + $diff;
+
+        for ($i = 1; $i < $parts; $i++) {
+            $dataCollection[] = date($output, $convert);
+            $convert += $diff;
+        }
+        $dataCollection[] = date($output, strtotime($max));
+        return $dataCollection;
+    }
+
+
+
+    public function text_to_image($text)
+    {
+        $options = array();
+        if (is_array($text)) {
+            $options = $text;
+            if (isset($options['text'])) {
+                $text = $options['text'];
+            } else {
+                $text = 'Hello world!';
+            }
+
+        }
+
+
+        $simple_text_image = new lib\SimpleTextImage($text);
+        if (isset($options['font_size'])) {
+            $simple_text_image->setFontSize(intval($options['font_size']));
+        }
+
+        if (isset($options['padding'])) {
+            $simple_text_image->setPadding(intval($options['padding']));
+        }
+
+        if (isset($options['bg_color'])) {
+            $color = $options['bg_color'];
+            $rgb = $this->hex_to_rgb($color);
+            $simple_text_image->setBackground($rgb['r'],$rgb['g'],$rgb['b']);
+        }
+
+        if (isset($options['fg_color'])) {
+            $color = $options['fg_color'];
+            $rgb = $this->hex_to_rgb($color);
+            $simple_text_image->setForeground($rgb['r'],$rgb['g'],$rgb['b']);
+        }
+
+        // Enable output buffering
+        ob_start();
+        $simple_text_image->render('png');
+        $imagedata = ob_get_contents();
+
+        ob_end_clean();
+
+
+        return 'data:image/png;base64,' . base64_encode($imagedata);
+
+
+    }
+
+    public function hex_to_rgb($hex, $alpha = false)
+    {
+        $hex = str_replace('#', '', $hex);
+        if (strlen($hex) == 6) {
+            $rgb['r'] = hexdec(substr($hex, 0, 2));
+            $rgb['g'] = hexdec(substr($hex, 2, 2));
+            $rgb['b'] = hexdec(substr($hex, 4, 2));
+        } else if (strlen($hex) == 3) {
+            $rgb['r'] = hexdec(str_repeat(substr($hex, 0, 1), 2));
+            $rgb['g'] = hexdec(str_repeat(substr($hex, 1, 1), 2));
+            $rgb['b'] = hexdec(str_repeat(substr($hex, 2, 1), 2));
+        } else {
+            $rgb['r'] = '0';
+            $rgb['g'] = '0';
+            $rgb['b'] = '0';
+        }
+        if ($alpha) {
+            $rgb['a'] = $alpha;
+        }
+        return $rgb;
+    }
+
+
 }

@@ -8,11 +8,11 @@ function api_expose($function_name, $callback = null)
         return $index;
     }
     if (is_callable($callback)) {
-        $index .= ' '.$function_name;
+        $index .= ' ' . $function_name;
 
         return api_bind($function_name, $callback);
     } else {
-        $index .= ' '.$function_name;
+        $index .= ' ' . $function_name;
     }
 }
 
@@ -23,11 +23,11 @@ function api_expose_admin($function_name, $callback = null)
         return $index;
     }
     if (is_callable($callback)) {
-        $index .= ' '.$function_name;
+        $index .= ' ' . $function_name;
 
         return api_bind_admin($function_name, $callback);
     } else {
-        $index .= ' '.$function_name;
+        $index .= ' ' . $function_name;
     }
 }
 
@@ -61,13 +61,46 @@ function api_bind_admin($function_name, $callback = false)
     }
 }
 
+
+function api_bind_user($function_name, $callback = false)
+{
+    static $mw_api_binds_user;
+    if (is_bool($function_name)) {
+        if (is_array($mw_api_binds_user)) {
+            $index = ($mw_api_binds_user);
+
+            return $index;
+        }
+    } else {
+        $function_name = trim($function_name);
+        $mw_api_binds_user[$function_name][] = $callback;
+    }
+}
+
+
+function api_expose_user($function_name, $callback = null)
+{
+    static $index = ' ';
+    if (is_bool($function_name)) {
+        return $index;
+    }
+    if (is_callable($callback)) {
+        $index .= ' ' . $function_name;
+
+        return api_bind_user($function_name, $callback);
+    } else {
+        $index .= ' ' . $function_name;
+    }
+}
+
+
 function document_ready($function_name)
 {
     static $index = ' ';
     if (is_bool($function_name)) {
         return $index;
     } else {
-        $index .= ' '.$function_name;
+        $index .= ' ' . $function_name;
     }
 }
 
@@ -96,14 +129,14 @@ function array_to_module_params($params, $filter = false)
     if (is_array($params)) {
         foreach ($params as $key => $value) {
             if ($filter == false) {
-                $str .= $key.'="'.$value.'" ';
+                $str .= $key . '="' . $value . '" ';
             } elseif (is_array($filter) and !empty($filter)) {
-                if (in_array($key, $filter)) {
-                    $str .= $key.'="'.$value.'" ';
+                if (in_array($key, $filter, true)) {
+                    $str .= $key . '="' . $value . '" ';
                 }
             } else {
                 if ($key == $filter) {
-                    $str .= $key.'="'.$value.'" ';
+                    $str .= $key . '="' . $value . '" ';
                 }
             }
         }
@@ -137,7 +170,7 @@ function mw_var($key, $new_val = false)
         }
     } else {
         //if (isset($mw_var_storage[$contstant]) == false) {
-            $mw_var_storage[$contstant] = $new_val;
+        $mw_var_storage[$contstant] = $new_val;
 
         return $new_val;
         //}
@@ -148,8 +181,8 @@ function mw_var($key, $new_val = false)
 
 function autoload_add($dirname)
 {
-    set_include_path($dirname.
-        PATH_SEPARATOR.get_include_path());
+    set_include_path($dirname .
+        PATH_SEPARATOR . get_include_path());
 }
 
 function api_link($str = '')

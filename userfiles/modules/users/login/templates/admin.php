@@ -103,6 +103,25 @@ $link = mw()->ui->admin_logo_login_link;
         <div class="mw-ui-field-holder">
           <input  class="mw-ui-field mw-ui-field-big"  name="password" tabindex="2" required type="password" <?php if(isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif;  ?> placeholder="<?php _e("Password"); ?>"   />
         </div>
+        
+        
+        <?php  if(isset($login_captcha_enabled) and $login_captcha_enabled):	?>
+        <div class="mw-ui-field-holder">
+         
+        <div class="mw-ui-row captcha-holder">
+        		<div class="mw-ui-col">
+                <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $params['id']; ?>" src="<?php print api_link('captcha') ?>" />
+              </div>
+              
+              <div class="mw-ui-col">
+                  <input name="captcha" type="text" required class="mw-ui-field mw-captcha-input"  tabindex="3" placeholder="<?php _e("Security code"); ?>"/>
+              </div>
+              
+          </div>
+      </div>
+        <?php endif;  ?>
+        
+        
         <div class="mw-ui-field-holder">
           <ul  class="mw-ui-inline-list pull-left">
             <li><span>
@@ -128,7 +147,7 @@ $link = mw()->ui->admin_logo_login_link;
             </li>
           </ul>
           <input  type="hidden" name="where_to" value="admin_content" />
-          <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
+          <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="4" value="<?php _e("Login"); ?>" />
         </div>
       </form>
     </div>

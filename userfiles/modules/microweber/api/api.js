@@ -1,14 +1,16 @@
-if (typeof jQuery == 'undefined') {  
+if (typeof jQuery == 'undefined') {
 
 <?php
 
 
-    $haystack = load_web_component_file('jquery/jquery.min.js');
+    $haystack = load_web_component_file('jquery/jquery-3.1.0.min.js');
+    $haystack .= "\n\n".load_web_component_file('jquery/jquery-migrate-3.0.0.js');
 	 
  
 	$needle = '//@ sourceMappingURL=';
 	$replace = '//@ disabled_sourceMappingURL=';
 	$pos = strpos($haystack,$needle);
+	$newstring = $haystack;
 	if ($pos !== false) {
 		$newstring = substr_replace($haystack,$replace,$pos,strlen($needle));
 	}
@@ -156,6 +158,8 @@ mw.askusertostay = false;
   mw.moduleJS = mw.module_js = function(url){
     mw.require(url, true);
   }
+
+
 
   mw.wait = function(a, b, max) {
     window[a] === undefined ? setTimeout(function() {
@@ -749,6 +753,9 @@ mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
 <?php  include "shop.js"; ?>
+
+
+
 
 
 

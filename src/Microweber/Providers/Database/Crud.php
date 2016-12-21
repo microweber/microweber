@@ -36,16 +36,18 @@ class Crud
 
     public function get_by_id($id = 0, $field_name = 'id')
     {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
+        if ($field_name == 'id') {
+            $id = intval($id);
+            if ($id == 0) {
+                return false;
+            }
         }
         if ($field_name == false) {
             $field_name = 'id';
         }
         $table = $this->table;
         $params = array();
-        $params[ $field_name ] = $id;
+        $params[$field_name] = $id;
         $params['table'] = $table;
         $params['single'] = true;
         $data = $this->get($params);

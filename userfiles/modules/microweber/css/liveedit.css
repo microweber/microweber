@@ -21,6 +21,10 @@ html,body{
   background: #555555;
 }
 
+body.mw-live-edit {
+  margin-top: 52px;
+}
+
 
 /****************************
            Plus
@@ -275,14 +279,15 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 .mw-sorthandle-moveit:before{
   display: inline-block;
   position: absolute;
-  right: 20px;
+  left: 50%;
+  margin-left: -25px;
   top:0;
   background-color: #E1E1E1;
-  width: 20px;
+  width: 50px;
   height: 20px;
   content: "\0100";
   font-family: Microweber;
-  border-radius: 3px 0 0 3px;
+  border-radius:3px;
   color: black;
   font-size: 19px;
   line-height: 19px;
@@ -1028,7 +1033,14 @@ li .ts_action_item:last-child{
 }
 
 #toolbar-dropdown-actions a {
-	color: #222;
+	color: #626262;
+}
+#toolbar-dropdown-actions .mw-ui-navigation li ul{
+    left: auto;
+    right: 100%;
+}
+#toolbar-dropdown-actions .mw-ui-navigation li{
+    margin: 0;
 }
 
 #live_edit_toolbar.scrolling{
@@ -1183,44 +1195,39 @@ body.loaded #live_edit_toolbar{
   clear: both;
   min-width: 95px;
 }
-
-
-#modules-and-layouts .mw_module_image{
-  width: 95px;
-  height: 33px;
-  display: block;
+#modules-and-layouts .mw_module_image {
+    width: 95px;
+    height: 33px;
+    display: block;
 }
 
-#modules-and-layouts .mw_module_image_holder{
-  width: 95px;
-  height: 33px;
-  display: table-cell;
-  vertical-align: middle;
+#modules-and-layouts .mw_module_image_holder {
+    width: 95px;
+    height: 33px;
+    display: table-cell;
+    vertical-align: middle;
 }
+
 #modules-and-layouts .list-elements .mw_module_image_holder,
-#modules-and-layouts .list-elements .mw_module_image{
-  height: 72px;
+#modules-and-layouts .list-elements .mw_module_image {}
+
+#modules-and-layouts .mw_module_image_holder img {
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
 }
 
-
-#modules-and-layouts .mw_module_image_holder img{
-  vertical-align: middle;
-  max-width: 100%;
-  max-height: 100%;
+#modules-and-layouts .list-elements .module-item span.module_name {
+    text-overflow: ellipsis;
+    max-width: 100px;
 }
-
-
-#modules-and-layouts .list-elements .module-item span.module_name{
-  display: none;
-}
-
 
 #modules-and-layouts .list-elements span.mw_module_hold,
 #modules-and-layouts .list-elements span.mw_module_image{
-  padding: 0;
+   
 }
 #modules-and-layouts .list-elements .mw_module_image_shadow{
-  height: 12px;
+ 
 }
 
 #modules-and-layouts .module_name{
@@ -2087,10 +2094,34 @@ body.design_hover .element-current{
 #live-edit-dropdown-actions-content{
   right: -20px;
   left: auto;
-  top: 40px;
+  top: 30px;
   cursor: pointer;
   width: 140px;
   font-size:11px;
+  padding-top: 12px;
+}
+
+#live-edit-dropdown-actions-content a{
+    text-decoration: none;
+    line-height: 18px;
+}
+
+
+#live-edit-dropdown-actions-content [class*='mw-icon-']{
+
+    font-size: 16px;
+}
+
+#live-edit-dropdown-actions-content .mw-icon-css{
+    font-size: 13px;
+}
+
+#live-edit-dropdown-actions-content .mw-ui-box{
+    border-radius: 0;
+}
+
+#live-edit-dropdown-actions-content .mw-icon-arrowleft{
+    font-size: 11px;
 }
 
 #toolbar-back-to-admin{
@@ -2280,6 +2311,8 @@ body.design_hover .element-current{
 
 #main-save-btn{
   margin: 0 0 0 12px;
+  background-color: #235F99;
+  border-color: #235F99
 }
 
 html.mw_pages #mw_toolbar_nav{
@@ -2367,8 +2400,9 @@ div[id*='SSDIVEL'] {
 
 #image-edit-nav{
   position: absolute;
-  right: 12px;
+  left: 12px;
   top: 10px;
+  white-space: nowrap;
 }
 
 
@@ -2608,7 +2642,26 @@ div[id*='SSDIVEL'] {
   max-width: 1250px;
   min-width: 320px;
 }
+.mwInaccessibleModulesMenu{
+    position: absolute;
+    z-index: 999;
+    margin: 10px;
+}
 
+.mwInaccessibleModulesMenu .mw-ui-btn{
+    text-transform: capitalize;
+}
+
+#back-to-admin-toolbar{
+    margin: 0px 10px;
+
+
+}
+
+#back-to-admin-toolbar span{
+    font-size: 33px;
+      top: -2px;
+}
 
 
 

@@ -10,16 +10,21 @@
     "framework",
     "laravel"
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/peter-mw/laravel-tagging"
+    }
+  ],
   "require": {
-    "laravel/framework": "5.0.22",
-    "composer/composer": "dev-master",
+    "laravel/framework": "5.3.*",
     "laravel/socialite": "2.0.12",
+    "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
-    "illuminate/html": "~5.0",
-    "illuminate/contracts": "5.0.*|5.1.*",
-    "vlucas/phpdotenv": "~1.0",
-    "rcrowe/twigbridge": "0.8.x-dev",
-    "graham-campbell/markdown": "~3.0",
+    "illuminate/contracts": "5.0.*|5.1.*|5.2.*|5.3.*",
+    "vlucas/phpdotenv": "*",
+    "rcrowe/twigbridge": "*",
+    "graham-campbell/markdown": "*",
     "guzzlehttp/guzzle": "5.*",
     "composer/installers": "1.*",
     "keboola/csv": "1.1.*",
@@ -30,15 +35,16 @@
     "paragonie/random_compat": "1.*",
     "coduo/php-humanizer": "*",
     "omnipay/common": "*",
-    "league/csv": "^7.2"
+    "league/csv": "^7.2",
+    "giggsey/libphonenumber-for-php": "^7.6",
+    "laravelcollective/html": "*",
+    "ezyang/htmlpurifier": "^4.8",
+    "rtconner/laravel-tagging": "dev-laravel-5"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.5.*@dev"
+    "phpunit/phpunit": "4.8.*@dev"
   },
   "autoload": {
-    "classmap": [
-      "database"
-    ],
     "psr-4": {
       "": "src/",
       "App\\": "app/"

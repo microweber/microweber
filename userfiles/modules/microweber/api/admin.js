@@ -81,7 +81,7 @@ mw.admin = {
                         position: $(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center',
                         content: mw.$('#create-content-menu').html(),
                         element: this,
-                        skin: 'dark'
+                        skin: 'mw-tooltip-dark mw-tooltip-action'
                     });
                     var tip = this.mwtooltip;
                     mw.$('.create-content-menu', this.mwtooltip).click(function () {
@@ -208,7 +208,9 @@ mw.admin = {
         var p = p || false;
         var locked = mw.cookie.ui('adminsidebarpin') == 'true';
         AdminCategoryTree = mwd.querySelector('.tree-column');
-
+		if(AdminCategoryTree == null){
+		return;	
+		}
         if ((p != false) && (p.contains('edit') || p.contains('new'))) {
             if (AdminCategoryTree !== null) {
                 AdminCategoryTree.treewidthactivated = true;
@@ -775,9 +777,19 @@ $(mwd).ready(function () {
 $(mww).bind('load', function () {
     mw.admin.contentScrollBox('.fixed-side-column-container');
     mw.admin.contentScrollBox('#mw-admin-main-menu', {color: 'white'});
-    mw.admin.treeboxwidth();
-    mw.on.moduleReload('pages_tree_toolbar', function () {
+    var locked = mw.cookie.ui('adminsidebarpin');
+
+    if(locked == ''){
+        mw.admin.CategoryTreeWidth(mw.url.getHashParams(location.hash).action);
+        mw.cookie.ui('adminsidebarpin', 'true');
+        $(".tree-column-active").removeClass('tree-column-active')
+    }
+    else{
         mw.admin.treeboxwidth();
+    }
+
+    mw.on.moduleReload('pages_tree_toolbar', function () {
+
         setTimeout(function () {
             mw.admin.treeboxwidth();
         }, 90);
@@ -822,13 +834,15 @@ $(mww).bind('load', function () {
         });
     }
 
-    mw.$('#pin-sidebar').click(function () {
+
+
+    mw.$('#pin-sidebar').on('click', function () {
         var locked = mw.cookie.ui('adminsidebarpin');
-        if (locked == '') {
+        if (locked == 'false') {
             mw.cookie.ui('adminsidebarpin', 'true');
         }
         else {
-            mw.cookie.ui('adminsidebarpin', '');
+            mw.cookie.ui('adminsidebarpin', 'false');
         }
     });
 

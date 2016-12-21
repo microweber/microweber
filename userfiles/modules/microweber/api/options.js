@@ -277,16 +277,12 @@ mw.options.form = function($selector, callback, beforepost){
 
           item.removeClass('mw-options-form-binded');
 
-          if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
+          if(item.hasClass('mw_option_field') && !item.__mwOptionField){
 
-              if(item.hasClass('mw-options-form-binded-custom')){
-
-                  item.unbind("change");
-              }
+              item.__mwOptionField = true;
 
               item.addClass('mw-options-form-binded');
 			  item.addClass('mw-options-form-binded-custom');
-			  //item.unbind("change");
 
               item.bind("change", function(e){
               	  if(typeof beforepost === 'function'){

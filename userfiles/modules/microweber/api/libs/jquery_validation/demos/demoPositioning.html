@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>JQuery Validation Engine</title>
+	<link rel="stylesheet" href="../css/validationEngine.jquery.css" type="text/css"/>
+	<link rel="stylesheet" href="../css/template.css" type="text/css"/>
+	<script src="../js/jquery-1.8.2.min.js" type="text/javascript">
+	</script>
+	<script src="../js/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script>
+		//$.validationEngine.defaults.scroll = false;
+
+
+		jQuery(document).ready(function(){
+			// binds form submission and fields to the validation engine
+			jQuery("#formID").validationEngine('attach');
+			//jQuery("#formID").validationEngine('attach',{ isOverflown: true });
+			//jQuery("#formID").validationEngine('attach',{ relative: true });
+		});
+
+		/**
+		*
+		* @param {jqObject} the field where the validation applies
+		* @param {Array[String]} validation rules for this field
+		* @param {int} rule index
+		* @param {Map} form options
+		* @return an error string if validation failed
+		*/
+		function checkHELLO(field, rules, i, options){
+			if (field.val() != "HELLO") {
+				// this allows to use i18 for the error msgs
+				return options.allrules.validate2fields.alertText;
+			}
+		}
+		function changeposition(wo) {
+			jQuery('#formID').validationEngine('hide');
+			jQuery('input').attr('data-prompt-position',wo);
+			jQuery('input').data('promptPosition',wo);
+			jQuery('textarea').attr('data-prompt-position',wo);
+			jQuery('textarea').data('promptPosition',wo);
+			jQuery('select').attr('data-prompt-position',wo);
+			jQuery('select').data('promptPosition',wo);
+		}
+		function changemethod(welche) {
+			jQuery('#formID').validationEngine('hide');
+			jQuery("#formID").validationEngine('detach');
+			jQuery("#formID").validationEngine('attach');
+		}
+	</script>
+	<style>
+	/* fix overly wacky stylesheet */
+	input {
+		display: inline !important;
+	}
+	</style>
+</head>
+<body>
+	<p>
+		<a href="#" onclick="jQuery('#formID').validationEngine('validate')">Evaluate form</a>
+		| <a href="#" onclick="jQuery('#formID').validationEngine('hide')">Close all prompts on form</a>
+		<br> <a href="#" onclick="changeposition('topRight')">TopRight</a>
+		| <a href="#" onclick="changeposition('topLeft')">TopLeft</a>
+		| <a href="#" onclick="changeposition('bottomRight')">BottomRight</a>
+		| <a href="#" onclick="changeposition('bottomLeft')">BottomLeft</a>
+		| <a href="#" onclick="changeposition('centerRight')">CenterRight</a>
+		| <a href="#" onclick="changeposition('centerLeft')">CenterLeft</a>
+		| <a href="#" onclick="changeposition('inline')">Inline</a>
+		<br>
+		<a href="#" style="float:left" onclick="jQuery('body').attr('dir','ltr')">Left to Right</a>
+		<a href="#" style="float:right" onclick="jQuery('body').attr('dir','rtl')">Right to Left</a>
+		<br> <a href="../index.html" >Back to index</a>
+	</p>
+	<p>
+		This demonstration shows positioning
+		<br/>
+	</p>
+<div style="height:500px;overflow-y:scroll;">
+  <div style="height:1000px;">
+	<form id="formID" class="formular" method="post" action="" style="position:relative; width: 500px;">
+		<fieldset>
+			<legend>
+
+			</legend>
+			<label>
+				Field is required :
+
+			</label>
+			<input value="" class="validate[required] text-input" type="text" name="req" id="req" />
+			<label>Favorite sport 1:</label>
+				<select name="sport" id="sport" class="validate[required]">
+					<option value="">Choose a sport</option>
+					<option value="option1">Tennis</option>
+					<option value="option2">Football</option>
+					<option value="option3">Golf</option>
+				</select>
+
+			<label>Favorite sport 2:</label>
+				<select name="sport2" id="sport2" multiple class="validate[required]">
+					<option value="">Choose a sport</option>
+					<option value="option1">Tennis</option>
+					<option value="option2">Football</option>
+					<option value="option3">Golf</option>
+				</select>
+
+			<label>Additional info:</label>
+				<textarea class="validate[required]" id="add" style="width:250px;height:50px;"></textarea>
+
+			<label>Radio Group: </label>
+				<div>radio 1:
+				<input class="validate[required] radio" type="radio" name="group0" id="radio1" value="5"/></div>
+				<div>radio 2:
+				<input class="validate[required] radio" type="radio" name="group0" id="radio2" value="3"/></div>
+				<div>radio 3:
+				<input class="validate[required] radio" type="radio" name="group0" id="radio3" value="9"/></div>
+
+			<label>I accept terms of use : </label>
+				<input class="validate[required] checkbox" type="checkbox" id="agree" name="agree"/>
+
+
+		</fieldset>
+
+		<input class="submit" type="submit" value="Validate &amp; Send the form!"/><hr/>
+	</form>
+  </div>
+</div>
+</body>
+</html>

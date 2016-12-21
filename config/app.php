@@ -78,7 +78,7 @@ return [
 	|
 	*/
 
-    'key' => 'YourSecretKey!!!',
+    'key' => 'base64:SJYj0w9ebuFTYmd8DUoo45nAx0myF6tPr//8oSLU3yE=',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -125,7 +125,7 @@ return [
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
 		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
-		'Illuminate\Routing\ControllerServiceProvider',
+	//	'Illuminate\Routing\ControllerServiceProvider',
 		'Illuminate\Cookie\CookieServiceProvider',
 		'Illuminate\Database\DatabaseServiceProvider',
 		'Illuminate\Encryption\EncryptionServiceProvider',
