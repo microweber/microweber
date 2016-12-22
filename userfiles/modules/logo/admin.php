@@ -58,6 +58,7 @@
 
 </style>
 
+
 <?php
 
     $logoimage =  get_option('logoimage', $params['id']);
@@ -95,7 +96,7 @@
             <img src="<?php print $logoimage; ?>" class="pull-left the-image" alt="" <?php if($logoimage != '' and $logoimage != false){ ?><?php } else{ ?> style="display:block;" <?php } ?>  />
       <br>
       <div style="padding-top: 15px; clear: both" ></div>
-            <span class="mw-ui-btn" id="upload-image"><span class="mw-icon-upload"></span>Upload Image</span>
+            <span class="mw-ui-btn" id="upload-image"><span class="mw-icon-upload"></span>Upload Image</span><br/>or <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> browse uploaded</a>
                         <label class="mw-ui-label" style="padding-top: 20px;"><span>Image size</span> - <b id="imagesizeval"></b></label>
                         <div id="sizeslider" class="mw-slider"></div>
                         <br>
@@ -427,8 +428,7 @@ $(document).ready(function(){
     });
 
     $(UP).bind('FileUploaded', function(a,b){
-        mw.$("#logoimage").val(b.src).trigger('change');
-        mw.$(".the-image").show().attr('src', b.src);
+        setNewImage(b.src);
         setAuto();
     });
 
@@ -446,5 +446,30 @@ $(document).ready(function(){
 
 
 });
+
+function setNewImage(s){
+    mw.$("#logoimage").val(s).trigger('change');
+    mw.$(".the-image").show().attr('src', s);
+}
+
+var mw_admin_logo_upload_browse_existing = function(){
+        
+ 
+   var mw_admin_logo_upload_browse_existing_modal = window.top.mw.modalFrame({
+        url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
+        title: "Browse pictures",
+        id: 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>',
+        onload:function(){
+
+            this.iframe.contentWindow.mw.on.hashParam('select-file', function(){
+                mw_admin_logo_upload_browse_existing_modal.hide();
+                mw.notification.success('<?php _e('Logo image selected') ?>');
+                setNewImage(this);
+            })
+        },
+        height: 400
+    })
+  
+}
 
 </script>

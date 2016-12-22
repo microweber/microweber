@@ -35,9 +35,21 @@ description: Default comments template
     </h4>
     <?php else : ?>
     <h4>
-      <?php _e("Comments for"); ?>
+      <?php
+      $post = false;
+      if($data['rel_type'] == 'content'){
+        $post = get_content_by_id($data['rel_id']);
+      }
+      ?>
+      <?php if($post){ ?>
+        <?php _e("Comments for"); ?>
+      <?php } else  { ?>
+
+        <?php _e("Comments"); ?>
+
+      <?php } ?>
       <strong>
-      <?php  $post = get_content_by_id($data['rel_id']); print $post['title']; ?>
+      <?php  print $post['title']; ?>
       </strong></h4>
     <?php endif; ?>
     <div class="comments" id="comments-list-<?php print $data['id'] ?>">
@@ -171,6 +183,7 @@ description: Default comments template
             <textarea required placeholder="<?php _e("Comment"); ?>" name="comment_body" class="form-control input-lg"></textarea>
           </div>
         </div>
+        <?php if(!$disable_captcha){ ?>
         <div class="mw-ui-row vertical-middle captcha-row">
           <div class="mw-ui-col"> <img
                         title="Click to refresh image"
@@ -184,6 +197,7 @@ description: Default comments template
           </div>
           <div class="mw-ui-col"> <span onclick="mw.tools.refresh_image(mwd.getElementById('comment-captcha-<?php print $rand; ?>'));" class="ico irefresh"></span> </div>
         </div>
+        <?php } ?>
         <?php   event_trigger('module.comments.form.end', $data); ?>
         <input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>">
       </form>

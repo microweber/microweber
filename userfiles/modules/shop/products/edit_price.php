@@ -11,9 +11,15 @@
 	 mw.reload_module_parent('shop/cart_add');
 	 mw.reload_module_parent('custom_fields');
 	 mw.reload_module('custom_fields/list');
+	 mw.reload_module('#<?php print $params['id'] ?>');
 
 
-     });
+
+
+
+
+
+      });
 
     }
 </script>
@@ -92,7 +98,7 @@ if($hasmultiple):
              value="<?php print $val; ?>"
              onfocus="mw.$('#pricedropdown').addClass('active');"
              onblur="mw.$('#pricedropdown').removeClass('active');"
-             onchange="mw.quick_price_save_edit(this);<?php if($count==1){ print "mw.reload_module('#".$params['id']."')"; } ?>"  />
+             onchange="mw.quick_price_save_edit(this);"  />
     </div>
 </div>
 

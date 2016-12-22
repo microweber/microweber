@@ -208,6 +208,21 @@
                     <span></span><span><?php _e("New comments require moderation"); ?></span> </label>
                 </div>
                 <div class="mw-ui-field-holder">
+                    <label class="mw-ui-check">
+                        <input
+                            type="checkbox"
+                            parent-reload="true"
+                            name="disable_captcha"
+                            data-reload="comments/comments_for_post"
+                            value="y"
+                            class="mw_option_field"
+                            option-group="comments"
+                            <?php if(get_option('disable_captcha', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
+                        />
+                        <span></span><span><?php _e("Disable Captcha?"); ?></span> </label>
+                </div>
+                        <hr>
+                <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
                     <input
                           type="checkbox"
@@ -244,6 +259,7 @@
                   </div>
                 </div>
               </div>
+                    <hr>
               <div class="email-on-new-comment-setting">
                 <label><?php _e("Email me on"); ?></label>
                 <div class="email-on-new-comment-holder">

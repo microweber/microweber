@@ -1893,19 +1893,22 @@ class DefaultController extends Controller
                     $meta['content_image'] = '';
                 }
                 $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
-                $meta['og_type'] = $meta['content_type'];
-                if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
-                    $meta['og_type'] = $meta['subtype'];
-                }
-                if ($meta['description'] != false and trim($meta['description']) != '') {
-                    $meta['description'] = $meta['description'];
-                } elseif ($meta['content'] != false and trim($meta['content']) != '') {
-                    $meta['description'] = str_replace("\n", ' ', $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
-                }
-                if (isset($meta['description']) and $meta['description'] != '') {
-                    $meta['og_description'] = $meta['description'];
-                } else {
-                    $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                if(isset($meta['content_type'])){
+                    $meta['og_type'] = $meta['content_type'];
+                    if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
+                        $meta['og_type'] = $meta['subtype'];
+                    }
+                    if ($meta['description'] != false and trim($meta['description']) != '') {
+                        $meta['description'] = $meta['description'];
+                    } elseif ($meta['content'] != false and trim($meta['content']) != '') {
+                        $meta['description'] = str_replace("\n", ' ', $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                    }
+
+                    if (isset($meta['description']) and $meta['description'] != '') {
+                        $meta['og_description'] = $meta['description'];
+                    } else {
+                        $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                    }
                 }
             } else {
                 $meta['title'] = $this->app->option_manager->get('website_title', 'website');

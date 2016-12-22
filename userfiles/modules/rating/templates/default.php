@@ -10,6 +10,9 @@ description: Default skin
 
 */
 
+if(!isset($ratings)){
+    return;
+}
 ?>
 
 <div id="stars<?php print $params['id'] ?>" class="starrr"
