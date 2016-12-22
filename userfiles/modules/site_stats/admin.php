@@ -41,10 +41,8 @@ if($params['subtype'] == 'graph')
 
 <div id="stats">
     <a
-        data-tipposition="bottom-center"
-        data-tip="<?php _e("Go Live edit"); ?>"
-        class="mw-ui-btn default-invert tip pull-right go-live-btn-admin"
-        style="margin-top:11px;width:auto" href="<?php print $past_page; ?>?editmode=y">Go Live edit<span class="mw-icon-live"></span></a>
+        class="mw-ui-btn mw-ui-btn-invert pull-right golive-button"
+        style="margin-top:11px;width:auto;background-color: #000" href="<?php print $past_page; ?>?editmode=y"><?php _e('Go Live edit'); ?></a>
 
 
 <h2><?php _e("Traffic Statistic"); ?></h2>
