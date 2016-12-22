@@ -20,7 +20,7 @@ description: Bootstrap Carousel
     <div id="<?php print $id; ?>" class="carousel slide mw-image-carousel">
       <ol class="carousel-indicators">
         <?php $count = -1; foreach($data  as $item): ?>
-        <li data-target="#<?php print $id; ?>" data-slide-to="<?php print $count++; ?>" class="<?php if($count==0){ print 'active';} ?>"></li>
+        <li data-target="#<?php print $id; ?>" data-slide-to="<?php print ++$count; ?>" class="<?php if($count==0){ print 'active';} ?>"></li>
         <?php endforeach; ?>
       </ol>
     <!-- Carousel items -->
