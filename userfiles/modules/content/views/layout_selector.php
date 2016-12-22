@@ -418,12 +418,12 @@ if (!empty($recomended_layouts)) {
 
     <?php if (isset($params['small'])): ?>
 
-<h2 style="display: inline-block"><a href="javascript:$('.layouts_box_holder_small').toggleClass('semi_hidden'); void(0)"><?php _e("Template"); ?></a></h2>
+
 &nbsp;
-<span onclick="$('.layouts_box_holder_small').toggleClass('semi_hidden');" class="mw-ui-btn mw-ui-btn-small" style="top: -3px;"><?php _e("Change"); ?></span>
+<span onclick="$('.layouts_box_holder_small').toggleClass('semi_hidden');" class="mw-ui-btn mw-ui-btn-small" style="top: -3px;"><?php _e("Change template"); ?></span>
 
     <?php else: ?>
-    <h2><?php _e("Template"); ?></h2>
+    <h2><?php _e("Choose template"); ?></h2>
 <?php endif; ?>
 
 <?php endif ?>
