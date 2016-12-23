@@ -533,6 +533,7 @@ class UserManager
         }
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
+        $pass2 = isset($params['password2']) ? $params['password2'] : false;
         $email = isset($params['email']) ? $params['email'] : false;
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
@@ -585,6 +586,9 @@ class UserManager
             return array('error' => 'Please set password!');
         }
 
+        if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
+            return array('error' => 'Two password entries do not match!');
+        }
 
         if (!isset($params['username']) and !isset($params['email'])) {
             return array('error' => 'Please set username or email!');
