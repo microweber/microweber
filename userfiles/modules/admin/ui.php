@@ -223,8 +223,18 @@ $(window).load(function(){
     <h3>Button with icon</h3>
     <div class="demobox">
 
-        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a>
-        <span class="mw-ui-btn mw-ui-btn-icon"><span class="mw-icon-gear"></span></span>
+
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification"><span class="mw-icon-website"></span>Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><span class="mw-icon-website"></span>Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-website"></span>Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification"><span class="mw-icon-website"></span>Big</a>
+
+    <br>
+
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification"><span class="mw-icon-gear"></span></a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><span class="mw-icon-gear"></span></a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-gear"></span></a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification"><span class="mw-icon-gear"></span></a>
 
   </div>
 

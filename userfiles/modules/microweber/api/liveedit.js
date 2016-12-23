@@ -1,5 +1,6 @@
 mw.require('wysiwyg.js');
 
+
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -44,7 +45,7 @@ mw.dropables = {
         var width = el.outerWidth();
         var height = el.outerHeight();
         if (mw.drop_regions.global_drop_is_in_region) {
-            //console.log(1)
+
         } else {
             mw.dropable.css({
                 top: offset.top + height,
@@ -224,14 +225,18 @@ document.body.appendChild(mw.inaccessibleModules);
 
         if(!el.isContentEditable){
             var order = mw.tools.parentsOrder(el, ['edit','module']);
+            console.log(order);
             if(order.module == -1 && order.edit != -1){
+                console.log('sluchai 1', order.module, order.edit)
+                console.log(el)
                 $(el).attr('contenteditable', true);
             }
             if(order.module > order.edit){
                 $(el).attr('contenteditable', true);
+
             }
         }
-        mw.$('.allow-drop .module').each(function(){
+        mw.$('.module').each(function(){
             this.contentEditable = false;
         });
     });
@@ -486,6 +491,11 @@ mw.drag = {
                     }
                 } else {
 
+                    if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
+
+                    }
+                    else{
+
                     if (mw.tools.hasClass(mw.mm_target, 'nodrop') || mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')) {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
@@ -531,11 +541,12 @@ mw.drag = {
                             if(targetParentsOrder['allow-drop'] < targetParentsOrder['module']){
                                 mw.currentDragMouseOver = mw.mm_target;
                             }
-                            else{mw.currentDragMouseOver = null; return false; }
+                            else{ mw.currentDragMouseOver = null; return false; }
                         }
                         else {
 
-                            mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
+                            mw.currentDragMouseOver = null; //mw.tools.lastParentWithClass(mw.mm_target, 'module');
+                           // return false;
 
                         }
 
@@ -622,10 +633,13 @@ mw.drag = {
                                         case1 = (event.pageY - mw.drag.dropOutsideDistance) < _offtop && (off.top - mw.drag.dropOutsideDistance) < _offtop,
                                         case2 = (event.pageY + mw.drag.dropOutsideDistance) > (_offtop+_height) && (off.top + theight +  mw.drag.dropOutsideDistance) >  _offtop+_height;
                                     if(case1 || case2){
-                                        mw.currentDragMouseOver = mw.mm_target = this;
-                                        mw.$mm_target = $(mw.mm_target);
-                                        mw.tools.stopLoop(loop);
-                                        mw.currentRedirected = true;
+                                        if(!mw.tools.hasParentsWithClass(this, 'module')){
+
+                                            mw.currentDragMouseOver = mw.mm_target = this;
+                                            mw.$mm_target = $(mw.mm_target);
+                                            mw.tools.stopLoop(loop);
+                                            mw.currentRedirected = true;
+                                        }
                                     }
                                 }
                             });
@@ -633,7 +647,7 @@ mw.drag = {
                     }
 
 
-
+                }
                 }
 
                 if (mw.isDrag && mw.currentDragMouseOver != null /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/ ) {
@@ -711,7 +725,6 @@ mw.drag = {
                     }
                 }
             }
-
 
 
             $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -1507,6 +1520,8 @@ mw.drag = {
                             height: "",
                         });
 
+
+
                         event.stopPropagation();
 
                         $(".currentDragMouseOver").removeClass("currentDragMouseOver");
@@ -1514,6 +1529,10 @@ mw.drag = {
 
                         $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
                     }, 77);
+
+
+
+
                 }
             });
         } //toremove
