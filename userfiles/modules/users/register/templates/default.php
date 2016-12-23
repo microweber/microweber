@@ -53,36 +53,38 @@ description: Default register template
 					<input type="text" class="large-field form-control"  name="email" placeholder="<?php _e("Email"); ?>">
 				</div>
 			</div>
+
+			<?php if($form_show_first_name): ?>
+				<div class="control-group form-group">
+					<div class="controls">
+						<input type="text" class="large-field form-control" name="first_name" placeholder="<?php _e("First name"); ?>">
+					</div>
+				</div>
+
+			<?php endif; ?>
+
+			<?php if($form_show_last_name): ?>
+				<div class="control-group form-group">
+					<div class="controls">
+						<input type="text" class="large-field form-control" name="last_name" placeholder="<?php _e("Last name"); ?>">
+					</div>
+				</div>
+
+			<?php endif; ?>
+
 			<div class="control-group form-group">
 				<div class="controls">
 					<input type="password" class="large-field form-control" name="password" placeholder="<?php _e("Password"); ?>">
 				</div>
 			</div>
+
+			<?php if($form_show_password_confirmation): ?>
 			<div class="control-group form-group">
 				<div class="controls">
 					<input type="password" class="large-field form-control" name="password2" placeholder="<?php _e("Repeat password"); ?>">
 				</div>
 			</div>
-
-
-
-            <?php if($form_show_first_name): ?>
-<div class="control-group form-group">
-				<div class="controls">
-					<input type="text" class="large-field form-control" name="first_name" placeholder="<?php _e("First name"); ?>">
-				</div>
-			</div>
-
-<?php endif; ?>
-
-     <?php if($form_show_last_name): ?>
-<div class="control-group form-group">
-				<div class="controls">
-					<input type="text" class="large-field form-control" name="last_name" placeholder="<?php _e("Last name"); ?>">
-				</div>
-			</div>
-
-<?php endif; ?>
+			<?php endif; ?>
 
 
 
