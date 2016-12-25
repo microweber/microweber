@@ -533,12 +533,12 @@ class UserManager
         }
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
+        $pass2 = isset($params['password2']) ? $params['password2'] : $pass;
         $email = isset($params['email']) ? $params['email'] : false;
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $middle_name = isset($params['middle_name']) ? $params['middle_name'] : false;
         $confirm_password = isset($params['confirm_password']) ? $params['confirm_password'] : false;
-        $pass2 = $pass;
 
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
         $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
@@ -585,6 +585,9 @@ class UserManager
             return array('error' => 'Please set password!');
         }
 
+        if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
+            return array('error' => 'Two password entries do not match!');
+        }
 
         if (!isset($params['username']) and !isset($params['email'])) {
             return array('error' => 'Please set username or email!');
@@ -630,9 +633,6 @@ class UserManager
                     $reg['email'] = $email;
                     $reg['password'] = $pass2;
                     $reg['is_active'] = 1;
-                    if ($first_name != false) {
-                        $reg['first_name'] = $first_name;
-                    }
                     if ($first_name != false) {
                         $reg['first_name'] = $first_name;
                     }

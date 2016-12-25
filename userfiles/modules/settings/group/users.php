@@ -14,6 +14,10 @@ $(document).ready(function(){
     });
 
 
+    mw.$('.optional-fields .mw-ui-check').bind('click', function(){
+        mw.tools.toggleCheckbox(this.querySelector('input'));
+    });
+
 mw.tabs({
    tabs:'.group-logins',
    nav:'.social-providers-list li',
@@ -51,10 +55,10 @@ mw.register_email_send_test = function(){
 	email_to.subject = $('#test_email_subject').val();
 
 	 $.post("<?php print site_url('api_html/users/register_email_send_test'); ?>", email_to, function(msg){
-		 
+
 		 mw.tools.modal.init({
-			
-			 html:"<pre>"+msg+"</pre>",	
+
+			 html:"<pre>"+msg+"</pre>",
 			 title:"Email send results..."
 		 });
 	  });
@@ -124,7 +128,7 @@ mw.register_email_send_test = function(){
  $enable_user_github_registration = get_option('enable_user_github_registration','users');
  $enable_user_twitter_registration = get_option('enable_user_twitter_registration','users');
  $enable_user_microweber_registration = get_option('enable_user_microweber_registration','users');
- 
+
 
 $enable_user_windows_live_registration = get_option('enable_user_windows_live_registration','users');
 
@@ -164,6 +168,7 @@ $form_show_last_name = get_option('form_show_last_name','users');
 
 $form_show_address = get_option('form_show_address','users');
 
+$form_show_password_confirmation = get_option('form_show_password_confirmation', 'users');
   ?>
   <ul class="social-providers-list mw-ui-btn-nav">
     <li class="mw-ui-btn mw-ui-btn-big active"> <span class="mw-icon-facebook login-tab-group active"></span> </li>
@@ -363,18 +368,18 @@ $form_show_address = get_option('form_show_address','users');
    })
  })
 
- </script> 
+ </script>
   <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
   <?php _e("Register email settings"); ?>
   </a> <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"> Social links </a> <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
   <?php _e("Other"); ?>
   </a>
   <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
-    <div class="mw-ui-box mw-ui-box-content"> 
+    <div class="mw-ui-box mw-ui-box-content">
       <script  type="text/javascript">
 
  runRegisterMailEditor = function(){
-    
+
         RegisterMailEditor = mw.editor({
             element:"#register_email_content",
             addControls:mwd.getElementById('register_mail_editorctrls').innerHTML,
@@ -386,8 +391,8 @@ $form_show_address = get_option('form_show_address','users');
             }
         });
 
-      
- 
+
+
 }
 
 
@@ -450,15 +455,15 @@ runRegisterMailEditor();
           <a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn mw-ui-btn-small pull-right">Test</a>
 <br />
     <hr>
-    
-    
+
+
     <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onclick="$('#admin-forgot-pass-email-ctrl-holder').toggle()">Forgot passworg email settings</a>
-    
-    <div class="mw-ui-box mw-ui-box-content" id="admin-forgot-pass-email-ctrl-holder" style="display:none"> 
+
+    <div class="mw-ui-box mw-ui-box-content" id="admin-forgot-pass-email-ctrl-holder" style="display:none">
       <script  type="text/javascript">
 
  runForgotPassEmailEditor = function(){
-    
+
         ForgotPassEmailEditor = mw.editor({
             element:"#forgot_pass_email_content",
             addControls:mwd.getElementById('forgot_pass_mail_editorctrls').innerHTML,
@@ -470,8 +475,8 @@ runRegisterMailEditor();
             }
         });
 
-      
- 
+
+
 }
 
 
@@ -529,37 +534,37 @@ runForgotPassEmailEditor();
         </div>
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </div>
   <div id="mw-global-fields-social-profile-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
     <module type="social_links/admin" module-id="website" />
   </div>
   <div id="mw-admin-user-tabs-other-settings" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
-    
+
     <?php  $captcha_disabled = get_option('captcha_disabled','users');     ?>
     <div class="mw-ui-box mw-ui-box-content">
       <h2>
         <?php _e("Register form settings"); ?>
       </h2>
-      <label class="mw-ui-check">
+        <label class="mw-ui-check">
         <input type="checkbox" class="mw_option_field"   option-group="users" name="captcha_disabled" <?php if($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>Disable Captcha?</span> </label>
       <hr>
@@ -569,20 +574,32 @@ runForgotPassEmailEditor();
         <input type="checkbox" class="mw_option_field"   option-group="users" name="disable_registration_with_temporary_email" <?php if($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>Disable registration with temporary email?</span> </label>
       <hr>
-      
-      
-     <!-- <label class="mw-ui-check">
-        <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_first_name" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> value="y">
-        <span></span><span>First name</span> </label>
-      <br>
-      <label class="mw-ui-check">
-        <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_last_name" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> value="y">
-        <span></span><span>Last name</span> </label>-->
+
+        <div class="optional-fields mw-ui-field-holder">
+            <label class="mw-ui-check">
+                <input type="checkbox" value="y" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" class="mw_option_field" option-group="users">
+                <span></span> <span><?php _e("Show first name field?"); ?></span>
+            </label>
+
+            <br/>
+
+            <label class="mw-ui-check">
+                <input type="checkbox" value="y" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" class="mw_option_field" option-group="users">
+                <span></span> <span><?php _e("Show last name field?"); ?></span>
+            </label>
+
+            <br/>
+
+            <label class="mw-ui-check">
+                <input type="checkbox" value="y" <?php if($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" class="mw_option_field" option-group="users">
+                <span></span> <span><?php _e("Show password confirmation field?"); ?></span>
+            </label>
+        </div>
     </div>
-    
-    
-    
-    
+
+
+
+
         <?php  $login_captcha_enabled = get_option('login_captcha_enabled','users');     ?>
 
     <div class="mw-ui-box mw-ui-box-content">
@@ -592,21 +609,21 @@ runForgotPassEmailEditor();
       <label class="mw-ui-check">
         <input type="checkbox" class="mw_option_field"   option-group="users" name="login_captcha_enabled" <?php if($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
         <span></span><span>Require captcha to login?</span> </label>
-     
+
     </div>
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     <div class="mw-ui-box mw-ui-box-content">
-    
+
      <h2>
         <?php _e("Other settings"); ?>
       </h2>
     <hr />
-    
+
       <h3>
         <?php _e("Register URL"); ?>
       </h3>
@@ -632,12 +649,11 @@ runForgotPassEmailEditor();
       <?php $checkout_url = get_option('forgot_password_url', 'users');  ?>
       <input name="forgot_password_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('forgot_password_url','users'); ?>" placeholder="<?php _e("Use default"); ?>"  />
     </div>
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
   </div>
 </div>
- 
