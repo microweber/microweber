@@ -1,5 +1,5 @@
 <div class="mw-user-reg-holder">
- 
+
 	<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) {
 		$form_btn_title = 'Register';
@@ -45,12 +45,14 @@ $form_show_first_name = get_option('form_show_first_name','users')=='y';
 
 $form_show_last_name = get_option('form_show_last_name','users')=='y';;
 
+$form_show_password_confirmation = get_option('form_show_password_confirmation','users')=='y';;
+
 $form_show_address = get_option('form_show_address','users')=='y';;
 
 
 
 
- 
+
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
 	$module_template =$params['template'];
@@ -79,11 +81,11 @@ if(isset($template_file) and ($template_file) != false and is_file($template_fil
 		 if(is_file($complete_fallback) != false){
 			include($complete_fallback);
 		}
-		 
+
 	}
 	//print 'No default template for '.  $config['module'] .' is found';
 }
 
 ?>
- 
+
 </div>

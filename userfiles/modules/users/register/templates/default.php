@@ -42,48 +42,55 @@ description: Default register template
 	</div>
 	<div id="register_form_holder">
 		<form id="user_registration_form_holder" method="post" class="reg-form-clearfix">
-        
+
          <?php print csrf_form(); ?>
 
-         
-   
-        
+
+
+
 			<div class="control-group form-group">
 				<div class="controls">
 					<input type="text" class="large-field form-control"  name="email" placeholder="<?php _e("Email"); ?>">
 				</div>
 			</div>
+
+			<?php if($form_show_first_name): ?>
+				<div class="control-group form-group">
+					<div class="controls">
+						<input type="text" class="large-field form-control" name="first_name" placeholder="<?php _e("First name"); ?>">
+					</div>
+				</div>
+
+			<?php endif; ?>
+
+			<?php if($form_show_last_name): ?>
+				<div class="control-group form-group">
+					<div class="controls">
+						<input type="text" class="large-field form-control" name="last_name" placeholder="<?php _e("Last name"); ?>">
+					</div>
+				</div>
+
+			<?php endif; ?>
+
 			<div class="control-group form-group">
 				<div class="controls">
 					<input type="password" class="large-field form-control" name="password" placeholder="<?php _e("Password"); ?>">
 				</div>
 			</div>
-            
-            
-            
-            <?php if($form_show_first_name): ?>
-<div class="control-group form-group">
+
+			<?php if($form_show_password_confirmation): ?>
+			<div class="control-group form-group">
 				<div class="controls">
-					<input type="text" class="large-field form-control" name="first_name" placeholder="<?php _e("First name"); ?>">
+					<input type="password" class="large-field form-control" name="password2" placeholder="<?php _e("Repeat password"); ?>">
 				</div>
 			</div>
-            
-<?php endif; ?>
+			<?php endif; ?>
 
-     <?php if($form_show_last_name): ?>
-<div class="control-group form-group">
-				<div class="controls">
-					<input type="text" class="large-field form-control" name="last_name" placeholder="<?php _e("Last name"); ?>">
-				</div>
-			</div>
-            
-<?php endif; ?>
 
- 
-            
- 
-            
-            
+
+
+
+
             <div class="mw-ui-row vertical-middle captcha-row">
               <div class="mw-ui-col">
                  <div class="mw-captcha-image-holder"><img class="mw-captcha-img" src="<?php print api_link('captcha') ?>" onclick="mw.tools.refresh_image(this);" /></div>
@@ -92,7 +99,7 @@ description: Default register template
                  <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="form-control mw-captcha-input" name="captcha">
               </div>
             </div>
-             
+
             <div class="alert" style="margin: 0;display: none;"></div>
 			<div class="social-login">
 
