@@ -14,6 +14,11 @@ if(!isset($ratings)){
     return;
 }
 ?>
+<script>
+    $(document).ready(function () {
+    $("#stars<?php print $params['id'] ?>").starrr()
+    });
+</script>
 
 <div id="stars<?php print $params['id'] ?>" class="starrr"
     <?php if(isset($require_comment) and $require_comment) { ?> data-require-comment=true <?php } ?>
