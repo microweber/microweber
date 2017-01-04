@@ -73,7 +73,7 @@ class FileStorage
                 return $this->forget($key);
             }
             if ($contents) {
-                $this->memory[ $key ] = unserialize(substr($contents, 10));
+                $this->memory[ $key ] = @unserialize(substr($contents, 10));
             }
         }
 
