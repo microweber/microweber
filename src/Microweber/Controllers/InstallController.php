@@ -126,7 +126,15 @@ class InstallController extends Controller {
                 if (!is_cli()){
                     $_SERVER['argv'] = array();
                 }
-                Artisan::call('key:generate');
+                if(!$this->_is_escapeshellarg_available()){
+                    $fallback_key = str_random(32);
+                    $fallback_key_str = 'base64:'.base64_encode($fallback_key);
+                    Config::set('app.key',$fallback_key_str);
+                    $allowed_configs[] = 'app';
+                } else {
+                    Artisan::call('key:generate');
+
+                }
             }
             $this->log('Saving config');
             Config::save($allowed_configs);
@@ -253,5 +261,26 @@ class InstallController extends Controller {
                 @file_put_contents($log_file, $text . "\n", FILE_APPEND);
             }
         }
+    }
+    private function _is_escapeshellarg_available() {
+        static $available;
+
+        if (!isset($available)) {
+            $available = true;
+            if (ini_get('safe_mode')) {
+                $available = false;
+            } else {
+                $d = ini_get('disable_functions');
+                $s = ini_get('suhosin.executor.func.blacklist');
+                if ("$d$s") {
+                    $array = preg_split('/,\s*/', "$d,$s");
+                    if (in_array('escapeshellarg', $array)) {
+                        $available = false;
+                    }
+                }
+            }
+        }
+
+        return $available;
     }
 }
