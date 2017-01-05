@@ -53,8 +53,7 @@ if($font_family_safe == ''){
     }
 
 
-
-    include  'templates/' . $template . '.php';
+    include  module_templates($config['module'], $template);;
 
  ?>
 
