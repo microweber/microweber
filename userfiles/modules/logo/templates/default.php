@@ -1,4 +1,3 @@
-
 <?php
 
     $size = get_option('size', $params['id']);
