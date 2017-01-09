@@ -23,7 +23,7 @@ mw.files = {
           break;
         case 'documents':
 		case 'doc':
-          return 'doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+          return 'doc,docx,log,pdf,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
           break;
         case 'archives':
 		case 'arc':
