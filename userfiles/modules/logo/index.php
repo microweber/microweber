@@ -4,9 +4,7 @@ $logoimage = get_option('logoimage', $params['id']);
 $text = get_option('text', $params['id']);
 $font_family = get_option('font_family', $params['id']);
 $font_size = get_option('font_size', $params['id']);
-if ($font_size == false) {
-    $font_size = 30;
-}
+
 
 
 $default = '';
@@ -19,8 +17,27 @@ if ($logoimage == false or $logoimage == '') {
     } else {
         $logoimage = $default;
     }
+}
 
+if ($font_family == false or $font_family == '') {
+    if (isset($params['font_family'])) {
+        $font_family = $params['font_family'];
+    }
+}
+if ($font_size == false or $font_size == '') {
+    if (isset($params['font_size'])) {
+        $font_size = $params['font_size'];
+    }
+}
 
+if ($font_size == false) {
+    $font_size = 30;
+}
+
+if ($text == false or $text == '') {
+    if (isset($params['text'])) {
+        $text = $params['text'];
+    }
 }
 
 

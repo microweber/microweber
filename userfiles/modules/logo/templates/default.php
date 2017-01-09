@@ -30,9 +30,9 @@ $size = $size . 'px';
     <?php if ($logoimage == '' and $text == '') {
         if (is_live_edit()) { ?><span class="mw-logo-no-values">Click to add logo</span><?php }
     } else { ?>
-        <?php if ($logotype == 'image' or $logotype == false or $logotype == 'both') { ?><span class="mw-ui-col" style="width: <?php print $size; ?>">
+        <?php if ($logotype == 'image' or $logotype == false or $logotype == 'both') { ?><?php if($logoimage != '' and $logoimage != false){ ?><span class="mw-ui-col" style="width: <?php print $size; ?>">
             <img src="<?php print $logoimage; ?>" alt="" style="max-width: 100%;width: <?php print $size; ?>;"/>
-            </span><?php } ?>
+            </span><?php }} ?>
         <?php if ($logotype == 'text' or $logotype == false or $logotype == 'both') { ?><span class="mw-ui-col"><span
                 class="module-logo-text"
                 style="font-family: '<?php print $font_family_safe; ?>';font-size:<?php print $font_size; ?>px"><?php print $text; ?></span>
