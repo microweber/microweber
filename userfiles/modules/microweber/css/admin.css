@@ -380,7 +380,7 @@ h3 > [class*="mw-icon-"]:first-child {
 	display: inline-block;
 	position: absolute;
 	left: 23px;
-	top: 7px;
+	top: 4px;
 	content: 'q';
 	opacity: 0.777;
 }
@@ -551,7 +551,7 @@ html.mw_pages, html.mw_pages body {
 }
 label .mw_toggle_tree {
 	left: 37px;
-	top: 11px;
+	top: 7px;
 }
 .mw-tree .mw-ui-check span span + span, .mw-tree .mw-ui-check label span + span {
 	margin-left: 27px;
@@ -1097,7 +1097,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 .manage-post-item .manage-post-item-title [class*='mw-icon-'] {
 	font-size: 24px;
-	top: -2px;
+	top: 2px;
 }
 .manage-post-item .mw-icon-drag {
 	cursor: move;
@@ -1171,6 +1171,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	font-size: 23px;
 	margin-right: 0;
 	margin-left: 0;
+    top: -3px;
 }
 #quick-add-post-options .mw-ui-btn [class*='mw-icon-'] + span {
 	display: none;
@@ -1652,7 +1653,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 	margin: 0;
 	height: 100%;
 	width: 15px;
-	padding-top: 5px;
+	padding-top: 7px;
 }
 .mw-tag-selector .mw-ui-btn .mw-icon-close:hover {
 	background-color: #DC0D17;

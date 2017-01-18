@@ -46,6 +46,17 @@ if ($font_family_safe == '') {
     $font_family_safe = 'inherit';
 }
 
+    $size = get_option('size', $params['id']);
+if ($size == false or $size == '') {
+    if(isset($params['size'])){
+        $size = $params['size'];
+    }
+    else{
+        $size = 60;
+    }
+
+}
+
 
 ?>
 <?php if ($font_family_safe != 'inherit') { ?>

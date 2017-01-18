@@ -2660,25 +2660,11 @@ div[id*='SSDIVEL'] {
 
 #back-to-admin-toolbar span{
     font-size: 33px;
-      top: -2px;
+    top: -2px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.toolbar-sections-tabs .mw-ui-btn-nav .mw-ui-btn>[class*=mw-icon-]{
+    top: -2px;
+}
 
 
 

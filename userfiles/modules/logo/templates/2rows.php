@@ -1,6 +1,6 @@
 <?php
 
- $size = get_option('size', $params['id']);
+
     if ($size == false or $size == '') {
         $size = 'auto';
     }

@@ -1,15 +1,6 @@
 <?php
 
-    $size = get_option('size', $params['id']);
-if ($size == false or $size == '') {
-    if(isset($params['size'])){
-        $size = $params['size'];
-    }
-    else{
-        $size = 60;
-    }
 
-}
 $size = $size . 'px';
 
 
