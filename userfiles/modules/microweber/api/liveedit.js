@@ -227,8 +227,6 @@ document.body.appendChild(mw.inaccessibleModules);
             var order = mw.tools.parentsOrder(el, ['edit','module']);
             console.log(order);
             if(order.module == -1 && order.edit != -1){
-                console.log('sluchai 1', order.module, order.edit)
-                console.log(el)
                 $(el).attr('contenteditable', true);
             }
             if(order.module > order.edit){
@@ -403,6 +401,7 @@ mw.drag = {
 
 
 
+
                         if(mw.tools.hasClass(mw.mm_target, 'mw-layout-root')){
                             $(window).trigger("onLayoutOver", mw.mm_target);
                         }
@@ -492,7 +491,13 @@ mw.drag = {
                 } else {
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
-
+                        console.log(mw.mm_target)
+                        mw.mm_target = mw.drag.noop;
+                        mw.$mm_target = $(mw.drag.noop);
+                        mw.currentDragMouseOver = null;
+                       $(".mw_dropable_onleaveedit").removeClass('mw_dropable_onleaveedit');
+                       mw.dropable.hide();
+                       return false;
                     }
                     else{
 
@@ -500,6 +505,7 @@ mw.drag = {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
                         mw.dropable.hide();
+                        $(".mw_dropable_onleaveedit").removeClass('mw_dropable_onleaveedit')
                         return false;
                     }
 
@@ -1350,6 +1356,9 @@ mw.drag = {
                         if (mw.currentDragMouseOver === null) {
                             return false;
                         }
+
+
+
 
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
