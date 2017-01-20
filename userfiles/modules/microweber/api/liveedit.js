@@ -492,12 +492,12 @@ mw.drag = {
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
 
-                        mw.mm_target = mw.drag.noop;
+                       /* mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
                         mw.currentDragMouseOver = null;
                        $(".mw_dropable_onleaveedit").removeClass('mw_dropable_onleaveedit');
                        mw.dropable.hide();
-                       return false;
+                       return false;*/
                     }
                     else{
 
@@ -528,6 +528,7 @@ mw.drag = {
 
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
                         mw.dropable.hide();
+
                     } else {
                         var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
 
@@ -654,6 +655,12 @@ mw.drag = {
 
 
                 }
+
+                    if (!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')) {
+                        mw.mm_target = mw.drag.noop;
+                        mw.$mm_target = $(mw.drag.noop);
+                        mw.currentDragMouseOver = null;
+                    }
                 }
 
                 if (mw.isDrag && mw.currentDragMouseOver != null /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/ ) {
