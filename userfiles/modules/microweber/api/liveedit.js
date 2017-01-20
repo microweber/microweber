@@ -225,7 +225,7 @@ document.body.appendChild(mw.inaccessibleModules);
 
         if(!el.isContentEditable){
             var order = mw.tools.parentsOrder(el, ['edit','module']);
-            console.log(order);
+
             if(order.module == -1 && order.edit != -1){
                 $(el).attr('contenteditable', true);
             }
@@ -491,7 +491,7 @@ mw.drag = {
                 } else {
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
-                        console.log(mw.mm_target)
+
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
                         mw.currentDragMouseOver = null;
@@ -1379,19 +1379,21 @@ mw.drag = {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                             } else {
-                                mw.currentDragMouseOver.appendChild(mw.dragCurrent);
+                                mw.currentDragMouseOver.appendChild(mw.dragCurrent);  
                             }
                             return false;
                         } else if (mw.currentRedirected || (mw.tools.hasClass(mw.currentDragMouseOver, 'mw-row') || mw.tools.hasClass(mw.currentDragMouseOver, 'row') &&
                             !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) &&
+                            (mw.tools.hasClass(mw.currentDragMouseOver, 'edit') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'edit')) &&
                             !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col')) )
                         ) {
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             } else {
                                 $(mw.currentDragMouseOver).after(mw.dragCurrent);
+
                             }
-                            //    $(mw.currentDragMouseOver).before(mw.dragCurrent);
+
                             return false;
                         }
 
@@ -1403,7 +1405,7 @@ mw.drag = {
                         }
                         if ($(mw.currentDragMouseOver).hasClass("empty-element")) {
                             if (mw.tools.hasChildrenWithClass(mw.currentDragMouseOver.parentNode, 'mw-col-container')) {
-                                $(mw.currentDragMouseOver.parentNode).children('.mw-col-container:last').append(mw.dragCurrent);
+                                $(mw.currentDragMouseOver.parentNode).children('.mw-col-container:last').append(mw.dragCurrent);  
                             } else {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             }
@@ -1423,6 +1425,7 @@ mw.drag = {
                                     $(mw.currentDragMouseOver).before(mw.dragCurrent);
                                 } else if (position == 'bottom') {
                                     $(mw.currentDragMouseOver).after(mw.dragCurrent);
+
                                 }
                             }
 
@@ -1436,6 +1439,7 @@ mw.drag = {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             } else if (position == 'bottom') {
                                 $(mw.currentDragMouseOver).after(mw.dragCurrent);
+
                             } else if (position == 'left') {
 
                                 __createRow(mw.currentDragMouseOver, mw.dragCurrent, position);
@@ -1447,7 +1451,7 @@ mw.drag = {
                         }
 
                         if ($(mw.currentDragMouseOver).hasClass("mw-free-element")) {
-                            $(mw.currentDragMouseOver).append(mw.dragCurrent);
+                            $(mw.currentDragMouseOver).append(mw.dragCurrent); 
                             $(window).trigger("onFreeEnter", mw.currentDragMouseOver);
                             return false;
                         }
@@ -1458,6 +1462,7 @@ mw.drag = {
                             $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                             if (mw.currentDragMouseOver != null && !$(mw.currentDragMouseOver).hasClass("mw_dropable")) {
                                 $(mw.currentDragMouseOver).after(mw.dragCurrent);
+
                             }
 
                         } else {
@@ -1490,9 +1495,10 @@ mw.drag = {
                                     $(mw.dragCurrent).removeClass("mw_drag_float_right");
                                     hovered.removeClass("mw_drag_float");
                                     if (hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)) {
-                                        hovered.append(mw.dragCurrent);
+                                        hovered.append(mw.dragCurrent);   
                                     } else {
                                         hovered.after(mw.dragCurrent);
+
                                     }
                                     $(mw.dragCurrent).addClass("clear");
                                 } else if (position == 'left') {

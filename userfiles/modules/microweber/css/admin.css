@@ -2194,6 +2194,18 @@ input#edit-content-url:focus, input#edit-content-url.active {
 .module-product-options-settings > .mw-ui-row, .module-product-options-settings > .mw-ui-row * {
 	vertical-align: bottom;
 }
+
+.module-product-options-settings .mw-ui-col:last-child .mw-ui-btn .mw-icon-dropdown{
+    position: absolute;
+    right: 3px;
+    top: 20px;
+}
+
+.module-product-options-settings .mw-ui-col:last-child .mw-ui-btn{
+    width: 125px;
+    text-align: left;
+}
+
 #mw-admin-product-shipping-options {
 	padding-top: 15px;
 }
