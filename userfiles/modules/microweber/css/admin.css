@@ -372,6 +372,7 @@ h3 > [class*="mw-icon-"]:first-child {
 	border-bottom: 1px solid transparent;
 	outline: none;
 	background-repeat: no-repeat;
+    height: 35px;
 }
 .mw-tree .module a:before, .mw-tree label:before {
 	font-family: Microweber;
@@ -1451,7 +1452,7 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 	content: "+";
 	float: left;
 	margin-right: 10px;
-	margin-top: 2px;
+	font-size:17px;
 	font-family: Microweber;
 }
 #dropdown-custom-fields .mw-dropdown-val:after {
@@ -1906,6 +1907,16 @@ height: auto !important;
 #content-title-field-buttons .mw-ui-btn-nav {
 	vertical-align: bottom;
 }
+
+#content-title-field-buttons .mw-ui-btn>[class*=mw-icon-]{
+    font-size: 17px;
+    top: 0;
+}
+
+#tabsnav .mw-ui-btn>[class*=mw-icon-]{
+    top: -1px;
+}
+
 .post-states-tip-nav .mw-ui-btn {
 	border: none;
 	display: block;
