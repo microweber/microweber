@@ -251,6 +251,7 @@ delete_module = function(inner_node){
 
 body {
     padding: 15px;
+    margin-top: 0 !important;
 }
 
 .mw-admin-editor #mw-iframe-editor-area{

@@ -783,8 +783,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	display: block;
 	position: absolute;
 	right: -5px;
-	top: 50%;
-	margin-top: -5px;
+	top: 8px;
 	overflow: hidden;
 	width: 10px;
 	height: 10px;
@@ -1204,6 +1203,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 #quick-add-post-options-items-holder {
 	position: absolute;
+    width: 100%;
 	left: 0;
 	z-index: 90;
 	background: white;

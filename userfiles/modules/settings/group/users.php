@@ -83,6 +83,7 @@ mw.register_email_send_test = function(){
 .social-providers-list [class*='mw-icon-'] {
 	font-size: 30px;
 	margin-right: 0;
+    top: -2px;
 }
 .social-providers-list .mw-icon-twitter {
 	color: #55acee
