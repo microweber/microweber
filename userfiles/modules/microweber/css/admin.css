@@ -3580,3 +3580,8 @@ body.is_admin .mw-admin-container {
 .top-form-submit span{
     top: 3px;
 }
+
+.mw-admin-user-tab-content tbody tr:last-child .mw-ui-btn{
+    margin-left: 10px;
+    width: 80px;
+}
