@@ -144,6 +144,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   position: relative;
   top: 1px;
   margin-right: 5px;
+  line-height: 180%;
 }
 
 

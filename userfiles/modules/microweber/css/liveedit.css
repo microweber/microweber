@@ -1396,6 +1396,10 @@ body.loaded #live_edit_toolbar{
   width: 25px;
 }
 
+.create-content-dropdown-list .mw-icon-back{
+    top:-2px; 
+}
+
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 43px;  }
 
 .toolbar-sections-tabs > ul > li.modules-layouts-menu .mw-dropdown-list  li a{padding: 7px 15px; }
