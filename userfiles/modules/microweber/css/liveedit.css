@@ -1396,8 +1396,12 @@ body.loaded #live_edit_toolbar{
   width: 25px;
 }
 
+.liveeditcreatecontentmenu [class*="mw-icon-"]{
+    top:
+}
+
 .create-content-dropdown-list .mw-icon-back{
-    top:-2px; 
+    top:-2px;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 43px;  }
@@ -2668,6 +2672,10 @@ div[id*='SSDIVEL'] {
 }
 .toolbar-sections-tabs .mw-ui-btn-nav .mw-ui-btn>[class*=mw-icon-]{
     top: -2px;
+}
+
+#mw-text-editor .mw-ui-btn-medium{
+    line-height: 160%;
 }
 
 

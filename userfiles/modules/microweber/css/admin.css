@@ -3535,6 +3535,16 @@ body.is_admin .mw-admin-container {
     background: #f5f5f5;
     border-radius: 2px;
 }
+
+
+@media (max-width:1140px){
+    .top-search{
+        display: none;
+    }
+
+}
+
+
 .top-search input{
     width: 150px;
     float: left;
