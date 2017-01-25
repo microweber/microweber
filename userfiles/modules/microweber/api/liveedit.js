@@ -2304,9 +2304,6 @@ mw.drag = {
                 var modal = mw.modal({
                     id : 'save_content_error_iframe_modal',
                     html:"<iframe id='save_content_error_iframe' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame' ></iframe>",
-                   // html:xhr.responseText,
-                    //url:'about:blank',
-
                     width:$(window).width() - 90,
                     height:$(window).height() - 90
                 });
@@ -2328,10 +2325,11 @@ mw.drag = {
                     var doc = document.getElementById('save_content_error_iframe').contentWindow.document;
 
                     $("#save_content_error_iframe").load(function(){
-                        // cloudflale captcha
+                        // cloudflare captcha
                         var is_cf =  $('.challenge-form',doc).length;
                         save_content_error_iframe_reloads++;
-                        if(save_content_error_iframe_reloads == 2){
+
+                        if(is_cf && save_content_error_iframe_reloads == 2){
                             $('#save_content_error_iframe_modal').remove();
                         }
                         //alert('frame has (re)loaded' + save_content_error_iframe_reloads);
