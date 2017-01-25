@@ -2330,7 +2330,13 @@ mw.drag = {
                         save_content_error_iframe_reloads++;
 
                         if(is_cf && save_content_error_iframe_reloads == 2){
-                            $('#save_content_error_iframe_modal').remove();
+                            setTimeout(function(){
+                                mw.askusertostay = false;
+                                $('#save_content_error_iframe_modal').remove();
+                            }, 150);
+
+
+
                         }
                         //alert('frame has (re)loaded' + save_content_error_iframe_reloads);
                     });
