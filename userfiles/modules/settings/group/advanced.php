@@ -31,7 +31,9 @@ $(document).ready(function(){
     
      <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/live_edit','#mw-advanced-settings-module-load-holder')">
     <?php _e("Live Edit"); ?> <?php _e("settings"); ?>
-    </a> 
+    </a>    <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/seo','#mw-advanced-settings-module-load-holder')">
+    <?php print("SEO"); ?> <?php _e("settings"); ?>
+    </a>
     
      
     

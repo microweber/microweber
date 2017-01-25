@@ -123,6 +123,10 @@ class DefaultController extends Controller
             define('MW_API_CALL', true);
         }
 
+      //   dd($_SERVER);
+      //   dd($_SERVER);
+
+
         $set_constants = true;
         $mod_class_api = false;
         $mod_class_api_called = false;
@@ -2092,6 +2096,7 @@ class DefaultController extends Controller
 
     private function _api_responce($res)
     {
+
         if (defined('MW_API_RAW')) {
             return $res;
         }

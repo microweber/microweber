@@ -2,7 +2,10 @@
 
     $before =  get_option('before', $params['id']);
     $after =  get_option('after', $params['id']);
-    $rand = uniqid();
+    $rand = $params['id'];
+
+
+
 ?>
 <script>
 
@@ -17,7 +20,7 @@
 
 </script>
 
-<div class="mw-before-after" id="mw-before-after-<?php print $rand; ?>">
+<div class="mw-before-after" id="mw-before-after-<?php print $params['id']; ?>">
   <style scoped="scoped">.twentytwenty-overlay{display: none !important; } </style>
   <img src="<?php print $before; ?>" />
   <img src="<?php print $after; ?>" />

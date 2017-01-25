@@ -39,7 +39,8 @@
     "giggsey/libphonenumber-for-php": "^7.6",
     "laravelcollective/html": "*",
     "ezyang/htmlpurifier": "^4.8",
-    "rtconner/laravel-tagging": "dev-laravel-5"
+    "rtconner/laravel-tagging": "dev-laravel-5",
+    "arcanedev/seo-helper": "^1.2"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*@dev"
