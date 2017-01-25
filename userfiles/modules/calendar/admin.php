@@ -7,14 +7,18 @@
 	.mw-mod-template-settings-holder label, .mw-mod-template-settings-holder select { float:left}
 	.mw-mod-template-settings-holder label {margin-top:11px;margin-right:10px}
 </style>
+<script>
+d(window)
+
+ mw.lib.require('jqueryui');
+ </script>
 
 <script>
-	 mw.lib.require('jqueryui'); // hyphen removed due to mw bug
+	 //mw.lib.require('jqueryui'); // hyphen removed due to mw bug
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.css");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/lib/moment.min.js");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.js");
 </script>
-
 <style>
 	#newevent{ cursor: move;width:80px;text-align:center;margin-top:10px}
 	#external-events {margin-bottom:10px}
@@ -26,8 +30,7 @@
 	#eventContent .row .colElement {width:220px;}
 	.ui-dialog-buttonpane .leftButton {float:left}
 </style>
-
-<script>
+ <script>
 	$(document).ready(function() {
 
 		var zone = '<?php echo date('P');?>';
@@ -92,6 +95,10 @@
 		    		success: function(response){
 		    			event.id = response.eventid;
 		    			$('#calendar').fullCalendar('updateEvent',event);
+
+					  	reload_calendar_after_save();
+
+
 		    		},
 		    		error: function(e){
 		    			console.log(e.responseText);
@@ -114,6 +121,8 @@
 					success: function(response){
 						if(response.status == 'success') $('#calendar').fullCalendar('updateEvent',event);
 						if(response.status != 'success') revertFunc();
+
+					 	reload_calendar_after_save();
 					},
 					error: function(e){
 						revertFunc();
@@ -169,6 +178,8 @@
 															success: function(response){
 																if(response.status == 'success')
 																	$('#calendar').fullCalendar('updateEvent',event);
+																//	reload_calendar_after_save();
+
 															},
 															error: function(e){
 																alert('Error processing your request: '+e.responseText);
@@ -202,6 +213,10 @@
 					dataType: 'json',
 					success: function(response){
 						if(response.status == 'success') $('#calendar').fullCalendar('updateEvent',event);
+
+					//	reload_calendar_after_save();
+
+
 						//if(response.status != 'success') revertFunc();
 					},
 					error: function(e){
@@ -272,6 +287,7 @@
 							$('#calendar').fullCalendar('removeEvents');
 							$('#calendar').fullCalendar('addEventSource',JSON.parse(json_events));
 							//getFreshEvents();
+							reload_calendar_after_save();
 						}
 					},
 					error: function(e){
@@ -319,6 +335,14 @@
 		$('#trash').tooltip();
 
 	});
+
+
+
+function reload_calendar_after_save(){
+ 	//mw.reload_module_parent('#<?php print $params['id'] ?>');
+	window.parent.$(window.parent.document).trigger('calendar.update');
+
+}
 </script>
 
 
@@ -363,3 +387,4 @@ foreach($range as $time){
 </div>
 
 <div id='calendar'></div>
+</div>

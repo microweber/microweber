@@ -13,7 +13,7 @@ description: Calendar Default
 ?>
 
 <script>
-	 mw.lib.require('jqueryui'); // hyphen removed due to mw bug
+	 	mw.lib.require('jqueryui');
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.css");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/lib/moment.min.js");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.js");
@@ -21,13 +21,8 @@ description: Calendar Default
 
 <style type="text/css">
 
-	#wrap {
-		width: 100%;
-		margin: 0 auto;
-	}
-
-	#calendar {
-		float: right;
+	.calendar {
+		display: block;
 		width: 100%;
 	}
 
@@ -39,6 +34,13 @@ description: Calendar Default
 <script>
 
 	$(document).ready(function() {
+
+		$(document).bind('calendar.update', function(){
+		  getData();
+			$('.calendar').fullCalendar('removeEvents');
+			$('.calendar').fullCalendar('addEventSource',JSON.parse(json_events));
+		});
+
 
 		var zone = "05:30";  //Change this to your timezone
 
@@ -55,7 +57,7 @@ description: Calendar Default
 		/* initialize the calendar
 		-----------------------------------------------------------------*/
 
-		$('#calendar').fullCalendar({
+		$('.calendar').fullCalendar({
 			//events for selected month are loaded in viewRender event
 			//events: JSON.parse(json_events),
 			//test event
@@ -93,13 +95,13 @@ description: Calendar Default
 			viewRender: function (view, element) {
 				// getData for selected year-month
 				getData();
-				$('#calendar').fullCalendar('removeEvents');
-				$('#calendar').fullCalendar('addEventSource',JSON.parse(json_events));
+				$('.calendar').fullCalendar('removeEvents');
+				$('.calendar').fullCalendar('addEventSource',JSON.parse(json_events));
  			},
 		});
 
 		function getData(){
-			var date = $("#calendar").fullCalendar('getDate');
+			var date = $(".calendar").fullCalendar('getDate');
 			var y = date.year();
 			var m = ("0" + (date.month() + 1)).slice(-2);
 			var yearmonth = y+'-'+m;
@@ -125,5 +127,5 @@ description: Calendar Default
 </div>
 
 <div class="mw-calendar mw-calendar-default">
-		<div id='calendar'></div>
+		<div class='calendar'></div>
 </div>
