@@ -14,28 +14,11 @@ function get_events($params=array())
 		$yearmonth = date("Y-m");
 	}
 
-    $params['table'] = "calendar";
+  $params['table'] = "calendar";
 	$params ['no_cache'] = true; // disable cache whilst testing
 
 	$events = array();
 
-/* using db_get - but could not find an option to use a where clause
-	if($data = db_get($params)) {
-		foreach ($data as $event) {
-			if(!empty($event['id']) && !empty($event['title']) && !empty($event['startdate'])) {
-				$e = array();
-				$e['id'] = $event['id'];
-				$e['title'] = $event['title'];
-				$e['description'] = $event['description'];
-				$e['start'] = $event['startdate'];
-				$e['end'] = $event['enddate'];
-				$e['allDay'] = $event['allDay'];
-				array_push($events, $e);
-			} else {
-				// blank data
-			}
-		}
-*/
 	if($data = DB::table($params['table'])->select('id','title','description','startdate','enddate','allDay')->where('startdate', 'like', $yearmonth . '%')->get()){
 		foreach ($data as $event) {
 			if(!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
@@ -52,7 +35,7 @@ function get_events($params=array())
 			}
 		}
 
-		return json_encode($events);
+		return ($events);
 
 	} else {
 		// no event data
@@ -60,10 +43,8 @@ function get_events($params=array())
 	}
 }
 
-api_expose('new_event');
+api_expose_admin('new_event');
 function new_event(){
-
-	if (!is_admin()) return;
 
 	$table = "calendar";
 	$startdate = mw()->database_manager->escape_string(trim($_POST['startdate']).'+'.trim($_POST['zone']));
@@ -78,15 +59,13 @@ function new_event(){
 	$lastid = db_save($table, $data);
 
 	if($lastid)
-		echo json_encode(array('status'=>'success','eventid'=>$lastid));
+		return (array('status'=>'success','eventid'=>$lastid));
 	else
-		echo json_encode(array('status'=>'failed'));
+		return (array('status'=>'failed'));
 }
 
-api_expose('change_title');
+api_expose_admin('change_title');
 function change_title(){
-
-	if (!is_admin()) return;
 
 	$table = "calendar";
 	$eventid = $_POST['eventid'];
@@ -97,7 +76,7 @@ function change_title(){
 
 	$data = array('id'=>$eventid,'title'=>$title,'description'=>$description,'startdate'=>$startdate,'enddate'=>$enddate);
 
-    $update = db_save($table, $data);
+  $update = db_save($table, $data);
 
 	if($update)
 		echo json_encode(array('status'=>'success'));
@@ -105,12 +84,8 @@ function change_title(){
 		echo json_encode(array('status'=>'failed'));
 }
 
-api_expose('reset_date');
+api_expose_admin('reset_date');
 function reset_date(){
-
-	if (!is_admin()) return;
-
-// INTERNAL SERVER ERROR 500
 
 	$table = "calendar";
 	$title = mw()->database_manager->escape_string(trim($_POST['title']));
@@ -120,18 +95,17 @@ function reset_date(){
 
 	$data = array('id'=>$eventid,'title'=>$title,'startdate'=>$startdate,'enddate'=>$enddate);
 
-    $update = db_save($table, $data);
+  $update = db_save($table, $data);
 
 	if($update)
-		echo json_encode(array('status'=>'success'));
+		return (array('status'=>'success'));
 	else
-		echo json_encode(array('status'=>'failed'));
+		return(array('status'=>'failed'));
 }
 
-api_expose('remove_event');
+api_expose_admin('remove_event');
 function remove_event(){
 
-	if (!is_admin()) return;
 
 	$table = "calendar";
 	$eventid = $_POST['eventid'];
@@ -139,8 +113,7 @@ function remove_event(){
 	$delete = db_delete($table, $eventid);
 
 	if($delete)
-		echo json_encode(array('status'=>'success'));
+		return (array('status'=>'success'));
 	else
-		echo json_encode(array('status'=>'failed'));
+		return (array('status'=>'failed'));
 }
-?>
