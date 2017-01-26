@@ -123,8 +123,8 @@ class DefaultController extends Controller
             define('MW_API_CALL', true);
         }
 
-      //   dd($_SERVER);
-      //   dd($_SERVER);
+        // dd($_SERVER);
+        //   dd($_SERVER);
 
 
         $set_constants = true;
@@ -293,6 +293,7 @@ class DefaultController extends Controller
 
         switch ($caller_commander) {
             case 'class_is_already_here':
+
                 if ($params != false) {
                     $data = $params;
                 } elseif (!$_POST and !$_REQUEST) {
@@ -314,9 +315,23 @@ class DefaultController extends Controller
                     $loaded_classes[$try_class] = $res;
                 } else {
                     $res = $loaded_classes[$try_class];
-
-                    //
                 }
+
+                if (isset($hooks[$api_function_full]) and !empty($hooks[$api_function_full])) {
+                    foreach ($hooks[$api_function_full] as $hook) {
+                        if (is_array($hook)) {
+                            $hook = array_pop($hook);
+                        }
+                        if (is_callable($hook)) {
+                            $res = call_user_func($hook, $data);
+                            if (defined('MW_API_RAW')) {
+                                $mod_class_api_called = true;
+                            }
+                            return $this->_api_responce($res);
+                        }
+                    }
+                }
+
 
                 if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
                     if (method_exists($res, $try_class_func2)) {
@@ -331,12 +346,10 @@ class DefaultController extends Controller
 
                     return $this->_api_responce($res);
                 }
-
                 break;
 
             default:
                 $res = false;
-
                 if (isset($hooks[$api_function_full])) {
                     $data = array_merge($_GET, $_POST);
 
@@ -1082,7 +1095,6 @@ class DefaultController extends Controller
         }
 
 
-
         $page = false;
 
         if ($page == false and !empty($this->page)) {
@@ -1585,8 +1597,6 @@ class DefaultController extends Controller
         }
 
 
-
-
         $this->app->content_manager->define_constants($content);
 
         event_trigger('mw.front', $content);
@@ -1897,7 +1907,7 @@ class DefaultController extends Controller
                     $meta['content_image'] = '';
                 }
                 $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
-                if(isset($meta['content_type'])){
+                if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];
                     if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                         $meta['og_type'] = $meta['subtype'];
