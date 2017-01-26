@@ -526,7 +526,7 @@ class MenuManager
                 if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
                     $ext_classes .= ' have-category';
                 }
- 
+
                 $ext_classes = trim($ext_classes);
                 if (is_callable($link)) {
                     $menu_link = call_user_func_array($link, array($item));

@@ -329,7 +329,9 @@ trait QueryFilter
                             $o = explode(' ', $params_orig['order_by']);
                             $group_by_criteria[] = $o[0];
                         }
-                        $group_by_criteria[] = $table . '.id';
+                        if(!isset($params['fields'])){
+                            $group_by_criteria[] = $table . '.id';
+                        }
                     }
 
                     $query = $query->groupBy($group_by_criteria);

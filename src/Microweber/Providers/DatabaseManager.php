@@ -695,6 +695,9 @@ class DatabaseManager extends DbUtils
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
+        if(!$id){
+            return;
+        }
         if ($field_name == 'id' and $id == 0) {
             return false;
         }
