@@ -350,7 +350,7 @@ function reload_calendar_after_save(){
 $time_options = '';
 $range=range(strtotime("00:00"),strtotime("23:30"),30*60);
 foreach($range as $time){
-	$time_options .=  '<option value="' . date("H:i a",$time) . '">' . date("H:i a",$time) . "</option>\n";
+	$time_options .=  '<option value="' . date("H:i",$time) . '">' . date("h:i a",$time) . "</option>\n";
 }
 ?>
 <div id="eventContent" title="Event Details" style="display:none;">
