@@ -146,12 +146,12 @@ d(window)
 				}
 				*/
 				var startDate = moment(event.start).format("YYYY-MM-DD");
-				var startTime = moment(event.start).format('hh:mm a');
-				if(startTime == "12:00 am") startTime = "00:00 am";
+				var startTime = moment(event.start).format('hh:mm');
+				if(startTime == "12:00") startTime = "00:00";
 				$("#starttime").val(startTime);
 				if(event.end != null) {
 					var endDate = moment(event.end).format("YYYY-MM-DD");
-					var endTime = moment(event.end).format('hh:mm a');
+					var endTime = moment(event.end).format('hh:mm');
 					$("#endtime").val(endTime);
 				}
 
