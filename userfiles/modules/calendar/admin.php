@@ -146,12 +146,12 @@ d(window)
 				}
 				*/
 				var startDate = moment(event.start).format("YYYY-MM-DD");
-				var startTime = moment(event.start).format('hh:mm a');
-				if(startTime == "12:00 am") startTime = "00:00 am";
+				var startTime = moment(event.start).format('hh:mm');
+				if(startTime == "12:00") startTime = "00:00";
 				$("#starttime").val(startTime);
 				if(event.end != null) {
 					var endDate = moment(event.end).format("YYYY-MM-DD");
-					var endTime = moment(event.end).format('hh:mm a');
+					var endTime = moment(event.end).format('hh:mm');
 					$("#endtime").val(endTime);
 				}
 
@@ -240,7 +240,7 @@ d(window)
  			},
 
 			eventMouseover: function(event, element) {
-				tooltip = '<div class="tooltipevent" style="width:auto;height:auto;background:#eee;position:absolute;z-index:10001;padding:10px 10px 10px 10px;line-height: 150%;">' + event.title + '</br>' + 'date: ' + moment(event.start).format('Do MMM') + '</br>' + 'from: ' + moment(event.start).format('h:mm a') + (event.end == null?'':'</br>' + 'to: ' + moment(event.end).format('h:mm a'))  + (event.description == null?'':'</br>' + event.description) + '</div>';
+				var tooltip = '<div class="tooltipevent" style="width:auto;height:auto;background:#eee;position:absolute;z-index:10001;padding:10px 10px 10px 10px;line-height: 150%;">' + event.title + '</br>' + 'date: ' + moment(event.start).format('Do MMM') + '</br>' + 'from: ' + moment(event.start).format('h:mm a') + (event.end == null?'':'</br>' + 'to: ' + moment(event.end).format('h:mm a'))  + (event.description == null?'':'</br>' + event.description) + '</div>';
 
 				$("body").append(tooltip);
 				$(this).mouseover(function (e) {
@@ -350,7 +350,7 @@ function reload_calendar_after_save(){
 $time_options = '';
 $range=range(strtotime("00:00"),strtotime("23:30"),30*60);
 foreach($range as $time){
-	$time_options .=  '<option value="' . date("H:i a",$time) . '">' . date("H:i a",$time) . "</option>\n";
+	$time_options .=  '<option value="' . date("H:i",$time) . '">' . date("h:i a",$time) . "</option>\n";
 }
 ?>
 <div id="eventContent" title="Event Details" style="display:none;">
