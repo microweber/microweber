@@ -240,7 +240,7 @@ d(window)
  			},
 
 			eventMouseover: function(event, element) {
-				tooltip = '<div class="tooltipevent" style="width:auto;height:auto;background:#eee;position:absolute;z-index:10001;padding:10px 10px 10px 10px;line-height: 150%;">' + event.title + '</br>' + 'date: ' + moment(event.start).format('Do MMM') + '</br>' + 'from: ' + moment(event.start).format('h:mm a') + (event.end == null?'':'</br>' + 'to: ' + moment(event.end).format('h:mm a'))  + (event.description == null?'':'</br>' + event.description) + '</div>';
+				var tooltip = '<div class="tooltipevent" style="width:auto;height:auto;background:#eee;position:absolute;z-index:10001;padding:10px 10px 10px 10px;line-height: 150%;">' + event.title + '</br>' + 'date: ' + moment(event.start).format('Do MMM') + '</br>' + 'from: ' + moment(event.start).format('h:mm a') + (event.end == null?'':'</br>' + 'to: ' + moment(event.end).format('h:mm a'))  + (event.description == null?'':'</br>' + event.description) + '</div>';
 
 				$("body").append(tooltip);
 				$(this).mouseover(function (e) {
