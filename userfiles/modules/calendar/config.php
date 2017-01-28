@@ -25,10 +25,10 @@ $config['tables'] = array(
     "calendar" => array(
         '$id' => "integer",
         'content_id' => "integer",
-        'title' => "text",
-		'startdate' => "text",
-		'enddate' => "text",
-		'allDay' => "text",
+        'title' => "string",
+		'startdate' => "char",
+		'enddate' => "char",
+		'allDay' => "string",
 		'description' => "text",
     )
 );
