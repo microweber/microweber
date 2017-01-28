@@ -2285,7 +2285,7 @@ mw.drag = {
     save: function() {
 
         if (typeof saveStaticElementsStyles === 'function') {
-            saveStaticElementsStyles();
+         //   saveStaticElementsStyles();
         }
 
         if (mw.drag.saveDisabled) return false;
