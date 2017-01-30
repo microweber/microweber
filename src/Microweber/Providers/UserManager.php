@@ -585,9 +585,11 @@ class UserManager
             return array('error' => 'Please set password!');
         }
 
-        if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
-            return array('error' => 'Two password entries do not match!');
-        }
+        if (get_option('form_show_password_confirmation', 'users') == 'y') {
+			if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
+				return array('error' => 'Two password entries do not match!');
+			}
+		}
 
         if (!isset($params['username']) and !isset($params['email'])) {
             return array('error' => 'Please set username or email!');
