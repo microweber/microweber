@@ -1,7 +1,7 @@
 <?php
 
-if (version_compare(phpversion(), '5.3.0', '<=')) {
-    exit('Error: You must have PHP version 5.3 or greater to run Microweber');
+if (version_compare(phpversion(), '5.6.0', '<=')) {
+    exit('Error: You must have PHP version 5.6 or greater to run Microweber');
 }
 if (!defined('T')) {
     $mtime = microtime();
