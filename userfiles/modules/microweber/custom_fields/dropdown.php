@@ -21,7 +21,12 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 $selected = false;
 
-//print $data["value"]; ?>
+
+
+$is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+
+?>
+
 <?php if(!empty($data['values'])) : ?>
 <div class="mw-ui-field-holder">    
 <label class="mw-ui-label">
@@ -42,7 +47,7 @@ $selected = false;
 
 
  <?php if(is_array($data['values'])): ?>
-  <select <?php if(isset($data['options']) and is_array($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?> class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
+  <select <?php if(isset($data['options']) and is_array($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?>  <?php if($is_required and $is_required==1){ ?> required <?php } ?>   class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
     <?php
 	foreach($data['values'] as $k=>$v): ?>
     <?php if(is_string($k)){
