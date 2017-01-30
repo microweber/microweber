@@ -1,7 +1,9 @@
  
-
+<?php if(!isset($params['no-for-fields']))  { ?>
 <input type="hidden" name="for_id" value="<?php print $for_id?>" />
 <input type="hidden" name="for" value="<?php print $for?>" />
+<?php } ?>
+
 <?php if(!empty($data )): ?>
 <?php $price_fields = array(); ?>
 <?php foreach($data  as $field): ?>

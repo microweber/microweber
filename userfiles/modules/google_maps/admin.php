@@ -44,7 +44,7 @@
     <input
     name="data-zoom"
     class="mw-ui-field-range mw_option_field"
-    max="19"
+    max="21"
     min="0"
     type="range" id="zoom_level"
     value="<?php print get_option('data-zoom', $params['id']) ?>" />

@@ -2104,6 +2104,15 @@ input#edit-content-url:focus, input#edit-content-url.active {
 	position: relative;
 	padding: 10px 0 10px;
 }
+
+#content-title-field-buttons{
+    max-width: 220px !important;
+}
+
+.admin-manage-toolbar-content .mw-ui-row-nodrop{
+    table-layout: auto;
+}
+
 #mw-search-field {
 	position: absolute;
 	right: 100%;

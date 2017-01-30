@@ -488,3 +488,9 @@ if (!function_exists('is_https')) {
         return false;
     }
 }
+if (!function_exists('is_closure')) {
+function is_closure($t)
+    {
+        return is_object($t) or ($t instanceof \Closure);
+    }
+}
