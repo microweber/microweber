@@ -1220,6 +1220,10 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 	background: white;
 	padding: 0;
 }
+#custom-fields-post-table{
+    table-layout: fixed;
+}
+
 #custom-fields-post-table .mw-liveedit-field {
 	min-width: 55px;
 	font-size: 13px;
@@ -1293,7 +1297,6 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 }
 .mw-custom-fields-list-preview {
 	position: relative;
-	width: 440px;
 }
 .mw-custom-field-form-controls [class*='mw-icon-'] {
 	font-size: 18px;
@@ -1329,7 +1332,7 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 	color: #DC0D17;
 }
 .mw-admin-custom-field-name-edit-inline {
-	white-space: nowrap;
+	white-space: normal;
 }
 .delete-custom-fields {
 	position: absolute;
