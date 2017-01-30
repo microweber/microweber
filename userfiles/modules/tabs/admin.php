@@ -6,6 +6,12 @@
 
 $settings = get_option('settings', $params['id']);
 
+if($settings == false){
+    if(isset($params['settings'])){
+        $settings = $params['settings'];
+    }
+}
+
 $defaults = array(
     'title' => '',
     'id' => 'tab-'.uniqid(),

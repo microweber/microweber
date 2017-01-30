@@ -7,6 +7,28 @@ if ($module_template != false) {
 } else {
     $template_file = module_templates($config['module'], 'default');
 }
+
+
+$settings = get_option('settings', $params['id']);
+
+if($settings == false){
+    if(isset($params['settings'])){
+        $settings = $params['settings'];
+        $json = json_decode($settings, true);
+
+    }
+}
+else{
+    $json = json_decode($settings, true);
+}
+
+$defaults = array(
+    'title' => '',
+    'icon'  => ''
+);
+
+
+
 if (is_file($template_file)) {
-    include($template_file);
+   include($template_file);
 }
