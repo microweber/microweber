@@ -101,6 +101,7 @@
   font-size: 16px;
   color: #E8E8E8;
   margin-right: 7px;
+  margin-top: 1px;
   float: left;
 }
 
@@ -142,7 +143,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 
 .tag-label-content{
   position: relative;
-  top: 1px;
+  top: 0;
   margin-right: 5px;
   line-height: 180%;
 }
@@ -744,6 +745,8 @@ body.mw-external-loading:after{
   padding: 12px;
   text-align: center;
 }
+
+
 
 
 
