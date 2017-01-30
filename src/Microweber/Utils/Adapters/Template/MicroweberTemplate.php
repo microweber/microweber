@@ -2,8 +2,11 @@
 
 namespace Microweber\Utils\Adapters\Template;
 
+use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateMetaTagsRenderer;
+
 class MicroweberTemplate
 {
+    /** @var \Microweber\Application */
     public $app;
 
     public function __construct($app = null)
@@ -41,6 +44,12 @@ class MicroweberTemplate
         }
 
         $l = $l->__toString();
+
+        if(isset($params['meta_tags']) and $params['meta_tags']){
+            $params['layout'] = $l;
+            $meta_tags_render = new TemplateMetaTagsRenderer($this->app);
+            $l = $meta_tags_render->render($params);
+        }
 
         return $l;
     }
@@ -718,5 +727,12 @@ class MicroweberTemplate
         //   $this->app->cache_manager->save($render_file, $cache_id, $cache_group);
 
         return $render_file;
+    }
+
+
+
+
+    private function add_seo_meta_tags(){
+
     }
 }
