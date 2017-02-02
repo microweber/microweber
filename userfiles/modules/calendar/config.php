@@ -16,6 +16,6 @@ $config['tables'] = array(
 		'startdate' => "char",
 		'enddate' => "char",
 		'allDay' => "string",
-		'description' => "text",
+		'description' => "text"
     )
 );
