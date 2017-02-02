@@ -7,6 +7,7 @@
 	.mw-mod-template-settings-holder label, .mw-mod-template-settings-holder select { float:left}
 	.mw-mod-template-settings-holder label {margin-top:11px;margin-right:10px}
 </style>
+
 <script>
 d(window)
 
@@ -19,6 +20,7 @@ d(window)
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/lib/moment.min.js");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.js");
 </script>
+
 <style>
 	#newevent{ cursor: move;width:80px;text-align:center;margin-top:10px}
 	#external-events {margin-bottom:10px}
@@ -30,7 +32,7 @@ d(window)
 	#eventContent .row .colElement {width:220px;}
 	.ui-dialog-buttonpane .leftButton {float:left}
 </style>
- <script>
+<script>
 	$(document).ready(function() {
 
 		var zone = '<?php echo date('P');?>';
@@ -98,7 +100,6 @@ d(window)
 
 					  	reload_calendar_after_save();
 
-
 		    		},
 		    		error: function(e){
 		    			console.log(e.responseText);
@@ -146,14 +147,12 @@ d(window)
 				}
 				*/
 				var startDate = moment(event.start).format("YYYY-MM-DD");
-
-				var startTime = moment(event.start).format('hh:mm a');
-				if(startTime == "12:00 am") startTime = "00:00 am";
+				var startTime = moment(event.start).format('hh:mm');
+				if(startTime == "12:00") startTime = "00:00";
 				$("#starttime").val(startTime);
 				if(event.end != null) {
 					var endDate = moment(event.end).format("YYYY-MM-DD");
-					var endTime = moment(event.end).format('hh:mm a');
-
+					var endTime = moment(event.end).format('hh:mm');
 					$("#endtime").val(endTime);
 				}
 
@@ -180,8 +179,6 @@ d(window)
 															success: function(response){
 																if(response.status == 'success')
 																	$('#calendar').fullCalendar('updateEvent',event);
-																//	reload_calendar_after_save();
-
 															},
 															error: function(e){
 																alert('Error processing your request: '+e.responseText);
@@ -215,10 +212,6 @@ d(window)
 					dataType: 'json',
 					success: function(response){
 						if(response.status == 'success') $('#calendar').fullCalendar('updateEvent',event);
-
-					//	reload_calendar_after_save();
-
-
 						//if(response.status != 'success') revertFunc();
 					},
 					error: function(e){
@@ -242,9 +235,7 @@ d(window)
  			},
 
 			eventMouseover: function(event, element) {
-
 				var tooltip = '<div class="tooltipevent" style="width:auto;height:auto;background:#eee;position:absolute;z-index:10001;padding:10px 10px 10px 10px;line-height: 150%;">' + event.title + '</br>' + 'date: ' + moment(event.start).format('Do MMM') + '</br>' + 'from: ' + moment(event.start).format('h:mm a') + (event.end == null?'':'</br>' + 'to: ' + moment(event.end).format('h:mm a'))  + (event.description == null?'':'</br>' + event.description) + '</div>';
-
 
 				$("body").append(tooltip);
 				$(this).mouseover(function (e) {
@@ -340,8 +331,6 @@ d(window)
 
 	});
 
-
-
 function reload_calendar_after_save(){
  	//mw.reload_module_parent('#<?php print $params['id'] ?>');
 	window.parent.$(window.parent.document).trigger('calendar.update');
@@ -351,10 +340,14 @@ function reload_calendar_after_save(){
 
 
 <?php
+// TODO:
+// if start time changed then change end time options to be after
+// if start time is set then only show options before end time
+// if end time set then only show options after start time
 $time_options = '';
 $range=range(strtotime("00:00"),strtotime("23:30"),30*60);
 foreach($range as $time){
-	$time_options .=  '<option value="' . date("H:i a",$time) . '">' . date("H:i a",$time) . "</option>\n";
+	$time_options .=  '<option value="' . date("H:i",$time) . '">' . date("h:i a",$time) . "</option>\n";
 }
 ?>
 <div id="eventContent" title="Event Details" style="display:none;">
