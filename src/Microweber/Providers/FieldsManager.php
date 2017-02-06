@@ -470,7 +470,7 @@ class FieldsManager
                 }
                 $default_values = $v;
                 $default_values['values_plain'] = '';
-                $default_values['value'] = '';
+                $default_values['value'] = array();
                 $default_values['values'] = array();
 
                 if (!empty($vals)) {
