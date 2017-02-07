@@ -271,13 +271,13 @@ class MenuManager
 
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
-        //  $menu_params['id'] = '[neq]'.$menu_id;
 
         $menu_params['table'] = $menus;
         $menu_params['order_by'] = 'position ASC';
 
-        $q = $this->app->database_manager->get($menu_params);
 
+        $q = $this->app->database_manager->get($menu_params);
+     //   dd($menu_params,$q);
         $has_items = false;
 
         $active_class = '';

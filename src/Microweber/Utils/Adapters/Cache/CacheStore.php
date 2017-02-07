@@ -3,12 +3,13 @@
 namespace Microweber\Utils\Adapters\Cache;
 
 use Closure;
-use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
+use Illuminate\Contracts\Cache\Repository;
 use Microweber\Utils\Adapters\Cache\Storage\ApcStorage;
+use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
 use Microweber\Utils\Adapters\Cache\Storage\MemcachedStorage;
 use Microweber\Utils\Adapters\Cache\Storage\XCacheStorage;
 
-class CacheStore
+class CacheStore implements Repository
 {
     /** @var \Microweber\Utils\Adapters\Cache\Storage\FileStorage */
     public $adapter;
@@ -16,7 +17,7 @@ class CacheStore
     public function __construct($prefix = '')
     {
         if ($prefix == false) {
-            $prefix = md5(app()->environment().site_url());
+            $prefix = md5(app()->environment() . site_url());
         }
 
         $adapter_from_config = \Config::get('microweber.cache_adapter');
@@ -50,6 +51,7 @@ class CacheStore
     {
         $this->adapter = $adapter;
     }
+
     /**
      * Retrieve an item from the cache by key.
      *
@@ -57,17 +59,17 @@ class CacheStore
      *
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return $this->adapter->get($key);
+        return $this->adapter->get($key, $default);
     }
 
     /**
      * Store an item in the cache for a given number of minutes.
      *
      * @param string $key
-     * @param mixed  $value
-     * @param int    $minutes
+     * @param mixed $value
+     * @param int $minutes
      */
     public function put($key, $value, $minutes)
     {
@@ -89,9 +91,9 @@ class CacheStore
     /**
      * Get an item from the cache, or store the default value.
      *
-     * @param string        $key
+     * @param string $key
      * @param \DateTime|int $minutes
-     * @param Closure       $callback
+     * @param Closure $callback
      *
      * @return mixed
      */
@@ -103,7 +105,7 @@ class CacheStore
     /**
      * Get an item from the cache, or store the default value forever.
      *
-     * @param string  $key
+     * @param string $key
      * @param Closure $callback
      *
      * @return mixed
@@ -117,7 +119,7 @@ class CacheStore
      * Increment the value of an item in the cache.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws \LogicException
      */
@@ -130,7 +132,7 @@ class CacheStore
      * Increment the value of an item in the cache.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws \LogicException
      */
@@ -143,7 +145,7 @@ class CacheStore
      * Store an item in the cache indefinitely.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function forever($key, $value)
     {
@@ -178,5 +180,29 @@ class CacheStore
     public function flush($all = false)
     {
         return $this->adapter->flush($all);
+    }
+
+
+    public function has($key)
+    {
+        return $this->adapter->has($key);
+
+    }
+
+    public function add($key, $value, $minutes)
+    {
+        return $this->adapter->add($key, $value, $minutes);
+
+    }
+
+    public function sear($key, Closure $callback)
+    {
+        return $this->adapter->sear($key, $callback);
+
+    }
+
+    public function pull($key, $default = null)
+    {
+        return $this->adapter->pull($key, $default);
     }
 }
