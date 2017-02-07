@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers;
+<?php namespace Microweber\App\Http\Controllers;
 
 class HomeController extends Controller {
 

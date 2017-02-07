@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace Microweber\App;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;

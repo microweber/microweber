@@ -1,11 +1,10 @@
-<?php namespace App\Http\Middleware;
+<?php namespace Microweber\App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Routing\Middleware;
 
-class RedirectIfAuthenticated implements Middleware {
+class Authenticate implements Middleware {
 
 	/**
 	 * The Guard implementation.
@@ -34,9 +33,16 @@ class RedirectIfAuthenticated implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->auth->check())
+		if ($this->auth->guest())
 		{
-			return new RedirectResponse(url('/home'));
+			if ($request->ajax())
+			{
+				return response('Unauthorized.', 401);
+			}
+			else
+			{
+				return redirect()->guest('auth/login');
+			}
 		}
 
 		return $next($request);
