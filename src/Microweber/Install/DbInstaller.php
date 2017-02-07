@@ -14,7 +14,12 @@ class DbInstaller
     public function run()
     {
         Cache::flush();
-        $this->createSchema();
+        try {
+            $this->createSchema();
+        } catch (\Illuminate\Database\QueryException $e) {
+
+        }
+
         $this->seed();
         Cache::flush();
         $this->log('Installing modules');

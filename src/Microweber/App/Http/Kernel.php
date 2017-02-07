@@ -1,4 +1,4 @@
-<?php namespace App\Http;
+<?php namespace Microweber\App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -24,9 +24,9 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $routeMiddleware = [
-		'auth' => 'App\Http\Middleware\Authenticate',
+		'auth' => 'Microweber\App\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
+		'guest' => 'Microweber\App\Http\Middleware\RedirectIfAuthenticated',
 	];
 
 }

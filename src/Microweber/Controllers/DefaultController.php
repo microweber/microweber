@@ -1909,7 +1909,7 @@ class DefaultController extends Controller
                 }
             }
             if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and $is_editmode) {
-                session_set('last_content_id', CONTENT_ID);
+                $this->app->user_manager->session_set('last_content_id', CONTENT_ID);
             }
 
             if ($output_cache_timeout != false) {

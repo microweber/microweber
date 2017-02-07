@@ -78,9 +78,9 @@ return [
 	|
 	*/
 
-    'key' => 'YourSecretKey!!!',
+    'key' => 'base64:5pJ1a1JxZSRm45h+leC9nLkqJUicLgPN11OQZW3BNBY=',
 
-	'cipher' => MCRYPT_RIJNDAEL_128,
+	'cipher' => 'AES-256-CBC',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,9 +113,9 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-		'App\Providers\AppServiceProvider',
-		'App\Providers\EventServiceProvider',
-		'App\Providers\RouteServiceProvider',
+		'Microweber\App\Providers\AppServiceProvider',
+		'Microweber\App\Providers\EventServiceProvider',
+		'Microweber\App\Providers\RouteServiceProvider',
 		'Microweber\MicroweberServiceProvider',
 
 		/*
