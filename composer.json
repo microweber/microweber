@@ -17,11 +17,12 @@
     }
   ],
   "require": {
-    "laravel/framework": "5.3.*",
+    "laravel/framework": "5.4.*",
     "laravel/socialite": "2.0.12",
     "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
-    "illuminate/contracts": "5.0.*|5.1.*|5.2.*|5.3.*",
+    "illuminate/contracts": "5.4.*",
+    "illuminate/support": "5.4.*",
     "vlucas/phpdotenv": "*",
     "rcrowe/twigbridge": "*",
     "graham-campbell/markdown": "*",
@@ -43,7 +44,7 @@
     "arcanedev/seo-helper": "^1.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.8.*@dev"
+    "phpunit/phpunit": "~5.0"
   },
   "autoload": {
     "psr-4": {

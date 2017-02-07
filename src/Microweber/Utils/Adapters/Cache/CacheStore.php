@@ -3,12 +3,13 @@
 namespace Microweber\Utils\Adapters\Cache;
 
 use Closure;
+use Illuminate\Contracts\Cache\Repository;
 use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
 use Microweber\Utils\Adapters\Cache\Storage\ApcStorage;
 use Microweber\Utils\Adapters\Cache\Storage\MemcachedStorage;
 use Microweber\Utils\Adapters\Cache\Storage\XCacheStorage;
 
-class CacheStore
+class CacheStore implements Repository
 {
     /** @var \Microweber\Utils\Adapters\Cache\Storage\FileStorage */
     public $adapter;
@@ -57,9 +58,9 @@ class CacheStore
      *
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $default=null)
     {
-        return $this->adapter->get($key);
+        return $this->adapter->get($key,$default);
     }
 
     /**
