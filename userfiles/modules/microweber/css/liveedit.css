@@ -291,6 +291,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   color: black;
   font-size: 19px;
   line-height: 19px;
+  opacity: 0;
 }
 
 .mw-sorthandle-moveit:hover:before{
