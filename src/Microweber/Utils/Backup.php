@@ -10,6 +10,7 @@ namespace Microweber\Utils;
 
 use League\Flysystem\File;
 use ZipArchive;
+use Illuminate\Database\QueryException;
 
 api_expose_admin('Microweber\Utils\Backup\delete');
 api_expose_admin('Microweber\Utils\Backup\create');
@@ -359,6 +360,10 @@ class Backup
                 if ($engine == 'sqlite') {
                     $stmt = str_replace("\'", "''", $stmt);
                 }
+                if ($engine == 'pgsql') {
+                    $stmt = str_replace('REPLACE INTO', 'INSERT INTO', $stmt);
+                    $stmt = str_replace("'',", "NULL,", $stmt);
+                }
 
                 if ($this->debug) {
                     d($stmt);
@@ -369,6 +374,12 @@ class Backup
                         @mw()->database_manager->q($stmt, true);
                         // mw()->database_manager->q($stmt);
                     } catch (QueryException $e) {
+                        echo 'Caught exception: '.$e->getMessage()."\n";
+                        $sqlErrorCode = 1;
+                    } catch (\Illuminate\Database\QueryException $e) {
+                        echo 'Caught exception: '.$e->getMessage()."\n";
+                        $sqlErrorCode = 1;
+                    } catch (\PDOException $e) {
                         echo 'Caught exception: '.$e->getMessage()."\n";
                         $sqlErrorCode = 1;
                     } catch (Exception $e) {
