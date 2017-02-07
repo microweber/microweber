@@ -11,8 +11,10 @@ if ($menu_name != false) {
     $params['menu-name'] = $menu_name;
 }
 
+
 if (isset($params['menu-name'])) {
     $menu = get_menus('make_on_not_found=1&one=1&limit=1&title=' . $params['menu-name']);
+
     if (is_array($menu)) {
         $menu_filter = $params;
         if (!isset($params['ul_class'])) {
@@ -36,6 +38,7 @@ if (isset($params['menu-name'])) {
             $template_file = module_templates($config['module'], 'default');
             include($template_file);
         }
+
     } else {
         print lnotif("Click on settings to edit this menu");
     }

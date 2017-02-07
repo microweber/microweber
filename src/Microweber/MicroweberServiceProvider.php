@@ -3,12 +3,12 @@
 namespace Microweber;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\ClassLoader;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Http\Request;
 use Cache;
 use App;
 use Microweber\Utils\Adapters\Config\ConfigSave as ConfigSave;
+use Microweber\Utils\ClassLoader;
 
 if (!defined('MW_VERSION')) {
     include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';

@@ -537,10 +537,13 @@ trait QueryFilter
 
     public function map_array_to_table($table, $array)
     {
+
+
         if (!is_array($array)) {
             return $array;
         }
         $r = $this->get_fields($table);
+
         $r = array_diff($r, $this->filter_keys);
         $r = array_intersect($r, array_keys($array));
         $r = array_flip($r);
