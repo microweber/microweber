@@ -286,16 +286,25 @@ class Utils
 
         $cache_group = 'db/fields';
         if (!$table) {
-            return false;
+           return false;
         }
         $key = 'mw_db_get_fields_'.crc32($table);
         $hash = $table;
         $value = $this->app->cache_manager->get($key, 'db', $expiresAt);
 
         if (isset($value[ $hash ])) {
-            return $value[ $hash ];
+          return $value[ $hash ];
         }
-        $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
+        $db_driver = Config::get("database.default");
+
+        $engine = $this->get_sql_engine();
+        if ($engine != 'sqlite') {
+            $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
+        } else {
+            $table_name = $this->real_table_name($table);
+            $fields = DB::select('PRAGMA table_info('.$table_name.')');
+        }
+
 
 
         if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name))) {

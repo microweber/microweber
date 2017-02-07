@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 class LaravelCache
 {
     public $ttl = 30;
-    public $support_tags = false;
+    public $support_tags = true;
     public $app;
     public $cache_hits = array();
 
