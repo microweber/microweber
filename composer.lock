@@ -1302,12 +1302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d0336261cdb63df6fff666490a6e9987cba5c0f0"
+                "reference": "a6523520642f265a36323555bbc2270f138af8d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d0336261cdb63df6fff666490a6e9987cba5c0f0",
-                "reference": "d0336261cdb63df6fff666490a6e9987cba5c0f0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a6523520642f265a36323555bbc2270f138af8d5",
+                "reference": "a6523520642f265a36323555bbc2270f138af8d5",
                 "shasum": ""
             },
             "require": {
@@ -1423,7 +1423,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-07 00:14:39"
+            "time": "2017-02-07 22:53:14"
         },
         {
             "name": "laravel/socialite",
@@ -6054,16 +6054,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.x-dev",
+            "version": "5.7.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "89c103a1128245204e2eccb0a0f9859bc7dfdacb"
+                "reference": "944600e244f80a5252679878553b95c63dbf978b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/89c103a1128245204e2eccb0a0f9859bc7dfdacb",
-                "reference": "89c103a1128245204e2eccb0a0f9859bc7dfdacb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/944600e244f80a5252679878553b95c63dbf978b",
+                "reference": "944600e244f80a5252679878553b95c63dbf978b",
                 "shasum": ""
             },
             "require": {
@@ -6132,7 +6132,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-02-07 06:59:58"
+            "time": "2017-02-08 05:54:05"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -6237,70 +6237,6 @@
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
             "time": "2016-12-06 20:05:00"
-        },
-        {
-            "name": "sebastian/comparator",
-            "version": "1.2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "2b7424b55f5047b47ac6e5ccb20b2aea4011d9be"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/2b7424b55f5047b47ac6e5ccb20b2aea4011d9be",
-                "reference": "2b7424b55f5047b47ac6e5ccb20b2aea4011d9be",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "sebastian/diff": "~1.2",
-                "sebastian/exporter": "~1.2 || ~2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Jeff Welch",
-                    "email": "whatthejeff@gmail.com"
-                },
-                {
-                    "name": "Volker Dusch",
-                    "email": "github@wallbash.com"
-                },
-                {
-                    "name": "Bernhard Schussek",
-                    "email": "bschussek@2bepublished.at"
-                },
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de"
-                }
-            ],
-            "description": "Provides the functionality to compare PHP values for equality",
-            "homepage": "http://www.github.com/sebastianbergmann/comparator",
-            "keywords": [
-                "comparator",
-                "compare",
-                "equality"
-            ],
-            "time": "2017-01-29 09:50:25"
         },
         {
             "name": "sebastian/diff",
