@@ -371,7 +371,7 @@ class Backup
 
                 if (strlen(trim($stmt)) > 3) {
                     try {
-                        @mw()->database_manager->q($stmt, true);
+                       mw()->database_manager->q($stmt, true);
                         // mw()->database_manager->q($stmt);
                     } catch (QueryException $e) {
                         echo 'Caught exception: '.$e->getMessage()."\n";

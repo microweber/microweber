@@ -95,6 +95,7 @@ class Utils
                                 $col_exist = true;
                             }
                         }
+
                         if (!$col_exist) {
                             $fluent = $schema->$type($name);
                             if ($is_default !== null) {
@@ -291,7 +292,7 @@ class Utils
     public function get_fields($table, $use_cache = true)
     {
         static $ex_fields_static;
-        if (isset($ex_fields_static[$table])) {
+        if ($use_cache and isset($ex_fields_static[$table])) {
             return $ex_fields_static[$table];
         }
         $expiresAt = 300;
