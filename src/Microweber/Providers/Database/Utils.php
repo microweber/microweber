@@ -30,10 +30,11 @@ class Utils
 
     public function build_table($table_name, $fields_to_add, $use_cache = false)
     {
+
         if ($use_cache) {
-            $key = 'mw_build_table'.$table_name;
+            $key = 'mw_build_table' . $table_name;
             if (defined('MW_VERSION')) {
-                $key = $key.MW_VERSION;
+                $key = $key . MW_VERSION;
             }
 
             $value = Cache::get($key);
@@ -55,13 +56,17 @@ class Utils
     private function _exec_table_builder($table_name, $fields_to_add)
     {
         $table_name = $this->assoc_table_name($table_name);
+
         if (!Schema::hasTable($table_name)) {
             Schema::create($table_name, function ($table) {
                 $table->increments('id');
             });
         }
+
+        $class = $this;
+
         if (is_array($fields_to_add)) {
-            Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name) {
+            Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name, $class) {
                 foreach ($fields_to_add as $name => $meta) {
                     $is_index = substr($name, 0, 1) === '$';
                     $is_default = null;
@@ -83,7 +88,14 @@ class Utils
                         } else {
                             $type = $meta;
                         }
-                        if (!Schema::hasColumn($table_name, $name)) {
+                        $columns = $class->get_fields($table_name, false);
+                        $col_exist = false;
+                        foreach ($columns as $col){
+                            if($col == $name){
+                                $col_exist = true;
+                            }
+                        }
+                        if (!$col_exist) {
                             $fluent = $schema->$type($name);
                             if ($is_default !== null) {
                                 $fluent->default($is_default)->nullable();
@@ -114,7 +126,7 @@ class Utils
             $result = DB::select('SHOW TABLES');
             if (!empty($result)) {
                 foreach ($result as $item) {
-                    $item = (array) $item;
+                    $item = (array)$item;
                     if (count($item) > 0) {
                         $item_vals = (array_values($item));
                         $tables[] = $item_vals[0];
@@ -125,7 +137,7 @@ class Utils
             $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table';");
             if (is_array($sql) and !empty($sql)) {
                 foreach ($sql as $item) {
-                    $item = (array) $item;
+                    $item = (array)$item;
                     if (isset($item['tbl_name'])) {
                         $tables[] = $item['tbl_name'];
                     } elseif (isset($item['name'])) {
@@ -142,10 +154,10 @@ class Utils
     {
         $engine = $this->get_sql_engine();
         if ($engine != 'sqlite') {
-            $qs = 'SHOW CREATE TABLE '.$full_table_name;
+            $qs = 'SHOW CREATE TABLE ' . $full_table_name;
             $sql = DB::select($qs);
             if (isset($sql[0])) {
-                $sql[0] = (array) $sql[0];
+                $sql[0] = (array)$sql[0];
                 $row = array_values($sql[0]);
                 if (isset($row[1])) {
                     return $row[1];
@@ -155,7 +167,7 @@ class Utils
             $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table' and (tbl_name='{$full_table_name}');");
             if (is_array($sql) and !empty($sql)) {
                 foreach ($sql as $item) {
-                    $item = (array) $item;
+                    $item = (array)$item;
                     if (isset($item['sql'])) {
                         return $item['sql'];
                     }
@@ -174,7 +186,7 @@ class Utils
     public function get_prefix()
     {
         $default_sql_engine = $this->get_sql_engine();
-        $config_prefix = Config::get('database.connections.'.$default_sql_engine.'.prefix');
+        $config_prefix = Config::get('database.connections.' . $default_sql_engine . '.prefix');
 
         return $config_prefix;
     }
@@ -195,10 +207,10 @@ class Utils
         }
 
         $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
-        $assoc_name_new = str_ireplace($this->table_prefix.$this->table_prefix, $this->table_prefix, $assoc_name_new);
+        $assoc_name_new = str_ireplace($this->table_prefix . $this->table_prefix, $this->table_prefix, $assoc_name_new);
 
         if ($this->table_prefix and $this->table_prefix != '' and stristr($assoc_name_new, $this->table_prefix) == false) {
-            $assoc_name_new = $this->table_prefix.$assoc_name_new;
+            $assoc_name_new = $this->table_prefix . $assoc_name_new;
         }
 
         return $assoc_name_new;
@@ -229,8 +241,8 @@ class Utils
     public function map_array_to_table($table, $array)
     {
         $arr_key = crc32($table) + crc32(serialize($array));
-        if (isset($this->table_fields[ $arr_key ])) {
-            return $this->table_fields[ $arr_key ];
+        if (isset($this->table_fields[$arr_key])) {
+            return $this->table_fields[$arr_key];
         }
         if (empty($array)) {
             return false;
@@ -241,12 +253,12 @@ class Utils
         if (is_array($fields)) {
             foreach ($fields as $field) {
                 $field = strtolower($field);
-                if (isset($array[ $field ])) {
-                    if ($array[ $field ] != false) {
-                        $array_to_return[ $field ] = $array[ $field ];
+                if (isset($array[$field])) {
+                    if ($array[$field] != false) {
+                        $array_to_return[$field] = $array[$field];
                     }
-                    if ($array[ $field ] == 0) {
-                        $array_to_return[ $field ] = $array[ $field ];
+                    if ($array[$field] == 0) {
+                        $array_to_return[$field] = $array[$field];
                     }
                 }
             }
@@ -254,7 +266,7 @@ class Utils
         if (!isset($array_to_return)) {
             return false;
         } else {
-            $this->table_fields[ $arr_key ] = $array_to_return;
+            $this->table_fields[$arr_key] = $array_to_return;
         }
 
         return $array_to_return;
@@ -276,41 +288,49 @@ class Utils
      *
      * @since   Version 1.0
      */
-    public function get_fields($table)
+    public function get_fields($table, $use_cache = true)
     {
         static $ex_fields_static;
-        if (isset($ex_fields_static[ $table ])) {
-            return $ex_fields_static[ $table ];
+        if (isset($ex_fields_static[$table])) {
+            return $ex_fields_static[$table];
         }
         $expiresAt = 300;
 
         $cache_group = 'db/fields';
         if (!$table) {
-           return false;
+            return false;
         }
-        $key = 'mw_db_get_fields_'.crc32($table);
+        $key = 'mw_db_get_fields_' . crc32($table);
         $hash = $table;
-        $value = $this->app->cache_manager->get($key, 'db', $expiresAt);
+        $value = mw()->cache_manager->get($key, 'db', $expiresAt);
 
-        if (isset($value[ $hash ])) {
-          return $value[ $hash ];
+
+        if ($use_cache and isset($value[$hash])) {
+            return $value[$hash];
         }
         $db_driver = Config::get("database.default");
 
         $engine = $this->get_sql_engine();
-        if ($engine != 'sqlite') {
-            $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
-        } else {
+        if ($engine == 'mysql') {
             $table_name = $this->real_table_name($table);
-            $fields = DB::select('PRAGMA table_info('.$table_name.')');
+            $fields = DB::select('SHOW COLUMNS FROM ' . $table_name . '');
+
+        } else if ($engine == 'sqlite') {
+            $table_name = $this->real_table_name($table);
+            $fields = DB::select('PRAGMA table_info(' . $table_name . ')');
+        } else {
+            // getColumnListing has a bug in mysql 8.0 and lsqlite
+            $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
+
         }
 
 
-
-        if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name))) {
+        if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field))) {
             $fields = array_map(function ($f) {
                 if (isset($f->column_name)) {
                     return $f->column_name;
+                } else if (isset($f->Field)) {
+                    return $f->Field;
                 } else {
                     return $f->name;
                 }
@@ -318,10 +338,11 @@ class Utils
         }
 
         // Caching
-        $ex_fields_static[ $table ] = $fields;
-        $value[ $hash ] = $fields;
-        $this->app->cache_manager->save($value, $key, $cache_group);
-
+        $ex_fields_static[$table] = $fields;
+        $value[$hash] = $fields;
+        if ($use_cache) {
+            mw()->cache_manager->save($value, $key, $cache_group);
+        }
         return $fields;
     }
 
@@ -349,13 +370,13 @@ class Utils
     public function clean_input($input)
     {
 
-       // return $this->app->format->clean_xss($input,true);
+        // return $this->app->format->clean_xss($input,true);
 
 
-      if (is_array($input)) {
+        if (is_array($input)) {
             $output = array();
             foreach ($input as $var => $val) {
-                $output[ $var ] = $this->clean_input($val);
+                $output[$var] = $this->clean_input($val);
             }
         } elseif (is_string($input)) {
             $search = array(
@@ -393,7 +414,7 @@ class Utils
     {
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $value[ $k ] = $this->escape_string($v);
+                $value[$k] = $this->escape_string($v);
             }
 
             return $value;
@@ -401,14 +422,14 @@ class Utils
             if (!is_string($value)) {
                 return $value;
             }
-            $str_crc = 'esc'.crc32($value);
-            if (isset($this->mw_escaped_strings[ $str_crc ])) {
-                return $this->mw_escaped_strings[ $str_crc ];
+            $str_crc = 'esc' . crc32($value);
+            if (isset($this->mw_escaped_strings[$str_crc])) {
+                return $this->mw_escaped_strings[$str_crc];
             }
             $search = array('\\', "\x00", "\n", "\r", "'", '"', "\x1a");
             $replace = array('\\\\', '\\0', '\\n', '\\r', "\'", '\"', '\\Z');
             $new = str_replace($search, $replace, $value);
-            $this->mw_escaped_strings[ $str_crc ] = $new;
+            $this->mw_escaped_strings[$str_crc] = $new;
 
             return $new;
         }
@@ -420,17 +441,17 @@ class Utils
         $function_cache_id = false;
         $args = func_get_args();
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
-            $function_cache_id = 'add_table_index'.crc32($function_cache_id);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+            $function_cache_id = 'add_table_index' . crc32($function_cache_id);
         }
-        if (isset($this->add_table_index_cache[ $function_cache_id ])) {
+        if (isset($this->add_table_index_cache[$function_cache_id])) {
             return true;
         } else {
-            $this->add_table_index_cache[ $function_cache_id ] = true;
+            $this->add_table_index_cache[$function_cache_id] = true;
         }
 
         $table_name = $function_cache_id;
-        $cache_group = 'db/'.$table_name;
+        $cache_group = 'db/' . $table_name;
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
         if (($cache_content) != false) {
             return $cache_content;
@@ -445,7 +466,7 @@ class Utils
             //FULLTEXT
         }
         if ($query == false) {
-            $q = 'ALTER TABLE '.$aTable." ADD $index `".$aIndexName.'` ('.$columns.');';
+            $q = 'ALTER TABLE ' . $aTable . " ADD $index `" . $aIndexName . '` (' . $columns . ');';
             $this->q($q);
         }
         $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
@@ -466,7 +487,7 @@ class Utils
 
         if (is_file($dbms_schema)) {
             $prefix = get_table_prefix();
-            $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem '.__FILE__.__LINE__);
+            $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ' . __FILE__ . __LINE__);
             $sql_query = str_ireplace('{MW_TABLE_PREFIX}', $prefix, $sql_query);
             $sql_query = $this->remove_sql_remarks($sql_query);
             $sql_query = $this->remove_comments_from_sql_string($sql_query);
@@ -491,13 +512,13 @@ class Utils
         $linecount = count($lines);
         $output = '';
         for ($i = 0; $i < $linecount; ++$i) {
-            if (($i != ($linecount - 1)) || (strlen($lines[ $i ]) > 0)) {
-                if (isset($lines[ $i ][0]) && $lines[ $i ][0] != '#') {
-                    $output .= $lines[ $i ]."\n";
+            if (($i != ($linecount - 1)) || (strlen($lines[$i]) > 0)) {
+                if (isset($lines[$i][0]) && $lines[$i][0] != '#') {
+                    $output .= $lines[$i] . "\n";
                 } else {
                     $output .= "\n";
                 }
-                $lines[ $i ] = '';
+                $lines[$i] = '';
             }
         }
 
@@ -523,13 +544,13 @@ class Utils
         $linecount = count($lines);
         $in_comment = false;
         for ($i = 0; $i < $linecount; ++$i) {
-            if (preg_match("/^\/\*/", preg_quote($lines[ $i ]))) {
+            if (preg_match("/^\/\*/", preg_quote($lines[$i]))) {
                 $in_comment = true;
             }
             if (!$in_comment) {
-                $output .= $lines[ $i ]."\n";
+                $output .= $lines[$i] . "\n";
             }
-            if (preg_match("/\*\/$/", preg_quote($lines[ $i ]))) {
+            if (preg_match("/\*\/$/", preg_quote($lines[$i]))) {
                 $in_comment = false;
             }
         }
@@ -556,43 +577,43 @@ class Utils
         $token_count = count($tokens);
         for ($i = 0; $i < $token_count; ++$i) {
             // Don't wanna add an empty string as the last thing in the array.
-            if (($i != ($token_count - 1)) || (strlen($tokens[ $i ] > 0))) {
+            if (($i != ($token_count - 1)) || (strlen($tokens[$i] > 0))) {
                 // This is the total number of single quotes in the token.
-                $total_quotes = preg_match_all("/'/", $tokens[ $i ], $matches);
+                $total_quotes = preg_match_all("/'/", $tokens[$i], $matches);
                 // Counts single quotes that are preceded by an odd number of backslashes,
                 // which means they're escaped quotes.
-                $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[ $i ], $matches);
+                $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$i], $matches);
                 $unescaped_quotes = $total_quotes - $escaped_quotes;
                 // If the number of unescaped quotes is even, then the delimiter did NOT occur inside a string literal.
                 if (($unescaped_quotes % 2) == 0) {
                     // It's a complete sql statement.
-                    $output[] = $tokens[ $i ];
+                    $output[] = $tokens[$i];
                     // save memory.
-                    $tokens[ $i ] = '';
+                    $tokens[$i] = '';
                 } else {
                     // incomplete sql statement. keep adding tokens until we have a complete one.
                     // $temp will hold what we have so far.
-                    $temp = $tokens[ $i ].$delimiter;
+                    $temp = $tokens[$i] . $delimiter;
                     // save memory..
-                    $tokens[ $i ] = '';
+                    $tokens[$i] = '';
                     // Do we have a complete statement yet?
                     $complete_stmt = false;
                     for ($j = $i + 1; (!$complete_stmt && ($j < $token_count)); ++$j) {
                         // This is the total number of single quotes in the token.
-                        $total_quotes = preg_match_all("/'/", $tokens[ $j ], $matches);
+                        $total_quotes = preg_match_all("/'/", $tokens[$j], $matches);
                         // Counts single quotes that are preceded by an odd number of backslashes,
                         // which means they're escaped quotes.
-                        $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[ $j ], $matches);
+                        $escaped_quotes = preg_match_all("/(?<!\\\\)(\\\\\\\\)*\\\\'/", $tokens[$j], $matches);
 
                         $unescaped_quotes = $total_quotes - $escaped_quotes;
 
                         if (($unescaped_quotes % 2) == 1) {
                             // odd number of unescaped quotes. In combination with the previous incomplete
                             // statement(s), we now have a complete statement. (2 odds always make an even)
-                            $output[] = $temp.$tokens[ $j ];
+                            $output[] = $temp . $tokens[$j];
 
                             // save memory.
-                            $tokens[ $j ] = '';
+                            $tokens[$j] = '';
                             $temp = '';
 
                             // exit the loop.
@@ -602,9 +623,9 @@ class Utils
                         } else {
                             // even number of unescaped quotes. We still don't have a complete statement.
                             // (1 odd and 1 even always make an odd)
-                            $temp .= $tokens[ $j ].$delimiter;
+                            $temp .= $tokens[$j] . $delimiter;
                             // save memory.
-                            $tokens[ $j ] = '';
+                            $tokens[$j] = '';
                         }
                     } // for..
                 } // else
