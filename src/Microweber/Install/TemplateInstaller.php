@@ -67,13 +67,14 @@ class TemplateInstaller
             $restore = new \Microweber\Utils\Backup();
             $restore->backups_folder = $default_content_folder;
             $restore->backup_file = 'mw_default_content.zip';
+            //$restore->debug = 1;
             ob_start();
             try {
                 $rest = $restore->exec_restore();
             } catch (Exception $e) {
                 return false;
             }
-            ob_get_clean();
+             ob_get_clean();
 
             return true;
         } else {

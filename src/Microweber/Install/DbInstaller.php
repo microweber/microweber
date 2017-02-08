@@ -16,6 +16,7 @@ class DbInstaller
         Cache::flush();
         try {
             $this->createSchema();
+
         } catch (\Illuminate\Database\QueryException $e) {
 
         }
