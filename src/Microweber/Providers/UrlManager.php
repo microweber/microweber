@@ -455,7 +455,7 @@ class UrlManager {
         if (is_array($arr) and !empty($arr)){
             $ret = array();
             foreach ($arr as $k => $v) {
-                if (is_array($v)){
+                if (is_array($v) and !empty($v)){
                     $v = $this->replace_site_url($v);
                 } elseif (is_string($v)) {
                     $v = str_ireplace($site, '{SITE_URL}', $v);
@@ -465,6 +465,7 @@ class UrlManager {
 
             return $ret;
         }
+        return $arr;
     }
 
     public $repaced_urls = array();

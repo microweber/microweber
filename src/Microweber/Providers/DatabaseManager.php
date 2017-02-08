@@ -391,7 +391,9 @@ class DatabaseManager extends DbUtils
             $data['session_id'] = $user_sid;
         }
         if (!isset($data['id'])) {
-            $data['id'] = 0;
+
+                $data['id'] = 0;
+
         }
         if (isset($data['cf_temp'])) {
             $cf_temp = $data['cf_temp'];
@@ -454,10 +456,12 @@ class DatabaseManager extends DbUtils
 
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
+
         } else {
             if ($allow_scripts == false) {
                 $criteria = $this->clean_input($criteria);
             }
+
         }
 
         $table = $this->app->format->clean_html($table);
@@ -475,13 +479,30 @@ class DatabaseManager extends DbUtils
         if (!isset($criteria['id'])) {
             $criteria['id'] = 0;
         }
+
+
+
         $criteria['id'] = intval($criteria['id']);
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
-            $id_to_return = $this->table($table_assoc_name)->insert($criteria);
+            $engine = $this->get_sql_engine();
+            if ($engine == 'pgsql') {
+                $highestId = DB::table($table)->select(DB::raw('MAX(id)'))->first();
+                $next_id = 0;
+                if (!isset($highestId->max)) {
+                    $next_id = 1;
+                } else {
+                    $next_id = $highestId->max+1;
+                }
+                if(!empty($criteria)){
+                $criteria['id'] = $next_id;
+                }
+            }
+            $id_to_return =\DB::table($table_assoc_name)->insert($criteria);
             $id_to_return = $this->last_id($table);
+
         } else {
-            $id_to_return = $this->table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
+            $id_to_return = \DB::table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
             $id_to_return = $criteria['id'];
         }
 

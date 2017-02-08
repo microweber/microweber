@@ -56,15 +56,19 @@ class Utils
     private function _exec_table_builder($table_name, $fields_to_add)
     {
         $table_name = $this->assoc_table_name($table_name);
+        $real_table_name = $this->real_table_name($table_name);
+       // DB::transaction(function () use ($table_name) {
+            if (!Schema::hasTable($table_name)) {
+                Schema::create($table_name, function ($table) {
+                    $table->increments('id');
+                });
 
-        if (!Schema::hasTable($table_name)) {
-            Schema::create($table_name, function ($table) {
-                $table->increments('id');
-            });
-        }
+            }
+       // });
+
 
         $class = $this;
-
+       // DB::transaction(function () use ($table_name, $fields_to_add, $class) {
         if (is_array($fields_to_add)) {
             Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name, $class) {
                 foreach ($fields_to_add as $name => $meta) {
@@ -90,8 +94,8 @@ class Utils
                         }
                         $columns = $class->get_fields($table_name, false);
                         $col_exist = false;
-                        foreach ($columns as $col){
-                            if($col == $name){
+                        foreach ($columns as $col) {
+                            if ($col == $name) {
                                 $col_exist = true;
                             }
                         }
@@ -109,6 +113,44 @@ class Utils
                 }
             });
         }
+     //   });
+//
+
+        if (Schema::hasTable($table_name)) {
+            $engine = $this->get_sql_engine();
+            if ($engine == 'pgsql') {
+//                $pdo = \DB::getPdo();
+//                $pdo->beginTransaction();
+//                $statement = $pdo->prepare("SELECT setval('id', ?, false);",[$real_table_name]);
+//                $statement->execute();
+//                $pdo->commit();
+//                dd($pdo);
+                $tableToCheck = $table_name;
+
+                $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id)'))->first();
+                if(!isset($highestId->max)){
+                    $highestId->max = 1;
+                }
+                DB::select('SELECT setval(\'' . $real_table_name . '_id_seq\', ' . $highestId->max . ')');
+
+//                $nextId = DB::table($tableToCheck)->select(DB::raw('nextval(\'' . $tableToCheck . '_id_seq\')'))->first();
+//                if ($nextId->nextval < $highestId->max) {
+//                    DB::select('SELECT setval(\'' . $tableToCheck . '_id_seq\', ' . $highestId->max . ')');
+//                    $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id)'))->first();
+//                    $nextId = DB::table($tableToCheck)->select(DB::raw('nextval(\'' . $tableToCheck . '_id_seq\')'))->first();
+//                    if ($nextId->nextval > $highestId->max) {
+//                        dd($tableToCheck . ' autoincrement corrected');
+//                    } else {
+//                        dd('Arff! The nextval sequence is still all screwed up on ' . $tableToCheck);
+//                    }
+//                }
+
+
+            }
+
+        }
+
+
     }
 
     public function assoc_table_name($assoc_name)
@@ -291,10 +333,7 @@ class Utils
      */
     public function get_fields($table, $use_cache = true)
     {
-        static $ex_fields_static;
-        if ($use_cache and isset($ex_fields_static[$table])) {
-            return $ex_fields_static[$table];
-        }
+
         $expiresAt = 300;
 
         $cache_group = 'db/fields';
@@ -320,7 +359,7 @@ class Utils
             $table_name = $this->real_table_name($table);
             $fields = DB::select('PRAGMA table_info(' . $table_name . ')');
         } else {
-            // getColumnListing has a bug in mysql 8.0 and lsqlite
+            // getColumnListing has a bug in mysql 8.0 and sqlite
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
 
         }
@@ -339,7 +378,7 @@ class Utils
         }
 
         // Caching
-        $ex_fields_static[$table] = $fields;
+
         $value[$hash] = $fields;
         if ($use_cache) {
             mw()->cache_manager->save($value, $key, $cache_group);

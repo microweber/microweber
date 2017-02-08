@@ -537,8 +537,6 @@ trait QueryFilter
 
     public function map_array_to_table($table, $array)
     {
-
-
         if (!is_array($array)) {
             return $array;
         }

@@ -1302,12 +1302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a6523520642f265a36323555bbc2270f138af8d5"
+                "reference": "4c8837046c998925972c8010bfac435c4be5facc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a6523520642f265a36323555bbc2270f138af8d5",
-                "reference": "a6523520642f265a36323555bbc2270f138af8d5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4c8837046c998925972c8010bfac435c4be5facc",
+                "reference": "4c8837046c998925972c8010bfac435c4be5facc",
                 "shasum": ""
             },
             "require": {
@@ -1423,7 +1423,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-07 22:53:14"
+            "time": "2017-02-08 15:01:52"
         },
         {
             "name": "laravel/socialite",
@@ -5043,12 +5043,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "6331c1dfc730193249db014492909234b245f448"
+                "reference": "37d005254947477f31d6878996b9adcafb2d3c44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/6331c1dfc730193249db014492909234b245f448",
-                "reference": "6331c1dfc730193249db014492909234b245f448",
+                "url": "https://api.github.com/repos/symfony/process/zipball/37d005254947477f31d6878996b9adcafb2d3c44",
+                "reference": "37d005254947477f31d6878996b9adcafb2d3c44",
                 "shasum": ""
             },
             "require": {
@@ -5084,7 +5084,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-03 12:20:42"
+            "time": "2017-02-08 15:45:40"
         },
         {
             "name": "symfony/routing",
@@ -5231,12 +5231,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "c84f28c6524cffaf7a9f5a044c86ccde3faa5a55"
+                "reference": "c2833ff62f74fa00e8a4d6125c7852dea4254552"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c84f28c6524cffaf7a9f5a044c86ccde3faa5a55",
-                "reference": "c84f28c6524cffaf7a9f5a044c86ccde3faa5a55",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c2833ff62f74fa00e8a4d6125c7852dea4254552",
+                "reference": "c2833ff62f74fa00e8a4d6125c7852dea4254552",
                 "shasum": ""
             },
             "require": {
@@ -5286,7 +5286,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-01-28 07:49:57"
+            "time": "2017-02-08 12:32:07"
         },
         {
             "name": "symfony/yaml",
@@ -6054,7 +6054,7 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.12",
+            "version": "5.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
@@ -6237,6 +6237,70 @@
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
             "time": "2016-12-06 20:05:00"
+        },
+        {
+            "name": "sebastian/comparator",
+            "version": "1.2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/comparator.git",
+                "reference": "2b7424b55f5047b47ac6e5ccb20b2aea4011d9be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/2b7424b55f5047b47ac6e5ccb20b2aea4011d9be",
+                "reference": "2b7424b55f5047b47ac6e5ccb20b2aea4011d9be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "sebastian/diff": "~1.2",
+                "sebastian/exporter": "~1.2 || ~2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Welch",
+                    "email": "whatthejeff@gmail.com"
+                },
+                {
+                    "name": "Volker Dusch",
+                    "email": "github@wallbash.com"
+                },
+                {
+                    "name": "Bernhard Schussek",
+                    "email": "bschussek@2bepublished.at"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Provides the functionality to compare PHP values for equality",
+            "homepage": "http://www.github.com/sebastianbergmann/comparator",
+            "keywords": [
+                "comparator",
+                "compare",
+                "equality"
+            ],
+            "time": "2017-01-29 09:50:25"
         },
         {
             "name": "sebastian/diff",

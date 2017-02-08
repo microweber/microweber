@@ -151,6 +151,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
+    <?php if (isset($modules) and !empty($modules)): ?>
+
+
+
     <?php foreach ($modules as $module_item): ?>
         <?php if (isset($module_item['module'])): ?>
             <?php
@@ -249,4 +253,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     </span> </span></li>
         <?php endif; ?>
     <?php endforeach; ?>
+
+
+    <?php endif; ?>
+
+
 </ul>
