@@ -46,10 +46,11 @@ class MicroweberServiceProvider extends ServiceProvider
                 if (getenv('APP_ENV')) {
                     return getenv('APP_ENV');
                 }
-
-
+                $port = explode(':', $_SERVER['HTTP_HOST']);
                 $domain = str_ireplace('www.', '', $domain);
-                $domain = str_ireplace(':' . $_SERVER['SERVER_PORT'], '', $domain);
+                if(isset($port[1])){
+                $domain = str_ireplace(':' . $port[1], '', $domain);
+                }
                 $domain = strtolower($domain);
                 return $domain;
             });
