@@ -275,7 +275,7 @@
         <?php endif; ?>
     <?php else: ?>
         <?php $hide_db_setup = isset($_REQUEST['basic']); ?>
-        <form method="post" id="form_<?php echo $rand; ?>" autocomplete="true">
+        <form method="post" id="form_<?php echo $rand; ?>" autocomplete="off">
 
             <div class="mw-ui-row" id="install-row">
                 <div class="mw-ui-col">
@@ -302,7 +302,7 @@
                                             class="mw-icon-help-outline mwahi tip"></span></span></label>
 
                                  <select class="mw-ui-field" name="db_driver"
-                                    onchange="showForm(this)">
+                                    onchange="showForm(this)" autocomplete="off">
                                     <?php foreach ($dbEngines as $engine): ?>
                                         <option value="<?php echo $engine; ?>"
                                             <?php if ($dbDefaultEngine == $engine) {
