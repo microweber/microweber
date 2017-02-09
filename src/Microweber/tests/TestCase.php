@@ -27,14 +27,14 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         $unitTesting = true;
-        $testEnvironment = 'testing';
+        $testEnvironment = env('APP_ENV') ? env('APP_ENV') : 'testing';
 
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         $app['env'] = $testing_env_name;
         $this->assertEquals(true, is_dir($config_folder));
 
-        $app->detectEnvironment(function ()  use ($testing_env_name){
+        $app->detectEnvironment(function () use ($testing_env_name) {
             return $testing_env_name;
         });
 

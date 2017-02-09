@@ -227,10 +227,10 @@ class CartManager
     public function update_item_qty($data)
     {
         if (!isset($data['id'])) {
-            $this->app->error('Invalid data');
+             return array('error' => 'Invalid data');
         }
         if (!isset($data['qty'])) {
-            $this->app->error('Invalid data');
+             return array('error' => 'Invalid data');
         }
         $data_fields = false;
 
@@ -350,14 +350,14 @@ class CartManager
             $data['for_id'] = $data['rel_id'];
         }
         if (!isset($data['for']) and !isset($data['for_id'])) {
-            $this->app->error('Invalid for and for_id params');
+             return array('error' => 'Invalid for and for_id params');
         }
 
         $data['for'] = $this->app->database_manager->assoc_table_name($data['for']);
         $for = $data['for'];
         $for_id = intval($data['for_id']);
         if ($for_id == 0) {
-            $this->app->error('Invalid data');
+             return array('error' => 'Invalid data');
         }
         $cont_data = false;
 
@@ -369,7 +369,7 @@ class CartManager
             $cont = $this->app->content_manager->get_by_id($for_id);
             $cont_data = $this->app->content_manager->data($for_id);
             if ($cont == false) {
-                $this->app->error('Invalid product?');
+                 return array('error' => 'Invalid product?');
             } else {
                 if (is_array($cont) and isset($cont['title'])) {
                     $data['title'] = $cont['title'];

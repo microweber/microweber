@@ -21,7 +21,7 @@ class TestConfigFile extends TestCase
         $save = save_option($data);
 
         $get = get_option('a_test', $data);
-        d($get);
+       // dd($get);
     }
     public function testConfigRead()
     {
