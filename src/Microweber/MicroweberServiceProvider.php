@@ -48,8 +48,8 @@ class MicroweberServiceProvider extends ServiceProvider
                 }
                 $port = explode(':', $_SERVER['HTTP_HOST']);
                 $domain = str_ireplace('www.', '', $domain);
-                if(isset($port[1])){
-                $domain = str_ireplace(':' . $port[1], '', $domain);
+                if (isset($port[1])) {
+                    $domain = str_ireplace(':' . $port[1], '', $domain);
                 }
                 $domain = strtolower($domain);
                 return $domain;
@@ -57,7 +57,11 @@ class MicroweberServiceProvider extends ServiceProvider
         } else {
             if (defined('MW_UNIT_TEST')) {
                 $this->app->detectEnvironment(function () {
-                    return 'testing';
+                    if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
+                        return 'testing';
+                    } else {
+                        return MW_UNIT_TEST_ENV_FROM_TEST;
+                    }
                 });
             }
         }
@@ -71,7 +75,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
         $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
-       // $this->app->register('Illuminate\Auth\AuthServiceProvider');
+        // $this->app->register('Illuminate\Auth\AuthServiceProvider');
 
 //        $this->app->singleton(
 //            'Illuminate\Contracts\Debug\ExceptionHandler',

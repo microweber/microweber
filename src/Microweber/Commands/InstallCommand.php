@@ -53,6 +53,7 @@ class InstallCommand extends Command
             ['db_user', InputArgument::REQUIRED, 'Database username'],
             ['db_pass', InputArgument::OPTIONAL, 'Database password'],
             ['db_driver', InputArgument::OPTIONAL, 'Database driver'],
+            ['prefix', InputArgument::OPTIONAL, 'Table prefix'],
         ];
     }
 
