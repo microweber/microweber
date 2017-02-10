@@ -40,10 +40,18 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $mw_file = $config_folder . '/microweber.php';
             }
         }
+        file_put_contents($mw_file, "<?php return array (
+            'is_installed' => 0,
+            'compile_assets' => 0,
+            'install_default_template' => 'default',
+            'install_default_template_content' => 1,
+            );"
+        );
 
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         $app['env'] = $testing_env_name;
+
         $this->assertEquals(true, is_dir($config_folder));
 
         $app->detectEnvironment(function () use ($testing_env_name) {
@@ -52,16 +60,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $environment = $app->environment();
 
-
         $this->sqlite_file = storage_path() . '/phpunit.' . $environment . '.sqlite';
 
-        file_put_contents($mw_file, "<?php return array (
-            'is_installed' => 0,
-            'compile_assets' => 0,
-            'install_default_template' => 'default',
-            'install_default_template_content' => 1,
-            );"
-        );
+
 
         if (is_file($this->sqlite_file)) {
             // @unlink($this->sqlite_file);
@@ -122,6 +123,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         );
 
         $is_installed = mw_is_installed();
+
         if (!$is_installed) {
             $install = \Artisan::call('microweber:install', $install_params);
             $this->assertEquals(0, $install);

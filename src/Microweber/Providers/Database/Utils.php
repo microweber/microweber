@@ -119,32 +119,12 @@ class Utils
         if (Schema::hasTable($table_name)) {
             $engine = $this->get_sql_engine();
             if ($engine == 'pgsql') {
-//                $pdo = \DB::getPdo();
-//                $pdo->beginTransaction();
-//                $statement = $pdo->prepare("SELECT setval('id', ?, false);",[$real_table_name]);
-//                $statement->execute();
-//                $pdo->commit();
-//                dd($pdo);
                 $tableToCheck = $table_name;
-
                 $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id)'))->first();
                 if(!isset($highestId->max)){
                     $highestId->max = 1;
                 }
                 DB::select('SELECT setval(\'' . $real_table_name . '_id_seq\', ' . $highestId->max . ')');
-
-//                $nextId = DB::table($tableToCheck)->select(DB::raw('nextval(\'' . $tableToCheck . '_id_seq\')'))->first();
-//                if ($nextId->nextval < $highestId->max) {
-//                    DB::select('SELECT setval(\'' . $tableToCheck . '_id_seq\', ' . $highestId->max . ')');
-//                    $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id)'))->first();
-//                    $nextId = DB::table($tableToCheck)->select(DB::raw('nextval(\'' . $tableToCheck . '_id_seq\')'))->first();
-//                    if ($nextId->nextval > $highestId->max) {
-//                        dd($tableToCheck . ' autoincrement corrected');
-//                    } else {
-//                        dd('Arff! The nextval sequence is still all screwed up on ' . $tableToCheck);
-//                    }
-//                }
-
 
             }
 
