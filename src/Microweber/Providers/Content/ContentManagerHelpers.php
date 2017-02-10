@@ -173,37 +173,22 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
                         if (isset($this->tables['media'])) {
-                            $delete_in_table = $this->tables['media'];
-                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                            $this->app->database_manager->q($q);
+                            DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
                         }
 
                         if (isset($this->tables['categories'])) {
-                            $delete_in_table = $this->tables['categories'];
-                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                            $this->app->database_manager->q($q);
+                            DB::table('categories')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
                         }
 
                         if (isset($this->tables['categories_items'])) {
-                            $delete_in_table = $this->tables['categories_items'];
-                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                            $this->app->database_manager->q($q);
+                            DB::table('categories_items')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
                         }
                         if (isset($this->tables['custom_fields'])) {
-                            $delete_in_table = $this->tables['custom_fields'];
-                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                            $q = "DELETE FROM $delete_in_table WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                            $this->app->database_manager->q($q);
+                            DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
                         }
 
                         if (isset($this->tables['content_data'])) {
-                            $delete_in_table = $this->tables['content_data'];
-                            $delete_in_table = $this->app->database_manager->real_table_name($delete_in_table);
-                            $q = "DELETE FROM $delete_in_table WHERE content_id=$c_id    ";
-                            $this->app->database_manager->q($q);
+                            DB::table('content_data')->where('content_id', '=', $c_id)->delete();
                         }
                     } else {
                         DB::table($this->tables['content'])->whereId($c_id)->update(['is_deleted' => 1]);
