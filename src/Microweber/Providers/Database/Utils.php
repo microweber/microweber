@@ -55,20 +55,21 @@ class Utils
 
     private function _exec_table_builder($table_name, $fields_to_add)
     {
+        $engine = $this->get_sql_engine();
         $table_name = $this->assoc_table_name($table_name);
         $real_table_name = $this->real_table_name($table_name);
-       // DB::transaction(function () use ($table_name) {
-            if (!Schema::hasTable($table_name)) {
-                Schema::create($table_name, function ($table) {
-                    $table->increments('id');
-                });
+        // DB::transaction(function () use ($table_name) {
+        if (!Schema::hasTable($table_name)) {
+            Schema::create($table_name, function ($table) {
+                $table->increments('id');
+            });
 
-            }
-       // });
+        }
+        // });
 
 
         $class = $this;
-       // DB::transaction(function () use ($table_name, $fields_to_add, $class) {
+        // DB::transaction(function () use ($table_name, $fields_to_add, $class) {
         if (is_array($fields_to_add)) {
             Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name, $class) {
                 foreach ($fields_to_add as $name => $meta) {
@@ -93,6 +94,7 @@ class Utils
                             $type = $meta;
                         }
                         $columns = $class->get_fields($table_name, false);
+
                         $col_exist = false;
                         foreach ($columns as $col) {
                             if ($col == $name) {
@@ -108,20 +110,27 @@ class Utils
                             if ($is_nullable) {
                                 $fluent->nullable();
                             }
+
+
                         }
                     }
                 }
             });
+
+
+
+
+
         }
-     //   });
+        //   });
 //
 
         if (Schema::hasTable($table_name)) {
-            $engine = $this->get_sql_engine();
+
             if ($engine == 'pgsql') {
                 $tableToCheck = $table_name;
                 $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id)'))->first();
-                if(!isset($highestId->max)){
+                if (!isset($highestId->max)) {
                     $highestId->max = 1;
                 }
                 DB::select('SELECT setval(\'' . $real_table_name . '_id_seq\', ' . $highestId->max . ')');
@@ -313,7 +322,7 @@ class Utils
      */
     public function get_fields($table, $use_cache = true)
     {
-
+$fields = array();
         $expiresAt = 300;
 
         $cache_group = 'db/fields';
@@ -338,19 +347,32 @@ class Utils
         } else if ($engine == 'sqlite') {
             $table_name = $this->real_table_name($table);
             $fields = DB::select('PRAGMA table_info(' . $table_name . ')');
-        } else {
+        } else if ($engine == 'pgsql') {
+            $table_name = $this->real_table_name($table);
+            // getColumnListing returns table hidden fields in pgsql
+            $fields = DB::select("
+                            SELECT attrelid::regclass, attnum, attname
+                FROM   pg_attribute
+                WHERE  attrelid = '{$table_name}'::regclass
+                AND    attnum > 0
+                AND    NOT attisdropped
+                ORDER  BY attnum;
+                ");
+
+         } else {
             // getColumnListing has a bug in mysql 8.0 and sqlite
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
-
         }
 
 
-        if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field))) {
+        if (count($fields) && !is_string($fields[0]) && (isset($fields[0]->name) or isset($fields[0]->column_name) or isset($fields[0]->Field) or isset($fields[0]->attname))) {
             $fields = array_map(function ($f) {
                 if (isset($f->column_name)) {
                     return $f->column_name;
                 } else if (isset($f->Field)) {
                     return $f->Field;
+                }  else if (isset($f->attname)) {
+                    return $f->attname;
                 } else {
                     return $f->name;
                 }
