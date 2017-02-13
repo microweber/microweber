@@ -348,6 +348,10 @@ class UserManager
 
         $name = $this->get_by_id($user_id);
         if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
+            if(is_https()){
+                $rep = 1;
+                $name['thumbnail'] = str_ireplace('http://','//',$name['thumbnail'],$rep);
+            }
             return $name['thumbnail'];
         }
     }
