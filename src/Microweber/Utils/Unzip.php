@@ -61,41 +61,41 @@ class Unzip
     {
     }
 
-      /**
-       * Unzip all files in archive.
-       *
-       * @param     none
-       *
-       * @return    none
-       */
-      public function extract($zip_file, $target_dir = null, $preserve_filepath = true)
-      {
-          $this->_zip_file = $zip_file;
-          $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
+    /**
+     * Unzip all files in archive.
+     *
+     * @param     none
+     *
+     * @return    none
+     */
+    public function extract($zip_file, $target_dir = null, $preserve_filepath = true)
+    {
+        $this->_zip_file = $zip_file;
+        $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
 
-          if (function_exists('zip_open')) {
-              $is_any = $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
+        if (function_exists('zip_open')) {
+            $is_any = $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
 
-              if (!empty($is_any)) {
-                  return $is_any;
-              }
-          }
+            if (!empty($is_any)) {
+                return $is_any;
+            }
+        }
 
-          if (function_exists('gzinflate')) {
-              if (!$files = $this->_list_files()) {
-                  $this->set_error('ZIP folder was empty.');
+        if (function_exists('gzinflate')) {
+            if (!$files = $this->_list_files()) {
+                $this->set_error('ZIP folder was empty.');
 
-                  return false;
-              }
+                return false;
+            }
 
-              $file_locations = array();
-              foreach ($files as $file => $trash) {
-                  $dirname = pathinfo($file, PATHINFO_DIRNAME);
-                  $extension = (pathinfo($file, PATHINFO_EXTENSION));
+            $file_locations = array();
+            foreach ($files as $file => $trash) {
+                $dirname = pathinfo($file, PATHINFO_DIRNAME);
+                $extension = (pathinfo($file, PATHINFO_EXTENSION));
 
-                  $folders = explode('/', $dirname);
-                  $out_dn = $this->_target_dir.'/'.$dirname;
-                  $out_dn = str_replace('\/', DS, $out_dn);
+                $folders = explode('/', $dirname);
+                $out_dn = $this->_target_dir . '/' . $dirname;
+                $out_dn = str_replace('\/', DS, $out_dn);
                 // Skip stuff in stupid folders
                 if (in_array(current($folders), $this->_skip_dirs)) {
                     continue;
@@ -106,32 +106,32 @@ class Unzip
                     continue;
                 }
 
-                  if (!is_dir($out_dn) && $preserve_filepath) {
-                      $str = '';
-                      foreach ($folders as $folder) {
-                          $str = $str ? $str.'/'.$folder : $folder;
-                          if (!is_dir($this->_target_dir.'/'.$str)) {
-                              $this->set_debug('Creating folder: '.$this->_target_dir.'/'.$str);
+                if (!is_dir($out_dn) && $preserve_filepath) {
+                    $str = '';
+                    foreach ($folders as $folder) {
+                        $str = $str ? $str . '/' . $folder : $folder;
+                        if (!is_dir($this->_target_dir . '/' . $str)) {
+                            $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
 
-                              if (!@mkdir_recursive($this->_target_dir.'/'.$str)) {
-                                  $this->set_error('Desitnation path is not writable.');
+                            if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
+                                $this->set_error('Desitnation path is not writable.');
 
-                                  return false;
-                              }
+                                return false;
+                            }
 
                             // Apply chmod if configured to do so
-                            $this->apply_chmod && chmod($this->_target_dir.'/'.$str, $this->apply_chmod);
-                          }
-                      }
-                  }
+                            $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
+                        }
+                    }
+                }
 
-                  if (substr($file, -1, 1) == '/') {
-                      continue;
-                  }
+                if (substr($file, -1, 1) == '/') {
+                    continue;
+                }
 
-                  $file_locations[] = $file_location = $this->_target_dir.'/'.($preserve_filepath ? $file : basename($file));
+                $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
 
-                  $this->_extract_file($file, $file_location, $this->underscore_case);
+                $this->_extract_file($file, $file_location, $this->underscore_case);
                 // Skip stuff in stupid folders
                 if (in_array(current($folders), $this->_skip_dirs)) {
                     continue;
@@ -142,44 +142,44 @@ class Unzip
                     continue;
                 }
 
-                  if (!is_dir($out_dn) && $preserve_filepath) {
-                      $str = '';
-                      foreach ($folders as $folder) {
-                          $str = $str ? $str.'/'.$folder : $folder;
-                          if (!is_dir($this->_target_dir.'/'.$str)) {
-                              $this->set_debug('Creating folder: '.$this->_target_dir.'/'.$str);
+                if (!is_dir($out_dn) && $preserve_filepath) {
+                    $str = '';
+                    foreach ($folders as $folder) {
+                        $str = $str ? $str . '/' . $folder : $folder;
+                        if (!is_dir($this->_target_dir . '/' . $str)) {
+                            $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
 
-                              if (!@mkdir_recursive($this->_target_dir.'/'.$str)) {
-                                  $this->set_error('Desitnation path is not writable.');
-                                  $resp = array('error' => 'Error with the unzip! Desitnation path is not writable.');
+                            if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
+                                $this->set_error('Desitnation path is not writable.');
+                                $resp = array('error' => 'Error with the unzip! Desitnation path is not writable.');
 
-                                  return $resp;
+                                return $resp;
 
-                                  return false;
-                              }
+                                return false;
+                            }
 
                             // Apply chmod if configured to do so
-                            $this->apply_chmod && chmod($this->_target_dir.'/'.$str, $this->apply_chmod);
-                          }
-                      }
-                  }
+                            $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
+                        }
+                    }
+                }
 
-                  if (substr($file, -1, 1) == '/') {
-                      continue;
-                  }
+                if (substr($file, -1, 1) == '/') {
+                    continue;
+                }
 
-                  $file_locations[] = $file_location = $this->_target_dir.'/'.($preserve_filepath ? $file : basename($file));
+                $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
 
-                  $this->_extract_file($file, $file_location, $this->underscore_case);
-              }
+                $this->_extract_file($file, $file_location, $this->underscore_case);
+            }
 
-              return $file_locations;
-          }
+            return $file_locations;
+        }
 
-          $resp = array('error' => 'There was an error with the unzip');
+        $resp = array('error' => 'There was an error with the unzip');
 
-          return $resp;
-      }
+        return $resp;
+    }
 
     public function old_____extract($zip_file, $target_dir = null, $preserve_filepath = true)
     {
@@ -208,7 +208,7 @@ class Unzip
                 $dirname = str_replace('\/', '/', $dirname);
 
                 $folders = explode('/', $dirname);
-                $out_dn = $this->_target_dir.'/'.$dirname;
+                $out_dn = $this->_target_dir . '/' . $dirname;
                 $out_dn = str_replace('\/', '/', $out_dn);
                 // Skip stuff in stupid folders
                 if (in_array(current($folders), $this->_skip_dirs)) {
@@ -223,18 +223,18 @@ class Unzip
                 if (!is_dir($out_dn) && $preserve_filepath) {
                     $str = '';
                     foreach ($folders as $folder) {
-                        $str = $str ? $str.'/'.$folder : $folder;
-                        if (!is_dir($this->_target_dir.'/'.$str)) {
-                            $this->set_debug('Creating folder: '.$this->_target_dir.'/'.$str);
+                        $str = $str ? $str . '/' . $folder : $folder;
+                        if (!is_dir($this->_target_dir . '/' . $str)) {
+                            $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
 
-                            if (!@mkdir_recursive($this->_target_dir.'/'.$str)) {
+                            if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
                                 $this->set_error('Desitnation path is not writable.');
 
                                 return false;
                             }
 
                             // Apply chmod if configured to do so
-                            $this->apply_chmod && chmod($this->_target_dir.'/'.$str, $this->apply_chmod);
+                            $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
                         }
                     }
                 }
@@ -243,7 +243,7 @@ class Unzip
                     continue;
                 }
 
-                $file_locations[] = $file_location = $this->_target_dir.'/'.($preserve_filepath ? $file : basename($file));
+                $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
 
                 $this->_extract_file($file, $file_location, $this->underscore_case);
                 // Skip stuff in stupid folders
@@ -259,11 +259,11 @@ class Unzip
                 if (!is_dir($out_dn) && $preserve_filepath) {
                     $str = '';
                     foreach ($folders as $folder) {
-                        $str = $str ? $str.'/'.$folder : $folder;
-                        if (!is_dir($this->_target_dir.'/'.$str)) {
-                            $this->set_debug('Creating folder: '.$this->_target_dir.'/'.$str);
+                        $str = $str ? $str . '/' . $folder : $folder;
+                        if (!is_dir($this->_target_dir . '/' . $str)) {
+                            $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
 
-                            if (!@mkdir_recursive($this->_target_dir.'/'.$str)) {
+                            if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
                                 $this->set_error('Desitnation path is not writable.');
                                 $resp = array('error' => 'Error with the unzip! Desitnation path is not writable.');
 
@@ -273,7 +273,7 @@ class Unzip
                             }
 
                             // Apply chmod if configured to do so
-                            $this->apply_chmod && chmod($this->_target_dir.'/'.$str, $this->apply_chmod);
+                            $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
                         }
                     }
                 }
@@ -282,7 +282,7 @@ class Unzip
                     continue;
                 }
 
-                $file_locations[] = $file_location = $this->_target_dir.'/'.($preserve_filepath ? $file : basename($file));
+                $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
 
                 $this->_extract_file($file, $file_location, $this->underscore_case);
             }
@@ -303,44 +303,67 @@ class Unzip
         if (function_exists('zip_open')) {
             $filename = $zip_file;
 
+            try {
+                if (!is_dir($target_dir)) {
+                    @mkdir_recursive($target_dir);
+                }
+            } catch (\ErrorException $e) {
+
+            }
+
+
+            // get all dirs and make them because of error: is_dir(): open_basedir restriction in effect.
+            $dirs_tree = array();
+            $archive = zip_open($filename);
+            while ($entry = zip_read($archive)) {
+                $name = zip_entry_name($entry);
+                $name = dirname($name);
+                $is_dir_there = $target_dir . $name;
+
+                if ($name != '.') {
+                    $dirs_tree[] = $is_dir_there;
+
+                }
+
+            }
+            $dirs_tree = array_unique($dirs_tree);
+
+            foreach ($dirs_tree as $item) {
+                try {
+                    if (!is_dir($item)) {
+                        @mkdir_recursive($item);
+                    }
+                } catch (\ErrorException $e) {
+                // error: is_dir(): open_basedir restriction in effect.
+                }
+            }
+
+            zip_close($archive);
+
+
+            // open for extract
             $archive = zip_open($filename);
 
             if (is_resource($archive)) {
                 if (function_exists('set_time_limit')) {
                     @set_time_limit(600);
                 }
+
                 while ($entry = zip_read($archive)) {
                     $size = zip_entry_filesize($entry);
                     $name = zip_entry_name($entry);
-                    $file_name = basename($name);
-
-                    $is_dir_there = $target_dir.$name;
-                    $target_file_to_save = normalize_path($target_dir.$name, false);
-
-                    $dnf = dirname($is_dir_there);
-
-                    if (!is_dir($dnf)) {
-                        mkdir_recursive($dnf);
-                    }
-
-                    if (is_dir($dnf) and !is_dir($target_file_to_save) and strstr($target_file_to_save, '.')) {
-                        $dnf = dirname($target_file_to_save);
-                        if (!is_dir($dnf)) {
-                            mkdir_recursive($dnf);
+                    $target_file_to_save = normalize_path($target_dir . $name, false);
+                    $unzipped = @fopen($target_file_to_save, 'wb');
+                    while ($size > 0) {
+                        $chunkSize = ($size > 10240) ? 10240 : $size;
+                        $size -= $chunkSize;
+                        $chunk = zip_entry_read($entry, $chunkSize);
+                        if ($chunk !== false) {
+                            @fwrite($unzipped, $chunk);
+                            $file_locations[] = $target_file_to_save;
                         }
-
-                        $unzipped = @fopen($target_file_to_save, 'wb');
-                        while ($size > 0) {
-                            $chunkSize = ($size > 10240) ? 10240 : $size;
-                            $size -= $chunkSize;
-                            $chunk = zip_entry_read($entry, $chunkSize);
-                            if ($chunk !== false) {
-                                @fwrite($unzipped, $chunk);
-                            }
-                        }
-                        $file_locations[] = $target_file_to_save;
-                        @fclose($unzipped);
                     }
+                    @fclose($unzipped);
                 }
                 zip_close($archive);
             }
@@ -373,7 +396,7 @@ class Unzip
         $this->fh = &$fh;
 
         if (!$fh) {
-            $this->set_error('Failed to load file: '.$this->_zip_file);
+            $this->set_error('Failed to load file: ' . $this->_zip_file);
 
             return false;
         }
@@ -511,7 +534,7 @@ class Unzip
                     $last_mod_minute = bindec(substr($binary_mod_time, 5, 6));
                     $last_mod_second = bindec(substr($binary_mod_time, 11, 5));
 
-                    $this->central_dir_list[$dir['file_name']] = array('version_madeby' => $dir['version_madeby'][1], 'version_needed' => $dir['version_needed'][1], 'general_bit_flag' => str_pad(decbin($dir['general_bit_flag'][1]), 8, '0', STR_PAD_LEFT), 'compression_method' => $dir['compression_method'][1], 'lastmod_datetime' => mktime($last_mod_hour, $last_mod_minute, $last_mod_second, $last_mod_month, $last_mod_day, $last_mod_year), 'crc-32' => str_pad(dechex(ord($dir['crc-32'][3])), 2, '0', STR_PAD_LEFT).str_pad(dechex(ord($dir['crc-32'][2])), 2, '0', STR_PAD_LEFT).str_pad(dechex(ord($dir['crc-32'][1])), 2, '0', STR_PAD_LEFT).str_pad(dechex(ord($dir['crc-32'][0])), 2, '0', STR_PAD_LEFT), 'compressed_size' => $dir['compressed_size'][1], 'uncompressed_size' => $dir['uncompressed_size'][1], 'disk_number_start' => $dir['disk_number_start'][1], 'internal_attributes' => $dir['internal_attributes'][1], 'external_attributes1' => $dir['external_attributes1'][1], 'external_attributes2' => $dir['external_attributes2'][1], 'relative_offset' => $dir['relative_offset'][1], 'file_name' => $dir['file_name'], 'extra_field' => $dir['extra_field'], 'file_comment' => $dir['file_comment']);
+                    $this->central_dir_list[$dir['file_name']] = array('version_madeby' => $dir['version_madeby'][1], 'version_needed' => $dir['version_needed'][1], 'general_bit_flag' => str_pad(decbin($dir['general_bit_flag'][1]), 8, '0', STR_PAD_LEFT), 'compression_method' => $dir['compression_method'][1], 'lastmod_datetime' => mktime($last_mod_hour, $last_mod_minute, $last_mod_second, $last_mod_month, $last_mod_day, $last_mod_year), 'crc-32' => str_pad(dechex(ord($dir['crc-32'][3])), 2, '0', STR_PAD_LEFT) . str_pad(dechex(ord($dir['crc-32'][2])), 2, '0', STR_PAD_LEFT) . str_pad(dechex(ord($dir['crc-32'][1])), 2, '0', STR_PAD_LEFT) . str_pad(dechex(ord($dir['crc-32'][0])), 2, '0', STR_PAD_LEFT), 'compressed_size' => $dir['compressed_size'][1], 'uncompressed_size' => $dir['uncompressed_size'][1], 'disk_number_start' => $dir['disk_number_start'][1], 'internal_attributes' => $dir['internal_attributes'][1], 'external_attributes1' => $dir['external_attributes1'][1], 'external_attributes2' => $dir['external_attributes2'][1], 'relative_offset' => $dir['relative_offset'][1], 'file_name' => $dir['file_name'], 'extra_field' => $dir['extra_field'], 'file_comment' => $dir['file_comment']);
 
                     $signature = fread($fh, 4);
                 }
@@ -597,7 +620,7 @@ class Unzip
             $last_mod_second = bindec(substr($binary_mod_time, 11, 5));
 
             // Mount file table
-            $i = array('file_name' => $file['file_name'], 'compression_method' => $file['compression_method'][1], 'version_needed' => $file['version_needed'][1], 'lastmod_datetime' => mktime($last_mod_hour, $last_mod_minute, $last_mod_second, $last_mod_month, $last_mod_day, $last_mod_year), 'crc-32' => str_pad(dechex(ord($file['crc-32'][3])), 2, '0', STR_PAD_LEFT).str_pad(dechex(ord($file['crc-32'][2])), 2, '0', STR_PAD_LEFT).str_pad(dechex(ord($file['crc-32'][1])), 2, '0', STR_PAD_LEFT).str_pad(dechex(ord($file['crc-32'][0])), 2, '0', STR_PAD_LEFT), 'compressed_size' => $file['compressed_size'][1], 'uncompressed_size' => $file['uncompressed_size'][1], 'extra_field' => $file['extra_field'], 'general_bit_flag' => str_pad(decbin($file['general_bit_flag'][1]), 8, '0', STR_PAD_LEFT), 'contents_start_offset' => $file['contents_start_offset']);
+            $i = array('file_name' => $file['file_name'], 'compression_method' => $file['compression_method'][1], 'version_needed' => $file['version_needed'][1], 'lastmod_datetime' => mktime($last_mod_hour, $last_mod_minute, $last_mod_second, $last_mod_month, $last_mod_day, $last_mod_year), 'crc-32' => str_pad(dechex(ord($file['crc-32'][3])), 2, '0', STR_PAD_LEFT) . str_pad(dechex(ord($file['crc-32'][2])), 2, '0', STR_PAD_LEFT) . str_pad(dechex(ord($file['crc-32'][1])), 2, '0', STR_PAD_LEFT) . str_pad(dechex(ord($file['crc-32'][0])), 2, '0', STR_PAD_LEFT), 'compressed_size' => $file['compressed_size'][1], 'uncompressed_size' => $file['uncompressed_size'][1], 'extra_field' => $file['extra_field'], 'general_bit_flag' => str_pad(decbin($file['general_bit_flag'][1]), 8, '0', STR_PAD_LEFT), 'contents_start_offset' => $file['contents_start_offset']);
 
             return $i;
         }
@@ -644,7 +667,7 @@ class Unzip
     /**
      * Unzip file in archive.
      *
-     * @param     string, boolean, boolean
+     * @param     string , boolean, boolean
      *
      * @return Unziped file.
      */
@@ -678,8 +701,8 @@ class Unzip
         if ($underscore_case) {
             $pathinfo = pathinfo($target_file_name);
             //  $pathinfo['filename_new'] = preg_replace('/([^.a-z0-9]+)/i', '_', strtolower($pathinfo['filename']));
-             $pathinfo['filename_new'] = ($pathinfo['filename']);
-            $target_file_name = $pathinfo['dirname'].'/'.$pathinfo['filename_new'].'.'.($pathinfo['extension']);
+            $pathinfo['filename_new'] = ($pathinfo['filename']);
+            $target_file_name = $pathinfo['dirname'] . '/' . $pathinfo['filename_new'] . '.' . ($pathinfo['extension']);
         }
 
         fseek($this->fh, $fdetails['contents_start_offset']);
@@ -697,7 +720,7 @@ class Unzip
     /**
      * Uncompress file. And save it to the targetFile.
      *
-     * @param     Filecontent, int, int, boolean
+     * @param     Filecontent , int, int, boolean
      *
      * @return none
      */
@@ -714,7 +737,7 @@ class Unzip
             case 3 :
             case 4 :
             case 5 :
-                $this->set_error('Compression factor '.($mode - 1).' is not supported... yet?');
+                $this->set_error('Compression factor ' . ($mode - 1) . ' is not supported... yet?');
 
                 return false;
             case 6 :
@@ -775,7 +798,7 @@ class Unzip
      */
     public function error_string($open = '<p>', $close = '</p>')
     {
-        return $open.implode($close.$open, $this->error).$close;
+        return $open . implode($close . $open, $this->error) . $close;
     }
 
     /**
@@ -787,7 +810,7 @@ class Unzip
      */
     public function debug_string($open = '<p>', $close = '</p>')
     {
-        return $open.implode($close.$open, $this->info).$close;
+        return $open . implode($close . $open, $this->info) . $close;
     }
 
     /**
