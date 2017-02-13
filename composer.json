@@ -42,7 +42,8 @@
     "ezyang/htmlpurifier": "^4.8",
     "rtconner/laravel-tagging": "dev-laravel-5",
     "jeremeamia/superclosure": "*",
-    "arcanedev/seo-helper": "^1.2"
+    "arcanedev/seo-helper": "^1.2",
+    "intervention/image": "^2.3"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"

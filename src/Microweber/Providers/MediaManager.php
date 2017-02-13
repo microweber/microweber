@@ -2,6 +2,8 @@
 
 namespace Microweber\Providers;
 
+use Intervention\Image\ImageManagerStatic as Image;
+
 class MediaManager
 {
     public $app;
@@ -586,7 +588,7 @@ class MediaManager
         if ($media_id) {
             $data['id'] = intval($media_id);
         }
-        return $this->app->tags_manager->get_values($data,$return_full);
+        return $this->app->tags_manager->get_values($data, $return_full);
     }
 
     public function thumbnail_img($params)
@@ -598,7 +600,8 @@ class MediaManager
         }
 
         if (!isset($height)) {
-            $width = 200;
+            //$width = 200;
+            $height = null;
         }
 
         if (!isset($src) or $src == false) {
@@ -673,7 +676,9 @@ class MediaManager
             $cache = str_replace('..', '', $cache);
         }
 
+
         $cache_path = $cd . $cache;
+
         if (file_exists($cache_path)) {
             if (!headers_sent()) {
                 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -695,11 +700,34 @@ class MediaManager
                     file_put_contents($cache_path, $res1);
                 } else {
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
-                        $tn = new \Microweber\Utils\Thumbnailer($src);
-                        $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                        $tn->createThumb($thumbOptions, $cache_path);
 
-                        unset($tn);
+                        if (function_exists('finfo_file')) {
+                            //use Image library
+                           //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
+                            if(intval($height) == 0){
+                                $height = null;
+                            }
+                            if ($width == $height) {
+                                $height = null;
+                            }
+
+
+                            $image = Image::make($src)->resize($width, $height, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })->save($cache_path);
+
+
+                            unset($image);
+                        } else {
+                            // use fallback
+                            $tn = new \Microweber\Utils\Thumbnailer($src);
+                            $thumbOptions = array('maxLength' => $height, 'width' => $width);
+                            $tn->createThumb($thumbOptions, $cache_path);
+
+                            unset($tn);
+                        }
+
+
                     } else {
                         return $this->pixum_img();
                     }
@@ -885,7 +913,7 @@ class MediaManager
         return $svg;
     }
 
-    public function thumbnail($src, $width = 200, $height = 200)
+    public function thumbnail($src, $width = 200, $height = null)
     {
         if ($src == false) {
             return $this->pixum($width, $height);
@@ -900,11 +928,15 @@ class MediaManager
 
         if (!isset($width)) {
             $width = 200;
+        } else {
+            $width = intval($width);
         }
 
         $src = strtok($src, '?');
         if (!isset($height)) {
-            $height = 200;
+            $height = 0;
+        } else {
+             $height = intval($height);
         }
 
         $cd = $this->thumbnails_path() . $width . DS;
@@ -930,6 +962,7 @@ class MediaManager
 
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;
+
         $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
 
@@ -950,64 +983,6 @@ class MediaManager
             return $tn_img_url;
         }
 
-//        $surl = $this->app->url_manager->site();
-//        $local = false;
-//
-//        $media_url = media_base_url();
-//        $media_url = trim($media_url);
-//        $src = str_replace('{SITE_URL}', $surl, $src);
-//        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-//
-//        if (strstr($src, $surl) or strpos($src, $surl)) {
-//            $src = str_replace($surl . '/', $surl, $src);
-//            $src = str_replace($surl, '', $src);
-//            $src = ltrim($src, DS);
-//            $src = ltrim($src, '/');
-//            $src = rtrim($src, DS);
-//            $src = rtrim($src, '/');
-//            $src = MW_ROOTPATH . $src;
-//            $src = normalize_path($src, false);
-//
-//        } else {
-//            if ($src == false) {
-//                return $this->pixum($width, $height);
-//            }
-//        }
-//        $cd = media_base_path() . 'thumbnail' . DS;
-//        if (!is_dir($cd)) {
-//            mkdir_recursive($cd);
-//        }
-//
-//        $cache = md5($src . $width . $height) . basename($src);
-//
-//        $cache = str_replace(' ', '_', $cache);
-//        $cache_path = $cd . $cache;
-//
-//        if (!file_exists($cache_path)) {
-//            if (file_exists($src)) {
-//                $src1 = $this->app->format->array_to_base64($src);
-//                $base_src = basename($src);
-//                $ext = get_file_extension($src);
-//                if (strtolower($ext) == 'svg') {
-//                    $res1 = file_get_contents($src);
-//                    $res1 = $this->svgScaleHack($res1, $width, $height);
-//                    file_put_contents($cache_path, $res1);
-//                } else {
-//                    $tn = new \Microweber\Thumbnailer($src);
-//                    $thumbOptions = array('maxLength' => $height, 'width' => $width);
-//                    $tn->createThumb($thumbOptions, $cache_path);
-//                    unset($tn);
-//                }
-//            }
-//
-//        }
-//        if (file_exists($cache_path)) {
-//            $cache_path = $this->app->url_manager->link_to_file($cache_path);
-//            return $cache_path;
-//        } else {
-//            return $this->pixum($width, $height);
-//        }
-//        return false;
     }
 
     public function create_media_dir($params)

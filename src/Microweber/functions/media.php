@@ -81,7 +81,7 @@ function thumbnail_img($params)
 }
 
 if (!function_exists('thumbnail')) {
-    function thumbnail($src, $width = 200, $height = 200)
+    function thumbnail($src, $width = 200, $height = null)
     {
         return mw()->media_manager->thumbnail($src, $width, $height);
     }
