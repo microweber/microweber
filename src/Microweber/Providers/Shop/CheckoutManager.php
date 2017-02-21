@@ -61,6 +61,11 @@ class CheckoutManager
                 $mw_process_payment_success = true;
                 $exec_return = true;
             } elseif (isset($_REQUEST['mw_payment_failure'])) {
+                if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
+
+                    mw()->cart_manager->recover_cart($_REQUEST['recart'],$_REQUEST['order_id']);
+                }
+
                 $mw_process_payment_failed = true;
                 $exec_return = true;
             }
@@ -199,14 +204,35 @@ class CheckoutManager
 
             $return_url_after = '';
             $return_to_ref = false;
+            $set_return_url_from_ref = false;
+
+
             if ($this->app->url_manager->is_ajax()) {
-                $place_order['url'] = $this->app->url_manager->current(true);
-                $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
-                $this->app->user_manager->session_set('checkout_return_to_url', $_SERVER['HTTP_REFERER']);
+                $set_return_url_from_ref = $this->app->url_manager->current(true);
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
-                $place_order['url'] = $_SERVER['HTTP_REFERER'];
-                $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
-                $this->app->user_manager->session_set('checkout_return_to_url', $_SERVER['HTTP_REFERER']);
+                $set_return_url_from_ref = $_SERVER['HTTP_REFERER'];
+            }
+
+           if ($set_return_url_from_ref) {
+               $urlarray = explode('?',$set_return_url_from_ref);
+               if(isset($urlarray[0]) and isset($urlarray[1])){
+                   parse_str($urlarray[1], $ref_params);
+                   if(isset($ref_params['mw_payment_failure'])){
+                       unset($ref_params['mw_payment_failure']);
+                   }
+                   if(isset($ref_params['mw_payment_success'])){
+                       unset($ref_params['mw_payment_success']);
+                   }
+                   $rebuild = http_build_query($ref_params, '', '&amp;');
+                   if($rebuild){
+                       $set_return_url_from_ref = $urlarray[0].'?'.$rebuild;
+                   } else {
+                       $set_return_url_from_ref = $urlarray[0];
+                   }
+               }
+                $place_order['url'] = $set_return_url_from_ref;
+                $return_url_after = '&return_to=' . urlencode($set_return_url_from_ref);
+                $this->app->user_manager->session_set('checkout_return_to_url',$set_return_url_from_ref);
             } else {
                 $place_order['url'] = $this->app->url_manager->current();
             }
@@ -290,7 +316,7 @@ class CheckoutManager
                     }
 
                     $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&recart=' . $sid . '&order_id=' . $place_order['id'] . $return_url_after;
                     $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
 
                     if (is_file($gw_process)) {
@@ -576,6 +602,7 @@ class CheckoutManager
 
         return;
     }
+
 
     private function get_domain_from_str($address)
     {

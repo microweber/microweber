@@ -12,7 +12,7 @@ if (isset($_SESSION['mw_payment_success'])) {
 if(isset($_REQUEST['mw_payment_success'])){
 	$payment_success = true;
 } elseif(isset($_REQUEST['mw_payment_failure'])){
-	$payment_success = true;
+	$payment_success = false;
 }
 
 
