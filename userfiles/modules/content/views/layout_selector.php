@@ -367,6 +367,7 @@ if (!empty($recomended_layouts)) {
 
                 $(window).trigger('templateSelected');
 
+				
                 <?php  } ?>
 
             }
@@ -393,7 +394,13 @@ if (!empty($recomended_layouts)) {
                 parent_module.attr('active_site_template', templ);
 
                 mw.$("#<?php print $params['id']?>").attr('active_site_template', templ);
-                mw.reload_module("#<?php print $params['id']?>")
+                mw.reload_module("#<?php print $params['id']?>",function(){
+				 
+				 $('.layouts_box_holder_small',"#<?php print $params['id']?>").toggleClass('semi_hidden');
+				 
+				})
+				
+				
                 //mw.templatePreview<?php print $rand; ?>.view();
                 //  mw.reload_module('<?php print $params['type']?>', function () {
 //                
@@ -499,7 +506,7 @@ if (!empty($recomended_layouts)) {
             <?php if ($template_selector_position == 'top'): ?>
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
-                    <div class="mw-template-selector" <?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
+                    <div class="mw-template-selector <?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
                     <label class="mw-ui-label">
                         <?php _e("Template"); ?>
                     </label>
@@ -530,9 +537,7 @@ if (!empty($recomended_layouts)) {
                             <?php endif ?>
 
                         <?php endforeach; ?>
-                        <option
-                            value="default">default
-                        </option>
+                        <option value="default">default           </option>
                     </select>
                 </div>
             </div>

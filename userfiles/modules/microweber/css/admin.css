@@ -2610,6 +2610,7 @@ body.grabbing, body.grabbing * {
 	position: relative;
 }
 .mw-site-theme-selector, .layouts_box_holder {
+	padding-top: 10px;
 	padding-bottom: 20px;
 }
 .module-settings-group-template .layout_selector_wrap {
