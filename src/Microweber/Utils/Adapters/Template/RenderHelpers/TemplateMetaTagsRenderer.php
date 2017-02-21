@@ -2,6 +2,9 @@
 
 namespace Microweber\Utils\Adapters\Template\RenderHelpers;
 
+use Arcanedev\SeoHelper\Entities\Webmasters;
+use Arcanedev\SeoHelper\Entities\Analytics;
+
 
 class TemplateMetaTagsRenderer
 {
@@ -19,10 +22,6 @@ class TemplateMetaTagsRenderer
         if (isset($params['layout'])) {
             $layout = $params['layout'];
 
-
-
-
-
             $l = $layout;
             $meta = array();
             $meta['content_image'] = '';
@@ -34,9 +33,13 @@ class TemplateMetaTagsRenderer
             }
             $meta['og_description'] = $this->app->option_manager->get('website_description', 'website');
             $meta['og_type'] = 'website';
-            $meta_content_id = PAGE_ID;
-            if (CONTENT_ID > 0) {
-                $meta_content_id = CONTENT_ID;
+            if (isset($params['content_id']) and $params['content_id']) {
+                $meta_content_id = $params['content_id'];
+            } else {
+                $meta_content_id = PAGE_ID;
+                if (CONTENT_ID > 0) {
+                    $meta_content_id = CONTENT_ID;
+                }
             }
 
             if ($meta_content_id > 0) {
@@ -54,7 +57,7 @@ class TemplateMetaTagsRenderer
                         $meta['og_type'] = $meta['subtype'];
                     }
                     if ($meta['description'] != false and trim($meta['description']) != '') {
-                       // $meta['description'] = $meta['description'];
+                        // $meta['description'] = $meta['description'];
                     } elseif ($meta['content'] != false and trim($meta['content']) != '') {
                         $meta['description'] = str_replace("\n", ' ', $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
                     }
@@ -134,34 +137,46 @@ class TemplateMetaTagsRenderer
                     }
                 }
             }
+            $headers = array();
+            $headers[] = $this->_render_webmasters_tags();
+            $headers[] = $this->_render_analytics_tags();
 
+            foreach ($headers as $headers_append) {
+                if ($headers_append != false) {
+                    $one = 1;
+                    $l = str_ireplace('</head>', $headers_append . '</head>', $l, $one);
+                }
+            }
             $layout = $l;
-
-
-
-
-//dd(__FILE__,$layout);
-
             return $layout;
         }
 
     }
 
 
-    private function _replace_inline_values(){
+    private function _render_webmasters_tags()
+    {
 
-//     Replaces for
-//    <title>{content_meta_title}</title>
-//    <meta name="keywords" content="{content_meta_keywords}">
-//    <meta name="description" content="{content_meta_description}">
-//    <meta property="og:title" content="{content_meta_title}">
-//    <meta property="og:type" content="{og_type}">
-//    <meta property="og:url" content="{content_url}">
-//    <meta property="og:image" content="{content_image}">
-//    <meta property="og:description" content="{og_description}">
-//    <meta property="og:site_name" content="{og_site_name}">
+        $configs = [
+            'google' => get_option('google-site-verification-code', 'website'),
+            'bing' => get_option('bing-site-verification-code', 'website'),
+            'alexa' => get_option('alexa-site-verification-code', 'website'),
+            'pinterest' => get_option('pinterest-site-verification-code', 'website'),
+            'yandex' => get_option('yandex-site-verification-code', 'website')
+        ];
 
+        $webmasters = Webmasters::make($configs);
+        return $webmasters->render();
+    }
 
+    private function _render_analytics_tags()
+    {
+        $code = get_option('google-analytics-id', 'website');
+        if ($code) {
+            $analytics = new Analytics;
+            $analytics->setGoogle($code);
+            return $analytics->render();
+        }
 
     }
 }

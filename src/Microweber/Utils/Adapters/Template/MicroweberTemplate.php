@@ -724,15 +724,9 @@ class MicroweberTemplate
             }
         }
 
-        //   $this->app->cache_manager->save($render_file, $cache_id, $cache_group);
 
         return $render_file;
     }
 
 
-
-
-    private function add_seo_meta_tags(){
-
-    }
 }
