@@ -3087,6 +3087,9 @@ body.grabbing, body.grabbing * {
 	margin: 2px 0 0;
 	cursor: pointer;
 }
+#mw-order-table-holder ul {
+	list-style-position: inside;
+}
 #shop-orders td, #shop-orders th {
 	text-align: center;
 }
