@@ -603,7 +603,6 @@ class CheckoutManager
         return;
     }
 
-
     private function get_domain_from_str($address)
     {
         $address = gethostbyaddr($address);

@@ -29,7 +29,7 @@ api_expose_admin('get_content_by_id');
 api_expose_admin('get_products');
 api_expose_admin('delete_content');
 api_expose_admin('content/delete', function ($data) {
-    return mw()->content_manager_helpers->delete($data);
+    return mw()->content_manager->helpers->delete($data);
 });
 api_expose_admin('content_parents');
 api_expose_admin('get_content_children');
@@ -78,13 +78,13 @@ api_expose_admin('content/reorder', function ($data) {
 });
 
 api_expose_admin('content/reset_edit', function ($data) {
-    return mw()->content_manager_helpers->reset_edit_field($data);
+    return mw()->content_manager->helpers->reset_edit_field($data);
 });
 api_expose_admin('content/bulk_assign', function ($data) {
-    return mw()->content_manager_helpers->bulk_assign($data);
+    return mw()->content_manager->helpers->bulk_assign($data);
 });
 api_expose_admin('content/copy', function ($data) {
-    return mw()->content_manager_helpers->copy($data);
+    return mw()->content_manager->helpers->copy($data);
 });
 
 api_expose_admin('current_template_save_custom_css', function ($data) {

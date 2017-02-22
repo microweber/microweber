@@ -67,7 +67,7 @@ description: Default cart template
     </div>
     <?php if ($cart_show_shipping != 'n'): ?>
     <div class="mw-ui-col mw-shop-checkout-shipping-holder">
-      <div class="mw-ui-col-container">asd
+      <div class="mw-ui-col-container">
         <module type="shop/shipping"/>
       </div>
     </div>

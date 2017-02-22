@@ -2,6 +2,8 @@
 
 namespace Microweber\Providers;
 
+use Microweber\Providers\Content\ContentManagerCrud; 
+use Microweber\Providers\Content\ContentManagerHelpers;
 use Content;
 use Menu;
 use DB;
@@ -22,6 +24,12 @@ class ContentManager
     /** @var \Microweber\Application */
     public $app;
 
+    /** @var \Microweber\Providers\Content\ContentManagerCrud */
+    public $crud;
+    
+    /** @var \Microweber\Providers\Content\ContentManagerHelpers */
+    public $helpers;
+
     /**
      *  Boolean that indicates the usage of cache while making queries.
      *
@@ -40,6 +48,8 @@ class ContentManager
         }
 
         $this->set_table_names();
+        $this->crud = new ContentManagerCrud($app);
+        $this->helpers = new ContentManagerHelpers($app);
     }
 
     /**
@@ -188,12 +198,12 @@ class ContentManager
      */
     public function get_by_id($id)
     {
-        return $this->app->content_manager_crud->get_by_id($id);
+        return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
     {
-        return $this->app->content_manager_crud->get_by_url($url, $no_recursive);
+        return $this->crud->get_by_url($url, $no_recursive);
     }
 
     /**
@@ -286,7 +296,7 @@ class ContentManager
      */
     public function get($params = false)
     {
-        return $this->app->content_manager_crud->get($params);
+        return $this->crud->get($params);
     }
 
     public function get_children($id = 0, $without_main_parrent = false)
@@ -1911,7 +1921,7 @@ class ContentManager
 
     public function save_edit($post_data)
     {
-        return $this->app->content_manager_helpers->save_from_live_edit($post_data);
+        return $this->helpers->save_from_live_edit($post_data);
     }
 
     /**
@@ -2048,12 +2058,12 @@ class ContentManager
 
         $this->app->event_manager->trigger('content.manager.before.save', $data);
         $data_to_save = $data;
-        $save = $this->app->content_manager_crud->save($data);
+        $save = $this->crud->save($data);
         $id = $save;
         if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
             foreach ($data_to_save['add_content_to_menu'] as $menu_id) {
                 $ids_to_save = $save;
-                $this->app->content_manager_helpers->add_content_to_menu($ids_to_save, $menu_id);
+                $this->helpers->add_content_to_menu($ids_to_save, $menu_id);
             }
         }
         $after_save = $data_to_save;
@@ -2073,12 +2083,12 @@ class ContentManager
 
     public function save_content_field($data, $delete_the_cache = true)
     {
-        return $this->app->content_manager_helpers->save_content_field($data);
+        return $this->helpers->save_content_field($data);
     }
 
     public function edit_field($data, $debug = false)
     {
-        return $this->app->content_manager_crud->get_edit_field($data);
+        return $this->crud->get_edit_field($data);
     }
 
     public function save($data, $delete_the_cache = true)
@@ -2208,7 +2218,7 @@ class ContentManager
             return array('error' => 'You must be admin to reorder content!');
         }
 
-        return $this->app->content_manager_crud->reorder($params);
+        return $this->crud->reorder($params);
     }
 
     /**

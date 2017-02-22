@@ -236,7 +236,7 @@ function content_title($id = false)
  */
 function delete_content($data)
 {
-    return mw()->content_manager_helpers->delete($data);
+    return mw()->content_manager->helpers->delete($data);
 }
 
 /**
@@ -344,7 +344,7 @@ function content_custom_fields($content_id, $full = true, $field_type = false)
 
 function get_content_field_draft($data)
 {
-    return mw()->content_manager_helpers->get_edit_field_draft($data);
+    return mw()->content_manager->helpers->get_edit_field_draft($data);
 }
 
 function get_content_field($data, $debug = false)
