@@ -48,8 +48,8 @@ class ContentManager
         }
 
         $this->set_table_names();
-        $this->crud = new ContentManagerCrud($app);
-        $this->helpers = new ContentManagerHelpers($app);
+        $this->crud = new ContentManagerCrud($this->app);
+        $this->helpers = new ContentManagerHelpers($this->app);
     }
 
     /**
@@ -2401,19 +2401,5 @@ class ContentManager
         return $this->app->template_manager->site_templates();
     }
 
-    public function ping()
-    {
 
-//        if (!is_object($this->pinger)) {
-//            if (!isset($this->app->adapters->container['content_ping'])) {
-//                $app = $this->app;
-//                $this->app->adapters->container['content_ping'] = function ($c) use ($app) {
-//                    return new Adapters\Ping\SearchEngines($app);
-//                };
-//            }
-//            $this->pinger = $this->app->adapters->container['content_ping'];
-//        }
-//
-//        return $this->pinger->ping();
-    }
 }
