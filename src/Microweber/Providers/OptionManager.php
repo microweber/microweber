@@ -136,115 +136,7 @@ class OptionManager
         return true;
     }
 
-    public function _create_mw_default_options()
-    {
-        $function_cache_id = 'default_opts';
 
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group = 'db');
-        if (($cache_content) == '--true--') {
-            return true;
-        }
-
-        $table = $this->tables['options'];
-
-        mw_var('FORCE_SAVE', $table);
-        $datas = array();
-
-        $data = array();
-
-        $data['name'] = 'Website name';
-        $data['help'] = 'This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.';
-        $data['option_group'] = 'website';
-        $data['option_key'] = 'website_title';
-        $data['option_value'] = 'Microweber';
-        $data['field_type'] = 'text';
-
-        $data['position'] = '1';
-        $data['is_system'] = '1';
-
-        $datas[] = $data;
-
-        $data = array();
-        $data['option_group'] = 'website';
-        $data['option_key'] = 'website_description';
-        $data['option_value'] = 'My website description';
-        $data['name'] = 'Website description';
-        $data['help'] = 'Create Free Online Shop, Free Website and Free Blog with Microweber (MW)';
-        $data['field_type'] = 'textarea';
-        $data['is_system'] = '1';
-
-        $data['position'] = '2';
-        $datas[] = $data;
-
-        $data = array();
-        $data['option_group'] = 'website';
-        $data['option_key'] = 'website_keywords';
-        $data['option_value'] = 'free website, free shop, free blog, make web, mw, microweber';
-        $data['name'] = 'Website keywords';
-        $data['help'] = 'Write keywords for your site.';
-        $data['field_type'] = 'textarea';
-        $data['is_system'] = '1';
-
-        $data['position'] = '3';
-        $datas[] = $data;
-
-        $data = array();
-
-        $data['name'] = 'Website template';
-        $data['help'] = 'This is your current template. You can easy change it anytime.';
-
-        $data['option_group'] = 'template';
-        $data['option_key'] = 'current_template';
-        $data['option_value'] = 'default';
-        $data['field_type'] = 'website_template';
-        $data['position'] = '5';
-        $data['is_system'] = '1';
-
-        $datas[] = $data;
-
-        $data = array();
-        $data['name'] = 'Items per page';
-        $data['help'] = 'Select how many items you want to have per page? example 10,25,50...';
-
-        $data['option_group'] = 'website';
-        $data['option_key'] = 'items_per_page';
-        $data['option_value'] = '30';
-        $data['field_type'] = 'dropdown';
-        $data['field_values'] = array('10' => '10', '30' => '30', '50' => '50', '100' => '100', '200' => '200');
-        $data['position'] = '6';
-        $data['is_system'] = '1';
-
-        $datas[] = $data;
-
-        $data = array();
-        $data['option_group'] = 'users';
-        $data['option_key'] = 'enable_user_registration';
-        $data['name'] = 'Enable user registration';
-        $data['help'] = 'You can enable or disable the registration for new users';
-        $data['option_value'] = 'y';
-        $data['position'] = '10';
-        $data['is_system'] = '1';
-
-        $data['field_type'] = 'dropdown';
-        $data['field_values'] = array('y' => 'yes', 'n' => 'no');
-        $datas[] = $data;
-
-        $changes = false;
-        foreach ($datas as $value) {
-            $ch = $this->set_default($value);
-            if ($ch == true) {
-                $changes = true;
-            }
-        }
-
-        if ($changes == true) {
-            $this->app->cache_manager->delete('options/global');
-        }
-
-        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
-
-        return true;
-    }
 
     public function set_default($data)
     {
@@ -443,8 +335,8 @@ class OptionManager
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
-                    // $this->delete($data['option_key'], $data['option_group']);
-                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
+
+                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
 
                     if ($existing == false) {
                         //
