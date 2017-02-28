@@ -92,7 +92,7 @@ class NotificationsManager
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
         }
 
-        \DB::table($this->table)->whereIsRead(0)->update(['is_read' => 1]);
+        $this->app->database_manager->table($this->table)->where('is_read', '=', 0)->update(['is_read' => 1]);
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
@@ -109,12 +109,8 @@ class NotificationsManager
         }
 
         $table = $this->table;
-        $table = $this->app->database_manager->real_table_name($this->table);
-
         if ($id == 'all') {
-            $q = "DELETE FROM $table where id is not NULL  ";
-
-            $this->app->database_manager->q($q);
+            $this->app->database_manager->table($table)->delete();
         } else {
             $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
         }
@@ -130,21 +126,17 @@ class NotificationsManager
     {
         if (($module) != false and $module != '') {
             $table = $this->table;
-            $table = $this->app->database_manager->real_table_name($this->table);
-
             $get_params = array();
             $get_params['table'] = 'notifications';
             $get_params['fields'] = 'id';
             $get_params['module'] = $this->app->database_manager->escape_string($module);
-
             $data = $this->get($get_params);
             if (is_array($data)) {
                 $ids = $this->app->format->array_values($data);
-                $idsi = implode(',', $ids);
-                $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
-                $this->app->database_manager->q($cleanup);
+                foreach ($ids as $remove) {
+                    $this->app->database_manager->table($table)->where('id', '=', $remove)->delete();
+                }
             }
-
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
             return true;
@@ -155,8 +147,7 @@ class NotificationsManager
     {
         $params = parse_params($params);
 
-        $table_orig = $this->table;
-        $table = $this->app->database_manager->real_table_name($this->table);
+        $table = $table_orig = $this->table;
 
         mw_var('FORCE_SAVE', $table);
 
@@ -165,8 +156,9 @@ class NotificationsManager
         }
 
         $old = date('Y-m-d H:i:s', strtotime('-30 days'));
-        $cleanup = "DELETE FROM $table WHERE created_at < '{$old}'";
-        $this->app->database_manager->q($cleanup);
+
+        $this->app->database_manager->table($table)->where('created_at', '<', $old)->delete();
+
 
         if (isset($params['replace'])) {
             if (isset($params['module']) and isset($params['rel_type']) and isset($params['rel_id'])) {
@@ -174,8 +166,11 @@ class NotificationsManager
                 $rel1 = $this->app->database_manager->escape_string($params['rel_type']);
                 $module1 = $this->app->database_manager->escape_string($params['module']);
                 $rel_id1 = $this->app->database_manager->escape_string($params['rel_id']);
-                $cleanup = "DELETE FROM $table WHERE rel_type='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
-                $this->app->database_manager->q($cleanup);
+                $this->app->database_manager->table($table)
+                    ->where('rel_type', '=', $rel1)
+                    ->where('rel_id', '=', $rel_id1)
+                    ->where('module', '=', $module1)
+                    ->delete();
             }
         }
         if (!isset($params['is_read'])) {
@@ -237,8 +232,6 @@ class NotificationsManager
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
             $return = $this->app->database_manager->get($params);
-
-
             if ($return and is_array($return)) {
                 foreach ($return as $k => $v) {
                     if (isset($v['notification_data']) and is_string($v['notification_data'])) {
@@ -247,10 +240,7 @@ class NotificationsManager
                     }
                 }
             }
-
-
         }
-
         return $return;
     }
 }

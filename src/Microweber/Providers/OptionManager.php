@@ -89,21 +89,25 @@ class OptionManager
     public function get_groups($is_system = false)
     {
         $table = $this->tables['options'];
-        $is_systemq = '';
-        if ($is_system != false) {
-            $is_systemq = ' and is_system=1 ';
-        } else {
-            $is_systemq = ' and is_system=0 ';
-        }
-        $q = "SELECT option_group FROM $table WHERE module IS NULL";
-        $q = $q . $is_systemq . 'AND option_group  IS NOT NULL GROUP BY option_group ORDER BY position ASC ';
-        $function_cache_id = __FUNCTION__ . crc32($q);
-        $res1 = false;
+        $query = $this->app->database_manager->table($table);
+        $query = $query->select('option_group');
 
-        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
-        if (is_array($res) and !empty($res)) {
+        $query = $query->whereNull('module');
+        $query = $query->whereNotNull('option_group');
+        $query = $query->groupBy('option_group');
+        if ($is_system != false) {
+            $query = $query->where('is_system', '=', 1);
+        } else {
+            $query = $query->where('is_system', '=', 0);
+            $query = $query->orWhere('is_system', '=', null);
+        }
+
+        $res = $query->get();
+
+        if ($res and !empty($res)) {
             $res1 = array();
             foreach ($res as $item) {
+                $item = (array)$item;
                 $res1[] = $item['option_group'];
             }
         }
@@ -113,29 +117,25 @@ class OptionManager
 
     public function delete($key, $option_group = false, $module_id = false)
     {
+
         $key = $this->app->database_manager->escape_string($key);
-
         $table = $this->tables['options'];
-        $table = $this->app->database_manager->real_table_name($table);
-        $option_group_q1 = '';
+        $query = $this->app->database_manager->table($table);
+        $query = $query->where('option_key', '=', $key);
+
         if ($option_group != false) {
-            $option_group = $this->app->database_manager->escape_string($option_group);
-            $option_group_q1 = "and option_group='{$option_group}'";
+            $query = $query->where('option_group', '=', $option_group);
         }
-        $module_id_q1 = '';
+
         if ($module_id != false) {
-            $module_id = $this->app->database_manager->escape_string($module_id);
-            $module_id_q1 = "and module='{$module_id}'";
+            $query = $query->where('module', '=', $module_id);
         }
-        $q = "DELETE FROM $table WHERE option_key='$key' " . $option_group_q1 . $module_id_q1;
-        $q = trim($q);
 
-        $this->app->database_manager->q($q);
+        $query = $query->delete();
+        $this->override($option_group,$key,false);
         $this->app->cache_manager->delete('options');
-
         return true;
     }
-
 
 
     public function set_default($data)
@@ -336,7 +336,7 @@ class OptionManager
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
 
-                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
+                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
 
                     if ($existing == false) {
                         //
