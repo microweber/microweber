@@ -149,7 +149,6 @@ class NotificationsManager
 
         $table = $table_orig = $this->table;
 
-        mw_var('FORCE_SAVE', $table);
 
         if (!isset($params['rel_type']) or !isset($params['rel_id'])) {
             return 'Error: invalid data you must send rel and rel_id as params for $this->save function';

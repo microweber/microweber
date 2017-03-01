@@ -26,7 +26,6 @@ namespace Microweber;
  * @property \Microweber\Providers\Modules                       $modules
  * @property \Microweber\Providers\DatabaseManager               $database_manager
  * @property \Microweber\Providers\NotificationsManager          $notifications_manager
- * @property \Microweber\Providers\EmailNotificationsManager     $email_notifications_manager
  * @property \Microweber\Providers\LayoutsManager                $layouts_manager
  * @property \Microweber\Providers\LogManager                    $log_manager
  * @property \Microweber\Providers\FieldsManager                 $fields_manager

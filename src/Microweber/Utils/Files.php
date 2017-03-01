@@ -86,6 +86,32 @@ class Files
 
         return $this->directory_tree_build($dir, $params);
     }
+    public function md5_dir($path)
+    {
+        if (!file_exists($path)) {
+            throw new \Exception('Directory doesn\'t exist.');
+        }
+
+        $directoryIterator = new \DirectoryIterator($path);
+        $items = array();
+        foreach ($directoryIterator as $fileInfo) {
+            $filePath = $fileInfo->getPathname();
+            if (!$fileInfo->isDot()) {
+                if ($fileInfo->isFile()) {
+                    $md  = md5_file($filePath);
+                    $filePath = normalize_path($filePath,false);
+                    $items [$md] = $filePath;
+                } else if ($fileInfo->isDir()) {
+                    $more = $this->md5_dir($filePath);
+                    foreach ($more as $k => $v) {
+                        $items [$k] = $v;
+                    }
+                }
+            }
+        }
+        return $items;
+    }
+
 
     /**
      * get_files.
