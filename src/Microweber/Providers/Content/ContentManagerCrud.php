@@ -656,7 +656,7 @@ class ContentManagerCrud extends Crud
                 $data_to_save['content'] = null;
             } else {
                 if ($allow_remote_images_download) {
-                    $data_to_save['content'] = $this->app->content_manager_helpers->download_remote_images_from_text($data_to_save['content']);
+                    $data_to_save['content'] = $this->app->content_manager->helpers->download_remote_images_from_text($data_to_save['content']);
                 }
 
                 $data_to_save['content'] = $this->app->parser->make_tags($data_to_save['content']);

@@ -32,14 +32,9 @@ class MicroweberServiceProvider extends ServiceProvider
     public function register()
     {
 
-//https://twitter.com/jeremeamia/status/748986303367217152
-//        if (PHP_VERSION_ID < 70000) {
-//            class_alias('Exception', 'Throwable');
-//        }
 
 
         // Set environment
-
         if (!is_cli()) {
             $domain = $_SERVER['HTTP_HOST'];
             $this->app->detectEnvironment(function () use ($domain) {
@@ -151,9 +146,7 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\FormsManager($app);
         });
 
-        $this->app->singleton('email_notifications_manager', function ($app) {
-            return new Providers\EmailNotificationsManager($app);
-        });
+
         $this->app->singleton('notifications_manager', function ($app) {
             return new Providers\NotificationsManager($app);
         });
@@ -212,17 +205,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('template_manager', function ($app) {
             return new Providers\TemplateManager($app);
         });
-        $this->app->singleton('ui', function ($app) {
-            return new Providers\Ui($app);
-        });
 
-        $this->app->singleton('content_manager_crud', function ($app) {
-            return new Providers\Content\ContentManagerCrud($app);
-        });
-
-        $this->app->singleton('content_manager_helpers', function ($app) {
-            return new Providers\Content\ContentManagerHelpers($app);
-        });
 
         $this->app->register('Collective\Html\HtmlServiceProvider');
 

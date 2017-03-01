@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers;
 
-use Intervention\Image\ImageManagerStatic as Image;
+use \Intervention\Image\ImageManagerStatic as Image;
 
 class MediaManager
 {
@@ -593,16 +593,24 @@ class MediaManager
 
     public function thumbnail_img($params)
     {
+
+        ini_set('memory_limit','256M');
+
         extract($params);
 
         if (!isset($width)) {
             $width = 200;
+        } else {
+            $width = intval($width);
         }
 
         if (!isset($height)) {
-            //$width = 200;
             $height = null;
+        } else {
+            $height = intval($height);
         }
+
+
 
         if (!isset($src) or $src == false) {
             return $this->pixum($width, $height);
@@ -675,7 +683,6 @@ class MediaManager
             $cache = str_replace(' ', '_', $cache_id);
             $cache = str_replace('..', '', $cache);
         }
-
 
         $cache_path = $cd . $cache;
 

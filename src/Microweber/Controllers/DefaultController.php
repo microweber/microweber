@@ -102,8 +102,7 @@ class DefaultController extends Controller
         event_trigger('mw_robot_url_hit');
 
         echo $rssfeed;
-        $this->app->content_manager->ping();
-    }
+     }
 
     public function api_html()
     {

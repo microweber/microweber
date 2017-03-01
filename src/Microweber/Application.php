@@ -26,7 +26,6 @@ namespace Microweber;
  * @property \Microweber\Providers\Modules                       $modules
  * @property \Microweber\Providers\DatabaseManager               $database_manager
  * @property \Microweber\Providers\NotificationsManager          $notifications_manager
- * @property \Microweber\Providers\EmailNotificationsManager     $email_notifications_manager
  * @property \Microweber\Providers\LayoutsManager                $layouts_manager
  * @property \Microweber\Providers\LogManager                    $log_manager
  * @property \Microweber\Providers\FieldsManager                 $fields_manager
@@ -40,8 +39,7 @@ namespace Microweber;
  * @property \Microweber\Providers\Content\DataFieldsManager     $data_fields_manager
  * @property \Microweber\Providers\Content\TagsManager           $tags_manager
  * @property \Microweber\Providers\Content\AttributesManager     $attributes_manager
- * @property \Microweber\Providers\Content\ContentManagerCrud    $content_manager_crud
- * @property \Microweber\Providers\Content\ContentManagerHelpers $content_manager_helpers
+
  */
 class Application
 {

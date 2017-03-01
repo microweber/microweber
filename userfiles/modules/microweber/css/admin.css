@@ -2610,6 +2610,7 @@ body.grabbing, body.grabbing * {
 	position: relative;
 }
 .mw-site-theme-selector, .layouts_box_holder {
+	padding-top: 10px;
 	padding-bottom: 20px;
 }
 .module-settings-group-template .layout_selector_wrap {
@@ -3085,6 +3086,9 @@ body.grabbing, body.grabbing * {
 	font-size: 13px;
 	margin: 2px 0 0;
 	cursor: pointer;
+}
+#mw-order-table-holder ul {
+	list-style-position: inside;
 }
 #shop-orders td, #shop-orders th {
 	text-align: center;

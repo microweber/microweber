@@ -409,6 +409,21 @@ $fields = array();
         $this->app->cache_manager->delete($cache_group);
     }
 
+    public function copy_row_by_id($table, $id = 0, $field_name = 'id')
+    {
+        $q = $this->get_by_id($table, $id, $field_name);
+         if (isset($q[$field_name])) {
+            $data = $q;
+            if (isset($data[$field_name])) {
+                unset($data[$field_name]);
+            }
+            $s = $this->save($table, $data);
+            return $s;
+        }
+    }
+
+
+
     public function clean_input($input)
     {
 

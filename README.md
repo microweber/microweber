@@ -74,7 +74,7 @@ You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) i
 
 You can clone and install Microweber with one command:
 `composer create-project microweber/microweber my_site dev-master --prefer-dist --no-dev`
-This will install Microweber in a folder named `my_ste`.
+This will install Microweber in a folder named `my_site`.
 
 Another way is to first clone the repository and then run `composer install` in the base directory.
 
