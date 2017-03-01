@@ -142,7 +142,6 @@ $( "#content_type_filter_by_select" ).change(function() {
 	}
    
 });
-            
 
 
         });
@@ -240,14 +239,14 @@ $( "#content_type_filter_by_select" ).change(function() {
                     <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
                     <a href="<?php print $edit_link; ?>" class="editbtn"
                                                id="edit-content-btn" data-tip="bottom-left">
-                    <?php _e("Edit page"); ?>
+                    <span><?php _e("Edit page"); ?></span>
                     </a>
                     <?php endif; ?>
                     <?php if (isset($params['category-id'])): ?>
                     <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
                     <a href="<?php print $edit_link; ?>" class="editbtn"
                                                id="edit-category-btn" data-tip="bottom-left">
-                    <?php _e("Edit category"); ?>
+                    <span><?php _e("Edit category"); ?></span>
                     </a>
                     <?php endif; ?>
                   </div>
@@ -287,7 +286,16 @@ $( "#content_type_filter_by_select" ).change(function() {
                             />
                            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
                       </div>
-
+                      <script>
+                        $(document).ready(function(){
+                            $(".top-search input").on('focus', function () {
+                                $(this).parent().addClass('focused');
+                            });
+                            $(".top-search input").on('blur', function () {
+                                $(this).parent().removeClass('focused');
+                            });
+                        })
+                      </script>
                   </div>
 
                 </div>

@@ -33,7 +33,7 @@ body.mw-live-edit {
 [class*='mw-plus-']{
   position: absolute;
   z-index: 1101;
-  display: inline-block;
+  display: block;
   width: 16px;
   height: 16px;
   border-radius: 30px;
@@ -46,7 +46,8 @@ body.mw-live-edit {
   text-align: center;
   line-height: 16px;
   margin-left:-10px;
-  font-family: Microweber;
+  font-family: sans-serif;
+
 }
 .mw-plus-top{ margin-top: -10px; }
 .mw-plus-bottom{ margin-top: -10px; }

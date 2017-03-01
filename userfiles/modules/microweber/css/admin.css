@@ -3546,26 +3546,19 @@ body.is_admin .mw-admin-container {
     width: 190px;
     background: #f5f5f5;
     border-radius: 2px;
+    position: absolute;
+    right: 0;
 }
-
-
-@media (max-width:1140px){
-    .top-search{
-        display: none;
-    }
-
-}
-
 
 .top-search input{
     width: 150px;
-    float: left;
     height: 36px;
     padding: 10px;
     border: none;
     background: transparent;
     outline: none;
     float: left;
+    position: absolute;
 }
 
 .golive-button{
@@ -3585,6 +3578,35 @@ body.is_admin .mw-admin-container {
     padding:10px 10px 10px 48px;
     margin-left: 24px;
 }
+@media (max-width:1140px){
+
+    .top-search{
+        width: 36px;
+    }
+    .top-search:hover, .top-search.focused{
+        width: 150px;
+    }
+    .top-search input{
+        display: none;
+    }
+    .top-search:hover input,
+    .top-search.focused input{
+        display: block;
+    }
+    .editbtn{
+        background-position: center;
+    }
+
+    .editbtn span{
+        display: none;
+    }
+
+}
+
+
+
+
+
 
 .top-form-submit{
     display: block;

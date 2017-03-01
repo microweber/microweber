@@ -34,6 +34,7 @@
     position: relative;
     display: inline-block;
     font-size: 100%;
+    vertical-align: top;
 }
 
 .mw-defaults [class*='mw-icon-'],
@@ -42,7 +43,7 @@
 .mw-ui-navigation [class*='mw-icon-'],
 .mw-ui-box [class*='mw-icon-'],
 .mw-ui-box-header [class*='mw-icon-'] {
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 [class*='mw-icon-']:before {
@@ -2087,6 +2088,10 @@ input.mw-ui-btn {
     top: 2px;
 }
 
+.mw-ui-btn.mw-ui-btn-medium > [class*='mw-icon-'] {
+    top: 0px;
+}
+
 .mw-ui-btn-icon > [class*='mw-icon-'] {
     margin-right: 0;
     margin-left: 0;
@@ -2181,7 +2186,6 @@ input.mw-ui-btn {
     display: block;
     width: 100%;
     white-space: nowrap;
-    line-height: 100%;
 }
 
 .mw-ui-btn-vertical-nav .mw-ui-btn {
