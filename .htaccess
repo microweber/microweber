@@ -3,8 +3,12 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
 </IfModule>
 
 <IfModule mod_security.c>
+  SecRuleEngine Off
+  SecFilterInheritance Off
   SecFilterEngine Off
   SecFilterScanPOST Off
+  SecFilterCheckURLEncoding Off
+
 </IfModule>
 
 <IfModule mod_rewrite.c>
