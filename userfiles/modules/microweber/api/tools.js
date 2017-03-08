@@ -3424,6 +3424,14 @@ mw.cookie = {
         var expires_date = new Date(now.getTime() + (expires));
         document.cookie = name + "=" + escape(value) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : ";path=/" ) + ( ( domain ) ? ";domain=" + domain : "" ) + ( ( secure ) ? ";secure" : "" );
     },
+    setBase64:function(name, value, expires, path, domain, secure){
+        value = btoa(value);
+        return this.set(name, value, expires, path, domain, secure)
+    },
+    getBase64:function(name){
+        value = this.get(name);
+        return atob(value);
+    },
     ui: function (a, b) {
         var mwui = mw.cookie.get("mwui");
         var mwui = (!mwui || mwui == '') ? {} : $.parseJSON(mwui);
