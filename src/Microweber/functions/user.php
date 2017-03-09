@@ -299,6 +299,9 @@ api_expose('users/verify_email_link', function ($params) {
                 $adminUser->save();
                 mw()->cache_manager->delete('users/global');
                 mw()->cache_manager->delete('users/'.$decoded);
+                $params['user_id'] = $decoded;
+                mw()->event_manager->trigger('mw.user.verify_email_link', $params);
+
                 return  mw()->url_manager->redirect(site_url());
             }
 

@@ -7,6 +7,9 @@ api_expose_admin('Microweber/Utils/MailSender/test');
 
 use Config;
 use View;
+use Swift_Mailer;
+use Swift_Message;
+
 
 class MailSender
 {
@@ -69,6 +72,16 @@ class MailSender
 
         if ($this->transport == '' or $this->transport == 'php') {
             Config::set('mail.driver', 'mail');
+
+            $disabled_functions = @ini_get('disable_functions');
+            // check if  escapeshellcmd() has been disabled
+            if (strstr($disabled_functions, 'escapeshellarg')) {
+                //if disabled, switch mail transporter
+                $transport  =  \Microweber\Utils\lib\mail\Swift_MailTransport::newInstance();
+                // set new swift mailer
+                \Mail::setSwiftMailer(new \Swift_Mailer($transport));
+            }
+
         }
 
         if ($this->transport == 'gmail') {
@@ -186,6 +199,9 @@ class MailSender
         $content['to'] = $to;
         $content['from'] = $from_address;
         $content['from_name'] = $from_name;
+
+
+        ///  escapeshellcmd() has been disabled for security reasons
 
 
         return \Mail::send(
