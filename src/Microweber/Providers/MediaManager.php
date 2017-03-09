@@ -710,7 +710,7 @@ class MediaManager
 
                         if (function_exists('finfo_file')) {
                             //use Image library
-                           //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
+                            //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
                             if(intval($height) == 0){
                                 $height = null;
                             }
@@ -727,6 +727,10 @@ class MediaManager
                             unset($image);
                         } else {
                             // use fallback
+
+                            if(!$height){
+                                $height = $width;
+                            }
                             $tn = new \Microweber\Utils\Thumbnailer($src);
                             $thumbOptions = array('maxLength' => $height, 'width' => $width);
                             $tn->createThumb($thumbOptions, $cache_path);
@@ -943,7 +947,7 @@ class MediaManager
         if (!isset($height)) {
             $height = 0;
         } else {
-             $height = intval($height);
+            $height = intval($height);
         }
 
         $cd = $this->thumbnails_path() . $width . DS;

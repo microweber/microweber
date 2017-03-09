@@ -63,7 +63,7 @@ class Thumbnailer
         } elseif (isset($specifications['height']) && isset($specifications['width'])) {
             $newWidth = $specifications['width'];
             $newHeight = $specifications['height'];
-           // $newHeight = (int)(100 * $newWidth / $newHeight);
+            // $newHeight = (int)(100 * $newWidth / $newHeight);
         } elseif (isset($specifications['maxLength'])) {
             if ($sizes[0] >= $sizes[1]) {
                 $newWidth = $specifications['width'];
@@ -85,7 +85,9 @@ class Thumbnailer
         if (isset($specifications['crop_y'])) {
             $crop_y = $specifications['crop_y'];
         }
-        $im = @imagecreatetruecolor($newWidth, $newHeight);
+        $newWidth = intval($newWidth);
+        $newHeight = intval($newHeight);
+        $im = imagecreatetruecolor($newWidth, $newHeight);
         imagealphablending($im, false);
         imagesavealpha($im, true);
         imagecopyresampled($im, $originalImage, 0, 0, $crop_x, $crop_y, $newWidth, $newHeight, $sizes[0], $sizes[1]);
