@@ -3608,7 +3608,7 @@ mw.cookie = {
             var mwui = (!mwui || mwui == '') ? {} : $.parseJSON(mwui);
         }
         catch (e) {
-          return;
+          return false;
         }
 
         if (typeof a === 'undefined') {
