@@ -202,11 +202,6 @@ class UserManager
             return;
         }
         if ($ok) {
-
-            $user = Auth::login(Auth::user());
-            $user_data = $this->get_by_id(Auth::user()->id);
-            $user_data['old_sid'] = $old_sid;
-
             if (defined('MW_USER_IP') and intval(Auth::user()->is_admin) == 1) {
                 $allowed_ips = config('microweber.admin_allowed_ips');
                 if ($allowed_ips) {
@@ -221,12 +216,17 @@ class UserManager
                             }
                         }
                         if (!$is_allowed) {
+                            $this->logout();
                             return array('error' => 'You are not allowed to login from this IP address');
                         }
                     }
                 }
             }
 
+
+            $user = Auth::login(Auth::user());
+            $user_data = $this->get_by_id(Auth::user()->id);
+            $user_data['old_sid'] = $old_sid;
 
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
