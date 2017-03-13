@@ -820,7 +820,7 @@ class UpdateManager
         } else {
             $curl_result = false;
         }
-        
+
         if ($curl_result == '' or $curl_result == false) {
             return false;
         }

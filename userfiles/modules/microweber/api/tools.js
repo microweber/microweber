@@ -1494,7 +1494,7 @@ mw.tools = {
         recall: function (tree) {
             if (tree !== null) {
                 var ids = mw.cookie.ui("tree_" + tree.id);
-                if (ids !== '') {
+                if (typeof(ids) != '' && ids !== '') {
                     var ids = ids.split(",");
                     $.each(ids, function (a, b) {
                         if (tree.querySelector('.item_' + b)) {
@@ -3602,7 +3602,15 @@ mw.cookie = {
     },
     ui: function (a, b) {
         var mwui = mw.cookie.getEncoded("mwui");
-        var mwui = (!mwui || mwui == '') ? {} : $.parseJSON(mwui);
+
+
+        try {
+            var mwui = (!mwui || mwui == '') ? {} : $.parseJSON(mwui);
+        }
+        catch (e) {
+          return;
+        }
+
         if (typeof a === 'undefined') {
             return mwui;
         }
@@ -3642,7 +3650,14 @@ mw.recommend = {
             return {}
         }
         else {
-            return $.parseJSON(cookie);
+            try {
+                var val = $.parseJSON(cookie);
+            }
+            catch (e) {
+                return;
+            }
+
+            return val;
         }
     },
     increase: function (item_name) {
