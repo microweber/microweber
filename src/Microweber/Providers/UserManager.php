@@ -206,6 +206,28 @@ class UserManager
             $user = Auth::login(Auth::user());
             $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
+
+            if (defined('MW_USER_IP') and intval(Auth::user()->is_admin) == 1) {
+                $allowed_ips = config('microweber.admin_allowed_ips');
+                if ($allowed_ips) {
+                    $allowed_ips = explode(',', $allowed_ips);
+                    $allowed_ips = array_trim($allowed_ips);
+                    if (!empty($allowed_ips)) {
+                        $is_allowed = false;
+                        foreach ($allowed_ips as $allowed_ip) {
+                            $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(MW_USER_IP, $allowed_ip);
+                            if ($is) {
+                                $is_allowed = $is;
+                            }
+                        }
+                        if (!$is_allowed) {
+                            return array('error' => 'You are not allowed to login from this IP address');
+                        }
+                    }
+                }
+            }
+
+
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
                 return $this->app->url_manager->redirect($redirect_after);
@@ -348,9 +370,9 @@ class UserManager
 
         $name = $this->get_by_id($user_id);
         if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
-            if(is_https()){
+            if (is_https()) {
                 $rep = 1;
-                $name['thumbnail'] = str_ireplace('http://','//',$name['thumbnail'],$rep);
+                $name['thumbnail'] = str_ireplace('http://', '//', $name['thumbnail'], $rep);
             }
             return $name['thumbnail'];
         }
@@ -590,10 +612,10 @@ class UserManager
         }
 
         if (get_option('form_show_password_confirmation', 'users') == 'y') {
-			if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
-				return array('error' => 'Two password entries do not match!');
-			}
-		}
+            if (!isset($params['password2']) or (isset($params['password2']) and ($params['password2'] != $params['password']))) {
+                return array('error' => 'Two password entries do not match!');
+            }
+        }
 
         if (!isset($params['username']) and !isset($params['email'])) {
             return array('error' => 'Please set username or email!');

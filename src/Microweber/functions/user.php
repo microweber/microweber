@@ -2,7 +2,9 @@
 
 
 if (!defined('MW_USER_IP')) {
-    if (isset($_SERVER['REMOTE_ADDR'])) {
+    if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+        define('MW_USER_IP', $_SERVER['HTTP_CF_CONNECTING_IP']);
+    } else if (isset($_SERVER['REMOTE_ADDR'])) {
         define('MW_USER_IP', $_SERVER['REMOTE_ADDR']);
     } else {
         define('MW_USER_IP', '127.0.0.1');

@@ -23,6 +23,7 @@
     "socialiteproviders/linkedin": "*",
     "illuminate/contracts": "5.4.*",
     "illuminate/support": "5.4.*",
+    "symfony/http-foundation": "*",
     "vlucas/phpdotenv": "*",
     "rcrowe/twigbridge": "*",
     "graham-campbell/markdown": "*",
