@@ -78,7 +78,7 @@ return [
 	|
 	*/
 
-    'key' => 'base64:5pJ1a1JxZSRm45h+leC9nLkqJUicLgPN11OQZW3BNBY=',
+    'key' => 'YourSecretKey!!!',
 
 	'cipher' => 'AES-256-CBC',
 

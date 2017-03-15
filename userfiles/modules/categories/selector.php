@@ -247,11 +247,22 @@ if (isset($params['categories_removed_ids'])) {
 	 $tree['categories_removed_ids'] = $params['categories_removed_ids'];
 
 }
+
+if (isset($params['include_inactive']) and $params['include_inactive']) {
+	//do no set $tree['is_active'];
+
+} else {
+	$tree['is_active'] = 1;
+
+}
  if (isset($tree['subtype'])) {
 	 
 unset($tree['subtype']);
 }
-     $tree['is_active'] = 1;
+
+
+unset($tree['parent']);
+
 pages_tree($tree);
 ?>
 <?php endif; ?>
