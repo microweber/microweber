@@ -781,6 +781,7 @@ class ContentManager
 
             $sql = "SELECT * from $table where  " . $par_q . $content_type_q . "   and   is_deleted=0 $is_shop  order by position desc limit 0,100";
         }
+
         $cid = __FUNCTION__ . crc32($sql);
         $cidg = 'content/' . $parent;
         if (!is_array($params)) {
@@ -1228,6 +1229,7 @@ class ContentManager
                                     $cat_params['li_class'] = $params['li_class'];
                                 }
                             }
+
                             $this->app->category_manager->tree($cat_params);
                         }
                     }
