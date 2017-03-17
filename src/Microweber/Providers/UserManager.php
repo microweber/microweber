@@ -1365,8 +1365,9 @@ class UserManager
         }
 
         $auth_provider = $_REQUEST['provider'];
+        $this->socialite_config($auth_provider);
 
-        try {
+         try {
             $this->socialite_config($auth_provider);
             $user = $this->socialite->driver($auth_provider)->user();
             $email = $user->getEmail();
@@ -1388,9 +1389,10 @@ class UserManager
             $save['thumbnail'] = $avatar;
             $save['username'] = $username;
             $save['is_active'] = 1;
-            $save['is_admin'] = is_null(User::first());
+            $save['is_admin'] = 0;
             $save['first_name'] = '';
             $save['last_name'] = '';
+
             if ($name != false) {
                 $names = explode(' ', $name);
                 if (isset($names[0])) {

@@ -18,7 +18,7 @@
   ],
   "require": {
     "laravel/framework": "5.4.*",
-    "laravel/socialite": "2.0.12",
+    "laravel/socialite": "^3.0",
     "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
     "illuminate/contracts": "5.4.*",
@@ -27,7 +27,6 @@
     "vlucas/phpdotenv": "*",
     "rcrowe/twigbridge": "*",
     "graham-campbell/markdown": "*",
-    "guzzlehttp/guzzle": "5.*",
     "composer/installers": "1.*",
     "keboola/csv": "1.1.*",
     "omnipay/omnipay": "2.*",

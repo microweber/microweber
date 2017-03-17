@@ -58,6 +58,7 @@ description: Login default
         $google = get_option('enable_user_google_registration','users') =='y';
         $windows = get_option('enable_user_windows_live_registration','users') =='y';
         $github = get_option('enable_user_github_registration','users') =='y';
+        $mw_login = get_option('enable_user_microweber_registration','users') =='y';
 
         if($facebook or $twitter or $google or $windows or $github){
            $have_social_login = true;
@@ -85,6 +86,9 @@ description: Login default
           <?php endif; ?>
           <?php if($github): ?>
           <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-signin-with-github">Github login</a></li>
+          <?php endif; ?>
+          <?php if($mw_login): ?>
+          <li><a href="<?php print api_link('user_social_login?provider=microweber') ?>" class="mw-signin-with-microweber">Microweber login</a></li>
           <?php endif; ?>
           <?php if($have_social_login){ ?>
         </ul>

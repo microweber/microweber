@@ -456,44 +456,42 @@ class UpdateManager
 
         $data = $this->collect_local_data();
 
-        $update_check_folder_checksum_cache_id = 'update_check_folder_checksum___' . MW_VERSION;
-        $cache_checksum = $this->app->cache_manager->get($update_check_folder_checksum_cache_id, 'update/global');
 
+//        $update_check_folder_checksum_cache_id = 'update_check_folder_checksum___' . MW_VERSION;
+//        $cache_checksum = $this->app->cache_manager->get($update_check_folder_checksum_cache_id, 'update/global');
+//
+//        if (!$cache_checksum) {
+//            $checksum = array();
+//            try {
+//                if (!is_link(MW_ROOTPATH . 'vendor')) {
+//                    $filesystem = new \Microweber\Utils\Files();
+//                    $checksum['vendor'] = $filesystem->md5_dir(MW_ROOTPATH . 'vendor');
+//                    $checksum['src'] = $filesystem->md5_dir(MW_PATH);
+//                    $checksum['config'] = $filesystem->md5_dir(config_path());
+//                    //$checksum['userfiles/modules/microweber'] = $filesystem->md5_dir(mw_includes_path());
+//                    $checksum['userfiles/modules'] = $filesystem->md5_dir(modules_path());
+//
+//                    $checksum = array_map(
+//                        function ($str) {
+//                            $str = str_replace(MW_ROOTPATH, '', $str);
+//                            return str_replace('\\', '/', $str);
+//                        },
+//                        $checksum
+//                    );
+//
+//
+//                }
+//            } catch (\Exception $e) {
+//
+//            }
+//            $cache_checksum = $checksum;
+//            $this->app->cache_manager->save($checksum, $update_check_folder_checksum_cache_id, 'update/global');
+//        }
+//
+//        if ($cache_checksum) {
+//            $data['checksum_folders'] = base64_encode(json_encode($cache_checksum));
+//        }
 
-        if (!$cache_checksum) {
-            $checksum = array();
-            try {
-                if (!is_link(MW_ROOTPATH . 'vendor')) {
-                    $filesystem = new \Microweber\Utils\Files();
-                    $checksum['vendor'] = $filesystem->md5_dir(MW_ROOTPATH . 'vendor');
-                    $checksum['src'] = $filesystem->md5_dir(MW_PATH);
-                    $checksum['config'] = $filesystem->md5_dir(config_path());
-                    //$checksum['userfiles/modules/microweber'] = $filesystem->md5_dir(mw_includes_path());
-                    $checksum['userfiles/modules'] = $filesystem->md5_dir(modules_path());
-
-                    $checksum = array_map(
-                        function ($str) {
-                            $str = str_replace(MW_ROOTPATH, '', $str);
-                            return str_replace('\\', '/', $str);
-                        },
-                        $checksum
-                    );
-
-
-                }
-            } catch (\Exception $e) {
-
-            }
-
-            $cache_checksum = $checksum;
-            $this->app->cache_manager->save($checksum, $update_check_folder_checksum_cache_id, 'update/global');
-        }
-
-
-
-        if ($cache_checksum) {
-            $data['checksum_folders'] = base64_encode(json_encode($cache_checksum));
-        }
 
         $result = $this->call('check_for_update', $data);
 

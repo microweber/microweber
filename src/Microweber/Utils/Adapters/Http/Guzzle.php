@@ -69,6 +69,7 @@ class Guzzle
                 curl_setopt($ch, CURLOPT_TIMEOUT, 120);
                 curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
                 curl_exec($ch); // get curl response
                 curl_close($ch);
                 fclose($fp);
