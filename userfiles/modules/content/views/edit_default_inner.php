@@ -52,13 +52,15 @@ if(isset($data['content-id'])){
 
             if(mwd.getElementById('content-title-field') !== null){
                  mweditor.onload = function(){
-                    var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
-                    if(titleel !== null){
-                        var rel = mw.tools.mwattr(titleel, 'rel');
-                        if(rel == 'post' || rel == 'page' || rel == 'product'  || rel == 'content'){
-                            mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
+                     if(mweditor.contentWindow){
+                        var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
+                        if(titleel !== null){
+                            var rel = mw.tools.mwattr(titleel, 'rel');
+                            if(rel == 'post' || rel == 'page' || rel == 'product'  || rel == 'content'){
+                                mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
+                            }
                         }
-                    }
+                     }
 
 
                     mw.admin.postImageUploader();

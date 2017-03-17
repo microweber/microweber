@@ -1494,7 +1494,7 @@ mw.tools = {
         recall: function (tree) {
             if (tree !== null) {
                 var ids = mw.cookie.ui("tree_" + tree.id);
-                if (typeof(ids) != 'undefined' && ids !== '') {
+                if (typeof(ids) != 'undefined' && ids != false) {
                     var ids = ids.split(",");
                     $.each(ids, function (a, b) {
                         if (tree.querySelector('.item_' + b)) {
