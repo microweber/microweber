@@ -15,9 +15,6 @@ class CategoryManager
 
 
 
-    /** @var \Microweber\Providers\Content\Helpers\CategoryTreeRenderer */
-    public $renderer;
-
 
     public function __construct($app = null)
     {
@@ -46,8 +43,7 @@ class CategoryManager
         }
 
 
-        $this->renderer =new \Microweber\Providers\Content\Helpers\CategoryTreeRenderer($app);
-    }
+     }
 
     /**
      * category_tree.
