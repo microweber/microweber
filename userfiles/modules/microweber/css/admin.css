@@ -1204,7 +1204,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 #quick-add-post-options-items-holder {
 	position: absolute;
-    width: 100%;
+    min-width: 100%;
 	left: 0;
 	z-index: 90;
 	background: white;
