@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Content\Helpers;
+namespace Microweber\Providers\Categories\Helpers;
 
 use \Knp\Menu\ItemInterface;
 use \Knp\Menu\Matcher\MatcherInterface;
@@ -10,7 +10,7 @@ use \Knp\Menu\Renderer\RendererInterface;
 /**
  * Renders MenuItem tree as unordered list
  */
-class CustomListRenderer extends Renderer implements RendererInterface
+class KnpCustomListRenderer extends Renderer implements RendererInterface
 {
     protected $matcher;
     protected $defaultOptions;
