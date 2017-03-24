@@ -43,7 +43,8 @@
     "rtconner/laravel-tagging": "dev-laravel-5",
     "jeremeamia/superclosure": "*",
     "arcanedev/seo-helper": "^1.2",
-    "intervention/image": "^2.3"
+    "intervention/image": "^2.3",
+    "knplabs/knp-menu": "^2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"
