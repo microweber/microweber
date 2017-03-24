@@ -9,6 +9,10 @@ name: Add to cart default
 description: Add to cart default
 
 */
+
+
+
+
  ?>
 <?php
 
@@ -41,7 +45,7 @@ else{
   </button>
   <?php else: ?>
   <button class="btn btn-default pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
-  <?php _e("Add to cart"); ?>
+  <?php  _e($button_text !== false ? $button_text : "Add to cart"); ?>
   </button>
   <?php $i++; endif; ?>
 </div>

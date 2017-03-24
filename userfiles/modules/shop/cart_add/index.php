@@ -47,6 +47,12 @@ if($module_template != false and $module_template != 'none'){
  if(isset($params['for'])){
 	 $for = $params['for'];
  }
+ if(isset($params['button_text'])){
+	 $button_text = $params['button_text'];
+ }
+ else{
+     $button_text = false;
+ }
  
  if($for_id == false and defined('CONTENT_ID')){
 	$for_id =  CONTENT_ID;
