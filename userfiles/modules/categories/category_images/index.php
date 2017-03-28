@@ -18,29 +18,27 @@ if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
 $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
+
 if (!empty($cats)) {
     foreach ($cats as $k => $cat) {
-        if (!$cat['rel_id']) {
-            unset($cats[$k]);
-        } else {
-            $cat['picture'] = get_picture($cat['id'], 'category');
 
-            if ($cat['rel_type'] == 'content') {
-                $latest = get_content("order_by=position desc&limit=30&category=" . $cat['id']);
+        $cat['picture'] = get_picture($cat['id'], 'category');
 
-                if (!$cat['picture'] and isset($latest[0])) {
-                    $latest_product = $latest[0];
-                    $cat['picture'] = get_picture($latest_product['id']);
-                }
+        if ($cat['rel_type'] == 'content') {
+            $latest = get_content("order_by=position desc&limit=30&category=" . $cat['id']);
 
-                if ($latest) {
-                    $cat['content_items'] = $latest;
-                }
-
+            if (!$cat['picture'] and isset($latest[0])) {
+                $latest_product = $latest[0];
+                $cat['picture'] = get_picture($latest_product['id']);
             }
-            $cats[$k] = $cat;
+
+            if ($latest) {
+                $cat['content_items'] = $latest;
+            }
 
         }
+        $cats[$k] = $cat;
+
     }
 }
 $data = $cats;
