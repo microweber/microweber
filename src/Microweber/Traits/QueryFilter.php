@@ -301,7 +301,17 @@ trait QueryFilter
                                 $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id');
                             }
                             $query->where('categories_items_joined_table.rel_type', $table);
-                                $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+
+                            //$query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+                            //  dd($ids);
+
+                            foreach ($ids as $cat_id){
+                                $query->where('categories_items_joined_table.parent_id', $cat_id);
+                            }
+
+                         $query = $query->distinct();
+
+
 
 
 //                        $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')

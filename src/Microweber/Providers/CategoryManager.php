@@ -341,13 +341,13 @@ class CategoryManager
                 }
             }
         }
-        $get_category = $this->get('order_by=position desc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+        $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
         }
 
         if (!empty($include_parents)) {
-            $include_parents_str = 'order_by=position desc&data_type=' . $data_type . '&rel_type=content&ids=' . implode(',', $include_parents);
+            $include_parents_str = 'order_by=position asc&data_type=' . $data_type . '&rel_type=content&ids=' . implode(',', $include_parents);
             $get_category2 = $this->get($include_parents_str);
 
             if (!empty($get_category2)) {
