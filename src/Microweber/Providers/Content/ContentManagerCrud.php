@@ -892,7 +892,7 @@ class ContentManagerCrud extends Crud
         $media_table = $this->app->database_manager->real_table_name($media_table);
 
         if ($sid != false and $sid != '' and $id != false) {
-            DB::transaction(function () use ($sid, $id) {
+
                 DB::table($this->tables['custom_fields'])
                     ->whereSessionId($sid)
                     ->where(function ($query) {
@@ -908,7 +908,7 @@ class ContentManagerCrud extends Crud
                     })
                     ->whereRelType('content')
                     ->update(['rel_type' => 'content', 'rel_id' => $id]);
-            });
+
         }
 
         $this->app->cache_manager->delete('custom_fields');

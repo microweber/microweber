@@ -259,7 +259,9 @@ trait QueryFilter
                     } elseif (!is_array($ids)) {
                         $ids = array($ids);
                     }
+
                     if (is_array($ids) and !empty($ids)) {
+                        $ids = array_values($ids);
                         if ($this->supports($table, 'tag')) {
                             if ($filter == 'tag' or $filter == 'tags') {
                                 $query = $query->withAnyTag($ids);
@@ -305,13 +307,11 @@ trait QueryFilter
                             //$query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
                             //  dd($ids);
 
-                            foreach ($ids as $cat_id){
+                            foreach ($ids as $cat_id) {
                                 $query->where('categories_items_joined_table.parent_id', $cat_id);
                             }
 
-                         $query = $query->distinct();
-
-
+                            $query = $query->distinct();
 
 
 //                        $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')
