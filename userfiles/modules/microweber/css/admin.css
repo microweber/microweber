@@ -2330,7 +2330,7 @@ body.grabbing, body.grabbing * {
 }
 .col-bar-live-edit {
 	text-align: right;
-	width: 140px;
+	width: 170px;
 }
 .col-bar-live-edit .mw-ui-btn, .go-live-btn-admin {
     background-color: #000

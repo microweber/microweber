@@ -17,7 +17,7 @@ if($parent_module and isset($_GET)){
 
 <?php if($url != false): ?>
 
-<iframe src="<?php print $url; ?>" id="mw-update-frame" frameborder="0"></iframe>
+<iframe src="<?php print $url; ?>" id="mw-update-frame" frameborder="0" style="max-width: 100%; position: absolute;"></iframe>
 <script>
 var frame = document.getElementById('mw-update-frame');
         frame.style.height = window.innerHeight + 'px';

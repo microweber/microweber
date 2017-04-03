@@ -19,6 +19,7 @@ class Content
                 'position' => 'integer',
                 'content' => 'longText',
                 'content_body' => 'longText',
+                'is_active' => array('type' => 'integer', 'default' => 1),
                 'subtype_value' => 'string',
                 'custom_type' => 'string',
                 'custom_type_value' => 'string',
@@ -29,7 +30,6 @@ class Content
                 'content_filename' => 'string',
                 'original_link' => 'string',
 
-                'is_active' => array('type' => 'integer', 'default' => 1),
                 'is_home' => array('type' => 'integer', 'default' => 0),
                 'is_pinged' => array('type' => 'integer', 'default' => 0),
                 'is_shop' => array('type' => 'integer', 'default' => 0),
