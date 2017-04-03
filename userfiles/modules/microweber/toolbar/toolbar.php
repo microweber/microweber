@@ -204,7 +204,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
 
           <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl" title="Create or manage your content" style=""><span> <?php _e("Add New"); ?> </span></a>
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
-                        style="width: 170px; text-transform:uppercase;top: 51px;">
+                        style="width: 200px; text-transform:uppercase;top: 51px;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
               <li>
                 <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-pen"></span><span>
