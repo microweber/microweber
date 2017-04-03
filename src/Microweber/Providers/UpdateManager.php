@@ -212,6 +212,7 @@ class UpdateManager
         }
         $this->post_update();
 
+
         return $res;
     }
 
@@ -568,6 +569,11 @@ class UpdateManager
                 $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
             }
             if (is_file($dl_file)) {
+                $preserve_key = false;
+//                if (Config::get('app.key') != 'YourSecretKey!!!') {
+//                    $preserve_key = Config::get('app.key');
+//                }
+
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = MW_ROOTPATH;
                 $this->_log_msg('Preparing to unzip core update');
@@ -579,6 +585,10 @@ class UpdateManager
                 }
 
                 $this->post_update();
+//                if ($preserve_key) {
+//                    Config::set('app.key', $preserve_key);
+//                    Config::save('app');
+//                }
 
                 return $result;
             }
@@ -615,6 +625,7 @@ class UpdateManager
         event_trigger('mw_db_init');
 
         if ($version != false) {
+
             Config::set('microweber.version', $version);
             Config::save('microweber');
         }
