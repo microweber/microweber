@@ -53,7 +53,7 @@ mw.email_send_test = function(){
 		<hr>
 		
 		<div class="mw-ui-box">
-			<div class="mw-ui-box-header">Mail Send Settings</div>
+			<div class="mw-ui-box-header"><?php _e("Mail Send Settings"); ?></div>
 			<div class="mw-ui-box-content">
 
 <div class="mw-ui-field-holder">
@@ -181,7 +181,7 @@ mw.email_send_test = function(){
 					</tr>
 				</table>
 				
-				<a class="mw-ui-btn " href="javascript:$('#test_eml_toggle').toggle(); void(0);">Test Method</a> </div>
+				<a class="mw-ui-btn " href="javascript:$('#test_eml_toggle').toggle(); void(0);"><?php _e("Test Method"); ?></a> </div>
 		</div>
 	</div>
 </div>

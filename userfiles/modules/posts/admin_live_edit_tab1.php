@@ -136,28 +136,6 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   </select>
 </div>
 <?php endif; ?>
-
-<div class="mw-ui-field-holder">
-  <label class="mw-ui-label">
-    <?php _e("Show content with tags"); ?>
-  </label>
-  <?php $tags_val = get_option('data-tags', $params['id']);
-  if($tags_val and is_string($tags_val)){
-    $tags_val = explode(',',$tags_val);
-    $tags_val = array_trim($tags_val);
-    $tags_val = array_filter($tags_val);
-    $tags_val = array_unique($tags_val);
-    $tags_val = implode(',',$tags_val);
-  }
-  ?>
-  <input name="data-tags" class="mw-ui-field mw_option_field"   type="text"   value="<?php print $tags_val  ?>" />
-
-</div>
-
-
-
-
-
 <?php $show_fields =  get_option('data-show', $params['id']);
 if(is_string($show_fields)){
 $show_fields = explode(',',$show_fields);

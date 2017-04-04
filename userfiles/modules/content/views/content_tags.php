@@ -19,6 +19,6 @@ $tags_str = content_tags($params['content-id']);
   <label class="mw-ui-label">
     <?php _e("Tags"); ?>
     <small class="mw-help"
-               data-help="Tags/Labels for this content. Use comma (,) to add multiple tags"> (?) </small> </label>
+               data-help="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"> (?) </small> </label>
   <input type="text" name="tags" class="mw-ui-field" value="<?php print implode(',',$tags_str); ?>" />
 </div>

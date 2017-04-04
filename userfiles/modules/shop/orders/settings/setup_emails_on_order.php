@@ -14,11 +14,11 @@ runOnNewOrderMailEditor = function(){
         });
 
         $(OnNewOrderMailEditor).bind('change', function(){
-          
+
         })
     }
 }
- 
+
 
 $(document).ready(function(){
 runOnNewOrderMailEditor();

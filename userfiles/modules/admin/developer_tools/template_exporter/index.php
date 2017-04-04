@@ -17,14 +17,14 @@
   <div class="mw_edit_page_default" id="mw_edit_page_left">
     <div class="mw-admin-sidebar">
       <h2><span class="ico imanage-module"></span>&nbsp;
-        Template backup </h2>
+          <?php _e('Template backup'); ?> </h2>
     </div>
     <div class="mw-admin-side-nav">
       <div>
         <div class="back-up-nav-btns">
           <div class="vSpace"></div>
           <a href="javascript:mw.template_exporter.create()"
-                       class="mw-ui-btn mw-ui-btn-green"><span class="mw-icon-plus"></span><span> Export template </span></a>
+                       class="mw-ui-btn mw-ui-btn-green"><span class="mw-icon-plus"></span><span> <?php _e('Export template'); ?> </span></a>
           <div class="vSpace"></div>
         </div>
         <div id="mw_backup_log" type="admin/developer_tools/template_exporter/log"></div>

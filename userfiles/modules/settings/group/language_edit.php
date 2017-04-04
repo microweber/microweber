@@ -1,7 +1,7 @@
 
 <div class="send-your-lang">
-  <label class="mw-ui-label"><small>Help us improve Microweber</small></label>
-  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a> </div>
+  <label class="mw-ui-label"><small><?php _e('Help us improve Microweber'); ?></small></label>
+  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue"><?php _e('Send us your translation'); ?></a> </div>
 <?php only_admin_access(); ?>
 <label class="mw-ui-label left">
   <?php _e("Edit your language file"); ?>
@@ -20,7 +20,7 @@
 
  if(!mw.$(".send-your-lang a").hasClass("disabled")){
 
-    mw.tools.disable(mwd.querySelector(".send-your-lang a"), "Sending...");
+    mw.tools.disable(mwd.querySelector(".send-your-lang a"), "<?php _e('Sending...'); ?>");
 
     mw.form.post('#language-form-<?php print $params['id'] ?>', '<?php print api_link('send_lang_form_to_microweber'); ?>',
       function(msg) {
@@ -100,8 +100,8 @@ $cont  = get_language_file_content();
   <table width="100%" border="0" class="mw-ui-table" cellspacing="0" cellpadding="0">
     <thead>
       <tr>
-        <th scope="col">Key</th>
-        <th scope="col">Value</th>
+        <th scope="col"><?php _e('Key'); ?></th>
+        <th scope="col"><?php _e('Value'); ?></th>
       </tr>
     </thead>
     <tbody>
@@ -116,6 +116,6 @@ $cont  = get_language_file_content();
   </table>
 </form>
 <div class="send-your-lang" style="margin: 40px 0;">
-  <label class="mw-ui-label"><small>Help us improve Microweber</small></label>
-  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a> </div>
+  <label class="mw-ui-label"><small><?php _e('Help us improve Microweber'); ?></small></label>
+  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue"><?php _e('Send us your translation'); ?></a> </div>
 <?php endif; ?>

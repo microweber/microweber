@@ -18,16 +18,16 @@
     <div class="mw_edit_page_default" id="mw_edit_page_left">
         <div class="mw-admin-sidebar">
             <h2><span class="ico imanage-module"></span>&nbsp;
-                Media cleanup </h2>
+                <?php _e('Media cleanup'); ?> </h2>
         </div>
-        <p>This module will remove media from database, which is not present on the hard drive </p>
+        <p><?php _e('This module will remove media from database, which is not present on the hard drive'); ?> </p>
 
         <div class="mw-admin-side-nav">
             <div>
                 <div class="back-up-nav-btns">
                     <div class="vSpace"></div>
                     <a href="javascript:mw.media_cleanup.run()"
-                       class="mw-ui-btn mw-ui-btn-green"><span class="mw-icon-plus"></span><span> Cleanup Images </span></a>
+                       class="mw-ui-btn mw-ui-btn-green"><span class="mw-icon-plus"></span><span> <?php _e('Cleanup Images'); ?> </span></a>
 
                     <div class="vSpace"></div>
                 </div>

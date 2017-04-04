@@ -160,7 +160,7 @@ $(document).ready(function(){
             <span class="pull-left the-icoimage" style="background-image: url('<?php print $favicon_image; ?>');" <?php if($favicon_image != '' and $favicon_image != false){ ?><?php } else{ ?> style="display:block;" <?php } ?>></span>
 
 
-            <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span>Upload favion</span>
+            <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span><?php _e('Upload favion'); ?></span>
   
   
   </div>

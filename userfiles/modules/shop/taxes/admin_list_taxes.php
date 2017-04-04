@@ -8,9 +8,9 @@ $defined_taxes = mw()->tax_manager->get();
 <table cellspacing="0" cellpadding="0" class="mw-ui-table">
   <thead>
     <tr>
-      <th>Tax name</th>
-      <th>Modifier</th>
-      <th>Amount</th>
+      <th><?php _e('Tax name'); ?></th>
+      <th><?php _e('Modifier'); ?></th>
+      <th><?php _e('Amount'); ?></th>
       <th width="100"></th>
     </tr>
   </thead>
@@ -27,7 +27,7 @@ $defined_taxes = mw()->tax_manager->get();
     <?php endforeach; ?>
     <?php else: ?>
     <tr>
-      <td colspan="5">You don't have any defined taxes</td>
+      <td colspan="5"><?php _e('You don\'t have any defined taxes'); ?></td>
     </tr>
     <?php endif; ?>
   </tbody>
@@ -36,5 +36,5 @@ $defined_taxes = mw()->tax_manager->get();
 
 <br /><br />
 <?php if(!empty($defined_taxes)) : ?>
-<span class="mw-ui-label-help">Example tax for 1000.00 is <?php print mw()->tax_manager->calculate(1000) ?></span>
+<span class="mw-ui-label-help"><?php _e('Example tax for 1000.00 is'); ?> <?php print mw()->tax_manager->calculate(1000) ?></span>
 <?php endif; ?>

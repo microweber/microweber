@@ -6,9 +6,17 @@ only_admin_access();
 <script>
 mw_admin_edit_tax_item_popup_modal_opened = null
 function mw_admin_edit_tax_item_popup(tax_item_id) {
+
+    if(!!tax_item_id){
+        var modalTitle = '<?php _e('Edit tax item'); ?>';
+    }else{
+        var modalTitle = '<?php _e('Add tax item'); ?>';
+    }
+
+
 	mw_admin_edit_tax_item_popup_modal_opened = mw.modal({
 		content:   '<div id="mw_admin_edit_tax_item_module"></div>',
-		title:     'Edit tax item',
+		title:     modalTitle,
 		id:        'mw_admin_edit_tax_item_popup_modal'
 	});
    
@@ -18,8 +26,8 @@ function mw_admin_edit_tax_item_popup(tax_item_id) {
 }
 
 function mw_admin_delete_tax_item_confirm(tax_item_id) {
-	 
-	 var r = confirm("Are you sure you want to delete this tax?");
+
+	 var r = confirm("<?php _e('Are you sure you want to delete this tax?'); ?>");
 		if (r == true) {
 		var url = mw.settings.api_url+'shop/delete_tax_item';
 		$.post( url, { id: tax_item_id })
@@ -32,7 +40,7 @@ function mw_admin_delete_tax_item_confirm(tax_item_id) {
 }
 
 function mw_admin_after_changed_tax_item() {
-	mw.notification.success("Taxes are updated");
+	mw.notification.success("<?php _e('Taxes are updated'); ?>");
 	mw.reload_module('#mw_admin_shop_taxes_items_list');
 }
 
@@ -68,6 +76,6 @@ $( document ).ready(function() {
   <?php _e("Taxes list"); ?>
 </h4>
 <br>
-<a class="mw-ui-btn mw-ui-btn-notification" href="javascript:mw_admin_edit_tax_item_popup(0)"><span class="mw-icon-cart-outline"></span><span> Add new tax </span></a> <br>
+<a class="mw-ui-btn mw-ui-btn-notification" href="javascript:mw_admin_edit_tax_item_popup(0)"><span class="mw-icon-cart-outline"></span><span> <?php _e('Add new tax'); ?> </span></a> <br>
 <br>
 <module type="shop/taxes/admin_list_taxes" id="mw_admin_shop_taxes_items_list" />

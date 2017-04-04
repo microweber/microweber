@@ -32,7 +32,7 @@
     </div>
     <div class="mw-ui-col">
 
-        <a class="mw-ui-btn" style="height: auto" href="http://www.youtube.com/watch?v=oCivDxMpUcs" target="_blank">Learn more about setting up <br>you <strong>PayPal Pro</strong> Account</a>
+        <a class="mw-ui-btn" style="height: auto" href="http://www.youtube.com/watch?v=oCivDxMpUcs" target="_blank"> <?php _e('Learn more about setting up you'); ?><br /> <strong>PayPal Pro</strong> Account</a>
 
     </div>
 

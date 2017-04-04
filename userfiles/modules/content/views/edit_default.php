@@ -273,7 +273,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
 
                     <module
                         type="content/views/selector"
-                        no-parent-title="No parent page"
+                        no-parent-title="<?php _e('No parent page'); ?>"
                         field-name="parent_id_selector"
                         change-field="parent"
                         selected-id="<?php print $data['parent']; ?>"

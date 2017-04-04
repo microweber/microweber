@@ -29,21 +29,21 @@ $values = array_merge($default_item,$item);
 <form id="mw_edit_tax_item" onsubmit="return mw_admin_edit_tax_item_submit_form(this)">
   <input type="hidden" name="id" value="<?php print $values['id']; ?>" />
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Tax name</label>
+    <label class="mw-ui-label"><?php _e('Tax name'); ?></label>
     <input name="tax_name" type="text" class="mw-ui-field" required="required" value="<?php print $values['tax_name']; ?>">
   </div>
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Tax modifier</label>
+    <label class="mw-ui-label"><?php _e('Tax modifier'); ?></label>
     <select name="tax_modifier" class="mw-ui-field mw-ui-field-medium">
-      <option value="fixed" <?php if($values['tax_modifier'] == 'fixed') : ?> selected="selected" <?php endif; ?>>Fixed</option>
-      <option value="percent" <?php if($values['tax_modifier'] == 'percent') : ?> selected="selected" <?php endif; ?>>Percent</option>
+      <option value="fixed" <?php if($values['tax_modifier'] == 'fixed') : ?> selected="selected" <?php endif; ?>><?php _e('Fixed'); ?></option>
+      <option value="percent" <?php if($values['tax_modifier'] == 'percent') : ?> selected="selected" <?php endif; ?>><?php _e('Percent'); ?></option>
     </select>
   </div>
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Tax amount</label>
+    <label class="mw-ui-label"><?php _e('Tax amount'); ?></label>
     <input name="amount" type="text" class="mw-ui-field" required="required" value="<?php print $values['amount']; ?>">
   </div>
   <br />
   <br />
-  <input class="mw-ui-btn mw-ui-btn-invert" type="submit" name="submit" value="Save" />
+  <input class="mw-ui-btn mw-ui-btn-invert" type="submit" name="submit" value="<?php _e('Save'); ?>" />
 </form>
