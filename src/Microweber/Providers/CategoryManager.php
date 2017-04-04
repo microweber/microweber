@@ -847,12 +847,34 @@ class CategoryManager
         } else {
             $cat_url = $this->app->url_manager->param('category', true);
         }
+
+        if ($cat_url != false and !is_numeric($cat_url)) {
+            $cats = explode(',',$cat_url);
+            if(!empty($cats)){
+                $cat_url = array_shift($cats);
+            }
+        }
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cat_url_by_slug = $this->get_by_slug($cat_url);
             if (isset($cat_url_by_slug['id'])) {
                 $cat_url = $cat_url_by_slug['id'];
             }
         }
+
+        if(!$cat_url){
+            if(isset($_GET['categories']) and is_array($_GET['categories']) and !empty($_GET['categories'])){
+                $cats_from_get_param = array_values($_GET['categories']);
+                $cats_from_get_param = array_filter($_GET['categories']);
+                if(!empty($cats_from_get_param)){
+                    $get_first_val = array_shift($cats_from_get_param);
+                    if(is_numeric($get_first_val)){
+                        $cat_url = intval($get_first_val);
+                    }
+
+                }
+            }
+        }
+
 
         return intval($cat_url);
     }

@@ -70,7 +70,7 @@ white-space: normal;
       <tr>
         <td class="stat-time"><?php print date("d M, Y", strtotime($item['visit_date'])); ?> - <?php print date('H:m', strtotime($item['visit_time'])); ?></td>
         <td class="stat-ip">
-            <span class="<?php if(strlen(($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ($item['user_ip']); ?>" data-tipposition="top-center"><?php print ($item['user_ip']); ?></span>
+            <span class="<?php if(strlen(($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ($item['user_ip']); ?>" data-tipposition="top-center"><?php if($item['user_ip'] == '::1'){print 'localhost';}else{print ($item['user_ip']);} ?></span>
         </td>
         <td class="stat-page"><a target="_blank" href="<?php print $item['last_page'] ?>" class="<?php if(strlen($item['last_page']) > 40){ ?>tip<?php } ?>" data-tip="<?php print $item['last_page'] ?>" data-tipposition="top-center"><?php print $item['last_page']; ?></a></td>
         <td class="stat-views"><?php print $item['view_count'] ?></td>

@@ -5,6 +5,7 @@ namespace content\controllers;
 
 use Microweber\View;
 use DB;
+
 class Front
 {
     public $app = null;
@@ -48,10 +49,15 @@ class Front
 
         $current_page = $current_page = 1;
         $post_params = $params;
+
         if (isset($post_params['id'])) {
             $paging_param = 'current_page' . crc32($post_params['id']);
+            $tag_param = 'tag' . crc32($post_params['id']);
+
             unset($post_params['id']);
         }
+
+
         $cat_from_url = get_category_id_from_url();
         $posts_parent_related = false;
         if (isset($params['current_page'])) {
@@ -98,7 +104,25 @@ class Front
         if (isset($params['data-paging-param'])) {
             $paging_param = $params['data-paging-param'];
         }
+        $tags_val = false;
 
+        if (isset($params['data-tags'])) {
+            $tags_val = $params['data-tags'];
+        }
+
+        if(!$tags_val){
+            $tags_val = get_option('data-tags', $params['id']);
+        }
+        if($tags_val and is_string($tags_val)){
+            $tags_val = explode(',',$tags_val);
+            $tags_val = array_trim($tags_val);
+            $tags_val = array_filter($tags_val);
+            $tags_val = array_unique($tags_val);
+            $tags_val = implode(',',$tags_val);
+        }
+        if($tags_val){
+            $post_params['tags'] = $tags_val;
+        }
 
         $show_fields = false;
         if (isset($post_params['data-show'])) {
@@ -107,6 +131,11 @@ class Front
         if (isset($post_params['show'])) {
             $show_fields = $post_params['show'];
         }
+
+
+
+
+
 
         $set_content_type_from_opt = get_option('data-content-type', $params['id']);
 
@@ -195,36 +224,30 @@ class Front
             }
         }
 
-		if (isset($post_params['most_ordered'])) {
-          //
-		  $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
-          $orders = db_get($str0);
-		  if(!empty($orders)){
-			  $ids = array();
-			foreach($orders as $order){
-				$ids[] = $order['rel_id'];
-			}
-			$post_params['ids'] = $ids;
-		  }
+        if (isset($post_params['most_ordered'])) {
+            $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
+            $orders = db_get($str0);
+            if (!empty($orders)) {
+                $ids = array();
+                foreach ($orders as $order) {
+                    $ids[] = $order['rel_id'];
+                }
+                $post_params['ids'] = $ids;
+            }
         }
-		if (isset($post_params['recently_viewed'])) {
-			if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
-			  $str0 = 'table=stats_pageviews&limit=30&main_page_id='.MAIN_PAGE_ID.'&page_id=[neq]'.CONTENT_ID.'&fields=page_id&order_by=id desc&no_cache=true';
-			  $orders = db_get($str0);
-			  if(!empty($orders)){
-				  $ids = array();
-				foreach($orders as $order){
-					$ids[] = $order['page_id'];
-				}
-				$post_params['ids'] = $ids;
-			  }
-			}
-		}
-
-
-
-
-
+        if (isset($post_params['recently_viewed'])) {
+            if (defined("MAIN_PAGE_ID") and defined("CONTENT_ID")) {
+                $str0 = 'table=stats_pageviews&limit=30&main_page_id=' . MAIN_PAGE_ID . '&page_id=[neq]' . CONTENT_ID . '&fields=page_id&order_by=id desc&no_cache=true';
+                $orders = db_get($str0);
+                if (!empty($orders)) {
+                    $ids = array();
+                    foreach ($orders as $order) {
+                        $ids[] = $order['page_id'];
+                    }
+                    $post_params['ids'] = $ids;
+                }
+            }
+        }
 
 
         if ($posts_parent_related == false) {
@@ -387,7 +410,6 @@ class Front
         $schema_org_item_type_tag = false;
 
 
-
         if (isset($post_params['content_type']) and $post_params['content_type'] == 'page') {
             $schema_org_item_type = 'WebPage';
 
@@ -459,9 +481,9 @@ class Front
                         $sub_categories[] = $item_more_subcat;
                     }
                 }
-				//$post_params['category']
-               $post_params['category'] = $sub_categories;
-   			//$post_params['category'] = $post_params['category'];
+                //$post_params['category']
+                $post_params['category'] = $sub_categories;
+                //$post_params['category'] = $post_params['category'];
             } else if (isset($post_params['category']) and is_array($post_params['category']) and empty($post_params['category']) and isset($post_params['related']) and $post_params['related'] != false) {
                 if (defined('CATEGORY_ID') and CATEGORY_ID > 0) {
 
@@ -486,20 +508,20 @@ class Front
             $post_params['order_by'] = 'position desc';
         }
 
-		if (isset($params['search_in_fields']) and $params['search_in_fields'] != false) {
-			$post_params['search_in_fields'] = $params['search_in_fields'];
-		}
+        if (isset($params['search_in_fields']) and $params['search_in_fields'] != false) {
+            $post_params['search_in_fields'] = $params['search_in_fields'];
+        }
 
         $is_search = url_param('search');
-        if($is_search){
+        if ($is_search) {
             $search_params = $_GET['search_params'];
-            if($search_params){
-				
-				 //   DB::enableQueryLog();
+            if ($search_params) {
 
-				
- $post_params['no_cache'] = $search_params;
-				
+                //   DB::enableQueryLog();
+
+
+                $post_params['no_cache'] = $search_params;
+
                 $post_params['search_params'] = $search_params;
 
             }
@@ -508,9 +530,9 @@ class Front
 
 
         $content = get_content($post_params);
- if($is_search){
-  //dd(DB::getQueryLog(), $content);
- }
+        if ($is_search) {
+            //dd(DB::getQueryLog(), $content);
+        }
 
         if ($posts_parent_related != false and empty($content) and isset($post_params['category'])) {
             unset($post_params['category']);
@@ -553,10 +575,9 @@ class Front
                 }
 
                 $item['link'] = content_link($item['id']);
-				$item['full_description'] = '';
+                $item['full_description'] = '';
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
-
 
 
                         $item['description'] = character_limiter(strip_tags($item['content']), $character_limit);
@@ -567,16 +588,11 @@ class Front
                     }
 
 
-
-
                 } else {
                     $item['full_description'] = trim($item['description']);
                     $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
 
                 }
-
-
-
 
 
                 if (isset($item['title']) and $item['title'] != '') {
@@ -601,25 +617,24 @@ class Front
 
 
                 if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
-                    if(!in_array('title', $show_fields)){
+                    if (!in_array('title', $show_fields)) {
                         $item['title'] = false;
                     }
-                    if(!in_array('description', $show_fields)){
+                    if (!in_array('description', $show_fields)) {
                         $item['description'] = false;
                     }
 
-                    if(!in_array('created_at', $show_fields)){
+                    if (!in_array('created_at', $show_fields)) {
                         $item['created_at'] = false;
                     }
-                    if(!in_array('read_more', $show_fields)){
+                    if (!in_array('read_more', $show_fields)) {
                         $item['read_more'] = false;
                     }
 
-                    if(!in_array('thumbnail', $show_fields)){
+                    if (!in_array('thumbnail', $show_fields)) {
                         $item['thumbnail'] = false;
                     }
                 }
-
 
 
                 $data[] = $item;
@@ -717,7 +732,7 @@ class Front
                         mw.require("shop.js");
                     </script>
                 <?php endif; ?>
-            <?php
+                <?php
             } else {
                 print lnotif('No default template for ' . $config['module'] . ' is found');
             }

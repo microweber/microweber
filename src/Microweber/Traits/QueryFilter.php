@@ -259,7 +259,9 @@ trait QueryFilter
                     } elseif (!is_array($ids)) {
                         $ids = array($ids);
                     }
+
                     if (is_array($ids) and !empty($ids)) {
+                        $ids = array_values($ids);
                         if ($this->supports($table, 'tag')) {
                             if ($filter == 'tag' or $filter == 'tags') {
                                 $query = $query->withAnyTag($ids);
@@ -280,19 +282,45 @@ trait QueryFilter
                         $ids = array($ids);
                     }
                     if (is_array($ids)) {
-                        //                        $query = $query->leftJoin('categories_items', function($join) use ($table,$ids)
-//                        {
-//                            $join->on('categories_items.rel_id', '=',  $table . '.id');
-//                            $join->on('categories_items.rel_type', '=',  $table);
-//                          //  $join->whereIn('categories_items.parent_id', $ids);
+                        $ids = array_filter($ids);
+
+
+                        if (!empty($ids)) {
+
+//                            if (!isset($search_joined_tables_check['categories_items'])) {
+//                                $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id');
+//                                $query = $query->where('categories_items_joined_table.rel_id', '=', $table . '.id');
+//                                $query = $query->where('categories_items_joined_table.rel_type', $table);
 //
-//                        })->whereIn('categories_items.parent_id', $ids)->groupBy('categories_items.rel_id');
+//                                $search_joined_tables_check['categories_items'] = true;
+//
+//                            }
+//                            $query = $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+//
+                            if (!isset($search_joined_tables_check['categories_items'])) {
+                                $search_joined_tables_check['categories_items'] = true;
 
-                        $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table . '.id')
-                            ->where('categories_items.rel_type', $table)
-                            ->whereIn('categories_items.parent_id', $ids)->distinct();
+                                $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id');
+                            }
+                            $query->where('categories_items_joined_table.rel_type', $table);
+
+                            //$query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+                            //  dd($ids);
+
+                            foreach ($ids as $cat_id) {
+                                $query->where('categories_items_joined_table.parent_id', $cat_id);
+                            }
+
+                            $query = $query->distinct();
 
 
+//                        $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')
+//                            ->where('categories_items_joined_table.rel_type', $table)
+//                            ->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+
+                        }
+
+                        //dd($query);
                     }
                     unset($params[$filter]);
 
@@ -329,7 +357,7 @@ trait QueryFilter
                             $o = explode(' ', $params_orig['order_by']);
                             $group_by_criteria[] = $o[0];
                         }
-                        if(!isset($params['fields'])){
+                        if (!isset($params['fields'])) {
                             $group_by_criteria[] = $table . '.id';
                         }
                     }
