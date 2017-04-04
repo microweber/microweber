@@ -265,7 +265,7 @@ function lang($title, $namespace = false)
             }
             $k2 = ($k);
             $mw_new_language_entires_ns[$namespace][$k1] = $k2;
-
+            $mw_language_content_file[$k1] = $k2;
             if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                 define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
                 $scheduler = new \Microweber\Providers\Event();
