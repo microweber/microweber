@@ -29,9 +29,9 @@ if(isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'pa
   <div id="tabsnav">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
       <?php if($for_id): ?>
-      <a href="javascript:;" class="mw-ui-btn active tabnav">Custom fields</a>
+      <a href="javascript:;" class="mw-ui-btn active tabnav"><?php _e('Custom fields'); ?></a>
       <?php endif; ?>
-      <a href="javascript:;" class="mw-ui-btn tabnav">Skin/Template</a> </div>
+      <a href="javascript:;" class="mw-ui-btn tabnav"><?php _e('Skin/Template'); ?></a> </div>
     <div class="mw-ui-box">
       <div class="mw-ui-box-content tabitem">
         <?php if($for_id): ?>

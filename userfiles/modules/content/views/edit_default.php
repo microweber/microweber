@@ -4,7 +4,7 @@ only_admin_access();
 $edit_page_info = $data;
 
 
- 
+
 
 ?>
 
@@ -59,15 +59,14 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     } else {
                         $type = 'page';
                     };
-                    $action_text = _e("Creating new", true);
+                    $action_text = _e("Creating new " . $type, true);
                     if (isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0) {
-                        $action_text = _e("Editting", true);
+                        $action_text = _e("Editting " . $type, true);
                     }
-                    $action_text2 = $type;
                     if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])) {
                         //     $action_text2 = $edit_page_info['subtype'];
                     }
-                    $action_text = $action_text . ' ' . $action_text2;
+
                     if (isset($edit_page_info['title'])): ?>
                         <?php //$title_for_input = htmlentities($edit_page_info['title'], ENT_QUOTES); ?>
 
@@ -93,8 +92,8 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                          title="<?php print $title; ?>"><?php print $html; ?></div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                            
-                            
+
+
                             <?php $custom_title_ui = mw()->modules->ui('content.edit.title.end'); ?>
                             <?php if (!empty($custom_title_ui)): ?>
                                 <?php foreach ($custom_title_ui as $item): ?>
@@ -107,9 +106,9 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                          title="<?php print $title; ?>"><?php print $html; ?></div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                            
-                            
-                            
+
+
+
                         </div>
                         <script>mwd.getElementById('content-title-field').focus();</script>
                     <?php else: ?>
@@ -200,7 +199,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
       </span>
             <hr>
             <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash"
-                  onclick="mw.del_current_page('<?php print ($data['id']) ?>');"><span class="mw-icon-bin"></span>Move to trash</span>
+                  onclick="mw.del_current_page('<?php print ($data['id']) ?>');"><span class="mw-icon-bin"></span><?php _e('Move to trash'); ?></span>
         </div>
     </div>
 </div>
@@ -339,7 +338,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
 									var checked = mwd.querySelector('#pages_edit_container input[type=radio]:checked');
 									}
 									if(checked == null){
-									return;	
+									return;
 									}
 									 var parent = "content_id"
                                   //  var parent = mw.tools.firstParentWithTag(checked, 'li');
@@ -351,13 +350,13 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
 									//data[parent] = checked.value;
                                     $.post(mw.settings.api_url + "category/save", data, function () {
 										mw.reload_module("categories/selector",function(el){
-										 
+
 										mw.$("#category-tree-not-found-message").hide();
                                         mw.$("#parent-category-selector-block").show();
 										 mw.treeRenderer.appendUI('#'+$(el).attr('id'));
-											
+
 										})
-										
+
                                        // CreateCategoryForPost(0);
                                     });
                                 }
@@ -371,7 +370,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                 <?php _e("not found"); ?>
                                 .</h3>
                             <br>
-                              <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(3)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span> 
+                              <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(3)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span>
                            </div>
                         <div id="parent-category-selector-block">
                             <h3>
@@ -538,7 +537,7 @@ mw.edit_content.after_save = function (saved_id) {
         <?php endif; ?>
     }
     if (mw.notification != undefined) {
-        mw.notification.success('Content saved!');
+        mw.notification.success('<?php _e('Content saved!'); ?>');
     }
     if (parent !== self && !!parent.mw) {
 
@@ -750,7 +749,7 @@ mw.edit_content.handle_form_submit = function (go_live) {
                 //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
                 <?php else: ?>
                 //if (self === parent) {
-				if (self === parent) {	
+				if (self === parent) {
                     //var type =  el['subtype'];
                     mw.url.windowHashParam("action", "editpage:" + this);
                 }
@@ -758,11 +757,11 @@ mw.edit_content.handle_form_submit = function (go_live) {
                 mw.edit_content.after_save(this);
             }
             mw.edit_content.saving = false;
-			
-			
-			
+
+
+
 			$(window).trigger('adminSaveContentCompleted');
-			
+
 			if (self !== parent) {
 			if ((data.id) == 0) {
 				mw.$("#<?php print $module_id ?>").attr("content-id", this);
@@ -770,16 +769,16 @@ mw.edit_content.handle_form_submit = function (go_live) {
 				mw.reload_module("#<?php print $module_id ?>");
 			}
 			}
-		
 
-			
-			
+
+
+
         },
         onError: function () {
             $(window).trigger('adminSaveFailed');
             module.removeClass('loading');
             if (typeof this.title !== 'undefined') {
-                mw.notification.error('Please enter title');
+                mw.notification.error('<?php _e('Please enter title'); ?>');
                 $('.mw-title-field').animate({
                     paddingLeft: "+=5px",
                     backgroundColor: "#efecec"
@@ -790,7 +789,7 @@ mw.edit_content.handle_form_submit = function (go_live) {
                     });
             }
             if (typeof this.content !== 'undefined') {
-                mw.notification.error('Please enter content');
+                mw.notification.error('<?php _e('Please enter content'); ?>');
             }
             if (typeof this.error !== 'undefined') {
                 mw.session.checkPause = false;
