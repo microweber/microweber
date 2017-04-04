@@ -49,14 +49,14 @@ class Front
 
         $current_page = $current_page = 1;
         $post_params = $params;
-
+        $tag_param = 'tags';
         if (isset($post_params['id'])) {
             $paging_param = 'current_page' . crc32($post_params['id']);
-            $tag_param = 'tag' . crc32($post_params['id']);
-
             unset($post_params['id']);
         }
-
+        if (isset($params['data-tags-param'])) {
+            $tag_param = $params['data-tags-param'];
+        }
 
         $cat_from_url = get_category_id_from_url();
         $posts_parent_related = false;
@@ -106,13 +106,26 @@ class Front
         }
         $tags_val = false;
 
+        if (isset($params[$tag_param])) {
+            $tags_val = $params[$tag_param];
+        }
         if (isset($params['data-tags'])) {
             $tags_val = $params['data-tags'];
         }
 
         if(!$tags_val){
+            $current_tags_from_url = url_param($tag_param);
+            if ($current_tags_from_url != false) {
+                $tags_val = $current_tags_from_url;
+            }
+
+        }
+        if(!$tags_val){
             $tags_val = get_option('data-tags', $params['id']);
         }
+
+
+
         if($tags_val and is_string($tags_val)){
             $tags_val = explode(',',$tags_val);
             $tags_val = array_trim($tags_val);
