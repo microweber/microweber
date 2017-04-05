@@ -688,6 +688,8 @@ mw._response = {
   },
   createHTML:function(data, holder){
     var i, html = "";
+
+
     if(typeof data === 'string'){
         html+= data.toString();
     }
@@ -695,6 +697,11 @@ mw._response = {
       for( i in data){
           if(typeof data[i] === 'string'){
               html+='<li>'+data[i]+'</li>';
+          }
+          else if(typeof data[i] === 'object'){
+            $.each(data[i], function(){
+                html+='<li>'+this+'</li>';
+            })
           }
       }
     }

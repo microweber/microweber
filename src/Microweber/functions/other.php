@@ -495,14 +495,6 @@ if (!function_exists('params_stripslashes_array')) {
     }
 }
 
-if (!function_exists('validator')) {
-    function validator($data)
-    {
-        $validator = new \Microweber\Validator($data);
-
-        return $validator;
-    }
-}
 
 if (!function_exists('powered_by_link')) {
     function powered_by_link()
