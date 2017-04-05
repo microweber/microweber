@@ -9,9 +9,46 @@ function newsletter_unsubscribe($params)
     //code...
 }
 
+api_expose('newsletter_subscribe');
+
 function newsletter_subscribe($params)
 {
-    //code...
+    $adm = mw()->user_manager->is_admin();
+    if (defined('MW_API_CALL')) {
+        $validate_token = mw()->user_manager->csrf_validate($params);
+        if (!$adm) {
+            if ($validate_token == false) {
+                return array('error' => 'Invalid token!');
+            }
+        }
+    }
+    $rules = [
+        'email' => 'required|email|unique:newsletter_subscribers',
+    ];
+
+    $input = Input::only(
+        'email'
+    );
+    $messages = array( 'unique' => 'This email is already subscribed!' );
+
+    $validator = Validator::make($input, $rules,$messages);
+    if ($validator->fails()) {
+        return array('error' => $validator->messages());
+    }
+
+    $confirmation_code = str_random(30);
+
+    newsletter_save_subscriber([
+        'email' => Input::get('email'),
+        'confirmation_code' => $confirmation_code
+    ]);
+
+
+    $msg = 'Thanks for your subscription!';
+
+    return array('success' => $msg);
+
+
 }
 
 

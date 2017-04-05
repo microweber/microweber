@@ -15,6 +15,7 @@ $config['tables'] = array(
         'name' => "text",
         'email' => "text",
         'created_at' => "dateTime",
+        'confirmation_code' => "text",
         'is_subscribed' => "integer"
     ),
 
