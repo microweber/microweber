@@ -141,9 +141,7 @@ mw.menu_edit_items = function($menu_name, $selector){
 
 		}
 		
-		
-		
-		d(save_selector);
+
 				
 	
 		data.content_id = content_id.val();
@@ -295,7 +293,7 @@ $(document).ready(function(){
    
  ?>
 
-<?php  print $active_menu ?>
+
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
 

@@ -50,12 +50,9 @@ if( $id != 0){
 
 
     mw.menu_save_new_item = function(selector){
-        d(selector);
+
 
         var data = mw.form.serialize(selector)
-        d(data);
-
-
 
 
 
@@ -231,6 +228,7 @@ if( $id != 0){
     <script  type="text/javascript">
         $(document).ready(function(){
             $(".add-custom-link-parent-id").val('<?php print $id ?>');
+            $("#add-custom-link-parent-id").val('<?php print $id ?>');
 
 
 
