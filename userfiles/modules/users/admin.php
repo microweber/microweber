@@ -244,7 +244,7 @@
             </a> </div>
         </div>
         <div class="mw-ui-col">
-          <label class="mw-ui-label">Sort Users by Status</label>
+          <label class="mw-ui-label"><?php _e('Sort Users by Status'); ?></label>
           <div class="mw-ui-btn-nav"> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">
             <?php _e("All users"); ?>
             </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', '1');">

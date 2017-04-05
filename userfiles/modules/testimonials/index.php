@@ -59,7 +59,7 @@ if($show_testimonials_per_project){
 
 
 if(empty($data)){
-    return print lnotif("Click here to edit Testimonials");
+    return print lnotif(_e("Click here to edit Testimonials", true));
 }
 
 $openquote = get_option('openquote', 'fourtestimonials');

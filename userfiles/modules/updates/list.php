@@ -73,7 +73,7 @@ $iudates = $update_api->check($forced);
                         <input type="checkbox" name="mw_version" value="1"/>
                         <span></span></label></td>
                 <td><img src="<?php print mw_includes_url(); ?>img/mw_system.png" alt="Microweber"/><br>
-                    <span class="update-version">Current: <?php print MW_VERSION ?></span></td>
+                    <span class="update-version"><?php _e('Current:'); ?> <?php print MW_VERSION ?></span></td>
                 <td><h2> <?php _e("New version"); ?>
 
                         <?php if (isset($item["version"])) : ?>

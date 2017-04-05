@@ -63,9 +63,9 @@
 
     </script>
   <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="ttabnav">
-    <a class="mw-ui-btn active" href="javascript:;">Explore</a>
-    <a class="mw-ui-btn" href="javascript:;" onclick="add_testimonial()" id="add-testimonial">+ Add new</a>
-    <a class="mw-ui-btn" href="javascript:;">Options</a>
+    <a class="mw-ui-btn active" href="javascript:;"><?php _e('Explore'); ?></a>
+    <a class="mw-ui-btn" href="javascript:;" onclick="add_testimonial()" id="add-testimonial">+ <?php _e('Add new'); ?></a>
+    <a class="mw-ui-btn" href="javascript:;"><?php _e('Options'); ?></a>
 
   </div>
   <div class="mw-ui-box mw-ui-box-content">
@@ -168,15 +168,15 @@
    
    ?>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Show testimonials for project</label>
+        <label class="mw-ui-label"><?php _e('Show testimonials for project'); ?></label>
         <module type="testimonials/project_select" id="project-select-testimonials" option-group="<?php print $params['id'] ?>"  />
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Maximum number of testimonials to display</label>
+        <label class="mw-ui-label"><?php _e('Maximum number of testimonials to display'); ?></label>
         <input type="text" class="mw-ui-field mw-ui-field-medium mw_option_field" name="testimonials_limit"   value="<?php print $testimonials_limit; ?>" style="width:50px;text-align: center" />
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Maximum number of characters to display</label>
+        <label class="mw-ui-label"><?php _e('Maximum number of characters to display'); ?></label>
         <input type="text" class="mw-ui-field mw-ui-field-medium mw_option_field" name="limit"   value="<?php print $limit; ?>" style="width:50px;text-align: center" />
       </div>
       <module type="admin/modules/templates" simple=true  />

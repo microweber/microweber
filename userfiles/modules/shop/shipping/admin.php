@@ -48,7 +48,7 @@ $(document).ready(function(){
           <h4 class="pull-left">
           <span>
           <?php print $shipping_module['name'] ?>
-  		    <?php if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> &nbsp;<small class="mw-ui-label-help" style="display:inline;"><em>(inactive)</em></small><?php endif; ?>
+  		    <?php if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> &nbsp;<small class="mw-ui-label-help" style="display:inline;"><em>(<?php _e('inactive'); ?>)</em></small><?php endif; ?>
   		  </span></h4>
 
 

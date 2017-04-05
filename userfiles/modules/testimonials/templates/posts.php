@@ -43,7 +43,7 @@ description: Testimonials displayed as posts
             <?php } ?>
             <p><?php print $item['content']; ?></p>
             <?php if(isset($item["read_more_url"])){ ?>
-                <div><a href="<?php print $item["read_more_url"]; ?>" target="_blank">Read more</a></div>
+                <div><a href="<?php print $item["read_more_url"]; ?>" target="_blank"><?php _e('Read more'); ?></a></div>
             <?php } ?>
         </div>
       </div>

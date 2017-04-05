@@ -52,8 +52,8 @@ mw.client_edit = {
      <div class="section-header">
 
      <div class="mw-ui-btn-nav pull-right">
-        <a href="<?php print admin_url(); ?>view:shop/action:clients" class="mw-ui-btn">Go to Clients</a>
-        <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn">Go to Orders</a>
+        <a href="<?php print admin_url(); ?>view:shop/action:clients" class="mw-ui-btn"><?php _e('Go to Clients'); ?></a>
+        <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn"><?php _e('Go to Orders'); ?></a>
      </div>
 
      <h2><?php _e("Client Information"); ?></h2></div>

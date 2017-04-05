@@ -53,7 +53,7 @@
     </h2>
     <?php ?>
     <?php $checkout_url = get_option('checkout_url', 'shop');  ?>
-    <input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
+    <input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="<?php _e('Use default'); ?>"  />
     <h2>
       <?php _e("Custom order id"); ?>
     </h2>

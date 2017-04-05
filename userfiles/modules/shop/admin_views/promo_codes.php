@@ -1,3 +1,3 @@
  
-<h1>Promo codes</h1> will be here
+<h1><?php _e('Promo codes'); ?></h1> <?php _e('will be here'); ?>
  

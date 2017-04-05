@@ -60,9 +60,9 @@ $option_group=$params['option-group'];
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic module-social-links-settings-table">
   <thead>
     <tr>
-        <th>Icon </th>
-        <th>Enabled </th>
-        <th>URL</th>
+        <th><?php _e('Icon'); ?> </th>
+        <th><?php _e('Enabled'); ?> </th>
+        <th><?php _e('URL'); ?></th>
     </tr>
   </thead>
   <tbody>

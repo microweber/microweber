@@ -28,7 +28,7 @@ if($payment_currency_rate != false){
 </h2>
 
 	<select name="payment_currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" autocomplete="off">
-    <option value="" <?php if($payment_currency == false): ?> selected="selected" <?php endif; ?>>Default</option>
+    <option value="" <?php if($payment_currency == false): ?> selected="selected" <?php endif; ?>><?php _e('Default'); ?></option>
 		<?php foreach($curencies  as $item): ?>
 		<option  value="<?php print $item ?>" <?php if($payment_currency == $item): ?> selected="selected" <?php endif; ?>><?php print $item ?></option>
 		<?php endforeach ; ?>
@@ -60,7 +60,7 @@ if($payment_currency_rate != false){
 <?php if (isset($payment_currency) and !in_array(strtoupper($cur), $curencies) ): ?>
 <label class="mw-ui-label">
 	<?php _e("Equals to"); ?>
-	(rate: <?php print  $payment_currency_rate ?>
+	(<?php _e('rate:'); ?> <?php print  $payment_currency_rate ?>
 	<?php _e("or"); ?>
 	<?php print ( currency_format(100, $cur)); ?>=<?php print ( currency_format(100*$payment_currency_rate, $payment_currency)); ?> )</label>
 <input  value="<?php print ( currency_format($num*$payment_currency_rate, $payment_currency)); ?>" disabled  type="text" class="mw-ui-invisible-field" />

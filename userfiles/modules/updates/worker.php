@@ -19,7 +19,7 @@ var timeout = 3000;
       type: "post",          
       dataType: 'html', 
 	   error: function (request, status, error) {
-		  $('#mw-update-res-log').append('Composer is working...');  
+		  $('#mw-update-res-log').append('<?php _e('Composer is working...'); ?>');
 		  setTimeout(mw_apply_upd, timeout);
     	},
       success:  function (resp) {

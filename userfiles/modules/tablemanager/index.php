@@ -12,7 +12,7 @@ $th = json_decode($th, true);
 $tr = json_decode($tr, true);
 
 if (count($th) == 0) {
-   			print lnotif("Click on settings to edit this module");
+   			print lnotif(_e("Click on settings to edit this module", true));
 			return;
 }
 

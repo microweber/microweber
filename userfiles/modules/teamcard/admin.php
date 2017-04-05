@@ -41,7 +41,7 @@ if (isset($json) == false or count($json) == 0) {
 
 </style>
 <input type="hidden" class="mw_option_field" name="settings" id="settingsfield" />
-<a class="mw-ui-btn mw-ui-btn-invert pull-right add-new" href="javascript:teamcards.create()">+ Add new</a>
+<a class="mw-ui-btn mw-ui-btn-invert pull-right add-new" href="javascript:teamcards.create()">+ <?php _e('Add new'); ?></a>
 <div id="teamcard-settings">
     <?php
     $count = 0;
@@ -56,21 +56,21 @@ if (isset($json) == false or count($json) == 0) {
                 <div class="mw-ui-row-nodrop">
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <label class="mw-ui-label">Name</label>
+                            <label class="mw-ui-label"><?php _e('Name'); ?></label>
                             <input type="text" class="mw-ui-field teamcard-name w100 " value="<?php print $slide['name']; ?>" >
                         </div>
                     </div>
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <label class="mw-ui-label">Position</label>
+                            <label class="mw-ui-label"><?php _e('Position'); ?></label>
                             <input type="text" class="mw-ui-field teamcard-role w100" value="<?php print $slide['role']; ?>">
                         </div>
                     </div>
                 </div>
                 <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">File</label>
+                    <label class="mw-ui-label"><?php _e('File'); ?></label>
                     <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print $slide['file']; ?>">
-                    <span class="mw-ui-btn teamcard-file-up"> <span class="ico iupload"></span> <span>Upload file </span> </span> </div>
+                    <span class="mw-ui-btn teamcard-file-up"> <span class="ico iupload"></span> <span><?php _e('Upload file'); ?> </span> </span> </div>
             </div>
         </div>
     <?php } ?>
@@ -125,7 +125,7 @@ if (isset($json) == false or count($json) == 0) {
 
         remove: function(element){
             var txt;
-            var r = confirm("Are you sure?");
+            var r = confirm("<?php _e('Are you sure?'); ?>");
             if (r == true) {
                 $(element).remove();
                 teamcards.save();

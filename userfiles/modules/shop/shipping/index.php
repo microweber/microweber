@@ -35,5 +35,5 @@ $shipping_options = mw('shop\shipping\shipping_api')->get_active();
   <?php endif; ?>
 </div>
 <?php else : ?>
-<?php print lnotif("Click here to edit Shipping Options"); ?>
+<?php print lnotif(_e("Click here to edit Shipping Options", true)); ?>
 <?php endif; ?>

@@ -165,7 +165,7 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-right"> <a class="mw-ui-btn mw-ui-btn-outline active mw-admin-user-tab" href="javascript:;">Profile</a>
+<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-right"> <a class="mw-ui-btn mw-ui-btn-outline active mw-admin-user-tab" href="javascript:;"><?php _e('Profile'); ?></a>
   <?php foreach ($custom_ui as $item): ?>
   <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
   <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
@@ -327,9 +327,9 @@ $(document).ready(function(){
       <tr class="no-hover">
         <td><?php if($data['id'] != false and $data['id'] != user_id()): ?>
     
-    <a onclick="LoginAsUserFromAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')"  class="mw-ui-btn mw-ui-btn-small pull-left">Login as User</a>
+    <a onclick="LoginAsUserFromAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')"  class="mw-ui-btn mw-ui-btn-small pull-left"><?php _e('Login as User'); ?></a>
    
-           <a onclick="DeleteUserAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')"  class="mw-ui-btn mw-ui-btn-small pull-left">Delete user</a>
+           <a onclick="DeleteUserAdmin<?php  print $data['id']; ?>('<?php  print $data['id']; ?>')"  class="mw-ui-btn mw-ui-btn-small pull-left"><?php _e('Delete user'); ?></a>
           
           <?php endif; ?></td>
         <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="SaveAdminUserForm<?php  print $data['id']; ?>()">
