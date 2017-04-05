@@ -223,7 +223,7 @@
 
     </td>
     <td>
-      <button onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert">Apply</button>
+      <button onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Apply'); ?></button>
 
     </td>
   </tr>
@@ -231,4 +231,4 @@
 
 
 <textarea class="mw-ui-field w100" name="custom_html" id="custom_html_code_mirror" rows="30"
-          option-group="template" placeholder="Type your HTML code here"></textarea>
+          option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>

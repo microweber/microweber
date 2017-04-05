@@ -120,5 +120,5 @@
   <input type="text" class="mw-ui-field mw-ui-field-medium" name="require_name">
   <input type="text" class="mw-ui-field mw-ui-field-medium" name="require_version">
   <button class="mw-ui-btn mw-ui-btn-medium" type="submit">Save config</button>
-  <button type="button" id="run_composer_button_lock" onClick="apply_new_packages()">Run composer update</button>
+  <button type="button" id="run_composer_button_lock" onClick="apply_new_packages()"><?php _e('Run composer update'); ?></button>
 </form>

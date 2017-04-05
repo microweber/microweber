@@ -122,7 +122,7 @@ function mw_select_post_for_editing($p_id){
   <tr>
     <td><div id="holder_temp_{rand}">
         <module data-type="pages" id="pages_tree_toolbar"  />
-        <button onclick="mw_select_page_for_editing(0)">new page</button>
+        <button onclick="mw_select_page_for_editing(0)"><?php _e('new page'); ?></button>
       </div></td>
     <td><div id="holder_temp2_{rand}">
          

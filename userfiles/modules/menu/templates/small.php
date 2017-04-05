@@ -19,7 +19,7 @@ description: Small Navigation
   	print ($mt);
   }
   else {
-  	print lnotif("There are no items in the menu <b>".$params['menu-name']. '</b>');
+  	print lnotif(_e('There are no items in the menu', true) . " <b>".$params['menu-name']. '</b>');
   }
 ?>
 

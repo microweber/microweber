@@ -120,9 +120,9 @@ description: Calendar Default
 
 </script>
 
-<div id="eventContent" title="Event Details" style="display:none;">
-    Start: <span id="startTime"></span><br>
-    End: <span id="endTime"></span><br><br>
+<div id="eventContent" title="<?php _e('Event Details'); ?>" style="display:none;">
+    <?php _e('Start:'); ?> <span id="startTime"></span><br>
+    <?php _e('End:'); ?> <span id="endTime"></span><br><br>
     <p id="eventInfo"></p>
 </div>
 

@@ -18,7 +18,7 @@ $(document).ready(function(){
 });
 </script>
 
-<div id="mw-theme-settings" contenteditable="false"> <span class="btn btn-default btn-medium" onclick="mw.$('#mw-theme-settings-content').toggle();">Template Settings&nbsp;<span class="icon-align-justify"></span></span>
+<div id="mw-theme-settings" contenteditable="false"> <span class="btn btn-default btn-medium" onclick="mw.$('#mw-theme-settings-content').toggle();"><?php _e('Template Settings'); ?>&nbsp;<span class="icon-align-justify"></span></span>
   <div id="mw-theme-settings-content">
     <hr>
     
@@ -32,7 +32,7 @@ $(document).ready(function(){
     
     
         <input  name="font-size" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('font-size', TEMPLATE_NAME); ?>"     class="mw-ui-field mw_option_field" type="text" />
-       <label ><small>Font</small></label>
+       <label ><small><?php _e('Font'); ?></small></label>
     
   
     
@@ -53,7 +53,7 @@ $(document).ready(function(){
       </div>
     </div>
     <hr>
-    <label><small>Font Size</small></label>
+    <label><small><?php _e('Font Size'); ?></small></label>
     <div
     data-value="13"
     data-min="8"
@@ -62,13 +62,13 @@ $(document).ready(function(){
     id="mwthemesettings-fontsize"
     class="ed_slider es_item"></div>
     <hr>
-    <label><small>Content Background Color</small></label>
+    <label><small><?php _e('Content Background Color'); ?></small></label>
     <span class="btn btn-default" id="mwthemesettings-bgcolor" onclick="setcontent_bg()" style=""><i class="icon-picture"></i></span>
     <hr>
-    <label><small>Content Background Media</small></label>
+    <label><small><?php _e('Content Background Media'); ?></small></label>
     <span class="btn btn-default" id="mwthemesettings-bgimage" onclick="content_bg_media()" style=""><i class="icon-picture"></i></span>
     <hr>
-    <label><small>Header Background Color</small></label>
+    <label><small><?php _e('Header Background Color'); ?></small></label>
     <span class="btn btn-default" id="mwthemesettings-bgcolor-header" onclick="setheader_bg()" style=""><i class="icon-picture"></i></span> </div>
 </div>
 <script type="text/javascript">

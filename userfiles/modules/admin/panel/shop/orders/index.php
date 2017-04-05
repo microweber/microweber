@@ -14,16 +14,16 @@ $order_id = url_param('vieworder');
 }
 ?>
 
-<h1 class="mw-admin-main-section-title"><span>Orders</span></h1>
+<h1 class="mw-admin-main-section-title"><span><?php _e('Orders'); ?></span></h1>
 
 <?php if($show != 'vieworder'){ ?>
 <div class="mw-admin-normal-spacer"></div>
 <div class="mw-ui-row mw-admin-main-section-inner-panel">
   <div class="mw-ui-col" style="width:33%;">
-    <h2 class="mw-admin-main-section-inner-panel-title">List of orders</h2>
+    <h2 class="mw-admin-main-section-inner-panel-title"><?php _e('List of orders'); ?></h2>
   </div>
   <div class="mw-ui-col" style="width:33%;">
-    <div class="mw-admin-main-section-inner-panel-nav"> <a href="?show=list" <?php if($show == 'list'){ ?> class="active" <?php } ?>>Completed orders</a> <a href="?show=abandoned" <?php if($show == 'abandoned'){ ?> class="active" <?php } ?>>Abandoned carts</a> </div>
+    <div class="mw-admin-main-section-inner-panel-nav"> <a href="?show=list" <?php if($show == 'list'){ ?> class="active" <?php } ?>><?php _e('Completed orders'); ?></a> <a href="?show=abandoned" <?php if($show == 'abandoned'){ ?> class="active" <?php } ?>><?php _e('Abandoned carts'); ?></a> </div>
   </div>
   <div class="mw-ui-col" style="width:33%;">
     <div class="pull-right relative">

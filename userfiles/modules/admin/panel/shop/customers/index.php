@@ -84,7 +84,7 @@ $keyword_search = '&keyword='.$keyword;
 
 
 
-<h1 class="mw-admin-main-section-title"><span>Customers</span></h1>
+<h1 class="mw-admin-main-section-title"><span><?php _e('Customers'); ?></span></h1>
 <div class="mw-admin-normal-spacer"></div>
 
 

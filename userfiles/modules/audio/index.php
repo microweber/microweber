@@ -15,7 +15,7 @@
         <?php if( $audio != '' ){ ?>
             <audio controls src="<?php print $audio; ?>"></audio>
         <?php } else{ ?>
-            <?php print lnotif("Upload Audio File or paste URL.");   ?>
+            <?php print lnotif(_e('Upload Audio File or paste URL.', true));   ?>
         <?php } ?>
 </div>
 

@@ -64,11 +64,11 @@ if (isset($template_file) and is_file($template_file) != false) {
 
 if (isset($load_template) and is_file($load_template) != false) {
     if (!$data) {
-        print lnotif('Selected categories return no results');
+        print lnotif(_e('Selected categories return no results'), true);
         return;
     }
     include($load_template);
 } else {
-    print lnotif('No template found');
+    print lnotif(_e('No template found'), true);
 }
 

@@ -50,7 +50,7 @@
           	}
           }
       ?>
-      <div class="mw-ui-btn-nav"> <a class="mw-ui-btn <?php if($load_list == 'default'){ ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default" >Default list</a>
+      <div class="mw-ui-btn-nav"> <a class="mw-ui-btn <?php if($load_list == 'default'){ ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default" ><?php _e('Default list'); ?></a>
         <?php $data = get_form_lists('module_name=contact_form'); ?>
         <?php if(is_array($data )): ?>
         <?php foreach($data  as $item): ?>

@@ -15,20 +15,20 @@
     <div style="text-align: center"><img
             src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Logo"
             align="center"></div>
-    <h2 style="text-align: center">Create Admin Account</h2>
+    <h2 style="text-align: center"><?php _e('Create Admin Account'); ?></h2>
 
     <div class="mw-ui-field-holder">
-        <div class="label">Username</div>
+        <div class="label"><?php _e('Username'); ?></div>
         <input name="admin_username" type="text" required
                class="mw-ui-field w100"/>
     </div>
     <div class="mw-ui-field-holder">
-        <div class="label">Email</div>
+        <div class="label"><?php _e('Email'); ?></div>
         <input name="admin_email" type="email" required
                class="mw-ui-field w100"/>
     </div>
     <div class="mw-ui-field-holder">
-        <div class="label">Password</div>
+        <div class="label"><?php _e('Password'); ?></div>
         <input name="admin_password" type="password" required
                class="mw-ui-field w100"/>
     </div>

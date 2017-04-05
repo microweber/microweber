@@ -1,6 +1,6 @@
 <?php defined('MW_VERSION') OR die(); ?>
 
-<div style="margin: 5em 0;padding:2em;background:#ECF5FA;color:#000;clear:both;"> <b>Benchmarks</b>
+<div style="margin: 5em 0;padding:2em;background:#ECF5FA;color:#000;clear:both;"> <b><?php _e('Benchmarks'); ?></b>
   <pre>
   
   

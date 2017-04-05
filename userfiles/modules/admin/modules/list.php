@@ -205,7 +205,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
           Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
               id: '<?php print($module_id); ?>',
               name: '<?php print $module_item["module"] ?>',
-              title: '<?php print $module_item["name"] ?>',
+              title: '<?php print $module_item["name"] ?> / <?php _e($module_item["name"]); ?>',
               description: '<?php print addslashes($module_item["description"]) ?>'
           }
 

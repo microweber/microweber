@@ -5,7 +5,7 @@
     $(document).ready(function () {
 
         mw.options.form('#<?php print $params['id']?>', function () {
-            mw.notification.success("Comments engine changes are saved.");
+            mw.notification.success("<?php _e('Comments engine changes are saved.'); ?>");
             mw.reload_module_parent('comments');
         });
     });
