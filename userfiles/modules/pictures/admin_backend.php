@@ -141,7 +141,7 @@ mw_admin_puctires_upload_browse_existing = function(){
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
 
 
-<label class="mw-ui-label"><?php _e("Add Images"); ?> or <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> browse uploaded</a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
+<label class="mw-ui-label"><?php _e("Add Images"); ?> <?php _e('or'); ?> <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
 <div class="relative post-thumb-uploader" id="backend_image_uploader"><small id="backend_image_uploader_label"><?php _e("Upload"); ?></small></div>

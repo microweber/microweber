@@ -66,7 +66,7 @@
 
 
    <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
-    <label class="mw-ui-label">Links to:</label>
+    <label class="mw-ui-label"><?php _e('Links to:'); ?></label>
     <input type="text"  class="mw-ui-field w100" id="link" placeholder="Enter URL" />
    </div>
 

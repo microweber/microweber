@@ -160,7 +160,7 @@
           </a> </li>
         <li id="t_pages"> <a href="#tab=pages" onclick="mw.url.windowHashParam('tab', 'pages');return false;">
 
-      <span class="mw-ui-btn-plus"></span> Add New
+      <span class="mw-ui-btn-plus"></span> <?php _e('Add New'); ?>
           <?php //_e('Pages'); ?>
           </a> </li>
 
@@ -276,13 +276,13 @@
        <div id="liveedit_add_new_content">
 
 
-         <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span> Add Page</a>
-         <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span> Add Post</a>
-         <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span> Add Product</a>
+         <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span> <?php _e('Add Page'); ?></a>
+         <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span> <?php _e('Add Post'); ?></a>
+         <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span> <?php _e('Add Product'); ?></a>
 		 
 
 					<div class="mw-ui-dropdown mw-quick-pages-nav" style="z-index: 17;">
-                        <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue " href="javascript:;">Browse pages<span class="ico idownarr right"></span></a>
+                        <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue " href="javascript:;"><?php _e('Browse pages'); ?><span class="ico idownarr right"></span></a>
                        <div class="mw-dropdown-content" style="width: 200px;height: 200px;overflow: auto">
     					<?php
                             $pt_opts = array();

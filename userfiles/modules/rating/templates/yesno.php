@@ -22,6 +22,6 @@ if(isset($params['title'])){
 <select  autocomplete="off" class="mw-rating-controller" data-rel-type="<?php print $rel_type ?>"
          data-rel-id="<?php print $rel_id ?>">
     <option value="0" <?php if(!$ratings) { ?> selected <?php } ?>><?php print $title ?></option>
-    <option value="5" <?php if($ratings == 5) { ?> selected <?php } ?>>Yes</option>
-    <option value="1" <?php if($ratings == 1) { ?> selected <?php } ?>>No</option>
+    <option value="5" <?php if($ratings == 5) { ?> selected <?php } ?>><?php _e('Yes'); ?></option>
+    <option value="1" <?php if($ratings == 1) { ?> selected <?php } ?>><?php _e('No'); ?></option>
 </select>

@@ -1,4 +1,4 @@
-<strong>Help:</strong>
+<strong><?php _e('Help:'); ?></strong>
 <table border="1" cellspacing="1" cellpadding="1">
   <tr>
     <th scope="col"><?php _e("Parameter"); ?></th>

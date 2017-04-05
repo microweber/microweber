@@ -58,7 +58,7 @@
             mw.tools.modal.init({
 
                 html: "<pre>" + msg + "</pre>",
-                title: "Email send results..."
+                title: "<?php _e('Email send results...'); ?>"
             });
         });
     }

@@ -46,7 +46,7 @@
 
 
 
-    <a href="javascript:$('.other-site-verification-codes-hidden-toggle').toggle();void(0)" class="mw-ui-btn">Other search engines</a>
+    <a href="javascript:$('.other-site-verification-codes-hidden-toggle').toggle();void(0)" class="mw-ui-btn"><?php _e('Other search engines'); ?></a>
     <div class="other-site-verification-codes-hidden-toggle" style="display: none">
         <label class="mw-ui-label">
 

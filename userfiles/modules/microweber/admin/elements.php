@@ -54,7 +54,7 @@ function mw_reload_all_modules(){
 
 
 </script>
-<button onclick="mw_reload_all_modules()">Reload elements</button>
+<button onclick="mw_reload_all_modules()"><?php _e('Reload elements'); ?></button>
 
 <table width=" 100%" border="1">
   <tr>

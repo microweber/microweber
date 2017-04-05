@@ -131,7 +131,7 @@
 
           <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw-dropdown-value">
             <?php /*<input type="text" class="mw-dropdown-field"  />         */ ?>
-            <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val" >Size</span> </span>
+            <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val" ><?php _e('Size'); ?></span> </span>
             <div class="mw-dropdown-content">
                     <ul>
                           <li value="10"><a href="javascript:;">10</a></li>
@@ -146,7 +146,7 @@
                           <li value="36"><a href="javascript:;">36</a></li>
                           <li value="48"><a href="javascript:;">48</a></li>
                           <li value="72"><a href="javascript:;">72</a></li>
-                          <li onclick="mw.wysiwyg.fontSizePrompt()"><a href="javascript:;">...</a></li>
+                          <li onclick="mw.wysiwyg.fontSizePrompt()"><a href="javascript:;" style="background-color: black; text-align: center; padding-top: 0px; padding-bottom: 3px;"><small style="text-transform: lowercase; color: #fff;"><?php _e('more'); ?></small></a></li>
                     </ul>
             </div>
           </div>

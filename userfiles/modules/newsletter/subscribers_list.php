@@ -10,10 +10,10 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
 <table width="100%" border="0" class="mw-ui-table" style="table-layout:fixed">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Subscribed</th>
+      <th><?php _e('Date'); ?></th>
+      <th><?php _e('Name'); ?></th>
+      <th><?php _e('Email'); ?></th>
+      <th><?php _e('Subscribed'); ?></th>
       <th width="140px">&nbsp;</th>
     </tr>
   </thead>
@@ -24,11 +24,11 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
       <td><input type="text" class="mw-ui-field" name="name" value="<?php print $subscriber['name']; ?>" /></td>
       <td><input type="email" class="mw-ui-field" name="email" value="<?php print $subscriber['email']; ?>" /></td>
       <td><select class="mw-ui-field mw-ui-field-medium" name="is_subscribed">
-          <option value="1" <?php if($subscriber['is_subscribed']): ?>  selected <?php endif; ?> >Yes</option>
-          <option value="0" <?php if(!$subscriber['is_subscribed']): ?>  selected <?php endif; ?> >No</option>
+          <option value="1" <?php if($subscriber['is_subscribed']): ?>  selected <?php endif; ?> ><?php _e('Yes'); ?></option>
+          <option value="0" <?php if(!$subscriber['is_subscribed']): ?>  selected <?php endif; ?> ><?php _e('No'); ?></option>
         </select></td>
       <td><input type="hidden" name="id" value="<?php print $subscriber['id']; ?>" />
-        <button class="mw-ui-btn" onclick="edit_subscriber('#newsletter-subscriber-<?php print $subscriber['id']; ?>')">Save</button>
+        <button class="mw-ui-btn" onclick="edit_subscriber('#newsletter-subscriber-<?php print $subscriber['id']; ?>')"><?php _e('Save'); ?></button>
         <a class="mw-ui-btn mw-ui-btn-icon" href="javascript:;" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')"> <span class="mw-icon-bin"></span> </a></td>
     </tr>
     <?php endforeach; ?>

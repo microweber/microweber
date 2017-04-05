@@ -71,24 +71,24 @@
     <div class="mw-ui-box mw-ui-box-content">
       <hr style="border-bottom: none">
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Alignment</label>
+        <label class="mw-ui-label"><?php _e('Alignment'); ?></label>
         <span class="mw-img-align mw-img-align-left" title="Left" data-align="left"></span> <span class="mw-img-align mw-img-align-center" title="Center" data-align="center"></span> <span class="mw-img-align mw-img-align-right" title="Right" data-align="right"></span> </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Effects</label>
+        <label class="mw-ui-label"><?php _e('Effects'); ?></label>
         <div class="mw-ui-btn-nav"> <span title="Vintage Effect"
                               onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"
-                              class="mw-ui-btn">Vintage Effect</span> <span title="Convert to Grayscale"
+                              class="mw-ui-btn"><?php _e('Vintage Effect'); ?></span> <span title="Convert to Grayscale"
                               onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"
-                              class="mw-ui-btn">Convert to Grayscale</span> <span class="mw-ui-btn"
-                              onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">Rotate</span> <span class="mw-ui-btn disabled" id="mw_image_reset">Reset</span> </div>
+                              class="mw-ui-btn"><?php _e('Convert to Grayscale'); ?></span> <span class="mw-ui-btn"
+                              onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')"><?php _e('Rotate'); ?></span> <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e('Reset'); ?></span> </div>
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Image Description</label>
-        <textarea class="mw-ui-field" placeholder='Enter Description'
+        <label class="mw-ui-label"><?php _e('Image Description'); ?></label>
+        <textarea class="mw-ui-field" placeholder='<?php _e('Enter Description'); ?>'
                               style="width: 505px; height: 35px;"></textarea>
       </div>
       <hr style="border-bottom: none">
-      <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'>Update</span> </div>
+      <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'><?php _e('Update'); ?></span> </div>
   </div>
 </div>
 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>

@@ -37,8 +37,8 @@
   </div>
 </div>
 <div id="mobile-message" style="visibility: hidden; display: none !important;"> <span class="mw-icon-mw"></span>
-  <p class="mobile-message-paragraph">A mobile version is coming in the future!</p>
-  <p class="mobile-message-paragraph">Currently Microweber is designed to be used in larger screens.</p>
-  <p><span class="mw-ui-btn" onclick="mw.admin.mobileMessage(true, 'true')">Continue anyway</span></p>
+  <p class="mobile-message-paragraph"><?php _e('A mobile version is coming in the future!'); ?></p>
+  <p class="mobile-message-paragraph"><?php _e('Currently Microweber is designed to be used in larger screens.'); ?></p>
+  <p><span class="mw-ui-btn" onclick="mw.admin.mobileMessage(true, 'true')"><?php _e('Continue anyway'); ?></span></p>
 </div>
 </body></html>

@@ -10,9 +10,9 @@
 </script>
 <div class="module-live-edit-settings" id="newsletter-admin">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a class="mw-ui-btn active" href="javascript:;">Subscribers</a>
-        <a class="mw-ui-btn" style="display: none;" href="javascript:;">Campaigns</a>
-        <a class="mw-ui-btn" style="display: none;" href="javascript:;">Settings</a>
+        <a class="mw-ui-btn active" href="javascript:;"><?php _e('Subscribers'); ?></a>
+        <a class="mw-ui-btn" style="display: none;" href="javascript:;"><?php _e('Campaigns'); ?></a>
+        <a class="mw-ui-btn" style="display: none;" href="javascript:;"><?php _e('Settings'); ?></a>
     </div>
     <div class="mw-ui-box">
         <div class="mw-ui-box-content" style="display: block;">

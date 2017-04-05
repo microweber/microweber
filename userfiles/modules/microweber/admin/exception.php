@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="exception">
-<h1>Site Error</h1>
+<h1><?php _e('Site Error'); ?></h1>
 <p><?php
 
 d($e);

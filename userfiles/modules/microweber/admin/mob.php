@@ -27,19 +27,19 @@ if(array_key_exists('post', $_GET)){     ?>
 <div id="content" style="padding-top: 120px;">
   <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
-       <h2>Add Content</h2>
+       <h2><?php _e('Add Content'); ?></h2>
   </div>
   <div class="mw-ui-box-content">
 
 
-  <label>Select content type</label>
+  <label><?php _e('Select content type'); ?></label>
 <div class="mw-ui-field-holder">
 
     <div class="mw-ui-btn-nav">
-      <span class="mw-ui-btn mw-ui-btn-big" data-name="page"><span class="ico ipage"></span>Page</span>
-      <span class="mw-ui-btn mw-ui-btn-big" data-name="product"><span class="ico iproduct"></span>Product</span>
-      <span class="mw-ui-btn mw-ui-btn-big" data-name="post"><span class="ico ipost"></span>Post</span>
-      <span class="mw-ui-btn mw-ui-btn-big" data-name="category"><span class="ico icategory"></span>Category</span>
+      <span class="mw-ui-btn mw-ui-btn-big" data-name="page"><span class="ico ipage"></span><?php _e('Page'); ?></span>
+      <span class="mw-ui-btn mw-ui-btn-big" data-name="product"><span class="ico iproduct"></span><?php _e('Product'); ?></span>
+      <span class="mw-ui-btn mw-ui-btn-big" data-name="post"><span class="ico ipost"></span><?php _e('Post'); ?></span>
+      <span class="mw-ui-btn mw-ui-btn-big" data-name="category"><span class="ico icategory"></span><?php _e('Category'); ?></span>
     </div>
 </div>
 
@@ -48,7 +48,7 @@ if(array_key_exists('post', $_GET)){     ?>
 </div>
 
 <div class="mw-ui-field-holder">
-<div id="mobup" class="mw-ui-btn mw-ui-btn-blue right" style="position: relative">Add Media</div>
+<div id="mobup" class="mw-ui-btn mw-ui-btn-blue right" style="position: relative"><?php _e('Add Media'); ?></div>
 
 
 
@@ -63,7 +63,7 @@ if(array_key_exists('post', $_GET)){     ?>
 
                                       <input type="hidden" name="thumbnail" id="thumbnail" />
 
-    <span class="mw-ui-btn mw-ui-btn-green right" onclick="___post()">Save</span>
+    <span class="mw-ui-btn mw-ui-btn-green right" onclick="___post()"><?php _e('Save'); ?></span>
 
     </div>
 
@@ -75,7 +75,7 @@ if(array_key_exists('post', $_GET)){     ?>
        
    <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
-       <h2>Posts</h2>
+       <h2><?php _e('Posts'); ?></h2>
   </div>
   <div class="mw-ui-box-content">
         <?php
@@ -115,7 +115,7 @@ if (!empty($content)) {
       
   <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
-       <h2>Orders</h2>
+       <h2><?php _e('Orders'); ?></h2>
   </div>
   <div class="mw-ui-box-content">
        <?php

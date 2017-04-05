@@ -37,10 +37,10 @@ $(document).ready(function(){
 
 <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
    <?php if(isset($lic['status'])): ?>
-  <div class="mw-ui-box mw-ui-box-content <?php if($lic['status'] =='active'): ?> mw-ui-box-notification <?php else: ?> mw-ui-box-warn <?php endif; ?>">License Status: <?php print ucwords($lic['status']) ?></div>
+  <div class="mw-ui-box mw-ui-box-content <?php if($lic['status'] =='active'): ?> mw-ui-box-notification <?php else: ?> mw-ui-box-warn <?php endif; ?>"><?php _e('License Status:'); ?> <?php print ucwords($lic['status']) ?></div>
   <?php endif; ?>
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Enter the License Key for <b><?php print $params['prefix'] ?></b></label>
+    <label class="mw-ui-label"><?php _e('Enter the License Key for'); ?> <b><?php print $params['prefix'] ?></b></label>
     <input name="activate_on_save" type="hidden" value="1" />
     <?php if($id): ?>
     <input name="id" type="hidden" value="<?php print $id; ?>" />
@@ -48,7 +48,7 @@ $(document).ready(function(){
     <input type="hidden" name="rel"   value="<?php print $params['prefix']; ?>">
     <input type="text" name="local_key" class="mw-ui-field w100" value="<?php print $local_key; ?>" >
   </div>
-  <div class="mw-ui-field-holder"> <a target="_blank" class="pull-left mw-ui-btn mw-ui-btn-medium mw-ui-btn-info" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>">Get license key</a>
-    <button type="submit" value="Activate" class="pull-right  mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Save key</button>
+  <div class="mw-ui-field-holder"> <a target="_blank" class="pull-left mw-ui-btn mw-ui-btn-medium mw-ui-btn-info" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>"><?php _e('Get license key'); ?></a>
+    <button type="submit" value="Activate" class="pull-right  mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><?php _e('Save key'); ?></button>
   </div>
 </form>

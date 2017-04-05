@@ -101,7 +101,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
   <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
     <div style="width: 300px;">
       <p style="text-align: center"> <img src="<?php print mw_includes_url(); ?>img/dropf.gif" alt="" /> </p>
-      <p> You can easily grab any Module and insert it in your content. </p>
+      <p> <?php _e('You can easily grab any Module and insert it in your content.'); ?> </p>
     </div>
   </div>
 </div>
@@ -129,10 +129,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         $pt_opts['active_code_tag'] = 'class="active"';
                         mw()->content_manager->pages_tree($pt_opts);
                         ?>
-              <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span>Back to Admin</span> </a> </div>
+              <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span><?php _e('Back to Admin'); ?></span> </a> </div>
           </li>
               <?php event_trigger('live_edit_toolbar_menu_start'); ?>
-          <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style=""> <span class="ico iplus"></span> Add New </a>
+          <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style=""> <span class="ico iplus"></span> <?php _e('Add New'); ?> </a>
         
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;">
@@ -277,9 +277,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
               <div class="Switch2AdvancedModeTip-tick"></div>
               <div class="Switch2AdvancedModeTip-tick2"></div>
             </div>
-            If you want to edit this section you have to switch do "<strong>Advanced Mode</strong>".
+              <?php _e('If you want to edit this section you have to switch do'); ?> "<strong><?php _e('Advanced Mode'); ?></strong>".
             <div class="Switch2AdvancedModeTiphr"></div>
-            <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');">Switch</span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;">Cancel</span> </div>
+            <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');"><?php _e('Switch'); ?></span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;"><?php _e('Cancel'); ?></span> </div>
           </div>
         </div>
          
@@ -331,24 +331,24 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
     <div class="mw-ui-box mw-ui-box-content">
       <hr style="border-bottom: none">
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Alignment</label>
+        <label class="mw-ui-label"><?php _e('Alignment'); ?></label>
         <span class="mw-img-align mw-img-align-left" title="Left" data-align="left"></span> <span class="mw-img-align mw-img-align-center" title="Center" data-align="center"></span> <span class="mw-img-align mw-img-align-right" title="Right" data-align="right"></span> </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Effects</label>
+        <label class="mw-ui-label"><?php _e('Effects'); ?></label>
         <div class="mw-ui-btn-nav"> <span title="Vintage Effect"
                               onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"
-                              class="mw-ui-btn">Vintage Effect</span> <span title="Convert to Grayscale"
+                              class="mw-ui-btn"><?php _e('Vintage Effect'); ?></span> <span title="Convert to Grayscale"
                               onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"
-                              class="mw-ui-btn">Convert to Grayscale</span> <span class="mw-ui-btn"
-                              onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">Rotate</span> <span class="mw-ui-btn disabled" id="mw_image_reset">Reset</span> </div>
+                              class="mw-ui-btn"><?php _e('Convert to Grayscale'); ?></span> <span class="mw-ui-btn"
+                              onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')"><?php _e('Rotate'); ?></span> <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e('Reset'); ?></span> </div>
       </div>
       <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Image Description</label>
+        <label class="mw-ui-label"><?php _e('Image Description'); ?></label>
         <textarea class="mw-ui-field" placeholder='Enter Description'
                               style="width: 505px; height: 35px;"></textarea>
       </div>
       <hr style="border-bottom: none">
-      <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'>Update</span> </div>
+      <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'><?php _e('Update'); ?></span> </div>
   </div>
 </div>
 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>

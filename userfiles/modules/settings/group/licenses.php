@@ -33,10 +33,10 @@ mw.validate_licenses = function(){
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
   <thead>
     <tr>
-      <th>License</th>
-      <th>Key</th>
-      <th>Status</th>
-      <th>View</th>
+      <th><?php _e('License'); ?></th>
+      <th><?php _e('Key'); ?></th>
+      <th><?php _e('Status'); ?></th>
+      <th><?php _e('View'); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -66,10 +66,10 @@ mw.validate_licenses = function(){
         </small>
         <?php endif; ?></td>
       <td><?php print ucwords($item['status']); ?></td>
-      <td><a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium" href="javascript:mw.edit_licence('<?php print $item['id'] ?>');">Edit</a></td>
+      <td><a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium" href="javascript:mw.edit_licence('<?php print $item['id'] ?>');"><?php _e('Edit'); ?></a></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
   </tbody>
 </table>
-<a class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium" href="javascript:mw.validate_licenses();">Validate</a>
+<a class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium" href="javascript:mw.validate_licenses();"><?php _e('Validate'); ?></a>

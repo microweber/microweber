@@ -154,7 +154,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
   <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
     <div style="width: 300px;">
       <p style="text-align: center"> <img src="<?php print mw_includes_url(); ?>img/dropf.gif" alt="" /> </p>
-      <p> You can easily grab any Module and insert it in your content. </p>
+      <p> <?php _e('You can easily grab any Module and insert it in your content.'); ?> </p>
     </div>
   </div>
 </div>
@@ -369,9 +369,9 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
               <div class="Switch2AdvancedModeTip-tick"></div>
               <div class="Switch2AdvancedModeTip-tick2"></div>
             </div>
-            If you want to edit this section you have to switch do "<strong>Advanced Mode</strong>".
+              <?php _e('If you want to edit this section you have to switch do'); ?> "<strong><?php _e('Advanced Mode'); ?></strong>".
             <div class="Switch2AdvancedModeTiphr"></div>
-            <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');">Switch</span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;">Cancel</span> </div>
+            <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');"><?php _e('Switch'); ?></span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;"><?php _e('Cancel'); ?></span> </div>
           </div>
         </div>
       </div>

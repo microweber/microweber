@@ -27,7 +27,7 @@
 
  <div class="custom-field-settings-values">
 
-   <label class="mw-ui-label">Values</label>
+   <label class="mw-ui-label"><?php _e('Values'); ?></label>
    
     <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
 
