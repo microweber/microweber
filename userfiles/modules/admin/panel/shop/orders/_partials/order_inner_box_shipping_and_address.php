@@ -4,7 +4,7 @@
     <td valign="top"><?php
                 $map_click_str = false;
                 $map_click = array();?>
-      <h3 class="mw-admin-main-section-inner-panel-sub-title">Shipping address</h3>
+      <h3 class="mw-admin-main-section-inner-panel-sub-title"><?php _e('Shipping address'); ?></h3>
       <div class="mw-admin-small-spacer"></div>
       <ul class="order-table-info-list">
         <?php if (isset($ord['country']) and $ord['country'] != ''): ?>
@@ -45,7 +45,7 @@
         </tr>
       </table>
       <?php endif; ?></td>
-    <td><h3 class="mw-admin-main-section-inner-panel-sub-title mw-text-upper">Shipping address</h3>
+    <td><h3 class="mw-admin-main-section-inner-panel-sub-title mw-text-upper"><?php _e('Shipping address'); ?></h3>
       <?php
                 if (!empty($map_click)) {
                     $map_click = array_unique($map_click);
@@ -62,7 +62,7 @@
 <table  cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic mw-ui-table-order-info" style="margin-top:0">
   <col width="50%"/>
   <tr>
-    <td valign="top"><h3 class="mw-admin-main-section-inner-panel-sub-title">Billing address</h3>
+    <td valign="top"><h3 class="mw-admin-main-section-inner-panel-sub-title"><?php _e('Billing address'); ?></h3>
       <ul class="order-table-info-list">
         <li><?php print $ord['payment_name'] ?></li>
         <li><?php print $ord['payment_country'] ?></li>

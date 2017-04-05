@@ -41,7 +41,7 @@ $template = $params['template'];
 $event_count = mw()->database_manager->get("table=calendar&count=true");
 
 if($event_count<1){
-    return print lnotif("Click here to edit Calendar");
+    return print lnotif(_e('Click here to edit Calendar', true));
 }
 
 

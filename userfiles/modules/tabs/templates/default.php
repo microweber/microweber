@@ -1,7 +1,7 @@
 <?php
 
     if ($json==false){
-        print lnotif("Click to edit tabs");
+        print lnotif(_e('Click to edit tabs', true));
 
         return;
     }

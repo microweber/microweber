@@ -146,5 +146,5 @@ foreach ($history_files as $value) {
   <?php endif; ?>
 </ul>
 <?php else: ?>
-<div style="padding:12px;">No history</div>
+<div style="padding:12px;"><?php _e('No history'); ?></div>
 <?php endif; ?>

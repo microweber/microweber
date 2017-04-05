@@ -86,7 +86,7 @@ mw.stat = {
           pointFillColors:['#ffffff','#5B5B5B'],
           xkey: 'visit_date',
           ykeys: ['total_visits', 'unique_visits'],
-          labels: ['Total visits', 'Unique visits'],
+          labels: ['<?php _e('Total visits'); ?>', '<?php _e('Unique visits'); ?>'],
           xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
           xLabels: 'day'
         });

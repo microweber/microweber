@@ -40,11 +40,11 @@ if (isset($params['menu-name'])) {
         }
 
     } else {
-        print lnotif("Click on settings to edit this menu");
+        print lnotif(_e("Click on settings to edit this menu", true));
     }
 
 } else {
-    print lnotif("Click on settings to edit this menu");
+    print lnotif(_e("Click on settings to edit this menu", true));
 }
 
 

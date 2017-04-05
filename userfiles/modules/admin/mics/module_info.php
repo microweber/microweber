@@ -24,5 +24,5 @@ if($params['module_info']){
   </div>
  
  <a href="javascript:mw_delete_module_by_id('<?php print $params['module_id'] ?>','1')" class="mw_nav_button_delete">&nbsp</a>
-  <a href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')" class="mw_nav_button_blue_small"> <span> Back </span> </a> </div>
+  <a href="javascript:mw_sidebar_nav('#mw_sidebar_modules_holder')" class="mw_nav_button_blue_small"> <span> <?php _e('Back'); ?> </span> </a> </div>
 <?php endif; ?>

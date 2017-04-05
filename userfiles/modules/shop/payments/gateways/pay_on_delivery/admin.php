@@ -21,7 +21,7 @@
       </span></label>
   </li>
 </ul>
- 
-            <label class="mw-ui-label">Message</label>
+
+            <label class="mw-ui-label"><?php _e('Message'); ?></label>
             <textarea  name="pay_on_delivery_msg" class="mw-ui-field mw_option_field" data-option-group="payments"><?php print get_option('pay_on_delivery_msg', 'payments') ?></textarea>
  

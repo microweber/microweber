@@ -2,7 +2,7 @@
 <!doctype html>
 <head>
 	<meta charset="utf-8">
-	<title>Site Error</title>
+	<title><?php _e('Site Error'); ?></title>
 	<style type="text/css">
 		#exception { font: 12px Arial; border: 1px solid #6d0019; padding: 0 2em; margin: 2em; }
 		pre {background: #EDF8FC; border: 1px solid #D9F1F9; margin: 2em 0; padding: 1em;}
@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="exception">
-<h1>Site Error</h1>
+<h1><?php _e('Site Error'); ?></h1>
 <p><?php
 
 d($e);

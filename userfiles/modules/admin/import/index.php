@@ -28,7 +28,7 @@
 
 					mw.$("#mw_uploader").hide();
 					mw.$("#mw_uploader_loading").show();
-					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), 'Uploading...<span id="upload_backup_info"></span>');
+					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), '<?php _e('Uploading...'); ?><span id="upload_backup_info"></span>');
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 
@@ -103,8 +103,8 @@ mw.ok_import_file = function(){
   <span id="upload_backup_info"></span></span></span> </div>
   
   <div id="import-progress-log-holder" style="display:none">
-  Progress: <span id="import-progress-log-holder-values"></span>  
-<meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter">Import progress</meter>
+  <?php _e('Progress:'); ?> <span id="import-progress-log-holder-values"></span>
+<meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter"><?php _e('Import progress'); ?></meter>
 
 <span data-tip="Cancel" class="mw-icon-close show-on-hover tip" onclick="mw.admin_import.cancel_batch_process();"></span>
 

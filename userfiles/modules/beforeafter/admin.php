@@ -17,11 +17,11 @@
 
 
 <div class="mw-ui-box mw-ui-box-content">
-<label class="mw-ui-label">Upload 2 images</label>
+<label class="mw-ui-label"><?php _e('Upload 2 images'); ?></label>
 <div class="mw-ui-field-holder">
-  <span class="mw-ui-btn" id="before"><span class="mw-icon-upload"></span>Before</span>
+  <span class="mw-ui-btn" id="before"><span class="mw-icon-upload"></span><?php _e('Before'); ?></span>
       vs.
-  <span class="mw-ui-btn" id="after"><span class="mw-icon-upload"></span>After</span>
+  <span class="mw-ui-btn" id="after"><span class="mw-icon-upload"></span><?php _e('After'); ?></span>
 </div>
 </div>
 

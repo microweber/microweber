@@ -6,7 +6,7 @@
     $(document).ready(function () {
         mw.options.form('#<?php print $params['id'] ?>', function () {
             if (mw.notification != undefined) {
-                mw.notification.success('Fonts updated');
+                mw.notification.success('<?php _e('Fonts updated'); ?>');
             }
 			
 			
@@ -140,7 +140,7 @@ function load_font_css_async(t){
     <thead>
       <tr>
         <th></th>
-        <th>Select Fonts</th>
+        <th><?php _e('Select Fonts'); ?></th>
       </tr>
     </thead>
     <tbody>

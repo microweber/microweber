@@ -1,5 +1,5 @@
 <div>
-  <h2>Other shop settings</h2>
+  <h2><?php _e('Other shop settings'); ?></h2>
   <hr>
   <h4>
     <?php _e("Users must agree to Terms and Conditions"); ?>
@@ -45,7 +45,7 @@
   <br />
   <hr>
   <a  class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:$('.mw_adm_shop_advanced_settings').toggle();void(0);">Advanced<span
+            href="javascript:$('.mw_adm_shop_advanced_settings').toggle();void(0);"><?php _e('Advanced'); ?><span
                 class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
   <div class="mw_adm_shop_advanced_settings mw-ui-box mw-ui-box-content" style="display:none;margin-top: 12px;">
     <h2>

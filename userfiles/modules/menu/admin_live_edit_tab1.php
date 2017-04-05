@@ -64,7 +64,7 @@
 mw.menu_delete = function($id){
 var data = {}
 data.id = $id
-    if (confirm("Are you sure you want to delete this menu?") === true){
+    if (confirm('<?php _e('Are you sure you want to delete this menu?'); ?>') === true){
        $.post("<?php print api_link('content/menu_delete') ?>",  data, function(resp){
           window.location.href = window.location.href;
        });

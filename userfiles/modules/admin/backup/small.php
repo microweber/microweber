@@ -60,7 +60,7 @@
             	});
 
                 $(uploader).bind('error', function(up, file) {
-                   mw.notification.error("The backup must be sql or zip.");
+                   mw.notification.error("<?php _e('The backup must be sql or zip.'); ?>");
 
             	});
 

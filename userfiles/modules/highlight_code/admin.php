@@ -21,7 +21,7 @@
 
 ?>
 <div id="hello_world_module">
-  <label>Enter some text</label>
+  <label><?php _e('Enter some text'); ?></label>
   <textarea class="mw_option_field mw-ui-field w100" rows="30"  name="text"><?php print $text; ?></textarea>
  
 
