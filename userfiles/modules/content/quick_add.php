@@ -189,18 +189,18 @@
 	<div class="mw-ui-col" id="le_create_content_sidebar">
 		<div class="mw-ui-col-container"> <a href="javascript:;" class="tqpy-l"></a>
 			<ul class="acfle-nav">
-				<li><a href="javascript:;">Pages</a></li>
-				<li><a href="javascript:;">Posts</a></li>
-				<li><a href="javascript:;">Product</a></li>
-				<li><a href="javascript:;">Category</a></li>
-				<li><a href="javascript:;">My Stuff</a></li>
-				<li><a href="javascript:;">Templates</a></li>
+				<li><a href="javascript:;"><?php _e('Pages'); ?></a></li>
+				<li><a href="javascript:;"><?php _e('Posts'); ?></a></li>
+				<li><a href="javascript:;"><?php _e('Product'); ?></a></li>
+				<li><a href="javascript:;"><?php _e('Category'); ?></a></li>
+				<li><a href="javascript:;"><?php _e('My Stuff'); ?></a></li>
+				<li><a href="javascript:;"><?php _e('Templates'); ?></a></li>
 			</ul>
 		</div>
 	</div>
 	<div class="mw-ui-col" id="le_create_content_container">
 		<div class="mw-ui-col-container">
-			<h1>Add page</h1>
+			<h1><?php _e('Add page'); ?></h1>
 			<?php
 $templates= site_templates();
 

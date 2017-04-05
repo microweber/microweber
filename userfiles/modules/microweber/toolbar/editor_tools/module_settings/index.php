@@ -340,7 +340,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
         __global_options_save_msg = function () {
             if (mw.notification != undefined) {
-                mw.notification.success('Settings are updated!');
+                mw.notification.success('<?php _e('Settings are updated!'); ?>');
             }
 
             if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {

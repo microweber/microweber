@@ -190,7 +190,7 @@ if(!!window.thismodal){
       <?php _e("Field"); ?>
       </small></label>
     <div class="custom-field-edit">
-      <div  class="custom-field-edit-header"> <span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;">close <span  class="mw-ui-arr mw-ui-arr-down " style="opacity:0.6;"></span> </span> </div>
+      <div  class="custom-field-edit-header"> <span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?> <span  class="mw-ui-arr mw-ui-arr-down " style="opacity:0.6;"></span> </span> </div>
       <div class="mw-admin-custom-field-edit-item-wrapper">
         <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
       </div>
@@ -247,7 +247,7 @@ if(!!window.thismodal){
 
         foreach($fields as $field=>$value){  ?>
 
-        <li value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span><?php print $value; ?></span></li>
+        <li value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span><?php  _e($value); ?></span></li>
         <?php } ?>
 
  

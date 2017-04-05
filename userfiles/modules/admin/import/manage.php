@@ -5,7 +5,7 @@
     <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
     <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
     <a href="<?php print $here; ?>samples/sample.xlsx" class="mw-ui-link">xls</a>,
-    <a href="<?php print $here; ?>samples/other_cms.zip" class="mw-ui-link">other files</a>.
+    <a href="<?php print $here; ?>samples/other_cms.zip" class="mw-ui-link"><?php _e('other files'); ?></a>.
 </p>
 <div id="backups_list" >
   <h2><?php _e("Avaiable import files"); ?></h2>

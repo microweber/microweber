@@ -36,14 +36,14 @@
             <div class="control-group form-group">
                 <?php if(get_option('disable_captcha', $params['id']) !='y'): ?>
                     <label class="custom-field-title"><?php _e("Enter Security code"); ?></label>
-                    <div class="mw-ui-row captcha-holder">
-                        <div class="mw-ui-col">
+                    <div class="mw-ui-row captcha-holder" style="width: 220px;">
+                        <div class="mw-ui-col" style="width: 100px;">
                             <input name="captcha" type="text" required class="mw-captcha-input"/>
                         </div>
-                        <div class="mw-ui-col">
+                        <div class="mw-ui-col" style="width: 100px;">
                           <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print api_link('captcha') ?>?id=<?php print $params['id'] ?>" />
                         </div>
-                        <div class="mw-ui-col">
+                        <div class="mw-ui-col" style="width: 20px;">
                            <span class="mw-icon-reload" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<?php print $form_id; ?>'));"></span>
                         </div>
                     </div>

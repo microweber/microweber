@@ -127,9 +127,9 @@ $(window).load(function(){
 
 
 <div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee;width: 300px;" id="adminapis">
-<h2>Admin apis</h2>
+<h2><?php _e('Admin apis'); ?></h2>
 
-<h3>Tooltip</h3>
+<h3><?php _e('Tooltip'); ?></h3>
 <h4>Data - tip text</h4>
 <pre class="tip" data-tip="Some help" data-tipposition="top-center">&lt;div class="tip" data-tip="Some help" data-tipposition="top-center">&lt;/div></pre>
 <h4>Data - tip Selector - '.' and '#' are available</h4>
@@ -153,7 +153,7 @@ $(window).load(function(){
 
     <tr>
       <td colspan="2">
-            <h2>Icons</h2>
+            <h2><?php _e('Icons'); ?></h2>
 
 
              <div id="info-icon-list"></div>
@@ -163,7 +163,7 @@ $(window).load(function(){
     </tr>
     <tr>
       <td colspan="2" id="dabuttons">
-            <h2>Buttons</h2>
+            <h2><?php _e('Buttons'); ?></h2>
 
             <script>
 
@@ -181,7 +181,7 @@ $(window).load(function(){
 
             </script>
 
-            <span class="mw-ui-btn" onclick="__to();">Toggle Outline Type</span>
+            <span class="mw-ui-btn" onclick="__to();"><?php _e('Toggle Outline Type'); ?></span>
 
 
     <h3>Default</h3>

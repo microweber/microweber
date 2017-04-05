@@ -1,7 +1,7 @@
 <?php $rand_id = md5(serialize($params)); ?>
 <div id="mw_email_source_code_editor<?php print $rand_id ?>">
 <fieldset class="inputs">
-        <legend><span>Source code editor</span></legend>
+        <legend><span><?php _e('Source code editor'); ?></span></legend>
         <ol>
           <li class="select input optional" id="">
           
@@ -9,7 +9,7 @@
     "java",  "m", "mxml", "perl", "pl", "pm", "py",  "sh", "xml", "xsl"); ?>
           
           <?php $l_sel =  get_option('source_code_language', $params['module_id']); ?>  
-            <label  class="label">Source Code Language</label>
+            <label  class="label"><?php _e('Source Code Language'); ?></label>
              
             
             

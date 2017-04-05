@@ -36,7 +36,7 @@ $module_template = get_option('data-template', $params['id']);
 		if(is_file($template_file) != false){
 			include($template_file);
 		} else {
-			print lnotif("No template found. Please choose template.");
+			print lnotif(_e('No template found. Please choose template.', true));
 		}
 
       

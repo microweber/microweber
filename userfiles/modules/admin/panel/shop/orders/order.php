@@ -35,7 +35,7 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
         #<?php print $show_ord_id ?> </h2>
     </div>
     <div class="mw-ui-col"> </div>
-    <div class="mw-ui-col"> <a href="?show=list" class="mw-btn-blue pull-right"><span class="mw-icon-back"></span> TO ORDERS LIST </a> </div>
+    <div class="mw-ui-col"> <a href="?show=list" class="mw-btn-blue pull-right"><span class="mw-icon-back"></span> <?php _e('TO ORDERS LIST'); ?> </a> </div>
   </div>
   <div class="mw-admin-small-spacer"></div>
   <?php include(__DIR__.DS.'_partials'.DS.'order_inner_table.php'); ?>
@@ -44,7 +44,7 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
   <div class="mw-admin-normal-spacer"></div>
   <div class="mw-ui-row">
     <div class="mw-ui-col" style="width:50%">
-      <h2 class="mw-admin-main-section-inner-panel-title">Customer</h2>
+      <h2 class="mw-admin-main-section-inner-panel-title"><?php _e('Customer'); ?></h2>
       <div class="mw-ui-box" style="margin-top: 10px;">
         <div class="mw-ui-box-content">
           <?php include(__DIR__.DS.'_partials'.DS.'order_inner_box_client_info.php'); ?>
@@ -54,7 +54,7 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
       </div>
     </div>
     <div class="mw-ui-col" style="width:50%; padding-left:10px;">
-      <h2 class="mw-admin-main-section-inner-panel-title">Order Address</h2>
+      <h2 class="mw-admin-main-section-inner-panel-title"><?php _e('Order Address'); ?></h2>
       <div class="mw-ui-box" style="margin-top: 10px;">
         <div class="mw-ui-box-content">
           <?php include(__DIR__.DS.'_partials'.DS.'order_inner_box_shipping_and_address.php'); ?>
@@ -67,6 +67,6 @@ if(isset($ord['order_id']) and $ord['order_id'] != false){
   <div class="mw-ui-row mw-admin-main-section-inner-panel">
     <div class="mw-ui-col"> </div>
     <div class="mw-ui-col"> </div>
-    <div class="mw-ui-col"> <a href="?show=list" class="mw-btn-blue pull-right"><span class="mw-icon-back"></span> TO ORDERS LIST </a> </div>
+    <div class="mw-ui-col"> <a href="?show=list" class="mw-btn-blue pull-right"><span class="mw-icon-back"></span> <?php _e('TO ORDERS LIST'); ?> </a> </div>
   </div>
 </div>

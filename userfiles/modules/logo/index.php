@@ -81,7 +81,7 @@ if ($module_template != false and trim($module_template) != '' and trim(strtolow
 }
 
 if(!$logotype and !$text and !$logoimage){
-    print lnotif("Setup logo");
+    print lnotif(_e('Setup logo', true));
     return;
 }
 
@@ -90,7 +90,7 @@ $template_file = module_templates($config['module'], 'default');
 if(is_file($template_file) != false){
     include($template_file);
 } else {
-    print lnotif("No template found. Please choose template.");
+    print lnotif(_e('No template found. Please choose template.', true));
 }
 
 

@@ -270,7 +270,7 @@ mw.on.hashParam("action", function () {
            style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span
                 class="mw-icon-<?php print trim($set_content_type_mod); ?>"></span>
     <?php _e("Add new"); ?>
-    <?php print ucwords($set_content_type_mod); ?></a>
+    <?php  _e(ucwords($set_content_type_mod)); ?></a>
     <?php } else if ($is_shop) { ?>
     <a href="javascript:;"
            class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium pull-right"

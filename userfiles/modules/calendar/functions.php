@@ -39,7 +39,7 @@ function get_events($params=array())
 
 	} else {
 		// no event data
-		return print lnotif("Click here to edit Calendar");
+		return print lnotif(_e('Click here to edit Calendar', true));
 	}
 }
 

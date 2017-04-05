@@ -74,32 +74,32 @@ $(document).ready(function(){
 <?php endif; ?>
 
  <?php if(isset($data['name'])):  ?>
- Name : <?php print $data['name'] ?><br />
+     <?php _e('Name :'); ?> <?php print $data['name'] ?><br />
 <?php endif; ?>
 
  <?php if(isset($data['description'])):  ?>
- description : <?php print $data['description'] ?><br />
+     <?php _e('description :'); ?> <?php print $data['description'] ?><br />
 <?php endif; ?>
 
  <?php if(isset($data['author'])):  ?>
- author : <?php print $data['author'] ?><br />
+     <?php _e('author :'); ?> <?php print $data['author'] ?><br />
 <?php endif; ?>
 
 <?php if(isset($data['website'])):  ?>
- website : <?php print $data['website'] ?><br />
+    <?php _e('website :'); ?> <?php print $data['website'] ?><br />
 <?php endif; ?>
 
 <?php if(isset($data['help'])):  ?>
- help : <?php print $data['help'] ?><br />
+    <?php _e('help :'); ?> <?php print $data['help'] ?><br />
 <?php endif; ?>
  
  
 
   
   <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
- installed  <input type="text" name="installed" value="<?php print $data['installed'] ?>" />
-  ui  <input type="text" name="ui" value="<?php print $data['ui'] ?>" />
- position
+     <?php _e('installed'); ?>  <input type="text" name="installed" value="<?php print $data['installed'] ?>" />
+     <?php _e('ui'); ?>  <input type="text" name="ui" value="<?php print $data['ui'] ?>" />
+     <?php _e('position'); ?>
  <input type="text" name="position" value="<?php print $data['position'] ?>" />
  
   <microweber module="categories/selector" rel="elements"  rel_id="<?php print $data['id'] ?>" >

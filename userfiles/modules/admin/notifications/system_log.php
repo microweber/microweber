@@ -141,6 +141,6 @@ $data = mw()->log_manager->get($log_params);
         </table>
     </div>
 <?php else: ?>
-    <?php print notif("Your system log is empty") ?>
+    <?php print notif(_e("Your system log is empty", true)) ?>
 <?php endif; ?>
  
