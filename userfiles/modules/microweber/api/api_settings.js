@@ -80,6 +80,7 @@ mw.settings.libs = {
         'js/bootstrap.min.js'],
       bootstrap3:[
         function(){
+            mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
             var v = mwd.querySelector('meta[name="viewport"]');
             if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
             v.content = "width=device-width, initial-scale=1.0";
@@ -94,7 +95,24 @@ mw.settings.libs = {
               if(bootstrap_enabled == false){
                   mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
                   mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
+                  mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
               }
+          }
+      ],
+    bootstrap_tags:[
+          function(){
+
+              var bootstrap_enabled = (typeof $().modal == 'function');
+              if(!bootstrap_enabled == false) {
+                  mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
+                  mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
+                  mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
+                  mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
+                  mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
+              } else {
+                  mw.log("You must load bootstrap to use bootstrap_tags");
+              }
+
           }
       ],
 	  validation:[
