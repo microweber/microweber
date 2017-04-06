@@ -1283,5 +1283,21 @@
   "are-you-sure-you-want-to-delete-this-menu": "Сигурни ли сте, че искате да изтриете това меню ?",
   "there-are-no-items-in-the-menu": "Няма добавени елементи в това меню",
   "you-can-easily-grab-any-module-and-insert-it-in-your-content": "You can easily grab any Module and insert it in your content.",
-  "if-you-want-to-edit-this-section-you-have-to-switch-do": "If you want to edit this section you have to switch do"
+  "if-you-want-to-edit-this-section-you-have-to-switch-do": "If you want to edit this section you have to switch do",
+  "switch": "Switch",
+  "admin-apis": "Admin apis",
+  "tooltip": "Подсказка",
+  "icons": "Икони",
+  "buttons": "Бутони",
+  "toggle-outline-type": "Toggle Outline Type",
+  "no-limit": "Без ограничение",
+  "creating-new-dynamicpage": "Създай нова динамична страница",
+  "editting-dynamicpage": "Редактиране на динамична страница",
+  "upload-2-images": "Прикачи 2 изображения",
+  "before": "Преди",
+  "after": "Сега",
+  "before-image": "първо изображение",
+  "after-image": "второ изображение",
+  "pdf": "PDF",
+  "upload-pdf": "Прикачи PDF"
 }
