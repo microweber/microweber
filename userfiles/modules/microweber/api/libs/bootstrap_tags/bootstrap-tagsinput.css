@@ -73,20 +73,28 @@
     width: 100%;
 }
 
-.tt-suggestion {
+.tt-dataset {
     border: 1px solid #ccc;
-    padding: 5px 10px;
+    padding: 5px 0px;
     border-radius: 4px;
     background-color: #fff;
+}
+
+.tt-suggestion {
     cursor: pointer;
+    padding: 0 10px;
+}
+
+.tt-suggestion:hover {
+    background-color: #efecec;
+    color: #3b3b3b;
 }
 
 .tag.label {
-    background-color: #262626;
+    background-color: #3b3b3b;
 }
 
 .tag.label:before {
     font-family: "FontAwesome";
     content: "\f02b  \00a0 ";
-
 }
