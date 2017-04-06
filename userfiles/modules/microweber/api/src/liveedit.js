@@ -2801,10 +2801,10 @@ mw.quick = {
            modal.overlay.style.backgroundColor = "white";
         },
         edit : function(id){
-			
-		 
-			
-			
+
+
+
+
            var modal = mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&mw-adm-content-id="+id,
               //template:'mw_modal_simple',

@@ -3483,13 +3483,32 @@ mw.quick = {
         if (subtype != undefined && subtype != '') {
             str = str + '&subtype=' + subtype;
         }
+
+        var actionType = '';
+        if(id == 0){
+            var actionType = 'Add';
+        }else{
+            var actionType = 'Edit';
+        }
+
+        var actionOf = 'Content';
+        if(content_type == 'post'){
+            actionOf = 'Post'
+        }else if(content_type == 'page'){
+            actionOf = 'Page'
+        }else if(content_type == 'product'){
+            actionOf = 'Product'
+        }else if(content_type == 'category'){
+            actionOf = 'Category'
+        }
+
         var modal = mw.tools.modal.frame({
             url: mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id=" + id + str,
             width: mw.quick.w,
             height: mw.quick.h,
             name: 'quick_page',
             overlay: true,
-            title: 'Edit content'
+            title: actionType + ' ' + actionOf
         });
         $(modal.main).addClass('mw-add-content-modal');
         modal.overlay.style.backgroundColor = "white";

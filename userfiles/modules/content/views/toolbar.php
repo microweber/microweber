@@ -255,7 +255,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                   <div class="pull-right" style="margin-right:5px;">
                 
                     <select id="content_type_filter_by_select" class="mw-ui-field" <?php if(!$selected): ?> style="display:none" <?php endif; ?>>
-                      <option value="">All</option>
+                      <option value=""><?php _e('All'); ?></option>
                       <?php foreach($content_types as $k=>$items): ?>
                       <optgroup label="<?php print ucfirst($k); ?>">
                       <option value="<?php print $k; ?>" <?php if($k == $selected): ?> selected="selected" <?php endif; ?>><?php print ucfirst($k); ?></option>
