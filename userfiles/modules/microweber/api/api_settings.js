@@ -92,8 +92,8 @@ mw.settings.libs = {
           function(){
               var bootstrap_enabled = (typeof $().modal == 'function');
               if(bootstrap_enabled == false){
-                  mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/dist/js/bootstrap.min.js');
-                  mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/dist/css/bootstrap.min.css');
+                  mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
+                  mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
               }
           }
       ],
