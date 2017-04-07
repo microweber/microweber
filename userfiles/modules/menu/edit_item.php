@@ -117,7 +117,7 @@ if( $id != 0){
     <hr>
 
     <div class="mw-clear pull-right mw-ui-btn-nav">
-        <span onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-ui-btn"><?php _e("Cancel"); ?></span>
+        <button onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-ui-btn"><?php _e("Cancel"); ?></button>
         <button class="mw-ui-btn mw-ui-btn-info" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php  print $data['id'] ?>');"><?php _e("Save"); ?></button>
     </div>
   <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
