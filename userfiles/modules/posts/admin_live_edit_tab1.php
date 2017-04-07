@@ -144,7 +144,7 @@ $rand = uniqid(); ?>
         if ($all_existing_tags == null) {
             $all_existing_tags = '[]';
         }
-       //print_r(content_tags());
+        //print_r(content_tags());
         ?>
 
 
@@ -162,7 +162,7 @@ $rand = uniqid(); ?>
 
             <div class="form-group">
                 <label class="control-label" for="tags"><?php _e("Show content with tags"); ?></label>
-                <input type="text" name="data-tags" class="form-control mw_option_field " value="<?php print $tags_val ?>" data-role="tagsinput" id="tags" />
+                <input type="text" name="data-tags" class="form-control mw_option_field " value="<?php print $tags_val ?>" data-role="tagsinput" id="tags"/>
             </div>
 
             <script>
@@ -204,7 +204,11 @@ $rand = uniqid(); ?>
 
         .mw-ui-row-nodrop {
             width: 100%;
-            /*padding: 10px;*/
+            padding: 10px;
+        }
+
+        .admin-manage-toolbar-content .mw-ui-row-nodrop {
+            padding: 0;
         }
 
         .mw-ui-row-nodrop:hover {
