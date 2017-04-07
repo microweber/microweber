@@ -19,7 +19,7 @@
         }
 
         #editmenu .mw-ui-btn {
-            line-height: 14px !important;
+            line-height: 15px;
         }
 
     </style>

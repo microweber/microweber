@@ -4315,3 +4315,21 @@ body.is_admin .mw-admin-container {
 span.mw-icon-upload{
     float: left;
 }
+
+.top-form-submit {
+    line-height: 24px;
+}
+
+#create-menu-holder .mw-ui-btn-invert{
+    float: right;
+    line-height:13px;
+}
+
+#custom_link_controller .mw-ui-btn-info,
+#custom_link_inline_controller .mw-ui-btn{
+    line-height:14px;
+}
+
+.menu-module-wrapper .menu_element_link {
+    line-height: 22px;
+}
