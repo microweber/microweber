@@ -2531,7 +2531,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 #content-title-field-buttons {
-    max-width: 220px !important;
+    max-width: 280px !important;
 }
 
 .admin-manage-toolbar-content .mw-ui-row-nodrop {
@@ -4308,11 +4308,11 @@ body.is_admin .mw-admin-container {
 
 .module-admin-backup .mw-ui-btn .mw-icon-file,
 .module-admin-backup .mw-ui-btn .mw-icon-refresh,
-.module-admin-backup .mw-ui-btn .mw-icon-upload{
+.module-admin-backup .mw-ui-btn .mw-icon-upload {
     float: left;
 }
 
-span.mw-icon-upload{
+span.mw-icon-upload {
     float: left;
 }
 
@@ -4320,16 +4320,28 @@ span.mw-icon-upload{
     line-height: 24px;
 }
 
-#create-menu-holder .mw-ui-btn-invert{
+#create-menu-holder .mw-ui-btn-invert {
     float: right;
-    line-height:13px;
+    line-height: 13px;
 }
 
 #custom_link_controller .mw-ui-btn-info,
-#custom_link_inline_controller .mw-ui-btn{
-    line-height:14px;
+#custom_link_inline_controller .mw-ui-btn {
+    line-height: 14px;
 }
 
 .menu-module-wrapper .menu_element_link {
     line-height: 22px;
+}
+
+#mw_shop_set_tax_settings .mw-ui-btn.mw-ui-btn-notification .mw-icon-cart-outline {
+    float: left;
+}
+
+.btn-create-custom-field-value .mw-icon-plus {
+    float: left;
+}
+
+.mw-no-posts-foot .mw-ui-btn{
+    line-height: 15px;
 }

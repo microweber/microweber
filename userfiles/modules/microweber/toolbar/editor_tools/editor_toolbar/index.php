@@ -74,7 +74,7 @@
                 offset = height / 9;
             }
             var _height = height - offset;
-            Editable.style.height = _height + 'px';
+//            Editable.style.height = _height + 'px';
         }
     }
 
@@ -149,19 +149,23 @@
         max-width: 100%;
     }
 
+    #editor-master{
+        height: 320px;
+    }
     #editor-area {
         padding: 10px;
         overflow-y: scroll;
         border: 1px solid #eee;
         height: auto;
         clear: both;
-        height: 260px;
+        height: 240px;
     }
 
     .editor_wrapper {
         border: 1px solid #eee;
         border-bottom: none;
         clear: both;
+        height:60px;
     }
 
     #mw-admin-text-editor {
@@ -174,6 +178,7 @@
         -khtml-user-select: none;
         user-select: none;
         /*position: fixed;*/
+        position: relative;
     }
 
     #editor-area ul, #editor-area ol {
