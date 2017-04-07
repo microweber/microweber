@@ -425,7 +425,7 @@ mw.embed = {
   display: inline-block;
   position: relative;
   cursor: default;
-  width: 85px;
+  width: 120px;
   text-align: center;
   overflow: hidden;
   transition: opacity 0.12s;

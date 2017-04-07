@@ -2672,9 +2672,9 @@ div[id*='SSDIVEL'] {
     font-size: 33px;
     top: -2px;
 }
-.toolbar-sections-tabs .mw-ui-btn-nav .mw-ui-btn>[class*=mw-icon-]{
-    top: -2px;
-}
+/*.toolbar-sections-tabs .mw-ui-btn-nav .mw-ui-btn>[class*=mw-icon-]{*/
+    /*top: -2px;*/
+/*}*/
 
 #mw-text-editor .mw-ui-btn-medium{
     line-height: 160%;

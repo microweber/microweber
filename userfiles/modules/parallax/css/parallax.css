@@ -1,0 +1,28 @@
+.module-parallax h1{
+    font-size: 34px;
+    color: black;
+}
+
+.module-parallax .info-box {
+    height:550px;
+    font-size:36px;
+    padding: 10px;
+}
+
+.module-parallax .info-box{
+    display: table;
+}
+
+.module-parallax .middle-content{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.module-parallax .parallax{
+    min-height: 550px; 
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
