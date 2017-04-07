@@ -617,3 +617,9 @@ table[class*='mw-wysiwyg-table'].valign td{
 span.mw-powered-by {
  display:inline !important;
 }
+
+.mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-module,
+.mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-template,
+#create-menu-btn .mw-icon-plus{
+  float: left;
+}

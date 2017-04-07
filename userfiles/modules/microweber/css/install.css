@@ -67,3 +67,7 @@ body{
 #mw-install-done{
   text-align: center;
 }
+
+.installholder input[type="submit"]{
+  line-height: 22px;
+}

@@ -204,7 +204,7 @@ $rand = uniqid(); ?>
 
         .mw-ui-row-nodrop {
             width: 100%;
-            padding: 10px;
+            /*padding: 10px;*/
         }
 
         .mw-ui-row-nodrop:hover {
