@@ -966,6 +966,9 @@ class Modules
                             $comb = array_merge($module_skins_from_theme, $module_name_l);
                             if (is_array($comb) and !empty($comb)) {
                                 foreach ($comb as $k1 => $itm) {
+                                    if(isset($itm['layout_file']) and $itm['layout_file']){
+                                        $itm['layout_file'] = normalize_path($itm['layout_file']);
+                                    }
                                     if (!in_array($itm['layout_file'], $file_names_found)) {
                                         if (isset($itm['visible'])) {
                                             if ($itm['visible'] == 'false'

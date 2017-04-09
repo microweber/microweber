@@ -53,6 +53,14 @@ class Utils
         }
     }
 
+    public function table_exists($table_name){
+        $table_name = $this->assoc_table_name($table_name);
+        if (Schema::hasTable($table_name)) {
+            return true;
+        }
+    }
+
+
     private function _exec_table_builder($table_name, $fields_to_add)
     {
         $engine = $this->get_sql_engine();
@@ -158,20 +166,25 @@ class Utils
             if (is_array($sql) and !empty($sql)) {
                 foreach ($sql as $item) {
                     $item = (array)$item;
+                    $val = false;
                     if (isset($item['tbl_name'])) {
-                        $tables[] = $item['tbl_name'];
+                        $val = $item['tbl_name'];
                     } elseif (isset($item['name'])) {
-                        $tables[] = $item['name'];
+                        $val = $item['name'];
                     }
+                    if ($val and $val != 'sqlite_sequence') {
+                        $tables[] = $val;
+                    }
+
                 }
             }
         } else if ($engine == 'pgsql') {
             // http://stackoverflow.com/a/29232803/731166
+            // ? AND table_name NOT LIKE 'valid%'
             $result = DB::select('
             SELECT table_name FROM information_schema.tables
-              WHERE table_schema NOT IN (\'pg_catalog\', \'information_schema\') --exclude system tables
-                AND table_type = \'BASE TABLE\' -- only tables
-                AND table_name NOT LIKE \'valid%\';
+              WHERE table_schema NOT IN (\'pg_catalog\', \'information_schema\')  
+                AND table_type = \'BASE TABLE\' ;
             ');
 
             if (!empty($result)) {
@@ -179,7 +192,7 @@ class Utils
                     $item = (array)$item;
                     if (count($item) > 0) {
                         $item_vals = (array_values($item));
-                      //  dd($item_vals);
+                        //  dd($item_vals);
                         $tables[] = $item_vals[0];
                     }
                 }

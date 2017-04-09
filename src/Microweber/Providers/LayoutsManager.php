@@ -191,6 +191,8 @@ class LayoutsManager
                             $templ_dir1 = str_ireplace('templates', '', $templ_dir1);
                             $templ_dir1 = str_ireplace('\\', '/', $templ_dir1);
                             $templ_dir1 = str_ireplace('//', '/', $templ_dir1);
+                            $templ_dir1 = rtrim($templ_dir1, '/\\');
+
                             $to_return_temp['module_directory'] = $templ_dir1;
                         }
 
