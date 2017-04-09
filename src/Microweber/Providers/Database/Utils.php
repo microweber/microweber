@@ -118,9 +118,6 @@ class Utils
             });
 
 
-
-
-
         }
         //   });
 //
@@ -154,18 +151,9 @@ class Utils
     {
         $tables = array();
         $engine = $this->get_sql_engine();
-        if ($engine != 'sqlite') {
-            $result = DB::select('SHOW TABLES');
-            if (!empty($result)) {
-                foreach ($result as $item) {
-                    $item = (array)$item;
-                    if (count($item) > 0) {
-                        $item_vals = (array_values($item));
-                        $tables[] = $item_vals[0];
-                    }
-                }
-            }
-        } else {
+
+
+        if ($engine == 'sqlite') {
             $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table';");
             if (is_array($sql) and !empty($sql)) {
                 foreach ($sql as $item) {
@@ -174,6 +162,36 @@ class Utils
                         $tables[] = $item['tbl_name'];
                     } elseif (isset($item['name'])) {
                         $tables[] = $item['name'];
+                    }
+                }
+            }
+        } else if ($engine == 'pgsql') {
+            // http://stackoverflow.com/a/29232803/731166
+            $result = DB::select('
+            SELECT table_name FROM information_schema.tables
+              WHERE table_schema NOT IN (\'pg_catalog\', \'information_schema\') --exclude system tables
+                AND table_type = \'BASE TABLE\' -- only tables
+                AND table_name NOT LIKE \'valid%\';
+            ');
+
+            if (!empty($result)) {
+                foreach ($result as $item) {
+                    $item = (array)$item;
+                    if (count($item) > 0) {
+                        $item_vals = (array_values($item));
+                      //  dd($item_vals);
+                        $tables[] = $item_vals[0];
+                    }
+                }
+            }
+        } else {
+            $result = DB::select('SHOW TABLES');
+            if (!empty($result)) {
+                foreach ($result as $item) {
+                    $item = (array)$item;
+                    if (count($item) > 0) {
+                        $item_vals = (array_values($item));
+                        $tables[] = $item_vals[0];
                     }
                 }
             }
@@ -322,7 +340,7 @@ class Utils
      */
     public function get_fields($table, $use_cache = true)
     {
-$fields = array();
+        $fields = array();
         $expiresAt = 300;
 
         $cache_group = 'db/fields';
@@ -359,7 +377,7 @@ $fields = array();
                 ORDER  BY attnum;
                 ");
 
-         } else {
+        } else {
             // getColumnListing has a bug in mysql 8.0 and sqlite
             $fields = DB::connection($db_driver)->getSchemaBuilder()->getColumnListing($table);
         }
@@ -371,7 +389,7 @@ $fields = array();
                     return $f->column_name;
                 } else if (isset($f->Field)) {
                     return $f->Field;
-                }  else if (isset($f->attname)) {
+                } else if (isset($f->attname)) {
                     return $f->attname;
                 } else {
                     return $f->name;
@@ -412,7 +430,7 @@ $fields = array();
     public function copy_row_by_id($table, $id = 0, $field_name = 'id')
     {
         $q = $this->get_by_id($table, $id, $field_name);
-         if (isset($q[$field_name])) {
+        if (isset($q[$field_name])) {
             $data = $q;
             if (isset($data[$field_name])) {
                 unset($data[$field_name]);
@@ -421,7 +439,6 @@ $fields = array();
             return $s;
         }
     }
-
 
 
     public function clean_input($input)
