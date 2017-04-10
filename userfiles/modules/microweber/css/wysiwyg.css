@@ -815,6 +815,34 @@
     overflow-y: auto;
 }
 
+.mw-icon-selector{
+    width: 100%;
+    display: none;
+}
+
+.mw-icon-selector-dropdown-wrapper{
+    position: relative;
+    z-index: 5;
+}
+
+.mw-icon-selector-dropdown{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    display: block;
+}
+.mw-icon-selector-dropdown-wrapper.focused .mw-icon-selector-dropdown{
+    visibility: visible;
+    opacity: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25)
+}
+
 .mw-icon-selector-set-icon-size {
     bottom: 10px;
     display: inline;

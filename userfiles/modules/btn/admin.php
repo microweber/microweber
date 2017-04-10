@@ -7,6 +7,7 @@
     $popupcontent =  get_option('popupcontent', $params['id']);
     $text =  get_option('text', $params['id']);
     $url_blank = get_option('url_blank', $params['id']);
+    $icon = get_option('icon', $params['id']);
 ?>
 <style>
 select {
@@ -19,7 +20,23 @@ select {
 	width: 100%;
 	height: 300px;
 }
+
+#icon-picker ul{
+    height: 220px;
+}
+
+#icon-picker li{
+    margin: 5px 0;
+    float: left;
+    width: 33.333%;
+    text-align: center;
+}
+
 </style>
+<script>
+    mw.require('icon_selector.js')
+    mw.require('wysiwyg.css')
+</script>
 <script>
 
 
@@ -92,6 +109,23 @@ btn_action = function(){
       <?php _e("Open a pop-up window"); ?>
       </option>
     </select>
+  </div>
+  <div class="mw-ui-field-holder">
+    <label class="mw-ui-label">
+      <?php _e("Icon"); ?>
+    </label>
+    <script>
+        $(document).ready(function(){
+            mw.iconSelector.iconDropdown("#icon-picker", {
+                onchange:function(iconClass){
+                    console.log(iconClass)
+                }
+            })
+        })
+    </script>
+    <div id="icon-picker">
+
+    </div>
   </div>
   <div id="editor_holder">
     <label class="mw-ui-label">

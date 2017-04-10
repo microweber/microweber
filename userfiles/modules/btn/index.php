@@ -7,6 +7,7 @@
     $url =  get_option('url', $params['id']);
     $blank =   get_option('url_blank', $params['id']);
     $text =  get_option('text', $params['id']);
+    $icon =  get_option('icon', $params['id']);
 
      if ($text == ''){ $text = 'Button';}
      if ($style == ''){ $style = 'btn-default';}
