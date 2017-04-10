@@ -7,8 +7,15 @@ $action_content = get_option('popupcontent', $params['id']);
 $url = get_option('url', $params['id']);
 $blank = get_option('url_blank', $params['id']) == 'y';
 $text = get_option('text', $params['id']);
-$icon = get_option('icon', $params['id']);
-$popup_function_id = 'btn_popup'.uniqid();
+if (get_option('icon', $params['id'])) {
+    $icon = get_option('icon', $params['id']);
+} elseif (isset($params['icon'])) {
+    $icon = $params['icon'];
+} else {
+    $icon = '';
+}
+
+$popup_function_id = 'btn_popup' . uniqid();
 if ($text == '') {
     $text = 'Button';
 }
@@ -30,7 +37,7 @@ if ($style == false and isset($params['button_style'])) {
 }
 
 if ($action == 'popup') {
-    $url ='javascript:'.$popup_function_id.'()';
+    $url = 'javascript:' . $popup_function_id . '()';
 }
 ?>
 
@@ -58,16 +65,15 @@ if (is_file($template_file) != false) {
 } else {
     print lnotif("No template found. Please choose template.");
 }
- ?>
+?>
 
 <?php if ($action == 'popup') { ?>
 
 
-
-
-
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
     <?php print $action_content; ?>
+
+
 
 
 
