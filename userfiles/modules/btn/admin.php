@@ -118,14 +118,14 @@ btn_action = function(){
         $(document).ready(function(){
             mw.iconSelector.iconDropdown("#icon-picker", {
                 onchange:function(iconClass){
-                    console.log(iconClass)
+                    $('[name="icon"]').val(iconClass).trigger('change')
                 }
-            })
+            });
+            $("#icon-picker input").val($('[name="icon"]').val())
         })
     </script>
-    <div id="icon-picker">
-
-    </div>
+    <input type="text" name="icon" value="<?php print $icon; ?>" class="mw_option_field" style="display: none" />
+    <div id="icon-picker"></div>
   </div>
   <div id="editor_holder">
     <label class="mw-ui-label">
