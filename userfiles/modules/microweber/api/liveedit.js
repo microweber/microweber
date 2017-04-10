@@ -407,7 +407,7 @@ mw.drag = {
                             $(window).trigger("onLayoutOver", mw.mm_target);
                         }
                         else if(mw.tools.hasParentsWithClass(mw.mm_target, 'mw-layout-root')){
-                            $(window).trigger("onLayoutOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-layout-root'));
+                            $(window).trigger("onLayoutOver", mw.tools.lastParentWithClass(mw.mm_target, 'mw-layout-root'));
                         }
 
 
