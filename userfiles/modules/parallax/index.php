@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/parallax.css" />
+<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/parallax.css"/>
 
 <?php
 if (get_option('parallax', $params['id'])) {
@@ -10,40 +10,28 @@ if (get_option('parallax', $params['id'])) {
 if (get_option('text', $params['id'])) {
     $infoBox = get_option('text', $params['id']);
 } else {
-    $infoBox = 'Lorem Ipsum е елементарен примерен текст, използван в печатарската и типографската индустрия. Lorem Ipsum е индустриален стандарт от около 1500 година, когато неизвестен печатар взема няколко печатарски букви и ги разбърква, за да напечата с тях книга с примерни шрифтове.';
+    $infoBox = _e('<p>This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>', true);
 }
-?>
-<style>
-    .parallax {
-        background-image: url("<?= $parallax; ?>");
-    }
 
-</style>
+if (get_option('info-image', $params['id'])) {
+    $infoImage = get_option('info-image', $params['id']);
+} else {
+    $infoImage = $config['url_to_module'] . 'images/infoImage.jpg';
+}
 
-<div class="row module-parallax">
-    <div class="col-xs-12 col-md-6">
-        <div class="parallax"></div>
-    </div>
-    <div class="col-xs-12 col-md-6">
-        <div class="info-box">
-            <div class="middle-content">
-                <div class="row">
-                    <div class="col-xs-12 col-md-3">
-                        <img src="<?= (get_option('info-image', $params['id']) ? get_option('info-image', $params['id']) : 'http://wallpapercave.com/wp/qFrboOZ.jpg') ?>" alt="<?= get_option('title', $params['id']) ?>" />
-                    </div>
-                    <div class="col-xs-12 col-md-9">
-                        <h1><?= (get_option('title', $params['id']) ? get_option('title', $params['id']) : 'Some title') ?></h1>
-                        <p>
-                            <?= $infoBox ?>
-                        </p>
-                        <a href="<?= (get_option('button-url', $params['id']) ? get_option('button-url', $params['id']) : '#') ?>" class="btn btn-default"><?= (get_option('button-text', $params['id']) ? get_option('button-text', $params['id']) : 'Button') ?></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<?php if (is_admin()): ?>
-    <?php print notif("Click here to edit the Parallax"); ?>
-<?php endif; ?>
+$module_template = get_option('data-template', $params['id']);
+if ($module_template == false and isset($params['template'])) {
+    $module_template = $params['template'];
+}
+if ($module_template != false) {
+    $template_file = module_templates($config['module'], $module_template);
+} else {
+    $template_file = module_templates($config['module'], 'default');
+}
+
+if (is_file($template_file) != false) {
+    include($template_file);
+} else {
+    print lnotif("No template found. Please choose template.");
+}

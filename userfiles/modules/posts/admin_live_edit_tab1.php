@@ -208,7 +208,8 @@ $rand = uniqid(); ?>
         }
 
         .admin-manage-toolbar-content .mw-ui-row-nodrop {
-            padding: 0;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .mw-ui-row-nodrop:hover {

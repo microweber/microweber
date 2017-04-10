@@ -7,11 +7,16 @@
     height:550px;
     font-size:36px;
     padding: 10px;
-}
-
-.module-parallax .info-box{
     display: table;
 }
+
+.module-parallax .info-box-fluid {
+    min-height:350px;
+    font-size:36px;
+    padding: 10px;
+    display: table;
+}
+
 
 .module-parallax .middle-content{
     display: table-cell;
