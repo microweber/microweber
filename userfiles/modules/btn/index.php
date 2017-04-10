@@ -30,16 +30,19 @@
 <script>
   mw.require('tools.js', true);
   mw.require('ui.css', true);
-</script> 
+</script>
 <a href="javascript:;" id="btn<?php print $rand; ?>" class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
-<textarea id="area<?php print $rand; ?>" class="hide"><?php print $action_content; ?></textarea>
+
+<script type="text/microweber" id="area<?php print $rand; ?>">
+    <?php print $action_content; ?>
+</script>
 <script>
 
 $(document).ready(function(){
   mw.$("#btn<?php print $rand; ?>").click(function(){
       mw.modal({
         name:'frame<?php print $rand; ?>',
-        html:mwd.getElementById('area<?php print $rand; ?>').value,
+        html:$(mwd.getElementById('area<?php print $rand; ?>')).html(),
         template:'basic',
         title:"<?php print $text; ?>"
       });
