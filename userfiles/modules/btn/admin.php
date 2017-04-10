@@ -31,6 +31,10 @@ select {
     width: 33.333%;
     text-align: center;
 }
+#icon-picker input,
+#icon-picker{
+    width:250px;
+}
 
 </style>
 <script>
@@ -110,23 +114,7 @@ btn_action = function(){
       </option>
     </select>
   </div>
-  <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">
-      <?php _e("Icon"); ?>
-    </label>
-    <script>
-        $(document).ready(function(){
-            mw.iconSelector.iconDropdown("#icon-picker", {
-                onchange:function(iconClass){
-                    $('[name="icon"]').val(iconClass).trigger('change')
-                }
-            });
-            $("#icon-picker input").val($('[name="icon"]').val())
-        })
-    </script>
-    <input type="text" name="icon" value="<?php print $icon; ?>" class="mw_option_field" style="display: none" />
-    <div id="icon-picker"></div>
-  </div>
+
   <div id="editor_holder">
     <label class="mw-ui-label">
       <?php _e("Popup content"); ?>
@@ -150,59 +138,24 @@ btn_action = function(){
         </span> </label>
     </div>
   </div>
-  <?php /*<div class="mw-ui-row-nodrop">
-    <div class="mw-ui-col">
-      <div class="mw-ui-col-container">
-        <label class="mw-ui-label">
-          <?php _e("Color"); ?>
-        </label>
-        <select  class="mw-ui-field mw_option_field"  name="button_style">
-          <option <?php if($style==''){ print 'selected'; } ?> value="">
-          <?php _e("Default"); ?>
-          </option>
-          <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn-primary">
-          <?php _e("Primary"); ?>
-          </option>
-          <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn-info">
-          <?php _e("Info"); ?>
-          </option>
-          <option <?php if($style=='btn-success'){ print 'selected'; } ?> value="btn-success">
-          <?php _e("Success"); ?>
-          </option>
-          <option <?php if($style=='btn-warning'){ print 'selected'; } ?> value="btn-warning">
-          <?php _e("Warning"); ?>
-          </option>
-          <option <?php if($style=='btn-danger'){ print 'selected'; } ?> value="btn-danger">
-          <?php _e("Danger"); ?>
-          </option>
-          <option <?php if($style=='btn-link'){ print 'selected'; } ?> value="btn-link">
-          <?php _e("Simple"); ?>
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="mw-ui-col">
-      <div class="mw-ui-col-container">
-        <label class="mw-ui-label">
-          <?php _e("Size"); ?>
-        </label>
-        <select  class="mw-ui-field mw_option_field"  name="button_size">
-          <option <?php if($size==''){ print 'selected'; } ?> value="">
-          <?php _e("Default"); ?>
-          </option>
-          <option <?php if($size=='btn-default-large btn-lg'){ print 'selected'; } ?> value="btn-default-large btn-lg">
-          <?php _e("Large"); ?>
-          </option>
-          <option <?php if($size=='btn-default-small btn-sm'){ print 'selected'; } ?> value="btn-default-small btn-sm">
-          <?php _e("Small"); ?>
-          </option>
-          <option <?php if($size=='btn-default-mini btn-xs'){ print 'selected'; } ?> value="btn-default-mini btn-xs">
-          <?php _e("Mini"); ?>
-          </option>
-        </select>
-      </div>
-    </div>
-  </div>*/ ?>
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-label">
+      <?php _e("Icon"); ?>
+    </label>
+    <script>
+        $(document).ready(function(){
+            mw.iconSelector.iconDropdown("#icon-picker", {
+                onchange:function(iconClass){
+                    $('[name="icon"]').val(iconClass).trigger('change')
+                },
+                mode:'static'
+            });
+            $("#icon-picker input").val($('[name="icon"]').val())
+        })
+    </script>
+    <input type="text" name="icon" value="<?php print $icon; ?>" class="mw_option_field" style="display: none" />
+    <div id="icon-picker"></div>
+  </div>
   <div class="mw-ui-field-holder">
     <module type="admin/modules/templates" simple=true />
   </div>

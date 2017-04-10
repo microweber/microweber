@@ -195,6 +195,7 @@ mw.iconSelector = mw.iconSelector || {
         var el = $(selector)[0];
         if(!el) return;
         options = options || {}
+        options.mode = options.mode || 'absolute';
         if (mw.iconSelector.iconFontClasses.length == 0) {
             mw.iconSelector.init();
         }
@@ -211,9 +212,10 @@ mw.iconSelector = mw.iconSelector || {
 
         }
 
-        html = '<ul class="mw-icon-selector mw-icon-selector-dropdown">' + html + '</ul>';
+        html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; display:inline-block;">' + html + '</ul>';
 
         var input = document.createElement('input');
+        input.__time = null;
         input.className = options.className || 'mw-ui-field';
 
         $(selector).addClass('mw-icon-selector-dropdown-wrapper').append(input).append(html)
@@ -221,16 +223,26 @@ mw.iconSelector = mw.iconSelector || {
         $(input).on('focus', function(){
             $(this).parent().addClass('focused')
         });
-         $(input).on('input', function(){
+         $(input).on('input change', function(){
              var val = $.trim(this.value);
-            if(!this.value){
-                $('.mw-icon-selector li', el).show()
-            }
-            else{
-                $('.mw-icon-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
-            }
+             clearTimeout(input.__time);
+             (function(val, el){
+                 input.__time = setTimeout(function(){
+                        if(!val){
+                            $('.mw-icon-selector li', el).show()
+                        }
+                        else{
+                            $('.mw-icon-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
+                        }
+                        if(typeof options.onchange == 'function'){
+                             options.onchange.call(undefined, input.value)
+                        }
+                 }, 300);
+             })(val, el);
+
         });
         el.__time = null;
+
         $(input).on('blur', function(){
             (function(el){
                 clearTimeout(el.__time)
