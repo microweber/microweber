@@ -10,41 +10,51 @@
                 mw.reload_module_parent("testimonials");
                 mw.reload_module("testimonials/list");
                 mw.reload_module("#project-select-testimonials");
-
+                $('.addNewButton').show();
+                $('.saveButton').hide();
 
                 $("#add-testimonial-form").find("input[type=text], textarea").val("");
                 window.TTABS.set(0)
             });
         });
     });
-</script>
-<script>
 
-    $(document).ready(function () {
-
-        testimonialPicture = mw.uploader({
-            filetypes: "images",
-            element: "#client_img",
-            multiple: false
-        });
-
-
-        $(testimonialPicture).bind("FileUploaded", function (a, b) {
-
-            mw.$("#client_picture").val(b.src).trigger('change');
-            ;
-            //  mw.$("#openquote-preview img").attr("src",  b.src);
-            // mw.$("[name='openquote']").val(b.src).trigger('change');
-        });
-
-
+    testimonialPicture = mw.uploader({
+        filetypes: "images",
+        element: "#client_img",
+        multiple: false
     });
 
+
+    $(testimonialPicture).bind("FileUploaded", function (a, b) {
+        mw.$("#client_picture").val(b.src).trigger('change');
+
+        //  mw.$("#openquote-preview img").attr("src",  b.src);
+        // mw.$("[name='openquote']").val(b.src).trigger('change');
+    });
 </script>
+
 <?php $data = false; ?>
 <?php if (isset($params['edit-id'])): ?>
     <?php $data = get_testimonials("single=true&id=" . $params['edit-id']); ?>
 <?php endif; ?>
+
+<?php if (($data['id']) != 0): ?>
+    <script>
+        $(document).ready(function () {
+            $('.addNewButton').hide();
+            $('.saveButton').show();
+        });
+    </script>
+<?php else: ?>
+    <script>
+        $(document).ready(function () {
+            $('.saveButton').hide();
+            $('.addNewButton').show();
+        });
+    </script>
+<?php endif; ?>
+
 <?php
 
 if (!isset($data['id'])) {
@@ -78,6 +88,7 @@ if (!isset($data['client_company'])) {
 
 
 ?>
+
 
 <form id="add-testimonial-form">
     <?php if (($data['id']) == 0): ?>
