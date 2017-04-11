@@ -89,16 +89,25 @@ mw.settings.libs = {
         'css/bootstrap.min.css',
         'js/bootstrap.min.js'
       ],
-      bootstrap3ns:[
-          function(){
-              var bootstrap_enabled = (typeof $().modal == 'function');
-              if(bootstrap_enabled == false){
-                  mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
-                  mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
-                  mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
-              }
-          }
-      ],
+    bootstrap3ns:[
+        function(){
+            var bootstrap_enabled = (typeof $().modal == 'function');
+            if(bootstrap_enabled == false){
+                mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
+                mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
+                mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
+            }
+        }
+    ],
+    bootstrap_select:[
+        function(){
+            var bootstrap_enabled = (typeof $().modal == 'function');
+            if(bootstrap_enabled == false){
+                mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
+                mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
+            }
+        }
+    ],
     bootstrap_tags:[
           function(){
 
