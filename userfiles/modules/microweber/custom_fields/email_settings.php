@@ -1,31 +1,32 @@
 <?php include('settings_header.php'); ?>
 
 
- <div class="custom-field-settings-name">
+<div class="custom-field-settings-name">
 
-  <div class="mw-custom-field-group ">
-  <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
-    <?php _e('Title'); ?>
-  </label>
+    <div class="mw-custom-field-group ">
+        <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
+            <?php _e('Title'); ?>
+        </label>
 
-    <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+        <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
+    </div>
 </div>
-</div>
 
 
-
-   <div class="custom-field-settings-values">
+<div class="custom-field-settings-values">
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Value"); ?></label>
+        <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Value"); ?></label>
 
-        <input type="text" class="mw-ui-field"  name="value" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
+        <input type="text" class="mw-ui-field" name="value" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
 
-
-        <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
+        <br/>
+        <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
+                                          name="options[required]" <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?>
+                                          value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
 
     </div>
     <?php print $savebtn; ?>
-    </div>
+</div>
 
-    <?php include('settings_footer.php'); ?>
+<?php include('settings_footer.php'); ?>

@@ -1,7 +1,7 @@
 <?php only_admin_access(); ?>
 <script>
     function delete_testimonial(id) {
-        var are_you_sure = confirm(<?php _e('Are you sure?'); ?>);
+        var are_you_sure = confirm('<?php _e('Are you sure?'); ?>');
         if (are_you_sure == true) {
             var data = {}
             data.id = id;
@@ -15,19 +15,21 @@
         }
     }
 
-
     add_testimonial = function () {
+        $('a.saveButton').hide();
+        $('a.addNewButton').show();
         $("#edit-testimonials").attr("edit-id", "0");
         mw.reload_module("#edit-testimonials");
         window.TTABS.set(1);
     }
 
     edit_testimonial = function (id) {
+        $('a.saveButton').show();
+        $('a.addNewButton').hide();
         $("#edit-testimonials").attr("edit-id", id);
         mw.reload_module("#edit-testimonials");
         window.TTABS.set(1);
     }
-
 
     $(document).ready(function () {
         mw.$("#testimonials-list tbody").sortable({
@@ -66,14 +68,9 @@
 
 
     <table width="100%" class="mw-ui-table mw-ui-table-basic" id="testimonials-list">
-        <colgroup>
-            <col width="20%">
-            <col width="60%">
-            <col width="10%">
-            <col width="10%">
-        </colgroup>
         <thead>
         <tr>
+            <th><?php _e('Image'); ?></th>
             <th><?php _e('Name'); ?></th>
             <th><?php _e('Content'); ?></th>
             <th style="text-align:center"><?php _e('Edit'); ?></th>
@@ -83,8 +80,9 @@
         <tbody>
         <?php foreach ($data as $item): ?>
             <tr data-id="<?php print $item['id'] ?>">
+                <td style="width:10%"><?php if($item['client_picture'] == false): ?><img src="<?php print $item['client_picture'] ?>" alt="" class="testimonial-client-image" /><?php endif; ?></td>
                 <td style="width:20%"><?php print $item['name'] ?></td>
-                <td style="width:60%"><?php print $item['content'] ?></td>
+                <td style="width:50%"><?php print $item['content'] ?></td>
                 <td style="text-align:center" style="width:10%">
                     <a class="mw-icon-pen tip show-on-hover" data-tip="Edit Item" data-tipposition="top-center"
                        href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');"></a>
