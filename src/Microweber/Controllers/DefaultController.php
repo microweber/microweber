@@ -461,7 +461,8 @@ class DefaultController extends Controller
         }
 
         if ($api_function == 'module' and $mod_class_api_called == false) {
-            $this->module();
+
+           return  $this->module();
         } else {
             $err = false;
             if (!in_array($api_function, $api_exposed, true)) {
@@ -944,9 +945,12 @@ class DefaultController extends Controller
                     $l = new \Microweber\View($possible_layout);
                     $layout = $l->__toString();
                     $layout = $this->app->parser->process($layout, $options = false);
-                    echo $layout;
+                    return response($layout);
 
-                    return;
+
+                  //  echo $layout;
+
+                  // return;
                 }
             }
         }
@@ -1037,7 +1041,9 @@ class DefaultController extends Controller
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
             $res = $this->app->url_manager->replace_site_url_back($res);
-            echo $res;
+            return response($res);
+
+           // echo $res;
         }
 
         if ($url_last != __FUNCTION__) {

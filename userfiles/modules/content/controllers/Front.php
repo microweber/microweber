@@ -522,7 +522,12 @@ class Front
         }
 
         if (isset($params['search_in_fields']) and $params['search_in_fields'] != false) {
-            $post_params['search_in_fields'] = $params['search_in_fields'];
+        $post_params['search_in_fields'] = $params['search_in_fields'];
+    }
+
+
+        if (isset($params['strict_categories']) and $params['strict_categories'] != false) {
+            $post_params['strict_categories'] = $params['strict_categories'];
         }
 
         $is_search = url_param('search');

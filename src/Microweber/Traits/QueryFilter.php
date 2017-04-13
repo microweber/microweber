@@ -37,6 +37,13 @@ trait QueryFilter
         if (isset($params['id'])) {
             $is_id = $params['id'];
         }
+
+        $strict_categories = false;
+        if (isset($params['strict_categories'])) {
+            $strict_categories = $params['strict_categories'];
+        }
+
+
         $params_orig = $params;
         $is_fields = false;
         if (isset($params['fields']) and $params['fields'] != false) {
@@ -286,6 +293,10 @@ trait QueryFilter
 
 
                         if (!empty($ids)) {
+//                            $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')
+//                             ->where('categories_items_joined_table.rel_type', $table)
+//                             ->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+
 
 //                            if (!isset($search_joined_tables_check['categories_items'])) {
 //                                $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id');
@@ -297,21 +308,58 @@ trait QueryFilter
 //                            }
 //                            $query = $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
 //
+
+                            if ($strict_categories) {
+                                $cat_ids_strict = '';
+                            }
+
                             if (!isset($search_joined_tables_check['categories_items'])) {
                                 $search_joined_tables_check['categories_items'] = true;
 
-                                $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id');
-                            }
-                            $query->where('categories_items_joined_table.rel_type', $table);
+                                $query = $query->join('categories_items', function ($join) use ($table, $ids) {
 
-                            //$query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
+                                    $join->on('categories_items.rel_id', '=', $table . '.id')
+                                        ->where('categories_items.rel_type', '=', $table);
+                                    $join->whereIn('categories_items.parent_id', $ids)->distinct();
+
+
+                                    foreach ($ids as $cat_id) {
+                                        //    $join->where('categories_items.parent_id', intval($cat_id));
+                                    }
+
+
+//                                    foreach ($ids as $cat_id) {
+//                                        $join->where('categories_items.parent_id', $cat_id);
+//                                    }
+
+                                });
+                                // $query->whereIn('categories_items.parent_id', $ids);
+                                foreach ($ids as $cat_id) {
+                                    // $query->where('categories_items.parent_id', $cat_id);
+                                }
+
+
+                                //    $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')->where('categories_items_joined_table.rel_type', $table);
+                            }
+
+
+//
+//                            if (!isset($search_joined_tables_check['categories_items'])) {
+//                                $search_joined_tables_check['categories_items'] = true;
+//
+//                                $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')->where('categories_items_joined_table.rel_type', $table);
+//                            }
+//                            $query->where('categories_items_joined_table.rel_type', $table);
+//
+
+                            //  $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
                             //  dd($ids);
 
-                            foreach ($ids as $cat_id) {
-                                $query->where('categories_items_joined_table.parent_id', $cat_id);
-                            }
+//                            foreach ($ids as $cat_id) {
+//                               $query->where('categories_items_joined_table.parent_id', $cat_id);
+//                            }
 
-                            $query = $query->distinct();
+                            //    $query = $query->distinct();
 
 
 //                        $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')

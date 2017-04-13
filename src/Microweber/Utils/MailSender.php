@@ -9,12 +9,14 @@ use Config;
 use View;
 use Swift_Mailer;
 use Swift_Message;
+use Swift_TransportException;
 
 
 class MailSender
 {
     public $transport = false;
     public $debug = false;
+    public $silent_exceptions = false;
     public $email_from = false;
     public $email_from_name = false;
     public $cc = false;
@@ -25,6 +27,7 @@ class MailSender
     public $smtp_auth = false;
     public $smtp_secure = false;
     private $here = false;
+
 
     public function __construct()
     {
@@ -77,7 +80,7 @@ class MailSender
             // check if  escapeshellcmd() has been disabled
             if (strstr($disabled_functions, 'escapeshellarg')) {
                 //if disabled, switch mail transporter
-                $transport  =  \Microweber\Utils\lib\mail\Swift_MailTransport::newInstance();
+                $transport = \Microweber\Utils\lib\mail\Swift_MailTransport::newInstance();
                 // set new swift mailer
                 \Mail::setSwiftMailer(new \Swift_Mailer($transport));
             }
@@ -204,24 +207,40 @@ class MailSender
         ///  escapeshellcmd() has been disabled for security reasons
 
 
-        return \Mail::send(
-            'mw_email_send::emails.simple',
-            $content,
-            function ($message) use ($to, $subject, $from_address, $from_name, $reply_to) {
+        try {
+            $exec = \Mail::send(
+                'mw_email_send::emails.simple',
+                $content,
+                function ($message) use ($to, $subject, $from_address, $from_name, $reply_to) {
 
-                $from_name = $from_name ?: $from_address;
-                if ($from_address != false) {
-                    $message->from($from_address, $from_name);
-                }
-                if ($reply_to != false) {
-                    if (is_string($reply_to) and (filter_var($reply_to, FILTER_VALIDATE_EMAIL))) {
-                        $message->replyTo($reply_to);
+                    $from_name = $from_name ?: $from_address;
+                    if ($from_address != false) {
+                        $message->from($from_address, $from_name);
                     }
+                    if ($reply_to != false) {
+                        if (is_string($reply_to) and (filter_var($reply_to, FILTER_VALIDATE_EMAIL))) {
+                            $message->replyTo($reply_to);
+                        }
+                    }
+                    $message->to($to)->subject($subject);
                 }
-                $message->to($to)->subject($subject);
-            }
-        );
+            );
 
-        return;
+        } catch (\Exception $e) {
+            if ($this->silent_exceptions) {
+                return;
+            } else {
+                echo 'Caught exception: ', $e->getMessage(), "\n";
+                return;
+            }
+        }
+
+
+
+
+
+        return $exec;
+
+
     }
 }

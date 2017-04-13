@@ -215,8 +215,8 @@ class ModuleController extends Controller
 
             $this->render_this_url = $u1;
             $this->isolate_by_html_id = $custom_display_id;
-            $this->index();
-            exit();
+           return $this->index();
+
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
@@ -375,6 +375,8 @@ class ModuleController extends Controller
 
             unset($data['ondrop']);
         }
+
+
         if ($mod_n == 'layout') {
             if (isset($data['template'])) {
                 $t = str_replace('..', '', $data['template']);
@@ -384,9 +386,10 @@ class ModuleController extends Controller
                     $l = new \Microweber\View($possible_layout);
                     $layout = $l->__toString();
                     $layout = $this->app->parser->process($layout, $options = false);
-                    echo $layout;
+                   // echo $layout;
+                    return response($layout);
 
-                    return;
+                   // return;
                 }
             }
         }
@@ -477,7 +480,8 @@ class ModuleController extends Controller
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
             $res = $this->app->url_manager->replace_site_url_back($res);
-            echo $res;
+          //  echo $res;
+            return response($res);
         }
 
         if ($url_last != __FUNCTION__) {
@@ -683,8 +687,10 @@ class ModuleController extends Controller
                 $p = new \Microweber\View($p);
                 $p->params = $params;
                 $layout = $p->__toString();
-                echo $layout;
-                exit();
+               // echo $layout;
+                return response($layout);
+
+               // exit();
             }
         } elseif (is_file($p)) {
             $p = new \Microweber\View($p);
@@ -773,8 +779,8 @@ class ModuleController extends Controller
 
         $layout = str_replace('{content}', '', $layout);
 
-        echo $layout;
-        exit();
+        return response($layout);
+
         //
         //header("HTTP/1.0 404 Not Found");
         //$v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');

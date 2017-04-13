@@ -186,6 +186,9 @@ class ContentManagerCrud extends Crud
 
         $get = parent::get($params);
 
+
+
+
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 $get['full_url'] = $this->app->url_manager->site($get['url']);
@@ -726,7 +729,7 @@ class ContentManagerCrud extends Crud
                         }
                     }
                 }
-                
+
                 if ($parent_auto_found) {
                     $data_to_save['parent'] = $parent_auto_found;
                 } else {
@@ -799,7 +802,6 @@ class ContentManagerCrud extends Crud
         }
 
         $data_to_save = $this->map_params_to_schema($data_to_save);
-
 
 
         //dd($data_to_save);
@@ -893,21 +895,21 @@ class ContentManagerCrud extends Crud
 
         if ($sid != false and $sid != '' and $id != false) {
 
-                DB::table($this->tables['custom_fields'])
-                    ->whereSessionId($sid)
-                    ->where(function ($query) {
-                        $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
-                    })
-                    ->whereRelType('content')
-                    ->update(['rel_type' => 'content', 'rel_id' => $id]);
+            DB::table($this->tables['custom_fields'])
+                ->whereSessionId($sid)
+                ->where(function ($query) {
+                    $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
+                })
+                ->whereRelType('content')
+                ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
-                DB::table($this->tables['media'])
-                    ->whereSessionId($sid)
-                    ->where(function ($query) {
-                        $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
-                    })
-                    ->whereRelType('content')
-                    ->update(['rel_type' => 'content', 'rel_id' => $id]);
+            DB::table($this->tables['media'])
+                ->whereSessionId($sid)
+                ->where(function ($query) {
+                    $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
+                })
+                ->whereRelType('content')
+                ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
         }
 

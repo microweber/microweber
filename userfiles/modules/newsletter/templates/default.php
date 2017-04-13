@@ -16,7 +16,7 @@ description: Default
 
     <p><?php _e('Subscribe to our newsletter and stay tuned.'); ?></p>
     <form method="post" id="newsletters-form-<?php print $params['id'] ?>">
-        <?php print csrf_field(); ?>
+        <?php print csrf_form(); ?>
 
         <div class="form-group hide-on-success">
             <label class="control-label requiredField" for="email1">
