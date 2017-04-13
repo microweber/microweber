@@ -5,7 +5,7 @@ $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['ui_admin'] = true;
 $config['categories'] = "marketing";
-$config['position'] = 99;
+$config['position'] = 55;
 $config['version'] = 0.1;
 
 $config['tables'] = array(

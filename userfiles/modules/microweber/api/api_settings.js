@@ -78,7 +78,7 @@ mw.settings.libs = {
         'css/bootstrap.min.css',
         'css/bootstrap-responsive.min.css',
         'js/bootstrap.min.js'],
-      bootstrap3:[
+    bootstrap3:[
         function(){
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
             var v = mwd.querySelector('meta[name="viewport"]');
@@ -88,7 +88,13 @@ mw.settings.libs = {
         },
         'css/bootstrap.min.css',
         'js/bootstrap.min.js'
-      ],
+    ],
+    font_awesome:[
+        function(){
+            mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
+
+        }
+    ],
     bootstrap3ns:[
         function(){
             var bootstrap_enabled = (typeof $().modal == 'function');
