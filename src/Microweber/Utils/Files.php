@@ -71,6 +71,7 @@ class Files
         return round($size, 2).' '.$units[$i];
     }
 
+
     public function rmdir($dirPath)
     {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
