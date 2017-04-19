@@ -33,20 +33,20 @@ $infoImage = get_option('info-image', $params['id']);
                     <input type="hidden" class="mw_option_field" name="info-image" id="infoimageval" value="<?php print $infoImage; ?>"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="text"><?php _e('Text'); ?></label>
-                    <textarea name="text" data-refresh="parallax" class="form-control mw_option_field" id="text" rows="10" style="height: 100px;"><?php print get_option('text', $params['id']) ?></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label" for="button-text"><?php _e('Button text'); ?></label>
-                    <input name="button-text" data-refresh="parallax" class="form-control mw_option_field" type="text" value="<?php print get_option('button-text', $params['id']) ?>" id="button-text">
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label" for="button-url"><?php _e('Button URL'); ?></label>
-                    <input name="button-url" data-refresh="parallax" class="form-control mw_option_field" type="text" value="<?php print get_option('button-url', $params['id']) ?>" id="button-url">
-                </div>
+<!--                <div class="form-group">-->
+<!--                    <label class="control-label" for="text">--><?php //_e('Text'); ?><!--</label>-->
+<!--                    <textarea name="text" data-refresh="parallax" class="form-control mw_option_field" id="text" rows="10" style="height: 100px;">--><?php //print get_option('text', $params['id']) ?><!--</textarea>-->
+<!--                </div>-->
+<!---->
+<!--                <div class="form-group">-->
+<!--                    <label class="control-label" for="button-text">--><?php //_e('Button text'); ?><!--</label>-->
+<!--                    <input name="button-text" data-refresh="parallax" class="form-control mw_option_field" type="text" value="--><?php //print get_option('button-text', $params['id']) ?><!--" id="button-text">-->
+<!--                </div>-->
+<!---->
+<!--                <div class="form-group">-->
+<!--                    <label class="control-label" for="button-url">--><?php //_e('Button URL'); ?><!--</label>-->
+<!--                    <input name="button-url" data-refresh="parallax" class="form-control mw_option_field" type="text" value="--><?php //print get_option('button-url', $params['id']) ?><!--" id="button-url">-->
+<!--                </div>-->
 
 
                 <module type="admin/modules/templates"  />

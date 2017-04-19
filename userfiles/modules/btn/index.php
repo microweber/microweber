@@ -41,11 +41,6 @@ if ($action == 'popup') {
 }
 ?>
 
-    <script>
-        mw.require('tools.js', true);
-        mw.require('ui.css', true);
-    </script>
-
 
 <?php
 

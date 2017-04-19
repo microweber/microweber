@@ -31,3 +31,10 @@
     background-size: cover;
 }
 
+.module-parallax img{
+    max-width: 100%;
+}
+
+.module-parallax p{
+    font-size: 18px;
+}

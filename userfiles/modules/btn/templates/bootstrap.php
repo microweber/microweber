@@ -1,6 +1,5 @@
 <script>
     mw.require('tools.js', true);
-    mw.require('ui.css', true);
 </script>
 
 <a id="<?php print $btn_id ?>" href="<?php print $url; ?>" <?php if ($blank) {

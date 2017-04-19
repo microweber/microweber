@@ -31,9 +31,9 @@ description: Default
                     </div>
                     <div class="col-xs-12 col-md-9">
                         <div class="edit" field="parallax_text" rel="<?php print $params['id']; ?>">
-                            <?php print $infoBox; ?>
+                            <p><?php print $infoBox; ?></p>
 
-                            <module type="btn" id="parallax-btn-<?php print $params['id']; ?>"/>
+                            <module type="btn" id="parallax-btn-<?php print $params['id']; ?>" template="bootstrap" />
                         </div>
                     </div>
                 </div>
