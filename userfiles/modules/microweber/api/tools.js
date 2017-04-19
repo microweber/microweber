@@ -3662,6 +3662,9 @@ mw.recommend = {
     },
     increase: function (item_name) {
         var json = mw.recommend.get();
+        if(typeof(json) == 'undefined'){
+            json = {};
+        }
         var curr = parseFloat(json[item_name]);
         if (isNaN(curr)) {
             json[item_name] = 1;
