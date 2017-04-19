@@ -12,6 +12,6 @@ return include(__DIR__.DS.'admin.php');
       <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
       <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
     </ul>
-    <a href="javascript:;" onClick="mw.drag.module_settings('#<?php print $params['id'] ?>','admin');" style="background-color: black; text-align: center; padding-top: 2px; padding-bottom: 5px;"><small style="text-transform: lowercase; color: white;"><?php _e('more'); ?></small></a>
+    <a href="javascript:;" onClick="mw.drag.module_settings('#<?php print $params['id'] ?>','admin');" style="background-color: #f5f5f5; text-align: center; padding-top: 2px; padding-bottom: 5px;"><small style="text-transform: lowercase; color: black;"><?php _e('more'); ?></small></a>
   </div>
 </div>

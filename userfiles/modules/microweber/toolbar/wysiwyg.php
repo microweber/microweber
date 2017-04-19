@@ -146,7 +146,7 @@
                           <li value="36"><a href="javascript:;">36</a></li>
                           <li value="48"><a href="javascript:;">48</a></li>
                           <li value="72"><a href="javascript:;">72</a></li>
-                          <li onclick="mw.wysiwyg.fontSizePrompt()"><a href="javascript:;" style="background-color: black; text-align: center; padding-top: 0px; padding-bottom: 3px;"><small style="text-transform: lowercase; color: #fff;"><?php _e('more'); ?></small></a></li>
+                          <li onclick="mw.wysiwyg.fontSizePrompt()"><a href="javascript:;" style=" z-index: 1; background-color: #f5f5f5; text-align: center; padding-top: 0px; padding-bottom: 3px;"><small style="text-transform: lowercase; color: black;"><?php _e('more'); ?></small></a></li>
                     </ul>
             </div>
           </div>
