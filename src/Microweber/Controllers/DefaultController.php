@@ -772,9 +772,9 @@ class DefaultController extends Controller
 
             $this->render_this_url = $u1;
             $this->isolate_by_html_id = $custom_display_id;
-            $this->frontend();
+            return $this->frontend();
 
-            return;
+
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
@@ -1048,7 +1048,6 @@ class DefaultController extends Controller
 
         if ($url_last != __FUNCTION__) {
             if (function_exists($url_last)) {
-
                 //
                 $this->api($url_last);
             } elseif (isset($url_prev) and function_exists($url_prev)) {
@@ -2418,10 +2417,9 @@ class DefaultController extends Controller
                 $p = new \Microweber\View($p);
                 $p->params = $params;
                 $layout = $p->__toString();
-                echo $layout;
+                return response($layout);
 
-                return;
-            }
+             }
         } elseif (is_file($p)) {
             $p = new \Microweber\View($p);
             $p->params = $params;
@@ -2528,10 +2526,9 @@ class DefaultController extends Controller
         $layout = str_replace('{head}', '', $layout);
 
         $layout = str_replace('{content}', '', $layout);
+        return response($layout);
 
-        echo $layout;
 
-        return;
     }
 
     public function robotstxt()
