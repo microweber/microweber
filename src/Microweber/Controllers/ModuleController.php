@@ -481,6 +481,7 @@ class ModuleController extends Controller
         if (!defined('MW_NO_OUTPUT')) {
             $res = $this->app->url_manager->replace_site_url_back($res);
           //  echo $res;
+
             return response($res);
         }
 

@@ -109,7 +109,7 @@ class DefaultController extends Controller
         if (!defined('MW_API_HTML_OUTPUT')) {
             define('MW_API_HTML_OUTPUT', true);
         }
-        $this->api();
+        return $this->api();
     }
 
     public function api($api_function = false, $params = false)
@@ -2004,7 +2004,9 @@ class DefaultController extends Controller
     {
 
         if (defined('MW_API_RAW')) {
-            return $res;
+           // return $res;
+            return response($res);
+
         }
         if (!defined('MW_API_HTML_OUTPUT')) {
             if (is_bool($res) or is_int($res)) {
@@ -2024,7 +2026,8 @@ class DefaultController extends Controller
             if (is_array($res)) {
                 $res = json_encode($res);
             }
-            echo $res;
+         //   echo $res;
+            return response($res);
 
             return;
         }
