@@ -131,16 +131,16 @@ class InstallController extends Controller
                 if (!is_cli()) {
                     $_SERVER['argv'] = array();
                 }
-                if (!$this->_is_escapeshellarg_available()) {
+                if (!$this->_can_i_use_artisan_key_generate_command()) {
                     $fallback_key = str_random(32);
                     $fallback_key_str = 'base64:' . base64_encode($fallback_key);
                     Config::set('app.key', $fallback_key_str);
                     $allowed_configs[] = 'app';
                 } else {
                     Artisan::call('key:generate');
-
                 }
             }
+
             $this->log('Saving config');
             Config::save($allowed_configs);
             Cache::flush();
@@ -157,7 +157,6 @@ class InstallController extends Controller
             if (function_exists('set_time_limit')) {
                 @set_time_limit(0);
             }
-
             $this->log('Setting up database');
             $installer = new Install\DbInstaller();
             $installer->logger = $this;
@@ -211,7 +210,7 @@ class InstallController extends Controller
         $dbEngines = Config::get('database.connections');
 
         if (!$dbEngines) {
-             $dbEngines = json_decode('{"sqlite":{"driver":"sqlite","database":"","prefix":""},"mysql":{"driver":"mysql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","collation":"utf8_unicode_ci","prefix":"","strict":false},"pgsql":{"driver":"pgsql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","prefix":"","schema":"public"},"sqlsrv":{"driver":"sqlsrv","host":"localhost","database":"database","username":"root","password":"","prefix":""}}',true);
+            $dbEngines = json_decode('{"sqlite":{"driver":"sqlite","database":"","prefix":""},"mysql":{"driver":"mysql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","collation":"utf8_unicode_ci","prefix":"","strict":false},"pgsql":{"driver":"pgsql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","prefix":"","schema":"public"},"sqlsrv":{"driver":"sqlsrv","host":"localhost","database":"database","username":"root","password":"","prefix":""}}',true);
         }
         foreach ($dbEngines as $driver => $v) {
             if (!extension_loaded("pdo_$driver")) {
@@ -219,14 +218,14 @@ class InstallController extends Controller
             }
         }
         if (!isset($dbEngines[$defaultDbEngine])) {
-             $dbEngines[ $defaultDbEngine ] = false;
+            $dbEngines[ $defaultDbEngine ] = false;
         }
 
         $config = array();
         if (isset($dbEngines[$defaultDbEngine]) and is_array($dbEngines[$defaultDbEngine])) {
             $config = $dbEngines[$defaultDbEngine];
         }
-         $viewData = [
+        $viewData = [
             'config' => $config,
             'dbDefaultEngine' => $defaultDbEngine,
             'dbEngines'       => array_keys($dbEngines),
@@ -282,6 +281,20 @@ class InstallController extends Controller
                 @file_put_contents($log_file, $text . "\n", FILE_APPEND);
             }
         }
+    }
+
+
+    private function _can_i_use_artisan_key_generate_command(){
+        $yes_i_can = true;
+        if (!$this->_is_escapeshellarg_available()) {
+            $yes_i_can = false;
+        }
+        if (!file_exists(base_path() . DIRECTORY_SEPARATOR. '.env')){
+            $yes_i_can = false;
+        }
+
+        return $yes_i_can;
+
     }
 
     private function _is_escapeshellarg_available()
