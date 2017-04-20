@@ -197,6 +197,9 @@
     background-position: -181px 3px;
     width: 33px;
 }
+.mw_editor_paste_from_word .ed-ico{
+   background-position: -877px 3px;  
+}
 
 .mw_editor_font_background_color .ed-ico {
     background-position: -215px 6px;
@@ -880,6 +883,14 @@
 
 .icon-section-title + .mw-ui-box {
     margin-top: 12px;
+}
+
+.mw-cleaner-block{
+    padding: 10px;
+    border: 1px solid #DADADA;
+    overflow: auto;
+    height: 400px;
+    margin-bottom: 15px;
 }
 
 /* /Icons */

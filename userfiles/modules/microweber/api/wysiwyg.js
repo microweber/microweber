@@ -63,6 +63,35 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
 
 
 mw.wysiwyg = {
+    pasteFromWordUI:function(){
+        if(!mw.wysiwyg.isSelectionEditable()) return false;
+        mw.wysiwyg.save_selection();
+        var cleaner = $('<div class="mw-cleaner-block" contenteditable="true"><small class="muted">Paste document here.</small></div>')
+        var inserter = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right">Insert</span>')
+        var clean = mw.modal({
+            content:cleaner,
+            overlay:true,
+            title:'Paste from word'
+        });
+        cleaner.on('paste', function(){
+            setTimeout(function(){
+                cleaner[0].innerHTML = mw.wysiwyg.clean_word(cleaner[0].innerHTML);
+            }, 100)
+
+        });
+        cleaner.on('click', function(){
+           if(!$(this).hasClass('active')){
+               $(this).addClass('active')
+               $(this).html('')
+           }
+        });
+        inserter.on('click', function(){
+            mw.wysiwyg.restore_selection();
+            mw.wysiwyg.insert_html(cleaner.html());
+            clean.remove();
+        });
+        cleaner.after(inserter)
+    },
     globalTarget: mwd.body,
     allStatements: function (c, f) {
         var sel = window.getSelection(),

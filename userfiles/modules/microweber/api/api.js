@@ -478,7 +478,7 @@ mw.askusertostay = false;
       return false;
     }
 
-    $.post(url, to_send, function(data) {
+    var xhr = $.post(url, to_send, function(data) {
       if(mw.session != undefined){
         mw.session.checkPause = false;
       }
