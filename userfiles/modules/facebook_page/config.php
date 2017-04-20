@@ -1,11 +1,11 @@
 <?php
 
 $config = array();
-$config['name'] = "Parallax";
+$config['name'] = "Facebook page";
 $config['link'] = "https://microweber.com";
-$config['description'] = "Free parallax module for your website!";
-$config['author'] = "Petko Yovchevski";
-$config['author_website'] = "http://yovchevski.com/";
+$config['description'] = "Facebook page integration for your website!";
+$config['author'] = "";
+$config['author_website'] = "";
 $config['ui'] = true;
 $config['ui_admin'] = false;
 $config['categories'] = "other";
