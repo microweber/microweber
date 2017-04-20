@@ -12,6 +12,8 @@
 
     if (get_option('width', $params['id'])) {
         $width = get_option('width', $params['id']);
+    } else if (isset($params['width'])) {
+        $width = $params['width'];
     } else {
         $width = '380';
     }
