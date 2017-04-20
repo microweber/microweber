@@ -3,6 +3,10 @@
 if ($posts_parent_page != false) {
     $params['data-parent'] = $posts_parent_page;
 }
+$hide_paging = '';
+if (isset($params['hide_paging'])) {
+    $hide_paging = $params['hide_paging'];
+}
 ?>
     <script type="text/javascript">
         mw.require('events.js', true);
@@ -19,7 +23,7 @@ if ($posts_parent_page != false) {
             ajax_paging: true,
             template: 'default',
             done: false,
-            hide_paging:false
+            hide_paging:<?php print $hide_paging ?>
         }
         mw.search = function (key, holder, obj) {
             if (typeof key === 'undefined' || typeof holder === 'undefined') return false;
