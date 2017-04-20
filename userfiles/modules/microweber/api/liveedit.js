@@ -1351,6 +1351,8 @@ mw.drag = {
                             return false;
                         }
 
+                        console.log(mw.currentDragMouseOver)
+
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
                         var curr_parent = $(mw.dragCurrent).parent();
@@ -1377,11 +1379,21 @@ mw.drag = {
                             !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')) &&
                             !(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col')) )
                         ) {
-                            if (position == 'top') {
-                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
-                            } else {
-                                $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                            if(mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'edit')){
+                                if (position == 'top') {
+                                    $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                                } else {
+                                    $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                                }
                             }
+                            else{
+                                if (position == 'top') {
+                                    $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
+                                } else {
+                                    $(mw.currentDragMouseOver).append(mw.dragCurrent);
+                                }
+                            }
+
                             //    $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;
                         }
@@ -1411,6 +1423,7 @@ mw.drag = {
                             } else {
 
                                 if (position == 'top') {
+
                                     $(mw.currentDragMouseOver).before(mw.dragCurrent);
                                 } else if (position == 'bottom') {
                                     $(mw.currentDragMouseOver).after(mw.dragCurrent);
