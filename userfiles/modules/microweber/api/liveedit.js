@@ -177,23 +177,27 @@ document.body.appendChild(mw.inaccessibleModules);
 
     mw.edits = mw.$('.edit');
 
+    mw.dragSTOPCheck = false;
+
     mw.edits.mouseleave(function(e) {
         if (mw.isDrag) {
             var el = $(this);
             var off = el.offset();
             var h = el.outerHeight();
             var w = el.outerWidth();
-            if (e.pageX > off.left && e.pageX < off.left + w) {
-                mw.currentDragMouseOver = this;
-                if (off.top + h < e.pageY) {
-                    mw.dropables.set("top", off, h, w);
-                    mw.dropable.show();
-                } else {
-                    mw.dropables.set("bottom", off, h, w);
-                    mw.dropable.show();
+            if (this.className.indexOf('nodrop') === -1) {
+                if (e.pageX > off.left && e.pageX < off.left + w) {
+                    mw.currentDragMouseOver = this;
+                    if (off.top + h < e.pageY) {
+                        mw.dropables.set("top", off, h, w);
+                        mw.dropable.show();
+                    } else {
+                        mw.dropables.set("bottom", off, h, w);
+                        mw.dropable.show();
+                    }
                 }
+                mw.dropable.addClass("mw_dropable_onleaveedit");
             }
-            mw.dropable.addClass("mw_dropable_onleaveedit");
         }
     });
 
@@ -225,10 +229,7 @@ document.body.appendChild(mw.inaccessibleModules);
 
         if(!el.isContentEditable){
             var order = mw.tools.parentsOrder(el, ['edit','module']);
-            console.log(order);
             if(order.module == -1 && order.edit != -1){
-                console.log('sluchai 1', order.module, order.edit)
-                console.log(el)
                 $(el).attr('contenteditable', true);
             }
             if(order.module > order.edit){
@@ -358,7 +359,7 @@ mw.drag = {
 
         $(mwd.body).mousemove(function(event) {
 
-
+            mw.dragSTOPCheck = false;
             mw.tools.removeClass(this, 'isTyping');
 
             if (!mw.settings.resize_started) {
@@ -499,9 +500,15 @@ mw.drag = {
                     if (mw.tools.hasClass(mw.mm_target, 'nodrop') || mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')) {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
+
+                        mw.currentDragMouseOver = null;
                         mw.dropable.hide();
-                        return false;
+                        mw.dropable.removeClass("mw_dropable_onleaveedit");
+
                     }
+                    else{
+
+
 
                     if (mw.$mm_target.hasClass("empty-element")) {
                         $(window).trigger("onDragHoverOnEmpty", mw.mm_target);
@@ -536,16 +543,23 @@ mw.drag = {
 
 
                     if (mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')) {
+                        var targetParentsOrder = mw.tools.parentsOrder(mw.mm_target, ['allow-drop', 'module']);
                         if (mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop') || mw.tools.hasClass(mw.mm_target, 'allow-drop')) {
-                            var targetParentsOrder = mw.tools.parentsOrder(mw.mm_target, ['allow-drop', 'module']);
+
                             if(targetParentsOrder['allow-drop'] < targetParentsOrder['module']){
                                 mw.currentDragMouseOver = mw.mm_target;
                             }
-                            else{ mw.currentDragMouseOver = null; return false; }
+                            else{ mw.currentDragMouseOver = null;  }
                         }
                         else {
+                            var ord = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module'])
+                          if(ord.edit > ord.module){
+                            mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'edit')
+                          }
+                          else{
 
-                            mw.currentDragMouseOver = null; //mw.tools.lastParentWithClass(mw.mm_target, 'module');
+                          }
+                          //      mw.currentDragMouseOver = null; //mw.tools.lastParentWithClass(mw.mm_target, 'module');
                            // return false;
 
                         }
@@ -645,12 +659,7 @@ mw.drag = {
                             });
                         }
                     }
-
-
-                }
-                }
-
-                if (mw.isDrag && mw.currentDragMouseOver != null /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/ ) {
+                  if (mw.isDrag && mw.currentDragMouseOver != null /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/ ) {
 
                     if (mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')) {
                         mw.dropable.hide();
@@ -685,7 +694,8 @@ mw.drag = {
                         } else {
                             mw.dropables.set('right', offset, height, width);
                         }
-                    } else {
+                    }
+                    else {
                         mw.dropable.removeClass("mw_dropable_vertical");
                         mw.dropable.removeClass("mw_dropable_arr_rigt");
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
@@ -724,6 +734,29 @@ mw.drag = {
 
                     }
                 }
+
+                }
+                 if(!mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'edit') && !mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
+                 if(!mw.tools.hasParentsWithClass(event.target, 'edit') && !mw.tools.hasClass(event.target, 'edit')){
+                    mw.currentDragMouseOver = null;
+                    mw.dropable.hide();
+                 }
+                 else{
+                    if(mw.tools.hasClass(event.target, 'edit')){
+                        mw.currentDragMouseOver = event.target
+                    }
+                    else if(mw.tools.hasParentsWithClass(event.target, 'edit')){
+                        var parent =  mw.tools.firstParentWithClass(event.target, 'edit')
+                        mw.currentDragMouseOver = parent;
+                    }
+                 }
+
+
+                 }
+                }
+                }
+
+
             }
 
 
@@ -1351,7 +1384,7 @@ mw.drag = {
                             return false;
                         }
 
-                        console.log(mw.currentDragMouseOver)
+
 
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
