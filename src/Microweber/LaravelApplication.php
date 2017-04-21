@@ -19,6 +19,7 @@ class LaravelApplication extends Application
     private function _check_system()
     {
         $this->__ensure_bootstrap_cache_dir();
+        $this->__ensure_dot_env_file_exists();
     }
 
     private function __ensure_bootstrap_cache_dir()
@@ -38,5 +39,21 @@ class LaravelApplication extends Application
         ) {
             mkdir($bootstrap_cache_dir);
         }
+    }
+
+    private function __ensure_dot_env_file_exists()
+    {
+        /*
+        *
+        * fix of error:  ErrorException: file_get_contents(my_site/.env): failed to open stream: No such file or directory
+        * Illuminate\Foundation\Console\KeyGenerateCommand.php:95
+        *
+        */
+
+        $file = $this->base_path_local . DIRECTORY_SEPARATOR . '.env';
+        if (!is_file($file) and !is_link($file)) {
+            @touch($file);
+        }
+
     }
 }
