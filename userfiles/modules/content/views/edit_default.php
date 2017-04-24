@@ -182,7 +182,11 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                         <?php endif; ?>
                     </ul>
                 </div>
-                <script>mw.admin.titleColumnNavWidth();</script>
+                <script>
+                    $(window).on('load', function(){
+                        mw.admin.titleColumnNavWidth();
+                    })
+                </script>
             </div>
         </div>
     </div>
