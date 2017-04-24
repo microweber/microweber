@@ -95,6 +95,13 @@ mw.settings.libs = {
 
         }
     ],
+    okay_nav:[
+        function(){
+            mw.require(mw.settings.libs_url + 'okayNav' + '/css/okayNav.min.css');
+            mw.require(mw.settings.libs_url + 'okayNav' + '/js/jquery.okayNav.min.js');
+
+        }
+    ],
     bootstrap3ns:[
         function(){
             var bootstrap_enabled = (typeof $().modal == 'function');
