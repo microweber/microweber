@@ -488,6 +488,7 @@ if ($size == false or $size == '') {
                     mw.notification.success('<?php _e('Logo image selected') ?>');
                     setNewImage(this);
                 })
+                this.iframe.contentWindow.document.body.style.padding = '15px';
             },
             height: 400
         })

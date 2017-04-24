@@ -78,6 +78,11 @@ mw.files = {
         frame.setAttribute('allowtransparency', 'true');
         frame.setAttribute('allowTransparency', 'true');
         return frame;
+    },
+    safeFilename:function(url){
+        if(!url) return;
+        url = url.replace(/["]/g, "&quot;").replace(/[']/g, "&#39;").replace(/\(/g, "&#40;").replace(/\)/g, "&#41;");
+        return url;
     }
 }
 

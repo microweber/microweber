@@ -1,3 +1,4 @@
+mw.require('files.js');
 if(typeof mw.rotator === 'undefined'){
     mw.rotator = function(selector){
         /*
@@ -106,7 +107,8 @@ if(typeof mw.rotator === 'undefined'){
                   a.onclick = function(){rotator.goto(parseFloat(this.rel)-1)}
                   a.rel = i + 1;
                  // a.innerHTML = "<img src='" + items[i].getElementsByTagName('img')[0].src + "' />";
-                 a.style.backgroundImage = 'url('+items[i].getElementsByTagName('img')[0].src+')';
+
+                 a.style.backgroundImage = 'url('+mw.files.safeFilename(items[i].getElementsByTagName('img')[0].src)+')';
                   well.appendChild(a);
                 }
             }
