@@ -23,7 +23,7 @@ if (isset($params['hide_paging'])) {
             ajax_paging: true,
             template: 'default',
             done: false,
-            hide_paging:<?php print $hide_paging ?>
+            hide_paging:true
         }
         mw.search = function (key, holder, obj) {
             if (typeof key === 'undefined' || typeof holder === 'undefined') return false;

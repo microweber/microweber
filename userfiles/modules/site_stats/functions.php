@@ -247,8 +247,10 @@ function get_visits_for_sid($sid) {
 function stats_group_by($rows, $format) {
     $results = array();
     foreach ($rows as $row) {
+		if(isset($row->visit_date)){
         $group = Carbon::parse($row->visit_date)->format($format);
         $results[ $group ] = $row;
+		}
     }
 
     return $results;
