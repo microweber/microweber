@@ -83,6 +83,14 @@ mw.files = {
         if(!url) return;
         url = url.replace(/["]/g, "&quot;").replace(/[']/g, "&#39;").replace(/\(/g, "&#40;").replace(/\)/g, "&#41;");
         return url;
+    },
+    urlAsBackgrund:function(url, el){
+        var url = this.safeFilename(url);
+        var bg = 'url(&quot;'+ url +'&quot;)';
+        if(!!el){
+            el.style.backgroundImage = bg;
+        }
+        return bg;
     }
 }
 
