@@ -16,6 +16,17 @@
 
 <div class="bootstrap3ns">
     <?php
+    if (get_option('columns', $params['id'])) {
+        $columns = get_option('columns', $params['id']);
+    } else {
+        $columns = 1;
+    }
+
+    if (get_option('feature', $params['id'])) {
+        $feature = get_option('feature', $params['id']);
+    } else {
+        $feature = 1;
+    }
 
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
