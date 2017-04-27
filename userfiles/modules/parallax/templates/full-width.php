@@ -19,7 +19,7 @@ description: Full width background
 
 <div class="row module-parallax">
     <div class="col-xs-12 col-md-12">
-        <div class="parallax fluid"></div>
+        <div class="parallax"></div>
     </div>
     <div class="col-xs-12 col-md-12">
         <div class="info-box-fluid">
