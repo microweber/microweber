@@ -22,10 +22,10 @@ description: Default
                     <?php endif; ?>
 
                     <div class="plan-container">
-                        <h3><span class="price-plan-name edit" rel="module-<?php print $params['id']; ?>" field="title-content">Starter</span></h3>
-                        <p class="price edit" rel="module-<?php print $params['id']; ?>" field="price-content">$9/mo</p>
+                        <h3><span class="price-plan-name edit" rel="module-<?php print $params['id']; ?>" field="title-content-<?php print $i; ?>">Starter</span></h3>
+                        <p class="price edit" rel="module-<?php print $params['id']; ?>" field="price-content-<?php print $i; ?>">$9/mo</p>
 
-                        <div class="plans-plan-features edit" rel="module-<?php print $params['id']; ?>" field="table-content">
+                        <div class="plans-plan-features edit" rel="module-<?php print $params['id']; ?>" field="table-content-<?php print $i; ?>">
                             <ul>
                                 <li><span class="check"></span><span>Full access</span></li>
                                 <li><span class="check"></span><span>Documentation</span></li>
