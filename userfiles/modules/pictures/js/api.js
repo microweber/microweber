@@ -108,7 +108,8 @@ if(typeof mw.rotator === 'undefined'){
                   a.rel = i + 1;
                  // a.innerHTML = "<img src='" + items[i].getElementsByTagName('img')[0].src + "' />";
 
-                 a.style.backgroundImage = 'url('+mw.files.safeFilename(items[i].getElementsByTagName('img')[0].src)+')';
+                 mw.files.urlAsBackgrund(items[i].getElementsByTagName('img')[0].src, a);
+
                   well.appendChild(a);
                 }
             }
