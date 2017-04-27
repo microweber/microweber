@@ -1,5 +1,10 @@
 <?php only_admin_access(); ?>
 
+<?php
+$columns = get_option('columns', $params['id']);
+$feature = get_option('feature', $params['id']);
+?>
+
 <script type="text/javascript">
     $(document).ready(function () {
         mw.lib.require('bootstrap3ns');
