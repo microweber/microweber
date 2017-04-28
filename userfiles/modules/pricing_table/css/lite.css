@@ -1,0 +1,162 @@
+/* Pricing Table */
+.pricing-table-module .plans-row {
+    max-width: 90%;
+    margin: 100px auto;
+}
+
+.pricing-table-module .plans-row .item {
+    background-color: white;
+    color: #9A9A9A;
+    font-size: 13px;
+    margin: 20px auto;
+    vertical-align: middle;
+    padding: 0;
+    border: 1px solid #d8d8d8;
+    position: relative;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.pricing-table-module .plans-row .item .item-header {
+    height: 80px;
+    background: #1157c1;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    border-top-radius-left: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    border-top-radius-right: 5px;
+}
+
+.pricing-table-module .plans-row .item.active .item-header {
+    background: #f9a011;
+}
+
+.pricing-table-module .plans-row .item .item-header {
+    color: #fff;
+}
+
+.pricing-table-module .plans-row .item .item-header p {
+    margin: 0;
+}
+
+.pricing-table-module .plans-row .item .item-header .price-wrapper {
+    margin-top: 15px;
+}
+
+.pricing-table-module .plans-row .item .item-header .price {
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.pricing-table-module .plans-row .item .item-header .per {
+    font-size: 13px;
+}
+
+.pricing-table-module .plans-row .item .item-header .level {
+    font-size: 14px;
+    margin-top: 17px;
+}
+
+.pricing-table-module .plans-row .item .item-header .name {
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.pricing-table-module .plans-row .item .plan-container {
+    padding: 20px 15px 20px 15px;
+    position: relative;
+}
+
+.pricing-table-module .plans-row .item.active {
+    border: 1px solid #efefef;
+    -webkit-box-shadow: 0 0 8px #efefef;
+    box-shadow: 0 0 8px #efefef;
+    z-index: 1;
+}
+
+.pricing-table-module .item .fav-plan {
+    background-image: url('../images/feature.png');
+    width: 70px;
+    height: 70px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: -2px;
+    top: -2px;
+    z-index: 9;
+}
+
+.pricing-table-module .item.active {
+    z-index: 1000 !important;
+}
+
+.pricing-table-module .plans-plan-features ul {
+    list-style-type: none;
+    padding: 0 0 0 19px;
+}
+
+.pricing-table-module .plans-plan-features ul li {
+    text-align: left;
+    margin: 0;
+    border-top: 1px solid #f3f3f3;
+    display: block;
+    padding: 7px 0 6px 0;
+}
+
+.pricing-table-module .plans-plan-features ul li:last-child {
+    border-bottom: 0;
+}
+
+.pricing-table-module .plans-plan-features ul li:first-child {
+    border-top: 0;
+}
+
+.pricing-table-module .plans-plan-features ul li span {
+    padding: 6px 0;
+    color: #393939;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.pricing-table-module .enabled-false {
+    cursor: default;
+    cursor: no-drop;
+    cursor: not-allowed;
+}
+
+.pricing-table-module .btn {
+    color: #1d69df;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid #1d69df;
+    margin-top: 20px;
+}
+
+.pricing-table-module .active .btn {
+    color: #fff;
+    background-color: #f9a011;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid #f9a011;
+}
+
+.pricing-table-module span.check {
+    background: url('../images/check.png');
+    width: 12px;
+    height: 10px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    margin: 0 9px;
+}
+
+.pricing-table-module span.not {
+    background: url('../images/not.png');
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    margin: 0 10px;
+}
