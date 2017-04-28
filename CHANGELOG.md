@@ -3,6 +3,69 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.8] - 2017-04-26
+
+- Added: testimonials module
+- Added: twitter feed module
+- Added: teamcard module
+- Added: tabs module
+- Added: favicon support
+- Added: google analytics support
+- Added: 'before/after' module
+- Added: PDF Module
+- Added: calendar module
+- Added: facebook page module
+- Added: category_images module
+- Added: parallax module
+- Added: rating module
+- Added: updated to laravel 5.4
+- Added: Some JS libs
+- Added: Some PHP libs
+- Added: Paste from word button
+- Added: setting to allow admin to login only from some IP's
+- Added: captcha setting to login form
+- Added: more registration and login settings
+- Added: payment methods voguepay.com, przelewy24.pl, mollie, etc 
+- Added: start depth setting for breadcrumb
+- Added: ability to edit link text in the popup
+- Added: search by custom fields basic functionality
+- Added: translation for Arabic language
+- Added: translation for Bahasa Indonesia
+- Added: btn module now has skins
+- Added: link parameter in `pages_tree` now can be a closure
+- Added: JS validation engine
+- Added: override method for options
+- Added: verify email function for registered users
+- Added: htmlpurifier library
+- Added: notification_data field to the notification table
+- Added: api_expose_user function
+- Added: allow keyword search in joined table
+- Added: option to require captcha on login
+- Added: option to disable registration with disposable email address
+- Added: layouts on in the toolbar now have title  shown
+- Added: jquery UI version updated
+- Added: new function is_cli()
+- Added: module for content revisions
+- Added: force_https setting to force the site to be on https
+- Added: way to change the admin panel url from the config file #277
+- Added: option to set max quantity per product order
+- Added: drag & drop improvements
+- Added: wrapping laravel classes
+- Fix: mail sending error when escapeshellcmd() has been disabled for security reasons
+- Fix: reflected xss reported by Kacper Szurek
+- Fix: check file mime type if finfo function exists
+- Fix: live edit fixes
+- Fix: table edit  
+- Fix: support for postgres 
+- Fix: fix when .env file does not exist
+- Fix: menu module bugs
+- Fix: UI fixes
+- Fix of:  #380, #395, #388, #378, #377, #373, #372, #369, #368, #362, #360, #357, #353, #352, #346, #340, #334, #298, #277, #225
+- [and many more changes....](https://github.com/microweber/microweber/compare/1.0.7...1.0.8 "")
+
+
+
+
 ## [1.0.7] - 2016-03-01
 
 - Vendor: added Omnipay library

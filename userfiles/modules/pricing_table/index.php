@@ -1,10 +1,7 @@
-<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/pricing-table.css"/>
-
 <script>
     mw.lib.require('bootstrap3ns');
 
     $(document).ready(function () {
-
         var items = mw.$(".item.enabled-true", '#<?php print $params['id'] ?>');
         items.hover(function () {
             mw.$('.enabled-true.active', '#<?php print $params['id'] ?>').removeClass('active');

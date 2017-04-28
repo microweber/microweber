@@ -11,12 +11,16 @@ description: Default
 */
 ?>
 
-<div class="pricing-table-module">
+<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/default.css"/>
+
+<div class="pricing-table-module default">
     <div class="row">
         <div class=" plans-row">
 
             <?php for ($i = 1; $i <= $columns; $i++): ?>
-                <div class="col-xs-12 col-sm-6 col-md-3 item enabled-true <?php if ($feature == $i) { echo 'active'; } ?>">
+                <div class="col-xs-12 col-sm-6 col-md-3 item enabled-true <?php if ($feature == $i) {
+                    echo 'active';
+                } ?>">
                     <?php if ($feature == $i): ?>
                         <div class="fav-plan"></div>
                     <?php endif; ?>

@@ -1,10 +1,10 @@
 /* Pricing Table */
-.pricing-table-module .plans-row {
+.pricing-table-module.default .plans-row {
     max-width: 90%;
     margin: 100px auto;
 }
 
-.pricing-table-module .plans-row .item {
+.pricing-table-module.default .plans-row .item {
     background-color: white;
     color: #9A9A9A;
     font-size: 13px;
@@ -16,29 +16,29 @@
     display: inline-block;
 }
 
-.pricing-table-module .plans-row .item:first-child {
+.pricing-table-module.default .plans-row .item:first-child {
     border-left: 1px solid #d8d8d8;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
 }
 
-.pricing-table-module .plans-row .item:last-child {
+.pricing-table-module.default .plans-row .item:last-child {
     border-right: 1px solid #d8d8d8;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
 }
 
-.pricing-table-module .plans-row .item .plan-container {
+.pricing-table-module.default .plans-row .item .plan-container {
     border-left: 1px solid #d8d8d8;
     padding: 20px 15px 20px 15px;
     position: relative;
 }
 
-.pricing-table-module .plans-row .item:first-child .plan-container {
+.pricing-table-module.default .plans-row .item:first-child .plan-container {
     border-left: 0;
 }
 
-.pricing-table-module .plans-row .item.active {
+.pricing-table-module.default .plans-row .item.active {
     border: 1px solid #f9a011;
     -webkit-box-shadow: 0 0 8px #f9a011;
     box-shadow: 0 0 8px #f9a011;
@@ -54,11 +54,11 @@
     transform: scale(1.1, 1.1);
 }
 
-.pricing-table-module .plans-row .item.active .plan-container {
+.pricing-table-module.default .plans-row .item.active .plan-container {
     border: 0;
 }
 
-.pricing-table-module .plans-row .item {
+.pricing-table-module.default .plans-row .item {
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -ms-transition: all 0.2s;
@@ -66,7 +66,7 @@
     transition: all 0.2s;
 }
 
-.pricing-table-module .item .fav-plan {
+.pricing-table-module.default .item .fav-plan {
     background-image: url('../images/feature.png');
     width: 70px;
     height: 70px;
@@ -77,17 +77,17 @@
     z-index: 9;
 }
 
-.pricing-table-module .item.active {
+.pricing-table-module.default .item.active {
     z-index: 1000 !important;
 }
 
-.pricing-table-module .plans-row h3 {
+.pricing-table-module.default .plans-row h3 {
     text-align: center;
     margin: 0;
     text-transform: uppercase;
 }
 
-.pricing-table-module .plans-row .price {
+.pricing-table-module.default .plans-row .price {
     font-size: 18px;
     font-weight: 600;
     color: #4a4a4a;
@@ -95,12 +95,12 @@
     margin-bottom: 20px;
 }
 
-.pricing-table-module .plans-plan-features ul {
+.pricing-table-module.default .plans-plan-features ul {
     list-style-type: none;
-    padding: 0 0 0 19px;
+    padding: 0px;
 }
 
-.pricing-table-module .plans-plan-features ul li {
+.pricing-table-module.default .plans-plan-features ul li {
     text-align: left;
     margin: 0;
     border-top: 1px solid #f3f3f3;
@@ -108,18 +108,18 @@
     padding: 7px 0 6px 0;
 }
 
-.pricing-table-module .plans-plan-features ul li:last-child {
+.pricing-table-module.default .plans-plan-features ul li:last-child {
     border-bottom: 1px solid #f3f3f3;
 }
 
-.pricing-table-module .plans-plan-features ul li span {
+.pricing-table-module.default .plans-plan-features ul li span {
     padding: 6px 0;
     color: #393939;
-    margin-left: 10px;
+    margin-left: 20px;
     font-size: 14px;
 }
 
-.pricing-table-module .price-plan-name {
+.pricing-table-module.default .price-plan-name {
     display: block;
     color: #1157c1;
     font-size: 24px;
@@ -129,20 +129,20 @@
     line-height: 30px;
 }
 
-.pricing-table-module .active .price-plan-name {
+.pricing-table-module.default .active .price-plan-name {
     color: #fba20c;
     font-size: 30px;
     font-weight: bold;
     line-height: 30px;
 }
 
-.pricing-table-module .enabled-false {
+.pricing-table-module.default .enabled-false {
     cursor: default;
     cursor: no-drop;
     cursor: not-allowed;
 }
 
-.pricing-table-module .btn {
+.pricing-table-module.default .btn {
     color: #1d69df;
     font-size: 18px;
     text-transform: uppercase;
@@ -151,7 +151,7 @@
     margin-top: 20px;
 }
 
-.pricing-table-module .active .btn {
+.pricing-table-module.default .active .btn {
     color: #fff;
     background-color: #f9a011;
     font-size: 18px;
@@ -160,7 +160,7 @@
     border: 1px solid #f9a011;
 }
 
-.pricing-table-module span.check {
+.pricing-table-module.default span.check {
     background: url('../images/check.png');
     width: 12px;
     height: 10px;
@@ -169,7 +169,7 @@
     margin: 0 9px;
 }
 
-.pricing-table-module span.not {
+.pricing-table-module.default span.not {
     background: url('../images/not.png');
     width: 10px;
     height: 10px;
@@ -179,7 +179,7 @@
 }
 
 @media (max-width: 992px) {
-    .pricing-table-module .plans-row .item.active {
+    .pricing-table-module.default .plans-row .item.active {
         -webkit-transform: scale(1, 1);
         -moz-transform: scale(1, 1);
         -ms-transform: scale(1, 1);
@@ -187,12 +187,12 @@
         transform: scale(1, 1);
     }
 
-    .pricing-table-module .plans-row .item {
+    .pricing-table-module.default .plans-row .item {
         border: 1px solid #f9a011 !important;
         border-left: 1px solid #f9a011 !important;
     }
 
-    .pricing-table-module .plans-row .plan-container {
+    .pricing-table-module.default .plans-row .plan-container {
         border: 0 !important;
     }
 }
