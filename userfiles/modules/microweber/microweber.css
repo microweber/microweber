@@ -317,7 +317,7 @@ img.element{
   padding-left: 0
 }
 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:last-child > .mw-ui-col-container{
-  padding-right: 0
+  padding-right: 15px;
 }
 
 .mw-ui-col-container:after{

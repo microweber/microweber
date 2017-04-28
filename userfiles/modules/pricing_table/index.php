@@ -25,6 +25,26 @@
         $feature = 1;
     }
 
+    if (get_option('style_color', $params['id']) == 'bg-primary') {
+        $styleColor = 'bg-primary';
+        $buttonColor = 'btn-primary';
+    } elseif (get_option('style_color', $params['id']) == 'bg-success') {
+        $styleColor = 'bg-success';
+        $buttonColor = 'btn-success';
+    } elseif (get_option('style_color', $params['id']) == 'bg-info') {
+        $styleColor = 'bg-info';
+        $buttonColor = 'btn-info';
+    } elseif (get_option('style_color', $params['id']) == 'bg-warning') {
+        $styleColor = 'bg-warning';
+        $buttonColor = 'btn-warning';
+    } elseif (get_option('style_color', $params['id']) == 'bg-danger') {
+        $styleColor = 'bg-danger';
+        $buttonColor = 'btn-danger';
+    } else {
+        $styleColor = 'bg-default';
+        $buttonColor = 'btn-default';
+    }
+
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
         $module_template = $params['template'];
