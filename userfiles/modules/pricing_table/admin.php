@@ -67,7 +67,7 @@ if (get_option('style_color', $params['id']) == 'bg-primary') {
             <div class="col-xs-12">
 
                 <div class="form-group">
-                    <div class="row">
+                    <div class="row clearfix">
                         <label class="col-xs-4 control-label" for="columns"><?php _e('Columns count'); ?></label>
                         <div class="col-xs-8">
                             <select name="columns" data-refresh="pricing_table" class="form-control mw_option_field" id="columns">
@@ -80,10 +80,8 @@ if (get_option('style_color', $params['id']) == 'bg-primary') {
                     </div>
                 </div>
 
-                <br/><br/>
-
                 <div class="form-group">
-                    <div class="row">
+                    <div class="row clearfix">
                         <label class="col-xs-4 control-label" for="feature"><?php _e('Feature element'); ?></label>
                         <div class="col-xs-8">
                             <select name="feature" data-refresh="pricing_table" class="form-control mw_option_field" id="feature">
@@ -97,7 +95,7 @@ if (get_option('style_color', $params['id']) == 'bg-primary') {
                 </div>
 
                 <div class="form-group">
-                    <div class="row">
+                    <div class="row clearfix">
                         <label class="col-xs-4 control-label" for="style_color"><?php _e('Style color'); ?></label>
                         <div class="col-xs-8">
                             <select name="style_color" data-refresh="pricing_table" class="form-control mw_option_field" id="style_color">
