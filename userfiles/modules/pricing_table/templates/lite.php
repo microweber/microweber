@@ -13,7 +13,7 @@ description: Default
 
 <link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/lite.css"/>
 
-<div class="pricing-table-module">
+<div class="pricing-table-module lite">
     <div class="row">
         <div class=" plans-row">
 
@@ -36,11 +36,11 @@ description: Default
                         <div class="plan-container">
                             <div class="plans-plan-features edit" rel="module-<?php print $params['id']; ?>" field="table-content-<?php print $i; ?>">
                                 <ul>
-                                    <li><span class="check"></span><span>Full access</span></li>
-                                    <li><span class="check"></span><span>Documentation</span></li>
-                                    <li><span class="not"></span><span>Customer support</span></li>
-                                    <li><span class="not"></span><span>Free updates</span></li>
-                                    <li><span class="not"></span><span>Unlimited domains</span></li>
+                                    <li><span>Full access</span></li>
+                                    <li><span>Documentation</span></li>
+                                    <li><span>Customer support</span></li>
+                                    <li><span>Free updates</span></li>
+                                    <li><span>Unlimited domains</span></li>
                                 </ul>
                             </div>
 

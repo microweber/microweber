@@ -13,7 +13,7 @@ description: Default
 
 <link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/default.css"/>
 
-<div class="pricing-table-module">
+<div class="pricing-table-module default">
     <div class="row">
         <div class=" plans-row">
 
