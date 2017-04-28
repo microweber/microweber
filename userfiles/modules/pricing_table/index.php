@@ -1,10 +1,7 @@
-<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/pricing-table.css"/>
-
 <script>
     mw.lib.require('bootstrap3ns');
 
     $(document).ready(function () {
-
         var items = mw.$(".item.enabled-true", '#<?php print $params['id'] ?>');
         items.hover(function () {
             mw.$('.enabled-true.active', '#<?php print $params['id'] ?>').removeClass('active');
@@ -16,6 +13,17 @@
 
 <div class="bootstrap3ns">
     <?php
+    if (get_option('columns', $params['id'])) {
+        $columns = get_option('columns', $params['id']);
+    } else {
+        $columns = 1;
+    }
+
+    if (get_option('feature', $params['id'])) {
+        $feature = get_option('feature', $params['id']);
+    } else {
+        $feature = 1;
+    }
 
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
