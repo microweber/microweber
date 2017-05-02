@@ -19,7 +19,7 @@ description: Default
 <div>
     <div class="faq-holder bootstrap">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 edit" rel="module-<?php print $params['id']; ?>" field="title-content">
                 <h3>Here’s a few answers to our most common questions</h3>
             </div>
         </div>
