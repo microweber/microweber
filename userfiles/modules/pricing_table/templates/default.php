@@ -20,7 +20,7 @@ description: Default
         } else if ($columns == 3) {
             $class = 'col-md-offset-1 col-md-3 col-sm-4 col-xs-12';
         } else if ($columns == 2) {
-            $class = 'col-md-offset-3 col-md-3 col-sm-6 col-xs-12';
+            $class = 'col-md-offset-2 col-md-3 col-sm-6 col-xs-12';
         } else {
             $class = 'col-md-3 col-sm-6 col-xs-12';
         }

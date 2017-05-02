@@ -1,0 +1,17 @@
+.faq-holder.default h3 {
+    font-size: 22px;
+    color: #505050;
+    text-align: center;
+}
+
+.faq-holder.default h4 {
+    font-size: 18px;
+    color: #505050;
+    text-align: left;
+}
+
+.faq-holder.default p {
+    font-size: 14px;
+    color: #6f6f6f;
+    text-align: justify;
+}

@@ -13,3 +13,15 @@ phpinfo.php
 .env
 /stats2
 dwsync.xml
+/userfiles/backup
+/storage
+/storage/.gitignore
+/storage/.htaccess
+/storage/app/.gitignore
+/storage/framework/.gitignore
+/storage/framework/cache/.gitignore
+/storage/framework/sessions/.gitignore
+/storage/framework/views/.gitignore
+/storage/logs/.gitignore
+/userfiles/img
+/userfiles/install_log.txt
