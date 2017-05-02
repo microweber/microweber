@@ -102,7 +102,7 @@ class DefaultController extends Controller
         event_trigger('mw_robot_url_hit');
 
         echo $rssfeed;
-     }
+    }
 
     public function api_html()
     {
@@ -462,7 +462,7 @@ class DefaultController extends Controller
 
         if ($api_function == 'module' and $mod_class_api_called == false) {
 
-           return  $this->module();
+            return $this->module();
         } else {
             $err = false;
             if (!in_array($api_function, $api_exposed, true)) {
@@ -948,9 +948,9 @@ class DefaultController extends Controller
                     return response($layout);
 
 
-                  //  echo $layout;
+                    //  echo $layout;
 
-                  // return;
+                    // return;
                 }
             }
         }
@@ -1043,7 +1043,7 @@ class DefaultController extends Controller
             $res = $this->app->url_manager->replace_site_url_back($res);
             return response($res);
 
-           // echo $res;
+            // echo $res;
         }
 
         if ($url_last != __FUNCTION__) {
@@ -2003,11 +2003,14 @@ class DefaultController extends Controller
     private function _api_responce($res)
     {
 
-        if (defined('MW_API_RAW')) {
-           // return $res;
-            return response($res);
-
+        if ($res instanceof Response) {
+            return $res;
         }
+
+        if (defined('MW_API_RAW')) {
+            return response($res);
+        }
+
         if (!defined('MW_API_HTML_OUTPUT')) {
             if (is_bool($res) or is_int($res)) {
                 return json_encode($res);
@@ -2026,10 +2029,8 @@ class DefaultController extends Controller
             if (is_array($res)) {
                 $res = json_encode($res);
             }
-         //   echo $res;
-            return response($res);
-
-            return;
+            $response = \Response::make($res);
+            return $response;
         }
     }
 
@@ -2422,7 +2423,7 @@ class DefaultController extends Controller
                 $layout = $p->__toString();
                 return response($layout);
 
-             }
+            }
         } elseif (is_file($p)) {
             $p = new \Microweber\View($p);
             $p->params = $params;
