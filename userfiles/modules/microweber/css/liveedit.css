@@ -23,6 +23,12 @@ html, body {
 body.mw-live-edit {
     margin-top: 52px;
 }
+body.mw-live-edit .plain-text {
+    min-height: 12px;
+}
+.plain-text:empty{
+    background-color: rgba(221, 221, 221, 1);
+}
 
 /****************************
            Plus

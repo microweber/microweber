@@ -162,6 +162,7 @@ mw.wysiwyg = {
                     }, false, true);
                     $(this).mouseenter(function () {
                         if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
+
                             mw.wysiwyg.modify(this, function () {
                                 this.innerHTML = '<p class="element">' + this.innerHTML + '&nbsp;</p>';
                             });
@@ -310,6 +311,11 @@ mw.wysiwyg = {
         }
     },
     execCommand: function (a, b, c) {
+        var fnode =  window.getSelection().focusNode;
+
+        if((fnode !== null) && (mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text') || mw.tools.hasParentsWithClass(fnode.parentNode, 'plain-text'))){
+            return false;
+        }
         try {  // 0x80004005
             if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()) {
                 var b = b || false;
@@ -915,7 +921,7 @@ mw.wysiwyg = {
                     }
                 }
                 else {
-                    mw.tools.foreachParents(common, function (loop) {
+                    mw.tools.foreachParents(common, function (loop) {  
                         if (mw.wysiwyg.isFormatElement(this)) {
                             var format = this.nodeName.toLowerCase();
                             var ddval = mw.$(".mw_dropdown_action_format");
@@ -1554,14 +1560,23 @@ $(window).load(function () {
 
 
     mw.$("#wysiwyg_insert").bind("change", function () {
+        var fnode = window.getSelection().focusNode;
+        var isPlain = mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text')
         if (mw.wysiwyg.isSelectionEditable()) {
 
+
             var val = $(this).getDropdownValue();
+
+            var isTextlike = val == 'icon';
+            if(!isTextlike && isPlain){
+                return false;
+            }
 
             if (val == 'hr') {
                 mw.wysiwyg._do('InsertHorizontalRule');
             }
             else if (val == 'box') {
+
                 var div = mw.wysiwyg.applier('div', 'mw-ui-box mw-ui-box-content element');
                 if (mw.wysiwyg.selection_length() <= 2) {
                     $(div).append("<p>&nbsp;</p>");
@@ -1611,26 +1626,36 @@ $(window).load(function () {
     });
 
     $(window).bind("keydown mousedown mouseup", function (e) {
+
         if (e.type == 'keydown') {
+            var isPlain = mw.tools.hasClass(e.target, 'plain-text');
             if (e.keyCode == 13) {
                 var field = mw.tools.mwattr(e.target, 'field');
-                if (field == 'title') {
+                if (field == 'title' || isPlain) {
                     e.preventDefault();
                 }
             }
             if (e.ctrlKey) {
-                var code = e.keyCode;
-                if (code === 66) {
-                    mw.wysiwyg.execCommand('bold');
-                    e.preventDefault();
+                if(!isPlain){
+                    var code = e.keyCode;
+                    if (code === 66) {
+                        mw.wysiwyg.execCommand('bold');
+                        e.preventDefault();
+                    }
+                    else if (code == 73) {
+                        mw.wysiwyg.execCommand('italic');
+                        e.preventDefault();
+                    }
+                    else if (code == 85) {
+                        mw.wysiwyg.execCommand('underline');
+                        e.preventDefault();
+                    }
                 }
-                else if (code == 73) {
-                    mw.wysiwyg.execCommand('italic');
-                    e.preventDefault();
-                }
-                else if (code == 85) {
-                    mw.wysiwyg.execCommand('underline');
-                    e.preventDefault();
+                else{
+                    if(e.keyCode != 65 && e.keyCode != 86){ // ctrl v || a
+                        return false;
+                    }
+
                 }
             }
         }

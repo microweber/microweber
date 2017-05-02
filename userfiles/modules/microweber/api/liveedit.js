@@ -18,6 +18,9 @@ mw.mouseDownStarted = false;
 mw.SmallEditorIsDragging = false;
 
 
+
+
+
 mw.states = {}
 mw.live_edit_module_settings_array = new Array();
 
@@ -102,6 +105,7 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
+
 
 document.body.appendChild(mw.inaccessibleModules);
 
@@ -215,12 +219,12 @@ document.body.appendChild(mw.inaccessibleModules);
     });
 
 
-    $(window).bind("onIconElementClick", function(e, el) {
+    $(window).on("onIconElementClick", function(e, el) {
         mw.iconSelector._activeElement = el;
         mw.iconSelector.popup(true);
 
     });
-    $(window).bind("onElementClick", function(e, el) {
+    $(window).on("onElementClick", function(e, el) {
 
         if (typeof(mw.iconSelectorToolTip) != "undefined") {
             $(mw.iconSelectorToolTip).hide();
@@ -237,6 +241,12 @@ document.body.appendChild(mw.inaccessibleModules);
 
             }
         }
+        mw.$('.module').each(function(){
+            this.contentEditable = false;
+        });
+    });
+    $(window).on("onPlainTextClick", function(e, el) {
+        $(el).attr('contenteditable', true);
         mw.$('.module').each(function(){
             this.contentEditable = false;
         });
@@ -266,6 +276,13 @@ document.body.appendChild(mw.inaccessibleModules);
         $(t[i]).addClass("nodrop");
     }
 
+    $(mwd.body).bind("paste", function(e) {
+        if(mw.tools.hasClass(e.target, 'plain-text')){
+            e.preventDefault();
+            var text = (e.originalEvent || e).clipboardData.getData('text/plain');;
+            document.execCommand("insertHTML", false, text);
+        }
+    });
     $(mwd.body).bind("mousedown mouseup", function(e) {
         if (e.type == 'mousedown') {
             if (!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')) {
@@ -297,6 +314,9 @@ hasAbilityToDropElementsInside = function(target) {
     var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
     if (typeof target === 'string') {
         return !items.test(target);
+    }
+    if(mw.tools.hasAnyOfClasses(target, ['plain-text', 'nodrop'])){
+        return false;
     }
     var x = items.test(target.nodeName);
     if (x) {
@@ -1309,6 +1329,9 @@ mw.drag = {
                     var target = event.target;
 
 
+                    if ($(target).hasClass("plain-text")) {
+                        $(window).trigger("onPlainTextClick", target);
+                    }
                     if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') && !mw.tools.hasParentsWithClass(target, 'module')) {
                         $(window).trigger("onIconElementClick", target);
 
@@ -1317,6 +1340,7 @@ mw.drag = {
                     } else if (mw.tools.hasParentsWithClass(target, 'element')) {
                         $(window).trigger("onElementClick", $(target).parents(".element")[0]);
                     }
+
                     if ($(target).hasClass("mw_item")) {
                         $(window).trigger("onItemClick", target);
                     } else if (mw.tools.hasParentsWithClass(target, 'mw_item')) {
@@ -1724,7 +1748,7 @@ mw.drag = {
             i = 0;
         if (l > 0) {
             for (; i < l; i++) {
-                if (els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6') === null) {
+                if (els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6') === null && !mw.tools.hasClass(els[i], 'plain-text')) {
                     if (!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'mw-empty')) {
                         els[i].innerHTML = '<p class="element">' + els[i].innerHTML + '</p>';
                     }
@@ -3360,7 +3384,7 @@ $(window).bind("load", function() {
 
                 setTimeout(function() {
 
-                    if (cac.isContentEditable && !sel.isCollapsed) {
+                    if (cac.isContentEditable && !sel.isCollapsed && !mw.tools.hasClass(cac, 'plain-text')) {
 
 
                         if (typeof(window.getSelection().getRangeAt(0).getClientRects()[0]) == 'undefined') {
