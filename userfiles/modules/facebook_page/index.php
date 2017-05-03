@@ -34,6 +34,16 @@
         $friends = 'false';
     }
 
+    if (get_option('timeline', $params['id'])) {
+        if (get_option('timeline', $params['id']) == 'true') {
+            $timeline = '&tabs=timeline';
+        } else {
+            $timeline = '';
+        }
+    } else {
+        $timeline = '';
+    }
+
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
         $module_template = $params['template'];

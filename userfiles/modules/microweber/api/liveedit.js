@@ -257,7 +257,9 @@ document.body.appendChild(mw.inaccessibleModules);
                 clone = range.cloneRange();
                 clone.setStart(range.startContainer, range.startOffset - 2);
                 clone.setEnd(range.startContainer, range.startOffset);
-                if(clone.cloneContents() == '&nbsp;&nbsp;'){
+                var nv = clone.cloneContents().firstChild.nodeValue;
+                var nvcheck = nv.replace(/\s/g,'');
+                if( nvcheck == ''){
                     clone.deleteContents();
                 }
 
