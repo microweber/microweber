@@ -30,6 +30,17 @@ if (get_option('friends', $params['id'])) {
 } else {
     $friends = 'false';
 }
+
+if (get_option('timeline', $params['id'])) {
+    if (get_option('timeline', $params['id']) == 'true') {
+        $timeline = '&tabs=timeline';
+    } else {
+        $timeline = '';
+    }
+} else {
+    $timeline = '';
+}
+
 ?>
 
 <script type="text/javascript">
@@ -70,6 +81,18 @@ if (get_option('friends', $params['id'])) {
                                 <input type="checkbox" name="friends" data-refresh="facebook_page" class="mw_option_field" value="true" id="friends" <?php if ($friends == 'true') {
                                     echo 'checked';
                                 } ?> /> <?php _e('Show friends faces'); ?>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="timeline" data-refresh="facebook_page" class="mw_option_field" value="true" id="timeline" <?php if ($timeline == 'true') {
+                                    echo 'checked';
+                                } ?> /> <?php _e('Show timeline'); ?>
                             </label>
                         </div>
                     </div>
