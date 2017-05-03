@@ -1,4 +1,15 @@
-<script>
+<?php
+
+/*
+
+type: layout
+
+name: bootstrap
+
+description: Default
+
+*/
+?><script>
     mw.require('tools.js', true);
 </script>
 

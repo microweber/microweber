@@ -1,4 +1,15 @@
-<script>
+<?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: Default
+
+*/
+?><script>
     mw.require('tools.js', true);
     mw.require('ui.css', true);
 </script>

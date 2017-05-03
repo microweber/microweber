@@ -19,6 +19,9 @@ $popup_function_id = 'btn_popup' . uniqid();
 if ($text == '') {
     $text = 'Button';
 }
+if ($style == false and isset($params['button_style'])) {
+    $style = $params['button_style'];
+}
 if ($style == '') {
     $style = 'btn-default';
 }
@@ -32,9 +35,6 @@ if ($text == false and isset($params['text'])) {
     $text = $params['text'];
 }
 
-if ($style == false and isset($params['button_style'])) {
-    $style = $params['button_style'];
-}
 
 if ($action == 'popup') {
     $url = 'javascript:' . $popup_function_id . '()';
@@ -67,6 +67,7 @@ if (is_file($template_file) != false) {
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
     <?php print $action_content; ?>
+
 
 
 
