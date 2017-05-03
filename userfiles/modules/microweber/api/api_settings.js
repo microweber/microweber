@@ -91,8 +91,9 @@ mw.settings.libs = {
     ],
     bootstrap4:[
         function(){
-            mw.require(mw.settings.libs_url + 'bootstrap4.0.0' + '/css/bootstrap.min.css');
-            mw.require(mw.settings.libs_url + 'bootstrap4.0.0' + '/js/bootstrap.min.js');
+            mw.require(mw.settings.libs_url + 'bootstrap-4.0.0' + '/css/bootstrap.min.css');
+            mw.require(mw.settings.libs_url + 'bootstrap-4.0.0' + '/js/tether.min.js');
+            mw.require(mw.settings.libs_url + 'bootstrap-4.0.0' + '/js/bootstrap.min.js');
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
 
         }
