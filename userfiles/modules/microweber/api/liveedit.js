@@ -191,9 +191,6 @@ document.body.appendChild(mw.inaccessibleModules);
         if(istab){
             e.preventDefault();
             target = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
-
-
-
         }
         if(tabOnly){
             if(target.nodeName == 'LI'){
@@ -204,6 +201,22 @@ document.body.appendChild(mw.inaccessibleModules);
                     ul.appendChild(target);
                     prev.appendChild(ul)
                 }
+            }
+            else if(target.nodeName == 'TD' || mw.tools.hasParentsWithTag(target, 'td')){
+                var target = target.nodeName == 'TD' ? target : mw.tools.firstParentWithTag(target, 'td');
+                var nexttd = target.nextElementSibling;
+                if(!!nexttd){
+                    mw.wysiwyg.cursorToElement(nexttd, 'start')
+                }
+                else{
+                    var nextRow = target.parentNode.nextElementSibling;
+                    if(!!nextRow){
+                        mw.wysiwyg.cursorToElement(nextRow.querySelector('td'), 'start')
+                    }
+                }
+            }
+            else{
+                mw.wysiwyg.insert_html('&nbsp;&nbsp;')
             }
 
         }
@@ -225,6 +238,29 @@ document.body.appendChild(mw.inaccessibleModules);
 
                    $(parent).remove()
                 }
+            }
+            else if(target.nodeName == 'TD' || mw.tools.hasParentsWithTag(target, 'td')){
+                var target = target.nodeName == 'TD' ? target : mw.tools.firstParentWithTag(target, 'td');
+                var nexttd = target.previousElementSibling;
+                if(!!nexttd){
+                    mw.wysiwyg.cursorToElement(nexttd, 'start')
+                }
+                else{
+                    var nextRow = target.parentNode.previousElementSibling;
+                    if(!!nextRow){
+                        mw.wysiwyg.cursorToElement(nextRow.querySelector('td:last-child'), 'start')
+                    }
+                }
+            }
+            else{
+                var range = getSelection().getRangeAt(0)
+                clone = range.cloneRange();
+                clone.setStart(range.startContainer, range.startOffset - 2);
+                clone.setEnd(range.startContainer, range.startOffset);
+                if(clone.cloneContents() == '&nbsp;&nbsp;'){
+                    clone.deleteContents();
+                }
+
             }
         }
 
