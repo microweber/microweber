@@ -30,6 +30,11 @@ body.mw-live-edit .plain-text {
     background-color: rgba(221, 221, 221, 1);
 }
 
+ol:not([class]),
+ul:not([class]){
+    padding-left: 20px;
+}
+
 /****************************
            Plus
 *****************************/

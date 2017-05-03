@@ -870,6 +870,31 @@ mw.wysiwyg = {
             mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
         }
     },
+    listSplit:function(list, index){
+        if(!list || typeof index == 'undefined') return;
+        var curr = list.children[index];
+        var listtop = document.createElement(list.nodeName);
+        var listbottom = document.createElement(list.nodeName);
+        var final = {middle: curr}
+
+        for(var itop = 0; itop < index; itop++){
+            listtop.appendChild(list.children[itop])
+        }
+        for(var ibot = 1; ibot < list.children.length; ibot++){
+        //for(var ibot = index+1; ibot < list.children.length; ibot++){
+            console.log(list.children[ibot])
+            listbottom.appendChild(list.children[ibot])
+        }
+
+        if(listtop.children.length > 0){
+            final.top = listtop
+        }
+        if(listbottom.children.length > 0){
+            final.bottom = listbottom
+        }
+        return final;
+
+    },
     isFormatElement: function (obj) {
         var items = /^(div|h[1-6]|p)$/i;
         return items.test(obj.nodeName);

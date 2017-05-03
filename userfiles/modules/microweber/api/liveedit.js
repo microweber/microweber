@@ -181,6 +181,55 @@ document.body.appendChild(mw.inaccessibleModules);
 
     mw.edits = mw.$('.edit');
 
+
+     mw.edits.on('keydown', function(e){
+        var istab = (e.which || e.keyCode) == 9,
+            isShiftTab = istab && e.shiftKey,
+            tabOnly = istab && !e.shiftKey,
+            target;
+
+        if(istab){
+            e.preventDefault();
+            target = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+
+
+
+        }
+        if(tabOnly){
+            if(target.nodeName == 'LI'){
+                var parent = target.parentNode;
+                if(parent.children[0] !== target){
+                    var prev = target.previousElementSibling;
+                    var ul = document.createElement(parent.nodeName);
+                    ul.appendChild(target);
+                    prev.appendChild(ul)
+                }
+            }
+
+        }
+        else if(isShiftTab){
+            if(target.nodeName == 'LI'){
+                var parent = target.parentNode;
+                var isSub = parent.parentNode.nodeName == 'LI';
+                if(isSub){
+                   var split = mw.wysiwyg.listSplit(parent, $('li', parent).index(target));
+                   console.log(split)
+                   var parentLi = parent.parentNode;
+                   $(parentLi).after(split.middle)
+                   if(!!split.top){
+                        $(parentLi).append(split.top)
+                   }
+                   if(!!split.bottom){
+                        $(split.middle).append(split.bottom)
+                   }
+
+                   $(parent).remove()
+                }
+            }
+        }
+
+    })
+
     mw.dragSTOPCheck = false;
 
     mw.edits.mouseleave(function(e) {
