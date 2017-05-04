@@ -179,6 +179,9 @@ class UserManager
         }
         $old_sid = Session::getId();
         if (isset($params['username'])) {
+            if(!$params['username']){
+                return array('error' => 'Please enter username or email');
+            }
             $ok = Auth::attempt([
                 'username' => $params['username'],
                 'password' => $params['password'],
@@ -192,6 +195,9 @@ class UserManager
                 }
             }
         } elseif (isset($params['email'])) {
+            if(!$params['email']){
+                return array('error' => 'Please enter email');
+            }
             $ok = Auth::attempt([
                 'email' => $params['email'],
                 'password' => $params['password'],
