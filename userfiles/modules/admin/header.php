@@ -210,7 +210,12 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   <li class="user-menu-sub"> <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank"> <span class="mw-icon-live" style="font-size: 24px;"></span> <strong>
                   <?php _e("Live Edit"); ?>
                   </strong> </a> </li>
-                  
+
+
+            <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:modules"> <span class="mw-icon-module" style="font-size: 24px;"></span> <strong>
+                        <?php _e("Modules"); ?>
+                    </strong> </a> </li>
+
                   
                   <?php if(mw()->ui->disable_marketplace != true): ?>
               
@@ -222,7 +227,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   
                   
                   
-                  <li <?php if ($view == 'settings' or $view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
+                  <li <?php if ($view == 'settings' ): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
                   <?php _e("Settings"); ?>
                   </strong> </a> </li>
                   <li id="mw-admin-main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
