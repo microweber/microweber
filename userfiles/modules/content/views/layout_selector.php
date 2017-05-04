@@ -427,11 +427,12 @@ if (!empty($recomended_layouts)) {
 
 
 &nbsp;
-<span onclick="$('.layouts_box_holder_small').toggleClass('semi_hidden');" class="mw-ui-btn mw-ui-btn-small" style="top: -3px;"><?php _e("Change template"); ?></span>
+<!--<span onclick="$('.layouts_box_holder_small').toggleClass('semi_hidden');" class="mw-ui-btn mw-ui-btn-small" style="top: -3px;">--><?php //_e("Change template"); ?><!--</span>-->
 
     <?php else: ?>
-    <h2><?php _e("Choose template"); ?></h2>
-<?php endif; ?>
+        <h2><?php _e("Choose template"); ?></h2>
+
+    <?php endif; ?>
 
 <?php endif ?>
 
@@ -499,7 +500,7 @@ if (!empty($recomended_layouts)) {
     <?php if ($template_selector_position != 'none'): ?>
 
 
-    <div class="layouts_box_holder <?php if (isset($params['small'])): ?> layouts_box_holder_small semi_hidden  <?php endif; ?>">
+    <div class="layouts_box_holder <?php if (isset($params['small'])): ?> layouts_box_holder_small    <?php endif; ?>">
 
         <div class="mw-ui-row">
 
