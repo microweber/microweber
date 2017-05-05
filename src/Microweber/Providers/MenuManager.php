@@ -277,7 +277,7 @@ class MenuManager
 
 
         $q = $this->app->database_manager->get($menu_params);
-     //   dd($menu_params,$q);
+        //   dd($menu_params,$q);
         $has_items = false;
 
         $active_class = '';
@@ -512,10 +512,24 @@ class MenuManager
 
             if ($title != '') {
                 $has_items = true;
+                $has_childs = false;
+                $has_childs_class = false;
+
+
+                $sub_menu_params = array();
+                $sub_menu_params['parent_id'] = $item['id'];
+                $sub_menu_params['table'] = $menus;
+                $sub_menu_params['count'] = true;
+                $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
+                if ($sub_menu_q) {
+                    $has_childs = true;
+                    $has_childs_class = 'have-submenu';
+                }
+
 
                 $item['url'] = $url;
 
-                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
                 $ext_classes = '';
 
@@ -525,6 +539,11 @@ class MenuManager
 
                 if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
                     $ext_classes .= ' have-category';
+                }
+
+
+                if ($has_childs) {
+                    $ext_classes .= ' ' . $has_childs_class;
                 }
 
                 $ext_classes = trim($ext_classes);
