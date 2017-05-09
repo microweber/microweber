@@ -1,21 +1,19 @@
-if(typeof mw === 'undefined'){
+if (typeof mw === 'undefined') {
     mw = {}
 }
-if(typeof mw.settings === 'undefined'){
+if (typeof mw.settings === 'undefined') {
     mw.settings = {}
 }
 
 
-
-
 mw.settings = {
-    regions:false,
-    liveEdit:false,
+    regions: false,
+    liveEdit: false,
     debug: true,
-    basic_mode:false,
+    basic_mode: false,
     site_url: '<?php print site_url(); ?>',
     template_url: '<?php print TEMPLATE_URL; ?>',
-    modules_url:'<?php print modules_url(); ?>',
+    modules_url: '<?php print modules_url(); ?>',
     includes_url: '<?php   print( mw_includes_url());  ?>',
     upload_url: '<?php print site_url(); ?>api/upload/',
     api_url: '<?php print site_url(); ?>api/',
@@ -65,32 +63,38 @@ mw.settings = {
 }
 
 mw.settings.libs = {
-      jqueryui:['jquery-ui.min.css', 'jquery-ui.min.js'],
-      morris:['morris.css', 'raphael.js', 'morris.js'],
-      rangy:['rangy-core.js','rangy-cssclassapplier.js','rangy-selectionsaverestore.js','rangy-serializer.js'],
-      bootstrap2:[
-        function(){
-          var v = mwd.querySelector('meta[name="viewport"]');
-          if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
-          v.content = "width=device-width, initial-scale=1.0";
-          mwhead.appendChild(v);
+    jqueryui: ['jquery-ui.min.css', 'jquery-ui.min.js'],
+    morris: ['morris.css', 'raphael.js', 'morris.js'],
+    rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
+    bootstrap2: [
+        function () {
+            var v = mwd.querySelector('meta[name="viewport"]');
+            if (v === null) {
+                var v = mwd.createElement('meta');
+                v.name = "viewport";
+            }
+            v.content = "width=device-width, initial-scale=1.0";
+            mwhead.appendChild(v);
         },
         'css/bootstrap.min.css',
         'css/bootstrap-responsive.min.css',
         'js/bootstrap.min.js'],
-    bootstrap3:[
-        function(){
+    bootstrap3: [
+        function () {
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
             var v = mwd.querySelector('meta[name="viewport"]');
-            if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+            if (v === null) {
+                var v = mwd.createElement('meta');
+                v.name = "viewport";
+            }
             v.content = "width=device-width, initial-scale=1.0";
             mwhead.appendChild(v);
         },
         'css/bootstrap.min.css',
         'js/bootstrap.min.js'
     ],
-    bootstrap4:[
-        function(){
+    bootstrap4: [
+        function () {
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0' + '/css/bootstrap.min.css');
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0' + '/js/tether.min.js');
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0' + '/js/bootstrap.min.js');
@@ -98,135 +102,147 @@ mw.settings.libs = {
 
         }
     ],
-    font_awesome:[
-        function(){
+    font_awesome: [
+        function () {
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
 
         }
     ],
-    okay_nav:[
-        function(){
+    okay_nav: [
+        function () {
             mw.require(mw.settings.libs_url + 'okayNav' + '/css/okayNav.min.css');
             mw.require(mw.settings.libs_url + 'okayNav' + '/js/jquery.okayNav.min.js');
 
         }
     ],
-    bootstrap3ns:[
-        function(){
+    bxslider: [
+        function () {
+            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.min.js');
+            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.css');
+
+        }
+    ],
+    bootstrap3ns: [
+        function () {
             var bootstrap_enabled = (typeof $().modal == 'function');
-            if(bootstrap_enabled == false){
+            if (bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
                 mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
             }
         }
     ],
-    bootstrap_select:[
-        function(){
+    bootstrap_select: [
+        function () {
             var bootstrap_enabled = (typeof $().modal == 'function');
-            if(bootstrap_enabled == false){
+            if (bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
             }
         }
     ],
-    bootstrap_tags:[
-          function(){
+    bootstrap_tags: [
+        function () {
 
-              var bootstrap_enabled = (typeof $().modal == 'function');
-              if(!bootstrap_enabled == false) {
-                  mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
-                  mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
-                  mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
-                  mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
-                  mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
-              } else {
-                  mw.log("You must load bootstrap to use bootstrap_tags");
-              }
+            var bootstrap_enabled = (typeof $().modal == 'function');
+            if (!bootstrap_enabled == false) {
+                mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
+                mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
+                mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
+                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
+                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
+            } else {
+                mw.log("You must load bootstrap to use bootstrap_tags");
+            }
 
-          }
-      ],
-	  validation:[
-          function(){
-                  mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/jquery.validationEngine.js');
-				  mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/languages/jquery.validationEngine-en.js');
-                  mw.require(mw.settings.libs_url + 'jquery_validation' + '/css/validationEngine.jquery.css');
-          }
-      ],
-	  
-	  
-      flatstrap3:[
-        function(){
-        var v = mwd.querySelector('meta[name="viewport"]');
-        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
-        v.content = "width=device-width, initial-scale=1.0";
-        mwhead.appendChild(v);
-      },
-      'css/bootstrap.min.css',
-      'js/bootstrap.min.js'
+        }
+    ],
+    validation: [
+        function () {
+            mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/jquery.validationEngine.js');
+            mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/languages/jquery.validationEngine-en.js');
+            mw.require(mw.settings.libs_url + 'jquery_validation' + '/css/validationEngine.jquery.css');
+        }
+    ],
+
+
+    flatstrap3: [
+        function () {
+            var v = mwd.querySelector('meta[name="viewport"]');
+            if (v === null) {
+                var v = mwd.createElement('meta');
+                v.name = "viewport";
+            }
+            v.content = "width=device-width, initial-scale=1.0";
+            mwhead.appendChild(v);
+        },
+        'css/bootstrap.min.css',
+        'js/bootstrap.min.js'
     ]
-  }
+}
 
-   mw.lib = {
-    _required:[],
-    require:function(name){
-          if(mw.lib._required.indexOf(name) !== -1){
-              return false;
-          };
-          mw.lib._required.push(name);
-          if(typeof mw.settings.libs[name] === 'undefined') return false;
-          if(mw.settings.libs[name].constructor !== [].constructor) return false;
-          var path = mw.settings.libs_url + name + '/',
-              arr = mw.settings.libs[name],
-              l = arr.length,
-              i = 0,
-              c = 0;
-          for( ; i<l ; i++){
-              (typeof arr[i] === 'string') ? mw.require(path + arr[i]) : (typeof arr[i] === 'function') ? arr[i].call() : '';
-          }
+mw.lib = {
+    _required: [],
+    require: function (name) {
+        if (mw.lib._required.indexOf(name) !== -1) {
+            return false;
+        }
+        ;
+        mw.lib._required.push(name);
+        if (typeof mw.settings.libs[name] === 'undefined') return false;
+        if (mw.settings.libs[name].constructor !== [].constructor) return false;
+        var path = mw.settings.libs_url + name + '/',
+            arr = mw.settings.libs[name],
+            l = arr.length,
+            i = 0,
+            c = 0;
+        for (; i < l; i++) {
+            (typeof arr[i] === 'string') ? mw.require(path + arr[i]) : (typeof arr[i] === 'function') ? arr[i].call() : '';
+        }
     },
-    get:function(name, done, error){
-          if(mw.lib._required.indexOf(name) !== -1){
-              if(typeof done === 'function'){
+    get: function (name, done, error) {
+        if (mw.lib._required.indexOf(name) !== -1) {
+            if (typeof done === 'function') {
                 done.call();
-              }
-              return false;
-          };
-          if(typeof mw.settings.libs[name] === 'undefined') return false;
-          if(mw.settings.libs[name].constructor !== [].constructor) return false;
-          mw.lib._required.push(name);
-          var path = mw.settings.libs_url + name + '/',
-              arr = mw.settings.libs[name],
-              l = arr.length,
-              i = 0,
-              c = 1;
-          for( ; i<l ; i++){
+            }
+            return false;
+        }
+        ;
+        if (typeof mw.settings.libs[name] === 'undefined') return false;
+        if (mw.settings.libs[name].constructor !== [].constructor) return false;
+        mw.lib._required.push(name);
+        var path = mw.settings.libs_url + name + '/',
+            arr = mw.settings.libs[name],
+            l = arr.length,
+            i = 0,
+            c = 1;
+        for (; i < l; i++) {
             var xhr = $.cachedScript(path + arr[i]);
-            xhr.done(function(){
-              c++;
-              if(c === l){
-                   if(typeof done === 'function'){
-                     done.call();
-                   }
-              }
+            xhr.done(function () {
+                c++;
+                if (c === l) {
+                    if (typeof done === 'function') {
+                        done.call();
+                    }
+                }
             });
-            xhr.fail(function(jqxhr, settings, exception){
+            xhr.fail(function (jqxhr, settings, exception) {
 
-               if(typeof error === 'function'){
-                 error.call(jqxhr, settings, exception);
-               }
+                if (typeof error === 'function') {
+                    error.call(jqxhr, settings, exception);
+                }
 
             });
-          }
+        }
     }
-  }
+}
 
-  mw.msg = {
+mw.msg = {
     ok: "<?php _e('OK');  ?>",
     published: "<?php _e('Published');  ?>",
     unpublished: "<?php _e('Unpublished');  ?>",
-    contentunpublished:"<?php _e("Content is unpublished"); ?>",
-    contentpublished:"<?php _e("Content is published"); ?>",
+    contentunpublished: "<?php _e("Content is unpublished"); ?>",
+    contentpublished: "<?php _e("Content is published"); ?>",
     save: "<?php _e('Save');  ?>",
     saving: "<?php _e('Saving');  ?>",
     saved: "<?php _e('Saved');  ?>",
@@ -234,23 +250,23 @@ mw.settings.libs = {
     cancel: "<?php _e('Cancel');  ?>",
     remove: "<?php _e('Remove');  ?>",
     close: "<?php _e('Close');  ?>",
-    to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>",
-    del:"<?php _e('Are you sure you want to delete this?'); ?>",
-    save_and_continue:"<?php _e('Save &amp; Continue'); ?>",
-    before_leave:"<?php _e("Leave without saving"); ?>",
-    session_expired:"<?php _e("Your session has expired"); ?>",
-    login_to_continue:"<?php _e("Please login to continue"); ?>",
-    more:"<?php _e("More"); ?>",
-    templateSettingsHidden:"<?php _e("Template settings"); ?>",
-    less:"<?php _e("Less"); ?>",
-    product_added:"<?php _e("Your product is added to cart"); ?>",
-    no_results_for:"<?php _e("No results for"); ?>",
-    switch_to_modules:'<?php _e("Switch to Modules"); ?>',
-    switch_to_layouts:'<?php _e("Switch to Layouts"); ?>',
-    loading:'<?php _e("Loading"); ?>',
-    edit:'<?php _e("Edit"); ?>',
-    change:'<?php _e("Change"); ?>'
-  }
+    to_delete_comment: "<?php _e('Are you sure you want to delete this comment'); ?>",
+    del: "<?php _e('Are you sure you want to delete this?'); ?>",
+    save_and_continue: "<?php _e('Save &amp; Continue'); ?>",
+    before_leave: "<?php _e("Leave without saving"); ?>",
+    session_expired: "<?php _e("Your session has expired"); ?>",
+    login_to_continue: "<?php _e("Please login to continue"); ?>",
+    more: "<?php _e("More"); ?>",
+    templateSettingsHidden: "<?php _e("Template settings"); ?>",
+    less: "<?php _e("Less"); ?>",
+    product_added: "<?php _e("Your product is added to cart"); ?>",
+    no_results_for: "<?php _e("No results for"); ?>",
+    switch_to_modules: '<?php _e("Switch to Modules"); ?>',
+    switch_to_layouts: '<?php _e("Switch to Layouts"); ?>',
+    loading: '<?php _e("Loading"); ?>',
+    edit: '<?php _e("Edit"); ?>',
+    change: '<?php _e("Change"); ?>'
+}
 
 
 

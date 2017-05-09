@@ -1,6 +1,4 @@
-<?php   
-
-
+<?php
 
 
 $settings = get_option('settings', $params['id']);
@@ -8,30 +6,19 @@ $settings = get_option('settings', $params['id']);
 $defaults = array(
     'name' => '',
     'role' => '',
+    'bio' => '',
     'file' => ''
 );
 
 $data = json_decode($settings, true);
- 
+
 if (count($data) == 0) {
-   			print lnotif("Click on settings to edit this module");
-			return;
+    print lnotif("Click on settings to edit this module");
+    return;
 }
 
 
-
-
-
-
-
-
-
 $module_template = get_option('data-template', $params['id']);
-
-
-
-
-
 
 
 if ($module_template == false and isset($params['template'])) {

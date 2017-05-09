@@ -38,8 +38,9 @@ foreach($data as $slide){
     ?>
   <div class="team-card-item">
     <span class="team-card-item-image" style="background-image: url('<?php print thumbnail($slide['file'],200);?>');"></span>
-    <span class="team-card-item-name" ><?php print $slide['name'];?></span>
-    <span class="team-card-item-position"> <?php print $slide['role'];?></span>
+    <span class="team-card-item-name" ><?php print array_get($slide, 'name'); ?></span>
+    <span class="team-card-item-position"> <?php print array_get($slide, 'role'); ?></span>
+    <span class="team-card-item-bio"> <?php print array_get($slide, 'bio'); ?></span>
   </div>
      <?php } ?>
 </div>
