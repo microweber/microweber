@@ -70,14 +70,18 @@ if (isset($json) == false or count($json) == 0) {
                         <div class="mw-ui-col">
                             <div class="mw-ui-col-container">
                                 <label class="mw-ui-label"><?php _e('Biography'); ?></label>
-                                <textarea class="mw-ui-field teamcard-bio w100"<?php print array_get($slide, 'bio'); ?></textarea>
+                                <textarea class="mw-ui-field teamcard-bio w100"><?php print array_get($slide, 'bio'); ?></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e('File'); ?></label>
                         <input type="hidden" class="mw-ui-field teamcard-file" value=<?php print array_get($slide, 'file'); ?>">
-                        <span class=" mw-ui-btn teamcard-file-up"> <span class="ico iupload"></span> <span><?php _e('Upload file'); ?> </span> </span></div>
+                        <span class="mw-ui-btn teamcard-file-up">
+                        <span class="ico iupload"></span>
+                        <span><?php _e('Upload file'); ?></span>
+                        </span>
+                    </div>
                 </div>
             </div>
         <?php } ?>
@@ -127,6 +131,7 @@ if (isset($json) == false or count($json) == 0) {
             item.className = last.attr("class");
             item.innerHTML = html;
             $(item.querySelectorAll('input')).val('');
+            $(item.querySelectorAll('textarea')).val('');
             $(item.querySelectorAll('.mw-uploader')).remove();
             last.after(item);
             teamcards.init(item);
