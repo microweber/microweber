@@ -118,8 +118,8 @@ mw.askusertostay = false;
         inHead = inHead || false;
     }
     if(typeof inHead === 'string'){
+        var keyString = ''+inHead;
         inHead = key || false;
-        var keyString = inHead;
     }
     if(typeof key === 'string'){
         var keyString = key;
@@ -128,9 +128,6 @@ mw.askusertostay = false;
     if(!!keyString){
         toPush = keyString;
     }
-
-
-
     var t = url.split('.').pop();
     var url = url.contains('//') ? url : (t !== "css" ? "<?php print( mw_includes_url() ); ?>api/" + url  :  "<?php print( mw_includes_url() ); ?>css/" + url);
     if (!~mw.required.indexOf(toPush)) {
