@@ -676,19 +676,43 @@
             <p>
                 <?php _e("You can set a custom url for the register page"); ?>
             </p>
-            <?php $checkout_url = get_option('register_url', 'users'); ?>
-            <input name="register_url" class="mw_option_field mw-ui-field" type="text" option-group="users"
+             <input name="register_url" class="mw_option_field mw-ui-field" type="text" option-group="users"
                    value="<?php print get_option('register_url', 'users'); ?>"
                    placeholder="<?php _e("Use default"); ?>"/>
+
+
+
+
             <h3>
                 <?php _e("Login URL"); ?>
             </h3>
             <p>
                 <?php _e("You can set a custom url for the login page"); ?>
             </p>
-            <?php $checkout_url = get_option('login_url', 'users'); ?>
-            <input name="login_url" class="mw_option_field mw-ui-field" type="text" option-group="users"
+             <input name="login_url" class="mw_option_field mw-ui-field" type="text" option-group="users"
                    value="<?php print get_option('login_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
+
+
+
+
+
+
+
+            <h3>
+                <?php _e("Logout URL"); ?>
+            </h3>
+            <p>
+                <?php _e("You can set a custom url for the logout page"); ?>
+            </p>
+             <input name="logout_url" class="mw_option_field mw-ui-field" type="text" option-group="users"
+                   value="<?php print get_option('logout_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
+
+
+
+
+
+
+
             <h3>
                 <?php _e("Forgot password URL"); ?>
             </h3>

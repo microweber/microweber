@@ -1,43 +1,40 @@
-.module-parallax h1 {
+.module-parallax h1{
     font-size: 34px;
     color: black;
 }
 
 .module-parallax .info-box {
-    height: 550px;
-    font-size: 36px;
+    height:550px;
+    font-size:36px;
     padding: 10px;
     display: table;
-    width: 100%;
-    height: 100%;
 }
 
 .module-parallax .info-box-fluid {
-    min-height: 350px;
-    font-size: 36px;
+    min-height:350px;
+    font-size:36px;
     padding: 10px;
     display: table;
-    width: 100%;
-    height: 100%;
 }
 
-.module-parallax .middle-content {
+
+.module-parallax .middle-content{
     display: table-cell;
     vertical-align: middle;
 }
 
-.module-parallax .parallax {
-    min-height: 550px;
+.module-parallax .parallax{
+    min-height: 550px; 
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.module-parallax img {
+.module-parallax img{
     max-width: 100%;
 }
 
-.module-parallax p {
+.module-parallax p{
     font-size: 18px;
 }

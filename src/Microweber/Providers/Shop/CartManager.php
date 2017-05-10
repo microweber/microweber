@@ -431,10 +431,6 @@ class CartManager
                         if ($cf['value'] != '') {
                             $prices[ $cf['name'] ] = $cf['value'];
                         }
-                    } elseif (isset($cf['type']) and $cf['type'] == 'price') {
-                        if ($cf['value'] != '') {
-                            $prices[ $cf['name'] ] = $cf['value'];
-                        }
                     }
                 }
                 if ($found == false) {

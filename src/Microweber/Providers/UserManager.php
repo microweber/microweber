@@ -179,7 +179,7 @@ class UserManager
         }
         $old_sid = Session::getId();
         if (isset($params['username'])) {
-            if(!$params['username']){
+            if (!$params['username']) {
                 return array('error' => 'Please enter username or email');
             }
             $ok = Auth::attempt([
@@ -195,7 +195,7 @@ class UserManager
                 }
             }
         } elseif (isset($params['email'])) {
-            if(!$params['email']){
+            if (!$params['email']) {
                 return array('error' => 'Please enter email');
             }
             $ok = Auth::attempt([
@@ -1373,7 +1373,7 @@ class UserManager
         $auth_provider = $_REQUEST['provider'];
         $this->socialite_config($auth_provider);
 
-         try {
+        try {
             $this->socialite_config($auth_provider);
             $user = $this->socialite->driver($auth_provider)->user();
             $email = $user->getEmail();
@@ -1527,7 +1527,28 @@ class UserManager
 
     public function logout_url()
     {
-        return api_url('logout');
+
+        $template_dir = $this->app->template->dir();
+        $file = $template_dir . 'logout.php';
+        $default_url = false;
+        if (is_file($file)) {
+            $default_url = 'logout';
+        } else {
+            $default_url = 'users/logout';
+        }
+
+        $logout_url = $this->app->option_manager->get('logout_url', 'users');
+        if ($logout_url != false and trim($logout_url) != '') {
+            $default_url = $logout_url;
+        }
+
+        $logout_url_sess = $this->session_get('logout_url');
+
+        if ($logout_url_sess == false) {
+            return $this->app->url_manager->site($default_url);
+        } else {
+            return $this->app->url_manager->site($logout_url_sess);
+        }
     }
 
     public function login_url()
@@ -1541,17 +1562,17 @@ class UserManager
             $default_url = 'users/login';
         }
 
-        $checkout_url = $this->app->option_manager->get('login_url', 'users');
-        if ($checkout_url != false and trim($checkout_url) != '') {
-            $default_url = $checkout_url;
+        $login_url = $this->app->option_manager->get('login_url', 'users');
+        if ($login_url != false and trim($login_url) != '') {
+            $default_url = $login_url;
         }
 
-        $checkout_url_sess = $this->session_get('login_url');
+        $login_url_sess = $this->session_get('login_url');
 
-        if ($checkout_url_sess == false) {
+        if ($login_url_sess == false) {
             return $this->app->url_manager->site($default_url);
         } else {
-            return $this->app->url_manager->site($checkout_url_sess);
+            return $this->app->url_manager->site($login_url_sess);
         }
     }
 

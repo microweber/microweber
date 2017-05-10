@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class MicroweberProvider extends AbstractProvider implements ProviderInterface
 {
-    protected $serverUrl = 'https://login.microweberapi.com';
+    protected $serverUrl = 'https://mwlogin.com';
     protected $scopes = [];
 
 
