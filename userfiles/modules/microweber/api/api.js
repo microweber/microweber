@@ -113,12 +113,28 @@ mw.askusertostay = false;
 
 
   mw.required = typeof mw.required === 'undefined'?[]:mw.required;
-  mw.require = function(url, inHead) {
-    var inHead = inHead || false;
+  mw.require = function(url, inHead, key) {
+    if(typeof inHead === 'boolean' || typeof inHead === 'undefined'){
+        inHead = inHead || false;
+    }
+    if(typeof inHead === 'string'){
+        inHead = key || false;
+        var keyString = inHead;
+    }
+    if(typeof key === 'string'){
+        var keyString = key;
+    }
+    var toPush = url;
+    if(!!keyString){
+        toPush = keyString;
+    }
+
+
+
     var t = url.split('.').pop();
     var url = url.contains('//') ? url : (t !== "css" ? "<?php print( mw_includes_url() ); ?>api/" + url  :  "<?php print( mw_includes_url() ); ?>css/" + url);
-    if (!~mw.required.indexOf(url)) {
-      mw.required.push(url);
+    if (!~mw.required.indexOf(toPush)) {
+      mw.required.push(toPush);
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
       var string = t != "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
       if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
@@ -496,7 +512,7 @@ mw.askusertostay = false;
       else{
         var id = docdata.body.querySelector(['id']);
       }
-      mw.$(selector).replaceWith(docdata.body.innerHTML);
+      mw.$(selector).replaceWith($(docdata.body).html());
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
       typeof mw.resizable_columns === 'function' ? mw.resizable_columns() : '';
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
