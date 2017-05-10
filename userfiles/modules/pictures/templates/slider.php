@@ -6,26 +6,24 @@ description: Pictures slider
 */
 ?>
 
-
 <?php if (is_array($data)): ?>
     <?php $id = "slider-" . uniqid(); ?>
-    <div class="well mw-module-images">
+    <div class="well mw-module-images slider">
         <div class=" mw-rotator mw-rotator-template-slider" id="<?php print $id; ?>">
             <div class=" mw-gallery-holder">
                 <?php foreach ($data as $item): ?>
                     <div class=" mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
                         <img src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/>
-                        <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i
-                                class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>
+                        <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
     </div>
+
     <script type="text/javascript">
         mw.require("tools.js", true);
-    </script>
-    <script type="text/javascript">
+        mw.moduleCSS("<?php print $config['url_to_module']; ?>css/slider.css");
         mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
         mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
     </script>
@@ -40,6 +38,7 @@ description: Pictures slider
                     next: true,
                     prev: true
                 });
+
             }
         });
     </script>
