@@ -122,6 +122,12 @@ mw.settings.libs = {
 
         }
     ],
+    slick: [
+        function () {
+            mw.require(mw.settings.libs_url + 'slick' + '/slick.css');
+            mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js');
+        }
+    ],
     bootstrap3ns: [
         function () {
             var bootstrap_enabled = (typeof $().modal == 'function');
