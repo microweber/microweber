@@ -326,6 +326,9 @@ mw.wysiwyg = {
                         // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
                     }
                     mwd.execCommand(a, b, c);
+                    setTimeout(function(){
+                        mw.wysiwyg.check_selection()
+                    }, 100)
                     if ($.browser.mozilla && !mw.is.ie) {
                         mwd.designMode = 'off'
                     }
