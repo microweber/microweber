@@ -339,7 +339,7 @@ class Import
                     $new = $content;
                     $new['id'] = $cat_item['id'];
                     //  \Log::info(print_r($new, true));
-                    //  dd($new);
+
                     return $this->app->category_manager->save($new);
                 }
             }
@@ -599,7 +599,7 @@ class Import
 
                 $parent_id = $parent['id'];
                 $restored_items = array();
-                dd($content_items);
+            
                 foreach ($content_items as $content) {
                     if (isset($content['title']) and $content['title'] != false) {
                         if (!isset($content['parent'])) {
