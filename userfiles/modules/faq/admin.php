@@ -71,7 +71,7 @@ if (isset($json) == false or count($json) == 0) {
 
     faqs = {
         init: function (item) {
-            $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
+            $(item.querySelectorAll('.mw-ui-field')).bind('keyup', function () {
                 mw.on.stopWriting(this, function () {
                     faqs.save();
                 });

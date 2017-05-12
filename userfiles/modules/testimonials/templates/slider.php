@@ -13,9 +13,9 @@ description: Testimonials displayed in Slider
 ?>
 
 
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.css", true);</script>
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.min.js", true);</script>
+<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", 'testimonials_css', true);</script>
+<script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.css", 'slick.css', true);</script>
+<script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.min.js, 'slick.js'", true);</script>
 <script>
     $(document).ready(function(){
         $("#<?php print $params['id']; ?> .mw-testimonials-slider").slick({
@@ -59,7 +59,7 @@ description: Testimonials displayed in Slider
                 <h5><?php print $item["project_name"]; ?></h5>
             <?php } ?>
 
-            <p><?php print $item['content']; ?></p>
+            <p><?php print nl2br($item['content']); ?></p>
             <?php if(isset($item["read_more_url"])){ ?>
                 <div><a href="<?php print $item["read_more_url"]; ?>" target="_blank"><?php _e('Read more'); ?></a></div>
             <?php } ?>

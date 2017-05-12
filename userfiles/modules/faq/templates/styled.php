@@ -40,7 +40,7 @@ description: Default
                 </div>
                 <div class="content">
                     <h4><?php print $slide['question']; ?></h4>
-                    <div><p><?php print $slide['answer']; ?></p></div>
+                    <div><p><?php print nl2br($slide['answer']); ?></p></div>
                 </div>
             </div>
 

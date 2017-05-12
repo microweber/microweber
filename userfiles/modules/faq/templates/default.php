@@ -28,7 +28,7 @@ description: Default
             ?>
             <div class="col-xs-12 col-sm-6">
                 <h4><?php print $slide['question']; ?></h4>
-                <div><p><?php print $slide['answer']; ?></p></div>
+                <div><p><?php print nl2br($slide['answer']); ?></p></div>
             </div>
 
         <?php } ?>
