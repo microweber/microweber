@@ -52,7 +52,7 @@ description: Default
                             </h4>
                         </div>
                         <div id="collapse-<?php print $count; ?>" class="panel-collapse collapse <?php print $status_in; ?>">
-                            <div class="panel-body"><?php print nl2br($slide['answer']); ?></div>
+                            <div class="panel-body"><?php print $slide['answer']; ?></div>
                         </div>
                     </div>
 

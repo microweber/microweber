@@ -28,6 +28,8 @@
     color: #6f6f6f;
     text-align: left;
     line-height: 26px;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .faq-holder.styled .item .decorate {

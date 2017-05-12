@@ -28,6 +28,7 @@
     display: table-cell;
     vertical-align: middle;
     border: 0;
+    background: transparent;
 }
 
 .mw-module-images .slickSlider .slick-pictures-item .thumbnail-wrapper .thumbnail img {

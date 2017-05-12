@@ -7,7 +7,6 @@
             mw.$('.enabled-true.active', '#<?php print $params['id'] ?>').removeClass('active');
             $(this).addClass('active');
         });
-        items.length === 1 ? items.addClass('active') : items.eq(1).addClass('active');
     });
 </script>
 
