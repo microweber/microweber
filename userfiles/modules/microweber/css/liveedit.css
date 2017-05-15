@@ -2778,6 +2778,19 @@ div[id*='SSDIVEL'] {
     line-height: 160%;
 }
 
+.mw-image-holder {
+  position: relative;
+}
+
+.mw-image-holder-content{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
 
 
 

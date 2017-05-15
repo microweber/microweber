@@ -4577,7 +4577,7 @@ mw.image = {
                 left: offset.left,
                 top: offset.top,
                 width: width,
-                height: height
+                height: mw.tools.hasParentsWithClass(el[0], 'mw-image-holder') ? 1 : height
             });
             r.addClass("active");
             $(mw.image_resizer).resizable("option", "alsoResize", el);

@@ -590,7 +590,12 @@ mw.drag = {
                         if (event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
                             $(mw.image_resizer).addClass("active");
                             mw.image.resize.resizerSet(event.target, false);
-                        } else {
+                        }
+                        else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
+                          $(mw.image_resizer).addClass("active");
+                            mw.image.resize.resizerSet(mw.tools.firstParentWithClass(mw.mm_target, 'mw-image-holder').querySelector('img'), false);
+                        }
+                        else {
                             if (!event.target.mwImageResizerComponent) {
                                 mw.tools.removeClass(mw.image_resizer, 'active')
                             }
@@ -1152,7 +1157,9 @@ mw.drag = {
                 var curr = $(this).data("curr");
                 if (!$(curr).hasClass("element-current")) {
                     $(".element-current").removeClass("element-current");
+
                     if (curr.tagName == 'IMG') {
+
                         $(window).trigger("onImageClick", curr);
                     } else {
                         $(window).trigger("onElementClick", curr);

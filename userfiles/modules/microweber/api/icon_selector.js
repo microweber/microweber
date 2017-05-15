@@ -62,11 +62,20 @@ mw.iconSelector = mw.iconSelector || {
 
             }
 
+
+
+
+
+
+
+
             //check semantic ui
             var faicons = mwd.querySelector('link[href*="/semantic.min.css"]');
-            if (faicons != null && faicons.length == 0) {
+            if (faicons !== null) {
                 var faicons = mwd.querySelector('link[href*="/semantic.css"]');
             }
+
+
 
             if (faicons != null && faicons.length != 0 && typeof(faicons.sheet) != 'undefined' && typeof(faicons.sheet) != 'null') {
                 try {
@@ -91,6 +100,7 @@ mw.iconSelector = mw.iconSelector || {
             }
 
         }
+
 
 
         try {
@@ -134,7 +144,7 @@ mw.iconSelector = mw.iconSelector || {
 
             }
 
-            mw.iconSelector._string = '<ul class="mw-icon-selector">' + html + '</ul>';
+
 
             var theOptions = ''
                 + '<span class="mw-ui-btn" id="icon-color-pick">Color</span>'
@@ -143,39 +153,44 @@ mw.iconSelector = mw.iconSelector || {
                 + '<input class="mw-icon-selector-set-icon-size" type="range" name="mw-icon-selector-set-icon-size"  min="10" max="120" onchange="mw.iconSelector.set_icon_size(this.value)"  />';
 
 
-            mw.iconSelector._string =
+
+
+            mw.iconSelector.getMaterialIconsPopup(function(){
+              mw.iconSelector._string = html + this;
+             mw.iconSelector._string = '<ul class="mw-icon-selector">' + mw.iconSelector._string + '</ul>';
+
+               mw.iconSelector._string =
                 '<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs live-edit-icon-pick-menu"><span class="mw-ui-btn">Icons</span><span class="mw-ui-btn">Options</span></div>'
                 + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:300px">' + mw.iconSelector._string + '</div>'
                 + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:300px">' + theOptions + '</div>'
                 ;
 
+              mw.iconSelectorToolTip = mw.tooltip({
+                  content: mw.iconSelector._string,
+                  element: mw.iconSelector._activeElement,
+                  position: 'bottom-center'
+              });
 
+              $(mw.iconSelectorToolTip).addClass('tooltip-icon-picker')
 
-            mw.iconSelectorToolTip = mw.tooltip({
-                content: mw.iconSelector._string,
-                element: mw.iconSelector._activeElement,
-                position: 'bottom-center'
-            });
+              $('.mw-icon-selector', mw.iconSelectorToolTip).show();
+              var tabs = mw.tabs({
+                  nav:'.live-edit-icon-pick-menu .mw-ui-btn',
+                  tabs:'.live-edit-icon-pick-tab'
+              })
 
+              tabs.set(0)
 
+              mw.colorPicker({
+                  element:'#icon-color-pick',
+                  position:'bottom-center',
+                  onchange:function(color){
+                      $(mw.iconSelector._activeElement).css("color", color);
+                  }
+              });
+              mw.iconSelector.searchInit();
 
-            $('.mw-icon-selector', mw.iconSelectorToolTip).show();
-            var tabs = mw.tabs({
-                nav:'.live-edit-icon-pick-menu .mw-ui-btn',
-                tabs:'.live-edit-icon-pick-tab'
             })
-
-            tabs.set(0)
-
-            mw.colorPicker({
-                element:'#icon-color-pick',
-                position:'bottom-center',
-                onchange:function(color){
-                    $(mw.iconSelector._activeElement).css("color", color);
-                }
-            });
-
-
         }
         else {
             $(mw.iconSelectorToolTip).show();
@@ -194,13 +209,21 @@ mw.iconSelector = mw.iconSelector || {
 
 
     },
-    select: function (icon) {
+    select: function (icon, is) {
         if (mw.iconSelector._activeElement !== null && typeof mw.iconSelector._activeElement !== 'undefined') {
             mw.tools.removeClass(mw.iconSelector._activeElement, mw.iconSelector.iconFontClasses);
             mw.wysiwyg.elementRemoveFontIconClasses(mw.iconSelector._activeElement);
             mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'mw-icon-');
+            mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'fa-');
             mw.$(mw.iconSelector._activeElement).addClass(icon + ' mw-wysiwyg-custom-icon ');
 
+            console.log(is)
+            if(!!is){
+              mw.$(mw.iconSelector._activeElement).html(is)
+            }
+            else{
+              mw.$(mw.iconSelector._activeElement).empty()
+            }
 
             if(typeof(mw.iconSelector._activeElement) != 'undefined' && typeof(mw.iconSelector._activeElement.nodeName) != 'undefined'){
                 if(mw.iconSelector._activeElement.nodeName == "INPUT"){
@@ -220,6 +243,44 @@ mw.iconSelector = mw.iconSelector || {
             $(mw.iconSelectorToolTip).hide();
         }
     },
+    search:function(val){
+      val = val.toLowerCase();
+      var final = [];
+      $.each(mw.iconSelector.iconFontClasses, function(){
+        if(this.indexOf(val) !== -1){
+          final.push(final)
+        }
+      })
+      $.each(mw.materialIcons, function(){
+        if(this.indexOf(val) !== -1){
+          final.push(final)
+        }
+      });
+      return final;
+    },
+    searchInit:function(el){
+      if(!!mw.iconSelector.searchelement) return;
+      mw.iconSelector.searchelement = document.createElement('input');
+      mw.iconSelector.searchelement.className = 'mw-ui-searchfield icon-picker-search';
+      mw.iconSelector.searchelement.__time = null;
+      $(mw.iconSelector.searchelement).on('input keyup paste', function(){
+        clearTimeout(mw.iconSelector.searchelement.__time);
+        mw.iconSelector.searchelement.__time = setTimeout(function(){
+          var val = mw.iconSelector.searchelement.value.toLowerCase();
+          if(!val){
+            $(".live-edit-icon-pick-tab li").show();
+            return;
+          }
+          var results = mw.iconSelector.search(mw.iconSelector.searchelement.value);
+          $(".live-edit-icon-pick-tab li").hide().each(function(){
+            if(this.title.indexOf(val) !== -1){
+              $(this).show();
+            }
+          })
+        }, 100)
+      })
+      $(mw.iconSelector.searchelement).appendTo('.tooltip-icon-picker')
+    },
     iconDropdown:function(selector, options){
         var el = $(selector)[0];
         if(!el) return;
@@ -237,17 +298,23 @@ mw.iconSelector = mw.iconSelector || {
         var l = uicss.length, i = 0, html = '';
         for (; i < l; i++) {
             var sel = uicss[i];
-            html += '<li data-value="'+sel+'"><i class="' + sel + '"></i></li>';
+            html += '<li data-value="'+sel+'" title="'+sel+'"><i class="' + sel + '"></i></li>';
 
         }
 
-        html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; display:inline-block;">' + html + '</ul>';
+
+
+
 
         var input = document.createElement('input');
         input.__time = null;
         input.className = options.className || 'mw-ui-field';
 
-        $(selector).addClass('mw-icon-selector-dropdown-wrapper').append(input).append(html)
+        mw.iconSelector.getMaterialIconsDropdown(function(){
+          html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; display:inline-block;">' + html + this + '</ul>';
+          $(selector).addClass('mw-icon-selector-dropdown-wrapper').append(input).append(html)
+        })
+
 
         $(input).on('focus', function(){
             $(this).parent().addClass('focused')
@@ -289,6 +356,43 @@ mw.iconSelector = mw.iconSelector || {
 
 
 
+    },
+    getMaterialIconsPopup:function(callback){
+
+      mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css')
+      var html = '';
+      if(!mw.materialIcons){
+          $.getScript(mw.settings.modules_url + 'microweber/api/material.icons.js', function(data){
+            $.each(mw.materialIcons, function(){
+              html += '<li onclick="mw.iconSelector.select(\'material-icons\', \''+this+'\')" title="'+this+'"><i class="material-icons">'+this+'</i></li>';
+            })
+            callback.call(html)
+          })
+        }
+        else{
+          $.each(mw.materialIcons, function(){
+            html += '<li  onclick="mw.iconSelector.select(\'material-icons\', \''+this+'\')" title="'+this+'"><i class="material-icons">'+this+'</i></li>';
+          })
+          callback.call(html)
+        }
+    },
+    getMaterialIconsDropdown:function(callback){
+      mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css')
+      var html = '';
+      if(!mw.materialIcons){
+          $.getScript(mw.settings.modules_url + 'microweber/api/material.icons.js', function(data){
+            $.each(mw.materialIcons, function(){
+              html += '<li data-value="material-icons" title="'+this+'"><i class="material-icons">'+this+'</i></li>';
+            })
+            callback.call(html)
+          })
+        }
+        else{
+          $.each(mw.materialIcons, function(){
+            html += '<li data-value="material-icons" title="'+this+'"><i class="material-icons">'+this+'</i></li>';
+          })
+          callback.call(html)
+        }
     },
     set_icon_size: function (val) {
 

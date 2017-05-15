@@ -811,16 +811,25 @@
 /* Icons */
 
 .mw-icon-selector {
-    max-height: 120px;
+    height: 120px;
     width: 300px;
     background-color: white;
     overflow-x: hidden;
     overflow-y: auto;
+    resize: vertical;
 }
 
 .mw-icon-selector{
     width: 100%;
     display: none;
+}
+
+.icon-picker-search{
+  position: absolute;
+    top: 11px;
+    z-index: 10;
+    right: 10px;
+    display: block;
 }
 
 .mw-icon-selector-dropdown-wrapper{
