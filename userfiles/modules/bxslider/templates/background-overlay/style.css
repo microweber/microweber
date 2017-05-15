@@ -20,7 +20,7 @@
     right: 50px;
 }
 
-.bxSliderWrapper.template-default .bx-wrapper .bx-pager.bx-default-pager a{
+.bxSliderWrapper.template-default .bx-wrapper .bx-pager.bx-default-pager a {
     background: #b4b4b4;
     width: 15px;
     height: 15px;
@@ -29,7 +29,7 @@
     border-radius: 15px;
 }
 
-.bxSliderWrapper.template-default .bx-wrapper .bx-pager.bx-default-pager a.active{
+.bxSliderWrapper.template-default .bx-wrapper .bx-pager.bx-default-pager a.active {
     background: #f79d17;
 }
 
@@ -63,7 +63,7 @@
     padding: 0;
 }
 
-.bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid .middle-content{
+.bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid .middle-content {
     display: table-cell;
     vertical-align: middle;
     padding: 0 140px;
@@ -84,6 +84,7 @@
 
 .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid .button {
     text-align: center;
+    margin-top: 20px;
 }
 
 .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid .button .btn-primary {
@@ -106,6 +107,17 @@
     border: 1px solid #ffa800;
 }
 
+.bxSliderWrapper ul li {
+    visibility: hidden;
+    position: absolute;
+}
+
+.bxSliderWrapper ul li:first-child,
+body.loaded .bxSliderWrapper ul li{
+    visibility: visible;
+    position: relative;;
+}
+
 @media screen and (max-width: 767px) {
     .bxSliderWrapper.template-default .bxslider-wrapper .bxslider {
         background-size: cover;
@@ -124,6 +136,20 @@
     .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid p {
         font-size: 32px !important;
     }
+
+    .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid .middle-content {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0;
+    }
+
+    .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid h1.bxSlider-title {
+        font-size: 28px !important;
+    }
+
+    .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid p.bxSlider-desc {
+        font-size: 18px !important;
+    }
 }
 
 @media screen and (max-width: 1199px) {
@@ -131,8 +157,12 @@
         background-size: cover;
     }
 
-    .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid p {
-        font-size: 36px !important;
+    .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid h1.bxSlider-title {
+        font-size: 32px !important;
+    }
+
+    .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid p.bxSlider-desc {
+        font-size: 24px !important;
     }
 }
 
