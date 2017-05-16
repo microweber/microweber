@@ -24,6 +24,18 @@
         $infoImage = $config['url_to_module'] . 'images/infoImage.jpg';
     }
 
+    if (get_option('height', $params['id'])) {
+        $height = get_option('height', $params['id']);
+    } else {
+        $height = 550;
+    }
+
+    if (get_option('alpha', $params['id'])) {
+        $alpha = get_option('alpha', $params['id']);
+    } else {
+        $alpha = '0.6';
+    }
+
 
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {

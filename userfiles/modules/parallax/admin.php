@@ -3,6 +3,8 @@
 <?php
 $parallax = get_option('parallax', $params['id']);
 $infoImage = get_option('info-image', $params['id']);
+$height = get_option('height', $params['id']);
+$alpha = get_option('alpha', $params['id']);
 ?>
 
 <script type="text/javascript">
@@ -33,23 +35,41 @@ $infoImage = get_option('info-image', $params['id']);
                     <input type="hidden" class="mw_option_field" name="info-image" id="infoimageval" value="<?php print $infoImage; ?>"/>
                 </div>
 
-<!--                <div class="form-group">-->
-<!--                    <label class="control-label" for="text">--><?php //_e('Text'); ?><!--</label>-->
-<!--                    <textarea name="text" data-refresh="parallax" class="form-control mw_option_field" id="text" rows="10" style="height: 100px;">--><?php //print get_option('text', $params['id']) ?><!--</textarea>-->
-<!--                </div>-->
-<!---->
-<!--                <div class="form-group">-->
-<!--                    <label class="control-label" for="button-text">--><?php //_e('Button text'); ?><!--</label>-->
-<!--                    <input name="button-text" data-refresh="parallax" class="form-control mw_option_field" type="text" value="--><?php //print get_option('button-text', $params['id']) ?><!--" id="button-text">-->
-<!--                </div>-->
-<!---->
-<!--                <div class="form-group">-->
-<!--                    <label class="control-label" for="button-url">--><?php //_e('Button URL'); ?><!--</label>-->
-<!--                    <input name="button-url" data-refresh="parallax" class="form-control mw_option_field" type="text" value="--><?php //print get_option('button-url', $params['id']) ?><!--" id="button-url">-->
-<!--                </div>-->
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label" for="height"><?php _e('Full width parallax height'); ?></label>
+                            <input name="height" data-refresh="parallax" class="form-control mw_option_field" type="number" value="<?php print get_option('height', $params['id']) ?>" id="height">
+                        </div>
+                    </div>
 
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label" for="alpha"><?php _e('Alpha: 0-1'); ?></label>
+                            <input name="alpha" data-refresh="parallax" class="form-control mw_option_field" type="range" value="<?php print get_option('alpha', $params['id']) ?>" id="alpha" min="0" max="1" step=".01"/>
+                        </div>
+                    </div>
+                </div>
 
-                <module type="admin/modules/templates"  />
+                <!--                <div class="form-group">-->
+                <!--                    <label class="control-label" for="text">--><?php //_e('Text'); ?><!--</label>-->
+                <!--                    <textarea name="text" data-refresh="parallax" class="form-control mw_option_field" id="text" rows="10" style="height: 100px;">-->
+                <?php //print get_option('text', $params['id']) ?><!--</textarea>-->
+                <!--                </div>-->
+                <!---->
+
+                <!---->
+                <!--                <div class="form-group">-->
+                <!--                    <label class="control-label" for="button-url">--><?php //_e('Button URL'); ?><!--</label>-->
+                <!--                    <input name="button-url" data-refresh="parallax" class="form-control mw_option_field" type="text" value="-->
+                <?php //print get_option('button-url', $params['id']) ?><!--" id="button-url">-->
+                <!--                </div>-->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <module type="admin/modules/templates"/>
+                    </div>
+                </div>
 
             </div>
         </div>

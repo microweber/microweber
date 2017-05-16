@@ -43,6 +43,13 @@ if (isset($json) == false or count($json) == 0) {
     </style>
     <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
     <a class="mw-ui-btn mw-ui-btn-invert pull-right add-new" href="javascript:teamcards.create()">+ <?php _e('Add new'); ?></a>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <module type="admin/modules/templates"/>
+        </div>
+    </div>
+
     <div id="teamcard-settings">
         <?php
         $count = 0;
