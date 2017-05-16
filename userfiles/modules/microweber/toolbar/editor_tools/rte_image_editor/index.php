@@ -57,6 +57,8 @@ else{
 
               parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
 
+              window.top.$(window.top).trigger('imageSrcChanged',[parent.mw.image.currentResizing[0], url])
+
 
             }
             else if(hash=='set_bg_image'){

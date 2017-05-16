@@ -1583,6 +1583,12 @@ $(mwd).ready(function () {
 
 $(window).load(function () {
 
+$(this).on('imageSrcChanged', function(e, el, url){
+  if($(el).parent().hasClass('mw-image-holder')){
+    $(el).parent().css('backgroundImage', 'url('+url+')')
+  }
+})
+
 
     mw.$("#wysiwyg_insert").bind("change", function () {
         var fnode = window.getSelection().focusNode;

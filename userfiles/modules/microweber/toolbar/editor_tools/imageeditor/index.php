@@ -117,7 +117,7 @@
         var data = cropImage.cropper("getData");
         var canvas = document.createElement('canvas');
         canvas.width = data.width,
-            canvas.height = data.height;
+        canvas.height = data.height;
         var context = canvas.getContext('2d');
         context.drawImage(cropImage[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
         var newsrc = canvas.toDataURL();
@@ -210,6 +210,7 @@
         mw.$("#mw_image_reset").click(function () {
             if (!$(this).hasClass("disabled")) {
                 mw.image.current.src = mw.image.current_original;
+                window.top.$(window).trigger('imageSrcChanged', [mw.image.current, mw.image.current_original])
                 mw.image.current_need_resize = true;
             }
         });

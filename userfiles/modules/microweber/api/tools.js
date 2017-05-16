@@ -119,6 +119,13 @@ if( !window.escape ){
 
 
 mw.tools = {
+    constructions:function(){
+      $(".mw-image-holder").each(function(){
+        var img = this.querySelector('img');
+        img.style.display = 'none';
+        $(this).css('backgroundImage', 'url('+img.src+')')
+      })
+    },
     isEditable:function(item){
         var el = item;
         if(!!item.type && !!item.target){
@@ -5079,6 +5086,7 @@ $(mww).bind('load', function () {
 });
 
 $(mwd).ready(function () {
+    mw.tools.constructions();
     mw.dropdown();
     $(mwd.body).ajaxStop(function () {
         setTimeout(function () {
