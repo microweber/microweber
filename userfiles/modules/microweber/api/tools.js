@@ -122,7 +122,6 @@ mw.tools = {
     constructions:function(){
       $(".mw-image-holder").each(function(){
         var img = this.querySelector('img');
-        img.style.display = 'none';
         $(this).css('backgroundImage', 'url('+img.src+')')
       })
     },
