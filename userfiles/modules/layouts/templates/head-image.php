@@ -1,0 +1,26 @@
+<?php
+
+/*
+
+type: layout
+
+name: Head image
+
+
+
+*/
+?>
+
+<div class="head-image-layout" id="head-image-<?php print CONTENT_ID; ?>">
+    <div class="mw-image-holder">
+        <img src="http://lorempixel.com/1200/410" alt=""/>
+        <div class="mw-image-holder-content" style="">
+            <div class="content-holder">
+                <div class="inner">
+                    <h1>Our Services</h1>
+                    <p>Be assured, our services and team members will support your business growth</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
