@@ -141,7 +141,7 @@ mw.settings.libs = {
     bootstrap_select: [
         function () {
             var bootstrap_enabled = (typeof $().modal == 'function');
-            if (bootstrap_enabled == false) {
+            if (!bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
             }

@@ -179,7 +179,13 @@ class MailSender
 
             $message = 'Hello! This is a simple email message.';
 
-            $this->exec_send($to, $subject, $message);
+            $send = $this->exec_send($to, $subject, $message);
+            if ($send) {
+                return array('success' => $send);
+            } else {
+                return array('error' => 'Email is not sent');
+
+            }
         }
 
         return true;
@@ -234,9 +240,6 @@ class MailSender
                 return;
             }
         }
-
-
-
 
 
         return $exec;

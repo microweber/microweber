@@ -599,7 +599,7 @@ class Import
 
                 $parent_id = $parent['id'];
                 $restored_items = array();
-            
+
                 foreach ($content_items as $content) {
                     if (isset($content['title']) and $content['title'] != false) {
                         if (!isset($content['parent'])) {
