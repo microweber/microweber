@@ -4,14 +4,14 @@
 
 type: layout
 
-name: services 1
+name: Services 1
 
  
  
 */
 ?>
 
-<div class="row services-layout">
+<div class="row services-layout-1">
     <div class="">
         <div class="col-xs-12 col-md-6 service">
             <h3><i class="fa fa-refresh"></i> Money Sharing With Friends and Family.</h3>

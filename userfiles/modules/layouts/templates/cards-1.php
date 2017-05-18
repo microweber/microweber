@@ -4,14 +4,14 @@
 
 type: layout
 
-name: Cards
+name: Cards 1
 
  
- 
+
 */
 ?>
 
-<div class="cards-layout">
+<div class="cards-layout-1">
     <div class="info-text center p-t-30">
         <h1 class="m-b-10">Best In Financial & Payment Services</h1>
         <p>

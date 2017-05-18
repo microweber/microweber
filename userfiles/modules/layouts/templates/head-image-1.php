@@ -4,14 +4,14 @@
 
 type: layout
 
-name: Head image
+name: Head image 1
 
 
 
 */
 ?>
 
-<div class="head-image-layout" id="head-image-<?php print CONTENT_ID; ?>">
+<div class="head-image-layout-1" id="head-image-<?php print CONTENT_ID; ?>">
     <div class="mw-image-holder">
         <img src="http://lorempixel.com/1200/410" alt=""/>
         <div class="mw-image-holder-content" style="">

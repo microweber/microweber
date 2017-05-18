@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Text image left
+name: Text image 1 - left
 
 
 
@@ -12,7 +12,7 @@ name: Text image left
 ?>
 
 
-<div class="text-image-layout left" id="text-image-left-<?php print CONTENT_ID; ?>">
+<div class="text-image-layout-1 left" id="text-image-left-<?php print CONTENT_ID; ?>">
     <div class="image">
         <div class="mw-image-holder">
             <img src="http://lorempixel.com/800/410" alt=""/>

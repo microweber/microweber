@@ -4,14 +4,14 @@
 
 type: layout
 
-name: services 2
+name: Services 2
 
  
  
 */
 ?>
 
-<div class="services-2-layout">
+<div class="services-layout-2">
     <div class="text-center">
         <h2 class="special">What we do</h2>
     </div>
