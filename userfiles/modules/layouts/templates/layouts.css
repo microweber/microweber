@@ -176,7 +176,9 @@
 }
 
 .two-images {
-    margin: 0 -10px 40px -10px;
+    margin-bottom: 40px;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
 }
 
 .two-images .head-image-layout {
