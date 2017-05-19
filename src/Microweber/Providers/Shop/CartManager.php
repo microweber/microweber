@@ -2,7 +2,10 @@
 
 namespace Microweber\Providers\Shop;
 
-class CartManager
+use Microweber\Utils\Crud;
+
+
+class CartManager extends Crud
 {
     /** @var \Microweber\Application */
     public $app;
@@ -320,7 +323,13 @@ class CartManager
                 }
             }
         }
-        if (!isset($data['for'])) {
+        if (!isset($data['for']) and isset($data['rel_type'])) {
+            $data['for'] = $data['rel_type'];
+        }
+        if (!isset($data['for_id']) and isset($data['rel_id'])) {
+            $data['for_id'] = $data['rel_id'];
+        }
+        if (!isset($data['for']) and !isset($data['rel_type'])) {
             $data['for'] = 'content';
         }
         $update_qty = 0;
@@ -330,8 +339,9 @@ class CartManager
             $update_qty_new = $update_qty = intval($data['qty']);
             unset($data['qty']);
         }
-        if (!isset($data['for']) or !isset($data['for_id'])) {
+       if (!isset($data['for']) or !isset($data['for_id'])) {
             if (!isset($data['id'])) {
+
             } else {
                 $cart = array();
                 $cart['id'] = intval($data['id']);
@@ -341,14 +351,9 @@ class CartManager
                     $data = array_merge($data, $data_existing[0]);
                 }
             }
-        }
+         }
 
-        if (!isset($data['for']) and isset($data['rel_type'])) {
-            $data['for'] = $data['rel_type'];
-        }
-        if (!isset($data['for_id']) and isset($data['rel_id'])) {
-            $data['for_id'] = $data['rel_id'];
-        }
+
         if (!isset($data['for']) and !isset($data['for_id'])) {
              return array('error' => 'Invalid for and for_id params');
         }
@@ -558,7 +563,7 @@ class CartManager
                 $cart_return['image'] = $this->app->media_manager->get_picture($cart['rel_id']);
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
             }
-            $cart_sum = $this->sum();
+            $cart_sum = $this->sum(true);
             $cart_qty = $this->sum();
 
             return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items' => $cart_qty);
