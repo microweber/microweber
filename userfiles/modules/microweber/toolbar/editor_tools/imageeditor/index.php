@@ -67,6 +67,34 @@
 
 
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+                <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
+                <input type="text" class="mw-ui-field w100" id="overlaycolor" placeholder="Enter color"/>
+                <script>
+                  setAlpha = function(){
+                    var color = $("#overlaycolor") || val;
+                    var alpha = $("#overlaycoloralpha").val();
+                  }
+
+                  setColor = function(){
+                    var color = $("#overlaycolor");
+                    var alpha = $("#overlaycoloralpha").val()
+                  }
+                  $(document).ready(function(){
+                    pick3 = mw.colorPicker({
+                      element:'#overlaycolor',
+                      onchange:function(color){
+                        $("#overlaycolor").val(color);
+                        setColor()
+                      }
+                    });
+                  })
+                </script>
+            </div>
+            <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+                <label class="mw-ui-label"><?php _e('Overlay alpha'); ?></label>
+                <input type="range" min="0" max="100" id="overlaycoloralpha" onchange="setAlpha()" />
+            </div>
+            <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
                 <label class="mw-ui-label"><?php _e('Links to:'); ?></label>
                 <input type="text" class="mw-ui-field w100" id="link" placeholder="Enter URL"/>
             </div>

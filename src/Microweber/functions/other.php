@@ -693,3 +693,11 @@ if (!function_exists('titlelize')) {
         return mw()->format->titlelize($str);
     }
 }
+
+
+function load_layout_block($block_name)
+{
+    $block_name = str_replace('..', '', $block_name);
+
+    return include(modules_path() . DS . 'layouts/blocks/' . $block_name . '.php');
+}
