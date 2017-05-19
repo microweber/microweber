@@ -17,15 +17,20 @@ if($settings == false){
         $json = json_decode($settings, true);
 
     }
+    else{
+
+      $json = array(
+        'title' => '',
+        'id' => 'tab-'.uniqid(),
+        'icon' => ''
+      );
+    }
 }
 else{
     $json = json_decode($settings, true);
 }
 
-$defaults = array(
-    'title' => '',
-    'icon'  => ''
-);
+
 
 
 
