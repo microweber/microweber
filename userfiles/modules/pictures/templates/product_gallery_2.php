@@ -98,9 +98,10 @@ description: Product Gallery
             text-indent: 0;
             background: #fff;
             border: 1px solid #000;
-            border-radius: 32px;
+            border-radius: 0px;
             padding: 3px 4px;
             z-index: 1;
+            margin-top: -30px;
         }
 
         .product-gallery-layout-2 .bx-wrapper .bx-controls-direction a i{

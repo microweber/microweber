@@ -4,7 +4,7 @@
 </script>
 
 <div class="bootstrap3ns">
-    <div class="edit">
+    <div class="edit" rel="layout-<?php print $params['id'] ?>" field="layout">
         <?php
         $template = get_option('data-template', $params['id']);
         if ($template == false and isset($params['template'])) {
