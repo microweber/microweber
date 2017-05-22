@@ -396,7 +396,7 @@ if (!empty($recomended_layouts)) {
                 mw.$("#<?php print $params['id']?>").attr('active_site_template', templ);
                 mw.reload_module("#<?php print $params['id']?>",function(){
 				 
-				 $('.layouts_box_holder_small',"#<?php print $params['id']?>").toggleClass('semi_hidden');
+				// $('.layouts_box_holder_small',"#<?php print $params['id']?>").toggleClass('semi_hidden');
 				 
 				})
 				
