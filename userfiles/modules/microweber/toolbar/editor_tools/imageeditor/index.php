@@ -11,6 +11,16 @@
             height: 300px;
         }
 
+        #mwimagecurrentoverlay{
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color:rgba(0, 0, 0, 0.2);
+        }
+
         #the-image-holder img {
             max-width: 100%;
             max-height: 100%;
@@ -66,20 +76,46 @@
             </div>
 
 
-            <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+            <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="overlayholder">
                 <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
                 <input type="text" class="mw-ui-field w100" id="overlaycolor" placeholder="Enter color"/>
                 <script>
-                  setAlpha = function(){
-                    var color = $("#overlaycolor") || val;
-                    var alpha = $("#overlaycoloralpha").val();
-                  }
+                  mw.require('css_parser.js', 'css_parser');
+                  mw.require('color.js', 'color_js');
+                </script>
+                <script>
 
-                  setColor = function(){
-                    var color = $("#overlaycolor");
-                    var alpha = $("#overlaycoloralpha").val()
+
+                  setColor = function(save){
+                      var color = $("#overlaycolor").val();
+                      var alpha = parseInt($("#overlaycoloralpha").val(), 10);
+                      if(isNaN(alpha)){
+                        alpha = 100;
+                      }
+                      alpha = (alpha/100);
+                      var final = mw.color.hexToRgbaCSS(color, alpha);
+                      if(save){
+                        $(".mw-image-holder-overlay", theImage.parentNode).css('backgroundColor', final);
+                      }
+
+                      $("#mwimagecurrentoverlay").css('backgroundColor', final)
                   }
                   $(document).ready(function(){
+
+                   if (self !== parent && !!parent.mw.image.currentResizing) {
+                        theImage = parent.mw.image.currentResizing[0];
+                    }
+
+                    if(isImageHolder()){
+                      $("#overlayholder, #alphaholder").show();
+                      currentOverlay = $('.mw-image-holder-overlay',  theImage.parentNode);
+                      var currentOverlayColor = mw.CSSParser(currentOverlay[0]).css.backgroundColor || 'rgba(0,0,0,0)';
+                      currentOverlayColorParse = mw.color.colorParse(currentOverlayColor);
+
+                      $("#overlaycolor").val(mw.color.rgbToHex(currentOverlayColorParse))
+                      $("#overlaycoloralpha").val(currentOverlayColorParse.alpha * 100)
+
+                    }
                     pick3 = mw.colorPicker({
                       element:'#overlaycolor',
                       onchange:function(color){
@@ -90,9 +126,9 @@
                   })
                 </script>
             </div>
-            <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+            <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="alphaholder">
                 <label class="mw-ui-label"><?php _e('Overlay alpha'); ?></label>
-                <input type="range" min="0" max="100" id="overlaycoloralpha" onchange="setAlpha()" />
+                <input type="range" min="0" max="100" id="overlaycoloralpha" onchange="setColor()" />
             </div>
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
                 <label class="mw-ui-label"><?php _e('Links to:'); ?></label>
@@ -121,6 +157,11 @@
 <script>
 
 
+  isImageHolder = function(){
+    return mw.tools.hasClass(parent.mw.image.currentResizing[0].parentNode, 'mw-image-holder')
+  }
+
+
     mw.createCropTool = function () {
         mw.$('#cropmenu').show();
         mw.$('#editmenu').hide();
@@ -129,13 +170,9 @@
             dragCrop: false,
             autoCrop: true,
             done: function (data) {
-
-
-                mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function () {
-                    DoCrop();
-                });
-
-
+              mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function () {
+                  DoCrop();
+              });
             }
         });
     }
@@ -173,9 +210,7 @@
     $(mwd).ready(function () {
 
 
-        if (self !== parent && !!parent.mw.image.currentResizing) {
-            theImage = parent.mw.image.currentResizing[0];
-        }
+
 
         if (mw.tools.hasParentsWithTag(theImage, 'a')) {
 
@@ -190,7 +225,7 @@
             title = theImage.title,
             alt = theImage.alt;
 
-        mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' />");
+        mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
         mw.image.current_original = src;
 
@@ -229,6 +264,8 @@
                     $(theImage).wrap('<a href="' + link_url + '"></a>');
                 }
             }
+
+            setColor(true);
             parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(theImage, 'edit'));
 
             parent.document.getElementById('mw-image-settings-modal').modal.remove();

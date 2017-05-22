@@ -30,7 +30,7 @@
     ?>
     <a
         class="mw-ui-btn <?php if ($count==1){ ?> active <?php } ?>"
-        href="javascript:;"><span class="fa <?php print isset($slide['icon']) ? $slide['icon'] : ''; ?>"></span><?php print $slide['title']; ?></a>
+        href="javascript:;"><span class="fa <?php print isset($slide['icon']) ? $slide['icon'] : ''; ?>"></span><?php print isset($slide['title'])?$slide['title']:''; ?></a>
     <?php } ?>
   </div>
   <div class="mw-ui-box">
