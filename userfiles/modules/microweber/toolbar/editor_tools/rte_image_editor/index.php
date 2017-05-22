@@ -153,6 +153,7 @@ else{
             frame.width = li.width();
             frame.height = li.height();
             $(frame).bind("progress", function(frame, file) {
+              console.log(Progress)
                 Progress.show();
 
                 ProgressBar.width(file.percent + '%');
