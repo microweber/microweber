@@ -15,13 +15,19 @@ if(isset($_REQUEST['mw_payment_success'])){
 	$payment_success = false;
 }
 
+$step = 1;
 
+if (isset($_GET['step'])) {
+    $step = intval($_GET['step']);
+}
 
+$user = get_user();
+
+$tems = get_option('shop_require_terms', 'website') == 1;
+$shop_page = get_content('is_shop=1');
 
 $requires_registration = get_option('shop_require_registration', 'website') == '1';
 $requires_terms = get_option('shop_require_terms', 'website')  == '1';
-
- 
 
 $template = get_option('data-template', $params['id']);
 $template_file = false;
@@ -46,12 +52,7 @@ if ($template != false and strtolower($template) != 'none') {
 
 </script>
 
-
 <script type="text/javascript">
-
-    
-
-
     $(document).ready(function () {
         __max = 0;
         mw.$(".mw-checkout-form .well").each(function () {
@@ -63,9 +64,8 @@ if ($template != false and strtolower($template) != 'none') {
         mw.$(".mw-checkout-form .well").css("minHeight", __max);
 
     });
-
-
 </script>
+
 <?php $cart_show_payments = get_option('data-show-payments', $params['id']); ?>
 <?php $cart_show_shipping = get_option('data-show-shipping', $params['id']); ?>
 <?php

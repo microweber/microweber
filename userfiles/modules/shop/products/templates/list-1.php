@@ -25,6 +25,11 @@ description: Product List 1 layout
         display: block;
     }
 
+    .module-shop-products .products-wrapper.layout-1 .item:hover .image {
+        box-shadow: 0px 3px 19px -3px rgba(0, 0, 0, .17);
+        -webkit-box-shadow: 0px 3px 19px -3px rgba(0, 0, 0, .17);
+    }
+
     .module-shop-products .products-wrapper.layout-1 .item .image img {
         max-height: 220px;
         max-width: 100%;
@@ -64,6 +69,7 @@ description: Product List 1 layout
         color: #373737;
         font-size: 14px;
         margin-top: 5px;
+        height: 50px;
     }
 
     .module-shop-products .products-wrapper.layout-1 .item .price span {
@@ -97,6 +103,30 @@ description: Product List 1 layout
     .module-shop-products .products-wrapper.layout-1 .item i.right {
         float: right;
         margin-left: 5px;
+    }
+
+    .module-shop-products .pagination > li > a,
+    .module-shop-products .pagination > li > span,
+    .module-shop-products .pagination > li > a:focus,
+    .module-shop-products .pagination > li > a:hover,
+    .module-shop-products .pagination > li > span:focus,
+    .module-shop-productslayout-1 .pagination > li > span:hover {
+        padding: 6px 12px;
+        color: #373737;
+        text-decoration: none;
+        background: none;
+        border: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .module-shop-products .pagination > li > a.active {
+        color: #ed6c59 !important;
+        /*text-decoration: underline;*/
+    }
+
+    .module-shop-products .pagination-holder {
+        text-align: center;
     }
 </style>
 
