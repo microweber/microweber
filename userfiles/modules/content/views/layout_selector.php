@@ -538,7 +538,7 @@ if (!empty($recomended_layouts)) {
                             <?php endif ?>
 
                         <?php endforeach; ?>
-                        <option value="default">default           </option>
+                        <option value="default">default</option>
                     </select>
                 </div>
             </div>
