@@ -2814,7 +2814,8 @@ mw.tools = {
         if (node.id != '') {
             return '#' + node.id;
         }
-        ___final = node.className != '' ? '.' + node.className.trim().split(' ').join('.') : node.nodeName.toLocaleLowerCase();
+        var ___final = node.className != '' ? '.' + node.className.trim().split(' ').join('.') : node.nodeName.toLocaleLowerCase();
+        ___final = ___final.replace(/\.\./g, '.');
         mw.tools.foreachParents(node, function (loop) {
             if (this.id != '') {
                 ___final = '#' + this.id + ' > ' + ___final;

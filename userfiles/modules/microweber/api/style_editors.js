@@ -413,6 +413,7 @@ $(mwd.body).bind("click", function(e){
       mw.$(".mw-designtype-image").hide();
       mw.setCurrentStyles(e.target);
        $(e.target).attr('staticdesign', 'true');
+       mw.wysiwyg.change(mw.current_element)
     }
   }
   }
