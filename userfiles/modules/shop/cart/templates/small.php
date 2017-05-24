@@ -11,11 +11,6 @@ description: Small cart template
 */
   ?>
 
-
-<script>
-    mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");
-</script>
-
 <div class="mw-cart-small <?php if(is_array($data)==false){print "mw-cart-small-no-items";} ?>  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix;  ?>">
   <div class="mw-ui-row-nodrop">
     <div class="mw-ui-col icon-shopping-cart-holder"><span class="mw-cart-small-icon-shopping-cart"></span></div>

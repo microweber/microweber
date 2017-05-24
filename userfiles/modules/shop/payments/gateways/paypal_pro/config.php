@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Paypal Pro payment gateway";
+$config['name'] = "Paypal Pro";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";

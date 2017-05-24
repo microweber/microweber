@@ -70,8 +70,10 @@
                 </div>
                 <span style="margin-left: 10px;" class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-savetheimage pull-right'><?php _e("Update"); ?></span>
 
-                <span class="mw-ui-btn mw-ui-btn-warn pull-right disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
 
+                <span style="margin-left: 10px;" class="mw-ui-btn mw-ui-btn-warn pull-right disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
+
+                <span style="margin-left: 10px;" class='mw-ui-btn mw-ui-btn-change-image pull-right'><?php _e("Change"); ?></span>
 
             </div>
 
@@ -123,6 +125,12 @@
                         setColor()
                       }
                     });
+
+                    $(".mw-ui-btn-change-image").on('click', function(){
+                      top.mw.wysiwyg.media('#editimage'); 
+                      thismodal.remove()
+
+                    })
                   })
                 </script>
             </div>

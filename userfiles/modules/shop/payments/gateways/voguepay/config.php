@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "VoguePay payment gateway";
+$config['name'] = "VoguePay payment";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";
