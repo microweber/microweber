@@ -189,6 +189,7 @@
     -webkit-background-size: cover;
     background-size: cover;
     background-position: center top;
+    overflow: hidden;
 }
 
 .head-image-layout-1 .mw-image-holder .mw-image-holder-content {
@@ -228,6 +229,7 @@
     -webkit-background-size: cover;
     background-size: cover;
     background-position: center top;
+    overflow: hidden;
 }
 
 .text-image-layout-1 .mw-image-holder .mw-image-holder-content {

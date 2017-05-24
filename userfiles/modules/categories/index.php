@@ -1,3 +1,6 @@
+<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.moduleCSS("<?php print modules_url(); ?>categories/styles.css"); </script>
+
 <?php
 if (isset($params['class'])) {
     unset($params['class']);
@@ -7,23 +10,19 @@ if (isset($params['content-id'])) {
 }
 
 
-
 if (isset($params['for-content-id'])) {
     $params['for-content-id'] = ($params['for-content-id']);
 }
 
 if (isset($params['for-current-content-id'])) {
-    $params['for-content-id'] =  CONTENT_ID;
+    $params['for-content-id'] = CONTENT_ID;
 }
 
 
-
-$selected_max_depth =  get_option('data-max-depth', $params['id']); 
-if(intval($selected_max_depth) > 0){
-	    $params['max_level'] = intval($selected_max_depth);
+$selected_max_depth = get_option('data-max-depth', $params['id']);
+if (intval($selected_max_depth) > 0) {
+    $params['max_level'] = intval($selected_max_depth);
 }
-
-
 
 
 if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
@@ -36,7 +35,7 @@ if (!isset($params['ul_class'])) {
 }
 $params['rel_type'] = 'content';
 $category_tree_parent_page = get_option('data-content-id', $params['id']);
-$category_parent =  get_option('data-category-id', $params['id']); 
+$category_parent = get_option('data-category-id', $params['id']);
 
 
 if ($category_tree_parent_page == false and isset($params['content_id'])) {
@@ -54,18 +53,17 @@ if ($category_tree_parent_page == false and isset($params['current-page']) and $
     $params['rel_id'] = $params['content_id'] = PAGE_ID;
 
 }
- 
-if(intval($category_parent) > 0){
-	$check_if_cat_is_in_page = get_page_for_category($category_parent);
-	if(isset($check_if_cat_is_in_page['id']) and isset($params['rel_id']) and $params['rel_id'] != 0){
-		if($check_if_cat_is_in_page['id'] == $params['rel_id']){
-			$params['parent'] = $category_parent;
-		}
-	}
-	
-	
-}
 
+if (intval($category_parent) > 0) {
+    $check_if_cat_is_in_page = get_page_for_category($category_parent);
+    if (isset($check_if_cat_is_in_page['id']) and isset($params['rel_id']) and $params['rel_id'] != 0) {
+        if ($check_if_cat_is_in_page['id'] == $params['rel_id']) {
+            $params['parent'] = $category_parent;
+        }
+    }
+
+
+}
 
 
 $module_template = get_option('data-template', $params['id']);

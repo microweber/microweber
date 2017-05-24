@@ -18,9 +18,6 @@ description: List Navigation
 
 ?>
 
- 
-<script>mw.require("<?php print modules_url(); ?>categories/templates.css", true); </script>
-
 <div class="module-categories module-categories-template-default">
 	<div class="well">
 		<?php  category_tree($params);  ?>

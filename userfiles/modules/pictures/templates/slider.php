@@ -13,7 +13,7 @@ description: Pictures slider
             <div class=" mw-gallery-holder">
                 <?php foreach ($data as $item): ?>
                     <div class=" mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
-                        <img src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/>
+                        <img src="<?php print thumbnail($item['filename'], 1200); ?>" alt=""/>
                         <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>
                     </div>
                 <?php endforeach; ?>
