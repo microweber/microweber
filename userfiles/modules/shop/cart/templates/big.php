@@ -11,7 +11,6 @@ description: Full width cart template
 */
 
 ?>
-<script>mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");</script>
 
 <div class="mw-cart mw-cart-big mw-cart-<?php print $params['id'] ?> <?php print  $template_css_prefix; ?>">
     <div class="mw-cart-title mw-cart-<?php print $params['id'] ?>">

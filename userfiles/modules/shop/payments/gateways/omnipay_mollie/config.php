@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Mollie payment gateway";
+$config['name'] = "Mollie payment";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";

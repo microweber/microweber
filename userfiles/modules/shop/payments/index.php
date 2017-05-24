@@ -1,13 +1,12 @@
 <?php
-
-
 $payment_options = payment_options();
 $enable_payment_options_count = 0;
-
-
 ?>
+
+<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.moduleCSS("<?php print modules_url(); ?>shop/payments/styles.css"); </script>
+
 <script type="text/javascript">
-    mw.moduleCSS("<?php print modules_url(); ?>shop/shop-defaults.css");
     $(document).ready(function () {
 
         mw.$('.mw-payment-gateway-<?php print $params['id']; ?> input').commuter(function () {

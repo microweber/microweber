@@ -1,0 +1,107 @@
+/* Cart_add - Template - Default */
+#AddToCartModal h5 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+#AddToCartModal {
+    text-align: center;
+}
+
+#AddToCartModal p {
+    padding: 0 0 24px;
+    margin: 0;
+}
+
+#AddToCartModal .mw-ui-btn {
+    margin: 0 12px;
+}
+
+/* Cart_add - Template - Shop Cart 1 */
+.product-info-layout-1 .btn-default {
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    background: #000;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    padding: 14px 25px 12px 25px;
+    border: 1px solid #000;
+}
+
+.product-info-layout-1 .btn-default:hover {
+    color: #000;
+    background: #fff;
+}
+
+.product-info-layout-1 select,
+.product-info-layout-1 select:hover,
+.product-info-layout-1 select:focus {
+    border: 1px solid #000;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    font-weight: bold;
+    min-width: 304px;
+}
+
+.product-info-layout-1 .mw-ui-label {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.product-info-layout-1 .mw-ui-check {
+    margin-right: 10px;
+}
+
+.product-info-layout-1 .mw-ui-check input + span {
+    margin: 0;
+}
+
+.product-info-layout-1 .mw-qty-field {
+    margin-top: 10px;
+    margin-right: 30px;
+}
+
+.product-info-layout-1 .mw-qty-field input,
+.product-info-layout-1 .mw-qty-field button {
+    float: left;
+    display: block;
+}
+
+.product-info-layout-1 .mw-qty-field button {
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
+    width: 30px;
+    height: 30px;
+    outline: none;
+}
+
+.product-info-layout-1 .mw-qty-field button:hover {
+    background: #000;
+    border: 1px solid #000;
+    color: #fff;
+}
+
+.product-info-layout-1 .mw-qty-field button i {
+    font-size: 28px;
+}
+
+.product-info-layout-1 .mw-qty-field input {
+    background: #fff;
+    border: 1px solid #fff;
+    color: #000;
+    height: 30px;
+    width: 50px;
+    text-align: center;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.product-info-layout-1 .button-add-to-cart,
+.product-info-layout-1 .mw-qty-field {
+    display: block;
+    float: left;
+}

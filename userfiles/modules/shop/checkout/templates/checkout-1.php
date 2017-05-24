@@ -12,43 +12,6 @@ description: Checkout 1 cart template
 
 ?>
 
-<style>
-
-    .mw-shopping-cart-big-layout-1 .btn-default {
-        font-size: 14px;
-        color: #fff;
-        text-transform: uppercase;
-        background: #000;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        padding: 14px 25px 12px 25px;
-        border: 1px solid #000;
-    }
-
-    .mw-shopping-cart-big-layout-1 .btn-default:hover {
-        color: #000;
-        background: #fff;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-checkout-form input {
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-        border: 1px solid #c8c8c8;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-checkout-form label {
-        color: #636363;
-        font-style: 16px;
-        padding: 10px 15px;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-checkout-form .form-group {
-        padding: 15px 0;
-    }
-</style>
-
 <div class="mw-shopping-cart-big-layout-1">
     <?php if ($requires_registration and is_logged() == false): ?>
         <module type="users/register"/>
@@ -134,7 +97,6 @@ description: Checkout 1 cart template
                         <?php endif; ?>
                     </div>
 
-                    <hr/>
                     <?php if ($tems): ?>
                         <script>
                             $(document).ready(function () {

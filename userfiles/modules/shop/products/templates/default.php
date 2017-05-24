@@ -23,7 +23,6 @@ if(!isset($tn[1])){
 
 
 ?>
-<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css"); </script>
 <?php if (!empty($data)): ?>
 <?php
 

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Paypal Express payment gateway";
+$config['name'] = "Paypal Express";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";

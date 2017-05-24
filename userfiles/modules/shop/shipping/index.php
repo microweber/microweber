@@ -14,6 +14,8 @@ $shipping_options = mw('shop\shipping\shipping_api')->get_active();
         }
     </script>
 
+    <script>mw.moduleCSS("<?php print modules_url(); ?>shop/shipping/styles.css"); </script>
+
     <?php
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {

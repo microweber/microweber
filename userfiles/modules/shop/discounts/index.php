@@ -1,6 +1,9 @@
 <script>mw.require("tools.js", true);</script>
 <script>mw.require("shop.js", true);</script>
 
+<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.moduleCSS("<?php print modules_url(); ?>shop/discounts/styles.css"); </script>
+
 <?php
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {

@@ -12,129 +12,6 @@ description: Full width cart template
 
 ?>
 
-<style>
-    .mw-shopping-cart-big-layout-1 .mw-qty-field {
-        display: inline-block;
-        margin: 10px auto 0 auto;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-qty-field input,
-    .mw-shopping-cart-big-layout-1 .mw-qty-field button {
-        float: left;
-        display: block;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-qty-field button {
-        background: #fff;
-        border: 1px solid #000;
-        color: #000;
-        width: 30px;
-        height: 30px;
-        outline: none;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-qty-field button:hover {
-        background: #000;
-        border: 1px solid #000;
-        color: #fff;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-qty-field button i {
-        font-size: 28px;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-qty-field input {
-        background: transparent;
-        border: 1px solid transparent;
-        color: #000;
-        height: 30px;
-        width: 50px;
-        text-align: center;
-        outline: none;
-    }
-
-    .mw-shopping-cart-big-layout-1 .left {
-        text-align: left;
-    }
-
-    .mw-shopping-cart-big-layout-1 .center {
-        text-align: center;
-    }
-
-    .mw-shopping-cart-big-layout-1 .right {
-        text-align: right;
-    }
-
-    .mw-shopping-cart-big-layout-1 td {
-        vertical-align: middle !important;
-    }
-
-    .mw-shopping-cart-big-layout-1 .remove {
-        color: #000;
-    }
-
-    .mw-shopping-cart-big-layout-1 .mw-cart-table-product {
-        font-weight: bold;
-    }
-
-    .mw-shopping-cart-big-layout-1 .table > tbody > tr > td,
-    .mw-shopping-cart-big-layout-1 .table > tbody > tr > th, .table > tfoot > tr > td,
-    .mw-shopping-cart-big-layout-1 .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
-        border-top: 0;
-    }
-
-    .mw-shopping-cart-big-layout-1 .table > thead > tr > th {
-        border-bottom: 2px solid #ddd !important;
-        border-top: 2px solid #ddd !important;
-        padding: 15px 8px;
-        text-transform: uppercase;
-        font-size: 14px;
-        color: #636363;
-    }
-
-    .mw-shopping-cart-big-layout-1 .shipping-info h4 {
-        font-size: 14px;
-        color: #636363;
-        text-transform: uppercase;
-        margin: 0;
-        line-height: 22px;
-    }
-
-    .mw-shopping-cart-big-layout-1 .shipping-info hr {
-        margin: 10px 0;
-    }
-
-    .mw-shopping-cart-big-layout-1 .row {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .mw-shopping-cart-big-layout-1 .total-lable {
-        color: #636363;
-        font-size: 14px;
-        text-transform: uppercase;
-        font-weight: bold;
-        line-height: 24px;
-    }
-
-    .mw-shopping-cart-big-layout-1 .total-price {
-        color: #000;
-        font-size: 24px;
-        text-transform: uppercase;
-        line-height: 24px;
-    }
-
-    .mw-shopping-cart-big-layout-1 select {
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-    }
-</style>
-
-<script>
-    mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');
-</script>
-
 <script>
     $(document).ready(function () {
         $(".mw-shopping-cart-big-layout-1 .mw-qty-field .cartDecreaseProductsNumber").click(function () {
@@ -210,8 +87,7 @@ description: Full width cart template
                                 </div>
                             </td>
                             <td class="mw-cart-table-price right"><?php print currency_format($item['price'] * $item['qty']); ?></td>
-                            <td class="right"><a title="<?php _e("Remove"); ?>" class="remove" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons">clear</i></a>
-                            </td>
+                            <td class="right"><a title="<?php _e("Remove"); ?>" class="remove" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons">clear</i></a></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
