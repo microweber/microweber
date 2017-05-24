@@ -308,6 +308,7 @@ document.body.appendChild(mw.inaccessibleModules);
 
     $(window).on("onIconElementClick", function(e, el) {
         mw.iconSelector._activeElement = el;
+
         mw.iconSelector.popup(true);
 
     });
@@ -1426,8 +1427,16 @@ mw.drag = {
                     if ($(target).hasClass("plain-text")) {
                         $(window).trigger("onPlainTextClick", target);
                     }
-                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') && !mw.tools.hasParentsWithClass(target, 'module')) {
-                        $(window).trigger("onIconElementClick", target);
+                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') ) {
+                        if(!mw.tools.hasParentsWithClass(target, 'module')){
+                          $(window).trigger("onIconElementClick", target);
+                        }
+                        else{
+                          if(mw.wysiwyg.editInsideModule(target)){
+                              $(window).trigger("onIconElementClick", target); 
+                          }
+                        }
+
 
                     } else if ($(target).hasClass("element")) {
                         $(window).trigger("onElementClick", target);

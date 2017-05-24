@@ -63,6 +63,16 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
 
 
 mw.wysiwyg = {
+    editInsideModule:function(el){
+      el = el.target ? el.target : el;
+      var order = mw.tools.parentsOrder(el, ['edit', 'module']);
+      if(order.edit < order.module) {
+          return true;
+      }
+      else{
+          return false;
+      }
+    },
     pasteFromWordUI:function(){
         if(!mw.wysiwyg.isSelectionEditable()) return false;
         mw.wysiwyg.save_selection();
@@ -1346,16 +1356,16 @@ mw.wysiwyg = {
     },
 
 
-    fontIconFamilies: ['fa', 'mw-ui-icon', 'mw-icon'],
+    fontIconFamilies: ['fa', 'mw-ui-icon', 'mw-icon', 'material-icons'],
 
     elementHasFontIconClass: function (el) {
         var is = false;
         var icon_classes = mw.wysiwyg.fontIconFamilies;
         icon_classes.push('icon');
         icon_classes.push('mw-wysiwyg-custom-icon');
-
         if (el.tagName == 'I' || el.tagName == 'SPAN') {
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
+
                 return true;
             }
         }
