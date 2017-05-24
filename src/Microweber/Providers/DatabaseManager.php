@@ -132,6 +132,12 @@ class DatabaseManager extends DbUtils
         $orig_params = $params;
         $items_per_page = false;
 
+
+        $do_not_replace_site_url = false;
+        if (isset($params['do_not_replace_site_url'])) {
+            $do_not_replace_site_url = $params['do_not_replace_site_url'];
+        }
+
         if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
         }
@@ -187,7 +193,7 @@ class DatabaseManager extends DbUtils
         } else {
             $use_cache = $this->use_cache;
         }
-       // $this->use_cache = false;
+        // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
@@ -292,8 +298,9 @@ class DatabaseManager extends DbUtils
 
             return false;
         } else {
-
-            $data = $this->app->url_manager->replace_site_url_back($data);
+            if (!$do_not_replace_site_url) {
+                 $data = $this->app->url_manager->replace_site_url_back($data);
+            }
         }
 
 
@@ -393,7 +400,7 @@ class DatabaseManager extends DbUtils
         }
         if (!isset($data['id'])) {
 
-                $data['id'] = 0;
+            $data['id'] = 0;
 
         }
         if (isset($data['cf_temp'])) {
@@ -482,7 +489,6 @@ class DatabaseManager extends DbUtils
         }
 
 
-
         $criteria['id'] = intval($criteria['id']);
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
@@ -493,13 +499,13 @@ class DatabaseManager extends DbUtils
                 if (!isset($highestId->max)) {
                     $next_id = 1;
                 } else {
-                    $next_id = $highestId->max+1;
+                    $next_id = $highestId->max + 1;
                 }
-                if(!empty($criteria)){
-                $criteria['id'] = $next_id;
+                if (!empty($criteria)) {
+                    $criteria['id'] = $next_id;
                 }
             }
-            $id_to_return =\DB::table($table_assoc_name)->insert($criteria);
+            $id_to_return = \DB::table($table_assoc_name)->insert($criteria);
             $id_to_return = $this->last_id($table);
 
         } else {
@@ -715,7 +721,7 @@ class DatabaseManager extends DbUtils
      */
     public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-        if(!$id){
+        if (!$id) {
             return;
         }
         if ($field_name == 'id' and $id == 0) {

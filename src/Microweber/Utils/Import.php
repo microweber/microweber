@@ -512,7 +512,6 @@ class Import
             return;
         }
 
-
         if (!is_array($content_items) or empty($content_items)) {
             $content_items = array();
             if (is_file($index_file)) {
@@ -1204,13 +1203,26 @@ class Import
 
     public function export($tables = 'all')
     {
+
+
+
+
+
+        $skip_tables = array(
+            "modules", "elements", "users", "log", "notifications", "content_revisions_history", "stats_users_online", "system_licenses", "users_oauth", "sessions"
+        );
+
+
         only_admin_access();
 
         ini_set('memory_limit', '512M');
         set_time_limit(0);
 
         $export_location = $this->get_import_location();
-        $export_filename = 'export_' . date("Ymdhis") . '_' . '.json';
+        if(!is_dir($export_location)){
+            mkdir_recursive($export_location);
+        }
+        $export_filename = 'export_' . date("Y-m-d-his") . '.json';
 
         $export_path = $export_location . $export_filename;
 
@@ -1231,20 +1243,26 @@ class Import
         $exported_tables_data = array();
         if ($all_tables) {
             foreach ($all_tables as $table) {
+                if(!in_array($table,$skip_tables)){
                 $table_exists = mw()->database_manager->table_exists($table);
-
                 if ($table_exists) {
-                    $table_conent = db_get($table, 'no_limit=1');
+                    $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
                     if ($table_conent) {
-
-                        $exported_tables_data[] = $table_conent;
+                        $exported_tables_data[$table] = $table_conent;
                     }
                 }
 
-            }
+            }}
         }
+        array_walk_recursive ($exported_tables_data, function (&$item) {
+            if (is_string ($item)) {
+                $item = utf8_encode ($item);
+            }
+        });
+        $save = json_encode ($exported_tables_data);
 
-        if (file_put_contents($export_path, json_encode($exported_tables_data))) {
+
+        if (file_put_contents($export_path,$save )) {
             return array('success' => count($exported_tables_data, COUNT_RECURSIVE) . ' items are exported');
 
         } else {
