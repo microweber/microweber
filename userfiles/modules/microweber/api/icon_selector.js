@@ -122,6 +122,7 @@ mw.iconSelector = mw.iconSelector || {
     },
 
     popup: function () {
+      
 
         if (mw.iconSelector.iconFontClasses.length == 0) {
             mw.iconSelector.init();
