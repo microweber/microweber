@@ -87,7 +87,7 @@ description: Full width cart template
                                 </div>
                             </td>
                             <td class="mw-cart-table-price right"><?php print currency_format($item['price'] * $item['qty']); ?></td>
-                            <td class="right"><a title="<?php _e("Remove"); ?>" class="remove" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons">clear</i></a></td>
+                            <td class="right"><a title="<?php _e("Remove"); ?>" class="remove tip" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');" data-tip="<?php _e("Remove"); ?>" data-tipposition="top-center"><i class="material-icons">clear</i></a></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
