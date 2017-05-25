@@ -108,6 +108,7 @@
                         theImage = parent.mw.image.currentResizing[0];
                     }
 
+
                     if(isImageHolder()){
                       $("#overlayholder, #alphaholder").show();
                       currentOverlay = $('.mw-image-holder-overlay',  theImage.parentNode);
@@ -116,6 +117,9 @@
 
                       $("#overlaycolor").val(mw.color.rgbToHex(currentOverlayColorParse))
                       $("#overlaycoloralpha").val(currentOverlayColorParse.alpha * 100)
+
+                      previewbg = 'rgba(' + currentOverlayColorParse.r + ',' + currentOverlayColorParse.g + ',' + currentOverlayColorParse.b + ',' + currentOverlayColorParse.alpha + ')';
+
 
                     }
                     pick3 = mw.colorPicker({
@@ -127,7 +131,7 @@
                     });
 
                     $(".mw-ui-btn-change-image").on('click', function(){
-                      top.mw.wysiwyg.media('#editimage'); 
+                      top.mw.wysiwyg.media('#editimage');
                       thismodal.remove()
 
                     })
@@ -235,6 +239,9 @@
 
         mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
+
+         $("#mwimagecurrentoverlay").css('backgroundColor', previewbg)
+
         mw.image.current_original = src;
 
         mw.image.current = mwd.querySelector("#mwimagecurrent");
@@ -275,6 +282,8 @@
 
             setColor(true);
             parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(theImage, 'edit'));
+
+            window.top.$(window.top).trigger('imageSrcChanged', [theImage, theImage.src])
 
             parent.document.getElementById('mw-image-settings-modal').modal.remove();
 
