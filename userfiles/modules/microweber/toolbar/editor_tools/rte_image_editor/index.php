@@ -127,11 +127,14 @@ else{
                 parent[hash](GlobalEmbed)
             }
 
+             window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+
             parent.mw.tools.modal.remove('mw_rte_image');
 
         });
 
         Progress = mw.$('#mw-upload-progress');
+
         ProgressBar = Progress.find('.mw-ui-progress-bar');
         ProgressInfo = Progress.find('.mw-ui-progress-info');
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
@@ -153,13 +156,18 @@ else{
             frame.width = li.width();
             frame.height = li.height();
             $(frame).bind("progress", function(frame, file) {
-              console.log(Progress)
+
                 Progress.show();
 
-                ProgressBar.width(file.percent + '%');
+                Progress.width(file.percent + '%');
+
                 ProgressPercent.html(file.percent + '%');
+
                 ProgressInfo.html(file.name);
+
                 li.parent().find("li").addClass('disabled');
+
+
             });
             $(frame).bind("FileUploaded", function(frame, item) {
                 li.parent().find("li").removeClass('disabled');
@@ -185,7 +193,7 @@ else{
 
             $(frame).bind("done", function(frame, item) {
                 Progress.hide();
-                ProgressBar.width('0%');
+                //ProgressBar.width('0%');
                 ProgressPercent.html('');
                 ProgressInfo.html(ProgressDoneHTML);
                 afterMediaIsInserted(false, '', "done");
@@ -194,7 +202,7 @@ else{
 
 
             $(frame).bind("error", function(frame, file) {
-                ProgressBar.width('0%');
+                //ProgressBar.width('0%');
                 ProgressPercent.html('');
                 ProgressInfo.html(ProgressErrorHTML(file.name));
                 li.parent().find("li").removeClass('disabled');
@@ -285,6 +293,7 @@ else{
                 }
 
             }
+             window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
             parent.mw.tools.modal.remove('mw_rte_image');
         });
 
