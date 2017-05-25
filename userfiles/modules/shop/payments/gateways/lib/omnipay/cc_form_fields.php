@@ -39,16 +39,12 @@
     <label class="control-label">
         <?php _e("Expiration Date"); ?>
     </label>
-    <div class="mw-ui-row-nodrop">
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <input name="cc_month" class="input-mini form-control input-sm" placeholder="<?php _e("Month"); ?>" type="text" value="" class="form-control"/>
-            </div>
+    <div class="row m-t-0">
+        <div class="col-xs-6">
+            <input name="cc_month" class="form-control" placeholder="<?php _e("Month"); ?>" type="text" value="" class="form-control"/>
         </div>
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <input name="cc_year" class="input-mini form-control input-sm" placeholder="<?php _e("Year"); ?>" type="text" value="" class="form-control"/>
-            </div>
+        <div class="col-xs-6">
+            <input name="cc_year" class="form-control" placeholder="<?php _e("Year"); ?>" type="text" value="" class="form-control"/>
         </div>
     </div>
 </div>

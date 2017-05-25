@@ -101,3 +101,10 @@
     }
 
 }
+
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+    .mw-shipping-and-payment .methods ul li {
+        width: 100%;
+    }
+
+}

@@ -30,7 +30,7 @@ name: Cards 1
                     of the printing and typesetting industry.
 
                 </p>
-                <module type="btn" text="Read More" button_style="btn-primary"/>
+                <module type="btn" text="Read More" button_style="btn-primary" id="button-1"/>
             </div>
         </div>
 
@@ -42,7 +42,7 @@ name: Cards 1
                     of the printing and typesetting industry.
 
                 </p>
-                <module type="btn" text="Read More" button_style="btn-primary"/>
+                <module type="btn" text="Read More" button_style="btn-primary" id="button-2"/>
             </div>
         </div>
 
@@ -54,7 +54,7 @@ name: Cards 1
                     of the printing and typesetting industry.
 
                 </p>
-                <module type="btn" text="Read More" button_style="btn-primary"/>
+                <module type="btn" text="Read More" button_style="btn-primary" id="button-3"/>
             </div>
         </div>
     </div>

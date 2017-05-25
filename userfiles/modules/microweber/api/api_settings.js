@@ -117,15 +117,15 @@ mw.settings.libs = {
     ],
     bxslider: [
         function () {
-            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.min.js');
-            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.css');
+            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.min.js', true);
+            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.css', true);
 
         }
     ],
     slick: [
         function () {
-            mw.require(mw.settings.libs_url + 'slick' + '/slick.css');
-            mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js');
+            mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
+            mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
         }
     ],
     bootstrap3ns: [

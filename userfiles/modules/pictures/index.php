@@ -1,3 +1,6 @@
+<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.moduleCSS("<?php print modules_url(); ?>pictures/styles.css"); </script>
+
 <?php
 
 $no_img = false;

@@ -4266,7 +4266,11 @@ $(document).ready(function () {
             }
         });
     });
-
+    $(".mw-image-holder").each(function(){
+      if($(".mw-image-holder-overlay", this).length === 0){
+        $('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
+      }
+    })
 
 });
 

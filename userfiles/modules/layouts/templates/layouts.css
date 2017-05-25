@@ -189,10 +189,10 @@
     -webkit-background-size: cover;
     background-size: cover;
     background-position: center top;
+    overflow: hidden;
 }
 
 .head-image-layout-1 .mw-image-holder .mw-image-holder-content {
-    background-color: rgba(0, 0, 0, .5);
     height: 410px;
     display: table;
     width: 100%;
@@ -228,10 +228,10 @@
     -webkit-background-size: cover;
     background-size: cover;
     background-position: center top;
+    overflow: hidden;
 }
 
 .text-image-layout-1 .mw-image-holder .mw-image-holder-content {
-    background-color: rgba(0, 0, 0, .5);
     height: 410px;
     display: table;
     width: 100%;
@@ -284,4 +284,9 @@
         width: 100%;
         display: block;
     }
+}
+
+
+.mw-image-holder-overlay{
+  background-color: rgba(0, 0, 0, .5);
 }
