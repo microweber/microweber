@@ -51,6 +51,10 @@ function checkout_ipn($data)
     return mw()->shop_manager->checkout_ipn($data);
 }
 
+function get_product_price($content_id = false){
+    return mw()->shop_manager->get_product_price($content_id);
+}
+
 function checkout($data)
 {
     return mw()->shop_manager->checkout($data);

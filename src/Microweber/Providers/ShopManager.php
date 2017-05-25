@@ -190,6 +190,23 @@ class ShopManager
         return $this->app->order_manager->get($params);
     }
 
+    public function get_product_price($content_id = false)
+    {
+        if (!$content_id) {
+            $content_id = CONTENT_ID;
+        }
+
+        $prices = get_custom_fields("field_type=price&for=content&for_id=" . intval($content_id));
+        if ($prices and is_array($prices) and !empty($prices)) {
+            $vals2 = array_values($prices);
+            $val1 = array_shift($vals2);
+            return $val1;
+        } else {
+            return false;
+        }
+    }
+
+
     public function checkout_confirm_email_test($params)
     {
         if (!isset($params['to'])) {

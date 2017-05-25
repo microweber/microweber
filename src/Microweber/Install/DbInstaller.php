@@ -58,28 +58,25 @@ class DbInstaller
         $exec = $this->getSystemSchemas();
         $builder = new DbUtils();
         $schemaArray = array();
+
         foreach ($exec as $data) {
             // Creates the schema
 
             if (method_exists($data, 'up')) {
                 $this->log('Setting up schema ' . get_class($data));
-
                 $data->up();
-
-                break;
             }
 
             if (method_exists($data, 'get')) {
                 $schemaArray = $data->get();
-                if (!is_array($schemaArray)) {
-                    break;
+                if (is_array($schemaArray)) {
+                    foreach ($schemaArray as $table => $columns) {
+                        $this->log('Setting up table "' . $table . '"');
+                        $builder->build_table($table, $columns);
+                    }
                 }
             }
-            foreach ($schemaArray as $table => $columns) {
-                $this->log('Setting up table "' . $table . '"');
 
-                $builder->build_table($table, $columns);
-            }
         }
     }
 
