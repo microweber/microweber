@@ -14,12 +14,12 @@ description: List Navigation
 
 
 <?php
-$params['ul_class'] = 'nav nav-list';
+$params['ul_class'] = 'mw-cats-menu';
 $params['ul_class_deep'] = 'nav nav-list';
 ?>
 
 <div class="module-categories module-categories-template-horizontal-list-1">
-    <?php //category_tree($params); ?>
+    <?php category_tree($params); ?>
     <ul class="mw-cats-menu">
         <li><a href="<?php print page_link(); ?>">All Products</a></li>
         <li><a href="#">Tutorials</a>

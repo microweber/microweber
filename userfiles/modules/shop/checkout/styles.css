@@ -1,5 +1,5 @@
 /* Checkout - Template - Checkout 1 */
-.mw-shopping-cart-big-layout-1 .btn-default {
+.mw-shopping-cart-checkout-layout-1 .btn-default {
     font-size: 14px;
     color: #fff;
     text-transform: uppercase;
@@ -11,24 +11,74 @@
     border: 1px solid #000;
 }
 
-.mw-shopping-cart-big-layout-1 .btn-default:hover {
+.mw-shopping-cart-checkout-layout-1 .btn-default:hover {
     color: #000;
     background: #fff;
 }
 
-.mw-shopping-cart-big-layout-1 .mw-checkout-form input {
+.mw-shopping-cart-checkout-layout-1 .mw-checkout-form input {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
     border: 1px solid #c8c8c8;
 }
 
-.mw-shopping-cart-big-layout-1 .mw-checkout-form .mw-shipping-and-payment label {
+.mw-shopping-cart-checkout-layout-1 .mw-checkout-form .mw-shipping-and-payment label {
     color: #636363;
     font-size: 16px;
     padding: 10px 15px;
 }
 
-.mw-shopping-cart-big-layout-1 .mw-checkout-form .mw-shipping-and-payment .form-group {
+.mw-shopping-cart-checkout-layout-1 .mw-checkout-form .mw-shipping-and-payment .form-group {
     padding: 15px 0;
+}
+
+.mw-shopping-cart-checkout-layout-1 .left {
+    text-align: left;
+}
+
+.mw-shopping-cart-checkout-layout-1 .center {
+    text-align: center;
+}
+
+.mw-shopping-cart-checkout-layout-1 .right {
+    text-align: right;
+}
+
+.mw-shopping-cart-checkout-layout-1 .shipping-info h4 {
+    font-size: 14px;
+    color: #636363;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 22px;
+}
+
+.mw-shopping-cart-checkout-layout-1 .shipping-info hr {
+    margin: 10px 0;
+}
+
+.mw-shopping-cart-checkout-layout-1 .row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mw-shopping-cart-checkout-layout-1 .total-lable {
+    color: #636363;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 24px;
+}
+
+.mw-shopping-cart-checkout-layout-1 .total-price {
+    color: #000;
+    font-size: 24px;
+    text-transform: uppercase;
+    line-height: 24px;
+}
+
+.mw-shopping-cart-checkout-layout-1 select {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }

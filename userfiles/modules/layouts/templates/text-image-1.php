@@ -16,6 +16,7 @@ name: Text image 1 - left
     <div class="image">
         <div class="mw-image-holder">
             <img src="http://lorempixel.com/800/410" alt=""/>
+            <span class="mw-image-holder-overlay"></span>
             <div class="mw-image-holder-content" style=""></div>
         </div>
     </div>

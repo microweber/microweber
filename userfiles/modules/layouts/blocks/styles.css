@@ -1,0 +1,38 @@
+/* Layouts - Template - Shop Info 1 */
+.product-info-layout-1 h1 {
+    font-size: 24px;
+    color: #373737;
+}
+
+.product-info-layout-1 .price {
+    font-size: 30px;
+    color: #000000;
+}
+
+.product-info-layout-1 .description {
+    font-size: 18px;
+    color: #373737;
+}
+
+.product-info-layout-1 .next-previous-content {
+    text-align: right;
+}
+
+.product-info-layout-1 .next-previous-content a,
+.product-info-layout-1 .next-previous-content i {
+    width: 25px;
+    color: #000;
+}
+
+.product-info-layout-1 .module-sharer {
+    margin-top: 30px;
+}
+
+.product-info-layout-1 .module-sharer .mw-social-share-links a {
+    border-radius: 25px;
+    padding-top: 8px;
+}
+
+.product-info-layout-1 .module-sharer .mw-social-share-links a:hover {
+    color: #f1efee;
+}
