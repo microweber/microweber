@@ -1514,6 +1514,7 @@ mw.wysiwyg = {
                     callback.call(node);
                 }
                 mw.wysiwyg.change(node);
+                $(window).trigger('imageSrcChanged', [node, node.src])
             });
         }
     },
