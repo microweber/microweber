@@ -12,7 +12,7 @@ description: Checkout 1 cart template
 
 ?>
 
-<div class="mw-shopping-cart-big-layout-1">
+<div class="mw-shopping-cart-checkout-layout-1">
     <?php if ($requires_registration and is_logged() == false): ?>
         <module type="users/register"/>
     <?php else: ?>

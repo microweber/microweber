@@ -11,7 +11,6 @@ description: Product List 1 layout
 */
 ?>
 
-
 <?php
 $tn = $tn_size;
 if (!isset($tn[0]) or ($tn[0]) == 150) {
@@ -46,24 +45,35 @@ if (!isset($tn[1])) {
             <div class="col-xs-12 col-sm-6 col-md-4 item" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
                 <div class="item-wrapper">
                     <?php if ($show_fields == false or in_array('thumbnail', $show_fields)): ?>
-                        <a class="image" href="<?php print $item['link'] ?>">
+                        <?php $second_picture = false; ?>
+                        <a href="<?php print $item['link'] ?>" class="image bgimage-fader">
+                            <?php $second_pictures = get_pictures($item['id']); ?>
+                            <?php if (isset($second_pictures[1]) and isset($second_pictures[1]['filename'])): ?>
+                                <?php $second_picture = $second_pictures[1]['filename']; ?>
+                            <?php endif; ?>
+
                             <div class="valign">
                                 <div class="valign-cell">
-                                    <img class="img-responsive <?php if ($item['image'] == false): ?>pixum<?php endif; ?>" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>"
-                                         alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>" itemprop="image"/>
+                                    <span class="<?php print ($second_picture ? 'multiple-thumbnails' : 'single-thumbnail'); ?>"
+                                          style="background-image: url(<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>);"></span>
+
+                                    <?php if ($second_picture): ?>
+                                        <span style="background-image: url(<?php print thumbnail($second_picture, $tn[0], $tn[1]); ?>);"></span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </a>
                     <?php endif; ?>
+
                     <div class="row">
                         <?php if ($show_fields == false or in_array('title', $show_fields)): ?>
-                            <div class="col-xs-12 <?php if ($show_fields == false or in_array('read_more', $show_fields)): ?>col-sm-6<?php endif; ?> title">
-                                <h3 itemprop="name"><a itemprop="url" class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
+                            <div class="col-xs-12 <?php if ($show_fields == false or in_array('read_more', $show_fields)): ?>col-sm-8<?php endif; ?> title">
+                                <h3 itemprop="name"><a itemprop="url" class="lead" href="<?php print $item['link'] ?>"><?php print character_limiter($item['title'], 35); ?></a></h3>
                             </div>
                         <?php endif; ?>
 
                         <?php if ($show_fields != false and ($show_fields != false and in_array('read_more', $show_fields))): ?>
-                            <div class="col-xs-12 col-sm-6 read-more">
+                            <div class="col-xs-12 col-sm-4 read-more">
                                 <a href="<?php print $item['link'] ?>" itemprop="url" class="mw-more">
                                     <?php $read_more_text ? print $read_more_text : '' ?> <i class="material-icons right">arrow_forward</i>
                                 </a>
@@ -80,7 +90,7 @@ if (!isset($tn[1])) {
 
                         <?php if ($show_fields == false or ($show_fields != false and is_array($show_fields) and in_array('description', $show_fields))): ?>
                             <div class="col-xs-12">
-                                <p class="description" itemprop="description"> <?php print $item['description']; ?> </p>
+                                <p class="description" itemprop="description"> <?php print character_limiter($item['description'], 100); ?> </p>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -107,7 +117,7 @@ if (!isset($tn[1])) {
 
                                 ?>
                                 <?php if (is_array($item['prices'])): ?>
-                                    <button class="add-to-cart" type="button" onclick="mw.cart.add_and_checkout('<?php print $item['id'] ?>');">
+                                    <button class="add-to-cart" type="button" onclick="mw.cart.add_item('<?php print $item['id'] ?>');">
                                         <i class="material-icons left">shopping_cart</i> <?php print $add_cart_text ?>
                                     </button>
                                 <?php endif; ?>
