@@ -1001,7 +1001,6 @@ mw.drag = {
         });
         $(window).bind("onModuleOver", function(a, element) {
 
-
             if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop') || (mw.tools.hasParentsWithClass(element, 'module') && !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
                 //return false;
@@ -3255,6 +3254,15 @@ $(document).ready(function() {
         }
     });
     mw.wysiwyg.init_editables();
+
+    setInterval(function(){
+      var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
+      if(all.length !== 0){
+        for( ; i < all.length; i++){
+          mw.tools.addClass(all[i], 'allow-drop');
+        }
+      }
+    }, 300);
 
 });
 
