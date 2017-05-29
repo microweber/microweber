@@ -68,7 +68,7 @@ if (!isset($tn[1])) {
                     <div class="row">
                         <?php if ($show_fields == false or in_array('title', $show_fields)): ?>
                             <div class="col-xs-12 <?php if ($show_fields == false or in_array('read_more', $show_fields)): ?>col-sm-8<?php endif; ?> title">
-                                <h3 itemprop="name"><a itemprop="url" class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
+                                <h3 itemprop="name"><a itemprop="url" class="lead" href="<?php print $item['link'] ?>"><?php print character_limiter($item['title'], 35); ?></a></h3>
                             </div>
                         <?php endif; ?>
 
