@@ -133,7 +133,7 @@ class LegacyCategoryTreeRenderer
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
-            $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'>{title}</a>";
+            $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level} {active_class}'>{title}</a>";
         }
         $link = str_replace('data-page-id', 'data-category-id', $link);
 
@@ -365,11 +365,13 @@ class LegacyCategoryTreeRenderer
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         } else {
             if ($fors != false and is_array($fors) and !empty($fors)) {
-                //
-                foreach ($fors as $cat) {
+                $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
 
-                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
-                }
+                //
+//                foreach ($fors as $cat) {
+//
+//                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
+//                }
             }
         }
 
@@ -590,6 +592,13 @@ class LegacyCategoryTreeRenderer
                             }
 
                             $ext_classes = '';
+
+
+                            if (isset($item['parent_id']) and intval($item['parent_id']) > 0) {
+                                $ext_classes .= ' have-parent';
+                            }
+
+
 
                             $to_print = str_replace('{id}', $item['id'], $link);
 

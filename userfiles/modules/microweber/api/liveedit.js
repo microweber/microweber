@@ -3580,10 +3580,13 @@ $(window).bind("load", function() {
         if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();
         }
-        if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
-            mw.smallEditor.css("visibility", "hidden");
-            mw.smallEditorCanceled = true;
+        if (typeof(mw.smallEditor) != "undefined") {
+            if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
+                mw.smallEditor.css("visibility", "hidden");
+                mw.smallEditorCanceled = true;
+            }
         }
+
     });
 
 
