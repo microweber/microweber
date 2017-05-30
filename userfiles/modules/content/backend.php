@@ -263,6 +263,7 @@ function mw_set_edit_posts(in_page, is_cat, c) {
         .removeAttr('data-page-id')
         .removeAttr('data-category-id')
         .removeAttr('data-selected-category-id')
+        .removeAttr('data-parent-category-id')
         .removeAttr('subtype')
         .removeAttr('data-subtype')
         .removeAttr('data-content-id')
