@@ -15,7 +15,7 @@ description: Testimonials Default
 
 
 
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
+<script>mw.module_css("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 
 
 <script>

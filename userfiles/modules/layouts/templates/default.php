@@ -13,6 +13,6 @@ description: Testimonials Default
 ?>
 
 
-
-
-Some layout
+<div class="edit" rel="layout-<?php print $params['id'] ?>" field="layout">
+    Some layout
+</div>

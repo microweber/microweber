@@ -118,6 +118,7 @@
     padding: 0;
     font-size: 15px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .module-shop-products .products-wrapper.layout-1 .item .add-to-cart button i {

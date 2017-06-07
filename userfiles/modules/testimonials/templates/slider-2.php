@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Slider
+name: Slider 2
 
 description: Testimonials displayed in Slider
 
@@ -12,13 +12,18 @@ description: Testimonials displayed in Slider
 
 ?>
 
+<script>
+    mw.lib.require('bootstrap3ns');
+    mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');
+</script>
+
 
 <script>mw.module_css("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 <script>mw.module_css("<?php print $config['url_to_module'] ?>templates/js/slick.css", true);</script>
 <script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.min.js", true);</script>
 <script>
     $(document).ready(function () {
-        $("#<?php print $params['id']; ?> .mw-testimonials-slider").slick({
+        $("#<?php print $params['id']; ?> .mw-testimonials-slider-2").slick({
             infinite: true,
             dots: true,
             prevArrow: '<span class="slick-prev"><span class="mw-icon-prev-thick"></span></span>',
@@ -27,14 +32,18 @@ description: Testimonials displayed in Slider
     })
 </script>
 
+<?php
+$bgImage = get_option('bg-image', $params['id']);
+if ($bgImage == false) {
+    $wrapperStyle = '';
+} else {
+    $wrapperStyle = 'background-image: url(' . $bgImage . ');';
+}
+?>
 
-<div class="mw-testimonials mw-testimonials-slider">
+<div class="mw-testimonials mw-testimonials-slider-2" style="<?php print $wrapperStyle; ?>">
     <?php $data = get_testimonials(); ?>
-
-    <?php
-    foreach ($data as $item) {
-        ?>
-
+    <?php foreach ($data as $item): ?>
         <div class="mw-testimonials-item">
             <span class="mw-testimonials-item-image" style="background-image: url(<?php print $item['client_picture']; ?>);"></span>
             <div class="mw-testimonials-item-content">
@@ -43,7 +52,8 @@ description: Testimonials displayed in Slider
                 <?php } else { ?>
                     <h5><?php print $item['name']; ?></h5>
                 <?php } ?>
-                <span class="mw-testimonials-item-role"><em><?php print $item['client_role']; ?></em> &nbsp;<?php _e('at'); ?>&nbsp;<strong><?php print $item['client_company']; ?></strong></span>
+                <span class="mw-testimonials-item-role"><em><?php print $item['client_role']; ?></em> &nbsp;<?php _e('at'); ?>
+                    &nbsp;<strong><?php print $item['client_company']; ?></strong></span>
                 <hr>
                 <?php if (isset($item["project_name"])) { ?>
                     <h5><?php print $item["project_name"]; ?></h5>
@@ -55,7 +65,5 @@ description: Testimonials displayed in Slider
                 <?php } ?>
             </div>
         </div>
-
-
-    <?php } ?>
+    <?php endforeach; ?>
 </div>
