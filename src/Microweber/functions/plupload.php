@@ -559,6 +559,7 @@ $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
+$fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled
 if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
     $ext = strrpos($fileName, '.');
@@ -574,6 +575,7 @@ if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
 }
 
 $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+$filePath_uniq = $targetDir . DIRECTORY_SEPARATOR . $fileName_uniq;
 
 // Create target dir
 if (!is_dir($targetDir)) {
@@ -703,8 +705,14 @@ if (isset($contentType)) {
 // Check if file has been uploaded
 if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
+    $newfile = $filePath;
+    if (is_file($newfile)) {
+        $newfile = $filePath_uniq;
+    }
 
-    rename("{$filePath}.part", $filePath);
+
+    rename("{$filePath}.part", $newfile);
+    $filePath = $newfile;
 
 
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
