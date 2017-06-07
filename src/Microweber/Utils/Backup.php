@@ -737,6 +737,7 @@ class Backup
 
         $back_log_action = 'Starting database backup';
         $this->log_action($back_log_action);
+
         // Cycle through each provided table
         foreach ($tables as $table) {
             $is_cms_table = false;
@@ -758,8 +759,6 @@ class Backup
                 $num_fields = count($result[0]);
                 $table_without_prefix = $this->prefix_placeholder.str_ireplace(get_table_prefix(), '', $table);
 
-//                $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
-//                $this->append_string_to_file($sql_bak_file, $return);
 
                 $ddl = mw()->database_manager->get_table_ddl($table);
                 $ddl = str_ireplace('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ', $ddl);
@@ -888,7 +887,7 @@ class Backup
         $userfiles_folder = userfiles_path();
         $media_folder = media_base_path();
 
-        $all_images = $this->app->media_manager->get_all('limit=10000');
+        $all_images = $this->app->media_manager->get_all('limit=100000');
 
         if (!empty($all_images)) {
             foreach ($all_images as $image) {

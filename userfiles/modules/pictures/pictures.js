@@ -15,7 +15,7 @@ mw.module_pictures = {
             mw.reload_module_parent('posts');
             mw.reload_module_parent('shop/products');
             mw.reload_module_parent("pictures/admin");
-        }, 300)
+        }, 500)
 
     },
 
