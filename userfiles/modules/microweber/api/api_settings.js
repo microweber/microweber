@@ -125,6 +125,7 @@ mw.settings.libs = {
     slick: [
         function () {
             mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
+            mw.moduleCSS(mw.settings.libs_url + 'slick' + '/slick-theme.css');
             mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
         }
     ],

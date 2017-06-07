@@ -192,6 +192,46 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $comments = get_comments($comments_data);
 
 
+
+
+
+
+
+
+
+    $cur_user = user_id();
+    if ($cur_user != false) {
+        $cur_user_data = get_user($cur_user);
+    }
+
+
+
+    $post = false;
+    if ($data['rel_type'] == 'content') {
+        $post = get_content_by_id($data['rel_id']);
+    }
+
+
+    $required_moderation = get_option('require_moderation', 'comments') == 'y';
+
+    $avatars_enabled = get_option('avatar_enabled', 'comments') == 'y';
+
+    $avatar_style = get_option('avatar_style', 'comments');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $template = get_option('data-template', $params['id']);
 
     if (($template == false or ($template == '')) and isset($params['template'])) {

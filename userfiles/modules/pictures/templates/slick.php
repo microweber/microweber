@@ -20,12 +20,12 @@ description: Slick Pictures List Template
 
     <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/slick.css");</script>
 
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
 
-            if($('.slickSlider', '#<?php print $params['id'] ?>').hasClass('slick-initialized')){
-               console.log('initialized');
-            }else{
+            if ($('.slickSlider', '#<?php print $params['id'] ?>').hasClass('slick-initialized')) {
+                console.log('initialized');
+            } else {
                 console.log('not initialized');
             }
 
@@ -73,8 +73,6 @@ description: Slick Pictures List Template
                     // instead of a settings object
                 ]
             });
-
-
 
 
 //            $('.slickNext', '#<?php //print $params['id'] ?>//').on('click', function () {

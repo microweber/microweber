@@ -30,7 +30,7 @@
 }
 
 .bxSliderWrapper.template-default .bx-wrapper .bx-pager.bx-default-pager a.active {
-    background: #f79d17;
+    background: #000;
 }
 
 .bxSliderWrapper.template-default .bxslider-wrapper {
@@ -103,8 +103,8 @@
 }
 
 .bxSliderWrapper.template-default .bxslider-wrapper .info-box-fluid .button .btn-primary:hover {
-    background-color: #ffa800;
-    border: 1px solid #ffa800;
+    background-color: #b4b4b4;
+    border: 1px solid #b4b4b4;
 }
 
 .bxSliderWrapper ul li {
