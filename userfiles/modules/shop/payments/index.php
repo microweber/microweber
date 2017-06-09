@@ -33,7 +33,7 @@ $enable_payment_options_count = 0;
     }
 
 
-    if (is_file($template_file) != false) {
+    if (isset($template_file) and is_file($template_file) != false) {
         include($template_file);
     } else if (is_file($template_file_default) != false) {
         include($template_file_default);
