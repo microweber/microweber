@@ -104,8 +104,14 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('content_type_filter');
         mw.$('#pages_edit_container').removeAttr('subtype_filter');
         mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
+        mw.$('#pages_edit_container').removeAttr('categories_active_ids');
+        mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
+        mw.$('#pages_edit_container').removeAttr('data-active_ids');
+        mw.$('#pages_edit_container').removeAttr('active_ids');
+
+
         if (active_item_is_category != undefined) {
-            mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
+            //   mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
             var active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
             if (active_item_parent_page != undefined) {
                 var active_item_is_page = active_item_parent_page.attr('data-page-id');
@@ -269,15 +275,22 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('content_type_filter');
         mw.$('#pages_edit_container').removeAttr('subtype_filter');
         mw.$('#pages_edit_container').removeAttr('categories_active_ids');
-        // mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
+        mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
+
+        mw.$('#pages_edit_container').removeAttr('data-active_ids');
+        mw.$('#pages_edit_container').removeAttr('active_ids');
+
+
+
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
         }
         if (in_page != undefined && is_cat != undefined) {
-            cont.attr('data-category-id', in_page);
-            cont.attr('data-selected-category-id', in_page);
+            // cont.attr('data-category-id', in_page);
+            //  cont.attr('data-selected-category-id', in_page);
 
         }
+
         mw.load_module('content/manager', '#pages_edit_container');
     }
 

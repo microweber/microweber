@@ -32,6 +32,8 @@
 
 
 
+
+
 $field_name="categories";
 $selected = 0;
 
@@ -93,7 +95,7 @@ if (!isset($params['rel_id'])) {
 } else {
 	$rel_id = '&rel_id=' . $params['rel_id'];
 }
-
+//d($params);
 ?>
 <?php
 $cats_str = array();
@@ -229,11 +231,14 @@ if(!empty($cats__parents)): ?>
 
 	if(isset($params['subtype']) and $params['subtype'] == 'post'){
 		$tree['subtype'] = 'dynamic';
-		if(isset($tree['is_shop'] )){
 
-			unset($tree['is_shop'] );
-		}
 	}
+
+	if(isset($tree['is_shop'] )){
+
+		unset($tree['is_shop'] );
+	}
+
 	if (isset($params['active_ids'])) {
 
 		//$active_cats[] = $params['active_ids'];
