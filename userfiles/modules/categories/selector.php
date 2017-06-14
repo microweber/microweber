@@ -30,8 +30,6 @@
 
 
 
-//d($params);
-
 
 
 $field_name="categories";

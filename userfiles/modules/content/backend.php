@@ -103,6 +103,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('subtype');
         mw.$('#pages_edit_container').removeAttr('content_type_filter');
         mw.$('#pages_edit_container').removeAttr('subtype_filter');
+        mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         if (active_item_is_category != undefined) {
             mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
             var active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
@@ -267,6 +268,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('subtype_value');
         mw.$('#pages_edit_container').removeAttr('content_type_filter');
         mw.$('#pages_edit_container').removeAttr('subtype_filter');
+        mw.$('#pages_edit_container').removeAttr('categories_active_ids');
+        // mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
         }
