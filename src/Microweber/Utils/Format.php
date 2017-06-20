@@ -59,6 +59,33 @@ class Format
         }
     }
 
+    function array_to_table($array,$table=true)
+    {
+        $out = '';
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                if (!isset($tableHeader)) {
+                    $tableHeader =
+                        '<th>' .
+                        implode('</th><th>', array_keys($value)) .
+                        '</th>';
+                }
+                array_keys($value);
+                $out .= '<tr>';
+                $out .= $this->array_to_table($value, false);
+                $out .= '</tr>';
+            } else {
+                $out .= "<td>$value</td>";
+            }
+        }
+
+        if ($table) {
+            return '<table>' . $tableHeader . $out . '</table>';
+        } else {
+            return $out;
+        }
+    }
+
     /**
      * Formats a date by given pattern.
      *
@@ -295,7 +322,7 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
-            $path = mw_cache_path().'html_purifier';
+            $path = mw_cache_path() . 'html_purifier';
 
             $var = $this->strip_unsafe($var);
             $config = \HTMLPurifier_Config::createDefault();
@@ -305,7 +332,7 @@ class Format
 //         Absolute path with no trailing slash to store serialized definitions in.
 //        Default is within the HTML Purifier library inside DefinitionCache/Serializer. This path must be writable by the webserver.
 
-            if(!is_dir($path)){
+            if (!is_dir($path)) {
                 mkdir_recursive($path);
             }
 
@@ -790,8 +817,8 @@ class Format
     }
 
 
-
-    function split_dates($min, $max, $parts = 7, $output = "Y-m-d") {
+    function split_dates($min, $max, $parts = 7, $output = "Y-m-d")
+    {
         $dataCollection[] = date($output, strtotime($min));
         $diff = (strtotime($max) - strtotime($min)) / $parts;
         $convert = strtotime($min) + $diff;
@@ -803,7 +830,6 @@ class Format
         $dataCollection[] = date($output, strtotime($max));
         return $dataCollection;
     }
-
 
 
     public function text_to_image($text)
@@ -832,13 +858,13 @@ class Format
         if (isset($options['bg_color'])) {
             $color = $options['bg_color'];
             $rgb = $this->hex_to_rgb($color);
-            $simple_text_image->setBackground($rgb['r'],$rgb['g'],$rgb['b']);
+            $simple_text_image->setBackground($rgb['r'], $rgb['g'], $rgb['b']);
         }
 
         if (isset($options['fg_color'])) {
             $color = $options['fg_color'];
             $rgb = $this->hex_to_rgb($color);
-            $simple_text_image->setForeground($rgb['r'],$rgb['g'],$rgb['b']);
+            $simple_text_image->setForeground($rgb['r'], $rgb['g'], $rgb['b']);
         }
 
         // Enable output buffering

@@ -2028,6 +2028,8 @@ class DefaultController extends Controller
         } else {
             if (is_array($res)) {
                 $res = json_encode($res);
+            } else if (is_bool($res)) {
+                $res = 1;
             }
             $response = \Response::make($res);
             return $response;

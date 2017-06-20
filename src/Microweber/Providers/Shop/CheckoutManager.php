@@ -63,7 +63,7 @@ class CheckoutManager
             } elseif (isset($_REQUEST['mw_payment_failure'])) {
                 if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
 
-                    mw()->cart_manager->recover_cart($_REQUEST['recart'],$_REQUEST['order_id']);
+                    mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
                 }
 
                 $mw_process_payment_failed = true;
@@ -213,26 +213,26 @@ class CheckoutManager
                 $set_return_url_from_ref = $_SERVER['HTTP_REFERER'];
             }
 
-           if ($set_return_url_from_ref) {
-               $urlarray = explode('?',$set_return_url_from_ref);
-               if(isset($urlarray[0]) and isset($urlarray[1])){
-                   parse_str($urlarray[1], $ref_params);
-                   if(isset($ref_params['mw_payment_failure'])){
-                       unset($ref_params['mw_payment_failure']);
-                   }
-                   if(isset($ref_params['mw_payment_success'])){
-                       unset($ref_params['mw_payment_success']);
-                   }
-                   $rebuild = http_build_query($ref_params, '', '&amp;');
-                   if($rebuild){
-                       $set_return_url_from_ref = $urlarray[0].'?'.$rebuild;
-                   } else {
-                       $set_return_url_from_ref = $urlarray[0];
-                   }
-               }
+            if ($set_return_url_from_ref) {
+                $urlarray = explode('?', $set_return_url_from_ref);
+                if (isset($urlarray[0]) and isset($urlarray[1])) {
+                    parse_str($urlarray[1], $ref_params);
+                    if (isset($ref_params['mw_payment_failure'])) {
+                        unset($ref_params['mw_payment_failure']);
+                    }
+                    if (isset($ref_params['mw_payment_success'])) {
+                        unset($ref_params['mw_payment_success']);
+                    }
+                    $rebuild = http_build_query($ref_params, '', '&amp;');
+                    if ($rebuild) {
+                        $set_return_url_from_ref = $urlarray[0] . '?' . $rebuild;
+                    } else {
+                        $set_return_url_from_ref = $urlarray[0];
+                    }
+                }
                 $place_order['url'] = $set_return_url_from_ref;
                 $return_url_after = '&return_to=' . urlencode($set_return_url_from_ref);
-                $this->app->user_manager->session_set('checkout_return_to_url',$set_return_url_from_ref);
+                $this->app->user_manager->session_set('checkout_return_to_url', $set_return_url_from_ref);
             } else {
                 $place_order['url'] = $this->app->url_manager->current();
             }
@@ -483,8 +483,23 @@ class CheckoutManager
                     $cart_items = array();
                     if (!empty($ord_data)) {
                         $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
-                        // $cart_items = $this->order_items($ord_data['id']);
-                        $order_items_html = $this->app->format->array_to_ul($cart_items);
+ 
+                        $cart_items_info = array();
+                        foreach ($cart_items as $cart_item) {
+                            $arr = array();
+                            if (isset($cart_item['link'])) {
+                                $arr['link'] = $cart_item['link'];
+                            }
+                            if (isset($cart_item['title'])) {
+                                $arr['title'] = $cart_item['title'];
+                            }
+                            if (isset($cart_item['custom_fields'])) {
+                                $arr['custom_fields'] = $cart_item['custom_fields'];
+                            }
+                            $cart_items_info[] = $arr;
+                        }
+
+                        $order_items_html = $this->app->format->array_to_table($cart_items_info);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         $order_email_content = str_replace('{date}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
                         foreach ($ord_data as $key => $value) {

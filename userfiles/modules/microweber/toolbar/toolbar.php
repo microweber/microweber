@@ -539,9 +539,16 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
 				if(typeof mw.wysiwyg.hide_drag_handles == 'function'){
 				mw.wysiwyg.hide_drag_handles();	
 				}
+
+
 				
 				
                 var el = $(this);
+
+                if(typeof(el[0]) == 'undefined'){
+                    return;
+                }
+
                 var list = mw.$(".create-content-dropdown-list", el[0]);
 
                 el.addClass("over");
