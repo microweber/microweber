@@ -1392,7 +1392,7 @@ mw.tools = {
             }
             return;
         }
-        if (!!el_obj.className && el_obj.className != '') {
+        if (!!el_obj.className && el_obj.className != '' && el_obj.className != null && typeof(el_obj.className.split) == 'function') {
             var cls = el_obj.className.split(" "), l = cls.length, i = 0, final = [];
             for (; i < l; i++) {
                 if (namespacePosition == 'contains') {
@@ -1408,6 +1408,7 @@ mw.tools = {
 
             }
             el_obj.className = final.join(" ");
+
         }
     },
     jQueryFields: function (root) {
