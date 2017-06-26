@@ -601,7 +601,10 @@ mw.wysiwyg = {
                             mw.tools.foreachParents(el, function(loop){
                                 if(this.className.indexOf(item) !== -1){
                                     is = true;
-                                    mw.tools.stopLoop(loop)
+                                    mw.tools.stopLoop(loop);
+                                    if(this.querySelector(mergeables.join(',')) !== null){
+                                      is = false;
+                                    }
                                 }
                             })
                         }
