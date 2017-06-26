@@ -175,7 +175,7 @@ mw.wysiwyg = {
             else {
                 var editables = mwd.querySelectorAll('[contenteditable]'), l = editables.length, x = 0;
                 for (; x < l; x++) {
-                    editables[x].contentEditable = false;
+                    editables[x].contentEditable = 'inherit';
                 }
                 mw.$(".edit").each(function () {
                     mw.on.DOMChange(this, function () {
@@ -602,8 +602,15 @@ mw.wysiwyg = {
                                 if(this.className.indexOf(item) !== -1){
                                     is = true;
                                     mw.tools.stopLoop(loop);
-                                    if(this.querySelector(mergeables.join(',')) !== null){
-                                      is = false;
+                                    var findMergable = this.querySelector(mergeables.join(',')
+                                    if(findMergable) !== null){
+                                      mw.tools.foreachParents(el, function(loop2){
+                                        if(this === findMergable){
+                                          is = false;
+                                          mw.tools.stopLoop(loop2);
+                                        }
+                                      })
+
                                     }
                                 }
                             })
