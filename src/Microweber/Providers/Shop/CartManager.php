@@ -168,7 +168,7 @@ class CartManager extends Crud
                     $item['title'] = $this->app->format->clean_html($item['title']);
                     $item['title'] = htmlspecialchars_decode($item['title']);
                 }
-                $return[ $k ] = $item;
+                $return[$k] = $item;
             }
         } else {
             $return = $get;
@@ -193,7 +193,7 @@ class CartManager extends Crud
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item = $this->app->format->render_item_custom_fields_data($item);
                 }
-                $get[ $k ] = $item;
+                $get[$k] = $item;
             }
         }
 
@@ -230,10 +230,10 @@ class CartManager extends Crud
     public function update_item_qty($data)
     {
         if (!isset($data['id'])) {
-             return array('error' => 'Invalid data');
+            return array('error' => 'Invalid data');
         }
         if (!isset($data['qty'])) {
-             return array('error' => 'Invalid data');
+            return array('error' => 'Invalid data');
         }
         $data_fields = false;
 
@@ -268,7 +268,6 @@ class CartManager extends Crud
                     $cart['qty'] = intval($data_fields['max_qty_per_order']);
                 }
             }
-
 
 
             $table = $this->table;
@@ -339,7 +338,7 @@ class CartManager extends Crud
             $update_qty_new = $update_qty = intval($data['qty']);
             unset($data['qty']);
         }
-       if (!isset($data['for']) or !isset($data['for_id'])) {
+        if (!isset($data['for']) or !isset($data['for_id'])) {
             if (!isset($data['id'])) {
 
             } else {
@@ -351,18 +350,18 @@ class CartManager extends Crud
                     $data = array_merge($data, $data_existing[0]);
                 }
             }
-         }
+        }
 
 
         if (!isset($data['for']) and !isset($data['for_id'])) {
-             return array('error' => 'Invalid for and for_id params');
+            return array('error' => 'Invalid for and for_id params');
         }
 
         $data['for'] = $this->app->database_manager->assoc_table_name($data['for']);
         $for = $data['for'];
         $for_id = intval($data['for_id']);
         if ($for_id == 0) {
-             return array('error' => 'Invalid data');
+            return array('error' => 'Invalid data');
         }
         $cont_data = false;
 
@@ -374,7 +373,7 @@ class CartManager extends Crud
             $cont = $this->app->content_manager->get_by_id($for_id);
             $cont_data = $this->app->content_manager->data($for_id);
             if ($cont == false) {
-                 return array('error' => 'Invalid product?');
+                return array('error' => 'Invalid product?');
             } else {
                 if (is_array($cont) and isset($cont['title'])) {
                     $data['title'] = $cont['title'];
@@ -408,7 +407,7 @@ class CartManager extends Crud
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
-                    $prices[ $cf['name'] ] = $cf['value'];
+                    $prices[$cf['name']] = $cf['value'];
                 }
             }
         }
@@ -434,7 +433,7 @@ class CartManager extends Crud
                         }
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-                            $prices[ $cf['name'] ] = $cf['value'];
+                            $prices[$cf['name']] = $cf['value'];
                         }
                     }
                 }
@@ -462,7 +461,7 @@ class CartManager extends Crud
                         if (count($prices) > 1) {
                             foreach ($prices as $pk => $pv) {
                                 if ($pv == $found_price) {
-                                    $add[ $pk ] = $this->app->shop_manager->currency_format($pv);
+                                    $add[$pk] = $this->app->shop_manager->currency_format($pv);
                                 }
                             }
                         }
@@ -471,7 +470,7 @@ class CartManager extends Crud
                 if (isset($item)) {
                     if ($found == true) {
                         if ($k != 'price' and !in_array($k, $skip_keys)) {
-                            $add[ $k ] = $this->app->format->clean_html($item);
+                            $add[$k] = $this->app->format->clean_html($item);
                         }
                     }
                 }
@@ -543,6 +542,9 @@ class CartManager extends Crud
 
             if (isset($data['description']) and is_string($data['description'])) {
                 $cart_return['description'] = $cart['description'] = $this->app->format->clean_html($data['description']);
+            }
+            if (isset($data['image']) and is_string($data['image'])) {
+                $cart_return['item_image'] = $cart['item_image'] = $this->app->format->clean_html($data['image']);
             }
             if (isset($data['item_image']) and is_string($data['item_image'])) {
                 $cart_return['item_image'] = $cart['item_image'] = $this->app->format->clean_html($data['item_image']);

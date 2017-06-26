@@ -483,10 +483,16 @@ class CheckoutManager
                     $cart_items = array();
                     if (!empty($ord_data)) {
                         $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
- 
+
                         $cart_items_info = array();
+
                         foreach ($cart_items as $cart_item) {
                             $arr = array();
+                            if (isset($cart_item['item_image']) and $cart_item['item_image']) {
+
+                                $arr['item_image'] = $cart_item['item_image'];
+                                $arr['item_image'] = '<img src="'.$arr['item_image'].'" width="100" />';
+                            }
                             if (isset($cart_item['link'])) {
                                 $arr['link'] = $cart_item['link'];
                             }

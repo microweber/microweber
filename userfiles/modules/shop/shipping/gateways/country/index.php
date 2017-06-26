@@ -58,7 +58,7 @@ if (is_array($data)) {
     </script>
     <script type="text/javascript">
 
-        function mw_shipping_ <?php print $rand; ?>(country) {
+        function mw_shipping_<?php print $rand; ?>(country) {
 
 
             var data = {};

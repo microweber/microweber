@@ -120,10 +120,10 @@ if( !window.escape ){
 
 mw.tools = {
     constructions:function(){
-      $(".mw-image-holder").each(function(){
-        var img = this.querySelector('img');
-        $(this).css('backgroundImage', 'url('+img.src+')')
-      })
+        $(".mw-image-holder").each(function(){
+            var img = this.querySelector('img');
+            $(this).css('backgroundImage', 'url('+img.src+')')
+        })
     },
     isEditable:function(item){
         var el = item;
@@ -248,13 +248,13 @@ mw.tools = {
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
 
-             if (off.top == 0 && off.left == 0) {
+            if (off.top == 0 && off.left == 0) {
 
-               var off = $(el).parent().offset()
+                var off = $(el).parent().offset()
 
 
 
-             }
+            }
 
 
 
@@ -423,14 +423,14 @@ mw.tools = {
                 var cur_tip_id = cur_tip.attr('id');
                 if(cur_tip_id){
                     mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
-					if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
+                    if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 
-						setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 100);
+                        setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 100);
 
-					} else {
-					   mw.$( "#"+cur_tip_id ).show();
+                    } else {
+                        mw.$( "#"+cur_tip_id ).show();
 
-					}
+                    }
 
                 }
 
@@ -440,29 +440,29 @@ mw.tools = {
 
             if (wl && $.contains(self.document, tip)) {
 
-             /*
-              //position bug: resize fires in modal frame
-              $(self).bind('resize scroll', function (e) {
+                /*
+                 //position bug: resize fires in modal frame
+                 $(self).bind('resize scroll', function (e) {
 
 
-                    if (self.document.contains(tip)) {
+                 if (self.document.contains(tip)) {
 
-                        self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
-                    }
+                 self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
+                 }
 
-                });*/
+                 });*/
 
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
 
                     $(self).bind('click', function (e,target) {
 
-                      mw.$("."+tip_group_class).hide();
+                        mw.$("."+tip_group_class).hide();
 
                     });
 
                 }
 
-             }
+            }
 
             mw.tools.tooltip.setPosition(tip, o.element, o.position);
             return tip;
@@ -960,18 +960,18 @@ mw.tools = {
 
                 if(typeof arr[next_of_next] !== 'undefined'){
                     if(typeof arr[next_of_next]['image'] !== 'undefined'){
-                    var next_of_next_url = arr[next_of_next]['image']
-                    var src_regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-                    if(src_regex.test(next_of_next_url)) {
+                        var next_of_next_url = arr[next_of_next]['image']
+                        var src_regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+                        if(src_regex.test(next_of_next_url)) {
                             try {
                                 var _prelaod_img = new Image();
                                 _prelaod_img.src = next_of_next_url;
                             } catch (e) {
 
                             }
+                        }
                     }
-                   }
-                 }
+                }
             }, modal);
         },
         prev: function (modal) {
@@ -1034,14 +1034,14 @@ mw.tools = {
                 + '</div>';
 
             var modal = modal || top.mw.tools.modal.init({
-                width: "100%",
-                height: "100%",
-                html: '',
-                draggable: false,
-                overlay: true,
-                name: "mw_gallery",
-                template: 'mw_modal_gallery'
-            });
+                    width: "100%",
+                    height: "100%",
+                    html: '',
+                    draggable: false,
+                    overlay: true,
+                    name: "mw_gallery",
+                    template: 'mw_modal_gallery'
+                });
             modal.overlay.style.opacity = 0.8;
             modal.container.innerHTML = ghtml;
             modal.gallery = {
@@ -1087,9 +1087,9 @@ mw.tools = {
                 var mxw = ((dw > ww) ? (ww - 33) : dw);
                 var mxh = ((dh > wh) ? (wh - 33) : dh);
                 img.style.maxWidth = mxw + 'px';
-			    //img.style.maxWidth = 'auto';
+                //img.style.maxWidth = 'auto';
                 img.style.maxHeight = mxh + 'px';
-			    //img.style.maxHeight = 'auto';
+                //img.style.maxHeight = 'auto';
                 var holder = img.parentNode;
                 mw.tools.modal.center(holder);
             }
@@ -1172,7 +1172,7 @@ mw.tools = {
         var root = root || mwd.body;
 
         if(root === null){
-          return;
+            return;
         }
 
         var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
@@ -1265,12 +1265,12 @@ mw.tools = {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
 
-				if($(e.target).hasClass('mw-dropdown-content')
+                if($(e.target).hasClass('mw-dropdown-content')
                     || $(e.target).hasClass('mw-dropdown')
                     || mw.tools.hasParentsWithClass(e.target, 'mw-dropdown')
                 ){
-				// dont hide the dropdown
-				} else if (mw.$('.mw-dropdown.hover').length == 0) {
+                    // dont hide the dropdown
+                } else if (mw.$('.mw-dropdown.hover').length == 0) {
                     mw.$(".mw-dropdown").removeClass("active");
                     mw.$(".mw-dropdown-content").hide();
                 }
@@ -3057,7 +3057,7 @@ mw.tools = {
 
         var modal_name = 'module-settings-' + curr.id;
         if(typeof(data1.view.hash) == 'function'){
-             //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
+            //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
         }
 
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
@@ -3080,7 +3080,7 @@ mw.tools = {
         var src = mw.settings.site_url + 'api/module?id=mw_global_css_editor&live_edit=true&module_settings=true&type=editor/css_editor&autosize=true';
         var modal = mw.tools.modal.frame({
             url: src,
-           // width: 500,
+            // width: 500,
             //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-css-editor-front',
             title:'CSS Editor',
@@ -3377,7 +3377,7 @@ mw.wait('jQuery', function () {
 //var _that = this;
 //clearTimeout(_t1);
 
-  //  _t1 =  setTimeout(function(){
+        //  _t1 =  setTimeout(function(){
 
 
         var isCustom = isCustom || false;
@@ -3413,7 +3413,7 @@ mw.wait('jQuery', function () {
         }
         this.dataset("value", val);
 
-    //    }, 100);
+        //    }, 100);
     };
 
     jQuery.fn.commuter = function (a, b) {
@@ -3594,15 +3594,15 @@ mw.cookie = {
         document.cookie = name + "=" + escape(value) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : ";path=/" ) + ( ( domain ) ? ";domain=" + domain : "" ) + ( ( secure ) ? ";secure" : "" );
     },
     setEncoded:function(name, value, expires, path, domain, secure){
-       // value = encodeURIComponent(value);
-       // value = escape(value);
+        // value = encodeURIComponent(value);
+        // value = escape(value);
         //value = mw.tools.base64.encode( unescape( encodeURIComponent( value ) ) )
         value = mw.tools.base64.encode(  value )
         return this.set(name, value, expires, path, domain, secure)
     },
     getEncoded:function(name){
         var value = this.get(name);
-       // value = decodeURIComponent(value);
+        // value = decodeURIComponent(value);
         //value = unescape(value);
         //value = decodeURIComponent( escape( mw.tools.base64.decode( value ) ) )
         value = mw.tools.base64.decode( value  )
@@ -3616,7 +3616,7 @@ mw.cookie = {
             var mwui = (!mwui || mwui == '') ? {} : $.parseJSON(mwui);
         }
         catch (e) {
-          return false;
+            return false;
         }
 
         if (typeof a === 'undefined') {
@@ -3760,11 +3760,11 @@ mw.walker = function (context, callback) {
     }
 }
 Array.prototype.remove = Array.prototype.remove || function (what) {
-    var i = 0, l = this.length;
-    for (; i < l; i++) {
-        this[i] === what ? this.splice(i, 1) : '';
+        var i = 0, l = this.length;
+        for (; i < l; i++) {
+            this[i] === what ? this.splice(i, 1) : '';
+        }
     }
-}
 
 Array.prototype.exposeToHash = function (name, callback) {
     if (typeof name === 'undefined') {
@@ -3801,20 +3801,20 @@ __mwextend = function (el) {
             ;
         }
         el.attr = el.attr || function (name, value) {
-            if (value === undefined) {
-                return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
+                if (value === undefined) {
+                    return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
+                }
+                else {
+                    el.setAttribute(name, value);
+                    return el;
+                }
             }
-            else {
-                el.setAttribute(name, value);
-                return el;
-            }
-        }
         el.addClass = el.addClass || function (cls) {
-            return mw.tools.addClass(el, cls);
-        }
+                return mw.tools.addClass(el, cls);
+            }
         el.removeClass = el.removeClass || function (cls) {
-            return mw.tools.removeClass(el, cls);
-        }
+                return mw.tools.removeClass(el, cls);
+            }
     }
     return el;
 }
@@ -4268,9 +4268,9 @@ $(document).ready(function () {
         });
     });
     $(".mw-image-holder").each(function(){
-      if($(".mw-image-holder-overlay", this).length === 0){
-        $('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
-      }
+        if($(".mw-image-holder-overlay", this).length === 0){
+            $('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
+        }
     })
 
 });
@@ -4349,33 +4349,33 @@ mw.inline = {
             mw.inline.tableControl.innerHTML = ''
 
             mw.inline.tableControl.innerHTML = ''
-            + '<ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal">'
-            + '<li>'
-            + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
-            + '<ul>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
-            + '</ul>'
-            + '</li>'
-            + '<li>'
-            + '<a href="javascript:;">Style<span class="mw-icon-dropdown"></span></a>'
-            + '<ul>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.inline.activeCell);">Bordered</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.inline.activeCell);">Bordered Zebra</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.inline.activeCell);">Simple</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.inline.activeCell);">Simple Zebra</a></li>'
-            + '</ul>'
-            + '</li>'
-            + '<li>'
-            + '<a href="javascript:;">Delete<span class="mw-icon-dropdown"></span></a>'
-            + '<ul>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
-            + '<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
-            + '</ul>'
-            + '</li>'
-            + '</ul>';
+                + '<ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal">'
+                + '<li>'
+                + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
+                + '<ul>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
+                + '</ul>'
+                + '</li>'
+                + '<li>'
+                + '<a href="javascript:;">Style<span class="mw-icon-dropdown"></span></a>'
+                + '<ul>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.inline.activeCell);">Bordered</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.inline.activeCell);">Bordered Zebra</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.inline.activeCell);">Simple</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.inline.activeCell);">Simple Zebra</a></li>'
+                + '</ul>'
+                + '</li>'
+                + '<li>'
+                + '<a href="javascript:;">Delete<span class="mw-icon-dropdown"></span></a>'
+                + '<ul>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
+                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
+                + '</ul>'
+                + '</li>'
+                + '</ul>';
 
 
         }
