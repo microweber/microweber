@@ -530,7 +530,6 @@ mw.wysiwyg = {
                   if (!el) return true;
 
 
-                  console.dir(el);
 
            }
 
@@ -642,7 +641,6 @@ mw.wysiwyg = {
                     }
                     else{
                       mw.wysiwyg.cursorToElement(next, 'end')
-                      console.dir(getSelection().getRangeAt(0))
                     }
                   }
               }

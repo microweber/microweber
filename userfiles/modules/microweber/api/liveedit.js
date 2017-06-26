@@ -2646,8 +2646,6 @@ mw.resizable_columns = function() {
     if ($(window).width() < 768) {
         return false;
     }
-
-
     $(".mw-row").each(function() {
         mw.px2pc(this);
     });
