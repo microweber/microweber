@@ -222,7 +222,7 @@ mw.wysiwyg = {
         for (; i < l; i++) {
             if (a[i].innerHTML == '' || a[i].innerHTML.replace(/\s+/g, '') == '') {
                 a[i].innerHTML = '&zwj;&nbsp;&zwj;';
-           
+
             }
         }
     },
@@ -586,11 +586,14 @@ mw.wysiwyg = {
             }
 
             var isInNonbreakable = function(el){
+              if(el.nextSibling === null){
+                return true;
+              }
                 el = mw.wysiwyg.validateCommonAncestorContainer(el)
-                var classes = ['unbreakable', '*col', '*row'];
+                var classes = ['unbreakable', '*col', '*row', 'icon', '*fa-'];
                 var is = false;
 
-
+                console.log(el)
                 classes.forEach(function(item){
                    if(item.indexOf('*') === 0){
                        var item = item.split('*')[1];
@@ -602,8 +605,9 @@ mw.wysiwyg = {
                                 if(this.className.indexOf(item) !== -1){
                                     is = true;
                                     mw.tools.stopLoop(loop);
-                                    var findMergable = this.querySelector(mergeables.join(',')
-                                    if(findMergable) !== null){
+                                    var findMergable = this.querySelector(mergeables.join(','));
+                                    console.log(findMergable, el)
+                                    if(findMergable !== null){
                                       mw.tools.foreachParents(el, function(loop2){
                                         if(this === findMergable){
                                           is = false;
@@ -624,6 +628,7 @@ mw.wysiwyg = {
                 });
 
 
+
                 return is;
 
             }
@@ -637,7 +642,7 @@ mw.wysiwyg = {
                     var conts = getSelection().getRangeAt(0);
 
 
-              if(next !== null){
+                  if(next !== null){
 
                     if(next.nodeType === 3 && /\r|\n/.exec(next.nodeValue) !== null){
                         event.preventDefault();
@@ -652,6 +657,9 @@ mw.wysiwyg = {
                     else{
                       mw.wysiwyg.cursorToElement(next, 'end')
                     }
+                  }
+                  else{
+                    return false;
                   }
               }
 
