@@ -267,8 +267,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             .removeAttr('subtype')
             .removeAttr('data-subtype')
             .removeAttr('data-content-id')
-            .removeAttr('is_shop')
-            .attr('content-id', in_page);
+            .removeAttr('is_shop');
+          //  .attr('content-id', in_page);
         mw.$('#pages_edit_container').removeAttr('content_type');
         mw.$('#pages_edit_container').removeAttr('subtype');
         mw.$('#pages_edit_container').removeAttr('subtype_value');
@@ -279,14 +279,20 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.$('#pages_edit_container').removeAttr('data-active_ids');
         mw.$('#pages_edit_container').removeAttr('active_ids');
+        mw.$('#pages_edit_container').removeAttr('content-id');
+        mw.$('#pages_edit_container').removeAttr('category-id');
 
 
 
         if (in_page != undefined && is_cat == undefined) {
-            cont.attr('data-page-id', in_page);
+           // cont.attr('data-page-id', in_page);
+
         }
         if (in_page != undefined && is_cat != undefined) {
-            // cont.attr('data-category-id', in_page);
+
+            cont.attr('data-category-id', in_page);
+
+            //
             //  cont.attr('data-selected-category-id', in_page);
 
         }
