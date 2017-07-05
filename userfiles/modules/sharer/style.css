@@ -1,26 +1,1 @@
-.mw-social-share-links,
-.mw-social-share-links *{
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-
-.mw-social-share-links a{
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border-radius:2px;
-  color: white;
-  background-color: #262626;
-  margin-right:10px;
-  text-align: center;
-  padding-top: 6px;
-}
-.mw-social-share-links a:last-child{
-  margin-right:0;
-}
-
-.mw-social-share-links a span{
-  font-size: 26px;
-}
+.mw-social-share-links,.mw-social-share-links * {    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;}.mw-social-share-links a {    display: inline-block;    width: 40px;    height: 40px;    border-radius: 2px;    color: white;    background-color: #262626;    margin-right: 10px;    text-align: center;    padding-top: 6px;}.mw-social-share-links a:last-child {    margin-right: 0;}.mw-social-share-links a span {    font-size: 26px;}
