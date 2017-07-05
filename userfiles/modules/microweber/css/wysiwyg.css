@@ -584,6 +584,7 @@
 #mw_history_files a {
     display: block;
     padding: 5px 10px;
+    color: #000;
 }
 
 .wysiwyg-convertible-toggler {

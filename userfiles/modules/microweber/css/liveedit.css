@@ -1409,10 +1409,10 @@ body.loaded #live_edit_toolbar {
     font-size: 14px;
     color: #595959;
 }
-.toolbar-sections-tabs a{
+
+.toolbar-sections-tabs a {
     font-size: 12px;
 }
-
 
 .toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active {
     background-color: white;
@@ -2807,9 +2807,16 @@ div[id*='SSDIVEL'] {
     color: #fff;
 }
 
+.toolbar-sections-tabs > ul,
+#live-edit-dropdown-actions-content ul,
+#mw_history_files {
+    padding-left: 0;
+}
 
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul.pages_tree li {
+    display: block;
+}
 
-
-
-
-
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li a {
+    padding-left: 23px;
+}
