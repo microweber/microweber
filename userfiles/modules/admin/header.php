@@ -212,9 +212,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   </strong> </a> </li>
 
 
-            <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:modules"> <span class="mw-icon-module" style="font-size: 24px;"></span> <strong>
+         <?php
+
+         /*   <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:modules"> <span class="mw-icon-module" style="font-size: 24px;"></span> <strong>
                         <?php _e("Modules"); ?>
-                    </strong> </a> </li>
+                    </strong> </a> </li>*/
+
+         ?>
 
                   
                   <?php if(mw()->ui->disable_marketplace != true): ?>

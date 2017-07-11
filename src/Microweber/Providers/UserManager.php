@@ -249,6 +249,7 @@ class UserManager
 
     public function logout($params = false)
     {
+        Auth::logout();
         Session::flush();
         $aj = $this->app->url_manager->is_ajax();
         $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
