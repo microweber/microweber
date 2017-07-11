@@ -12,10 +12,10 @@
     <meta property="og:image" content="{content_image}" />
     <meta property="og:description" content="{og_description}" />
     <meta property="og:site_name" content="{og_site_name}" />
-    
+
     <link rel="alternate" type="application/rss+xml" title="{og_site_name}" href="<?php print site_url('rss') ?>" />
 
-    
+
     <link href='//fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,300&subset=latin,cyrillic,cyrillic-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic&subset=latin,cyrillic,greek,latin-ext' rel='stylesheet' type='text/css'>
@@ -25,6 +25,21 @@
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
     <?php include THIS_TEMPLATE_DIR . 'header_options.php'; ?>
+
+
+    <script>
+        AddToCartModalContent = window.AddToCartModalContent || function (title) {
+                var html = ''
+
+                    + '<section style="text-align: center;">'
+                    + '<h5>' + title + '</h5>'
+                    + '<p><?php _e("has been added to your cart"); ?></p>'
+                    + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="btn btn-default"><?php _e("Continue shopping"); ?></a>'
+                    + '<a href="<?php print checkout_url(); ?>" class="btn btn-warning"><?php _e("Checkout"); ?></a></section>';
+
+                return html;
+            }
+    </script>
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 

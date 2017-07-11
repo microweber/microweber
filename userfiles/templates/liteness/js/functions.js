@@ -25,16 +25,44 @@ $(document).ready(function () {
         mw.msg.product_added = "Your product is added to the shopping cart";
     }
 
-    $(window).bind('mw.cart.add', function () {
-        var modal_html = ''
-            + '<div id="mw-product-added-popup-holder"> '
-            + '<h4>' + mw.msg.product_added + '</h4>'
-            + '<div id="mw-product-added-popup" class="text-center" style="width:210px;"> '
-            + ' </div>';
-        +' </div>';
-        Alert(modal_html)
-        mw.load_module('shop/cart', '#mw-product-added-popup', false, {template: 'small'});
+    // $(window).bind('mw.cart.add', function () {
+    //     var modal_html = ''
+    //         + '<div id="mw-product-added-popup-holder"> '
+    //         + '<h4>' + mw.msg.product_added + '</h4>'
+    //         + '<div id="mw-product-added-popup" class="text-center" style="width:210px;"> '
+    //         + ' </div>';
+    //     +' </div>';
+    //     Alert(modal_html)
+    //     mw.load_module('shop/cart', '#mw-product-added-popup', false, {template: 'small'});
+    //
+    //
+    // });
 
+    $(window).bind('mw.cart.add', function(event, data){
+
+        if(document.getElementById('AddToCartModal') === null){
+
+            AddToCartModal = mw.modal({
+
+                content:AddToCartModalContent(data.product.title),
+
+                template:'mw_modal_basic',
+
+                name:"AddToCartModal",
+
+                width:400,
+
+                height:200
+
+            });
+
+        }
+
+        else{
+
+            AddToCartModal.container.innerHTML = AddToCartModalContent(data.product.title);
+
+        }
 
     });
 
