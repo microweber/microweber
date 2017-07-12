@@ -84,6 +84,17 @@ function category_link($id)
     return mw()->category_manager->link($id);
 }
 
+function category_title($id)
+{
+    if (intval($id) == 0) {
+        return false;
+    }
+    $cat = get_category_by_id($id);
+    if (isset($cat['title'])) {
+        return $cat['title'];
+    }
+}
+
 function get_category_children($parent_id = 0, $type = false, $visible_on_frontend = false)
 {
     return mw()->category_manager->get_children($parent_id, $type, $visible_on_frontend);
