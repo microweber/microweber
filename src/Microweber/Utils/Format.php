@@ -213,44 +213,45 @@ class Format
         return sprintf("%.{$dec}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 
-    public function ago($time, $granularity = 2)
+    public function ago($time, $full = false)
     {
+
+        $now = new \DateTime;
+
         if (is_int($time)) {
-            $date = ($time);
+            $date = $time;
+            $ago = new \DateTime("@" .$time);
         } else {
             $date = strtotime($time);
+            $ago = new \DateTime($time);
         }
 
-        $difference = time() - $date;
-        $retval = '';
-        $periods = array(
-            'decade' => 315360000,
-            'year' => 31536000,
-            'month' => 2628000,
-            'week' => 604800,
-            'day' => 86400,
-            'hour' => 3600,
-            'minute' => 60,
-            'second' => 1,
+
+
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
         );
-        foreach ($periods as $key => $value) {
-            if ($difference >= $value) {
-                $time = floor($difference / $value);
-                $difference %= $value;
-                $retval .= ($retval ? ' ' : '') . $time . ' ';
-                $retval .= (($time > 1) ? $key . 's' : $key);
-                --$granularity;
-            }
-            if ($granularity == '0') {
-                break;
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
             }
         }
 
-        if ($retval == '') {
-            return '1 second ago';
-        }
-
-        return '' . $retval . ' ago';
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
     public function clean_xss($var, $do_not_strip_tags = false)
