@@ -36,7 +36,7 @@ $prev = prev_content();
     <h1 class="edit" field="title" rel="post">Product inner page</h1>
     <div class="price"><span><?php print currency_format(get_product_price()); ?></span></div>
 
-    <module type="rating"/>
+    <module type="rating" content-id="<?php print CONTENT_ID; ?>"/>
     <div class="edit" field="content_body" rel="post">
         <p class="description">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it
             anywhere on the site. Get creative &amp; <strong>Make Web</strong>.</p>
