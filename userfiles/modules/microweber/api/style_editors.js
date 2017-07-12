@@ -346,6 +346,7 @@ $(document).ready(function(){
 
 if( typeof $.fn.draggable === 'function'){
 
+
     mw.$("#design_bnav").draggable({
       handle:"#design_bnav_handle",
       containment:'window',

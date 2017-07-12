@@ -449,10 +449,12 @@ class Backup
             $destDir = userfiles_path();
             $copy = $this->copyr($srcDir, $destDir);
         }
+        mw()->template->clear_cached_custom_css();
 
         if (function_exists('mw_post_update')) {
             mw_post_update();
         }
+
         $back_log_action = 'Cleaning up cache';
         $this->log_action($back_log_action);
         mw()->cache_manager->clear();
