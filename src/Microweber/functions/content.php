@@ -225,6 +225,23 @@ function content_title($id = false)
 }
 
 /**
+ * @param bool $id
+ * @return mixed
+ */
+function content_date($id = false)
+{
+    if($id == false){
+        $id = CONTENT_ID;
+    }
+
+
+    $cont = mw()->content_manager->get_by_id($id);
+    if(isset($cont['created_at'])){
+        return $cont['created_at'];
+    }
+ }
+
+/**
  * Send content to trash or delete it forever.
  *
  * @since 0.1
