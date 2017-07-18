@@ -40,6 +40,7 @@ api_expose_admin('save_edit');
 api_expose_admin('save_content');
 api_expose('save_content_admin');
 api_expose_admin('get_content_field_draft');
+api_expose_admin('get_content_field');
 
 api_expose_admin('notifications_manager/delete', function ($data) {
     return mw()->notifications_manager->delete($data);
@@ -146,11 +147,25 @@ api_expose('create_media_dir');
 api_expose('media/upload');
 api_expose('media/delete_media_file');
 
-
+/*
 // queue
 
 api_expose('queue_dispatch', function () {
     mw()->event_manager->trigger('mw.queue.dispatch');
 });
+api_expose('queue_dispatch1', function () {
 
+ //   $job = \Queue::push('App\Jobs\CheckTopic', ['url' => $url]);
+
+     //dispatch($job)->onQueue('high');
+dd($job);
+
+    // \Illuminate\Queue\Worker;
+
+
+     dispatch($job)->onQueue('high');
+
+    //dispatch($job);
+});
+*/
 
