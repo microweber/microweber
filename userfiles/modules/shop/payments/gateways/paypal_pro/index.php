@@ -1,4 +1,6 @@
-<div class="paypal-pro-gateway"><h5 class="alert alert-success"><?php _e("Your card payments are secured by PayPal"); ?></h5>
+<?PHP
+
+/*<div class="paypal-pro-gateway"><h5 class="alert alert-success"><?php _e("Your card payments are secured by PayPal"); ?></h5>
 
     <div class="form-group">
         <label class="control-label"><?php _e("First Name"); ?> </label>
@@ -41,9 +43,12 @@
         <div class="cc_process_error"></div>
     </div>
 </div>
+*/
 
+?>
 
 <?php
+require(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'cc_form_fields.php');
 
 $paypal_is_test = (get_option('paypalpro_testmode', 'payments')) == 'y';
 
