@@ -63,11 +63,11 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir.'cache'.DS.'apijs'.DS);
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
             $hash = md5(site_url());
-            $userfiles_cache_filename = $userfiles_cache_dir.'api.'.$hash.'.'.MW_VERSION.'.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url().'cache/apijs/'.'api.'.$hash.'.'.MW_VERSION.'.js';
+                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash . '.' . MW_VERSION . '.js';
             }
         }
 
@@ -80,12 +80,12 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir.'cache'.DS.'apijs'.DS);
-            $fn = 'api_settings.'.md5(site_url().template_dir()).'.'.MW_VERSION.'.js';
-            $userfiles_cache_filename = $userfiles_cache_dir.$fn;
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
+            $fn = 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . $fn;
             if (is_file($userfiles_cache_filename)) {
                 if (is_file($userfiles_cache_filename)) {
-                    $url = userfiles_url().'cache/apijs/'.$fn;
+                    $url = userfiles_url() . 'cache/apijs/' . $fn;
                 }
             }
         }
@@ -95,12 +95,12 @@ class Template
 
     public function meta($name, $value = false)
     {
-        $this->meta_tags[ $name ] = $value;
+        $this->meta_tags[$name] = $value;
     }
 
     public function html_opening_tag($name, $value = false)
     {
-        $this->html_opening_tag[ $name ] = $value;
+        $this->html_opening_tag[$name] = $value;
     }
 
     public function dir($add = false)
@@ -112,7 +112,7 @@ class Template
             $val = TEMPLATE_DIR;
         }
         if ($add != false) {
-            $val = $val.$add;
+            $val = $val . $add;
         }
 
         return $val;
@@ -122,7 +122,7 @@ class Template
     {
         if ($template == false) {
             $dir = template_dir();
-            $file = $dir.'config.php';
+            $file = $dir . 'config.php';
             if (is_file($file)) {
                 include $file;
                 if (isset($config)) {
@@ -144,7 +144,7 @@ class Template
         }
 
         if ($add != false) {
-            $val = $val.$add;
+            $val = $val . $add;
         }
 
         return $val;
@@ -170,7 +170,7 @@ class Template
 
         event_trigger('mw.template.print_custom_css_includes');
 
-        $fonts_file = modules_path().'editor'.DS.'fonts'.DS.'stylesheet.php';
+        $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
         if (is_file($fonts_file)) {
             include $fonts_file;
         }
@@ -188,8 +188,8 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir.'cache'.DS);
-            $userfiles_cache_filename = $userfiles_cache_dir.'custom_css.'.md5(site_url()).'.'.MW_VERSION.'.css';
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
             if (!is_file($userfiles_cache_filename)) {
                 if (!is_dir($userfiles_cache_dir)) {
                     mkdir_recursive($userfiles_cache_dir);
@@ -215,15 +215,34 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir.'cache'.DS);
-            $userfiles_cache_filename = $userfiles_cache_dir.'custom_css.'.md5(site_url()).'.'.MW_VERSION.'.css';
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url().'cache/'.'custom_css.'.md5(site_url()).'.'.MW_VERSION.'.css';
+                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
             }
         }
 
         return $url;
     }
+
+    public function clear_cached_custom_css()
+    {
+        $url = api_nosession_url('template/print_custom_css');
+        $compile_assets = \Config::get('microweber.compile_assets');
+        $userfiles_dir = userfiles_path();
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+        $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+
+        $files = glob($userfiles_cache_dir . "custom_css*.css");
+        if ($files) {
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    @unlink($file);
+                }
+            }
+        }
+    }
+
 
     public function name()
     {
@@ -258,16 +277,16 @@ class Template
                         switch (strtolower($ext)) {
 
                             case 'css':
-                                $src .= '<link rel="stylesheet" href="'.$header.'" type="text/css" media="all">'."\n";
+                                $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="'.$header.'"></script>'."\n";
+                                    .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
                                 break;
 
                             default:
-                                $src .= $header."\n";
+                                $src .= $header . "\n";
                                 break;
                         }
                     }
@@ -301,16 +320,16 @@ class Template
                         switch (strtolower($ext)) {
 
                             case 'css':
-                                $src .= '<link rel="stylesheet" href="'.$header.'" type="text/css" media="all">'."\n";
+                                $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="'.$header.'"></script>'."\n";
+                                    .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
                                 break;
 
                             default:
-                                $src .= $header."\n";
+                                $src .= $header . "\n";
                                 break;
                         }
                     }
@@ -360,16 +379,16 @@ class Template
                         switch (strtolower($ext)) {
 
                             case 'css':
-                                $src .= '<link rel="stylesheet" href="'.$footer.'" type="text/css" media="all">'."\n";
+                                $src .= '<link rel="stylesheet" href="' . $footer . '" type="text/css" media="all">' . "\n";
                                 break;
 
                             case 'js':
                                 $src
-                                    .= '<script type="text/javascript" src="'.$footer.'"></script>'."\n";
+                                    .= '<script type="text/javascript" src="' . $footer . '"></script>' . "\n";
                                 break;
 
                             default:
-                                $src .= $footer."\n";
+                                $src .= $footer . "\n";
                                 break;
                         }
                     }
@@ -401,23 +420,23 @@ class Template
         if (!empty($this->html_opening_tag)) {
             foreach ($this->html_opening_tag as $key => $item) {
                 if (is_string($item)) {
-                    $replace .= $key.'="'.$item.'" ';
+                    $replace .= $key . '="' . $item . '" ';
                 }
             }
         }
 
-        $layout = str_replace('<html ', '<html '.$replace, $layout, $count);
+        $layout = str_replace('<html ', '<html ' . $replace, $layout, $count);
         $count = 1;
         $replace = '';
         if (!empty($this->meta_tags)) {
             foreach ($this->meta_tags as $key => $item) {
                 if (is_string($item)) {
-                    $replace .= '<meta name="'.$key.'" content="'.$item.'">'."\n";
+                    $replace .= '<meta name="' . $key . '" content="' . $item . '">' . "\n";
                 }
             }
         }
         $count = 1;
-        $layout = str_replace('<head>', '<head>'.$replace, $layout, $count);
+        $layout = str_replace('<head>', '<head>' . $replace, $layout, $count);
 
         return $layout;
     }
@@ -437,7 +456,7 @@ class Template
     public function clear_cache()
     {
         $userfiles_dir = userfiles_path();
-        $userfiles_cache_dir = normalize_path($userfiles_dir.'cache'.DS.'apijs');
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
         if (is_dir($userfiles_cache_dir)) {
             if (function_exists('rmdir_recursive')) {
                 rmdir_recursive($userfiles_cache_dir);

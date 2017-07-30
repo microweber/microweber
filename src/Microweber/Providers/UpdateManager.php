@@ -610,6 +610,7 @@ class UpdateManager
         scan_for_modules();
         scan_for_elements();
         mw()->layouts_manager->scan();
+        mw()->template->clear_cached_custom_css();
         event_trigger('mw_db_init_default');
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');

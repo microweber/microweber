@@ -299,7 +299,7 @@ class DatabaseManager extends DbUtils
             return false;
         } else {
             if (!$do_not_replace_site_url) {
-                 $data = $this->app->url_manager->replace_site_url_back($data);
+                $data = $this->app->url_manager->replace_site_url_back($data);
             }
         }
 
@@ -509,7 +509,13 @@ class DatabaseManager extends DbUtils
             $id_to_return = $this->last_id($table);
 
         } else {
-            $id_to_return = \DB::table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
+            $insert_or_update = $highestId = DB::table($table)->where('id', $criteria['id'])->count();
+            if ($insert_or_update != 0) {
+                $insert_or_update = 'update';
+            } else {
+                $insert_or_update = 'insert';
+            }
+            $id_to_return = \DB::table($table_assoc_name)->where('id', $criteria['id'])->$insert_or_update($criteria);
             $id_to_return = $criteria['id'];
         }
 

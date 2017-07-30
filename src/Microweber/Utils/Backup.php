@@ -108,6 +108,7 @@ class Backup
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
+
         $url = site_url();
         //header("Location: " . $url);
         // redirect the url to the 'busy importing' page
@@ -145,6 +146,8 @@ class Backup
 
     public function exec_create_full()
     {
+
+
         if (!defined('MW_BACKUP_STARTED')) {
             define('MW_BACKUP_STARTED', 1);
         } else {
@@ -290,6 +293,7 @@ class Backup
         $ext_error = false;
 
         $sql_file = false;
+        $json_file = false;
 
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
@@ -314,6 +318,13 @@ class Backup
                 if (is_file($sql_restore)) {
                     $sql_file = $sql_restore;
                 }
+
+                $json_restore = $target_dir.'mw_content.json';
+                if (is_file($json_restore)) {
+                    $json_file = $json_restore;
+                }
+
+
                 break;
 
             case 'sql' :
@@ -411,7 +422,16 @@ class Backup
             if ($temp_dir_restore != false) {
                 @unlink($filename);
             }
+        } elseif($json_file){
+            $back_log_action = 'Restoring content from JSON file';
+            $this->log_action($back_log_action);
+            $this->_import_content_from_json_file($json_file);
+            $back_log_action = 'Content restored';
+            $this->log_action($back_log_action);
         }
+
+
+
         if (userfiles_path()) {
             if (!is_dir(userfiles_path())) {
                 mkdir_recursive(userfiles_path());
@@ -429,10 +449,12 @@ class Backup
             $destDir = userfiles_path();
             $copy = $this->copyr($srcDir, $destDir);
         }
+        mw()->template->clear_cached_custom_css();
 
         if (function_exists('mw_post_update')) {
             mw_post_update();
         }
+
         $back_log_action = 'Cleaning up cache';
         $this->log_action($back_log_action);
         mw()->cache_manager->clear();
@@ -619,7 +641,19 @@ class Backup
                                     $mw_backup_zip_obj->addFile($filename2, 'mw_sql_restore.sql');
                                 }
                             }
-                        } else {
+                        } else  if ($item == 'make_json_backup') {
+                            $back_log_action = 'Exporting content to JSON';
+                            $json_file = $this->_export_to_json_file();
+                            if (is_file($json_file)) {
+                                $back_log_action = 'Adding json restore to zip';
+                                $mw_backup_zip_obj->addFile($json_file, 'mw_content.json');
+
+                             }
+                        }
+
+
+
+                        else {
                             $relative_loc = str_replace(userfiles_path(), '', $item);
 
                             $new_backup_actions = array();
@@ -649,6 +683,10 @@ class Backup
                 }
 
                 $mw_backup_zip_obj->close();
+                if(isset($json_file) and is_file($json_file)){
+                    @unlink($json_file);
+                }
+
                 $this->app->cache_manager->save('closed', $cache_state_id, 'backup');
             }
         }
@@ -815,6 +853,98 @@ class Backup
 
         return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end, 'url' => dir2url($filess));
     }
+    public function _import_content_from_json_file($file)
+    {
+        if(is_file($file)){
+            ini_set('memory_limit', '512M');
+            set_time_limit(0);
+
+            $restore =json_decode(file_get_contents($file),true);
+            if(is_array($restore) and !empty($restore)){
+                foreach ($restore as $table=>$data){
+                    $table_exists = mw()->database_manager->table_exists($table);
+                    if ($table_exists) {
+                        foreach ($data as $item){
+                            $item['allow_html'] = true;
+                            $item['allow_scripts'] = true;
+                             db_save($table,$item);
+                         }
+                    }
+                }
+            }
+
+        }
+    }
+
+    public function _export_to_json_file($tables = 'all')
+    {
+
+
+
+
+
+        $skip_tables = array(
+            "modules", "elements", "users", "log", "notifications", "content_revisions_history", 'content_fields_drafts',"stats_users_online", "system_licenses", "users_oauth", "sessions"
+        );
+
+
+
+        ini_set('memory_limit', '512M');
+        set_time_limit(0);
+
+        $export_location = $this->get_bakup_location();
+        if(!is_dir($export_location)){
+            mkdir_recursive($export_location);
+        }
+        $export_filename = 'content_export_' . date("Y-m-d-his") . '.json';
+
+        $export_path = $export_location . $export_filename;
+
+        $all_tables = array();
+
+        $all_tables_raw = mw()->database_manager->get_tables_list();
+        $local_prefix = mw()->database_manager->get_prefix();
+
+        foreach ($all_tables_raw as $k => $v) {
+            if ($local_prefix) {
+                $v = str_replace_first($local_prefix, '', $v);
+                $all_tables[] = $v;
+            } else {
+                $all_tables[] = $v;
+            }
+
+        }
+        $exported_tables_data = array();
+        if ($all_tables) {
+            foreach ($all_tables as $table) {
+                if(!in_array($table,$skip_tables)){
+                    $table_exists = mw()->database_manager->table_exists($table);
+                    if ($table_exists) {
+                        $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
+                        if ($table_conent) {
+                            $exported_tables_data[$table] = $table_conent;
+                        }
+                    }
+
+                }}
+        }
+        array_walk_recursive ($exported_tables_data, function (&$item) {
+            if (is_string ($item)) {
+                $item = utf8_encode ($item);
+            }
+        });
+        $save = json_encode ($exported_tables_data);
+
+
+        if (file_put_contents($export_path,$save )) {
+            return $export_path;
+
+        } else {
+           false;
+        }
+
+    }
+
 
     public function append_string_to_file($file_path, $string_to_append)
     {
@@ -883,6 +1013,7 @@ class Backup
 
         $backup_actions = array();
         $backup_actions[] = 'make_db_backup';
+        $backup_actions[] = 'make_json_backup';
 
         $userfiles_folder = userfiles_path();
         $media_folder = media_base_path();

@@ -124,12 +124,14 @@ mw.askusertostay = false;
     if(typeof key === 'string'){
         var keyString = key;
     }
-    var toPush = url;
+    var toPush = url, urlModified = false;
     if(!!keyString){
         toPush = keyString;
+        urlModified = true
     }
     var t = url.split('.').pop();
     var url = url.contains('//') ? url : (t !== "css" ? "<?php print( mw_includes_url() ); ?>api/" + url  :  "<?php print( mw_includes_url() ); ?>css/" + url);
+    if(!urlModified) toPush = url;
     if (!~mw.required.indexOf(toPush)) {
       mw.required.push(toPush);
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;

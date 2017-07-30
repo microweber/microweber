@@ -1075,7 +1075,9 @@ class DefaultController extends Controller
         if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == false) {
             $page_url = $this->app->url_manager->string();
         } elseif ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
-            $page_url = $this->app->url_manager->string(1);
+          //  $page_url = $this->app->url_manager->string(1);
+            $page_url = $this->app->url_manager->string();
+
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;

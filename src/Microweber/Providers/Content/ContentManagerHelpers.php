@@ -98,11 +98,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                     $this->app->cache_manager->delete('menus');
 
-                    $this->app->cache_manager->delete('menus/'.$save['parent_id']);
+                    $this->app->cache_manager->delete('menus/' . $save['parent_id']);
 
-                    $this->app->cache_manager->delete('menus/'.$value);
+                    $this->app->cache_manager->delete('menus/' . $value);
 
-                    $this->app->cache_manager->delete('content/'.$content_id);
+                    $this->app->cache_manager->delete('content/' . $content_id);
                 }
             }
 
@@ -163,7 +163,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     if ($to_untrash == true) {
                         DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
- 
+
                         if (isset($this->tables['categories'])) {
                             DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         }
@@ -198,7 +198,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->update(['is_deleted' => 1]);
                         }
                     }
-                    $this->app->cache_manager->delete('content/'.$c_id);
+                    $this->app->cache_manager->delete('content/' . $c_id);
                 }
             });
         }
@@ -228,7 +228,35 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 return $save;
             }
+        } else {
+            if (isset($data['rel'])
+                and ($data['rel'] == 'content'
+                    or $data['rel'] == 'page'
+                    or $data['rel'] == 'category'
+                    or $data['rel'] == 'inherit')
+            ) {
+
+            }
+
+            if (!isset($data['content_id'])) {
+                if ($this->app->url_manager->is_ajax() == true) {
+                    $page_url = $this->app->url_manager->string();
+                }
+                dd($page_url);
+
+            }
+            if (isset($data['content_id'])) {
+//                if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
+//                    //  $page_url = $this->app->url_manager->string(1);
+//                    $page_url = $this->app->url_manager->string();
+//
+//                }
+
+
+            }
         }
+
+
     }
 
     public function bulk_assign($data)
@@ -305,7 +333,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
 
-                $posts = $this->get('content_type=post&parent='.$new_shop);
+                $posts = $this->get('content_type=post&parent=' . $new_shop);
                 if ($posts == false and $new_shop != false) {
                     $add_page = array();
                     $add_page['id'] = 0;
@@ -419,7 +447,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             if ($cont != false and isset($cont['id'])) {
                 $new_cont = $cont;
                 if (isset($new_cont['title'])) {
-                    $new_cont['title'] = $new_cont['title'].' copy';
+                    $new_cont['title'] = $new_cont['title'] . ' copy';
                 }
 
                 $new_cont['id'] = 0;
@@ -614,7 +642,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 return array('error' => 'You dont have permission to edit this content');
             }
         } elseif ($is_admin == false) {
-            return array('error' => 'Not logged in as admin to use '.__FUNCTION__);
+            return array('error' => 'Not logged in as admin to use ' . __FUNCTION__);
         }
 
         $save_as_draft = false;
@@ -636,7 +664,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $url = $this->app->url_manager->string(true);
                 $some_mods = array();
                 if (isset($the_field_data) and is_array($the_field_data) and isset($the_field_data['attributes'])) {
-                    if (($the_field_data['html']) != '') {
+                    if (isset($the_field_data['html'])) {
                         $field = false;
                         if (isset($the_field_data['attributes']['field'])) {
                             $field = trim($the_field_data['attributes']['field']);
@@ -754,12 +782,12 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $old = false;
                                 $field123 = str_ireplace('custom_field_', '', $field);
                                 if (stristr($field, 'custom_field_')) {
-                                    $old = $for_histroy['custom_fields'][ $field123 ];
+                                    $old = $for_histroy['custom_fields'][$field123];
                                 } else {
-                                    if (isset($for_histroy['custom_fields'][ $field123 ])) {
-                                        $old = $for_histroy['custom_fields'][ $field123 ];
-                                    } elseif (isset($for_histroy[ $field ])) {
-                                        $old = $for_histroy[ $field ];
+                                    if (isset($for_histroy['custom_fields'][$field123])) {
+                                        $old = $for_histroy['custom_fields'][$field123];
+                                    } elseif (isset($for_histroy[$field])) {
+                                        $old = $for_histroy[$field];
                                     }
                                 }
                                 $history_to_save = array();
@@ -801,6 +829,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                     }
                                 }
+
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
@@ -808,15 +837,19 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
-                                    $to_save[ $field ] = ($html_to_save);
+                                    $to_save[$field] = ($html_to_save);
                                 }
 
                                 if ($is_no_save != true and $is_draft == false) {
-                                    $json_print[] = $to_save;
+                                    $to_save2 = $to_save;
+                                    $to_save2['rel_type'] = 'content';
+                                    $to_save2['rel_id'] = $content_id_for_con_field;
+                                    $to_save2['field'] = $field;
+                                    $json_print[] = $to_save2;
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
                                 }
                             } elseif (isset($category_id)) {
-                                echo __FILE__.__LINE__.' category is not implemented ... not ready yet';
+                                echo __FILE__ . __LINE__ . ' category is not implemented ... not ready yet';
                             }
                         } else {
                             $cont_field = array();
@@ -851,6 +884,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
 
                             if ($save_global == true and $save_layout == false) {
+
+
                                 $json_print[] = $cont_field;
                                 $history_to_save = array();
                                 $history_to_save['table'] = 'global';
@@ -879,8 +914,8 @@ class ContentManagerHelpers extends ContentManagerCrud
             $url = $url[0];
 
             if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
-                 $page = $this->app->content_manager->homepage();
-           
+                $page = $this->app->content_manager->homepage();
+
             } else {
                 $page = $this->get_by_url($url);
             }
@@ -901,37 +936,37 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $results = array();
                 if (isset($page_data['title'])) {
                     $arr = array('rel_type' => 'content',
-                                 'field' => 'title',
-                                 'value' => $page_data['title'], );
+                        'field' => 'title',
+                        'value' => $page_data['title'],);
                     $results[] = $arr;
                     if (isset($page_data['content_type'])) {
                         $arr = array('rel_type' => $page_data['content_type'],
-                                     'field' => 'title',
-                                     'value' => $page_data['title'], );
+                            'field' => 'title',
+                            'value' => $page_data['title'],);
                         $results[] = $arr;
                     }
                     if (isset($page_data['subtype'])) {
                         $arr = array('rel_type' => $page_data['subtype'],
-                                     'field' => 'title',
-                                     'value' => $page_data['title'], );
+                            'field' => 'title',
+                            'value' => $page_data['title'],);
                         $results[] = $arr;
                     }
                 }
                 if (isset($page_data['content']) and $page_data['content'] != '') {
                     $arr = array('rel_type' => 'content',
-                                 'field' => 'content',
-                                 'value' => $page_data['content'], );
+                        'field' => 'content',
+                        'value' => $page_data['content'],);
                     $results[] = $arr;
                     if (isset($page_data['content_type'])) {
                         $arr = array('rel_type' => $page_data['content_type'],
-                                     'field' => 'content',
-                                     'value' => $page_data['content'], );
+                            'field' => 'content',
+                            'value' => $page_data['content'],);
                         $results[] = $arr;
                     }
                     if (isset($page_data['subtype'])) {
                         $arr = array('rel_type' => $page_data['subtype'],
-                                     'field' => 'content',
-                                     'value' => $page_data['content'], );
+                            'field' => 'content',
+                            'value' => $page_data['content'],);
                         $results[] = $arr;
                     }
                 }
@@ -958,7 +993,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $item['value'] = $this->app->parser->process($field_content, $options = false);
             }
 
-            $ret[ $i ] = $item;
+            $ret[$i] = $item;
             ++$i;
         }
 
@@ -1000,7 +1035,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             $history_files_params['url'] = $draft_url;
             $history_files_params['current_page'] = 2;
-            $history_files_params['created_at'] = '[lt]'.$last_saved_date;
+            $history_files_params['created_at'] = '[lt]' . $last_saved_date;
             $history_files = $this->get_edit_field($history_files_params);
 
             if (is_array($history_files)) {
@@ -1012,7 +1047,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
         }
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
-            mw_error('Error: '.__FUNCTION__.' rel and rel_id is required');
+            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
 
         if (isset($data['field']) and !isset($data['is_draft'])) {
@@ -1036,28 +1071,28 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $this->app->database_manager->delete_by_id($table, $item['id']);
                 }
             }
-            $cache_group = guess_cache_group('content_fields/'.$data['rel_type'].'/'.$data['rel_id']);
+            $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
         }
         if (isset($fld)) {
-            $this->app->cache_manager->delete('content_fields/'.$fld);
-            $this->app->cache_manager->delete('content_fields/global/'.$fld);
+            $this->app->cache_manager->delete('content_fields/' . $fld);
+            $this->app->cache_manager->delete('content_fields/global/' . $fld);
         }
         $this->app->cache_manager->delete('content_fields/global');
         if (isset($data['rel_type']) and isset($data['rel_id'])) {
-            $cache_group = guess_cache_group('content_fields/'.$data['rel_type'].'/'.$data['rel_id']);
+            $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
-            $this->app->cache_manager->delete('content/'.$data['rel_id']);
+            $this->app->cache_manager->delete('content/' . $data['rel_id']);
         }
         if (isset($data['rel_type'])) {
-            $this->app->cache_manager->delete('content_fields/'.$data['rel_type']);
+            $this->app->cache_manager->delete('content_fields/' . $data['rel_type']);
         }
         if (isset($data['rel_type']) and isset($data['rel_id'])) {
-            $this->app->cache_manager->delete('content_fields/'.$data['rel_type'].'/'.$data['rel_id']);
-            $this->app->cache_manager->delete('content_fields/global/'.$data['rel_type'].'/'.$data['rel_id']);
+            $this->app->cache_manager->delete('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
+            $this->app->cache_manager->delete('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
         }
         if (isset($data['field'])) {
-            $this->app->cache_manager->delete('content_fields/'.$data['field']);
+            $this->app->cache_manager->delete('content_fields/' . $data['field']);
         }
         $this->app->cache_manager->delete('content_fields/global');
         $data['table'] = $table;
@@ -1122,11 +1157,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             if (!empty($to_download)) {
                 foreach ($to_download as $src) {
-                    $dl_dir = media_base_path().'downloaded'.DS;
+                    $dl_dir = media_base_path() . 'downloaded' . DS;
                     if (!is_dir($dl_dir)) {
                         mkdir_recursive($dl_dir);
                     }
-                    $dl_file = $dl_dir.md5($src).basename($src);
+                    $dl_file = $dl_dir . md5($src) . basename($src);
                     if (!is_file($dl_file)) {
                         $is_dl = $this->app->url_manager->download($src, false, $dl_file);
                     }

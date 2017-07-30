@@ -1,3 +1,16 @@
+<?php
+
+$form_fields_from_template = template_dir() . 'modules/shop/payments/gateways/lib/omnipay/cc_form_fields.php';
+//dd($form_fields_from_template);
+if (is_file($form_fields_from_template)) {
+
+    include($form_fields_from_template);
+    return;
+}
+
+?>
+
+
 <div class="form-group">
     <label class="control-label">
         <?php _e("First Name"); ?>

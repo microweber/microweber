@@ -127,14 +127,14 @@ function template_var($key, $new_val = false)
     static $defined = array();
     $contstant = ($key);
     if ($new_val == false) {
-        if (isset($defined[ $contstant ]) != false) {
-            return $defined[ $contstant ];
+        if (isset($defined[$contstant]) != false) {
+            return $defined[$contstant];
         } else {
             return false;
         }
     } else {
-        if (isset($defined[ $contstant ]) == false) {
-            $defined[ $contstant ] = $new_val;
+        if (isset($defined[$contstant]) == false) {
+            $defined[$contstant] = $new_val;
 
             return $new_val;
         }
@@ -200,8 +200,8 @@ function mw_print_admin_backup_settings_link()
             $cls = ' class="active" ';
         }
         $notif_html = '';
-        $url = admin_url('view:modules/load_module:'.$mname);
-        echo '<li><a class="item-'.$mname.'" href="#option_group='.$mname.'">Backup</a></li>';
+        $url = admin_url('view:modules/load_module:' . $mname);
+        echo '<li><a class="item-' . $mname . '" href="#option_group=' . $mname . '">Backup</a></li>';
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
 
@@ -213,8 +213,8 @@ function mw_print_admin_backup_settings_link()
             $cls = ' class="active" ';
         }
         $notif_html = '';
-        $url = admin_url('view:modules/load_module:'.$mname);
-        echo '<li><a class="item-'.$mname.'" href="#option_group='.$mname.'">Import</a></li>';
+        $url = admin_url('view:modules/load_module:' . $mname);
+        echo '<li><a class="item-' . $mname . '" href="#option_group=' . $mname . '">Import</a></li>';
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
 }
@@ -387,9 +387,9 @@ function strip_tags_content($text, $tags = '', $invert = false)
 
     if (is_array($tags) and count($tags) > 0) {
         if ($invert == false) {
-            return preg_replace('@<(?!(?:'.implode('|', $tags).')\b)(\w+)\b.*?>.*?</\1>@si', '', $text);
+            return preg_replace('@<(?!(?:' . implode('|', $tags) . ')\b)(\w+)\b.*?>.*?</\1>@si', '', $text);
         } else {
-            return preg_replace('@<('.implode('|', $tags).')\b.*?>.*?</\1>@si', '', $text);
+            return preg_replace('@<(' . implode('|', $tags) . ')\b.*?>.*?</\1>@si', '', $text);
         }
     } elseif ($invert == false) {
         return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text);
@@ -412,9 +412,9 @@ function html_cleanup($s, $tags = false)
                 if ($tags != false) {
                     $v = strip_tags_content($v, $tags, $invert = false);
                 }
-                $s[ $k ] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+                $s[$k] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
             } elseif (is_array($v) == true) {
-                $s[ $k ] = html_cleanup($v, $tags);
+                $s[$k] = html_cleanup($v, $tags);
             }
         }
     }
@@ -447,7 +447,7 @@ function lnotif($sting, $class = 'success')
 
 function random_color()
 {
-    return '#'.sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+    return '#' . sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
 }
 
 function mw_error_handler($errno, $errstr, $errfile, $errline)
@@ -464,7 +464,7 @@ function mw_error_handler($errno, $errstr, $errfile, $errline)
             }
             echo "<b>ERROR</b> [$errno] $errstr<br />\n";
             echo "  Fatal error on line $errline in file $errfile";
-            echo ', PHP '.PHP_VERSION.' ('.PHP_OS.")<br />\n";
+            echo ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ")<br />\n";
             print_r(debug_backtrace());
             echo "Aborting...<br />\n";
             exit(1);
@@ -514,7 +514,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $function_cache_id = serialize($options);
 
-    $cache_id = $function_cache_id = __FUNCTION__.crc32($function_cache_id);
+    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
     $cache_group = 'modules/global';
 
@@ -540,7 +540,7 @@ function get_all_functions_files_for_modules($options = false)
         $configs = array();
         foreach ($installed as $module) {
             if (isset($module['module'])) {
-                $file = normalize_path($dir_name.$module['module'].DS.'functions.php', false);
+                $file = normalize_path($dir_name . $module['module'] . DS . 'functions.php', false);
                 if (is_file($file)) {
                     $configs[] = $file;
                 }
@@ -602,9 +602,9 @@ function mw_logo_svg()
 
 function load_web_component_file($filename)
 {
-    $components_dir = mw_includes_path().'components'.DS;
+    $components_dir = mw_includes_path() . 'components' . DS;
     $load_file = false;
-    $file = normalize_path($components_dir.$filename, false);
+    $file = normalize_path($components_dir . $filename, false);
     if (is_file($file)) {
         $load_file = $file;
     }
@@ -646,7 +646,7 @@ function captcha($params = false)
 
 function mw_error($e, $f = false, $l = false)
 {
-    $f = mw_includes_path().'error.php';
+    $f = mw_includes_path() . 'error.php';
 
     $v = new \Microweber\View($f);
     $v->e = $e;
@@ -698,6 +698,15 @@ if (!function_exists('titlelize')) {
 function load_layout_block($block_name)
 {
     $block_name = str_replace('..', '', $block_name);
-
-    return include(modules_path() . DS . 'layouts/blocks/' . $block_name . '.php');
+    $inc = false;
+    $file = template_dir() . DS . 'modules/layouts/blocks/' . $block_name . '.php';
+    $file2 = modules_path() . DS . 'layouts/blocks/' . $block_name . '.php';
+    if (is_file($file)) {
+        $inc = $file;
+    } else if (is_file($file2)) {
+        $inc = $file2;
+    }
+    if ($inc) {
+        return include($inc);
+    }
 }

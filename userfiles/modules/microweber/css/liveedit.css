@@ -23,15 +23,17 @@ html, body {
 body.mw-live-edit {
     margin-top: 52px;
 }
+
 body.mw-live-edit .plain-text {
     min-height: 12px;
 }
-.plain-text:empty{
+
+.plain-text:empty {
     background-color: rgba(221, 221, 221, 1);
 }
 
 ol:not([class]),
-ul:not([class]){
+ul:not([class]) {
     padding-left: 20px;
 }
 
@@ -584,6 +586,7 @@ html.mw_pages #items_handle {
     display: block;
     text-align: left;
     background-color: #262626;
+    color: #fff;
 }
 
 /****************************
@@ -957,7 +960,7 @@ li .ts_action_item:last-child {
     text-align: right;
     outline: none;
     box-shadow: none;
-    border-radius: none;
+    border-radius: 0;
     height: auto;
     padding: 0;
     margin: 0;
@@ -1405,6 +1408,10 @@ body.loaded #live_edit_toolbar {
     border-top: none;
     font-size: 14px;
     color: #595959;
+}
+
+.toolbar-sections-tabs a {
+    font-size: 12px;
 }
 
 .toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active {
@@ -2020,6 +2027,18 @@ body.dragStart .empty-element {
     top: 8px;
 }
 
+.tst-logo .mw-icon-dropdown {
+    top: 8px;
+    color: #333333;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    position: relative;
+    display: inline-block;
+    font-size: 100%;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
 #modules_switcher,
 #modules_switcher:hover,
 #modules_switcher:focus {
@@ -2031,6 +2050,7 @@ body.dragStart .empty-element {
 #mod_switch {
     display: block;
     margin-top: 8px;
+    color: #fff;
 }
 
 .mw-autocomplete {
@@ -2157,6 +2177,7 @@ body.design_hover .element-current {
     font-size: 15px;
     top: 0px;
     color: rgba(136, 136, 136, 1);
+    font-family: Verdana, Geneva, sans-serif;
 
 }
 
@@ -2177,6 +2198,7 @@ body.design_hover .element-current {
 #live-edit-dropdown-actions-content a {
     text-decoration: none;
     line-height: 18px;
+    height: auto;
 }
 
 #live-edit-dropdown-actions-content [class*='mw-icon-'] {
@@ -2762,7 +2784,10 @@ div[id*='SSDIVEL'] {
 
 #back-to-admin-toolbar {
     margin: 0px 10px;
-
+    color: #333333;
+    text-decoration: none;
+    font-size: 12px;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 #back-to-admin-toolbar span {
@@ -2778,9 +2803,20 @@ div[id*='SSDIVEL'] {
     line-height: 160%;
 }
 
+#mw-text-editor #main-save-btn {
+    color: #fff;
+}
 
+.toolbar-sections-tabs > ul,
+#live-edit-dropdown-actions-content ul,
+#mw_history_files {
+    padding-left: 0;
+}
 
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul.pages_tree li {
+    display: block;
+}
 
-
-
-
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li a {
+    padding-left: 23px;
+}
