@@ -755,12 +755,13 @@ mw.wysiwyg = {
 
         var selector = selector || ".mw_editor_btn";
         var mw_editor_btns = mw.$(selector);
-        mw_editor_btns.bind("mousedown mouseup click", function (event) {
+        mw_editor_btns.on("mouseup touchend mousedown touchstart", function (event) {
             if (mw.wysiwyg.editors_disabled) {
                 return false;
             }
             event.preventDefault();
-            if (event.type == 'mouseup' && !$(this).hasClass('disabled')) {
+
+            if ((event.type == 'mouseup' || event.type == 'touchend') && !$(this).hasClass('disabled')) {
                 var command = $(this).dataset('command');
                 if (!command.contains('custom-')) {
                     mw.wysiwyg._do(command);
@@ -770,7 +771,8 @@ mw.wysiwyg = {
                     mw.wysiwyg[name]();
                 }
                 $(this).removeClass("mw_editor_btn_mousedown");
-                $(this).addClass("mw_editor_btn_active");
+                 mw.wysiwyg.check_selection(event.target);
+
             }
             if (event.type == 'mousedown' && !$(this).hasClass('disabled')) {
                 $(this).addClass("mw_editor_btn_mousedown");
@@ -993,6 +995,7 @@ mw.wysiwyg = {
                 && (e.keyCode < 37 || e.keyCode > 40)) {
                 mw.wysiwyg.change(e.target);
             }
+            mw.wysiwyg.check_selection(e.target);
 
         });
     },
