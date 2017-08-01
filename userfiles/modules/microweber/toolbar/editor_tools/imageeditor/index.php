@@ -239,8 +239,10 @@
 
         mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
+         if(!!window.previewbg){
+          $("#mwimagecurrentoverlay").css('backgroundColor', previewbg) 
+         }
 
-         $("#mwimagecurrentoverlay").css('backgroundColor', previewbg)
 
         mw.image.current_original = src;
 

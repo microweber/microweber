@@ -389,33 +389,64 @@ mw.wysiwyg = {
             mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
         }
     },
+    _pasteManager:undefined,
+    pasteManager:function(html){
+      html = mw.wysiwyg.clean_word(html)
+      mw.wysiwyg._pasteManager = this._pasteManager || document.createElement('div');
+      mw.wysiwyg._pasteManager.innerHTML = html;
+      $('*',  mw.wysiwyg._pasteManager).removeAttr('style');
+      return  mw.wysiwyg._pasteManager.innerHTML;
+    },
     paste: function (e) {
-        var clipboard = e.clipboardData || mww.clipboardData;
-        if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
-            if (!mw.is.ie) {
-                var html = clipboard.getData('text/plain');
-                // var xhtml =  clipboard.getData('text/html');
-            }
-            else {
-                var html = clipboard.getData('text');
-            }
 
-            if (!!html) {
-                if (typeof mw.form != 'undefined') {
-                    var is_link = mw.form.validate.url(html);
-                    if (is_link) {
-                        var html = "<a href='" + html + "'>" + html + "</a>";
-                        mw.wysiwyg.insert_html(html);
-                        e.preventDefault();
-                    }
-                }
-
-                // var html = "<p class='element'>" + html.replace(/(\r\n|\n|\r)/gm, "</p><p class='element'>") + "</p>";
-//              mw.wysiwyg.insert_html(html);
-//              e.preventDefault();
-
-            }
+        if(!!e.originalEvent){
+          var clipboard = e.originalEvent.clipboardData || mww.clipboardData;
         }
+        else{
+          var clipboard = e.clipboardData || mww.clipboardData;
+        }
+
+       if(clipboard.files.length > 0){
+        var i = 0;
+        for( ; i < clipboard.files.length; i++){
+          var item = clipboard.files[i];
+          if(item.type.indexOf('image/') != -1){
+            var reader = new FileReader();
+            reader.onload = function(e){
+              mw.wysiwyg.insert_html('<img src="'+(e.target.result)+'">');
+              mw.wysiwyg.normalizeBase64Images();
+            }
+            reader.readAsDataURL(item)
+          }
+        }
+        e.preventDefault();
+       }
+       else{
+          if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
+              if (!mw.is.ie) {
+                  //var html = clipboard.getData('text/plain');
+                  var html =  clipboard.getData('text/html');
+              }
+              else {
+                  var html = clipboard.getData('text');
+              }
+
+              if (!!html) {
+                  if (typeof mw.form != 'undefined') {
+                      var is_link = mw.form.validate.url(html);
+                      if (is_link) {
+                          var html = "<a href='" + html + "'>" + html + "</a>";
+                      }
+                  }
+
+                  html = mw.wysiwyg.pasteManager(html);
+                  mw.wysiwyg.insert_html(html);
+                  e.preventDefault();
+
+              }
+          }
+       }
+
     },
     hasContentFromWord: function (node) {
         if (node.getElementsByTagName("o:p").length > 0 ||
@@ -466,16 +497,262 @@ mw.wysiwyg = {
             }
         }
     },
+    merge:{ /* Executes on backspace or delete */
+      isMergeable : function (el) {
+          if (!el) return false;
+          if (el.nodeType === 3) return true;
+          var is = false;
+
+          var display = getComputedStyle(el).getPropertyValue('display');
+
+          var position = getComputedStyle(el).getPropertyValue('position');
+          var isInline = display == 'inline';
+          if(isInline) return true;
+          var mergeables = ['p', '.element', 'div:not([class])', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+          mergeables.forEach(function (item) {
+              if (el.matches(item)) {
+                  is = true;
+              }
+          });
+
+          if(is){
+              if(el.querySelector('.module') !== null || mw.tools.hasClass(el, 'module')){
+                  is = false;
+              }
+          }
+          return is;
+      },
+      manageBreakables : function(curr, next, dir, event){
+          var isnonbreakable = mw.wysiwyg.merge.isInNonbreakable(curr, dir);
+             if(isnonbreakable){
+                var conts = getSelection().getRangeAt(0);
+                event.preventDefault();
+
+              if(next !== null){
+
+                if(next.nodeType === 3 && /\r|\n/.exec(next.nodeValue) !== null){
+                    event.preventDefault();
+                    return false;
+                }
+
+                if(dir == 'next'){
+                  mw.wysiwyg.cursorToElement(next)
+                }
+                else{
+                  mw.wysiwyg.cursorToElement(next, 'end')
+                }
+              }
+              else{
+                return false;
+              }
+          }
+      },
+      isInNonbreakable : function(el, dir){
+          var absNext = mw.wysiwyg.merge.findNextNearest(el, dir);
+
+          if(absNext.nodeType === 3 && /\r|\n/.exec(absNext.nodeValue) !== null){
+            absNext = mw.wysiwyg.merge.findNextNearest(el, dir, true)
+          }
+
+
+
+          if( mw.wysiwyg.merge.alwaysMergable(absNext) && (mw.wysiwyg.merge.alwaysMergable(absNext.firstElementChild) || !absNext.firstElementChild) ){
+            return false;
+          }
+
+
+      if(el.textContent == ''){
+
+          var absNextNext = mw.wysiwyg.merge.findNextNearest(absNext, dir);
+          if(absNext.nodeType == 3 && /\r|\n/.exec(absNext.nodeValue) !== null){
+            return  mw.wysiwyg.merge.isInNonbreakableClass(absNextNext)
+          }
+      }
+
+        if(el.nodeType === 1 && !!el.textContent.trim()){
+          return false;
+        }
+        if(el.nextSibling === null && el.nodeType === 3 && dir =='next'){
+          var absNext = mw.wysiwyg.merge.findNextNearest(el, dir);
+          var absNextNext = mw.wysiwyg.merge.findNextNearest(absNext, dir);
+
+
+          if(/\r|\n/.exec(absNext.nodeValue) !== null){
+            return mw.wysiwyg.merge.isInNonbreakableClass(absNextNext)
+          }
+
+          if(absNextNext.nodeType === 1){
+            return mw.wysiwyg.merge.isInNonbreakableClass(absNextNext) || mw.wysiwyg.merge.isInNonbreakableClass(absNextNext.firstChild);
+          }
+           else if(absNextNext.nodeType === 3){
+            return true
+          }
+          else{
+            return false;
+          }
+
+
+        }
+
+        if(el.previousSibling === null && el.nodeType === 3 && dir =='prev'){
+          var absNext = mw.wysiwyg.merge.findNextNearest(el, 'prev');
+          var absNextNext = mw.wysiwyg.merge.findNextNearest(absNext, 'prev');
+
+
+          if(absNextNext.nodeType === 1){
+            return mw.wysiwyg.merge.isInNonbreakableClass(absNextNext);
+          }
+          else if(absNextNext.nodeType === 3){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }
+          el = mw.wysiwyg.validateCommonAncestorContainer(el)
+
+          var is = mw.wysiwyg.merge.isInNonbreakableClass(el)
+
+
+          return is;
+
+      },
+      isInNonbreakableClass : function(el, dir){
+        var absNext = mw.wysiwyg.merge.findNextNearest(el, dir);
+
+        if(el.nodeType == 3 && /\r|\n/.exec(absNext.nodeValue) === null) return false;
+        el = mw.wysiwyg.validateCommonAncestorContainer(el)
+          var classes = ['unbreakable', '*col', '*row', '*btn', '*icon', 'module', 'edit'];
+          var is = false;
+          classes.forEach(function(item){
+             if(item.indexOf('*') === 0){
+                 var item = item.split('*')[1];
+                  if(el.className.indexOf(item) !== -1){
+                      is = true;
+                  }
+                  else{
+                      mw.tools.foreachParents(el, function(loop){
+                          if(this.className.indexOf(item) !== -1 && !this.contains(el)){
+                              is = true;
+                              mw.tools.stopLoop(loop);
+                          }
+                          else{
+
+                            is = false;
+                            mw.tools.stopLoop(loop);
+                          }
+                      })
+                  }
+             }
+             else{
+              if(mw.tools.hasClass(el, item) || mw.tools.hasParentsWithClass(el, item) ){
+                  is = true;
+              }
+             }
+          });
+
+
+          return is;
+      },
+      getNext : function(curr){
+          var next = curr.nextSibling;
+          while(curr !== null && curr.nextSibling === null){
+              curr = curr.parentNode;
+              next = curr.nextSibling;
+          }
+          return next;
+      },
+      getPrev : function(curr){
+          var next = curr.previousSibling;
+          while(curr !== null && curr.previousSibling === null){
+              curr = curr.parentNode;
+              next = curr.previousSibling;
+          }
+          return next;
+      },
+      findNextNearest : function(el, dir, searchElement){
+        searchElement = typeof searchElement === 'undefined' ? false : true;
+        if(dir =='next'){
+          var dosearch = searchElement ? 'nextElementSibling' : 'nextSibling'
+          var next = el[dosearch];
+          if(next === null){
+            while( el[dosearch] === null ){
+              el = el.parentNode;
+              next =  el[dosearch];
+
+            }
+          }
+        }
+        else{
+          var dosearch = searchElement ? 'previousElementSibling' : 'previousSibling'
+           var next = el[dosearch];
+            if(next === null){
+              while(el[dosearch] === null){
+                el = el.parentNode;
+                next = el[dosearch];
+
+              }
+            }
+        }
+        return next;
+      },
+      alwaysMergable : function(el){
+
+        if(!el){
+          return false;
+        }
+        if(el.nodeType === 3){
+          return mw.wysiwyg.merge.alwaysMergable(mw.wysiwyg.validateCommonAncestorContainer(el))
+        }
+        if(el.nodeType === 1){
+          if(/^(?:area|br|col|embed|hr|img|input|link|meta|param)$/i.test(el.tagName)){
+            return true;
+          }
+          if(/^(?:strong|em|i|b|li)$/i.test(el.tagName)){
+            return true;
+          }
+          if(/^(?:span)$/i.test(el.tagName) && !el.className){
+            return true;
+          }
+        }
+
+        if(mw.tools.hasClass(el, 'module')) return false;
+        if(mw.tools.hasParentsWithClass(el, 'module')){
+          var ord = mw.tools.parentsOrder(el, ['edit', 'module']);
+          //todo
+        }
+
+        var selectors = [
+              'p.element', 'div.element', 'div:not([class])',
+              'h1.element', 'h2.element', 'h3.element', 'h4.element', 'h5.element', 'h6.element',
+              '.edit  h1', '.edit  h2', '.edit  h3', '.edit  h4', '.edit  h5', '.edit  h6',
+              '.edit p'
+            ],
+            final = false,
+            i = 0;
+        for( ; i < selectors.length ; i++){
+          var item = selectors[i];
+          if(el.matches(item)){
+            final = true;
+            break;
+          }
+        }
+
+        return final;
+
+      }
+    },
     init: function (selector) {
 
         var selector = selector || ".mw_editor_btn";
         var mw_editor_btns = mw.$(selector);
-        mw_editor_btns.bind("mousedown mouseup click", function (event) {
+        mw_editor_btns.on("mouseup touchend mousedown touchstart", function (event) {
             if (mw.wysiwyg.editors_disabled) {
                 return false;
             }
             event.preventDefault();
-            if (event.type == 'mouseup' && !$(this).hasClass('disabled')) {
+
+            if ((event.type == 'mouseup' || event.type == 'touchend') && !$(this).hasClass('disabled')) {
                 var command = $(this).dataset('command');
                 if (!command.contains('custom-')) {
                     mw.wysiwyg._do(command);
@@ -485,7 +762,8 @@ mw.wysiwyg = {
                     mw.wysiwyg[name]();
                 }
                 $(this).removeClass("mw_editor_btn_mousedown");
-                $(this).addClass("mw_editor_btn_active");
+                 mw.wysiwyg.check_selection(event.target);
+
             }
             if (event.type == 'mousedown' && !$(this).hasClass('disabled')) {
                 $(this).addClass("mw_editor_btn_mousedown");
@@ -496,283 +774,19 @@ mw.wysiwyg = {
         }, function () {
             $(this).removeClass("mw_editor_btn_hover");
         });
-        $(mwd.body).bind('mouseup', function (event) {
+        $(mwd.body).on('mouseup', function (event) {
             if (event.target.isContentEditable) {
                 mw.wysiwyg.check_selection(event.target);
             }
         });
         $(mwd.body).bind('noop keydown', function (event) {
 
-            var textnodes = ['br', 'p', 'b', 'span', 'i', 'em', 'small', 'del', 'ins', 'sub', 'sup','font'];
-            var blocknodes = ['section', 'div', 'table'];
+            //var textnodes = ['br', 'p', 'b', 'span', 'i', 'em', 'small', 'del', 'ins', 'sub', 'sup','font'];
+            //var blocknodes = ['section', 'div', 'table'];
 
-            var display_blocks = ['block', 'table', 'flexbox'];
+            //var display_blocks = ['block', 'table', 'flexbox'];
 
-            var mergeables = ['p', '.element', 'div:not([class])', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
-
-
-
-
-
-
-
-            var isMergeable = function (el) {
-                if (!el) return false;
-                if (el.nodeType === 3) return true;
-                var is = false;
-
-                var display = getComputedStyle(el).getPropertyValue('display');
-
-                 var position = getComputedStyle(el).getPropertyValue('position');
-
-
-
-                var isInline = display == 'inline';
-
-
-
-                if(isInline) return true;
-
-                mergeables.forEach(function (item) {
-                    if (el.matches(item)) {
-                        is = true;
-                    }
-                });
-
-                if(is){
-                    if(el.querySelector('.module') !== null || mw.tools.hasClass(el, 'module')){
-                        is = false;
-                    }
-
-                }
-
-                return is;
-            }
-
-            var getNext = function(curr){
-                var next = curr.nextSibling;
-                while(curr !== null && curr.nextSibling === null){
-                    curr = curr.parentNode;
-                    next = curr.nextSibling;
-                }
-                return next;
-            }
-            var getPrev = function(curr){
-                var next = curr.previousSibling;
-                while(curr !== null && curr.previousSibling === null){
-                    curr = curr.parentNode;
-                    next = curr.previousSibling;
-                }
-                return next;
-            }
-
-            var findNextNearest = function(el, dir){
-              if(dir =='next'){
-                var next = el.nextSibling;
-                if(next === null){
-                  while(el.nextSibling === null){
-                    el = el.parentNode;
-                    next = el.nextSibling;
-
-                  }
-                }
-              }
-              else{
-                 var next = el.previousSibling;
-                  if(next === null){
-                    while(el.previousSibling === null){
-                      el = el.parentNode;
-                      next = el.previousSibling;
-
-
-                    }
-                  }
-              }
-              return next;
-            }
-
-
-            alwaysMergable = function(el){
-              if(el.nodeType == 3){
-                return alwaysMergable(mw.wysiwyg.validateCommonAncestorContainer(el))
-              }
-
-
-              var selectors = [
-                    'p.element', 'div.element', 'div:not([class])',
-                    'h1.element', 'h2.element', 'h3.element', 'h4.element', 'h5.element', 'h6.element',
-                    '.edit > h1', '.edit > h2', '.edit > h3', '.edit > h4', '.edit > h5', '.edit > h6'
-                    ],
-                  final = false;
-
-              selectors.forEach(function(item){
-                if(el.matches(item)){
-                  final = true;
-                }
-              })
-
-              return final;
-
-            }
-
-
-
-            var isInNonbreakableClass = function(el, dir){
-
-              if(el.nodeType == 3) return false;
-              el = mw.wysiwyg.validateCommonAncestorContainer(el)
-                var classes = ['unbreakable', '*col', '*row', '*btn', '*icon', 'module', 'edit'];
-                var is = false;
-                classes.forEach(function(item){
-                   if(item.indexOf('*') === 0){
-                       var item = item.split('*')[1];
-                        if(el.className.indexOf(item) !== -1){
-                            is = true;
-                        }
-                        else{
-                            mw.tools.foreachParents(el, function(loop){
-                                if(this.className.indexOf(item) !== -1 && this.contains(el)){
-                                    is = true;
-                                    mw.tools.stopLoop(loop);/*
-                                    var findMergable = this.querySelector(mergeables.join(','));
-                                    if(findMergable !== null){
-                                      mw.tools.foreachParents(el, function(loop2){
-                                        if(this === findMergable){
-                                          is = false;
-                                          mw.tools.stopLoop(loop2);
-                                        }
-                                      })
-                                    } */
-                                }
-                            })
-                        }
-                   }
-                   else{
-                    if(mw.tools.hasClass(el, item) || mw.tools.hasParentsWithClass(el, item) ){
-                        is = true;
-                    }
-                   }
-                });
-
-                return is;
-            }
-
-            var isInNonbreakable = function(el, dir){
-                var absNext = findNextNearest(el, dir);
-
-
-
-                if( alwaysMergable(absNext) ){
-
-                  return false;
-
-                }
-
-
-            if(el.textContent == ''){
-
-                var absNextNext = findNextNearest(absNext, dir);
-                if(absNext.nodeType == 3 && /\r|\n/.exec(absNext.nodeValue) !== null){
-                  return isInNonbreakableClass(absNextNext)
-                }
-            }
-
-              if(el.nodeType === 1 && !!el.textContent.trim()){
-                return false;
-              }
-              if(el.nextSibling === null && el.nodeType === 3 && dir =='next'){
-                var absNext = findNextNearest(el, dir);
-                var absNextNext = findNextNearest(absNext, dir);
-
-
-                if(/\r|\n/.exec(absNext.nodeValue) !== null){
-                  return isInNonbreakableClass(absNextNext)
-                }
-
-
-
-                // trqbva da se proveri next s nodetype==1
-
-                if(absNextNext.nodeType === 1){
-                  //mw.wysiwyg.cursorToElement(absNextNext.firstChild)
-                  return isInNonbreakableClass(absNextNext) || isInNonbreakableClass(absNextNext.firstChild);
-                }
-                 else if(absNextNext.nodeType === 3){
-
-                  //mw.wysiwyg.cursorToElement(absNextNext.lastChild)
-                  return true
-                }
-                else{
-                  return false;
-                }
-
-
-              }
-
-              if(el.previousSibling === null && el.nodeType === 3 && dir =='prev'){
-                var absNext = findNextNearest(el, 'prev');
-                var absNextNext = findNextNearest(absNext, 'prev');
-
-
-                if(absNextNext.nodeType === 1){
-                  //mw.wysiwyg.cursorToElement(absNextNext.lastChild)
-                  return isInNonbreakableClass(absNextNext);
-                }
-                else if(absNextNext.nodeType === 3){
-                  //mw.wysiwyg.cursorToElement(absNextNext.lastChild)
-                  return true;
-                }
-                else{
-                  return false;
-                }
-              }
-                el = mw.wysiwyg.validateCommonAncestorContainer(el)
-
-                var is = isInNonbreakableClass(el)
-
-
-                return is;
-
-            }
-
-            var manageBreakables = function(curr, next, dir, event){
-
-                var isnonbreakable = isInNonbreakable(curr, dir);
-
-
-
-                   if(isnonbreakable){
-                      var conts = getSelection().getRangeAt(0);
-                    event.preventDefault();
-
-                    if(next !== null){
-
-                      if(next.nodeType === 3 && /\r|\n/.exec(next.nodeValue) !== null){
-                          event.preventDefault();
-                          return false;
-                      }
-
-
-
-                      if(dir == 'next'){
-                        mw.wysiwyg.cursorToElement(next)
-                      }
-                      else{
-                        mw.wysiwyg.cursorToElement(next, 'end')
-                      }
-                    }
-                    else{
-                      return false;
-                    }
-                }
-
-
-
-
-
-
-            }
 
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
@@ -826,46 +840,46 @@ mw.wysiwyg = {
                             if (event.keyCode == 46) {
                                 var nextchar = sel.focusNode.textContent.charAt(sel.focusOffset);
                                 var nextnextchar = sel.focusNode.textContent.charAt(sel.focusOffset + 1);
+                                var nextel = sel.focusNode.nextSibling;
 
                             } else {
                                 var nextchar = sel.focusNode.textContent.charAt(sel.focusOffset-1);
                                 var nextnextchar = sel.focusNode.textContent.charAt(sel.focusOffset-2);
+                                var nextel = sel.focusNode.previouSibling;
 
                             }
 
-                            if(nextchar == ' ' && sel.focusNode.nodeType === 3 && nextnextchar == ''){
-                              event.preventDefault();
+
+
+
+                            if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
+                              if(nextel.nodeName != 'BR'){
+                                event.preventDefault()
+                              }
+                              event.preventDefault()
+
                               return false;
                             }
 
-                            /*
-
-                            console.log(123, sel.focusNode.textContent.charAt(sel.focusOffset))
-                            console.log(124, getNext(sel.focusNode).nodeValue.trim())
-                            */
-
-
-
                             if (nextchar == '' ) {
-
-                                // check if element is empty
-                                var has_cont = sel.focusNode.textContent;
-                                if (has_cont == '') {
-                                    //delete the element
-                                } else {
 
                                     //continue check nodes
                                     if (event.keyCode == 46) {
-                                        nextNode = getNext(sel.focusNode);
+                                        nextNode = mw.wysiwyg.merge.getNext(sel.focusNode);
 
                                     }
                                     if (event.keyCode == 8) {
-                                        nextNode = getPrev(sel.focusNode);
+                                        nextNode = mw.wysiwyg.merge.getPrev(sel.focusNode);
 
 
                                     }
 
-                                    var nonbr = isInNonbreakable(nextNode)
+                                    if(mw.wysiwyg.merge.alwaysMergable(nextNode)){
+                                      return true;
+                                    }
+
+                                    var nonbr = mw.wysiwyg.merge.isInNonbreakable(nextNode)
+
 
                                     if(nonbr){
                                       event.preventDefault();
@@ -876,15 +890,15 @@ mw.wysiwyg = {
 
                                     }
 
-                                    if (nextNode !== null && isMergeable(nextNode)) {
+                                    if (nextNode !== null && mw.wysiwyg.merge.isMergeable(nextNode)) {
 
                                     if (event.keyCode == 46) {
 
-                                        manageBreakables(sel.focusNode, nextNode, 'next', event)
+                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'next', event)
                                     }
                                     else{
 
-                                        manageBreakables(sel.focusNode, nextNode, 'prev', event)
+                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
 
                                     }
 
@@ -897,59 +911,26 @@ mw.wysiwyg = {
                                     }
 
 
-                                }
-                        if(nextNode === null){
-                            nextNode = sel.focusNode.parentNode.nextSibling;
-                            if(!isMergeable(nextNode)){
-                                event.preventDefault();
-                            }
-                            if (event.keyCode == 46) {
-                              manageBreakables(sel.focusNode, nextNode, 'next', event)
-                            }
-                            else{
-                              manageBreakables(sel.focusNode, nextNode, 'prev', event)
-                            }
+                              //  }
+                              if(nextNode === null){
+                                  nextNode = sel.focusNode.parentNode.nextSibling;
+                                  if(!mw.wysiwyg.merge.isMergeable(nextNode)){
+                                      event.preventDefault();
+                                  }
+                                  if (event.keyCode == 46) {
+                                    mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'next', event)
+                                  }
+                                  else{
+                                    mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
+                                  }
 
-
-
-                        }
+                              }
 
                             } else {
 
-                                if (event.keyCode == 46) {
-                                //manageBreakables(sel.focusNode, nextNode, 'next', event)
-                                }
-                                else{
-                                //manageBreakables(sel.focusNode, nextNode, 'prev', event)
-                                }
-
                             }
                         }
 
-
-
-                        /*
-
-                        if (typeof mw.current_element !== 'undefined' && mw.current_element.innerHTML == '') {
-                            $(mw.current_element).remove();
-                        }
-                        if (r.cloneContents().querySelector(".module") !== null ||
-                            mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
-                            mw.tools.hasParentsWithClass(r.commonAncestorContainer, 'module')) {
-
-                            if (sel.focusOffset > 0 && event.keyCode == 8) {
-                                return true;
-                            }
-
-                            if (sel.focusOffset < r.commonAncestorContainer.length && event.keyCode == 46) {
-                                return true;
-                            }
-                            //return false;
-                        }
-                        var n = sel.focusNode.nodeType !== 3 ? sel.focusNode : sel.focusNode.parentNode;
-                        if (mw.tools.hasClass(n, 'module') || mw.tools.hasParentsWithClass(n, 'module')) {
-                            //return false;
-                        }*/
                     }
                 }
             }
@@ -1006,6 +987,8 @@ mw.wysiwyg = {
                 && (e.keyCode < 37 || e.keyCode > 40)) {
                 mw.wysiwyg.change(e.target);
             }
+
+            mw.wysiwyg.check_selection(e.target);
 
         });
     },
@@ -1260,10 +1243,8 @@ mw.wysiwyg = {
 
 
         if (typeof css.get !== 'undefined') {
-            var is = css.get.isit();
-            is.bold ? mw.$('.mw_editor_bold').addClass('mw_editor_btn_active') : '';
-            is.italic ? mw.$('.mw_editor_italic').addClass('mw_editor_btn_active') : '';
-            is.underlined ? mw.$('.mw_editor_underline').addClass('mw_editor_btn_active') : '';
+
+
             var font = css.get.font();
             var family_array = font.family.split(',');
             if (family_array.length == 1) {
@@ -1316,6 +1297,27 @@ mw.wysiwyg = {
     isFormatElement: function (obj) {
         var items = /^(div|h[1-6]|p)$/i;
         return items.test(obj.nodeName);
+    },
+    decorators:{
+      b:'.mw_editor_bold',
+      strong:'.mw_editor_bold',
+      i:'.mw_editor_italic',
+      em:'.mw_editor_italic',
+      u:'.mw_editor_underline',
+      s:'.mw_editor_strike',
+      strike:'.mw_editor_strike'
+    },
+    setDecorators:function(sel){
+      sel = sel || getSelection();
+      var node = sel.focusNode;
+      while(node.nodeName != 'DIV' && node.nodeName != 'BODY'){
+        for(var x in mw.wysiwyg.decorators){
+          if(node.nodeName.toLowerCase() == x){
+            mw.$(mw.wysiwyg.decorators[x]).addClass('mw_editor_btn_active')
+          }
+        }
+        node = node.parentNode;
+      }
     },
     started_checking: false,
     check_selection: function (target) {
@@ -1375,7 +1377,10 @@ mw.wysiwyg = {
                         }
                     });
                 }
+                mw.wysiwyg.setDecorators(selection)
             }
+
+
 
             if (!!target) {
                 mw.wysiwyg.setActiveButtons(target);
@@ -1785,8 +1790,6 @@ mw.wysiwyg = {
             mw.tools.classNamespaceDelete(el, search_class + '-');
         }
     },
-
-
     iframe_editor: function (textarea, iframe_url, content_to_set) {
         var content_to_set = content_to_set || false;
         var id = $(textarea).attr("id");
@@ -1823,9 +1826,162 @@ mw.wysiwyg = {
         $(textarea).hide();
         return iframe;
     },
+    word_listitem_get_level:function(item){
+      var msspl = item.getAttribute('style').split('mso-list');
+      if(msspl.length > 1){
+        var mssplitems = msspl[1].split(' ');
+        for(var i=0; i<mssplitems.length; i++){
+          if(mssplitems[i].indexOf('level') !== -1){
+            return  parseInt(mssplitems[i].split('level')[1], 10);
+          }
+        }
+      }
+    },
+
+    word_list_build:function(lists, count){
+      var i, count = count || 0, check = false, max = 0;
+      if(count === 0){
+        for( i in lists ){
+          var curr = lists[i];
+          if(!curr.nodeName || curr.nodeType !== 1) continue;
+          var $curr = $(curr);
+          lists[i] = mw.tools.setTag(curr, 'li');
+        }
+      }
+
+      lists.each(function(){
+       var num = this.innerText.trim().split('.')[0], check=parseInt(num, 10);
+        var curr = $(this);
+        if(!curr.attr('data-type')){
+          if(!isNaN(check) && num>0){
+            this.innerHTML = this.innerHTML.replace(num+'.', '');
+            curr.attr('data-type', 'ol');
+          }
+          else{
+            curr.attr('data-type', 'ul');
+          }
+        }
+        if(!this.__done){
+          this.__done = false;
+          var level = parseInt($(this).attr('data-level'));
+          if(!isNaN(level) && level>max){
+            max = level;
+          }
+          if(!isNaN(level)&&level>1){
+            var prev = this.previousElementSibling;
+            if(!!prev && prev.nodeName == 'LI'){
+              var type = this.getAttribute('data-type');
+              var wrap = document.createElement(type=='ul'?'ul':'ol');
+              wrap.setAttribute('data-level', level)
+              $(wrap).append(this);
+              $(wrap).appendTo(prev);
+              check = true;
+            }
+            else if(!!prev && (prev.nodeName == 'UL'||prev.nodeName == 'OL')){
+              var where = $('li[data-level="'+level+'"]', prev) ;
+              if(where.length>0){
+                where.after(this);
+                check = true;
+              }
+              else{
+                var type = this.getAttribute('data-type');
+                var wrap = document.createElement(type=='ul'?'ul':'ol');
+                wrap.setAttribute('data-level', level)
+                $(wrap).append(this);
+                $(wrap).appendTo($('li:last', prev))
+                check = true;
+              }
+            }
+            else if(!prev && (this.parentNode.nodeName != 'UL' && this.parentNode.nodeName != 'OL')){
+              var $curr = $([this]), curr = this;
+              while($(curr).next('li[data-level="'+level+'"]').length > 0){
+                 $curr.push($(curr).next('li[data-level="'+level+'"]')[0]);
+                 curr = $(curr).next('li[data-level="'+level+'"]')[0];
+              }
+              $curr.wrapAll($curr.eq(0).attr('data-type') == 'ul' ? '<ul></ul>':'<ol></ol>')
+              check = true;
+            }
+          }
+        }
+      })
+
+      $("ul[data-level!='1'], ol[data-level!='1']").each(function(){
+        var level = parseInt($(this).attr('data-level'));
+        if(!!this.previousElementSibling){
+          var plevel = parseInt($(this.previousElementSibling).attr('data-level'));
+          if(level > plevel){
+            $('li:last', this.previousElementSibling).append(this)
+            check = true;
+          }
+        }
+      })
+      if(count===0){
+        setTimeout(function(){
+          mw.wysiwyg.word_list_build($('li[data-level]'), 1);
+          mw.wysiwyg.wrap_li_roots()
+        }, 1)
+      }
+      return lists;
+    },
+    wrap_li_roots:function(){
+      var all = document.querySelectorAll('li[data-level]'), i = 0, has = false;
+      for( ; i<all.length ; i++){
+        var parent = all[i].parentElement.nodeName;
+        if(parent != 'OL' && parent != 'UL'){
+          has = true;
+          var group = $([]), curr = all[i];
+          while(!!curr && curr.nodeName == 'LI'){
+            group.push(curr);
+            curr = curr.nextElementSibling;
+          }
+          var el = mwd.createElement(all[i].getAttribute('data-type') == 'ul' ? 'ul':'ol');
+          el.className = 'element';
+          group.wrapAll(el)
+          break;
+        }
+      }
+      if(has) return mw.wysiwyg.wrap_li_roots()
+    },
+    clean_word_list: function (html) {
+      if(html.indexOf('</body>') != -1){
+        html = html.split('</body>')[0]
+      }
+      var parser = mw.tools.parseHtml(html).body;
+
+      var lists = mw.$('[style*="mso-list:"]', parser);
+
+      lists.each(function(){
+        var level = mw.wysiwyg.word_listitem_get_level(this);
+        if(!!level){
+          this.setAttribute('data-level', level)
+          this.setAttribute('class', 'level-'+level)
+        }
+
+      });
+
+      mw.$('[style]', parser).removeAttr('style');
+
+      if(lists.length > 0){
+        lists = mw.wysiwyg.word_list_build(lists);
+        var start = $([]) ;
+        mw.$('li', parser).each(function(){
+          this.innerHTML = this.innerHTML
+            .replace(/·/g, '')/* Not a dot */
+            .replace(new RegExp(String.fromCharCode(160), "g"), "")
+            .replace(/&nbsp;/gi, '')
+            .replace(/\·/g,'')
+            .replace(/<\/?span[^>]*>/g,"")
+            .replace('§','');
+        });
+      }
+      return parser.innerHTML;
+    },
     clean_word: function (html) {
+
+        html = mw.wysiwyg.clean_word_list(html);
+
         html = html.replace(/<td([^>]*)>/gi, '<td>');
-        html = html.replace(/<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1">');
+        html = html.replace(/<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1" style="width:100%;" width="100%" class="element" onclick="mw.inline.tableController(this, event);">');
         html = html.replace(/<o:p>\s*<\/o:p>/g, '');
         html = html.replace(/<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;');
         html = html.replace(/\s*mso-[^:]+:[^;"]+;?/gi, '');
@@ -1848,8 +2004,8 @@ mw.wysiwyg = {
         html = html.replace(/<SPAN\s*[^>]*>\s*&nbsp;\s*<\/SPAN>/gi, '&nbsp;');
         html = html.replace(/<SPAN\s*[^>]*><\/SPAN>/gi, '');
         html = html.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3");
-        html = html.replace(/<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '$1');
-        html = html.replace(/<FONT\s*>([\s\S]*?)<\/FONT>/gi, '$1');
+        html = html.replace(/<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '');
+        html = html.replace(/<FONT\s*>([\s\S]*?)<\/FONT>/gi, '');
         html = html.replace(/<\\?\?xml[^>]*>/gi, '');
         html = html.replace(/<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '');
         html = html.replace(/<\/?\w+:[^>]*>/gi, '');
@@ -1861,15 +2017,16 @@ mw.wysiwyg = {
         html = html.replace(/<(\w[^>]*) onmouseover="([^\"]*)"([^>]*)/gi, "<$1$3");
         html = html.replace(/<(\w[^>]*) onmouseout="([^\"]*)"([^>]*)/gi, "<$1$3");
         html = html.replace(/<H(\d)([^>]*)>/gi, '<h$1>');
-        html = html.replace(/<font size=2>(.*)<\/font>/gi, '$1');
-        html = html.replace(/<font size=3>(.*)<\/font>/gi, '$1');
-        html = html.replace(/<a name=.*>(.*)<\/a>/gi, '$1');
+        html = html.replace(/<font size=2>(.*)<\/font>/gi, '');
+        html = html.replace(/<font size=3>(.*)<\/font>/gi, '');
+        html = html.replace(/<a name=.*>(.*)<\/a>/gi, '');
         html = html.replace(/<H1([^>]*)>/gi, '<H2$1>');
         html = html.replace(/<\/H1\d>/gi, '<\/H2>');
         html = html.replace(/<span>/gi, '$1');
         html = html.replace(/<\/span\d>/gi, '');
         html = html.replace(/<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>');
         html = html.replace(/<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>');
+
         return html;
     },
     cleanTables: function (root) {
@@ -2002,6 +2159,10 @@ $(mwd).ready(function () {
 
 $(window).load(function () {
 
+  /*mw.$(".edit").on('paste', function(e){
+    mw.wysiwyg.paste(e)
+  }) */
+
     $(this).on('imageSrcChanged', function (e, el, url) {
         if ($(el).parent().hasClass('mw-image-holder')) {
             $(el).parent().css('backgroundImage', 'url(' + url + ')')
@@ -2103,7 +2264,7 @@ $(window).load(function () {
                 }
                 else {
                     if (e.keyCode != 65 && e.keyCode != 86) { // ctrl v || a
-                        return false;
+                        //return false;
                     }
 
                 }

@@ -489,8 +489,13 @@ class MicroweberTemplate
             $render_file_test = TEMPLATES_DIR.$page['active_site_template'].DS.$page['layout_file'];
             $render_file_test = normalize_path($render_file_test, false);
 
+            $render_file_test2 = TEMPLATES_DIR.$page['active_site_template'].DS.'layouts'.DS.$page['layout_file'];
+            $render_file_test2 = normalize_path($render_file_test2, false);
+
             if (is_file($render_file_test)) {
                 $render_file = $render_file_test;
+            } elseif (is_file($render_file_test2)) {
+                $render_file = $render_file_test2;
             }
         }
 
@@ -583,6 +588,7 @@ class MicroweberTemplate
                 $render_file = $template_view;
             }
         }
+
 
         if (isset($page['active_site_template']) and $render_file == false and (strtolower($page['active_site_template']) == 'default' or $page['active_site_template'] == $site_template_settings)) {
             if ($render_file == false and isset($page['active_site_template']) and isset($page['id'])) {
@@ -687,6 +693,8 @@ class MicroweberTemplate
                 $render_file = $template_view;
             }
         }
+
+
 
         if ($render_file == false and $template_view_set_inner != false) {
             if (isset($template_view_set_inner2)) {
