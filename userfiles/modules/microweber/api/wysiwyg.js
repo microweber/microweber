@@ -941,7 +941,7 @@ mw.wysiwyg = {
 
                     }
                 }
-            }
+            
         });
         mw.on.tripleClick(mwd.body, function (target) {
             mw.wysiwyg.select_all(target);
