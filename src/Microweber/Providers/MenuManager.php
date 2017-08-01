@@ -352,6 +352,9 @@ class MenuManager
         if (!isset($ul_class)) {
             $ul_class = 'menu';
         }
+        if (!isset($ul_id)) {
+            $ul_id = '';
+        }
 
         if (!isset($li_class)) {
             $li_class = 'menu_element';
@@ -376,6 +379,15 @@ class MenuManager
         if (isset($li_tag) == false) {
             $li_tag = 'li';
         }
+
+        if (isset($li_submenu_class) == false) {
+            $li_submenu_class = ' have-submenu ';
+        }
+        if (isset($li_submenu_a_class) == false) {
+            $li_submenu_a_class = ' have-submenu-link ';
+        }
+
+
         if (isset($params['max_depth']) != false) {
             $params['maxdepth'] = $params['max_depth'];
         }
@@ -399,7 +411,15 @@ class MenuManager
             $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class}"  href="{url}">{title}</a>';
         }
 
-        $to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
+        $id_attr_str = '';
+        if (isset($ul_id)) {
+            if ($depth == 0) {
+                $id_attr_str = ' id="'.$ul_id.'" ';
+            }
+        }
+
+
+        $to_print = '<' . $ul_tag . ' role="menu" '.$id_attr_str.' class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
         $cur_depth = 0;
         $res_count = 0;
@@ -523,7 +543,8 @@ class MenuManager
                 $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
                 if ($sub_menu_q) {
                     $has_childs = true;
-                    $has_childs_class = 'have-submenu';
+                  //  $has_childs_class = 'have-submenu';
+                    $has_childs_class = $li_submenu_class;
                 }
 
 
@@ -532,6 +553,9 @@ class MenuManager
                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
                 $ext_classes = '';
+
+
+
 
                 if (isset($item['parent']) and intval($item['parent']) > 0) {
                     $ext_classes .= ' have-parent';
@@ -544,7 +568,14 @@ class MenuManager
 
                 if ($has_childs) {
                     $ext_classes .= ' ' . $has_childs_class;
+
+                    if($li_submenu_a_class){
+                        $ext_classes .= ' ' . $li_submenu_a_class;
+                     }
                 }
+
+
+
 
                 $ext_classes = trim($ext_classes);
                 if (is_callable($link)) {
@@ -616,6 +647,9 @@ class MenuManager
                             if (isset($ul_class)) {
                                 $menu_params['ul_class'] = $ul_class;
                             }
+                            if (isset($ul_id)) {
+                                $menu_params['ul_id'] = $ul_id;
+                            }
                             if (isset($li_class)) {
                                 $menu_params['li_class'] = $li_class;
                             }
@@ -669,6 +703,7 @@ class MenuManager
                 }
 
                 $to_print = str_replace('{a_class}', $a_class, $to_print);
+                $to_print = str_replace('{ul_id}', $ul_id, $to_print);
                 $to_print = str_replace('{ul_class}', $ul_class, $to_print);
                 $to_print = str_replace('{li_class}', $li_class, $to_print);
                 $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
