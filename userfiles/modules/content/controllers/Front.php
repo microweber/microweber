@@ -531,7 +531,7 @@ class Front
         }
 
         $is_search = url_param('search');
-        if ($is_search) {
+        if ($is_search and isset($_GET['search_params'])) {
             $search_params = $_GET['search_params'];
             if ($search_params) {
 
