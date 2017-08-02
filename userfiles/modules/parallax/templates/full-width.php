@@ -43,5 +43,5 @@ description: Full width background
 </div>
 
 <?php if (is_admin()): ?>
-    <?php print notif(_e('Click here to edit the Parallax', true)); ?>
+    <?php print lnotif(_e('Click here to edit the Parallax', true)); ?>
 <?php endif; ?>
