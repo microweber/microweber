@@ -1942,14 +1942,18 @@ mw.wysiwyg = {
       }
       if(has) return mw.wysiwyg.wrap_li_roots()
     },
+    isWordHtml:function(html){
+      return html.indexOf('urn:schemas-microsoft-com:office:word') !== -1;
+    },
     clean_word_list: function (html) {
+
+      if(!mw.wysiwyg.isWordHtml(html)) return html;
       if(html.indexOf('</body>') != -1){
         html = html.split('</body>')[0]
       }
       var parser = mw.tools.parseHtml(html).body;
 
       var lists = mw.$('[style*="mso-list:"]', parser);
-
       lists.each(function(){
         var level = mw.wysiwyg.word_listitem_get_level(this);
         if(!!level){
@@ -1977,9 +1981,7 @@ mw.wysiwyg = {
       return parser.innerHTML;
     },
     clean_word: function (html) {
-
         html = mw.wysiwyg.clean_word_list(html);
-
         html = html.replace(/<td([^>]*)>/gi, '<td>');
         html = html.replace(/<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1" style="width:100%;" width="100%" class="element" onclick="mw.inline.tableController(this, event);">');
         html = html.replace(/<o:p>\s*<\/o:p>/g, '');
@@ -2004,8 +2006,8 @@ mw.wysiwyg = {
         html = html.replace(/<SPAN\s*[^>]*>\s*&nbsp;\s*<\/SPAN>/gi, '&nbsp;');
         html = html.replace(/<SPAN\s*[^>]*><\/SPAN>/gi, '');
         html = html.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3");
-        html = html.replace(/<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '');
-        html = html.replace(/<FONT\s*>([\s\S]*?)<\/FONT>/gi, '');
+        html = html.replace(/<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '$1');
+        html = html.replace(/<FONT\s*>([\s\S]*?)<\/FONT>/gi, '$1');
         html = html.replace(/<\\?\?xml[^>]*>/gi, '');
         html = html.replace(/<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '');
         html = html.replace(/<\/?\w+:[^>]*>/gi, '');
@@ -2017,16 +2019,15 @@ mw.wysiwyg = {
         html = html.replace(/<(\w[^>]*) onmouseover="([^\"]*)"([^>]*)/gi, "<$1$3");
         html = html.replace(/<(\w[^>]*) onmouseout="([^\"]*)"([^>]*)/gi, "<$1$3");
         html = html.replace(/<H(\d)([^>]*)>/gi, '<h$1>');
-        html = html.replace(/<font size=2>(.*)<\/font>/gi, '');
-        html = html.replace(/<font size=3>(.*)<\/font>/gi, '');
-        html = html.replace(/<a name=.*>(.*)<\/a>/gi, '');
+        html = html.replace(/<font size=2>(.*)<\/font>/gi, '$1');
+        html = html.replace(/<font size=3>(.*)<\/font>/gi, '$1');
+        html = html.replace(/<a name=.*>(.*)<\/a>/gi, '$1');
         html = html.replace(/<H1([^>]*)>/gi, '<H2$1>');
         html = html.replace(/<\/H1\d>/gi, '<\/H2>');
         html = html.replace(/<span>/gi, '$1');
         html = html.replace(/<\/span\d>/gi, '');
         html = html.replace(/<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>');
         html = html.replace(/<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>');
-
         return html;
     },
     cleanTables: function (root) {
