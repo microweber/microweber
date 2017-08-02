@@ -96,7 +96,7 @@
     margin: 0 auto;
 }
 
-.module-shop-products .products-wrapper.layout-1 .item .title h3{
+.module-shop-products .products-wrapper.layout-1 .item .title h3 {
     height: 45px;
 }
 
@@ -228,7 +228,7 @@
 }
 
 .module-shop-products .pagination > li > a.active {
-    color: #ed6c59 !important;
+    color: #ed6c59;
     /*text-decoration: underline;*/
 }
 
