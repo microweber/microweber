@@ -1,8 +1,5 @@
 <?php
 
-if (!function_exists('video_module_url2embed')) {
-    include_once(__DIR__ . DS . 'functions.php');
-}
 
 
  
