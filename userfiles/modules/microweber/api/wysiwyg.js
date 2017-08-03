@@ -402,7 +402,7 @@ mw.wysiwyg = {
       var parser = mw.tools.parseHtml(html).body;
       $("[style*='mso-spacerun']", parser).remove()
       $("style", parser).remove()
-      $('table', parser).width('100%').addClass('mw-wysiwyg-table');
+      $('table', parser).width('100%').addClass('mw-wysiwyg-table').removeAttr('width');
       return parser.innerHTML;
     },
     pastedFromExcel:function(clipboard){
@@ -2006,7 +2006,7 @@ mw.wysiwyg = {
     clean_word: function (html) {
         html = mw.wysiwyg.clean_word_list(html);
         html = html.replace(/<td([^>]*)>/gi, '<td>');
-        html = html.replace(/<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1" style="width:100%;" width="100%" class="element" onclick="mw.inline.tableController(this, event);">');
+        html = html.replace(/<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1" style="width:100%;" width="100%" class="element">');
         html = html.replace(/<o:p>\s*<\/o:p>/g, '');
         html = html.replace(/<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;');
         html = html.replace(/\s*mso-[^:]+:[^;"]+;?/gi, '');

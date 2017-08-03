@@ -4540,10 +4540,9 @@ mw.image = {
                 mw.image_resizer = resizer;
                 mw.image_resizer = resizer;
                 $(resizer).on("click", function (e) {
-                  mw.wysiwyg.select_element(mw.image.currentResizing)
+                  mw.wysiwyg.select_element(mw.image.currentResizing[0])
                 });
                 $(resizer).on("dblclick", function (e) {
-
                     mw.wysiwyg.media('#editimage');
                 });
             }
