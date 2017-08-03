@@ -91,14 +91,14 @@ class Backup
     public static function log_bg_action($back_log_action)
     {
         if ($back_log_action == false) {
-            mw()->log_manager->delete('is_system=y&rel=backup&user_ip='.USER_IP);
+            mw()->log_manager->delete('is_system=y&rel=backup&user_ip=' . USER_IP);
         } else {
-            $check = mw()->log_manager->get('order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip='.USER_IP);
+            $check = mw()->log_manager->get('order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=' . USER_IP);
 
             if (is_array($check) and isset($check['id'])) {
-                mw()->log_manager->save('is_system=y&field=action&rel=backup&value='.$back_log_action.'&user_ip='.USER_IP.'&id='.$check['id']);
+                mw()->log_manager->save('is_system=y&field=action&rel=backup&value=' . $back_log_action . '&user_ip=' . USER_IP . '&id=' . $check['id']);
             } else {
-                mw()->log_manager->save('is_system=y&field=action&rel=backup&value='.$back_log_action.'&user_ip='.USER_IP);
+                mw()->log_manager->save('is_system=y&field=action&rel=backup&value=' . $back_log_action . '&user_ip=' . USER_IP);
             }
         }
     }
@@ -168,7 +168,7 @@ class Backup
         ini_set('memory_limit', '512M');
         set_time_limit(0);
         $here = $this->get_bakup_location();
-        $filename = $here.'full_backup_'.date('Y-M-d-His').'_'.uniqid().''.'.zip';
+        $filename = $here . 'full_backup_' . date('Y-M-d-His') . '_' . uniqid() . '' . '.zip';
 
         $userfiles_folder = userfiles_path();
 
@@ -183,9 +183,9 @@ class Backup
         $zip->setZipFile($filename);
         $zip->setComment("Microweber backup of the userfiles folder and db.
                 \n The Microweber version at the time of backup was {MW_VERSION}
-                \nCreated on ".date('l jS \of F Y h:i:s A'));
+                \nCreated on " . date('l jS \of F Y h:i:s A'));
         if (isset($db_file['filename'])) {
-            $filename2 = $here.$db_file['filename'];
+            $filename2 = $here . $db_file['filename'];
             if (is_file($filename2)) {
                 $back_log_action = 'Adding sql restore to zip';
                 $this->log_action($back_log_action);
@@ -288,7 +288,7 @@ class Backup
 
         $here = $this->get_bakup_location();
 
-        $filename = $here.$id;
+        $filename = $here . $id;
         $ext = get_file_extension($filename);
         $ext_error = false;
 
@@ -308,18 +308,18 @@ class Backup
 
                 $exract_folder = md5(basename($filename));
                 $unzip = new \Microweber\Utils\Unzip();
-                $target_dir = mw_cache_path().'backup_restore'.DS.$exract_folder.DS;
+                $target_dir = mw_cache_path() . 'backup_restore' . DS . $exract_folder . DS;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);
                 }
                 $result = $unzip->extract($filename, $target_dir, $preserve_filepath = true);
                 $temp_dir_restore = $target_dir;
-                $sql_restore = $target_dir.'mw_sql_restore.sql';
+                $sql_restore = $target_dir . 'mw_sql_restore.sql';
                 if (is_file($sql_restore)) {
                     $sql_file = $sql_restore;
                 }
 
-                $json_restore = $target_dir.'mw_content.json';
+                $json_restore = $target_dir . 'mw_content.json';
                 if (is_file($json_restore)) {
                     $json_file = $json_restore;
                 }
@@ -382,19 +382,19 @@ class Backup
 
                 if (strlen(trim($stmt)) > 3) {
                     try {
-                       mw()->database_manager->q($stmt, true);
+                        mw()->database_manager->q($stmt, true);
                         // mw()->database_manager->q($stmt);
                     } catch (QueryException $e) {
-                        echo 'Caught exception: '.$e->getMessage()."\n";
+                        echo 'Caught exception: ' . $e->getMessage() . "\n";
                         $sqlErrorCode = 1;
                     } catch (\Illuminate\Database\QueryException $e) {
-                        echo 'Caught exception: '.$e->getMessage()."\n";
+                        echo 'Caught exception: ' . $e->getMessage() . "\n";
                         $sqlErrorCode = 1;
                     } catch (\PDOException $e) {
-                        echo 'Caught exception: '.$e->getMessage()."\n";
+                        echo 'Caught exception: ' . $e->getMessage() . "\n";
                         $sqlErrorCode = 1;
                     } catch (Exception $e) {
-                        echo 'Caught exception: '.$e->getMessage()."\n";
+                        echo 'Caught exception: ' . $e->getMessage() . "\n";
                         $sqlErrorCode = 1;
                     }
                 }
@@ -406,7 +406,7 @@ class Backup
                 $this->log_action($back_log_action);
 
                 echo "Database restored!\n";
-                echo 'Backup used: '.$filename."\n";
+                echo 'Backup used: ' . $filename . "\n";
             } else {
                 echo "An error occurred while restoring backup!<br><br>\n";
                 echo "Error code: $sqlErrorCode<br>\n";
@@ -418,18 +418,17 @@ class Backup
             $this->log_action($back_log_action);
 
             echo "Files restored successfully!<br>\n";
-            echo 'Backup used: '.$filename."<br>\n";
+            echo 'Backup used: ' . $filename . "<br>\n";
             if ($temp_dir_restore != false) {
                 @unlink($filename);
             }
-        } elseif($json_file){
+        } elseif ($json_file) {
             $back_log_action = 'Restoring content from JSON file';
             $this->log_action($back_log_action);
             $this->_import_content_from_json_file($json_file);
             $back_log_action = 'Content restored';
             $this->log_action($back_log_action);
         }
-
 
 
         if (userfiles_path()) {
@@ -489,7 +488,7 @@ class Backup
                     if ($entry == '.' || $entry == '..') {
                         continue;
                     }
-                    if ($dest !== "$source/$entry" and $dest !== "$source".DS."$entry") {
+                    if ($dest !== "$source/$entry" and $dest !== "$source" . DS . "$entry") {
                         $this->copyr("$source/$entry", "$dest/$entry");
                     }
                 }
@@ -551,8 +550,8 @@ class Backup
 
             return true;
         } else {
-            $bak_fn = 'backup_'.date('Y-M-d-His').'_'.uniqid().'';
-            $filename = $here.$bak_fn.'.zip';
+            $bak_fn = 'backup_' . date('Y-M-d-His') . '_' . uniqid() . '';
+            $filename = $here . $bak_fn . '.zip';
             if ($cache_lock == false or !is_array($cache_lock)) {
                 $cache_lock = array();
                 $cache_lock['processed'] = 0;
@@ -617,7 +616,7 @@ class Backup
                         $precent = round($precent);
                         $cache_lock['percent'] = $precent;
 
-                        $back_log_action = "Progress  {$precent}% ({$cache_lock['processed']}/{$cache_lock['files_count']}) <br><small>".basename($item).'</small>';
+                        $back_log_action = "Progress  {$precent}% ({$cache_lock['processed']}/{$cache_lock['files_count']}) <br><small>" . basename($item) . '</small>';
                         $this->log_action($back_log_action);
 
                         $this->app->cache_manager->save($cache_lock, $cache_id_loc, 'backup');
@@ -626,7 +625,7 @@ class Backup
                             $limit_per_turn = 1;
                             $mw_backup_zip_obj->close();
                             $this->app->cache_manager->save('closed', $cache_state_id, 'backup');
-                            $db_file = $this->create($bak_fn.'.sql');
+                            $db_file = $this->create($bak_fn . '.sql');
                             if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
                                 $zip_opened = 1;
 
@@ -634,26 +633,22 @@ class Backup
                             }
                             $this->app->cache_manager->save('opened', $cache_state_id, 'backup');
                             if (isset($db_file['filename'])) {
-                                $filename2 = $here.$db_file['filename'];
+                                $filename2 = $here . $db_file['filename'];
                                 if (is_file($filename2)) {
                                     $back_log_action = 'Adding sql restore to zip';
                                     $this->log_action($back_log_action);
                                     $mw_backup_zip_obj->addFile($filename2, 'mw_sql_restore.sql');
                                 }
                             }
-                        } else  if ($item == 'make_json_backup') {
+                        } else if ($item == 'make_json_backup') {
                             $back_log_action = 'Exporting content to JSON';
                             $json_file = $this->_export_to_json_file();
                             if (is_file($json_file)) {
                                 $back_log_action = 'Adding json restore to zip';
                                 $mw_backup_zip_obj->addFile($json_file, 'mw_content.json');
 
-                             }
-                        }
-
-
-
-                        else {
+                            }
+                        } else {
                             $relative_loc = str_replace(userfiles_path(), '', $item);
 
                             $new_backup_actions = array();
@@ -665,7 +660,7 @@ class Backup
                             }
                         }
 
-                        unset($backup_actions[ $key ]);
+                        unset($backup_actions[$key]);
 
                         if (isset($new_backup_actions) and !empty($new_backup_actions)) {
                             $backup_actions = array_merge($backup_actions, $new_backup_actions);
@@ -683,7 +678,7 @@ class Backup
                 }
 
                 $mw_backup_zip_obj->close();
-                if(isset($json_file) and is_file($json_file)){
+                if (isset($json_file) and is_file($json_file)) {
                     @unlink($json_file);
                 }
 
@@ -721,39 +716,39 @@ class Backup
         $here = $this->get_bakup_location();
         if (!is_dir($here)) {
             if (!mkdir_recursive($here)) {
-                $back_log_action = 'Error the dir is not writable: '.$here;
+                $back_log_action = 'Error the dir is not writable: ' . $here;
                 $this->log_action($back_log_action);
             }
         }
 
         ini_set('memory_limit', '512M');
         set_time_limit(0);
-        $index1 = $here.'index.php';
+        $index1 = $here . 'index.php';
         if ($filename == false) {
             $engine = mw()->database_manager->get_sql_engine();
             $mwv = MW_VERSION;
             $mwv = str_replace('.', '', $mwv);
-            $filename_to_return = 'database_'.date('YMdHis').'_'.uniqid().'_'.$mwv.'_'.$engine.'.sql';
+            $filename_to_return = 'database_' . date('YMdHis') . '_' . uniqid() . '_' . $mwv . '_' . $engine . '.sql';
         } else {
             $filename_to_return = $filename;
         }
 
-        $filess = $here.$filename_to_return;
+        $filess = $here . $filename_to_return;
         if (is_file($filess)) {
             return false;
         }
         touch($filess);
         touch($index1);
         $sql_bak_file = $filess;
-        $hta = $here.'.htaccess';
+        $hta = $here . '.htaccess';
 
         if (!is_file($hta)) {
             touch($hta);
             file_put_contents($hta, 'Deny from all');
         }
 
-        $head = '/* Microweber database backup exported on: '.date('l jS \of F Y h:i:s A')." */ \n";
-        $head .= '/* get_table_prefix(): '.get_table_prefix()." */ \n\n\n";
+        $head = '/* Microweber database backup exported on: ' . date('l jS \of F Y h:i:s A') . " */ \n";
+        $head .= '/* get_table_prefix(): ' . get_table_prefix() . " */ \n\n\n";
         file_put_contents($sql_bak_file, $head);
         $return = '';
         $tables = '*';
@@ -792,10 +787,10 @@ class Backup
             if ($table != false and $is_cms_table) {
                 $back_log_action = "Backing up database table $table";
                 $this->log_action($back_log_action);
-                $qs = 'SELECT * FROM '.$table;
+                $qs = 'SELECT * FROM ' . $table;
                 $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false);
                 $num_fields = count($result[0]);
-                $table_without_prefix = $this->prefix_placeholder.str_ireplace(get_table_prefix(), '', $table);
+                $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), '', $table);
 
 
                 $ddl = mw()->database_manager->get_table_ddl($table);
@@ -803,7 +798,7 @@ class Backup
 
                 $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $ddl);
 
-                $return = "\n\n".$create_table_without_prefix.$this->file_q_sep."\n\n\n";
+                $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
 
                 $this->log_action(false);
@@ -821,14 +816,14 @@ class Backup
                         }
                         if (!empty($columns_temp)) {
                             $columns_q = implode(',', $columns_temp);
-                            $columns_q = '('.$columns_q.')';
+                            $columns_q = '(' . $columns_q . ')';
                         }
 
-                        $return = 'REPLACE INTO '.$table_without_prefix.' '.$columns_q.' VALUES(';
+                        $return = 'REPLACE INTO ' . $table_without_prefix . ' ' . $columns_q . ' VALUES(';
                         for ($j = 0; $j < $num_fields; ++$j) {
-                            $row[ $j ] = str_replace("'", '&rsquo;', $row[ $j ]);
-                            if (isset($row[ $j ])) {
-                                $return .= "'".$row[ $j ]."'";
+                            $row[$j] = str_replace("'", '&rsquo;', $row[$j]);
+                            if (isset($row[$j])) {
+                                $return .= "'" . $row[$j] . "'";
                             } else {
                                 $return .= "''";
                             }
@@ -836,7 +831,7 @@ class Backup
                                 $return .= ',';
                             }
                         }
-                        $return .= ')'.$this->file_q_sep."\n\n\n";
+                        $return .= ')' . $this->file_q_sep . "\n\n\n";
                         $this->append_string_to_file($sql_bak_file, $return);
                     }
                 }
@@ -845,7 +840,7 @@ class Backup
             }
         }
         $this->log_action(false);
-        $back_log_action = 'Saving to file '.basename($filess);
+        $back_log_action = 'Saving to file ' . basename($filess);
         $this->log_action($back_log_action);
         $end = microtime_float();
         $end = round($end - $start, 3);
@@ -853,22 +848,24 @@ class Backup
 
         return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end, 'url' => dir2url($filess));
     }
+
     public function _import_content_from_json_file($file)
     {
-        if(is_file($file)){
+        if (is_file($file)) {
             ini_set('memory_limit', '512M');
             set_time_limit(0);
-
-            $restore =json_decode(file_get_contents($file),true);
-            if(is_array($restore) and !empty($restore)){
-                foreach ($restore as $table=>$data){
+            $cont = file_get_contents($file);
+            $cont = str_replace('Â ', ' ', $cont);
+            $restore = json_decode($cont, true);
+            if (is_array($restore) and !empty($restore)) {
+                foreach ($restore as $table => $data) {
                     $table_exists = mw()->database_manager->table_exists($table);
                     if ($table_exists) {
-                        foreach ($data as $item){
+                        foreach ($data as $item) {
                             $item['allow_html'] = true;
                             $item['allow_scripts'] = true;
-                             db_save($table,$item);
-                         }
+                            db_save($table, $item);
+                        }
                     }
                 }
             }
@@ -880,20 +877,16 @@ class Backup
     {
 
 
-
-
-
         $skip_tables = array(
-            "modules", "elements", "users", "log", "notifications", "content_revisions_history", 'content_fields_drafts',"stats_users_online", "system_licenses", "users_oauth", "sessions"
+            "modules", "elements", "users", "log", "notifications", "content_revisions_history", 'content_fields_drafts', "stats_users_online", "system_licenses", "users_oauth", "sessions"
         );
-
 
 
         ini_set('memory_limit', '512M');
         set_time_limit(0);
 
         $export_location = $this->get_bakup_location();
-        if(!is_dir($export_location)){
+        if (!is_dir($export_location)) {
             mkdir_recursive($export_location);
         }
         $export_filename = 'content_export_' . date("Y-m-d-his") . '.json';
@@ -917,7 +910,7 @@ class Backup
         $exported_tables_data = array();
         if ($all_tables) {
             foreach ($all_tables as $table) {
-                if(!in_array($table,$skip_tables)){
+                if (!in_array($table, $skip_tables)) {
                     $table_exists = mw()->database_manager->table_exists($table);
                     if ($table_exists) {
                         $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
@@ -926,21 +919,22 @@ class Backup
                         }
                     }
 
-                }}
+                }
+            }
         }
-        array_walk_recursive ($exported_tables_data, function (&$item) {
-            if (is_string ($item)) {
-                $item = utf8_encode ($item);
+        array_walk_recursive($exported_tables_data, function (&$item) {
+            if (is_string($item)) {
+                $item = utf8_encode($item);
+                $item = str_replace('Â ', ' ', $item);
             }
         });
-        $save = json_encode ($exported_tables_data);
+        $save = json_encode($exported_tables_data);
 
-
-        if (file_put_contents($export_path,$save )) {
+        if (file_put_contents($export_path, $save)) {
             return $export_path;
 
         } else {
-           false;
+            false;
         }
 
     }
@@ -964,18 +958,18 @@ class Backup
         if ($loc != false) {
             return $loc;
         }
-        $here = userfiles_path().'backup'.DS;
+        $here = userfiles_path() . 'backup' . DS;
 
         if (!is_dir($here)) {
             mkdir_recursive($here);
-            $hta = $here.'.htaccess';
+            $hta = $here . '.htaccess';
             if (!is_file($hta)) {
                 touch($hta);
                 file_put_contents($hta, 'Deny from all');
             }
         }
 
-        $here = userfiles_path().'backup'.DS.get_table_prefix().DS;
+        $here = userfiles_path() . 'backup' . DS . get_table_prefix() . DS;
 
         $here2 = mw()->option_manager->get('backup_location', 'admin/backup');
         if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
@@ -1040,17 +1034,17 @@ class Backup
             $host_dir = str_ireplace('.', '-', $host_dir);
         }
 
-        $userfiles_folder_uploaded = $media_folder.DS.$host_dir.DS.'uploaded'.DS;
-        $userfiles_folder_uploaded = $media_folder.DS.$host_dir.DS;
+        $userfiles_folder_uploaded = $media_folder . DS . $host_dir . DS . 'uploaded' . DS;
+        $userfiles_folder_uploaded = $media_folder . DS . $host_dir . DS;
         $userfiles_folder_uploaded = \normalize_path($userfiles_folder_uploaded);
-        $folders = \rglob($userfiles_folder_uploaded.'*', GLOB_NOSORT);
+        $folders = \rglob($userfiles_folder_uploaded . '*', GLOB_NOSORT);
 
         if (!is_array($folders)) {
             $folders = array();
         }
-        $cust_css_dir = $userfiles_folder.'css'.DS;
+        $cust_css_dir = $userfiles_folder . 'css' . DS;
         if (is_dir($cust_css_dir)) {
-            $more_folders = \rglob($cust_css_dir.'*', GLOB_NOSORT);
+            $more_folders = \rglob($cust_css_dir . '*', GLOB_NOSORT);
             if (!empty($more_folders)) {
                 $folders = array_merge($folders, $more_folders);
             }
@@ -1088,14 +1082,14 @@ class Backup
     {
         if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
             if ($back_log_action == false) {
-                $this->app->log_manager->delete('is_system=y&rel=backup&user_ip='.USER_IP);
+                $this->app->log_manager->delete('is_system=y&rel=backup&user_ip=' . USER_IP);
             } else {
-                $check = $this->app->log_manager->get('order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip='.USER_IP);
+                $check = $this->app->log_manager->get('order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=' . USER_IP);
 
                 if (is_array($check) and isset($check['id'])) {
-                    $this->app->log_manager->save('is_system=y&field=action&rel=backup&value='.$back_log_action.'&user_ip='.USER_IP.'&id='.$check['id']);
+                    $this->app->log_manager->save('is_system=y&field=action&rel=backup&value=' . $back_log_action . '&user_ip=' . USER_IP . '&id=' . $check['id']);
                 } else {
-                    $this->app->log_manager->save('is_system=y&field=action&rel=backup&value='.$back_log_action.'&user_ip='.USER_IP);
+                    $this->app->log_manager->save('is_system=y&field=action&rel=backup&value=' . $back_log_action . '&user_ip=' . USER_IP);
                 }
             }
         }
@@ -1112,7 +1106,7 @@ class Backup
         $here = $this->get_bakup_location();
         if (is_file($check)) {
             $fn = basename($check);
-            if (copy($check, $here.$fn)) {
+            if (copy($check, $here . $fn)) {
                 @unlink($check);
 
                 return array('success' => "$fn was uploaded!");
@@ -1171,7 +1165,7 @@ class Backup
         }
 
         $here = $this->get_bakup_location();
-        $filename = $here.$id;
+        $filename = $here . $id;
 
         $id = str_replace('..', '', $id);
         $filename = str_replace('..', '', $filename);
@@ -1185,7 +1179,7 @@ class Backup
 
             return array('success' => "$id was deleted!");
         } else {
-            $filename = $here.$id.'.sql';
+            $filename = $here . $id . '.sql';
             if (is_file($filename)) {
                 unlink($filename);
 
@@ -1223,7 +1217,7 @@ class Backup
 
         $here = $this->get_bakup_location();
 
-        $filename = $here.$id;
+        $filename = $here . $id;
         $filename = str_replace('..', '', $filename);
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing filename to download.');
