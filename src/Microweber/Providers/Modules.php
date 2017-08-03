@@ -14,6 +14,7 @@
 namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\Config;
+
 //use Illuminate\Support\Facades\Schema;
 //use Illuminate\Database\;
 //use Illuminate\Database\Eloquent\Builder as Eloquent;
@@ -102,13 +103,14 @@ class Modules
             $params = $options = $params2;
         }
 
+
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v).serialize($params);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v) . serialize($params);
         }
         $list_as_element = false;
-        $cache_id = $function_cache_id = __FUNCTION__.crc32($function_cache_id);
+        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         if (isset($options['dir_name'])) {
             $dir_name = $options['dir_name'];
             //$list_as_element = true;
@@ -175,7 +177,7 @@ class Modules
         $dir = rglob($glob_patern, 0, $dir_name);
         $dir_name_mods = modules_path();
         $dir_name_mods2 = elements_path();
-
+        $saved_ids = array();
         if (!empty($dir)) {
             $configs = array();
 
@@ -198,11 +200,11 @@ class Modules
                     $moduleDir = $mod_name_dir = str_replace($dir_name_mods, '', $moduleDir);
                     $moduleDir = $mod_name_dir = str_replace($dir_name_mods2, '', $moduleDir);
 
-                    $def_icon = modules_path().'default.png';
+                    $def_icon = modules_path() . 'default.png';
 
                     ob_start();
 
-                    $is_mw_ignore = dirname($value).DS.'.mwignore';
+                    $is_mw_ignore = dirname($value) . DS . '.mwignore';
                     if (!is_file($is_mw_ignore)) {
                         include $value;
                     }
@@ -215,11 +217,11 @@ class Modules
                         $moduleDir = str_replace(modules_path(), '', $moduleDir);
                     }
 
-                    $replace_root = MW_ROOTPATH.DS.'userfiles'.DS.'modules'.DS;
+                    $replace_root = MW_ROOTPATH . DS . 'userfiles' . DS . 'modules' . DS;
 
                     $moduleDir = str_replace($replace_root, '', $moduleDir);
 
-                    $replace_root = dirname(dirname(MW_PATH)).DS.'userfiles'.DS.'modules'.DS;
+                    $replace_root = dirname(dirname(MW_PATH)) . DS . 'userfiles' . DS . 'modules' . DS;
                     $moduleDir = str_replace($replace_root, '', $moduleDir);
 
                     $moduleDir = rtrim($moduleDir, '\\');
@@ -236,12 +238,12 @@ class Modules
 
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
-                        $t1 = modules_path().$config['module'].DS.$bname;
+                        $t1 = modules_path() . $config['module'] . DS . $bname;
 
-                        $try_icon = $t1.'.png';
-                        $main_try_icon = modules_path().$config['module'].DS.'icon.png';
+                        $try_icon = $t1 . '.png';
+                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.png';
                     } else {
-                        $try_icon = $mod_name.'.png';
+                        $try_icon = $mod_name . '.png';
                     }
 
                     $try_icon = normalize_path($try_icon, false);
@@ -279,7 +281,7 @@ class Modules
                             } else {
                                 $config['installed'] = 'auto';
                                 $tablesData = false;
-                                $schemaFileName = $moduleDir.'schema.json';
+                                $schemaFileName = $moduleDir . 'schema.json';
                                 if (isset($config['tables']) && is_array($config['tables']) && !empty($config['tables'])) {
                                     $tablesData = $config['tables'];
                                 } elseif (isset($config['tables']) && is_callable($config['tables'])) {
@@ -290,7 +292,7 @@ class Modules
                                     $json = @json_decode($json, true);
                                     $tablesData = $json;
                                 }
-                                $s = $this->save($config);
+                                $saved_ids[] = $this->save($config);
 
                                 if ($tablesData) {
                                     (new DbUtils())->build_tables($tablesData);
@@ -301,7 +303,6 @@ class Modules
                     $configs[] = $config;
                 }
             }
-
             if ($skip_save == true) {
                 return $configs;
             }
@@ -311,8 +312,8 @@ class Modules
             $cfg = $configs;
             foreach ($cfg as $k => $item) {
                 if (isset($item['position'])) {
-                    $cfg_ordered2[ $item['position'] ][] = $item;
-                    unset($cfg[ $k ]);
+                    $cfg_ordered2[$item['position']][] = $item;
+                    unset($cfg[$k]);
                 }
             }
             ksort($cfg_ordered2);
@@ -378,8 +379,8 @@ class Modules
                 $s['module'] = $data_to_save['module'];
 
                 if (!isset($s['module_id'])) {
-                    $save = $this->get_modules('ui=any&limit=1&module='.$s['module']);
-                   // d($save);
+                    $save = $this->get_modules('ui=any&limit=1&module=' . $s['module']);
+                    // d($save);
                     if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id']) and ($save[0]['id'])) {
                         $s['id'] = intval($save[0]['id']);
                         $s['position'] = intval($save[0]['position']);
@@ -408,7 +409,7 @@ class Modules
     public function get_modules($params)
     {
         return $this->get($params);
-     }
+    }
 
     public function get($params = false)
     {
@@ -452,7 +453,7 @@ class Modules
                 foreach ($data as $k => $v) {
                     if (isset($v['settings']) and !is_array($v['settings'])) {
                         $v['settings'] = json_decode($v['settings']);
-                        $data[ $k ] = $v;
+                        $data[$k] = $v;
                     }
                 }
             }
@@ -471,16 +472,16 @@ class Modules
         }
         global $mw_loaded_mod_memory;
 
-        if (!isset($mw_loaded_mod_memory[ $module_name ])) {
+        if (!isset($mw_loaded_mod_memory[$module_name])) {
             $ch = $this->locate($module_name, $custom_view = false);
             if ($ch != false) {
-                $mw_loaded_mod_memory[ $module_name ] = true;
+                $mw_loaded_mod_memory[$module_name] = true;
             } else {
-                $mw_loaded_mod_memory[ $module_name ] = false;
+                $mw_loaded_mod_memory[$module_name] = false;
             }
         }
 
-        return $mw_loaded_mod_memory[ $module_name ];
+        return $mw_loaded_mod_memory[$module_name];
     }
 
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
@@ -495,16 +496,16 @@ class Modules
         $module_name = str_replace('..', '', $module_name);
 
         $module_name = reduce_double_slashes($module_name);
-        $module_in_template_dir = ACTIVE_TEMPLATE_DIR.'modules/'.$module_name.'';
+        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = ACTIVE_TEMPLATE_DIR.'modules/'.$module_name.'.php';
+        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
         $module_in_template_file = normalize_path($module_in_template_file, false);
-        $module_in_default_file12 = modules_path().$module_name.'.php';
+        $module_in_default_file12 = modules_path() . $module_name . '.php';
 
         $try_file1 = false;
         $mod_d = $module_in_template_dir;
         $mod_d1 = normalize_path($mod_d, 1);
-        $try_file1x = $mod_d1.'index.php';
+        $try_file1x = $mod_d1 . 'index.php';
 
         if (is_file($try_file1x)) {
             $try_file1 = $try_file1x;
@@ -513,11 +514,11 @@ class Modules
         } elseif (is_file($module_in_default_file12) and $custom_view == false) {
             $try_file1 = $module_in_default_file12;
         } else {
-            $module_in_default_dir = modules_path().$module_name.'';
+            $module_in_default_dir = modules_path() . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            $module_in_default_file = modules_path().$module_name.'.php';
-            $module_in_default_file_custom_view = modules_path().$module_name.'_'.$custom_view.'.php';
-            $element_in_default_file = elements_path().$module_name.'.php';
+            $module_in_default_file = modules_path() . $module_name . '.php';
+            $module_in_default_file_custom_view = modules_path() . $module_name . '_' . $custom_view . '.php';
+            $element_in_default_file = elements_path() . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             $module_in_default_file = normalize_path($module_in_default_file, false);
@@ -534,7 +535,7 @@ class Modules
                     $mod_d1 = normalize_path($module_in_default_dir, 1);
 
                     if ($custom_view == true) {
-                        $try_file1 = $mod_d1.trim($custom_view).'.php';
+                        $try_file1 = $mod_d1 . trim($custom_view) . '.php';
                         if ($no_fallback_to_view == true) {
                             return $try_file1;
                         }
@@ -542,7 +543,7 @@ class Modules
                         if ($no_fallback_to_view == true) {
                             return false;
                         }
-                        $try_file1 = $mod_d1.'index.php';
+                        $try_file1 = $mod_d1 . 'index.php';
                     }
                 } elseif (is_file($element_in_default_file)) {
                     $is_element = true;
@@ -565,16 +566,16 @@ class Modules
 
         $table = $this->tables['modules'];
 
-        $db_categories = get_table_prefix().'categories';
-        $db_categories_items = get_table_prefix().'categories_items';
+        $db_categories = get_table_prefix() . 'categories';
+        $db_categories_items = get_table_prefix() . 'categories_items';
 
         $this->app->database_manager->delete_by_id($table, $id);
 
         $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND rel_id={$id}";
         $this->app->database_manager->q($q);
-        $this->app->cache_manager->delete('categories'.DIRECTORY_SEPARATOR.'');
+        $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
 
-        $this->app->cache_manager->delete('modules'.DIRECTORY_SEPARATOR.'');
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
     public function info($module_name)
@@ -895,17 +896,17 @@ class Modules
     {
         global $mw_defined_module_classes;
 
-        if (isset($mw_defined_module_classes[ $module_name ]) != false) {
-            return $mw_defined_module_classes[ $module_name ];
+        if (isset($mw_defined_module_classes[$module_name]) != false) {
+            return $mw_defined_module_classes[$module_name];
         } else {
             $module_class = str_replace('/', '-', $module_name);
             $module_class = str_replace('\\', '-', $module_class);
             $module_class = str_replace(' ', '-', $module_class);
             $module_class = str_replace('%20', '-', $module_class);
             $module_class = str_replace('_', '-', $module_class);
-            $module_class = 'module-'.$module_class;
+            $module_class = 'module-' . $module_class;
 
-            $mw_defined_module_classes[ $module_name ] = $module_class;
+            $mw_defined_module_classes[$module_name] = $module_class;
 
             return $module_class;
         }
@@ -914,7 +915,7 @@ class Modules
     public function license($module_name = false)
     {
         $module_name = str_replace('\\', '/', $module_name);
-        $lic = $this->app->update->get_licenses('status=active&one=1&rel_type='.$module_name);
+        $lic = $this->app->update->get_licenses('status=active&one=1&rel_type=' . $module_name);
 
         if (!empty($lic)) {
             return true;
@@ -935,14 +936,14 @@ class Modules
         $module_name_l = $this->locate($module_name);
 
         if ($module_name_l == false) {
-            $module_name_l = modules_path().DS.$module_name.DS;
+            $module_name_l = modules_path() . DS . $module_name . DS;
             $module_name_l = normalize_path($module_name_l, 1);
         } else {
-            $module_name_l = dirname($module_name_l).DS.'templates'.DS;
+            $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
             $module_name_l = normalize_path($module_name_l, 1);
         }
 
-        $module_name_l_theme = ACTIVE_TEMPLATE_DIR.'modules'.DS.$module_name.DS.'templates'.DS;
+        $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
         if (!is_dir($module_name_l) and !is_dir($module_name_l_theme)) {
@@ -966,7 +967,7 @@ class Modules
                             $comb = array_merge($module_skins_from_theme, $module_name_l);
                             if (is_array($comb) and !empty($comb)) {
                                 foreach ($comb as $k1 => $itm) {
-                                    if(isset($itm['layout_file']) and $itm['layout_file']){
+                                    if (isset($itm['layout_file']) and $itm['layout_file']) {
                                         $itm['layout_file'] = normalize_path($itm['layout_file']);
                                     }
                                     if (!in_array($itm['layout_file'], $file_names_found)) {
@@ -983,7 +984,7 @@ class Modules
                                             $file_names_found[] = $itm['layout_file'];
                                         }
                                     } else {
-                                        unset($comb[ $k1 ]);
+                                        unset($comb[$k1]);
                                     }
                                 }
                             }
@@ -1002,20 +1003,20 @@ class Modules
                     if ($is_dot_php != false and $is_dot_php == 'php') {
                         $template_name = str_ireplace('.php', '', $template_name);
                     }
-                    $template_name = $template_name.'_settings';
+                    $template_name = $template_name . '_settings';
                 }
 
                 $is_dot_php = get_file_extension($template_name);
                 if ($is_dot_php != false and $is_dot_php != 'php') {
-                    $template_name = $template_name.'.php';
+                    $template_name = $template_name . '.php';
                 }
 
-                $tf = $module_name_l.$template_name;
-                $tf_theme = $module_name_l_theme.$template_name;
-                $tf_from_other_theme = templates_path().$template_name;
+                $tf = $module_name_l . $template_name;
+                $tf_theme = $module_name_l_theme . $template_name;
+                $tf_from_other_theme = templates_path() . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
-                $tf_other_module = modules_path().$template_name;
+                $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
 
                 if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
@@ -1065,10 +1066,10 @@ class Modules
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $cache_id = $function_cache_id = __FUNCTION__.crc32($function_cache_id);
+        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
         $cache_group = 'modules/global';
 
@@ -1080,24 +1081,24 @@ class Modules
 
         static $checked = array();
 
-        if (!isset($checked[ $module_name ])) {
+        if (!isset($checked[$module_name])) {
             $ch = $this->locate($module_name, $custom_view = false);
 
             if ($ch != false) {
                 $ch = dirname($ch);
                 $ch = $this->app->url_manager->link_to_file($ch);
-                $ch = $ch.'/';
-                $checked[ $module_name ] = $ch;
+                $ch = $ch . '/';
+                $checked[$module_name] = $ch;
             } else {
-                $checked[ $module_name ] = false;
+                $checked[$module_name] = false;
             }
         }
-        $this->app->cache_manager->save($checked[ $module_name ], $function_cache_id, $cache_group);
+        $this->app->cache_manager->save($checked[$module_name], $function_cache_id, $cache_group);
         if ($secure_connection == true) {
-            $checked[ $module_name ] = str_ireplace('http://', 'https://', $checked[ $module_name ]);
+            $checked[$module_name] = str_ireplace('http://', 'https://', $checked[$module_name]);
         }
 
-        return $checked[ $module_name ];
+        return $checked[$module_name];
     }
 
     public function path($module_name)
@@ -1114,29 +1115,29 @@ class Modules
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $cache_id = $function_cache_id = __FUNCTION__.crc32($function_cache_id);
+        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'modules/global';
         $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
             return $cache_content;
         }
         $checked = array();
-        if (!isset($checked[ $module_name ])) {
+        if (!isset($checked[$module_name])) {
             $ch = $this->locate($module_name, $custom_view = false);
             if ($ch != false) {
                 $ch = dirname($ch);
                 $ch = normalize_path($ch, 1);
-                $checked[ $module_name ] = $ch;
+                $checked[$module_name] = $ch;
             } else {
-                $checked[ $module_name ] = false;
+                $checked[$module_name] = false;
             }
         }
-        $this->app->cache_manager->save($checked[ $module_name ], $function_cache_id, $cache_group);
+        $this->app->cache_manager->save($checked[$module_name], $function_cache_id, $cache_group);
 
-        return $checked[ $module_name ];
+        return $checked[$module_name];
     }
 
     public function is_installed($module_name)
@@ -1147,7 +1148,7 @@ class Modules
             $module_namei = str_ireplace('\\admin', '', $module_namei);
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
-        $uninstall_lock = $this->get('one=1&ui=any&module='.$module_namei);
+        $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
 
         if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
             return false;
@@ -1160,7 +1161,7 @@ class Modules
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['modules'];
         foreach ($data as $value) {
@@ -1168,7 +1169,7 @@ class Modules
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
-                    $indx[ $i ] = $value2;
+                    $indx[$i] = $value2;
                     ++$i;
                 }
                 $this->app->database_manager->update_position_field($table, $indx);
@@ -1185,8 +1186,8 @@ class Modules
             return false;
         } else {
             $table = $this->tables['modules'];
-            $db_categories = $this->table_prefix.'categories';
-            $db_categories_items = $this->table_prefix.'categories_items';
+            $db_categories = $this->table_prefix . 'categories';
+            $db_categories_items = $this->table_prefix . 'categories_items';
 
             $q = "DELETE FROM $table ";
             $this->app->database_manager->q($q);
@@ -1196,10 +1197,10 @@ class Modules
 
             $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' ";
             $this->app->database_manager->q($q);
-            $this->app->cache_manager->delete('categories'.DIRECTORY_SEPARATOR.'');
-            $this->app->cache_manager->delete('categories_items'.DIRECTORY_SEPARATOR.'');
+            $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-            $this->app->cache_manager->delete('modules'.DIRECTORY_SEPARATOR.'');
+            $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         }
     }
 
@@ -1217,7 +1218,7 @@ class Modules
             $info = $data[0];
         }
         if ($link == true and $info != false) {
-            $href = admin_url().'view:modules/load_module:'.module_name_encode($info['module']);
+            $href = admin_url() . 'view:modules/load_module:' . module_name_encode($info['module']);
         } else {
             $href = '#';
         }
@@ -1225,7 +1226,7 @@ class Modules
         if (isset($data[0])) {
             $info = $data[0];
             $tn_ico = thumbnail($info['icon'], 32, 32);
-            $to_print = '<a style="background-image:url('.$tn_ico.')" class="module-icon-title" href="'.$href.'">'.$info['name'].'</a>';
+            $to_print = '<a style="background-image:url(' . $tn_ico . ')" class="module-icon-title" href="' . $href . '">' . $info['name'] . '</a>';
         }
         echo $to_print;
     }
@@ -1237,7 +1238,7 @@ class Modules
         }
         if (isset($params['id'])) {
             $id = intval($params['id']);
-            $this_module = $this->get('ui=any&one=1&id='.$id);
+            $this_module = $this->get('ui=any&one=1&id=' . $id);
             if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
                 $module_name = $this_module['module'];
                 if ($this->app->user_manager->is_admin() == false) {
@@ -1277,7 +1278,7 @@ class Modules
                 $this->save($to_save);
             }
         }
-        $this->app->cache_manager->delete('modules'.DIRECTORY_SEPARATOR.'');
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
     public function set_installed($params)
@@ -1287,7 +1288,7 @@ class Modules
         }
 
         if (isset($params['for_module'])) {
-            $this_module = $this->get('ui=any&one=1&module='.$params['for_module']);
+            $this_module = $this->get('ui=any&one=1&module=' . $params['for_module']);
             if (isset($this_module['id'])) {
                 $params['id'] = $this_module['id'];
             }
@@ -1295,7 +1296,7 @@ class Modules
 
         if (isset($params['id'])) {
             $id = intval($params['id']);
-            $this_module = $this->get('ui=any&one=1&id='.$id);
+            $this_module = $this->get('ui=any&one=1&id=' . $id);
             if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
                 $module_name = $this_module['module'];
 
@@ -1331,7 +1332,7 @@ class Modules
                 $this->save($to_save);
             }
         }
-        $this->app->cache_manager->delete('modules'.DIRECTORY_SEPARATOR.'');
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
     public function update_db()
@@ -1397,7 +1398,7 @@ class Modules
 
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data['id'])) {
@@ -1454,7 +1455,7 @@ class Modules
             $this->app->content_manager->define_constants();
         }
 
-        $dir_name = ACTIVE_TEMPLATE_DIR.'modules'.DS;
+        $dir_name = ACTIVE_TEMPLATE_DIR . 'modules' . DS;
 
         if (is_dir($dir_name)) {
             $configs = array();
@@ -1463,7 +1464,7 @@ class Modules
 
             $dir = rglob($glob_patern, 0, $dir_name);
             $replace_root = normalize_path($dir_name);
-            $def_icon = modules_path().'default.png';
+            $def_icon = modules_path() . 'default.png';
             if (!empty($dir)) {
                 foreach ($dir as $module) {
                     $module_dir = dirname($module);
@@ -1479,7 +1480,7 @@ class Modules
                     $config['module'] = rtrim($config['module'], '\\');
                     $config['module'] = rtrim($config['module'], '/');
 
-                    $try_icon = $module_dir.$module_name.'.png';
+                    $try_icon = $module_dir . $module_name . '.png';
                     if (is_file($try_icon)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
