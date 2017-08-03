@@ -397,6 +397,18 @@ mw.wysiwyg = {
       $('*',  mw.wysiwyg._pasteManager).removeAttr('style');
       return  mw.wysiwyg._pasteManager.innerHTML;
     },
+    cleanExcel:function(clipboard){
+      var html = clipboard.getData('text/html');
+      var parser = mw.tools.parseHtml(html).body;
+      $("[style*='mso-spacerun']", parser).remove()
+      $("style", parser).remove()
+      $('table', parser).width('100%').addClass('mw-wysiwyg-table');
+      return parser.innerHTML;
+    },
+    pastedFromExcel:function(clipboard){
+      var html = clipboard.getData('text/html');
+      return html.indexOf('ProgId content=Excel.Sheet') !== -1
+    },
     paste: function (e) {
 
         if(!!e.originalEvent){
@@ -406,10 +418,19 @@ mw.wysiwyg = {
           var clipboard = e.clipboardData || mww.clipboardData;
         }
 
+        console.log(clipboard, clipboard.getData('text/html'))
+       if(mw.wysiwyg.pastedFromExcel(clipboard)){
+         var html = mw.wysiwyg.cleanExcel(clipboard)
+          mw.wysiwyg.insert_html(html);
+          e.preventDefault();
+          return false;
+       }
+
        if(clipboard.files.length > 0){
         var i = 0;
         for( ; i < clipboard.files.length; i++){
           var item = clipboard.files[i];
+          console.log(item, item.type)
           if(item.type.indexOf('image/') != -1){
             var reader = new FileReader();
             reader.onload = function(e){
@@ -430,6 +451,8 @@ mw.wysiwyg = {
               else {
                   var html = clipboard.getData('text');
               }
+
+
 
               if (!!html) {
                   if (typeof mw.form != 'undefined') {

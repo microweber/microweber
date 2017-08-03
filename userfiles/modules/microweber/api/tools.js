@@ -4538,7 +4538,11 @@ mw.image = {
                 resizer.innerHTML = '<div id="image-edit-nav"><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-wand"></span></span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-image"></span></span></div>';
                 document.body.appendChild(resizer);
                 mw.image_resizer = resizer;
-                $(resizer).bind("dblclick", function (e) {
+                mw.image_resizer = resizer;
+                $(resizer).on("click", function (e) {
+                  mw.wysiwyg.select_element(mw.image.currentResizing)
+                });
+                $(resizer).on("dblclick", function (e) {
 
                     mw.wysiwyg.media('#editimage');
                 });
