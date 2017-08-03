@@ -93,6 +93,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     }
 
     function mw_select_page_for_editing($p_id) {
+
         var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
         var active_item_is_page = $p_id;
         var active_item_is_parent = mw.url.windowHashParam("parent-page");
@@ -171,6 +172,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
+
         if (this == false) {
             mw.$(".mw_edit_page_right").css("overflow", "hidden");
             edit_load('content/manager');
@@ -205,6 +207,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             if (arr[0] === 'editpage') {
                 mw_select_page_for_editing(arr[1])
             }
+
+
             if (arr[0] === 'trash') {
                 mw_select_trash(arr[0])
             }
@@ -268,7 +272,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             .removeAttr('data-subtype')
             .removeAttr('data-content-id')
             .removeAttr('is_shop');
-          //  .attr('content-id', in_page);
+        //  .attr('content-id', in_page);
         mw.$('#pages_edit_container').removeAttr('content_type');
         mw.$('#pages_edit_container').removeAttr('subtype');
         mw.$('#pages_edit_container').removeAttr('subtype_value');
@@ -283,18 +287,12 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('category-id');
 
 
-
         if (in_page != undefined && is_cat == undefined) {
-           // cont.attr('data-page-id', in_page);
-
+            cont.attr('data-page-id', in_page);
         }
+
         if (in_page != undefined && is_cat != undefined) {
-
             cont.attr('data-category-id', in_page);
-
-            //
-            //  cont.attr('data-selected-category-id', in_page);
-
         }
 
         mw.load_module('content/manager', '#pages_edit_container');

@@ -41,5 +41,5 @@ description: Full width background
 <div class="clearfix"></div>
 
 <?php if (is_admin()): ?>
-    <?php print notif(_e('Click here to edit the Parallax', true)); ?>
+    <?php print lnotif(_e('Click here to edit the Parallax', true)); ?>
 <?php endif; ?>

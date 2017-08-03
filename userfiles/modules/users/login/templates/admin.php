@@ -108,6 +108,7 @@ $current_lang = current_lang();
 
                 ?>
             <?php endif; ?>
+            <?php event_trigger('mw.ui.admin.login.form.before');  ?>
 
             <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
                 <div class="mw-ui-field-holder">
@@ -165,6 +166,7 @@ $current_lang = current_lang();
                     <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="4" value="<?php _e("Login"); ?>"/>
                 </div>
             </form>
+            <?php event_trigger('mw.ui.admin.login.form.after');  ?>
         </div>
     </div>
     <div id="login_foot"><a href="<?php print site_url() ?>" class="pull-left"><span class="mw-icon-back"></span>

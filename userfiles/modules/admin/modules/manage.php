@@ -18,6 +18,7 @@ if ($load_module == true): ?>
         $s = 'skip_cache=1';
         if (isset($params['cleanup_db'])) {
             $s .= '&cleanup_db=1';
+            $s .= '&reload_modules=1';
         }
 
         $mods = scan_for_modules($s);
