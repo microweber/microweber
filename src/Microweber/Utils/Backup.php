@@ -855,13 +855,22 @@ class Backup
             ini_set('memory_limit', '512M');
             set_time_limit(0);
             $cont = file_get_contents($file);
-            $cont = str_replace('Â ', ' ', $cont);
+
             $restore = json_decode($cont, true);
             if (is_array($restore) and !empty($restore)) {
                 foreach ($restore as $table => $data) {
                     $table_exists = mw()->database_manager->table_exists($table);
                     if ($table_exists) {
+
                         foreach ($data as $item) {
+                            array_walk_recursive($item, function (&$el) {
+                                if (is_string($el)) {
+                                    $el = utf8_decode($el);
+                                    $el = str_replace('Â ', ' ', $el);
+                                    $el = str_replace("Â ", ' ', $el);
+                                }
+                            });
+
                             $item['allow_html'] = true;
                             $item['allow_scripts'] = true;
                             db_save($table, $item);
@@ -926,6 +935,7 @@ class Backup
             if (is_string($item)) {
                 $item = utf8_encode($item);
                 $item = str_replace('Â ', ' ', $item);
+                $item = str_replace("Â ", ' ', $item);
             }
         });
         $save = json_encode($exported_tables_data);
