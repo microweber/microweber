@@ -235,7 +235,7 @@ class UpdateManager
         }
 
         $params = parse_params($params);
-        dd($params);
+
         $update_api = $this;
         $res = array();
         $upd_params = array();
