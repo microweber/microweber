@@ -177,20 +177,12 @@ class UpdateManager
                 return array('error' => 'You must be admin to install from Marketplace!');
             }
         }
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set('memory_limit', '160M');
-                ini_set('set_time_limit', 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
+        $this->_log_msg('Preparing');
 
-        $url = $this->remote_url . 'api/dl_file_api';
+        $this->_set_time_limit();
+
 
         $dl_get = $this->call('get_market_dl_link', $params);
-
         if (isset($params['market_key']) and trim($params['market_key']) != '') {
             $lic = array();
             $lic['local_key'] = $params['market_key'];
@@ -198,19 +190,27 @@ class UpdateManager
             $this->save_license($lic);
         }
 
+
         $res = array();
+
         if ($dl_get != false and is_string($dl_get)) {
             $dl_get = json_decode($dl_get, true);
+        }
 
-            if (isset($dl_get['url'])) {
+        if ($dl_get != false and isset($dl_get['url'])) {
+            if (is_cli()) {
                 $res = $this->install_from_market($dl_get);
+            } else {
+                $this->set_updates_queue(array('market_item' => $dl_get));
+                $res = array();
+                $res['message'] = 'Preparing installation';
+                $res['update_queue_set'] = true;
             }
         } else {
-            if (isset($dl_get['url'])) {
-                $res = $this->install_from_market($dl_get);
-            }
+            $res = array();
+            $res['error'] = 'Error with installation';
         }
-        $this->post_update();
+        //   $this->post_update();
 
         return $res;
     }
@@ -219,13 +219,9 @@ class UpdateManager
     {
         error_reporting(E_ERROR);
         $ret = array();
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-            ini_set('set_time_limit', 0);
-        }
 
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(0);
-        }
+        $this->_set_time_limit();
+
 
         $to_be_unzipped = array();
         if (defined('MW_API_CALL')) {
@@ -265,9 +261,7 @@ class UpdateManager
                                 }
                             }
                         }
-                    }
-
-                    if ($param_k == 'templates') {
+                    } else if ($param_k == 'templates') {
                         if (!empty($updates) and isset($updates['templates']) and !empty($updates['templates'])) {
                             foreach ($param as $module) {
                                 foreach ($updates['templates'] as $update) {
@@ -282,9 +276,7 @@ class UpdateManager
                                 }
                             }
                         }
-                    }
-
-                    if ($param_k == 'module_templates') {
+                    } else if ($param_k == 'module_templates') {
                         if (!empty($updates) and isset($updates['module_templates']) and !empty($updates['module_templates'])) {
                             foreach ($param as $module) {
                                 foreach ($updates['module_templates'] as $update) {
@@ -296,8 +288,7 @@ class UpdateManager
                                 }
                             }
                         }
-                    }
-                    if ($param_k == 'elements') {
+                    } else if ($param_k == 'elements') {
                         if (!empty($updates) and isset($updates['elements']) and !empty($updates['elements'])) {
                             foreach ($param as $module) {
                                 foreach ($updates['elements'] as $update) {
@@ -309,6 +300,10 @@ class UpdateManager
                                 }
                             }
                         }
+                    } else {
+
+                        // ...
+
                     }
                 }
             }
@@ -338,13 +333,16 @@ class UpdateManager
         $c_id = $this->updates_queue_cache_id;
         $cache_group = $this->updates_queue_cache_group;
 
-        $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
-        if (($cache_content) != false) {
-            $work = $cache_content;
-        } else {
-            $work = $params;
-            $this->app->cache_manager->save($work, $c_id, $cache_group);
-        }
+        $work = $params;
+        $this->app->cache_manager->save($work, $c_id, $cache_group);
+
+//        $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
+//        if (($cache_content) != false) {
+//            $work = $cache_content;
+//        } else {
+//            $work = $params;
+//            $this->app->cache_manager->save($work, $c_id, $cache_group);
+//        }
     }
 
     public function apply_updates_queue()
@@ -353,6 +351,9 @@ class UpdateManager
         if ($a == false) {
             mw_error('Must be admin!');
         }
+        $this->_set_time_limit();
+        $this->_log_msg('Preparing');
+
         $c_id = $this->updates_queue_cache_id;
         $cache_group = $this->updates_queue_cache_group;
         $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
@@ -362,64 +363,79 @@ class UpdateManager
 
             if (is_array($work) and !empty($work)) {
                 foreach ($work as $k => $items) {
-                    if (is_array($items) and !empty($items)) {
-                        foreach ($items as $ik => $item) {
-                            $msg = '';
-                            if ($k == 'mw_version') {
-                                $msg .= 'Installing Core Update...' . "\n";
-                            } elseif ($k == 'modules') {
-                                $msg .= 'Installing module...' . "\n";
-                            } elseif ($k == 'templates') {
-                                $msg .= 'Installing template...' . "\n";
-                            } elseif ($k == 'module_templates') {
-                                $msg .= 'Installing module skin...' . "\n";
-                            } else {
-                                $msg .= 'Installing...' . "\n";
-                            }
-                            $msg .= $item . "\n";
+                    if ($k == 'market_item') {
+                        $is_done = $this->install_from_market($items);
+                        $this->post_update();
 
-                            $queue = array($k => array(0 => $item));
+                        $this->app->cache_manager->save(false, $c_id, $cache_group);
 
-                            $is_done = $this->apply_updates($queue);
-
-                            $msg_log = $this->_log_msg(true);
-                            if (!empty($msg_log)) {
-                                $msg .= implode("\n", $msg_log) . "\n";
-                            }
-
-                            if (isset($is_done[0])) {
-                                if (isset($is_done[0]['success'])) {
-                                    $msg .= $is_done[0]['success'] . "\n";
-                                } elseif (isset($is_done[0]['warning'])) {
-                                    $msg .= $is_done[0]['warning'] . "\n";
-                                } elseif (isset($is_done[0]['message'])) {
-                                    $msg .= $is_done[0]['message'] . "\n";
+                    } else {
+                        if (is_array($items) and !empty($items)) {
+                            foreach ($items as $ik => $item) {
+                                $msg = '';
+                                if ($k == 'mw_version') {
+                                    $msg .= 'Installing Core Update...' . "\n";
+                                } elseif ($k == 'modules') {
+                                    $msg .= 'Installing module...' . "\n";
+                                } elseif ($k == 'templates') {
+                                    $msg .= 'Installing template...' . "\n";
+                                } elseif ($k == 'module_templates') {
+                                    $msg .= 'Installing module skin...' . "\n";
+                                } else {
+                                    $msg .= 'Installing...' . "\n";
                                 }
-                            } else {
-                                $msg .= 'ERROR...' . "\n";
-                                $msg .= print_r($is_done, true);
+                                $msg .= $item . "\n";
+                                $this->_log_msg($msg);
+
+                                $queue = array($k => array(0 => $item));
+
+                                $is_done = $this->apply_updates($queue);
+
+
+                                $msg_log = $this->_log_msg(true);
+                                if (!empty($msg_log)) {
+                                    $msg .= implode("\n", $msg_log) . "\n";
+                                }
+
+                                if (isset($is_done[0])) {
+                                    if (isset($is_done[0]['success'])) {
+                                        $msg .= $is_done[0]['success'] . "\n";
+                                    } elseif (isset($is_done[0]['warning'])) {
+                                        $msg .= $is_done[0]['warning'] . "\n";
+                                    } elseif (isset($is_done[0]['message'])) {
+                                        $msg .= $is_done[0]['message'] . "\n";
+                                    }
+                                } else {
+                                    $msg .= 'ERROR...' . "\n";
+                                    $msg .= print_r($is_done, true);
+
+
+                                }
+                                unset($work[$k][$ik]);
+                                $this->app->cache_manager->save($work, $c_id, $cache_group);
+                                return array('message' => $msg);
+
+                                return $msg;
                             }
-                            unset($work[$k][$ik]);
+                        } else {
+                            unset($work[$k]);
+
+                            ///  $this->composer_run();
+                            if ($k == 'mw_version') {
+                                $install = array('mw_version' => 'latest');
+                                $is_done = $this->apply_updates($install);
+                            }
+
                             $this->app->cache_manager->save($work, $c_id, $cache_group);
+                            //  $msg = "Installed all " . $k . "\n";
+                            //  $msg = "Installed " . "\n";
+                            $msg = 'done';
+                            return array('message' => $msg);
 
                             return $msg;
                         }
-                    } else {
-                        unset($work[$k]);
-
-                        ///  $this->composer_run();
-                        if ($k == 'mw_version') {
-                            $install = array('mw_version' => 'latest');
-                            $is_done = $this->apply_updates($install);
-                        }
-
-                        $this->app->cache_manager->save($work, $c_id, $cache_group);
-                        //  $msg = "Installed all " . $k . "\n";
-                        //  $msg = "Installed " . "\n";
-                        $msg = 'done';
-
-                        return $msg;
                     }
+
                 }
             } else {
                 $this->app->cache_manager->save(false, $c_id, $cache_group);
@@ -427,21 +443,15 @@ class UpdateManager
         } else {
             $this->app->cache_manager->save(false, $c_id, $cache_group);
         }
+        return array('message' => 'done');
 
         return 'done';
     }
 
     public function check($skip_cache = false)
     {
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set('memory_limit', '160M');
-                ini_set('set_time_limit', 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
+        $this->_set_time_limit();
+
         $c_id = __FUNCTION__ . date('ymdh');
         if ($skip_cache == false) {
             $cache_content = $this->app->cache_manager->get($c_id, 'update/global');
@@ -541,12 +551,8 @@ class UpdateManager
             only_admin_access();
         }
         $params = array();
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-            ini_set('set_time_limit', 0);
-        }
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(0);
-        }
+        $this->_set_time_limit();
+
         $params['mw_version'] = MW_VERSION;
 
         $params['core_update'] = $new_version;
@@ -592,14 +598,8 @@ class UpdateManager
         $system_refresh->createSchema();
         //$system_refresh->run();
 
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set('set_time_limit', 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
+        $this->_set_time_limit();
+
         mw()->cache_manager->delete('db');
         mw()->cache_manager->delete('update/global');
         mw()->cache_manager->delete('elements/global');
@@ -629,6 +629,7 @@ class UpdateManager
             $item['download'] = $item['download_url'];
         }
 
+
         $download_target = false;
         if (isset($item['download']) and !isset($item['size'])) {
             $url = $item['download'];
@@ -645,6 +646,7 @@ class UpdateManager
             $expected = intval($item['size']);
 
             $download_link = $item['download'];
+            $this->_log_msg('Downloading from marketplace');
 
             $ext = get_file_extension($download_link);
 
@@ -667,6 +669,7 @@ class UpdateManager
                             if ($dl == false) {
                                 if (is_file($download_target) and filesize($download_target) != $item['size']) {
                                     $fs = filesize($download_target);
+                                    $this->_log_msg('Downloading failed....');
 
                                     return array('size' => $fs, 'expected_size' => $expected, 'try_again' => 'true', 'warning' => 'Only ' . $fs . ' bytes downloaded of total ' . $expected);
                                 }
@@ -678,6 +681,8 @@ class UpdateManager
         }
 
         if ($download_target != false and is_file($download_target)) {
+            $this->_log_msg('Download complete');
+
             $where_to_unzip = MW_ROOTPATH;
 
             if (isset($item['item_type'])) {
@@ -690,8 +695,11 @@ class UpdateManager
                 } elseif ($item['item_type'] == 'element') {
                     $where_to_unzip = elements_path();
                 }
+                $this->_log_msg('Item type: ' . $item['item_type']);
 
                 if (isset($item['install_path']) and $item['install_path'] != false) {
+                    $this->_log_msg('Item folder name: ' . $item['install_path']);
+
                     if ($item['item_type'] == 'module_template') {
                         $where_to_unzip = $where_to_unzip . DS . $item['install_path'] . DS . 'templates' . DS;
                     } else {
@@ -705,15 +713,16 @@ class UpdateManager
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = true);
-
+                $result = array_unique($result);
                 $new_composer = $target_dir . 'composer.json';
 
                 if (is_file($new_composer)) {
                     // $this->composer_merge($new_composer);
                 }
 
-                $num_files = count($result);
 
+                $num_files = count($result);
+                $this->_log_msg('Files extracted ' . $num_files);
                 return array('files' => $result, 'location' => $where_to_unzip, 'success' => "Item is installed. {$num_files} files extracted in {$where_to_unzip}");
             }
         }
@@ -809,6 +818,7 @@ class UpdateManager
         $post_params['site_url'] = $this->app->url_manager->site();
         $post_params['api_function'] = $method;
         $post_params['mw_version'] = MW_VERSION;
+        $post_params['php_version'] = phpversion();
 
         if ($post_params != false and is_array($post_params)) {
             $curl = new \Microweber\Utils\Http($this->app);
@@ -816,6 +826,7 @@ class UpdateManager
             $curl->set_timeout(20);
 
             $curl_result = $curl->post($post_params);
+
         } else {
             $curl_result = false;
         }
@@ -1000,6 +1011,13 @@ class UpdateManager
     }
 
     public $log_messages = array();
+    public $log_filename = 'install_item_log.txt';
+
+    public function get_log_file_url()
+    {
+        $log_file_url = userfiles_url() . $this->log_filename;
+        return $log_file_url;
+    }
 
     private function _log_msg($msg)
     {
@@ -1008,7 +1026,23 @@ class UpdateManager
         } else {
             $this->log_messages[] = $msg;
         }
+
+        $log_file = userfiles_path() . $this->log_filename;
+        if (!is_file($log_file)) {
+            @touch($log_file);
+        }
+        if (is_file($log_file)) {
+            $json = array('date' => date('H:i:s'), 'msg' => $msg);
+            $msg_l = strtolower($msg);
+            if ($msg_l == 'done' or $msg_l == 'preparing' or $msg === true) {
+                @file_put_contents($log_file, $msg . "\n");
+            } else {
+                //  @file_put_contents($log_file, $msg . "\n");
+                @file_put_contents($log_file, $msg . "\n", FILE_APPEND);
+            }
+        }
     }
+
 
     public function composer_merge($composer_patch_path)
     {
@@ -1120,7 +1154,6 @@ class UpdateManager
             return array('success' => 1, 'message' => $out);
         }
 
-        dd($subfolders);
 
         return array('success' => 1, 'message' => 'asdasdasdasdas');
 
@@ -1254,5 +1287,18 @@ class UpdateManager
         }
     }
 
+
+    private function _set_time_limit()
+    {
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+                ini_set('set_time_limit', 600);
+                ini_set('memory_limit', '160M');
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(600);
+            }
+        }
+    }
 
 }
