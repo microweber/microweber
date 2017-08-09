@@ -1620,6 +1620,19 @@ mw.tools = {
         }
         return final;
     },
+    hasAnyOfClassesOnNodeOrParent:function(node, arr){
+      if(mw.tools.hasAnyOfClasses(node, arr)){
+        return true;
+      }
+      var has = false;
+      mw.tools.foreachParents(node, function (loop) {
+          if(mw.tools.hasAnyOfClasses(this, arr)){
+              has = true;
+              mw.tools.stopLoop(loop);
+          }
+      });
+      return has;
+    }
     addClass: function (el, cls) {
         if (el === null) {
             return false;
@@ -1714,15 +1727,14 @@ mw.tools = {
         return false;
     },
     hasParentsWithClass: function (el, cls) {
-        var d = {};
-        d.toreturn = false;
+        var has = false;
         mw.tools.foreachParents(el, function (loop) {
             if (mw.tools.hasClass(this.className, cls)) {
-                d.toreturn = true;
+                has = true;
                 mw.tools.stopLoop(loop);
             }
         });
-        return d.toreturn;
+        return has;
     },
 
 

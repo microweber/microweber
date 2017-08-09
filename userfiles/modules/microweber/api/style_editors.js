@@ -1,6 +1,8 @@
 
 $(document).ready(function(){
    mw.css3fx.init_css();
+
+
 });
 
 
@@ -34,6 +36,7 @@ canvasCTRL_rendValue = function(canvas, x, y, opt){
       top: y-zeroY,
       left: r_left
     });
+    $(window).trigger('staticElementStyleChanged');
 }
 
 
@@ -47,6 +50,8 @@ canvasCTRL_rendXY = function(w,h,event,isX,isY, off){
         }
     }
 }
+
+
 
 canvasCTRL_defaults = {
   axis:'x,y',
@@ -151,10 +156,10 @@ $.fn.canvasCTRL = function(options){
 
 
 width_slider_onstart = function(){
-	var el =  mwd.getElementById('ed_auto_width');
+  var el =  mwd.getElementById('ed_auto_width');
  	if(el != null){
-		el.checked=false;
-	}
+    el.checked=false;
+  }
 }
 
 
@@ -178,14 +183,16 @@ generateJSON4StaticElements = function(){
   if(l>0){
     for( ; i<l; i++){
         var el = all[i];
-        var selector = mw.tools.generateSelectorForNode(el);
         var css = el.getAttribute("style");
+        if(!css) continue;
+        var selector = mw.tools.generateSelectorForNode(el);
 
-		if(selector != undefined && (selector =='body' || selector =='BODY')){
-			if(css != undefined){
-				var css=css.replace("padding-top","mw-pad-top");
-			}
-		}
+
+    if(selector != undefined && (selector =='body' || selector =='BODY')){
+      if(css != undefined){
+        var css = css.replace("padding-top","mw-pad-top");
+      }
+    }
         if(el!==null){
           obj[selector] = {
              selector:selector,
@@ -218,12 +225,14 @@ saveStaticElementsStyles = function(callback, error){
 }
 
 
+
+
 mw.sliders_settings = function(el){
     var el = $(el);
-	
-	if(typeof jQuery.fn.dataset !== 'function'){
-		return;	
-	}
+
+  if(typeof jQuery.fn.dataset !== 'function'){
+    return;
+  }
 
     var step = parseFloat(el.dataset('step'));
     var step = !isNaN(step)?step:1;
@@ -266,6 +275,7 @@ mw.sliders_settings = function(el){
             else{
               custom._exec(ui.value);
             }
+            $(window).trigger('staticElementStyleChanged');
          }
        },
        create: function(event, ui) {
@@ -305,6 +315,7 @@ init_square_maps = function(){
     var val = $(this).getDropdownValue();
     var who = $(this).attr("data-for");
     mw.$("#"+who).attr("data-type", val);
+    $(window).trigger('staticElementStyleChanged');
   });
 }
 
@@ -363,7 +374,7 @@ if( typeof $.fn.draggable === 'function'){
 
 }
 
-$(window).bind("onItemClick onImageClick onElementClick", function(e, el){
+$(window).on("onItemClick onImageClick onElementClick", function(e, el){
 
 if($(".ts_action:isVisible").length==0){
 
@@ -398,14 +409,13 @@ if($(".ts_action:isVisible").length==0){
 
 
 
-$(mwd.body).bind("click", function(e){
-  if(!mw.tools.hasClass(e.target.className, 'edit') && !mw.tools.hasParentsWithClass(e.target, 'edit') ){
-  if(!mw.tools.hasClass(e.target.className, 'mw-defaults') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults') ){
+$(mwd.body).on("click", function(e){
+  if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['edit', 'mw-defaults', 'mw_modal'])){
 
     if(mw.$(".ts_action:isVisible").length==0){
       mw.$(".element-current").removeClass("element-current");
       mw.$(e.target).addClass("element-current");
-      mw.current_element =e.target;
+      mw.current_element = e.target;
       mw.$("#items_handle").css({
         top:"",
         left:""
@@ -415,8 +425,9 @@ $(mwd.body).bind("click", function(e){
       mw.setCurrentStyles(e.target);
        $(e.target).attr('staticdesign', 'true');
        mw.wysiwyg.change(mw.current_element)
+       mw.$("#design_bnav").addClass('available')
     }
-  }
+
   }
 
 });
@@ -467,23 +478,23 @@ $(mwd.body).bind("click", function(e){
   var shadow_pos  = $("#ed_shadow").canvasCTRL();
 
 if(typeof(shadow_pos.bind) != 'function'){
-	return false;
+  return false;
 }
 
-  shadow_pos.bind("change", function(event, val){
+  shadow_pos.on("change", function(event, val){
       if(mw.current_element_styles.boxShadow !="none"){
-		  
-		 
-		
-		 if(typeof( mw.current_element_styles.boxShadow) === 'undefined'){
-			return false;
-		}  
-		  
+
+
+
+     if(typeof( mw.current_element_styles.boxShadow) === 'undefined'){
+      return false;
+    }
+
         var arr = mw.current_element_styles.boxShadow.split(' ');
-		
-		
-		
-		
+
+
+
+
         var len = arr.length;
         var s = parseFloat(arr[len-2]);
       }
@@ -497,7 +508,7 @@ if(typeof(shadow_pos.bind) != 'function'){
 
   var shadow_strength = mw.$("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
 
-  shadow_strength.bind("change", function(event, val){
+  shadow_strength.on("change", function(event, val){
       if( mw.current_element_styles.boxShadow !="none" ){
         var arr = mw.current_element_styles.boxShadow.split(' ');
         var len = arr.length;
@@ -541,23 +552,23 @@ if(typeof(shadow_pos.bind) != 'function'){
       }
     });
 
-    mw.$(".dd_border_selector").bind("change", function(e){
+    mw.$(".dd_border_selector").on("change", function(e){
 
       mw.$('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
       mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
 
-    mw.$(".dd_borderwidth_Selector").bind("change", function(e){
+    mw.$(".dd_borderwidth_Selector").on("change", function(e){
       mw.$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
       mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
 
 
-    mw.$("#ts_bg_repeat").bind("change", function(){
+    mw.$("#ts_bg_repeat").on("change", function(){
        mw.$('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
-    mw.$("#ts_bg_position").bind("change", function(e){
+    mw.$("#ts_bg_position").on("change", function(e){
        var val = $(this).getDropdownValue();
        mw.$('.element-current').css('backgroundPosition', val);
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
