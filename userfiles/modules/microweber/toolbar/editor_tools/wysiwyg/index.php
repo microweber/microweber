@@ -209,13 +209,17 @@ $(window).load(function(){
       });
 
 
-      mw.$("#mw-iframe-editor-area").bind("keyup", function(e){
+      mw.$("#mw-iframe-editor-area").bind("keypress", function(e){
         parent.mw.$('#'+window.name).trigger("editorKeyup");
         $(mwd.body).addClass('editorKeyup');
         if(e.ctrlKey){
             if(e.keyCode === 65){
-                mw.wysiwyg.select_all(this);
-                return false;
+                var edit = mw.tools.hasClass(e.target, 'edit') ? e.target : mw.tools.firstParentWithClass(e.target, 'edit');
+                if(!!edit){
+                  mw.wysiwyg.select_all(edit);
+                  e.preventDefault()
+                }
+
             }
         }
       });
