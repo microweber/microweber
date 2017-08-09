@@ -1,5 +1,5 @@
 window.onmessage = function (e) {
- 
+
 //    if ( e.origin !== "http://html5demos.com" ) {
 //        return;
 //    }
@@ -9,6 +9,22 @@ window.onmessage = function (e) {
 			  $.post(mw.settings.api_url + "mw_install_market_item", e.data)
             .done(function (data) {
                mw.notification.msg(data,5000);
+
+                if(typeof(data.update_queue_set != 'undefined')){
+
+
+                    var update_queue_set_modal = mw.modal({
+                        content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
+                        overlay: false,
+                        id: 'update_queue_set_modal',
+                        title: 'Installing'
+                    });
+
+
+
+                    mw.reload_module('#update_queue_process_alert');
+                }
+
             });
 		 }
      }

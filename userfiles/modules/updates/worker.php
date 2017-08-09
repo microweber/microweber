@@ -1,40 +1,141 @@
-<?php 
+<?php
 
 only_admin_access();
 ?>
+<?php $get_log_file_url = mw()->update->get_log_file_url(); ?>
 
 <script>
+    var mw_apply_upd_timeout = false;
+    var timeout = 3000;
+
+    $(document).ready(function () {
+
+        mw_apply_upd_set_log_display();
+        mw_apply_upd();
+        move_loading_bar();
+    });
+
+    function mw_apply_upd_set_log_display() {
+
+        $.get('<?php print $get_log_file_url ?>', function (data) {
+
+            $('#mw-update-res-log').html(data);
+        });
+    }
+    var mw_apply_upd_timeout = setInterval(function () {
+        mw_apply_upd_set_log_display()
+    }, 1000);
 
 
-$(document).ready(function (){
-    mw_apply_upd();
-});
+    function move_loading_bar() {
+        $('#myProgress').show();
+        var elem = document.getElementById("myBar");
+        var width = 1;
+        var id = setInterval(frame, 200);
+        function frame() {
+            if (width >= 100) {
+                clearInterval(id);
+            } else {
+                width++;
+                elem.style.width = width + '%';
+                elem.innerHTML = width * 1 + '%';
+            }
+        }
+    }
 
-function mw_apply_upd(){
-	
-var timeout = 3000;	
-	
- $.ajax({                                      
-      url: '<?php print api_link(); ?>mw_apply_updates_queue',        
-      type: "post",          
-      dataType: 'html', 
-	   error: function (request, status, error) {
-		  $('#mw-update-res-log').append('<?php _e('Composer is working...'); ?>');
-		  setTimeout(mw_apply_upd, timeout);
-    	},
-      success:  function (resp) {
-		  $('#mw-update-res-log').append(resp); 
-		  if(resp == 'done'){
-			$(window).trigger('mw_updates_done')  
-			
-		  } else {
-			   setTimeout(mw_apply_upd, timeout);
-		  }
-	  	  
-		}
-   });
-   	
-}
+
+
+
+    function mw_apply_upd() {
+
+
+        $.ajax({
+            url: '<?php print api_link(); ?>mw_apply_updates_queue',
+            type: "post",
+
+            error: function (request, status, error) {
+                $('#mw-update-res-log').append('<?php _e('Working...'); ?>');
+                mw_apply_upd();
+                //setTimeout(mw_apply_upd, timeout);
+            },
+            success: function (resp) {
+                var msg = '';
+                if (resp == 'done') {
+                    var msg = 'done';
+                }
+                if (typeof (resp.message) != 'undefined') {
+                    var msg = resp.message;
+                }
+
+
+                //   alert(typeof (resp.message));
+                $('#mw-update-res-log').append(msg);
+                if (msg == 'done') {
+                    $('#mw-update-res-log').addClass('done');
+                    $('.show-on-install-complete').addClass('done');
+                    $('.hide-on-install-complete').hide();
+                    $(window).trigger('mw_updates_done')
+
+                } else {
+                    //  mw_apply_upd_timeout = setTimeout(mw_apply_upd, timeout);
+                }
+                clearTimeout(mw_apply_upd_timeout);
+
+
+            }
+        });
+
+    }
 
 </script>
-<pre id="mw-update-res-log" style="word-wrap: break-word;"></pre>
+<style>
+    #mw-update-res-log {
+        word-wrap: break-word;
+        word-break: break-all;
+        background: #efecec;
+    }
+
+    #mw-update-res-log.done {
+        height: 250px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+    }
+
+    .show-on-install-complete {
+        display: none;
+    }
+
+    .show-on-install-complete.done {
+        display: block;
+    }
+    #myBar {
+        width: 10%;
+        height: 30px;
+        background-color: #4CAF50;
+        text-align: center; /* To center it horizontally (if you want) */
+        line-height: 30px; /* To center it vertically */
+        color: white;
+    }
+    #myProgress {
+        display: none;
+    }
+
+
+</style>
+<div>
+    <div class="show-on-install-complete">
+        <center><h1>Installation complete</h1>
+        </center>
+    </div>
+    <div id="myProgress" class="hide-on-install-complete">
+        <div id="myBar">0%</div>
+    </div>
+
+    <pre id="mw-update-res-log" style=""></pre>
+    <div class="show-on-install-complete">
+        <center>
+            <button class="mw-ui-btn mw-ui-btn-invert" onclick="$('#update_queue_set_modal').remove();">Close</button>
+        </center>
+    </div>
+</div>
