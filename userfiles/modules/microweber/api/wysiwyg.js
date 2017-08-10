@@ -2047,7 +2047,7 @@ mw.wysiwyg = {
         html = html.replace(/<a name=.*>(.*)<\/a>/gi, '$1');
         html = html.replace(/<H1([^>]*)>/gi, '<H2$1>');
         html = html.replace(/<\/H1\d>/gi, '<\/H2>');
-        html = html.replace(/<span>/gi, '$1');
+        //html = html.replace(/<span>/gi, '$1');
         html = html.replace(/<\/span\d>/gi, '');
         html = html.replace(/<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>');
         html = html.replace(/<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>');
