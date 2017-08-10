@@ -1632,7 +1632,7 @@ mw.tools = {
           }
       });
       return has;
-    }
+    },
     addClass: function (el, cls) {
         if (el === null) {
             return false;
