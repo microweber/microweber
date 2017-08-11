@@ -2344,10 +2344,19 @@ mw.drag = {
             }
         }
     },
+    grammarlyFix:function(html){
+      var data = mw.tools.parseHtml(html).body;
+      $("g.gr_", data).each(function(){
+        $(this).replaceWith(this.innerHTML)
+      });
+      return data.innerHTML
+    },
     saving: false,
     coreSave: function(data) {
         if (!data) return false;
-
+        $.each(data, function(){
+          this.html = mw.drag.grammarlyFix(this.html)
+        })
         mw.drag.saving = true;
         var xhr = $.ajax({
             type: 'POST',

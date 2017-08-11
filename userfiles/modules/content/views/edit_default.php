@@ -951,7 +951,13 @@ mw.save_inner_editable_fields = function (data) {
 
         $(mww).bind('mousedown', function (e) {
             var el = mwd.getElementById('content-edit-settings-tabs-holder');
-            if (el != null && !el.contains(e.target)) {
+            var cac = mw.wysiwyg.validateCommonAncestorContainer(e.target);
+            if (el != null && !el.contains(e.target)
+              && !mw.tools.hasParentsWithTag(e.target, 'grammarly-btn')
+              && cac.className.indexOf('grammarly') !== -1
+              && cac.querySelector('[class*="grammarly"]') === null
+              && !mw.tools.hasParentsWithTag(e.target, 'grammarly-ghost')
+              && !mw.tools.hasParentsWithTag(e.target, 'grammarly-card')) {
                 mww.QTABS.unset()
                 mw.$(".quick-add-post-options-item, #quick-add-post-options-items-holder").hide();
                 mw.$("#quick-add-post-options .active").removeClass('active');
