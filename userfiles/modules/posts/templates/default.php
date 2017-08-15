@@ -80,12 +80,12 @@ if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                                 <div class="post-single-title-date">
                                     <h2 class="lead" itemprop="name"><a
-                                            href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
+                                                href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
                                 </div>
                             <?php endif; ?>
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
                                 <small class="muted"><?php _e("Date"); ?>: <span
-                                        itemprop="dateCreated"><?php print $item['created_at'] ?></span></small>
+                                            itemprop="dateCreated"><?php print $item['created_at'] ?></span></small>
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>

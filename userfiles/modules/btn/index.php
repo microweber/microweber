@@ -21,6 +21,13 @@ if ($text == false and isset($params['text'])) {
 } elseif ($text == '') {
     $text = 'Button';
 }
+
+if ($url == false and isset($params['url'])) {
+    $url = $params['url'];
+} elseif ($url == '') {
+    $url = '#';
+}
+
 if ($style == false and isset($params['button_style'])) {
     $style = $params['button_style'];
 }
@@ -64,17 +71,9 @@ if (is_file($template_file) != false) {
 
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
-    <?php print $action_content; ?>
-
-
-
-
-
-
-
+        <?php print $action_content; ?>
     </script>
     <script>
-
         function <?php print $popup_function_id ?>() {
             mw.modal({
                 name: 'frame<?php print $btn_id; ?>',
@@ -83,7 +82,5 @@ if (is_file($template_file) != false) {
                 title: "<?php print $text; ?>"
             });
         }
-
-
     </script>
 <?php } ?>
