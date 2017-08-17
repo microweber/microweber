@@ -8,7 +8,7 @@ class LogTest extends TestCase
 
     public $value;
 
-    public function __construct()
+    public function set_values()
     {
         $now = date('YmdHis');
         $this->value = $now;
@@ -21,6 +21,7 @@ class LogTest extends TestCase
 
     public function testLogWrite()
     {
+        $this->set_values();
         $data = array();
         $data['value'] = $this->value;
         $data['field'] = 'log_test';
@@ -32,6 +33,7 @@ class LogTest extends TestCase
 
     public function testLogRead()
     {
+        $this->set_values();
         mw()->log_manager->save($this->data);
 
         $data = array();
@@ -45,6 +47,7 @@ class LogTest extends TestCase
 
     public function testDelete()
     {
+        $this->set_values();
         mw()->log_manager->save($this->data);
 
         $data = array();

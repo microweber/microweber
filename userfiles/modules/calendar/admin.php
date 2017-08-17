@@ -18,7 +18,7 @@
     </style>
 
     <script>
-        d(window)
+
 
         mw.lib.require('jqueryui');
     </script>
