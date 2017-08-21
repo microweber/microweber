@@ -1,0 +1,108 @@
+.template-four-slides {
+}
+
+.template-four-slides .slider-images {
+    width: 70%;
+    float: left;
+}
+
+.template-four-slides .slider-images .bx-wrapper {
+    border: 0;
+    margin: 0;
+}
+
+.template-four-slides .slider-images a {
+    display: block;
+    width: 100%;
+    height: 425px;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.template-four-slides .slider-pagers {
+    width: 30%;
+    float: left;
+    padding-left: 20px;
+}
+
+.template-four-slides .slider-pagers a {
+    background-color: #fff;
+    display: block;
+    padding: 10px;
+    color: #404040;
+    width: 100%;
+    margin-bottom: 15px;
+    text-decoration: none;
+    height: 95px;
+}
+
+.template-four-slides .slider-pagers a.active {
+    background-color: #404040;
+    color: #fff;
+}
+
+.template-four-slides .slider-pagers a.active:before {
+    position: absolute;
+    font-family: FontAwesome;
+    content: '\f0d9';
+    margin-left: -16px;
+    display: block;
+    margin-top: 25px;
+    color: #404040;
+    font-size: 20px;
+}
+
+.template-four-slides .slider-pagers a span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.template-four-slides .slider-pagers a p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 25px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 50px;
+    /*white-space: nowrap;*/
+}
+
+.template-four-slides .skin-default {
+}
+
+@media screen and (max-width: 768px) {
+    .template-four-slides .slider-images {
+        width: 100%;
+    }
+
+    .template-four-slides .slider-pagers {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .template-four-slides .slider-pagers a {
+        display: none;
+    }
+
+    .template-four-slides .slider-pagers a.active {
+        display: block;
+    }
+
+    .template-four-slides .slider-pagers a.active:before {
+        content: '';
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .template-four-slides .slider-images a {
+        height: 320px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .template-four-slides .slider-images a {
+        height: 280px;
+    }
+}

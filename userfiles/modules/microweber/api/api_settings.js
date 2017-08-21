@@ -129,6 +129,12 @@ mw.settings.libs = {
             mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
         }
     ],
+    bootstrap_datepicker: [
+        function () {
+            mw.require(mw.settings.libs_url + 'bootstrap-datepicker' + '/css/bootstrap-datepicker3.css', true);
+            mw.require(mw.settings.libs_url + 'bootstrap-datepicker' + '/js/bootstrap-datepicker.js', true);
+        }
+    ],
     bootstrap3ns: [
         function () {
             var bootstrap_enabled = (typeof $().modal == 'function');
