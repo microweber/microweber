@@ -829,7 +829,6 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                     }
                                 }
-
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();

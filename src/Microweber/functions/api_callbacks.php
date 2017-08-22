@@ -147,7 +147,7 @@ api_expose('create_media_dir');
 api_expose('media/upload');
 api_expose('media/delete_media_file');
 
-/*
+
 // queue
 
 api_expose('queue_dispatch', function () {
@@ -157,15 +157,17 @@ api_expose('queue_dispatch1', function () {
 
  //   $job = \Queue::push('App\Jobs\CheckTopic', ['url' => $url]);
 
-     //dispatch($job)->onQueue('high');
+    $job = Queue::push('\Microweber\Utils\Import', ['export' => '']);
+    //dispatch($job)->onQueue('high');
 dd($job);
 
     // \Illuminate\Queue\Worker;
 
 
-     dispatch($job)->onQueue('high');
+    $job = mw('\Microweber\Utils\Import', ['export' => '']);
+    dispatch($job)->onQueue('high');
 
     //dispatch($job);
 });
-*/
+
 

@@ -296,6 +296,7 @@
     height: 540px;
     width: 100%;
     display: block;
+    background-position: center center;
 }
 
 .product-gallery-layout-4 .slick-slider .slick-list {
@@ -314,6 +315,7 @@
     height: 100px;
     width: 100%;
     display: block;
+    background-position: center center;
 }
 
 .product-gallery-layout-4 .slick-arrow {
