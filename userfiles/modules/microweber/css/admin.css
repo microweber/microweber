@@ -268,6 +268,27 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .main-bar-column {
     width: 100px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    position: relative;
+}
+
+@media (max-width:768px){
+  .main-bar-column{
+    -moz-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+
+  .main-bar-column.mobile-active{
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
 }
 
 .tree-show-hide-nav {

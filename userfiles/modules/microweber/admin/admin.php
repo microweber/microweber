@@ -1,4 +1,6 @@
 <?php include (MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
+
+<?php var_dump(MW_ADMIN_VIEWS_DIR); ?>
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
