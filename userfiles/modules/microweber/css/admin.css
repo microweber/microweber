@@ -794,7 +794,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9;
+    z-index: 20;
 }
 
 #main-bar-mw-icon {
@@ -4379,3 +4379,43 @@ span.mw-icon-upload {
     line-height: 15px;
 }
 
+@media screen and (max-width: 767px) {
+    .main-admin-row {
+        padding: 0 20px;
+        margin-top: 40px;
+    }
+
+    .admin-manage-toolbar-content > .mw-ui-row-nodrop > .mw-ui-col .mw-ui-row-nodrop {
+        margin-bottom: 20px;
+    }
+
+    .admin-manage-toolbar-content > .mw-ui-row-nodrop > .mw-ui-col {
+        display: block !important;
+        width: 100%;
+    }
+
+    .manage-post-item {
+        display: block !important;
+    }
+
+    .manage-post-item .manage-post-item-col-4,
+    .manage-post-item .manage-post-item-col-5 {
+        display: none !important;
+        /*width: 50%;*/
+        /*float: left;*/
+    }
+
+    #pages_edit_container .mw-template-selector {
+        padding-left: 0;
+    }
+
+    .layouts_box_holder > .mw-ui-row > .mw-ui-col > .mw-ui-col-container {
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .mw-admin-edit-content-holder {
+        width: 100%;
+    }
+}
