@@ -268,25 +268,32 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .main-bar-column {
     width: 100px;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    position: relative;
+
+}
+
+#main-bar{
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  position: relative;
 }
 
 @media (max-width:768px){
-  .main-bar-column{
+  #main-bar{
     -moz-transform: translateX(-100px);
     -ms-transform: translateX(-100px);
     -webkit-transform: translateX(-100px);
     transform: translateX(-100px);
   }
 
-  .main-bar-column.mobile-active{
+  #main-bar.mobile-active{
     -moz-transform: translateX(0);
     -ms-transform: translateX(0);
     -webkit-transform: translateX(0);
     transform: translateX(0);
+  }
+  #user-menu{
+    display: none;
   }
 
 }
@@ -1024,13 +1031,14 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     margin-left: 0px;
 }
 
-#main-bar-profile-img {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
+.main-bar-profile-img {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  margin-top: 5px;
 }
 
 #main-bar-profile-icon {
@@ -1052,7 +1060,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     background-color: #3b3b3b;
 }
 
-#main-bar-user-menu-link .mw-icon-dropdown {
+.main-bar-profile-img + .mw-icon-dropdown {
     font-size: 15px;
     position: absolute;
     top: 50%;
@@ -4370,3 +4378,4 @@ span.mw-icon-upload {
 .mw-no-posts-foot .mw-ui-btn{
     line-height: 15px;
 }
+
