@@ -4417,13 +4417,22 @@ span.mw-icon-upload {
     padding-bottom: 20px;
 }
 
+.table-responsive table{
+    table-layout: fixed;
+}
+
 @media screen and (max-width: 767px) {
     .show-on-hover {
         visibility: visible;
     }
+
     .main-admin-row {
         padding: 0 20px;
         margin-top: 40px;
+    }
+
+    .main-admin-row > .admin-content-column > .mw-ui-col-container {
+        padding-left: 0 !important;
     }
 
     .admin-manage-toolbar-content > .mw-ui-row-nodrop > .mw-ui-col .mw-ui-row-nodrop {
@@ -4521,26 +4530,51 @@ span.mw-icon-upload {
     padding-bottom:20px;
 }
 
-#mw-order-table-holder .table-responsive table {
-    table-layout: auto;
-}
+    #mw-order-table-holder .table-responsive table {
+        table-layout: auto;
+    }
 
-#manage-orders-menus h3,
-#manage-orders-menus .mw-table-sorting,
-#manage-orders-menus .mw-ui-btn-nav {
-    margin-bottom: 10px !important;
-    display: block;
-}
+    #manage-orders-menus h3,
+    #manage-orders-menus .mw-table-sorting,
+    #manage-orders-menus .mw-ui-btn-nav {
+        margin-bottom: 10px !important;
+        display: block;
+    }
 
-.main-content-column > .mw-ui-col-container, .admin-section-container {
-    padding-left: 0;
-}
+    .main-content-column > .mw-ui-col-container, .admin-section-container {
+        padding-left: 0;
+    }
 
-#orders-info-row > .mw-ui-col {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-bottom: 10px;
-}
+    #orders-info-row > .mw-ui-col {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-bottom: 10px;
+    }
+
+    .quick-lists {
+        width: 100%;
+    }
+
+    .quick-lists #quick-links-row > .mw-ui-col {
+        width: 50% !important;
+        float: left;
+        clear: none;
+    }
+
+    .quick-lists #quick-links-row > .mw-ui-col .mw-ui-col-container,
+    .mw-module-admin-wrap {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #mw-modules-toolbar {
+        margin-left: 0;
+        padding: 15px 33px 30px 15px;
+    }
+
+    .quick-lists #quick-links-row > .mw-ui-col .mw-ui-navigation {
+        width: 100%;
+    }
 
 }
 
