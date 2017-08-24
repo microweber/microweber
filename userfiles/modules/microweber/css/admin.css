@@ -4380,7 +4380,15 @@ span.mw-icon-upload {
     line-height: 15px;
 }
 
+.table-responsive {
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
 @media screen and (max-width: 767px) {
+    .show-on-hover {
+        visibility: visible;
+    }
     .main-admin-row {
         padding: 0 20px;
         margin-top: 40px;
@@ -4463,13 +4471,54 @@ span.mw-icon-upload {
         float: left;
         text-align: right;
     }
+
+    .top-search {
+        width: 150px;
+    }
+
+    .top-search input {
+        display: block !important;
+    }
+
+    .col-bar-live-edit a {
+        margin-top: 10px;
+    }
+
+    #mw-order-table-holder
+    overflow-x: auto
+
+;
+    padding-bottom:
+
+20px
+
+;
+}
+
+#mw-order-table-holder .table-responsive table {
+    table-layout: auto;
+}
+
+#manage-orders-menus h3,
+#manage-orders-menus .mw-table-sorting,
+#manage-orders-menus .mw-ui-btn-nav {
+    margin-bottom: 10px !important;
+    display: block;
+}
+
+.main-content-column > .mw-ui-col-container, .admin-section-container {
+    padding-left: 0;
+}
+
+#orders-info-row > .mw-ui-col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 10px;
+}
+
 }
 
 @media screen and (max-width: 440px) {
-    h3 {
-        font-size: 100%;
-    }
-
     .manage-post-item .manage-post-item-col-3 {
         display: block !important;
         width: 100%;
