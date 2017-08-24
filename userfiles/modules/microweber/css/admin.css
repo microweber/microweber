@@ -325,30 +325,31 @@ h3 > [class*="mw-icon-"]:first-child {
 
 }
 
-#main-bar{
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  position: relative;
+#main-bar {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    position: relative;
 }
 
-@media (max-width:768px){
-  #main-bar{
-    -moz-transform: translateX(-100px);
-    -ms-transform: translateX(-100px);
-    -webkit-transform: translateX(-100px);
-    transform: translateX(-100px);
-  }
+@media (max-width: 768px) {
+    #main-bar {
+        -moz-transform: translateX(-100px);
+        -ms-transform: translateX(-100px);
+        -webkit-transform: translateX(-100px);
+        transform: translateX(-100px);
+    }
 
-  #main-bar.mobile-active{
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-  #user-menu{
-    display: none;
-  }
+    #main-bar.mobile-active {
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    #user-menu {
+        display: none;
+    }
 
 }
 
@@ -1086,13 +1087,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 .main-bar-profile-img {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  margin-top: 5px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    margin-top: 5px;
 }
 
 #main-bar-profile-icon {
@@ -4269,7 +4270,7 @@ body.is_admin .mw-admin-container {
     }
 }   */
 
-.admin-content-column.modules{
+.admin-content-column.modules {
     padding: 20px;
 }
 
@@ -4429,11 +4430,19 @@ span.mw-icon-upload {
     float: left;
 }
 
-.mw-no-posts-foot .mw-ui-btn{
+.mw-no-posts-foot .mw-ui-btn {
     line-height: 15px;
 }
 
+.table-responsive {
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
 @media screen and (max-width: 767px) {
+    .show-on-hover {
+        visibility: visible;
+    }
     .main-admin-row {
         padding: 0 20px;
         margin-top: 40px;
@@ -4452,11 +4461,32 @@ span.mw-icon-upload {
         display: block !important;
     }
 
-    .manage-post-item .manage-post-item-col-4,
+    .manage-post-item > .mw-ui-col {
+        display: inline-block;
+        float: left;
+        margin-bottom: 10px;
+    }
+
+    .manage-post-item .manage-post-item-col-3 {
+        display: block !important;
+        width: 58%;
+    }
+
+    .manage-post-item .manage-post-item-col-4 {
+        display: block !important;
+        float: left;
+        margin-top: 6px;
+        text-align: left
+    }
+
+    .manage-post-item .manage-post-item-col-4 .manage-post-item-author {
+        max-width: none;
+    }
+
     .manage-post-item .manage-post-item-col-5 {
-        display: none !important;
-        /*width: 50%;*/
-        /*float: left;*/
+        display: block !important;
+        width: 50px;
+        float: right;
     }
 
     #pages_edit_container .mw-template-selector {
@@ -4471,5 +4501,84 @@ span.mw-icon-upload {
 
     .mw-admin-edit-content-holder {
         width: 100%;
+    }
+
+    .mw_edit_page_right {
+        max-width: 100%;
+    }
+
+    #content-title-field-buttons {
+        max-width: none !important;
+    }
+
+    #slug-field-holder {
+        width: 50%;
+        float: left;
+    }
+
+    #slug-field-holder .edit-post-url > .mw-ui-row > .mw-ui-col {
+        display: inline-block !important;
+    }
+
+    .mw-admin-edit-page-primary-settings.parent-selector {
+        width: 50%;
+        float: left;
+        text-align: right;
+    }
+
+    .top-search {
+        width: 150px;
+    }
+
+    .top-search input {
+        display: block !important;
+    }
+
+    .col-bar-live-edit a {
+        margin-top: 10px;
+    }
+
+    #mw-order-table-holder
+    overflow-x: auto
+
+;
+    padding-bottom:
+
+20px
+
+;
+}
+
+#mw-order-table-holder .table-responsive table {
+    table-layout: auto;
+}
+
+#manage-orders-menus h3,
+#manage-orders-menus .mw-table-sorting,
+#manage-orders-menus .mw-ui-btn-nav {
+    margin-bottom: 10px !important;
+    display: block;
+}
+
+.main-content-column > .mw-ui-col-container, .admin-section-container {
+    padding-left: 0;
+}
+
+#orders-info-row > .mw-ui-col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 10px;
+}
+
+}
+
+@media screen and (max-width: 440px) {
+    .manage-post-item .manage-post-item-col-3 {
+        display: block !important;
+        width: 100%;
+    }
+
+    .mw-modules-admin li.mw-admin-module-list-item {
+        width: 50%;
     }
 }
