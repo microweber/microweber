@@ -553,12 +553,15 @@ if ($action == 'posts') {
 ?>
 
 
-<div class="mw-ui-row" id="edit-content-row">
+<div class="mw-ui-row-nodrop" id="edit-content-row">
     <?php if ($action != 'categories'): ?>
 
         <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?><?php endif ?>>
             <div class="tree-column-holder">
+
+                 <span class="mw-icon-app-more mobile-tree-menu"></span>
                 <div class="fixed-side-column scroll-height-exception-master">
+
                     <div class="create-content scroll-height-exception"><a href="javascript:;" class="mw-ui-btn default-invert create-content-btn"
                                                                            id="create-content-btn"><span class="mw-icon-plus"></span><?php _e("Create New"); ?></a> <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>"
                                                                                                                                                                           data-tipposition="bottom-center"></span></div>

@@ -158,11 +158,10 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .fixed-side-column {
-    position: fixed;
-    top: 0;
-    height: 100%;
-    background-color: #F5F5F5;
-    overflow: hidden;
+  position: fixed;
+  top: 0;
+  height: 100%;
+  background-color: #F5F5F5;
 }
 
 .fixed-side-column {
@@ -175,6 +174,57 @@ h3 > [class*="mw-icon-"]:first-child {
     -moz-transition: width 0.2s;
     -o-transition: width 0.2s;
     transition: width 0.2s;
+    width: 210px;
+}
+
+.mobile-tree-menu{
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  right: -40px;
+  top: 50px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 30px;
+  background: #F5F5F5;
+  color: #3B3B3B;
+}
+
+@media (max-width:768px){
+  .mobile-tree-menu{
+    display: inline-block;
+  }
+
+  .tree-column{
+    width: 0;
+  }
+
+  .fixed-side-column{
+    min-width: 0;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    transform: translateX(-200px);
+  }
+
+  .tree-column-mobile-active .fixed-side-column{
+    width: 210px;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); 
+  }
+  .tree-column-mobile-active{
+    width: 210px;
+  }
+
+  .tree-column-mobile-active .tree-column-holder{
+    width: 210px;
+  }
+
 }
 
 .tree-column-active .fixed-side-column:before {
@@ -234,7 +284,11 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .tree-column-holder {
     max-width: 100%;
+    position: relative;
+    z-index: 10;
 }
+
+
 
 .tree-column-holder-custom-item {
     margin-left: auto;
