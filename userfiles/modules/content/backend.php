@@ -563,8 +563,7 @@ if ($action == 'posts') {
                 <div class="fixed-side-column scroll-height-exception-master">
 
                     <div class="create-content scroll-height-exception"><a href="javascript:;" class="mw-ui-btn default-invert create-content-btn"
-                                                                           id="create-content-btn"><span class="mw-icon-plus"></span><?php _e("Create New"); ?></a> <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>"
-                                                                                                                                                                          data-tipposition="bottom-center"></span></div>
+                                                                           id="create-content-btn"><span class="mw-icon-plus"></span><?php _e("Create New"); ?></a> </div>
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
                         <?php if ($action == 'pages'): ?>
                             <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"

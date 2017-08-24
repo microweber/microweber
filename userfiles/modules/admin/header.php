@@ -131,6 +131,14 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   top: 0;
   left: 0;
   width: 100%;
+  display: none;
+}
+
+@media (max-width:768px){
+  #mw-admin-mobile-header{
+    display: block;
+  }
+
 }
 
 #mw-admin-mobile-header nav{
