@@ -121,10 +121,16 @@ $is_orders = get_orders('count=1');
                     <td><?php print $order['city']; ?></td>
                     <td><?php $total_ord = get_orders('count=1&email=' . $order['email'] . '&is_completed=1'); ?>
                         <?php print $total_ord; ?></td>
-                    <td width="115"><span class="show-on-hover mw-icon-close" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span> <a
-                                class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>">
+                    <td width="115">
+
+                      <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" style="white-space: nowrap" href="#?clientorder=<?php print $order['id']; ?>">
                             <?php _e("View client"); ?>
-                        </a></td>
+                      </a>
+                      <br><br>
+                      <span class="show-on-hover mw-ui-btn mw-ui-btn-warn mw-ui-btn-small">
+                        <span class="mw-icon-bin" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
+                      </span>
+                    </td>
                 </tr>
             <?php endforeach; endif; ?>
             </tbody>

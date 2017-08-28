@@ -2082,6 +2082,9 @@ input.mw-ui-btn {
 .mw-ui-btn > [class*='mw-icon-'] {
   font-size: 132%;
   text-align: center;
+}
+
+.mw-ui-btn:not(.mw-ui-btn-icon) > [class*='mw-icon-'] {
   margin: 0 7px 0 0;
   top: 1px;
   float: left;
@@ -2637,11 +2640,10 @@ input.mw-ui-btn {
 
 .mw-ui-table {
   clear: both;
-  border-bottom: 1px solid @borderColor;
-  border-left: 1px solid @borderColor;
   border-radius: @radius;
   width: 100%;
   border-spacing: 0;
+  border-collapse: collapse;
 }
 
 .mw-ui-table-fixed {
@@ -2676,8 +2678,7 @@ input.mw-ui-btn {
 .mw-ui-table thead th,
 .mw-ui-table tfoot td {
   padding: 10px;
-  border-top: 1px solid @borderColor;
-  border-right: 1px solid @borderColor;
+  border: 1px solid @borderColor;
 }
 
 .mw-ui-table thead th,
@@ -4471,5 +4472,9 @@ body.bup.dragStart.state-element {
     background-image: none;
     opacity: 0.6;
   }
+}
+
+.th-in-td{
+  display: none;
 }
 

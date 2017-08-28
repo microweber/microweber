@@ -947,6 +947,7 @@ mw.save_inner_editable_fields = function (data) {
                 return false;
             }
             qt.css('maxHeight', (wh - (qt.offset().top - st + 20)));
+            qt.css('width', ($(".admin-manage-content-wrap").width()));
         }
 
         $(mww).bind('mousedown', function (e) {

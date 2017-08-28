@@ -4588,3 +4588,19 @@ span.mw-icon-upload {
         width: 50%;
     }
 }
+
+.th-in-td{
+  font-weight: bold;
+  color: #AAAAAA;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding-bottom: 5px;
+}
+
+/*@media (max-width:768px) {
+  #shop-orders tbody tr{ margin-bottom: 20px;display: block; }
+  #shop-orders thead, #shop-orders tfoot{ display: none; }
+  #shop-orders .th-in-td{ display: block; }
+  #shop-orders td{ text-align: left;display: block;width: 100%; }
+}*/

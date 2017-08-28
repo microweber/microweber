@@ -171,6 +171,16 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   padding: 0 5px;
 }
 
+#mw-admin-mobile-header nav a .mw-notification-count{
+  top: 3px;
+}
+
+#mw-admin-mobile-header nav a.mamh-shop{
+  font-size: 28px;
+  display: inline-block;
+  position: relative;
+}
+
 #mw-admin-mobile-header nav a:hover{
   color: white;
 }
@@ -212,10 +222,23 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 </script>
 
 <?php if(is_admin()): ?>
+<?php
+              	$notif_html = '';
+              	$notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
+
+
+               	if( $notif_count > 0){
+                  $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+                }
+              ?>
+
 <div id="mw-admin-mobile-header">
   <nav>
     <a class="mw-admin-mobile-admin-sidebar-toggle"><span class="mw-icon-menu"></span></a>
     <a class="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus-circled"></span></a>
+    <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mw-icon-shop"></span><?php print $notif_html; ?></a>
+
+
 
   </nav>
   <div id="user-menu-top" >
@@ -316,16 +339,11 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
               <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
               <a href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop">
-              <?php
-                            	$notif_html = '';
-                            	$notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
-								
-								 
-                             	if( $notif_count > 0){
-                                $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
-                                if($view != 'shop'){   print $notif_html; } ;
-                                ?>
-              <?php }  ?>
+
+
+
+                               <?php  if($view != 'shop' and $notif_count > 0){   print $notif_html; } ; ?>
+
               </span> <strong>
               <?php _e("My Shop"); ?>
               </strong> </a>

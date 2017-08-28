@@ -5119,7 +5119,33 @@ $(mwd).ready(function () {
 
 
 
+mw.responsive = {
+  table:function(selector, options){
+    options = options || {};
+    options.breakPoint = options.breakPoint || 768;
+    $(selector).each(function(){
+      var css = mwd.createElement('style');
+      css.setAttribute('scoped', true);
+      css.innerHTML = '@media (max-width:'+(options.breakPoint)+'px) { '
+      +'tbody tr{ margin-bottom: 20px;display: block; }'
+      +'thead, tfoot{ display: none; }'
+      +'.th-in-td{ display: block; }'
+      +'tbody td{ text-align: left;display: block;width: 100%; }'
+      +'}';
+      var el = $(this).prepend(css);
 
+      if(!el.hasClass('mw-mobile-table')){
+        el.addClass('mw-mobile-table');
+        var th = $('th', this)
+        $('tr', this).each(function(){
+          $('td', this).each(function(i){
+            $(this).prepend('<span class="th-in-td">'+th.eq(i).html()+'</span>');
+          });
+        })
+      }
+    });
+  }
+}
 
 
 
