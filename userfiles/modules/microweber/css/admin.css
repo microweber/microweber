@@ -158,10 +158,10 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .fixed-side-column {
-  position: fixed;
-  top: 0;
-  height: 100%;
-  background-color: #F5F5F5;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    background-color: #F5F5F5;
 }
 
 .fixed-side-column {
@@ -177,86 +177,78 @@ h3 > [class*="mw-icon-"]:first-child {
     width: 230px;
 }
 
-.mobile-tree-menu{
-  display: none;
-  cursor: pointer;
-  position: absolute;
-  right: -20px;
-  top: 0;
-  width: 40px;
-  height: 30px;
-  text-align: center;
-  font-size: 30px;
-  background: #F5F5F5;
-  color: #3B3B3B;
-  z-index: 12;
+.mobile-tree-menu {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    font-size: 30px;
+    background: #F5F5F5;
+    color: #3B3B3B;
+    z-index: 12;
 }
 
-@media (max-width:768px){
-  .mobile-tree-menu{
-    display: inline-block;
-  }
+@media (max-width: 768px) {
+    .mobile-tree-menu {
+        display: inline-block;
+    }
 
-  .tree-column{
-    width: 0;
-  }
+    .tree-column {
+        width: 0;
+    }
 
-  .fixed-side-column{
-    top: 40px;
-    left: 0;
-    min-width: 0;
-    width: 0;
-    opacity: 0;
-    visibility: hidden;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    transform: translateX(-200px);
-  }
+    .fixed-side-column {
+        top: 40px;
+        left: 0;
+        min-width: 0;
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+        transform: translateX(-200px);
+    }
 
-  .tree-column-mobile-active .fixed-side-column{
-    width: 210px;
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-  }
-  .tree-column-mobile-active .mobile-tree-menu{
-    right: 20px;
-  }
+    .tree-column-mobile-active .fixed-side-column {
+        width: 210px;
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
 
-  .tree-column-mobile-active{
-    width: 210px;
-  }
+    .tree-column-mobile-active .mobile-tree-menu {
+        right: 20px;
+    }
 
-  .tree-column-mobile-active .tree-column-holder{
-    width: 210px;
-  }
+    .tree-column-mobile-active {
+        width: 210px;
+    }
 
-  .admin-manage-toolbar-scrolled{
-    position: relative !important;
-  }
+    .tree-column-mobile-active .tree-column-holder {
+        width: 210px;
+    }
+
+    .admin-manage-toolbar-scrolled {
+        position: relative !important;
+    }
 
 }
-
-
-
-
 
 .tree-column-mobile-active .fixed-side-column {
 
     min-width: 0;
 }
 
-
-
-
 .tree-column-holder {
     max-width: 100%;
     position: relative;
     z-index: 10;
 }
-
-
 
 .tree-column-holder-custom-item {
     margin-left: auto;
@@ -804,7 +796,6 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     width: 8px !important;
     opacity: 0.4 !important;
 }
-
 
 /************************************
               Main Menu
@@ -1498,12 +1489,12 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     padding-bottom: 10px;
 }
 
-@media (max-width:768px){
-  #content-edit-settings-tabs.fixed{
-    position: static;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+@media (max-width: 768px) {
+    #content-edit-settings-tabs.fixed {
+        position: static;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 
 }
 
@@ -4417,7 +4408,7 @@ span.mw-icon-upload {
     padding-bottom: 20px;
 }
 
-.table-responsive table{
+.table-responsive table {
     table-layout: fixed;
 }
 
@@ -4525,10 +4516,10 @@ span.mw-icon-upload {
         margin-top: 10px;
     }
 
-    #mw-order-table-holder
-    overflow-x: auto;
-    padding-bottom:20px;
-}
+    #mw-order-table-holder {
+        overflow-x: auto;
+        padding-bottom: 20px;
+    }
 
     #mw-order-table-holder .table-responsive table {
         table-layout: auto;
@@ -4576,6 +4567,28 @@ span.mw-icon-upload {
         width: 100%;
     }
 
+    .browser-ctrl-bar .mw-ui-searchfield {
+        display: block;
+        margin-top: 10px;
+        width: 200px;
+    }
+
+    .module-newsletter-subscribers-list table{
+        table-layout: auto;
+    }
+
+    #modules-list-title-and-search > .mw-ui-col{
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .modules-index-bar ul.mw-ui-inline-list {
+        margin-right:10px;
+    }
+
+    #quick-add-post-options-holder .mw-ui-btn {
+        padding: 9px 10px;
+    }
 }
 
 @media screen and (max-width: 440px) {
