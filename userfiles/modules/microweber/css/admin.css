@@ -180,9 +180,9 @@ h3 > [class*="mw-icon-"]:first-child {
 .mobile-tree-menu {
     display: none;
     cursor: pointer;
-    position: absolute;
-    right: -20px;
-    top: 0;
+    position: fixed;
+    left: 0;
+    top: 40px;
     width: 40px;
     height: 30px;
     text-align: center;
@@ -190,6 +190,9 @@ h3 > [class*="mw-icon-"]:first-child {
     background: #F5F5F5;
     color: #3B3B3B;
     z-index: 12;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 @media (max-width: 768px) {
@@ -222,7 +225,7 @@ h3 > [class*="mw-icon-"]:first-child {
     }
 
     .tree-column-mobile-active .mobile-tree-menu {
-        right: 20px;
+        left: 170px;
     }
 
     .tree-column-mobile-active {
@@ -3850,6 +3853,12 @@ body.grabbing, body.grabbing * {
     vertical-align: top;
 }
 
+@media (max-width:950px){
+  .abandoned-cart > tbody > tr > td {
+    display: block;
+  }
+}
+
 .mw-order-item-status-completed {
     color: #48ad79
 }
@@ -4412,6 +4421,8 @@ span.mw-icon-upload {
     table-layout: fixed;
 }
 
+
+
 @media screen and (max-width: 767px) {
     .show-on-hover {
         visibility: visible;
@@ -4525,6 +4536,8 @@ span.mw-icon-upload {
         table-layout: auto;
     }
 
+
+
     #manage-orders-menus h3,
     #manage-orders-menus .mw-table-sorting,
     #manage-orders-menus .mw-ui-btn-nav {
@@ -4611,9 +4624,9 @@ span.mw-icon-upload {
   padding-bottom: 5px;
 }
 
-/*@media (max-width:768px) {
-  #shop-orders tbody tr{ margin-bottom: 20px;display: block; }
-  #shop-orders thead, #shop-orders tfoot{ display: none; }
-  #shop-orders .th-in-td{ display: block; }
-  #shop-orders td{ text-align: left;display: block;width: 100%; }
-}*/
+.mw-order-table .mw-icon-bin{
+  margin: 0;
+  top: 0;
+  float: none;
+}
+

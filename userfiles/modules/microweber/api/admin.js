@@ -377,32 +377,15 @@ mw.admin = {
                 var all = rotator.children;
                 var l = all.length;
                 $(all).addClass('mw-simple-rotator-item');
-                $(all).width($(rotator).width()).css('overflow', 'hidden');
-                var _w = 0, i = 0;
-                for (; i < l; i++) {
-                    if (all[i].nodeName === 'DIV') {
-                        var css = mw.CSSParser(all[i]).get,
-                            margin = css.margin(true);
-                        width = all[i].offsetWidth;
-                        _w += (width + margin.left + margin.right);
-                    }
-                }
-                $(rotator).width(_w);
+
                 rotator.go = function (where, callback, method) {
                     var method = method || 'animate';
                     $(rotator).dataset('state', where);
-                    var item = rotator.children[where];
-                    if (typeof item === 'undefined' || item.innerHTML == '' || item.offsetHeight == 0) {
-                        return false
-                    }
-                    ;
-                    var item_left = $(item).offset().left;
-                    var rleft = $(rotator).offset().left;
-                    $(rotator).stop()[method]({left: -(item_left - rleft)}, function () {
+                    $(rotator.children).hide().eq(where).show()
                         if (typeof callback === 'function') {
                             callback.call(rotator);
                         }
-                    });
+
                     if (rotator.ongoes.length > 0) {
                         var l = rotator.ongoes.length;
                         i = 0;
@@ -415,18 +398,11 @@ mw.admin = {
                 rotator.ongo = function (c) {
                     if (typeof c === 'function') {
                         rotator.ongoes.push(c)
-                    }
-                    ;
-                }
-                rotator.state = function () {
-                    return parseFloat($(rotator).dataset('state'))
-                }
-                rotator.childrenSet = function () {
-                    $(rotator.children).width($(rotator.parentNode).width());
+                    };
                 }
                 $(window).bind('resize', function () {
-                    rotator.childrenSet();
-                    rotator.go(rotator.state(), undefined, 'css');
+
+                    rotator.go(parseFloat($(rotator).dataset('state'))  , undefined, 'css');
                 });
             }
         }
