@@ -144,6 +144,14 @@ document.body.appendChild(mw.inaccessibleModules);
     mw.$("#mw-toolbar-html-editor-btn").click(function() {
         mw.tools.open_custom_html_editor();
     });
+
+    mw.$("#mw-toolbar-reset-content-editor-btn").click(function() {
+        mw.tools.open_reset_content_editor();
+    });
+
+
+
+
     mw.drag.create();
     $(mwd.body).keyup(function(e) {
         mw.$(".mw_master_handle").css({

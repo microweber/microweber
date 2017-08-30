@@ -418,7 +418,6 @@ mw.wysiwyg = {
           var clipboard = e.clipboardData || mww.clipboardData;
         }
 
-        console.log(clipboard, clipboard.getData('text/html'))
        if(mw.wysiwyg.pastedFromExcel(clipboard)){
          var html = mw.wysiwyg.cleanExcel(clipboard)
           mw.wysiwyg.insert_html(html);
@@ -2187,8 +2186,11 @@ $(window).load(function () {
     mw.wysiwyg.paste(e)
   }) */
 
+
+
     $(this).on('imageSrcChanged', function (e, el, url) {
         if ($(el).parent().hasClass('mw-image-holder')) {
+            var url = mw.files.safeFilename(url)
             $(el).parent().css('backgroundImage', 'url(' + url + ')')
         }
     })

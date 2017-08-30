@@ -117,6 +117,174 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 </div>*/ ?>
+
+<style>
+#mw-admin-mobile-header{
+  height: 40px;
+  background: black;
+  color: white;
+  padding: 0 20px;
+  line-height: 40px;
+  font-size: 16px;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: none;
+}
+
+@media (max-width:768px){
+  #mw-admin-mobile-header{
+    display: block;
+  }
+
+}
+
+#mw-admin-mobile-header nav{
+  float: left;
+}
+
+#main-bar-user-menu-link-top{
+  display: block;
+}
+
+#user-menu-top .mw-icon-dropdown{
+  right:-15px;
+  margin-top:-12px;
+  color: #eee
+}
+
+#user-menu-top{
+  float: right;
+  position: relative;
+  max-height: 100%;
+}
+
+#mw-admin-mobile-header nav a{
+  color: #8F8F8F;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 0 5px;
+}
+
+#mw-admin-mobile-header nav a .mw-notification-count{
+  top: 3px;
+}
+
+#mw-admin-mobile-header nav a.mamh-shop{
+  font-size: 28px;
+  display: inline-block;
+  position: relative;
+}
+
+#mw-admin-mobile-header nav a:hover{
+  color: white;
+}
+
+#main-bar-user-menu-link-top{
+  position: relative;
+}
+
+#user-menu-top-links a{
+  white-space: nowrap;
+}
+
+#user-menu-top-links{
+  position: absolute;
+  top: 100%;
+  right: 0;
+}
+
+
+
+</style>
+
+<script>
+  $(document).ready(function(){
+    $(".mw-admin-mobile-admin-sidebar-toggle").on('click', function(){
+      $("#main-bar").toggleClass('mobile-active')
+    })
+    $("body").on('click', function(e){
+      if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-admin-mobile-admin-sidebar-toggle'])){
+        $("#main-bar").removeClass('mobile-active')
+      }
+
+    })
+
+    $("#main-bar-user-menu-link-top").on('click', function(){
+      $("#user-menu-top-links").toggle();
+    })
+  })
+</script>
+
+<?php if(is_admin()): ?>
+<?php
+              	$notif_html = '';
+              	$notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
+
+
+               	if( $notif_count > 0){
+                  $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+                }
+              ?>
+
+<div id="mw-admin-mobile-header">
+  <nav>
+    <a class="mw-admin-mobile-admin-sidebar-toggle"><span class="mw-icon-menu"></span></a>
+    <a class="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus-circled"></span></a>
+    <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mw-icon-shop"></span><?php print $notif_html; ?></a>
+
+
+
+  </nav>
+  <div id="user-menu-top" >
+    <?php $user_id = user_id(); $user = get_user_by_id($user_id);
+      if(!empty($user)){
+        $img = user_picture($user_id);
+        if($img != ''){
+    ?>
+    <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-has-image">
+      <span class="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span>
+      <span class="mw-icon-dropdown"></span>
+    </a>
+    <?php } else { ?>
+    <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
+    <?php } }  ?>
+    <div id="user-menu-top-links" style="display: none">
+        <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation">
+        <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
+          <?php _e("My Profile"); ?>
+          </a>
+          <a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank" class="mw-ui-btn">
+          <?php _e("Manage Users"); ?>
+
+          </a>
+
+          <?php if(mw()->ui->enable_service_links): ?>
+          <?php if(mw()->ui->custom_support_url): ?>
+           <a href="<?php print mw()->ui->custom_support_url ?>"  class="mw-ui-btn">
+          <?php _e("Support"); ?>
+          </a>
+          <?php else: ?>
+          <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn">
+          <?php _e("Support"); ?>
+          </a>
+          <?php endif; ?>
+          <?php endif; ?>
+
+            <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set">
+          <?php _e("View Website"); ?>
+          </a> <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn">
+          <?php _e("Log out"); ?>
+          </a> </div>
+      </div>
+  </div>
+</div>
+<?php endif; ?>
 <div id="mw-admin-container">
 <?php if(is_admin()): ?>
 
@@ -171,16 +339,11 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
               <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
               <a href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop">
-              <?php
-                            	$notif_html = '';
-                            	$notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
-								
-								 
-                             	if( $notif_count > 0){
-                                $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
-                                if($view != 'shop'){   print $notif_html; } ;
-                                ?>
-              <?php }  ?>
+
+
+
+                               <?php  if($view != 'shop' and $notif_count > 0){   print $notif_html; } ; ?>
+
               </span> <strong>
               <?php _e("My Shop"); ?>
               </strong> </a>
@@ -292,7 +455,7 @@ if ($last_page_front != false) {
                             if(!empty($user)){
                               $img = user_picture($user_id);
                               if($img != ''){  ?>
-              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span id="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
+              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span class="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
               <?php } else { ?>
               <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
               <?php } }  ?>

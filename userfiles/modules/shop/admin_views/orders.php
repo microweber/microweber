@@ -23,9 +23,11 @@ $(document).ready(function(){
             Rotator.go(0);
       	 }
            else {
+            mw.tools.loading('#mw-order-table-holder')
             mw.$('#mw-admin-edit-order').attr('data-order-id',$p_id);
             mw.load_module('shop/orders/edit_order','#mw-admin-edit-order', function(){
-                Rotator.go(1);
+              mw.tools.loading('#mw-order-table-holder', false)
+              Rotator.go(1);
             });
       	 }
       }

@@ -3117,6 +3117,27 @@ mw.tools = {
             draggable: true
         });
     },
+
+
+
+    open_reset_content_editor:function(){
+        var src = mw.settings.site_url + 'api/module?id=mw_global_reset_content_editor&live_edit=true&module_settings=true&type=editor/reset_content&autosize=true';
+        var modal = mw.tools.modal.frame({
+            url: src,
+
+            // width: 500,
+            // height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+            name: 'mw-reset-content-editor-front',
+            title:'Reset content',
+            template: 'default',
+            center: false,
+            resize: true,
+            draggable: true
+        });
+    },
+
+
+
     open_global_module_settings_modal:function(module_type, module_id){
         var src = mw.settings.site_url + 'api/module?id='+module_id+'&live_edit=true&module_settings=true&type='+module_type+'&autosize=true';
         var modal = mw.tools.modal.frame({
@@ -5119,7 +5140,33 @@ $(mwd).ready(function () {
 
 
 
+mw.responsive = {
+  table:function(selector, options){
+    options = options || {};
+    options.breakPoint = options.breakPoint || 768;
+    $(selector).each(function(){
+      var css = mwd.createElement('style');
+      css.setAttribute('scoped', true);
+      css.innerHTML = '@media (max-width:'+(options.breakPoint)+'px) { '
+      +'tbody tr{ margin-bottom: 20px;display: block; }'
+      +'thead, tfoot{ display: none; }'
+      +'.th-in-td{ display: block; }'
+      +'tbody td{ text-align: left;display: block;width: 100%; }'
+      +'}';
+      var el = $(this).prepend(css);
 
+      if(!el.hasClass('mw-mobile-table')){
+        el.addClass('mw-mobile-table');
+        var th = $('th', this)
+        $('tr', this).each(function(){
+          $('td', this).each(function(i){
+            $(this).prepend('<span class="th-in-td">'+th.eq(i).html()+'</span>');
+          });
+        })
+      }
+    });
+  }
+}
 
 
 
