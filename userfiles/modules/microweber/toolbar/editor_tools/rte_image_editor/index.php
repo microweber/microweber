@@ -114,6 +114,7 @@ else{
             GlobalEmbed = mw.embed.generate(type, this);
             if (typeof parent.mw.iframecallbacks[hash] === 'function') {
                 if (hash == 'editimage') {
+
                     parent.mw.iframecallbacks[hash](this);
                     parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
 
@@ -127,7 +128,7 @@ else{
                 parent[hash](GlobalEmbed)
             }
 
-             window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+             window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
 
             parent.mw.tools.modal.remove('mw_rte_image');
 
@@ -176,6 +177,7 @@ else{
 
 
                 if (filetypes == 'images') {
+
 
 
                     afterMediaIsInserted(item.src, '', "FileUploaded");
