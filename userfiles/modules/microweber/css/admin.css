@@ -246,6 +246,12 @@ h3 > [class*="mw-icon-"]:first-child {
 
 }
 
+@media (max-width:670px){
+  .tree-column-mobile-active {
+        width: 0;
+    }
+}
+
 .tree-column-mobile-active .fixed-side-column {
 
     min-width: 0;
@@ -254,7 +260,7 @@ h3 > [class*="mw-icon-"]:first-child {
 .tree-column-holder {
     max-width: 100%;
     position: relative;
-    z-index: 10;
+    z-index: 99;
 }
 
 .tree-column-holder-custom-item {
