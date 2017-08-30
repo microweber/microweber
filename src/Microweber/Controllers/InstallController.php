@@ -15,6 +15,7 @@ use Cache;
 class InstallController extends Controller
 {
     public $app;
+    public $command_line_logger;
 
     public function __construct($app = null)
     {
@@ -131,13 +132,16 @@ class InstallController extends Controller
                 if (!is_cli()) {
                     $_SERVER['argv'] = array();
                 }
+                $this->log('Generating key');
                 if (!$this->_can_i_use_artisan_key_generate_command()) {
                     $fallback_key = str_random(32);
                     $fallback_key_str = 'base64:' . base64_encode($fallback_key);
                     Config::set('app.key', $fallback_key_str);
                     $allowed_configs[] = 'app';
                 } else {
-                    Artisan::call('key:generate');
+                    Artisan::call('key:generate', [
+                        '--force' => true,
+                    ]);
                 }
             }
 
@@ -210,7 +214,7 @@ class InstallController extends Controller
         $dbEngines = Config::get('database.connections');
 
         if (!$dbEngines) {
-            $dbEngines = json_decode('{"sqlite":{"driver":"sqlite","database":"","prefix":""},"mysql":{"driver":"mysql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","collation":"utf8_unicode_ci","prefix":"","strict":false},"pgsql":{"driver":"pgsql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","prefix":"","schema":"public"},"sqlsrv":{"driver":"sqlsrv","host":"localhost","database":"database","username":"root","password":"","prefix":""}}',true);
+            $dbEngines = json_decode('{"sqlite":{"driver":"sqlite","database":"","prefix":""},"mysql":{"driver":"mysql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","collation":"utf8_unicode_ci","prefix":"","strict":false},"pgsql":{"driver":"pgsql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","prefix":"","schema":"public"},"sqlsrv":{"driver":"sqlsrv","host":"localhost","database":"database","username":"root","password":"","prefix":""}}', true);
         }
         foreach ($dbEngines as $driver => $v) {
             if (!extension_loaded("pdo_$driver")) {
@@ -218,7 +222,7 @@ class InstallController extends Controller
             }
         }
         if (!isset($dbEngines[$defaultDbEngine])) {
-            $dbEngines[ $defaultDbEngine ] = false;
+            $dbEngines[$defaultDbEngine] = false;
         }
 
         $config = array();
@@ -228,7 +232,7 @@ class InstallController extends Controller
         $viewData = [
             'config' => $config,
             'dbDefaultEngine' => $defaultDbEngine,
-            'dbEngines'       => array_keys($dbEngines),
+            'dbEngines' => array_keys($dbEngines),
             'dbEngineNames' => [
                 'mysql' => 'MySQL',
                 'sqlite' => 'SQLite',
@@ -272,6 +276,10 @@ class InstallController extends Controller
         if (!is_file($log_file)) {
             @touch($log_file);
         }
+
+        if ($this->command_line_logger and is_object($this->command_line_logger) and method_exists($this->command_line_logger, 'info')) {
+            $this->command_line_logger->info($text);
+        }
         if (is_file($log_file)) {
             $json = array('date' => date('H:i:s'), 'msg' => $text);
 
@@ -284,16 +292,17 @@ class InstallController extends Controller
     }
 
 
-    private function _can_i_use_artisan_key_generate_command(){
-
+    private function _can_i_use_artisan_key_generate_command()
+    {
         $yes_i_can = true;
         if (!$this->_is_escapeshellarg_available()) {
             $yes_i_can = false;
         }
-        if (!file_exists(base_path() . DIRECTORY_SEPARATOR. '.env')){
+        if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {
             $yes_i_can = false;
         }
-        if (!is_writable(base_path() . DIRECTORY_SEPARATOR. '.env')){
+
+        if (!is_writable(base_path() . DIRECTORY_SEPARATOR . '.env')) {
             $yes_i_can = false;
         }
 
