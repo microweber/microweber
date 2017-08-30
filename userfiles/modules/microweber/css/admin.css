@@ -214,6 +214,8 @@ h3 > [class*="mw-icon-"]:first-child {
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         transition: all 0.3s;
+        -webkit-transform: translateX(-200px);
+        -moz-transform: translateX(-200px);
         transform: translateX(-200px);
     }
 
@@ -221,6 +223,8 @@ h3 > [class*="mw-icon-"]:first-child {
         width: 210px;
         opacity: 1;
         visibility: visible;
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
         transform: translateX(0);
     }
 
