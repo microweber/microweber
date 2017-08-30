@@ -422,6 +422,10 @@ trait QueryFilter
                     unset($params['limit']);
 
                     break;
+
+                case 'join':
+                    $query->join($value, $table.'.rel_id', '=', $value.'.id')->where($table.'.rel_type', $value);
+                    break;
                 case 'current_page':
                     $criteria = 1;
 

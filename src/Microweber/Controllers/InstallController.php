@@ -285,11 +285,15 @@ class InstallController extends Controller
 
 
     private function _can_i_use_artisan_key_generate_command(){
+
         $yes_i_can = true;
         if (!$this->_is_escapeshellarg_available()) {
             $yes_i_can = false;
         }
         if (!file_exists(base_path() . DIRECTORY_SEPARATOR. '.env')){
+            $yes_i_can = false;
+        }
+        if (!is_writable(base_path() . DIRECTORY_SEPARATOR. '.env')){
             $yes_i_can = false;
         }
 
