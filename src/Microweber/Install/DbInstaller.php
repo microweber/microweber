@@ -18,7 +18,7 @@ class DbInstaller
             $this->createSchema();
 
         } catch (\Illuminate\Database\QueryException $e) {
-
+            $this->log('Error in database schema: ' . $e->errorInfo);
         }
 
         $this->seed();

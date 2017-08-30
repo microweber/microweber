@@ -36,6 +36,10 @@ class Captcha
         if ($existing == $key) {
             return true;
         } else {
+            $existing = mw()->user_manager->session_get('captcha');
+            if ($existing == $key) {
+                return true;
+            }
             return false;
         }
     }

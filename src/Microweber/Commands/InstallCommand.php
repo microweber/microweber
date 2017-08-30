@@ -38,6 +38,7 @@ class InstallCommand extends Command
         );
 
         $this->info('Installing Microweber...');
+        $this->installer->command_line_logger = $this;
         $result = $this->installer->index($input);
         $this->info($result);
     }
