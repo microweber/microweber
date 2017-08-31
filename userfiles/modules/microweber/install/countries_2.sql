@@ -1,4 +1,4 @@
-﻿CREATE TABLE IF NOT EXISTS '{get_table_prefix()}_countries' (
+CREATE TABLE IF NOT EXISTS '{get_table_prefix()}_countries' (
   id int(11) NOT NULL,
   code TEXT NOT NULL,
   name TEXT NOT NULL,
