@@ -46,6 +46,10 @@ class InstallController extends Controller
 
         $this->log('Preparing to install');
         if (isset($input['make_install'])) {
+            $config_only = false;
+            if (isset($input['config_only']) and $input['config_only']) {
+                $config_only = true;
+            }
             if (!isset($input['db_pass'])) {
                 $input['db_pass'] = '';
             }
@@ -127,6 +131,11 @@ class InstallController extends Controller
             if (!isset($input['developer_mode'])) {
                 Config::set('microweber.compile_assets', 1);
             }
+            if (isset($input['clean_pre_configured'])) {
+                Config::set('microweber.pre_configured',null);
+                Config::set('microweber.pre_configured_input',null);
+            }
+
 
             if (Config::get('app.key') == 'YourSecretKey!!!') {
                 if (!is_cli()) {
@@ -148,6 +157,13 @@ class InstallController extends Controller
             $this->log('Saving config');
             Config::save($allowed_configs);
             Cache::flush();
+
+
+            if($config_only) {
+                Config::set('microweber.pre_configured', 1);
+                Config::set('microweber.pre_configured_input', $input);
+            } else {
+
 
             $install_finished = false;
             try {
@@ -187,6 +203,7 @@ class InstallController extends Controller
                 $adminUser->is_admin = 1;
                 $adminUser->is_active = 1;
                 $adminUser->save();
+                $admin_user_id = $adminUser->id;
                 Config::set('microweber.has_admin', 1);
             }
 
@@ -194,8 +211,15 @@ class InstallController extends Controller
 
             Config::set('microweber.is_installed', 1);
 
+            }
+
+
             Config::save($allowed_configs);
             $this->log('done');
+
+            if(Config::get('microweber.has_admin') and isset($admin_user_id)){
+                mw()->user_manager->make_logged($admin_user_id);
+            }
 
             return 'done';
         }
@@ -257,7 +281,12 @@ class InstallController extends Controller
             $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
             $viewData['config']['db_name_sqlite'] = $sqlite_path;
         }
-
+        if(Config::get('microweber.pre_configured')){
+        $viewData['pre_configured'] = Config::get('microweber.pre_configured');
+            if(Config::get('microweber.pre_configured_input') and is_array(Config::get('microweber.pre_configured_input'))){
+            $viewData['config'] = array_merge( $viewData['config'],Config::get('microweber.pre_configured_input'));
+            }
+        }
         $layout->set($viewData);
 
         $is_installed = mw_is_installed();

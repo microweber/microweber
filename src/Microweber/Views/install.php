@@ -153,6 +153,7 @@
 </head>
 <body>
 
+
 <div class="installholder">
 <small class="version">v. <?php print MW_VERSION ?></small>
 <div class="mw-ui-box">
@@ -179,6 +180,11 @@
     <?php
 
     $check_pass = true;
+    if (!isset($pre_configured) ){
+        $pre_configured = false;
+    }
+
+
     $server_check_errors = array();
     if (version_compare(phpversion(), '5.4.0', '<=')) {
         $check_pass = false;
@@ -276,7 +282,19 @@
             </ol>
         <?php endif; ?>
     <?php else: ?>
-        <?php $hide_db_setup = isset($_REQUEST['basic']); ?>
+        <?php
+
+         $hide_db_setup = isset($_REQUEST['basic']);
+
+
+        ?>
+
+
+        <?php if ($pre_configured){
+            $hide_db_setup = true;
+
+        } ?>
+
         <form method="post" id="form_<?php print $rand; ?>" autocomplete="off">
 
             <div class="mw-ui-row" id="install-row">
@@ -380,6 +398,11 @@
 } ?>"
                                        onblur="prefix_add(this)"/>
                             </div>
+
+
+                        </div>
+
+                        <div>
                             <?php
                             $templates = site_templates();
 
@@ -411,22 +434,24 @@
 
                             <?php endif; ?>
 
-                                <div class="mw-ui-field-holder pull-left">
-                                    <label class="mw-ui-check">
-                                        <input name="with_default_content" type="checkbox" checked="checked" value="1">
-                                        <span></span>&nbsp;
-                                        <?php _e('Install default content'); ?>
-                                        <span
-                                            data-help="<?php _e('If checked, some default content will be added.'); ?>"><span
-                                                class="mw-icon-help-outline mwahi tip"></span></span>
-                                    </label>
-                                </div>
-
+                            <div class="mw-ui-field-holder pull-left">
+                                <label class="mw-ui-check">
+                                    <input name="with_default_content" type="checkbox" checked="checked" value="1">
+                                    <span></span>&nbsp;
+                                    <?php _e('Install default content'); ?>
+                                    <span
+                                        data-help="<?php _e('If checked, some default content will be added.'); ?>"><span
+                                            class="mw-icon-help-outline mwahi tip"></span></span>
+                                </label>
+                            </div>
                         </div>
+
+
+
 
                     </div>
                 </div>
-                <div id="admin-user">
+                <div id="admin-user"  <?php if ( $pre_configured == true): ?> style="display:none;" <?php endif; ?>>
 
                     <div class="mw-ui-col-container">
 
@@ -478,6 +503,12 @@
 
 
             <?php $default_content_file = mw_root_path().'.htaccess'; ?>
+
+            <?php if ( $pre_configured == true): ?>
+                <input type="hidden" name="clean_pre_configured" value="1">
+
+
+            <?php endif; ?>
 
             <div class="mw_clear"></div>
             <input type="hidden" name="make_install" value="1" id="is_installed_<?php print $rand; ?>">

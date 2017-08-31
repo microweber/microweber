@@ -1,3 +1,10 @@
+<?php
+
+// MOVED TO src\Microweber\Views\install.php
+
+?>
+
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -313,6 +320,10 @@
 
         ?>
         <form method="post" id="form_<?php print $rand; ?>" autocomplete="true">
+
+
+
+
 
             <div class="mw-ui-row" id="install-row">
                 <div class="mw-ui-col">
