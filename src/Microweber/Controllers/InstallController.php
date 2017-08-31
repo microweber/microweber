@@ -241,7 +241,7 @@ class InstallController extends Controller
             $dbEngines = json_decode('{"sqlite":{"driver":"sqlite","database":"","prefix":""},"mysql":{"driver":"mysql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","collation":"utf8_unicode_ci","prefix":"","strict":false},"pgsql":{"driver":"pgsql","host":"localhost","database":"forge","username":"forge","password":"","charset":"utf8","prefix":"","schema":"public"},"sqlsrv":{"driver":"sqlsrv","host":"localhost","database":"database","username":"root","password":"","prefix":""}}', true);
         }
         foreach ($dbEngines as $driver => $v) {
-            if (!extension_loaded("pdo_$driver")) {
+            if (!extension_loaded("pdo_$driver") and isset($dbEngines[$driver])) {
                 unset($dbEngines[$driver]);
             }
         }
