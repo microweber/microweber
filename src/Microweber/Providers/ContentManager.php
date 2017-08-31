@@ -2003,11 +2003,8 @@ class ContentManager
                         }
                     } else {
                         $cap = $this->app->user_manager->session_get('captcha');
-                        if ($cap == false) {
+                        if ( !mw()->captcha->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
-                        }
-                        if ($data['captcha'] != $cap) {
-                            return array('error' => 'Invalid captcha answer!');
                         }
                     }
                 }
