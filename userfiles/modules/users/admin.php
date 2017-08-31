@@ -28,6 +28,9 @@
         if (typeof UsersRotator === 'undefined') {
             UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
         }
+
+
+
     });
 
     function mw_show_users_list() {
@@ -93,6 +96,7 @@
             else{
                UsersRotator.go(0)
             }
+            mw.responsive.table('.users-list-table') 
         });
     }
 

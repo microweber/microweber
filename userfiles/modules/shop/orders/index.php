@@ -196,6 +196,8 @@
             });
             });
 
+            mw.responsive.table('#shop-orders')
+
     </script>
 
     <thead>

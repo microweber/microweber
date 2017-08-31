@@ -5146,12 +5146,23 @@ mw.responsive = {
     options.breakPoint = options.breakPoint || 768;
     $(selector).each(function(){
       var css = mwd.createElement('style');
-      css.setAttribute('scoped', true);
+      //css.setAttribute('scoped', false);
+      var cls = 'responsive-table-' + mw.random();
+      var sel = function(c){
+        var final = '', arr = c.split(',');
+        arr.forEach(function(c,i){
+          arr[i] = '.' + cls + ' ' + c.trim()
+        })
+        return arr.join(',');
+      };
+      mw.tools.addClass(this, cls);
+
       css.innerHTML = '@media (max-width:'+(options.breakPoint)+'px) { '
-      +'tbody tr{ margin-bottom: 20px;display: block; }'
-      +'thead, tfoot{ display: none; }'
-      +'.th-in-td{ display: block; }'
-      +'tbody td{ text-align: left;display: block;width: 100%; }'
+      + '.' + cls + '{ display: block; width:100%}'
+      + sel('tbody tr') + '{ margin-bottom: 20px;display: block; }'
+      + sel('thead, tfoot') + '{ display: none; }'
+      + sel('.th-in-td, tbody,tr,td') + '{ display: block; width:100% }'
+      + sel('tbody td') + '{ text-align: left;display: block;width: 100%; }'
       +'}';
       var el = $(this).prepend(css);
 
