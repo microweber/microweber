@@ -72,10 +72,10 @@ $(document).ready(function(){
 </script>
 
 <div id="edit-content-row" class="mw-ui-row">
-  <div class="mw-ui-col tree-column">
+  <div class="mw-ui-col tree-column-menu">
     <div class="tree-column-holder">
       <div class="mw-admin-sidebar">
-        <div class="fixed-side-column scroll-height-exception-master">
+        <div class=" scroll-height-exception-master">
           <div class="admin-side-box">
             <h2 class="mw-side-main-title scroll-height-exception"><span class="mw-icon-gear"></span>
               <?php _e("Settings"); ?>

@@ -169,7 +169,7 @@ h3 > [class*="mw-icon-"]:first-child {
     max-width: 310px;
 }
 
-.tree-column {
+.tree-column, .tree-column-menu {
     -webkit-transition: width 0.2s;
     -moz-transition: width 0.2s;
     -o-transition: width 0.2s;
@@ -193,6 +193,32 @@ h3 > [class*="mw-icon-"]:first-child {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
+}
+
+.tree-column-menu{
+  background: #F5F5F5
+}
+@media (max-width: 768px) {
+  .tree-column-menu .slimScrollDiv,
+  .tree-column-menu .fixed-side-column-container{
+    height: auto !important;
+  }
+  .tree-column-menu .mw-ui-sidenav li {
+    float: left;
+    width: 33.333%;
+  }
+}
+
+@media (max-width: 530px) {
+  .tree-column-menu .mw-ui-sidenav li {
+    width: 50%;
+  }
+}
+
+@media (max-width: 380px) {
+  .tree-column-menu .mw-ui-sidenav li {
+    width:100%;
+  }
 }
 
 @media (max-width: 768px) {

@@ -400,10 +400,6 @@ mw.admin = {
                         rotator.ongoes.push(c)
                     };
                 }
-                $(window).bind('resize', function () {
-
-                    rotator.go(parseFloat($(rotator).dataset('state'))  , undefined, 'css');
-                });
             }
         }
         return rotator;
