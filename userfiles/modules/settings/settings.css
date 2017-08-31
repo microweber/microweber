@@ -1,9 +1,10 @@
 .mw-settings-list-website input.mw-ui-field,
 .mw-settings-list-website textarea.mw-ui-field{
   width: 615px;
+  max-width: 100%;
 }
 .mw_edit_page_right{
-  width: 720px;
+  width: auto;
 }
 .mw-settings-list-website input[name='website_title']{
     font-size: 18px;
@@ -45,11 +46,13 @@
   width: 330px;
   height: 270px;
   overflow: hidden;
+  max-width: 100%;
 }
 
 #mw-theme-browser-list li a img{
     min-width: 330px;
     min-height: 270px;
+    max-width: 100%;
 }
 
 #mw-theme-browser-list li a .mw-overlay{

@@ -21,10 +21,12 @@ if(group != undefined){
 else{
  mw.$('#settings_admin_<?php print $rand; ?>').attr('option_group','admin__modules');
 }
-mw.$('#settings_admin_<?php print $rand; ?>').attr('is_system',1);
+  mw.$('#settings_admin_<?php print $rand; ?>').attr('is_system',1);
+
+    mw.tools.loading(mwd.querySelector('#edit-content-row'), true)
 
     mw.load_module('settings/system_settings','#settings_admin_<?php print $rand; ?>', function(){
-    
+      mw.tools.loading(mwd.querySelector('#edit-content-row'), false)
     });
 
 }

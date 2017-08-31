@@ -275,14 +275,14 @@
                                 name="module_keyword"
                                 id="module_keyword"
                                 autocomplete="off"
-                                class="mw-ui-searchfield pull-right"
+                                class="mw-ui-searchfield"
                                 type="text"
                                 placeholder='<?php _e("Search for modules"); ?>'
                                 onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
                         />
                     </div>
                 </div>
-                <ul class="mw-ui-inline-list pull-right">
+                <ul class="mw-ui-inline-list">
                     <li>
                         <label class="mw-ui-check">
                             <input type="radio" name="installed" checked="checked"
