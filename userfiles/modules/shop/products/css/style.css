@@ -1,0 +1,79 @@
+/* Masonry */
+
+.module-posts-template-masonry .masonry-item{
+  cursor: default;
+  min-width: 300px;
+  width: 33%;
+  margin-bottom: 5px;
+  box-shadow: 0 0px 2px -1px #999;
+  border:1px solid #E0E0E0;
+  background: white;
+}
+
+.module-posts-template-masonry .masonry-item img{
+  width: 100%;
+}
+
+.module-posts-template-masonry .masonry-item-description{
+  padding: 7px;
+  font-size: 12px;
+  color: #353535;
+  text-align: center;
+}
+.module-posts-template-masonry .masonry-item-container{
+  padding: 10px;
+  zoom:1;
+}
+.module-posts-template-masonry .masonry-item-container:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.module-posts-template-masonry .masonry-item-container .description{
+  font-size: 13px;
+}
+.module-posts-template-masonry .masonry-item-container small.muted{
+  font-size: 11px;
+}
+
+.module-posts-template-masonry .product-price-holder{
+  padding-top: 14px;
+}
+
+
+
+/* Masonry */
+
+
+
+
+
+
+
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col{
+  width: 30%;
+}
+.module-products-template-columns-3 .mw-ui-row{
+  margin-bottom: 30px;
+}
+
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col > .mw-ui-col-container{
+  padding: 12px;
+}
+
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container{
+  padding-right: 0;
+}
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container{
+  padding-left: 0;
+}
+
+.last-row-single .mw-ui-row:last-child{
+    width: 30%;
+}
+.last-row-twoitems .mw-ui-row:last-child{
+    width: 67%;
+}
