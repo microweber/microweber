@@ -196,7 +196,13 @@
             });
             });
 
-            mw.responsive.table('#shop-orders')
+            mw.responsive.table('#shop-orders', {
+              breakPoints:{
+                768:4,
+                600:2,
+                400:1
+              }
+            })
 
     </script>
 

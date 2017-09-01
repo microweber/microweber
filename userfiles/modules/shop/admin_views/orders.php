@@ -13,9 +13,7 @@ $(document).ready(function(){
             mw_select_order_for_editing(0);
           }
       });
-      mw.$('.mw-simple-rotator-item', this).width(mw.$('.mw-simple-rotator').width());
       Rotator.ongo(function(){
-        mw.$('.mw-simple-rotator-item', this).width(mw.$('.mw-simple-rotator').width());
       });
 
       function mw_select_order_for_editing($p_id){
