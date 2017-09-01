@@ -34,6 +34,7 @@ class InstallCommand extends Command
             'admin_password' => $this->argument('password'),
             'with_default_content' => $this->option('default-content'),
             'default_template' => $this->option('template'),
+            'config_only' => $this->option('config_only'),
 
         );
 
@@ -64,6 +65,7 @@ class InstallCommand extends Command
             ['prefix', 'p', InputOption::VALUE_OPTIONAL, 'Database tables prefix'],
             ['template', 't', InputOption::VALUE_OPTIONAL, 'Set default template name'],
             ['default-content', 'd', InputOption::VALUE_OPTIONAL, 'Install default content'],
+            ['config_only', 'c', InputOption::VALUE_OPTIONAL, 'Prepare the install'],
         ];
     }
 }
