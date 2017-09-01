@@ -11,10 +11,17 @@ $twitter_url = get_option('twitter_url', $option_group);
 if ($twitter_url == false) {
     $twitter_url = get_option('twitter_url', 'website');
 }
-?>
+
+$twitter_url = str_ireplace('statuses/', 'status/', $twitter_url);
+$statusID = explode('status/', $twitter_url);
+if (!isset($statusID[1])) {
+    print lnotif('Tweet Embed');
+    return;
+} else {
+    $statusID = $status_id = $statusID[1];
+}
 
 
-<?php
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
