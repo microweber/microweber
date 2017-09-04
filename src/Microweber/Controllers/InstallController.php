@@ -217,7 +217,7 @@ class InstallController extends Controller
             Config::save($allowed_configs);
             $this->log('done');
 
-            if(Config::get('microweber.has_admin') and isset($admin_user_id)){
+            if(Config::get('microweber.has_admin') and !is_cli() and isset($admin_user_id)){
                 mw()->user_manager->make_logged($admin_user_id);
             }
 
