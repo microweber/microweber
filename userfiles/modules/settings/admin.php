@@ -9,6 +9,19 @@ only_admin_access();?>
 mw.require('forms.js');
 
 </script>
+<style>
+  .mw_edit_page_right{
+    padding: 20px;
+  }
+
+  @media (max-width:768px){
+    .mw_edit_page_right{
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+</style>
 <script  type="text/javascript">
 _settingsSort = function(){
 
@@ -134,7 +147,7 @@ $(document).ready(function(){
       </div>
     </div>
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;">
+  <div class="mw_edit_page_right">
  
   
   

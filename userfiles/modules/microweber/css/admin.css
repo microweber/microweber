@@ -2537,6 +2537,13 @@ input#edit-content-url:focus, input#edit-content-url.active {
     padding-top: 5px;
 }
 
+@media (max-width:768px){
+  .edit-post-url{
+    display: none;
+  }
+
+}
+
 .edit-post-url .mw-ui-row {
     table-layout: auto;
 }
@@ -3367,6 +3374,11 @@ body.grabbing, body.grabbing * {
 
 .modules-index-bar .mw-dropdown {
     width: 150px;
+}
+
+.modules-index-bar .mw-ui-inline-list{
+  float: left;
+  margin-right: 20px;
 }
 
 .modules-index-bar {

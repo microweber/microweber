@@ -11,6 +11,13 @@
         #sort-users{
           padding-bottom: 35px;
         }
+        @media (max-width:1024px){
+          #sort-users .mw-ui-col{
+            padding-bottom: 15px;
+          }
+
+        }
+
     </style>
     <?php only_admin_access(); ?>
     <script type="text/javascript"> mw.require('forms.js', true); </script>
@@ -69,7 +76,14 @@
         else {
             mw.$('#users_admin_panel').removeAttr('data-installed');
         }
-        mw.load_module('users/edit_user', '#user_edit_admin_panel');
+        mw.load_module('users/edit_user', '#user_edit_admin_panel', function(){
+          mw.responsive.table('.users-list-table', {
+              breakPoints:{
+                920:3,
+                620:1
+              }
+            })
+        });
     }
 
 
@@ -96,7 +110,12 @@
             else{
                UsersRotator.go(0)
             }
-            mw.responsive.table('.users-list-table') 
+            mw.responsive.table('.users-list-table', {
+              breakPoints:{
+                920:3,
+                620:1
+              }
+            })
         });
     }
 
@@ -108,6 +127,7 @@
                 mw.url.windowHashParam('sortby', 'created_at desc');
             }
         }
+
     });
 
     _mw_admin_user_edit = function () {
@@ -122,6 +142,7 @@
                 UsersRotator.go(1, function () {
                     mw.tools.scrollTo(mwd.querySelector('#mw_toolbar_nav'));
                 });
+
             });
         }
     }
@@ -234,7 +255,7 @@
     </div>
 
     <div class="manage-items" id="sort-users">
-      <div class="mw-ui-row">
+      <div class="mw-ui-row mw-ui-row-drop-on-1024">
         <div class="mw-ui-col" style="width: 200px;">
           <label class="mw-ui-label">
             <?php _e("Sort Users by Roles"); ?>

@@ -1,12 +1,19 @@
 <?php only_admin_access(); ?>
 <script>
+    responsivetableOrder ={
+        768:4,
+        500:2,
+        400:1
+    }
     mw.require('forms.js', true);
 
 
    $(mwd).ready(function(){
 
 
-
+    mw.responsive.table('#shop-orders', {
+      breakPoints:responsivetableOrder
+    })
 
 
    });
@@ -26,7 +33,9 @@
         mw.$('#mw-admin-manage-orders-list').removeAttr('keyword');
         mw.$('#mw-admin-manage-orders-list').removeAttr('order');
         mw.reload_module("#mw-admin-manage-orders-list", function(){
-
+             mw.responsive.table('#shop-orders', {
+      breakPoints:responsivetableOrder
+    })
         });
    });
 
@@ -95,6 +104,10 @@ ordersSort = function(obj){
 
  mw.reload_module('#mw-admin-manage-orders-list', function(){
     mw.$(field).removeClass('loading');
+
+    mw.responsive.table('#shop-orders', {
+      breakPoints:responsivetableOrder
+    })
  });
 
 
