@@ -746,6 +746,43 @@ body.mw-external-loading:after{
   text-align: center;
 }
 
+#mw-ui-category-selector-manage{
+  border: none;
+  background: transparent
+}
+
+
+#mw-ui-category-selector-manage > ul > li{
+  padding-left: 0;
+}
+
+
+
+#mw-ui-category-selector-manage > ul > li a{
+  padding-left: 20px;
+  position: relative;
+}
+
+.category-edit-label{
+  position: absolute;
+  right: 12px;
+    top: 6px;
+  font-size: 12px;
+  color: #0078ff;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+#mw-ui-category-selector-manage > ul > li a:hover {
+  background: white;
+}
+
+#mw-ui-category-selector-manage > ul > li a:hover .category-edit-label{
+  opacity: 1;
+}
+
 
 
 

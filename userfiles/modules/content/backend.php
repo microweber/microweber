@@ -64,7 +64,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     mw.contentAction = {
         manage: function (type, id) {
 
-
             var id = id || 0;
             if (type === 'page') {
                 mw_select_page_for_editing(id);
@@ -130,8 +129,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if (active_item_is_parent != undefined) {
             mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
             mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
-            mw.$(".pages_tree_item.item_" + active_item_is_parent).addClass('active-bg')
-            mw.$(".pages_tree_item.item_" + active_item_is_parent).children().first().addClass('active')
+            mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).addClass('active-bg')
+            mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).children().first().addClass('active')
             mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
         }
         else {
