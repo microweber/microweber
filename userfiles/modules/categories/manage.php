@@ -1,9 +1,24 @@
 <div class="mw-module-category-manager">
-   <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?></a>
+
   <h2 style="margin-top: 0">
     <span class="mw-icon-category"></span>
-    <?php _e("Select category to edit"); ?>
+    <?php _e("Website categories"); ?>
   </h2>
+  <div class="mw-box-pad">
+
+
+  <div class="mw-searchbox">
+    <div class="mw-sb-item">
+      <div class="mw-sb-item-input"><input type="text" class="mw-ui-field" placeholder="Search" oninput="categorySearch(this)" /></div>
+    </div>
+    <div class="mw-sb-item">
+
+      <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-invert">
+     <span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?>
+   </a>
+
+    </div>
+  </div>
   <div class="mw-ui-category-selector mw-ui-manage-list" id="mw-ui-category-selector-manage" style="visibility: visible;display: block">
     <?php
 $field_name="categories";
@@ -24,6 +39,27 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
 ?>
   </div>
   <script type="text/javascript">
+
+    categorySearch = function(el){
+      var val = el.value.trim().toLowerCase();
+      if(!val){
+        $(".mw-ui-category-selector a").show()
+      }
+      else{
+        $(".mw-ui-category-selector a").each(function(){
+          var currel = $(this);
+          var curr = currel.text().trim().toLowerCase();
+          if(curr.indexOf(val) !== -1){
+            currel.show()
+          }
+          else{
+            currel.hide()
+          }
+        })
+      }
+    }
+
+
 
 
     mw.live_edit_load_cats_list = function () {
@@ -52,6 +88,7 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
         mw.$("#mw-live-edit-cats-tab").removeClass('active');
         mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
             mw.tools.loading(mwd.body, false)
+
         });
     }
 </script>
@@ -61,6 +98,7 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
 
 	mw.on.moduleReload("<?php print $params['id'] ?>", function(){
 		mw.manage_cat_sort();
+    $(".mw-ui-category-selector a").append('<span class="category-edit-label">'+mw.msg.edit + ' ' + mw.msg.category +'</span>')
 	 });
 
 
@@ -70,29 +108,29 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
 mw.manage_cat_sort = function(){
 
 
-mw.$("#<?php print $params['id'] ?>").sortable({
-     items: '.category_element',
-     axis:'y',
-     handle:'a',
-     update:function(){
-       var obj = {ids:[]}
-       $(this).find('.category_element').each(function(){
-          var id = this.attributes['value'].nodeValue;
-          obj.ids.push(id);
-       });
-       $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
-          if(self !== parent && !!parent.mw){
-            parent.mw.reload_module('categories');
-          }
-       });
-     },
-     start:function(a,ui){
-      $(this).height($(this).outerHeight());
-      $(ui.placeholder).height($(ui.item).outerHeight())
-      $(ui.placeholder).width($(ui.item).outerWidth())
-    },
-    scroll:false
-});
+  mw.$("#<?php print $params['id'] ?>").sortable({
+       items: '.category_element',
+       axis:'y',
+       handle:'a',
+       update:function(){
+         var obj = {ids:[]}
+         $(this).find('.category_element').each(function(){
+            var id = this.attributes['value'].nodeValue;
+            obj.ids.push(id);
+         });
+         $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
+            if(self !== parent && !!parent.mw){
+              parent.mw.reload_module('categories');
+            }
+         });
+       },
+       start:function(a,ui){
+        $(this).height($(this).outerHeight());
+        $(ui.placeholder).height($(ui.item).outerHeight())
+        $(ui.placeholder).width($(ui.item).outerWidth())
+      },
+      scroll:false
+  });
 
  
 }
@@ -101,5 +139,8 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 
 </script>
 
-   </div>
-<div id="mw_edit_category_admin_holder"></div>
+</div>
+
+
+  </div>
+  <div id="mw_edit_category_admin_holder"></div>
