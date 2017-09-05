@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title><?php _e('Microweber installation'); ?></title>
+    <title><?php _e('Installation'); ?></title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Language" Content="en">
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
@@ -14,6 +14,14 @@
     $rand = uniqid();
     $ua = $_SERVER['HTTP_USER_AGENT'];
     $defhost = strpos($_SERVER['HTTP_USER_AGENT'], 'Linux') ? 'localhost' : '127.0.0.1';
+
+    if (!isset($pre_configured) ){
+        $pre_configured = false;
+    }
+
+
+
+
     ?>
     <script type="text/javascript">
         function prefix_add(el) {
@@ -169,27 +177,27 @@
             <?php endif; ?>
 
 
+            <div id="mw_log" class="error mw-ui-box mw-ui-box-content" style="display: none"></div>
+            <div class="mw_install_progress">
+                <div class="mw-ui-progress" id="installprogressbar" style="display: none">
+                    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
+                    <div class="mw-ui-progress-info"><?php _e('Installing'); ?></div>
+                    <span class="mw-ui-progress-percent">0%</span>
+                </div>
+                <div id="installinfo"></div>
+            </div>
+
+
         </div>
         <div class="mw-ui-box-content">
             <div class="demo" id="demo-one">
                 <div class="description">
-                    <div id="mw_log" class="error mw-ui-box mw-ui-box-content" style="display: none"></div>
-                    <div class="mw_install_progress">
-                        <div class="mw-ui-progress" id="installprogressbar" style="display: none">
-                            <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-                            <div class="mw-ui-progress-info"><?php _e('Installing'); ?></div>
-                            <span class="mw-ui-progress-percent">0%</span>
-                        </div>
-                        <div id="installinfo"></div>
-                    </div>
+
                     <div class="mw-install-holder">
                         <?php if ($done == false): ?>
                             <?php
 
                             $check_pass = true;
-                            if (!isset($pre_configured) ){
-                                $pre_configured = false;
-                            }
 
 
                             $server_check_errors = array();
