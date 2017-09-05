@@ -39,6 +39,14 @@ only_admin_access();
 
 
         })
+
+        mw.responsive.table('#shop-orders', {
+              breakPoints:{
+                768:4,
+                600:2,
+                400:1
+              }
+            })
     });
 
 </script>

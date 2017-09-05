@@ -2537,6 +2537,13 @@ input#edit-content-url:focus, input#edit-content-url.active {
     padding-top: 5px;
 }
 
+@media (max-width:768px){
+  .edit-post-url{
+    display: none;
+  }
+
+}
+
 .edit-post-url .mw-ui-row {
     table-layout: auto;
 }
@@ -3369,6 +3376,11 @@ body.grabbing, body.grabbing * {
     width: 150px;
 }
 
+.modules-index-bar .mw-ui-inline-list{
+  float: left;
+  margin-right: 20px;
+}
+
 .modules-index-bar {
     clear: both;
     position: relative;
@@ -3547,12 +3559,12 @@ body.grabbing, body.grabbing * {
 }
 
 #users_admin_panel {
-    float: left;
+    float: none;
     margin-right: 20px;
 }
 
 #user_edit_admin_panel {
-    float: left;
+    float: none;
 }
 
 #change_avatar {
@@ -3764,7 +3776,6 @@ body.grabbing, body.grabbing * {
 *************************************/
 
 .mw-simple-rotator-item {
-    float: left;
     margin-right: 20px;
 }
 

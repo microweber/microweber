@@ -5144,16 +5144,66 @@ mw.responsive = {
   table:function(selector, options){
     options = options || {};
     options.breakPoint = options.breakPoint || 768;
+    options.breakPoints = options.breakPoints || false;
     $(selector).each(function(){
       var css = mwd.createElement('style');
-      css.setAttribute('scoped', true);
-      css.innerHTML = '@media (max-width:'+(options.breakPoint)+'px) { '
-      +'tbody tr{ margin-bottom: 20px;display: block; }'
-      +'thead, tfoot{ display: none; }'
-      +'.th-in-td{ display: block; }'
-      +'tbody td{ text-align: left;display: block;width: 100%; }'
-      +'}';
-      var el = $(this).prepend(css);
+      var cls = 'responsive-table-' + mw.random();
+      var sel = function(c){
+        var final = '', arr = c.split(',');
+        arr.forEach(function(c,i){
+          arr[i] = '.' + cls + ' ' + c.trim()
+        })
+        return arr.join(',');
+      };
+      mw.tools.addClass(this, cls);
+      var el = $(this);
+
+      if(!options.breakPoints){
+        css.innerHTML = '@media (max-width:'+(options.breakPoint)+'px) { '
+        + '.' + cls + '{ display: block; width:100%}'
+        + sel('tbody tr') + '{ margin-bottom: 20px;display: block; clear:both;overflow:hidden; }'
+        + sel('thead, tfoot') + '{ display: none; }'
+        + sel('.th-in-td, tbody,tr,td') + '{ display: block; width:100% }'
+        + sel('tbody td') + '{ text-align: left;display: block;width: 100%; }'
+        +'}';
+     }
+     else{
+      var html = '';
+
+      var arr = [];
+
+      $.each( options.breakPoints , function(key, val){
+        arr.push(key);
+      })
+
+      arr.sort(function(a, b){return b-a});
+
+      $.each( arr , function(key){
+        var val = options.breakPoints[this];
+          html += '\n @media (max-width:'+(this)+'px) { '
+        + '.' + cls + '{ display: block; width:100%}'
+        + sel('tbody tr') + '{ margin-bottom: 20px;display: block;clear:both; }'
+        + sel('thead, tfoot') + '{ display: none; }'
+        + sel('.th-in-td, tbody,tr') + '{ display: block; width:100% }'
+        + sel('tbody td') + '{ display: block;width:'+(100/val)+'%;float:left; }'
+        +'}';
+      });
+
+      $(window).on('resize oientationchange', function(){
+        $('tr', el).each(function(){
+          var max = 0;
+          $('td', this).height('auto').each(function(){
+            var h = $(this).outerHeight();
+            if(h>max){max=h}
+          })
+          .height(max)
+        })
+      })
+      css.innerHTML = html
+     }
+
+
+      el.prepend(css);
 
       if(!el.hasClass('mw-mobile-table')){
         el.addClass('mw-mobile-table');

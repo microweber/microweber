@@ -178,6 +178,14 @@
         overflow: hidden;
     }
 
+    @media (max-width:768px){
+      #modules-list-title-and-search .mw-ui-col,
+      #modules-list-title-and-search + .mw-ui-inline-list{
+        padding-bottom: 12px;
+      }
+
+    }
+
     html.market-init .tree-column {
         -webkit-transform: translateX(-210px);
         -moz-transform: translateX(-210px);

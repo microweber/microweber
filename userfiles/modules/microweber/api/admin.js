@@ -747,7 +747,7 @@ $(mwd).ready(function () {
 
     mw.admin.beforeLeaveLocker();
 
-    mw.responsive.table('#shop-orders')
+    
 
 
 });

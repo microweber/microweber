@@ -117,6 +117,13 @@ if (!is_admin()){
         padding-left: 30px;
     }
 
+    @media (max-width:768px){
+      .mw-set-payment-options{
+        padding-left: 0
+      }
+
+    }
+
     .admin-side-box {
         padding-top: 19px;
     }
