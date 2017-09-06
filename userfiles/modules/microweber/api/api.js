@@ -147,6 +147,7 @@ mw.askusertostay = false;
               if( t !== "css")  {
                   var el = mwd.createElement('script');
                   el.src = url;
+                  el.setAttribute('type', 'text/javascript');
                   mwhead.appendChild(el);
               }
               else{

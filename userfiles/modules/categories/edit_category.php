@@ -192,6 +192,7 @@ $(document).ready(function(){
     }
 
 ?>
+<div class="mw-box-pad">
   <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
     <input name="table" type="hidden" value="categories" />
@@ -203,8 +204,10 @@ $(document).ready(function(){
       <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
         <div class="mw-ui-col" style="width: 30px;"> <span class="mw-icon-category admin-manage-toolbar-title-icon"></span> </div>
         <div class="mw-ui-col">
+
           <?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
           <span class="mw-title-field-label mw-title-field-label-subcat"></span>
+
           <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
           <?php else: ?>
           <?php if( isset($data['parent_id'] ) and $data['parent_id'] > 0): ?>
@@ -225,7 +228,7 @@ $(document).ready(function(){
             </button>
           </div>
         </div>
-        <script>mw.admin.titleColumnNavWidth();</script> 
+        <script>mw.admin.titleColumnNavWidth();</script>
       </div>
     </div>
     <div class="mw-ui-field-holder">
@@ -259,10 +262,17 @@ $(document).ready(function(){
             tabs:".quick-add-post-options-item",
             toggle:true
         });
+
+        $(".category-advanced-seetings-button span").on('click', function(){
+          $(".advanced_settings").stop().slideToggle()
+        })
     });
   </script>
     <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
-    <div class="advanced_settings">
+    <div class="category-advanced-seetings-button">
+      <span class="mw-icon-more "></span>
+    </div>
+    <div class="advanced_settings" style="display: none">
       <label class="mw-ui-label">
         <?php _e("Category images and settings"); ?>
       </label>
@@ -362,4 +372,5 @@ $(document).ready(function(){
       </div>
     </div>
   </form>
+  </div>
 </div>

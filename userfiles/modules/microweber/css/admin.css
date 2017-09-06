@@ -2079,6 +2079,13 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
     margin-top: 30px;
 }
 
+#pages_edit_container #mw-ui-category-selector-manage li li{
+  background:url(../img/treelisub.gif) no-repeat 26px -3px, url(../img/treelisub_single.gif) repeat-y 26px 0;
+}
+#pages_edit_container #mw-ui-category-selector-manage li li:last-child {
+    background: url(../img/treelisub_last.gif) no-repeat 26px -3px;
+}
+
 #mw-ui-category-selector-manage .mw-icon-category {
     font-size: 20px;
     margin-right: 5px;
@@ -4752,5 +4759,25 @@ span.mw-icon-upload {
       padding: 20px;
       background: #f5f5f5;
       margin-top:20px;
+      position: relative;
+      clear: both;
+    }
+
+    .mw-box-pad:after{
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      clear: both;
+      height: 0;
+    }
+
+    .category-advanced-seetings-button span{
+      cursor: pointer;
+    }
+
+    .category-advanced-seetings-button{
+      text-align: center;
+      font-size: 32px;
     }
 
