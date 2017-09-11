@@ -93,10 +93,24 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     function mw_select_page_for_editing($p_id) {
 
-        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
+        mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+        mw.$(".category_element.active-bg").removeClass('active-bg');
+
+        //var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
         var active_item_is_page = $p_id;
         var active_item_is_parent = mw.url.windowHashParam("parent-page");
+        if(!active_item_is_parent){
+            active_item_is_parent  = $p_id;
+        }
+        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .pages_tree_item.item_'+active_item_is_parent).first();
+
+
         var active_item_is_category = active_item.attr('data-category-id');
+
+
+        active_item.addClass('active-bg');
+
+        mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
 
         mw.$('.mw-admin-go-live-now-btn').attr('content-id', active_item_is_parent);
         mw.$('#pages_edit_container').attr('content_type', 'page');
@@ -108,6 +122,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
         mw.$('#pages_edit_container').removeAttr('data-active_ids');
         mw.$('#pages_edit_container').removeAttr('active_ids');
+
+
+
 
 
         if (active_item_is_category != undefined) {
@@ -127,8 +144,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         }
         if (active_item_is_parent != undefined) {
-            mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
-            mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+           // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
+          //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
             mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).addClass('active-bg')
             mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).children().first().addClass('active')
             mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
@@ -244,14 +261,14 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     }
 
     function mw_select_category_for_editing($p_id) {
-        var active_cat = $('#pages_tree_container_<?php print $my_tree_id; ?> li.category_element.active-bg').first();
-        if (active_cat != undefined) {
-            var active_cat = active_cat.attr('data-category-id');
-            mw.$('#pages_edit_container').attr('data-selected-category-id', active_cat);
-        }
-        else {
-            mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-        }
+//        var active_cat = $('#pages_tree_container_<?php //print $my_tree_id; ?>// li.category_element.active-bg').first();
+//        if (active_cat != undefined) {
+//            var active_cat = active_cat.attr('data-category-id');
+//            mw.$('#pages_edit_container').attr('data-selected-category-id', active_cat);
+//        }
+//        else {
+//            mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
+//        }
         mw.$('#pages_edit_container').attr('data-category-id', $p_id);
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
         edit_load('categories/edit_category');
