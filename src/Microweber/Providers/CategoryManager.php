@@ -556,6 +556,8 @@ class CategoryManager
             $data['rel_id'] = $data['parent_page'];
         }
 
+
+
         if (isset($data['table']) and ($data['table'] != '')) {
             $table = $data['table'];
         }
@@ -566,6 +568,10 @@ class CategoryManager
         } elseif ((!isset($data['id']) or intval($data['id']) == 0) and !isset($data['parent_id'])) {
             $data['parent_id'] = 0;
         }
+
+
+
+
 
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
             $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
@@ -638,8 +644,14 @@ class CategoryManager
              }
          }*/
         $data['allow_html'] = true;
+        $data['categories'] = false;
 
-        // \Log::info(print_r($data, true));
+        $data['categories'] = false;
+        if(isset($data['parent_id'])){
+
+        }
+
+         // \Log::info(print_r($data, true));
         $id = $save = $this->app->database_manager->extended_save($table, $data);
 
 
