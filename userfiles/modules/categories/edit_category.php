@@ -232,11 +232,10 @@ $(document).ready(function(){
       </div>
     </div>
     <div class="mw-ui-field-holder">
-      <label class="mw-ui-label">
-        <?php _e("Select Parent page or category"); ?>
-      </label>
+
+      <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
       <?php  $is_shop = '';    ?>
-      <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
+      <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par_<?php print $form_rand_id ?>">
         <module  type="categories/selector" include_inactive="true" categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"  show_edit_categories_admin_link="true"  />
       </div>
     </div>
@@ -244,15 +243,24 @@ $(document).ready(function(){
     $(mwd).ready(function(){
         mw.treeRenderer.appendUI('#edit_category_set_par_<?php print $form_rand_id ?>');
         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>'));
-		 
+
 		 var _parent = mwd.querySelector('#edit_category_set_par_<?php print $form_rand_id ?> input:checked');
+
+     if(_parent !== null){
+       $("#category-dropdown-holder").html(_parent.parent().find('span:last').html())
+     }
+
+     $('#edit_category_set_par_<?php print $form_rand_id ?> input').on('change', function(){
+       var html = $(this).parent().find('span:last').html();
+       $("#category-dropdown-holder").html(html)
+     })
 		 
-		 if(_parent !== null){
+		 /*if(_parent !== null){
 			 var plabel = mw.tools.firstParentWithClass(_parent, 'mw-ui-check');
 			plabel.scrollIntoView(false);
 			mw.tools.highlight(plabel);
-			 
-		}
+
+		}  */
 
 				   
 				   
