@@ -247,7 +247,7 @@ $(document).ready(function(){
 		 var _parent = mwd.querySelector('#edit_category_set_par_<?php print $form_rand_id ?> input:checked');
 
      if(_parent !== null){
-       $("#category-dropdown-holder").html(_parent.parent().find('span:last').html())
+       $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
      }
 
      $('#edit_category_set_par_<?php print $form_rand_id ?> input').on('change', function(){
