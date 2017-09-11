@@ -29,7 +29,6 @@ class LegacyCategoryTreeRenderer
     }
 
 
-
     /**
      * category_tree.
      *
@@ -70,7 +69,6 @@ class LegacyCategoryTreeRenderer
 
 
         //return $this->renderer->render($params);
-
 
 
         //this whole code must be reworked
@@ -119,17 +117,17 @@ class LegacyCategoryTreeRenderer
         }
         $nest_level_orig = $depth_level_counter;
 
-        if (!isset($params['no_cache'])) {
-            if ($nest_level_orig == 0) {
-                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-                $cache_content = false;
-                if (($cache_content) != false) {
-                    // echo $cache_content;
-
-                    // return;
-                }
-            }
-        }
+//        if (!isset($params['no_cache'])) {
+//            if ($nest_level_orig == 0) {
+//                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+//                $cache_content = false;
+//                if (($cache_content) != false) {
+//                    // echo $cache_content;
+//
+//                    // return;
+//                }
+//            }
+//        }
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
@@ -211,7 +209,6 @@ class LegacyCategoryTreeRenderer
         }
 
 
-
         $table = $this->app->category_manager->tables['categories'];
         if (isset($params['content_id'])) {
             $params['for_page'] = $params['content_id'];
@@ -278,6 +275,8 @@ class LegacyCategoryTreeRenderer
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
                 }
+
+
             }
         }
 
@@ -333,6 +332,15 @@ class LegacyCategoryTreeRenderer
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
 
+
+            $cont_check = true;
+            if ($cat_get_params['rel_type'] == 'content' and $cat_get_params['rel_id']) {
+                $cont_check = $this->app->content_manager->get_by_id($cat_get_params['rel_id']);
+                if (!$cont_check) {
+
+                    return;
+                }
+            }
             if (isset($parent) and $parent != false) {
                 $page_for_parent = $this->app->category_manager->get_page($parent);
                 $cats_for_content = $this->app->category_manager->get_for_content($params['rel_id']);
@@ -356,10 +364,15 @@ class LegacyCategoryTreeRenderer
             if ($users_can_create_content != false) {
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
-           // d($cat_get_params);
 
-            $fors = $this->app->database_manager->get($cat_get_params);
-            //d($cat_get_params);
+
+            $fors = array();
+            if ($cont_check != false) {
+                $fors = $this->app->database_manager->get($cat_get_params);
+
+            } else {
+                return;
+            }
 
         }
 
@@ -373,7 +386,7 @@ class LegacyCategoryTreeRenderer
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         } else {
             if ($fors != false and is_array($fors) and !empty($fors)) {
-               // $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
+                // $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
 
                 //
 
@@ -394,6 +407,8 @@ class LegacyCategoryTreeRenderer
 
         return;
     }
+
+    private $passed_parent_ids = array();
 
     /**
      * `.
@@ -474,6 +489,15 @@ class LegacyCategoryTreeRenderer
         if (empty($limit)) {
             $limit = array(0, 10);
         }
+
+
+        if(!in_array($parent,$this->passed_parent_ids)){
+            $this->passed_parent_ids[] = $parent;
+        } else {
+            return;
+        }
+        
+
         $table = $this->app->database_manager->real_table_name($table);
         $content_type = addslashes($content_type);
         $hard_limit = ' LIMIT 300 ';
@@ -510,6 +534,7 @@ class LegacyCategoryTreeRenderer
             }
         }
 
+
         if (!empty($limit)) {
             $my_offset = $limit[1] - $limit[0];
 
@@ -518,6 +543,7 @@ class LegacyCategoryTreeRenderer
             $my_limit_q = false;
         }
         $output = '';
+
 
         $q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . md5($sql), 'categories/' . intval($parent));
         //$q = $this->app->database_manager->query($sql, false);
@@ -608,7 +634,6 @@ class LegacyCategoryTreeRenderer
                             }
 
 
-
                             $to_print = str_replace('{id}', $item['id'], $link);
 
                             if (stristr($link, '{items_count}')) {
@@ -616,7 +641,7 @@ class LegacyCategoryTreeRenderer
                             }
 
                             $to_print = str_ireplace('{url}', $this->app->category_manager->link($item['id']), $to_print);
-                            $to_print = str_ireplace('{link}',$this->app->category_manager->link($item['id']), $to_print);
+                            $to_print = str_ireplace('{link}', $this->app->category_manager->link($item['id']), $to_print);
 
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 
@@ -733,8 +758,6 @@ class LegacyCategoryTreeRenderer
             }
         }
     }
-
-
 
 
 }
