@@ -275,7 +275,11 @@ class InstallController extends Controller
         }
 
         if ((!isset($viewData['config']['prefix']) or !$viewData['config']['prefix']) and $domain) {
-            $viewData['config']['prefix'] = $domain . '_';
+            $pre = $domain;
+            if(is_numeric(substr($pre, 0, 1))){
+                $pre = 'p'.$pre;
+            }
+            $viewData['config']['prefix'] = $pre . '_';
         }
         if (extension_loaded('pdo_sqlite') and $domain) {
             $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
