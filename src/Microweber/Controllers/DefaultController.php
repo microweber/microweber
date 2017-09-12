@@ -826,8 +826,8 @@ class DefaultController extends Controller
 
         $module_info = $this->app->url_manager->param('module_info', true);
 
-        if ($module_info) {
-            if ($_REQUEST['module']) {
+
+        if ($module_info && @$_REQUEST['module']) {
                 $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
                 $try_config_file = modules_path() . '' . $_REQUEST['module'] . '_config.php';
                 $try_config_file = normalize_path($try_config_file, false);
@@ -847,7 +847,7 @@ class DefaultController extends Controller
                     return;
                 }
             }
-        }
+
 
         $admin = $this->app->url_manager->param('admin', true);
 
@@ -931,8 +931,7 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
-        if ($mod_n == 'layout') {
-            if (isset($data['template'])) {
+        if ($mod_n == 'layout' && isset($data['template'])) {
                 $t = str_replace('..', '', $data['template']);
                 $possible_layout = templates_path() . $t;
                 $possible_layout = normalize_path($possible_layout, false);
@@ -948,7 +947,6 @@ class DefaultController extends Controller
                     // return;
                 }
             }
-        }
 
         $has_id = false;
         if (isset($data) and is_array($data)) {
