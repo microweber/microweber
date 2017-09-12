@@ -51,7 +51,7 @@ class DefaultController extends Controller
             }
         }
 
-        if (\Config::get('microweber.force_https') and !is_cli() && !is_https()) {
+        if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
             return mw()->url_manager->redirect($https);
         }
@@ -61,7 +61,7 @@ class DefaultController extends Controller
 
     public function rss()
     {
-        if (mw_is_installed() == true) {
+        if (mw_is_installed()) {
             event_trigger('mw_cron');
         }
 
@@ -75,9 +75,9 @@ class DefaultController extends Controller
         $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
         $rssfeed .= '<channel>' . "\n";
         $rssfeed .= '<atom:link href="' . site_url('rss') . '" rel="self" type="application/rss+xml" />' . "\n";
-        $rssfeed .= '<title>' . $site_title . '</title>' . "\n";
+        $rssfeed .= "<title>$site_title</title>" . "\n";
         $rssfeed .= '<link>' . site_url() . '</link>' . "\n";
-        $rssfeed .= '<description>' . $site_desc . '</description>' . "\n";
+        $rssfeed .= "<description>$site_desc</description>" . "\n";
         foreach ($cont as $row) {
             if (!isset($row['description']) or $row['description'] == '') {
                 $row['description'] = $row['content'];
