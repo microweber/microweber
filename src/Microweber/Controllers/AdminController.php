@@ -29,11 +29,11 @@ class AdminController extends Controller
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
-            if (!$is_installed) {
-                $installer = new InstallController();
 
-                return $installer->index();
-            }
+            $installer = new InstallController();
+
+            return $installer->index();
+
         } elseif (defined('MW_VERSION')) {
             $config_version = Config::get('microweber.version');
             if ($config_version != MW_VERSION) {
