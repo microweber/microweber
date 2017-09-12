@@ -591,12 +591,9 @@ class DefaultController extends Controller
 
         if (!defined('MW_NO_SESSION')) {
             $is_ajax = $this->app->url_manager->is_ajax();
-            if (!mw()->user_manager->session_id() and $is_ajax == false) {
-                if (!defined('MW_SESS_STARTED')) {
-                    define('MW_SESS_STARTED', true);
-
-                    // //session_start();
-                }
+            if (!mw()->user_manager->session_id() and $is_ajax == false and !defined('MW_SESS_STARTED')) {
+                define('MW_SESS_STARTED', true);
+                //session_start();
             }
             $editmode_sess = $this->app->user_manager->session_get('editmode');
             if ($editmode_sess == true and !defined('IN_EDIT')) {
@@ -647,10 +644,8 @@ class DefaultController extends Controller
         }
 
         if (isset($from_url) and $from_url != false) {
-            if (stristr($from_url, 'editor_tools/wysiwyg')) {
-                if (!defined('IN_EDITOR_TOOLS')) {
-                    define('IN_EDITOR_TOOLS', true);
-                }
+            if (stristr($from_url, 'editor_tools/wysiwyg') && !defined('IN_EDITOR_TOOLS')) {
+                define('IN_EDITOR_TOOLS', true);
             }
 
             $url = $from_url;
@@ -831,8 +826,8 @@ class DefaultController extends Controller
 
         $module_info = $this->app->url_manager->param('module_info', true);
 
-        if ($module_info) {
-            if ($_REQUEST['module']) {
+
+        if ($module_info && @$_REQUEST['module']) {
                 $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
                 $try_config_file = modules_path() . '' . $_REQUEST['module'] . '_config.php';
                 $try_config_file = normalize_path($try_config_file, false);
@@ -852,7 +847,7 @@ class DefaultController extends Controller
                     return;
                 }
             }
-        }
+
 
         $admin = $this->app->url_manager->param('admin', true);
 
@@ -936,8 +931,7 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
-        if ($mod_n == 'layout') {
-            if (isset($data['template'])) {
+        if ($mod_n == 'layout' && isset($data['template'])) {
                 $t = str_replace('..', '', $data['template']);
                 $possible_layout = templates_path() . $t;
                 $possible_layout = normalize_path($possible_layout, false);
@@ -953,7 +947,6 @@ class DefaultController extends Controller
                     // return;
                 }
             }
-        }
 
         $has_id = false;
         if (isset($data) and is_array($data)) {

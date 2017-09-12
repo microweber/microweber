@@ -8,12 +8,16 @@ if(isset($params["data-category-id"])){
 
 
 
+
+
+
 if($data == false or empty($data )){
     include('_empty_category_data.php');
 }
-
-
-$just_saved = false;
+if(!$data['id'] and isset($params["parent-category-id"])){
+    $data['parent_id'] = intval($params["parent-category-id"]);
+}
+ $just_saved = false;
 $quick_edit = false;
 if(isset($params['just-saved'])){
     $just_saved = $params['just-saved'];
@@ -21,21 +25,21 @@ if(isset($params['just-saved'])){
 if(isset($params['quick_edit'])){
     $quick_edit = $params['quick_edit'];
 }
- 
+
 ?>
 <?php
- 
- $wrapper_class = 'mw-edit-category-item-admin'; 
- 
+
+ $wrapper_class = 'mw-edit-category-item-admin';
+
   if(isset($params['live_edit'])){
-	$wrapper_class = 'module-live-edit-settings'; 
-	 
+	$wrapper_class = 'module-live-edit-settings';
+
  }?>
 
-<div class="<?php print $wrapper_class; ?>"> 
+<div class="<?php print $wrapper_class; ?>">
   <script  type="text/javascript">
     mw.require('forms.js');
-</script> 
+</script>
   <script  type="text/javascript">
  function set_category_parent_<?php print $form_rand_id ?>(){
 	 var sel = mw.$('#edit_category_set_par_<?php print $form_rand_id; ?> input:checked').parents('li').first(),
@@ -91,12 +95,12 @@ if(isset($params['quick_edit'])){
         mw.reload_module('#<?php print $params['id'] ?>');
         <?php endif; ?>
   }
-  
+
   continue_editing_cat = function(){
 		 mw.$('.add-edit-category-form').show();
 		 mw.$('.mw-quick-cat-done').hide();
   }
-   
+
  <?php if($just_saved != false) : ?>
 	  $('#<?php print $params['id'] ?>').removeClass('loading');
 	   $('#<?php print $params['id'] ?>').removeAttr('just-saved');
@@ -121,16 +125,16 @@ $(document).ready(function(){
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print api_link('category/save') ?>', function(val){
-			 
-			 
+
+
 			 if(typeof(this.error) != "undefined"){
 				  mw.notification.msg(this);
 				   mw.category_is_saving = false;
 				  return false;
 			 }
-			 
-			 
-			 
+
+
+
             mw.$('#mw-notifications-holder').empty();
         	  mw.notification.success("Category changes are saved");
  			  var v = this.toString();
@@ -148,10 +152,10 @@ $(document).ready(function(){
         	  });
         	  <?php if(intval($data['id']) == 0): ?>
         	  	mw.url.windowHashParam("new_content", "true");
-				
+
         	  //	mw.url.windowHashParam("action", "editcategory:" + this);
 
-				
+
              <?php endif; ?>
 			 mw.reload_module('#<?php print $params['id'] ?>');
 
@@ -159,11 +163,11 @@ $(document).ready(function(){
 				mw.tools.removeClass(module, 'loading');
 			    mw.category_is_saving = false;
                 mw.$('.mw-cat-save-submit').removeClass('disabled');
-				
-			 
-				
-				
-				
+
+
+
+
+
 	    });
 
     return false;
@@ -216,11 +220,11 @@ $(document).ready(function(){
 <div class="mw-box-pad">
   <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
-    <input name="table" type="hidden" value="categories" />
-    <input name="rel" type="hidden" value="<?php print ($data['rel_type'])?>" />
-    <input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
-    <input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
-    <input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
+
+         <input name="rel" type="hidden" value="<?php print ($data['rel_type'])?>" />
+       <input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
+        <input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
+      <input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
     <div class="mw-ui-field-holder">
       <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
         <div class="mw-ui-col" style="width: 30px;"> <span class="mw-icon-category admin-manage-toolbar-title-icon"></span> </div>
@@ -242,7 +246,7 @@ $(document).ready(function(){
         <div class="mw-ui-col" id="content-title-field-buttons">
           <div class="content-title-field-buttons">
             <?php if(intval($data['id']) != 0): ?>
-            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;"> <a href="<?php print admin_url(); ?>view:content#action=new:category" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("Add new category"); ?>"> <span class="mw-icon-plus"></span> <span class="mw-icon-category"></span> </a> <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a> </div>
+            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;"> <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("New sub category"); ?>"> <span class="mw-icon-plus"></span> <span class="mw-icon-category"></span> </a> <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a> </div>
             <?php endif; ?>
             <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert pull-right" id="mw-admin-cat-save">
             <?php _e("Save"); ?>
@@ -253,7 +257,7 @@ $(document).ready(function(){
       </div>
     </div>
     <div class="mw-ui-field-holder">
-
+Parent:
       <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
       <?php  $is_shop = '';    ?>
       <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par_<?php print $form_rand_id ?>">
@@ -275,7 +279,7 @@ $(document).ready(function(){
        var html = $(this).parent().find('span:last').html();
        $("#category-dropdown-holder").html(html)
      })
-		 
+
 		 /*if(_parent !== null){
 			 var plabel = mw.tools.firstParentWithClass(_parent, 'mw-ui-check');
 			plabel.scrollIntoView(false);
@@ -283,8 +287,8 @@ $(document).ready(function(){
 
 		}  */
 
-				   
-				   
+
+
 
         mw.tabs({
             nav:"#tabsnav .mw-ui-btn",
@@ -364,22 +368,22 @@ $(document).ready(function(){
           <script  type="text/javascript">
 
 			$(document).ready(function(){
-			
+
 				mw.dropdown();
-			
-			
+
+
 			$('.edit-category-choose-subtype-dd').on('change',function(){
 				var val = $(this).getDropdownValue();
 				$('[name="category_subtype"]','#admin_edit_category_form_<?php print $form_rand_id ?>').val(val)
-				
+
 				$('#admin_edit_category_subtype_settings_<?php print $form_rand_id ?>').attr('category_subtype',val);
 				mw.reload_module('#admin_edit_category_subtype_settings_<?php print $form_rand_id ?>');
-				
+
 				});
 			});
-			
-			
-			
+
+
+
 			</script>
           <div class="mw-ui-field-holder">
             <div class="mw-ui-label" style="width: 230px">

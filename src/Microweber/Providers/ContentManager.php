@@ -675,7 +675,8 @@ class ContentManager
             if (isset($params['no_cache'])) {
                 $cache_content = false;
             }
-            // $cache_content = false;
+            // @todo: activate cache
+            $cache_content = false;
             if (($cache_content) != false) {
                 if (isset($params['return_data'])) {
                     return $cache_content;
