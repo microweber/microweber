@@ -29,12 +29,14 @@ class DefaultController extends Controller
 
     public function __construct($app = null)
     {
-        if (!is_object($this->app)) {
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw();
-            }
+        if (is_object($this->app)) {
+            return null;
+        }
+
+        $this->app = $app;
+        
+        if (!is_object($app)) {
+            $this->app = mw();
         }
     }
 
