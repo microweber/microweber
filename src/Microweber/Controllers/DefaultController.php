@@ -71,32 +71,10 @@ class DefaultController extends Controller
 
         $site_title = $this->app->option_manager->get('website_title', 'website');
         $site_desc = $this->app->option_manager->get('website_description', 'website');
-        $rssfeed = '<?xml version="1.0" encoding="UTF-8"?>';
-        $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
-        $rssfeed .= '<channel>' . "\n";
-        $rssfeed .= '<atom:link href="' . site_url('rss') . '" rel="self" type="application/rss+xml" />' . "\n";
-        $rssfeed .= "<title>$site_title</title>" . "\n";
-        $rssfeed .= '<link>' . site_url() . '</link>' . "\n";
-        $rssfeed .= "<description>$site_desc</description>" . "\n";
-        foreach ($cont as $row) {
-            if (!isset($row['description']) or $row['description'] == '') {
-                $row['description'] = $row['content'];
-            }
-            $row['description'] = character_limiter(strip_tags(($row['description'])), 500);
-            $rssfeed .= '<item>' . "\n";
-            $rssfeed .= '<title>' . $row['title'] . '</title>' . "\n";
-            $rssfeed .= '<description><![CDATA[' . $row['description'] . '  ]]></description>' . "\n";
-            $rssfeed .= '<link>' . content_link($row['id']) . '</link>' . "\n";
-            $rssfeed .= '<pubDate>' . date('D, d M Y H:i:s O', strtotime($row['created_at'])) . '</pubDate>' . "\n";
-            $rssfeed .= '<guid>' . content_link($row['id']) . '</guid>' . "\n";
-            $rssfeed .= '</item>' . "\n";
-        }
-        $rssfeed .= '</channel>' . "\n";
-        $rssfeed .= '</rss>';
 
         event_trigger('mw_robot_url_hit');
 
-        echo $rssfeed;
+        return view('rss', compact('site_title', 'site_desc', 'cont'));
     }
 
     public function api_html()
