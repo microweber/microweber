@@ -4481,3 +4481,27 @@ body.bup.dragStart.state-element {
   display: none;
 }
 
+.mw-ui-field-icon{
+  display: inline-block;
+  text-align: center;
+  font-size: 30px;
+  height: 36px;
+  width: 36px;
+  border: 1px solid @fieldBorderColor;
+  border-radius:@radius 0 0 @radius;
+  vertical-align: top;
+}
+
+.mw-ui-field-icon > *{
+  height: 36px;
+  line-height: 36px;
+}
+
+.mw-ui-field-icon + input{
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  max-width: -webkit-calc(100% - 36px);
+  max-width: calc(100% - 36px);
+}
+

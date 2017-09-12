@@ -311,14 +311,28 @@ mw.iconSelector = mw.iconSelector || {
         input.__time = null;
         input.className = options.className || 'mw-ui-field';
 
+        var holder = document.createElement('div');
+        holder.__time = null;
+        holder.className = 'mw-ui-field-holder';
+        holder.innerHTML = '<span class="mw-ui-field-icon">'+(options.value ? options.value : '')+'</span>';
+        holder.appendChild(input)
+
+
         mw.iconSelector.getMaterialIconsDropdown(function(){
-          html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; display:inline-block;">' + html + this + '</ul>';
-          $(selector).addClass('mw-icon-selector-dropdown-wrapper').append(input).append(html)
+          html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; left:0;top:100%;">' + html + this + '</ul>';
+          $(selector).addClass('mw-icon-selector-dropdown-wrapper').append(holder).append(html)
+          $('li', el).on('mousedown touchstart', function(){
+            var val =  $(this).html()
+            $('.mw-ui-field-icon', holder).html(val);
+             if(typeof options.onchange == 'function'){
+                 options.onchange.call(undefined, val, el)
+             }
+          });
         })
 
 
         $(input).on('focus', function(){
-            $(this).parent().addClass('focused')
+            $(this).parent().parent().addClass('focused')
         });
          $(input).on('input change', function(){
              var val = $.trim(this.value);
@@ -332,7 +346,7 @@ mw.iconSelector = mw.iconSelector || {
                             $('.mw-icon-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
                         }
                         if(typeof options.onchange == 'function'){
-                             options.onchange.call(undefined, input.value)
+                             //options.onchange.call(undefined, input.value, el)
                         }
                  }, 300);
              })(val, el);
@@ -340,19 +354,16 @@ mw.iconSelector = mw.iconSelector || {
         });
         el.__time = null;
 
+
+
+
         $(input).on('blur', function(){
             (function(el){
                 clearTimeout(el.__time)
                 el.__time = setTimeout(function(){
-                    $(el).parent().removeClass('focused')
+                    $(el).parent().parent().removeClass('focused')
                 }, 200)
             })(this)
-        });
-        $('.mw-icon-selector li', el).on('mousedown touchstart', function(){
-             $(input).val($(this).attr('data-value')).trigger('change');
-             if(typeof options.onchange == 'function'){
-                 options.onchange.call(undefined, input.value)
-             }
         });
 
 

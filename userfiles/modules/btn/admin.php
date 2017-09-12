@@ -150,14 +150,16 @@ $icon = get_option('icon', $params['id']);
             $(document).ready(function () {
                 mw.iconSelector.iconDropdown("#icon-picker", {
                     onchange: function (iconClass) {
-                        $('[name="icon"]').val(iconClass).trigger('change')
+                      
+                       $('[name="icon"]').val(iconClass).trigger('change')
                     },
-                    mode: 'static'
+                    mode: 'absolute',
+                    value: '<?php print $icon; ?>'
                 });
                 $("#icon-picker input").val($('[name="icon"]').val())
             })
         </script>
-        <input type="text" name="icon" value="<?php print $icon; ?>" class="mw_option_field" style="display: none"/>
+        <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
         <div id="icon-picker"></div>
     </div>
     <div class="mw-ui-field-holder">
