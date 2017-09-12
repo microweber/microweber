@@ -72,6 +72,7 @@ class DefaultController extends Controller
         $site_title = $this->app->option_manager->get('website_title', 'website');
         $site_desc = $this->app->option_manager->get('website_description', 'website');
 
+
         event_trigger('mw_robot_url_hit');
 
         return view('rss', compact('site_title', 'site_desc', 'cont'));

@@ -417,12 +417,12 @@ else{
 }
 
 .mw-upload-filetypes li{
-  margin: 0 15px;
+  margin: 0 3px;
   font-size:11px;
   display: inline-block;
   position: relative;
   cursor: default;
-  width: 120px;
+  width: 100px;
   text-align: center;
   overflow: hidden;
   transition: opacity 0.12s;

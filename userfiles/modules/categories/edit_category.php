@@ -178,10 +178,24 @@ $(document).ready(function(){
     tabs: mw.$(".quick-add-post-options-item"),
     toggle:true
  });
+ var curr_id = ''+<?php print $data['id']; ?>;
+
+ if(mw.url.mwParams().action == 'categories'){
+   $("#category-page-title").hide()
+ }
+ else{
+  if(mw.url.windowHashParam('action') == 'new:category'){
+    $("#category-page-title-edit").hide()
+  }
+  else{
+    $("#category-page-title-add").hide()
+  }
+ }
 
 
 });
 </script>
+
   <?php
 
     if(intval($data['id']) == 0){
@@ -196,6 +210,13 @@ $(document).ready(function(){
     }
 
 ?>
+
+
+<h2 id="category-page-title">
+  <span id="category-page-title-add"><?php _e('Add') ?></span>
+  <span id="category-page-title-edit"><?php _e('Edit') ?></span>
+  <?php _e('category'); ?>
+</h2>
 <div class="mw-box-pad">
   <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
