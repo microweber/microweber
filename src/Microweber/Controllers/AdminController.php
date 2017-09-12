@@ -126,10 +126,11 @@ class AdminController extends Controller
     private function checkServiceConfig()
     {
         $serviceConfig = Config::get('services.microweber');
-        if ($serviceConfig) {
-            if (trim(implode('', $serviceConfig))) {
-                return true;
-            }
+        if (!$serviceConfig) {
+            return false;
+        }
+        if (trim(implode('', $serviceConfig))) {
+            return true;
         }
 
         return false;
@@ -138,7 +139,7 @@ class AdminController extends Controller
     private function registerMwClient()
     {
         $key = Config::get('app.key');
-   
+
         $client = new \Guzzle\Service\Client('https://login.microweber.com/api/v1/client/');
 
         $domain = site_url();
