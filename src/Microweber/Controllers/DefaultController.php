@@ -432,123 +432,123 @@ class DefaultController extends Controller
         if ($api_function == 'module' and $mod_class_api_called == false) {
 
             return $this->module();
-        } else {
-            $err = false;
-            if (!in_array($api_function, $api_exposed, true)) {
-                $err = true;
-            }
+        }
+        $err = false;
+        if (!in_array($api_function, $api_exposed, true)) {
+            $err = true;
+        }
 
-            if ($err == true) {
-                foreach ($api_exposed as $api_exposed_item) {
-                    if ($api_exposed_item == $api_function) {
+        if ($err == true) {
+            foreach ($api_exposed as $api_exposed_item) {
+                if ($api_exposed_item == $api_function) {
+                    $err = false;
+                }
+            }
+        }
+
+        if (isset($api_function_full)) {
+            foreach ($api_exposed as $api_exposed_item) {
+                if (is_string($api_exposed_item) and is_string($api_function_full)) {
+                    $api_function_full = str_replace('\\', '/', $api_function_full);
+                    $api_function_full = ltrim($api_function_full, '/');
+
+                    if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
                         $err = false;
                     }
                 }
             }
+        }
 
-            if (isset($api_function_full)) {
-                foreach ($api_exposed as $api_exposed_item) {
-                    if (is_string($api_exposed_item) and is_string($api_function_full)) {
-                        $api_function_full = str_replace('\\', '/', $api_function_full);
-                        $api_function_full = ltrim($api_function_full, '/');
+        if ($err == false) {
+            if ($mod_class_api_called == false) {
+                if (!$_POST and !$_REQUEST) {
 
-                        if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
-                            $err = false;
-                        }
+                    //  $data = $this->app->url_manager->segment(2);
+                    $data = $this->app->url_manager->params(true);
+                    if (empty($data)) {
+                        $data = $this->app->url_manager->segment(2);
                     }
+                } else {
+
+                    //$data = $_REQUEST;
+                    $data = array_merge($_GET, $_POST);
                 }
-            }
 
-            if ($err == false) {
-                if ($mod_class_api_called == false) {
-                    if (!$_POST and !$_REQUEST) {
+                $api_function_full_2 = explode('/', $api_function_full);
+                unset($api_function_full_2[count($api_function_full_2) - 1]);
+                $api_function_full_2 = implode('/', $api_function_full_2);
 
-                        //  $data = $this->app->url_manager->segment(2);
-                        $data = $this->app->url_manager->params(true);
-                        if (empty($data)) {
-                            $data = $this->app->url_manager->segment(2);
-                        }
-                    } else {
+                if (function_exists($api_function)) {
+                    $res = $api_function($data);
+                } elseif (class_exists($api_function, false)) {
 
-                        //$data = $_REQUEST;
-                        $data = array_merge($_GET, $_POST);
+                    //
+                    $segs = $this->app->url_manager->segment();
+                    $mmethod = array_pop($segs);
+
+                    $class = new $api_function($this->app);
+
+                    if (method_exists($class, $mmethod)) {
+                        $res = $class->$mmethod($data);
                     }
+                } else {
+                    $api_function_full_2 = str_replace(array('..', '/'), array('', '\\'), $api_function_full_2);
+                    $api_function_full_2 = __NAMESPACE__ . '\\' . $api_function_full_2;
 
-                    $api_function_full_2 = explode('/', $api_function_full);
-                    unset($api_function_full_2[count($api_function_full_2) - 1]);
-                    $api_function_full_2 = implode('/', $api_function_full_2);
-
-                    if (function_exists($api_function)) {
-                        $res = $api_function($data);
-                    } elseif (class_exists($api_function, false)) {
+                    if (class_exists($api_function_full_2, false)) {
 
                         //
+
                         $segs = $this->app->url_manager->segment();
                         $mmethod = array_pop($segs);
 
-                        $class = new $api_function($this->app);
+                        $class = new $api_function_full_2($this->app);
 
                         if (method_exists($class, $mmethod)) {
                             $res = $class->$mmethod($data);
                         }
-                    } else {
-                        $api_function_full_2 = str_replace(array('..', '/'), array('', '\\'), $api_function_full_2);
-                        $api_function_full_2 = __NAMESPACE__ . '\\' . $api_function_full_2;
+                    } elseif (isset($api_function_full)) {
+                        $api_function_full = str_replace('\\', '/', $api_function_full);
 
-                        if (class_exists($api_function_full_2, false)) {
+                        $api_function_full1 = explode('/', $api_function_full);
+                        $mmethod = array_pop($api_function_full1);
+                        $mclass = array_pop($api_function_full1);
 
-                            //
-
-                            $segs = $this->app->url_manager->segment();
-                            $mmethod = array_pop($segs);
-
-                            $class = new $api_function_full_2($this->app);
+                        if (class_exists($mclass, false)) {
+                            $class = new $mclass($this->app);
 
                             if (method_exists($class, $mmethod)) {
                                 $res = $class->$mmethod($data);
                             }
-                        } elseif (isset($api_function_full)) {
-                            $api_function_full = str_replace('\\', '/', $api_function_full);
-
-                            $api_function_full1 = explode('/', $api_function_full);
-                            $mmethod = array_pop($api_function_full1);
-                            $mclass = array_pop($api_function_full1);
-
-                            if (class_exists($mclass, false)) {
-                                $class = new $mclass($this->app);
-
-                                if (method_exists($class, $mmethod)) {
-                                    $res = $class->$mmethod($data);
-                                }
-                            }
                         }
                     }
                 }
+            }
 
-                if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
-                    foreach ($hooks[$api_function] as $hook_key => $hook_value) {
-                        if ($hook_value != false and $hook_value != null) {
-                            $hook_value($res);
-                        }
+            if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+                foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+                    if ($hook_value != false and $hook_value != null) {
+                        $hook_value($res);
                     }
-                } else {
-
-                    //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
                 }
-
-                // print $api_function;
             } else {
-                $api_function = mw()->format->clean_html($api_function);
-                $api_function = mw()->format->clean_xss($api_function);
-                mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
+
+                //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
             }
 
-            if (isset($res)) {
-                return $this->_api_responce($res);
-            }
-
-            return;
+            // print $api_function;
+        } else {
+            $api_function = mw()->format->clean_html($api_function);
+            $api_function = mw()->format->clean_xss($api_function);
+            mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
         }
+
+        if (isset($res)) {
+            return $this->_api_responce($res);
+        }
+
+        return;
+    
     }
 
     public function module()
