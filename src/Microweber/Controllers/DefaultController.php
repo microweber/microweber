@@ -591,12 +591,9 @@ class DefaultController extends Controller
 
         if (!defined('MW_NO_SESSION')) {
             $is_ajax = $this->app->url_manager->is_ajax();
-            if (!mw()->user_manager->session_id() and $is_ajax == false) {
-                if (!defined('MW_SESS_STARTED')) {
-                    define('MW_SESS_STARTED', true);
-
-                    // //session_start();
-                }
+            if (!mw()->user_manager->session_id() and $is_ajax == false and !defined('MW_SESS_STARTED')) {
+                define('MW_SESS_STARTED', true);
+                //session_start();
             }
             $editmode_sess = $this->app->user_manager->session_get('editmode');
             if ($editmode_sess == true and !defined('IN_EDIT')) {
