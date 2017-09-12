@@ -1030,17 +1030,17 @@ class DefaultController extends Controller
             // echo $res;
         }
 
-        if ($url_last != __FUNCTION__) {
-            if (function_exists($url_last)) {
-                //
-                $this->api($url_last);
-            } elseif (isset($url_prev) and function_exists($url_prev)) {
-                $this->api($url_last);
-            } elseif (class_exists($url_last, false)) {
-                $this->api($url_last);
-            } elseif (isset($url_prev) and class_exists($url_prev, false)) {
-                $this->api($url_prev);
-            }
+        if ($url_last == __FUNCTION__) {
+            return;
+        }
+        if (function_exists($url_last)) {
+            $this->api($url_last);
+        } elseif (isset($url_prev) and function_exists($url_prev)) {
+            $this->api($url_last);
+        } elseif (class_exists($url_last, false)) {
+            $this->api($url_last);
+        } elseif (isset($url_prev) and class_exists($url_prev, false)) {
+            $this->api($url_prev);
         }
 
         return;
