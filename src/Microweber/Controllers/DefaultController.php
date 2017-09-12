@@ -44,20 +44,16 @@ class DefaultController extends Controller
             $installer = new InstallController($this->app);
 
             return $installer->index();
-        } 
+        }
         if (defined('MW_VERSION')) {
             if (config('microweber.version') != MW_VERSION) {
                 $this->app->update->post_update(MW_VERSION);
             }
         }
 
-        $force_https = \Config::get('microweber.force_https');
-
-        if ($force_https and !is_cli()) {
-            if (!is_https()) {
-                $https = str_ireplace('http://', 'https://', url_current());
-                return mw()->url_manager->redirect($https);
-            }
+        if (\Config::get('microweber.force_https') and !is_cli() && !is_https()) {
+            $https = str_ireplace('http://', 'https://', url_current());
+            return mw()->url_manager->redirect($https);
         }
 
         return $this->frontend();
