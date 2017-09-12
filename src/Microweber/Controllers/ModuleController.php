@@ -706,8 +706,8 @@ class ModuleController extends Controller
             $category = $this->app->category_manager->get_by_id(CATEGORY_ID);
         }
 
-        if (!$standalone_edit) {
-            if (isset($page['render_file'])) {
+
+        if (!$standalone_edit && isset($page['render_file'])) {
                 $l = new \Microweber\View($page['render_file']);
                 $l->page_id = PAGE_ID;
                 $l->content_id = CONTENT_ID;
@@ -751,7 +751,7 @@ class ModuleController extends Controller
                     }
                 }
             }
-        }
+
 
         if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
