@@ -40,13 +40,13 @@ class DefaultController extends Controller
 
     public function index()
     {
-        if (!mw_is_installed()) {
+        $is_installed = mw_is_installed();
+        if (!$is_installed) {
             $installer = new InstallController($this->app);
-
             return $installer->index();
-        }
-        if (defined('MW_VERSION')) {
-            if (config('microweber.version') != MW_VERSION) {
+        } elseif (defined('MW_VERSION')) {
+            $config_version = Config::get('microweber.version');
+            if ($config_version != MW_VERSION) {
                 $this->app->update->post_update(MW_VERSION);
             }
         }
