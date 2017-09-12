@@ -29,20 +29,18 @@ class DefaultController extends Controller
 
     public function __construct($app = null)
     {
-        if (is_object($this->app)) {
-            return null;
-        }
-
-        $this->app = $app;
-        
-        if (!is_object($app)) {
-            $this->app = mw();
+        if (!is_object($this->app)) {
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw();
+            }
         }
     }
 
     public function index()
     {
-        if (! mw_is_installed()) {
+        if (!mw_is_installed()) {
             $installer = new InstallController($this->app);
 
             return $installer->index();
