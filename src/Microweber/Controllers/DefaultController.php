@@ -644,10 +644,8 @@ class DefaultController extends Controller
         }
 
         if (isset($from_url) and $from_url != false) {
-            if (stristr($from_url, 'editor_tools/wysiwyg')) {
-                if (!defined('IN_EDITOR_TOOLS')) {
-                    define('IN_EDITOR_TOOLS', true);
-                }
+            if (stristr($from_url, 'editor_tools/wysiwyg') && !defined('IN_EDITOR_TOOLS')) {
+                define('IN_EDITOR_TOOLS', true);
             }
 
             $url = $from_url;
