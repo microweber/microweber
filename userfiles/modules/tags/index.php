@@ -1,18 +1,24 @@
 <?php
+$cont_id = false;
 
+if (isset($params['content_id'])) {
+    $cont_id = $params['content_id'];
+} elseif (isset($params['content-id'])) {
+    $cont_id = $params['content-id'];
+}
 $content_tags = false;
 $tags_url_base = content_link(MAIN_PAGE_ID);
-?>
-<?php if (is_post() == true) {
 
-    $content_tags = content_tags(POST_ID);
+if ($cont_id) {
+    $tags_url_base = content_link($cont_id);
 
+    $content_tags = content_tags($cont_id);
 
 } else {
     $content_tags = content_tags();
 
-} ?>
-
+}
+?>
 <?php if ($content_tags == true): ?>
     <?php
 

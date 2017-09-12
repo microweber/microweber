@@ -2,7 +2,7 @@
 $settings = get_option('settings', $params['id']);
 $module_template = get_option('data-template', $params['id']);
 
-if (isset($params['template'])) {
+if (!$module_template and isset($params['template'])) {
     $module_template = $params['template'];
 }
 
@@ -184,6 +184,5 @@ if (isset($params['pager_custom'])) {
         });
     </script>
 
-<?php if (!$data): ?>
+
     <?php print lnotif("Click here to manage slides"); ?>
-<?php endif; ?>

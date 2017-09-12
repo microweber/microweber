@@ -529,9 +529,20 @@ class CategoryManager
         if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
             $data['rel_type'] = 'content';
         }
+
+
+
+        if (isset($data['rel_id'])) {
+            $data['rel_id'] = intval($data['rel_id']);
+        }
+
+
+
         if (isset($data['simple_save'])) {
             $simple_save = $data['simple_save'];
         }
+
+
         if (isset($data['content_id'])) {
             if (is_array($data['content_id']) and !empty($data['content_id']) and trim($data['data_type']) != '') {
                 $content_ids = $data['content_id'];
@@ -644,11 +655,11 @@ class CategoryManager
              }
          }*/
         $data['allow_html'] = true;
-        $data['categories'] = false;
+       $data['categories'] = false;
 
-        $data['categories'] = false;
+    //    $data['categories'] = false;
         if(isset($data['parent_id'])){
-
+//dd($data);
         }
 
          // \Log::info(print_r($data, true));

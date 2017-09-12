@@ -252,6 +252,7 @@ mw.lib = {
 
 mw.msg = {
     ok: "<?php _e('OK');  ?>",
+    category: "<?php _e('Category');  ?>",
     published: "<?php _e('Published');  ?>",
     unpublished: "<?php _e('Unpublished');  ?>",
     contentunpublished: "<?php _e("Content is unpublished"); ?>",

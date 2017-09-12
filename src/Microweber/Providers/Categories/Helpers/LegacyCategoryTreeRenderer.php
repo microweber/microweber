@@ -29,7 +29,6 @@ class LegacyCategoryTreeRenderer
     }
 
 
-
     /**
      * category_tree.
      *
@@ -72,7 +71,6 @@ class LegacyCategoryTreeRenderer
         //return $this->renderer->render($params);
 
 
-
         //this whole code must be reworked
 
         $p2 = array();
@@ -89,6 +87,7 @@ class LegacyCategoryTreeRenderer
         } else {
             $parent = 0;
         }
+
 
         asort($params);
         $function_cache_id = false;
@@ -119,17 +118,17 @@ class LegacyCategoryTreeRenderer
         }
         $nest_level_orig = $depth_level_counter;
 
-        if (!isset($params['no_cache'])) {
-            if ($nest_level_orig == 0) {
-                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-                $cache_content = false;
-                if (($cache_content) != false) {
-                    // echo $cache_content;
-
-                    // return;
-                }
-            }
-        }
+//        if (!isset($params['no_cache'])) {
+//            if ($nest_level_orig == 0) {
+//                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+//                $cache_content = false;
+//                if (($cache_content) != false) {
+//                    // echo $cache_content;
+//
+//                    // return;
+//                }
+//            }
+//        }
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
@@ -211,7 +210,6 @@ class LegacyCategoryTreeRenderer
         }
 
 
-
         $table = $this->app->category_manager->tables['categories'];
         if (isset($params['content_id'])) {
             $params['for_page'] = $params['content_id'];
@@ -278,6 +276,8 @@ class LegacyCategoryTreeRenderer
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
                 }
+
+
             }
         }
 
@@ -333,6 +333,14 @@ class LegacyCategoryTreeRenderer
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
 
+
+            $cont_check = true;
+            if ($cat_get_params['rel_type'] == 'content' and $cat_get_params['rel_id']) {
+                $cont_check = $this->app->content_manager->get_by_id($cat_get_params['rel_id']);
+                if (!$cont_check) {
+                    return;
+                }
+            }
             if (isset($parent) and $parent != false) {
                 $page_for_parent = $this->app->category_manager->get_page($parent);
                 $cats_for_content = $this->app->category_manager->get_for_content($params['rel_id']);
@@ -356,12 +364,18 @@ class LegacyCategoryTreeRenderer
             if ($users_can_create_content != false) {
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
-           // d($cat_get_params);
 
-            $fors = $this->app->database_manager->get($cat_get_params);
-            //d($cat_get_params);
+            //  $fors = array();
+            if ($cont_check != false) {
+                $fors = $this->app->database_manager->get($cat_get_params);
+
+            } else {
+                return;
+            }
 
         }
+
+
 
         ob_start();
 
@@ -373,7 +387,7 @@ class LegacyCategoryTreeRenderer
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         } else {
             if ($fors != false and is_array($fors) and !empty($fors)) {
-               // $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
+                //    $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
 
                 //
 
@@ -394,6 +408,8 @@ class LegacyCategoryTreeRenderer
 
         return;
     }
+
+    private $passed_parent_ids = array();
 
     /**
      * `.
@@ -435,6 +451,7 @@ class LegacyCategoryTreeRenderer
 
             $remove_ids_q = " and id not in ($temp) ";
         } elseif (is_array($remove_ids) and !empty($remove_ids)) {
+            $remove_ids = array_merge($remove_ids, $this->passed_parent_ids);
             $remove_ids_q = implode(',', $remove_ids);
             if ($remove_ids_q != '') {
                 $remove_ids_q = " and id not in ($remove_ids_q) ";
@@ -474,6 +491,8 @@ class LegacyCategoryTreeRenderer
         if (empty($limit)) {
             $limit = array(0, 10);
         }
+
+
         $table = $this->app->database_manager->real_table_name($table);
         $content_type = addslashes($content_type);
         $hard_limit = ' LIMIT 300 ';
@@ -487,7 +506,7 @@ class LegacyCategoryTreeRenderer
 
             $sql = "SELECT * FROM $table WHERE id IN (" . implode(',', $only_ids) . ') ';
             $sql = $sql . " and data_type='category'   and is_deleted=0  ";
-            //   $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
+            $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
             $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
         } elseif ($content_type == false) {
             if ($include_first == true) {
@@ -498,8 +517,12 @@ class LegacyCategoryTreeRenderer
             } else {
                 $sql = "SELECT * FROM $table WHERE parent_id=$parent AND data_type='category' AND is_deleted=0 ";
                 $sql = $sql . "$remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
+                //   d($sql);
+
             }
+
         } else {
+
             if ($include_first == true) {
                 $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted=0  ";
                 $sql = $sql . "$remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
@@ -508,7 +531,9 @@ class LegacyCategoryTreeRenderer
                 $sql = $sql . " $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 
             }
+
         }
+
 
         if (!empty($limit)) {
             $my_offset = $limit[1] - $limit[0];
@@ -518,6 +543,7 @@ class LegacyCategoryTreeRenderer
             $my_limit_q = false;
         }
         $output = '';
+
 
         $q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . md5($sql), 'categories/' . intval($parent));
         //$q = $this->app->database_manager->query($sql, false);
@@ -608,7 +634,6 @@ class LegacyCategoryTreeRenderer
                             }
 
 
-
                             $to_print = str_replace('{id}', $item['id'], $link);
 
                             if (stristr($link, '{items_count}')) {
@@ -616,7 +641,7 @@ class LegacyCategoryTreeRenderer
                             }
 
                             $to_print = str_ireplace('{url}', $this->app->category_manager->link($item['id']), $to_print);
-                            $to_print = str_ireplace('{link}',$this->app->category_manager->link($item['id']), $to_print);
+                            $to_print = str_ireplace('{link}', $this->app->category_manager->link($item['id']), $to_print);
 
                             $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
 
@@ -722,7 +747,12 @@ class LegacyCategoryTreeRenderer
                         $remove_ids[] = $item['id'];
 
                         if ($only_ids == false) {
-                            $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
+                            if (!in_array($item['id'], $this->passed_parent_ids)) {
+                                $this->passed_parent_ids[] = $item['id'];
+                             } else {
+                                return;
+                            }
+                            $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type = false, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
                         }
                         echo "</{$list_item_tag}>";
                     }
@@ -733,8 +763,6 @@ class LegacyCategoryTreeRenderer
             }
         }
     }
-
-
 
 
 }
