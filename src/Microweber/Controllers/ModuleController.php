@@ -761,12 +761,10 @@ class ModuleController extends Controller
             $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
         }
         if (isset($page['content'])) {
-            if ($standalone_edit) {
-                if (!isset($render_file)) {
+            if ($standalone_edit && !isset($render_file)) {
                     if (stristr($page['content'], 'field="content"') or stristr($page['content'], 'field=\'content\'')) {
                         $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">'.$page['content'].'</div>';
                     }
-                }
             }
 
             $layout = str_replace('{content}', $page['content'], $layout);
