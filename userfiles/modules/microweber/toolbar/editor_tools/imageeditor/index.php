@@ -133,6 +133,9 @@
                       $("#mwimagecurrentoverlay").css('backgroundColor', final)
                   }
                   $(document).ready(function(){
+                    if(parent.mw.image.currentResizing[0].nodeName != 'IMG'){
+                      $(".imeditor-image-description,.imeditor-image-link").remove()
+                    }
 
                    if (self !== parent && !!parent.mw.image.currentResizing) {
                         theImage = parent.mw.image.currentResizing[0];
@@ -172,12 +175,12 @@
                 <label class="mw-ui-label"><?php _e('Overlay alpha'); ?></label>
                 <input type="range" min="0" max="100" id="overlaycoloralpha" onchange="setColor()" />
             </div>
-            <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+            <div class="mw-ui-field-holder imeditor-image-link" style="padding-bottom: 20px;">
                 <label class="mw-ui-label"><?php _e('Links to:'); ?></label>
                 <input type="text" class="mw-ui-field w100" id="link" placeholder="Enter URL"/>
             </div>
 
-            <div class="mw-ui-row-nodrop" style="padding-bottom: 20px;">
+            <div class="mw-ui-row-nodrop imeditor-image-description" style="padding-bottom: 20px;">
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
                         <label class="mw-ui-label"><?php _e("Image Description"); ?></label>

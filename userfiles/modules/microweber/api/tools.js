@@ -4656,7 +4656,7 @@ mw.image = {
                 }
             }
             if (mwd.getElementById('image-settings-button') !== null) {
-                if (el[0].src.contains('userfiles/media/pixum/')) {
+                if (!!el[0].src && el[0].src.contains('userfiles/media/pixum/')) {
                     mwd.getElementById('image-settings-button').style.display = 'none';
                 }
                 else {
