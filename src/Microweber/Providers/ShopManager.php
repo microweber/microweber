@@ -229,10 +229,8 @@ class ShopManager
     {
         $address = gethostbyaddr($address);
         $parsed_url = parse_url($address);
-        if (!isset($parsed_url['host'])) {
-            if (isset($parsed_url['path'])) {
-                $parsed_url['host'] = $parsed_url['path'];
-            }
+        if (!isset($parsed_url['host']) && isset($parsed_url['path'])) {
+            $parsed_url['host'] = $parsed_url['path'];
         }
         $check = $this->esip($parsed_url['host']);
         $host = $parsed_url['host'];
