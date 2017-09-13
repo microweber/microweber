@@ -88,6 +88,36 @@
                 <script>
 
 
+                  CurrSRC = function(b){
+                    var curr = parent.mw.image.currentResizing[0];
+                    if(curr.nodeName == 'IMG'){
+                      if(!b){
+                        return curr.src;
+                      }
+                      else{
+                        curr.src = b
+                      }
+                    }
+                    else{
+                      if(!b){
+
+                        return mw.CSSParser(curr)
+                              .get
+                              .background()
+                              .image
+                              .trim()
+                              .split('url(')[1]
+                              .split(')')[0]
+                              .trim()
+                              .split('"')
+                              .join('');
+                      }
+                      else{
+                        curr.style.backgroundImage = 'url('+mw.files.safeFilename(b)+')';
+                      }
+                    }
+                  }
+
                   setColor = function(save){
                       var color = $("#overlaycolor").val();
                       var alpha = parseInt($("#overlaycoloralpha").val(), 10);
@@ -233,10 +263,9 @@
 
         mw.image.current_need_resize = false;
 
-        var src = theImage.src,
+        var src = CurrSRC(),
             title = theImage.title,
             alt = theImage.alt;
-
         mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
          if(!!window.previewbg){
@@ -254,14 +283,14 @@
         mw.$(".mw-ui-btn-savetheimage").click(function () {
 
 
-            theImage.src = mw.image.current.src;
 
+            CurrSRC(mw.image.current.src)
 
             theImage.align = mw.image.current_align;
             theImage.title = mw.$("#image-title").val();
             theImage.alt = mw.$("#image-alt").val();
 
-            if (mw.image.current_need_resize) {
+            if (mw.image.current_need_resize && theImage.nodeName == 'IMG') {
                 mw.image.preload(mw.image.current.src, function (w, h) {
                     theImage.style.width = w + 'px';
                     theImage.style.height = 'auto';
@@ -285,7 +314,7 @@
             setColor(true);
             parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(theImage, 'edit'));
 
-            window.top.$(window.top).trigger('imageSrcChanged', [theImage, theImage.src])
+            window.top.$(window.top).trigger('imageSrcChanged', [theImage, CurrSRC()])
 
             parent.document.getElementById('mw-image-settings-modal').modal.remove();
 
