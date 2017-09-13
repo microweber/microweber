@@ -149,30 +149,19 @@ class ShopManager
             if (!isset($item['qty']) or !isset($data_fields['qty']) or $data_fields['qty'] == 'nolimit') {
                 continue;
             }
-            $old_qty = intval($data_fields['qty']);
-            $new_qty = $old_qty - intval($item['qty']);
-            $new_qty = intval($new_qty);
-            $notify = false;
+            $new_qty = intval($data_fields['qty']) - intval($item['qty']);
+
             $new_q = array();
             $new_q['field_name'] = 'qty';
             $new_q['content_id'] = $item['rel_id'];
-            if ($new_qty > 0) {
-                $new_q['field_value'] = $new_qty;
-            } else {
-                $notify = true;
+            $new_q['field_value'] = $new_qty;
+            if (!$new_qty > 0) {
+                $this->saveSoldOutNotification($item['rel_id']);
                 $new_q['field_value'] = '0';
             }
             $res[] = $new_q;
-            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
+            $this->app->content_manager->save_content_data_field($new_q);
             $res = true;
-            if ($notify) {
-                $notification = array();
-                $notification['rel_type'] = 'content';
-                $notification['rel_id'] = $item['rel_id'];
-                $notification['title'] = 'Your item is out of stock!';
-                $notification['description'] = 'You sold all items you had in stock. Please update your quantity';
-                $this->app->notifications_manager->save($notification);
-            }
         }
 
         return $res;
@@ -485,6 +474,18 @@ class ShopManager
         }
     }
 
+    /**
+     * @param $item
+     */
+    private function saveSoldOutNotification($rel_id)
+    {
+        $notification = [];
+        $notification['rel_type'] = 'content';
+        $notification['rel_id'] = $rel_id;
+        $notification['title'] = 'Your item is out of stock!';
+        $notification['description'] = 'You sold all items you had in stock. Please update your quantity';
+        $this->app->notifications_manager->save($notification);
+    }
     /*public function create_mw_shop_default_options() {
 
         $function_cache_id = __FUNCTION__;
