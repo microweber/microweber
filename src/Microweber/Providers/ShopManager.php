@@ -247,18 +247,17 @@ class ShopManager
 
     private function esip($ip_addr)
     {
-        if (preg_match("/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/", $ip_addr)) {
-            $parts = explode('.', $ip_addr);
-            foreach ($parts as $ip_parts) {
-                if (intval($ip_parts) > 255 || intval($ip_parts) < 0) {
-                    return false;
-                }
-            }
-
-            return true;
-        } else {
+        if (!preg_match("/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/", $ip_addr)) {
             return false;
         }
+        $parts = explode('.', $ip_addr);
+        foreach ($parts as $ip_parts) {
+            if (intval($ip_parts) > 255 || intval($ip_parts) < 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function domain_name($domainb)
