@@ -423,24 +423,27 @@ class ShopManager
 
         $row = 1;
         $cur_file = MW_PATH . 'Utils' . DS . 'lib' . DS . 'currencies.csv';
-        if (is_file($cur_file)) {
-            if (($handle = fopen($cur_file, 'r')) !== false) {
-                $res = array();
-                while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                    $itm = array();
-                    $num = count($data);
-                    ++$row;
-                    for ($c = 0; $c < $num; ++$c) {
-                        $itm[] = $data[$c];
-                    }
-                    $res[] = $itm;
-                }
-                fclose($handle);
-                $currencies_list = $res;
-
-                return $res;
-            }
+        if (!is_file($cur_file)) {
+            return null;
         }
+        
+        if (($handle = fopen($cur_file, 'r')) === false) {
+            return null;
+        }
+        $res = array();
+        while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+            $itm = array();
+            $num = count($data);
+            ++$row;
+            for ($c = 0; $c < $num; ++$c) {
+                $itm[] = $data[$c];
+            }
+            $res[] = $itm;
+        }
+        fclose($handle);
+        $currencies_list = $res;
+
+        return $res;
     }
 
 
