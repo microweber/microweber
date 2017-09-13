@@ -50,6 +50,21 @@ if (isset($json) == false or count($json) == 0) {
 
 
             ?>
+            <script>
+                $(document).ready(function () {
+                    mw.editor({
+                        element:'#textarea<?php print $count; ?>',
+                        height:320,
+                        width:'100%',
+                        addControls: false,
+                        hideControls:false,
+                        ready: function(){
+
+                        }
+                    })
+                });
+            </script>
+
             <div class="mw-ui-box  faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
                 <div class="mw-ui-box-header"><a class="pull-right" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');">x</a></div>
                 <div class="mw-ui-box-content mw-accordion-content">
@@ -60,7 +75,7 @@ if (isset($json) == false or count($json) == 0) {
 
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e('Answer'); ?></label>
-                        <textarea class="mw-ui-field faq-role w100"><?php print $slide['answer']; ?></textarea>
+                        <textarea class="mw-ui-field faq-role w100" id="textarea<?php print $count; ?>"><?php print $slide['answer']; ?></textarea>
                     </div>
                 </div>
             </div>
