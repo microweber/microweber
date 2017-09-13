@@ -399,17 +399,17 @@ class ShopManager
         }
         $all_cur = $this->currency_get();
         if (is_array($all_cur)) {
-            foreach ($all_cur as $value) {
-                if (in_array($curr, $value)) {
-                    if ($key == false) {
-                        return $value;
-                    } else {
-                        $sym = $value[$key];
-
-                        return $sym;
-                    }
-                }
+            return null;
+        }
+        foreach ($all_cur as $value) {
+            if (!in_array($curr, $value)) {
+                continue;
             }
+            if ($key == false) {
+                return $value;
+            }
+
+            return $value[$key];
         }
     }
 
