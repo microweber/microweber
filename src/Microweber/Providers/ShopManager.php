@@ -34,18 +34,10 @@ class ShopManager
         if (!is_array($tables)) {
             $tables = array();
         }
-        if (!isset($tables['cart'])) {
-            $tables['cart'] = 'cart';
-        }
-        if (!isset($tables['cart_orders'])) {
-            $tables['cart_orders'] = 'cart_orders';
-        }
-
-        if (!isset($tables['cart_shipping'])) {
-            $tables['cart_shipping'] = 'cart_shipping';
-        }
-        if (!isset($tables['cart_taxes'])) {
-            $tables['cart_taxes'] = 'cart_taxes';
+        foreach (['cart', 'cart_orders', 'cart_shipping', 'cart_taxes',] as $key){
+            if (!isset($tables[$key])) {
+                $tables[$key] = $key;
+            }
         }
         $this->tables = $tables;
     }
@@ -426,7 +418,7 @@ class ShopManager
         if (!is_file($cur_file)) {
             return null;
         }
-        
+
         if (($handle = fopen($cur_file, 'r')) === false) {
             return null;
         }
