@@ -50,20 +50,7 @@ if (isset($json) == false or count($json) == 0) {
 
 
             ?>
-            <script>
-                $(document).ready(function () {
-                    mw.editor({
-                        element:'#textarea<?php print $count; ?>',
-                        height:320,
-                        width:'100%',
-                        addControls: false,
-                        hideControls:false,
-                        ready: function(){
 
-                        }
-                    })
-                });
-            </script>
 
             <div class="mw-ui-box  faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
                 <div class="mw-ui-box-header"><a class="pull-right" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');">x</a></div>
@@ -86,7 +73,21 @@ if (isset($json) == false or count($json) == 0) {
 
     faqs = {
         init: function (item) {
-            $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
+
+          $(item.querySelectorAll('.faq-setting-item textarea')).each(function(){
+              mw.editor({
+                  element:this,
+                  height:320,
+                  width:'100%',
+                  addControls: false,
+                  hideControls:false,
+                  ready: function(){
+
+                  }
+              })
+          })
+
+            $(item.querySelectorAll('input[type="text"], textarea')).bind('change', function () {
                 mw.on.stopWriting(this, function () {
                     faqs.save();
                 });
