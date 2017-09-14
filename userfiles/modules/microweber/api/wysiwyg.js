@@ -409,6 +409,20 @@ mw.wysiwyg = {
       var html = clipboard.getData('text/html');
       return html.indexOf('ProgId content=Excel.Sheet') !== -1
     },
+    doLocalPaste:function(clipboard){
+      var html =  clipboard.getData('text/html');
+      var parser = mw.tools.parseHtml(html).body;
+      console.log(mw.$('[id]', parser).length, '121092')
+      mw.$('[id]', parser).each(function(){
+        this.id = 'dlp-item-'+mw.random();
+      });
+      mw.wysiwyg.insert_html(parser.innerHTML);
+    },
+    isLocalPaste:function(clipboard){
+      var html =  clipboard.getData('text/html');
+      var parser = mw.tools.parseHtml(html).body;
+      return parser.querySelector('.module,.element,.edit') !== null;
+    },
     paste: function (e) {
 
         if(!!e.originalEvent){
@@ -416,6 +430,12 @@ mw.wysiwyg = {
         }
         else{
           var clipboard = e.clipboardData || mww.clipboardData;
+        }
+
+        if(mw.wysiwyg.isLocalPaste(clipboard)){
+          mw.wysiwyg.doLocalPaste(clipboard);
+          e.preventDefault();
+          return false;
         }
 
        if(mw.wysiwyg.pastedFromExcel(clipboard)){
@@ -2318,6 +2338,7 @@ $(window).load(function () {
             nodes[i].addEventListener("paste", function (e) {
 
                 mw.wysiwyg.paste(e);
+                mw.wysiwyg.change(e.target)
             });
         }
 
