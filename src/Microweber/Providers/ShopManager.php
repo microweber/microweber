@@ -137,38 +137,41 @@ class ShopManager
         $ord_data = $this->get_order_by_id($order_id);
 
         $cart_data = $this->order_items($order_id);
-        if (!empty($cart_data)) {
-            $res = array();
-            foreach ($cart_data as $item) {
-                if (isset($item['rel_type']) and isset($item['rel_id']) and $item['rel_type'] == 'content') {
-                    $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
-                    if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
-                        $old_qty = intval($data_fields['qty']);
-                        $new_qty = $old_qty - intval($item['qty']);
-                        $new_qty = intval($new_qty);
-                        $notify = false;
-                        $new_q = array();
-                        $new_q['field_name'] = 'qty';
-                        $new_q['content_id'] = $item['rel_id'];
-                        if ($new_qty > 0) {
-                            $new_q['field_value'] = $new_qty;
-                        } else {
-                            $notify = true;
-                            $new_q['field_value'] = '0';
-                        }
-                        $res[] = $new_q;
-                        $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
-                        $res = true;
-                        if ($notify) {
-                            $notification = array();
-                            $notification['rel_type'] = 'content';
-                            $notification['rel_id'] = $item['rel_id'];
-                            $notification['title'] = 'Your item is out of stock!';
-                            $notification['description'] = 'You sold all items you had in stock. Please update your quantity';
-                            $this->app->notifications_manager->save($notification);
-                        }
-                    }
-                }
+        if (empty($cart_data)) {
+            return $res;
+        }
+        $res = array();
+        foreach ($cart_data as $item) {
+            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== 'content') {
+                continue;
+            }
+            $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
+            if (!isset($item['qty']) or !isset($data_fields['qty']) or $data_fields['qty'] == 'nolimit') {
+                continue;
+            }
+            $old_qty = intval($data_fields['qty']);
+            $new_qty = $old_qty - intval($item['qty']);
+            $new_qty = intval($new_qty);
+            $notify = false;
+            $new_q = array();
+            $new_q['field_name'] = 'qty';
+            $new_q['content_id'] = $item['rel_id'];
+            if ($new_qty > 0) {
+                $new_q['field_value'] = $new_qty;
+            } else {
+                $notify = true;
+                $new_q['field_value'] = '0';
+            }
+            $res[] = $new_q;
+            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
+            $res = true;
+            if ($notify) {
+                $notification = array();
+                $notification['rel_type'] = 'content';
+                $notification['rel_id'] = $item['rel_id'];
+                $notification['title'] = 'Your item is out of stock!';
+                $notification['description'] = 'You sold all items you had in stock. Please update your quantity';
+                $this->app->notifications_manager->save($notification);
             }
         }
 

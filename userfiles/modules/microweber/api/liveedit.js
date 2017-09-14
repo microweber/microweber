@@ -594,11 +594,16 @@ mw.drag = {
                     }
                     mw.image._dragTxt(event);
 
+                    var bg = mw.tools.firstWithBackgroundImage(event.target)
 
                     if (!mw.image.isResizing) {
                         if (event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
                             $(mw.image_resizer).addClass("active");
                             mw.image.resize.resizerSet(event.target, false);
+                        }
+                        else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
+                            $(mw.image_resizer).addClass("active");
+                            mw.image.resize.resizerSet(bg, false);
                         }
                         else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
                           $(mw.image_resizer).addClass("active");

@@ -10,23 +10,37 @@
       <script>mw.require('ui.css')</script>
 
       <script>
+
+
+
+        setIconDefault = function(val){
+          return {
+            mode:'absolute',
+            onchange:function(val, el){
+              $(el).next().val(val);
+              Bxslider.save()
+            },
+            value:val
+          }
+        }
+
         $(document).ready(function(){
 
 
-          $(".item-icon").each(function(){
+          /*$(".item-icon").each(function(){
             var el = this;
-            mw.iconSelector.iconDropdown(this, {
-              mode:'absolute',
-              onchange:function(val){
-                el.nextNode.value = val;
-                alert(val)
-              }
-            })
-          })
+            mw.iconSelector.iconDropdown(this, bxIconConfig)
+          }) */
         })
       </script>
 
         <style>
+
+
+        .mw-icon-selector-dropdown{
+          max-height:300px;
+          overflow: auto;
+        }
 
         .item-icon ul {
           height: 220px;
@@ -34,6 +48,10 @@
           background: white;
           box-shadow: 0 0 6p -3px rgba(0,0,0.5);
           min-width: 300px;
+          display: none;
+        }
+        .mw-icon-selector-dropdown-wrapper.focused ul{
+          display: block;
         }
 
         .item-icon li {
@@ -191,16 +209,7 @@
                                 <?php print $skinSelector; ?>
                             </div>
                         </div>
-                        <div class="mw-ui-col" style="width: 70px;">
-                            <div class="mw-ui-col-container">
-                                <label class="mw-ui-label">Icon</label>
-                                <span class="item-icon"></span><input>
-                                <?php if(isset($slide['icon'])){
-                                    print  $slide['icon'];
-                                  }
-                                ?>
-                            </div>
-                        </div>
+
 
                         <div class="mw-ui-col">
                             <div class="mw-ui-col-container">
@@ -217,9 +226,26 @@
                         </div>
                     </div>
 
+                     <div class="mw-ui-row">
+                     <div class="mw-ui-col">
+
+                    <div class="mw-ui-col-container">
+                      <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">Icon</label>
+                                <span class="item-icon"></span>
+                                <textarea class="bxslider-iconselector" style="display: none"><?php print isset($slide['icon']) ?$slide['icon']:'';  ?></textarea>
+
+                            </div>
+                            </div>
+                            </div>
+                      <div class="mw-ui-col">
+                         <div class="mw-ui-col-container">
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label">URL</label>
                         <input type="text" class="mw-ui-field bxslider-url" value="<?php print $slide['url']; ?>">
+                    </div>
+                    </div>
+                    </div>
                     </div>
 
                     <?php if (!isset($slide['seemoreText'])) {
@@ -280,6 +306,7 @@
                         data[i]['secondaryText'] = item.querySelector('.bxslider-secondary-text').value;
                         data[i]['seemoreText'] = item.querySelector('.bxslider-seemore').value;
                         data[i]['url'] = item.querySelector('.bxslider-url').value;
+                        data[i]['icon'] = item.querySelector('.bxslider-iconselector').value;
                         data[i]['skin'] = item.querySelector('.bxslider-skinselector').value;
                         data[i]['images'] = '';
 
@@ -306,6 +333,8 @@
                 },
 
                 initItem: function (item) {
+                    mw.iconSelector.iconDropdown($('.item-icon', item)[0], setIconDefault($(".bxslider-iconselector", item).val()));
+
                     $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
                         mw.on.stopWriting(this, function () {
                             Bxslider.save();
@@ -352,6 +381,7 @@
                     item.className = last.attr("class");
                     item.innerHTML = html;
                     $(item.querySelectorAll('input')).val('');
+                    $(item.querySelectorAll('.item-icon')).html('');
                     $(item.querySelectorAll('.bxslider-images-holder .bgimg')).remove();
                     $(item.querySelectorAll('.mw-uploader')).remove();
                     last.after(item);
@@ -360,7 +390,10 @@
             }
 
             $(window).bind('load', function () {
+              if(!!window.thismodal && !! thismodal.resize){
                 thismodal.resize(800);
+              }
+
                 Bxslider.initSlideSettings();
                 mw.$("#bxslider-settings").sortable({
                     items: "> .bxslider-setting-item",

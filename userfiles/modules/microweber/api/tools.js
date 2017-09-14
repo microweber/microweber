@@ -1620,6 +1620,18 @@ mw.tools = {
         }
         return final;
     },
+    firstWithBackgroundImage:function(node){
+      if(!node) return false;
+      if(!!node.style.backgroundImage) return node;
+      var final = false;
+      mw.tools.foreachParents(node, function(loop){
+        if(!!this.style.backgroundImage){
+          mw.tools.stopLoop(loop);
+          final = this;
+        }
+      });
+      return final;
+    },
     hasAnyOfClassesOnNodeOrParent:function(node, arr){
       if(mw.tools.hasAnyOfClasses(node, arr)){
         return true;
@@ -4644,7 +4656,7 @@ mw.image = {
                 }
             }
             if (mwd.getElementById('image-settings-button') !== null) {
-                if (el[0].src.contains('userfiles/media/pixum/')) {
+                if (!!el[0].src && el[0].src.contains('userfiles/media/pixum/')) {
                     mwd.getElementById('image-settings-button').style.display = 'none';
                 }
                 else {

@@ -43,7 +43,6 @@ class DefaultController extends Controller
         $is_installed = mw_is_installed();
         if (!$is_installed) {
             $installer = new InstallController($this->app);
-
             return $installer->index();
         } elseif (defined('MW_VERSION')) {
             $config_version = Config::get('microweber.version');
@@ -52,13 +51,9 @@ class DefaultController extends Controller
             }
         }
 
-        $force_https = \Config::get('microweber.force_https');
-
-        if ($force_https and !is_cli()) {
-            if (!is_https()) {
-                $https = str_ireplace('http://', 'https://', url_current());
-                return mw()->url_manager->redirect($https);
-            }
+        if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
+            $https = str_ireplace('http://', 'https://', url_current());
+            return mw()->url_manager->redirect($https);
         }
 
         return $this->frontend();
@@ -66,7 +61,7 @@ class DefaultController extends Controller
 
     public function rss()
     {
-        if (mw_is_installed() == true) {
+        if (mw_is_installed()) {
             event_trigger('mw_cron');
         }
 
@@ -80,9 +75,9 @@ class DefaultController extends Controller
         $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
         $rssfeed .= '<channel>' . "\n";
         $rssfeed .= '<atom:link href="' . site_url('rss') . '" rel="self" type="application/rss+xml" />' . "\n";
-        $rssfeed .= '<title>' . $site_title . '</title>' . "\n";
+        $rssfeed .= "<title>$site_title</title>" . "\n";
         $rssfeed .= '<link>' . site_url() . '</link>' . "\n";
-        $rssfeed .= '<description>' . $site_desc . '</description>' . "\n";
+        $rssfeed .= "<description>$site_desc</description>" . "\n";
         foreach ($cont as $row) {
             if (!isset($row['description']) or $row['description'] == '') {
                 $row['description'] = $row['content'];
@@ -121,10 +116,6 @@ class DefaultController extends Controller
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);
         }
-
-        // dd($_SERVER);
-        //   dd($_SERVER);
-
 
         $set_constants = true;
         $mod_class_api = false;
@@ -1039,17 +1030,17 @@ class DefaultController extends Controller
             // echo $res;
         }
 
-        if ($url_last != __FUNCTION__) {
-            if (function_exists($url_last)) {
-                //
-                $this->api($url_last);
-            } elseif (isset($url_prev) and function_exists($url_prev)) {
-                $this->api($url_last);
-            } elseif (class_exists($url_last, false)) {
-                $this->api($url_last);
-            } elseif (isset($url_prev) and class_exists($url_prev, false)) {
-                $this->api($url_prev);
-            }
+        if ($url_last == __FUNCTION__) {
+            return;
+        }
+        if (function_exists($url_last)) {
+            $this->api($url_last);
+        } elseif (isset($url_prev) and function_exists($url_prev)) {
+            $this->api($url_last);
+        } elseif (class_exists($url_last, false)) {
+            $this->api($url_last);
+        } elseif (isset($url_prev) and class_exists($url_prev, false)) {
+            $this->api($url_prev);
         }
 
         return;

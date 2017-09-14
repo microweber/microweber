@@ -28,6 +28,17 @@ else{
 
     hash = hash !== '' ? hash : 'insert_html';
 
+    UpdateImage = function(url){
+      if(parent.mw.image.currentResizing[0].nodeName == 'IMG'){
+        parent.mw.image.currentResizing.attr("src", url);
+        parent.mw.image.currentResizing.css('height', 'auto');
+      }
+      else{
+        parent.mw.image.currentResizing.css("backgroundImage", 'url('+mw.files.safeFilename(url)+')');
+      }
+
+    }
+
     afterMediaIsInserted = function(url, todo, eventType) { /* what to do after image is uploaded (depending on the hash in the url)    */
 
         if (typeof todo == 'undefined') {
@@ -50,8 +61,7 @@ else{
                 if (hash == 'editimage') {
 
 
-                    parent.mw.image.currentResizing.attr("src", url);
-                    parent.mw.image.currentResizing.css('height', 'auto');
+                    UpdateImage(url)
 
 
                     parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
@@ -323,7 +333,6 @@ else{
                         window.fileBrowserLoaded = true;
                         mw.load_module('files/admin', '#file_module_live_edit_adm', function() {
                             setTimeout(function() {
-                                SetFileBrowserHeight();
                                 setTimeout(function() {
                                     SetFileBrowserHeight();
                                 }, 222)
@@ -417,12 +426,12 @@ else{
 }
 
 .mw-upload-filetypes li{
-  margin: 0 15px;
+  margin: 0 3px;
   font-size:11px;
   display: inline-block;
   position: relative;
   cursor: default;
-  width: 120px;
+  width: 100px;
   text-align: center;
   overflow: hidden;
   transition: opacity 0.12s;

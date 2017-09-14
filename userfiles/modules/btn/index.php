@@ -22,6 +22,10 @@ if ($text == false and isset($params['text'])) {
     $text = 'Button';
 }
 
+$text = $icon . '&nbsp;' . $text;
+
+
+
 if ($url == false and isset($params['url'])) {
     $url = $params['url'];
 } elseif ($url == '') {

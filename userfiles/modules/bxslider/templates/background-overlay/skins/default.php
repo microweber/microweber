@@ -3,6 +3,9 @@
         <div class="info-box-fluid">
             <div class="middle-content">
                 <h1 class="bxSlider-title">
+                    <?php if (isset($slide['icon'])) { ?>
+                        <?php print $slide['icon']; ?>
+                    <?php } ?>
                     <?php if (isset($slide['primaryText'])) { ?>
                         <?php print $slide['primaryText']; ?>
                     <?php } ?>
