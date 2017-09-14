@@ -385,6 +385,7 @@
   </span>
     <div class="mw-dropdown-content">
       <ul>
+        <li value="" ><a style="font-family: inherit" href="#">Default</a></li>
         <li value="font-arial" ><a style="font-family: Arial" href="#">Arial</a></li>
         <li value="font-verdana" ><a style="font-family: Verdana" href="#">Verdana</a></li>
         <li value="font-lato" ><a style="font-family: Lato" href="#">Lato</a></li>
