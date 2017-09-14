@@ -38,13 +38,27 @@ mw.module_pictures = {
                 mw.reload_module_parent('tags');
             });
     },
-    del: function ($id) {
-        if (confirm('Are you sure you want to delete this image?')) {
-            $.post(mw.settings.api_url + 'delete_media', { id: $id  }, function (data) {
-                $('.admin-thumb-item-' + $id).fadeOut();
-                mw.module_pictures.after_change()
-            });
+    del: function (id) {
+        if(typeof id === 'string'){
+          if (confirm('Are you sure you want to delete this image?')) {
+              $.post(mw.settings.api_url + 'delete_media', { id: id  }, function (data) {
+                  $('.admin-thumb-item-' + id).fadeOut();
+                  mw.module_pictures.after_change()
+              });
+          }
         }
+        else{
+          if (confirm('Are you sure you want to delete selected images?')) {
+              $.post(mw.settings.api_url + 'delete_media', { ids: id  }, function (data) {
+                $.each(id, function(){
+                  $('.admin-thumb-item-' + this).fadeOut(); 
+                })
+
+                  mw.module_pictures.after_change()
+              });
+          }
+        }
+
     },
     init: function (selector) {
         var el = $(selector);

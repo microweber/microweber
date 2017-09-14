@@ -240,6 +240,72 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
     right: 2px;
 }
 
+.admin-thumb-item .mw-ui-check span{
+  margin-right: 0 !important;
+}
+
+.admin-thumb-item .mw-ui-check{
+  position: absolute;
+  bottom: 9px;
+  right: 0;
+  z-index: 1;
+  /*visibility: hidden;
+  opacity: 0;*/
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.select_actions > span{
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#select_dropdown{
+  float: left;
+}
+
+.select_actions_holder:after{
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.select_actions_holder{
+
+}
+
+.select_actions{
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  float: right;
+}
+
+.select_actions .mw-ui-btn{
+  width: 40px;
+}
+
+.btnnv-label{
+  float: left;
+  margin: 3px 7px 0 0;
+}
+
+.select_actions.active{
+  opacity: 1;
+  visibility: visible;
+}
+
+.do-select .admin-thumb-item .mw-ui-check{
+  visibility: visible;
+  opacity: 1;
+}
+
 .admin-thumb-item{
   display: block ;
   position: relative ;

@@ -264,6 +264,10 @@ body {
   min-height: 200px;
 }
 
+.mw-admin-editor-area .edit{
+  min-height: 20px;
+}
+
 .mw-admin-editor #mw-iframe-editor-area:empty{
   background-color: #efecec;
 }

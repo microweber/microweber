@@ -119,7 +119,7 @@ $(document).ready(function(){
     mw.options.form('#mw-pic-scope', __mw_pics_save_msg);
     mw.tabs({
        tabs:'.tab',
-       nav:'.mw-ui-btn-nav a'
+       nav:'.mw-ui-btn-nav-tabs a'
     });
 });
  </script>
