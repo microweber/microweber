@@ -12,6 +12,7 @@ $edit_page_info = $data;
 <?php $title_for_input = str_replace('"', '&quot;', $edit_page_info['title']); ?>
 <?php endif; ?>
 <style>
+
     #admin-user-nav {
         display: none;
     }
@@ -954,6 +955,7 @@ mw.save_inner_editable_fields = function (data) {
             var el = mwd.getElementById('content-edit-settings-tabs-holder');
             var cac = mw.wysiwyg.validateCommonAncestorContainer(e.target);
             if (el != null && !el.contains(e.target)
+              && !!cac
               && !mw.tools.hasParentsWithTag(e.target, 'grammarly-btn')
               && cac.className.indexOf('grammarly') !== -1
               && cac.querySelector('[class*="grammarly"]') === null

@@ -142,6 +142,28 @@ mw_admin_puctires_upload_browse_existing = function(){
 
 
 <label class="mw-ui-label"><?php _e("Add Images"); ?> <?php _e('or'); ?> <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
+
+  <div class="select_actions_holder">
+  <div class="select_actions">
+
+    <div class="mw-ui-btn-nav select_actions">
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important mw-ui-btn-icon" onclick="deleteSelected()">
+        <span class="mw-icon-bin tip" data-tip="<?php _e('Delete') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
+    </a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon" onclick="downloadSelected('none')">
+      <span class="mw-icon-download tip" data-tip="<?php _e('Download') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
+    </a>
+  </div>
+  </div>
+  <span class="btnnv-label">Select</span>
+  <div class="mw-ui-btn-nav">
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="selectItems('all')">All</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="selectItems('none')">None</a>
+  </div>
+
+</div>
+
+
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
 <div class="relative post-thumb-uploader" id="backend_image_uploader"><small id="backend_image_uploader_label"><?php _e("Upload"); ?></small></div>
@@ -152,6 +174,9 @@ mw_admin_puctires_upload_browse_existing = function(){
   <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>" id="admin-thumb-item-<?php print $item['id'] ?>">
     <?php $tn = thumbnail($item['filename'], 200, 200); ?>
     <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
+    <label class="mw-ui-check">
+        <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>" value="<?php print $item['id'] ?>"><span></span>
+    </label>
     <div class="mw-post-media-img-edit">
       <input
             placeholder="<?php _e("Image Description"); ?>"
@@ -195,6 +220,29 @@ if(!$tags_str){
   <?php endif;?>
   <script>mw.require("files.js", true);</script>
   <script>
+    deleteSelected = function(){
+      mw.module_pictures.del(doselect());
+    }
+    downloadSelected = function(){
+       mw.$(".admin-thumb-item .mw-ui-check input:checked").each(function(){
+          var a = $("<a>")
+              .attr("href", $(this).dataset('url'))
+              .attr("download", $(this).dataset('url'))
+              .appendTo("body");
+
+          a[0].click();
+          a.remove();
+      })
+
+    }
+    doselect = function(){
+      var final = []
+      mw.$(".admin-thumb-item .mw-ui-check input:checked").each(function(){
+        final.push(this.value);
+      })
+      $(".select_actions")[final.length === 0 ? 'removeClass' : 'addClass']('active');
+      return final;
+    }
       editImageTags = function(event){
           var parent = null;
           mw.tools.foreachParents(event.target, function(loop){
@@ -214,7 +262,26 @@ if(!$tags_str){
              filetypes:"images",
              name:'basic-images-uploader'
       });
+
+      selectItems = function(val){
+
+          if(val == 'all'){
+            mw.$(".admin-thumb-item .mw-ui-check input").each(function(){
+              this.checked = true;
+            })
+          }
+          else if(val == 'none'){
+            mw.$(".admin-thumb-item .mw-ui-check input").each(function(){
+              this.checked = false;
+            })
+          }
+          doselect()
+
+      }
+
+
       $(document).ready(function(){
+
          mw.$("#backend_image_uploader").append(uploader);
          $(uploader).bind("FilesAdded", function(a,b){
             var i=0, l=b.length;
