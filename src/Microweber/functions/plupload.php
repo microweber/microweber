@@ -556,8 +556,17 @@ $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
 $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 
 // Clean the fileName for security reasons
-$fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
-$fileName = str_replace('..', '.', $fileName);
+//$fileName = url_title($fileName);
+//$fileName = preg_replace('/[\p{P}\p{Zs}\w\._]+/u', "", $fileName);
+
+// $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
+$fileName = preg_replace('/\s+\d+%|\)/', '', $fileName);
+$fileName = preg_replace("/[\/\&%#\$]/", "_", $fileName);
+$fileName = preg_replace("/[\"\']/", " ", $fileName);
+ $fileName = str_replace(array('(',')',"'","!","`","*","#"), '_', $fileName);
+ $fileName = str_replace(' ', '_', $fileName);
+
+ $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled

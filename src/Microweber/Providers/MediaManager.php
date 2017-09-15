@@ -293,26 +293,36 @@ class MediaManager
     public function delete($data)
     {
         $adm = $this->app->user_manager->is_admin();
-
+        $ids_to_delete = array();
         if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)) {
-            $data = array('id' => intval($data));
+            $ids_to_delete[] = intval($data);
+        } elseif (isset($data['id']) and is_array($data['id'])) {
+            $ids_to_delete = $data['id'];
+        } elseif (isset($data['ids']) and is_array($data['ids'])) {
+            $ids_to_delete = $data['ids'];
         }
-        if (isset($data['id'])) {
-            $c_id = intval($data['id']);
-            $pic_data = $this->get_by_id($c_id);
-            if ($adm == false) {
-                if ($pic_data['created_by'] != $this->app->user_manager->id()) {
-                    mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if ($ids_to_delete) {
+            foreach ($ids_to_delete as $delete) {
+                $c_id = intval($delete);
+                $pic_data = $this->get_by_id($c_id);
+
+
+                if ($adm == false) {
+                    if ($pic_data['created_by'] != $this->app->user_manager->id()) {
+                        mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+                    }
                 }
-            }
-            if (isset($pic_data['filename'])) {
-                $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
-                if (is_file($fn_remove)) {
-                    @unlink($fn_remove);
+                if (isset($pic_data['filename'])) {
+                    $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
+                    if (is_file($fn_remove)) {
+                        @unlink($fn_remove);
+                    }
                 }
+
+                $this->app->database_manager->delete_by_id('media', $c_id);
             }
 
-            return $this->app->database_manager->delete_by_id('media', $c_id);
+            return true;
         }
     }
 
@@ -594,7 +604,7 @@ class MediaManager
     public function thumbnail_img($params)
     {
 
-        ini_set('memory_limit','256M');
+        ini_set('memory_limit', '256M');
 
         extract($params);
 
@@ -609,7 +619,6 @@ class MediaManager
         } else {
             $height = intval($height);
         }
-
 
 
         if (!isset($src) or $src == false) {
@@ -711,7 +720,7 @@ class MediaManager
                         if (function_exists('finfo_file')) {
                             //use Image library
                             //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
-                            if(intval($height) == 0){
+                            if (intval($height) == 0) {
                                 $height = null;
                             }
                             if ($width == $height) {
@@ -728,7 +737,7 @@ class MediaManager
                         } else {
                             // use fallback
 
-                            if(!$height){
+                            if (!$height) {
                                 $height = $width;
                             }
                             $tn = new \Microweber\Utils\Thumbnailer($src);
