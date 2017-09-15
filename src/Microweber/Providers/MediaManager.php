@@ -298,6 +298,8 @@ class MediaManager
             $ids_to_delete[] = intval($data);
         } elseif (isset($data['id']) and is_array($data['id'])) {
             $ids_to_delete = $data['id'];
+        } elseif (isset($data['id']) and !is_array($data['id'])) {
+            $ids_to_delete[] = intval($data['id']);
         } elseif (isset($data['ids']) and is_array($data['ids'])) {
             $ids_to_delete = $data['ids'];
         }
