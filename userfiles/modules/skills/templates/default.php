@@ -36,7 +36,7 @@ description: Default
 
             foreach ($skills as $skill) { ?>
 
-                <div class="skillbar" data-percent="<?php print $skill['percent']; ?>%">
+                <div class="skillbar style-<?php $skill['style'] ?>" data-percent="<?php print isset($skill['percent'])?$skill['percent']:50; ?>%">
                     <div class="title head-sm">
                         <?php print $skill['skill']; ?>
                     </div>

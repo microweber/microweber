@@ -4,7 +4,7 @@
 
 $file =  get_option('file', $params['id']);
 if(!$file){
-    $file = '[{"skill":"", "percent": "78"}]';
+    $file = '[{"skill":"", "percent": "78", "style":"primary"}]';
 }
 $skills = json_decode($file, true);
 if(sizeof($skills) == 0){
@@ -18,26 +18,49 @@ if(sizeof($skills) == 0){
 <div class="skills">
     <?php foreach($skills as $skill){ ?>
         <span class="skillfield">
-            <input type="text" autocomplete="off"  value="<?php print $skill['skill']; ?>" placeholder="Insert skill Name" class="mw-ui-field skill" />
-            <input type="text" autocomplete="off"  value="<?php print $skill['percent']; ?>" placeholder="Insert skill percent" class="mw-ui-field" />
             <span class="mw-icon-drag"></span>
             <span class="mw-icon-bin"></span>
-            <select>
+
+            <div class="mw-ui-field-holder mufh-1">
+              <label class="mw-ui-label">Skill Name</label>
+              <input type="text" autocomplete="off"  value="<?php print $skill['skill']; ?>" placeholder="Insert skill Name" class="mw-ui-field skill" />
+            </div>
+
+            <div class="mw-ui-field-holder mufh-2">
+              <label class="mw-ui-label">Value(%)</label>
+              <input type="number" min="0" max="100" step="1" autocomplete="off"  value="<?php print isset($skill['percent']) ? $skill['percent'] : 50; ?>" placeholder="Percent" class="mw-ui-field" />
+            </div>
+
+            <div class="mw-ui-field-holder mufh-3">
+              <label class="mw-ui-label">Style</label>
+              <select class="mw-ui-field" data-value="<?php print isset($skill['style']) ? $skill['style'] : 'primary' ?>">
+                <option value="">Choose Style</option>
                 <option value="primary">Primary</option>
                 <option value="warning">Warning</option>
                 <option value="danger">Danger</option>
                 <option value="success">Success</option>
                 <option value="info">Info</option>
-            </select>
+              </select>
+            </div>
         </span>
     <?php } ?>
 </div>
 
 <span class="mw-ui-btn w100" onclick="addNewskill();"><span class="mw-icon-plus"></span> Add More</span>
 
-<input type="hidden" value="<?php print $file; ?>" name="file" id="file" class="mw_option_field mw-ui-field w100"  />
+<textarea name="file" id="file" disabled="disabled" class="mw_option_field" style="display: none"><?php print $file; ?></textarea>
 
 <style>
+
+.skillfield{
+  padding: 40px 10px 10px 10px;
+  margin: 10px auto;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
 
 .skillfield .mw-icon-bin,
 .skillfield .mw-icon-drag{
@@ -45,36 +68,79 @@ if(sizeof($skills) == 0){
     display: inline-block;
     padding: 2px 7px;
     cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
+.skillfield .mw-icon-bin{
+  right: 30px;
+}
+
 .skillfield .mw-icon-drag{
     cursor: -moz-grab;
     cursor: -webkit-grab;
     cursor: grab;
 }
 
+.skillfield .mw-ui-field-holder{
+  clear: none;
+}
+
 .skillfield{
     padding-bottom:20px;
-    display: block;
+    background: white;
 }
 
 
 .skill{
-    width: 80%;
+    width: 70%;
+    clear: both;
 }
 
+.skillfield .mw-ui-field-holder{
+  float: left;
+}
+
+.mufh-1{width: 50%;}
+.mufh-2{width: 23%;margin: 0 1%;}
+.mufh-3{width: 25%;}
+
+.skillfield.ui-sortable-helper{
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 15px
+}
+
+.skillfield select,
 .skillfield input{
-    width: 55%
+    width: 100%
 }
-.skillfield input + input{
-    width: 15%;
-    margin-left: 12px;
-}
+
 
 </style>
 
 <script>
 addNewskill = function(){
-    $(".skillfield:last").after('<span class="skillfield"><input type="text" autocomplete="off"  placeholder="Insert skill Name" class="mw-ui-field skill" /><input type="text" autocomplete="off" placeholder="Insert skill percent" class="mw-ui-field" /><span class="mw-icon-drag"></span><span class="mw-icon-bin"></span></span>');
+    var after = ''
+      +'<span class="skillfield">'
+        +'<span class="mw-icon-drag"></span>'
+        +'<span class="mw-icon-bin"></span>'
+        +'<div class="mw-ui-field-holder mufh-1">'
+        +'<label class="mw-ui-label">Skill Name</label><input type="text" autocomplete="off"  placeholder="Insert skill Name" class="mw-ui-field skill" />'
+        +'</div><div class="mw-ui-field-holder mufh-2">'
+        +'<label class="mw-ui-label">Value(%)</label><input type="number" autocomplete="off" min="0" max="100" step="1" value="50 placeholder="Percent" class="mw-ui-field" />'
+
+        +'</div><div class="mw-ui-field-holder mufh-3">'
+          +'<label class="mw-ui-label">Style</label><select class="mw-ui-field" data-value="primary">'
+            +'<option value="">Choose Style</option>'
+            +'<option value="primary">Primary</option>'
+            +'<option value="warning">Warning</option>'
+            +'<option value="danger">Danger</option>'
+            +'<option value="success">Success</option>'
+            +'<option value="info">Info</option>'
+        +'</select></div>'
+      +'</span>';
+
+
+    $(".skillfield:last").after(after);
     $(".skill:last").focus();
     init();
 }
@@ -85,9 +151,15 @@ init = function(){
         $(this).on('change input paste', function(){
            save();
         });
-        $('.mw-icon-bin', $(this).parent()).on('click', function(){
-            $(this).parent().remove()
-            save();
+        var root = $(this).parents('.skillfield')
+        $('.mw-icon-bin', root).on('click', function(){
+          mw.confirm('Are you sure', function(){
+            root.fadeOut(function(){
+              root.remove();
+              save();
+            })
+          })
+
         });
        }
 
@@ -109,7 +181,9 @@ save = function(){
     time = setTimeout(function(){
         var final = [];
         $(".skill").each(function(){
-            final.push({skill: this.value, percent:$(this).next().val()});
+            var style = $(this).parents('.skillfield').find('select').val();
+            if(!style) style = 'primary'
+            final.push({skill: this.value, percent:$(this).next().val(), style:style});
         });
         $("#file").val(JSON.stringify(final)).trigger('change');
     }, 700);
@@ -134,6 +208,10 @@ sort = function(){
 $(window).bind('load', function(){
     sort();
     init();
+
+    mw.$('select[data-value]').each(function(){
+      $(this).val($(this).dataset('value')).on('change', function(){save()})
+    })
 });
 
 </script>

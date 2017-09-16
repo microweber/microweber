@@ -22,8 +22,21 @@
             background: white;
         }
 
+        #testimonials-list .ui-sortable-placeholder{
+          background: rgba(204, 199, 191, 1);
+          outline: 1px dotted rgba(186, 192, 216, 1);
+          min-height: 100px;
+          visibility: visible !important;
+        }
+
+        #testimonials-list .ui-sortable-helper td + td *{
+          color: transparent !important;
+        }
+
         #testimonials-list .ui-sortable-helper td {
             display: inline-block;
+            border: none;
+
         }
 
         .ttab {
