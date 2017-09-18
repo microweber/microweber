@@ -594,7 +594,8 @@ mw.drag = {
                     }
                     mw.image._dragTxt(event);
 
-                    var bg = mw.tools.firstWithBackgroundImage(event.target)
+                    //var bg = mw.tools.firstWithBackgroundImage(event.target)
+                    var bg = !!event.target.style.backgroundImage
 
                     if (!mw.image.isResizing) {
                         if (event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
