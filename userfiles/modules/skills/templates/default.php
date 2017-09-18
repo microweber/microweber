@@ -35,6 +35,7 @@ description: Default
             $skills = json_decode($file, true);
 
             foreach ($skills as $skill) { ?>
+            <?php var_dump($skill); ?>
 
                 <div class="skillbar style-<?php $skill['style'] ?>" data-percent="<?php print isset($skill['percent'])?$skill['percent']:50; ?>%">
                     <div class="title head-sm">

@@ -28,7 +28,7 @@ if(sizeof($skills) == 0){
 
             <div class="mw-ui-field-holder mufh-2">
               <label class="mw-ui-label">Value(%)</label>
-              <input type="number" min="0" max="100" step="1" autocomplete="off"  value="<?php print isset($skill['percent']) ? $skill['percent'] : 50; ?>" placeholder="Percent" class="mw-ui-field" />
+              <input type="number" min="0" max="100" step="1" autocomplete="off"  value="<?php print isset($skill['percent']) ? $skill['percent'] : 50; ?>" placeholder="Percent" class="mw-ui-field percent-field" />
             </div>
 
             <div class="mw-ui-field-holder mufh-3">
@@ -161,6 +161,11 @@ init = function(){
           })
 
         });
+
+        mw.$('.percent-field', root).on('change', function(){save()})
+        mw.$('select[data-value]', root).each(function(){
+          $(this).val($(this).dataset('value')).on('change', function(){save()})
+        })
        }
 
    });
@@ -183,7 +188,7 @@ save = function(){
         $(".skill").each(function(){
             var style = $(this).parents('.skillfield').find('select').val();
             if(!style) style = 'primary'
-            final.push({skill: this.value, percent:$(this).next().val(), style:style});
+            final.push({skill: this.value, percent:$(this).parents('.skillfield').find('.percent-field').val(), style:style});
         });
         $("#file").val(JSON.stringify(final)).trigger('change');
     }, 700);
@@ -209,9 +214,7 @@ $(window).bind('load', function(){
     sort();
     init();
 
-    mw.$('select[data-value]').each(function(){
-      $(this).val($(this).dataset('value')).on('change', function(){save()})
-    })
+
 });
 
 </script>
