@@ -2438,7 +2438,12 @@ div[id*='SSDIVEL'] {
     z-index: 1100;
     visibility: hidden;
     left: -9999px;
-    top: -9999px
+    top: -9999px;
+    pointer-events: none;
+}
+
+.mw_image_resizer *{
+  pointer-events: all;
 }
 
 .mw_image_resizer.active {
@@ -2768,7 +2773,7 @@ div[id*='SSDIVEL'] {
 }
 
 .mw-add-content-modal {
-    max-width: 1250px;
+    max-width: 95%;
     min-width: 320px;
 }
 
