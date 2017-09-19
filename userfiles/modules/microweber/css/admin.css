@@ -4033,6 +4033,47 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     border-top: none
 }
 
+@media (max-width:800px){
+  .admin-shipping-table select{
+    width: 120px;
+  }
+
+  .admin-shipping-table .mw-ui-inline-list li{
+    display: block !important;
+  }
+
+  .admin-shipping-table{
+    display: block;
+    overflow: hidden;
+  }
+
+  .shipping-country-row + .shipping-country-row{
+    margin-top:20px;
+  }
+
+  .shipping-country-row{
+    padding: 10px;
+    border-radius: 5px;
+
+  }
+   .admin-shipping-table tbody,
+  .shipping-country-row,
+  .shipping-country-row td{
+    display: block;
+    border-bottom: 0;
+    width: 100%;
+  }
+
+  .shipping-country-row select{
+    max-width: 100%;
+  }
+
+  .shipping-country-row:nth-child(2n+1){
+    background: #F2F2F2
+  }
+
+}
+
 .shipping-country-holder .shipping-handle-field {
     font-size: 22px;
     color: #ccc;
