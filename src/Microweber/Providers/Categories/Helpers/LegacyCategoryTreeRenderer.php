@@ -118,17 +118,17 @@ class LegacyCategoryTreeRenderer
         }
         $nest_level_orig = $depth_level_counter;
 
-//        if (!isset($params['no_cache'])) {
-//            if ($nest_level_orig == 0) {
-//                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-//                $cache_content = false;
-//                if (($cache_content) != false) {
-//                    // echo $cache_content;
-//
-//                    // return;
-//                }
-//            }
-//        }
+        if (!isset($params['no_cache'])) {
+            if ($nest_level_orig == 0) {
+                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+            ///    $cache_content = false;
+                if (($cache_content) != false) {
+                  echo $cache_content;
+
+                 return;
+                }
+            }
+        }
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
@@ -602,11 +602,11 @@ class LegacyCategoryTreeRenderer
                     $iid = $item['id'];
                     if ($do_not_show == false) {
                         $output = $output . $item['title'];
-
+//$safe_title = url_title( $item['title']);
                         if ($li_class_name == false) {
-                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag} title='{title_slashes}'>";
+                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}' data-filter='filter-{$item['id']}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag} title='{title_slashes}'>";
                         } else {
-                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag} title='{title_slashes}' >";
+                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  data-filter='filter-{$item['id']}'   value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag} title='{title_slashes}' >";
                         }
                     }
 
