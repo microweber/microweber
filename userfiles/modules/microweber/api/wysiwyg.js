@@ -254,7 +254,7 @@ mw.wysiwyg = {
     prepareContentEditable: function () {
 
 
-        $(window).bind("onEditMouseDown", function (e, el, target) {
+        $(window).on("onEditMouseDown", function (e, el, target) {
             mw.wysiwyg.removeEditable();
 
 
@@ -501,7 +501,7 @@ mw.wysiwyg = {
     },
     prepare: function () {
         mw.wysiwyg.external = mw.wysiwyg._external();
-        mw.$("#liveedit_wysiwyg").bind("mousedown mouseup click", function (event) {
+        mw.$("#liveedit_wysiwyg").on("mousedown mouseup click", function (event) {
             event.preventDefault()
         });
         var items = mw.$(".element").not(".module");
@@ -821,7 +821,7 @@ mw.wysiwyg = {
                 mw.wysiwyg.check_selection(event.target);
             }
         });
-        $(mwd.body).bind('noop keydown', function (event) {
+        $(mwd.body).on('noop keydown', function (event) {
 
             //var textnodes = ['br', 'p', 'b', 'span', 'i', 'em', 'small', 'del', 'ins', 'sub', 'sup','font'];
             //var blocknodes = ['section', 'div', 'table'];
@@ -1309,11 +1309,15 @@ mw.wysiwyg = {
                 //var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
                 var fam = family_array.shift();
             }
+
+            console.log(fam)
             var ddval = mw.$(".mw_dropdown_action_font_family");
 
 
             if (ddval.length != 0 && ddval.setDropdownValue != undefined) {
-                mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
+                mw.$(".mw_dropdown_action_font_family").each(function(){
+                  $(this).setDropdownValue(fam); 
+                })
             }
         }
     },
@@ -1460,7 +1464,7 @@ mw.wysiwyg = {
             width: 430,
             height: 300
         });
-        mw.$('iframe', modal.main).bind('change', function (a, b, c, e) {
+        mw.$('iframe', modal.main).on('change', function (a, b, c, e) {
             mw.iframecallbacks[b](c, e);
         });
 
@@ -1768,7 +1772,7 @@ mw.wysiwyg = {
 
         mw.$(".mw_dropdown_action_font_family ul").empty().append(html);
 
-        $(".mw_dropdown_action_font_family").unbind('change');
+        $(".mw_dropdown_action_font_family").off('change');
         $(".mw_dropdown_action_font_family").on('change', function () {
             var val = $(this).getDropdownValue();
             mw.wysiwyg.fontFamily(val);
@@ -1776,7 +1780,7 @@ mw.wysiwyg = {
 
 
         $(".mw_dropdown_action_font_family").each(function () {
-            mw.$("[value]", $(this)).bind('mousedown', function (event) {
+            mw.$("[value]", $(this)).on('mousedown touchstart', function (event) {
                 $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             });
@@ -1793,12 +1797,12 @@ mw.wysiwyg = {
             mw.wysiwyg.fontFamilies.push(body_font);
         }
 
-        var scan_for_fonts = ['h1', 'h2', 'h3', 'h4', 'h5', 'p'];
+        var scan_for_fonts = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a[class]'];
 
         $.each(scan_for_fonts, function (index, value) {
-            var sel = mw.$(value + ':first');
+            var sel = mw.$(document.querySelector(value));
             if (sel.length > 0) {
-                var body_font = window.getComputedStyle(sel[0], null).fontFamily.split(',')
+                var body_font = window.getComputedStyle(sel[0], null).fontFamily.split(',');
                 $.each(body_font, function (font_index, fvalue) {
                     var font_value = fvalue;
                     font_value = font_value.replace(/'/gi, "").replace(/"/gi, '');
@@ -1869,7 +1873,7 @@ mw.wysiwyg = {
             var b = $(this).contents().find("[field='content']")[0];
             if (typeof b != 'undefined' && b !== null) {
                 b.contentEditable = true;
-                $(b).bind("blur keyup", function () {
+                $(b).on("blur keyup", function () {
                     textarea.value = $(this).html();
                 });
                 if (!!content_to_set) {
@@ -2161,7 +2165,7 @@ mw.disable_selection = function (element) {
     var el = $(el, ".edit").not(".unselectable");
     el.attr("unselectable", "on");
     el.addClass("unselectable");
-    el.bind("selectstart", function (event) {
+    el.on("selectstart", function (event) {
         event.preventDefault();
         return false;
     });
@@ -2169,9 +2173,9 @@ mw.disable_selection = function (element) {
 
 
 $(mwd).ready(function () {
-    mw.wysiwyg.initFontSelectorBox();
 
-    //$(".mw_dropdown_action_font_family").bind('change', function(){
+
+    //$(".mw_dropdown_action_font_family").on('change', function(){
     //    var val = $(this).getDropdownValue();
     //    mw.wysiwyg.fontFamily(val);
     //});
@@ -2217,7 +2221,9 @@ $(mwd).ready(function () {
 });
 
 
-$(window).load(function () {
+$(window).on('load', function () {
+
+mw.wysiwyg.initFontSelectorBox();
 
   /*mw.$(".edit").on('paste', function(e){
     mw.wysiwyg.paste(e)
@@ -2233,7 +2239,7 @@ $(window).load(function () {
     })
 
 
-    mw.$("#wysiwyg_insert").bind("change", function () {
+    mw.$("#wysiwyg_insert").on("change", function () {
         var fnode = window.getSelection().focusNode;
         var isPlain = mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text')
         if (mw.wysiwyg.isSelectionEditable()) {
@@ -2299,7 +2305,7 @@ $(window).load(function () {
         }
     });
 
-    $(window).bind("keydown mousedown mouseup", function (e) {
+    $(window).on("keydown mousedown mouseup", function (e) {
 
         if (e.type == 'keydown') {
             var isPlain = mw.tools.hasClass(e.target, 'plain-text');
@@ -2370,7 +2376,7 @@ mw.linkTip = {
         if (root === null || !root) {
             return false;
         }
-        mw.$(root).bind('mousedown', function (e) {
+        mw.$(root).on('mousedown', function (e) {
             var node = mw.linkTip.find(e.target);
             if (!!node) {
                 mw.linkTip.tip(node);
