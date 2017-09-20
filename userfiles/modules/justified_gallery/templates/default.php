@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Justified Slick
+name: Default
 
-description: Justified Slick Pictures Template
+description: Default Template
 
 */
 
