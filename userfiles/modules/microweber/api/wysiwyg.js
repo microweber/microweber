@@ -985,7 +985,20 @@ mw.wysiwyg = {
             var s = window.getSelection();
             var r = s.getRangeAt(0);
             var c = r.cloneContents();
-            var common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
+            //var common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
+            var common = r.commonAncestorContainer;
+            if(common.nodeType === 1){
+              if(mw.tools.hasClass(common, 'element')){
+                mw.wysiwyg.select_element(common)
+              }
+
+            }
+            else{
+               common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
+               if(mw.tools.hasClass(common, 'element')){
+                mw.wysiwyg.select_element(common)
+              }
+            }
             var a = common.querySelectorAll('*'), l = a.length, i = 0;
             for (; i < l; i++) {
                 if (!!s.containsNode && s.containsNode(a[i], true)) {
@@ -1547,6 +1560,10 @@ mw.wysiwyg = {
             if (mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change") || mw.$(mw.target.item.parentNode).hasClass("image_change") || mw.target.item === mw.image_resizer) {
                 mw.wysiwyg.save_selection();
                 mw.wysiwyg.request_media(hash);
+                $(".mw_overlay").on('mousedown touchstart', function(e){
+                  e.preventDefault()
+                  e.stopPropagation()
+                })
             }
         }
     },
