@@ -1,0 +1,12 @@
+.image-container{
+    position: relative;
+}
+.photo-container{
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+.image-thumb{
+    position: relative;
+    background-color: #eee;
+}
