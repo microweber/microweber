@@ -1,4 +1,4 @@
-<?
+<?php
 /* This file is released under the GPL, any version you like
 *
 *	PHP PSD reader class, v1.3
@@ -293,4 +293,4 @@ function imagecreatefrompsd($fileName) {
 	if (isset($psdReader->infoArray['error'])) return '';
 	else return $psdReader->getImage();
 }
-?>
+

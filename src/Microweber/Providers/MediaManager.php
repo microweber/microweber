@@ -311,7 +311,7 @@ class MediaManager
 
                 if ($adm == false) {
                     if ($pic_data['created_by'] != $this->app->user_manager->id()) {
-                        mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+                        mw_error('Error: not logged in as admin to delete media.');
                     }
                 }
                 if (isset($pic_data['filename'])) {

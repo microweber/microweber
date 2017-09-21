@@ -3291,4 +3291,4 @@ class imageLib
  *      // *** Free used memory
  *      $magicianObj -> __destruct();
  */
-?>
+
