@@ -91,11 +91,13 @@ class Guzzle
         $body = $response->getBody();
 
         if (is_object($body) and method_exists($body, 'eof')) {
-            while (!$body->eof()) {
-                $r .= $body->read(1024);
-            }
+            return (string) $body;
+//            while (!$body->eof()) {
+            // has bug, it does not return full resp
+//                $r .= $body->read(1024);
+//            }
         } else {
-            return $body;
+            return (string) $body;
         }
 
         return $r;

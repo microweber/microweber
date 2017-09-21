@@ -815,19 +815,21 @@ class UpdateManager
         $cookie_file = $cookie . 'cookie.txt';
         $requestUrl = $this->remote_url;
 
-        $post_params['site_url'] = $this->app->url_manager->site();
-        $post_params['api_function'] = $method;
-        $post_params['mw_version'] = MW_VERSION;
-        $post_params['php_version'] = phpversion();
 
         if ($post_params != false and is_array($post_params)) {
+
+            $post_params['site_url'] = $this->app->url_manager->site();
+            $post_params['api_function'] = $method;
+            $post_params['mw_version'] = MW_VERSION;
+            $post_params['php_version'] = phpversion();
+
             $curl = new \Microweber\Utils\Http($this->app);
             $curl->set_url($requestUrl);
             $curl->set_timeout(20);
-
-            $curl_result = $curl->post($post_params);
-
-        } else {
+            $post = array();
+            $post['base64js'] = base64_encode(@json_encode($post_params));
+            $curl_result = $curl->post($post);
+         } else {
             $curl_result = false;
         }
 
