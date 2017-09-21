@@ -1579,6 +1579,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     font-size: 20px;
 }
 
+#custom-fields-post-table .mw-icon-bin,
 #custom-fields-post-table .mw-icon-close {
     font-size: 15px;
 }
@@ -1594,6 +1595,51 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #custom-fields-post-table .custom-fields-cell-delete a:hover .mw-icon-close, #custom-fields-post-table .custom-fields-cell-delete a:focus .mw-icon-close {
     color: #DC0D17;
 }
+
+#custom-fields-post-table .mw-ui-btn{
+  white-space: nowrap;
+}
+#custom-fields-post-table .mobile-th{
+  display: none;
+  font-weight: bold;
+}
+
+
+@media (max-width:600px){
+  #custom-fields-post-table thead{
+    display: none;
+  }
+  #custom-fields-post-table .mobile-th{
+  display: block;
+}
+
+  #custom-fields-post-table tr{
+    padding-bottom: 20px;
+    border-bottom: 1px solid;
+    overflow: hidden;
+  }
+  #custom-fields-post-table tr,
+  #custom-fields-post-table td{
+    display: block !important;
+    text-align: left;
+  }
+   #custom-fields-post-table td{
+
+     border: none
+   }
+   #custom-fields-post-table td.custom-fields-cell-settings,
+   #custom-fields-post-table td.custom-fields-cell-delete{
+     float: left;
+     width: 20%;
+   }
+
+   #custom-fields-post-table td + td{
+     border-top: none
+   }
+
+}
+
+
 
 .custom-fields-cell-settings, .custom-fields-cell-delete {
     text-align: center;
@@ -3985,6 +4031,47 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 
 .admin-shipping-table.mw-ui-table > tbody:first-child > tr:first-child > td {
     border-top: none
+}
+
+@media (max-width:800px){
+  .admin-shipping-table select{
+    width: 120px;
+  }
+
+  .admin-shipping-table .mw-ui-inline-list li{
+    display: block !important;
+  }
+
+  .admin-shipping-table{
+    display: block;
+    overflow: hidden;
+  }
+
+  .shipping-country-row + .shipping-country-row{
+    margin-top:20px;
+  }
+
+  .shipping-country-row{
+    padding: 10px;
+    border-radius: 5px;
+
+  }
+   .admin-shipping-table tbody,
+  .shipping-country-row,
+  .shipping-country-row td{
+    display: block;
+    border-bottom: 0;
+    width: 100%;
+  }
+
+  .shipping-country-row select{
+    max-width: 100%;
+  }
+
+  .shipping-country-row:nth-child(2n+1){
+    background: #F2F2F2
+  }
+
 }
 
 .shipping-country-holder .shipping-handle-field {

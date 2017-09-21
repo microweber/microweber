@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Justified.js</title>
+    <meta name="description" content="jQuery Plugin to create Justified Image Gallery">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="prism/prism.css">
+    <link rel="stylesheet" href="../jquery.justified.css">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100,300' rel='stylesheet' type='text/css'>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <section class="pane header">
+        <div class="header">
+            <h1>Justified.js</h1>
+            <h2>jQuery Plugin to create Justified Image Gallery</h2>
+        </div>
+        <footer>
+            <div class="left">
+                <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://github.com/nitinhayaran/Justified.js" data-text="Justified.js - jQuery Plugin to create Justified Image Gallery" data-count="none" data-via="nitinhayaran">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                <iframe src="http://ghbtns.com/github-btn.html?user=nitinhayaran&amp;repo=Justified.js&amp;type=watch&amp;count=false&amp;size=small"
+                  allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+            </div>
+            <div class="right">
+                <a href="https://twitter.com/nitinhayaran" class="twitter-follow-button" data-show-count="false">Follow @nitinhayaran</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                <iframe src="http://ghbtns.com/github-btn.html?user=nitinhayaran&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe>
+            </div>
+        </footer>
+    </section>
+    <section class="body demo">
+        <div class="container">
+            <h2>See it in Action</h2>
+            <h3>Play around with the demo</h3>
+            <div class="demo-container clearfix">
+                <form class="form-vertical" id="grid-form" role="form">
+                  <div class="form-group">
+                    <label for="numPhotos" class="col-sm-4 control-label">Number of Photo</label>
+                    <input type="number" min=1 max=500 step=1 value="20" class="form-control" id="numPhotos">
+                  </div>
+                  <div class="form-group">
+                    <label for="minHeight" class="col-sm-4 control-label">Row Height</label>
+                    <input type="number" min=100 max=600 step=10 value="150" class="form-control" id="minHeight">
+                  </div>
+                  <div class="form-group">
+                    <label for="maxHeight" class="col-sm-4 control-label">Maximum Row Height</label>
+                    <input type="number" min=500 max=1000 step=10 value="500" class="form-control" id="maxHeight">
+                  </div>
+                  <div class="form-group">
+                    <label for="margin" class="col-sm-4 control-label">Margin</label>
+                    <input type="number" min=0 max=5 step=1 value="1" class="form-control" id="margin">
+                  </div>
+                  <div class="form-group">
+
+                      <button type="submit" class="btn btn-default">Refresh Grid</button>
+
+                  </div>
+                </form>
+                <div class="image-container"></div>
+            </div>
+            <div class="text-container">
+                <h2>About Justified.js</h2>
+                <h3>jQuery Plugin to Create Justified Images Grid</h3>
+                <p>Justified.js is a jQuery plugin that creates a justified image grid of supplied images. Fill all the spaces! This ineffect creates a elegant image gallery with various sizes of images, where all the images of a row to have the same height. </p>
+                <p>Ideally, Justified.js tries to show images without modifying its aspect ratio and without cropping them. But want a disposition of the images without cropping them. But, when limited by the maximum row size it sometimes crop images to fill the grid. </p>
+                <h2>How to Use</h2>
+                <h3>Lets see some code</h3>
+                <p>To get started you'll have to include <code>jquery.justified.images.js</code> and <code>jquery.justified.images.css</code> files in your html file.</p>
+                <pre><code class="language-css">&lt;link rel="stylesheet" href="jquery.justified.images.css"&gt;
+&lt;script src="jquery.justified.images.js"&gt;&lt;/script&gt;</code></pre>
+                <p>After this you'll have to intialize this plugin for and container. Sample initialization code is here.</p>
+                <pre><code class="language-javascript">$('.image-container').empty().justifiedImages({
+    images : photos,
+    rowHeight: 200,
+    maxRowHeight: 400,
+    thumbnailPath: function(photo, width, height){
+        var purl = photo.url_s;
+        if( photo.url_n && (width > photo.width_s * 1.2 || height > photo.height_s * 1.2) ) purl = photo.url_n;
+        if( photo.url_m && (width > photo.width_n * 1.2 || height > photo.height_n * 1.2) ) purl = photo.url_m;
+        if( photo.url_z && (width > photo.width_m * 1.2 || height > photo.height_m * 1.2) ) purl = photo.url_z;
+        if( photo.url_l && (width > photo.width_z * 1.2 || height > photo.height_z * 1.2) ) purl = photo.url_l;
+        return purl;
+    },
+    getSize: function(photo){
+        return {width: photo.width_s, height: photo.height_s};
+    },
+    margin: 1
+});</code></pre>
+                <h2>Options</h2>
+                <h3>See configuration options</h3>
+                <p>Options can also be set programatically, by passing an options hash to the justifiedImages method. The idea behind this plugin is to keep it very flexible, so that it can be used for anytype of images source data. To keep that in mind you must set <code>images</code>, <code>thumbnailPath</code> and <code>getSize</code> during initialization. Details about the same is given below.</p>
+                <table class="plugin-options" width='900'>
+                    <tr>
+                        <th>Option</th>
+                        <th width="200">Override</th>
+                        <th>Type</th>
+                        <th>Details</th>
+                    </tr>
+                    <tr>
+                        <td>images</td>
+                        <td>Mandatory</td>
+                        <td>Array</td>
+                        <td>This is the array which contains your images. Each image object in array could contain any data. Justified.js doesn't actually read properties of these objects, it call below mentioned functions to get what it needs. This way we keep it very flexible and customizable.</td>
+                    </tr>
+                    <tr>
+                        <td>getSize</td>
+                        <td>Mandatory</td>
+                        <td>Function</td>
+                        <td>
+                            <code>getSize(photo)</code>
+                            <p>Returns : <code>{width: width, height: height}</code></p>
+                            This plugin calls <code>getSize</code> function to get dimension of a particular image. It should returns an object containing width and height of the image. This dimension is used just to determine aspect ratio of the images, so you can return any size as long as it is maintaining aspect ratio of the request image.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>thumbnailPath</td>
+                        <td>Mandatory</td>
+                        <td>Function</td>
+                        <td>
+                            <code>thumbnailPath(photo, width, height)</code>
+                            <p>Returns : <code>String</code> path to the thumbnail</p>
+                            <p>This function is called to determine url for the thumbnail best bit for given width and height of the image. </p>
+                            <p>Every photo website keeps different sizes of thumbnail, so that it can load smallest version of photo when required. You would have to override this function to return thumbnail path of the photo for given <code>width</code> and <code>height</code>.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>rowHeight</td>
+                        <td>Optional <small>Default : 150</small></td>
+                        <td>Integer</td>
+                        <td>Justified.js grid making algorithm uses this as the base size of the thumbnails and tries to fit as much thumbnail it can fit in a rows. This is just starting point for the algorithm, resulting rows height could also be slightly lesser than rowHeight.</td>
+                    </tr>
+                    <tr>
+                        <td>maxRowHeight</td>
+                        <td>Optional <small>Default : 350</small></td>
+                        <td>Integer</td>
+                        <td>As the name suggest it is the maximum height which would be allowed. If algorithm couldn't find a way to fit any image within limit, it will crop it and place it vertically in center.</td>
+                    </tr>
+                    <tr>
+                        <td>template</td>
+                        <td>Optional</td>
+                        <td>Function</td>
+                        <td>
+                            <code>template(photo)</code>
+                            <ul>
+                                <li class="two-coloumn">
+                                    <em>Returns</em> : <code>html string</code> for a thumbnail
+                                </li>
+                                <li class="two-coloumn">
+                                    <em>photo</em> : this photo object will have all the properties of the object provided in photos array. Along with them it will also have following properties:
+                                    <ul>
+                                        <li class="two-coloumn">
+                                            <em>displayHeight</em> : Height of the resulting image
+                                        </li>
+                                        <li class="two-coloumn">
+                                            <em>displayWidth</em> : Width of the resulting image
+                                        </li>
+                                        <li class="two-coloumn">
+                                            <em>src</em> : Path of the thumbnail
+                                        </li>
+                                        <li class="two-coloumn">
+                                            <em>marginRight</em> : Right <code>margin</code> for container div. Last thumbnail will have <code>margin-right</code> as 0px.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p>For each thumbnail Justified.js wraps it under a div. You can override this function to create your own dom structure. This function should return the html string.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>imageContainer</td>
+                        <td>Optional <small>Default : 'photo-container'</small></td>
+                        <td>String</td>
+                        <td>It is the classname of the div which contains resulting thumbnail img. You must provide this classname if <code>template</code> function is overridden.</td>
+                    </tr>
+                    <tr>
+                        <td>imageSelector</td>
+                        <td>Optional <small>Default : 'image-thumb'</small></td>
+                        <td>String</td>
+                        <td>It is the classname of the resulting thumbnail img. You must provide this classname if <code>template</code> function is overridden.</td>
+                    </tr>
+                    <tr>
+                        <td>margin</td>
+                        <td>Optional <small>Default : 1</small></td>
+                        <td>Integer</td>
+                        <td>Spacing between two thumbnails, vertically and horizontally.</td>
+                    </tr>
+                    <tr>
+                        <td>appendBlocks</td>
+                        <td>Optional</td>
+                        <td>Function</td>
+                        <td>
+                            <p>Override this function if you want to append some block of html in any row. e.g. you might want to append "Add Photo" button in last row.</p>
+                            <p>This function doesn't gets any argument, it sould just return an array of objects with following data format:</p>
+                            <pre><code class="language-javascript">{
+    rowNum : 1, // in which row should this block go, -1 indicates last row
+    width : 150, // width of the desired block
+    html : '<a href="#">Add Photo</a>' // html inside this block
+}</code></pre>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="footer">
+                    <a href="https://github.com/nitinhayaran/Justified.js" class="large-github">Get it from Github</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="footer">
+        <div class="text-container clearfix">
+            <div class="left">
+                <p>
+                    <a href="https://twitter.com/nitinhayaran" class="twitter-follow-button" data-show-count="false">Follow @nitinhayaran</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </p>
+                <p><iframe src="http://ghbtns.com/github-btn.html?user=nitinhayaran&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe></p>
+            </div>
+            <div class="right">
+                <p><a href="https://github.com/nitinhayaran/Justified.js">Justified.js</a> is authored and maintained by <a href="https://github.com/nitinhayaran/">@nitinhayaran</a></p>
+                <p>
+                    Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT
+                      License</a>
+                  </p>
+            </div>
+        </div>
+    </section>
+    <script src="prism/prism.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+
+    <script src="../jquery.justified.js"></script>
+    <script type="text/javascript">
+        var template = _.template('<div order="<%=photo.order%>" class="photo-container" id="photo-<%=photo.id%>" style="margin-right:<%=photo.marginRight%>px;"> \
+            <div title="View fullscreen" class="tooltip photo-zoom image-button"><i class="fa fa-expand"></i></div>\
+            <div title="Split this Moment from photos here onward" class="tooltip split-moment image-button"><i class="fa fa-code"></i></div>\
+            <div title="Undo Delete" class="undo-button image-button tooltip"><i class="fa fa-undo"></i></div>\
+            <img alt="<%=photo.title%>" class="image-thumb lazy" src="<%=photo.src%>" style="width:<%=photo.displayWidth%>px;height:<%=photo.displayHeight%>px;">\
+        </div>');
+        $(document).ready(function(){
+            $('#grid-form').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url : 'https://api.flickr.com/services/rest/?jsoncallback=?',
+                    method: 'get',
+                    data : {
+                        method : 'flickr.photos.search',
+                        api_key : '2b76793b6787a09c14929811d2cef67e',
+                        text : 'potrait',
+                        sort : 'interestingness-desc',
+                        format : 'json',
+                        extras : 'url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l',
+                        per_page : $('#numPhotos').val()
+                    },
+                    dataType: 'json',
+                    success : function(data){
+                        showPhotos(data.photos.photo);
+                    }
+                })
+            });
+            $('#grid-form').submit();
+        });
+        var showPhotos = function(photos){
+            $('.image-container').empty().justifiedImages({
+                images : photos,
+                rowHeight: $('#minHeight').val(),
+                maxRowHeight: $('#maxHeight').val(),
+                thumbnailPath: function(photo, width, height){
+                    var purl = photo.url_s;
+                    if( photo.url_n && (width > photo.width_s * 1.2 || height > photo.height_s * 1.2) ) purl = photo.url_n;
+                    if( photo.url_m && (width > photo.width_n * 1.2 || height > photo.height_n * 1.2) ) purl = photo.url_m;
+                    if( photo.url_z && (width > photo.width_m * 1.2 || height > photo.height_m * 1.2) ) purl = photo.url_z;
+                    if( photo.url_l && (width > photo.width_z * 1.2 || height > photo.height_z * 1.2) ) purl = photo.url_l;
+                    return purl;
+                },
+                getSize: function(photo){
+                    return {width: photo.width_s, height: photo.height_s};
+                },
+                margin: $('#margin').val()/*,
+                appendBlocks: function(){
+                    return [{
+                        rowNum : 1,
+                        width : 150,
+                        html : '<a href="#">Add Photo</a>'
+                    },{
+                        rowNum : -1,
+                        width : 150,
+                        html : '<a href="#">Add Last Photo</a>'
+                    }]
+                }*/
+            });
+        }
+    </script>
+</body>
+</html>

@@ -170,14 +170,17 @@ if (isset($params['for_module_id'])): ?>
                     <tr id="mw-custom-list-element-<?php print $field['id']; ?>" data-id="<?php print $field['id']; ?>">
                         <td data-tip="<?php print  ucfirst($field['type']); ?>" class="tip custom-field-icon"
                             data-tipposition="top-left">
+                            <span class="mobile-th"><?php _e("Type"); ?>:</span>
                             <div><span class="mw-custom-field-icon-<?php print $field['type']; ?>"></span></div>
                         </td>
-                        <td data-id="<?php print $field['id']; ?>"><span class="mw-admin-custom-field-name-edit-inline"
+                        <td data-id="<?php print $field['id']; ?>">
+                          <span class="mobile-th"><?php _e("Name"); ?>: </span>
+                          <span class="mw-admin-custom-field-name-edit-inline"
                                                                          data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
                         </td>
                         <td data-id="<?php print $field['id']; ?>" width="100%">
 
-
+                            <span class="mobile-th"><?php _e("Settings"); ?></span>
                             <div id="mw-custom-fields-list-preview-<?php print $field['id']; ?>"
                                  class="mw-custom-fields-list-preview">
 
@@ -194,7 +197,7 @@ if (isset($params['for_module_id'])): ?>
                         <td class="custom-fields-cell-delete">
                             <a class="show-on-hover" href="javascript:;"
                                onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');"><span
-                                        class="mw-icon-close"></span></a>
+                                        class="mw-icon-bin"></span></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
