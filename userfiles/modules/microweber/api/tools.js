@@ -3,6 +3,7 @@ mw.require("css_parser.js");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 
 
+
 (function () {
     if (typeof jQuery.browser === 'undefined') {
         var matched, browser;
@@ -985,6 +986,26 @@ mw.tools = {
                 mw.tools.gallery.normalize(modal);
             }, modal);
         },
+        playing : false,
+        playingInt : null,
+        play : function(modal, interval){
+          if(mw.tools.gallery.playing){
+            mw.tools.gallery.playing = false;
+            clearInterval(mw.tools.gallery.playingInt);
+            $('.mwf-loader', modal.container).stop().css({width:'0%'})
+          }
+          else{
+            mw.tools.gallery.playing = true;
+            interval = interval || 4000;
+            $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
+            mw.tools.gallery.playingInt = setInterval(function(){
+              if(mw.tools.gallery.playing){
+                $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
+                mw.tools.gallery.next(modal);
+              }
+            }, interval);
+          }
+        },
         go: function (modal, index) {
             var modal = modal || mw.$("#mw_gallery")[0].modal;
             var index = index || 0;
@@ -1024,14 +1045,21 @@ mw.tools = {
             }
             var next = arr.length > 1 ? '<span class="mwf-next">&rsaquo;</span>' : '';
             var prev = arr.length > 1 ? '<span class="mwf-prev">&lsaquo;</span>' : '';
+            var play = arr.length > 1 ? '<span class="mwf-play"></span>' : '';
+            var loader = arr.length > 1 ? '<span class="mwf-loader"></span>' : '';
             var ghtml = ''
                 + '<div class="mwf-gallery">'
                 + '<div class="mwf-gallery-container">'
                 + '</div>'
                 + next
                 + prev
+                + play
+                + loader
                 + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen"></span>' : '')
                 + '</div>';
+
+
+
 
             var modal = modal || top.mw.tools.modal.init({
                     width: "100%",
@@ -1053,12 +1081,17 @@ mw.tools = {
                 galeryContainer.html(this)
                 var next = mw.$('.mwf-next', modal.container);
                 var prev = mw.$('.mwf-prev', modal.container);
+                var play = mw.$('.mwf-play', modal.container);
                 var f = mw.$('.mwf-fullscreen', modal.main);
                 next.click(function () {
                     mw.tools.gallery.next(modal);
                 });
                 prev.click(function () {
                     mw.tools.gallery.prev(modal);
+                });
+                play.click(function () {
+                  $(this).toggleClass('active');
+                    mw.tools.gallery.play(modal);
                 });
                 f.click(function () {
                     mw.tools.toggleFullscreen(modal.main[0]);

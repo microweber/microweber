@@ -3863,6 +3863,31 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   line-height: 40px;
   font-family: Microweber;
   border-radius: 1px;
+
+}
+
+.mwf-play:after{
+  content: "\f215";
+
+}
+.mwf-play.active:after{
+  content: "\f210";
+}
+
+
+.mw_modal_gallery .mwf-play{
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  position: absolute;
+  background: no-repeat #fff;
+  box-shadow: 1px 1px 2px #000;
+  top: 20px;
+  right: 62px;
+  cursor: pointer;
+  color: black;
+  font-family: Microweber;
 }
 
 .mw_modal_gallery .mwf-next:focus,
@@ -3872,6 +3897,16 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   background: white;
   background: rgba(255, 255, 255, 0.5);
   color: #111;
+}
+.mwf-loader{
+  width: 0;
+  height: 2px;
+  background: rgba(74, 164, 191, .91);
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .mw_modal_gallery .mwf-next:active,
