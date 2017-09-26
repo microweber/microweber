@@ -1005,7 +1005,7 @@ mw.tools = {
                   mw.tools.gallery.next(modal);
                 }
                 else{
-                  clearInterval(mw.tools.gallery.playingInt);  
+                  clearInterval(mw.tools.gallery.playingInt);
                 }
               }
             }, interval);
@@ -4888,10 +4888,37 @@ mw.image = {
             mw.image._dragcurrent.style.left = x + 'px';
         }
     },
+    preloadForAll: function (array, eachcall, callback) {
+      var size = array.length, i = 0, count = 0;
+      for( ; i < size ; i++){
+        mw.image.preload(array[i], function(imgWidth, imgHeight){
+          count++;
+          eachcall.call(this, imgWidth, imgHeight)
+          if(count === size){
+            if(!!callback) callback.call()
+
+          }
+        })
+      }
+    },
+    preloadAll: function (array, callback) {
+      var size = array.length, i = 0, count = 0;
+      for( ; i < size ; i++){
+        mw.image.preload(array[i], function(){
+          count++;
+          if(count === size){
+            callback.call()
+          }
+        })
+      }
+    },
     preload: function (url, callback) {
-        var img = mwd.createElement('img');
+        var img;
         if (typeof window.chrome === 'object') {
             var img = new Image();
+        }
+        else{
+          img = mwd.createElement('img')
         }
         img.className = 'semi_hidden';
         img.src = url;
