@@ -1000,8 +1000,13 @@ mw.tools = {
             $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
             mw.tools.gallery.playingInt = setInterval(function(){
               if(mw.tools.gallery.playing){
-                $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
-                mw.tools.gallery.next(modal);
+                if($('.mwf-loader', modal.container).length > 0){
+                  $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
+                  mw.tools.gallery.next(modal);
+                }
+                else{
+                  clearInterval(mw.tools.gallery.playingInt);  
+                }
               }
             }, interval);
           }
