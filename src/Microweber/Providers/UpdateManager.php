@@ -817,7 +817,6 @@ class UpdateManager
 
 
         if ($post_params != false and is_array($post_params)) {
-
             $post_params['site_url'] = $this->app->url_manager->site();
             $post_params['api_function'] = $method;
             $post_params['mw_version'] = MW_VERSION;
@@ -829,6 +828,7 @@ class UpdateManager
             $post = array();
             $post['base64js'] = base64_encode(@json_encode($post_params));
             $curl_result = $curl->post($post);
+
          } else {
             $curl_result = false;
         }

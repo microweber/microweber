@@ -366,7 +366,7 @@ class MediaManager
 
         $params['table'] = $table;
         $params['order_by'] = 'position ASC';
-
+//d($params);
         $data = $this->app->database_manager->get($params);
         if (isset($params['single'])) {
             return $data;

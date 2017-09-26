@@ -36,6 +36,10 @@ if(!isset($params['for-id'])){
 
 if(isset($params['for-id'])){
 	$for_id = $params['for-id'];
+}if(isset($params['rel-id'])){
+	$for_id = $params['rel-id'];
+}if(isset($params['rel_id'])){
+	$for_id = $params['rel_id'];
 }
 
 
@@ -55,8 +59,8 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
 }
 
 
-
 ?>
+
 <script  type="text/javascript">
     after_upld = window.after_upld || function (a, e, f, id, module_id){
     	if(e != 'done' ){

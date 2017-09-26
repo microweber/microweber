@@ -131,7 +131,6 @@ $(document).ready(function(){
 }
 
 </style>
-
  <?php if($quick_add == false): ?>
   <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
     <a href="javascript:;" class="mw-ui-btn active"><?php _e("My pictures"); ?></a>
