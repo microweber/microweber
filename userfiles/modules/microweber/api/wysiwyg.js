@@ -1316,7 +1316,7 @@ mw.wysiwyg = {
 
             if (ddval.length != 0 && ddval.setDropdownValue != undefined) {
                 mw.$(".mw_dropdown_action_font_family").each(function(){
-                  $(this).setDropdownValue(fam); 
+                  $(this).setDropdownValue(fam);
                 })
             }
         }
@@ -1461,7 +1461,7 @@ mw.wysiwyg = {
             title: "Edit link",
             name: "mw_rte_link",
             template: 'basic',
-            width: 430,
+            width: 500,
             height: 300
         });
         mw.$('iframe', modal.main).on('change', function (a, b, c, e) {

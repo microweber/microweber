@@ -11,7 +11,7 @@
     margin: 0;
 }
 
-.template-four-slides .slider-images a {
+.template-four-slides .slider-images ul a {
     display: block;
     width: 100%;
     height: 425px;
