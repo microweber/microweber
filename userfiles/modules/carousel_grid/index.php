@@ -2,9 +2,8 @@
 
 <?php
 
-  $for = 'content';
 
-  $data = get_pictures('id=' . $params['id']);
+  $data = get_pictures('rel_type=modules&rel_id=' . $params['id']);
 
   var_dump($data);
   var_dump($params['id']);

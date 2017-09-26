@@ -56,6 +56,8 @@ class AdminController extends Controller
             define('MW_BACKEND', true);
         }
 
+
+
         //create_mw_default_options();
         mw()->content_manager->define_constants();
 
@@ -75,6 +77,39 @@ class AdminController extends Controller
         if (!$hasNoAdmin) {
             $this->hasNoAdmin();
         }
+
+
+
+
+
+
+        if (defined('MW_USER_IP')) {
+            $allowed_ips = config('microweber.admin_allowed_ips');
+            if ($allowed_ips) {
+                $allowed_ips = explode(',', $allowed_ips);
+                $allowed_ips = array_trim($allowed_ips);
+                if (!empty($allowed_ips)) {
+                    $is_allowed = false;
+                    foreach ($allowed_ips as $allowed_ip) {
+                        $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(MW_USER_IP, $allowed_ip);
+                        if ($is) {
+                            $is_allowed = $is;
+                        }
+                }
+                    if (!$is_allowed) {
+                        return response('Unauthorized.', 401);
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
         $view .= (!$hasNoAdmin ? 'create' : 'index').'.php';

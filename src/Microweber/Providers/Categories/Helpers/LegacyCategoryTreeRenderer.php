@@ -118,17 +118,17 @@ class LegacyCategoryTreeRenderer
         }
         $nest_level_orig = $depth_level_counter;
 
-        if (!isset($params['no_cache'])) {
-            if ($nest_level_orig == 0) {
-                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-            ///    $cache_content = false;
-                if (($cache_content) != false) {
-                  echo $cache_content;
-
-                 return;
-                }
-            }
-        }
+//        if (!isset($params['no_cache'])) {
+//            if ($nest_level_orig == 0) {
+//                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+//                $cache_content = false;
+//                if (($cache_content) != false) {
+//                  echo $cache_content;
+//
+//                 return;
+//                }
+//            }
+//        }
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
@@ -378,7 +378,7 @@ class LegacyCategoryTreeRenderer
 
 
         ob_start();
-
+//d($fors);
         if ($tree_only_ids != false) {
 
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);

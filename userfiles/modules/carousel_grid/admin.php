@@ -39,7 +39,7 @@
       <div class="mw-ui-box">
         <div class="tab">
           <div class="mw-ui-box-content">
-            <module type="pictures/admin" id="<?php print $params['id']; ?>" rel_id="<?php print $params['id']; ?>">
+            <module type="pictures/admin" rel_id="<?php print $params['id']; ?>"   />
           </div>
         </div>
         <div class="tab">
