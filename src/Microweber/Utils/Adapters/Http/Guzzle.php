@@ -81,11 +81,17 @@ class Guzzle
     {
         $client = new Client();
 
-        $response = $client->post($this->url, [
+        $form_params  = [
             'form_params' => $data,
             'timeout' => $this->timeout,
             'verify'=>__DIR__.DS.'cacert.pem.txt'
-        ]);
+        ];
+
+        $response = $client->post($this->url,$form_params );
+
+
+ 
+
 
         $r = '';
         $body = $response->getBody();
