@@ -229,6 +229,27 @@ setACValue = function(val){
   margin-bottom: 15px;
 }
 
+#available_elements{
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid #eee;
+}
+
+#available_elements a{
+  display: block;
+  padding: 10px 12px;
+  cursor: pointer;
+
+}
+
+#available_elements a:hover{
+  background-color: #EEEEEE;
+}
+
+#available_elements a + a{
+  border-top: 1px solid #eee;
+}
+
 </style>
 
 
@@ -239,6 +260,7 @@ setACValue = function(val){
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;"><?php _e("Page Section"); ?></a>
         </div>
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
@@ -256,7 +278,7 @@ setACValue = function(val){
                       
                       </div>
                   
-                      
+
                       
                       
                       
@@ -294,6 +316,23 @@ setACValue = function(val){
                     <input type="text" class="mw-ui-field" id="email_field" placeholder="mail@example.com" />
                     <span class="mw-ui-btn mw-ui-btn-info right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
                 </div>
+            </div>
+            <div class="tab">
+                <div id="available_elements"></div>
+                <script>
+                  $(document).ready(function(){
+                    var html = [];
+                    top.$("h1[id],h12[id],h3[id],h4[id],h5[id],h6[id]", top.document.body).each(function(){
+                      html.push({id:this.id, text:this.textContent});
+                      mw.$('#available_elements').append('<a data-href="#'+this.id+'"><strong>'+this.nodeName+'</strong> - '+this.textContent+'</a>')
+                    })
+                    mw.$('#available_elements a').on('click', function(){
+
+                      parent.mw.iframecallbacks[hash](top.location.href.split('#')[0] + $(this).dataset('href'));
+                      parent.mw.tools.modal.remove('mw_rte_link');
+                    })
+                  })
+                </script>
             </div>
         </div>
     </div>

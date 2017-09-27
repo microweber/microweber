@@ -6,10 +6,13 @@ mw.module_pictures = {
             function (data) {
 
             });
-    },
 
+        $('#'+data.for_id).trigger('change').find('[data-type="pictures/admin"]').trigger('change') 
+    },
+    time:null,
     after_change: function (data) {
-        setTimeout(function () {
+      clearTimeout(mw.module_pictures.time)
+        mw.module_pictures.time = setTimeout(function () {
             mw.reload_module('pictures');
             mw.reload_module_parent('pictures');
             mw.reload_module_parent('posts');
@@ -60,8 +63,15 @@ mw.module_pictures = {
         }
 
     },
+    time:null,
     init: function (selector) {
         var el = $(selector);
+        $(".mw-post-media-img-edit input", el).not(':checkbox').on('input', function(){
+          clearTimeout(mw.module_pictures.time)
+          mw.module_pictures.time = setTimeout(function(){
+            el.parents('[data-type="pictures/admin"]').trigger('change')
+          }, 900)
+        })
         el.sortable({
             items: ".admin-thumb-item",
             placeholder: 'admin-thumb-item-placeholder',
@@ -70,7 +80,9 @@ mw.module_pictures = {
                 $.post(mw.settings.api_url + 'reorder_media', serial,
                     function (data) {
                         mw.module_pictures.after_change()
+                        el.parents('[data-type="pictures/admin"]').trigger('change')
                     });
+
             }
         });
     }
