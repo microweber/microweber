@@ -24,7 +24,7 @@
     </div>
     <div class="mw-ui-field-holder">
         <div class="label"><?php _e('Email'); ?></div>
-        <input name="admin_email" type="email" required
+        <input name="admin_email" type="text" required
                class="mw-ui-field w100"/>
     </div>
     <div class="mw-ui-field-holder">
