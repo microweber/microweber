@@ -823,8 +823,10 @@ class Import
     {
         only_admin_access();
         $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
+        $filename = str_replace('..', '', $filename);
         $file_name_with_full_path = realpath($filename);
         $post = array('test' => '123456', 'file_contents' => '@' . $file_name_with_full_path);
+        $post = array('test' => '123456', 'file_contents' => file_get_contents($file_name_with_full_path));
         $result = $this->app->http->url($target_url)->post($post);
 
         $err = false;
@@ -841,7 +843,7 @@ class Import
         } else {
             if (isset($result['result'])) {
                 $url = $result['result'];
-                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . 'excel' . DS;
+                $target_dir = storage_path() . 'backup_restore' . DS . 'excel' . DS;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);
                 }
@@ -906,6 +908,7 @@ class Import
             }
             ++$i;
         }
+
         $content_items = $rows;
         $content_items = $this->map_array($rows);
 
@@ -1011,6 +1014,7 @@ class Import
         } elseif (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
             $item['is_deleted'] = 0;
         }
+        //dd($content_items);
         foreach ($content_items as $item) {
             if (isset($item['id'])) {
                 unset($item['id']);
@@ -1052,6 +1056,59 @@ class Import
                 }
             }
 
+            // check advanced keys
+            $qty_keys = ['qty', 'quantity', 'pieza'];
+            $sku_keys = ['sku', 'isbn', 'model_number'];
+            $custom_fields_type_keys = ['radio', 'dropdown', 'select', 'price', 'address', 'property', 'textarea', 'checkbox', 'option'];
+
+            foreach ($item as $ik => $iv) {
+                if (!isset($item['data_qty'])) {
+                    foreach ($qty_keys as $search) {
+                        if (stristr($ik, '[' . $search . ']')) {
+                            $item['data_qty'] = $iv;
+                            unset($item[$ik]);
+                        }
+                    }
+                }
+                if (!isset($item['data_sku'])) {
+                    foreach ($sku_keys as $search) {
+                        if (stristr($ik, '[' . $search . ']')) {
+                            $item['data_sku'] = $iv;
+                            unset($item[$ik]);
+                        }
+                    }
+                }
+
+
+                foreach ($custom_fields_type_keys as $search) {
+                    if (stristr($ik, '[' . $search . ']')) {
+                        $ikn = str_ireplace('[' . $search . ']', '', $ik);
+                        $ikn = trim($ikn, '_-');
+                        $ikn_normalized = str_replace('-', ' ', $ikn);
+                        $ikn_normalized = str_replace('_', ' ', $ikn_normalized);
+                        $ikn_normalized = trim($ikn_normalized, '_-');
+
+                        $cftype = $search;
+                        if ($search == 'select' or $search == 'option') {
+                            $cftype = 'dropdown';
+
+                        }
+                        $vals = explode(',', $iv);
+                        $trimmed_vals = array_map('trim', $vals);
+
+                        $item['custom_fields'][] = array(
+                            'type' => $cftype,
+                            'name' => $ikn,
+                            'value' => $trimmed_vals,
+                        );
+
+                        unset($item[$ik]);
+                    }
+                }
+
+            }
+
+        //    dd($item);
             if ($skip == false and isset($item['title'])) {
                 $res[] = $item;
             }
@@ -1088,6 +1145,11 @@ class Import
 
         if (!is_writable($chunks_folder)) {
             return array('error' => 'Import folder is not writable!');
+        }
+
+        if(empty($content_items)){
+            return array('error' => 'Nothing to impott is found!');
+
         }
 
         $chunks = (array_chunk($content_items, $chunk_size, true));
@@ -1205,9 +1267,6 @@ class Import
     {
 
 
-
-
-
         $skip_tables = array(
             "modules", "elements", "users", "log", "notifications", "content_revisions_history", "stats_users_online", "system_licenses", "users_oauth", "sessions"
         );
@@ -1219,7 +1278,7 @@ class Import
         set_time_limit(0);
 
         $export_location = $this->get_import_location();
-        if(!is_dir($export_location)){
+        if (!is_dir($export_location)) {
             mkdir_recursive($export_location);
         }
         $export_filename = 'export_' . date("Y-m-d-his") . '.json';
@@ -1243,26 +1302,27 @@ class Import
         $exported_tables_data = array();
         if ($all_tables) {
             foreach ($all_tables as $table) {
-                if(!in_array($table,$skip_tables)){
-                $table_exists = mw()->database_manager->table_exists($table);
-                if ($table_exists) {
-                    $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
-                    if ($table_conent) {
-                        $exported_tables_data[$table] = $table_conent;
+                if (!in_array($table, $skip_tables)) {
+                    $table_exists = mw()->database_manager->table_exists($table);
+                    if ($table_exists) {
+                        $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
+                        if ($table_conent) {
+                            $exported_tables_data[$table] = $table_conent;
+                        }
                     }
-                }
 
-            }}
+                }
+            }
         }
-        array_walk_recursive ($exported_tables_data, function (&$item) {
-            if (is_string ($item)) {
-                $item = utf8_encode ($item);
+        array_walk_recursive($exported_tables_data, function (&$item) {
+            if (is_string($item)) {
+                $item = utf8_encode($item);
             }
         });
-        $save = json_encode ($exported_tables_data);
+        $save = json_encode($exported_tables_data);
 
 
-        if (file_put_contents($export_path,$save )) {
+        if (file_put_contents($export_path, $save)) {
             return array('success' => count($exported_tables_data, COUNT_RECURSIVE) . ' items are exported');
 
         } else {
