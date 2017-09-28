@@ -73,17 +73,34 @@ $iudates = $update_api->check($forced);
                         <input type="checkbox" name="mw_version" value="1"/>
                         <span></span></label></td>
                 <td><img src="<?php print mw_includes_url(); ?>img/mw_system.png" alt="Microweber"/><br>
-                    <span class="update-version"><?php _e('Current:'); ?> <?php print MW_VERSION ?></span></td>
-                <td><h2> <?php _e("New version"); ?>
+                    <span class="update-version"><?php _e('Current:'); ?><?php print MW_VERSION ?></span></td>
+                <td><h2> <?php _e("New version"); ?>  </h2>
 
-                        <?php if (isset($item["version"])) : ?>
+                    <?php if (isset($iudates["version"])) : ?>
 
-                            <?php print $iudates["version"] ?>
-                        <?php endif ?>
-                        <?php if (isset($item["description"])) : ?>
-                            <span class="update-description"><?php print $item["description"] ?></span>
-                        <?php endif ?>
-                    </h2>
+                        <?php print $iudates["version"] ?>
+                    <?php endif ?>
+
+
+
+
+                    <?php if (isset($iudates["description"])) : ?>
+                        <span class="update-description"><?php print $iudates["description"] ?></span>
+                    <?php endif ?>
+
+
+
+                    <?php if (isset($iudates["popup"])) : ?>
+
+
+                        <a class="mw-ui-btn mw-ui-btn-info show-on-hover" onclick="mw.modalFrame({url:'<?php print $iudates["popup"] ?>'}); return false;"  href="<?php print $iudates["popup"] ?>" target="_blank">
+                            <?php _e("Read more"); ?>
+                        </a>
+
+
+                    <?php endif ?>
+
+
                     <span class="mw-ui-btn mw-ui-btn-invert show-on-hover single-update-install">
         <?php _e("Install Update"); ?>
         </span></td>

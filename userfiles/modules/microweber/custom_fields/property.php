@@ -29,7 +29,12 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
   <?php endif; ?>
    
   <div class="controls">
-    <?php print $data["value"]; ?>
+      <?php if(is_array($data["value"])): ?>
+          <?php print implode(',',$data["value"]); ?>
+
+      <?php else : ?>
+          <?php print $data["value"]; ?>
+      <?php endif; ?>
   </div>
   
 </div>

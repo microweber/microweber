@@ -41,16 +41,7 @@ mw()->notifications_manager->delete_for_module('updates');
                     },
                     done: function () {
 
-
                         mw.load_module('updates/worker', '#mw-updates-queue');
-
-
-                        //mw.tools.enable(mwd.getElementById('installsubmit'));
-//                        Alert("Updates are successfully installed.");
-//                        $('#number_of_updates').fadeOut();
-//                            mw.reload_module('#mw-updates', function(){
-//                            mw.bind_update_btns();
-//                        });
                     },
                     selector: mw.$('.mw-select-updates-list')
                 });
@@ -97,6 +88,10 @@ mw()->notifications_manager->delete_for_module('updates');
 
     }
     $(document).ready(function () {
+
+
+
+
 
         mw.bind_update_btns();
         mw.bind_update_form_submit();
@@ -153,7 +148,7 @@ mw()->notifications_manager->delete_for_module('updates');
       <?php _e("Check for updates"); ?>
       </span></div>
         <div class="mw-side-left" id="updates-list-info"><span
-                    style="font-size: 18px;"><?php print user_name(); ?></span>,
+                style="font-size: 18px;"><?php print user_name(); ?></span>,
             <?php _e("we are constantly trying to improve Microweber"); ?><br>
             <?php _e("Our team and many contributors around the world are working hard every day to provide you with a stable system and new updates"); ?>
             <?php _e("Please excuse us in case you find any problems and"); ?>
