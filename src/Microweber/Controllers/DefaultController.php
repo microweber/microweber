@@ -72,10 +72,13 @@ class DefaultController extends Controller
         $site_title = $this->app->option_manager->get('website_title', 'website');
         $site_desc = $this->app->option_manager->get('website_description', 'website');
 
+        $views = MW_PATH . 'Views' . DS;
+
+        \View::addNamespace('mw_views', $views);
 
         event_trigger('mw_robot_url_hit');
 
-        return view('rss', compact('site_title', 'site_desc', 'cont'));
+        return view('mw_views::rss', compact('site_title', 'site_desc', 'cont'));
     }
 
     public function api_html()

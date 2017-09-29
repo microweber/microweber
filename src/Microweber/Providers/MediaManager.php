@@ -737,14 +737,13 @@ class MediaManager
 
 
 
-
-
-                            $image = Image::make($src)->resize($width, $height, function ($constraint) {
-                                $constraint->aspectRatio();
-                            });
                             if($crop){
+                                $image = Image::make($src)->fit($width, $height);
 
-                                $image->fit($width, $height);
+                            } else {
+                                $image = Image::make($src)->resize($width, $height, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
                             }
 
                             $image =  $image->save($cache_path);
