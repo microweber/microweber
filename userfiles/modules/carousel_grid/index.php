@@ -34,7 +34,7 @@ if (!$items_number) {
 }
 $items_number = intval($items_number);
 ?>
-
+<?php $rand = uniqid(); ?>
 <script>
     mw.lib.require('slick');
     $(document).ready(function () {
@@ -70,7 +70,22 @@ $items_number = intval($items_number);
                             },
                             margin: 1
 
-                        })
+                        });
+
+                       $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function(i){
+
+                         $(this).addClass('gallery-ready')
+                         (function(i, el){
+                           console.log(window['gallery<?php print $rand; ?>'])
+                           el.on('click', function(){
+                             if(!!window['gallery<?php print $rand; ?>']){
+                               mw.gallery(gallery<?php print $rand; ?>, i)
+                             }
+
+                           })
+                         })(i, $(this))
+
+                       })
 
                         slidesDone++;
                         if (slidesDone == allslides.length) {
@@ -88,7 +103,7 @@ $items_number = intval($items_number);
 
     })
 </script>
-<?php $rand = uniqid(); ?>
+
 <?php if ($data): ?>
     <script>
         gallery<?php print $rand; ?> = [
@@ -108,7 +123,7 @@ $items_number = intval($items_number);
         foreach ($data as $key => $pic) {
             $count++;
             $html .= $count == 1 ? '<div class="carousel-grid-slide">' : '';
-            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" onclick="mw.gallery(gallery' . $rand . ', ' . $key . ')">' . ($pic['title'] != null ? '<div class="carousel-grid-slide-description">' . $pic['title'] . '</div>' : '');
+            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" >' . ($pic['title'] != null ? '<div class="carousel-grid-slide-description">' . $pic['title'] . '</div>' : '');
             $html .= $count == $items_number ? '</div>' : '';
             $count = $count != $items_number ? $count : 0;
         }

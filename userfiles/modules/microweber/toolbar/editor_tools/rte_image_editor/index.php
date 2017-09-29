@@ -29,12 +29,14 @@ else{
     hash = hash !== '' ? hash : 'insert_html';
 
     UpdateImage = function(url){
+      cosnole.log(parent.mw.image.currentResizing[0])
       if(parent.mw.image.currentResizing[0].nodeName == 'IMG'){
         parent.mw.image.currentResizing.attr("src", url);
         parent.mw.image.currentResizing.css('height', 'auto');
       }
       else{
         parent.mw.image.currentResizing.css("backgroundImage", 'url('+mw.files.safeFilename(url)+')');
+        top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
       }
 
     }

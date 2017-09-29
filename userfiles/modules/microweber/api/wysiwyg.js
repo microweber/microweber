@@ -2008,6 +2008,15 @@ mw.wysiwyg = {
     isWordHtml:function(html){
       return html.indexOf('urn:schemas-microsoft-com:office:word') !== -1;
     },
+    bgQuotesFix:function(el){
+      el = $(el)[0];
+      if(!!el && el.nodeType === 1){
+        var first = el.outerHTML.split('>')[0];
+        if( el.style.backgroundImage.indexOf('"') !== -1 && first.indexOf('style="') !== -1 ){
+          el.attributes.style.nodeValue = el.attributes.style.nodeValue.replace(/\"/g, "'")
+        }
+      }
+    },
     clean_word_list: function (html) {
 
       if(!mw.wysiwyg.isWordHtml(html)) return html;

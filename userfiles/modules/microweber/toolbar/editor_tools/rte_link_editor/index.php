@@ -48,7 +48,7 @@
                   if(typeof obj === 'object'){
                     var title = obj.title;
                     var url = obj.url;
-                    lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='setACValue(\""+url+"\")'>"+title+"</a>";
+                    lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='setACValue(\""+url+"\")'><a href='javascript:;'>"+title+"</a></li>";
                   }
               }
               var ul = el.parent().find("ul");

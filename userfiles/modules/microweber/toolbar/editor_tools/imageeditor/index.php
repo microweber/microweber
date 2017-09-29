@@ -63,8 +63,8 @@
                     <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Effects"); ?></span>
                     <div class="mw-dropdown-content" style="display: none;">
                         <ul>
-                            <li value="vintage" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><?php _e("Vintage Effect"); ?></li>
-                            <li value="grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><?php _e("Grayscale"); ?></li>
+                            <li value="vintage" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><a href="javascript:;"><?php _e("Vintage Effect"); ?></a></li>
+                            <li value="grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><a href="javascript:;"><?php _e("Grayscale"); ?></a></li>
                         </ul>
                     </div>
                 </div>
@@ -114,6 +114,7 @@
                       }
                       else{
                         curr.style.backgroundImage = 'url('+mw.files.safeFilename(b)+')';
+                        top.mw.wysiwyg.bgQuotesFix(curr)
                       }
                     }
                   }

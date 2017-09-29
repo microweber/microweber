@@ -141,8 +141,16 @@ mw.iframecallbacks = {
     },
     editimage: function (url) {
 
-        mw.image.currentResizing.attr("src", url);
-        mw.image.currentResizing.css('height', 'auto');
+
+        if(mw.image.currentResizing[0].nodeName == 'IMG'){
+          mw.image.currentResizing.attr("src", url);
+          mw.image.currentResizing.css('height',  'auto');
+        }
+        else{
+          mw.image.currentResizing.css("backgroundImage", 'url('+mw.files.safeFilename(url)+')');
+          top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+        }
+
         mw.wysiwyg.change(mw.image.currentResizing[0]);
         parent.mw.image.currentResizing.load(function () {
             parent.mw.image.resize.resizerSet(this);
