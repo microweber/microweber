@@ -2419,7 +2419,21 @@ mw.drag = {
         }
         return doc;
     },
+    htmlAttrValidate:function(edits){
+      var final = [];
+      $.each(edits, function(){
+        var html = this.outerHTML;
+        html = html.replace(/url\(&quot;/g, "url('");
+        html = html.replace(/jpg&quot;/g, "jpg'");
+        html = html.replace(/jpeg&quot;/g, "jpeg'");
+        html = html.replace(/png&quot;/g, "png'");
+        html = html.replace(/gif&quot;/g, "gif'");
+        final.push($(html)[0]);
+      })
+      return final;
+    },
     collectData: function(edits) {
+        edits = this.htmlAttrValidate(edits);
         var l = edits.length,
             i = 0,
             helper = {},
