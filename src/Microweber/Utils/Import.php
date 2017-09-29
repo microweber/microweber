@@ -1108,7 +1108,7 @@ class Import
 
             }
 
-        //    dd($item);
+            //    dd($item);
             if ($skip == false and isset($item['title'])) {
                 $res[] = $item;
             }
@@ -1147,7 +1147,7 @@ class Import
             return array('error' => 'Import folder is not writable!');
         }
 
-        if(empty($content_items)){
+        if (empty($content_items)) {
             return array('error' => 'Nothing to impott is found!');
 
         }
