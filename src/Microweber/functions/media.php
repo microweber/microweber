@@ -81,9 +81,9 @@ function thumbnail_img($params)
 }
 
 if (!function_exists('thumbnail')) {
-    function thumbnail($src, $width = 200, $height = null)
+    function thumbnail($src, $width = 200, $height = null, $crop=null)
     {
-        return mw()->media_manager->thumbnail($src, $width, $height);
+        return mw()->media_manager->thumbnail($src, $width, $height, $crop);
     }
 }
 api_expose_admin('get_media');

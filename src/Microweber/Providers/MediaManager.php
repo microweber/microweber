@@ -622,6 +622,12 @@ class MediaManager
             $height = intval($height);
         }
 
+        if (!isset($crop)) {
+            $crop = null;
+        } else {
+            $crop = trim($crop);
+        }
+
 
         if (!isset($src) or $src == false) {
             return $this->pixum($width, $height);
@@ -730,10 +736,18 @@ class MediaManager
                             }
 
 
+
+
+
                             $image = Image::make($src)->resize($width, $height, function ($constraint) {
                                 $constraint->aspectRatio();
-                            })->save($cache_path);
+                            });
+                            if($crop){
 
+                                $image->fit($width, $height);
+                            }
+
+                            $image =  $image->save($cache_path);
 
                             unset($image);
                         } else {
@@ -935,7 +949,7 @@ class MediaManager
         return $svg;
     }
 
-    public function thumbnail($src, $width = 200, $height = null)
+    public function thumbnail($src, $width = 200, $height = null, $crop=null)
     {
         if ($src == false) {
             return $this->pixum($width, $height);
@@ -984,6 +998,9 @@ class MediaManager
 
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;
+        if($crop){
+            $cache_id['crop'] = $crop;
+        }
 
         $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
@@ -998,7 +1015,7 @@ class MediaManager
             if (stristr($base_src, 'pixum_img')) {
                 return $this->pixum($width, $height);
             }
-            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&cache_id=' . $cache_id;
+            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&crop=' . $crop . '&cache_id=' . $cache_id;
             $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
             $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
 
