@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Microweber\Controllers\InstallController;
 
+
 class InstallCommand extends Command
 {
     protected $name = 'microweber:install';
@@ -21,8 +22,28 @@ class InstallCommand extends Command
 
     public function fire()
     {
+        /*
+         *
+        // you can now do
+        php artisan microweber:install
+
+
+        // or you can also install from env with:
+
+        export DB_HOST=localhost
+        export DB_USER=user
+        export DB_PASS=pass
+        export DB_ENGINE=sqlite
+        export DB_NAME=storage/database.sqlite
+        export DB_PREFIX=mw_
+        export DB_PORT=
+
+        php artisan microweber:install
+
+        */
+
+
         $input = array(
-            'make_install' => true,
             'db_host' => $this->argument('db_host'),
             'db_name' => $this->argument('db_name'),
             'db_user' => $this->argument('db_user'),
@@ -37,6 +58,50 @@ class InstallCommand extends Command
             'config_only' => $this->option('config_only'),
 
         );
+        $vals = array_filter($input);
+        if (!$vals) {
+            $this->info('No arguments provided... Performing lazy install');
+            $lazy_install = true;
+        } else {
+            $lazy_install = false;
+        }
+        if (!isset($input['make_install'])) {
+            $input['make_install'] = true;
+        }
+
+        if (!$input['db_host']) {
+            $input['db_host'] = getenv('DB_HOST');
+        }
+        if (!$input['db_user']) {
+            $input['db_user'] = getenv('DB_USER');
+        }
+        if (!$input['db_pass']) {
+            $input['db_pass'] = getenv('DB_PASS');
+        }
+        if (!$input['db_name']) {
+            $input['db_name'] = getenv('DB_NAME');
+        }
+
+        if (!$input['db_driver']) {
+            $input['db_driver'] = (getenv('DB_ENGINE') ?: 'sqlite');
+            if (!$input['db_name']) {
+                $input['db_name'] = (getenv('DB_NAME') ?: 'storage/database.sqlite');
+            }
+        }
+
+
+        if (!$input['table_prefix']) {
+            $input['table_prefix'] = (getenv('DB_PREFIX') ?: '');
+        }
+        if (!$input['table_prefix']) {
+            $input['table_prefix'] = (getenv('TABKE_PREFIX') ?: '');
+        }
+
+        if ($lazy_install) {
+            $input['default_template'] = (getenv('DEFAULT_TEMPLATE') ?: 'liteness');
+            $input['with_default_content'] = true;
+        }
+
 
         $this->info('Installing Microweber...');
         $this->installer->command_line_logger = $this;
@@ -47,12 +112,12 @@ class InstallCommand extends Command
     protected function getArguments()
     {
         return [
-            ['email', InputArgument::REQUIRED, 'Admin account email'],
-            ['username', InputArgument::REQUIRED, 'Admin account username'],
-            ['password', InputArgument::REQUIRED, 'Admin account password'],
-            ['db_host', InputArgument::REQUIRED, 'Database host address'],
-            ['db_name', InputArgument::REQUIRED, 'Database schema name'],
-            ['db_user', InputArgument::REQUIRED, 'Database username'],
+            ['email', InputArgument::OPTIONAL, 'Admin account email'],
+            ['username', InputArgument::OPTIONAL, 'Admin account username'],
+            ['password', InputArgument::OPTIONAL, 'Admin account password'],
+            ['db_host', InputArgument::OPTIONAL, 'Database host address'],
+            ['db_name', InputArgument::OPTIONAL, 'Database schema name'],
+            ['db_user', InputArgument::OPTIONAL, 'Database username'],
             ['db_pass', InputArgument::OPTIONAL, 'Database password'],
             ['db_driver', InputArgument::OPTIONAL, 'Database driver'],
             ['prefix', InputArgument::OPTIONAL, 'Table prefix'],

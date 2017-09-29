@@ -123,6 +123,14 @@ class UpdateManager
         }
         $data['elements'] = $elements;
 
+        $composer_json = normalize_path(base_path() . DS . 'composer.json', false);
+        if (is_file($composer_json)) {
+            $data['check_composer_json_md5'] = md5(@file_get_contents($composer_json));
+        }
+        if (is_dir(base_path() . DS . 'vendor')) {
+            $data['check_vendor_writable'] = is_writable(base_path() . DS . 'vendor');
+        }
+
         return $data;
     }
 
@@ -829,7 +837,7 @@ class UpdateManager
             $post['base64js'] = base64_encode(@json_encode($post_params));
             $curl_result = $curl->post($post);
 
-         } else {
+        } else {
             $curl_result = false;
         }
 

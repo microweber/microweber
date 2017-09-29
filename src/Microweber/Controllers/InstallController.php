@@ -81,15 +81,6 @@ class InstallController extends Controller
             } else {
                 $input['db_user'] = trim($input['db_user']);
             }
-            if (!isset($input['admin_email'])) {
-                $errors[] = 'Parameter "admin_email" is required';
-            }
-            if (!isset($input['admin_password'])) {
-                $errors[] = 'Parameter "admin_password" is required';
-            }
-            if (!isset($input['admin_username'])) {
-                $errors[] = 'Parameter "admin_username" is required';
-            }
 
             if (!empty($errors)) {
                 return implode("\n", $errors);
@@ -132,8 +123,8 @@ class InstallController extends Controller
                 Config::set('microweber.compile_assets', 1);
             }
             if (isset($input['clean_pre_configured'])) {
-                Config::set('microweber.pre_configured',null);
-                Config::set('microweber.pre_configured_input',null);
+                Config::set('microweber.pre_configured', null);
+                Config::set('microweber.pre_configured_input', null);
             }
 
 
@@ -159,65 +150,73 @@ class InstallController extends Controller
             Cache::flush();
 
 
-            if($config_only) {
+            if ($config_only) {
                 Config::set('microweber.pre_configured', 1);
                 Config::set('microweber.pre_configured_input', $input);
             } else {
 
 
-            $install_finished = false;
-            try {
-                DB::connection($dbDriver)->getDatabaseName();
-            } catch (\PDOException $e) {
-                return 'Error: ' . $e->getMessage() . "\n";
-            } catch (\Exception $e) {
-                return 'Error: ' . $e->getMessage() . "\n";
-            }
+                $install_finished = false;
+                try {
+                    DB::connection($dbDriver)->getDatabaseName();
+                } catch (\PDOException $e) {
+                    return 'Error: ' . $e->getMessage() . "\n";
+                } catch (\Exception $e) {
+                    return 'Error: ' . $e->getMessage() . "\n";
+                }
 
-            if (function_exists('set_time_limit')) {
-                @set_time_limit(0);
-            }
-            $this->log('Setting up database');
-            $installer = new Install\DbInstaller();
-            $installer->logger = $this;
-            $installer->run();
+                if (function_exists('set_time_limit')) {
+                    @set_time_limit(0);
+                }
+                $this->log('Setting up database');
+                $installer = new Install\DbInstaller();
+                $installer->logger = $this;
+                $installer->run();
 
-            $installer = new Install\WebserverInstaller();
-            $installer->run();
+                $installer = new Install\WebserverInstaller();
+                $installer->run();
 
-            $this->log('Setting up template');
-            $installer = new Install\TemplateInstaller();
-            $installer->run();
+                $this->log('Setting up template');
+                $installer = new Install\TemplateInstaller();
+                $installer->run();
 
-            $this->log('Setting up default options');
-            $installer = new Install\DefaultOptionsInstaller();
-            $installer->run();
+                $this->log('Setting up default options');
+                $installer = new Install\DefaultOptionsInstaller();
+                $installer->run();
 
-            if (isset($input['admin_password']) && strlen($input['admin_password'])) {
-                $this->log('Adding admin user');
+                if (isset($input['admin_password']) && strlen($input['admin_password'])) {
+                    if (isset($input['admin_email']) or isset($input['admin_username'])) {
+                        if (!isset($input['admin_username'])) {
+                            $input['admin_username'] = 'admin';
+                        }
+                        if (!isset($input['admin_email'])) {
+                            $input['admin_email'] = 'noreply@localhost';
+                        }
 
-                $adminUser = new \User();
-                $adminUser->username = $input['admin_username'];
-                $adminUser->email = $input['admin_email'];
-                $adminUser->password = $input['admin_password'];
-                $adminUser->is_admin = 1;
-                $adminUser->is_active = 1;
-                $adminUser->save();
-                $admin_user_id = $adminUser->id;
-                Config::set('microweber.has_admin', 1);
-            }
+                        $this->log('Adding admin user');
 
-            $this->log('Saving ready config');
+                        $adminUser = new \User();
+                        $adminUser->username = $input['admin_username'];
+                        $adminUser->email = $input['admin_email'];
+                        $adminUser->password = $input['admin_password'];
+                        $adminUser->is_admin = 1;
+                        $adminUser->is_active = 1;
+                        $adminUser->save();
+                        $admin_user_id = $adminUser->id;
+                        Config::set('microweber.has_admin', 1);
+                    }
+                }
 
-            Config::set('microweber.is_installed', 1);
+                $this->log('Saving ready config');
+
+                Config::set('microweber.is_installed', 1);
 
             }
 
 
             Config::save($allowed_configs);
-            $this->log('done');
 
-            if(Config::get('microweber.has_admin') and !is_cli() and isset($admin_user_id)){
+            if (Config::get('microweber.has_admin') and !is_cli() and isset($admin_user_id)) {
                 mw()->user_manager->make_logged($admin_user_id);
             }
 
@@ -276,8 +275,8 @@ class InstallController extends Controller
 
         if ((!isset($viewData['config']['prefix']) or !$viewData['config']['prefix']) and $domain) {
             $pre = $domain;
-            if(is_numeric(substr($pre, 0, 1))){
-                $pre = 'p'.$pre;
+            if (is_numeric(substr($pre, 0, 1))) {
+                $pre = 'p' . $pre;
             }
             $viewData['config']['prefix'] = $pre . '_';
         }
@@ -285,10 +284,10 @@ class InstallController extends Controller
             $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
             $viewData['config']['db_name_sqlite'] = $sqlite_path;
         }
-        if(Config::get('microweber.pre_configured')){
-        $viewData['pre_configured'] = Config::get('microweber.pre_configured');
-            if(Config::get('microweber.pre_configured_input') and is_array(Config::get('microweber.pre_configured_input'))){
-            $viewData['config'] = array_merge( $viewData['config'],Config::get('microweber.pre_configured_input'));
+        if (Config::get('microweber.pre_configured')) {
+            $viewData['pre_configured'] = Config::get('microweber.pre_configured');
+            if (Config::get('microweber.pre_configured_input') and is_array(Config::get('microweber.pre_configured_input'))) {
+                $viewData['config'] = array_merge($viewData['config'], Config::get('microweber.pre_configured_input'));
             }
         }
         $layout->set($viewData);

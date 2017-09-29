@@ -103,7 +103,7 @@
     foreach ($data as $pic){
       $count++;
       $html .= $count == 1 ? '<div class="carousel-grid-slide">':'';
-      $html .= '<img src="'.$pic['filename'].'">' . ($pic['title'] != null ? '<div class="carousel-grid-slide-description">'.$pic['title'].'</div>':'');
+      $html .= '<img src="'.thumbnail($pic['filename'], 600).'">' . ($pic['title'] != null ? '<div class="carousel-grid-slide-description">'.$pic['title'].'</div>':'');
       $html .= $count == $items_number ? '</div>':'';
       $count = $count != $items_number ? $count : 0;
     }
