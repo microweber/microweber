@@ -49,12 +49,13 @@ $items_number = intval($items_number);
                     datao.push(this.src);
                 });
 
+
                 (function (scope, datao) {
 
                     mw.image.preloadForAll(datao, function (width, height) {
                         data.push({url: this.src, width: width, height: height});
                     }, function () {
-                        scope.empty().justifiedImages({
+                        var config = {
                             images: data,
                             rowHeight: <?php print $rowHeight ?>,
                             maxRowHeight: <?php print $maxRowHeight ?>,
@@ -70,20 +71,29 @@ $items_number = intval($items_number);
                             },
                             margin: 1
 
-                        });
+                        }
+                        scope.data('__config', config);
+                        scope[0].__time = null;
+                        scope.empty().justifiedImages(scope.data('__config')); 
 
+                        $(window).on('resize orientationchange', function(){
+                          clearTimeout(scope[0].__time);
+                          scope[0].__time = setTimeout(function(){
+                            scope.empty().justifiedImages(scope.data('__config'));
+                            console.log(scope.data('__config'))
+                          }, 333);
+                        })
                        $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function(i){
+                         var el = $(this);
+                         el.addClass('gallery-ready')
 
-                         $(this).addClass('gallery-ready')
-                         (function(i, el){
-                           console.log(window['gallery<?php print $rand; ?>'])
                            el.on('click', function(){
                              if(!!window['gallery<?php print $rand; ?>']){
                                mw.gallery(gallery<?php print $rand; ?>, i)
                              }
 
                            })
-                         })(i, $(this))
+
 
                        })
 
