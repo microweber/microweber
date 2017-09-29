@@ -14,6 +14,8 @@
     .image-thumb {
         position: relative;
         background-color: #eee;
+        cursor: pointer;
+        cursor: zoom-in;
     }
 </style>
 
@@ -74,13 +76,26 @@ $items_number = intval($items_number);
                         }
                         scope.data('__config', config);
                         scope[0].__time = null;
-                        scope.empty().justifiedImages(scope.data('__config')); 
+                        scope.empty().justifiedImages(scope.data('__config'));
 
                         $(window).on('resize orientationchange', function(){
                           clearTimeout(scope[0].__time);
                           scope[0].__time = setTimeout(function(){
                             scope.empty().justifiedImages(scope.data('__config'));
-                            console.log(scope.data('__config'))
+                            setTimeout(function(){
+                              $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function(i){
+                             var el = $(this);
+                             el.addClass('gallery-ready')
+
+                               el.on('click', function(){
+                                 if(!!window['gallery<?php print $rand; ?>']){
+                                   mw.gallery(gallery<?php print $rand; ?>, i)
+                                 }
+
+                               })
+
+                           })
+                            }, 100)
                           }, 333);
                         })
                        $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function(i){
