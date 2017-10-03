@@ -148,15 +148,11 @@ $items_number = intval($items_number);
         foreach ($data as $key => $pic) {
             $count++;
             $html .= $count == 1 ? '<div class="carousel-grid-slide">' : '';
-            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" >' . ($pic['title'] != null ? '<div class="carousel-grid-slide-description">' . $pic['title'] . '</div>' : '');
-            $html .= $count == $items_number ? '</div>' : '';
+            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" >' . ($pic['title'] != null ? ('<span class="carousel-grid-slide-description">' . $pic['title'] . '</span>') : '');
+            $html .= ($count == $items_number || !isset($data[$key+1])) ? '</div>' : '';
             $count = $count != $items_number ? $count : 0;
         }
         print $html;
     }
     ?>
 </div>
-
-
-
-
