@@ -107,6 +107,11 @@ mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 $(document).ready(function() {
 
 
+$(document).on('mousedown touchstart', function(){
+   $(".element-current").removeClass("element-current");
+})
+
+
 document.body.appendChild(mw.inaccessibleModules);
 
     mw.$("#toolbar-template-settings").click(function() {
@@ -1446,7 +1451,7 @@ mw.drag = {
                         }
                         else{
                           if(mw.wysiwyg.editInsideModule(target)){
-                              $(window).trigger("onIconElementClick", target); 
+                              $(window).trigger("onIconElementClick", target);
                           }
                         }
 

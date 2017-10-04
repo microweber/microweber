@@ -14,16 +14,18 @@ description: Default
     <div class="skillst">
         <script>
             //Skill
-            jQuery(document).ready(function () {
-                jQuery('.skillbar').each(function () {
-                    jQuery(this).appear(function () {
-                        jQuery(this).find('.count-bar').animate({
-                            width: jQuery(this).attr('data-percent')
+            $(document).ready(function () {
+              $(window).on('load scroll resize', function () {
+                  $('.skillbar').each(function () {
+                      if(mw.tools.inview(this)){
+                        $(this).find('.count-bar').animate({
+                            width: $(this).attr('data-percent')
                         }, 3000);
-                        var percent = jQuery(this).attr('data-percent');
-                        jQuery(this).find('.count').html('<span>' + percent + '</span>');
-                    });
-                });
+                        var percent = $(this).attr('data-percent');
+                        $(this).find('.count').html('<span>' + percent + '</span>');
+                      }
+                  });
+              });
             });
         </script>
 

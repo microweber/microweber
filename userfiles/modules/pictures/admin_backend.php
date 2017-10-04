@@ -245,6 +245,7 @@ if(!$tags_str){
         final.push(this.value);
       })
       $(".select_actions")[final.length === 0 ? 'removeClass' : 'addClass']('active');
+      $(".select_actions_holder").stop()[final.length === 0 ? 'hide' : 'show']();
       return final;
     }
       editImageTags = function(event){
@@ -315,6 +316,8 @@ if(!$tags_str){
                 });
 
          });
+
+         doselect()
       });
   </script>
 </div>
