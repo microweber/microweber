@@ -2345,7 +2345,7 @@ body.design_hover .element-current {
     background: #F5F5F5;
     padding: 5px 10px 0px 0;
     position: relative;
-    z-index: 12;
+    z-index: 1;
 }
 
 .mw-toolbar-right-content {
