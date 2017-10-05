@@ -3302,6 +3302,11 @@ $(document).ready(function() {
           mw.tools.addClass(all[i], 'allow-drop');
         }
       }
+
+      if(!!document.body.classList){
+        document.body.classList[(document.activeElement.contentEditable == 'true' ? 'add' : 'remove' )]('mw-active-element-iseditable')
+      }
+
     }, 300);
 
 });

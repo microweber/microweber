@@ -2825,3 +2825,28 @@ div[id*='SSDIVEL'] {
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a {
     padding-left: 23px;
 }
+
+#liveedit_wysiwyg:before{
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: block;
+  background-color: #F5F5F5;
+  opacity: .75;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+
+.mw-active-element-iseditable #liveedit_wysiwyg:before{
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+

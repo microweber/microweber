@@ -315,6 +315,7 @@
     border: 1px solid #DCDCDC;
     background: #F5F5F5;
     border-radius: 1px;
+    margin-left: 12px;
 }
 
 #font_family_selector_small {

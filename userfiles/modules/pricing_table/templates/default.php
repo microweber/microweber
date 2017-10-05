@@ -50,7 +50,7 @@ description: Default
                             <div class="price_table_row">Full Time Support</div>
                         </div>
                     </div>
-                    <module type="btn" button_style="<?php print $buttonColor; ?>" template="bootstrap" id="dbtn_<?php print $params['id']; ?>"/>
+                    <module type="btn" button_style="<?php print $buttonColor; ?>" template="bootstrap" id="dbtn_<?php print $params['id'] . $i; ?>"/>
                 </div>
             </div>
 
