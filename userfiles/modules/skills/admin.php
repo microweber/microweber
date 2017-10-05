@@ -126,7 +126,7 @@ addNewskill = function(){
         +'<div class="mw-ui-field-holder mufh-1">'
         +'<label class="mw-ui-label">Skill Name</label><input type="text" autocomplete="off"  placeholder="Insert skill Name" class="mw-ui-field skill" />'
         +'</div><div class="mw-ui-field-holder mufh-2">'
-        +'<label class="mw-ui-label">Value(%)</label><input type="number" autocomplete="off" min="0" max="100" step="1" value="50 placeholder="Percent" class="mw-ui-field" />'
+        +'<label class="mw-ui-label">Value(%)</label><input type="number" autocomplete="off" min="0" max="100" step="1" value="50 placeholder="Percent" class="mw-ui-field percent-field" />'
 
         +'</div><div class="mw-ui-field-holder mufh-3">'
           +'<label class="mw-ui-label">Style</label><select class="mw-ui-field" data-value="primary">'

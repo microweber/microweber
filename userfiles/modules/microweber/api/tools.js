@@ -989,6 +989,12 @@ mw.tools = {
         playing : false,
         playingInt : null,
         play : function(modal, interval){
+          console.log(modal)
+          if(!modal){
+            clearInterval(mw.tools.gallery.playingInt);
+            mw.tools.gallery.playing = false;
+            return;
+          }
           if(mw.tools.gallery.playing){
             mw.tools.gallery.playing = false;
             clearInterval(mw.tools.gallery.playingInt);
@@ -1073,7 +1079,11 @@ mw.tools = {
                     draggable: false,
                     overlay: true,
                     name: "mw_gallery",
-                    template: 'mw_modal_gallery'
+                    template: 'mw_modal_gallery',
+                    onremove:function(){
+                      clearInterval(mw.tools.gallery.playingInt);
+                      mw.tools.gallery.playing = false;
+                    }
                 });
             modal.overlay.style.opacity = 0.8;
             modal.container.innerHTML = ghtml;
@@ -1081,6 +1091,7 @@ mw.tools = {
                 array: arr,
                 curr: start
             }
+
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             mw.tools.gallery.generateHTML(arr[start], function () {
                 galeryContainer.html(this)

@@ -21,9 +21,10 @@ description: Default
                         $(this).find('.count-bar').animate({
                             width: $(this).attr('data-percent')
                         }, 3000);
+                      }
                         var percent = $(this).attr('data-percent');
                         $(this).find('.count').html('<span>' + percent + '</span>');
-                      }
+
                   });
               });
             });
@@ -37,7 +38,6 @@ description: Default
             $skills = json_decode($file, true);
 
             foreach ($skills as $skill) { ?>
-            <?php var_dump($skill); ?>
 
                 <div class="skillbar style-<?php $skill['style'] ?>" data-percent="<?php print isset($skill['percent'])?$skill['percent']:50; ?>%">
                     <div class="title head-sm">
