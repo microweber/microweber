@@ -350,14 +350,7 @@ mw.wysiwyg = {
                 var b = b || false;
                 var c = c || false;
                 if (window.getSelection().rangeCount > 0) {
-                    if ($.browser.mozilla && !mw.is.ie) {
-                        mwd.designMode = 'on';
-                        // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
-                    }
                     mwd.execCommand(a, b, c);
-                    if ($.browser.mozilla && !mw.is.ie) {
-                        mwd.designMode = 'off'
-                    }
                 }
                 var node = window.getSelection().focusNode;
                 if (node !== null && mw.loaded) {
