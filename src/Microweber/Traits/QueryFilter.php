@@ -424,7 +424,7 @@ trait QueryFilter
                     break;
 
                 case 'join':
-                    $query->join($value, $table.'.rel_id', '=', $value.'.id')->where($table.'.rel_type', $value);
+                    $query->join($value, $table . '.rel_id', '=', $value . '.id')->where($table . '.rel_type', $value);
                     break;
                 case 'current_page':
                     $criteria = 1;
@@ -507,6 +507,23 @@ trait QueryFilter
 //                $query = $query->where($table . '.'.$filter, $value);
 //
 //                break;
+
+
+                case 'attributes':
+
+                    $search_items = $value;
+                    if (is_array($search_items) and !empty($search_items)) {
+                        $query = $query->join('attributes', 'attributes.rel_id', '=', $table . '.id')
+                            ->where('attributes.rel_type', $table);
+
+                        foreach ($search_items as $search_item_key => $search_key_value) {
+                            $query = $query->where('attributes.attribute_name', $search_item_key);
+                            $query = $query->where('attributes.attribute_value', $search_key_value);
+                        }
+
+                    }
+                    break;
+
 
                 case 'search_params':
                     $search_items = $value;
