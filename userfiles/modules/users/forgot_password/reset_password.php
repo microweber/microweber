@@ -75,10 +75,7 @@
                         <div class="control-group form-group">
                             <div class="controls mw-ui-field-holder">
                                 <div class="input-prepend mw-ui-field mw-ico-field">
-            <span style="width: 100px;background: white" class="add-on left">
-                <img class="mw-captcha-img" src="<?php print api_link('captcha') ?>" onclick="mw.tools.refresh_image(this);"/>
-            </span>
-                                    <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-ui-invisible-field mw-captcha-input" name="captcha">
+                                   <module type="captacha" />
                                 </div>
                             </div>
                         </div>
