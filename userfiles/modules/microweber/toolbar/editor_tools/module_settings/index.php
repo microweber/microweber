@@ -22,6 +22,7 @@ if (isset($params['module'])): ?>
     mw.require('<?php print mw_includes_url(); ?>css/components.css');
     mw.require('<?php print mw_includes_url(); ?>css/admin.css');
     mw.require('<?php print mw_includes_url(); ?>css/popup.css');
+    mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
 
     mw.require("events.js");
     mw.require("url.js");

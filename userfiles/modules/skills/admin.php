@@ -148,10 +148,11 @@ init = function(){
    $(".skill").each(function(){
        if(!this.__activated){
            this.__activated = true;
-        $(this).on('change input paste', function(){
+        var root = $(this).parents('.skillfield')  
+        $('input', root).on('change input paste', function(){
            save();
         });
-        var root = $(this).parents('.skillfield')
+
         $('.mw-icon-bin', root).on('click', function(){
           mw.confirm('Are you sure', function(){
             root.fadeOut(function(){

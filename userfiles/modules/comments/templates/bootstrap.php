@@ -200,25 +200,13 @@ description: Bootstrap comments template
 
                     <div class="row">
                         <?php if (!$disable_captcha) { ?>
-                            <div class="col-xs-6 col-md-4">
-                                <div class="form-group">
-                                    <input type="text" name="captcha" required class="form-control" placeholder="<?php _e("Enter text"); ?>"/>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-6 col-md-4">
-                                <img title="Click to refresh image"
-                                     id='comment-captcha-<?php print $rand; ?>'
-                                     alt="<?php _e("Captcha image"); ?>"
-                                     class="mw-captcha-img"
-                                     src="<?php print api_link('captcha') ?>?id=<?php print $params['id']; ?>"
-                                     onclick="mw.tools.refresh_image(this);">
-                                <span onclick="mw.tools.refresh_image(mwd.getElementById('comment-captcha-<?php print $rand; ?>'));" class="fa fa-refresh hidden-xs"></span>
+                            <div class="col-xs-12 col-md-8">
+                                <module type="captcha"/>
                             </div>
                         <?php } ?>
                         <?php event_trigger('module.comments.form.end', $data); ?>
                         <div class="col-xs-12 col-md-4">
-                            <button type="submit" class="mw-template-btn continue-shop-button pull-right"><?php _e("Add comment"); ?></button>
+                            <button type="submit" class="mw-template-btn btn-default btn continue-shop-button pull-right"><?php _e("Add comment"); ?></button>
                         </div>
                     </div>
                 </form>
