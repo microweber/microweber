@@ -1533,6 +1533,28 @@ mw.tools = {
       });
       return final;
     },
+    parentsOrCurrentOrderMatchOrOnlyFirst:function(node, arr){
+      var curr = node,
+          has1 = false,
+          has2 = false;
+      while(curr !== document.body){
+        var h1 = mw.tools.hasClass(curr, arr[0]);
+        var h2 = mw.tools.hasClass(curr, arr[1]);
+        if(h1 && h2){
+          return false;
+        }
+        else{
+          if(h1){
+            return true;
+          }
+          else if(h2){
+            return false;
+          }
+        }
+        curr = curr.parentNode;
+      }
+      return true;
+    },
     hasAnyOfClassesOnNodeOrParent:function(node, arr){
       if(mw.tools.hasAnyOfClasses(node, arr)){
         return true;
@@ -4881,4 +4903,38 @@ String.prototype.hash = function() {
     return Array.prototype.map.call(range, function(i) {
         return self.charCodeAt(i).toString(16);
     }).join('');
+}
+
+mw.ajax = function(item, options){
+  options = options || {}
+  if(typeof item === 'string' || item.__proto__ === $.fn || item.nodeType === 1){
+    var form = mw.$(item);
+    options.data = mw.serializeFields(item);
+    if(!options.method){
+      if(!!form.method){
+        options.method = form.method
+      }
+    }
+  }
+  else if(item.constructor === options.constructor){
+    options.data = item;
+  }
+  options.method = options.method || 'post';
+  var xhr = $.ajax(options);
+
+  xhr.done(function(data) {
+    if(!!data && !!data.success){
+      mw.notification.success(data.msg || data.success)
+    }
+    else if(!!data && !!data.error){
+      mw.notification.error(data.msg || data.error)
+    }
+  })
+  xhr.fail(function(data) {
+    if(!!data && !!data.error){
+      mw.notification.error(data.msg || data.error)
+    }
+  })
+
+  return xhr;
 }

@@ -416,7 +416,10 @@ hasAbilityToDropElementsInside = function(target) {
     if (typeof target === 'string') {
         return !items.test(target);
     }
-    if(mw.tools.hasAnyOfClasses(target, ['plain-text', 'nodrop'])){
+    if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['allow-drop', 'nodrop'])){
+      return false;
+    }
+    if(mw.tools.hasAnyOfClasses(target, ['plain-text'])){
         return false;
     }
     var x = items.test(target.nodeName);
@@ -629,7 +632,7 @@ mw.drag = {
                     }
                     else{
 
-                    if (mw.tools.hasClass(mw.mm_target, 'nodrop') || mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')) {
+                    if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
 
@@ -731,8 +734,9 @@ mw.drag = {
 
                             } else if (!mw.mm_target.className.contains("ui-") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")) {
                                 if (mw.tools.hasParentsWithClass(mw.mm_target, 'edit')
-                                && !mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')
-                                && !mw.$mm_target.hasClass('nodrop')) {
+                                /*&& !mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')
+                                && !mw.$mm_target.hasClass('nodrop')*/
+                                && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) {
                                     var noelements = mw.drag.external_grids_col_classes;
 
                                     if (mw.tools.hasAnyOfClasses(mw.mm_target, noelements)) {
@@ -793,11 +797,11 @@ mw.drag = {
                     }
                   if (mw.isDrag && mw.currentDragMouseOver != null /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/ ) {
 
-                    if (mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')) {
+                    if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) {
                         mw.dropable.hide();
                         return false;
                     }
-                    if (mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop') || mw.currentDragMouseOver.getAttribute('field') === 'title') {
+                    if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) || mw.currentDragMouseOver.getAttribute('field') === 'title') {
                         mw.currentDragMouseOver = mw.drag.noop;
                         //return false;
                     }
@@ -984,7 +988,7 @@ mw.drag = {
         });
 
         $(window).bind("onElementOver", function(a, element) {
-            if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')) {
+            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
                 return false;
             } else {
@@ -1020,7 +1024,7 @@ mw.drag = {
         });
         $(window).bind("onModuleOver", function(a, element) {
 
-            if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop') || (mw.tools.hasParentsWithClass(element, 'module') && !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
+            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop']) || (mw.tools.hasParentsWithClass(element, 'module') && !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
                 //return false;
             } else {
@@ -1095,7 +1099,7 @@ mw.drag = {
             mw.$("a.mw-make-cols").eq(size - 1).addClass("active");
             element.id == "" ? element.id = "element_" + mw.random() : "";
 
-            if (mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')) {
+            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])) {
                 mw.$("#mw_handle_row .mw_edit_delete, #mw_handle_row .mw_edit_delete_element, #mw_handle_row .mw-sorthandle-moveit, #mw_handle_row .column_separator_title").hide();
                 return false;
             } else {
@@ -3510,18 +3514,7 @@ $(window).bind("load", function() {
             }
         }
 
-        /* if(mw.tools.hasClass(e.target, 'mw_editor') || mw.tools.hasParentsWithClass(e.target, 'mw_editor')){
-         if(mw.tools.hasClass(e.target, 'mw-editor-disabled') || mw.tools.hasParentsWithClass(e.target, 'mw-editor-disabled')){
-         mw.wysiwyg.disableEditors();
-         }
-         else{
-         var common = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer);
-         if(mw.tools.hasClass(common, 'nodrop') || mw.tools.hasParentsWithClass(common, 'nodrop')){
-         mw.wysiwyg.disableEditors();
-         return false;
-         }
-         }
-         } */
+
 
         var sel = window.getSelection();
         if (sel.rangeCount > 0) {
