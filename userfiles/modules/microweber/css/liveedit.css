@@ -1424,7 +1424,7 @@ body.loaded #live_edit_toolbar {
 }
 
 .toolbar-sections-tabs > ul > li .mw-ui-btn-nav {
-    margin: 8px 15px 0px;
+    margin: 10px 15px 0px;
 }
 
 .toolbar-sections-tabs > ul > li {
@@ -2125,7 +2125,7 @@ body.design_hover .element-current {
 }
 
 .mw-toolbar-btn-menu > a.mw-ui-btn {
-    margin: 8px 8px 0;
+    margin: 10px 8px 0;
     background-color: #fff;
     color: #212121;
 }
