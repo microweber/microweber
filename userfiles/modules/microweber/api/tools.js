@@ -1128,8 +1128,8 @@ mw.tools = {
                     }
                 }
             }
-            mw.$(el).unbind("click");
-            mw.$(el).bind("click", function (event) {
+            mw.$(el).off("click");
+            mw.$(el).on("click", function (event) {
                 if ($(this).hasClass("disabled")) {
                     return false;
                 }
@@ -1171,7 +1171,7 @@ mw.tools = {
                 $(this).removeClass("hover");
                 $(this).removeClass('other-action');
             });
-            mw.$("[value]", el).bind('mousedown', function (event) {
+            mw.$(el).on('mousedown touchstart', '[value]', function (event) {
                 $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             });
@@ -3297,7 +3297,7 @@ mw.wait('jQuery', function () {
                 if (this.getAttribute('value') == val) {
                     el.dataset("value", val);
                     var isValidOption = true;
-                    var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
+                    var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerText : this.innerText;
                     mw.$(".mw-dropdown-val", el[0]).html(html);
                     if (triggerChange === true) {
                         el.trigger("change")
