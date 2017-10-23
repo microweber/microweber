@@ -91,9 +91,8 @@
             if (install_step) {
                 $data = $data + '&install_step=' + install_step;
             }
-             $.post("<?php print site_url() ?>", $data,
+            $.post("<?php print site_url() ?>", $data,
                 function (data) {
-                    console.log(typeof(data));
 
 
                     $('#mw_log').hide().empty();
@@ -103,11 +102,7 @@
                             install_step = data.install_step;
                             make_install_on_steps(install_step_orig_data);
                         }
-                        else if(typeof(data) == 'object' && typeof(data.finalize) != undefined)
-                        {
-                            install_step = 'finalize';
-                            make_install_on_steps(install_step_orig_data);
-                        }
+
                         else
                         {
                             if (data.indexOf('Warning') !== -1) {
@@ -128,6 +123,9 @@
                     if (!install_step || install_step == 'finalize') {
                         $('#installprogressbar').slideUp();
                     }
+                })  .fail(function() {
+                    make_install_on_steps(install_step_orig_data);
+
                 });
         };
 
