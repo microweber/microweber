@@ -91,8 +91,7 @@
             if (install_step) {
                 $data = $data + '&install_step=' + install_step;
             }
-            console.log($data);
-            $.post("<?php print site_url() ?>", $data,
+             $.post("<?php print site_url() ?>", $data,
                 function (data) {
                     console.log(typeof(data));
 
