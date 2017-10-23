@@ -1,5 +1,5 @@
-/*@import url(//fonts.googleapis.com/css?family=Open+Sans:800,700,600,500,400,300&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext);
- */
+/*@import url(//fonts.googleapis.com/css?family=Open+Sans:800,700,600,500,400,300&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext);*/
+
 @font-face {
     font-family: 'mwadmin';
     src: url('fonts/fontadmin.ttf?mwv=9') format('truetype');
@@ -1401,7 +1401,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 .manage-post-item .manage-post-item-title [class*='mw-icon-'] {
     font-size: 24px;
-    top: 2px;
+    top: 0px;
 }
 
 .manage-post-item .mw-icon-drag {
