@@ -33,14 +33,23 @@ class InstallController extends Controller
         if (!is_array($input) || empty($input)) {
             $input = Input::all();
         }
-        $allowed_configs = array('database', 'microweber');
         $is_installed = mw_is_installed();
         if ($is_installed) {
             return 'Microweber is already installed!';
         }
+
+        $allowed_configs = array('database', 'microweber');
+
+
         $env = $this->app->environment();
 
         $view = MW_PATH . 'Views/install.php';
+
+        $install_step = null;
+        if (isset($input['install_step'])) {
+            $install_step = trim($input['install_step']);
+
+        }
 
         $connection = Config::get('database.connections');
 
@@ -168,21 +177,41 @@ class InstallController extends Controller
                 if (function_exists('set_time_limit')) {
                     @set_time_limit(0);
                 }
-                $this->log('Setting up database');
-                $installer = new Install\DbInstaller();
-                $installer->logger = $this;
-                $installer->run();
 
-                $installer = new Install\WebserverInstaller();
-                $installer->run();
+                if (!$install_step or $install_step == 1) {
+                    $this->log('Setting up database');
+                    $installer = new Install\DbInstaller();
+                    $installer->logger = $this;
+                    $installer->run();
+                }
 
-                $this->log('Setting up template');
-                $installer = new Install\TemplateInstaller();
-                $installer->run();
 
-                $this->log('Setting up default options');
-                $installer = new Install\DefaultOptionsInstaller();
-                $installer->run();
+                if (!$install_step or $install_step == 2) {
+                    $installer = new Install\WebserverInstaller();
+                    $installer->run();
+                }
+
+                if (!$install_step or $install_step == 3) {
+                    $this->log('Setting up template');
+                    $installer = new Install\TemplateInstaller();
+                    $installer->run();
+                }
+                if (!$install_step or $install_step == 4) {
+                    $this->log('Setting up default options');
+                    $installer = new Install\DefaultOptionsInstaller();
+                    $installer->run();
+                }
+                if ($install_step) {
+                    if ($install_step != 'finalize') {
+                        $install_step_return = array('install_step' => $install_step + 1);
+                        if ($install_step == 4) {
+                            $install_step_return['finalize'] = true;
+                            $install_step_return['install_step'] = 'finalize';
+                        }
+                        return $install_step_return;
+                    }
+                }
+
 
                 if (isset($input['admin_password']) && strlen($input['admin_password'])) {
                     if (isset($input['admin_email']) or isset($input['admin_username'])) {
