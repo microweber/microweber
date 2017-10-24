@@ -366,6 +366,7 @@ if ($size == false or $size == '') {
 
                                 <label class="mw-ui-label" style="padding-top: 20px;"><?php _e('Font size'); ?></label>
                                 <div id="fontsizeslider" class="mw-slider"></div>
+                                <module type="admin/modules/templates" simple=true/>
                             </div>
                         </div>
                     </div>

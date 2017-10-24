@@ -65,7 +65,7 @@ if (isset($params['keyword'])) {
 $clients = array();
 
 
-$orders = get_orders('order_by=created_at desc&group=email&is_completed=1' . $keyword_search);
+  $orders = get_orders('order_by=created_at desc&groupby=email&is_completed=1'.$keyword_search);
 
 
 $is_orders = get_orders('count=1');
