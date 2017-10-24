@@ -946,7 +946,13 @@ class Modules
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
-        if (!is_dir($module_name_l) and !is_dir($module_name_l_theme)) {
+
+
+
+        $template_config = mw()->template->get_config();
+
+
+        if (!is_dir($module_name_l) /*and !is_dir($module_name_l_theme)*/) {
             return false;
         } else {
             if ($template_name == false) {
@@ -955,16 +961,28 @@ class Modules
                 $options['no_cache'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts_manager->scan($options);
+                //  $module_name_l  = array();
+
                 if (is_dir($module_name_l_theme)) {
                     $options['path'] = $module_name_l_theme;
                     $module_skins_from_theme = $this->app->layouts_manager->scan($options);
+
                     if (is_array($module_skins_from_theme)) {
                         if (!is_array($module_name_l)) {
                             $module_name_l = array();
                         }
                         $file_names_found = array();
                         if (is_array($module_skins_from_theme)) {
-                            $comb = array_merge($module_skins_from_theme, $module_name_l);
+
+
+                            if (isset($template_config['standalone_module_skins']) and $template_config['standalone_module_skins']) {
+                                $comb = $module_skins_from_theme;
+
+                            } else {
+                                $comb = array_merge($module_skins_from_theme, $module_name_l);
+                            }
+
+                            // $comb = array_merge($module_skins_from_theme, $module_name_l);
                             if (is_array($comb) and !empty($comb)) {
                                 foreach ($comb as $k1 => $itm) {
                                     if (isset($itm['layout_file']) and $itm['layout_file']) {
@@ -1018,6 +1036,7 @@ class Modules
 
                 $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
+               // d($tf);
 
                 if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
                     return $tf_from_other_theme;

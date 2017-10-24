@@ -15,9 +15,7 @@ description: Bootstrap comments template
 
 ?>
 
-<style>
 
-</style>
 <?php $rand = rand(); ?>
 <script>
     mw.moduleCSS("<?php print $config['url_to_module']; ?>comments.css", true);
@@ -25,33 +23,12 @@ description: Bootstrap comments template
 </script>
 
 <div class="bootstrap3ns mwcommentsmodule">
-    <?php
-    $cur_user = user_id();
-    if ($cur_user != false) {
-        $cur_user_data = get_user($cur_user);
-    }
-    ?>
+
+
     <?php if (is_array($comments)): ?>
-        <?php if ($form_title != false): ?>
-            <h4><?php print $form_title ?></h4>
-        <?php elseif ($display_comments_from != false and $display_comments_from == 'recent'): ?>
-            <h4><?php _e("Recent comments"); ?></h4>
-        <?php else : ?>
-            <h4>
-                <?php
-                $post = false;
-                if ($data['rel_type'] == 'content') {
-                    $post = get_content_by_id($data['rel_id']);
-                }
-                ?>
-                <?php if ($post) { ?>
-                    <?php _e("Comments for"); ?>
-                <?php } else { ?>
-                    <?php _e("Comments"); ?>
-                <?php } ?>
-                <strong><?php print $post['title']; ?></strong>
-            </h4>
-        <?php endif; ?>
+
+        <h4><?php print $formTitle; ?></h4>
+
         <div class="comments-template-stylish comments" id="comments-list-<?php print $data['id'] ?>">
             <?php foreach ($comments as $comment) : ?>
                 <?php
@@ -69,33 +46,19 @@ description: Bootstrap comments template
                             }
 
                             ?>
+
                             <?php if ($avatars_enabled) { ?>
                                 <div class="mw-ui-col comment-image-holder">
                                     <div class="mw-ui-col-container">
-                                        <?php $avatar_style = get_option('avatar_style', 'comments'); ?>
-                                        <?php if (isset($comment_author['thumbnail']) and trim($comment_author['thumbnail']) != '') { ?>
-                                            <img src="<?php print ($comment_author['thumbnail']); ?>" width="60" height="60" class="comment-image"
-                                                 alt="<?php print addslashes($comment['comment_name']) ?>"/>
-                                        <?php } else { ?>
-                                            <?php if ($avatar_style == '4') { ?>
-                                                <img src="<?php print thumbnail(get_option('avatartype_custom', 'comments'), 60, 60); ?>" class="comment-image" width="60" height="60"
-                                                     alt="<?php print addslashes($comment['comment_name']) ?>"/>
-                                            <?php } else if ($avatar_style == '1' || $avatar_style == '3') { ?>
-                                                <img src="<?php print thumbnail($config['url_to_module'] . '/img/comment-default-' . $avatar_style . '.jpg', 60, 60); ?>" width="60" height="60"
-                                                     class="comment-image" alt="<?php print addslashes($comment['comment_name']) ?>"/>
-                                            <?php } else if ($avatar_style == '2') { ?>
-                                                <span class="comment-image random-color"> <span style="background-color: <?php print mw('format')->random_color(); ?>"> </span> </span>
-                                            <?php } else if (isset($comment_author['thumbnail']) and $comment_author['thumbnail'] != '') { ?>
-                                                <img src="<?php print ($comment_author['thumbnail']); ?>" width="60" height="60" class="comment-image"
-                                                     alt="<?php print addslashes($comment['comment_name']) ?>"/>
-                                            <?php } else { ?>
-                                                <img src="<?php print thumbnail($config['url_to_module'] . '/img/comment-default-1.jpg', 60, 60); ?>" width="60" height="60" class="comment-image"
-                                                     alt="<?php print addslashes($comment['comment_name']) ?>"/>
-                                            <?php } ?>
-                                        <?php } ?>
+                                        <?php if ($avatarStyle = 2): ?>
+                                            <span class="comment-image random-color"> <span style="background-color: <?php print  $avatarPath; ?>"> </span> </span>
+                                        <?php else: ?>
+                                            <img src="<?php print $avatarPath; ?>" width="60" height="60" class="comment-image" alt="<?php print addslashes($comment['comment_name']) ?>"/>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             <?php } ?>
+
                             <div class="mw-ui-col">
                                 <?php event_trigger('module.comments.item.before', $comment); ?>
                                 <div class="mw-ui-col-container">
@@ -146,7 +109,7 @@ description: Bootstrap comments template
     <?php if ($are_disabled == false) : ?>
         <hr>
         <?php if (!$login_required or $cur_user != false): ?>
-            <div id="comments-<?php print $data['id'] ?>">
+            <div id="comments-<?php print $params['id'] ?>">
                 <?php event_trigger('module.comments.form.before', $data); ?>
                 <form autocomplete="on" id="comments-form-<?php print $data['id'] ?>">
                     <?php event_trigger('module.comments.form.start', $data); ?>
@@ -226,6 +189,5 @@ description: Bootstrap comments template
                 .
             </div>
         <?php endif; ?>
-    <?php else: ?>
     <?php endif; ?>
 </div>
