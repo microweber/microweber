@@ -37,11 +37,11 @@ $.fn.dataset = function (dataset, val) {
     if (el === undefined) return false;
     var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
     if (!val) {
-        var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr("data-" + dataset);
+        var dataset = !!el.dataset ? el.dataset[_dataset] : $(el).attr("data-" + dataset);
         return dataset !== undefined ? dataset : "";
     }
     else {
-        mw.datassetSupport ? el.dataset[_dataset] = val : $(el).attr("data-" + dataset, val);
+        !!el.dataset ? el.dataset[_dataset] = val : $(el).attr("data-" + dataset, val);
         return $(el);
     }
 }
@@ -1128,8 +1128,8 @@ mw.tools = {
                     }
                 }
             }
-            mw.$(el).unbind("click");
-            mw.$(el).bind("click", function (event) {
+            mw.$(el).off("click");
+            mw.$(el).on("click", function (event) {
                 if ($(this).hasClass("disabled")) {
                     return false;
                 }
@@ -1171,7 +1171,7 @@ mw.tools = {
                 $(this).removeClass("hover");
                 $(this).removeClass('other-action');
             });
-            mw.$("[value]", el).bind('mousedown', function (event) {
+            mw.$(el).on('mousedown touchstart', '[value]', function (event) {
                 $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             });
@@ -1532,6 +1532,28 @@ mw.tools = {
         }
       });
       return final;
+    },
+    parentsOrCurrentOrderMatchOrOnlyFirst:function(node, arr){
+      var curr = node,
+          has1 = false,
+          has2 = false;
+      while(curr !== document.body){
+        var h1 = mw.tools.hasClass(curr, arr[0]);
+        var h2 = mw.tools.hasClass(curr, arr[1]);
+        if(h1 && h2){
+          return false;
+        }
+        else{
+          if(h1){
+            return true;
+          }
+          else if(h2){
+            return false;
+          }
+        }
+        curr = curr.parentNode;
+      }
+      return true;
     },
     hasAnyOfClassesOnNodeOrParent:function(node, arr){
       if(mw.tools.hasAnyOfClasses(node, arr)){
@@ -2425,9 +2447,12 @@ mw.tools = {
         }
     },
     mwattr: function (el, a, b) {
-        if (!b) {
+        if (!b&&!!el) {
             var data = $(el).dataset(a);
-            var attr = $(el)[0].attributes[a];
+            if(!!$(el)[0].attributes){
+              var attr = $(el)[0].attributes[a];
+            }
+
             if (data !== '') {
                 return data;
             }
@@ -2673,8 +2698,9 @@ mw.tools = {
     setTag: function (node, tag) {
         var el = mwd.createElement(tag);
         mw.tools.copyAttributes(node, el);
-        el.innerHTML = node.innerHTML;
-        /* todo */
+        while (node.firstChild) {
+          el.appendChild(node.firstChild);
+        }
         mw.tools.copyEvents(node, el);
         $(node).replaceWith(el);
         return el;
@@ -3275,7 +3301,7 @@ mw.wait('jQuery', function () {
                 if (this.getAttribute('value') == val) {
                     el.dataset("value", val);
                     var isValidOption = true;
-                    var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
+                    var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerText : this.innerText;
                     mw.$(".mw-dropdown-val", el[0]).html(html);
                     if (triggerChange === true) {
                         el.trigger("change")
@@ -4881,4 +4907,38 @@ String.prototype.hash = function() {
     return Array.prototype.map.call(range, function(i) {
         return self.charCodeAt(i).toString(16);
     }).join('');
+}
+
+mw.ajax = function(item, options){
+  options = options || {}
+  if(typeof item === 'string' || item.__proto__ === $.fn || item.nodeType === 1){
+    var form = mw.$(item);
+    options.data = mw.serializeFields(item);
+    if(!options.method){
+      if(!!form.method){
+        options.method = form.method
+      }
+    }
+  }
+  else if(item.constructor === options.constructor){
+    options.data = item;
+  }
+  options.method = options.method || 'post';
+  var xhr = $.ajax(options);
+
+  xhr.done(function(data) {
+    if(!!data && !!data.success){
+      mw.notification.success(data.msg || data.success)
+    }
+    else if(!!data && !!data.error){
+      mw.notification.error(data.msg || data.error)
+    }
+  })
+  xhr.fail(function(data) {
+    if(!!data && !!data.error){
+      mw.notification.error(data.msg || data.error)
+    }
+  })
+
+  return xhr;
 }

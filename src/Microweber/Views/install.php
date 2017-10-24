@@ -15,11 +15,9 @@
     $ua = $_SERVER['HTTP_USER_AGENT'];
     $defhost = strpos($_SERVER['HTTP_USER_AGENT'], 'Linux') ? 'localhost' : '127.0.0.1';
 
-    if (!isset($pre_configured) ){
+    if (!isset($pre_configured)) {
         $pre_configured = false;
     }
-
-
 
 
     ?>
@@ -37,12 +35,12 @@
 
         function showForm(select) {
             var def = false;
-            for(var i=0; i<select.options.length; i++) {
+            for (var i = 0; i < select.options.length; i++) {
                 var v = select.selectedIndex == i;
                 def = def || setFormDisplay(select.options[i].value, v);
             }
             var val = $(select).val();
-            if(val == 'sqlite'){
+            if (val == 'sqlite') {
                 $('#db_name_value').val('');
             }
 
@@ -51,8 +49,8 @@
         }
 
         function setFormDisplay(id, show) {
-            var el = $('#db-form' + (id.length ? '-'+id : ''));
-            if(el.length) {
+            var el = $('#db-form' + (id.length ? '-' + id : ''));
+            if (el.length) {
                 $(el).css('display', (show ? 'block' : 'none'));
                 return show;
             }
@@ -79,13 +77,37 @@
 
                 $data = $('#form_<?php print $rand; ?>').serialize();
 
-                $.post("<?php print site_url() ?>", $data,
-                    function (data) {
-                        if (data.indexOf('Warning') !== -1) {
-                            installprogressStop()
+                make_install_on_steps($data);
+                return false;
+            });
+        });
+        install_step = 1;
+        install_step_orig_data = null;
+        make_install_on_steps = function ($data) {
+            if (!install_step_orig_data) {
+                install_step_orig_data = $data;
+            }
+
+            if (install_step) {
+                $data = $data + '&install_step=' + install_step;
+            }
+            $.post("<?php print site_url() ?>", $data,
+                function (data) {
+
+
+                    $('#mw_log').hide().empty();
+                    if (data != undefined) {
+
+                        if (typeof(data) == 'object' && typeof(data.install_step) != undefined) {
+                            install_step = data.install_step;
+                            make_install_on_steps(install_step_orig_data);
                         }
-                        $('#mw_log').hide().empty();
-                        if (data != undefined) {
+
+                        else
+                        {
+                            if (data.indexOf('Warning') !== -1) {
+                                installprogressStop()
+                            }
                             if (data == 'done') {
                                 //location.reload();
                                 window.location.href = "<?php print admin_url(); ?>";
@@ -93,12 +115,20 @@
                                 $('#mw_log').html(data).show();
                                 $('.mw-install-holder').slideDown();
                             }
+
                         }
+
+
+                    }
+                    if (!install_step || install_step == 'finalize') {
                         $('#installprogressbar').slideUp();
-                    });
-                return false;
-            });
-        });
+                    }
+                })  .fail(function() {
+                    make_install_on_steps(install_step_orig_data);
+
+                });
+        };
+
 
         installprogressStopped = false;
 
@@ -126,18 +156,18 @@
                 var arr = data.split('\n'),
                     l = arr.length,
                     i = 0,
-                    last = arr[l-2],
-                    percentage = Math.round( ((l-1) / 60) * 100);
+                    last = arr[l - 2],
+                    percentage = Math.round(((l - 1) / 60) * 100);
                 bar[0].style.width = percentage + '%';
                 percent.html(percentage + '%');
-                if(last == 'done') {
+                if (last == 'done') {
                     percent.html('0%');
                     installprogressStop();
                     $("#installinfo").html('');
                 }
-                else{
+                else {
                     $("#installinfo").html(last);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         installprogress(false);
                     }, 1000);
                 }
@@ -166,7 +196,7 @@
     <small class="version">v. <?php print MW_VERSION ?></small>
     <div class="mw-ui-box">
         <div class="mw-ui-box-header">
-            <?php if ($pre_configured ): ?>
+            <?php if ($pre_configured): ?>
                 <h2>Select template for your website</h2>
 
 
@@ -261,25 +291,25 @@
                             if (defined('MW_USERFILES') and is_dir(MW_USERFILES) and !is_writable(MW_USERFILES)) {
                                 $check_pass = false;
                                 $must_be = MW_USERFILES;
-                                $server_check_errors['MW_USERFILES'] = _e('The directory '.MW_USERFILES.' must be writable', true);
+                                $server_check_errors['MW_USERFILES'] = _e('The directory ' . MW_USERFILES . ' must be writable', true);
                             }
 
                             if (defined('MW_CACHE_ROOT_DIR') and is_dir(MW_CACHE_ROOT_DIR) and !is_writable(MW_CACHE_ROOT_DIR)) {
                                 $check_pass = false;
                                 $must_be = MW_CACHE_ROOT_DIR;
-                                $server_check_errors['MW_CACHE_ROOT_DIR'] = _e('The directory '.MW_CACHE_ROOT_DIR.' must be writable', true);
+                                $server_check_errors['MW_CACHE_ROOT_DIR'] = _e('The directory ' . MW_CACHE_ROOT_DIR . ' must be writable', true);
                             }
 
                             if (defined('MW_CACHE_ROOT_DIR') and is_dir(MW_CACHE_ROOT_DIR) and !is_writable(MW_CACHE_ROOT_DIR)) {
                                 $check_pass = false;
                                 $must_be = MW_CACHE_ROOT_DIR;
-                                $server_check_errors['MW_CACHE_ROOT_DIR'] = _e('The directory '.MW_CACHE_ROOT_DIR.' must be writable', true);
+                                $server_check_errors['MW_CACHE_ROOT_DIR'] = _e('The directory ' . MW_CACHE_ROOT_DIR . ' must be writable', true);
                             }
 
                             if (function_exists('media_base_path') and is_dir(media_base_path()) and !is_writable(media_base_path())) {
                                 $check_pass = false;
                                 $must_be = media_base_path();
-                                $server_check_errors['media_base_path'] = _e('The directory '.media_base_path().' must be writable', true);
+                                $server_check_errors['media_base_path'] = _e('The directory ' . media_base_path() . ' must be writable', true);
                             }
                             ?>
                             <?php if ($check_pass == false): ?>
@@ -305,7 +335,7 @@
                                 ?>
 
 
-                                <?php if ($pre_configured){
+                                <?php if ($pre_configured) {
                                     $hide_db_setup = true;
 
                                 } ?>
@@ -352,53 +382,64 @@
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Hostname'); ?>
-                                                                <span data-help="<?php _e('The address of your database server'); ?>"><span
+                                                                <span
+                                                                    data-help="<?php _e('The address of your database server'); ?>"><span
                                                                         class="mw-icon-help-outline mwahi"></span></span></label>
                                                             <input type="text" class="mw-ui-field" autofocus
-                                                                   name="db_host" value="<?php if (isset($config['host'])) {
-                                                                print $config['host'];
-                                                            } ?>"/>
+                                                                   name="db_host"
+                                                                   value="<?php if (isset($config['host'])) {
+                                                                       print $config['host'];
+                                                                   } ?>"/>
                                                         </div>
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Username'); ?>
-                                                                <span data-help="<?php _e('The username of your database.'); ?>"><span
+                                                                <span
+                                                                    data-help="<?php _e('The username of your database.'); ?>"><span
                                                                         class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                             <input type="text" class="mw-ui-field"
-                                                                   name="db_user" value="<?php if (isset($config['username'])) {
-                                                                print $config['username'];
-                                                            } ?>"/>
+                                                                   name="db_user"
+                                                                   value="<?php if (isset($config['username'])) {
+                                                                       print $config['username'];
+                                                                   } ?>"/>
                                                         </div>
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Password'); ?>
                                                             </label>
                                                             <input type="password" class="mw-ui-field"
-                                                                   name="db_pass" value="<?php if (isset($config['password'])) {
-                                                                print $config['password'];
-                                                            } ?>" />
+                                                                   name="db_pass"
+                                                                   value="<?php if (isset($config['password'])) {
+                                                                       print $config['password'];
+                                                                   } ?>"/>
                                                         </div>
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Database'); ?>
-                                                                <span data-help="<?php _e('The name of your database.'); ?>"><span
+                                                                <span
+                                                                    data-help="<?php _e('The name of your database.'); ?>"><span
                                                                         class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                             <input type="text" class="mw-ui-field"
-                                                                   name="db_name" id="db_name_value" value="<?php if (isset($config['database'])) {  print $config['database']; } ?>" />
+                                                                   name="db_name" id="db_name_value"
+                                                                   value="<?php if (isset($config['database'])) {
+                                                                       print $config['database'];
+                                                                   } ?>"/>
                                                         </div>
                                                     </div>
                                                     <div id="db-form-sqlite" style="display:none">
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Database file'); ?>
-                                                                <span data-help="<?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?>">
+                                                                <span
+                                                                    data-help="<?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?>">
                                             <span class="mw-icon-help-outline mwahi tip"></span>
                                         </span>
                                                             </label>
                                                             <input type="text" class="mw-ui-field" autofocus
-                                                                   name="db_name_sqlite" value="<?php if (isset($config['db_name_sqlite'])) {
-                                                                print $config['db_name_sqlite'];
-                                                            } ?>"/>
+                                                                   name="db_name_sqlite"
+                                                                   value="<?php if (isset($config['db_name_sqlite'])) {
+                                                                       print $config['db_name_sqlite'];
+                                                                   } ?>"/>
                                                         </div>
                                                     </div>
                                                     <div class="mw-ui-field-holder">
@@ -408,9 +449,10 @@
                                                                 data-help="<?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?>"><span
                                                                     class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                         <input type="text" class="mw-ui-field"
-                                                               name="table_prefix" value="<?php if (isset($config['prefix'])) {
-                                                            print $config['prefix'];
-                                                        } ?>"
+                                                               name="table_prefix"
+                                                               value="<?php if (isset($config['prefix'])) {
+                                                                   print $config['prefix'];
+                                                               } ?>"
                                                                onblur="prefix_add(this)"/>
                                                     </div>
 
@@ -428,7 +470,8 @@
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php print 'Template'; ?>
-                                                                <span data-help="<?php print 'Choose default site template'; ?>"><span
+                                                                <span
+                                                                    data-help="<?php print 'Choose default site template'; ?>"><span
                                                                         class="mw-icon-help-outline mwahi tip"></span></span></label>
 
 
@@ -445,13 +488,12 @@
                                                         </div>
 
 
-
-
                                                     <?php endif; ?>
 
                                                     <div class="mw-ui-field-holder pull-left">
                                                         <label class="mw-ui-check">
-                                                            <input name="with_default_content" type="checkbox" checked="checked" value="1">
+                                                            <input name="with_default_content" type="checkbox"
+                                                                   checked="checked" value="1">
                                                             <span></span>&nbsp;
                                                             <?php _e('Install default content'); ?>
                                                             <span
@@ -462,11 +504,10 @@
                                                 </div>
 
 
-
-
                                             </div>
                                         </div>
-                                        <div id="admin-user"  <?php if ( $pre_configured == true): ?> style="display:none;" <?php endif; ?>>
+                                        <div
+                                            id="admin-user" <?php if ($pre_configured == true): ?> style="display:none;" <?php endif; ?>>
 
                                             <div class="mw-ui-col-container">
 
@@ -517,18 +558,20 @@
                                     </div>
 
 
-                                    <?php $default_content_file = mw_root_path().'.htaccess'; ?>
+                                    <?php $default_content_file = mw_root_path() . '.htaccess'; ?>
 
-                                    <?php if ( $pre_configured == true): ?>
+                                    <?php if ($pre_configured == true): ?>
                                         <input type="hidden" name="clean_pre_configured" value="1">
 
 
                                     <?php endif; ?>
 
                                     <div class="mw_clear"></div>
-                                    <input type="hidden" name="make_install" value="1" id="is_installed_<?php print $rand; ?>">
+                                    <input type="hidden" name="make_install" value="1"
+                                           id="is_installed_<?php print $rand; ?>">
                                     <input type="hidden" value="UTC" name="default_timezone"/>
-                                    <input type="submit" name="submit" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right"
+                                    <input type="submit" name="submit"
+                                           class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right"
                                            value="<?php _e('Install'); ?>">
 
 
@@ -539,7 +582,8 @@
                             <br/>
                             <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-info pull-left">
                                 <?php _e('Login to admin panel'); ?>
-                            </a> <a href="<?php print site_url() ?>" class="mw-ui-btn pull-left" style="margin-left: 20px;">
+                            </a> <a href="<?php print site_url() ?>" class="mw-ui-btn pull-left"
+                                    style="margin-left: 20px;">
                                 <?php _e('Visit your site'); ?>
                             </a>
 

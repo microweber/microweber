@@ -106,6 +106,12 @@ class MediaManager
         $q = $this->get($params);
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
+
+            if(isset($content['image_options'])){
+                $content['image_options'] = @json_decode($content['image_options'],true);
+            }
+
+
         } else {
             return false;
         }
@@ -391,6 +397,12 @@ class MediaManager
                         $item['title'] = strip_tags($item['title']);
                         $item['title'] = $this->app->format->clean_html($item['title']);
                     }
+
+                    if(isset($item['image_options'])){
+                        $item['image_options'] = @json_decode($item['image_options'],true);
+                    }
+
+
                     $return[] = $item;
                 }
                 $data = $return;
@@ -575,6 +587,11 @@ class MediaManager
             $s['tags'] = $data['tags'];
         }
 
+
+        if (isset($data['image_options'])) {
+            $s['image_options'] = @json_encode($data['image_options']);
+        }
+
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
@@ -736,8 +753,7 @@ class MediaManager
                             }
 
 
-
-                            if($crop){
+                            if ($crop) {
                                 $image = Image::make($src)->fit($width, $height);
 
                             } else {
@@ -746,7 +762,7 @@ class MediaManager
                                 });
                             }
 
-                            $image =  $image->save($cache_path);
+                            $image = $image->save($cache_path);
 
                             unset($image);
                         } else {
@@ -948,7 +964,7 @@ class MediaManager
         return $svg;
     }
 
-    public function thumbnail($src, $width = 200, $height = null, $crop=null)
+    public function thumbnail($src, $width = 200, $height = null, $crop = null)
     {
         if ($src == false) {
             return $this->pixum($width, $height);
@@ -997,7 +1013,7 @@ class MediaManager
 
         $cache_id['width'] = $width;
         $cache_id['height'] = $height;
-        if($crop){
+        if ($crop) {
             $cache_id['crop'] = $crop;
         }
 

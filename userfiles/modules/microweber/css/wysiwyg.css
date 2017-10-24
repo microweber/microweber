@@ -178,19 +178,19 @@
 }
 
 .mw_editor_bold .ed-ico {
-    background-position: -89px 5px;
+    background-position: -89px 4px;
 }
 
 .mw_editor_italic .ed-ico {
-    background-position: -119px 5px;
+    background-position: -119px 4px;
 }
 
 .mw_editor_underline .ed-ico {
-    background-position: -150px 6px;
+    background-position: -150px 4px;
 }
 
 .mw_editor_strike .ed-ico {
-    background-position: -715px 4px;
+    background-position: -715px 3px;
 }
 
 .mw_editor_font_color .ed-ico {
@@ -202,7 +202,7 @@
 }
 
 .mw_editor_font_background_color .ed-ico {
-    background-position: -215px 6px;
+    background-position: -215px 5px;
     width: 33px;
 }
 
@@ -429,7 +429,7 @@
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-val {
     display: inline-block;
-    padding: 3px 7px;
+    padding: 4px 7px;
     max-width: 80%;
     max-width: calc(100% - 17px);
     max-width: -webkit-calc(100% - 17px);
@@ -599,7 +599,7 @@
 
 .wysiwyg-table {
     display: table;
-    padding-top: 11px;
+    padding-top: 13px;
     position: relative;
     left: 0;
 }

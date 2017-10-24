@@ -25,6 +25,10 @@
         mw.require(mw.settings.template_url + "js/functions.js");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
+    <?php $color_scheme2 = get_option('color-scheme2', 'mw-template-liteness'); ?>
+    <?php if ($color_scheme2 != '' AND $color_scheme2 != 'lite'): ?>
+        <link href="{TEMPLATE_URL}css/color_scheme/<?php print $color_scheme2; ?>.css" rel="stylesheet" type="text/css" id="color_scheme2"/>
+    <?php endif; ?>
     <?php include THIS_TEMPLATE_DIR . 'header_options.php'; ?>
 
 
@@ -41,6 +45,8 @@
                 return html;
             }
     </script>
+
+
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 

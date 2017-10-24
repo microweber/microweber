@@ -125,6 +125,7 @@ class Content
                 'description' => 'text',
                 'embed_code' => 'text',
                 'filename' => 'text',
+                'image_options' => 'text',
 
                 '$index' => ['rel_type', 'rel_id', 'media_type'],
             ],

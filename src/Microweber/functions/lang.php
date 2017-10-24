@@ -8,7 +8,7 @@ function ewchar_to_utf8($matches)
 {
     $ewchar = $matches[1];
     $binwchar = hexdec($ewchar);
-    $wchar = chr(($binwchar >> 8) & 0xFF).chr(($binwchar) & 0xFF);
+    $wchar = chr(($binwchar >> 8) & 0xFF) . chr(($binwchar) & 0xFF);
 
     return iconv('unicodebig', 'utf-8', $wchar);
 }
@@ -27,13 +27,13 @@ function __store_lang_file_ns()
         foreach ($mw_new_language_entires_ns as $k => $v) {
             $namespace = $k;
 
-            $lang_file = userfiles_path().$namespace.DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.$lang.'.json';
+            $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
             $lang_file = normalize_path($lang_file, false);
 
-            $lang_file2 = userfiles_path().'language'.DIRECTORY_SEPARATOR.$namespace.DIRECTORY_SEPARATOR.$lang.'.json';
+            $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
             $lang_file2 = normalize_path($lang_file2, false);
 
-            $lang_file3 = userfiles_path().$namespace.DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.'en.json';
+            $lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
             $lang_file3 = normalize_path($lang_file3, false);
 
             $lang_file_save = false;
@@ -145,7 +145,7 @@ function __store_lang_file()
 
     $lang = current_lang();
 
-    $lang_file = userfiles_path().'language'.DIRECTORY_SEPARATOR.$lang.'.json';
+    $lang_file = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
     if (!is_array($mw_language_content) or empty($mw_language_content)) {
         $lang_file_str = json_encode($mw_new_language_entires, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
@@ -186,7 +186,7 @@ function __store_lang_file()
                             $lang_file_str = special_unicode_to_utf8($lang_file_str);
                         }
 
-                        $lang_file_str = str_replace('","', '",'."\n".'"', $lang_file_str);
+                        $lang_file_str = str_replace('","', '",' . "\n" . '"', $lang_file_str);
                         if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
                             @file_put_contents($lang_file, $lang_file_str);
                         }
@@ -196,6 +196,7 @@ function __store_lang_file()
         }
     }
 }
+
 api_expose('set_current_lang');
 function set_current_lang($lang = 'en')
 {
@@ -228,6 +229,32 @@ function current_lang()
     return $app_locale;
 }
 
+
+function _lang_is_rtl($lang = false)
+{
+    if (!$lang) {
+        $lang = App::getLocale();
+    }
+    /*
+    ar	Arabic	rtl	العربية
+    arc	Aramaic	rtl	ܣܘܪܬ
+    dv	Divehi	rtl	ދިވެހިބަސް
+    far	Farsi	rtl	فارسی
+    ha	Hausa	rtl	هَوُسَ
+    he	Hebrew	rtl	עברית
+    khw	Khowar	rtl	کھوار
+    ks	Kashmiri	rtl	कश्मीरी / كشميري
+    ku	Kurdish	rtl	Kurdî / كوردی
+    ps	Pashto	rtl	پښتو
+    ur	Urdu	rtl	اردو
+    yi	Yiddish	rtl	ייִדיש
+    */
+    $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi	Yiddish');
+    if ($lang and in_array($lang, $rtl_langs)) {
+        return true;
+    }
+}
+
 function _lang($title, $namespace = false)
 {
     echo lang($title, $namespace);
@@ -242,13 +269,13 @@ function lang($title, $namespace = false)
     //$k1 = strip_tags($k);
     $k1 = url_title($k);
     //$k1 = str_replace(array(',',' ','_','.',"\n","\r","\t",'"',"'",'<','>',':',';','!','`'),'-',strtolower($k1));
-   // $k1 = str_replace('---','-',$k1);
-   // $k1 = str_replace('--','-',$k1);
+    // $k1 = str_replace('---','-',$k1);
+    // $k1 = str_replace('--','-',$k1);
     //$k1 = preg_replace('/-+/', '-', $k1);
 
     //$k1 = trim($k1,'-');
 
- //   $k1 = mw()->url_manager->slug($k);
+    //   $k1 = mw()->url_manager->slug($k);
 
     $lang = current_lang();
 
@@ -372,7 +399,7 @@ function save_language_file_content($data)
 
         // $cust_dir = $lang_file = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
 
-        $cust_dir = userfiles_path().'language'.DIRECTORY_SEPARATOR;
+        $cust_dir = userfiles_path() . 'language' . DIRECTORY_SEPARATOR;
 
         if (!is_dir($cust_dir)) {
             mkdir_recursive($cust_dir);
@@ -380,7 +407,7 @@ function save_language_file_content($data)
 
         $mw_language_content = $data;
 
-        $lang_file = $cust_dir.$lang.'.json';
+        $lang_file = $cust_dir . $lang . '.json';
 
         if (is_array($mw_language_content)) {
             $mw_language_content = array_unique($mw_language_content);
@@ -391,7 +418,7 @@ function save_language_file_content($data)
             }
         }
 
-        return array('success' => 'Language file ['.$lang.'] is updated');
+        return array('success' => 'Language file [' . $lang . '] is updated');
     }
 }
 
@@ -421,10 +448,10 @@ function _mw_get_language_file_content_core()
     }
 
     $lang = current_lang();
-    $lang_file = mw_includes_path().'language'.DIRECTORY_SEPARATOR.$lang.'.json';
+    $lang_file = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
     $lang_file = normalize_path($lang_file, false);
-    $lang_file2 = userfiles_path().'language'.DIRECTORY_SEPARATOR.$lang.'.json';
-    $lang_file3 = mw_includes_path().'language'.DIRECTORY_SEPARATOR.'en.json';
+    $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+    $lang_file3 = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . 'en.json';
 
     if (is_file($lang_file2)) {
         $language_str = file_get_contents($lang_file2);
@@ -480,13 +507,13 @@ function _mw_get_language_file_content_namespaced($namespace)
 
     $lang = current_lang();
 
-    $lang_file = userfiles_path().$namespace.DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.$lang.'.json';
+    $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
     $lang_file = normalize_path($lang_file, false);
 
-    $lang_file2 = userfiles_path().'language'.DIRECTORY_SEPARATOR.$namespace.DIRECTORY_SEPARATOR.$lang.'.json';
+    $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
     $lang_file2 = normalize_path($lang_file2, false);
 
-    $lang_file3 = userfiles_path().$namespace.DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.'en.json';
+    $lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
     $lang_file3 = normalize_path($lang_file3, false);
 
     if (!isset($mw_language_content_namespace[$namespace])) {
@@ -559,10 +586,10 @@ function get_available_languages()
         return $mw_all_langs;
     }
 
-    $lang_dir = mw_includes_path().'language'.DIRECTORY_SEPARATOR;
+    $lang_dir = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR;
 
     $files = array();
-    foreach (glob($lang_dir.'*.json') as $filename) {
+    foreach (glob($lang_dir . '*.json') as $filename) {
         $item = basename($filename);
         $item = no_ext($item);
         $mw_all_langs[] = $item;
@@ -834,8 +861,8 @@ function show_help($section = 'main')
         $lang = 'en';
     }
 
-    $lang_file = mw_includes_path().'help'.DIRECTORY_SEPARATOR.$lang.'.php';
-    $lang_file_en = mw_includes_path().'help'.DIRECTORY_SEPARATOR.$lang.'.php';
+    $lang_file = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file_en = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
 
     if (is_file($lang_file)) {

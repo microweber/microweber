@@ -6,6 +6,8 @@ mw.require('icon_selector.js');
 mw.require('events.js');
 //mw.lib.require('rangy');
 
+classApplier = window.classApplier || [];
+
 
 if (!Element.prototype.matches) {
     Element.prototype.matches =
@@ -80,6 +82,32 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
 
 
 mw.wysiwyg = {
+  parseClassApplierSheet:function(){
+    var xsheet = mwd.querySelector('link[classApplier]');
+    if(sheet!==null){
+      var rules = sheet.sheet.rules;
+      for(var i = 0; i< rules.length; i++){
+        if(!rules[i].selectorText) continue;
+
+        var rule = rules[i].selectorText.trim();
+        var spl = rule.split('.')
+        if(rule.indexOf('.') === 0
+        && rule.indexOf(':') === -1
+        && rule.indexOf('#') === -1
+        && spl.length === 2
+        && rule.indexOf('[') === -1){
+          classApplier.push(spl[1]);
+        }
+      }
+    }
+  },
+  initClassApplier:function(){
+    this.parseClassApplierSheet();
+    var dropdown = $('#format_main ul');
+    classApplier.forEach(function(cls, i){
+      dropdown.append('<li value=".'+cls+'"><a href="#"><div class="'+cls+'">Custom '+i+'</div></a></li>')
+    })
+  },
     editInsideModule: function (el) {
         el = el.target ? el.target : el;
         var order = mw.tools.parentsOrder(el, ['edit', 'module']);
@@ -405,7 +433,6 @@ mw.wysiwyg = {
     doLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
       var parser = mw.tools.parseHtml(html).body;
-      console.log(mw.$('[id]', parser).length, '121092')
       mw.$('[id]', parser).each(function(){
         this.id = 'dlp-item-'+mw.random();
       });
@@ -442,7 +469,6 @@ mw.wysiwyg = {
         var i = 0;
         for( ; i < clipboard.files.length; i++){
           var item = clipboard.files[i];
-          console.log(item, item.type)
           if(item.type.indexOf('image/') != -1){
             var reader = new FileReader();
             reader.onload = function(e){
@@ -1303,7 +1329,6 @@ mw.wysiwyg = {
                 var fam = family_array.shift();
             }
 
-            console.log(fam)
             var ddval = mw.$(".mw_dropdown_action_font_family");
 
 
@@ -1676,6 +1701,19 @@ mw.wysiwyg = {
         }
     },
     format: function (command) {
+              var el = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().focusNode);
+        classApplier.forEach(function(c){
+          mw.tools.removeClass(el,c)
+        })
+      if(command.indexOf('.') === 0){
+        var cls = command.split('.')[1];
+
+        mw.tools.addClass(el,cls)
+        /*rangy.init();
+        var classApplier = rangy.createCssClassApplier(cls, true);
+        classApplier.applyToSelection(); */
+      }
+      else{
         if (!window.MSStream) {
             if (command == 'code_text') {
                 mw.wysiwyg.execCommand("insertHTML", false, "<code>" + document.getSelection() + "</code>");
@@ -1691,6 +1729,8 @@ mw.wysiwyg = {
                 mw.wysiwyg.change(c)
             }
         }
+      }
+
     },
     _undo: false,
     _redo: false,
@@ -2181,6 +2221,8 @@ $(mwd).ready(function () {
     //    var val = $(this).getDropdownValue();
     //    mw.wysiwyg.fontFamily(val);
     //});
+
+    mw.wysiwyg.initClassApplier()
 
     mw.$(".mw_dropdown_action_font_size").change(function () {
         var val = $(this).getDropdownValue();

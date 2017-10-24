@@ -199,6 +199,11 @@
     text-align: center;
 }
 
+.dragStart .mw-image-holder,
+.dragStart .mw-image-holder-content{
+  pointer-events: none;
+}
+
 .head-image-layout-1 .mw-image-holder .mw-image-holder-content h1 {
     font-size: 48px;
     color: #fff;

@@ -1,0 +1,121 @@
+html,body{
+  direction: rtl;
+}
+
+.pull-left{
+  float: right !important;
+}
+.pull-right{
+  float: left !important;
+}
+
+.manage-post-image, .mw-ui-btn-nav-tabs{
+  float: right;
+}
+
+/**/
+.mw-ui-btn:not(.mw-ui-btn-icon) > [class*='mw-icon-'] {
+  float: right;
+}
+.mw-ui-btn-nav li {
+  float: right;
+}
+
+.mw-ui-btn-nav > .mw-ui-btn,
+.mw-ui-btn-nav > li > .mw-ui-btn {
+  float: right;
+}
+
+.mw-ui-btn-nav-tabs .mw-ui-btn {
+  float: right;
+}
+
+.mw-ui-navigation-horizontal > li,
+.mw-ui-navigation-horizontal > ul > li {
+  float: right;
+}
+.mw-paging > * {
+  float: right;
+}
+
+.mw-ui-box-header > [class*='mw-icon-'] {
+  float: right;
+}
+
+.mw-ui-progress-info {
+  float: right;
+}
+
+.mw_modal_title {
+  float: right;
+}
+
+.mw-ui-dropdown .idownarr {
+  float: left;
+}
+
+.mw-dropdown-default .mw-dropdown-value.mw-ui-btn:after,
+.mw-dropdown-button:after {
+  float: left;
+}
+
+/*
+*/
+.mw-ui-link-nav > *:after {
+  left: auto;
+  right: 100%;
+}
+
+.mw-ui-navigation-horizontal > li > ul ul,
+.mw-ui-navigation li ul {
+  left: auto;
+  right: 100%;
+}
+.mw-ui-navigation-horizontal > li > ul {
+  right: 0;
+  left: auto;
+}
+
+.mw-ui-navigation-horizontal > li:first-child > ul {
+  left: auto;
+  right: -1px;
+}
+
+.mw-ui-progress .mw-ui-progress-bar {
+  left: auto;
+  right: 0;
+}
+
+.mw_modal_gallery .mwf-gallery-description {
+  left: auto;
+  right: 0;
+}
+
+.mw-ui-btn-nav>.mw-ui-btn:first-child, .mw-ui-btn-nav>li:first-child>.mw-ui-btn{
+  border-radius: 0 3px 3px 0;
+}
+
+.mw-ui-btn-nav>.mw-ui-btn:last-child, .mw-ui-btn-nav>li:last-child>.mw-ui-btn{
+  border-radius: 3px 0 0 3px;
+}
+
+.mw-ui-btn-nav-tabs .mw-ui-btn:first-child{
+  border-radius: 0 3px 0 0;
+}
+.mw-ui-btn-nav-tabs .mw-ui-btn:last-child{
+  border-radius: 3px 0 0 0;
+  border-left-width: 1px;
+}
+
+.mw-ui-btn:not(.mw-ui-btn-icon)>[class*=mw-icon-]{
+  margin: 0 0 0 7px;
+}
+
+
+
+.mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-module, .mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-template, #create-menu-btn .mw-icon-plus{
+  float: right;
+}
+
+
+/* live edit */

@@ -16,17 +16,17 @@ if (isset($params['module'])): ?>
 <script type="text/javascript">
     liveEditSettings = true;
 
-
-
-     mw.require('<?php print mw_includes_url(); ?>default.css');
+    mw.require('<?php print mw_includes_url(); ?>default.css');
     mw.require('<?php print mw_includes_url(); ?>css/components.css');
     mw.require('<?php print mw_includes_url(); ?>css/admin.css');
     mw.require('<?php print mw_includes_url(); ?>css/popup.css');
-
+    <?php if(_lang_is_rtl()){ ?>
+    mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
+    <?php } ?>
     mw.require("events.js");
     mw.require("url.js");
     mw.require("tools.js");
-	 mw.require('admin.js');
+	mw.require('admin.js');
 
 
     mw.require("liveadmin.js");
