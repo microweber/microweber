@@ -84,7 +84,6 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
 mw.wysiwyg = {
   parseClassApplierSheet:function(){
     var xsheet = mwd.querySelector('link[classApplier]');
-    var sheet = mwd.querySelector('link[href*="bootstrap.min.css"]');
     if(sheet!==null){
       var rules = sheet.sheet.rules;
       for(var i = 0; i< rules.length; i++){
