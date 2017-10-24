@@ -82,6 +82,7 @@
             });
         });
         install_step = 1;
+        install_step_num_fails = 0;
         install_step_orig_data = null;
         make_install_on_steps = function ($data) {
             if (!install_step_orig_data) {
@@ -124,7 +125,10 @@
                         $('#installprogressbar').slideUp();
                     }
                 })  .fail(function() {
+                    install_step_num_fails++;
+                    if(install_step_num_fails < 10){
                     make_install_on_steps(install_step_orig_data);
+                    }
 
                 });
         };
