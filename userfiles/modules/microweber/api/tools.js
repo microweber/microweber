@@ -37,11 +37,11 @@ $.fn.dataset = function (dataset, val) {
     if (el === undefined) return false;
     var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
     if (!val) {
-        var dataset = mw.datassetSupport ? el.dataset[_dataset] : $(el).attr("data-" + dataset);
+        var dataset = !!el.dataset ? el.dataset[_dataset] : $(el).attr("data-" + dataset);
         return dataset !== undefined ? dataset : "";
     }
     else {
-        mw.datassetSupport ? el.dataset[_dataset] = val : $(el).attr("data-" + dataset, val);
+        !!el.dataset ? el.dataset[_dataset] = val : $(el).attr("data-" + dataset, val);
         return $(el);
     }
 }
@@ -2447,9 +2447,12 @@ mw.tools = {
         }
     },
     mwattr: function (el, a, b) {
-        if (!b) {
+        if (!b&&!!el) {
             var data = $(el).dataset(a);
-            var attr = $(el)[0].attributes[a];
+            if(!!$(el)[0].attributes){
+              var attr = $(el)[0].attributes[a];
+            }
+
             if (data !== '') {
                 return data;
             }
@@ -2695,8 +2698,9 @@ mw.tools = {
     setTag: function (node, tag) {
         var el = mwd.createElement(tag);
         mw.tools.copyAttributes(node, el);
-        el.innerHTML = node.innerHTML;
-        /* todo */
+        while (node.firstChild) {
+          el.appendChild(node.firstChild);
+        }
         mw.tools.copyEvents(node, el);
         $(node).replaceWith(el);
         return el;

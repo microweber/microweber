@@ -43,7 +43,7 @@ ul:not([class]) {
 
 [class*='mw-plus-'] {
     position: absolute;
-    z-index: 1101;
+    z-index: 997;
     display: block;
     width: 16px;
     height: 16px;

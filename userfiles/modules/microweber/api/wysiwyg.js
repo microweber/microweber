@@ -82,7 +82,28 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
 
 
 mw.wysiwyg = {
+  parseClassApplierSheet:function(){
+    var xsheet = mwd.querySelector('link[classApplier]');
+    var sheet = mwd.querySelector('link[href*="bootstrap.min.css"]');
+    if(sheet!==null){
+      var rules = sheet.sheet.rules;
+      for(var i = 0; i< rules.length; i++){
+        if(!rules[i].selectorText) continue;
+
+        var rule = rules[i].selectorText.trim();
+        var spl = rule.split('.')
+        if(rule.indexOf('.') === 0
+        && rule.indexOf(':') === -1
+        && rule.indexOf('#') === -1
+        && spl.length === 2
+        && rule.indexOf('[') === -1){
+          classApplier.push(spl[1]);
+        }
+      }
+    }
+  },
   initClassApplier:function(){
+    this.parseClassApplierSheet();
     var dropdown = $('#format_main ul');
     classApplier.forEach(function(cls, i){
       dropdown.append('<li value=".'+cls+'"><a href="#"><div class="'+cls+'">Custom '+i+'</div></a></li>')
