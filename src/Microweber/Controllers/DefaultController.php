@@ -552,7 +552,7 @@ class DefaultController extends Controller
         }
 
         return;
-    
+
     }
 
     public function module()
@@ -801,25 +801,25 @@ class DefaultController extends Controller
 
 
         if ($module_info && @$_REQUEST['module']) {
-                $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
-                $try_config_file = modules_path() . '' . $_REQUEST['module'] . '_config.php';
-                $try_config_file = normalize_path($try_config_file, false);
-                if (is_file($try_config_file)) {
-                    include $try_config_file;
+            $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
+            $try_config_file = modules_path() . '' . $_REQUEST['module'] . '_config.php';
+            $try_config_file = normalize_path($try_config_file, false);
+            if (is_file($try_config_file)) {
+                include $try_config_file;
 
-                    if (!isset($config) or !is_array($config)) {
-                        return false;
-                    }
-
-                    if (!isset($config['icon']) or $config['icon'] == false) {
-                        $config['icon'] = modules_path() . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
-                    }
-                    echo json_encode($config);
-
-                    return;
+                if (!isset($config) or !is_array($config)) {
+                    return false;
                 }
+
+                if (!isset($config['icon']) or $config['icon'] == false) {
+                    $config['icon'] = modules_path() . '' . $_REQUEST['module'] . '.png';
+                    $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
+                }
+                echo json_encode($config);
+
+                return;
             }
+        }
 
 
         $admin = $this->app->url_manager->param('admin', true);
@@ -905,21 +905,21 @@ class DefaultController extends Controller
             unset($data['ondrop']);
         }
         if ($mod_n == 'layout' && isset($data['template'])) {
-                $t = str_replace('..', '', $data['template']);
-                $possible_layout = templates_path() . $t;
-                $possible_layout = normalize_path($possible_layout, false);
-                if (is_file($possible_layout)) {
-                    $l = new \Microweber\View($possible_layout);
-                    $layout = $l->__toString();
-                    $layout = $this->app->parser->process($layout, $options = false);
-                    return response($layout);
+            $t = str_replace('..', '', $data['template']);
+            $possible_layout = templates_path() . $t;
+            $possible_layout = normalize_path($possible_layout, false);
+            if (is_file($possible_layout)) {
+                $l = new \Microweber\View($possible_layout);
+                $layout = $l->__toString();
+                $layout = $this->app->parser->process($layout, $options = false);
+                return response($layout);
 
 
-                    //  echo $layout;
+                //  echo $layout;
 
-                    // return;
-                }
+                // return;
             }
+        }
 
         $has_id = false;
         if (isset($data) and is_array($data)) {
@@ -1041,7 +1041,7 @@ class DefaultController extends Controller
         if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == false) {
             $page_url = $this->app->url_manager->string();
         } elseif ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
-          //  $page_url = $this->app->url_manager->string(1);
+            //  $page_url = $this->app->url_manager->string(1);
             $page_url = $this->app->url_manager->string();
 
         } else {
@@ -1311,7 +1311,7 @@ class DefaultController extends Controller
 
                         $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
                         $directly_to_file = false;
-                        $page_url_segment_3 = $this->app->url_manager->segment(-1, $page_url);
+                        $page_url_segment_3 = $all_url_segments= $this->app->url_manager->segment(-1, $page_url);
 
                         $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                         $td_base = templates_path() . $the_active_site_template . DS;
@@ -1372,9 +1372,15 @@ class DefaultController extends Controller
                         $fname2 = $page_url_segment_2 . '.php';
                         $fname3 = $page_url_segment_2;
 
+
                         $tf1 = $td . DS . $fname1;
                         $tf2 = $td . DS . $fname2;
                         $tf3 = $td . DS . $fname3;
+
+
+
+
+
 
                         if ($directly_to_file == false and is_dir($td)) {
                             if (is_file($tf1)) {
@@ -1397,6 +1403,7 @@ class DefaultController extends Controller
                             }
                         }
 
+
                         if ($simply_a_file == false) {
 
                             //$page = $this->app->content_manager->homepage();
@@ -1408,10 +1415,26 @@ class DefaultController extends Controller
                                 $page['content_type'] = 'page';
                                 $page['parent'] = '0';
                                 $page['url'] = $this->app->url_manager->string();
-
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
+
+                                if ($all_url_segments) {
+                                    $page_url_segments_str_for_file = implode('/', $page_url_segment_3);
+                                    $file1 =  $page_url_segments_str_for_file . '.php';
+                                    $file2 =   'layouts' . DS . $page_url_segments_str_for_file . '.php';
+                                    $render_file_temp = $td_base . $file1;
+                                    $render_file_temp2 = $td_base . $file2;
+
+                                    if(is_file($render_file_temp)){
+                                        $page['simply_a_file'] = $file1;
+                                        $page['layout_file'] = $file1;
+                                    }  else if(is_file($render_file_temp2)){
+                                        $page['simply_a_file'] = $file2;
+                                        $page['layout_file'] = $file2;
+                                    }
+                                }
+
                                 $show_404_to_non_admin = true;
                             }
 
