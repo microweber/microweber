@@ -84,12 +84,8 @@ description: Default cart template
             <div class="mw-cart-action-holder">
                 <hr/>
 
+                <?php $tems = get_option('shop_require_terms', 'website') == 1;?>
 
-                <?php
-                $tems = get_option('shop_require_terms', 'website') == 1;
-
-
-                ?>
                 <?php if ($tems): ?>
                     <script>
 

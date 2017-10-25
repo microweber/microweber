@@ -47,6 +47,8 @@ $show_category_header = get_option('show_category_header', $params['id']);
                 $pt_opts['list_item_tag'] = "option";
                 $pt_opts['parent'] = $cat['id'];
                 $pt_opts['include_first'] = 1;
+            	$pt_opts['active_ids'] = $selected_category;
+            	$pt_opts['active_code_tag'] = '   selected="selected"  ';
                 category_tree($pt_opts);
             }
         }
