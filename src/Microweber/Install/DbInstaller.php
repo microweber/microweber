@@ -40,6 +40,7 @@ class DbInstaller
             new Schema\Tags(),
             new Schema\JobsQueue(),
             new Schema\PasswordResetsTable(),
+            new Schema\Updates(),
         ];
     }
 

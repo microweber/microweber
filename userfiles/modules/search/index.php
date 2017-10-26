@@ -7,6 +7,12 @@ $hide_paging = '';
 if (isset($params['hide_paging'])) {
     $hide_paging = $params['hide_paging'];
 }
+
+if (isset($params['data-search-type'])) {
+    $searchType = $params['data-search-type'];
+} else {
+    $searchType = '';
+}
 ?>
     <script type="text/javascript">
         mw.require('events.js', true);
@@ -23,7 +29,7 @@ if (isset($params['hide_paging'])) {
             ajax_paging: true,
             template: 'default',
             done: false,
-            hide_paging:true
+            hide_paging: true
         }
         mw.search = function (key, holder, obj) {
             if (typeof key === 'undefined' || typeof holder === 'undefined') return false;
@@ -63,3 +69,4 @@ if ($module_template != false) {
 if (isset($template_file) and is_file($template_file) != false) {
     include($template_file);
 }
+

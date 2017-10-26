@@ -239,15 +239,24 @@ class MicroweberTemplate
             }
         }
 
-        if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
+
+
+        if (($render_file == false)
+             and isset($page['id'])  ) {
             $url_file = $this->app->url_manager->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
+            $test_file = str_replace('..', '', $test_file);
             $render_file_temp = ACTIVE_TEMPLATE_DIR.DS.$test_file.'.php';
-            $render_file_temp2 = ACTIVE_TEMPLATE_DIR.DS.$url_file.'.php';
+            $render_file_temp2 = ACTIVE_TEMPLATE_DIR.DS.$test_file.'.php';
+            $render_file_temp3 = ACTIVE_TEMPLATE_DIR.DS.'layouts'.DS.$test_file.'.php';
+
             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
             } elseif (is_file($render_file_temp2)) {
                 $render_file = $render_file_temp2;
+            }elseif (is_file($render_file_temp3)) {
+
+                $render_file = $render_file_temp3;
             }
         }
 

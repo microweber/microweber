@@ -418,11 +418,11 @@
     <hr>
     <label class="template-setting-label">Color scheme</label>
     <div>
-        <a href="javascript:;" class="pick-scheme" style="background-color: #ffffff" data-value='default'></a>
+        <!--<a href="javascript:;" class="pick-scheme" style="background-color: #ffffff" data-value='default'></a>
         <a href="javascript:;" class="pick-scheme" style="background-color: #1C659C" data-value='blue'></a>
         <a href="javascript:;" class="pick-scheme" style="background-color: #EB8100" data-value='orange'></a>
         <a href="javascript:;" class="pick-scheme" style="background-color: #8718BD" data-value='purple'></a>
-        <a href="javascript:;" class="pick-scheme" style="background-color: #FFA4D5" data-value='pink'></a>
+        <a href="javascript:;" class="pick-scheme" style="background-color: #FFA4D5" data-value='pink'></a>-->
         <a href="javascript:;" class="pick-scheme scheme-transparent" data-value='transparent'></a>
 
 
@@ -430,24 +430,24 @@
 
 
     <span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;"><?php _e("Reset"); ?></span>
-    <label class="template-setting-label ">Custom colors</label>
+    <!--<label class="template-setting-label ">Custom colors</label>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>
-    <label class="desc"><?php _e("Main color"); ?>
-        <small class="muted">( <?php _e("Header, Footer"); ?> )</small></label>
+    <label class="desc"><?php /*_e("Main color"); */?>
+        <small class="muted">( <?php /*_e("Header, Footer"); */?> )</small></label>
 </span>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
-    <label><?php _e("Buttons & Links"); ?></label>
+    <label><?php /*_e("Buttons & Links"); */?></label>
 </span>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
-    <label><?php _e("Box color"); ?></label>
+    <label><?php /*_e("Box color"); */?></label>
 </span>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
-    <label><?php _e("Text color"); ?></label>
-</span>
+    <label><?php /*_e("Text color"); */?></label>
+</span>-->
 
 
     <hr>

@@ -1,8 +1,8 @@
 <?php
 
 $config = array();
-$config['name'] = "Breadbrumb";
-$config['description'] = "Breadbrumb navigation";
+$config['name'] = "Breadcrumb";
+$config['description'] = "Breadcrumb navigation";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['categories'] = "other";

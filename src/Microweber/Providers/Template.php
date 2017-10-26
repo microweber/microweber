@@ -111,6 +111,8 @@ class Template
         if (defined('TEMPLATE_DIR')) {
             $val = TEMPLATE_DIR;
         }
+
+
         if ($add != false) {
             $val = $val . $add;
         }
@@ -120,12 +122,16 @@ class Template
 
     public function get_config($template = false)
     {
+
+
         if ($template == false) {
             $dir = template_dir();
+
             $file = $dir . 'config.php';
             if (is_file($file)) {
                 include $file;
                 if (isset($config)) {
+
                     return $config;
                 }
 
