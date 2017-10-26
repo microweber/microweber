@@ -3,6 +3,22 @@ mw.require('url.js');
 mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
 
 mw.on = mw.on || {
+  mouseDownAndUp:function(el, callback){
+    var $el = mw.$(el), el = $el[0];
+    $el.on('mousedown touchstart', function(){
+      this.__downTime = new Date().getTime();
+      (function(el){
+        setTimeout(function(){
+          el.__downTime = -1
+        }, 777)
+      })(this)
+    });
+    $el.on('mouseup touchend', function(){
+      if(!!callback){
+        callback.call(this, new Date().getTime()-this.__downTime)
+      }
+    });
+  },
   onmodules : {},
   moduleReload : function(id, c, trigger){
      if(trigger){

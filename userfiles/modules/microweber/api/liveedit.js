@@ -108,7 +108,7 @@ $(document).ready(function() {
 
 
 $(document).on('mousedown touchstart', function(e){
-  if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults'])){
+  if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'edit', 'element'])){
     $(".element-current").removeClass("element-current");
   }
 
@@ -452,7 +452,7 @@ setTimeout(function(){
 
 mw.drag = {
     external_grids_row_classes: ['row'],
-    external_grids_col_classes: ['col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
+    external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
     external_css_no_element_classes: ['navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     dropOutsideDistance:25,
     columnout: false,
@@ -931,13 +931,6 @@ mw.drag = {
             $(this).removeClass("not-allowed");
 
 
-            if (mw.$(".toolbar_bnav_hover").length == 0 && $(".ts_main_ul").length != 0) {
-                mw.$(".ts_main_ul .ts_action").invisible();
-                mw.$(".ts_main_ul .ts_action").css({
-                    left: "100%",
-                    top: 0
-                });
-            }
 
 
             if (event.target.hasAttribute("field")) {
@@ -1251,7 +1244,7 @@ mw.drag = {
                     $(window).trigger("onItemClick", curr);
                 }
             });
-            $(mw.handle_element).draggable({
+            var $handle_element = $(mw.handle_element).draggable({
                 handle: ".mw-sorthandle-moveit",
                 cursorAt: {
                     top: -30
@@ -1273,8 +1266,9 @@ mw.drag = {
                 stop: function() {
                     $(mwd.body).removeClass("dragStart");
                 }
-            });
-            $(mw.handle_module).draggable({
+            })
+
+            var $handle_module = $(mw.handle_module).draggable({
                 handle: ".mw-sorthandle-moveit",
                 cursorAt: {
                     top: -30
@@ -1298,6 +1292,11 @@ mw.drag = {
                     $(mwd.body).removeClass("dragStart");
                 }
             });
+            mw.on.mouseDownAndUp($handle_module[0], function(time){
+              if(time<1000){
+                mw.drag.module_settings();
+              }
+            })
             $(mw.handle_row).draggable({
                 handle: ".column_separator_title",
                 cursorAt: {
@@ -3094,6 +3093,16 @@ mw.designTool = {
 
         sumWidth > ww ? rel.css('left', ww - w - 20) : '';
         sumHeight > wh ? rel.css('top', wh - h - 20) : '';
+    },
+    setSize:function(){
+      $(".ts_main_ul").css('maxHeight', innerHeight - 100);
+      var root =  mw.$("#design_bnav"), off = root.offset();
+      if(off.top < 100){
+        root.css('top', 100);
+      }
+      if((off.top + root.height()) > innerHeight){
+        root.css('top', 100);
+      }
     }
 }
 
@@ -3160,69 +3169,15 @@ $(window).on("load", function() {
         return false;
     });
 
-
-    mw.$(".ts_main_li").mouseenter(function() {
-        mw.session.checkPause = true;
-        mw.pauseSave = true;
-        var selected_el = mwd.querySelector('.element-current');
-        var parentedit = mw.tools.firstParentWithClass(selected_el, 'edit');
-        $(parentedit).addClass('changed');
-
-        if (!mw.$("#design_bnav").hasClass('ui-draggable-dragging')) {
-            $(this).addClass("hovered");
-            mw.$(".ts_main_ul .ts_action").invisible();
-            mw.$(".ts_main_ul .ts_action").css({
-                left: "100%",
-                top: 0
-            });
-            var toshow = mw.$(this.querySelector('.ts_action'));
-            if (toshow.length === 0) return false;
-            toshow.visible();
-            toshow.css("top", 0);
-            var offset = toshow.offset();
-            var width = toshow.outerWidth();
-            var height = toshow.outerHeight();
-            var window_w = $(window).width();
-            var window_h = $(window).height();
-            var scroll = $(window).scrollTop();
-
-            toshow.css({
-                left: ((offset.left + width) < window_w) ? "100%" : -width,
-                top: (offset.top + height - scroll) < window_h ? 0 : -(offset.top + height - scroll - window_h)
-            });
-
-        }
-
-    });
-    mw.$(".ts_main_li").mouseleave(function() {
-        mw.pauseSave = false;
-        $(this).removeClass("hovered");
-        mw.session.checkPause = false;
-    });
+    mw.$(".ts_main_a,.ed_label").on('click', function(){
+      $(this).next().slideToggle(function(){
+        mw.designTool.setSize()
+      })
+    })
 
 
-    mw.$(".ts_main_li .ts_action_item").mouseenter(function() {
-        $(this).parent().find(".ts_action").invisible();
-        $(this).parent().find(".ts_action").css("left", "100%");
-        var toshow = $(this).find(".ts_action:first");
-        var offset = toshow.offset();
-        if (typeof offset === 'object' && offset !== null) {
 
-            var width = toshow.outerWidth();
-            var window_w = $(window).width();
-            if ((offset.left + width) < window_w) {
-                toshow.css({
-                    left: "100%",
-                    visibility: 'visible'
-                });
-            } else {
-                toshow.css({
-                    left: -width,
-                    visibility: 'visible'
-                });
-            }
-        }
-    });
+
     mw.$(".toolbar_bnav").hover(function() {
         $(this).addClass("toolbar_bnav_hover");
     }, function() {
@@ -3231,14 +3186,7 @@ $(window).on("load", function() {
 
 });
 
-mw.$(".ts_action_item").mouseenter(function() {
-    var toshow = $(this).find(".ts_action:first");
 
-    toshow.css({
-        left: "100%",
-        visibility: 'visible'
-    });
-});
 
 
 $.fn.notmouseenter = function() {

@@ -298,6 +298,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     cursor: -moz-grab;
     cursor: grab;
     text-align: center;
+    z-index: 1;
 }
 
 .mw-sorthandle-moveit:before {
@@ -736,7 +737,7 @@ html.mw_pages #items_handle {
     left: 167px;
     top: 77px;
     margin-top: 25px;
-    z-index: 998;
+    z-index: 1101;
     transform: scale(0, 0);
     -ms-transform: scale(0, 0);
     -moz-transform: scale(0, 0);
@@ -882,21 +883,12 @@ html.mw_pages #design_bnav {
 }
 
 div.ts_action {
-    visibility: hidden;
-    position: absolute;
-    left: 100%;
-    top: -1px;
     background: white;
-    border: 1px solid #EAE6E6;
+    display: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.21);
 }
 
-.ts_main_li:hover > .ts_action {
-    visibility: visible;
-}
 
-.ts_action_item:hover > .ts_action {
-    visibility: visible;
-}
 
 .ts_action_item {
     background: #EBEBEB;
@@ -938,6 +930,10 @@ li .ts_action_item:last-child {
     visibility: hidden;
     line-height: 0;
     height: 0;
+}
+
+.ts_main_ul {
+  overflow: auto;
 }
 
 .ts_main_ul .ed_slider {
@@ -2846,6 +2842,11 @@ div[id*='SSDIVEL'] {
 .mw-active-element-iseditable #liveedit_wysiwyg:before{
   opacity: 0;
   visibility: hidden;
+}
+
+.edit img.element::selection{
+  background-color: transparent;
+  outline: 4px solid #0088CC
 }
 
 

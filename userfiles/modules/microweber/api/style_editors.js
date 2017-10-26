@@ -363,8 +363,7 @@ if( typeof $.fn.draggable === 'function'){
       containment:'window',
       scroll:false,
       start:function(){
-        mw.$(".ts_main_ul .ts_action").invisible();
-        mw.$(".ts_main_ul .ts_action").css({"left":"100%", top:0});
+
       },
       stop:function(event, ui){
         mw.cookie.ui("designtool_position", ui.position.top+"|"+ui.position.left)
