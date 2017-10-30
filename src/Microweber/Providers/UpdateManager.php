@@ -242,6 +242,12 @@ class UpdateManager
             return false;
         }
 
+
+        $step = false;
+        if (isset($params['step'])) {
+            $step = intval($params['step']);
+        }
+
         $params = parse_params($params);
 
         $update_api = $this;
@@ -250,7 +256,7 @@ class UpdateManager
         if (is_array($params)) {
             foreach ($params as $param_k => $param) {
                 if ($param_k == 'mw_version' || $param_k == 'core_update') {
-                    $ret[] = $update_api->install_version($param);
+                    $ret[] = $update_api->install_version($param, $step);
                 }
 
                 if (is_array($param) and !empty($param)) {
@@ -353,7 +359,7 @@ class UpdateManager
 //        }
     }
 
-    public function apply_updates_queue()
+    public function apply_updates_queue($params = false)
     {
         $a = $this->app->user_manager->is_admin();
         if ($a == false) {
@@ -365,6 +371,15 @@ class UpdateManager
         $c_id = $this->updates_queue_cache_id;
         $cache_group = $this->updates_queue_cache_group;
         $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
+
+        if ($params) {
+            $params = parse_params($params);
+        }
+
+        $step = false;
+        if (isset($params['step'])) {
+            $step = intval($params['step']);
+        }
 
         if (!empty($cache_content)) {
             $work = $cache_content;
@@ -397,7 +412,15 @@ class UpdateManager
 
                                 $queue = array($k => array(0 => $item));
 
-                                $is_done = $this->apply_updates($queue);
+                                if ($k == 'mw_version') {
+                                    $is_done = $this->install_version($item, $step);
+                                    if ($step and $step < $this->_install_steps_num) {
+                                        return array('message' => $msg, 'try_again' => 'true');
+                                    }
+                                } else {
+                                    $is_done = $this->apply_updates($queue);
+
+                                }
 
 
                                 $msg_log = $this->_log_msg(true);
@@ -430,8 +453,12 @@ class UpdateManager
 
                             ///  $this->composer_run();
                             if ($k == 'mw_version') {
-                                $install = array('mw_version' => 'latest');
-                                $is_done = $this->apply_updates($install);
+
+                                $is_done = $this->install_version($items, $step);
+                                if ($step and $step < $this->_install_steps_num) {
+                                    return array('message' => 'Installing Core Update...', 'try_again' => 'true');
+                                }
+
                             }
 
                             $this->app->cache_manager->save($work, $c_id, $cache_group);
@@ -459,7 +486,7 @@ class UpdateManager
     public function check($skip_cache = false)
     {
         $this->_set_time_limit();
-
+        //   $skip_cache = true;
         $c_id = __FUNCTION__ . date('ymdh');
         if ($skip_cache == false) {
             $cache_content = $this->app->cache_manager->get($c_id, 'update/global');
@@ -553,11 +580,16 @@ class UpdateManager
         return $result;
     }
 
-    public function install_version($new_version)
+
+    private $_install_steps_num = 2;
+
+    public function install_version($new_version, $on_step = false)
     {
         if (defined('MW_API_CALL')) {
             only_admin_access();
         }
+
+
         $params = array();
         $this->_set_time_limit();
 
@@ -576,26 +608,34 @@ class UpdateManager
                 mkdir_recursive($dir_c);
             }
             $dl_file = $dir_c . $fname;
-            if (!is_file($dl_file)) {
-                $this->_log_msg('Downloading core update');
+            if (!$on_step or $on_step == 1) {
 
-                $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
-            }
-            if (is_file($dl_file)) {
-                $unzip = new \Microweber\Utils\Unzip();
-                $target_dir = MW_ROOTPATH;
-                $this->_log_msg('Preparing to unzip core update');
-                $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
-                $this->_log_msg('Core update unzipped');
-                $new_composer = $target_dir . 'composer.json.merge';
-                if (is_file($new_composer)) {
-                    //     $this->composer_merge($new_composer);
+                if (!is_file($dl_file)) {
+                    $this->_log_msg('Downloading core update');
+
+                    $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
-
-                $this->post_update();
-
-                return $result;
             }
+            if (!$on_step or $on_step > 1) {
+
+                if (is_file($dl_file)) {
+                    $unzip = new \Microweber\Utils\Unzip();
+                    $target_dir = MW_ROOTPATH;
+                    $this->_log_msg('Preparing to unzip core update');
+                    $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
+                    $this->_log_msg('Core update unzipped');
+                    $new_composer = $target_dir . 'composer.json.merge';
+                    if (is_file($new_composer)) {
+                        //     $this->composer_merge($new_composer);
+                    }
+
+                    $this->post_update();
+
+                    return $result;
+                }
+            }
+
+
         }
     }
 
@@ -688,6 +728,7 @@ class UpdateManager
             }
         }
 
+
         if ($download_target != false and is_file($download_target)) {
             $this->_log_msg('Download complete');
 
@@ -743,7 +784,6 @@ class UpdateManager
         $params['add_new'] = $module_name;
 
         $result = $this->call('get_download_link', $params);
-
         if (isset($result['modules'])) {
             foreach ($result['modules'] as $mod_k => $value) {
                 $fname = basename($value);
@@ -845,7 +885,7 @@ class UpdateManager
             return false;
         }
         $result = false;
-
+        //  return;
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);
         }
