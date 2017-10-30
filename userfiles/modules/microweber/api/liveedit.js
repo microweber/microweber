@@ -610,28 +610,33 @@ mw.drag = {
                     mw.image._dragTxt(event);
 
                     //var bg = mw.tools.firstWithBackgroundImage(event.target)
-                    var bg = !!event.target.style && !!event.target.style.backgroundImage
 
-                    if (!mw.image.isResizing) {
-                        if (event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
-                            $(mw.image_resizer).addClass("active");
-                            mw.image.resize.resizerSet(event.target, false);
-                        }
-                        else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
-                            $(mw.image_resizer).addClass("active");
-                            mw.image.resize.resizerSet(event.target, false);
-                        }
-                        else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
-                          $(mw.image_resizer).addClass("active");
-                            mw.image.resize.resizerSet(mw.tools.firstParentWithClass(mw.mm_target, 'mw-image-holder').querySelector('img'), false);
-                        }
-                        else {
-                            if (!event.target.mwImageResizerComponent) {
-                                mw.tools.removeClass(mw.image_resizer, 'active')
+                    if(typeof(event.target) != 'undefined'){
+
+                        var bg = !!event.target.style && !!event.target.style.backgroundImage
+
+                        if (!mw.image.isResizing) {
+                            if (event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
+                                $(mw.image_resizer).addClass("active");
+                                mw.image.resize.resizerSet(event.target, false);
                             }
-                        }
+                            else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
+                                $(mw.image_resizer).addClass("active");
+                                mw.image.resize.resizerSet(event.target, false);
+                            }
+                            else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
+                              $(mw.image_resizer).addClass("active");
+                                mw.image.resize.resizerSet(mw.tools.firstParentWithClass(mw.mm_target, 'mw-image-holder').querySelector('img'), false);
+                            }
+                            else {
+                                if (!event.target.mwImageResizerComponent) {
+                                    mw.tools.removeClass(mw.image_resizer, 'active')
+                                }
+                            }
 
+                        }
                     }
+
                 } else {
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
