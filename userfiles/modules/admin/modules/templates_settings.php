@@ -18,8 +18,9 @@ if ($module_template != false) {
 } else {
     $template_file = module_templates($params['parent-module'], 'default', true);
 }
- 
+
 if (isset($template_file) and $template_file != false and is_file($template_file)) {
+
     include($template_file);
 }
  
