@@ -9,19 +9,16 @@
 
     <li class="ts_main_li mw-designtype-universal"> <a class="ts_main_a dd_design_size" href="javascript:;"><?php _e("Size"); ?></a>
       <div class="ts_action">
-        <div class="ts_action_item"> <span class="ed_label pull-left"><?php _e("Width"); ?></span>
-          <div class="ed_slider width-slider es_item pull-left" id="width_slider" data-onstart="width_slider_onstart" data-max="999" data-min="100" data-type="width"></div>
-          <span class="slider_val">
-          <input type="text" name="width_slider" value="" />
-          <span class="slider_val_label">px</span> </span> </div>
+        <div class="ts_action_item">
+          <span class="ed_label pull-left"><?php _e("Width"); ?></span>
+          <input type="number" class="mw-ui-field mw-ui-field-small" id="mw_ts_width" min="0" step="10" />
+           </div>
         <div class="ts_action_item"> <span class="ed_label pull-left"><?php _e("Auto"); ?></span>
           <input type="checkbox" class="mwcheck" id="ed_auto_width" />
         </div>
-                <div class="ts_action_item"> <span class="ed_label pull-left"><?php _e("Height"); ?></span>
-          <div class="ed_slider height-slider es_item pull-left" id="height_slider" data-onstart="" data-max="999" data-min="10" data-type="height"></div>
-          <span class="slider_val">
-          <input type="text" name="height_slider" value="" />
-          <span class="slider_val_label">px</span> </span> </div>
+        <div class="ts_action_item"> <span class="ed_label pull-left"><?php _e("Height"); ?></span>
+         <input type="number" class="mw-ui-field mw-ui-field-small" id="mw_ts_height" min="0" step="10" />
+        </div>
         <div class="ts_action_item"> <span class="ed_label pull-left"><?php _e("Auto"); ?></span>
           <input type="checkbox" class="mwcheck" id="ed_auto_height" />
         </div>
@@ -31,7 +28,7 @@
     <li class="ts_main_li"> <a class="ts_main_a dd_design_spacing" href="javascript:;"><?php _e("Spacing"); ?></a>
       <div class="ts_action">
         <div class="ts_action_item mw-designtype-universal">
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider left" id="margin_selector" data-for="margin_slider"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val"><?php _e("Margin"); ?></span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider left" id="margin_selector" data-for="mw_ts_margin"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val"><?php _e("Margin"); ?></span> </span>
             <div class="mw-dropdown-content">
               <ul style="width: 100%">
                 <li>
@@ -58,12 +55,12 @@
               </ul>
             </div>
           </div>
-          <div class="ed_slider margin-slider es_item pull-left" id="margin_slider" data-min="0" data-max="100" data-value="0" data-type="margin"></div>
-          <span class="slider_val">
-          <input type="text" name="margin_slider" value="" />
-          <span class="slider_val_label">px</span> </span> </div>
+          <input type="number" class="mw-ui-field mw-ui-field-small" id="mw_ts_margin" data-type="margin" />
+
+
+           </div>
         <div class="ts_action_item mw-designtype-element">
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider pull-left" id="padding_selector" data-for="padding_slider"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val"><?php _e("Padding"); ?></span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider pull-left" id="padding_selector" data-for="mw_ts_padding"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val"><?php _e("Padding"); ?></span> </span>
             <div class="mw-dropdown-content">
               <ul style="width: 100%">
                 <li>
@@ -90,10 +87,9 @@
               </ul>
             </div>
           </div>
-          <div class="ed_slider padding-slider es_item pull-left" id="padding_slider" data-min="0" data-max="100" data-value="0" data-type="padding"></div>
-          <span class="slider_val">
-          <input type="text" name="padding_slider" value="" />
-          <span class="slider_val_label">px</span> </span> </div>
+                    <input type="number" class="mw-ui-field mw-ui-field-small" id="mw_ts_padding" data-type="padding" />
+
+           </div>
       </div>
     </li>
     <li class="ts_main_li mw-designtype-universal"> <a class="ts_main_a dd_design_border" href="javascript:;"><?php _e("Border"); ?></a>
@@ -202,12 +198,22 @@
     <li class="ts_main_li"> <a class="ts_main_a dd_design_fx" href="javascript:;"><?php _e("Effects"); ?></a>
       <div class="ts_action ts_fx_action">
         <div class="ts_action_item mw-designtype-universal"><span class="ed_label"><?php _e("Drop Shadow"); ?></span>
-          <div class="ts_action" style="width: 260px;">
-            <div class="ts_action_item"> <span class="ed_label pull-left" style="margin-top: 14px;"><?php _e("Position"); ?></span>
-              <div id="ed_shadow" class="fx_canvas_slider pull-left" style="width: 40px;height: 40px;"></div>
-              <span class="mw_dlm" style="height: 40px;margin-top: 0"></span> <span class="ed_label pull-left" style="margin-top: 14px;"><?php _e("Blur"); ?></span>
-              <div id="ed_shadow_strength" class="fx_canvas_slider pull-left" style="width: 30px;height: 9px;background-image: none;margin-top: 17px"></div>
-              <span class="mw_dlm" style="height: 40px;margin-top: 0"></span> <span class="ed_item ed_color_pick ed_shadow_color pull-left" style="margin-top: 9px;" data-color="696969" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span> </div>
+          <div class="ts_action"  >
+            <div class="ts_action_item ts_action_item_shadow">
+              <div class="ts_line">
+                <span class="ed_label "><?php _e("Position"); ?></span>
+                <div id="ed_shadow" class="fx_canvas_slider" style="width: 40px;height: 40px;"></div>
+              </div>
+              <div class="ts_line">
+                <span class="ed_label "><?php _e("Blur"); ?></span>
+                <div id="ed_shadow_strength" class="fx_canvas_slider " style="width: 30px;height: 9px;background-image: none;"></div>
+              </div>
+              <div class="ts_line">
+                <span class="ed_label "><?php _e("Color"); ?></span>
+                <span class="ed_item ed_color_pick ed_shadow_color" data-color="696969" onclick="mw.wysiwyg.request_change_shadow_color(this);"><span></span></span>
+              </div>
+            </div>
+
           </div>
         </div>
         <div class="ts_action_item mw-designtype-universal"> <span class="ed_label"><?php _e("Opacity"); ?></span>

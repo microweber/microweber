@@ -227,7 +227,7 @@ saveStaticElementsStyles = function(callback, error){
 
 
 
-mw.sliders_settings = function(el){
+mw.styleSliders = function(el){
     var el = $(el);
 
   if(typeof jQuery.fn.dataset !== 'function'){
@@ -321,13 +321,13 @@ init_square_maps = function(){
 
 
 
+
 mw.setCurrentStyles = function(el){
 
 
 
   var parser = mw.CSSParser(el);
 
-  mw.$("#width_slider").slider("value", parser.get.width().tonumber());
 
 
   var bg = parser.get.background();
@@ -353,6 +353,34 @@ mw.setCurrentStyles = function(el){
 
 
 $(document).ready(function(){
+  setInterval(function(){
+    if(mwd.querySelector('.element-current') === null){
+      mw.tools.addClass(mwd.querySelector('#design_bnav'), 'disabled')
+    }
+    else{
+      mw.tools.removeClass(mwd.querySelector('#design_bnav'), 'disabled')
+    }
+  }, 777);
+
+  mw.$("#mw_ts_width")
+    .on('input', function(){
+     $(".element-current").css('width', this.value)
+    });
+  mw.$("#mw_ts_height")
+    .on('input', function(){
+      $(".element-current").css('height', this.value)
+    });
+  mw.$("#mw_ts_margin")
+    .on('input', function(){
+      console.log($(this).dataset('type'))
+      $(".element-current").css($(this).dataset('type'), this.value + 'px')
+    });
+
+    mw.$("#mw_ts_padding")
+    .on('input', function(){
+      $(".element-current").css($(this).dataset('type'), this.value + 'px')
+    });
+
 
 
 if( typeof $.fn.draggable === 'function'){
@@ -375,12 +403,17 @@ if( typeof $.fn.draggable === 'function'){
 
 $(window).on("onItemClick onImageClick onElementClick", function(e, el){
 
+$("#mw_ts_width").val(el.offsetWidth)
+$("#mw_ts_height").val(el.offsetHeight)
+
 if($(".ts_action:isVisible").length==0){
 
   mw.$(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
-  mw.current_element = el;
+
+  mw.current_element = $(".element-current")[0];
   mw.current_element_styles = window.getComputedStyle(el, null);
+
 
   mw.$(".es_item").trigger("change");
 
@@ -409,11 +442,10 @@ if($(".ts_action:isVisible").length==0){
 
 
 $(mwd.body).on("click", function(e){
-  if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['edit', 'mw-defaults', 'mw_modal'])){
+  if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'mw_modal'])){
 
     if(mw.$(".ts_action:isVisible").length==0){
-      mw.$(".element-current").removeClass("element-current");
-      mw.$(e.target).addClass("element-current");
+
       mw.current_element = e.target;
       mw.$("#items_handle").css({
         top:"",
@@ -433,7 +465,7 @@ $(mwd.body).on("click", function(e){
 
 
   mw.$(".ed_slider").each(function(){
-    $(this).slider(mw.sliders_settings(this));
+    $(this).slider(mw.styleSliders(this));
   });
 
 
@@ -508,6 +540,7 @@ if(typeof(shadow_pos.bind) != 'function'){
   var shadow_strength = mw.$("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
 
   shadow_strength.on("change", function(event, val){
+    mw.current_element_styles = getComputedStyle(mw.$('.element-current')[0], null);
       if( mw.current_element_styles.boxShadow !="none" ){
         var arr = mw.current_element_styles.boxShadow.split(' ');
         var len = arr.length;
@@ -577,7 +610,7 @@ if(typeof(shadow_pos.bind) != 'function'){
     mw.$("#ed_auto_width").commuter(function(){
          $(".element-current").width('auto');
     }, function(){
-         $(".element-current").width(mw.$("#width_slider").slider("value"));
+         $(".element-current").width(mw.$("#mw_ts_width").val());
     });
      mw.$("#ed_auto_height").commuter(function(){
          mw.$(".element-current").height('auto');

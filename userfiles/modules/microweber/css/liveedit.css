@@ -43,6 +43,7 @@ ul:not([class]) {
 
 [class*='mw-plus-'] {
     position: absolute;
+    visibility: visible;
     z-index: 997;
     display: block;
     width: 16px;
@@ -58,8 +59,12 @@ ul:not([class]) {
     line-height: 16px;
     margin-left: -10px;
     font-family: sans-serif;
+    -webkit-transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+    transition: opacity 0.3s;
 
 }
+
 
 .mw-plus-top {
     margin-top: -10px;
@@ -758,6 +763,19 @@ html.mw_pages #items_handle {
     -o-transform: scale(1, 1);
 }
 
+#design_bnav.disabled:after{
+  position: absolute;
+  content: '';
+  display: block;
+  background-color: rgba(255, 255, 255, 0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  cursor: no-drop;
+}
+
 #design_close {
     border-bottom: 1px solid transparent;
     border-left: 1px solid rgba(196, 196, 196, 0.3);
@@ -816,6 +834,18 @@ html.mw_pages #design_bnav {
     padding: 0;
 }
 
+.ts_line{
+  display: inline-block;
+  vertical-align: top;
+}
+.ts_action_item_shadow .ts_line .ed_label {
+  margin-left: 0;
+}
+
+.ts_action_item_shadow .ts_line{
+  width: 30%;
+}
+
 .toolbar_bnav .ts_main_ul {
     background: #fff;
     border: 1px solid #EAEAEA;
@@ -828,8 +858,9 @@ html.mw_pages #design_bnav {
     text-decoration: none;
     color: #595959;
     font-size: 10px;
-    padding: 9px 0 11px 42px;
+    padding: 5px 0 5px 42px;
     background: url(../images/toobar_dropdown_design_icons.png) no-repeat;
+    cursor: pointer;
 }
 
 .dd_design_size {
@@ -862,7 +893,7 @@ html.mw_pages #design_bnav {
 
 .ts_main_li {
     position: relative;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .ts_main_li.hovered {
@@ -885,7 +916,8 @@ html.mw_pages #design_bnav {
 div.ts_action {
     background: white;
     display: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.21);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.07);
+    padding: 6px 6px 12px;
 }
 
 
@@ -896,6 +928,10 @@ div.ts_action {
     padding: 4px;
     min-height: 24px;
     clear: both;
+}
+.ts_action_item input[type="number"],
+.ts_action_item input[type="text"]{
+  width: 60px;
 }
 
 .ts_action_centerer {
@@ -915,9 +951,6 @@ div.ts_action {
     margin-left: 0;
 }
 
-li .ts_action_item:last-child {
-    background: none
-}
 
 .ts_action_item:hover .ts_sub_tool {
     visibility: visible;

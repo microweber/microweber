@@ -99,18 +99,16 @@ mw.drag.plus = {
             if (typeof node === 'undefined') {
                 return;
             }
-            var off = $(node).offset();
-            var left = off.left;
-            if (left < 15) {
-                //  var left = 15;
+            var off = $(node).offset(), toolbar = mwd.querySelector('#live_edit_toolbar');
+            if(off.top < toolbar.offsetHeight){
+              off.top = toolbar.offsetHeight + 10;
             }
-
             mw.drag.plusTop.style.top = off.top + 'px';
-            mw.drag.plusTop.style.left = left + 'px';
+            mw.drag.plusTop.style.left = off.left + 'px';
             // mw.drag.plusTop.style.display = 'block';
             mw.drag.plusTop.currentNode = node;
             mw.drag.plusBottom.style.top = (off.top + node.offsetHeight) + 'px';
-            mw.drag.plusBottom.style.left = left + 'px';
+            mw.drag.plusBottom.style.left = off.left + 'px';
             mw.drag.plusBottom.currentNode = node;
             mw.tools.removeClass([mw.drag.plusTop, mw.drag.plusBottom], 'active');
 

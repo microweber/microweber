@@ -1165,6 +1165,44 @@ mw.wysiwyg = {
         var frame = mw.wysiwyg.external.querySelector('iframe');
         frame.contentWindow.thisframe = frame;
     },
+    getExternalData:function(url, cb){
+      var has = mw.storage.get(url);
+      if(has){
+        cb.call(has,has)
+        console.log(1, has)
+      }
+      else{
+        $.get(url, function(data){
+          mw.storage.set(url, data)
+          console.log(2, data)
+          cb.call(data,data)
+        })
+      }
+    },
+    todo_external_tool: function (el, url) {
+        var el = mw.$(el).eq(0);
+        var offset = el.offset();
+        $(mw.wysiwyg.external).css({
+            top: offset.top - $(window).scrollTop() + el.height(),
+            left: offset.left
+        });
+        $(mw.wysiwyg.external).html("<iframe scrolling='no' frameborder='0' />");
+        var frame = mw.wysiwyg.external.querySelector('iframe');
+
+        frame.contentWindow.thisframe = frame;
+        if(url.indexOf('#') !== -1){
+          frame.src = '#'+ url.split('#')[1]
+        }
+
+        mw.wysiwyg.getExternalData(url, function(html){
+
+          frame.contentWindow.document.open();
+          frame.contentWindow.document.write(html);
+          frame.contentWindow.document.close();
+        })
+
+
+    },
     createelement: function () {
         var el = mw.wysiwyg.applier('div', 'mw_applier element');
     },
@@ -1228,6 +1266,7 @@ mw.wysiwyg = {
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     change_shadow_color: function (color) {
+        mw.current_element_styles = getComputedStyle(mw.$('.element-current')[0], null);
         if (mw.current_element_styles.boxShadow != "none") {
             var arr = mw.current_element_styles.boxShadow.split(' ');
             var len = arr.length;

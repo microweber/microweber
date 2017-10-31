@@ -145,26 +145,25 @@ mw_admin_puctires_upload_browse_existing = function(){
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
 
 
-<label class="mw-ui-label"><?php _e("Add Images"); ?> <?php _e('or'); ?> <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
+<label class="mw-ui-label"><?php _e("Add Images"); ?> <?php _e('or'); ?>
+  <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a> <small>(<?php _e("The first image will be cover photo"); ?>)</small> </label>
 
-  <div class="select_actions_holder">
+<div class="select_actions_holder">
   <div class="select_actions">
-
     <div class="mw-ui-btn-nav select_actions">
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important mw-ui-btn-icon" onclick="deleteSelected()">
-        <span class="mw-icon-bin tip" data-tip="<?php _e('Delete') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
-    </a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon" onclick="downloadSelected('none')">
-      <span class="mw-icon-download tip" data-tip="<?php _e('Download') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
-    </a>
-  </div>
+      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important mw-ui-btn-icon" onclick="deleteSelected()">
+          <span class="mw-icon-bin tip" data-tip="<?php _e('Delete') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
+      </a>
+      <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon" onclick="downloadSelected('none')">
+        <span class="mw-icon-download tip" data-tip="<?php _e('Download') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
+      </a>
+    </div>
   </div>
   <span class="btnnv-label">Select</span>
   <div class="mw-ui-btn-nav">
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="selectItems('all')">All</a>
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="selectItems('none')">None</a>
   </div>
-
 </div>
 
 
@@ -191,6 +190,10 @@ mw_admin_puctires_upload_browse_existing = function(){
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
+
+      <textarea>
+        <?php var_dump($item); ?>
+      </textarea>
 
 	
 	<?php
