@@ -301,7 +301,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
     if ($form_title != false) {
         $formTitle = $form_title;
     } elseif ($display_comments_from != false and $display_comments_from == 'recent') {
-        $formTitle = _e("Recent comments");
+        $formTitle = _e("Recent comments", true);
     } else {
         $post = false;
         if ($data['rel_type'] == 'content') {
@@ -309,9 +309,9 @@ if (get_option('enable_comments', 'comments') == 'y') {
         }
 
         if ($post) {
-            $formTitle = _e("Comments for") . '<strong>' . $post['title'] . '</strong>';
+            $formTitle = _e("Comments for", true) . '<strong>' . $post['title'] . '</strong>';
         } else {
-            $formTitle = _e("Comments");
+            $formTitle = _e("Comments", true);
         }
     }
 

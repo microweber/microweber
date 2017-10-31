@@ -191,9 +191,7 @@ mw_admin_puctires_upload_browse_existing = function(){
             name="media-description-<?php print $tn; ?>"
       />
 
-      <textarea>
-        <?php var_dump($item); ?>
-      </textarea>
+      
 
 	
 	<?php

@@ -59,9 +59,18 @@ class Captcha
         $roit = mt_rand(1, 5);
         $text = "$text1";
         $answ = $text1;
+
         $x = 100;
         $y = 20;
-        $image = @imagecreate($x, 20) or die('Unable to render a CAPTCHA picture!');
+
+        if (isset($params['w'])) {
+            $x = intval($params['w']);
+        }
+        if (isset($params['h'])) {
+            $y = intval($params['h']);
+        }
+
+        $image = @imagecreate($x, $y) or die('Unable to render a CAPTCHA picture!');
 
         $tcol1z = rand(1, 150);
         $ttcol1z1 = rand(0, 150);
@@ -186,11 +195,10 @@ class Captcha
         $stuff = ob_get_clean();
 
         return response($stuff)
-            ->header('Content-Type','image/png')
-            ->header('Pragma','no-cache')
-            ->header('Cache-Control','no-store, no-cache, must-revalidate')
-            ->header('Cache-Control','max-age=60, must-revalidate');
-
+            ->header('Content-Type', 'image/png')
+            ->header('Pragma', 'no-cache')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate')
+            ->header('Cache-Control', 'max-age=60, must-revalidate');
 
 
     }

@@ -28,6 +28,7 @@ only_admin_access();
 
 
     function move_loading_bar() {
+        return;
         $('#myProgress').show();
         var elem = document.getElementById("myBar");
         var width = 1;
@@ -44,7 +45,7 @@ only_admin_access();
     }
 
 
-
+    mw_apply_upd_step = 1;
 
     function mw_apply_upd() {
 
@@ -52,6 +53,7 @@ only_admin_access();
         $.ajax({
             url: '<?php print api_link(); ?>mw_apply_updates_queue',
             type: "post",
+            data : { step : mw_apply_upd_step},
 
             error: function (request, status, error) {
                 $('#mw-update-res-log').append('<?php _e('Working...'); ?>');
@@ -59,17 +61,29 @@ only_admin_access();
                 //setTimeout(mw_apply_upd, timeout);
             },
             success: function (resp) {
+
+                mw_apply_upd_step++;
+
+
                 var msg = '';
                 if (resp == 'done') {
                     var msg = 'done';
                 }
+
+                if (typeof (resp.try_again) != 'undefined') {
+                    mw_apply_upd();
+                    return;
+                }
+
+
                 if (typeof (resp.message) != 'undefined') {
                     var msg = resp.message;
                 }
 
 
+
                 //   alert(typeof (resp.message));
-                $('#mw-update-res-log').append(msg);
+                $('#mw-update-res-log').html(msg);
                 if (msg == 'done') {
                     $('#mw-update-res-log').addClass('done');
                     $('.show-on-install-complete').addClass('done');
