@@ -325,7 +325,7 @@ class MediaManager
 //                    if (is_file($fn_remove)) {
 //                        @unlink($fn_remove);
 //                    }
-//                } 
+//                }
 
                 $this->app->database_manager->delete_by_id('media', $c_id);
             }

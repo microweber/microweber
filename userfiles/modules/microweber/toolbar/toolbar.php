@@ -322,12 +322,8 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
                       <li><a  class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                       <li><a  class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
 
-                        <li>
-                            <a><span class="mw-icon-arrowleft"></span><?php _e("Other"); ?></a>
-                            <ul>
-                                 <li><a  class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><span class="mw-icon-css">{}</span><?php _e("Reset content"); ?></a></li>
-                             </ul>
-                        </li>
+                        <li><a  class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><span class="mw-icon-css">{}</span><?php _e("Reset content"); ?></a></li>
+
 
                     </ul>
                 </li>

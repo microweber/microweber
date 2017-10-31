@@ -494,6 +494,9 @@ class ContentManagerHelpers extends ContentManagerCrud
     public function save_from_live_edit($post_data)
     {
         $is_module = false;
+
+
+
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
             if (isset($post_data['json_obj'])) {

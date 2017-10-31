@@ -382,6 +382,7 @@ class LegacyCategoryTreeRenderer
         }
 
         ob_start();
+
  //d($tree_only_ids);
         if ($tree_only_ids != false) {
 
