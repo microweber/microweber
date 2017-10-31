@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Fitty Test Page</title>
+
+    <style>
+        /* uncomment to test pre-style logic */
+        .fit {
+            display:inline-block;
+            white-space:nowrap;
+        }
+    </style>
+
+</head>
+<body>
+
+<main></main>
+
+<script src="dist/fitty.min.js"></script>
+<script>
+
+var lines = [
+	'Integer',
+    'Lorem ipsum dolor sit amet.',
+    'consectetur adipiscing elit.',
+    'Maecenas elementum purus nec felis pellentesque, eget volutpat mauris vestibulum.'
+];
+
+var html = '';
+for (i=0;i<25;i++) {
+	lines.forEach(function(line) {
+		html += '<div class="fit" style="color:red;">' + line + '</div>';
+    });
+}
+
+document.querySelector('main').innerHTML = html;
+
+var fitties = [];
+
+// is delayed a bit so it's clear when fitty kicks in
+setTimeout(function(){
+    fitties = fitty('.fit');
+    console.log( fitties );
+    
+    setTimeout(function(){
+        fitties.forEach(f => {
+            f.unsubscribe();
+        })
+    }, 3000);
+
+}, 1500);
+
+</script>
+
+</body>
+</html>

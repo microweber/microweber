@@ -178,6 +178,15 @@ mw.settings.libs = {
         }
     ],
 
+    fitty: [
+        function () {
+            mw.require(mw.settings.libs_url + 'fitty' + '/dist/fitty.min.js');
+            $(document).ready(function () {
+                fitty('.fitty-element');
+            });
+        }
+    ],
+
 
     flatstrap3: [
         function () {

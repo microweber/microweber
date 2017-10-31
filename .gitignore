@@ -25,3 +25,5 @@ dwsync.xml
 /storage/logs/.gitignore
 /userfiles/img
 /userfiles/install_log.txt
+/userfiles/modules/mw_market
+/userfiles/modules/whmcs
