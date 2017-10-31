@@ -320,12 +320,12 @@ class MediaManager
                         mw_error('Error: not logged in as admin to delete media.');
                     }
                 }
-                if (isset($pic_data['filename'])) {
-                    $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
-                    if (is_file($fn_remove)) {
-                        @unlink($fn_remove);
-                    }
-                }
+//                if (isset($pic_data['filename'])) {
+//                    $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
+//                    if (is_file($fn_remove)) {
+//                        @unlink($fn_remove);
+//                    }
+//                } 
 
                 $this->app->database_manager->delete_by_id('media', $c_id);
             }
