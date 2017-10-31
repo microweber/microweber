@@ -375,17 +375,24 @@ class LegacyCategoryTreeRenderer
 
         }
 
-
+        if ($fors != false and is_array($fors) and !empty($fors)) {
+            foreach ($fors as $cat) {
+                $tree_only_ids[] = $cat['id'];
+            }
+        }
 
         ob_start();
-//d($fors);
+ //d($tree_only_ids);
         if ($tree_only_ids != false) {
 
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
         } elseif ($skip123 == false) {
 
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
-        } else {
+        }/* else if (!$parent  and !$fors) {
+d($fors);
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
+        }*/ else {
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 //    $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
 
@@ -749,7 +756,7 @@ class LegacyCategoryTreeRenderer
                         if ($only_ids == false) {
                             if (!in_array($item['id'], $this->passed_parent_ids)) {
                                 $this->passed_parent_ids[] = $item['id'];
-                             } else {
+                            } else {
                                 return;
                             }
                             $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type = false, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);

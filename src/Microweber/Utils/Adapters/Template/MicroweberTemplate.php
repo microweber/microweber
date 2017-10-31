@@ -242,7 +242,7 @@ class MicroweberTemplate
 
 
         if (($render_file == false)
-             and isset($page['id'])  ) {
+             and isset($page['id'])  and $page['id'] == 0 ) {
             $url_file = $this->app->url_manager->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $test_file = str_replace('..', '', $test_file);
@@ -484,6 +484,9 @@ class MicroweberTemplate
 //            }
 //        }
 
+
+
+
         if ($render_file == false and isset($page['active_site_template']) and ($page['active_site_template']) == 'default') {
             $page['active_site_template'] = ACTIVE_SITE_TEMPLATE;
         }
@@ -629,6 +632,7 @@ class MicroweberTemplate
                         $t_dir = templates_path().DS.$page['active_site_template'].DS;
                         $t_dir = normalize_path($t_dir, 1);
                     }
+
                     $template_view_cl = $t_dir.'clean.php';
                     $template_view_cl2 = $t_dir.'layouts/clean.php';
                     if ($render_file == false and is_file($template_view_cl) == true) {

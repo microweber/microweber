@@ -1265,6 +1265,12 @@ class DefaultController extends Controller
             if (trim($page_url) == '' and $preview_module == false) {
                 $page = $this->app->content_manager->homepage();
             } else {
+
+
+
+
+
+
                 $found_mod = false;
                 $page = $this->app->content_manager->get_by_url($page_url);
                 $page_exact = $this->app->content_manager->get_by_url($page_url, true);
@@ -1277,32 +1283,15 @@ class DefaultController extends Controller
                 }
 
                 if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {
-                    $found_mod = true;
-                    $page['id'] = 0;
-                    $page['content_type'] = 'page';
-                    $page['parent'] = '0';
-                    $page['url'] = $this->app->url_manager->string();
-                    $page['active_site_template'] = $the_active_site_template;
-                    template_var('no_edit', 1);
 
-                    $mod_params = '';
-                    if ($preview_module_template != false) {
-                        $mod_params = $mod_params . " template='{$preview_module_template}' ";
-                    }
-                    if ($preview_module_id != false) {
-                        $mod_params = $mod_params . " id='{$preview_module_id}' ";
-                    }
-                    $found_mod = $page_url;
-                    $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
+                  $found_mod = true;
 
-                    //  $page['simply_a_file'] = 'clean.php';
-                    $page['layout_file'] = 'clean.php';
-                    template_var('content', $page['content']);
 
-                    template_var('new_page', $page);
+
                 }
 
-                if ($found_mod == false) {
+
+               // if ($found_mod == false) {
                     if (empty($page)) {
                         $the_new_page_file = false;
                         $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
@@ -1381,7 +1370,6 @@ class DefaultController extends Controller
 
 
 
-
                         if ($directly_to_file == false and is_dir($td)) {
                             if (is_file($tf1)) {
                                 $simply_a_file = $tf1;
@@ -1432,13 +1420,34 @@ class DefaultController extends Controller
                                     }  else if(is_file($render_file_temp2)){
                                         $page['simply_a_file'] = $file2;
                                         $page['layout_file'] = $file2;
+                                    } elseif($found_mod){
+                                         $page['id'] = 0;
+                                        $page['content_type'] = 'page';
+                                        $page['parent'] = '0';
+                                        $page['url'] = $this->app->url_manager->string();
+                                        $page['active_site_template'] = $the_active_site_template;
+                                        template_var('no_edit', 1);
+
+                                        $mod_params = '';
+                                        if ($preview_module_template != false) {
+                                            $mod_params = $mod_params . " template='{$preview_module_template}' ";
+                                        }
+                                        if ($preview_module_id != false) {
+                                            $mod_params = $mod_params . " id='{$preview_module_id}' ";
+                                        }
+                                        $found_mod = $page_url;
+                                        $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
+
+                                        //  $page['simply_a_file'] = 'clean.php';
+                                        $page['layout_file'] = 'clean.php';
+                                        template_var('content', $page['content']);
+
+                                        template_var('new_page', $page);
                                     }
                                 }
 
                                 $show_404_to_non_admin = true;
-                            }
-
-                            if (is_array($page_url_segment_3)) {
+                            } elseif (is_array($page_url_segment_3)) {
                                 foreach ($page_url_segment_3 as $mvalue) {
                                     if ($found_mod == false and $this->app->modules->is_installed($mvalue)) {
                                         $found_mod = true;
@@ -1482,7 +1491,7 @@ class DefaultController extends Controller
                             template_var('simply_a_file', $simply_a_file);
                         }
                     }
-                }
+               // }
             }
         }
 
