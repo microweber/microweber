@@ -27,4 +27,4 @@ services:
     links:
       - fpm
 volumes:
-     microweber: 
+     microweber:
