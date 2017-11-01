@@ -26,3 +26,5 @@ services:
       - microweber:/usr/src/microweber
     links:
       - fpm
+volumes:
+     microweber: 
