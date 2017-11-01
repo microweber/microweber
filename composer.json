@@ -47,7 +47,8 @@
     "knplabs/knp-menu": "^2.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "~5.0"
+    "phpunit/phpunit": "^5.7",
+    "facebook/webdriver": "^1.1"
   },
   "autoload": {
     "psr-4": {

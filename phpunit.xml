@@ -10,6 +10,9 @@
          stopOnFailure="true"
          syntaxCheck="false">
     <testsuites>
+        <testsuite name="Selenium Firefox Test Suite">
+            <directory>./src/Microweber/selenium/</directory>
+        </testsuite>
         <testsuite name="Microweber Test Suite">
             <directory>./src/Microweber/tests/</directory>
         </testsuite>
