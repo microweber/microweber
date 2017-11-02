@@ -164,8 +164,8 @@ mw.html_editor.apply = function () {
     }
 
 }
-mw.html_editor.reset_content = function () {
 
+mw.html_editor.reset_content = function () {
 
     var value = $('select#select_edit_field option:selected');
 
@@ -197,11 +197,18 @@ mw.html_editor.reset_content = function () {
 //
 //
 //
-
+    var html = '';
 
     if (typeof(mw.html_editor.map[cur]) != 'undefined') {
-        var html = '';
+
+
         var el = mw.html_editor.map[cur];
+        if(field == 'title'){
+           // var old_var =  $(el).html();
+            var html = 'Untitled content';
+
+        }
+
         $(el).html(html);
 
         if ($(el).hasClass('edit')) {
