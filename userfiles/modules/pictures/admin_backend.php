@@ -1,7 +1,41 @@
 <script  type="text/javascript">
     mw.require('<?php print $config['url_to_module']; ?>pictures.js', true);
 </script>
+
+<style>
+  .image-settings{
+    color: #525151;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    opacity: 0;
+    z-index: 10;
+
+  }
+  .admin-thumb-item:hover .image-settings{
+    opacity: 1;
+  }
+
+</style>
 <?php
+
+
+$init_image_options = array();
+$default_image_options = 'Tags, Author, Source';
+$image_options = isset($params['image-options']) ? $params['image-options'] : isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options;
+
+
+
+  $temp = explode(',', $image_options);
+  foreach($temp as $i){
+    array_push($init_image_options, trim($i));
+  }
+
 
 
 
@@ -75,10 +109,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
 				 data.for_id = (id);
 
 				 }
-				 
-				
-				 
-    			 mw.module_pictures.after_upload(data);
+         mw.module_pictures.after_upload(data);
     	}
     	if(e == 'done' ){
     		setTimeout(function(){
@@ -87,7 +118,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
     				load_iframe_editor();
     			}
     			mw.reload_module('#'+module_id);
-				mw.reload_module_parent('pictures');
+				  mw.reload_module_parent('pictures');
     			if(self !== top && typeof parent.mw === 'object'){
     				 parent.mw.reload_module('pictures');
 					  mw.reload_module_parent("pictures/admin");
@@ -123,8 +154,8 @@ mw_admin_puctires_upload_browse_existing = function(){
             this.iframe.contentWindow.mw.on.hashParam('select-file', function(){
                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
 
-			   after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-			   mw.notification.success('<?php _e('The image is added to the gallery') ?>');
+      			   after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+      			   mw.notification.success('<?php _e('The image is added to the gallery') ?>');
 
             })
         },
@@ -170,19 +201,26 @@ mw_admin_puctires_upload_browse_existing = function(){
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
 <div class="relative post-thumb-uploader" id="backend_image_uploader"><small id="backend_image_uploader_label"><?php _e("Upload"); ?></small></div>
-
+  <script>
+    window.imageOptions = {};
+  </script>
   <?php if(is_array( $media)): ?>
   <?php $default_title = _e("Image title", true); ?>
   <?php foreach( $media as $item): ?>
   <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>" id="admin-thumb-item-<?php print $item['id'] ?>">
     <?php $tn = thumbnail($item['filename'], 200, 200); ?>
     <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
+    <span class="mw-icon-gear image-settings" onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
     <label class="mw-ui-check">
         <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>" value="<?php print $item['id'] ?>"><span></span>
     </label>
     <div class="mw-post-media-img-edit">
-      <input
-            placeholder="<?php _e("Image Description"); ?>"
+
+  <div class="image-options">
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
+          <input
+            class="mw-ui-field"
             autocomplete="off"
             value="<?php if ($item['title'] !== ''){print $item['title'];} else{ print $default_title; }  ?>"
             onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
@@ -191,40 +229,64 @@ mw_admin_puctires_upload_browse_existing = function(){
             name="media-description-<?php print $tn; ?>"
       />
 
-      
+    </div>
 
-	
-	<?php
-$tags_str = picture_tags($item['id']);
-if(!$tags_str){
-	 $tags_str = array();
- }
- 
-	?>
-	<input
-            placeholder="<?php _e("Image Tags"); ?>"
-            autocomplete="off"
-            class="image-tags"
-            value="<?php print implode(',',$tags_str); ?>"
-            onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_tags('<?php print $item['id'] ?>', this.value);});"
-            onfocus="$(this.parentNode).addClass('active');"
-            onblur="$(this).hide().parent().removeClass('active');"
-            name="media-tags-<?php print $tn; ?>"
-      />
-	
-	
-	
-	  
-	  
-	  
-	  
-	  
-      <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></a> </div>
+      <div id="image-json-options-<?php print  $item['id']; ?>">
+        <div class="image-json-options">
+          <?php
+
+           $curr = isset($item['image_options']) ? $item['image_options'] : array();
+
+
+            foreach($init_image_options as $name){    ?>
+              <div class="mw-ui-field-holder">
+                <label class="mw-ui-label"><?php print $name ?></label>
+                <input type="text" class="mw-ui-field w100" name="<?php print $name ?>" value="<?php print isset($curr['name']) ? $curr['name'] : ''; ?>"  />
+              </div>
+          <?php  }  ?>
+
+          <hr>
+
+          <span class="mw-ui-btn pull-left" onclick="imageConfigDialogInstance.remove()">Cancel</span>
+          <span class="mw-ui-btn mw-ui-btn-notification pull-right" onclick="saveOptions(<?php print $item['id']  ?>);imageConfigDialogInstance.remove()">Update</span>
+
+        </div>
+      </div>
+  </div>
+
+
+
+      <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></a>
+
+      </div>
   </div>
   <?php endforeach; ?>
   <?php endif;?>
   <script>mw.require("files.js", true);</script>
   <script>
+
+    imageConfigDialogInstance = null;
+    imageConfigDialog = function(id){
+      var el = mw.$('#admin-thumb-item-' + id + ' .image-options');
+      imageConfigDialogInstance = mw.modal({
+        overlay:true,
+        content:el.html(),
+        template:'basic'
+      })
+    }
+
+    saveOptions = function(id){
+      var data = {};
+      var root = $('#image-json-options-'+id);
+      root.find('input').each(function(){
+        data[this.name] =  this.value;
+      })
+      mw.module_pictures.save_options(id, data);
+      mw.reload_module('#<?php print $params['id'] ?>');
+    }
+
+
+
     deleteSelected = function(){
       mw.module_pictures.del(doselect());
     }
@@ -288,10 +350,14 @@ if(!$tags_str){
 
       $(document).ready(function(){
 
+         $.each(imageOptions, function(){
+
+         })
+
          mw.$("#backend_image_uploader").append(uploader);
          $(uploader).bind("FilesAdded", function(a,b){
             var i=0, l=b.length;
-             for( ; i<l; i++){
+             for( ; i < l ; i++ ){
                if(mw.$(".admin-thumbs-holder .admin-thumb-item").length > 0){
                  mw.$(".admin-thumbs-holder .admin-thumb-item:last").after('<div class="admin-thumb-item admin-thumb-item-loading" id="im-'+b[i].id+'"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">'+b[i].name+'</div></div>');
                }
