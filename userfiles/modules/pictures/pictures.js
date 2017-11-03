@@ -1,5 +1,3 @@
-// JavaScript Document
-
 mw.module_pictures = {
     after_upload: function (data) {
         $.post(mw.settings.api_url + 'save_media', data,
@@ -22,6 +20,19 @@ mw.module_pictures = {
 
     },
 
+    save_options: function (id, image_options) {
+      image_options = image_options || {};
+      if(typeof image_options === 'string'){
+        image_options = JSON.parse(image_options);
+      }
+      var data = {};
+      data.id = id;
+      data.image_options = image_options;
+      $.post(mw.settings.api_url + 'save_media', data,
+          function (data) {
+            mw.reload_module_parent('pictures');
+      });
+    },
     save_title: function (id, title) {
         var data = {};
         data.id = id;

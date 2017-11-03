@@ -18,7 +18,7 @@
     <div class="content-gallery-slider home-slider">
       <module
           type="pictures"
-          content-id="<?php echo PAGE_ID; ?>"
+          content-id="<?php echo PAGE_ID; ?>" 
           template="bootstrap_carousel"
         />
     </div>

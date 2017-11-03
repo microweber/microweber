@@ -489,8 +489,6 @@ mw.tools = {
                 + '</div>';
             return {html: html, id: id}
         },
-        _init: function (obj) {
-        },
         _init: function (html, width, height, callback, title, name, template, overlay, draggable, onremove) {
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
@@ -520,7 +518,7 @@ mw.tools = {
                     start: function () {
                         $(this).find(".iframe_fix").show();
                         if ($(".mw_modal").length > 1) {
-                            mw_m_max = parseFloat($(this).css("zIndex"));
+                            var mw_m_max = parseFloat($(this).css("zIndex"));
                             mw.$(".mw_modal").not(this).each(function () {
                                 var z = parseFloat($(this).css("zIndex"));
                                 mw_m_max = z >= mw_m_max ? z + 1 : mw_m_max;

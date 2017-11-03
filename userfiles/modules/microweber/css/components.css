@@ -357,19 +357,16 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 }
 
 .mw-post-media-img-edit input{
-  background: transparent;
-  font-size: 11px;
-  float: left;
-  width: 105px;
-  padding: 3px;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 1px;
+  width: 100%;
 }
 
 .mw-post-media-img-edit .image-tags{
     display: none;
     margin-top: 3px;
+}
+
+.mw-post-media-img-edit{
+  display: none;
 }
 
 .mw-post-media-img-edit .mw-icon-close,
