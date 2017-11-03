@@ -654,6 +654,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             unset($post_data['save_draft']);
         }
 
+
         $json_print = array();
         foreach ($the_field_data_all as $the_field_data) {
             $save_global = false;
@@ -801,9 +802,9 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $cont_field = array();
                                 $cont_field['rel_type'] = 'content';
+                                $cont_field['field'] = $field;
                                 $cont_field['rel_id'] = $content_id_for_con_field;
                                 $cont_field['value'] = $html_to_save;
-                                $cont_field['field'] = $field;
 
                                 if ($is_draft != false) {
                                     $cont_id = $content_id_for_con_field;
@@ -845,10 +846,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 if ($is_no_save != true and $is_draft == false) {
                                     $to_save2 = $to_save;
                                     $to_save2['rel_type'] = 'content';
+                                    $to_save2['rel_type'] = $rel_ch;
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
+
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
+
                                 }
                             } elseif (isset($category_id)) {
                                 echo __FILE__ . __LINE__ . ' category is not implemented ... not ready yet';
