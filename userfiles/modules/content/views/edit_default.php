@@ -3,14 +3,16 @@ only_admin_access();
 
 $edit_page_info = $data;
 
-
+if(!isset($edit_page_info['title'])){
+    $edit_page_info['title'] = _e('Content title',true);
+}
 
 
 ?>
 
-<?php   if (isset($edit_page_info['title'])): ?>
+<?php if (isset($edit_page_info['title'])): ?>
 <?php $title_for_input = str_replace('"', '&quot;', $edit_page_info['title']); ?>
-<?php endif; ?>
+ <?php endif; ?>
 <style>
 
     #admin-user-nav {

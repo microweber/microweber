@@ -1546,6 +1546,10 @@ class ContentManager
             }
         }
 
+
+
+
+
         if (defined('ACTIVE_TEMPLATE_DIR') == false) {
             define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
         }
@@ -1563,6 +1567,8 @@ class ContentManager
                 define('THIS_TEMPLATE_URL', $the_template_url);
             }
         }
+
+
         if (defined('TEMPLATE_NAME') == false) {
             define('TEMPLATE_NAME', $the_active_site_template);
         }
@@ -1599,6 +1605,9 @@ class ContentManager
 
             define('LAYOUTS_URL', $layouts_url);
         }
+
+
+
 
         return true;
     }

@@ -149,9 +149,12 @@ class Template
             $val = TEMPLATE_URL;
         }
 
+
         if ($add != false) {
             $val = $val . $add;
+
         }
+
 
         return $val;
     }

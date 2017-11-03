@@ -581,13 +581,16 @@ class DOMDocumentWrapper
 
     protected function charsetAppendToHTML($html, $charset, $xhtml = false)
     {
+     return $html;
+
+     // sry it break
         // remove existing meta[type=content-type]
         $html = preg_replace('@\s*<meta[^>]+http-equiv\\s*=\\s*(["|\'])Content-Type\\1([^>]+?)>@i', '', $html);
         $meta = '<meta http-equiv="Content-Type" content="text/html;charset='
                 .$charset.'" '
                 .($xhtml ? '/' : '')
                 .'>';
-        if (strpos($html, '<head') === false) {
+        if (strpos($html, '<head>') === false) {
             if (strpos($html, '<html') === false) {
                 return $meta.$html;
             } else {

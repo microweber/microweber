@@ -500,6 +500,7 @@ class ContentManagerCrud extends Crud
             $get['single'] = true;
             $q = $this->get($get);
 
+
             if (!empty($q)) {
                 if ($data['id'] != $q['id']) {
                     $orig_slug = $data['url'];
@@ -697,7 +698,6 @@ class ContentManagerCrud extends Crud
         }
 
         $cats_modified = true;
-
 
         if (isset($data['auto_discover_parent']) and $data['auto_discover_parent']) {
 
