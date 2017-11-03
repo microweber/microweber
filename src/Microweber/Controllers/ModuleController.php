@@ -359,8 +359,9 @@ class ModuleController extends Controller
             $data['data-type'] = str_replace('__', '/', $data['data-type']);
         }
         if (!isset($data)) {
-            $data = $_REQUEST;
-        }
+          //  $data = $_REQUEST;
+            $data = array_merge($_GET, $_POST);
+         }
         if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
             $data['module'] = ($mod_from_url);
         }
@@ -425,8 +426,10 @@ class ModuleController extends Controller
 
         $opts = array();
         if ($_REQUEST) {
-            $opts = $_REQUEST;
+          //  $opts = $_REQUEST;
+            $opts = array_merge($_GET, $_POST);
         }
+
         if (isset($_REQUEST['live_edit'])) {
             event_trigger('mw.live_edit');
         }
@@ -589,7 +592,9 @@ class ModuleController extends Controller
             }
         }
 
-        $params = $_REQUEST;
+       // $params = $_REQUEST;
+        $params = array_merge($_GET, $_POST);
+
         $tool = str_replace('..', '', $tool);
 
         $p_index = mw_includes_path().'toolbar/editor_tools/index.php';
