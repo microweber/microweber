@@ -131,6 +131,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
     ?>
     <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
+        <?php $i=0; ?>
         <?php foreach ($dynamic_layouts as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layout"
@@ -145,7 +146,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             alt="<?php print $dynamic_layout['name'] ?>"
             title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?>"
             class="module_draggable"
-            data-module-name-enc="layout_<?php print date("YmdHis") ?>"
+            data-module-name-enc="static_layout_<?php print date("YmdHis").$i++ ?>"
             data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
             src="<?php print $dynamic_layout['icon'] ?>"
     /> </span></span> <span class="module_name"
@@ -166,6 +167,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
     <?php if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
+        <?php $i=0; ?>
+
         <?php foreach ($module_layouts_skins as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layouts"
@@ -180,8 +183,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             alt="<?php print $dynamic_layout['name'] ?>"
             title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?>"
             class="module_draggable"
-            data-module-name-enc="layout_<?php print date("YmdHis") ?>"
-            data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
+            data-module-name-enc="layout_<?php print date("YmdHis").$i++ ?>"
+            data-module-name="layouts"
             src="<?php print $dynamic_layout['screenshot'] ?>"
     /> </span></span> <span class="module_name"
                             alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
