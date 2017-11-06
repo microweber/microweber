@@ -933,7 +933,7 @@ class Parser
 
                             $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
                            // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
-                            
+
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }
                     }

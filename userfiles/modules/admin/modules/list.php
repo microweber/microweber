@@ -24,7 +24,11 @@ if (isset($is_elements) and $is_elements == true) {
     }
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
+    $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
+
+    $module_layouts_skins = mw()->modules->templates('layouts');
+
 
 
 } else {
@@ -151,6 +155,53 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+    <?php if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
+        <?php foreach ($module_layouts_skins as $dynamic_layout): ?>
+            <?php if (isset($dynamic_layout['layout_file'])): ?>
+                <li data-module-name="layouts"
+                    template="<?php print $dynamic_layout['layout_file'] ?>"
+                    data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item" unselectable="on"> <span
+                            class="mw_module_hold">
+    <?php if (!isset($dynamic_layout['screenshot'])): ?>
+        <?php $dynamic_layout['screenshot'] = $def_icon; ?>
+    <?php endif; ?>
+                        <span class="mw_module_image"> <span class="mw_module_image_holder">
+    <img
+            alt="<?php print $dynamic_layout['name'] ?>"
+            title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?>"
+            class="module_draggable"
+            data-module-name-enc="layout_<?php print date("YmdHis") ?>"
+            data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
+            src="<?php print $dynamic_layout['screenshot'] ?>"
+    /> </span></span> <span class="module_name"
+                            alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
+    <?php print titlelize(_e($dynamic_layout['name'], true)); ?>
+    </span> </span></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
     <?php if (isset($modules) and !empty($modules)): ?>
 
 
