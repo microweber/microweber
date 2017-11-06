@@ -118,28 +118,7 @@ return [
 		'Microweber\App\Providers\RouteServiceProvider',
 		'Microweber\MicroweberServiceProvider',
 
-		/*
-		 * Laravel Framework Service Providers...
-		 */
-        'Microweber\App\Providers\Illuminate\ArtisanServiceProvider',
-        'Microweber\App\Providers\Illuminate\AuthServiceProvider',
-        'Microweber\App\Providers\Illuminate\CacheServiceProvider',
-        'Microweber\App\Providers\Illuminate\ConsoleSupportServiceProvider',
-        'Microweber\App\Providers\Illuminate\CookieServiceProvider',
-        'Microweber\App\Providers\Illuminate\DatabaseServiceProvider',
-        'Microweber\App\Providers\Illuminate\EncryptionServiceProvider',
-        'Microweber\App\Providers\Illuminate\FilesystemServiceProvider',
-        'Microweber\App\Providers\Illuminate\FoundationServiceProvider',
-        'Microweber\App\Providers\Illuminate\HashServiceProvider',
-        'Microweber\App\Providers\Illuminate\MailServiceProvider',
-        'Microweber\App\Providers\Illuminate\PaginationServiceProvider',
-        'Microweber\App\Providers\Illuminate\QueueServiceProvider',
-        'Microweber\App\Providers\Illuminate\RedisServiceProvider',
-        'Microweber\App\Providers\Illuminate\PasswordResetServiceProvider',
-        'Microweber\App\Providers\Illuminate\SessionServiceProvider',
-        'Microweber\App\Providers\Illuminate\TranslationServiceProvider',
-        'Microweber\App\Providers\Illuminate\ValidationServiceProvider',
-        'Microweber\App\Providers\Illuminate\ViewServiceProvider',
+
 
 	],
 
