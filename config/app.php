@@ -135,49 +135,5 @@ return [
 
 	'manifest' => storage_path().'/framework',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Class Aliases
-	|--------------------------------------------------------------------------
-	|
-	| This array of class aliases will be registered when this application
-	| is started. However, feel free to register as many as you wish as
-	| the aliases are "lazy" loaded so they don't hinder performance.
-	|
-	*/
-
-	'aliases' => [
-
-		'App'       => 'Microweber\App\Providers\Illuminate\Support\Facades\App',
-		'Artisan'   => 'Microweber\App\Providers\Illuminate\Support\Facades\Artisan',
-		'Auth'      => 'Microweber\App\Providers\Illuminate\Support\Facades\Auth',
-		'Blade'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Blade',
-		'Cache'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Cache',
-		'Config'    => 'Microweber\App\Providers\Illuminate\Support\Facades\Config',
-		'Cookie'    => 'Microweber\App\Providers\Illuminate\Support\Facades\Cookie',
-		'Crypt'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Crypt',
-		'DB'        => 'Microweber\App\Providers\Illuminate\Support\Facades\DB',
-		'Event'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Event',
-		'File'      => 'Microweber\App\Providers\Illuminate\Support\Facades\File',
-		'Hash'      => 'Microweber\App\Providers\Illuminate\Support\Facades\Hash',
-		'Input'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Input',
-		'Lang'      => 'Microweber\App\Providers\Illuminate\Support\Facades\Lang',
-		'Log'       => 'Microweber\App\Providers\Illuminate\Support\Facades\Log',
-		'Mail'      => 'Microweber\App\Providers\Illuminate\Support\Facades\Mail',
-		'Paginator' => 'Microweber\App\Providers\Illuminate\Support\Facades\Paginator',
-		'Password'  => 'Microweber\App\Providers\Illuminate\Support\Facades\Password',
-		'Queue'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Queue',
-		'Redirect'  => 'Microweber\App\Providers\Illuminate\Support\Facades\Redirect',
-		'Redis'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Redis',
-		'Request'   => 'Microweber\App\Providers\Illuminate\Support\Facades\Request',
-		'Response'  => 'Microweber\App\Providers\Illuminate\Support\Facades\Response',
-		'Route'     => 'Microweber\App\Providers\Illuminate\Support\Facades\Route',
-		'Schema'    => 'Microweber\App\Providers\Illuminate\Support\Facades\Schema',
-		'Session'   => 'Microweber\App\Providers\Illuminate\Support\Facades\Session',
-		'URL'       => 'Microweber\App\Providers\Illuminate\Support\Facades\URL',
-		'Validator' => 'Microweber\App\Providers\Illuminate\Support\Facades\Validator',
-		'View'      => 'Microweber\App\Providers\Illuminate\Support\Facades\View',
-
-	],
 
 ];
