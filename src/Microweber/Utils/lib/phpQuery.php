@@ -581,6 +581,7 @@ class DOMDocumentWrapper
 
     protected function charsetAppendToHTML($html, $charset, $xhtml = false)
     {
+    // return $html;
 
      // sry it break
         // remove existing meta[type=content-type]

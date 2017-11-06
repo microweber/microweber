@@ -663,6 +663,7 @@ class Parser
                     $field = $name;
                     $use_id_as_field = $name;
                     if ($rel == 'global') {
+
                         $get_global = true;
                     } else {
                         $get_global = false;
@@ -721,6 +722,10 @@ class Parser
                     } elseif ($rel == 'global') {
                         $get_global = 1;
                         $cont_field = false;
+                    }elseif ($rel == 'module') {
+                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+
+
                     } elseif (isset($attr['post'])) {
                         $get_global = false;
                         $data = $this->app->content_manager->get_by_id($attr['post']);
@@ -799,11 +804,16 @@ class Parser
                         }
 
                         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $field_content;
+
+
+
+
                     }
                     if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
                     }
+
 
                     //   $filter
 
@@ -812,6 +822,7 @@ class Parser
                     $no_edit = false;
 
                     if ($field_content == false) {
+
                         if ($get_global == true) {
                             if (isset($data_id)) {
                                 $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
@@ -884,6 +895,8 @@ class Parser
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 // $rep = pq($elem)->html();
                                 $rep = pq($elem)->html();
+                              //  $rep = trim($rep);
+                                $rep = preg_replace("/(^\s+)|(\s+$)/us", "", $rep);
 
                                 if ($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] != false)) {
                                     $is_editable = false;
@@ -895,6 +908,7 @@ class Parser
                                 }
 
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel);
+
                             }
                         }
                         mw_var($parser_mem_crc2, 1);
@@ -918,7 +932,8 @@ class Parser
                             $reps_arr2[] = $v['r'];
 
                             $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
-
+                           // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
+                            
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }
                     }
