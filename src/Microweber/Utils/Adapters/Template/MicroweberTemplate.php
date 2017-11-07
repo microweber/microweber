@@ -510,11 +510,14 @@ class MicroweberTemplate
                 $render_file = $render_file_test2;
             }
         }
+ 
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
                 $look_for_post = false;
             }
+
+
 
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
@@ -643,6 +646,9 @@ class MicroweberTemplate
                     }
                 }
             }
+
+
+
 
             if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false and ($page['layout_file']) != 'index.php' and ($page['layout_file']) != 'inherit') {
                 if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {

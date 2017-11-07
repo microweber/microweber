@@ -26,6 +26,7 @@ description: Product Gallery
       <?php } ?>
     </div>
     <?php endforeach; ?>
+
   </div>
 </div>
 <script>gallery<?php print $rand; ?> = [

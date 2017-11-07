@@ -139,6 +139,7 @@ class LayoutsManager
                     }
                 }
             }
+
         }
 
         if (!isset($options['get_dynamic_layouts'])) {

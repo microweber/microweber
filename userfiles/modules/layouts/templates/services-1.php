@@ -11,7 +11,7 @@ name: Services 1
 */
 ?>
 
-<div class="edit" rel="layout-<?php print $params['id'] ?>" field="layout">
+<div class="edit" rel="layout-skin-3-<?php print $params['id'] ?>" field="layout">
     <div class="row services-layout-1">
         <div class="">
             <div class="col-xs-12 col-md-6 service">
