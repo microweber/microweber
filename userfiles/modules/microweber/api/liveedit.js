@@ -596,13 +596,16 @@ mw.drag = {
 
                     }
                 } else {
+                    mw.currentDragException = false;
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
+
+
 
                     }
                     else{
 
-                    if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) {
+                    if ( !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) ) {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
 
@@ -611,6 +614,9 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
                     }
+                    //else if(mw.tools.hasAnyOfClassesOnNodeOrParent(mw.mm_target, ['module'])){
+
+                    //}
                     else{
 
                     if (mw.$mm_target.hasClass("empty-element")) {
@@ -646,12 +652,15 @@ mw.drag = {
                             if(targetParentsOrder['allow-drop'] < targetParentsOrder['module']){
                                 mw.currentDragMouseOver = mw.mm_target;
                             }
-                            else{ mw.currentDragMouseOver = null;  }
+                            else{ mw.currentDragMouseOver = mw.mm_target;  }
                         }
                         else {
                             var ord = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module'])
                           if(ord.edit > ord.module){
-                            mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'edit')
+                            //mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'edit');
+                            mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'module');
+                            mw.currentDragException = true;
+
                           }
                           else{
 
@@ -1450,6 +1459,16 @@ mw.drag = {
 
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+                        if(mw.currentDragException){
+                            if (position == 'top') {
+                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                            } else {
+                                $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                            }
+                          return false;
+                        }
+
                         if(mw.tools.hasAnyOfClasses(mw.currentDragMouseOver, mw.drag.external_grids_col_classes)){
                           if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
@@ -2288,6 +2307,10 @@ mw.drag = {
       return final;
     },
     collectData: function(edits) {
+        $(edits).each(function(){
+          $('meta', this).remove(); 
+        })
+
         edits = this.htmlAttrValidate(edits);
         var l = edits.length,
             i = 0,

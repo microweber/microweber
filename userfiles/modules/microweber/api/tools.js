@@ -4331,6 +4331,9 @@ mw.image = {
              if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
             var el = $(el);
             var offset = el.offset();
+            var parentOffset = el.parent().offset();
+            offset.top = offset.top < parentOffset.top ? parentOffset.top : offset.top;
+            offset.left = offset.left < parentOffset.left ? parentOffset.left : offset.left;
             var r = $(mw.image_resizer);
             var width = el.outerWidth();
             var height = el.outerHeight();

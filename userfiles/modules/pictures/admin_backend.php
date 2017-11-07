@@ -238,10 +238,14 @@ mw_admin_puctires_upload_browse_existing = function(){
            $curr = isset($item['image_options']) ? $item['image_options'] : array();
 
 
+
+
             foreach($init_image_options as $name){    ?>
+
+
               <div class="mw-ui-field-holder">
                 <label class="mw-ui-label"><?php print $name ?></label>
-                <input type="text" class="mw-ui-field w100" name="<?php print $name ?>" value="<?php print isset($curr['name']) ? $curr['name'] : ''; ?>"  />
+                <input type="text" class="mw-ui-field w100" name="<?php print $name ?>" value="<?php print isset($curr[$name]) ? $curr[$name] : ''; ?>"  />
               </div>
           <?php  }  ?>
 
@@ -277,12 +281,14 @@ mw_admin_puctires_upload_browse_existing = function(){
 
     saveOptions = function(id){
       var data = {};
-      var root = $('#image-json-options-'+id);
+      var root = $('.mw_modal_container #image-json-options-'+id);
       root.find('input').each(function(){
         data[this.name] =  this.value;
       })
       mw.module_pictures.save_options(id, data);
       mw.reload_module('#<?php print $params['id'] ?>');
+      mw.reload_module('pictures/admin')
+      top.mw.reload_module('pictures')
     }
 
 
@@ -350,9 +356,6 @@ mw_admin_puctires_upload_browse_existing = function(){
 
       $(document).ready(function(){
 
-         $.each(imageOptions, function(){
-
-         })
 
          mw.$("#backend_image_uploader").append(uploader);
          $(uploader).bind("FilesAdded", function(a,b){

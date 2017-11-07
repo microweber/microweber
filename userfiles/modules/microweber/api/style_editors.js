@@ -523,9 +523,6 @@ if(typeof(shadow_pos.bind) != 'function'){
 
         var arr = mw.current_element_styles.boxShadow.split(' ');
 
-
-
-
         var len = arr.length;
         var s = parseFloat(arr[len-2]);
       }
