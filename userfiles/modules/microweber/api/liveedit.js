@@ -313,10 +313,7 @@ document.body.appendChild(mw.inaccessibleModules);
       $(".element-current").not(el).removeClass('element-current')
       $(el).addClass('element-current');
 
-        if (typeof(mw.iconSelectorToolTip) != "undefined") {
-            $(mw.iconSelectorToolTip).hide();
-            // mw.iconSelector.hide();
-        }
+
 
         if(!el.isContentEditable){
             var order = mw.tools.parentsOrder(el, ['edit','module']);
@@ -369,7 +366,13 @@ document.body.appendChild(mw.inaccessibleModules);
         }
     });
     $(mwd.body).on("mousedown mouseup", function(e) {
+
+
         if (e.type == 'mousedown') {
+            if (typeof(mw.iconSelectorToolTip) != "undefined" && !mw.wysiwyg.elementHasFontIconClass(e.target) && !mw.tools.hasParentsWithClass(e.target, 'tooltip-icon-picker')) {
+                $(mw.iconSelectorToolTip).hide();
+                mw.iconSelector.hide();
+            }
             if (!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')) {
                 mw.tools.addClass(mwd.body, 'state-element')
             } else {
@@ -2308,7 +2311,7 @@ mw.drag = {
     },
     collectData: function(edits) {
         $(edits).each(function(){
-          $('meta', this).remove(); 
+          $('meta', this).remove();
         })
 
         edits = this.htmlAttrValidate(edits);
@@ -3039,7 +3042,10 @@ $(document).ready(function() {
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
         for( ; i < all.length; i++){
-          mw.tools.addClass(all[i], 'allow-drop');
+          if(!mw.tools.hasClass(all[i], 'nodrop')) {
+            mw.tools.addClass(all[i], 'allow-drop');
+          }
+
         }
       }
 
@@ -3134,6 +3140,7 @@ $(window).on("load", function() {
     });
     mw.image.resize.init(".element-image");
     $(mwd.body).mousedown(function(event) {
+
 
         if (mw.$(".editor_hover").length === 0) {
             $(mw.wysiwyg.external).empty().css("top", "-9999px");
