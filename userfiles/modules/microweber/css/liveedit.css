@@ -65,7 +65,6 @@ ul:not([class]) {
 
 }
 
-
 .mw-plus-top {
     margin-top: -10px;
 }
@@ -763,17 +762,17 @@ html.mw_pages #items_handle {
     -o-transform: scale(1, 1);
 }
 
-#design_bnav.disabled:after{
-  position: absolute;
-  content: '';
-  display: block;
-  background-color: rgba(255, 255, 255, 0.5);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 12;
-  cursor: no-drop;
+#design_bnav.disabled:after {
+    position: absolute;
+    content: '';
+    display: block;
+    background-color: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 12;
+    cursor: no-drop;
 }
 
 #design_close {
@@ -834,16 +833,17 @@ html.mw_pages #design_bnav {
     padding: 0;
 }
 
-.ts_line{
-  display: inline-block;
-  vertical-align: top;
-}
-.ts_action_item_shadow .ts_line .ed_label {
-  margin-left: 0;
+.ts_line {
+    display: inline-block;
+    vertical-align: top;
 }
 
-.ts_action_item_shadow .ts_line{
-  width: 30%;
+.ts_action_item_shadow .ts_line .ed_label {
+    margin-left: 0;
+}
+
+.ts_action_item_shadow .ts_line {
+    width: 30%;
 }
 
 .toolbar_bnav .ts_main_ul {
@@ -920,8 +920,6 @@ div.ts_action {
     padding: 6px 6px 12px;
 }
 
-
-
 .ts_action_item {
     background: #EBEBEB;
     position: relative;
@@ -929,9 +927,10 @@ div.ts_action {
     min-height: 24px;
     clear: both;
 }
+
 .ts_action_item input[type="number"],
-.ts_action_item input[type="text"]{
-  width: 60px;
+.ts_action_item input[type="text"] {
+    width: 60px;
 }
 
 .ts_action_centerer {
@@ -951,7 +950,6 @@ div.ts_action {
     margin-left: 0;
 }
 
-
 .ts_action_item:hover .ts_sub_tool {
     visibility: visible;
 }
@@ -966,7 +964,7 @@ div.ts_action {
 }
 
 .ts_main_ul {
-  overflow: auto;
+    overflow: auto;
 }
 
 .ts_main_ul .ed_slider {
@@ -2471,8 +2469,8 @@ div[id*='SSDIVEL'] {
     pointer-events: none;
 }
 
-.mw_image_resizer *{
-  pointer-events: all;
+.mw_image_resizer * {
+    pointer-events: all;
 }
 
 .mw_image_resizer.active {
@@ -2855,32 +2853,34 @@ div[id*='SSDIVEL'] {
     padding-left: 23px;
 }
 
-#liveedit_wysiwyg:before{
-  position: absolute;
-  content: '';
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  display: block;
-  background-color: #F5F5F5;
-  opacity: .75;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
+#liveedit_wysiwyg:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: block;
+    background-color: #F5F5F5;
+    opacity: .75;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
-
-.mw-active-element-iseditable #liveedit_wysiwyg:before{
-  opacity: 0;
-  visibility: hidden;
+.mw-active-element-iseditable #liveedit_wysiwyg:before {
+    opacity: 0;
+    visibility: hidden;
 }
 
-.edit img.element::selection{
-  background-color: transparent;
-  outline: 4px solid #0088CC
+.edit img.element::selection {
+    background-color: transparent;
+    outline: 4px solid #0088CC
 }
 
-
-
+@media screen and (max-width: 1199px) {
+    #back-to-admin-toolbar {
+        display: none;
+    }
+}

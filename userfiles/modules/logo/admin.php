@@ -35,14 +35,16 @@
         width: 200px;
     }
 
-    .the-image {
+    .the-image,
+    .the-image-inverse{
         margin-right: 12px;
         max-width: 170px;
         max-height: 110px;
         background-color: #eee;
     }
 
-    .the-image[src=''] {
+    .the-image[src=''],
+    .the-image-inverse[src='']{
         width: 133px;
         height: 100px;
         background: #eee url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAWCAYAAADXYyzPAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAM5SURBVEiJnZbfax1FFMc/Z/Ymt8WC1Zo29JcSEaTQYNRkz+TBPpTGXvGlDwoqSOsf4N/QP6Q+GFB8qaDoi0JB5IaZRAWpBbFSa00F0ZikDQnRZI8Pd+9l7969yeK+7MycM9/PzNlzZlbMjLpPmqaHnHPvgo1WTRMRcr0PQgi399JytamAc+5lYCgUeobzaZome2k1ip25uQvy8OHGi2Y2mg+thxB+APDevwScrYpQF1owjYvIa8BHw8BSFPJeUzNaJZ9PRNwGZG/tE97SOIB8ZWY/5UObIYTVPrD3/gRw0cxO1dgNwAPgvojcKdiOARPA4zm0vKAM+MU5d31hYWFTVP0RsCtmdqgGdBu4AXwbQtgp+09PT0uSJGdE5IKZHR6it7y7a+83IHvDjC50BWgDT4nIZAn6J51sXQNQ1THgZEF3dWlp6S5wa2Zm5o5z7k2gF8HCJk46J62GGU/kth0zm48xrgPfea8HzXgmt/1jZh/GGNdmZ/VAlvEKcBaQorD3/n6WZZ8uLi7+oarzwBXgeEXkni+Wk4Ec7HWMZsF2I8a4qqrNLOMyMFmGdubYCRF5R1WPhxD+Ba6LSFaRI311POKcXFbVlqq+DZzOx9fM7Ju8/SowXhQoQLtDTeCSqiYhhBUzWy5DRQrgvCwOACmd7Ow6/RZj3EnTtAk8Owi1qnIaE5En8/b3ZShIB7xPLW7lPqcpHDhDyqy4ibG8u1GGmhmN4dBeCLvGhPy71oBCp26r9ABw+0ABHsnb94CdYVCRgcj9lb+bFXkweElUOJ2amnpBYoybInLLrBpaOqn+TpLkbq43WYYOgIcky6PN5shzAFmWfQms7QM14ON2u23e+3Gwiaqo9mX1Ht+tpaqHY4wbwHvAj0OgvwPXQgjL+RoumVVHVdI0vVozWdbzk20FQFWPicjTZvYYnTP8dgjhV4Bz59Rtb/M6pfIr6omqXq0B7T5bwBdJMnKz3f564JIA8N5PmNlF4OgeequSpuksMNfvABXXWm8y2AMzfqZzqdwDjgBHRWTCzMYH5/Tp7QLzYmao6nnAA40a0LrRqYJuA5+FEG72/kBUdQpoichoDYH/s6At4PPur9R/ibnHN/zDO4wAAAAASUVORK5CYII=) no-repeat center;
@@ -67,6 +69,7 @@
 <?php
 
 $logoimage = get_option('logoimage', $params['id']);
+$logoimage_inverse = get_option('logoimage_inverse', $params['id']);
 $text = get_option('text', $params['id']);
 $font_family = get_option('font_family', $params['id']);
 $font_size = get_option('font_size', $params['id']);
@@ -117,6 +120,17 @@ if ($size == false or $size == '') {
                     <span class="mw-ui-btn" id="upload-image"><span
                                 class="mw-icon-upload"></span><?php _e('Upload Image'); ?></span><br/>
                     <?php _e('or'); ?> <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
+                    <div style="padding-top: 15px; clear: both"></div>
+
+                    <h3>Inverse</h3>
+                    <img src="<?php print $logoimage_inverse; ?>" class="pull-left the-image-inverse"
+                         alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                    <br>
+                    <div style="padding-top: 15px; clear: both"></div>
+                    <span class="mw-ui-btn" id="upload-image-inverse"><span
+                                class="mw-icon-upload"></span><?php _e('Upload Image'); ?></span><br/>
+                    <?php _e('or'); ?> <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
+                    <hr/>
                     <label class="mw-ui-label" style="padding-top: 20px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
                     <div id="sizeslider" class="mw-slider"></div>
                     <br>
@@ -435,9 +449,7 @@ if ($size == false or $size == '') {
         </div>
     </div>
     <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage"/>
-</div>
-
-
+    <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse"/>
 </div>
 
 
@@ -452,6 +464,17 @@ if ($size == false or $size == '') {
 
         $(UP).bind('FileUploaded', function (a, b) {
             setNewImage(b.src);
+            setAuto();
+        });
+
+        UPInverse = mw.uploader({
+            element: mwd.getElementById('upload-image-inverse'),
+            filetypes: 'images',
+            multiple: false
+        });
+
+        $(UPInverse).bind('FileUploaded', function (a, b) {
+            setNewImageInv(b.src);
             setAuto();
         });
 
@@ -473,6 +496,11 @@ if ($size == false or $size == '') {
     function setNewImage(s) {
         mw.$("#logoimage").val(s).trigger('change');
         mw.$(".the-image").show().attr('src', s);
+    }
+
+    function setNewImageInv(s) {
+        mw.$("#logoimage_inverse").val(s).trigger('change');
+        mw.$(".the-image-inverse").show().attr('src', s);
     }
 
     var mw_admin_logo_upload_browse_existing = function () {
