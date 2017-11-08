@@ -10,7 +10,7 @@ name: Head image 1
 
 */
 ?>
-<div class="edit" rel="layout-skin-2-<?php print $params['id'] ?>" field="layout">
+<div class="edit" field="layout-skin-2-<?php print $params['id'] ?>" rel="layout">
     <div class="head-image-layout-1" id="head-image-<?php print CONTENT_ID; ?>">
         <div class="mw-image-holder">
             <img src="http://lorempixel.com/1200/410" alt=""/>
