@@ -11,7 +11,7 @@ name: Text image 1 - left
 */
 ?>
 
-<div class="edit" rel="layout-skin-5-<?php print $params['id'] ?>" field="layout">
+<div class="edit" field="layout-skin-5-<?php print $params['id'] ?>" rel="layout">
     <div class="text-image-layout-1 left" id="text-image-left-<?php print CONTENT_ID; ?>">
         <div class="image">
             <div class="mw-image-holder">

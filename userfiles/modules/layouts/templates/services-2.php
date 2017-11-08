@@ -11,7 +11,7 @@ name: Services 2
 */
 ?>
 
-<div class="edit" rel="layout-skin-4-<?php print $params['id'] ?>" field="layout">
+<div class="edit" field="layout-skin-4-<?php print $params['id'] ?>" rel="layout">
     <div class="services-layout-2">
         <div class="text-center">
             <h2 class="special">What we do</h2>

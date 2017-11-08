@@ -284,8 +284,12 @@ api_expose_admin('users/register_email_send_test', function () {
     mw()->option_manager->override('users', 'register_email_enabled', true);
     return mw()->user_manager->register_email_send();
 });
-api_expose('users/register_email_send', function () {
-    return mw()->user_manager->register_email_send();
+api_expose('users/register_email_send', function ($params=false) {
+    $uid = null;
+    if(isset($params['user_id']) and is_admin()){
+        $uid = intval($params['user_id']);
+    }
+    return mw()->user_manager->register_email_send($uid);
 });
 
 

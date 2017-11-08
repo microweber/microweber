@@ -128,12 +128,12 @@ class AdminController extends Controller
         $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
 
         $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css" type="text/css" />';
-        if (!stristr($layout, $apijs_loaded)) {
+      //  if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
             $default_css = $default_css."\r\n".'<script src="'.$apijs_settings_loaded.'"></script>'."\r\n";
             $default_css = $default_css."\r\n".'<script src="'.$apijs_loaded.'"></script>'."\r\n";
             $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
-        }
+       // }
 
         $favicon_image = get_option('favicon_image', 'website');
         if ($favicon_image) {
