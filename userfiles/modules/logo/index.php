@@ -1,10 +1,10 @@
 <?php
 $logotype = get_option('logotype', $params['id']);
 $logoimage = get_option('logoimage', $params['id']);
+$logoimage_inverse = get_option('logoimage_inverse', $params['id']);
 $text = get_option('text', $params['id']);
 $font_family = get_option('font_family', $params['id']);
 $font_size = get_option('font_size', $params['id']);
-
 
 
 $default = '';
@@ -46,12 +46,11 @@ if ($font_family_safe == '') {
     $font_family_safe = 'inherit';
 }
 
-    $size = get_option('size', $params['id']);
+$size = get_option('size', $params['id']);
 if ($size == false or $size == '') {
-    if(isset($params['size'])){
+    if (isset($params['size'])) {
         $size = $params['size'];
-    }
-    else{
+    } else {
         $size = 60;
     }
 
@@ -71,7 +70,6 @@ $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
-
 
 
 $module_template = get_option('data-template', $params['id']);

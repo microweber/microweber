@@ -35,6 +35,33 @@ mw.dropables = {
         });
 
     },
+    findNearest:function(event){
+      return $( event.target ).closest( '.edit section' )
+      var coords = { y:99999999 },
+          y = event.pageY,
+          all = document.querySelectorAll('.edit section'),
+          i = 0,
+          final = {
+            element:null,
+            position:null
+          };
+      for( ; i< all.length; i++){
+        var el = $(all[i]), offtop = el.offset().top;
+        var v1 = offtop - y;
+        var v2 = y - (offtop + el.height());
+        var v = v1 > 0 ? v1 : v2;
+        if(coords.y>v){
+          final.element = all[i];
+        }
+        if(v1 > 0){
+          final.position = 'top';
+        }
+        else if(v2 > 0){
+          final.position = 'bottom';
+        }
+      }
+      return final;
+    },
     display: function(el) {
 
         var el = $(el);
@@ -502,6 +529,10 @@ mw.drag = {
 
                 var mouseover_editable_region_inside_a_module = false;
 
+               // console.log(document.elementFromPoint(event.pageX - window.pageXOffset, event.pageY - window.pageYOffset) )
+
+                console.log(mw.dropables.findNearest(event))
+
                 if (!mw.isDrag) {
                     if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
 
@@ -575,7 +606,7 @@ mw.drag = {
 
                     var bg;
                     if(event.target && event.target.style){
-                      bg = !!event.target.style && !!event.target.style.backgroundImage
+                      bg = !!event.target.style && !!event.target.style.backgroundImage;
                     }
 
                     if (!mw.image.isResizing) {
@@ -598,7 +629,8 @@ mw.drag = {
                         }
 
                     }
-                } else {
+                }
+                else {
                     mw.currentDragException = false;
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
@@ -3042,10 +3074,19 @@ $(document).ready(function() {
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
         for( ; i < all.length; i++){
-          if(!mw.tools.hasClass(all[i], 'nodrop')) {
-            mw.tools.addClass(all[i], 'allow-drop');
+          var el = all[i];
+          if(!mw.tools.hasClass(el, 'nodrop')) {
+            mw.tools.addClass(el, 'allow-drop');
           }
-
+          if(el.querySelector('.element') === null){
+            var all = el.querySelectorAll('div,img'), i = 0, item;
+            for( ; i < all.length ; i++){
+              item = all[i];
+              if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
+                mw.tools.addClass(item, 'element')
+              }
+            }
+          }
         }
       }
 

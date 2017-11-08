@@ -3177,7 +3177,8 @@ mw.tools = {
     },
     matches: function (node, what) {
         if (node === 'init') {
-            if (!!mwd.documentElement.matchesSelector) mw.tools.matchesMethod = 'matchesSelector';
+            if (!!mwd.documentElement.matches) mw.tools.matchesMethod = 'matches';
+            else if (!!mwd.documentElement.matchesSelector) mw.tools.matchesMethod = 'matchesSelector';
             else if (!!mwd.documentElement.mozMatchesSelector) mw.tools.matchesMethod = 'mozMatchesSelector';
             else if (!!mwd.documentElement.webkitMatchesSelector) mw.tools.matchesMethod = 'webkitMatchesSelector';
             else if (!!mwd.documentElement.msMatchesSelector) mw.tools.matchesMethod = 'msMatchesSelector';
