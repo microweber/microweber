@@ -82,7 +82,7 @@ if(!isset($tn[1])){
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a href="<?php print $item['link'] ?>">
 
-                <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  />
+                <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], 600, 600, true); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  />
 
       </a>
       <?php endif; ?>
