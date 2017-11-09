@@ -1,4 +1,5 @@
 @import url("sass/style.css");
+@import url("reset-css.css");
 
 /*********************************************
 
@@ -2899,6 +2900,183 @@ div[id*='SSDIVEL'] {
     }
 }
 
-.tooltip-icon-picker .mw-ui-btn{
+.tooltip-icon-picker .mw-ui-btn {
     font-family: Verdana, Geneva, sans-serif !important;
+}
+
+/* White Effect over Images on selected */
+.mw-live-edit img::-moz-selection {
+    background: #fff !important;
+}
+
+.mw-live-edit img::selection {
+    background: #fff !important;
+}
+
+/* MW Reset */
+.mw-reset-css *,
+.mw-reset-css *:before,
+.mw-reset-css *:after {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.mw-reset-css {
+    font-family: some-family;
+    line-height: normal;
+    font-size: 16px;
+}
+
+.mw-reset-css li {
+    list-style: none;
+}
+
+/* Sidebar in Live Edit */
+#live_edit_side_holder {
+    position: fixed;
+    width: 300px;
+    top: 50px;
+    bottom: 0;
+    right: 0px;
+    background: white;
+    /* display: none; */
+    z-index: 99999;
+    font-size: 11px;
+}
+
+#live_edit_side_holder.sidebar_opened {
+    display: block;
+}
+
+#modules-and-layouts-sidebar h3 {
+    color: #3a3434;
+    font-size: 14px;
+    padding: 25px 25px 15px 25px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+#modules-and-layouts-sidebar .mw-ui-box {
+    background: #f5f5f5;
+    padding: 25px;
+    width: 300px;
+}
+
+#modules-and-layouts-sidebar .mw-ui-box-content {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+}
+
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn {
+    border: 1px solid transparent;
+    border-bottom: 1px solid #eaeaea;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    color: #999999;
+    font-size: 11px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-top-right-radius: 2px;
+    border-top-right-radius: 2px;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-top-left-radius: 2px;
+    border-top-left-radius: 2px;
+    padding: 5px 15px;
+    line-height: 21px !important;
+    text-decoration: none;
+}
+
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #f5f5f5;
+    border: 1px solid #eaeaea;
+    border-bottom: 1px solid #f5f5f5;
+    color: #4d4d4d;
+}
+
+#modules-and-layouts-sidebar .mw-ui-box {
+    border: 0;
+    border-top: 1px solid #eaeaea;
+    top: -1px;
+    position: relative;
+}
+
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs {
+    z-index: 999;
+    padding: 0 0 0 20px;
+}
+
+/* Layouts */
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item {
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item .mw_module_image {
+    height: auto;
+    text-align: center;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item .mw_module_image img {
+    max-height: none;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item .module_name {
+    background: #2a2a2a;
+    color: #fff;
+    border-top: 1px solid #323232;
+    display: block;
+    padding: 5px 15px;
+    font-size: 11px;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover .module_name {
+    background: #0086db;
+    border-top: 1px solid #0086db;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {
+    box-shadow: 12px 0 15px -4px rgba(214, 214, 214, 0.8), -12px 0 8px -4px rgba(214, 214, 214, 0.8);
+}
+
+/* Modules */
+#modules-and-layouts-sidebar .module-admin-modules-list .module-item {
+    cursor: pointer;
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding: 10px;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
+    background: transparent;
+    padding: 25px 10px;
+    display: block;
+    border: 1px solid transparent;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list .module-item:hover .mw_module_hold {
+    background: #fff;
+    border-color: #eaeaea;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list .module-item .module_name {
+    color: #999999;
+    font-size: 11px;
+    margin-top: 10px;
+    display: block;
+    height: 22px;
+    line-height: 16px !important;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list .module-item:hover .module_name {
+    color: #3a3434;
 }
