@@ -2884,3 +2884,21 @@ div[id*='SSDIVEL'] {
         display: none;
     }
 }
+
+.toolbar-sections-tabs ul .mw-ui-btn:before {
+    line-height: 20px;
+}
+
+@media (max-width: 1020px) {
+    .mw-toolbar-add-new-content-ctrl {
+        margin: 10px 8px 0 !important;
+    }
+
+    .mw-toolbar-modules-open-ctrl {
+        padding: 5px 9px;
+    }
+}
+
+.tooltip-icon-picker .mw-ui-btn{
+    font-family: Verdana, Geneva, sans-serif !important;
+}
