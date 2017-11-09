@@ -2876,6 +2876,23 @@ mw.tools = {
             });
         }
     },
+
+
+
+    show_live_edit_sidebar: function () {
+         if (mw.$('#live_edit_side_holder').length != 0) {
+
+             $('#live_edit_side_holder').toggleClass('sidebar_opened');
+         }
+    },
+
+
+
+
+
+
+
+
     module_settings: function (a, view, liveedit) {
         if (typeof liveedit === 'undefined') {
             var liveedit = true;

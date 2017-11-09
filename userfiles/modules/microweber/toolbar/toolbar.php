@@ -9,9 +9,9 @@ if($is_quick_edit == true){
 }
 
 if(isset($_COOKIE['mw_exp'])){
-return include(__DIR__.DS.'toolbar2.php');	
+return include(__DIR__.DS.'toolbar2.php');
 }
- 
+
 ?>
 <?php if (!isset($_GET['preview'])){ ?>
 <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
@@ -78,7 +78,7 @@ return include(__DIR__.DS.'toolbar2.php');
           mw.tools.template_settings(true);
         }
      <?php  } ?>
-            
+
      $(window).bind('saveStart', function(){
        mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
      });
@@ -98,14 +98,14 @@ return include(__DIR__.DS.'toolbar2.php');
 
 $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
- 
+
 ?>
 <?php
         $disable_keyboard_shortcuts = get_option('disable_keyboard_shortcuts','website');
-          
+
     ?>
 
-<?php if($disable_keyboard_shortcuts): ?> 
+<?php if($disable_keyboard_shortcuts): ?>
 <script type="text/javascript">
 mw.settings.live_edit_disable_keyboard_shortcuts = true;
 </script>
@@ -125,13 +125,13 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
             mw_save_draft_int = self.setInterval(function () {
                 mw.drag.saveDraft();
             }, 1000);
-			
-			
+
+
 			$(document.body).addClass('notranslate');
         });
-		
+
 		if(typeof(mw.wysiwyg) != 'undefined'){
-			mw.wysiwyg.initExtendedFontFamilies("<?php print $enabled_custom_fonts?>");	
+			mw.wysiwyg.initExtendedFontFamilies("<?php print $enabled_custom_fonts?>");
 		}
     </script>
 <?php
@@ -158,6 +158,42 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
     </div>
   </div>
 </div>
+
+<style>
+    #live_edit_side_holder{
+        position: absolute;
+        width: 300px;
+        height: 500px;
+        bottom:10px;
+        right: 10px;
+        background: white;
+        overflow: scroll;
+        display: none;
+
+    }
+
+    #live_edit_side_holder.sidebar_opened{
+        display: block;
+    }
+</style>
+
+    <script>
+        $(document).ready(function () {
+        // move to livedit,js
+       $("#mw-toolbar-show-sidebar-btn").click(function() {
+             mw.tools.show_live_edit_sidebar();
+        });
+
+
+        });
+
+    </script>
+<div class="mw-defaults" id="live_edit_side_holder" dir="ltr" lang="en">
+    <div id="live_edit_sidebar_wrap">
+        <module type="admin/modules/sidebar_live_edit" />
+    </div>
+</div>
+
 <div class="mw-defaults" id="live_edit_toolbar_holder" dir="ltr" lang="en">
   <div id="live_edit_toolbar">
     <div id="mw-text-editor" class="mw-defaults mw_editor">
@@ -165,20 +201,20 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
         <ul>
           <li class="create-content-dropdown">
             <a href="javascript:;" class="tst-logo" title="Microweber">
-            
+
             	<?php if(mw()->ui->logo_live_edit != false) : ?>
-           
+
            <span style="background-image:url('<?php print mw()->ui->logo_live_edit ?>'); width:30px; height:30px; display:inline-block; background-size:contain; background-repeat:no-repeat; background-position:center; position:relative; top:8px;"></span>
- 		 
+
 				<?php else: ?>
-                
+
                     <span class="mw-icon-mw"></span>
-            
+
                 <?php endif;  ?>
-    
-    
-    
-                
+
+
+
+
                 <span class="mw-icon-dropdown"></span>
             </a>
             <div class="mw-dropdown-list create-content-dropdown-list">
@@ -266,7 +302,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
               <ul class="mw-ui-box mw-ui-navigation">
                 <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
 
-                
+
                  <?php $custom_ui = mw()->modules->ui('live_edit.toolbar.action_menu.start'); ?>
                             <?php if (!empty($custom_ui)): ?>
                                 <?php foreach ($custom_ui as $item): ?>
@@ -280,15 +316,16 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
                 <li>
                     <a  title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
-                <li style="display: none">
+
+                  <li style="display: none">
                   <script>mw.userCanSwitchMode = false;</script>
                   <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
                   <script>mw.userCanSwitchMode = true;</script>
@@ -312,12 +349,13 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
                   </span></a> </li>
                 <?php endif; ?>
 
-             
-                
-             
+
+
+
                 <li>
                     <a><span class="mw-icon-arrowleft"></span><?php _e("Tools"); ?></a>
                     <ul>
+                      <li><a  class="mw_ex_tools mw_editor_open_sidebar"  id="mw-toolbar-show-sidebar-btn"><span class="mw-icon-monitor"></span>Modules & Layouts</a></li>
                       <li><a  href="#design_bnav" class="mw_ex_tools"><span class="mw-icon-monitor"></span><?php _e("Visual editor"); ?></a></li>
                       <li><a  class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                       <li><a  class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
@@ -488,7 +526,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
             }
         }
         $(window).load(function () {
-			
+
             mw.liveEditWYSIWYG.buttons();
             $(window).bind("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
@@ -539,14 +577,14 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
 
 
             mw.$(".create-content-dropdown").hover(function () {
-				
+
 				if(typeof mw.wysiwyg.hide_drag_handles == 'function'){
-				mw.wysiwyg.hide_drag_handles();	
+				mw.wysiwyg.hide_drag_handles();
 				}
 
 
-				
-				
+
+
                 var el = $(this);
 
                 if(typeof(el[0]) == 'undefined'){
@@ -570,7 +608,7 @@ mw.settings.live_edit_disable_keyboard_shortcuts = true;
                     if (!el.hasClass("over")) {
                         mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
 						if(typeof mw.wysiwyg.show_drag_handles == 'function'){
-							mw.wysiwyg.show_drag_handles();	
+							mw.wysiwyg.show_drag_handles();
 						}
                     }
                 }, 322);
