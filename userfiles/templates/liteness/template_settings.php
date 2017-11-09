@@ -395,25 +395,20 @@
         </div>
     </div>
 
-    <script>mw.lib.require('bootstrap3ns');</script>
-    <div class="bootstrap3ns">
-        <div class="form-group">
-            <label for="select" class="col-lg-2 control-label">Color scheme</label>
-            <div class="col-lg-10">
-                <select name="color-scheme2" id="color-scheme2" class="mw_option_field form-control" data-option-group="mw-template-liteness">
-                    <option value="lite" <?php if ($color_scheme2 == '' OR $color_scheme2 == 'lite') {
-                        echo 'selected';
-                    } ?>>Lite
-                    </option>
-                    <option value="dark-orange"<?php if ($color_scheme2 == 'dark-orange') {
-                        echo 'selected';
-                    } ?>>Dark Orange
-                    </option>
 
-                </select>
-            </div>
-        </div>
-    </div>
+    <label for="select" class="template-setting-label">Color scheme</label>
+    <select name="color-scheme2" id="color-scheme2" class="mw-ui-field mw_option_field w100" data-option-group="mw-template-liteness">
+        <option value="lite" <?php if ($color_scheme2 == '' OR $color_scheme2 == 'lite') {
+            echo 'selected';
+        } ?>>Lite
+        </option>
+        <option value="dark-orange"<?php if ($color_scheme2 == 'dark-orange') {
+            echo 'selected';
+        } ?>>Dark Orange
+        </option>
+
+    </select>
+
 
     <hr>
     <label class="template-setting-label">Color scheme</label>
@@ -433,20 +428,20 @@
     <!--<label class="template-setting-label ">Custom colors</label>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>
-    <label class="desc"><?php /*_e("Main color"); */?>
-        <small class="muted">( <?php /*_e("Header, Footer"); */?> )</small></label>
+    <label class="desc"><?php /*_e("Main color"); */ ?>
+        <small class="muted">( <?php /*_e("Header, Footer"); */ ?> )</small></label>
 </span>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
-    <label><?php /*_e("Buttons & Links"); */?></label>
+    <label><?php /*_e("Buttons & Links"); */ ?></label>
 </span>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
-    <label><?php /*_e("Box color"); */?></label>
+    <label><?php /*_e("Box color"); */ ?></label>
 </span>
     <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
-    <label><?php /*_e("Text color"); */?></label>
+    <label><?php /*_e("Text color"); */ ?></label>
 </span>-->
 
 
