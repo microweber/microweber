@@ -35,11 +35,27 @@ mw.dropables = {
         });
 
     },
-    findNearest:function(event){
+    
+    
+    
+    findNearest:function(event,selectors){
+        
+    var selectors = selectors || mw.drag.section_selectors;
+    
+  
+    for(var i = 0 ; i<selectors.length ; i++){
+        selectors[i] = '.edit ' + selectors[i].trim()    
+    }
+    
+
+    selectors = selectors.join(',');
+
+
+        
       //return $( event.target ).closest( '.edit section' )
       var coords = { y:99999999 },
           y = event.pageY,
-          all = document.querySelectorAll('.edit section'),
+          all = document.querySelectorAll(selectors),
           i = 0,
           final = {
             element:null,
@@ -464,6 +480,8 @@ mw.drag = {
     external_grids_row_classes: ['row'],
     external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
     external_css_no_element_classes: ['navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
+    section_selectors: ['section','.module','.module-layouts'],
+
     dropOutsideDistance:25,
     columnout: false,
     noop: mwd.createElement('div'),
@@ -638,7 +656,7 @@ mw.drag = {
                     }
                 }
                 else {
-                  mw.dropables.findNearestException = false;
+                    mw.dropables.findNearestException = false;
                     mw.currentDragException = false;
 
                     if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
@@ -657,9 +675,20 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
                     }
-                    //else if(mw.tools.hasAnyOfClassesOnNodeOrParent(mw.mm_target, ['module'])){
-
-                    //}
+                    else if(mw.tools.hasAnyOfClassesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors) 
+                        && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')){
+                        mw.currentDragException = true;  
+                        mw.currentDragMouseOver = mw.tools.hasAnyOfClasses(mw.mm_target, mw.drag.section_selectors) ? mw.mm_target : mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, mw.drag.section_selectors);
+                        var el = $(mw.currentDragMouseOver);
+                        var height = el.height(), width = el.width(), offset = el.offset();
+                        if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
+                            mw.dropables.set('bottom', offset, height, width);
+                        } else {
+                            mw.dropables.set('top', offset, height, width);
+                        } 
+                        
+                        mw.dropables.set(near.position, el.offset(), el.height(), el.width());
+                    }
                     else{
 
                     if (mw.$mm_target.hasClass("empty-element")) {
@@ -1950,6 +1979,9 @@ mw.drag = {
         //	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
 
     },
+    
+   
+    
     fancynateLoading: function(module) {
         mw.$(module).addClass("module_loading");
         setTimeout(function() {

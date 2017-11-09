@@ -1821,6 +1821,19 @@ mw.tools = {
         });
         return _has;
     },
+    firstParentOrCurrentWithAnyOfClasses: function (el, arr) {
+      if(mw.tools.hasAnyOfClasses(node, arr)){
+        return node;
+      }
+      var has = false;
+      mw.tools.foreachParents(node, function (loop) {
+          if(mw.tools.hasAnyOfClasses(this, arr)){
+              has = this;
+              mw.tools.stopLoop(loop);
+          }
+      });
+      return has;
+    },
     lastParentWithClass: function (el, cls) {
         _has = false;
         mw.tools.foreachParents(el, function (loop) {
