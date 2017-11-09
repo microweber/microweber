@@ -54,7 +54,7 @@ if(!isset($tn[1])){
     <div class="mw-ui-col">
       <div class="mw-ui-col-container" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
         <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
-        <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"> <span class="valign-cell"> <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /> </span> </span> </a>
+        <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"> <span class="valign-cell"> <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], 600, 600, true); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /> </span> </span> </a>
         <?php endif; ?>
         <?php if($show_fields == false or in_array('title', $show_fields)): ?>
         <h3 itemprop="name"><a  class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
