@@ -40,16 +40,17 @@ mw.dropables = {
     
     findNearest:function(event,selectors){
         
-    var selectors = selectors || mw.drag.section_selectors;
-    
+    var selectors = (selectors || mw.drag.section_selectors).slice(0);
+
   
     for(var i = 0 ; i<selectors.length ; i++){
-        selectors[i] = '.edit ' + selectors[i].trim()    
+        selectors[i] = '.edit ' + selectors[i].trim()
     }
     
 
     selectors = selectors.join(',');
 
+    console.log(selectors)
 
         
       //return $( event.target ).closest( '.edit section' )
@@ -554,10 +555,6 @@ mw.drag = {
 
                 var mouseover_editable_region_inside_a_module = false;
 
-               // console.log(document.elementFromPoint(event.pageX - window.pageXOffset, event.pageY - window.pageYOffset) )
-
-
-
                 if (!mw.isDrag) {
                     if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
 
@@ -675,19 +672,17 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
                     }
-                    else if(mw.tools.hasAnyOfClassesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors) 
+                    else if(mw.tools.matchesAnyOnNodeOrParent(mw.mm_target, mw.drag.section_selectors)
                         && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')){
-                        mw.currentDragException = true;  
-                        mw.currentDragMouseOver = mw.tools.hasAnyOfClasses(mw.mm_target, mw.drag.section_selectors) ? mw.mm_target : mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, mw.drag.section_selectors);
+                        mw.currentDragException = true;
+                        mw.currentDragMouseOver = mw.tools.firstMatchesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors);
                         var el = $(mw.currentDragMouseOver);
                         var height = el.height(), width = el.width(), offset = el.offset();
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
                             mw.dropables.set('bottom', offset, height, width);
                         } else {
                             mw.dropables.set('top', offset, height, width);
-                        } 
-                        
-                        mw.dropables.set(near.position, el.offset(), el.height(), el.width());
+                        }
                     }
                     else{
 
@@ -1011,7 +1006,6 @@ mw.drag = {
             } else {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             }
-            console.log(element, 99)
             var el = $(element);
             if (element.textContent.length < 2 && element.nodeName !== 'IMG') {
                 return false;
@@ -1549,7 +1543,7 @@ mw.drag = {
 
                         if(mw.currentDragException || mw.dropables.findNearestException){
                             mw.dropables.findNearestException = false;
-                            console.log(mw.currentDragMouseOver, position)
+                            console.log(333, mw.currentDragMouseOver, position)
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             } else {

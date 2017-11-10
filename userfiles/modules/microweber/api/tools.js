@@ -1553,18 +1553,45 @@ mw.tools = {
       }
       return true;
     },
-    hasAnyOfClassesOnNodeOrParent:function(node, arr){
-      if(mw.tools.hasAnyOfClasses(node, arr)){
-        return true;
-      }
+    matchesAnyOnNodeOrParent:function(node, arr){
+      arr.forEach(function(selector){
+        if(mw.tools.matches(node, selector)){
+          return true;
+        }
+      });
       var has = false;
       mw.tools.foreachParents(node, function (loop) {
-          if(mw.tools.hasAnyOfClasses(this, arr)){
+          var i = 0;
+          for( ; i<arr.length; i++){
+            if(mw.tools.matches(this, arr[i])){
               has = true;
               mw.tools.stopLoop(loop);
+              return has;
+            }
           }
       });
       return has;
+    },
+    firstMatchesOnNodeOrParent:function(node, arr){
+      arr.forEach(function(selector){
+        if(mw.tools.matches(node, selector)){
+          return node;
+        }
+      });
+      var has = false;
+      mw.tools.foreachParents(node, function (loop) {
+          var el = this;
+          arr.forEach(function(selector){
+            if(mw.tools.matches(el, selector)){
+              has = el;
+              mw.tools.stopLoop(loop)
+            }
+          });
+      });
+      return has;
+    },
+    hasAnyOfClassesOnNodeOrParent:function(node, arr){
+
     },
     addClass: function (el, cls) {
         if (el === null) {
