@@ -29,5 +29,19 @@
                 tabs: '#tabsnav .tabitem'
             });
         });
+
+        $(window).on('resize load orientationchange', function(){
+          var root =  document.querySelector('#modules-and-layouts-sidebar');
+
+          if(root !== null){
+            var el = root.querySelectorAll('.mw-ui-box-content');
+            for(var i = 0; i<el.length; i++){
+              console.log(el[i])
+              el[i].style.height = (innerHeight - ($(el[i]).offset().top - $(root).offset().top) - 20)  + 'px'
+            }
+
+          }
+        })
+
     </script>
 </div>
