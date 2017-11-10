@@ -163,11 +163,9 @@ if (isset($_COOKIE['mw_exp'])) {
             // move to livedit,js
             mw.$("#live_edit_side_holder .module").removeClass("module");
 
-            $("#mw-toolbar-show-sidebar-btn").click(function () {
+            $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
                 mw.tools.show_live_edit_sidebar();
             });
-
-
         });
 
     </script>
@@ -253,12 +251,12 @@ if (isset($_COOKIE['mw_exp'])) {
 
                         </li>
                         <li>
-            <span class="mw-ui-btn-nav">
+                            <!-- <span class="mw-ui-btn-nav">
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert mw-toolbar-modules-open-ctrl" onclick="mw.toolbar.ComponentsShow('modules');"><span
-                            class="mw-icon-module"></span><span><?php _e("Modules"); ?></span></a>
+                            class="mw-icon-module"></span><span><?php /*_e("Modules"); */ ?></span></a>
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert mw-toolbar-modules-open-ctrl" onclick="mw.toolbar.ComponentsShow('layouts');"><span
-                            class="mw-icon-template"></span><span><?php _e("Layouts"); ?></span></a>
-            </span>
+                            class="mw-icon-template"></span><span><?php /*_e("Layouts"); */ ?></span></a>
+            </span>-->
                         </li>
 
 
@@ -304,9 +302,11 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <?php endforeach; ?>
                                     <?php endif; ?>
 
-
                                     <li>
-                                        <a title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
+                                        <a title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>">
+                                            <?php _e("Back to Admin"); ?>
+                                        </a>
+                                    </li>
 
                                     <li style="display: none">
                                         <script>mw.userCanSwitchMode = false;</script>
@@ -338,7 +338,6 @@ if (isset($_COOKIE['mw_exp'])) {
                                     <li>
                                         <a><span class="mw-icon-arrowleft"></span><?php _e("Tools"); ?></a>
                                         <ul>
-                                            <li><a class="mw_ex_tools mw_editor_open_sidebar" id="mw-toolbar-show-sidebar-btn"><span class="mw-icon-monitor"></span>Modules & Layouts</a></li>
                                             <li><a href="#design_bnav" class="mw_ex_tools"><span class="mw-icon-monitor"></span><?php _e("Visual editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
@@ -359,20 +358,17 @@ if (isset($_COOKIE['mw_exp'])) {
                         </div>
 
 
-                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
-          <?php _e("Save"); ?>
-          </span>
+                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
 
 
-                        <a
-
-                                class=" pull-right"
-                                id="back-to-admin-toolbar" href="<?php print $back_url; ?>">
-
-                            <?php _e("Back to Admin"); ?>
-                            <span class="mw-icon-back"></span>
+                        <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium">
+                            <i class="mw-v2 m-r mwi-hamb"></i> <?php _e("Menu"); ?>
                         </a>
 
+                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium">
+                            <i class="mw-v2 m-r mw-icon-arrow-left-c"></i>
+                            <?php _e("Admin"); ?>
+                        </a>
 
                         <div class="Switch2AdvancedModeTip" style="display: none">
                             <div class="Switch2AdvancedModeTip-tickContainer">

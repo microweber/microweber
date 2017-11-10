@@ -1,5 +1,6 @@
 @import url("sass/style.css");
 @import url("reset-css.css");
+@import url("fonts/mw-ui-icons-v2/css/mwi.css");
 
 /*********************************************
 
@@ -2428,8 +2429,8 @@ body.design_hover .element-current {
 
 #main-save-btn {
     margin: 0 0 0 12px;
-    background-color: #235F99;
-    border-color: #235F99
+    background-color: #0084d8;
+    border-color: #0084d8
 }
 
 html.mw_pages #mw_toolbar_nav {
@@ -2942,9 +2943,58 @@ div[id*='SSDIVEL'] {
     bottom: 0;
     right: 0px;
     background: white;
-    /* display: none; */
-    z-index: 99999;
+    z-index: 999;
     font-size: 11px;
+    border-left: 1px solid #e5e5e5;
+    -webkit-box-shadow: -2px 0px 5px -3px #e5e5e5;
+    box-shadow: -2px 0px 5px -3px #e5e5e5;
+
+    right: -300px;
+    transition: 0.6s;
+}
+
+#live_edit_side_holder.sidebar_opened {
+    transition: 0.6s;
+    right: 0;
+}
+
+#live_edit_side_holder .sidebar-toggler {
+    position: absolute;
+    left: -19px;
+    background: #0086db;
+    height: 68px;
+    width: 18px;
+    display: block;
+    border: 0;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    top: 45%;
+}
+
+#live_edit_side_holder .sidebar-toggler .i-holder {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    transition: 0.6s;
+    margin-top: 31px;
+}
+
+/*#live_edit_side_holder.sidebar_opened .sidebar-toggler .i-holder {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    transition: 0.6s;
+}*/
+
+#live_edit_side_holder .sidebar-toggler i {
+    color: #fff;
+}
+
+#live_edit_side_holder.sidebar_opened .sidebar-toggler {
 }
 
 #live_edit_side_holder.sidebar_opened {
@@ -2954,17 +3004,35 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar h3 {
     color: #3a3434;
     font-size: 14px;
-    padding: 25px 25px 15px 25px;
+    padding: 25px 25px 15px 15px;
     text-transform: uppercase;
     margin: 0;
+    font-weight: bold !important;
+    letter-spacing: 1px !important;
 }
 
 #modules-and-layouts-sidebar .mw-ui-box {
     background: #f5f5f5;
-    padding: 25px;
+    padding: 0 15px 25px 20px;
     width: 300px;
     overflow: auto;
-}      
+    top: -3px;
+    border: 0;
+    position: relative;
+}
+
+#modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+#modules-and-layouts-sidebar .mw-ui-box::-webkit-scrollbar-thumb {
+    background-color: #0086db;
+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%,
+    color-stop(.5, rgba(255, 255, 255, .2)),
+    color-stop(.5, transparent), to(transparent));
+}
 
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn {
     border: 1px solid transparent;
@@ -2980,9 +3048,26 @@ div[id*='SSDIVEL'] {
     -webkit-border-top-left-radius: 2px;
     -moz-border-top-left-radius: 2px;
     border-top-left-radius: 2px;
-    padding: 5px 15px;
+    padding: 5px 8px;
     line-height: 21px !important;
     text-decoration: none;
+    letter-spacing: 0 !important;
+}
+
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn i {
+    font-size: 22px;
+    line-height: 27px !important;
+    float: left;
+    margin-right: 6px;
+    color: #999999;
+}
+
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn i.mwi-folder {
+    font-size: 20px;
+}
+
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn i.mwi-cog {
+    font-size: 20px;
 }
 
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn.active {
@@ -2992,22 +3077,27 @@ div[id*='SSDIVEL'] {
     color: #4d4d4d;
 }
 
-#modules-and-layouts-sidebar .mw-ui-box {
-    border: 0;
-    border-top: 1px solid #eaeaea;
-    top: -1px;
-    position: relative;
+#modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn.active i {
+    color: #0086db;
 }
 
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs {
     z-index: 999;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 15px;
 }
 
 /* Layouts */
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item {
     cursor: pointer;
     margin-bottom: 25px;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts:hover .module-item {
+    opacity: 0.6;
+}
+
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {
+    opacity: 1;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item .mw_module_image {
@@ -3036,7 +3126,7 @@ div[id*='SSDIVEL'] {
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {
-    box-shadow: 12px 0 15px -4px rgba(214, 214, 214, 0.8), -12px 0 8px -4px rgba(214, 214, 214, 0.8);
+    box-shadow: 7px 5px 10px -5px rgba(0, 0, 0, 0.5), -7px -5px 10px -7px rgba(0, 0, 0, 0.5);
 }
 
 /* Modules */
@@ -3079,10 +3169,27 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar #search-modules-and-layouts {
     position: relative;
     font-size: 11px;
-    padding-bottom: 25px;
+    background: #f5f5f5;
+    clear: both;
+    padding: 25px;
+    z-index: 2;
+    border-top: 1px solid #eaeaea;
+    top: -1px;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts label {
+#modules-and-layouts-sidebar #search-modules-and-layouts.scroll-box-not-top {
+    border-bottom: 1px solid #eaeaea;
+    -webkit-box-shadow: 0 8px 6px -6px #eaeaea;
+    -moz-box-shadow: 0 8px 6px -6px #eaeaea;
+    box-shadow: 0 8px 6px -6px #eaeaea;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper {
+    position: relative;
+    font-size: 11px;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper label {
     position: absolute;
     left: 10px;
     top: 4px;
@@ -3093,11 +3200,11 @@ div[id*='SSDIVEL'] {
     margin-left: 0px;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts label i {
+#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper label i {
     color: #999999;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts input {
+#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper input {
     padding-left: 43px;
     height: 36px;
     padding: 10px 15px 10px 35px;
@@ -3110,12 +3217,30 @@ div[id*='SSDIVEL'] {
     display: block;
     width: 100%;
     background: #fff;
+    border:1px solid #eaeaea;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts #search-clear {
+#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper #search-clear {
     text-decoration: none;
     position: absolute;
     right: 12px;
     top: 13px;
     color: #999999;
+}
+
+.mw-v2 {
+    font-size: 18px;
+    line-height: 18px;
+    float: left;
+}
+
+.mw-v2.m-r {
+    margin-right: 7px;
+}
+
+.mw-toolbar-right-content .mw-ui-btn i {
+    color: #919191;
 }
