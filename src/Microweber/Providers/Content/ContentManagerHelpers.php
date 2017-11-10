@@ -496,7 +496,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         $is_module = false;
 
 
-
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
             if (isset($post_data['json_obj'])) {
@@ -728,11 +727,17 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $content_id_for_con_field = $content_id = $the_field_data['attributes']['data-id'];
                                     break;
                                 case 'page':
+
                                 case 'post':
                                     $save_global = false;
                                     $save_layout = false;
                                     $content_id_for_con_field = $content_id = $page_id;
                                     break;
+
+                                case 'module':
+                                    $save_global = true;
+                                    break;
+                                case 'page':
                                 default:
                                     break;
                             }
