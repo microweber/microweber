@@ -1,4 +1,10 @@
 <div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder mw-normalize-css">
+    <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="sidebar-toggler">
+        <div class="i-holder">
+            <i class="mwi-hamb"></i>
+        </div>
+    </a>
+
     <h3>Settings</h3>
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
@@ -11,10 +17,10 @@
         <div id="search-modules-and-layouts" class="">
             <div class="search-wrapper">
                 <label for="search-input">
-                    <i class="icon mw-icon-search" aria-hidden="true"></i>
+                    <i class="mw-icon-search" aria-hidden="true"></i>
                 </label>
                 <input class="form-control input-lg" placeholder="Search" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1">
-                <a id="search-clear" href="#" class="icon mw-icon-close" aria-hidden="true"></a>
+                <a id="search-clear" href="#" class="mw-icon-close" aria-hidden="true"></a>
             </div>
         </div>
 

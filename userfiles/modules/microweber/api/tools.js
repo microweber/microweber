@@ -2900,12 +2900,6 @@ mw.tools = {
     },
 
 
-
-
-
-
-
-
     module_settings: function (a, view, liveedit) {
         if (typeof liveedit === 'undefined') {
             var liveedit = true;

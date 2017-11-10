@@ -2429,8 +2429,8 @@ body.design_hover .element-current {
 
 #main-save-btn {
     margin: 0 0 0 12px;
-    background-color: #235F99;
-    border-color: #235F99
+    background-color: #0084d8;
+    border-color: #0084d8
 }
 
 html.mw_pages #mw_toolbar_nav {
@@ -2943,12 +2943,58 @@ div[id*='SSDIVEL'] {
     bottom: 0;
     right: 0px;
     background: white;
-    /* display: none; */
-    z-index: 99999;
+    z-index: 999;
     font-size: 11px;
     border-left: 1px solid #e5e5e5;
     -webkit-box-shadow: -2px 0px 5px -3px #e5e5e5;
     box-shadow: -2px 0px 5px -3px #e5e5e5;
+
+    right: -300px;
+    transition: 0.6s;
+}
+
+#live_edit_side_holder.sidebar_opened {
+    transition: 0.6s;
+    right: 0;
+}
+
+#live_edit_side_holder .sidebar-toggler {
+    position: absolute;
+    left: -19px;
+    background: #0086db;
+    height: 68px;
+    width: 18px;
+    display: block;
+    border: 0;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    top: 45%;
+}
+
+#live_edit_side_holder .sidebar-toggler .i-holder {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    transition: 0.6s;
+    margin-top: 31px;
+}
+
+/*#live_edit_side_holder.sidebar_opened .sidebar-toggler .i-holder {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    transition: 0.6s;
+}*/
+
+#live_edit_side_holder .sidebar-toggler i {
+    color: #fff;
+}
+
+#live_edit_side_holder.sidebar_opened .sidebar-toggler {
 }
 
 #live_edit_side_holder.sidebar_opened {
@@ -3171,7 +3217,7 @@ div[id*='SSDIVEL'] {
     display: block;
     width: 100%;
     background: #fff;
-    border-color: #eaeaea;
+    border:1px solid #eaeaea;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -3183,4 +3229,18 @@ div[id*='SSDIVEL'] {
     right: 12px;
     top: 13px;
     color: #999999;
+}
+
+.mw-v2 {
+    font-size: 18px;
+    line-height: 18px;
+    float: left;
+}
+
+.mw-v2.m-r {
+    margin-right: 7px;
+}
+
+.mw-toolbar-right-content .mw-ui-btn i {
+    color: #919191;
 }
