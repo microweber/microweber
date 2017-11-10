@@ -2963,13 +2963,8 @@ div[id*='SSDIVEL'] {
     background: #f5f5f5;
     padding: 25px;
     width: 300px;
-}
-
-#modules-and-layouts-sidebar .mw-ui-box-content {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 500px;
-}
+    overflow: auto;
+}      
 
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn {
     border: 1px solid transparent;
@@ -3079,4 +3074,48 @@ div[id*='SSDIVEL'] {
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item:hover .module_name {
     color: #3a3434;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts {
+    position: relative;
+    font-size: 11px;
+    padding-bottom: 25px;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts label {
+    position: absolute;
+    left: 10px;
+    top: 4px;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-size: 22px;
+    margin-left: 0px;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts label i {
+    color: #999999;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts input {
+    padding-left: 43px;
+    height: 36px;
+    padding: 10px 15px 10px 35px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    color: #999999;
+    font-size: 11px;
+    font-style: normal;
+    display: block;
+    width: 100%;
+    background: #fff;
+}
+
+#modules-and-layouts-sidebar #search-modules-and-layouts #search-clear {
+    text-decoration: none;
+    position: absolute;
+    right: 12px;
+    top: 13px;
+    color: #999999;
 }
