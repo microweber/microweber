@@ -1595,8 +1595,18 @@ mw.tools = {
         });
         return has;
     },
-    hasAnyOfClassesOnNodeOrParent: function (node, arr) {
-
+    hasAnyOfClassesOnNodeOrParent:function(node, arr){
+        if(mw.tools.hasAnyOfClasses(node, arr)){
+            return true;
+        }
+        var has = false;
+        mw.tools.foreachParents(node, function (loop) {
+            if(mw.tools.hasAnyOfClasses(this, arr)){
+                has = true;
+                mw.tools.stopLoop(loop);
+            }
+        });
+        return has;
     },
     addClass: function (el, cls) {
         if (el === null) {
