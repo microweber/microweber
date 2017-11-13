@@ -77,49 +77,51 @@ mw.external_tool = function (url) {
     return !url.contains("/") ? mw.settings.site_url + "editor_tools/" + url : url;
 }
 // Polyfill for escape/unescape
-if( !window.unescape ){
-    window.unescape = function( s ){
-        return s.replace( /%([0-9A-F]{2})/g, function( m, p ) {
-            return String.fromCharCode( '0x' + p );
-        } );
+if (!window.unescape) {
+    window.unescape = function (s) {
+        return s.replace(/%([0-9A-F]{2})/g, function (m, p) {
+            return String.fromCharCode('0x' + p);
+        });
     };
 }
-if( !window.escape ){
-    window.escape = function( s ){
+if (!window.escape) {
+    window.escape = function (s) {
         var chr, hex, i = 0, l = s.length, out = '';
-        for( ; i < l; i ++ ){
-            chr = s.charAt( i );
-            if( chr.search( /[A-Za-z0-9\@\*\_\+\-\.\/]/ ) > -1 ){
-                out += chr; continue; }
-            hex = s.charCodeAt( i ).toString( 16 );
+        for (; i < l; i++) {
+            chr = s.charAt(i);
+            if (chr.search(/[A-Za-z0-9\@\*\_\+\-\.\/]/) > -1) {
+                out += chr;
+                continue;
+            }
+            hex = s.charCodeAt(i).toString(16);
             out += '%' + ( hex.length % 2 != 0 ? '0' : '' ) + hex;
         }
         return out;
     };
 }
 mw.tools = {
-    constructions:function(){
-        $(".mw-image-holder").each(function(){
+    constructions: function () {
+        $(".mw-image-holder").each(function () {
             var img = this.querySelector('img');
-            $(this).css('backgroundImage', 'url('+img.src+')')
+            $(this).css('backgroundImage', 'url(' + img.src + ')')
         })
     },
-    isEditable:function(item){
+    isEditable: function (item) {
         var el = item;
-        if(!!item.type && !!item.target){
+        if (!!item.type && !!item.target) {
             el = item.target;
         }
-        if(mw.tools.hasClass(el, 'edit')) return true;
+        if (mw.tools.hasClass(el, 'edit')) return true;
         var hasParentsModule = mw.tools.hasParentsWithClass(el, 'module');
         var hasParentsEdit = mw.tools.hasParentsWithClass(el, 'edit');
-        if(hasParentsModule && !hasParentsEdit) return false;
-        if(!hasParentsModule && hasParentsEdit) return true;
-        if(hasParentsModule && hasParentsEdit){
+        if (hasParentsModule && !hasParentsEdit) return false;
+        if (!hasParentsModule && hasParentsEdit) return true;
+        if (hasParentsModule && hasParentsEdit) {
             var order = mw.tools.parentsOrder(item, ['edit', 'module']);
-            if(order.edit < order.module) {
+            if (order.edit < order.module) {
                 return true;
             }
-            else{
+            else {
                 return false;
             }
         }
@@ -187,7 +189,7 @@ mw.tools = {
         return mw.tools.external(o.name, o.callback, o.holder, o.params);
     },
     tooltip: {
-        source: function (content, skin, position,id) {
+        source: function (content, skin, position, id) {
             if (skin == 'dark') {
                 var skin = 'mw-tooltip-dark';
             } else if (skin == 'warning') {
@@ -359,25 +361,27 @@ mw.tools = {
             var o = mw.tools.tooltip.prepare(o);
             if (o === false) return false;
             if (o.id && mw.$('#' + o.id).length > 0) {
-                var tip = mw.$('#' + o.id)[0] ;
+                var tip = mw.$('#' + o.id)[0];
             } else {
                 var tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
             }
             tip.tooltipData = o;
             var wl = wl || true;
-            if (o.group){
-                var tip_group_class = 'mw-tooltip-group-'+o.group;
+            if (o.group) {
+                var tip_group_class = 'mw-tooltip-group-' + o.group;
                 var cur_tip = $(tip)
                 if (!cur_tip.hasClass(tip_group_class)) {
                     cur_tip.addClass(tip_group_class)
                 }
                 var cur_tip_id = cur_tip.attr('id');
-                if(cur_tip_id){
-                    mw.$("."+tip_group_class).not( "#"+cur_tip_id ).hide();
+                if (cur_tip_id) {
+                    mw.$("." + tip_group_class).not("#" + cur_tip_id).hide();
                     if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
-                        setTimeout(function(){ mw.$( "#"+cur_tip_id ).show(); }, 100);
+                        setTimeout(function () {
+                            mw.$("#" + cur_tip_id).show();
+                        }, 100);
                     } else {
-                        mw.$( "#"+cur_tip_id ).show();
+                        mw.$("#" + cur_tip_id).show();
                     }
                 }
             }
@@ -390,8 +394,8 @@ mw.tools = {
                  }
                  });*/
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
-                    $(self).bind('click', function (e,target) {
-                        mw.$("."+tip_group_class).hide();
+                    $(self).bind('click', function (e, target) {
+                        mw.$("." + tip_group_class).hide();
                     });
                 }
             }
@@ -849,11 +853,11 @@ mw.tools = {
                 modal.gallery.curr = next;
                 mw.tools.gallery.normalize(modal);
                 var next_of_next = typeof arr[next + 1] !== 'undefined' ? next + 1 : 0;
-                if(typeof arr[next_of_next] !== 'undefined'){
-                    if(typeof arr[next_of_next]['image'] !== 'undefined'){
+                if (typeof arr[next_of_next] !== 'undefined') {
+                    if (typeof arr[next_of_next]['image'] !== 'undefined') {
                         var next_of_next_url = arr[next_of_next]['image']
                         var src_regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-                        if(src_regex.test(next_of_next_url)) {
+                        if (src_regex.test(next_of_next_url)) {
                             try {
                                 var _prelaod_img = new Image();
                                 _prelaod_img.src = next_of_next_url;
@@ -875,36 +879,36 @@ mw.tools = {
                 mw.tools.gallery.normalize(modal);
             }, modal);
         },
-        playing : false,
-        playingInt : null,
-        play : function(modal, interval){
-          console.log(modal)
-          if(!modal){
-            clearInterval(mw.tools.gallery.playingInt);
-            mw.tools.gallery.playing = false;
-            return;
-          }
-          if(mw.tools.gallery.playing){
-            mw.tools.gallery.playing = false;
-            clearInterval(mw.tools.gallery.playingInt);
-            $('.mwf-loader', modal.container).stop().css({width:'0%'})
-          }
-          else{
-            mw.tools.gallery.playing = true;
-            interval = interval || 4000;
-            $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
-            mw.tools.gallery.playingInt = setInterval(function(){
-              if(mw.tools.gallery.playing){
-                if($('.mwf-loader', modal.container).length > 0){
-                  $('.mwf-loader', modal.container).stop().css({width:'0%'}).animate({width:'100%'}, interval);
-                  mw.tools.gallery.next(modal);
-                }
-                else{
-                  clearInterval(mw.tools.gallery.playingInt);
-                }
-              }
-            }, interval);
-          }
+        playing: false,
+        playingInt: null,
+        play: function (modal, interval) {
+            console.log(modal)
+            if (!modal) {
+                clearInterval(mw.tools.gallery.playingInt);
+                mw.tools.gallery.playing = false;
+                return;
+            }
+            if (mw.tools.gallery.playing) {
+                mw.tools.gallery.playing = false;
+                clearInterval(mw.tools.gallery.playingInt);
+                $('.mwf-loader', modal.container).stop().css({width: '0%'})
+            }
+            else {
+                mw.tools.gallery.playing = true;
+                interval = interval || 4000;
+                $('.mwf-loader', modal.container).stop().css({width: '0%'}).animate({width: '100%'}, interval);
+                mw.tools.gallery.playingInt = setInterval(function () {
+                    if (mw.tools.gallery.playing) {
+                        if ($('.mwf-loader', modal.container).length > 0) {
+                            $('.mwf-loader', modal.container).stop().css({width: '0%'}).animate({width: '100%'}, interval);
+                            mw.tools.gallery.next(modal);
+                        }
+                        else {
+                            clearInterval(mw.tools.gallery.playingInt);
+                        }
+                    }
+                }, interval);
+            }
         },
         go: function (modal, index) {
             var modal = modal || mw.$("#mw_gallery")[0].modal;
@@ -964,9 +968,9 @@ mw.tools = {
                     overlay: true,
                     name: "mw_gallery",
                     template: 'mw_modal_gallery',
-                    onremove:function(){
-                      clearInterval(mw.tools.gallery.playingInt);
-                      mw.tools.gallery.playing = false;
+                    onremove: function () {
+                        clearInterval(mw.tools.gallery.playingInt);
+                        mw.tools.gallery.playing = false;
                     }
                 });
             modal.overlay.style.opacity = 0.8;
@@ -989,7 +993,7 @@ mw.tools = {
                     mw.tools.gallery.prev(modal);
                 });
                 play.click(function () {
-                  $(this).toggleClass('active');
+                    $(this).toggleClass('active');
                     mw.tools.gallery.play(modal);
                 });
                 f.click(function () {
@@ -1035,8 +1039,8 @@ mw.tools = {
         },
         normalize: function (modal) {
             mw.tools.gallery.normalizer(modal);
-            (function(modal){
-                setTimeout(function(){
+            (function (modal) {
+                setTimeout(function () {
                     mw.$('.mwf-single', modal).removeClass('.mwf-single-loading');
                 }, 50);
             })(modal)
@@ -1096,7 +1100,7 @@ mw.tools = {
     },
     dropdown: function (root) {
         var root = root || mwd.body;
-        if(root === null){
+        if (root === null) {
             return;
         }
         var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i = 0;
@@ -1178,10 +1182,10 @@ mw.tools = {
         if (typeof mw.tools.dropdownActivated === 'undefined') {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
-                if($(e.target).hasClass('mw-dropdown-content')
+                if ($(e.target).hasClass('mw-dropdown-content')
                     || $(e.target).hasClass('mw-dropdown')
                     || mw.tools.hasParentsWithClass(e.target, 'mw-dropdown')
-                ){
+                ) {
                     // dont hide the dropdown
                 } else if (mw.$('.mw-dropdown.hover').length == 0) {
                     mw.$(".mw-dropdown").removeClass("active");
@@ -1467,7 +1471,8 @@ mw.tools = {
                     this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';
                 });
             }
-            else { }
+            else {
+            }
         },
         old_checker: function (el) {
             var is_checkbox = el.getElementsByTagName('input')[0];
@@ -1519,78 +1524,78 @@ mw.tools = {
         }
         return final;
     },
-    firstWithBackgroundImage:function(node){
-      if(!node) return false;
-      if(!!node.style.backgroundImage) return node;
-      var final = false;
-      mw.tools.foreachParents(node, function(loop){
-        if(!!this.style.backgroundImage){
-          mw.tools.stopLoop(loop);
-          final = this;
-        }
-      });
-      return final;
-    },
-    parentsOrCurrentOrderMatchOrOnlyFirst:function(node, arr){
-      var curr = node,
-          has1 = false,
-          has2 = false;
-      while(curr !== document.body){
-        var h1 = mw.tools.hasClass(curr, arr[0]);
-        var h2 = mw.tools.hasClass(curr, arr[1]);
-        if(h1 && h2){
-          return false;
-        }
-        else{
-          if(h1){
-            return true;
-          }
-          else if(h2){
-            return false;
-          }
-        }
-        curr = curr.parentNode;
-      }
-      return true;
-    },
-    matchesAnyOnNodeOrParent:function(node, arr){
-      arr.forEach(function(selector){
-        if(mw.tools.matches(node, selector)){
-          return true;
-        }
-      });
-      var has = false;
-      mw.tools.foreachParents(node, function (loop) {
-          var i = 0;
-          for( ; i<arr.length; i++){
-            if(mw.tools.matches(this, arr[i])){
-              has = true;
-              mw.tools.stopLoop(loop);
-              return has;
+    firstWithBackgroundImage: function (node) {
+        if (!node) return false;
+        if (!!node.style.backgroundImage) return node;
+        var final = false;
+        mw.tools.foreachParents(node, function (loop) {
+            if (!!this.style.backgroundImage) {
+                mw.tools.stopLoop(loop);
+                final = this;
             }
-          }
-      });
-      return has;
+        });
+        return final;
     },
-    firstMatchesOnNodeOrParent:function(node, arr){
-      arr.forEach(function(selector){
-        if(mw.tools.matches(node, selector)){
-          return node;
-        }
-      });
-      var has = false;
-      mw.tools.foreachParents(node, function (loop) {
-          var el = this;
-          arr.forEach(function(selector){
-            if(mw.tools.matches(el, selector)){
-              has = el;
-              mw.tools.stopLoop(loop)
+    parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
+        var curr = node,
+            has1 = false,
+            has2 = false;
+        while (curr !== document.body) {
+            var h1 = mw.tools.hasClass(curr, arr[0]);
+            var h2 = mw.tools.hasClass(curr, arr[1]);
+            if (h1 && h2) {
+                return false;
             }
-          });
-      });
-      return has;
+            else {
+                if (h1) {
+                    return true;
+                }
+                else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return true;
     },
-    hasAnyOfClassesOnNodeOrParent:function(node, arr){
+    matchesAnyOnNodeOrParent: function (node, arr) {
+        arr.forEach(function (selector) {
+            if (mw.tools.matches(node, selector)) {
+                return true;
+            }
+        });
+        var has = false;
+        mw.tools.foreachParents(node, function (loop) {
+            var i = 0;
+            for (; i < arr.length; i++) {
+                if (mw.tools.matches(this, arr[i])) {
+                    has = true;
+                    mw.tools.stopLoop(loop);
+                    return has;
+                }
+            }
+        });
+        return has;
+    },
+    firstMatchesOnNodeOrParent: function (node, arr) {
+        arr.forEach(function (selector) {
+            if (mw.tools.matches(node, selector)) {
+                return node;
+            }
+        });
+        var has = false;
+        mw.tools.foreachParents(node, function (loop) {
+            var el = this;
+            arr.forEach(function (selector) {
+                if (mw.tools.matches(el, selector)) {
+                    has = el;
+                    mw.tools.stopLoop(loop)
+                }
+            });
+        });
+        return has;
+    },
+    hasAnyOfClassesOnNodeOrParent: function (node, arr) {
 
     },
     addClass: function (el, cls) {
@@ -1632,7 +1637,7 @@ mw.tools = {
         if (cls == ' ') {
             return false;
         }
-        if(typeof(cls) == 'object'){
+        if (typeof(cls) == 'object') {
             var arr = cls;
         } else {
             var arr = cls.split(" ");
@@ -1694,10 +1699,10 @@ mw.tools = {
         var d = {};
         d.toreturn = false;
         mw.tools.foreachParents(el, function (loop) {
-            if(cls in this){
+            if (cls in this) {
                 d.toreturn = true;
                 mw.tools.stopLoop(loop);
-            } else if(this.hasOwnProperty(cls)){
+            } else if (this.hasOwnProperty(cls)) {
                 d.toreturn = true;
                 mw.tools.stopLoop(loop);
             }
@@ -1849,17 +1854,17 @@ mw.tools = {
         return _has;
     },
     firstParentOrCurrentWithAnyOfClasses: function (el, arr) {
-      if(mw.tools.hasAnyOfClasses(node, arr)){
-        return node;
-      }
-      var has = false;
-      mw.tools.foreachParents(node, function (loop) {
-          if(mw.tools.hasAnyOfClasses(this, arr)){
-              has = this;
-              mw.tools.stopLoop(loop);
-          }
-      });
-      return has;
+        if (mw.tools.hasAnyOfClasses(node, arr)) {
+            return node;
+        }
+        var has = false;
+        mw.tools.foreachParents(node, function (loop) {
+            if (mw.tools.hasAnyOfClasses(this, arr)) {
+                has = this;
+                mw.tools.stopLoop(loop);
+            }
+        });
+        return has;
     },
     lastParentWithClass: function (el, cls) {
         _has = false;
@@ -2485,10 +2490,10 @@ mw.tools = {
         }
     },
     mwattr: function (el, a, b) {
-        if (!b&&!!el) {
+        if (!b && !!el) {
             var data = $(el).dataset(a);
-            if(!!$(el)[0].attributes){
-              var attr = $(el)[0].attributes[a];
+            if (!!$(el)[0].attributes) {
+                var attr = $(el)[0].attributes[a];
             }
 
             if (data !== '') {
@@ -2737,7 +2742,7 @@ mw.tools = {
         var el = mwd.createElement(tag);
         mw.tools.copyAttributes(node, el);
         while (node.firstChild) {
-          el.appendChild(node.firstChild);
+            el.appendChild(node.firstChild);
         }
         mw.tools.copyEvents(node, el);
         $(node).replaceWith(el);
@@ -2918,12 +2923,16 @@ mw.tools = {
     },
 
 
-
     show_live_edit_sidebar: function () {
-         if (mw.$('#live_edit_side_holder').length != 0) {
-
-             $('#live_edit_side_holder').toggleClass('sidebar_opened');
-         }
+        if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
+            $('#live_edit_side_holder').removeClass('sidebar_opened');
+            $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
+            mw.cookie.set("show-sidebar-layouts", '0');
+        } else {
+            $('#live_edit_side_holder').addClass('sidebar_opened');
+            $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+            mw.cookie.set("show-sidebar-layouts", '1');
+        }
     },
 
 
@@ -2934,7 +2943,7 @@ mw.tools = {
         if (typeof a === 'string') {
             var module_type = a;
             var module_id = a;
-            var mod_sel = mw.$(a+':first');
+            var mod_sel = mw.$(a + ':first');
             if (mod_sel.length > 0) {
                 var attr = $(mod_sel).attr('id');
                 if (typeof attr !== typeof undefined && attr !== false) {
@@ -3009,7 +3018,7 @@ mw.tools = {
             data1.from_url = window.parent.location;
         }
         var modal_name = 'module-settings-' + curr.id;
-        if(typeof(data1.view.hash) == 'function'){
+        if (typeof(data1.view.hash) == 'function') {
             //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
         }
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
@@ -3025,56 +3034,56 @@ mw.tools = {
         });
         return modal;
     },
-    open_custom_css_editor:function(){
+    open_custom_css_editor: function () {
         var src = mw.settings.site_url + 'api/module?id=mw_global_css_editor&live_edit=true&module_settings=true&type=editor/css_editor&autosize=true';
         var modal = mw.tools.modal.frame({
             url: src,
             // width: 500,
             //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-css-editor-front',
-            title:'CSS Editor',
+            title: 'CSS Editor',
             template: 'default',
             center: false,
             resize: true,
             draggable: true
         });
     },
-    open_custom_html_editor:function(){
+    open_custom_html_editor: function () {
         var src = mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/html_editor&autosize=true';
         var modal = mw.tools.modal.frame({
             url: src,
             // width: 500,
             // height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-html-editor-front',
-            title:'HTML Editor',
+            title: 'HTML Editor',
             template: 'default',
             center: false,
             resize: true,
             draggable: true
         });
     },
-    open_reset_content_editor:function(){
+    open_reset_content_editor: function () {
         var src = mw.settings.site_url + 'api/module?id=mw_global_reset_content_editor&live_edit=true&module_settings=true&type=editor/reset_content&autosize=true';
         var modal = mw.tools.modal.frame({
             url: src,
             // width: 500,
             // height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-reset-content-editor-front',
-            title:'Reset content',
+            title: 'Reset content',
             template: 'default',
             center: false,
             resize: true,
             draggable: true
         });
     },
-    open_global_module_settings_modal:function(module_type, module_id){
-        var src = mw.settings.site_url + 'api/module?id='+module_id+'&live_edit=true&module_settings=true&type='+module_type+'&autosize=true';
+    open_global_module_settings_modal: function (module_type, module_id) {
+        var src = mw.settings.site_url + 'api/module?id=' + module_id + '&live_edit=true&module_settings=true&type=' + module_type + '&autosize=true';
         var modal = mw.tools.modal.frame({
             url: src,
             // width: 500,
             //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name: 'mw-module-settings-editor-front',
-            title:'Settings',
+            title: 'Settings',
             template: 'default',
             center: false,
             resize: true,
@@ -3272,19 +3281,19 @@ mw.tools = {
         }
         var skin = $(el).attr('data-tipskin');
         var skin = (skin) ? skin : 'mw-tooltip-dark';
-        var pos =  $(el).attr('data-tipposition');
-        var iscircle =  $(el).attr('data-tipcircle') == 'true';
+        var pos = $(el).attr('data-tipposition');
+        var iscircle = $(el).attr('data-tipcircle') == 'true';
         if (!pos) {
             var pos = 'top-center';
         }
         var text = $(el).attr('data-tip');
-        if(!text){
+        if (!text) {
             var text = $(el).attr('title');
         }
-        if(!text){
+        if (!text) {
             var text = $(el).attr('tip');
         }
-        if(typeof text == 'undefined' || !text){
+        if (typeof text == 'undefined' || !text) {
             return;
         }
         if (text.indexOf('.') === 0 || text.indexOf('#') === 0) {
@@ -3306,7 +3315,7 @@ mw.tools = {
             $(mw.tools._titleTip).addClass('mw-universal-tooltip');
         }
         else {
-            mw.tools._titleTip.className = 'mw-tooltip ' + pos + ' '+ skin +' mw-universal-tooltip';
+            mw.tools._titleTip.className = 'mw-tooltip ' + pos + ' ' + skin + ' mw-universal-tooltip';
             mw.$('.mw-tooltip-content', mw.tools._titleTip).html(text);
             mw.tools.tooltip.setPosition(mw.tools._titleTip, el, pos);
         }
@@ -3381,9 +3390,9 @@ mw.wait('jQuery', function () {
 });
 mw.tools.base64 = {
 // private property
-    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 // public method for encoding
-    encode : function (input) {
+    encode: function (input) {
         var output = "";
         var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
         var i = 0;
@@ -3408,8 +3417,8 @@ mw.tools.base64 = {
         return output;
     },
 // public method for decoding
-    decode : function (input) {
-        if(typeof input == 'undefined'){
+    decode: function (input) {
+        if (typeof input == 'undefined') {
             return;
         }
         var output = "";
@@ -3437,15 +3446,15 @@ mw.tools.base64 = {
         return output;
     },
 // private method for UTF-8 encoding
-    _utf8_encode : function (string) {
-        string = string.replace(/\r\n/g,"\n");
+    _utf8_encode: function (string) {
+        string = string.replace(/\r\n/g, "\n");
         var utftext = "";
         for (var n = 0; n < string.length; n++) {
             var c = string.charCodeAt(n);
             if (c < 128) {
                 utftext += String.fromCharCode(c);
             }
-            else if((c > 127) && (c < 2048)) {
+            else if ((c > 127) && (c < 2048)) {
                 utftext += String.fromCharCode((c >> 6) | 192);
                 utftext += String.fromCharCode((c & 63) | 128);
             }
@@ -3458,24 +3467,24 @@ mw.tools.base64 = {
         return utftext;
     },
 // private method for UTF-8 decoding
-    _utf8_decode : function (utftext) {
+    _utf8_decode: function (utftext) {
         var string = "";
         var i = 0;
         var c = c1 = c2 = 0;
-        while ( i < utftext.length ) {
+        while (i < utftext.length) {
             c = utftext.charCodeAt(i);
             if (c < 128) {
                 string += String.fromCharCode(c);
                 i++;
             }
-            else if((c > 191) && (c < 224)) {
-                c2 = utftext.charCodeAt(i+1);
+            else if ((c > 191) && (c < 224)) {
+                c2 = utftext.charCodeAt(i + 1);
                 string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
                 i += 2;
             }
             else {
-                c2 = utftext.charCodeAt(i+1);
-                c3 = utftext.charCodeAt(i+2);
+                c2 = utftext.charCodeAt(i + 1);
+                c3 = utftext.charCodeAt(i + 2);
                 string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
                 i += 3;
             }
@@ -3505,19 +3514,19 @@ mw.cookie = {
         var expires_date = new Date(now.getTime() + (expires));
         document.cookie = name + "=" + escape(value) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : ";path=/" ) + ( ( domain ) ? ";domain=" + domain : "" ) + ( ( secure ) ? ";secure" : "" );
     },
-    setEncoded:function(name, value, expires, path, domain, secure){
+    setEncoded: function (name, value, expires, path, domain, secure) {
         // value = encodeURIComponent(value);
         // value = escape(value);
         //value = mw.tools.base64.encode( unescape( encodeURIComponent( value ) ) )
-        value = mw.tools.base64.encode(  value )
+        value = mw.tools.base64.encode(value)
         return this.set(name, value, expires, path, domain, secure)
     },
-    getEncoded:function(name){
+    getEncoded: function (name) {
         var value = this.get(name);
         // value = decodeURIComponent(value);
         //value = unescape(value);
         //value = decodeURIComponent( escape( mw.tools.base64.decode( value ) ) )
-        value = mw.tools.base64.decode( value  )
+        value = mw.tools.base64.decode(value)
         return value;
     },
     ui: function (a, b) {
@@ -3576,7 +3585,7 @@ mw.recommend = {
     },
     increase: function (item_name) {
         var json = mw.recommend.get();
-        if(typeof(json) == 'undefined'){
+        if (typeof(json) == 'undefined') {
             json = {};
         }
         var curr = parseFloat(json[item_name]);
@@ -4090,8 +4099,8 @@ $(document).ready(function () {
             }
         });
     });
-    $(".mw-image-holder").each(function(){
-        if($(".mw-image-holder-overlay", this).length === 0){
+    $(".mw-image-holder").each(function () {
+        if ($(".mw-image-holder-overlay", this).length === 0) {
             $('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
         }
     })
@@ -4345,7 +4354,7 @@ mw.image = {
                 mw.image_resizer = resizer;
                 mw.image_resizer = resizer;
                 $(resizer).on("click", function (e) {
-                  mw.wysiwyg.select_element(mw.image.currentResizing[0])
+                    mw.wysiwyg.select_element(mw.image.currentResizing[0])
                 });
                 $(resizer).on("dblclick", function (e) {
                     mw.wysiwyg.media('#editimage');
@@ -4586,35 +4595,35 @@ mw.image = {
         }
     },
     preloadForAll: function (array, eachcall, callback) {
-      var size = array.length, i = 0, count = 0;
-      for( ; i < size ; i++){
-        mw.image.preload(array[i], function(imgWidth, imgHeight){
-          count++;
-          eachcall.call(this, imgWidth, imgHeight)
-          if(count === size){
-            if(!!callback) callback.call()
-          }
-        })
-      }
+        var size = array.length, i = 0, count = 0;
+        for (; i < size; i++) {
+            mw.image.preload(array[i], function (imgWidth, imgHeight) {
+                count++;
+                eachcall.call(this, imgWidth, imgHeight)
+                if (count === size) {
+                    if (!!callback) callback.call()
+                }
+            })
+        }
     },
     preloadAll: function (array, callback) {
-      var size = array.length, i = 0, count = 0;
-      for( ; i < size ; i++){
-        mw.image.preload(array[i], function(){
-          count++;
-          if(count === size){
-            callback.call()
-          }
-        })
-      }
+        var size = array.length, i = 0, count = 0;
+        for (; i < size; i++) {
+            mw.image.preload(array[i], function () {
+                count++;
+                if (count === size) {
+                    callback.call()
+                }
+            })
+        }
     },
     preload: function (url, callback) {
         var img;
         if (typeof window.chrome === 'object') {
             var img = new Image();
         }
-        else{
-          img = mwd.createElement('img')
+        else {
+            img = mwd.createElement('img')
         }
         img.className = 'semi_hidden';
         img.src = url;
@@ -4885,113 +4894,117 @@ $(mwd).ready(function () {
     });
 });
 mw.responsive = {
-  table:function(selector, options){
-    options = options || {};
-    options.breakPoint = options.breakPoint || 768;
-    options.breakPoints = options.breakPoints || false;
-    $(selector).each(function(){
-      var css = mwd.createElement('style');
-      var cls = 'responsive-table-' + mw.random();
-      var sel = function(c){
-        var final = '', arr = c.split(',');
-        arr.forEach(function(c,i){
-          arr[i] = '.' + cls + ' ' + c.trim()
-        })
-        return arr.join(',');
-      };
-      mw.tools.addClass(this, cls);
-      var el = $(this);
-      if(!options.breakPoints){
-        css.innerHTML = '@media (max-width:'+(options.breakPoint)+'px) { '
-        + '.' + cls + '{ display: block; width:100%}'
-        + sel('tbody tr') + '{ margin-bottom: 20px;display: block; clear:both;overflow:hidden; }'
-        + sel('thead, tfoot') + '{ display: none; }'
-        + sel('.th-in-td, tbody,tr,td') + '{ display: block; width:100% }'
-        + sel('tbody td') + '{ text-align: left;display: block;width: 100%; }'
-        +'}';
-     }
-     else{
-      var html = '';
-      var arr = [];
-      $.each( options.breakPoints , function(key, val){
-        arr.push(key);
-      })
-      arr.sort(function(a, b){return b-a});
-      $.each( arr , function(key){
-        var val = options.breakPoints[this];
-          html += '\n @media (max-width:'+(this)+'px) { '
-        + '.' + cls + '{ display: block; width:100%}'
-        + sel('tbody tr') + '{ margin-bottom: 20px;display: block;clear:both; }'
-        + sel('thead, tfoot') + '{ display: none; }'
-        + sel('.th-in-td, tbody,tr') + '{ display: block; width:100% }'
-        + sel('tbody td') + '{ display: block;width:'+(100/val)+'%;float:left; }'
-        +'}';
-      });
-      $(window).on('resize oientationchange', function(){
-        $('tr', el).each(function(){
-          var max = 0;
-          $('td', this).height('auto').each(function(){
-            var h = $(this).outerHeight();
-            if(h>max){max=h}
-          })
-          .height(max)
-        })
-      })
-      css.innerHTML = html
-     }
-      el.prepend(css);
-      if(!el.hasClass('mw-mobile-table')){
-        el.addClass('mw-mobile-table');
-        var th = $('th', this)
-        $('tr', this).each(function(){
-          $('td', this).each(function(i){
-            $(this).prepend('<span class="th-in-td">'+th.eq(i).html()+'</span>');
-          });
-        })
-      }
-    });
-  }
+    table: function (selector, options) {
+        options = options || {};
+        options.breakPoint = options.breakPoint || 768;
+        options.breakPoints = options.breakPoints || false;
+        $(selector).each(function () {
+            var css = mwd.createElement('style');
+            var cls = 'responsive-table-' + mw.random();
+            var sel = function (c) {
+                var final = '', arr = c.split(',');
+                arr.forEach(function (c, i) {
+                    arr[i] = '.' + cls + ' ' + c.trim()
+                })
+                return arr.join(',');
+            };
+            mw.tools.addClass(this, cls);
+            var el = $(this);
+            if (!options.breakPoints) {
+                css.innerHTML = '@media (max-width:' + (options.breakPoint) + 'px) { '
+                    + '.' + cls + '{ display: block; width:100%}'
+                    + sel('tbody tr') + '{ margin-bottom: 20px;display: block; clear:both;overflow:hidden; }'
+                    + sel('thead, tfoot') + '{ display: none; }'
+                    + sel('.th-in-td, tbody,tr,td') + '{ display: block; width:100% }'
+                    + sel('tbody td') + '{ text-align: left;display: block;width: 100%; }'
+                    + '}';
+            }
+            else {
+                var html = '';
+                var arr = [];
+                $.each(options.breakPoints, function (key, val) {
+                    arr.push(key);
+                })
+                arr.sort(function (a, b) {
+                    return b - a
+                });
+                $.each(arr, function (key) {
+                    var val = options.breakPoints[this];
+                    html += '\n @media (max-width:' + (this) + 'px) { '
+                        + '.' + cls + '{ display: block; width:100%}'
+                        + sel('tbody tr') + '{ margin-bottom: 20px;display: block;clear:both; }'
+                        + sel('thead, tfoot') + '{ display: none; }'
+                        + sel('.th-in-td, tbody,tr') + '{ display: block; width:100% }'
+                        + sel('tbody td') + '{ display: block;width:' + (100 / val) + '%;float:left; }'
+                        + '}';
+                });
+                $(window).on('resize oientationchange', function () {
+                    $('tr', el).each(function () {
+                        var max = 0;
+                        $('td', this).height('auto').each(function () {
+                            var h = $(this).outerHeight();
+                            if (h > max) {
+                                max = h
+                            }
+                        })
+                            .height(max)
+                    })
+                })
+                css.innerHTML = html
+            }
+            el.prepend(css);
+            if (!el.hasClass('mw-mobile-table')) {
+                el.addClass('mw-mobile-table');
+                var th = $('th', this)
+                $('tr', this).each(function () {
+                    $('td', this).each(function (i) {
+                        $(this).prepend('<span class="th-in-td">' + th.eq(i).html() + '</span>');
+                    });
+                })
+            }
+        });
+    }
 }
-String.prototype.hash = function() {
+String.prototype.hash = function () {
     var self = this, range = Array(this.length);
-    for(var i = 0; i < this.length; i++) {
+    for (var i = 0; i < this.length; i++) {
         range[i] = i;
     }
-    return Array.prototype.map.call(range, function(i) {
+    return Array.prototype.map.call(range, function (i) {
         return self.charCodeAt(i).toString(16);
     }).join('');
 }
 
-mw.ajax = function(item, options){
-  options = options || {}
-  if(typeof item === 'string' || item.__proto__ === $.fn || item.nodeType === 1){
-    var form = mw.$(item);
-    options.data = mw.serializeFields(item);
-    if(!options.method){
-      if(!!form.method){
-        options.method = form.method
-      }
+mw.ajax = function (item, options) {
+    options = options || {}
+    if (typeof item === 'string' || item.__proto__ === $.fn || item.nodeType === 1) {
+        var form = mw.$(item);
+        options.data = mw.serializeFields(item);
+        if (!options.method) {
+            if (!!form.method) {
+                options.method = form.method
+            }
+        }
     }
-  }
-  else if(item.constructor === options.constructor){
-    options.data = item;
-  }
-  options.method = options.method || 'post';
-  var xhr = $.ajax(options);
+    else if (item.constructor === options.constructor) {
+        options.data = item;
+    }
+    options.method = options.method || 'post';
+    var xhr = $.ajax(options);
 
-  xhr.done(function(data) {
-    if(!!data && !!data.success){
-      mw.notification.success(data.msg || data.success)
-    }
-    else if(!!data && !!data.error){
-      mw.notification.error(data.msg || data.error)
-    }
-  })
-  xhr.fail(function(data) {
-    if(!!data && !!data.error){
-      mw.notification.error(data.msg || data.error)
-    }
-  })
+    xhr.done(function (data) {
+        if (!!data && !!data.success) {
+            mw.notification.success(data.msg || data.success)
+        }
+        else if (!!data && !!data.error) {
+            mw.notification.error(data.msg || data.error)
+        }
+    })
+    xhr.fail(function (data) {
+        if (!!data && !!data.error) {
+            mw.notification.error(data.msg || data.error)
+        }
+    })
 
-  return xhr;
+    return xhr;
 }

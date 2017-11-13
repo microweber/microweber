@@ -4,8 +4,12 @@
             <i class="mwi-hamb"></i>
         </div>
     </a>
+    <a href="javascript:;" class="close-sidebar-button" title="<?php _e("Close"); ?>" data-id="mw-toolbar-show-sidebar-btn"><i class="mwi-close-thin"></i></a>
 
-    <h3>Settings</h3>
+    <h3 class="tab-title tab-title-0">Add Layout</h3>
+    <h3 class="tab-title tab-title-1" style="display: none;">Add Module</h3>
+    <h3 class="tab-title tab-title-2" style="display: none;">Settings</h3>
+
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> Layouts</a>
@@ -57,7 +61,11 @@
         $(document).ready(function () {
             mw.tabs({
                 nav: '#mw-modules-layouts-tabsnav  .tabnav',
-                tabs: '#mw-modules-layouts-tabsnav .tabitem'
+                tabs: '#mw-modules-layouts-tabsnav .tabitem',
+                onclick: function (currentTab, event, index) {
+                    $('.tab-title').hide();
+                    $('.tab-title-' + index).show();
+                }
             });
 
             checkScrollBoxPosition();

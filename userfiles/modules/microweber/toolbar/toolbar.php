@@ -166,6 +166,14 @@ if (isset($_COOKIE['mw_exp'])) {
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
                 mw.tools.show_live_edit_sidebar();
             });
+
+            if (mw.cookie.get('show-sidebar-layouts') == 1) {
+                $('#live_edit_side_holder').addClass('sidebar_opened');
+                $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+            } else {
+                $('#live_edit_side_holder').removeClass('sidebar_opened');
+                $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
+            }
         });
 
     </script>

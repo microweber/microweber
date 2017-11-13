@@ -2428,9 +2428,10 @@ body.design_hover .element-current {
 }
 
 #main-save-btn {
-    margin: 0 0 0 12px;
-    background-color: #0084d8;
-    border-color: #0084d8
+    margin: 0 0 0 4px;
+    border-color: #5CA230;
+    background-color: #5CA230;
+    color: white;
 }
 
 html.mw_pages #mw_toolbar_nav {
@@ -3270,4 +3271,27 @@ div[id*='SSDIVEL'] {
 
 .mw-toolbar-add-new-content-ctrl:after {
     display: none !important;
+}
+
+a[data-id="mw-toolbar-show-sidebar-btn"].opened {
+    margin: 0 0 0 4px;
+    background-color: #0084d8;
+    border-color: #0084d8;
+    color: #fff;
+}
+
+a[data-id="mw-toolbar-show-sidebar-btn"].opened i {
+    color: #fff;
+}
+
+.close-sidebar-button {
+    right: 15px;
+    top: 15px;
+    position: absolute;
+    font-size: 10px;
+}
+
+.close-sidebar-button i {
+    color: #3a3434 !important;
+    background: #fff !important;
 }
