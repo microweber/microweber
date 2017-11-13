@@ -2818,7 +2818,7 @@ div[id*='SSDIVEL'] {
 }
 
 #back-to-admin-toolbar {
-    margin: 0px 10px;
+    margin: 0px 8px;
     color: #333333;
     text-decoration: none;
     font-size: 12px;
@@ -3294,4 +3294,9 @@ a[data-id="mw-toolbar-show-sidebar-btn"].opened i {
 .close-sidebar-button i {
     color: #3a3434 !important;
     background: #fff !important;
+}
+
+body.mw-live-edit .mw-tooltip-content {
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif !important;
 }
