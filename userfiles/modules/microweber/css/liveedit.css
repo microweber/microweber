@@ -3135,7 +3135,7 @@ div[id*='SSDIVEL'] {
     width: 50%;
     float: left;
     text-align: center;
-    padding: 10px;
+    padding: 0px;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
@@ -3217,7 +3217,7 @@ div[id*='SSDIVEL'] {
     display: block;
     width: 100%;
     background: #fff;
-    border:1px solid #eaeaea;
+    border: 1px solid #eaeaea;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -3243,4 +3243,31 @@ div[id*='SSDIVEL'] {
 
 .mw-toolbar-right-content .mw-ui-btn i {
     color: #919191;
+}
+
+.view-website-button {
+    height: 33px;
+    margin-top: -1px;
+    border-left: 0;
+    margin-left: -2px;
+    padding: 1px 9px;
+    font-size: 18px;
+    float: right;
+}
+
+.mw-toolbar-add-new-content-ctrl i {
+    color: #0086db;
+    font-size: 16px;
+}
+
+.mw-toolbar-add-new-content-ctrl span {
+    margin-left: 6px;
+}
+
+.mw-toolbar-add-new-content-ctrl {
+    margin: 10px 0px 0 10px !important;
+}
+
+.mw-toolbar-add-new-content-ctrl:after {
+    display: none !important;
 }

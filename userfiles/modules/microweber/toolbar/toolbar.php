@@ -219,7 +219,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
                             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl" title="Create or manage your content"
-                               style=""><span> <?php _e("Add New"); ?> </span></a>
+                               style=""><i class="fa fa-plus-circle"></i><span> <?php _e("Add New"); ?> </span></a>
                             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                                 style="width: 200px; text-transform:uppercase;top: 51px;">
                                 <?php event_trigger('live_edit_quick_add_menu_start'); ?>
@@ -342,10 +342,11 @@ if (isset($_COOKIE['mw_exp'])) {
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
 
-                                            <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><span class="mw-icon-css">{}</span><?php _e("Reset content"); ?>
-                                                </a></li>
-
-
+                                            <li>
+                                                <a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn">
+                                                    <span class="mw-icon-css">{}</span><?php _e("Reset content"); ?>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </li>
 
@@ -357,7 +358,8 @@ if (isset($_COOKIE['mw_exp'])) {
                             </div>
                         </div>
 
-
+                        <a class="mw-ui-btn mw-ui-btn-medium view-website-button tip" href="<?php print mw()->url_manager->current(); ?>?editmode=n" data-tip="<?php _e('View Website'); ?>"
+                           data-tipposition="bottom-center"><i class="fa fa-globe"></i></a>
                         <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
 
 
