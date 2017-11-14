@@ -37,11 +37,10 @@
                 <module type="admin/modules/list"/>
             </div>
 
-            <div class="mw-ui-box-content tabitem" style="display: none">
-                <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-<iframe height="100%" width="100%" src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+            <div class="mw-ui-box-content tabitem iframe-holder" style="display: none">
+                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+                    <iframe class="settings-iframe" src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
-
             </div>
         </div>
     </div>

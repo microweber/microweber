@@ -3300,3 +3300,18 @@ body.mw-live-edit .mw-tooltip-content {
     font-size: 11px;
     font-family: Verdana, Geneva, sans-serif !important;
 }
+
+#modules-and-layouts-sidebar .iframe-holder {
+    width: 100%;
+    height: 100%;
+}
+
+#modules-and-layouts-sidebar .settings-iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#modules-and-layouts-sidebar .settings-iframe body {
+    overflow: hidden !important;
+}
