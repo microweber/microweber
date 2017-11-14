@@ -34,6 +34,7 @@ if ($cur_template == false) {
     }
     if ($cur_template != false) {
         $cur_template = str_replace('..', '', $cur_template);
+        $cur_template = str_replace('.php.php', '.php', $cur_template);
     }
 }
 
@@ -121,7 +122,7 @@ if ($cur_template == false) {
     <?php endforeach; ?>
     <?php endif; ?>
   </select>
-  <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" />    
+  <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>" />
   <?php if (!isset($params['simple'])) { ?>
     <label class="mw-ui-label">
     <hr>

@@ -5,7 +5,15 @@ if (!isset($params['parent-module-id'])) {
 
 }
 $params['id'] = $params['parent-module-id'];
-$module_template = get_option('data-template', $params['parent-module-id']);
+
+if (isset($params['parent-template'])) {
+    $module_template = $params['parent-template'];
+
+} else {
+    $module_template = get_option('data-template', $params['parent-module-id']);
+
+}
+
 
 if ($module_template == false) {
     $module_template = 'default';
