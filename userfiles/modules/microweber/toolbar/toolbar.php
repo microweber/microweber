@@ -174,15 +174,18 @@ if (isset($_COOKIE['mw_exp'])) {
                 $('#live_edit_side_holder').removeClass('sidebar_opened');
                 $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
 
-                /*$("#sidebar-hidden-area").mouseout(function () {
-                 $('#live_edit_side_holder').removeClass('sidebar_opened');
-                 });*/
             }
 
             $('body').prepend('<div id="sidebar-hidden-area"></div>');
 
             $("#sidebar-hidden-area").mouseover(function () {
-                mw.tools.show_live_edit_sidebar();
+                if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
+
+                } else {
+                    $('#live_edit_side_holder').addClass('sidebar_opened');
+                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                    mw.cookie.set("show-sidebar-layouts", '1');
+                }
             });
         });
 

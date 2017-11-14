@@ -2434,7 +2434,7 @@ body.design_hover .element-current {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    color: #fff;
+    color: #fff !important;
     cursor: pointer;
     font-size: 11px;
     text-align: center;
@@ -3364,5 +3364,6 @@ body.mw-live-edit .mw-tooltip-content {
     position: fixed;
     right: 0;
     z-index: 999999;
-    height: 100vh;
+    height: 130px;
+    top: 45%;
 }
