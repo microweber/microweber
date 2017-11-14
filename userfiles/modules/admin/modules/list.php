@@ -22,12 +22,23 @@ if (isset($is_elements) and $is_elements == true) {
     if ($modules == false) {
         $modules = array();
     }
+    // REMOVE
+    $modules = array();
+
+
+
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
     $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
 
     $module_layouts_skins = mw()->modules->templates('layouts');
+   // $module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'module_dir');
+    //$module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'dream');
+//var_dump($module_layouts_skins_def);
+//    if(is_array($module_layouts_skins) and is_arr($module_layouts_skins_def) and ($module_layouts_skins != $module_layouts_skins_def)){
+//        $module_layouts_skins = array_merge($module_layouts_skins,$module_layouts_skins_def);
+//    }
 
 
 

@@ -4,8 +4,12 @@
             <i class="mwi-hamb"></i>
         </div>
     </a>
+    <a href="javascript:;" class="close-sidebar-button" title="<?php _e("Close"); ?>" data-id="mw-toolbar-show-sidebar-btn"><i class="mwi-close-thin"></i></a>
 
-    <h3>Settings</h3>
+    <h3 class="tab-title tab-title-0">Add Layout</h3>
+    <h3 class="tab-title tab-title-1" style="display: none;">Add Module</h3>
+    <h3 class="tab-title tab-title-2" style="display: none;">Settings</h3>
+
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> Layouts</a>
@@ -33,8 +37,10 @@
                 <module type="admin/modules/list"/>
             </div>
 
-            <div class="mw-ui-box-content tabitem" style="display: none">
-                Contact - Lorem Ipsum
+            <div class="mw-ui-box-content tabitem iframe-holder" style="display: none">
+                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+                    <iframe class="settings-iframe" src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -57,7 +63,11 @@
         $(document).ready(function () {
             mw.tabs({
                 nav: '#mw-modules-layouts-tabsnav  .tabnav',
-                tabs: '#mw-modules-layouts-tabsnav .tabitem'
+                tabs: '#mw-modules-layouts-tabsnav .tabitem',
+                onclick: function (currentTab, event, index) {
+                    $('.tab-title').hide();
+                    $('.tab-title-' + index).show();
+                }
             });
 
             checkScrollBoxPosition();

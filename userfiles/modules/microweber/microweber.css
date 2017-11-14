@@ -46,6 +46,21 @@
     margin-left: -75px;
     z-index: 999;
     border-radius: 0 0 3px 3px;
+
+    font-family: Verdana, Geneva, sans-serif !important;
+    background-color: #0084d8;
+    border-color: #0084d8;
+    color: #fff;
+}
+
+#mw_toolbar_back_to_live_edit:hover {
+    background-color: #fff;
+    border-color: #fff;
+    color: #212121;
+}
+
+#mw_toolbar_back_to_live_edit span {
+    top: 0;
 }
 
 body.mw-preview {

@@ -2464,9 +2464,10 @@ body.design_hover .element-current {
 }
 
 #main-save-btn {
-    margin: 0 0 0 12px;
-    background-color: #0084d8;
-    border-color: #0084d8
+    margin: 0 0 0 4px;
+    border-color: #5CA230;
+    background-color: #5CA230;
+    color: white;
 }
 
 html.mw_pages #mw_toolbar_nav {
@@ -2853,7 +2854,7 @@ div[id*='SSDIVEL'] {
 }
 
 #back-to-admin-toolbar {
-    margin: 0px 10px;
+    margin: 0px 8px;
     color: #333333;
     text-decoration: none;
     font-size: 12px;
@@ -3129,7 +3130,7 @@ div[id*='SSDIVEL'] {
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts:hover .module-item {
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {
@@ -3171,7 +3172,7 @@ div[id*='SSDIVEL'] {
     width: 50%;
     float: left;
     text-align: center;
-    padding: 10px;
+    padding: 0px;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
@@ -3253,7 +3254,7 @@ div[id*='SSDIVEL'] {
     display: block;
     width: 100%;
     background: #fff;
-    border:1px solid #eaeaea;
+    border: 1px solid #eaeaea;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -3279,4 +3280,74 @@ div[id*='SSDIVEL'] {
 
 .mw-toolbar-right-content .mw-ui-btn i {
     color: #919191;
+}
+
+.view-website-button {
+    height: 33px;
+    margin-top: -1px;
+    border-left: 0;
+    margin-left: -2px;
+    padding: 1px 9px;
+    font-size: 18px;
+    float: right;
+}
+
+.mw-toolbar-add-new-content-ctrl i {
+    color: #0086db;
+    font-size: 16px;
+}
+
+.mw-toolbar-add-new-content-ctrl span {
+    margin-left: 6px;
+}
+
+.mw-toolbar-add-new-content-ctrl {
+    margin: 10px 0px 0 10px !important;
+}
+
+.mw-toolbar-add-new-content-ctrl:after {
+    display: none !important;
+}
+
+a[data-id="mw-toolbar-show-sidebar-btn"].opened {
+    margin: 0 0 0 4px;
+    background-color: #0084d8;
+    border-color: #0084d8;
+    color: #fff;
+}
+
+a[data-id="mw-toolbar-show-sidebar-btn"].opened i {
+    color: #fff;
+}
+
+.close-sidebar-button {
+    right: 15px;
+    top: 15px;
+    position: absolute;
+    font-size: 10px;
+}
+
+.close-sidebar-button i {
+    color: #3a3434 !important;
+    background: #fff !important;
+}
+
+body.mw-live-edit .mw-tooltip-content {
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif !important;
+}
+
+#modules-and-layouts-sidebar .iframe-holder {
+    width: 100%;
+    height: 100%;
+}
+
+#modules-and-layouts-sidebar .settings-iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#modules-and-layouts-sidebar .settings-iframe body {
+    overflow: hidden !important;
 }
