@@ -1032,7 +1032,7 @@ mw.drag = {
         });
         $(window).on("onModuleOver", function(a, element) {
 
-            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop']) || (mw.tools.hasParentsWithClass(element, 'module') && !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
+            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop']) || ((mw.tools.hasParentsWithClass(element, 'module') || mw.tools.hasClass('module',element))&& !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
                 //return false;
             } else {
