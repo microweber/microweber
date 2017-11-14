@@ -372,33 +372,35 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     opacity: 1;
 }
 
-.mw_dropable_arr{
-  position: absolute;
-  left: 50%;
-  display: block;
-  width: 5px;
+.mw_dropable_arr {
+    position: absolute;
+    left: 50%;
+    display: block;
+    width: 5px;
 }
 
 .mw_dropable_arr:before,
-.mw_dropable_arr:after{
-  width: 0px;
-  height: 0px;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  content: '';
-  display: block;
-  position: absolute;
-  left: 0;
-  margin-left: -2.5px;
+.mw_dropable_arr:after {
+    width: 0px;
+    height: 0px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    margin-left: -2.5px;
 
 }
-.mw_dropable_arr:before{
-  border-bottom: 5px solid #0088CC;
-  top: -6px;
+
+.mw_dropable_arr:before {
+    border-bottom: 5px solid #0088CC;
+    top: -6px;
 }
-.mw_dropable_arr:after{
-  border-top: 5px solid #0088CC;
-  bottom: -9px;
+
+.mw_dropable_arr:after {
+    border-top: 5px solid #0088CC;
+    bottom: -9px;
 }
 
 .mw_dropable {
@@ -1779,9 +1781,9 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
 }
 
 .element-over:hover,
-.module-over:hover{
-  outline: 1px solid rgba(0, 134, 219, 1);
-  outline-offset: -1px;
+.module-over:hover {
+    outline: 1px solid rgba(0, 134, 219, 1);
+    outline-offset: -1px;
 }
 
 .mw-row:hover .mw-sorthandle-row:first-child {
@@ -2995,6 +2997,10 @@ div[id*='SSDIVEL'] {
     right: 0;
 }
 
+#live_edit_side_holder.sidebar_opened .sidebar-toggler {
+    left: -23px;
+}
+
 #live_edit_side_holder .sidebar-toggler {
     position: absolute;
     left: -19px;
@@ -3350,4 +3356,13 @@ body.mw-live-edit .mw-tooltip-content {
 
 #modules-and-layouts-sidebar .settings-iframe body {
     overflow: hidden !important;
+}
+
+#sidebar-hidden-area {
+    width: 40px;
+    /*border: 1px solid red;*/
+    position: fixed;
+    right: 0;
+    z-index: 999999;
+    height: 100vh;
 }

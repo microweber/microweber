@@ -160,7 +160,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <script>
         $(document).ready(function () {
-            // move to livedit,js
+            // move to livedit.js
             mw.$("#live_edit_side_holder .module").removeClass("module");
 
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
@@ -173,10 +173,21 @@ if (isset($_COOKIE['mw_exp'])) {
             } else {
                 $('#live_edit_side_holder').removeClass('sidebar_opened');
                 $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
+
+                /*$("#sidebar-hidden-area").mouseout(function () {
+                 $('#live_edit_side_holder').removeClass('sidebar_opened');
+                 });*/
             }
+
+            $('body').prepend('<div id="sidebar-hidden-area"></div>');
+
+            $("#sidebar-hidden-area").mouseover(function () {
+                mw.tools.show_live_edit_sidebar();
+            });
         });
 
     </script>
+
     <div class="mw-defaults" id="live_edit_side_holder" dir="ltr" lang="en">
         <div id="live_edit_sidebar_wrap">
             <module type="admin/modules/sidebar_live_edit" class=""/>
