@@ -372,10 +372,39 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     opacity: 1;
 }
 
+.mw_dropable_arr{
+  position: absolute;
+  left: 50%;
+  display: block;
+  width: 5px;
+}
+
+.mw_dropable_arr:before,
+.mw_dropable_arr:after{
+  width: 0px;
+  height: 0px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  margin-left: -2.5px;
+
+}
+.mw_dropable_arr:before{
+  border-bottom: 5px solid #0088CC;
+  top: -6px;
+}
+.mw_dropable_arr:after{
+  border-top: 5px solid #0088CC;
+  bottom: -9px;
+}
+
 .mw_dropable {
     position: absolute !important;
     height: 3px;
-    background: #4F4F4F;
+    background: #0088CC;
     z-index: 997;
     display: none;
 }
@@ -463,8 +492,10 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 a.mw-make-cols,
 #mw_handle_module .mw_edit_settings,
 #mw_handle_module .mw_edit_settings_multiple {
-    color: #111;
-    background: #E1E1E1;
+    /*color: #111;
+    background: #E1E1E1;*/
+    color: white;
+    background: black;
     text-decoration: none;
     display: inline-block;
     padding: 2px 7px;
@@ -1747,6 +1778,12 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     box-shadow: inset 0 0 1px #fff;
 }
 
+.element-over:hover,
+.module-over:hover{
+  outline: 1px solid rgba(0, 134, 219, 1);
+  outline-offset: -1px;
+}
+
 .mw-row:hover .mw-sorthandle-row:first-child {
     visibility: visible;
 }
@@ -2391,19 +2428,18 @@ body.design_hover .element-current {
     display: inline-block;
     width: 20px;
     height: 20px;
-
+    line-height: 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    color: #666666;
+    color: #fff;
     cursor: pointer;
     font-size: 11px;
     text-align: center;
-    background: #e1e1e1;
+    background: #FF0000;
     position: relative;
     z-index: 9;
-    border-radius: 0 3px 3px 0;
-    padding: 2px;
+    border-radius: 3px;
     text-decoration: none;
     position: absolute;
     right: 0 !important;

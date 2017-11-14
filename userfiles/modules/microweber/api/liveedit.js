@@ -39,7 +39,7 @@ mw.dropables = {
     
     
     findNearest:function(event,selectors){
-        
+
     var selectors = (selectors || mw.drag.section_selectors).slice(0);
 
   
@@ -50,9 +50,7 @@ mw.dropables = {
 
     selectors = selectors.join(',');
 
-    console.log(selectors)
 
-        
       //return $( event.target ).closest( '.edit section' )
       var coords = { y:99999999 },
           y = event.pageY,
@@ -83,7 +81,6 @@ mw.dropables = {
         }
 
       }
-      console.log(final, v1, v2)
       return final;
     },
     display: function(el) {
@@ -492,11 +489,12 @@ mw.drag = {
             elen = edits.length,
             ei = 0;
         for (; ei < elen; ei++) {
-            var els = edits[ei].querySelectorAll('p,div,h1,h2,h3,h4,h5,h6,section'),
+            var els = edits[ei].querySelectorAll('p,div,h1,h2,h3,h4,h5,h6,section,img'),
                 i = 0,
                 l = els.length;
             for (; i < l; i++) {
                 var el = els[i];
+
                 var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
 
                 //Bootrap 3 classes
@@ -920,7 +918,22 @@ mw.drag = {
                  }
                  }
                 }
-                }
+
+              console.log(mw.currentDragMouseOver)
+              if(!!mw.currentDragMouseOver){
+                var el = $(mw.currentDragMouseOver);
+                var offset = el.offset();
+                var  height = el.height(), width = el.width()
+                  if (event.pageY > offset.top + (height / 2)) {
+                        mw.dropables.set('bottom', offset, height, width);
+                    } else {
+                        mw.dropables.set('top', offset, height, width);
+                    }
+
+                  }
+              }
+
+
             }
             $(".currentDragMouseOver").removeClass("currentDragMouseOver");
             $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
@@ -1543,7 +1556,6 @@ mw.drag = {
 
                         if(mw.currentDragException || mw.dropables.findNearestException){
                             mw.dropables.findNearestException = false;
-                            console.log(333, mw.currentDragMouseOver, position)
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             } else {
@@ -3122,6 +3134,7 @@ $(document).ready(function() {
     mw.wysiwyg.init_editables();
 
     setInterval(function(){
+
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
         for( ; i < all.length; i++){
@@ -3146,6 +3159,14 @@ $(document).ready(function() {
       }
 
     }, 300);
+
+    $(window).on('onElementOver onModuleOver', function(e, target){
+      mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over')
+      mw.tools.addClass(target, e.type=='onElementOver' ? 'element-over':'module-over')
+    })
+    /*$(window).on('onElementLeave onModuleLeave', function(e, target){
+      mw.tools.removeClass(target, e.type=='onElementLeave' ? 'element-over':'module-over')
+    })*/
 
 });
 
