@@ -2892,7 +2892,11 @@ mw.tools = {
                     mw.tools.show_template_settings();
                 }
             });
-            $(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>' + mw.msg.remove + '</span>');
+
+         //
+            //  Open template settings icon is sidebar
+            //  $(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>' + mw.msg.remove + '</span>');
+
             mw.$('.template-settings-icon').click(function () {
                 mw.tools.toggle_template_settings();
             });

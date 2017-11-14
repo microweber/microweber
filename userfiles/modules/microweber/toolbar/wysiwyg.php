@@ -211,7 +211,13 @@
      <div class="wysiwyg-cell"> <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span></div>
          
     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-    <div class="wysiwyg-cell"><span class="mw_editor_btn editor-template-settings" id="toolbar-template-settings" title="<?php _e("Template Settings"); ?>"><span class="ed-ico"></span></span></div>
+
+<?php
+        /*    <div class="wysiwyg-cell"><span class="mw_editor_btn editor-template-settings" id="toolbar-template-settings" title="<?php _e("Template Settings"); ?>"><span class="ed-ico"></span></span></div>
+*/
+
+        ?>
+
     <?php } ?>
     <?php event_trigger('live_edit_toolbar_btn'); ?>
   </div>

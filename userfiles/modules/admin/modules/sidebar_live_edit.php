@@ -38,7 +38,10 @@
             </div>
 
             <div class="mw-ui-box-content tabitem" style="display: none">
-                Contact - Lorem Ipsum
+                <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
+<iframe height="100%" width="100%" src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+                <?php } ?>
+
             </div>
         </div>
     </div>
