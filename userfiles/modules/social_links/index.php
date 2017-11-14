@@ -15,6 +15,7 @@ $pinterest_enabled_option = get_option('pinterest_enabled', $option_group);
 $youtube_enabled_option = get_option('youtube_enabled', $option_group);
 $linkedin_enabled_option = get_option('linkedin_enabled', $option_group);
 $instagram_enabled_option = get_option('instagram_enabled', $option_group);
+$rss_enabled_option = get_option('rss_enabled', $option_group);
 
 $facebook_enabled = $facebook_enabled_option == 'y';
 $twitter_enabled = $twitter_enabled_option == 'y';
@@ -23,6 +24,7 @@ $pinterest_enabled = $pinterest_enabled_option == 'y';
 $youtube_enabled = $youtube_enabled_option == 'y';
 $linkedin_enabled = $linkedin_enabled_option == 'y';
 $instagram_enabled = $instagram_enabled_option == 'y';
+$rss_enabled = $rss_enabled_option == 'y';
 
 
 if (isset($params['show-icons'])) {
@@ -43,6 +45,8 @@ if (isset($params['show-icons'])) {
             $linkedin_enabled = true;
         } else if (strpos($icon, 'instagram') !== false and $instagram_enabled_option == false) {
             $instagram_enabled = true;
+        } else if (strpos($icon, 'rss') !== false and $rss_enabled_option == false) {
+            $rss_enabled = true;
         }
     }
 }

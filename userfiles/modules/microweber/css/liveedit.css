@@ -3094,7 +3094,7 @@ div[id*='SSDIVEL'] {
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts:hover .module-item {
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {

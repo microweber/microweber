@@ -21,6 +21,7 @@ $option_group=$params['option-group'];
     $youtube_enabled = get_option('youtube_enabled', $option_group) == 'y';
     $linkedin_enabled = get_option('linkedin_enabled', $option_group) == 'y';
     $instagram_enabled = get_option('instagram_enabled', $option_group) == 'y';
+    $rss_enabled = get_option('rss_enabled', $option_group) == 'y';
 
     $instagram_url =  get_option('instagram_url', $option_group);
     $facebook_url =  get_option('facebook_url', $option_group);
@@ -112,11 +113,18 @@ $option_group=$params['option-group'];
       <td><label class="mw-ui-inline-label">linkedin.com/</label><input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="linkedin_url"  value="<?php print $linkedin_url; ?>" /></td>
     </tr>
     <tr>
-      <td><span class="mw-icon-social-instagram"></span></td>
-      <td><label class="mw-ui-check">
+        <td><span class="mw-icon-social-instagram"></span></td>
+        <td><label class="mw-ui-check">
                 <input type="checkbox" class="mw_option_field" name="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if($instagram_enabled) print 'checked="checked"'; ?>><span></span>
             </label></td>
-      <td><label class="mw-ui-inline-label">instagram.com/</label><input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="instagram_url"  value="<?php print $instagram_url; ?>" /></td>
+        <td><label class="mw-ui-inline-label">instagram.com/</label><input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="instagram_url"  value="<?php print $instagram_url; ?>" /></td>
+    </tr>
+    <tr>
+        <td><span class="mw-icon-social-rss"></span></td>
+        <td><label class="mw-ui-check">
+                <input type="checkbox" class="mw_option_field" name="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if($rss_enabled) print 'checked="checked"'; ?>><span></span>
+            </label></td>
+        <td></td>
     </tr>
   </tbody>
 </table>
