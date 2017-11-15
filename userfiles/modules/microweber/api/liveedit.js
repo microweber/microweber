@@ -478,7 +478,7 @@ mw.drag = {
     external_grids_row_classes: ['row'],
     external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
     external_css_no_element_classes: ['navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
-    section_selectors: ['section','.module','.module-layouts'],
+    section_selectors: ['.module-layouts'],
 
     dropOutsideDistance:25,
     columnout: false,
@@ -661,19 +661,22 @@ mw.drag = {
                     }
                     else{
 
-                    if ( !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) ) {
+                    if ( !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])
+                    && !(mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')) {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
 
                         mw.currentDragMouseOver = null;
                         mw.dropable.hide();
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
+                        console.log(1)
 
                     }
                     else if(mw.tools.matchesAnyOnNodeOrParent(mw.mm_target, mw.drag.section_selectors)
                         && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')){
                         mw.currentDragException = true;
                         mw.currentDragMouseOver = mw.tools.firstMatchesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors);
+                        console.log(2, mw.currentDragMouseOver)
                         var el = $(mw.currentDragMouseOver);
                         var height = el.height(), width = el.width(), offset = el.offset();
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
@@ -923,7 +926,7 @@ mw.drag = {
               if(!!mw.currentDragMouseOver){
                 var el = $(mw.currentDragMouseOver);
                 var offset = el.offset();
-                var  height = el.height(), width = el.width()
+                var  height = el.outerHeight(), width = el.width()
                   if (event.pageY > offset.top + (height / 2)) {
                         mw.dropables.set('bottom', offset, height, width);
                     } else {
@@ -3143,7 +3146,7 @@ $(document).ready(function() {
             mw.tools.addClass(el, 'allow-drop');
           }
           if(el.querySelector('.element') === null){
-            var all = el.querySelectorAll('div,img'), i = 0, item;
+            var all = el.querySelectorAll('div,img,h1,h2,h3,h4,h5,h6,section'), i = 0, item;
             for( ; i < all.length ; i++){
               item = all[i];
               if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
