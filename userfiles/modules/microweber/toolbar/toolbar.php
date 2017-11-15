@@ -178,15 +178,41 @@ if (isset($_COOKIE['mw_exp'])) {
 
             $('body').prepend('<div id="sidebar-hidden-area"></div>');
 
-            $("#sidebar-hidden-area").mouseover(function () {
-                if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
 
-                } else {
-                    $('#live_edit_side_holder').addClass('sidebar_opened');
-                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-                    mw.cookie.set("show-sidebar-layouts", '1');
+            /*        var delay = 100, setTimeoutConst;
+             $("#sidebar-hidden-area").mouseover(function () {
+             alert('test');
+             setTimeoutConst = setTimeout(function () {
+             if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
+
+             } else {
+             $('#live_edit_side_holder').addClass('sidebar_opened');
+             $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+             mw.cookie.set("show-sidebar-layouts", '1');
+             }
+             }, delay);
+             }, function () {
+             clearTimeout(setTimeoutConst);
+
+             });*/
+
+            var $li = $("#sidebar-hidden-area").hover(
+                function () {
+                    var self = this;
+                    hovertimer = setTimeout(function () {
+                        if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
+
+                        } else {
+                            $('#live_edit_side_holder').addClass('sidebar_opened');
+                            $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                            mw.cookie.set("show-sidebar-layouts", '1');
+                        }
+                    }, 200);
+                },
+                function () {
+                    clearTimeout(hovertimer);
                 }
-            });
+            );
         });
 
     </script>
