@@ -2990,6 +2990,10 @@ div[id*='SSDIVEL'] {
 
     right: -300px;
     transition: 0.6s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #live_edit_side_holder.sidebar_opened {
