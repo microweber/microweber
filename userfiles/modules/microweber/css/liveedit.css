@@ -3270,7 +3270,7 @@ div[id*='SSDIVEL'] {
     box-shadow: none;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper #mw-sidebar-search-clear-x-btn {
+#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper .mw-sidebar-search-clear-x-btn {
     text-decoration: none;
     position: absolute;
     right: 12px;
