@@ -157,6 +157,10 @@
             });
 
             mwCheckScrollBoxPosition();
+
+            $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
+                $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
+            })
         });
 
         $(window).on('resize load orientationchange', function () {
