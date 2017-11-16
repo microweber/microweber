@@ -128,7 +128,7 @@ class UpdateManager
             $data['check_composer_json_md5'] = md5(@file_get_contents($composer_json));
         }
         if (is_dir(base_path() . DS . 'vendor')) {
-            $data['check_vendor_writable'] = is_writable(base_path() . DS . 'vendor');
+            $data['check_vendor_writable'] = @is_writable(base_path() . DS . 'vendor');
         }
 
         return $data;

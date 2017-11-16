@@ -23,7 +23,7 @@ if (isset($is_elements) and $is_elements == true) {
         $modules = array();
     }
     // REMOVE
-    $modules = array();
+    //$modules = array();
 
 
 

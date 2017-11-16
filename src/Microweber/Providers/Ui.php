@@ -171,7 +171,7 @@ class Ui
         if ($this->disable_powered_by_link != false) {
             return;
         }
-        $link = '<span class="mw-powered-by"><a href="https://microweber.com/" title="Create free Website &amp; Online Shop">Create Website</a> <span>with</span> <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a></span>';
+        $link = '<span class="mw-powered-by"><a href="https://microweber.com/" title="Website Builder">Website Builder</a> <span>by</span> <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a></span>';
         if ($this->powered_by_link != false) {
             $link = $this->powered_by_link;
         }
