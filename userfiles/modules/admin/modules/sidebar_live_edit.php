@@ -15,7 +15,6 @@
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> Layouts</a>
-
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> Modules</a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> Settings</a>
         </div>
@@ -27,15 +26,23 @@
                     <i class="mw-icon-search" aria-hidden="true"></i>
                 </label>
 
+                <div class="tab-title tab-title-0">
+                    <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" class="form-control input-lg" placeholder="Search"
+                           autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                           id="mw-sidebar-search-input-for-modules-and-layouts">
+                </div>
 
-                <input onkeyup="mwSidebarSearchItems(this.value)" class="form-control input-lg" placeholder="Search"
-                       autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                       id="mw-sidebar-search-input-for-modules-and-layouts">
-
+                <div class="tab-title tab-title-1" style="display: none;">
+                    <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg" placeholder="Search"
+                           autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                           id="mw-sidebar-search-input-for-modules-and-layouts">
+                </div>
 
                 <a id="mw-sidebar-search-clear-x-btn" href="javascript:mwSidebarSearchClear();" class="mw-icon-close"
-                   aria-hidden="true"></a>
+                   aria-hidden="true" style="display: none;"></a>
             </div>
+
+            <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;">No found results</p>
         </div>
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
@@ -59,16 +66,18 @@
     <script>
 
         function mwSidebarSearchClear() {
-
             $('#mw-sidebar-search-input-for-modules-and-layouts').val('');
             $('#mw-sidebar-search-clear-x-btn').hide();
             mwSidebarSearchItems();
-
+            $('.mw-search-no-results').hide();
         }
-        function mwSidebarSearchItems(value) {
 
-
-            var obj = mw.$("#mw-sidebar-modules-and-layouts-holder .modules-list > li");
+        function mwSidebarSearchItems(value, what) {
+            if (what == 'modules') {
+                var obj = mw.$("#mw-sidebar-modules-list .modules-list > li");
+            } else {
+                var obj = mw.$("#mw-sidebar-layouts-list .modules-list > li");
+            }
             if (!value) {
                 $('#mw-sidebar-search-clear-x-btn').hide();
                 obj.show();
@@ -79,10 +88,10 @@
 
             var value = value.toLowerCase();
 
+            var numberOfResults = 0;
 
             var yourArray = [];
             $(obj).each(function () {
-
 
                 var show = false;
 
@@ -99,9 +108,15 @@
 
                 } else {
                     $(this).show();
+                    numberOfResults++;
                 }
             });
 
+            if (numberOfResults == 0) {
+                $('.mw-search-no-results').show();
+            } else {
+                $('.mw-search-no-results').hide();
+            }
 
         }
 
