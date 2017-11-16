@@ -161,7 +161,17 @@ document.body.appendChild(mw.inaccessibleModules);
         mw.tools.toggle_template_settings();
     });
 
-    $(window).on('onLayoutOver', function(e, el){
+    $(window).on('onLayoutOver onModuleOver', function(e, el){
+
+        if(e.type == 'onModuleOver'){
+          var curr = (el.offsetTop || 0);
+          var parentModule = mw.tools.firstParentWithClass(el, 'module');
+          if(parentModule && ($(el).offset().top - $(parentModule).offset().top) < 10){
+            el.__disableModuleTrigger = parentModule;
+          }
+
+        }
+
         mw.inaccessibleModules.innerHTML = '';
         var modules = mw.$(".inaccessibleModule", el);
         modules.each(function(){
@@ -572,13 +582,22 @@ mw.drag = {
                             $(window).trigger("onElementLeave", mw.mm_target);
                         }
                         if (mw.$mm_target.hasClass("module") && !mw.$mm_target.hasClass("no-settings")) {
+                          if(!mw.mm_target.__disableModuleTrigger){
                             $(window).trigger("onModuleOver", mw.mm_target);
+                          }
+                          else{
+                             $(window).trigger("onModuleOver", mw.mm_target.__disableModuleTrigger);
+                          }
+
 
                         } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
                             var _parentmodule = mw.tools.firstParentWithClass(mw.mm_target, 'module');
-                            if (!mw.tools.hasClass(_parentmodule, "no-settings")) {
+                            if (!mw.tools.hasClass(_parentmodule, "no-settings") && !_parentmodule.__disableModuleTrigger) {
                                 $(window).trigger("onModuleOver", _parentmodule);
                             }
+                            else{
+                             $(window).trigger("onModuleOver", _parentmodule.__disableModuleTrigger);
+                          }
 
                         } else if (mw.mm_target.id != 'mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length == 0) {
                             $(window).trigger("onModuleLeave", mw.mm_target);
@@ -669,14 +688,11 @@ mw.drag = {
                         mw.currentDragMouseOver = null;
                         mw.dropable.hide();
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
-                        console.log(1)
-
                     }
                     else if(mw.tools.matchesAnyOnNodeOrParent(mw.mm_target, mw.drag.section_selectors)
                         && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')){
                         mw.currentDragException = true;
                         mw.currentDragMouseOver = mw.tools.firstMatchesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors);
-                        console.log(2, mw.currentDragMouseOver)
                         var el = $(mw.currentDragMouseOver);
                         var height = el.height(), width = el.width(), offset = el.offset();
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
@@ -921,19 +937,17 @@ mw.drag = {
                  }
                  }
                 }
-
-              console.log(mw.currentDragMouseOver)
               if(!!mw.currentDragMouseOver){
                 var el = $(mw.currentDragMouseOver);
                 var offset = el.offset();
-                var  height = el.outerHeight(), width = el.width()
+                var  height = el.outerHeight(), width = el.width();
                   if (event.pageY > offset.top + (height / 2)) {
-                        mw.dropables.set('bottom', offset, height, width);
-                    } else {
-                        mw.dropables.set('top', offset, height, width);
-                    }
-
+                      mw.dropables.set('bottom', offset, height, width);
                   }
+                  else {
+                      mw.dropables.set('top', offset, height, width);
+                  }
+                }
               }
 
 
@@ -3138,6 +3152,13 @@ $(document).ready(function() {
 
     setInterval(function(){
 
+      var all = document.querySelectorAll('.module .module:not(.inaccessibleModule)'), i = 0;
+      for( ; i < all.length; i++){
+        //var order = mw.tools.parentsOrder(all[i], ['edit', 'module']);
+        //if(order.edit == -1 || order.edit > order.module){
+          mw.tools.addClass(all[i], 'inaccessibleModule')
+        //}
+      }
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
         for( ; i < all.length; i++){
