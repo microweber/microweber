@@ -10,37 +10,35 @@ if ($module_template != false) {
 
 
 $settings = get_option('settings', $params['id']);
+
 $json = array();
 
 if ($settings == false) {
     if (isset($params['settings'])) {
         $settings = $params['settings'];
         $json = json_decode($settings, true);
-
     } else {
-
         $json[] = array(
             'title' => 'Title 1',
-            'id' => 'tab-' . uniqid(),
+            'id' => 'accordion-' . uniqid(),
             'icon' => 'fa fa-home'
         );
 
         $json[] = array(
             'title' => 'Title 2',
-            'id' => 'tab-' . uniqid(),
+            'id' => 'accordion-' . uniqid(),
             'icon' => 'fa fa-home'
         );
 
         $json[] = array(
             'title' => 'Title 3',
-            'id' => 'tab-' . uniqid(),
+            'id' => 'accordion-' . uniqid(),
             'icon' => 'fa fa-home'
         );
     }
 } else {
     $json = json_decode($settings, true);
 }
-
 
 if (is_file($template_file)) {
     include($template_file);

@@ -1,10 +1,12 @@
 <div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder mw-normalize-css">
-    <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="sidebar-toggler">
+    <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
+       class="sidebar-toggler">
         <div class="i-holder">
             <i class="mwi-hamb"></i>
         </div>
     </a>
-    <a href="javascript:;" class="close-sidebar-button" title="<?php _e("Close"); ?>" data-id="mw-toolbar-show-sidebar-btn"><i class="mwi-close-thin"></i></a>
+    <a href="javascript:;" class="close-sidebar-button" title="<?php _e("Close"); ?>"
+       data-id="mw-toolbar-show-sidebar-btn"><i class="mwi-close-thin"></i></a>
 
     <h3 class="tab-title tab-title-0">Add Layout</h3>
     <h3 class="tab-title tab-title-1" style="display: none;">Add Module</h3>
@@ -18,35 +20,92 @@
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> Settings</a>
         </div>
 
+
         <div id="search-modules-and-layouts" class="">
             <div class="search-wrapper">
                 <label for="search-input">
                     <i class="mw-icon-search" aria-hidden="true"></i>
                 </label>
-                <input class="form-control input-lg" placeholder="Search" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1">
-                <a id="search-clear" href="#" class="mw-icon-close" aria-hidden="true"></a>
+
+
+                <input onkeyup="mwSidebarSearchItems(this.value)" class="form-control input-lg" placeholder="Search"
+                       autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                       id="mw-sidebar-search-input-for-modules-and-layouts">
+
+
+                <a id="mw-sidebar-search-clear-x-btn" href="javascript:mwSidebarSearchClear();" class="mw-icon-close"
+                   aria-hidden="true"></a>
             </div>
         </div>
 
-        <div class="mw-ui-box mw-scroll-box">
+        <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
             <div class="mw-ui-box-content tabitem">
-                <module type="admin/modules/list_layouts"/>
+                <module type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"/>
             </div>
 
             <div class="mw-ui-box-content tabitem" style="display: none">
-                <module type="admin/modules/list"/>
+                <module type="admin/modules/list" id="mw-sidebar-modules-list"/>
             </div>
 
             <div class="mw-ui-box-content tabitem iframe-holder" style="display: none">
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-                    <iframe class="settings-iframe" src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+                    <iframe class="settings-iframe"
+                            src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
             </div>
         </div>
     </div>
 
     <script>
-        function checkScrollBoxPosition() {
+
+        function mwSidebarSearchClear() {
+
+            $('#mw-sidebar-search-input-for-modules-and-layouts').val('');
+            $('#mw-sidebar-search-clear-x-btn').hide();
+            mwSidebarSearchItems();
+
+        }
+        function mwSidebarSearchItems(value) {
+
+
+            var obj = mw.$("#mw-sidebar-modules-and-layouts-holder .modules-list > li");
+            if (!value) {
+                $('#mw-sidebar-search-clear-x-btn').hide();
+                obj.show();
+                return;
+            }
+
+            $('#mw-sidebar-search-clear-x-btn').show();
+
+            var value = value.toLowerCase();
+
+
+            var yourArray = [];
+            $(obj).each(function () {
+
+
+                var show = false;
+
+                var description = $(this).attr('description') || false;
+                var description = description || $(this).attr('data-filter');
+                var title = $(this).attr('title') || false;
+
+                if (!!title && title.toLowerCase().contains(value) || (!!description && description.toLowerCase().contains(value))) {
+                    var show = true;
+                }
+
+                if (!show) {
+                    $(this).hide();
+
+                } else {
+                    $(this).show();
+                }
+            });
+
+
+        }
+
+        function mwCheckScrollBoxPosition() {
             var scrollBox = $(".mw-scroll-box").scrollTop();
 
             if (scrollBox == 0) {
@@ -57,7 +116,7 @@
         }
 
         $(".mw-scroll-box").on('scroll', function () {
-            checkScrollBoxPosition();
+            mwCheckScrollBoxPosition();
         });
 
         $(document).ready(function () {
@@ -70,7 +129,7 @@
                 }
             });
 
-            checkScrollBoxPosition();
+            mwCheckScrollBoxPosition();
         });
 
         $(window).on('resize load orientationchange', function () {

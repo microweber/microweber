@@ -23,7 +23,7 @@ if (isset($is_elements) and $is_elements == true) {
         $modules = array();
     }
     // REMOVE
-    $modules = array();
+    //$modules = array();
 
 
 
@@ -192,7 +192,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <span class="mw_module_image"> <span class="mw_module_image_holder">
     <img
             alt="<?php print $dynamic_layout['name'] ?>"
-            title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?>"
+            title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?> [<?php print str_replace('.php', '', $dynamic_layout['layout_file']); ?>]"
             class="module_draggable"
             data-module-name-enc="layout_<?php print date("YmdHis").$i++ ?>"
             data-module-name="layouts"
