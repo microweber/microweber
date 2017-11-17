@@ -110,8 +110,14 @@
                 var description = $(this).attr('description') || false;
                 var description = description || $(this).attr('data-filter');
                 var title = $(this).attr('title') || false;
+                var template = $(this).attr('template') || false;
 
-                if (!!title && title.toLowerCase().contains(value) || (!!description && description.toLowerCase().contains(value))) {
+                if (
+                    !!title && title.toLowerCase().contains(value)
+                    || (!!description && description.toLowerCase().contains(value))
+                    || (!!template && template.toLowerCase().contains(value))
+
+                ) {
                     var show = true;
                 }
 
@@ -174,6 +180,6 @@
                 }
 
             }
-        })
+        });
     </script>
 </div>
