@@ -164,10 +164,16 @@ document.body.appendChild(mw.inaccessibleModules);
     $(window).on('onLayoutOver onModuleOver', function(e, el){
 
         if(e.type == 'onModuleOver'){
-          var curr = (el.offsetTop || 0);
+
           var parentModule = mw.tools.firstParentWithClass(el, 'module');
-          if(parentModule && ($(el).offset().top - $(parentModule).offset().top) < 10){
+          var $el = $(el);
+          if(!!parentModule && ( $el.offset().top - $(parentModule).offset().top) < 10 ){
+            console.log('yess-', $el.offset().top - $(parentModule).offset().top)
             el.__disableModuleTrigger = parentModule;
+            $el.addClass('inaccessibleModule')
+          }
+          else{
+            $el.removeClass('inaccessibleModule')
           }
 
         }
@@ -3153,12 +3159,7 @@ $(document).ready(function() {
     setInterval(function(){
 
       var all = document.querySelectorAll('.module .module:not(.inaccessibleModule)'), i = 0;
-      for( ; i < all.length; i++){
-        //var order = mw.tools.parentsOrder(all[i], ['edit', 'module']);
-        //if(order.edit == -1 || order.edit > order.module){
-          mw.tools.addClass(all[i], 'inaccessibleModule')
-        //}
-      }
+
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
         for( ; i < all.length; i++){

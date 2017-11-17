@@ -2434,11 +2434,11 @@ body.design_hover .element-current {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    color: #fff !important;
+    color: #000;
     cursor: pointer;
     font-size: 11px;
     text-align: center;
-    background: #FF0000;
+    background: #C7C7C7;
     position: relative;
     z-index: 9;
     border-radius: 3px;
@@ -2459,9 +2459,8 @@ body.design_hover .element-current {
 }
 
 .mw_edit_delete:hover {
-    background-color: #DDDDDD;
-    border-bottom-color: #000000;
-    color: #000000;
+    background-color: #FF0000;
+    color: #EAEAEA;
     text-decoration: none;
 }
 
@@ -3370,4 +3369,26 @@ body.mw-live-edit .mw-tooltip-content {
     z-index: 999999;
     height: 130px;
     top: 45%;
+}
+
+#mw_handle_module_up,
+#mw_handle_module_down{
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  line-height: 19px;
+  text-align: center;
+  border-radius: 3px;
+  background-color: #DDDDDD;
+  font-family: Microweber;
+  color: #111;
+  cursor: pointer;
+  display:none
+}
+
+#mw_handle_module_up:before{
+  content: "\0139"
+}
+#mw_handle_module_down:before{
+  content: "\0136"
 }
