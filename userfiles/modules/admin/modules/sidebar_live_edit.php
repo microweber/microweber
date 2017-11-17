@@ -21,28 +21,40 @@
 
 
         <div id="search-modules-and-layouts" class="">
-            <div class="search-wrapper">
-                <label for="search-input">
-                    <i class="mw-icon-search" aria-hidden="true"></i>
-                </label>
 
-                <div class="tab-title tab-title-0">
-                    <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" class="form-control input-lg" placeholder="Search"
+            <div class="tab-title tab-title-0 layouts">
+                <div class="search-wrapper">
+                    <label for="search-input">
+                        <i class="mw-icon-search" aria-hidden="true"></i>
+                    </label>
+
+                    <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" class="form-control input-lg" placeholder="Search for Layouts"
                            autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
                            id="mw-sidebar-search-input-for-modules-and-layouts">
+
+                    <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                       aria-hidden="true" style="display: none;"></a>
                 </div>
 
-                <div class="tab-title tab-title-1" style="display: none;">
-                    <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg" placeholder="Search"
-                           autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                           id="mw-sidebar-search-input-for-modules-and-layouts">
-                </div>
-
-                <a id="mw-sidebar-search-clear-x-btn" href="javascript:mwSidebarSearchClear();" class="mw-icon-close"
-                   aria-hidden="true" style="display: none;"></a>
+                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;">No found results</p>
             </div>
 
-            <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;">No found results</p>
+            <div class="tab-title tab-title-1 modules" style="display: none;">
+                <div class="search-wrapper">
+                    <label for="search-input">
+                        <i class="mw-icon-search" aria-hidden="true"></i>
+                    </label>
+
+                    <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg" placeholder="Search for Modules"
+                           autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                           id="mw-sidebar-search-input-for-modules-and-layouts">
+
+                    <a href="javascript:mwSidebarSearchClear('modules');" class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                       aria-hidden="true" style="display: none;"></a>
+                </div>
+
+                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;">No found results</p>
+            </div>
         </div>
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
@@ -54,7 +66,7 @@
                 <module type="admin/modules/list" id="mw-sidebar-modules-list"/>
             </div>
 
-            <div class="mw-ui-box-content tabitem iframe-holder" style="display: none">
+            <div class="mw-ui-box-content tabitem iframe-holder" style="display: none;">
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
                     <iframe class="settings-iframe"
                             src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
@@ -65,11 +77,11 @@
 
     <script>
 
-        function mwSidebarSearchClear() {
+        function mwSidebarSearchClear(what) {
             $('#mw-sidebar-search-input-for-modules-and-layouts').val('');
-            $('#mw-sidebar-search-clear-x-btn').hide();
+            $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
             mwSidebarSearchItems();
-            $('.mw-search-no-results').hide();
+            $('.mw-search-no-results', '.' + what).hide();
         }
 
         function mwSidebarSearchItems(value, what) {
@@ -79,12 +91,12 @@
                 var obj = mw.$("#mw-sidebar-layouts-list .modules-list > li");
             }
             if (!value) {
-                $('#mw-sidebar-search-clear-x-btn').hide();
+                $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
                 obj.show();
                 return;
             }
 
-            $('#mw-sidebar-search-clear-x-btn').show();
+            $('.mw-sidebar-search-clear-x-btn', '.' + what).show();
 
             var value = value.toLowerCase();
 
@@ -98,8 +110,14 @@
                 var description = $(this).attr('description') || false;
                 var description = description || $(this).attr('data-filter');
                 var title = $(this).attr('title') || false;
+                var template = $(this).attr('template') || false;
 
-                if (!!title && title.toLowerCase().contains(value) || (!!description && description.toLowerCase().contains(value))) {
+                if (
+                    !!title && title.toLowerCase().contains(value)
+                    || (!!description && description.toLowerCase().contains(value))
+                    || (!!template && template.toLowerCase().contains(value))
+
+                ) {
                     var show = true;
                 }
 
@@ -113,9 +131,9 @@
             });
 
             if (numberOfResults == 0) {
-                $('.mw-search-no-results').show();
+                $('.mw-search-no-results', '.' + what).show();
             } else {
-                $('.mw-search-no-results').hide();
+                $('.mw-search-no-results', '.' + what).hide();
             }
 
         }
@@ -145,6 +163,10 @@
             });
 
             mwCheckScrollBoxPosition();
+
+            $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
+                $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
+            })
         });
 
         $(window).on('resize load orientationchange', function () {
@@ -158,6 +180,6 @@
                 }
 
             }
-        })
+        });
     </script>
 </div>
