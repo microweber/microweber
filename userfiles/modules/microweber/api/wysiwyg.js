@@ -152,7 +152,8 @@ mw.wysiwyg = {
         var sel = window.getSelection(),
             range = sel.getRangeAt(0),
             common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
-        var nodrop_state = !mw.tools.hasClass(common, 'nodrop') && !mw.tools.hasParentsWithClass(common, 'nodrop');
+        //var nodrop_state = !mw.tools.hasClass(common, 'nodrop') && !mw.tools.hasParentsWithClass(common, 'nodrop');
+        var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(common, ['allow-drop', 'nodrop']);
 
         if (mw.wysiwyg.isSelectionEditable() && nodrop_state) {
             if (typeof c === 'function') {
@@ -1302,6 +1303,7 @@ mw.wysiwyg = {
         if (window.getSelection().isCollapsed) {
             return false;
         }
+        console.log(a)
         mw.wysiwyg.allStatements(function () {
             rangy.init();
             var clstemp = 'mw-font-size-' + mw.random();
@@ -1316,6 +1318,7 @@ mw.wysiwyg = {
             var all = mwd.querySelectorAll('.' + clstemp),
                 l = all.length,
                 i = 0;
+                console.log(all)
             for (; i < l; i++) {
                 all[i].style.fontSize = a + 'px';
                 mw.tools.removeClass(all[i], clstemp);

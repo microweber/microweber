@@ -3383,7 +3383,13 @@ body.mw-live-edit .mw-tooltip-content {
   font-family: Microweber;
   color: #111;
   cursor: pointer;
-  display:none
+  position: relative;
+  z-index: 2;
+}
+#mw_handle_module_up:hover,
+#mw_handle_module_down:hover{
+  background-color: black;
+  color: white;
 }
 
 #mw_handle_module_up:before{

@@ -161,10 +161,6 @@ img[align='middle'] {
     transform-origin: 50% 50%;
 }
 
-img.element {
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
 
 .mw-col-container > h1:first-child,
 .mw-col-container > h2:first-child,
@@ -191,15 +187,7 @@ img.element {
     margin-bottom: 0;
 }
 
-.edit:after, .mw-col:after, .element:after, .module:after {
-    clear: both;
-    content: ".";
-    display: block;
-    overflow: hidden;
-    height: 0;
-    line-height: 0;
-    visibility: hidden;
-}
+
 
 /*****************  Grids  *******************/
 
@@ -221,19 +209,15 @@ img.element {
     min-height: 50px;
 }
 
-.edit:after, .mw-col:after, .element:after {
+/*.edit:after, .mw-col:after, .element:after {
     content: ".";
     display: block;
     clear: both;
     visibility: hidden;
     line-height: 0;
     height: 0;
-}
+}*/
 
-.element,
-.element p {
-    zoom: 1;
-}
 
 .element:empty {
     min-height: 20px;
