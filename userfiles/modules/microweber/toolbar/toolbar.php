@@ -198,19 +198,33 @@ if (isset($_COOKIE['mw_exp'])) {
 
              });*/
 
+            function mw_live_edit_opensidebar() {
+                if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
+
+                } else {
+                    $('#live_edit_side_holder').addClass('sidebar_opened');
+                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                    mw.cookie.set("show-sidebar-layouts", '1');
+                    $('body').css({'margin-right': '300px', 'transition': '0.6s'});
+                }
+            }
+
+            var $li_click = $("#sidebar-hidden-area").click(
+                function () {
+
+
+                    mw_live_edit_opensidebar();
+
+
+             });
             var $li = $("#sidebar-hidden-area").hover(
                 function () {
                     var self = this;
                     hovertimer = setTimeout(function () {
-                        if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
 
-                        } else {
-                            $('#live_edit_side_holder').addClass('sidebar_opened');
-                            $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-                            mw.cookie.set("show-sidebar-layouts", '1');
-                            $('body').css({'margin-right': '300px', 'transition': '0.6s'});
-                        }
-                    }, 2200);
+                        mw_live_edit_opensidebar();
+
+                    }, 1700);
                 },
                 function () {
                     clearTimeout(hovertimer);
