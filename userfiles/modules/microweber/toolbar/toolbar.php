@@ -210,7 +210,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             mw.cookie.set("show-sidebar-layouts", '1');
                             $('body').css({'margin-right': '300px', 'transition': '0.6s'});
                         }
-                    }, 200);
+                    }, 2200);
                 },
                 function () {
                     clearTimeout(hovertimer);

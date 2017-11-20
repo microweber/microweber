@@ -9,6 +9,7 @@ $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 
 $mw_parser_nest_counter_level = 0;
+$mod_tag_replace_inc=0;
 
 class Parser
 {
@@ -42,6 +43,7 @@ class Parser
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
     {
         global $mw_replaced_edit_fields_vals;
+        global $mod_tag_replace_inc;
 
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
@@ -88,9 +90,9 @@ class Parser
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value);
+                    $v1 = crc32($value).'-'.$mod_tag_replace_inc++;
                     $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
-                    $layout = str_replace($value, $v1, $layout);
+                    $layout = $this->_str_replace_first($value, $v1, $layout);
                     if (!isset($this->mw_replaced_modules[$v1])) {
                         $this->mw_replaced_modules[$v1] = $value;
                     }
@@ -161,9 +163,9 @@ class Parser
                 $matches1 = $mw_script_matches[0];
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
-                        $v1 = crc32($value);
+                        $v1 = crc32($value).'-'.$mod_tag_replace_inc++;
                         $v1 = '<tag>mw_replace_back_this_module_111' . $v1 . '</tag>';
-                        $layout = str_replace($value, $v1, $layout);
+                        $layout = $this->_str_replace_first($value, $v1, $layout);
                         if (!isset($this->mw_replaced_modules[$v1])) {
                             $this->mw_replaced_modules[$v1] = $value;
                         }
@@ -375,13 +377,17 @@ class Parser
                                     }
 
                                     if (!in_array($mod_id, $this->_existing_module_ids)) {
-                                        $this->_existing_module_ids[] = $mod_id;
+                                        $this->_existing_module_ids[$mod_id] = $mod_id;
+                                        // var_dump($this->_existing_module_ids);
+                                        //
                                     } else {
                                         if (isset($attrs['data-parent-module-id'])) {
-                                            $mod_id = $mod_id . crc32($attrs['data-parent-module-id']);
+                                            $mod_id = $mod_id . md5($attrs['data-parent-module-id']);
                                         } else {
                                             $mod_id = $mod_id . uniqid();
                                         }
+                                        $this->_existing_module_ids[$mod_id] = $mod_id;
+
                                     }
 
                                     $attrs['id'] = $mod_id;
@@ -895,7 +901,7 @@ class Parser
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 // $rep = pq($elem)->html();
                                 $rep = pq($elem)->html();
-                              //  $rep = trim($rep);
+                                //  $rep = trim($rep);
                                 $rep = preg_replace("/(^\s+)|(\s+$)/us", "", $rep);
 
                                 if ($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] != false)) {
@@ -932,7 +938,7 @@ class Parser
                             $reps_arr2[] = $v['r'];
 
                             $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
-                           // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
+                            // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
 
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }
