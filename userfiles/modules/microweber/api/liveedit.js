@@ -1367,9 +1367,9 @@ mw.drag = {
                     $(mwd.body).removeClass("dragStart");
                 }
             });
-            mw.on.mouseDownAndUp($handle_module[0], function(time){
-              if(time<1000){
-                //mw.drag.module_settings();
+            mw.on.mouseDownAndUp($handle_module[0], function(time, mouseUpEvent){
+              if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
+                mw.drag.module_settings();
               }
             })
             $(mw.handle_row).draggable({
@@ -3147,7 +3147,6 @@ $(window).on("load", function() {
       e.stopPropagation();
 
       var el =  $($(mw.handle_module).data('curr'));
-      alert(1)
       mw.drag.replace(el, 'prev')
     });
   $("#mw_handle_module_down").on('click', function(){

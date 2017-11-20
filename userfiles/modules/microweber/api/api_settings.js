@@ -38,8 +38,8 @@ mw.settings = {
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:void(0);' onclick='mw.drag.delete_element(mw.handle_module);return false;' draggable='false'><span></span></a>\
             </div>\
             <a title='Click to edit this module.' class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings();return false;' draggable='false'><span class='mw-element-name-handle' draggable='false'></span></a>\
-            <span id='mw_handle_module_up'></span>\
-            <span id='mw_handle_module_down'></span>\
+            <span id='mw_handle_module_up' class='mw_handle_module_arrow'></span>\
+            <span id='mw_handle_module_down' class='mw_handle_module_arrow'></span>\
             <span title='Click to select this module.' class='mw-sorthandle-moveit' draggable='false' title='<?php _e("Move"); ?>'></span>\
         </div>",
         row: "\

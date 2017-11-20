@@ -13,9 +13,9 @@ mw.on = mw.on || {
         }, 777)
       })(this)
     });
-    $el.on('mouseup touchend', function(){
+    $el.on('mouseup touchend', function(e){
       if(!!callback){
-        callback.call(this, new Date().getTime()-this.__downTime)
+        callback.call(this, new Date().getTime()-this.__downTime, e)
       }
     });
   },
