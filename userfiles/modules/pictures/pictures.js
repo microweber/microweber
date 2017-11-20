@@ -9,14 +9,14 @@ mw.module_pictures = {
     },
     time:null,
     after_change: function (data) {
-      clearTimeout(mw.module_pictures.time)
+        clearTimeout(mw.module_pictures.time)
         mw.module_pictures.time = setTimeout(function () {
             mw.reload_module('pictures');
             mw.reload_module_parent('pictures');
             mw.reload_module_parent('posts');
             mw.reload_module_parent('shop/products');
             mw.reload_module_parent("pictures/admin");
-        }, 500)
+        }, 1500)
 
     },
 

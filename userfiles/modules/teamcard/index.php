@@ -4,17 +4,19 @@
 $settings = get_option('settings', $params['id']);
 
 $defaults = array(
-    'name' => '',
-    'role' => '',
-    'bio' => '',
+    'name' => 'Name',
+    'role' => 'Role',
+    'bio' => 'Bio',
     'file' => ''
 );
-
+$is_empty = false;
 $data = json_decode($settings, true);
 
 if (count($data) == 0) {
+    $is_empty = true;
     print lnotif("Click on settings to edit this module");
-    return;
+  //  $data = array($defaults);
+  //  return;
 }
 
 

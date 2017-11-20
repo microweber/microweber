@@ -375,13 +375,17 @@ class Parser
                                     }
 
                                     if (!in_array($mod_id, $this->_existing_module_ids)) {
-                                        $this->_existing_module_ids[] = $mod_id;
+                                        $this->_existing_module_ids[$mod_id] = $mod_id;
+                                        // var_dump($this->_existing_module_ids);
+                                        //
                                     } else {
                                         if (isset($attrs['data-parent-module-id'])) {
-                                            $mod_id = $mod_id . crc32($attrs['data-parent-module-id']);
+                                            $mod_id = $mod_id . md5($attrs['data-parent-module-id']);
                                         } else {
                                             $mod_id = $mod_id . uniqid();
                                         }
+                                        $this->_existing_module_ids[$mod_id] = $mod_id;
+
                                     }
 
                                     $attrs['id'] = $mod_id;
@@ -895,7 +899,7 @@ class Parser
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 // $rep = pq($elem)->html();
                                 $rep = pq($elem)->html();
-                              //  $rep = trim($rep);
+                                //  $rep = trim($rep);
                                 $rep = preg_replace("/(^\s+)|(\s+$)/us", "", $rep);
 
                                 if ($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] != false)) {
@@ -932,7 +936,7 @@ class Parser
                             $reps_arr2[] = $v['r'];
 
                             $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
-                           // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
+                            // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
 
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }
