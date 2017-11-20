@@ -434,8 +434,39 @@ function mw_option_save_rebind_form_fields(){
             <?php endif; ?>
 
 
+          if (window.parent.mw.drag != undefined) {
 
-            $.ajax({
+              var mod_body = window.parent.document.getElementById('<?php print $params['id'] ?>');
+                if(mod_body){
+                    var body = window.parent.mw.drag.parseContent(mod_body).body;
+                    var edits = body.querySelectorAll('.edit.changed');
+                    var mod_edits = window.parent.mw.drag.collectData(edits);
+                    if (mw.tools.isEmptyObject(data)){
+                    var mod_edits_save = window.parent.mw.drag.save(mod_edits);
+                     }
+                }
+
+
+
+//              var body = mw.drag.parseContent().body,
+//                  edits = body.querySelectorAll('.edit.changed'),
+//                  data = mw.drag.collectData(edits);
+//
+//              if (mw.tools.isEmptyObject(data)) return false;
+//
+//              $(window).trigger('saveStart', data);
+//
+//
+//
+//              var xhr = mw.drag.coreSave(data);
+//
+
+
+           //   window.parent.mw.drag.save();
+          }
+
+
+              $.ajax({
                 type: "POST",
                 url: mw.settings.site_url + "api/save_option",
                 data: o_data,
