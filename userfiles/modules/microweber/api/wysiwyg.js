@@ -406,7 +406,10 @@ mw.wysiwyg = {
       var parser = mw.tools.parseHtml(html).body;
       $("[style*='mso-spacerun']", parser).remove()
       $("style", parser).remove()
-      $('table', parser).width('100%').addClass('mw-wysiwyg-table').removeAttr('width');
+      $('table', parser)
+        .width('100%')
+        .addClass('mw-wysiwyg-table')
+        .removeAttr('width');
       return parser.innerHTML;
     },
     pastedFromExcel:function(clipboard){
@@ -596,7 +599,6 @@ mw.wysiwyg = {
             absNext = mw.wysiwyg.merge.findNextNearest(el, dir, true)
           }
 
-          console.log(absNext)
           if(absNext.nodeType === 1){
             if(mw.tools.hasAnyOfClasses(absNext, ['nodrop', 'allow-drop'])){
               return false;
@@ -605,8 +607,6 @@ mw.wysiwyg = {
               return false;
             }
           }
-
-
           if( mw.wysiwyg.merge.alwaysMergable(absNext) && (mw.wysiwyg.merge.alwaysMergable(absNext.firstElementChild) || !absNext.firstElementChild) ){
             return false;
           }
@@ -890,6 +890,14 @@ mw.wysiwyg = {
                               return false;
                             }
 
+
+                            if(nextnextchar == ''){
+                               var focus = getSelection().focusNode
+                               var rootfocus = mw.wysiwyg.validateCommonAncestorContainer(focus);
+                               if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
+                                return false;
+                               }
+                            }
                             if (nextchar == '' ) {
 
                                     //continue check nodes
@@ -903,6 +911,8 @@ mw.wysiwyg = {
                                     if(mw.wysiwyg.merge.alwaysMergable(nextNode)){
                                       return true;
                                     }
+
+
 
                                     var nonbr = mw.wysiwyg.merge.isInNonbreakable(nextNode)
                                     if(nonbr){

@@ -2585,7 +2585,6 @@ mw.drag = {
                             }, 150);
 
                         }
-                        //alert('frame has (re)loaded' + save_content_error_iframe_reloads);
                     });
 
                 });
