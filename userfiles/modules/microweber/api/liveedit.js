@@ -2535,16 +2535,18 @@ mw.drag = {
     },
     saveDisabled: false,
     draftDisabled: false,
-    save: function() {
+    save: function(data) {
 
         if (typeof saveStaticElementsStyles === 'function') {
             saveStaticElementsStyles();
         }
 
         if (mw.drag.saveDisabled) return false;
-        var body = mw.drag.parseContent().body,
+        if(!data){
+          var body = mw.drag.parseContent().body,
             edits = body.querySelectorAll('.edit.changed'),
             data = mw.drag.collectData(edits);
+        }
 
         if (mw.tools.isEmptyObject(data)) return false;
 
