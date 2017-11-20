@@ -182,9 +182,9 @@ mw.settings.libs = {
     fitty: [
         function () {
             mw.require(mw.settings.libs_url + 'fitty' + '/dist/fitty.min.js');
-            $(document).ready(function () {
+            /*$(document).ready(function () {
                 fitty('.fitty-element');
-            });
+            });*/
         }
     ],
 

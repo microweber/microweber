@@ -25,13 +25,13 @@ $mod_name = rtrim($mod_name, '/');
 
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
-if ($cur_template == false) {
+ if ($cur_template == false) {
 
-    if (isset($_GET['data-template'])) {
+       if (isset($_GET['data-template'])) {
         $cur_template = $_GET['data-template'] . '.php';
-    } elseif (isset($_GET['template'])) {
-        $cur_template = $_GET['template'] . '.php';
-    }
+    } else if (isset($_REQUEST['template'])) {
+           $cur_template = $_REQUEST['template'] . '.php';
+       }
     if ($cur_template != false) {
         $cur_template = str_replace('..', '', $cur_template);
         $cur_template = str_replace('.php.php', '.php', $cur_template);
@@ -39,7 +39,7 @@ if ($cur_template == false) {
 }
 
 
- 
+
  
 ?> 
 <?php if (is_array($templates)): ?>

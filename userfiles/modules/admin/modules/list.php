@@ -196,7 +196,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             class="module_draggable"
             data-module-name-enc="layout_<?php print date("YmdHis").$i++ ?>"
             data-module-name="layouts"
-            src="<?php print $dynamic_layout['screenshot'] ?>"
+            src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
     /> </span></span> <span class="module_name"
                             alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
     <?php print titlelize(_e($dynamic_layout['name'], true)); ?>
