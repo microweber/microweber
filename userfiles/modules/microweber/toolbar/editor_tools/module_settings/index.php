@@ -441,7 +441,7 @@ function mw_option_save_rebind_form_fields(){
                     var body = window.parent.mw.drag.parseContent(mod_body).body;
                     var edits = body.querySelectorAll('.edit.changed');
                     var mod_edits = window.parent.mw.drag.collectData(edits);
-                    if (mw.tools.isEmptyObject(data)){
+                    if (mw.tools.isEmptyObject(mod_edits)){ 
                     var mod_edits_save = window.parent.mw.drag.save(mod_edits);
                      }
                 }
