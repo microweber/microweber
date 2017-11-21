@@ -90,7 +90,8 @@ class Parser
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value).'-'.$mod_tag_replace_inc++;
+                  //  $v1 = crc32($value).'-'.$mod_tag_replace_inc++;
+                    $v1 = crc32($value);
                     $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
                     $layout = $this->_str_replace_first($value, $v1, $layout);
                     if (!isset($this->mw_replaced_modules[$v1])) {
@@ -163,7 +164,8 @@ class Parser
                 $matches1 = $mw_script_matches[0];
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
-                        $v1 = crc32($value).'-'.$mod_tag_replace_inc++;
+                    //    $v1 = crc32($value).'-'.$mod_tag_replace_inc++;
+                        $v1 = crc32($value);
                         $v1 = '<tag>mw_replace_back_this_module_111' . $v1 . '</tag>';
                         $layout = $this->_str_replace_first($value, $v1, $layout);
                         if (!isset($this->mw_replaced_modules[$v1])) {
@@ -201,6 +203,11 @@ class Parser
                     if ($value != '') {
                         $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
                         $replace_key = $key;
+
+                        if(isset($this->mw_replaced_modules_values[$replace_key])){
+                            continue;
+                        }
+
                         $attrs = array();
                         if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
                             foreach ($attrs1 as $item) {
@@ -484,8 +491,9 @@ class Parser
                                     }
                                 }
                                 unset($this->mw_replaced_modules[$key]);
-
+ 
                                 if ($proceed_with_parse == true) {
+
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
                                 if ($mod_no_wrapper == false) {
