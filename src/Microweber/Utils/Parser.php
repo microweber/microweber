@@ -379,14 +379,17 @@ class Parser
 //                                        //
 //                                    } else {
 
-                                        if (isset($params['root-module-id'])) {
-
-                                            $mod_id = $mod_id . md5($attrs['root-module-id']);
-
-                                        } else if (isset($attrs['data-parent-module-id'])) {
+                                       if (isset($attrs['data-parent-module-id'])) {
                                             $mod_id = $mod_id . md5($attrs['data-parent-module-id']);
-                                        } else {
-                                            $mod_id = $mod_id . uniqid();
+                                        } else  if (isset($params['root-module-id'])) {
+
+                                           $mod_id = $mod_id . md5($attrs['root-module-id']);
+
+                                       } else {
+                                            if (!defined('CONTENT_ID')){
+                                                $mod_id = $mod_id .'asdasdasdasdasdasdasdasdasd'. uniqid();
+
+                                            }
                                             //  $mod_id = $mod_id . '-mod-'.$mod_tag_replace_inc++;
                                         }
 
