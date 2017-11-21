@@ -457,9 +457,9 @@ class Parser
                                 }
                                 if ($coming_from_parent_id == true) {
                                   //  $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = ';aaa;'.  $coming_from_parent_id;
-                                    $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = 'bb---'.  $coming_from_parent_strz1;
+                                    $coming_from_parent_strz1 = $attrs['data-parent-module-id'] =    $coming_from_parent_strz1;
                                 } else {
-                                    $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = false;
+                                  //  $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = false;
                                  //   $coming_from_parent_strz1 = $attrs['data-parent-module'] = false;
                                     //  $attrs['data-parent-module'] = false;
                                     $coming_from_parent_str = '';
