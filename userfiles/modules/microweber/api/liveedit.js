@@ -2542,7 +2542,7 @@ mw.drag = {
         }
 
         if (mw.drag.saveDisabled) return false;
-        if(!data){
+        if(typeof(data) == 'undefined'){
           var body = mw.drag.parseContent().body,
             edits = body.querySelectorAll('.edit.changed'),
             data = mw.drag.collectData(edits);
