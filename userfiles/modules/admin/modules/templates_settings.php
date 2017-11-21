@@ -1,5 +1,20 @@
 <?php
 
+if (isset($params['root-module'])) {
+    $params['parent-module'] = $params['root-module'];
+}
+if (isset($params['root-module-id'])) {
+    $params['parent-module-id'] = $params['root-module-id'];
+}
+
+
+if (!isset($params['parent-module']) and isset($params['data-prev-module'])) {
+    $params['parent-module'] = $params['data-prev-module'];
+}
+if (!isset($params['parent-module-id']) and isset($params['data-prev-module-id'])) {
+    $params['parent-module-id'] = $params['data-prev-module-id'];
+}
+
 if (!isset($params['parent-module-id'])) {
     return;
 
