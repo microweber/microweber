@@ -39,13 +39,18 @@
 
 
 </script>
+<style>
+    #select_edit_field_wrap {
+        width: 400px;
+    }
+</style>
 <table>
   <tr>
-    <td>
+    <td width="80%">
       <div id="select_edit_field_wrap"></div>
 
     </td>
-    <td>
+    <td width="20%">
       <button onclick="mw.html_editor.reset_content();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Reset content'); ?></button>
 
     </td>

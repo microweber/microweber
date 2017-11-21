@@ -460,7 +460,7 @@ class Parser
                                     $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = 'bb---'.  $coming_from_parent_strz1;
                                 } else {
                                     $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = false;
-                                    $coming_from_parent_strz1 = $attrs['data-parent-module'] = false;
+                                 //   $coming_from_parent_strz1 = $attrs['data-parent-module'] = false;
                                     //  $attrs['data-parent-module'] = false;
                                     $coming_from_parent_str = '';
 

@@ -2299,7 +2299,8 @@ class DefaultController extends Controller
             }
         }
 
-        $params = $_REQUEST;
+       // $params = $_REQUEST;
+        $params = array_merge($_GET,$_POST);
         $tool = str_replace('..', '', $tool);
 
         $p_index = mw_includes_path() . 'toolbar/editor_tools/index.php';
