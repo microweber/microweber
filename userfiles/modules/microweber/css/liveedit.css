@@ -3366,7 +3366,7 @@ body.mw-live-edit .mw-tooltip-content {
     /*border: 1px solid red;*/
     position: fixed;
     right: 0;
-    z-index: 999999;
+    z-index: 1100;
     height: 130px;
     top: 45%;
 }

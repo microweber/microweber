@@ -279,7 +279,7 @@ mw.wysiwyg = {
             mw.wysiwyg.removeEditable();
             mw.$(".edit").attr("contentEditable", "false");
             var _el = $(el);
-            if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])){
+            if(!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])){
               _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
                if (!mw.is.ie) { //Non IE browser
 
@@ -326,7 +326,6 @@ mw.wysiwyg = {
               if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1){
                   firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, blocks);
               }
-              console.log(firstBlock)
               mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
               firstBlock.contentEditable = true;
             }
@@ -450,6 +449,17 @@ mw.wysiwyg = {
         }
         else{
           var clipboard = e.clipboardData || mww.clipboardData;
+        }
+        
+        if(mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])){
+          if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
+            var text = clipboard.getData('text');
+            console.log(text)
+            mw.wysiwyg.insert_html(text);
+            e.preventDefault()
+            return false;
+          }
+
         }
 
         if(mw.wysiwyg.isLocalPaste(clipboard)){
@@ -903,9 +913,9 @@ mw.wysiwyg = {
 
 
                             if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
-                              if(!!nextel && nextel.nodeName != 'BR'){
+                              /*if(!!nextel && nextel.nodeName != 'BR'){
                                 event.preventDefault()
-                              }
+                              }*/
                               event.preventDefault()
 
                               return false;
@@ -913,13 +923,20 @@ mw.wysiwyg = {
 
 
                             if(nextnextchar == ''){
-                               var focus = getSelection().focusNode
+                               var sel = getSelection();
+                               var focus = sel.focusNode
                                var rootfocus = mw.wysiwyg.validateCommonAncestorContainer(focus);
-                               if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
+                               if(nextchar != '' &&  event.keyCode == 8){
+                                mw.wysiwyg.select_all(focus);
+                                sel.getRangeAt(0).deleteContents();
+                                return false;
+                               }
+                               else if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
                                 return false;
                                }
                             }
                             if (nextchar == '' ) {
+                                 console.log(4)
 
                                     //continue check nodes
                                     if (event.keyCode == 46) {
@@ -996,7 +1013,7 @@ mw.wysiwyg = {
             var common = r.commonAncestorContainer;
             if(common.nodeType === 1){
               if(mw.tools.hasClass(common, 'element')){
-                mw.wysiwyg.select_element(common)
+                mw.wysiwyg.select_all(common)
               }
 
             }
