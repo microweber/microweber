@@ -2061,13 +2061,18 @@ mw.drag = {
                 var noelements_ext = mw.drag.external_css_no_element_classes;
                 var noelements_drag = mw.drag.external_css_no_element_controll_classes;
                 var section_selectors = mw.drag.section_selectors;
+                var icon_selectors =  mw.wysiwyg.fontIconFamilies;
 
+ 
                
                
                 var noelements = noelements.concat(noelements_bs3);
                 var noelements = noelements.concat(noelements_ext);
                 var noelements = noelements.concat(noelements_drag);
                 var noelements = noelements.concat(section_selectors);
+                
+                var noelements = noelements.concat(icon_selectors);
+
 
                 if (mw.tools.hasAnyOfClasses(el, noelements)) {
                    
