@@ -324,9 +324,10 @@ mw.wysiwyg = {
               var firstBlock = target;
               var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'li'];
               if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1){
+                console.log(blocks.join(',').forEach, blocks.join(','))
                   firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, blocks.join(','));
               }
-              mw.$('[contenteditable="false"]').not(firstBlock).removeAttr('contenteditable')
+              mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
               firstBlock.contentEditable = true;
             }
 
@@ -902,7 +903,7 @@ mw.wysiwyg = {
 
 
                             if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
-                              if(nextel.nodeName != 'BR'){
+                              if(!!nextel && nextel.nodeName != 'BR'){
                                 event.preventDefault()
                               }
                               event.preventDefault()
