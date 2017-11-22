@@ -2,6 +2,7 @@
 
 
 
+
 if (!isset($params['parent-module']) and isset($params['root-module'])) {
     $params['parent-module'] = $params['root-module'];
 }

@@ -387,7 +387,7 @@ class Parser
 
                                        } else {
                                             if (!defined('CONTENT_ID')){
-                                                $mod_id = $mod_id .'asdasdasdasdasdasdasdasdasd'. uniqid();
+                                                $mod_id = $mod_id .'-uid-'. uniqid();
 
                                             }
                                             //  $mod_id = $mod_id . '-mod-'.$mod_tag_replace_inc++;
@@ -466,11 +466,12 @@ class Parser
 
                                 if ($coming_from_parent == true) {
                                     $coming_from_parent_strz1 = $attrs['id'];
-                                    if(!isset($attrs['data-parent-module'])){
                                     $attrs['data-parent-module'] = $coming_from_parent;
-                                    }
                                 }
 
+
+                            }
+                              //  if(!isset($attrs['data-parent-module'])){
 
                                 if ($coming_from_parent_id == true) {
 
@@ -482,7 +483,7 @@ class Parser
 
                                 } else {
 
-                                    $attrs['data-root-module-id'] = $coming_from_parent_strz1;
+                                    $attrs['data-root-module-id'] = $attrs['id'];
                                     $attrs['data-root-module'] = $coming_from_parent;
 
                                     //  $coming_from_parent_strz1 = $attrs['data-parent-module-id'] = false;
@@ -495,7 +496,7 @@ class Parser
 
                                 $coming_from_parent_str = false;
                                 if ($coming_from_parent == true) {
-                                    // $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
+                                   // $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
                                 }
 
 //                                d($attrs);
@@ -512,7 +513,7 @@ class Parser
                                         if ($nv) {
                                             $module_html .= " {$nn}='{$nv}'  ";
                                         }
-                                    }
+                                   }
                                 }
 
                                 $plain_modules = false;
@@ -550,8 +551,8 @@ class Parser
                                 }
 
                                 $this->mw_replaced_modules_values[$replace_key] = $module_html;
-                                // $layout = str_replace($value, $module_html, $layout);
-                                $layout = $this->_str_replace_first($value, $module_html, $layout);
+                                 $layout = str_replace($value, $module_html, $layout);
+                               // $layout = $this->_str_replace_first($value, $module_html, $layout);
 
                                 //$layout = str_replace($replace_key, $module_html, $layout);
 
@@ -563,7 +564,7 @@ class Parser
                                 //    \Log::info($layout);
 
 
-                            }
+                            //}
                         }
                     }
                     //  \Log::info($key, $value,$layout);
