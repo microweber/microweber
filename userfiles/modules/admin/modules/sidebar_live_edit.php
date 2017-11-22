@@ -30,7 +30,7 @@
 
                     <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" class="form-control input-lg" placeholder="Search for Layouts"
                            autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                           id="mw-sidebar-search-input-for-modules-and-layouts">
+                           data-id="mw-sidebar-search-input-for-modules-and-layouts">
 
                     <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close"
                        aria-hidden="true" style="display: none;"></a>
@@ -47,7 +47,7 @@
 
                     <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg" placeholder="Search for Modules"
                            autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                           id="mw-sidebar-search-input-for-modules-and-layouts">
+                           data-id="mw-sidebar-search-input-for-modules-and-layouts">
 
                     <a href="javascript:mwSidebarSearchClear('modules');" class="mw-sidebar-search-clear-x-btn mw-icon-close"
                        aria-hidden="true" style="display: none;"></a>
@@ -78,9 +78,9 @@
     <script>
 
         function mwSidebarSearchClear(what) {
-            $('#mw-sidebar-search-input-for-modules-and-layouts').val('');
+            $('[data-id="mw-sidebar-search-input-for-modules-and-layouts"]').val('');
             $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
-            mwSidebarSearchItems();
+            mwSidebarSearchItems('', what);
             $('.mw-search-no-results', '.' + what).hide();
         }
 

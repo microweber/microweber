@@ -551,14 +551,14 @@ class Parser
                                 }
 
                                 $this->mw_replaced_modules_values[$replace_key] = $module_html;
-                                 $layout = str_replace($value, $module_html, $layout);
-                               // $layout = $this->_str_replace_first($value, $module_html, $layout);
+                                // $layout = str_replace($value, $module_html, $layout);
+                                $layout = $this->_str_replace_first($value, $module_html, $layout);
 
                                 //$layout = str_replace($replace_key, $module_html, $layout);
 
 //\Log::info($module_html);
-                                //   $layout =  $this->_str_replace_first($replace_key, $module_html, $layout);
-                                $layout = str_replace($replace_key, $module_html, $layout);
+                                  $layout =  $this->_str_replace_first($replace_key, $module_html, $layout);
+                              //  $layout = str_replace($replace_key, $module_html, $layout);
 
 
                                 //    \Log::info($layout);
@@ -570,8 +570,8 @@ class Parser
                     //  \Log::info($key, $value,$layout);
                     //  \Log::info($key);
                     // \Log::info($value);
-                    $layout = str_replace($key, $value, $layout);
-                    // $layout =  $this->_str_replace_first($key, $value, $layout);
+                  //  $layout = str_replace($key, $value, $layout);
+                     $layout =  $this->_str_replace_first($key, $value, $layout);
                 }
             }
         }
