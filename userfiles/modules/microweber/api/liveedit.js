@@ -374,15 +374,14 @@ document.body.appendChild(mw.inaccessibleModules);
         mw.iconSelector.popup(true);
 
     });
-    $(window).on("onElementClick", function(e, el) {
+    $(window).on("onElementClick", function(e, el, c) {
 
       $(".element-current").not(el).removeClass('element-current')
       $(el).addClass('element-current');
 
-
-
-        if(!el.isContentEditable){
+          if(!el.isContentEditable && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode'])){
             var order = mw.tools.parentsOrder(el, ['edit','module']);
+            
             if(order.module == -1 && order.edit != -1){
                 $(el).attr('contenteditable', true);
             }
@@ -1102,14 +1101,20 @@ mw.drag = {
         });
         $(window).on("onModuleOver", function(a, element) {
         mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
+       
         if(element.getAttribute('data-type') == 'layouts'){
           var $el = $(element);
-          if($el.prev('[data-type="layouts"]').length !== 0){
-            mw.$('#mw_handle_module_up').show();
+          var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
+          
+          if(hasedit){
+              if($el.prev('[data-type="layouts"]').length !== 0){
+                mw.$('#mw_handle_module_up').show();
+              }
+              if($el.next('[data-type="layouts"]').length !== 0){
+                mw.$('#mw_handle_module_down').show();
+              }
           }
-          if($el.next('[data-type="layouts"]').length !== 0){
-            mw.$('#mw_handle_module_down').show();
-          }
+          
         }
 
 

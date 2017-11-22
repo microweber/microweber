@@ -1578,6 +1578,7 @@ mw.tools = {
         return has;
     },
     firstMatchesOnNodeOrParent: function (node, arr) {
+      
         arr.forEach(function (selector) {
             if (mw.tools.matches(node, selector)) {
                 return node;

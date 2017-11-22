@@ -279,7 +279,7 @@ mw.wysiwyg = {
             mw.wysiwyg.removeEditable();
             mw.$(".edit").attr("contentEditable", "false");
             var _el = $(el);
-            if(!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])){
+            if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])){
               _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
                if (!mw.is.ie) { //Non IE browser
 
@@ -324,9 +324,9 @@ mw.wysiwyg = {
               var firstBlock = target;
               var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'li'];
               if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1){
-                console.log(blocks.join(',').forEach, blocks.join(','))
-                  firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, blocks.join(','));
+                  firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, blocks);
               }
+              console.log(firstBlock)
               mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
               firstBlock.contentEditable = true;
             }
@@ -2074,12 +2074,12 @@ mw.wysiwyg = {
         var start = $([]) ;
         mw.$('li', parser).each(function(){
           this.innerHTML = this.innerHTML
-            .replace(/·/g, '')/* Not a dot */
+            .replace(/ï¿½/g, '')/* Not a dot */
             .replace(new RegExp(String.fromCharCode(160), "g"), "")
             .replace(/&nbsp;/gi, '')
-            .replace(/\·/g,'')
+            .replace(/\ï¿½/g,'')
             .replace(/<\/?span[^>]*>/g,"")
-            .replace('§','');
+            .replace('ï¿½','');
         });
       }
       return parser.innerHTML;
@@ -2379,7 +2379,7 @@ mw.wysiwyg.initFontSelectorBox();
             if (node.querySelector('p') !== null) {
                 var node = node.querySelector('p');
             }
-            node.contentEditable = true;
+           // node.contentEditable = true;
         }
         if (!nodes[i].pasteBinded && !mw.tools.hasParentsWithClass(nodes[i], 'edit')) {
             nodes[i].pasteBinded = true;
