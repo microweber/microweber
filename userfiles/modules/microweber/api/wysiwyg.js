@@ -926,17 +926,21 @@ mw.wysiwyg = {
  
  
                                if(nextchar.replace(/\s/g,'') != ''){
+                     
 
-                                event.preventDefault()
+                                //event.preventDefault()
                                 return false;
                                }
                                else if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
                                 console.log(1)
                                 return false;
                                }
+                               else{
+                                   
+                               }
                             }
                             if (nextchar == '' ) {
-                                 console.log(4)
+                                 
 
                                     //continue check nodes
                                     if (event.keyCode == 46) {

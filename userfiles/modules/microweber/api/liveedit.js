@@ -379,20 +379,13 @@ document.body.appendChild(mw.inaccessibleModules);
       $(".element-current").not(el).removeClass('element-current')
       $(el).addClass('element-current');
 
-          if(!el.isContentEditable && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode'])){
-            var order = mw.tools.parentsOrder(el, ['edit','module']);
+     if(mw.drag.target.canBeEditable(el)){
+      $(el).attr('contenteditable', true);
+      }
             
-            if(order.module == -1 && order.edit != -1){
-                $(el).attr('contenteditable', true);
-            }
-            if(order.module > order.edit){
-                $(el).attr('contenteditable', true);
-
-            }
-        }
-        mw.$('.module').each(function(){
-            this.contentEditable = false;
-        });
+      mw.$('.module').each(function(){
+      this.contentEditable = false;
+      });
     });
     $(window).on("onPlainTextClick", function(e, el) {
         $(el).attr('contenteditable', true);
@@ -2080,16 +2073,25 @@ mw.drag = {
                    
                     yesno = false;
                 }
-                
-                if(!yesno){
-                 //    mw.log('noelement for:' +target);
-                //       mw.log(target);
-                return false;
+             return yesno;
+
+        },
+        canBeEditable: function(target) {
+        var noyes = false;
+        var el = target;
+            
+            if(!el.isContentEditable && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode'])){
+                var order = mw.tools.parentsOrder(el, ['edit','module']);
+                if(order.module == -1 && order.edit != -1){
+                noyes = true;
                 }
-            // mw.log('element for:' + target);
-            // mw.log(target);
-             return true;
-        }
+                if(order.module > order.edit){
+                noyes = true;
+                
+                }
+            }
+        return noyes;
+    }
    },
     
     fancynateLoading: function(module) {
