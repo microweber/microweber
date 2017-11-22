@@ -33,6 +33,7 @@
 </style>
   <?php
 $count = 0;
+if(isset($data)){
 foreach($data as $slide){
     $count++;
     ?>
@@ -42,6 +43,6 @@ foreach($data as $slide){
     <span class="team-card-item-position"> <?php print array_get($slide, 'role'); ?></span>
     <span class="team-card-item-bio"> <?php print array_get($slide, 'bio'); ?></span>
   </div>
-     <?php } ?>
+     <?php }} ?>
 </div>
  

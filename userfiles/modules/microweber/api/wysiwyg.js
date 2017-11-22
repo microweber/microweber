@@ -278,10 +278,11 @@ mw.wysiwyg = {
         $(window).on("onEditMouseDown", function (e, el, target) {
             mw.wysiwyg.removeEditable();
             mw.$(".edit").attr("contentEditable", "false");
-            //$(el).attr("contentEditable", "true");
-            $(el).attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
-            if (!mw.is.ie) { //Non IE browser
-                var _el = $(el);
+            var _el = $(el);
+            if(!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])){
+              _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
+               if (!mw.is.ie) { //Non IE browser
+
                 if (mw.tools.hasParentsWithClass(el, "module")) {
                     el.contentEditable = true;
                 }
@@ -318,6 +319,18 @@ mw.wysiwyg = {
                     }
                 }
             }
+            }
+            else{
+              var firstBlock = target;
+              var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'li'];
+              if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1){
+                  firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, blocks.join(','));
+              }
+              mw.$('[contenteditable="false"]').not(firstBlock).removeAttr('contenteditable')
+              firstBlock.contentEditable = true;
+            }
+
+
         });
     },
     hide_drag_handles: function () {
@@ -838,7 +851,14 @@ mw.wysiwyg = {
                     return true;
                 }
                 var sel = window.getSelection();
-                if (event.keyCode == 13) {    /*
+                if (event.keyCode == 13) {
+
+                  if(mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])){
+                    event.preventDefault();
+                    mw.wysiwyg.insert_html('<br>');
+                  }
+
+                /*
                  mw.wysiwyg.checkForTextOnlyElements(event);
                  if(event.target.isContentEditable && !mw.tools.isField(event.target)){
                  var commonName = mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer).nodeName;
