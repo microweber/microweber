@@ -526,8 +526,9 @@ mw.drag = {
     },
     external_grids_row_classes: ['row'],
     external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
-    external_css_no_element_classes: ['navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
+    external_css_no_element_classes: ['container','navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     section_selectors: ['.module-layouts'],
+    external_css_no_element_controll_classes: ['edit','noelement','no-element','allow-drop','nodrop', 'mw-open-module-settings','module-layouts'],
 
     dropOutsideDistance:25,
     columnout: false,
@@ -544,15 +545,9 @@ mw.drag = {
             for (; i < l; i++) {
                 var el = els[i];
 
-                var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
-
-                //Bootrap 3 classes
-                var noelements_bs3 = mw.drag.external_grids_col_classes;
-                var noelements_ext = mw.drag.external_css_no_element_classes;
-                var noelements = noelements.concat(noelements_bs3);
-                var noelements = noelements.concat(noelements_ext);
-                if (mw.tools.hasAnyOfClasses(el, noelements)) {
-                    continue;
+                
+                if( !mw.drag.target.canBeElement(el)){
+                     continue;
                 }
                 var cls = el.className;
                 if (!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')) {
@@ -1902,7 +1897,7 @@ mw.drag = {
 
         }
     },
-    /**
+     /**
      * Various fixes
      *
      * @example mw.drag.fixes()
@@ -2059,7 +2054,43 @@ mw.drag = {
 
     },
     
-   
+   target :  {
+    
+        canBeElement: function(target) {
+          var yesno = true;
+            var el = target;
+          
+             
+                var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
+
+                //Bootstrap 3 classes
+                var noelements_bs3 = mw.drag.external_grids_col_classes;
+                var noelements_ext = mw.drag.external_css_no_element_classes;
+                var noelements_drag = mw.drag.external_css_no_element_controll_classes;
+                var section_selectors = mw.drag.section_selectors;
+
+               
+               
+                var noelements = noelements.concat(noelements_bs3);
+                var noelements = noelements.concat(noelements_ext);
+                var noelements = noelements.concat(noelements_drag);
+                var noelements = noelements.concat(section_selectors);
+
+                if (mw.tools.hasAnyOfClasses(el, noelements)) {
+                   
+                    yesno = false;
+                }
+                
+                if(!yesno){
+                 //    mw.log('noelement for:' +target);
+                //       mw.log(target);
+                return false;
+                }
+            // mw.log('element for:' + target);
+            // mw.log(target);
+             return true;
+        }
+   },
     
     fancynateLoading: function(module) {
         mw.$(module).addClass("module_loading");
@@ -2919,6 +2950,12 @@ mw.drop_regions = {
         }
     }
 }
+
+
+
+
+
+
 mw.history = {
 
     /**
@@ -3234,7 +3271,9 @@ $(document).ready(function() {
             for( ; i < all.length ; i++){
               item = all[i];
               if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
+                if( mw.drag.target.canBeElement(item)){
                 mw.tools.addClass(item, 'element')
+                }
               }
             }
           }
