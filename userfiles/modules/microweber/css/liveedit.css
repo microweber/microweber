@@ -3306,6 +3306,16 @@ div[id*='SSDIVEL'] {
     font-size: 16px;
 }
 
+.mw-toolbar-add-new-content-ctrl:before {
+    content: '';
+}
+
+@media screen and (max-width: 1020px) {
+    .mw-toolbar-add-new-content-ctrl {
+        text-align: center;
+    }
+}
+
 .mw-toolbar-add-new-content-ctrl span {
     margin-left: 6px;
 }
@@ -3372,29 +3382,31 @@ body.mw-live-edit .mw-tooltip-content {
 }
 
 #mw_handle_module_up,
-#mw_handle_module_down{
-  display: inline-block;
-  width: 19px;
-  height: 19px;
-  line-height: 19px;
-  text-align: center;
-  border-radius: 3px;
-  background-color: #DDDDDD;
-  font-family: Microweber;
-  color: #111;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
-}
-#mw_handle_module_up:hover,
-#mw_handle_module_down:hover{
-  background-color: black;
-  color: white;
+#mw_handle_module_down {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    line-height: 19px;
+    text-align: center;
+    border-radius: 3px;
+    background-color: #DDDDDD;
+    font-family: Microweber;
+    color: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
 }
 
-#mw_handle_module_up:before{
-  content: "\0139"
+#mw_handle_module_up:hover,
+#mw_handle_module_down:hover {
+    background-color: black;
+    color: white;
 }
-#mw_handle_module_down:before{
-  content: "\0136"
+
+#mw_handle_module_up:before {
+    content: "\0139"
+}
+
+#mw_handle_module_down:before {
+    content: "\0136"
 }

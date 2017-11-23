@@ -219,7 +219,7 @@ img[align='middle'] {
 }*/
 
 
-.element:empty {
+.mw-live-edit .element:empty {
     min-height: 20px;
 }
 
