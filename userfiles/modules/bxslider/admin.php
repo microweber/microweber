@@ -6,8 +6,14 @@
 
     <div id="bxslider-settings">
 
-      <script>mw.require('icon_selector.js')</script>
-      <script>mw.require('ui.css')</script>
+      <script>
+
+        mw.require('icon_selector.js')
+      </script>
+      <script>
+        mw.require('ui.css');
+        mw.require('wysiwyg.css') 
+      </script>
 
       <script>
 
@@ -42,34 +48,8 @@
           overflow: auto;
         }
 
-        .item-icon ul {
-          height: 220px;
-          padding: 12px;
-          background: white;
-          box-shadow: 0 0 6p -3px rgba(0,0,0.5);
-          min-width: 300px;
-          display: none;
-        }
-        .mw-icon-selector-dropdown-wrapper.focused ul{
-          display: block;
-        }
 
-        .item-icon li {
-          margin: 5px 0;
-          float: left;
-          width: 33.333%;
-          text-align: center;
-          list-style: none;
-          font-size: 33px;
-          cursor: pointer;
-          color: #777
-        }
 
-          .item-icon{
-            position: relative;
-            display: block;
-            z-index: 10;
-          }
 
             .bxslider-skinselector {
                 width: 150px;
@@ -136,6 +116,23 @@
                 margin-right: 12px;
                 font-size: 14px !important;
             }
+
+            .item-icon ul {
+                height: 220px;
+            }
+
+            .item-icon li {
+                margin: 5px 0;
+                float: left;
+                width: 33.333%;
+                text-align: center;
+            }
+
+            .item-icon input,
+            .item-icon {
+                width: 250px;
+            }
+
         </style>
 
         <?php
@@ -334,6 +331,7 @@
 
                 initItem: function (item) {
                     mw.iconSelector.iconDropdown($('.item-icon', item)[0], setIconDefault($(".bxslider-iconselector", item).val()));
+
 
                     $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
                         mw.on.stopWriting(this, function () {

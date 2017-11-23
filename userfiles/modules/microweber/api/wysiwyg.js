@@ -323,8 +323,14 @@ mw.wysiwyg = {
             else{
               var firstBlock = target;
               var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'li'];
-              if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1){
-                  firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, blocks);
+              var blocksClass = ['safe-element'];
+              if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1 && !mw.tools.hasAnyOfClassesOnNodeOrParent(firstBlock, blocksClass)){
+                var cls = [];
+                blocksClass.forEach(function(item){
+                  cls.push('.'+item)
+                });
+                cls = cls.concat(blocks);
+                firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
               }
               mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
               firstBlock.contentEditable = true;
@@ -866,7 +872,7 @@ mw.wysiwyg = {
 
                   if(mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])){
                     event.preventDefault();
-                    mw.wysiwyg.insert_html('<br>');
+                    mw.wysiwyg.insert_html('<br><br>');
                   }
 
                 /*
@@ -902,32 +908,32 @@ mw.wysiwyg = {
                             if (event.keyCode == 46) {
                                 var nextchar = sel.focusNode.textContent.charAt(sel.focusOffset);
                                 var nextnextchar = sel.focusNode.textContent.charAt(sel.focusOffset + 1);
-                                var nextel = sel.focusNode.nextSibling;
+                                var nextel = sel.focusNode.nextSibling || sel.focusNode.nextElementSibling;
 
                             } else {
                                 var nextchar = sel.focusNode.textContent.charAt(sel.focusOffset-1);
                                 var nextnextchar = sel.focusNode.textContent.charAt(sel.focusOffset-2);
-                                var nextel = sel.focusNode.previouSibling;
+                                var nextel = sel.focusNode.previouSibling || sel.focusNode.previousElementSibling;
 
                             }
 
 
+
                             if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
-                              /*if(!!nextel && nextel.nodeName != 'BR'){
-                                event.preventDefault()
-                              }*/
                               event.preventDefault()
 
-                              return false;
+                                return false;
                             }
 
 
                             if(nextnextchar == ''){
- 
- 
-                               if(nextchar.replace(/\s/g,'') != ''){
-                                event.preventDefault()
-                                return false;
+
+                               if(nextchar.replace(/\s/g,'') == '' && r.collapsed){
+                                if(nextel && nextel.nodeName != 'BR'){
+                                  event.preventDefault()
+                                  return false;
+                                }
+
                                }
                                else if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
                                 return false;
