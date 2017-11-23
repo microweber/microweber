@@ -3410,3 +3410,22 @@ body.mw-live-edit .mw-tooltip-content {
 #mw_handle_module_down:before {
     content: "\0136"
 }
+
+body {
+    transition: 0.6s;
+}
+
+.has-opened-sidebar {
+    margin-right: 300px;
+}
+
+@media screen and (max-width: 1100px) {
+    .has-opened-sidebar {
+        margin-right: 0px;
+        transition: none;
+    }
+
+    #live_edit_side_holder {
+        position: absolute;
+    }
+}
