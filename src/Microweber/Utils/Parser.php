@@ -338,8 +338,9 @@ class Parser
                             if (isset($module_name)) {
                                 $module_class = $this->module_css_class($module_name);
                                 $module_title = module_info($module_name);
+
                                 if (!isset($this->_current_parser_module_of_type[$module_name])) {
-                                    $this->_current_parser_module_of_type[$module_name] = 0;
+                                    $this->_current_parser_module_of_type[$module_name] = 0; 
                                 }
                                 if (!isset($attrs['id'])) {
 
@@ -493,14 +494,21 @@ class Parser
                                     $coming_from_parent_strz1 = $coming_from_parent_id;
                                 }
 
-//                                if (!$root_module_id) {
-//                                    $coming_from_parent_strz1 = $attrs['id'];
-//                                    $root_module_id = $attrs['id'];
-//                                }
+                                if (!$root_module_id) {
+                                    $coming_from_parent_strz1 = $attrs['id'];
+                                    $root_module_id = $attrs['id'];
+                                }
                                 if ($coming_from_parent == true) {
                                     //  if (!isset($attrs['data-parent-module'])) {
-                                    $attrs2['data-parent-module'] = $coming_from_parent;
-                                    $attrs2['data-parent-id'] = $coming_from_parent_id;
+                                     if (!$root_module_id){
+                                      //  $attrs2['data-parent-module'] = $coming_from_parent;
+                                      //  $attrs2['data-parent-module-id'] = $coming_from_parent_id;
+                                     } else {
+                                         $attrs2['data-parent-module-id'] = $root_module_id;
+
+                                     }
+
+
                                     // }
                                 }
                                 //  $attrs['data-prev-module-id'] = $attrs['id'];
@@ -517,7 +525,8 @@ class Parser
                                         $root_module_id = false;
                                         $attrs2['data-root-module-id'] = $root_module_id;
                                         $attrs2['data-root-module'] = $root_module_id;
-
+                                        $attrs2['data-parent-module-id'] = $coming_from_parent_id;
+                                        $attrs2['data-parent-module'] = $coming_from_parent;
                                     }
                                 } else {
                                     $root_module_id = false;
