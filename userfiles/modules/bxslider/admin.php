@@ -6,50 +6,70 @@
 
     <div id="bxslider-settings">
 
-      <script>
+        <script>mw.require('icon_selector.js')</script>
+        <script>mw.require('ui.css')</script>
 
-        mw.require('icon_selector.js')
-      </script>
-      <script>
-        mw.require('ui.css');
-        mw.require('wysiwyg.css') 
-      </script>
-
-      <script>
+        <script>
 
 
+            setIconDefault = function (val) {
+                return {
+                    mode: 'absolute',
+                    onchange: function (val, el) {
+                        $(el).next().val(val);
+                        Bxslider.save()
+                    },
+                    value: val
+                }
+            }
 
-        setIconDefault = function(val){
-          return {
-            mode:'absolute',
-            onchange:function(val, el){
-              $(el).next().val(val);
-              Bxslider.save()
-            },
-            value:val
-          }
-        }
-
-        $(document).ready(function(){
+            $(document).ready(function () {
 
 
-          /*$(".item-icon").each(function(){
-            var el = this;
-            mw.iconSelector.iconDropdown(this, bxIconConfig)
-          }) */
-        })
-      </script>
+                /*$(".item-icon").each(function(){
+                 var el = this;
+                 mw.iconSelector.iconDropdown(this, bxIconConfig)
+                 }) */
+            })
+        </script>
 
         <style>
 
 
-        .mw-icon-selector-dropdown{
-          max-height:300px;
-          overflow: auto;
-        }
+            .mw-icon-selector-dropdown {
+                max-height: 300px;
+                overflow: auto;
+            }
 
+            .item-icon ul {
+                height: 220px;
+                padding: 12px;
+                background: white;
+                box-shadow: 0 0 6 p -3px rgba(0, 0, 0.5);
+                min-width: 300px;
+                display: none;
+            }
 
+            .mw-icon-selector-dropdown-wrapper.focused ul {
+                display: block;
+            }
 
+            .item-icon li {
+                margin: 5px 0;
+                float: left;
+                width: 33.333%;
+                text-align: center;
+                list-style: none;
+                font-size: 33px;
+                cursor: pointer;
+                color: #777
+            }
+
+            .item-icon {
+                position: relative;
+                display: block;
+                z-index: 10;
+            }
 
             .bxslider-skinselector {
                 width: 150px;
@@ -116,23 +136,6 @@
                 margin-right: 12px;
                 font-size: 14px !important;
             }
-
-            .item-icon ul {
-                height: 220px;
-            }
-
-            .item-icon li {
-                margin: 5px 0;
-                float: left;
-                width: 33.333%;
-                text-align: center;
-            }
-
-            .item-icon input,
-            .item-icon {
-                width: 250px;
-            }
-
         </style>
 
         <?php
@@ -153,13 +156,13 @@
             $json = array(0 => $defaults);
         }
         $module_template = get_option('data-template', $params['id']);
-        if(!$module_template){
+        if (!$module_template) {
             $module_template = 'default';
         }
-        $module_template_clean = str_replace('.php','',$module_template);
+        $module_template_clean = str_replace('.php', '', $module_template);
 
-        $default_skins_path = $config['path_to_module'] . 'templates/'.$module_template_clean.'/skins';
-        $template_skins_path = template_dir() . 'modules/bxslider/templates/'.$module_template_clean.'/skins';
+        $default_skins_path = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins';
+        $template_skins_path = template_dir() . 'modules/bxslider/templates/' . $module_template_clean . '/skins';
         $skins = array();
 
         if (is_dir($template_skins_path)) {
@@ -223,26 +226,25 @@
                         </div>
                     </div>
 
-                     <div class="mw-ui-row">
-                     <div class="mw-ui-col">
+                    <div class="mw-ui-row">
+                        <div class="mw-ui-col">
+                            <div class="mw-ui-col-container">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">Icon</label>
+                                    <span class="item-icon"></span>
+                                    <textarea class="bxslider-iconselector" style="display: none"><?php print isset($slide['icon']) ? $slide['icon'] : ''; ?></textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-col-container">
-                      <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">Icon</label>
-                                <span class="item-icon"></span>
-                                <textarea class="bxslider-iconselector" style="display: none"><?php print isset($slide['icon']) ?$slide['icon']:'';  ?></textarea>
-
+                        <div class="mw-ui-col">
+                            <div class="mw-ui-col-container">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">URL</label>
+                                    <input type="text" class="mw-ui-field bxslider-url" value="<?php print $slide['url']; ?>">
+                                </div>
                             </div>
-                            </div>
-                            </div>
-                      <div class="mw-ui-col">
-                         <div class="mw-ui-col-container">
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label">URL</label>
-                        <input type="text" class="mw-ui-field bxslider-url" value="<?php print $slide['url']; ?>">
-                    </div>
-                    </div>
-                    </div>
+                        </div>
                     </div>
 
                     <?php if (!isset($slide['seemoreText'])) {
@@ -332,7 +334,6 @@
                 initItem: function (item) {
                     mw.iconSelector.iconDropdown($('.item-icon', item)[0], setIconDefault($(".bxslider-iconselector", item).val()));
 
-
                     $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
                         mw.on.stopWriting(this, function () {
                             Bxslider.save();
@@ -388,9 +389,9 @@
             }
 
             $(window).bind('load', function () {
-              if(!!window.thismodal && !! thismodal.resize){
-                thismodal.resize(800);
-              }
+                if (!!window.thismodal && !!thismodal.resize) {
+                    thismodal.resize(800);
+                }
 
                 Bxslider.initSlideSettings();
                 mw.$("#bxslider-settings").sortable({
