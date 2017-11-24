@@ -53,6 +53,7 @@ class Parser
         $coming_from_parent_strz1 = false;
         $root_module_id = false;
         $coming_from_parentz = false;
+        $it = 0;
         $previous_attrs2 = $previous_attrs;
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
@@ -444,9 +445,19 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                                         $mod_id = $mod_id . '--' .  $previous_attrs2['data-parent-module-id'];
 
                                     }
+ if ($coming_from_parent) {
+                                        $mod_id = $mod_id . '-' .  $coming_from_parent;
+                                    }  if ($coming_from_parent_id) {
+                                        $mod_id = $mod_id . '--' .  $coming_from_parent_id;
+
+                                    }
 
 
-
+                                    $mod_id = str_replace(' ', '-', $mod_id);
+                                    $mod_id = str_replace('/', '-', $mod_id);
+                                    $mod_id = str_replace('\\', '-', $mod_id);
+                                    $mod_id = str_replace('_', '-', $mod_id);
+                                    $mod_id = trim($mod_id);
 
 
 
@@ -582,7 +593,7 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
 
-d($this->prev_module_data);
+//d($this->prev_module_data);
 
 
 //                                d('.................................');
@@ -777,7 +788,7 @@ $this->prev_module_data = $attrs;
                             } else {
                                 $module_html = $mod_content;
                             }
-                            $module_html = $other_html_tag_replace_inc++.$module_html;
+                          //  $module_html = $other_html_tag_replace_inc++.$module_html;
 //d($replace_key);
                             $this->mw_replaced_modules_values[$replace_key] = $module_html;
                             // $layout = str_replace($value, $module_html, $layout);
