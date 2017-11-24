@@ -47,6 +47,8 @@ class Parser
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
+        static $first_known_mod;
+
         global $mw_replaced_edit_fields_vals;
         global $mod_tag_replace_inc;
         global $other_html_tag_replace_inc;
@@ -452,13 +454,18 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
                                     }
 
+                                    if(isset($first_known_mod[$it])){
+                                        $mod_id = str_replace($first_known_mod[$it], '-', $mod_id);
 
+                                    }
+
+                                    $mod_id = str_replace('--module', '', $mod_id);
                                     $mod_id = str_replace(' ', '-', $mod_id);
                                     $mod_id = str_replace('/', '-', $mod_id);
                                     $mod_id = str_replace('\\', '-', $mod_id);
                                     $mod_id = str_replace('_', '-', $mod_id);
+                                    $mod_id = str_replace('--', '', $mod_id);
                                     $mod_id = trim($mod_id);
-
 
 
                                     if (!$this->have_more) {
@@ -720,13 +727,40 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
                             if(isset($attrs['data-parent-module-id']) and ($attrs['data-parent-module-id'] == $attrs['id'])){
                              $attrs['data-parent-module'] = false;
-                               $attrs['data-parent-module-id'] = false;
+                              $attrs['data-parent-module-id'] = false;
                               $previous_attrs2 = array();
 
                              }
                             $attrs =array_filter($attrs);
                           //  var_dump($attrs);
-$this->prev_module_data = $attrs;
+
+
+
+
+
+                            if(!isset($first_known_mod[$it])){
+
+                              //  $this->prev_module_data = $attrs;
+
+                                 $first_known_mod[$it] = $attrs['id'];
+                            } else {
+//                                d( '=================================');
+//                                d( $first_known_mod[$it]);
+//                                d( '=================================');
+
+//                                $attrs['data-parent-module'] = false;
+//                                $attrs['data-parent-module-id'] = false;
+//                                $attrs =array_filter($attrs);
+//
+//                                $this->prev_module_data = $attrs;
+
+                            }
+                       //     $this->prev_module_data = $attrs;
+                            $attrs =array_filter($attrs);
+ $this->prev_module_data = $attrs;
+
+
+
                             $mod_content = $this->load($module_name, $attrs);
                             $plain_modules = mw_var('plain_modules');
 
