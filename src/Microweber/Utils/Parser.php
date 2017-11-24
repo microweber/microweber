@@ -486,7 +486,8 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
 
                                     if (isset($this->_existing_module_ids[$mod_id])) {
-                                        $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
+                                        $mod_id = $mod_id . '--' . ++$it;
+                                       // $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
                                         if (isset($this->_existing_module_ids[$mod_id])) {
                                             $mod_id = $mod_id . '-random-id-' . uniqid();
                                         }
