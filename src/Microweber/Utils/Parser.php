@@ -601,6 +601,12 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
 
+                                if (isset($attrs['module_settings'])) {
+                                    $attrs['data-parent-module'] =  $attrs ['data-type'];
+                                    $attrs['data-parent-module-id'] =  $attrs ['id'];
+
+                                }
+
 //d($this->prev_module_data);
 
 
@@ -723,15 +729,19 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 //                            if ($coming_from_parent_strz1 == true) {
 //                                $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
 //                            }
-                            $attrs = array_merge($attrs, $attrs2);
-
+                            if (!isset($attrs['module_settings'])) {
+                                $attrs = array_merge($attrs, $attrs2);
+                            }
                             if(isset($attrs['data-parent-module-id']) and ($attrs['data-parent-module-id'] == $attrs['id'])){
-                             $attrs['data-parent-module'] = false;
-                              $attrs['data-parent-module-id'] = false;
-                              $previous_attrs2 = array();
-
+                                if (!isset($attrs['module_settings'])) {
+                                    $attrs['data-parent-module'] = false;
+                                    $attrs['data-parent-module-id'] = false;
+                                    $previous_attrs2 = array();
+                                }
                              }
-                            $attrs =array_filter($attrs);
+                            $attrs = array_filter($attrs, function($value) {
+                                return ($value !== null && $value !== false && $value !== '');
+                            });
                           //  var_dump($attrs);
 
 
@@ -756,7 +766,10 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
                             }
                        //     $this->prev_module_data = $attrs;
-                            $attrs =array_filter($attrs);
+                            $attrs = array_filter($attrs, function($value) {
+                                return ($value !== null && $value !== false && $value !== '');
+                            });
+
  $this->prev_module_data = $attrs;
 
 
