@@ -942,11 +942,12 @@ class DefaultController extends Controller
                 }
             }
         }
+
         if ($has_id == false) {
-            if (defined('MW_MODULE_ONDROP')) {
-                $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
-              //  $tags .= "id=\"$mod_n\" ";
-            }
+//            if (defined('MW_MODULE_ONDROP')) {
+//                $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
+//                $tags .= "id=\"$mod_n\" ";
+//            }
             //  $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
             //  $tags .= "id=\"$mod_n\" ";
         }
