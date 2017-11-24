@@ -35,6 +35,8 @@ class Parser
     private $_current_parser_module_of_type = array();
     private $have_more = false;
     private $prev_module_data = array();
+    private $iter_parent = array();
+    private $_mw_edit_field_map = array();
 
     public function __construct($app = null)
     {
@@ -56,9 +58,10 @@ class Parser
         $root_module_id = false;
         $coming_from_parentz = false;
         $it = 0;
+        $it_loop = 0;
         $previous_attrs2 = $previous_attrs;
         if (!isset($parser_mem_crc)) {
-            $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
+            $parser_mem_crc = 'parser_' . md5($layout) . content_id();
             if($previous_attrs){
                 $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id().serialize($previous_attrs);
 
@@ -213,6 +216,13 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                 }
             }
 
+$parser_ed_field = array();
+            if(isset($this->_mw_edit_field_map[$parser_mem_crc])){
+                dd($this->_mw_edit_field_map[$parser_mem_crc]);
+            }
+
+
+
             if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
 
 
@@ -232,6 +242,11 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                 $attrs = array();
                 foreach ($local_mw_replaced_modules as $parse_key => $parse_item) {
 
+
+                    $parent_of_iteration = false;
+
+
+
                     //$parse_item  = array_reverse($parse_item);
                     foreach ($parse_item as $key => $value) {
 
@@ -242,6 +257,7 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                         $replace_key = $key;
 
                         if (isset($this->mw_replaced_modules_values[$replace_key])) {
+
                             continue;
                         }
 
@@ -361,7 +377,8 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                                 ++$z;
                             }
                             $module_title = false;
-
+                            $coming_from_parent_strz1 = false;
+                            $coming_from_parentz = false;
                             if (isset($module_name)) {
                                 $module_class = $this->module_css_class($module_name);
                                 $module_title = module_info($module_name);
@@ -442,29 +459,29 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
 
                                     if (isset($attrs['data-parent-module'])) {
-                                        $mod_id = $mod_id . '-' .  $previous_attrs2['data-parent-module'];
+                                        $mod_id = $mod_id . '-' .  $attrs['data-parent-module'];
                                     }  if (isset($attrs['data-parent-module-id'])) {
-                                        $mod_id = $mod_id . '--' .  $previous_attrs2['data-parent-module-id'];
+                                        $mod_id = $mod_id . '--' .  $attrs['data-parent-module-id'];
 
                                     }
- if ($coming_from_parent) {
+                                    if ($coming_from_parent) {
                                         $mod_id = $mod_id . '-' .  $coming_from_parent;
                                     }  if ($coming_from_parent_id) {
                                         $mod_id = $mod_id . '--' .  $coming_from_parent_id;
 
                                     }
 
-                                    if(isset($first_known_mod[$it])){
-                                        $mod_id = str_replace($first_known_mod[$it], '-', $mod_id);
+//                                    if(isset($first_known_mod[$it])){
+//                                        $mod_id = str_replace($first_known_mod[$it], '-', $mod_id);
+//
+//                                    }
 
-                                    }
-
-                                    $mod_id = str_replace('--module', '', $mod_id);
+                                  //  $mod_id = str_replace('--module', '', $mod_id);
                                     $mod_id = str_replace(' ', '-', $mod_id);
                                     $mod_id = str_replace('/', '-', $mod_id);
                                     $mod_id = str_replace('\\', '-', $mod_id);
                                     $mod_id = str_replace('_', '-', $mod_id);
-                                    $mod_id = str_replace('--', '', $mod_id);
+                                 //   $mod_id = str_replace('--', '', $mod_id);
                                     $mod_id = trim($mod_id);
 
 
@@ -493,10 +510,12 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
 
                                     if (isset($this->_existing_module_ids[$mod_id])) {
-                                        $mod_id = $mod_id . '--' . ++$it;
+                                        $it++;
+                                        //$mod_id = $mod_id . '--' . ++$it;
+                                        $mod_id = $mod_id . '--' . ++$it_loop;
                                        // $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
                                         if (isset($this->_existing_module_ids[$mod_id])) {
-                                            $mod_id = $mod_id . '-random-id-' . uniqid();
+                                         //   $mod_id = $mod_id . '-random-id-' . uniqid();
                                         }
                                     }
                                     $this->_existing_module_ids[$mod_id] = $mod_id;
@@ -573,8 +592,13 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 //print_r($attrs);
                               //  if($this->have_more){
                                 if(isset($previous_attrs['id']) and $previous_attrs['id']){
-                                    $coming_from_parent_strz1 = $coming_from_parent_id=$previous_attrs['id'];
-                                    $coming_from_parentz = $previous_attrs['data-type'];
+                                   if(!isset($first_known_mod[$parse_key])) {
+
+                                        $coming_from_parent_strz1 = $coming_from_parent_id = $previous_attrs['id'];
+                                        $coming_from_parentz = $previous_attrs['data-type'];
+                                     } else {
+
+                                   }
                                     //$previous_attrs2 = array();
                                   //  $previous_attrs2 = $attrs;
                                   //  $previous_attrs2['data-type'] =$coming_from_parentz;
@@ -593,58 +617,28 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
                                 }
                              //   d('module_id;   '.$attrs['id']);
-
-                                if ($coming_from_parentz == true) {
-                                    $attrs['data-parent-module'] = $coming_from_parentz;
+                                if ($coming_from_parent == true) {
+                                    if ($coming_from_parentz == true) {
+                                        $attrs['data-parent-module'] = $coming_from_parentz;
+                                    }
+                                    if ($coming_from_parent_strz1 == true) {
+                                        $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
+                                    }
                                 }
-                                if ($coming_from_parent_strz1 == true) {
-                                    $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
-                                }
-
-                                if (isset($attrs['module_settings'])) {
-                                    $attrs['data-parent-module'] =  $attrs ['data-type'];
-                                    $attrs['data-parent-module-id'] =  $attrs ['id'];
-
-                                }
+//                                if (isset($attrs['module_settings'])) {
+//                                    $attrs['data-parent-module'] =  $attrs ['data-type'];
+//                                    $attrs['data-parent-module-id'] =  $attrs ['id'];
+//
+//                                }
 
 //d($this->prev_module_data);
 
 
-//                                d('.................................');
-//
-//                                d('module_id;   '.$attrs['id']);
-//d($attrs);
-//                                d('.////...');
-//
-                           //      d($previous_attrs);
-//d('root_module_id;   '.$root_module_id);
-//d('coming_from_parent_id;   '.$coming_from_parent_id);
-//d('=====================================');
 
                                 if (!$root_module_id) {
                                                                   $root_module_id= $coming_from_parent_id;
 
-//                                    if($this->have_more){
-//                                    $root_module_id= $coming_from_parent_strz1 = $attrs['id'];
-//                                    $attrs['data-root-module-id']= $root_module_id = $attrs['id'];
-//                                    }
-                                } else {
-                                   // $root_module_id = false;
-                                }
-                                if ($coming_from_parent == true) {
-                                    //  if (!isset($attrs['data-parent-module'])) {
-                                     if (!$root_module_id){
-                                    //     $attrs2['data-parent-module'] = $coming_from_parent;
-                                     //    $attrs2['data-parent-module-id'] = $coming_from_parent_id;
 
-                                     } else {
-                                       //  $root_module_id = false;
-                                       //  $attrs2['data-parent-module-id'] = $root_module_id;
-
-                                     }
-
-
-                                    // }
                                 }
 
 
@@ -702,10 +696,10 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                                 }
                           //  }
 
-                            $coming_from_parent_str = false;
+                     //       $coming_from_parent_str = false;
 
 
-                            $coming_from_parent_str = false;
+                           // $coming_from_parent_str = false;
                             if ($coming_from_parent == true) {
                                 // $coming_from_parent_str = " data-parent-module='$coming_from_parent' ";
                                 //$coming_from_parent_str .= " data-parent-module-id='$coming_from_parent_strz1' ";
@@ -748,12 +742,14 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
 
 
 
-                            if(!isset($first_known_mod[$it])){
+                            if(!isset($first_known_mod[$parse_key])){
 
                               //  $this->prev_module_data = $attrs;
 
-                                 $first_known_mod[$it] = $attrs['id'];
+                                 $first_known_mod[$parse_key] = $attrs['id'];
+
                             } else {
+                                $this->prev_module_data = $attrs;
 //                                d( '=================================');
 //                                d( $first_known_mod[$it]);
 //                                d( '=================================');
@@ -832,6 +828,8 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                             global $other_html_tag_replace_inc;
 
                             if ($mod_no_wrapper == false) {
+                                $coming_from_parent_str = '';
+
                                 $module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
                             } else {
                                 $module_html = $mod_content;
@@ -1038,6 +1036,13 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                     }
 
                     $try_inherited = false;
+
+
+                    if(isset($this->_mw_edit_field_map[$parser_mem_crc])){
+                        continue;
+                    }
+
+
 
                     if ($rel == 'content') {
                         if (!isset($data_id) or $data_id == false) {
@@ -1246,6 +1251,7 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                             }
                         }
                     }
+                   // d($parser_mem_crc);
 
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
                         $parser_mem_crc2 = 'parser_field_content_' . $field . $rel . $data_id . crc32($field_content);
@@ -1275,7 +1281,10 @@ if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
                                 }
 
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel);
-
+                                $this->_mw_edit_field_map[$parser_mem_crc] = array(
+                                    'field'=>$field,
+                                    'rel'=>$rel,
+                                );
                             }
                         }
                         mw_var($parser_mem_crc2, 1);
