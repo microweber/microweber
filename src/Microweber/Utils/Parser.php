@@ -242,9 +242,9 @@ class Parser
             if (isset($this->_mw_edit_field_map[$parser_mem_crc])) {
                 //  dd($this->_mw_edit_field_map[$parser_mem_crc]);
             }
-            \Log::info($coming_from_parent);
-            \Log::info($coming_from_parent_id);
-            \Log::info($this->prev_module_data);
+//            \Log::info($coming_from_parent);
+//            \Log::info($coming_from_parent_id);
+//            \Log::info($this->prev_module_data);
             //\Log::info($layout);
 //           d('-----------------');
 ////            d($mod_tag_replace_inc);
@@ -461,49 +461,6 @@ class Parser
                                         $found_par_mod_id = false;
 
 
-//                                        if (isset($this->prev_module_data['parent-module-id'])) {
-//                                            // if(!$coming_from_parent){
-//                                            $found_par_mod = $this->prev_module_data['data-type'];
-//                                            $found_par_mod_id = $this->prev_module_data['parent-module-id'];
-//                                            //   }
-//                                        } else if (isset($attrs['parent-module-id']) and $attrs['parent-module-id']) {
-//                                            if (isset($attrs['parent-module'])) {
-//                                                $found_par_mod = $attrs['parent-module'];
-//                                            }
-//
-//                                            if (isset($attrs['parent-module-id'])) {
-//                                                $found_par_mod_id = $attrs['parent-module-id'];
-//                                            }
-//                                        }
-
-
-//                                    if (isset($previous_attrs['parent-module-id']) and $previous_attrs['parent-module-id']) {
-//                                        if (isset($previous_attrs['parent-module'])) {
-//                                            $found_par_mod = $previous_attrs['parent-module'];
-//                                        }
-//
-//                                        if (isset($previous_attrs['parent-module-id'])) {
-//                                            $previous_attrs = $previous_attrs['parent-module-id'];
-//                                        }
-//                                    } else
-
-//                                    if($found_par_mod){
-//
-//                                       // $mod_id = $mod_id . '-' .$found_par_mod;
-//                                    }
-//                                    if (!$coming_from_parent) {
-//                                        $mod_id = $module_class;
-//                                    } else {
-//                                        $mod_id='';
-//                                    }
-//                                        if ($found_par_mod_id) {
-//                                            $mod_id = $mod_id . '--' . $found_par_mod_id;
-//                                        } else {
-//                                            if (!$coming_from_parent_id) {
-//                                                $mod_id = $module_class;
-//                                            }
-//
-//                                        }
 
                                         if (!$found_par_mod_id) {
                                             //if (!isset($this->prev_module_data['parent-module-id'])) {
@@ -774,7 +731,7 @@ class Parser
 
                                 $it_loop1++;
                                 $it_loop2++;
-                                $module_html = $it_loop1 . '---' . $it_loop2 . '---' . $other_html_tag_replace_inc++ . $module_html;
+                           //     $module_html = $it_loop1 . '---' . $it_loop2 . '---' . $other_html_tag_replace_inc++ . $module_html;
 
 
 //d($replace_key);
@@ -826,9 +783,9 @@ class Parser
                 if ($value != '') {
                     $reps_arr[] = $key;
                     $reps_arr2[] = $value;
-                    $layout = $this->_str_replace_first($key, $value, $layout);
+                 //   $layout = $this->_str_replace_first($key, $value, $layout);
 
-                    // $layout = str_replace($key, $value, $layout);
+                     $layout = str_replace($key, $value, $layout);
                 }
             }
             //   $layout = str_replace($reps_arr, $reps_arr2, $layout);
