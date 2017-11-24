@@ -508,19 +508,20 @@ class Parser
                                         if (!$found_par_mod_id) {
                                             //if (!isset($this->prev_module_data['parent-module-id'])) {
                                             if ($coming_from_parent) {
-                                                   $mod_id = $mod_id . '-' . $coming_from_parent;
+                                               //    $mod_id = $mod_id . '-' . $coming_from_parent;
                                             }
 
-                                            if ($coming_from_parent_id) {
-                                                  $mod_id = $mod_id . '--' . $coming_from_parent_id;
 
-                                            }
                                             // }
                                         }
 
                                         if (!$mod_id) {
                                             $mod_id = $module_class;
-                                            if ($coming_from_parent_id and !$found_par_mod_id) {
+                                            if ($coming_from_parent_id and $coming_from_parent) {
+                                                $mod_id = $module_name;
+
+                                            }
+                                            if ($coming_from_parent_id and !$coming_from_parent) {
                                                 $mod_id = $mod_id . '-ssss-' . $coming_from_parent_id;
 
                                             } else {
@@ -529,6 +530,13 @@ class Parser
                                             }
 
                                         }
+                                        if ($coming_from_parent_id and $coming_from_parent) {
+                                            //   $mod_id = $mod_id . '--' . $coming_from_parent_id;
+                                            $mod_id =  $coming_from_parent_id.'--'.$mod_id;
+                                        }
+
+
+
 
 
 //                                    if(isset($first_known_mod[$it])){
@@ -648,7 +656,7 @@ class Parser
                                     $this->prev_module_data = $attrs;
 
                                 } else {
- 
+
                                     $attrs['parent-module-id'] = $coming_from_parent_id;
                                     $attrs['parent-module'] = $coming_from_parent;
                                     $this->prev_module_data = $attrs;
