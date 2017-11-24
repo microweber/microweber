@@ -498,7 +498,7 @@ class Parser
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
                                             //   $mod_id = $mod_id . '--' . $coming_from_parent_id;
-                                            $mod_id = $module_name;
+                                            $mod_id = 'zzz'.$it_loop.$module_name;
                                            // $mod_id =  $mod_id . '-' .$coming_from_parent_id;
                                           //  $mod_id =  $mod_id . '-' .$coming_from_parent;
                                            // $mod_id = str_replace($coming_from_parent, 'ggggg', $mod_id);
@@ -557,12 +557,12 @@ class Parser
 
                                             if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
                                                 if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
-                                                    $inc_mod_num = 'aaaa'. $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
+                                                    $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
                                                 }
                                                  //d($this->_current_parser_module_of_type);
                                                 // d($mod_id);
                                             } else {
-                                                $inc_mod_num = $it_loop;
+                                             //   $inc_mod_num = $it_loop;
 
                                             }
                                             if($coming_from_parent_id){
@@ -570,22 +570,34 @@ class Parser
                                             }
 
                                             //$mod_id = $mod_id . '--' . ++$it;
-                                            $mod_id = $mod_id . '-tttt-' .$inc_mod_num;
+                                            if($inc_mod_num){
+                                            $mod_id = $mod_id . '--' .$inc_mod_num;
+                                            }
                                             // $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
                                             if (isset($this->_existing_module_ids[$mod_id])) {
-//                                                $mod_id_probe = false;
-//                                                if($coming_from_parent_id){
-//                                                    $mod_id_probe =  $mod_id . '-coming_from_parent_id' .$coming_from_parent_id;
-//                                                }
-//                                                if (!isset($this->_existing_module_ids[$mod_id_probe])) {
-//                                                    $mod_id = $mod_id_probe;
-//                                                } else {
-//                                                }
+
+
+                                                $mod_id_probe = false;
+                                                if($coming_from_parent_id){
+                                                    //$mod_id_probe =  $mod_id . '-coming_from_parent_id' .$coming_from_parent_id;
+                                                    $mod_id_probe =  $coming_from_parent_id . '-' .$mod_id;
+                                                    $mod_id_probe = str_replace('module-', '', $mod_id_probe);
+
+                                                } else {
+                                                    $mod_id = $mod_id . '-' . $last_content_id;
+                                                }
+
+                                                if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
+                                                    $mod_id = $mod_id_probe;
+                                                } else {
+
+                                                    $mod_id = $mod_id . '-random-fixme-id-' . uniqid();
+
+                                                }
 
 
 
-                                                $mod_id = $mod_id . '-random-id-' . uniqid();
-
+                                              //  d($mod_id);
                                             }
                                         }
                                       //  d($mod_id);
@@ -777,7 +789,7 @@ class Parser
 
                                 $it_loop1++;
                                 $it_loop2++;
-                                 $module_html = $it_loop1 . '---' . $it_loop2 . '---' . $other_html_tag_replace_inc++ . $module_html;
+                              //   $module_html = $it_loop1 . '---' . $it_loop2 . '---' . $other_html_tag_replace_inc++ . $module_html;
 
 
 
