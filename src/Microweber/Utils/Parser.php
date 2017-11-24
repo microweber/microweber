@@ -34,6 +34,7 @@ class Parser
     private $_current_parser_field = false;
     private $_current_parser_module_of_type = array();
     private $have_more = false;
+    private $prev_module_data = array();
 
     public function __construct($app = null)
     {
@@ -55,8 +56,15 @@ class Parser
         $previous_attrs2 = $previous_attrs;
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
-            $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
+            if($previous_attrs){
+                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id().serialize($previous_attrs);
+
+            } else {
+                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
+
+            }
         }
+        $local_mw_replaced_modules = array();
         //$this->layout = $layout;
         static $process_started;
         if ($process_started == false) {
@@ -97,19 +105,19 @@ class Parser
 
         $script_pattern = '/<module[^>]*>/Uis';
         preg_match_all($script_pattern, $layout, $mw_script_matches);
-if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
-    $this->mw_replaced_modules[$parser_mem_crc] = array();
+if(!isset($local_mw_replaced_modules[$parser_modules_crc])){
+    $local_mw_replaced_modules[$parser_modules_crc] = array();
 }
         if (!empty($mw_script_matches)) {
             $matches1 = $mw_script_matches[0];
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value) . '-' . $mod_tag_replace_inc++;
+                    $v1 = crc32($value) . '-' .$parser_modules_crc. $mod_tag_replace_inc++;
                     //  $v1 = crc32($value);
                     $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
                     $layout = $this->_str_replace_first($value, $v1, $layout);
-                    if (!isset($this->mw_replaced_modules[$parser_mem_crc][$v1])) {
-                        $this->mw_replaced_modules[$parser_mem_crc][$v1] = $value;
+                    if (!isset($local_mw_replaced_modules[$parser_modules_crc][$v1])) {
+                        $local_mw_replaced_modules[$parser_modules_crc][$v1] = $value;
                     }
                 }
             }
@@ -180,12 +188,12 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
                 $matches1 = $mw_script_matches[0];
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
-                        $v1 = crc32($value) . '-' . $mod_tag_replace_inc++;
+                        $v1 = crc32($value) . '-' . $parser_modules_crc.$mod_tag_replace_inc++;
                         ///   $v1 = crc32($value);
                         $v1 = '<tag>mw_replace_back_this_module_111' . $v1 . '</tag>';
                         $layout = $this->_str_replace_first($value, $v1, $layout);
-                        if (!isset($this->mw_replaced_modules[$parser_mem_crc][$v1])) {
-                            $this->mw_replaced_modules[$parser_mem_crc][$v1] = $value;
+                        if (!isset($local_mw_replaced_modules[$parser_modules_crc][$v1])) {
+                            $local_mw_replaced_modules[$parser_modules_crc][$v1] = $value;
                         }
                     }
                 }
@@ -202,7 +210,9 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
                 }
             }
 
-            if (is_array($this->mw_replaced_modules)) {
+            if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
+
+
                 $attribute_pattern = '@
 			(?P<name>\w+)# attribute name
 			\s*=\s*
@@ -217,7 +227,9 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
                 $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
 
                 $attrs = array();
-                foreach ($this->mw_replaced_modules as $parse_key => $parse_item) {
+                foreach ($local_mw_replaced_modules as $parse_key => $parse_item) {
+
+                    //$parse_item  = array_reverse($parse_item);
                     foreach ($parse_item as $key => $value) {
 
 
@@ -531,6 +543,38 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
                                     $coming_from_parent_strz1 = $coming_from_parent_id;
                                 }
 
+                                 ;
+                                if(isset($this->prev_module_data ['id']) and $this->prev_module_data ['id']){
+                                    $coming_from_parent_strz1 = $coming_from_parent_id= $this->prev_module_data ['id'];
+                                    $coming_from_parentz =  $this->prev_module_data ['data-type'];
+                                }
+
+
+
+//print_r($attrs);
+                              //  if($this->have_more){
+                                if(isset($previous_attrs['id']) and $previous_attrs['id']){
+                                    $coming_from_parent_strz1 = $coming_from_parent_id=$previous_attrs['id'];
+                                    $coming_from_parentz = $previous_attrs['data-type'];
+                                    //$previous_attrs2 = array();
+                                  //  $previous_attrs2 = $attrs;
+                                  //  $previous_attrs2['data-type'] =$coming_from_parentz;
+
+                                    //   $attrs2['data-root-module-id'] = false;
+
+                                    //  }
+                                }  else {
+                                    $previous_attrs = $attrs;
+                                //    $coming_from_parent_strz1 = false;
+                                  //  $coming_from_parentz = false;
+                                  //  $attrs2['data-parent-module-id'] = false;
+                                    //$attrs2['data-parent-module'] = false;
+                                   // $previous_attrs2 = $attrs;
+                                   // $attrs2['data-root-module-id'] = $attrs['id'];
+
+                                }
+                             //   d('module_id;   '.$attrs['id']);
+
                                 if ($coming_from_parentz == true) {
                                     $attrs['data-parent-module'] = $coming_from_parentz;
                                 }
@@ -538,31 +582,7 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
 
-//print_r($attrs);
-                              //  if($this->have_more){
-                                if(isset($previous_attrs['id']) and $previous_attrs['id']){
-                                    $coming_from_parent_strz1 = $coming_from_parent_id=$previous_attrs['id'];
-                                    $coming_from_parentz = $previous_attrs['data-type'];
-                                    $previous_attrs2 = array();
-                                  //  $previous_attrs2['data-type'] =$coming_from_parentz;
-
-                                    //   $attrs2['data-root-module-id'] = false;
-
-                                    //  }
-                                }  else {
-
-                                    $coming_from_parent_strz1 = false;
-                                    $coming_from_parentz = false;
-                                    $attrs2['data-parent-module-id'] = false;
-                                    $attrs2['data-parent-module'] = false;
-                                   // $previous_attrs2 = $attrs;
-                                   // $attrs2['data-root-module-id'] = $attrs['id'];
-
-                                }
-                             //   d('module_id;   '.$attrs['id']);
-
-
-
+d($this->prev_module_data);
 
 
 //                                d('.................................');
@@ -685,14 +705,16 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
 //                                $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
 //                            }
                             $attrs = array_merge($attrs, $attrs2);
-                            $attrs =array_filter($attrs);
-                            if(isset($attrs['data-parent-module-id']) and ($attrs['data-parent-module-id'] == $attrs['id'])){
-                              $attrs['data-parent-module'] = false;
-                               $attrs['data-parent-module-id'] = false;
-                                $previous_attrs2 = false;
-                             }
-                          //  var_dump($root_module_id);
 
+                            if(isset($attrs['data-parent-module-id']) and ($attrs['data-parent-module-id'] == $attrs['id'])){
+                             $attrs['data-parent-module'] = false;
+                               $attrs['data-parent-module-id'] = false;
+                              $previous_attrs2 = array();
+
+                             }
+                            $attrs =array_filter($attrs);
+                          //  var_dump($attrs);
+$this->prev_module_data = $attrs;
                             $mod_content = $this->load($module_name, $attrs);
                             $plain_modules = mw_var('plain_modules');
 
@@ -732,27 +754,31 @@ if(!isset($this->mw_replaced_modules[$parser_mem_crc])){
                                     }
                                 }
                             }
-                            unset($this->mw_replaced_modules[$parse_key][$key]);
+                            unset($local_mw_replaced_modules[$parse_key][$key]);
 
                             if ($proceed_with_parse == true) {
                                  $this->have_more = true;
-                             //   d($coming_from_parentz);
+
+
+                                //   d($coming_from_parentz);
                              //   d($coming_from_parent_strz1);
                                 $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
                             } else {
                                 $this->have_more = false;
-
+                                $this->prev_module_data = array();
                                 $coming_from_parent_str = '';
 
                             }
 
+                            global $other_html_tag_replace_inc;
 
                             if ($mod_no_wrapper == false) {
                                 $module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
                             } else {
                                 $module_html = $mod_content;
                             }
-
+                            $module_html = $other_html_tag_replace_inc++.$module_html;
+//d($replace_key);
                             $this->mw_replaced_modules_values[$replace_key] = $module_html;
                             // $layout = str_replace($value, $module_html, $layout);
                             $layout = $this->_str_replace_first($value, $module_html, $layout);
