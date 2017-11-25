@@ -904,6 +904,7 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
+
         if ($mod_n == 'layout' && isset($data['template'])) {
             $t = str_replace('..', '', $data['template']);
             $possible_layout = templates_path() . $t;
@@ -958,6 +959,7 @@ class DefaultController extends Controller
         if ($_REQUEST) {
             $opts = $_REQUEST;
         }
+
         if (isset($_REQUEST['live_edit'])) {
             event_trigger('mw.live_edit');
         }

@@ -541,12 +541,12 @@ class Parser
                                         }
 
                                         $it++;
-                                        if (defined('MW_MODULE_ONDROP')) {
-                                            $mod_id = $module_class . '-' . date("YmdHis") . uniqid();
-//dd(MW_MODULE_ONDROP);
-                                        }
+//                                        if (defined('MW_MODULE_ONDROP')) {
+//                                            $mod_id = $module_class . 'xxxxx-' . date("YmdHis") . uniqid();
+////dd(MW_MODULE_ONDROP);
+//                                        }
                                         if (isset($this->_existing_module_ids[$mod_id])) {
-                                            ++$it_loop;
+                                             ++$it_loop;
                                             $inc_mod_num = 0;
 
                                             if ($coming_from_parent_id != false) {
