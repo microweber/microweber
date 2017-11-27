@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($params['parent-module']) and isset($params['root-module'])) {
+ if (!isset($params['parent-module']) and isset($params['root-module'])) {
     $params['parent-module'] = $params['root-module'];
 }
 if (!isset($params['parent-module-id']) and isset($params['root-module-id'])) {
@@ -21,7 +21,7 @@ if (!isset($params['parent-module-id'])) {
 }
 
 
-
+//d($params['parent-module']);
 
 $params['id'] = $params['parent-module-id'];
 

@@ -350,6 +350,14 @@ class Parser
                                     $attrs['data-type'] = $attrs['module'];
                                     unset($attrs['module']);
                                 }
+                              if(isset( $attrs['parent-module'] )){
+                                  $coming_from_parent =  $attrs['parent-module'];
+                              }
+                              if(isset( $attrs['parent-module-id'] )){
+                                  $coming_from_parent_id =  $attrs['parent-module-id'];
+                              }
+
+
 //                            if ($coming_from_parent == true) {
 //                                $attrs['parent-module'] = $coming_from_parent;
 //                            }
