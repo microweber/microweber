@@ -776,6 +776,11 @@ class Parser
 
                                 if ($proceed_with_parse == true) {
                                     $this->have_more = true;
+                                    preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $mod_content, $layoutmatches);
+                                    if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
+                                        $mod_content = $this->_replace_editable_fields($mod_content);
+                                    }
+
                                     // $it_loop1++;
                                     // $it_loop2++;
 
@@ -915,10 +920,12 @@ class Parser
             }
 
             if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc])) {
-                return $this->_mw_parser_passed_replaces[$parser_mem_crc];
+              //  dd($parser_mem_crc);
+                 return $this->_mw_parser_passed_replaces[$parser_mem_crc];
             }
             if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
                 // return false;
+
                 return $mw_replaced_edit_fields_vals[$parser_mem_crc];
             }
 
