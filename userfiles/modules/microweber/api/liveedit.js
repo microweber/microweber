@@ -42,11 +42,11 @@ mw.dropables = {
 
     var selectors = (selectors || mw.drag.section_selectors).slice(0);
 
-  
+
     for(var i = 0 ; i<selectors.length ; i++){
         selectors[i] = '.edit ' + selectors[i].trim()
     }
-    
+
 
     selectors = selectors.join(',');
 
@@ -61,6 +61,14 @@ mw.dropables = {
             position:null
           };
       for( ; i< all.length; i++){
+        var ord = mw.tools.parentsOrder(all[i], ['edit', 'module']);
+        if(ord.edit === -1 || ((ord.module !== -1 && ord.edit !== -1 ) && ord.module < ord.edit)){
+          continue;
+        }
+        if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(all[i], ['allow-drop', 'nodrop'])){
+          continue;
+
+        }
         var el = $(all[i]), offtop = el.offset().top;
         var v1 = offtop - y;
         var v2 = y - (offtop + el[0].offsetHeight);
@@ -509,6 +517,7 @@ mw.drag = {
 
           el.css({'top': '', 'position':''})
           prev.css({'top': '', 'position':''});
+          mw.wysiwyg.change(el[0])
           if(!!callback){
             setTimeout(function(){
               callback.call()
@@ -711,7 +720,6 @@ mw.drag = {
                     && !(mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')) {
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
-
                         mw.currentDragMouseOver = null;
                         mw.dropable.hide();
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
@@ -923,7 +931,7 @@ mw.drag = {
                             mw.dropable.show();
                         }
                     } else if (el.hasClass("edit")) {
-                       var near = mw.dropables.findNearest(event)
+                       var near = mw.dropables.findNearest(event);
                         if(!!near.element){
                           mw.currentDragMouseOver = near.element;
                           mw.dropables.findNearestException = true;
@@ -948,6 +956,7 @@ mw.drag = {
                 }
 
                 }
+                if(!!mw.currentDragMouseOver){
                  if(!mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'edit') && !mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
                  if(!mw.tools.hasParentsWithClass(event.target, 'edit') && !mw.tools.hasClass(event.target, 'edit')){
                     mw.currentDragMouseOver = null;
@@ -962,7 +971,8 @@ mw.drag = {
                         mw.currentDragMouseOver = parent;
                     }
                  }
-                 }
+                 } }
+
                 }
               if(!!mw.currentDragMouseOver){
                 var el = $(mw.currentDragMouseOver);
@@ -1089,7 +1099,7 @@ mw.drag = {
         });
         $(window).on("onModuleOver", function(a, element) {
         mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
-       
+
         if(element.getAttribute('data-type') == 'layouts'){
           var $el = $(element);
           var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
@@ -1102,16 +1112,16 @@ mw.drag = {
                 mw.$('#mw_handle_module_down').show();
               }
           }
-          
+
         }
-
-
-            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop']) || ((mw.tools.hasParentsWithClass(element, 'module') || mw.tools.hasClass('module',element))&& !mw.tools.hasParentsWithClass(element, 'allow-drop'))) {
+            var order = mw.tools.parentsOrder(element, ['edit', 'module'])
+            if (
+              !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])
+             && !(order.edit == -1 || order.edit > order.module)) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
-                //return false;
             } else {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
-                var order = mw.tools.parentsOrder(element, ['edit', 'module']);
+
                 if (order.edit == -1 || (order.module > -1 && order.edit > order.module)) {
                     mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
                     mw.$("#mw_handle_module .mw_edit_delete").hide();
@@ -1362,7 +1372,10 @@ mw.drag = {
             });
             mw.on.mouseDownAndUp($handle_module[0], function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
-                mw.drag.module_settings();
+                if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
+                  mw.drag.module_settings();
+                }
+
               }
             })
             $(mw.handle_row).draggable({
@@ -1598,13 +1611,34 @@ mw.drag = {
 
                     setTimeout(function() {
 
-
-
-
                         mw.$("#modules-and-layouts.hovered").removeClass("hovered");
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         if (mw.currentDragMouseOver === null) {
-                            return false;
+                          return false;
+                        }
+
+                        var fce = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.edit']);
+                        var fcnd = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.nodrop']);
+                        var ndo = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.currentDragMouseOver, ['nodrop', 'allow-drop']);
+                        if(!!fcnd && fcnd){
+
+                          return false;
+                        }
+                        if (fce && fcnd) {
+                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'nodrop') || mw.tools.hasClass(fce, 'nodrop')) {
+                              return false;
+                          }
+                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'edit')) {
+                              if (ndo) {
+                              return false;
+                            }
+                          }
+                          else{
+                            var p = mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit');
+                            if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(p, ['nodrop', 'allow-drop'])) {
+                              return false;
+                            }
+                          }
                         }
 
                         var curr_prev = $(mw.dragCurrent).prev();
@@ -1613,7 +1647,6 @@ mw.drag = {
 
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
-
 
                         if(mw.currentDragException || mw.dropables.findNearestException){
                             mw.dropables.findNearestException = false;
