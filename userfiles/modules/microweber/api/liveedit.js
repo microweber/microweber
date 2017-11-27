@@ -1613,33 +1613,6 @@ mw.drag = {
 
                         mw.$("#modules-and-layouts.hovered").removeClass("hovered");
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
-                        if (mw.currentDragMouseOver === null) {
-                          return false;
-                        }
-
-                        var fce = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.edit']);
-                        var fcnd = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.nodrop']);
-                        var ndo = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.currentDragMouseOver, ['nodrop', 'allow-drop']);
-                        if(!!fcnd && fcnd){
-
-                          return false;
-                        }
-                        if (fce && fcnd) {
-                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'nodrop') || mw.tools.hasClass(fce, 'nodrop')) {
-                              return false;
-                          }
-                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'edit')) {
-                              if (ndo) {
-                              return false;
-                            }
-                          }
-                          else{
-                            var p = mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit');
-                            if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(p, ['nodrop', 'allow-drop'])) {
-                              return false;
-                            }
-                          }
-                        }
 
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
@@ -1647,6 +1620,39 @@ mw.drag = {
 
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+                        if (mw.currentDragMouseOver === null) {
+                          return false;
+                        }
+
+                        var fce = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.edit']);
+                        var fcnd = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.nodrop']);
+                        var ndo = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.currentDragMouseOver, ['nodrop', 'allow-drop']);
+
+                        if(!!fcnd && ndo){
+                          return false;
+                        }
+                        if (fce && fcnd) {
+                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'nodrop') || mw.tools.hasClass(fce, 'nodrop')) {
+                            if(ndo){
+                              return false;
+                            }
+
+                          }
+                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'edit')) {
+                            if (ndo) {
+                              return false;
+                            }
+                          }
+                          else{
+                            /*var p = mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit');
+                            if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(p, ['nodrop', 'allow-drop'])) {
+                              return false;
+                            }*/
+                          }
+                        }
+
+
 
                         if(mw.currentDragException || mw.dropables.findNearestException){
                             mw.dropables.findNearestException = false;
@@ -2623,6 +2629,8 @@ mw.drag = {
             edits = body.querySelectorAll('.edit.changed'),
             data = mw.drag.collectData(edits);
         }
+
+
 
         if (mw.tools.isEmptyObject(data)) return false;
 
