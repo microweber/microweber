@@ -904,6 +904,7 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
+
         if ($mod_n == 'layout' && isset($data['template'])) {
             $t = str_replace('..', '', $data['template']);
             $possible_layout = templates_path() . $t;
@@ -942,11 +943,12 @@ class DefaultController extends Controller
                 }
             }
         }
+
         if ($has_id == false) {
-            if (defined('MW_MODULE_ONDROP')) {
-                $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
-                $tags .= "id=\"$mod_n\" ";
-            }
+//            if (defined('MW_MODULE_ONDROP')) {
+//                $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").unquid();
+//                $tags .= "id=\"$mod_n\" ";
+//            }
             //  $mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
             //  $tags .= "id=\"$mod_n\" ";
         }
@@ -957,6 +959,7 @@ class DefaultController extends Controller
         if ($_REQUEST) {
             $opts = $_REQUEST;
         }
+
         if (isset($_REQUEST['live_edit'])) {
             event_trigger('mw.live_edit');
         }

@@ -366,8 +366,8 @@ class ModuleController extends Controller
             $data['module'] = ($mod_from_url);
         }
 
-        if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
-            $data['id'] = $_REQUEST['id'];
+        if (!isset($data['id']) and isset($_GET['id']) == true) {
+            //$data['id'] = $_GET['id'];
         }
         if (isset($data['ondrop'])) {
             if (!defined('MW_MODULE_ONDROP')) {
@@ -417,11 +417,14 @@ class ModuleController extends Controller
             }
         }
         if ($has_id == false) {
-
+            if (defined('MW_MODULE_ONDROP')) {
+                	$mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis").uniqid();
+                	$tags .= "id=\"$mod_n\" ";
+                                        }
             //	$mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
             //	$tags .= "id=\"$mod_n\" ";
         }
-
+//dd($_REQUEST);
         $tags = "<module {$tags} />";
 
         $opts = array();
