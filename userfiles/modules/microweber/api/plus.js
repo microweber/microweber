@@ -100,7 +100,7 @@ mw.drag.plus = {
                 return;
             }
             var off = $(node).offset(), toolbar = mwd.querySelector('#live_edit_toolbar');
-            if(off.top < toolbar.offsetHeight){
+            if(toolbar && off.top < toolbar.offsetHeight){
               off.top = toolbar.offsetHeight + 10;
             }
             mw.drag.plusTop.style.top = off.top + 'px';
