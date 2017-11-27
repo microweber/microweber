@@ -798,6 +798,13 @@ class Parser
                                     //   d($coming_from_parentz);
                                     //   d($coming_from_parent_strz1);
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
+
+                                    if(strstr($mod_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                                        $mod_content = $this->_replace_editable_fields($mod_content,true);
+                                        $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
+
+                                    }
+
                                 } else {
                                     $this->have_more = false;
                                     $this->prev_module_data = array();
@@ -930,11 +937,11 @@ class Parser
                 $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
             }
 
-            if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc])) {
+            if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc]) and !$no_cache) {
               //  dd($parser_mem_crc);
                  return $this->_mw_parser_passed_replaces[$parser_mem_crc];
             }
-            if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
+            if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc]) and !$no_cache) {
                 // return false;
 
                 return $mw_replaced_edit_fields_vals[$parser_mem_crc];
@@ -1254,10 +1261,11 @@ class Parser
                         $parser_mem_crc2 = 'parser_field_content_' . $field . $rel . $data_id . crc32($field_content);
 
                         $ch2 = mw_var($parser_mem_crc);
+                      
                         if ($ch2 == false) {
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
                             $this->_mw_parser_passed_hashes_rel[$rel][] = $parser_mem_crc2;
-                            if (!isset($mw_replaced_edit_fields_vals[$parser_mem_crc2]) and $field_content != false and $field_content != '') {
+                            if ( $field_content != false and $field_content != '') {
                                 $mw_replaced_edit_fields_vals[$parser_mem_crc2] = $ch2;
                                 $parser_mem_crc3 = 'mw_replace_back_this_editable_' . $parser_mem_crc2 . '';
 
@@ -1390,6 +1398,34 @@ class Parser
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
         $pq = \phpQuery::newDocument($layout);
+
+
+
+        foreach ($pq ['.edit'] as $elem) {
+            $attrs = $elem->attributes;
+            $tag = $elem->tagName;
+
+
+            $module_html = '<'.$tag.' ';
+            if (!empty($attrs)) {
+                foreach ($attrs as $attribute_name => $attribute_node) {
+                    $v = $attribute_node->nodeValue;
+                    $module_html .= " {$attribute_name}='{$v}'  ";
+                }
+            }
+            $module_html .= '><inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag><'.$tag.'/>';
+            pq($elem)->replaceWith($module_html);
+
+         //   d('======================');
+
+        }
+       // $layout = $pq->htmlOuter();
+      //  d($layout);
+       // exit;
+        $layout = $pq->htmlOuter();
+
+        $pq = \phpQuery::newDocument($layout);
+
         foreach ($pq ['.module'] as $elem) {
             $name = pq($elem)->attr('module');
             $attrs = $elem->attributes;
@@ -1403,6 +1439,9 @@ class Parser
             $module_html .= ' />';
             pq($elem)->replaceWith($module_html);
         }
+
+
+
 
         $layout = $pq->htmlOuter();
         $layout = str_replace("\u00a0", ' ', $layout);
