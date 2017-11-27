@@ -46,6 +46,9 @@ class Parser
         } else {
             $this->app = $app;
         }
+
+        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+
     }
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
@@ -778,7 +781,15 @@ class Parser
                                     $this->have_more = true;
                                     preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $mod_content, $layoutmatches);
                                     if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
-                                        $mod_content = $this->_replace_editable_fields($mod_content);
+
+                                        $pq_mod_inner = \phpQuery::newDocument($mod_content);
+                                        $els_mod_inner = $pq_mod_inner['.edit'];
+                                     //   count($els_mod_inner);
+                                        if(count($els_mod_inner)){
+                                            $mod_content = $this->_replace_editable_fields($mod_content);
+
+                                        }
+
                                     }
 
                                     // $it_loop1++;
@@ -966,7 +977,6 @@ class Parser
             } elseif ($ch != false) {
                 $layout = $ch;
             } else {
-                require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
                 $pq = \phpQuery::newDocument($layout);
                 $els = $pq['.edit'];
                 $is_editable = true;
