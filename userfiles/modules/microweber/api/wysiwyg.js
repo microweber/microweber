@@ -324,16 +324,20 @@ mw.wysiwyg = {
               var firstBlock = target;
               var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'li'];
               var blocksClass = ['safe-element'];
-              if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1 && !mw.tools.hasAnyOfClassesOnNodeOrParent(firstBlock, blocksClass)){
-                var cls = [];
-                blocksClass.forEach(function(item){
-                  cls.push('.'+item)
-                });
-                cls = cls.concat(blocks);
-                firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
+              var po = mw.tools.parentsOrder(firstBlock, ['edit', 'module']);
+              if(po.module == -1 || po.module > po.edit){
+                if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1 && !mw.tools.hasAnyOfClassesOnNodeOrParent(firstBlock, blocksClass)){
+                  var cls = [];
+                  blocksClass.forEach(function(item){
+                    cls.push('.'+item)
+                  });
+                  cls = cls.concat(blocks);
+                  firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
+                }
+                mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
+                firstBlock.contentEditable = true;
               }
-              mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
-              firstBlock.contentEditable = true;
+
             }
 
 
