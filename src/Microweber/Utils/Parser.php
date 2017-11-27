@@ -226,12 +226,7 @@ class Parser
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
                         $v1 = crc32($value) . '-' . $parser_modules_crc . $mod_tag_replace_inc++;
-                        //$v1 = crc32($value) . '-' .  $mod_tag_replace_inc++;
-                        //    $v1 =$mod_tag_replace_inc++.'_'. crc32($value) . '-' .$parser_modules_crc;
 
-                        //    $v1 = crc32($value) . '-' . $parser_modules_crc.$it_loop2 ;
-                        //$v1 = crc32($value) ;
-                        ///   $v1 = crc32($value);
                         $v1 = '<tag>mw_replace_back_this_module_111' . $v1 . '</tag>';
                         $layout = $this->_str_replace_first($value, $v1, $layout);
                         if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
@@ -256,23 +251,7 @@ class Parser
             if (isset($this->_mw_edit_field_map[$parser_mem_crc])) {
                 //  dd($this->_mw_edit_field_map[$parser_mem_crc]);
             }
-//            \Log::info($coming_from_parent);
-//            \Log::info($coming_from_parent_id);
-//            \Log::info($this->prev_module_data);
-            //\Log::info($layout);
-//           d('-----------------');
-////            d($mod_tag_replace_inc);
-////            d($local_mw_replaced_modules);
-//          d($coming_from_parent);
-//          d($coming_from_parent_id);
-//          d($this->prev_module_data);
 
-
-            if ($this->_mw_edit_field_map) {
-                //  d($parser_mem_crc);
-                // d($this->_mw_edit_field_map);
-            }
-//d($local_mw_replaced_modules);
             if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
 
 
@@ -477,19 +456,9 @@ class Parser
                                         }
 
 
-                                        $found_par_mod = false;
-                                        $found_par_mod_id = false;
 
 
-                                        if (!$found_par_mod_id) {
-                                            //if (!isset($this->prev_module_data['parent-module-id'])) {
-                                            if ($coming_from_parent) {
-                                                //    $mod_id = $mod_id . '-' . $coming_from_parent;
-                                            }
 
-
-                                            // }
-                                        }
 
                                         if (!$mod_id) {
                                             $mod_id = $module_class;
@@ -507,26 +476,14 @@ class Parser
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
-                                            //   $mod_id = $mod_id . '--' . $coming_from_parent_id;
-                                            $mod_id = $coming_from_parent_id . '-' . $module_name;
-                                            // $mod_id =  $mod_id . '-' .$coming_from_parent_id;
-                                            //  $mod_id =  $mod_id . '-' .$coming_from_parent;
-                                            // $mod_id = str_replace($coming_from_parent, 'ggggg', $mod_id);
+                                             $mod_id = $coming_from_parent_id . '-' . $module_name;
 
-                                            // $mod_id = $coming_from_parent_id . '--' . $mod_id;
                                         }
 
 
                                         $mod_id = $this->_str_clean_mod_id($mod_id);
 
-//
-//d('==========');
-//d('=====$mod_id====='.$mod_id);
-//d('=====$found_par_mod_id====='.$found_par_mod_id);
-//d('=====$coming_from_parent_id====='.$coming_from_parent_id);
-//                                    d($coming_from_parent);
-//                                    d($this->prev_module_data);
-//                                    d($previous_attrs2);
+
                                         if (!$this->have_more) {
                                             // $root_module_id = false;
                                             // $mod_id = $mod_id . '-nomore-module-id-';
@@ -552,10 +509,7 @@ class Parser
                                         }
 
                                         $it++;
-//                                        if (defined('MW_MODULE_ONDROP')) {
-//                                            $mod_id = $module_class . 'xxxxx-' . date("YmdHis") . uniqid();
-////dd(MW_MODULE_ONDROP);
-//                                        }
+
                                         if (isset($this->_existing_module_ids[$mod_id])) {
                                              ++$it_loop;
                                             $inc_mod_num = 0;
@@ -569,8 +523,7 @@ class Parser
                                                 if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
                                                     $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
                                                 }
-                                                //d($this->_current_parser_module_of_type);
-                                                // d($mod_id);
+
                                             } else {
                                                 //   $inc_mod_num = $it_loop;
 
@@ -608,8 +561,7 @@ class Parser
 
                                             }
                                         }
-                                        //  d($mod_id);
-                                        $this->_existing_module_ids[$mod_id] = $mod_id;
+                                         $this->_existing_module_ids[$mod_id] = $mod_id;
 
 
                                         $attrs['id'] = $mod_id;
@@ -619,12 +571,6 @@ class Parser
                                         $module_html = str_replace('__MODULE_ID__', '', $module_html);
                                     }
                                 }
-//                            print_r('--------------');
-//
-//                             var_dump($attrs);                              // }
-//                            var_dump('root: '.$root_module_id);                              // }
-//                            var_dump('par: '.$coming_from_parent_id);                              // }
-//                            print_r('--------------');
 
                                 $attrs2 = array();
                                 if (is_array($module_title) and isset($module_title['name'])) {
@@ -680,37 +626,6 @@ class Parser
                                 }
 
 
-//                            if (empty($this->prev_module_data) and $coming_from_parent_id == false and isset($attrs['id']) == true) {
-//
-//                                $coming_from_parent_strz1 = $attrs['id'];
-//                                $coming_from_parentz = $module_name;
-//                               // $this->prev_module_data
-//                            } else if(isset($this->prev_module_data ['id']) and $this->prev_module_data ['id']){
-//                                //! do not remove
-//                                $coming_from_parent_strz1 = $this->prev_module_data ['id'];
-//                                $coming_from_parentz =  $this->prev_module_data ['data-type'];
-//                            } elseif($coming_from_parent_id) {
-//                                //$coming_from_parent_strz1 = false;
-//                                //$coming_from_parentz = $module_name;
-//                               // $coming_from_parent_strz1 = $coming_from_parent_id;
-//
-//                            }
-//
-//                            if ($coming_from_parent!= true) {
-//                                if ($coming_from_parentz == true) {
-//                                    $attrs2['parent-module'] = $coming_from_parentz;
-//                                }
-//                                if ($coming_from_parent_strz1 == true) {
-//                                    $attrs2['parent-module-id'] = $coming_from_parent_strz1;
-//                                }
-//                            }
-
-                                // $this->prev_module_data = $attrs;
-
-
-                                if (is_array($attrs2)) {
-                                    //   $attrs = array_merge($attrs, $attrs2);
-                                }
 //                                if (isset($attrs['parent-module-id']) and ($attrs['parent-module-id'] == $attrs['id'])) {
 //                                    // if (!isset($attrs['module_settings'])) {
 //                                    $attrs['parent-module'] = false;
@@ -772,10 +687,6 @@ class Parser
                                 unset($local_mw_replaced_modules[$parse_key][$key]);
 
                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
-//d('aaaaaaa'.$proceed_with_parse);
-//d($attrs);
-//d('aaaaaaa'.$mod_content);
-                                //  unset($this->mw_replaced_modules[$parse_key][$key]);
 
                                 if ($proceed_with_parse == true) {
                                     $this->have_more = true;
@@ -784,7 +695,6 @@ class Parser
 
                                         $pq_mod_inner = \phpQuery::newDocument($mod_content);
                                         $els_mod_inner = $pq_mod_inner['.edit'];
-                                     //   count($els_mod_inner);
                                         if(count($els_mod_inner)){
                                             $mod_content = $this->_replace_editable_fields($mod_content);
 
@@ -792,15 +702,10 @@ class Parser
 
                                     }
 
-                                    // $it_loop1++;
-                                    // $it_loop2++;
-
-                                    //   d($coming_from_parentz);
-                                    //   d($coming_from_parent_strz1);
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
 
                                     if(strstr($mod_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
-                                        $mod_content = $this->_replace_editable_fields($mod_content,true);
+                                        $mod_content = $this->_replace_editable_fields($mod_content);
                                         $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
 
                                     }
@@ -831,26 +736,13 @@ class Parser
 
 
                                 $this->mw_replaced_modules_values[$replace_key] = $module_html;
-                                // $layout = str_replace($value, $module_html, $layout);
                                 $layout = $this->_str_replace_first($value, $module_html, $layout);
-
-                                //$layout = str_replace($replace_key, $module_html, $layout);
-
-//\Log::info($module_html);
                                 $layout = $this->_str_replace_first($replace_key, $module_html, $layout);
-                                //  $layout = str_replace($replace_key, $module_html, $layout);
 
 
-                                //    \Log::info($layout);
-
-
-                                //}
                             }
                         }
-                        //  \Log::info($key, $value,$layout);
-                        //  \Log::info($key);
-                        // \Log::info($value);
-                        //  $layout = str_replace($key, $value, $layout);
+
                         $layout = $this->_str_replace_first($key, $value, $layout);
                     }
                 }
@@ -1261,7 +1153,7 @@ class Parser
                         $parser_mem_crc2 = 'parser_field_content_' . $field . $rel . $data_id . crc32($field_content);
 
                         $ch2 = mw_var($parser_mem_crc);
-                      
+
                         if ($ch2 == false) {
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
                             $this->_mw_parser_passed_hashes_rel[$rel][] = $parser_mem_crc2;
