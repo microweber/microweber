@@ -1284,6 +1284,8 @@ class Parser
 
     public function make_tags($layout)
     {
+$remove_clases = ['changed','inaccessibleModule'];
+
         if ($layout == '') {
             return $layout;
         }
@@ -1302,9 +1304,15 @@ class Parser
             if (!empty($attrs)) {
                 foreach ($attrs as $attribute_name => $attribute_node) {
                     $v = $attribute_node->nodeValue;
+                    if($attribute_name == 'class'){
+                        foreach($remove_clases as $remove_class){
+                            $v = str_replace(' '.$remove_class,'',$v);
+                        }
+                    }
                     $module_html .= " {$attribute_name}='{$v}'  ";
                 }
             }
+           // inaccessibleModule
             $module_html .= '><inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag><'.$tag.'/>';
             pq($elem)->replaceWith($module_html);
 
