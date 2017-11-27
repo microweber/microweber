@@ -350,6 +350,14 @@ class Parser
                                     $attrs['data-type'] = $attrs['module'];
                                     unset($attrs['module']);
                                 }
+                              if(isset( $attrs['parent-module'] )){
+                                  $coming_from_parent =  $attrs['parent-module'];
+                              }
+                              if(isset( $attrs['parent-module-id'] )){
+                                  $coming_from_parent_id =  $attrs['parent-module-id'];
+                              }
+
+
 //                            if ($coming_from_parent == true) {
 //                                $attrs['parent-module'] = $coming_from_parent;
 //                            }
@@ -364,7 +372,7 @@ class Parser
                                 $z = 0;
                                 $mod_as_element = false;
                                 $mod_no_wrapper = false;
-
+ 
                                 if (isset($attrs['data-module'])) {
                                     $attrs['data-type'] = $attrs['data-module'];
                                     unset($attrs['data-module']);
@@ -761,7 +769,9 @@ class Parser
                                 unset($local_mw_replaced_modules[$parse_key][$key]);
 
                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
-
+//d('aaaaaaa'.$proceed_with_parse);
+//d($attrs);
+//d('aaaaaaa'.$mod_content);
                                 //  unset($this->mw_replaced_modules[$parse_key][$key]);
 
                                 if ($proceed_with_parse == true) {
@@ -1004,7 +1014,9 @@ class Parser
 
 
                     if (isset($this->_mw_edit_field_map[$parser_mem_crc])) {
-                        continue;
+//                        d($field);
+//                        d($rel);
+//                        continue;
                     }
 
 
@@ -1016,6 +1028,10 @@ class Parser
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
+//if($field != 'content'){
+//                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id".content_id());
+//}
+//d($data);
                     } elseif ($rel == 'page') {
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;

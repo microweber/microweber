@@ -26,20 +26,18 @@ if (isset($is_elements) and $is_elements == true) {
     //$modules = array();
 
 
-
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
     $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
 
     $module_layouts_skins = mw()->modules->templates('layouts');
-   // $module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'module_dir');
+    // $module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'module_dir');
     //$module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'dream');
 //var_dump($module_layouts_skins_def);
 //    if(is_array($module_layouts_skins) and is_arr($module_layouts_skins_def) and ($module_layouts_skins != $module_layouts_skins_def)){
 //        $module_layouts_skins = array_merge($module_layouts_skins,$module_layouts_skins_def);
 //    }
-
 
 
 } else {
@@ -142,7 +140,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
     ?>
     <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
-        <?php $i=0; ?>
+        <?php $i = 0; ?>
         <?php foreach ($dynamic_layouts as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layout"
@@ -157,7 +155,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             alt="<?php print $dynamic_layout['name'] ?>"
             title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?>"
             class="module_draggable"
-            data-module-name-enc="static_layout_<?php print date("YmdHis").$i++ ?>"
+            data-module-name-enc="static_layout_<?php print date("YmdHis") . $i++ ?>"
             data-module-name="<?php print $dynamic_layout['layout_file'] ?>"
             src="<?php print $dynamic_layout['icon'] ?>"
     /> </span></span> <span class="module_name"
@@ -169,59 +167,60 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php endif; ?>
 
 
-
-
-
-
-
-
+    <script>
+        $(document).ready(function () {
+            $('.mw_module_image img').each(function (index) {
+                console.log(index + ": " + $(this).text());
+                var img = $(this).data('src');
+                $(this).attr('src', img);
+            });
+        });
+    </script>
 
 
     <?php if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
-        <?php $i=0; ?>
+        <?php $i = 0; ?>
 
         <?php foreach ($module_layouts_skins as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['layout_file'])): ?>
-                <li data-module-name="layouts"
-
-                    ondrop="true"
-
-
-                    template="<?php print $dynamic_layout['layout_file'] ?>"
-                    data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item" unselectable="on"> <span
-                            class="mw_module_hold">
-    <?php if (!isset($dynamic_layout['screenshot'])): ?>
-        <?php $dynamic_layout['screenshot'] = $def_icon; ?>
-    <?php endif; ?>
-                        <span class="mw_module_image"> <span class="mw_module_image_holder">
-    <img
-            alt="<?php print $dynamic_layout['name'] ?>"
-            title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?> [<?php print str_replace('.php', '', $dynamic_layout['layout_file']); ?>]"
-            class="module_draggable"
-            data-module-name-enc="layout_<?php print date("YmdHis").$i++ ?>"
-            data-module-name="layouts"
-            ondrop="true"
-            src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
-    /> </span></span> <span class="module_name"
-                            alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
-    <?php print titlelize(_e($dynamic_layout['name'], true)); ?>
-    </span> </span></li>
+                <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item"
+                    unselectable="on">
+                    <span class="mw_module_hold">
+                        <?php if (!isset($dynamic_layout['screenshot'])): ?>
+                            <?php $dynamic_layout['screenshot'] = $def_icon; ?>
+                        <?php endif; ?>
+                        <span class="mw_module_image">
+                            <span class="mw_module_image_holder">
+                                <img
+                                        alt="<?php print $dynamic_layout['name'] ?>"
+                                        title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : print addslashes($dynamic_layout['name']); ?> [<?php print str_replace('.php', '', $dynamic_layout['layout_file']); ?>]"
+                                        class="module_draggable"
+                                        data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
+                                        data-module-name="layouts"
+                                        ondrop="true"
+                                        src="" data-src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
+                                />
+                            </span>
+                        </span>
+                        <span class="module_name"
+                              alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"><?php print titlelize(_e($dynamic_layout['name'], true)); ?></span>
+                    </span>
+                </li>
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 
 
-
-
-
-
-
-
-
-
-
-
     <?php if (isset($modules) and !empty($modules)): ?>
+
+
+        <?php if ($mod_obj_str == 'elements'): ?>
+            <li>
+                <hr>
+                <h4 style="font-weight: bold;"><?php _e('Default static layouts'); ?></h4>
+                <hr>
+            </li>
+        <?php endif; ?>
 
 
         <?php foreach ($modules as $module_item): ?>
@@ -264,13 +263,12 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         data-filter="<?php print $module_item['name'] ?>"
                         ondrop="true"
                         data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
-                        class="module-item <?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span
-                            unselectable="on" class="mw_module_hold"
-                            title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
+                        class="module-item <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
+                    <span unselectable="on" class="mw_module_hold" title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
                     
                       
                     
-  <?php if (!isset($params['clean'])) { ?>
+  <?php if (!isset($params['clean'])): ?>
       <script type="text/javascript">
           Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
               id: '<?php print($module_id); ?>',
@@ -280,22 +278,14 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
           }
 
 
-
-
-
           <?php if (isset($module_item['settings']) and is_array($module_item['settings']) and !empty($module_item['settings'])): ?>
           if (typeof(mw.live_edit_module_settings_array) != 'undefined') {
               mw.live_edit_module_settings_array['<?php print $module_item["module"] ?>'] = <?php print json_encode($module_item['settings']) ?>
           }
           <?php endif; ?>
-
-		  
-		  
-		  
       </script>
+  <?php endif; ?>
 
-
-  <?php } ?>
                         <?php if ($module_item['icon']): ?>
                             <span class="mw_module_image">
         <span class="mw_module_image_holder">
@@ -310,7 +300,11 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                         <?php endif; ?>
                         <span class="module_name"
                               alt="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>">
-    <?php _e($module_item['name']); ?>
+                <?php if ($mod_obj_str == 'elements'): ?>
+                    <?php print character_limiter(_e($module_item['name'], true), 13); ?>
+                <?php else: ?>
+                    <?php _e($module_item['name']); ?>
+                <?php endif; ?>
     </span> </span></li>
             <?php endif; ?>
         <?php endforeach; ?>
