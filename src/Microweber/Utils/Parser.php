@@ -718,6 +718,8 @@ class Parser
 
                                 }
 
+
+
                                 global $other_html_tag_replace_inc;
 
                                 if ($mod_no_wrapper == false) {
@@ -1178,6 +1180,8 @@ class Parser
                                 }
                                 $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
 
+
+
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                 $this->_mw_edit_field_map[$parser_mem_crc] = array(
                                     'field' => $field,
@@ -1187,13 +1191,26 @@ class Parser
                         } else {
 
                         }
-                        mw_var($parser_mem_crc2, 1);
+                    mw_var($parser_mem_crc2, 1);
+
+                        if(strstr($field_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                            $field_content = $this->_replace_editable_fields($field_content);
+
+                        }
+
                     }
                 }
 
                 $layout = $pq->htmlOuter();
 
                 $pq->__destruct();
+
+
+
+
+
+
+
                 $pq = null;
 
                 unset($pq);
@@ -1242,6 +1259,7 @@ class Parser
                         $mw_replaced_edit_fields_vals[$global_holder_hash] = $modified_layout;
 
                         if ($value != '') {
+
                             $val_rep = $value;
 
                             $val_rep = $this->_replace_editable_fields($val_rep, true);
@@ -1276,6 +1294,10 @@ class Parser
                 //    $this->app->cache_manager->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
         }
+
+
+
+
         $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
