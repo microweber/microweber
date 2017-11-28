@@ -876,7 +876,13 @@ mw.wysiwyg = {
 
                   if(mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])){
                     event.preventDefault();
-                    mw.wysiwyg.insert_html('<br><br>');
+                    if(event.shiftKey){
+                      mw.wysiwyg.insert_html('<br>');
+                    }
+                    else{
+                      mw.wysiwyg.insert_html('<br><br>');
+                    }
+
                   }
 
                 /*
