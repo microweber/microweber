@@ -346,7 +346,7 @@ mw.wysiwyg = {
     hide_drag_handles: function () {
         mw.$(".mw-wyswyg-plus-element,.mw_handle_row").hide();
     },
-    show_drag_handles: function () {
+    show_drag_handles: function (){
         mw.$(".mw-wyswyg-plus-element,.mw_handle_row").show();
     },
 

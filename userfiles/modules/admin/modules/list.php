@@ -170,7 +170,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <script>
         $(document).ready(function () {
             $('.mw_module_image img').each(function (index) {
-                console.log(index + ": " + $(this).text());
                 var img = $(this).data('src');
                 $(this).attr('src', img);
             });

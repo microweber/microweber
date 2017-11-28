@@ -1297,31 +1297,41 @@ mw.tools = {
     },
     copy: function (what) {
     },
-    classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition) {
+    classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
+        if(el_obj.element && el_obj.namespace){
+          el = el_obj.element
+          namespace = el_obj.namespace
+          parent = el_obj.parent
+          namespacePosition = el_obj.namespacePosition
+          exceptions = el_obj.exceptions || []
+        }
+        else{
+          el = el_obj
+        }
         var namespacePosition = namespacePosition || 'contains';
         var parent = parent || mwd;
-        if (el_obj === 'all') {
-            var all = parent.querySelectorAll('.edit *'), i = 0, l = all.length;
-            for (; i < l; i++) {
-                mw.tools.classNamespaceDelete(all[i], namespace, parent, namespacePosition)
-            }
-            return;
+        if (el === 'all') {
+          var all = parent.querySelectorAll('.edit *'), i = 0, l = all.length;
+          for (; i < l; i++) {
+            mw.tools.classNamespaceDelete(all[i], namespace, parent, namespacePosition)
+          }
+          return;
         }
-        if (!!el_obj.className && el_obj.className != '' && el_obj.className != null && typeof(el_obj.className.split) == 'function') {
-            var cls = el_obj.className.split(" "), l = cls.length, i = 0, final = [];
-            for (; i < l; i++) {
-                if (namespacePosition == 'contains') {
-                    if (!cls[i].contains(namespace)) {
-                        final.push(cls[i]);
-                    }
-                }
-                else if (namespacePosition == 'starts') {
-                    if (cls[i].indexOf(namespace) !== 0) {
-                        final.push(cls[i]);
-                    }
-                }
+        if (!!el.className && el.className != '' && el.className != null && typeof(el.className.split) == 'function') {
+          var cls = el.className.split(" "), l = cls.length, i = 0, final = [];
+          for (; i < l; i++) {
+            if (namespacePosition == 'contains') {
+              if (!cls[i].contains(namespace) || exceptions.indexOf(cls[i]) !== -1) {
+                  final.push(cls[i]);
+              }
             }
-            el_obj.className = final.join(" ");
+            else if (namespacePosition == 'starts') {
+              if (cls[i].indexOf(namespace) !== 0) {
+                  final.push(cls[i]);
+              }
+            }
+          }
+          el.className = final.join(" ");
         }
     },
     jQueryFields: function (root) {
