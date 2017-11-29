@@ -555,6 +555,7 @@ class DefaultController extends Controller
 
     }
 
+
     public function module()
     {
         if (!defined('MW_API_CALL')) {
@@ -574,44 +575,48 @@ class DefaultController extends Controller
             }
         }
 
+
+
+        $request_data = array_merge($_GET, $_POST);
+
         $page = false;
 
         $custom_display = false;
-        if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
+        if (isset($request_data['data-display']) and $request_data['data-display'] == 'custom') {
             $custom_display = true;
         }
 
-        if (isset($_REQUEST['data-module-name'])) {
-            $_REQUEST['module'] = $_REQUEST['data-module-name'];
-            $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+        if (isset($request_data['data-module-name'])) {
+            $request_data['module'] = $request_data['data-module-name'];
+            $request_data['data-type'] = $request_data['data-module-name'];
 
-            if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = $this->app->url_manager->slug($_REQUEST['data-module-name'] . '-' . date('YmdHis'));
+            if (!isset($request_data['id'])) {
+                $request_data['id'] = $this->app->url_manager->slug($request_data['data-module-name'] . '-' . date('YmdHis'));
             }
         }
 
-        if (isset($_REQUEST['data-type'])) {
-            $_REQUEST['module'] = $_REQUEST['data-type'];
+        if (isset($request_data['data-type'])) {
+            $request_data['module'] = $request_data['data-type'];
         }
 
-        if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
+        if (isset($request_data['display']) and $request_data['display'] == 'custom') {
             $custom_display = true;
         }
-        if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
+        if (isset($request_data['view']) and $request_data['view'] == 'admin') {
             $custom_display = false;
         }
 
         if ($custom_display == true) {
             $custom_display_id = false;
-            if (isset($_REQUEST['id'])) {
-                $custom_display_id = $_REQUEST['id'];
+            if (isset($request_data['id'])) {
+                $custom_display_id = $request_data['id'];
             }
-            if (isset($_REQUEST['data-id'])) {
-                $custom_display_id = $_REQUEST['data-id'];
+            if (isset($request_data['data-id'])) {
+                $custom_display_id = $request_data['data-id'];
             }
         }
-        if (isset($_REQUEST['from_url'])) {
-            $from_url = $_REQUEST['from_url'];
+        if (isset($request_data['from_url'])) {
+            $from_url = $request_data['from_url'];
         } elseif (isset($_SERVER['HTTP_REFERER'])) {
             $from_url = $_SERVER['HTTP_REFERER'];
         }
@@ -745,7 +750,7 @@ class DefaultController extends Controller
 
         }
         $url_last = false;
-        if (!isset($_REQUEST['module'])) {
+        if (!isset($request_data['module'])) {
             $url = $this->app->url_manager->string(0);
             if ($url == __FUNCTION__) {
                 $url = $this->app->url_manager->string(0);
@@ -763,7 +768,7 @@ class DefaultController extends Controller
             $url = $this->app->format->replace_once('m/', '', $url);
 
             if (is_module($url)) {
-                $_REQUEST['module'] = $url;
+                $request_data['module'] = $url;
                 $mod_from_url = $url;
             } else {
                 $url1 = $url_temp = explode('/', $url);
@@ -782,7 +787,7 @@ class DefaultController extends Controller
                         if (is_module($item)) {
                             $url_tempx = explode('/', $url);
 
-                            $_REQUEST['module'] = $item;
+                            $request_data['module'] = $item;
                             $url_prev = $url_last;
                             $url_last = array_pop($url_tempx);
                             $url_prev = array_pop($url_tempx);
@@ -800,9 +805,9 @@ class DefaultController extends Controller
         $module_info = $this->app->url_manager->param('module_info', true);
 
 
-        if ($module_info && @$_REQUEST['module']) {
-            $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
-            $try_config_file = modules_path() . '' . $_REQUEST['module'] . '_config.php';
+        if ($module_info && @$request_data['module']) {
+            $request_data['module'] = str_replace('..', '', $request_data['module']);
+            $try_config_file = modules_path() . '' . $request_data['module'] . '_config.php';
             $try_config_file = normalize_path($try_config_file, false);
             if (is_file($try_config_file)) {
                 include $try_config_file;
@@ -812,7 +817,7 @@ class DefaultController extends Controller
                 }
 
                 if (!isset($config['icon']) or $config['icon'] == false) {
-                    $config['icon'] = modules_path() . '' . $_REQUEST['module'] . '.png';
+                    $config['icon'] = modules_path() . '' . $request_data['module'] . '.png';
                     $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
                 }
                 echo json_encode($config);
@@ -833,7 +838,7 @@ class DefaultController extends Controller
             $mod_iframe = true;
         }
 
-        //$data = $_REQUEST;
+        //$data = $request_data;
 
         if (($_POST)) {
             $data = $_POST;
@@ -888,14 +893,14 @@ class DefaultController extends Controller
             $data['data-type'] = str_replace('__', '/', $data['data-type']);
         }
         if (!isset($data)) {
-            $data = $_REQUEST;
+            $data = $request_data;
         }
         if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
             $data['module'] = ($mod_from_url);
         }
 
-        if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
-            $data['id'] = $_REQUEST['id'];
+        if (!isset($data['id']) and isset($request_data['id']) == true) {
+            $data['id'] = $request_data['id'];
         }
         if (isset($data['ondrop'])) {
             if (!defined('MW_MODULE_ONDROP')) {
@@ -956,11 +961,11 @@ class DefaultController extends Controller
         $tags = "<module {$tags} />";
 
         $opts = array();
-        if ($_REQUEST) {
-            $opts = $_REQUEST;
+        if ($request_data) {
+            $opts = $request_data;
         }
 
-        if (isset($_REQUEST['live_edit'])) {
+        if (isset($request_data['live_edit'])) {
             event_trigger('mw.live_edit');
         }
         $opts['admin'] = $admin;
@@ -1000,7 +1005,7 @@ class DefaultController extends Controller
 
         $aj = $this->app->url_manager->is_ajax();
 
-        if (isset($_REQUEST['live_edit']) and $aj == false) {
+        if (isset($request_data['live_edit']) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
             $l = new \Microweber\View($p_index);
