@@ -210,15 +210,19 @@ mw.iconSelector = mw.iconSelector || {
 
 
     },
+    _exceptions:['fa-lg', 'fa-2x', 'fa-3x', 'fa-4x', 'fa-5x', 'fa-fw', 'fa-spin', 'fa-pule', 'fa-rotate-90', 'fa-rotate-180', 'fa-rotate-270', 'fa-flip-horizontal', 'fa-flip-vertical'],
     select: function (icon, is) {
         if (mw.iconSelector._activeElement !== null && typeof mw.iconSelector._activeElement !== 'undefined') {
             mw.tools.removeClass(mw.iconSelector._activeElement, mw.iconSelector.iconFontClasses);
             mw.wysiwyg.elementRemoveFontIconClasses(mw.iconSelector._activeElement);
             mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'mw-icon-');
-            mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'fa-');
+            mw.tools.classNamespaceDelete({
+              element:mw.iconSelector._activeElement,
+              namespace:'fa-',
+              exceptions:mw.iconSelector._exceptions
+            });
             mw.$(mw.iconSelector._activeElement).addClass(icon + ' mw-wysiwyg-custom-icon ');
 
-            console.log(is)
             if(!!is){
               mw.$(mw.iconSelector._activeElement).html(is)
             }
@@ -264,6 +268,7 @@ mw.iconSelector = mw.iconSelector || {
       mw.iconSelector.searchelement = document.createElement('input');
       mw.iconSelector.searchelement.className = 'mw-ui-searchfield icon-picker-search';
       mw.iconSelector.searchelement.__time = null;
+      mw.$('.' + mw.iconSelector._exceptions.join(', .'), mw.iconSelectorToolTip).remove()
       $(mw.iconSelector.searchelement).on('input keyup paste', function(){
         clearTimeout(mw.iconSelector.searchelement.__time);
         mw.iconSelector.searchelement.__time = setTimeout(function(){
