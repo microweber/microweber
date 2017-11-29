@@ -1306,7 +1306,7 @@ mw.tools = {
           exceptions = el_obj.exceptions || []
         }
         else{
-          el = el_obj
+          el = el_obj, exceptions = []
         }
         var namespacePosition = namespacePosition || 'contains';
         var parent = parent || mwd;

@@ -3315,12 +3315,12 @@ $(document).ready(function() {
             mw.tools.addClass(el, 'allow-drop');
           }
           if(el.querySelector('.element') === null){
-            var all = el.querySelectorAll('div,img,h1,h2,h3,h4,h5,h6,section'), i = 0, item;
-            for( ; i < all.length ; i++){
-              item = all[i];
+            var all = el.querySelectorAll('div,img,h1,h2,h3,h4,h5,h6,section'), ai = 0, item;
+            for( ; ai < all.length ; ai++){
+              item = all[ai];
               if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
                 if( mw.drag.target.canBeElement(item)){
-                mw.tools.addClass(item, 'element')
+                  mw.tools.addClass(item, 'element')
                 }
               }
             }
