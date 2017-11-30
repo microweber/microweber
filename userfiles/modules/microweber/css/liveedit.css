@@ -504,6 +504,27 @@ a.mw-make-cols,
     outline: none;
     position: relative;
     z-index: 1;
+    height: 30px;
+    border-radius: 30px;
+    padding: 0 20px;
+    line-height: 30px;
+    margin-top: -30px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: scale(.5), translateY(10px);
+}
+
+#mw_handle_module .mw_edit_settings{
+  padding-left: 35px;
+}
+
+#mw_handle_module .mw_edit_settings:before{
+  font-family: Microweber;
+  content: "\f13d";
+  position: absolute;
+  font-size: 20px;
+  top: 0;
+  left: 6px;
 }
 
 #mw_handle_row:hover .mw_edit_delete,
@@ -513,6 +534,8 @@ a.mw-make-cols,
 #mw_handle_row:hover .column_separator_title {
     color: white;
     background: black;
+    opacity: 1;
+    transform: scale(1);
 }
 
 a.mw-make-cols {
@@ -3442,6 +3465,11 @@ body.mw-live-edit .mw-tooltip-content {
     cursor: pointer;
     position: relative;
     z-index: 2;
+    border-radius: 20px;
+    top: 0px;
+    background-color: black;
+    color: white;
+    font-size: 10px;
 }
 
 #mw_handle_module_up:hover,
