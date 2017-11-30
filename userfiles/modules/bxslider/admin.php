@@ -10,8 +10,6 @@
         <script>mw.require('ui.css')</script>
 
         <script>
-
-
             setIconDefault = function (val) {
                 return {
                     mode: 'absolute',

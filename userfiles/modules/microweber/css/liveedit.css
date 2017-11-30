@@ -3473,3 +3473,22 @@ body {
     }
 
 }
+
+.mw-cloneable-control{
+  position: absolute;
+  z-index: 999;
+  margin: 10px 0 0 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 40px;
+  background: black;
+  color: white;
+  font-family: Microweber;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.mw-cloneable-control:after{
+  content: '+'
+}

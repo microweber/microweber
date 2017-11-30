@@ -1316,6 +1316,14 @@ mw.wysiwyg = {
      }
      } */
     },
+    lineHeight: function (a) {
+      a = a || 'normal';
+      a = (typeof a === 'number') ? (a+'px') : a;
+      var r = getSelection().getRangeAt(0).commonAncestorContainer;
+      var el = mw.wysiwyg.validateCommonAncestorContainer(r);
+      r.style.fontSize = a;
+      mw.wysiwyg.change(r);
+    },
     fontSize: function (a) {
         if (window.getSelection().isCollapsed) {
             return false;
@@ -1898,19 +1906,28 @@ mw.wysiwyg = {
             }
         });
     },
-    fontIconFamilies: ['fa', 'mw-ui-icon', 'mw-icon', 'material-icons'],
+    fontIconFamilies: ['fa', 'mw-ui-icon', 'mw-icon', 'material-icons', 'mw-wysiwyg-custom-icon', 'icon'],
 
     elementHasFontIconClass: function (el) {
-        var is = false;
         var icon_classes = mw.wysiwyg.fontIconFamilies;
-        icon_classes.push('icon');
-        icon_classes.push('mw-wysiwyg-custom-icon');
         if (el.tagName == 'I' || el.tagName == 'SPAN') {
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
-
                 return true;
             }
+            else {
+              var p = mw.tools.firstParentOrCurrentWithAnyOfClasses(el.parentNode, icon_classes);
+              if(p){
+                return p;
+              }
+            }
         }
+    },
+    firstElementThatHasFontIconClass: function (el) {
+      var icon_classes = mw.wysiwyg.fontIconFamilies;
+      var p = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, icon_classes);
+      if(p && (p.tagName == 'I' || p.tagName == 'SPAN')){
+        return p;
+      }
     },
     elementRemoveFontIconClasses: function (el) {
         var l = mw.wysiwyg.fontIconFamilies.length, i = 0;

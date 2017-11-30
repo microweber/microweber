@@ -1874,7 +1874,7 @@ mw.tools = {
         });
         return _has;
     },
-    firstParentOrCurrentWithAnyOfClasses: function (el, arr) {
+    firstParentOrCurrentWithAnyOfClasses: function (node, arr) {
         if (mw.tools.hasAnyOfClasses(node, arr)) {
             return node;
         }

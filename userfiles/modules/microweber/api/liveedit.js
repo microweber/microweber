@@ -531,7 +531,31 @@ mw.drag = {
     external_css_no_element_classes: ['container','navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     section_selectors: ['.module-layouts'],
     external_css_no_element_controll_classes: ['edit','noelement','no-element','allow-drop','nodrop', 'mw-open-module-settings','module-layouts'],
+    onCloneableControl:function(target){
+      if(!this._onCloneableControl){
+        this._onCloneableControl = mwd.createElement('div');
+        this._onCloneableControl.className = 'mw-cloneable-control';
+        mwd.body.appendChild(this._onCloneableControl);
+        $(this._onCloneableControl).on('click', function(){
+          $(target).after(this.__target.outerHTML);
+          mw.wysiwyg.change(target)
+        })
+      }
+      if(target == 'hide'){
+        $(this._onCloneableControl).hide()
+      }
+      else{
+        $(this._onCloneableControl).show()
+        this._onCloneableControl.__target = target;
+        var el = $(target), off = el.offset()
+        $(this._onCloneableControl).css({
+          top: off.top,
+          left: off.left
+        })
+        $(this._onCloneableControl).show()
+      }
 
+    },
     dropOutsideDistance:25,
     columnout: false,
     noop: mwd.createElement('div'),
@@ -600,7 +624,18 @@ mw.drag = {
                 var mouseover_editable_region_inside_a_module = false;
 
                 if (!mw.isDrag) {
-                    if (mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false) {
+                    if ( mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false ) {
+
+                        var clonable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable']);
+
+                        if(!!clonable){
+                          $(window).trigger("onCloneableOver", clonable);
+                        }
+                        else{
+                          if(mw.drag._onCloneableControl && mw.mm_target !== mw.drag._onCloneableControl){
+                            $(mw.drag._onCloneableControl).hide()
+                          }
+                        }
 
                         if(mw.tools.hasClass(mw.mm_target, 'mw-layout-root')){
                             $(window).trigger("onLayoutOver", mw.mm_target);
@@ -1348,6 +1383,7 @@ mw.drag = {
 
             var $handle_module = $(mw.handle_module).draggable({
                 handle: ".mw-sorthandle-moveit",
+                distance:20,
                 cursorAt: {
                     top: -30
                 },
@@ -1535,16 +1571,24 @@ mw.drag = {
                         $(window).trigger("onPlainTextClick", target);
                     }
 
-                    if ((target.tagName == 'I' || target.tagName == 'SPAN') && mw.wysiwyg.elementHasFontIconClass(target) && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'dropdown') ) {
-                        if(!mw.tools.hasParentsWithClass(target, 'module')){
-                          $(window).trigger("onIconElementClick", target);
-                        }
-                        else{
-                          if(mw.wysiwyg.editInsideModule(target)){
-                              $(window).trigger("onIconElementClick", target);
+                    var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
+                    if(!!fonttarget){
+
+                          if ((fonttarget.tagName == 'I' || fonttarget.tagName == 'SPAN') &&  mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown') ) {
+                              if(!mw.tools.hasParentsWithClass(fonttarget, 'module')){
+                                $(window).trigger("onIconElementClick", fonttarget);
+                              }
+                              else{
+                                if(mw.wysiwyg.editInsideModule(fonttarget)){
+                                    $(window).trigger("onIconElementClick", fonttarget);
+                                }
+                              }
                           }
-                        }
+
+
                     }
+
+
                     else if ($(target).hasClass("element")) {
                         $(window).trigger("onElementClick", target);
                     }
@@ -3341,6 +3385,11 @@ $(document).ready(function() {
     /*$(window).on('onElementLeave onModuleLeave', function(e, target){
       mw.tools.removeClass(target, e.type=='onElementLeave' ? 'element-over':'module-over')
     })*/
+
+    $(window).on('onCloneableOver', function(e, target){
+      mw.drag.onCloneableControl(target)
+    });
+
 
 });
 
