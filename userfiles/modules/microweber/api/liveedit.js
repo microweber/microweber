@@ -1123,7 +1123,7 @@ mw.drag = {
             }
 
             $(mw.handle_element).css({
-                top: o.top - 17,
+                top: o.top,
                 left: left_spacing,
                 width: width
             });
@@ -1179,7 +1179,7 @@ mw.drag = {
 
 
             $(mw.handle_module).css({
-                top: o.top - 17,
+                top: o.top,
                 left: o.left + pleft,
                 width: width
             });
@@ -3349,7 +3349,7 @@ $(document).ready(function() {
 
     setInterval(function(){
 
-
+      $(".background-image-holder").addClass('element')
 
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
