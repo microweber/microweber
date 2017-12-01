@@ -3520,3 +3520,7 @@ body {
 .mw-cloneable-control:after{
   content: '+'
 }
+
+.mw_dropable{
+  pointer-events: none;
+}

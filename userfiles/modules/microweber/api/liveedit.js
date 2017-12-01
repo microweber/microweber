@@ -770,6 +770,7 @@ mw.drag = {
                         } else {
                             mw.dropables.set('top', offset, height, width);
                         }
+                        mw.dropable.show();
                     }
                     else{
 
