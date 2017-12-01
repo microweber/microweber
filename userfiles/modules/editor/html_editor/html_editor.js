@@ -1,6 +1,19 @@
+
+if(typeof(parent.window.opener) != 'null' && parent.window.opener){
+    html_editor_parent_document = parent.window.opener;
+
+} else {
+    html_editor_parent_document = window.parent;
+
+}
+
+
 mw.html_editor = {};
 mw.html_editor.map = {};
 mw.html_editor.init = function () {
+    d(html_editor_parent_document);
+
+
     var fields = mw.html_editor.get_edit_fields();
     mw.html_editor.build_dropdown(fields);
     mw.html_editor.populate_editor();
@@ -14,7 +27,7 @@ mw.html_editor.get_edit_fields = function (also_in_modules) {
 
 
     var fields_arr = new Array();
-    var get_edit_fields = $(parent.document).contents().find('.edit').each(function () {
+    var get_edit_fields = $(html_editor_parent_document.document).contents().find('.edit').each(function () {
         var is_in_module = mw.tools.firstParentWithClass(this, 'module');
         if (!is_in_module || also_in_modules) {
             fields_arr.push(this);
@@ -127,7 +140,7 @@ mw.html_editor.apply = function () {
             var master_edit_field_holder = el;
 
         } else {
-            var master_edit_field_holder = mw.tools.firstParentWithClass(el, 'edit');
+            var master_edit_field_holder = html_editor_parent_document.mw.tools.firstParentWithClass(el, 'edit');
 
         }
 
@@ -149,16 +162,16 @@ mw.html_editor.apply = function () {
 
 
         $.each(modules_ids, function (index, value) {
-            mw.reload_module_parent(index);
+            html_editor_parent_document.mw.reload_module(index);
         });
 
 
         if (master_edit_field_holder) {
             $(master_edit_field_holder).addClass("changed");
             setTimeout(function () {
-                window.parent.mw.drag.fix_placeholders(true);
-                window.parent.mw.resizable_columns();
-                window.parent.mw.on.DOMChangePause = false;
+                html_editor_parent_document.mw.drag.fix_placeholders(true);
+                html_editor_parent_document.mw.resizable_columns();
+                html_editor_parent_document.mw.on.DOMChangePause = false;
             }, 200);
         }
     }
@@ -215,7 +228,7 @@ mw.html_editor.reset_content = function () {
             var master_edit_field_holder = el;
 
         } else {
-            var master_edit_field_holder = mw.tools.firstParentWithClass(el, 'edit');
+            var master_edit_field_holder = html_editor_parent_document.mw.tools.firstParentWithClass(el, 'edit');
 
         }
 
@@ -223,12 +236,12 @@ mw.html_editor.reset_content = function () {
 
         if (master_edit_field_holder) {
             $(master_edit_field_holder).addClass("changed");
-            window.parent.mw.on.DOMChangePause = true;
+            html_editor_parent_document.mw.on.DOMChangePause = true;
             setTimeout(function () {
-                window.parent.mw.drag.fix_placeholders(true);
-                window.parent.mw.resizable_columns();
-                window.parent.mw.on.DOMChangePause = false;
-                var saved = window.parent.mw.drag.save();
+                html_editor_parent_document.mw.drag.fix_placeholders(true);
+                html_editor_parent_document.mw.resizable_columns();
+                html_editor_parent_document.mw.on.DOMChangePause = false;
+                var saved = html_editor_parent_document.mw.drag.save();
                 saved.success(function (saved_data) {
 
                     if (typeof saved_data[0] == 'undefined') {
@@ -236,7 +249,7 @@ mw.html_editor.reset_content = function () {
                     }
                     saved_data = saved_data[0];
 
-                    window.parent.window.location.reload();
+                    html_editor_parent_document.window.location.reload();
 
 
                  /*   var get_edit_field = {};

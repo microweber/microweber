@@ -1,29 +1,22 @@
 <?php only_admin_access(); ?>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/codemirror.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/css/css.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/htmlmixed/htmlmixed.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/php/php.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/mode/xml/xml.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/selection/selection-pointer.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/lint/lint.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/hint/html-hint.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/hint/xml-hint.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/hint/javascript-hint.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/edit/closetag.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/edit/matchbrackets.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/edit/matchtags.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/addon/fold/foldcode.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/codemirror.min.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.16.0/theme/material.css">
+
 <script src="<?php print modules_url()?>editor/html_editor/html_editor.js"></script>
 
+<script type="text/javascript">
+    mw.require('options.js');
 
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
+</script>
 
 
 <script type="text/javascript">
     $time_out_handle = 0;
     $(document).ready(function () {
-        editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
+        html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
             lineNumbers: true,
             indentWithTabs: true,
             matchBrackets: true,
@@ -31,9 +24,9 @@
             mode: "htmlmixed"
         });
 
-        editor.setOption("theme", 'material');
-		 
-        editor.on("change", function (cm, change) {
+        html_code_area_editor.setOption("theme", 'material');
+
+        html_code_area_editor.on("change", function (cm, change) {
             var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
             custom_html_code_mirror.value = cm.getValue();
 
