@@ -2921,6 +2921,26 @@ div[id*='SSDIVEL'] {
     text-transform: capitalize;
 }
 
+.mwInaccessibleModulesMenu .mw-ui-btn {
+    color: #2b2b2b;
+    background: #fff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 2px 7px;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    height: 30px;
+    border-radius: 30px;
+    padding: 0 11px;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 30px;
+}
+
+.mwInaccessibleModulesMenu .mw-ui-btn [class*=mw-icon-] {
+    top: 8px;
+}
+
 #back-to-admin-toolbar {
     margin: 0px 8px;
     color: #333333;
@@ -3572,6 +3592,6 @@ body {
     background: #fff;
 }
 
-.mw_dropable{
-  pointer-events: none;
+.mw_dropable {
+    pointer-events: none;
 }
