@@ -2676,17 +2676,26 @@ div[id*='SSDIVEL'] {
 }
 
 #image-edit-nav .mw-ui-btn span {
-    line-height: 135%;
+    line-height: 33px;
     opacity: 1;
+    height: 40px;
 }
 
 #image-edit-nav .mw-ui-btn {
     margin: 0 5px;
     box-shadow: 0 0 10px -1px #fff;
     border-radius: 25px;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     padding: 0;
+}
+
+#image-edit-nav .mw-ui-btn .mw-icon-edit {
+    font-size: 20px;
+}
+
+#image-edit-nav .mw-ui-btn .mw-icon-app-reverse-camera {
+    font-size: 29px;
 }
 
 /****************************
