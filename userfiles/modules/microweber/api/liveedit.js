@@ -535,10 +535,18 @@ mw.drag = {
       if(!this._onCloneableControl){
         this._onCloneableControl = mwd.createElement('div');
         this._onCloneableControl.className = 'mw-cloneable-control';
+        this._onCloneableControl.innerHTML = '<span class="mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>'
+        this._onCloneableControl.innerHTML += '<span class="mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>'
+
         mwd.body.appendChild(this._onCloneableControl);
-        $(this._onCloneableControl).on('click', function(){
+        $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
           $(target).after(this.__target.outerHTML);
           mw.wysiwyg.change(target)
+        })
+        $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
+          $(target).fadeOut(function(){
+            $(target).remove();
+          });
         })
       }
       if(target == 'hide'){
@@ -1186,6 +1194,7 @@ mw.drag = {
             });
             $(mw.handle_module).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
+            $(mw.inaccessibleModules).css('left', width + 20)
         });
         $(window).on("onRowOver", function(a, element) {
             var el = $(element);
