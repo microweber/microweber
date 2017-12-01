@@ -438,11 +438,15 @@ function mw_option_save_rebind_form_fields(){
 
               var mod_body = window.parent.document.getElementById('<?php print $params['id'] ?>');
                 if(mod_body){
+
+
                     var body = window.parent.mw.drag.parseContent(mod_body).body;
                     var edits = body.querySelectorAll('.edit.changed');
                     var mod_edits = window.parent.mw.drag.collectData(edits);
-                    if (mw.tools.isEmptyObject(mod_edits)){ 
+                    if (!mw.tools.isEmptyObject(mod_edits)){
+
                     var mod_edits_save = window.parent.mw.drag.save(mod_edits);
+                        window.parent.mw.drag.save(mod_edits_save)
                      }
                 }
 
@@ -475,33 +479,39 @@ function mw_option_save_rebind_form_fields(){
                         refresh_modules11 = refresh_modules11.toString();
 						 if(!!mw.admin){
 						 if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
-							 top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
+                             setTimeout(function(){
+							  top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
+                             }, 777);
 							}
 
 						 }
                         if (window.parent.mw != undefined) {
 
 							if(self !== top){
+                                setTimeout(function(){
 								mw.reload_module_parent('#<?php print $params['id'] ?>');
+                                }, 777);
 							}
 
                             if (window.parent.mw.reload_module != undefined) {
                                 if(!!mw.admin){
+                                    setTimeout(function(){
                                   window.parent.mw.reload_module('#<?php print $params['id'] ?>');
+                                    }, 777);
                                 }
                                 else{
                                     if (window.parent.mweditor != undefined) {
                                       window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
                                         setTimeout(function(){
                                            window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                        }, 333);
+                                        }, 777);
                                       });
                                     }
                                     if (window.parent.mw != undefined) {
                                         window.parent.mw.reload_module('#<?php print $params['id'] ?>', function(){
                                             setTimeout(function(){
                                                 window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                            }, 333);
+                                            }, 777);
                                         });
                                     }
                                 }
@@ -525,18 +535,18 @@ function mw_option_save_rebind_form_fields(){
 
                             } else {
                                 if (window.mw.reload_module != undefined) {
+                                    setTimeout(function(){
+
+                                        window.mw.reload_module(also_reload, function(){
+
+                                             mw_option_save_rebind_form_fields()
+                                        });
 
 
-                                    window.mw.reload_module(also_reload, function(){
-
-										 mw_option_save_rebind_form_fields()
-									});
-
-
-									if(self !== top){
-										mw.reload_module_parent(also_reload);
-									}
-
+                                        if(self !== top){
+                                            mw.reload_module_parent(also_reload);
+                                        }
+                                    }, 777);
                                 }
                             }
                         }

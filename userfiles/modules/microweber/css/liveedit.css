@@ -457,8 +457,6 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 #mw_handle_row, #mw_handle_module {
     position: absolute;
     z-index: 1101;
-    margin-top: -10px;
-    margin-top: 7px;
     color: #666666;
     border-radius: 2px;
     height: auto;
@@ -497,7 +495,7 @@ a.mw-make-cols,
     /*color: #111;
     background: #E1E1E1;*/
     color: white;
-    background: black;
+    background: #2b2b2b;
     text-decoration: none;
     display: inline-block;
     padding: 2px 7px;
@@ -506,25 +504,25 @@ a.mw-make-cols,
     z-index: 1;
     height: 30px;
     border-radius: 30px;
-    padding: 0 20px;
+    padding: 0 11px;
     line-height: 30px;
-    margin-top: -30px;
+    /*margin-top: -30px;*/
     opacity: 0;
     transition: opacity 0.3s, transform 0.3s;
     transform: scale(.5), translateY(10px);
 }
 
-#mw_handle_module .mw_edit_settings{
-  padding-left: 35px;
+#mw_handle_module .mw_edit_settings {
+    padding-left: 30px;
 }
 
-#mw_handle_module .mw_edit_settings:before{
-  font-family: Microweber;
-  content: "\f13d";
-  position: absolute;
-  font-size: 20px;
-  top: 0;
-  left: 6px;
+#mw_handle_module .mw_edit_settings:before {
+    font-family: Microweber;
+    content: "\f195";
+    position: absolute;
+    font-size: 18px;
+    top: 0;
+    left: 10px;
 }
 
 #mw_handle_row:hover .mw_edit_delete,
@@ -2449,7 +2447,7 @@ body.design_hover .element-current {
     width: 30px;
 }
 
-.mw_edit_delete {
+/*.mw_edit_delete {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -2469,6 +2467,34 @@ body.design_hover .element-current {
     position: absolute;
     right: 0 !important;
     top: 0;
+}*/
+
+.mw_edit_delete {
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    line-height: 21px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #FF0000;
+    cursor: pointer;
+    font-size: 11px;
+    text-align: center;
+    background: #fff;
+    position: relative;
+    z-index: 9;
+    border-radius: 14px;
+    text-decoration: none;
+    position: absolute;
+    right: 0px !important;
+    top: 0px;
+    border: 1px solid #f5f5f5 !important;
+}
+
+#mw_handle_module .mw_edit_delete:hover {
+    background: #FF0000;
+    color: #fff;
 }
 
 .mw-make-cols + .mw_edit_delete {
@@ -2636,10 +2662,15 @@ div[id*='SSDIVEL'] {
 }
 
 #image-edit-nav {
-    position: absolute;
-    left: 12px;
+    position: relative;
     top: 10px;
-    white-space: nowrap;
+    z-index: 9999;
+    margin: 0 auto;
+    width: auto;
+    display: block;
+    text-align: center;
+    width: 200px;
+    height: 200px;
 }
 
 #image-edit-nav .mw-ui-btn span {
@@ -2648,8 +2679,12 @@ div[id*='SSDIVEL'] {
 }
 
 #image-edit-nav .mw-ui-btn {
-    margin-left: 10px;
+    margin: 0 5px;
     box-shadow: 0 0 10px -1px #fff;
+    border-radius: 25px;
+    height: 30px;
+    width: 30px;
+    padding: 0;
 }
 
 /****************************
@@ -3207,11 +3242,12 @@ div[id*='SSDIVEL'] {
     padding: 0px;
 }
 
-#modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts:hover{
+#modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts:hover {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts .mw_module_hold {
     background: transparent;
     padding: 25px 10px;
@@ -3243,7 +3279,6 @@ div[id*='SSDIVEL'] {
     background: none;
     border-top: 0;
 }
-
 
 /* Modules */
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item {
@@ -3454,22 +3489,22 @@ body.mw-live-edit .mw-tooltip-content {
 #mw_handle_module_up,
 #mw_handle_module_down {
     display: inline-block;
-    width: 19px;
-    height: 19px;
-    line-height: 19px;
+    width: 23px;
+    height: 23px;
+    line-height: 23px;
     text-align: center;
-    border-radius: 3px;
-    background-color: #DDDDDD;
     font-family: Microweber;
-    color: #111;
     cursor: pointer;
     position: relative;
     z-index: 2;
     border-radius: 20px;
-    top: 0px;
-    background-color: black;
+    top: 1px;
+    background-color: #2b2b2b;
     color: white;
     font-size: 10px;
+    float: right;
+    right: 30px;
+    margin: 0 3px;
 }
 
 #mw_handle_module_up:hover,
@@ -3500,25 +3535,32 @@ body {
         transition: none;
     }
 
+    .sidebar_opened {
+        z-index: 9999 !important;
+    }
 }
 
-.mw-cloneable-control{
-  position: absolute;
-  z-index: 999;
-  margin: 10px 0 0 10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 40px;
-  background: black;
-  color: white;
-  font-family: Microweber;
-  text-align: center;
-  line-height: 20px;
-  cursor: pointer;
+.mw-cloneable-control {
+    position: absolute;
+    z-index: 999;
+    margin: 10px 0 0 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 40px;
+    background: black;
+    color: white;
+    font-family: Microweber;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
 }
 
-.mw-cloneable-control:after{
-  content: '+'
+.mw-cloneable-control:after {
+    content: '+'
+}
+
+.mw_modal_container iframe {
+    background: #fff;
 }
 
 .mw_dropable{

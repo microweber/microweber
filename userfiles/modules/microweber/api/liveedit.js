@@ -35,9 +35,9 @@ mw.dropables = {
         });
 
     },
-    
-    
-    
+
+
+
     findNearest:function(event,selectors){
 
     var selectors = (selectors || mw.drag.section_selectors).slice(0);
@@ -390,7 +390,7 @@ document.body.appendChild(mw.inaccessibleModules);
      if(mw.drag.target.canBeEditable(el)){
       $(el).attr('contenteditable', true);
       }
-            
+
       mw.$('.module').each(function(){
       this.contentEditable = false;
       });
@@ -571,7 +571,7 @@ mw.drag = {
             for (; i < l; i++) {
                 var el = els[i];
 
-                
+
                 if( !mw.drag.target.canBeElement(el)){
                      continue;
                 }
@@ -1139,7 +1139,7 @@ mw.drag = {
         if(element.getAttribute('data-type') == 'layouts'){
           var $el = $(element);
           var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
-          
+
           if(hasedit){
               if($el.prev('[data-type="layouts"]').length !== 0){
                 mw.$('#mw_handle_module_up').show();
@@ -2130,14 +2130,14 @@ mw.drag = {
         //	   	mw.$('.edit [contenteditable]').removeAttr("contenteditable");
 
     },
-    
+
    target :  {
-    
+
         canBeElement: function(target) {
           var yesno = true;
             var el = target;
-          
-             
+
+
                 var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
 
                 //Bootstrap 3 classes
@@ -2147,19 +2147,19 @@ mw.drag = {
                 var section_selectors = mw.drag.section_selectors;
                 var icon_selectors =  mw.wysiwyg.fontIconFamilies;
 
- 
-               
-               
+
+
+
                 var noelements = noelements.concat(noelements_bs3);
                 var noelements = noelements.concat(noelements_ext);
                 var noelements = noelements.concat(noelements_drag);
                 var noelements = noelements.concat(section_selectors);
-                
+
                 var noelements = noelements.concat(icon_selectors);
 
 
                 if (mw.tools.hasAnyOfClasses(el, noelements)) {
-                   
+
                     yesno = false;
                 }
              return yesno;
@@ -2168,7 +2168,7 @@ mw.drag = {
         canBeEditable: function(target) {
         var noyes = false;
         var el = target;
-            
+
             if(!el.isContentEditable && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode'])){
                 var order = mw.tools.parentsOrder(el, ['edit','module']);
                 if(order.module == -1 && order.edit != -1){
@@ -2176,13 +2176,13 @@ mw.drag = {
                 }
                 if(order.module > order.edit){
                 noyes = true;
-                
+
                 }
             }
         return noyes;
     }
    },
-    
+
     fancynateLoading: function(module) {
         mw.$(module).addClass("module_loading");
         setTimeout(function() {
