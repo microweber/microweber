@@ -1055,6 +1055,8 @@ mw.wysiwyg = {
                 visibility: "hidden"
             });
             if (e.target.isContentEditable && !mw.tools.isField(e.target)) {
+                mw.wysiwyg.change(e.target)
+                console.log(e.target)
                 mw.tools.addClass(this, 'isTyping');
                 if (mw.tools.isEmpty(e.target)) {
                     e.target.innerHTML = '&zwnj;&nbsp;';
@@ -1096,15 +1098,18 @@ mw.wysiwyg = {
         if (mw.tools.hasClass(el, 'edit')) {
             mw.tools.addClass(el, 'changed');
             var target = el;
+            $(window).trigger('editChanged', target)
         }
         else if (mw.tools.hasParentsWithClass(el, 'edit')) {
             var target = mw.tools.firstParentWithClass(el, 'edit');
             mw.tools.addClass(target, 'changed');
+            $(window).trigger('editChanged', target)
         }
         if (target !== null) {
             mw.tools.foreachParents(target, function () {
                 if (mw.tools.hasClass(this, 'edit')) {
                     mw.tools.addClass(this, 'changed');
+                    $(window).trigger('editChanged', this)
                 }
             });
             mw.askusertostay = true;
