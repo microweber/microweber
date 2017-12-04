@@ -2935,6 +2935,9 @@ div[id*='SSDIVEL'] {
     padding: 0 11px;
     font-family: Verdana, Geneva, sans-serif;
     line-height: 30px;
+    -webkit-border-radius: 30px !important;
+    -moz-border-radius: 30px !important;
+    border-radius: 30px !important;
 }
 
 .mwInaccessibleModulesMenu .mw-ui-btn [class*=mw-icon-] {
