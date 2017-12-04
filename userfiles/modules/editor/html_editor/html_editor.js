@@ -28,7 +28,7 @@ mw.html_editor.get_edit_fields = function (also_in_modules) {
 
     var fields_arr = new Array();
     var get_edit_fields = $(html_editor_parent_document.document).contents().find('.edit').each(function () {
-        var is_in_module = mw.tools.firstParentWithClass(this, 'module');
+        var is_in_module = html_editor_parent_document.mw.tools.firstParentWithClass(this, 'module');
         if (!is_in_module || also_in_modules) {
             fields_arr.push(this);
         }
