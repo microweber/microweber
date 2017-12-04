@@ -2933,6 +2933,9 @@ div[id*='SSDIVEL'] {
     padding: 0 11px;
     font-family: Verdana, Geneva, sans-serif;
     line-height: 30px;
+    -webkit-border-radius: 30px !important;
+    -moz-border-radius: 30px !important;
+    border-radius: 30px !important;
 }
 
 .mwInaccessibleModulesMenu .mw-ui-btn [class*=mw-icon-] {
@@ -3574,24 +3577,38 @@ body {
 }
 
 .mw-cloneable-control-item{
-    width: 20px;
-    height: 20px;
+    /*width: 20px;*/
+    /*height: 20px;*/
+    /*line-height: 20px;*/
+    line-height: 15px;
+    width: 15px;
+    height: 15px;
     border-radius: 40px;
     background: black;
     color: white;
-    font-family: Microweber;
+    font-family: Arial;
     text-align: center;
-    line-height: 20px;
     cursor: pointer;
-    display: inline-block;
-    margin: 0 5px;
+    display: block;
+    float: left;
+    margin: 0 2px;
+    opacity: 0.8;
+    font-size: 9px;
 }
 
 .mw-cloneable-control-plus:after {
-    content: '+'
+    content: '\002b';
+    font-family: Microweber!important;
+    text-transform: none!important;
 }
+.mw-cloneable-control-minus {
+    font-size: 7px;
+}
+
 .mw-cloneable-control-minus:after {
-    content: '-'
+    font-family: Microweber !important;
+    text-transform: none !important;
+    content: "\f2f4";
 }
 .mw_modal_container iframe {
     background: #fff;
