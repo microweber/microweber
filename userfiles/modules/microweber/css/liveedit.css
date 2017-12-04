@@ -507,9 +507,9 @@ a.mw-make-cols,
     padding: 0 11px;
     line-height: 30px;
     /*margin-top: -30px;*/
-    opacity: 0;
+    /*opacity: 0;
     transition: opacity 0.3s, transform 0.3s;
-    transform: scale(.5), translateY(10px);
+    transform: scale(.5), translateY(10px);*/
 }
 
 #mw_handle_module .mw_edit_settings {
@@ -3569,10 +3569,13 @@ body {
     }
 }
 
-.mw-cloneable-control {
-    position: absolute;
-    z-index: 999;
-    margin: 10px 0 0 10px;
+.mw-cloneable-control{
+  position: absolute;
+  z-index: 999;
+  margin: 5px;
+}
+
+.mw-cloneable-control-item{
     width: 20px;
     height: 20px;
     border-radius: 40px;
@@ -3582,12 +3585,16 @@ body {
     text-align: center;
     line-height: 20px;
     cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
 }
 
-.mw-cloneable-control:after {
+.mw-cloneable-control-plus:after {
     content: '+'
 }
-
+.mw-cloneable-control-minus:after {
+    content: '-'
+}
 .mw_modal_container iframe {
     background: #fff;
 }
