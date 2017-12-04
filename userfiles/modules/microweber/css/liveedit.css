@@ -507,9 +507,16 @@ a.mw-make-cols,
     padding: 0 11px;
     line-height: 30px;
     /*margin-top: -30px;*/
-    /*opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: scale(.5), translateY(10px);*/
+    /**/
+}
+.mw_edit_settings{
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: scale(.5)  translateY(10px);
+}
+.mw-active-item .mw_edit_settings{
+  opacity: 1;
+  transform: scale(1)  translateY(0);
 }
 
 #mw_handle_module .mw_edit_settings {
@@ -525,16 +532,7 @@ a.mw-make-cols,
     left: 10px;
 }
 
-#mw_handle_row:hover .mw_edit_delete,
-#mw_handle_row:hover a.mw-make-cols,
-#mw_handle_module:hover .mw_edit_settings,
-#mw_handle_module:hover .mw_edit_settings_multiple,
-#mw_handle_row:hover .column_separator_title {
-    color: white;
-    background: black;
-    opacity: 1;
-    transform: scale(1);
-}
+
 
 a.mw-make-cols {
     position: absolute;
@@ -3571,7 +3569,7 @@ body {
 
 .mw-cloneable-control{
   position: absolute;
-  z-index: 999;
+  z-index: 1101;
   margin: 5px;
 }
 

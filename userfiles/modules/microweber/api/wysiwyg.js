@@ -1056,8 +1056,8 @@ mw.wysiwyg = {
             });
             if (e.target.isContentEditable && !mw.tools.isField(e.target)) {
                 mw.wysiwyg.change(e.target)
-                console.log(e.target)
                 mw.tools.addClass(this, 'isTyping');
+                $(this._onCloneableControl).hide()
                 if (mw.tools.isEmpty(e.target)) {
                     e.target.innerHTML = '&zwnj;&nbsp;';
                 }
