@@ -205,7 +205,9 @@ mw.wysiwyg = {
                         mw.wysiwyg.change(this);
                         if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
                             mw.wysiwyg.modify(this, function () {
+                              if(!mw.tools.hasAnyOfClassesOnNodeOrParent(els[i], ['safe-mode'])){
                                 this.innerHTML = '<p class="element">' + this.innerHTML + '</p>';
+                              }
                             });
                         }
                         mw.wysiwyg.normalizeBase64Images(this);
@@ -214,7 +216,9 @@ mw.wysiwyg = {
                         if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
 
                             mw.wysiwyg.modify(this, function () {
+                              if(!mw.tools.hasAnyOfClassesOnNodeOrParent(els[i], ['safe-mode'])){
                                 this.innerHTML = '<p class="element">' + this.innerHTML + '&nbsp;</p>';
+                              }
                             });
                         }
                     })

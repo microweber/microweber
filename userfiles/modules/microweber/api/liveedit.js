@@ -1204,7 +1204,7 @@ mw.drag = {
             }).addClass('mw-active-item');
             $(mw.handle_module).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
-            $(mw.inaccessibleModules).css('left', width + 20)
+            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings').width() + 20)
         });
         $(window).on("onRowOver", function(a, element) {
             var el = $(element);
@@ -1426,7 +1426,7 @@ mw.drag = {
                     $(mwd.body).removeClass("dragStart");
                 }
             });
-            mw.on.mouseDownAndUp($handle_module[0], function(time, mouseUpEvent){
+            mw.on.mouseDownAndUp($handle_module[0].querySelector('.mw-sorthandle-moveit'), function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
                 if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
                   mw.drag.module_settings();
@@ -2043,7 +2043,9 @@ mw.drag = {
             for (; i < l; i++) {
                 if (els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6') === null && !mw.tools.hasClass(els[i], 'plain-text')) {
                     if (!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'mw-empty')) {
-                        els[i].innerHTML = '<p class="element">' + els[i].innerHTML + '</p>';
+                        if(!mw.tools.hasAnyOfClassesOnNodeOrParent(els[i], ['safe-mode'])){
+                          els[i].innerHTML = '<p class="element">' + els[i].innerHTML + '</p>';
+                        }
                     }
                 }
             }
