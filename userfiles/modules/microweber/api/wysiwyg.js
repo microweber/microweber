@@ -205,7 +205,9 @@ mw.wysiwyg = {
                         mw.wysiwyg.change(this);
                         if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
                             mw.wysiwyg.modify(this, function () {
+                              if(!mw.tools.hasAnyOfClassesOnNodeOrParent(els[i], ['safe-mode'])){
                                 this.innerHTML = '<p class="element">' + this.innerHTML + '</p>';
+                              }
                             });
                         }
                         mw.wysiwyg.normalizeBase64Images(this);
@@ -214,7 +216,9 @@ mw.wysiwyg = {
                         if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
 
                             mw.wysiwyg.modify(this, function () {
+                              if(!mw.tools.hasAnyOfClassesOnNodeOrParent(els[i], ['safe-mode'])){
                                 this.innerHTML = '<p class="element">' + this.innerHTML + '&nbsp;</p>';
+                              }
                             });
                         }
                     })
@@ -1056,8 +1060,8 @@ mw.wysiwyg = {
             });
             if (e.target.isContentEditable && !mw.tools.isField(e.target)) {
                 mw.wysiwyg.change(e.target)
-                console.log(e.target)
                 mw.tools.addClass(this, 'isTyping');
+                $(this._onCloneableControl).hide()
                 if (mw.tools.isEmpty(e.target)) {
                     e.target.innerHTML = '&zwnj;&nbsp;';
                 }
