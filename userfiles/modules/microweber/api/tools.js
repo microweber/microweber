@@ -4380,7 +4380,7 @@ mw.image = {
             if (mw.image_resizer == undefined) {
                 var resizer = document.createElement('div');
                 resizer.className = 'mw-defaults mw_image_resizer';
-                resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-app-reverse-camera"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-edit"></span></span></div>';
+                resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-image-frame"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-edit"></span></span></div>';
                 document.body.appendChild(resizer);
                 mw.image_resizer = resizer;
                 mw.image_resizer = resizer;

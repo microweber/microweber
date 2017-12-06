@@ -509,14 +509,16 @@ a.mw-make-cols,
     /*margin-top: -30px;*/
     /**/
 }
-.mw_edit_settings{
-  opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
-  transform: scale(.5)  translateY(10px);
+
+.mw_edit_settings {
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: scale(.5) translateY(10px);
 }
-.mw-active-item .mw_edit_settings{
-  opacity: 1;
-  transform: scale(1)  translateY(0);
+
+.mw-active-item .mw_edit_settings {
+    opacity: 1;
+    transform: scale(1) translateY(0);
 }
 
 #mw_handle_module .mw_edit_settings {
@@ -531,8 +533,6 @@ a.mw-make-cols,
     top: 0;
     left: 10px;
 }
-
-
 
 a.mw-make-cols {
     position: absolute;
@@ -2690,8 +2690,12 @@ div[id*='SSDIVEL'] {
     font-size: 20px;
 }
 
-#image-edit-nav .mw-ui-btn .mw-icon-app-reverse-camera {
-    font-size: 29px;
+#image-edit-nav .mw-ui-btn .mw-icon-image-frame {
+    font-size: 24px;
+}
+
+#image-edit-nav .mw-ui-btn span.mw-icon-image-frame {
+    line-height: 35px;
 }
 
 /****************************
@@ -3570,13 +3574,13 @@ body {
     }
 }
 
-.mw-cloneable-control{
-  position: absolute;
-  z-index: 1101;
-  margin: 5px;
+.mw-cloneable-control {
+    position: absolute;
+    z-index: 1101;
+    margin: 5px;
 }
 
-.mw-cloneable-control-item{
+.mw-cloneable-control-item {
     /*width: 20px;*/
     /*height: 20px;*/
     /*line-height: 20px;*/
@@ -3602,9 +3606,10 @@ body.isTyping .mw-cloneable-control-item{
 
 .mw-cloneable-control-plus:after {
     content: '\002b';
-    font-family: Microweber!important;
-    text-transform: none!important;
+    font-family: Microweber !important;
+    text-transform: none !important;
 }
+
 .mw-cloneable-control-minus {
     font-size: 7px;
 }
@@ -3614,6 +3619,7 @@ body.isTyping .mw-cloneable-control-item{
     text-transform: none !important;
     content: "\f2f4";
 }
+
 .mw_modal_container iframe {
     background: #fff;
 }
