@@ -1217,7 +1217,8 @@ mw.drag = {
             }).addClass('mw-active-item');
             $(mw.handle_module).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
-            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings').width() + 20)
+            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings').outerWidth() + 20)
+
         });
         $(window).on("onRowOver", function(a, element) {
             var el = $(element);
