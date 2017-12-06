@@ -3073,7 +3073,7 @@ div[id*='SSDIVEL'] {
     bottom: 0;
     right: 0px;
     background: white;
-    z-index: 999;
+    z-index: 9999;
     font-size: 11px;
     border-left: 1px solid #e5e5e5;
     -webkit-box-shadow: -2px 0px 5px -3px #e5e5e5;
