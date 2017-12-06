@@ -3596,6 +3596,10 @@ body {
     font-size: 9px;
 }
 
+body.isTyping .mw-cloneable-control-item{
+  display: none;
+}
+
 .mw-cloneable-control-plus:after {
     content: '\002b';
     font-family: Microweber!important;

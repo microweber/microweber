@@ -825,7 +825,22 @@ mw.drag = {
                             if(targetParentsOrder['allow-drop'] < targetParentsOrder['module']){
                                 mw.currentDragMouseOver = mw.mm_target;
                             }
-                            else{ mw.currentDragMouseOver = mw.mm_target;  }
+                            else{
+                              var pom = mw.tools.parentsOrder(mw.mm_target, ['module', 'edit']);
+                              if(pom.module>pom.edit || pom.module == -1){
+
+                                mw.currentDragMouseOver = mw.mm_target;
+                              }
+                              else{
+
+                                mw.mm_target = mw.drag.noop;
+                                mw.$mm_target = $(mw.drag.noop);
+                                mw.currentDragMouseOver = null;
+                                mw.dropable.hide();
+                                mw.dropable.removeClass("mw_dropable_onleaveedit");
+                              }
+
+                            }
                         }
                         else {
                             var ord = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module'])
@@ -968,7 +983,8 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_arr_rigt");
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
                             mw.dropables.set('bottom', offset, height, width);
-                        } else {
+                        }
+                        else {
                             mw.dropables.set('top', offset, height, width);
                         }
                     }
@@ -994,18 +1010,15 @@ mw.drag = {
                            mw.dropables.set(near.position, el.offset(), el.height(), el.width());
                         }
                         else{
-                        if (mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')) {
+                          if (mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')) {
                             mw.dropable.hide();
-                        } else {
+                          } else {
                             mw.dropable.show();
-                        }
+                          }
                          }
-                    } else {
-
-                           mw.dropable.hide();
-
-
-
+                    }
+                    else {
+                       mw.dropable.hide();
                     }
                 }
 

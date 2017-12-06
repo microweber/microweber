@@ -4421,6 +4421,10 @@ mw.image = {
             var selectImage = typeof selectImage === 'undefined' ? true : selectImage;
             /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
              if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
+
+
+            $('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG'?'show':'hide']()
+
             var el = $(el);
             var offset = el.offset();
             var parentOffset = el.parent().offset();
