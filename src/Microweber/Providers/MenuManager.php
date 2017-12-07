@@ -360,6 +360,8 @@ class MenuManager
             $li_class = 'menu_element';
         }
 
+
+
         if (isset($ul_class_deep)) {
             if ($depth > 0) {
                 $ul_class = $ul_class_deep;
@@ -383,6 +385,13 @@ class MenuManager
         if (isset($li_submenu_class) == false) {
             $li_submenu_class = ' have-submenu ';
         }
+
+        if (isset($params_o['li_submenu_a_class']) != false) {
+            $li_submenu_a_class = $params_o['li_submenu_a_class'];
+
+        }
+
+
         if (isset($li_submenu_a_class) == false) {
             $li_submenu_a_class = ' have-submenu-link ';
         }
@@ -407,8 +416,12 @@ class MenuManager
             $maxdepth = $params_o['maxdepth'];
         }
 
+//        if (isset($params_o['li_submenu_a_class']) != false) {
+//            $li_submenu_a_class = $params_o['li_submenu_a_class'];
+//        }
+
         if (!isset($link) or $link == false) {
-            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class}"  href="{url}">{title}</a>';
+            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class} {a_submenu_class}"  href="{url}">{title}</a>';
         }
 
         $id_attr_str = '';
@@ -550,7 +563,6 @@ class MenuManager
 
                 $item['url'] = $url;
 
-                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
                 $ext_classes = '';
 
@@ -565,17 +577,21 @@ class MenuManager
                     $ext_classes .= ' have-category';
                 }
 
-
+                $class_for_li_submenu_a = '';
                 if ($has_childs) {
                     $ext_classes .= ' ' . $has_childs_class;
+                    if(isset($li_submenu_a_class) and $li_submenu_a_class){
+                        $class_for_li_submenu_a =  $li_submenu_a_class;
+                    }
 
-                    if($li_submenu_a_class){
-                        $ext_classes .= ' ' . $li_submenu_a_class;
-                     }
+
+
                 }
 
+                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
 
+                //d($ext_classes);
 
                 $ext_classes = trim($ext_classes);
                 if (is_callable($link)) {
@@ -588,6 +604,7 @@ class MenuManager
                 }
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
                 $menu_link = str_replace('{a_class}', $a_class, $menu_link);
+                $menu_link = str_replace('{a_submenu_class}', $class_for_li_submenu_a, $menu_link);
                 $to_print .= $menu_link;
 
                 $ext_classes = '';
@@ -615,6 +632,7 @@ class MenuManager
                 if (isset($item['parent_id'])) {
                     $ext_classes .= ' menu-item-parent-' . $item['parent_id'] . '';
                 }
+
 
                 // }
                 if (in_array($item['parent_id'], $passed_ids) == false) {
@@ -675,6 +693,12 @@ class MenuManager
                                 $menu_params['li_class_deep'] = $li_class_deep;
                             }
 
+                            if (isset($li_submenu_a_class)) {
+
+                                $menu_params['li_submenu_a_class'] = $li_submenu_a_class;
+
+                            }
+
                             if (isset($depth)) {
                                 $menu_params['depth'] = $depth + 1;
                             }
@@ -686,10 +710,12 @@ class MenuManager
                             $test1 = $this->menu_tree($item['id']);
                         }
                     } else {
+
                         if (($maxdepth != false) and intval($maxdepth) > 1 and ($cur_depth <= $maxdepth)) {
                             if (isset($params) and is_array($params)) {
                                 $test1 = $this->menu_tree($menu_params);
                             } else {
+
                                 $test1 = $this->menu_tree($item['id']);
                             }
                         }

@@ -4380,7 +4380,7 @@ mw.image = {
             if (mw.image_resizer == undefined) {
                 var resizer = document.createElement('div');
                 resizer.className = 'mw-defaults mw_image_resizer';
-                resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-app-reverse-camera"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-edit"></span></span></div>';
+                resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-image-frame"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-edit"></span></span></div>';
                 document.body.appendChild(resizer);
                 mw.image_resizer = resizer;
                 mw.image_resizer = resizer;
@@ -4421,6 +4421,10 @@ mw.image = {
             var selectImage = typeof selectImage === 'undefined' ? true : selectImage;
             /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
              if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
+
+
+            $('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG'?'show':'hide']()
+
             var el = $(el);
             var offset = el.offset();
             var parentOffset = el.parent().offset();

@@ -540,12 +540,12 @@ mw.drag = {
 
         mwd.body.appendChild(this._onCloneableControl);
         $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
-          $(target).after(this.__target.outerHTML);
+          $(mw.drag._onCloneableControl.__target).after(mw.drag._onCloneableControl.__target.outerHTML);
           mw.wysiwyg.change(target)
         })
         $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
-          $(target).fadeOut(function(){
-            $(target).remove();
+          $(mw.drag._onCloneableControl.__target).fadeOut(function(){
+            $(this).remove();
           });
         })
       }
@@ -634,12 +634,22 @@ mw.drag = {
                 if (!mw.isDrag) {
                     if ( mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false ) {
 
-                        var clonable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable']);
+                        var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
 
-                        if(!!clonable){
-                          $(window).trigger("onCloneableOver", clonable);
+                        if(!!cloneable){
+                          if(mw.tools.hasClass(cloneable, 'mw-cloneable-control')){
+                            $(window).trigger("onCloneableOver", mw.drag._onCloneableControl.__target);
+                          }
+                          else if(mw.tools.hasParentsWithClass(cloneable, 'mw-cloneable-control')){
+                            $(window).trigger("onCloneableOver", mw.drag._onCloneableControl.__target);
+                          }
+                          else{
+                            $(window).trigger("onCloneableOver", cloneable);
+                          }
+
                         }
                         else{
+                          console.log(cloneable)
                           if(mw.drag._onCloneableControl && mw.mm_target !== mw.drag._onCloneableControl){
                             $(mw.drag._onCloneableControl).hide()
                           }
@@ -815,7 +825,22 @@ mw.drag = {
                             if(targetParentsOrder['allow-drop'] < targetParentsOrder['module']){
                                 mw.currentDragMouseOver = mw.mm_target;
                             }
-                            else{ mw.currentDragMouseOver = mw.mm_target;  }
+                            else{
+                              var pom = mw.tools.parentsOrder(mw.mm_target, ['module', 'edit']);
+                              if(pom.module>pom.edit || pom.module == -1){
+
+                                mw.currentDragMouseOver = mw.mm_target;
+                              }
+                              else{
+
+                                mw.mm_target = mw.drag.noop;
+                                mw.$mm_target = $(mw.drag.noop);
+                                mw.currentDragMouseOver = null;
+                                mw.dropable.hide();
+                                mw.dropable.removeClass("mw_dropable_onleaveedit");
+                              }
+
+                            }
                         }
                         else {
                             var ord = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module'])
@@ -958,7 +983,8 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_arr_rigt");
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
                             mw.dropables.set('bottom', offset, height, width);
-                        } else {
+                        }
+                        else {
                             mw.dropables.set('top', offset, height, width);
                         }
                     }
@@ -984,18 +1010,15 @@ mw.drag = {
                            mw.dropables.set(near.position, el.offset(), el.height(), el.width());
                         }
                         else{
-                        if (mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')) {
+                          if (mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'allow-drop')) {
                             mw.dropable.hide();
-                        } else {
+                          } else {
                             mw.dropable.show();
-                        }
+                          }
                          }
-                    } else {
-
-                           mw.dropable.hide();
-
-
-
+                    }
+                    else {
+                       mw.dropable.hide();
                     }
                 }
 
@@ -1191,10 +1214,11 @@ mw.drag = {
                 top: o.top,
                 left: o.left + pleft,
                 width: width
-            });
+            }).addClass('mw-active-item');
             $(mw.handle_module).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
-            $(mw.inaccessibleModules).css('left', width + 20)
+            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings').outerWidth() + 20)
+
         });
         $(window).on("onRowOver", function(a, element) {
             var el = $(element);
@@ -1261,7 +1285,7 @@ mw.drag = {
             $(mw.handle_module).css({
                 top: "",
                 left: ""
-            });
+            }).removeClass('mw-active-item');
         });
         $(window).on("onRowLeave", function(e, target) {
             setTimeout(function() {
@@ -1416,7 +1440,7 @@ mw.drag = {
                     $(mwd.body).removeClass("dragStart");
                 }
             });
-            mw.on.mouseDownAndUp($handle_module[0], function(time, mouseUpEvent){
+            mw.on.mouseDownAndUp($handle_module[0].querySelector('.mw-sorthandle-moveit'), function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
                 if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
                   mw.drag.module_settings();
@@ -2033,7 +2057,9 @@ mw.drag = {
             for (; i < l; i++) {
                 if (els[i].querySelector('p,div,li,h1,h2,h3,h4,h5,h6') === null && !mw.tools.hasClass(els[i], 'plain-text')) {
                     if (!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'mw-empty')) {
-                        els[i].innerHTML = '<p class="element">' + els[i].innerHTML + '</p>';
+                        if(!mw.tools.hasAnyOfClassesOnNodeOrParent(els[i], ['safe-mode'])){
+                          els[i].innerHTML = '<p class="element">' + els[i].innerHTML + '</p>';
+                        }
                     }
                 }
             }
@@ -2438,7 +2464,7 @@ mw.drag = {
                 $(mw.handle_module).css({
                     left: '',
                     top: ''
-                });
+                }).removeClass('mw-active-item');
                 mw.drag.fix_placeholders(true);
             }, 300);
 
@@ -3374,7 +3400,11 @@ $(document).ready(function() {
               item = all[ai];
               if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
                 if( mw.drag.target.canBeElement(item)){
-                  mw.tools.addClass(item, 'element')
+                  var ord = mw.tools.parentsOrder(item, ['edit', 'module']);
+                  if(ord.edit !== -1 && (ord.edit < ord.module || ord.module === -1)){
+                    mw.tools.addClass(item, 'element')
+                  }
+
                 }
               }
             }
