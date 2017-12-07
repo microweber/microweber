@@ -1254,6 +1254,13 @@ if($field != 'content'){
 //
 //                        }
 
+                    } else {
+                        $el_html = pq($elem)->html();
+                        if(strstr($el_html,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                            pq($elem)->html('edit_field_not_found_in_database');
+//dd($el_html);
+                        }
+
                     }
                 }
 
@@ -1362,7 +1369,6 @@ if($field != 'content'){
 
     public function make_tags($layout)
     {
-$remove_clases = ['changed','inaccessibleModule'];
 
         if ($layout == '') {
             return $layout;
@@ -1372,8 +1378,9 @@ $remove_clases = ['changed','inaccessibleModule'];
         $pq = \phpQuery::newDocument($layout);
 
 
+        $remove_clases = ['changed','inaccessibleModule'];
 
-        foreach ($pq ['.edit'] as $elem) {
+        foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;
             $tag = $elem->tagName;
 
