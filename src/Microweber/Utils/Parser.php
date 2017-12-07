@@ -402,6 +402,7 @@ class Parser
                                         $attrs['data-type'] = $module_name;
                                         unset($attrs[$nn]);
                                     }
+
                                     if ($nn == 'data-type') {
                                         $module_name = $nv;
                                     }
@@ -1378,7 +1379,7 @@ if($field != 'content'){
         $pq = \phpQuery::newDocument($layout);
 
 
-        $remove_clases = ['changed','inaccessibleModule'];
+        $remove_clases = ['changed','inaccessibleModule','module-over'];
 
         foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;
