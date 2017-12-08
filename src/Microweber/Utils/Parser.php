@@ -402,6 +402,7 @@ class Parser
                                         $attrs['data-type'] = $module_name;
                                         unset($attrs[$nn]);
                                     }
+
                                     if ($nn == 'data-type') {
                                         $module_name = $nv;
                                     }
@@ -946,9 +947,9 @@ class Parser
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
-//if($field != 'content'){
-//                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id".content_id());
-//}
+if($field != 'content'){
+                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".content_id());
+}
 //d($data);
                     } elseif ($rel == 'page') {
                         if (!isset($data_id) or $data_id == false) {
@@ -973,22 +974,28 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-                        $data_inh_check = $this->app->content_manager->get_by_id($data_id);
-
-                        if (isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit') {
-                            $inh = $data_inh_check['id'];
-                        } else {
-                            $inh = $this->app->content_manager->get_inherited_parent($data_id);
-                        }
+//                        $data_inh_check = $this->app->content_manager->get_by_id($data_id);
+//
+//                        if (isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit') {
+//                            $inh = $data_inh_check['id'];
+//                        } else {
+//                            $inh = $this->app->content_manager->get_inherited_parent($data_id);
+//                        }
+                        $inh = $this->app->content_manager->get_inherited_parent($data_id);
 
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
-                            $rel = 'content';
+                           // $rel = 'content';
                             $data = $this->app->content_manager->get_by_id($data_id);
                         } else {
-                            $rel = 'content';
+                            // $rel = 'content';
                             $data = $this->app->content_manager->get_page($data_id);
+                        }
+
+                        if($field != 'content'){
+                            $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
+                     // d($data);
                         }
                     } elseif ($rel == 'global') {
                         $get_global = 1;
@@ -997,7 +1004,7 @@ class Parser
                         $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
 
-                    } elseif (isset($attr['post'])) {
+                    }/* elseif (isset($attr['post'])) {
                         $get_global = false;
                         $data = $this->app->content_manager->get_by_id($attr['post']);
                         if ($data == false) {
@@ -1008,7 +1015,7 @@ class Parser
                         $data = $this->app->category_manager->get_by_id($attr['category']);
                     } elseif (isset($attr['global'])) {
                         $get_global = true;
-                    }
+                    }*/
                     $cf = false;
                     $field_content = false;
                     $orig_rel = $rel;
@@ -1029,7 +1036,7 @@ class Parser
 
                     if (isset($data[$field])) {
                         if (isset($data[$field])) {
-                            $field_content = $data[$field];
+                          //  $field_content = $data[$field];
                         }
                     } else {
                         if ($rel == 'page') {
@@ -1075,14 +1082,48 @@ class Parser
                             $field_content = $cont_field;
                         }
 
-                        $mw_replaced_edit_fields_vals[$parser_mem_crc] = $field_content;
 
 
                     }
                     if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
+
+
+                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+
+
+                        if ($cont_field == false) {
+                            if ($option_mod != false) {
+                                $cont_field = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
+                            } else {
+                                $cont_field = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
+                            }
+                        } else {
+                            $cont_field=  $field_content = $cont_field;
+                        }
                     }
+
+                    $edit_field_content = false;
+
+                    if (isset($data[$field])) {
+                        $edit_field_content = $data[$field];
+                    }
+                    if ($use_id_as_field != false) {
+                        if (isset($data[$use_id_as_field])) {
+                            $edit_field_content = $data[$use_id_as_field];
+                        }
+                    }
+                    if(!$edit_field_content){
+                        if(isset($cont_field['value'])){
+                            $edit_field_content = $cont_field['value'];
+
+                        }
+                    }
+
+                  //  d('aaaaaaaaaaaa ' . $field . '    -   ' . $rel);
+                 //   d($edit_field_content);
+
 
 
                     //   $filter
@@ -1091,7 +1132,7 @@ class Parser
 
                     $no_edit = false;
 
-                    if ($field_content == false) {
+              /*      if ($field_content == false) {
 
                         if ($get_global == true) {
                             if (isset($data_id)) {
@@ -1149,8 +1190,21 @@ class Parser
                             }
                         }
                     }
+*/
+
+                    if ($field == 'content' and template_var('content') != false) {
+//                        $field_content = template_var('content');
+//                        template_var('content', false);
+//                        $no_edit = template_var('no_edit');
+                    }
                     // d($parser_mem_crc);
 
+
+                    //$mw_replaced_edit_fields_vals[$parser_mem_crc] = $edit_field_content;
+
+                    if($edit_field_content){
+                        $field_content = $edit_field_content;
+                    }
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
                         $parser_mem_crc2 = 'parser_field_content_' . $field . $rel . $data_id . crc32($field_content);
 
@@ -1180,7 +1234,10 @@ class Parser
                                 }
                                 $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
 
+                        if(strstr($field_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                            $field_content = $this->_replace_editable_fields($field_content);
 
+                        }
 
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                 $this->_mw_edit_field_map[$parser_mem_crc] = array(
@@ -1193,9 +1250,16 @@ class Parser
                         }
                     mw_var($parser_mem_crc2, 1);
 
-                        if(strstr($field_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
-                            $field_content = $this->_replace_editable_fields($field_content);
+//                        if(strstr($field_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+//                            $field_content = $this->_replace_editable_fields($field_content);
+//
+//                        }
 
+                    } else {
+                        $el_html = pq($elem)->html();
+                        if(strstr($el_html,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                            pq($elem)->html('edit_field_not_found_in_database');
+//dd($el_html);
                         }
 
                     }
@@ -1306,7 +1370,6 @@ class Parser
 
     public function make_tags($layout)
     {
-$remove_clases = ['changed','inaccessibleModule'];
 
         if ($layout == '') {
             return $layout;
@@ -1316,8 +1379,9 @@ $remove_clases = ['changed','inaccessibleModule'];
         $pq = \phpQuery::newDocument($layout);
 
 
+        $remove_clases = ['changed','inaccessibleModule','module-over'];
 
-        foreach ($pq ['.edit'] as $elem) {
+        foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;
             $tag = $elem->tagName;
 

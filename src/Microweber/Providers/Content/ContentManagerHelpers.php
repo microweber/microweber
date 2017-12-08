@@ -806,7 +806,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $history_to_save['field'] = $field;
 
                                 $cont_field = array();
-                                $cont_field['rel_type'] = 'content';
+                                $cont_field['rel_type'] = $rel_ch;
                                 $cont_field['field'] = $field;
                                 $cont_field['rel_id'] = $content_id_for_con_field;
                                 $cont_field['value'] = $html_to_save;

@@ -14,7 +14,7 @@ mw.html_editor.init = function () {
     d(html_editor_parent_document);
 
 
-    var fields = mw.html_editor.get_edit_fields();
+    var fields = mw.html_editor.get_edit_fields(true);
     mw.html_editor.build_dropdown(fields);
     mw.html_editor.populate_editor();
 
@@ -48,7 +48,9 @@ mw.html_editor.build_dropdown = function (fields_array) {
             var temp = {};
             temp.field = dd_field;
             temp.rel = dd_grp;
-            mw.html_editor.map[dd_grp + '/' + dd_field] = this;
+            temp.el = this;
+
+            mw.html_editor.map[dd_grp + '/' + dd_field] = temp;
             html_dd[dd_grp].push(temp);
         }
 
@@ -59,7 +61,7 @@ mw.html_editor.build_dropdown = function (fields_array) {
     $select.attr('id', 'select_edit_field');
     $select.attr('class', 'mw-ui-field');
 
-    $select.attr('onchange', 'mw.html_editor.populate_editor()');
+var has_selected = false;
 
     $select.appendTo("#select_edit_field_wrap");
     $.each(html_dd, function (groupName, options) {
@@ -73,17 +75,34 @@ mw.html_editor.build_dropdown = function (fields_array) {
 
             } else {
 
+
                 var $option = $("<option>", {
                     text: option.field,
                     value: option.rel,
                     rel: option.rel,
                     field: option.field
                 });
+
+                if(!has_selected && option.rel == 'content'){
+                    has_selected = true;
+                     $($option).attr('selected', 'selected');
+
+                }
+
+
+
                 $option.appendTo($optgroup);
             }
 
         });
     });
+
+
+
+    $($select).on('change',function(){
+        mw.html_editor.populate_editor()
+    });
+
 };
 
 
@@ -96,13 +115,16 @@ mw.html_editor.populate_editor = function () {
     if (value.length == 0) {
         return;
     }
+
     $('#fragment-holder').remove();
     var ed_val = '';
     var dd_grp = value.attr('rel');
     var dd_field = value.attr('field');
+
     if (typeof(mw.html_editor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
-        var ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field]).html();
+       d($(mw.html_editor.map[dd_grp + '/' + dd_field].el));
+        var ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field].el).html();
 
 
         var frag = document.createDocumentFragment();
@@ -111,15 +133,57 @@ mw.html_editor.populate_editor = function () {
         holder.id = 'fragment-holder'
         holder.innerHTML = html
         frag.appendChild(holder)
-        var s = $('.module', $(frag)).html('[module]');
-        var ed_val = $(holder).html();
+        //var s = $('.module', $(frag)).html('[module]');
+         var s = $('.module', $(frag)).html('[module]');
 
+       // $('#divHtml').find("*").removeClass();
+
+
+
+        var ed_val = $(holder).html();
+    //    d(ed_val);
     } else {
         var ed_val = 'Select element to edit';
     }
 
-    if (typeof editor != 'undefined') {
-        editor.setValue(ed_val);
+    if (typeof html_code_area_editor != 'undefined') {
+
+        if (typeof html_beautify != 'undefined') {
+            //var formattedXML = js_beautify.beautify_html(ed_val, { indent_size: 2 });
+            var formattedXML = (html_beautify(ed_val, {
+                "indent_size": 4,
+                "indent_char": "",
+                "indent_with_tabs": false,
+                "eol": "\n",
+                "end_with_newline": true,
+                "indent_level": 100,
+                "preserve_newlines": false,
+                "max_preserve_newlines": 100,
+                "space_in_paren": false,
+                "space_in_empty_paren": false,
+                "jslint_happy": false,
+                "space_after_anon_function": false,
+                "brace_style": "none",
+                "unindent_chained_methods": true,
+                "break_chained_methods": false,
+                "keep_array_indentation": false,
+                "unescape_strings": true,
+                 "wrap_line_length": 111110,
+                "wrap_attributes": 'none',
+                "e4x": false,
+                "comma_first": false,
+                "operator_position": "before-newline"
+            }));
+            ed_val = formattedXML;
+       //     d(formattedXML);
+        }
+
+
+
+      //  d(ed_val);
+
+        html_code_area_editor.setValue(ed_val);
+        html_code_area_editor.refresh();
     }
 
     $('#custom_html_code_mirror').val(ed_val);
@@ -133,7 +197,7 @@ mw.html_editor.apply = function () {
     var html = $('#custom_html_code_mirror').val();
     if (typeof(mw.html_editor.map[cur]) != 'undefined') {
 
-        var el = mw.html_editor.map[cur];
+        var el = mw.html_editor.map[cur].el;
         $(el).html(html);
 
         if ($(el).hasClass('edit')) {
@@ -172,11 +236,46 @@ mw.html_editor.apply = function () {
                 html_editor_parent_document.mw.drag.fix_placeholders(true);
                 html_editor_parent_document.mw.resizable_columns();
                 html_editor_parent_document.mw.on.DOMChangePause = false;
+
             }, 200);
         }
+
+        mw.html_editor.populate_editor();
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 mw.html_editor.reset_content = function () {
 
