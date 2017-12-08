@@ -377,6 +377,22 @@ mw.wysiwyg = {
             return false;
         }
     },
+    execCommandFilter:function(a, b, c){
+      var arr = ['justifyCenter','justifyFull','justifyLeft','justifyRight'];
+      if(mw.is.firefox && arr.indexOf(a) !== -1){
+        var node = window.getSelection().focusNode;
+        var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+        if(elementNode.nodeName == 'P'){
+          var align = a.split('justify')[1].toLocaleString();
+          if(align == 'full') {
+            align = 'justify';
+          }
+          elementNode.style.textAlign = align
+          return false;
+        }
+      }
+      return true
+    },
     execCommand: function (a, b, c) {
         var fnode = window.getSelection().focusNode;
 
@@ -387,12 +403,16 @@ mw.wysiwyg = {
             if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()) {
                 var b = b || false;
                 var c = c || false;
-                if (window.getSelection().rangeCount > 0) {
+                var node = window.getSelection().focusNode;
+                var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+                var before = $(node).clone()[0];
+                if (window.getSelection().rangeCount > 0 && mw.wysiwyg.execCommandFilter(a, b, c)) {
                     mwd.execCommand(a, b, c);
                 }
-                var node = window.getSelection().focusNode;
+
                 if (node !== null && mw.loaded) {
                     mw.wysiwyg.change(node);
+                    $(window).trigger('execCommand', [a, node, before, elementNode]);
                 }
             }
         }
@@ -2314,6 +2334,16 @@ $(mwd).ready(function () {
     });
 
     mw.wysiwyg.editorFonts = [];
+
+    $(window).on('execCommand', function(event, commandName, node, nodeBeforeExec, elementNode){
+      /*if(elementNode.nodeName == 'P'){
+        var div = elementNode.querySelector('div');
+        if(div !== null){
+          mw.tools.setTag(div, 'span').style.display = 'block';
+        }
+      }  */
+    });
+
 
 });
 $(window).on('load', function () {

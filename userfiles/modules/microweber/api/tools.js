@@ -1588,12 +1588,12 @@ mw.tools = {
         return has;
     },
     firstMatchesOnNodeOrParent: function (node, arr) {
-      
-        arr.forEach(function (selector) {
-            if (mw.tools.matches(node, selector)) {
-                return node;
-            }
-        });
+        var i = 0;
+        for( ; i<arr.length ; i++){
+          if (mw.tools.matches(node, arr[i])) {
+              return node;
+          }
+        }
         var has = false;
         mw.tools.foreachParents(node, function (loop) {
             var el = this;

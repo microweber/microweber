@@ -833,11 +833,10 @@ mw.drag = {
                               }
                               else{
 
-                                mw.mm_target = mw.drag.noop;
-                                mw.$mm_target = $(mw.drag.noop);
-                                mw.currentDragMouseOver = null;
-                                mw.dropable.hide();
-                                mw.dropable.removeClass("mw_dropable_onleaveedit");
+                                var t = mw.tools.firstMatchesOnNodeOrParent(mw.mm_target, ['.module', '.edit'])
+                                mw.mm_target = t;
+                                mw.$mm_target = $(t);
+                                mw.currentDragMouseOver = t;
                               }
 
                             }
@@ -2695,14 +2694,15 @@ mw.drag = {
             data = mw.drag.collectData(edits);
         return data;
     },
+
     saveDisabled: false,
     draftDisabled: false,
     save: function(data) {
+        $(window).trigger('beforeSaveStart', data);
 
         if (typeof saveStaticElementsStyles === 'function') {
             saveStaticElementsStyles();
         }
-
         if (mw.drag.saveDisabled) return false;
         if(typeof(data) == 'undefined'){
           var body = mw.drag.parseContent().body,
@@ -3390,7 +3390,8 @@ $(document).ready(function() {
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
         for( ; i < all.length; i++){
-          var el = all[i];
+          var el = all[i], nom = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['nodrop', 'allow-drop']);
+          if(nom) continue;
           if(!mw.tools.hasClass(el, 'nodrop')) {
             mw.tools.addClass(el, 'allow-drop');
           }
