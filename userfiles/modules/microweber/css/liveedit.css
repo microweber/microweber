@@ -3619,6 +3619,16 @@ body.isTyping .mw-cloneable-control-item{
     text-transform: none !important;
     content: "\f2f4";
 }
+.mw-cloneable-control-prev:after {
+    font-family: Microweber !important;
+    text-transform: none !important;
+    content: "\0137";
+}
+.mw-cloneable-control-next:after {
+    font-family: Microweber !important;
+    text-transform: none !important;
+    content: "\0138";
+}
 
 .mw_modal_container iframe {
     background: #fff;
@@ -3626,4 +3636,9 @@ body.isTyping .mw-cloneable-control-item{
 
 .mw_dropable {
     pointer-events: none;
+}
+
+.html-editor-selcted{
+  outline: 2px solid #329A4F;
+  outline-offset: 2px;
 }

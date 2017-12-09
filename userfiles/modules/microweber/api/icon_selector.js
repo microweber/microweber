@@ -1,8 +1,27 @@
+
+$(document).ready(function(){
+  mw.iconSelector.addCSS('link[href*="/iconsmind.css"]', '.icon-')
+})
+
 mw.iconSelector = mw.iconSelector || {
     _string: '',
     _activeElement: null,
 
     iconFontClasses: [],
+
+    addCSS:function(selector, propertyStartsWith, method){
+       var css = mwd.querySelector(selector), icons;
+       if(css === null ) return;
+       for(var i=0; i < css.sheet.cssRules.length; i++){
+          var item = css.sheet.cssRules[i];
+          var sel = item.selectorText;
+          if (!!sel && sel.indexOf(propertyStartsWith) === 0) {
+              var cls = sel.split(':')[0];
+              mw.iconSelector.iconFontClasses.push(cls.split('.')[1])
+          }
+       }
+       mw.iconSelector.popup(true);
+    },
 
     init: function () {
         if (mw.iconSelector.iconFontClasses.length == 0) {
@@ -121,7 +140,7 @@ mw.iconSelector = mw.iconSelector || {
 
     },
 
-    popup: function () {
+    popup: function (refresh) {
       
 
         if (mw.iconSelector.iconFontClasses.length == 0) {
@@ -134,7 +153,7 @@ mw.iconSelector = mw.iconSelector || {
         }
 
 
-        if (mw.iconSelector._string == '') {
+        if (mw.iconSelector._string == '' || refresh) {
 
 
             var uicss = mw.iconSelector.iconFontClasses;

@@ -1,18 +1,12 @@
 
-if(typeof(parent.window.opener) != 'null' && parent.window.opener){
-    html_editor_parent_document = parent.window.opener;
 
-} else {
-    html_editor_parent_document = window.parent;
 
-}
+html_editor_parent_document = window.opener || top
 
 
 mw.html_editor = {};
 mw.html_editor.map = {};
 mw.html_editor.init = function () {
-    d(html_editor_parent_document);
-
 
     var fields = mw.html_editor.get_edit_fields(true);
     mw.html_editor.build_dropdown(fields);
@@ -26,8 +20,8 @@ mw.html_editor.get_edit_fields = function (also_in_modules) {
     also_in_modules = typeof also_in_modules === 'undefined' ? false : also_in_modules;
 
 
-    var fields_arr = new Array();
-    var get_edit_fields = $(html_editor_parent_document.document).contents().find('.edit').each(function () {
+    var fields_arr = [];
+    var get_edit_fields = html_editor_parent_document.$('.edit').each(function () {
         var is_in_module = html_editor_parent_document.mw.tools.firstParentWithClass(this, 'module');
         if (!is_in_module || also_in_modules) {
             fields_arr.push(this);
@@ -37,13 +31,13 @@ mw.html_editor.get_edit_fields = function (also_in_modules) {
 };
 
 mw.html_editor.build_dropdown = function (fields_array) {
-    var html_dd = new Object();
+    var html_dd = {};
     $(fields_array).each(function () {
         var dd_grp = $(this).attr('rel');
         var dd_field = $(this).attr('field');
         if (dd_grp && dd_grp) {
             if (typeof(html_dd[dd_grp]) == 'undefined') {
-                html_dd[dd_grp] = new Array();
+                html_dd[dd_grp] = [];
             }
             var temp = {};
             temp.field = dd_field;
@@ -61,7 +55,7 @@ mw.html_editor.build_dropdown = function (fields_array) {
     $select.attr('id', 'select_edit_field');
     $select.attr('class', 'mw-ui-field');
 
-var has_selected = false;
+    var has_selected = false;
 
     $select.appendTo("#select_edit_field_wrap");
     $.each(html_dd, function (groupName, options) {
@@ -123,9 +117,14 @@ mw.html_editor.populate_editor = function () {
 
     if (typeof(mw.html_editor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
-       d($(mw.html_editor.map[dd_grp + '/' + dd_field].el));
+
         var ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field].el).html();
 
+
+        html_editor_parent_document.mw.tools.scrollTo('[field="'+dd_field+'"][rel="'+dd_grp+'"]')
+
+        html_editor_parent_document.$('.html-editor-selcted').removeClass('html-editor-selcted');
+        html_editor_parent_document.$('[field="'+dd_field+'"][rel="'+dd_grp+'"]').addClass('html-editor-selcted');
 
         var frag = document.createDocumentFragment();
         var html = ed_val;
@@ -244,37 +243,6 @@ mw.html_editor.apply = function () {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 mw.html_editor.reset_content = function () {

@@ -535,8 +535,12 @@ mw.drag = {
       if(!this._onCloneableControl){
         this._onCloneableControl = mwd.createElement('div');
         this._onCloneableControl.className = 'mw-cloneable-control';
-        this._onCloneableControl.innerHTML = '<span class="mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>'
-        this._onCloneableControl.innerHTML += '<span class="mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>'
+        var html = '';
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-prev" title="Move backward"></span>';
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>';
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>' ;
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-next" title="Move forward"></span>';
+        this._onCloneableControl.innerHTML = html
 
         mwd.body.appendChild(this._onCloneableControl);
         $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
@@ -548,6 +552,12 @@ mw.drag = {
             $(this).remove();
           });
         })
+        $('.mw-cloneable-control-next', this._onCloneableControl).on('click', function(){
+           $(mw.drag._onCloneableControl.__target).next().after(mw.drag._onCloneableControl.__target)
+        });
+        $('.mw-cloneable-control-prev', this._onCloneableControl).on('click', function(){
+           $(mw.drag._onCloneableControl.__target).prev().before(mw.drag._onCloneableControl.__target)
+        });
       }
       if(target == 'hide'){
         $(this._onCloneableControl).hide()
