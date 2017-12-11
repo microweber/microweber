@@ -65,7 +65,6 @@ class DefaultController extends Controller
             event_trigger('mw_cron');
         }
 
-        header('Content-Type: application/rss+xml; charset=UTF-8');
 
         $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc');
 
@@ -74,7 +73,21 @@ class DefaultController extends Controller
 
         $views = MW_PATH . 'Views' . DS;
 
+        if (!empty($cont)) {
+            foreach ($cont as $k => $item) {
+
+                    $item['image'] = get_picture($item['id']);
+                    if($item['image']){
+                        $item['image'] = '<img src="'.$item['image'].'" width="100%" /> ' . $item['description'] ;
+                    }
+
+
+                $cont[$k] = $item;
+            }
+        }
+
         \View::addNamespace('mw_views', $views);
+        header('Content-Type: application/rss+xml; charset=UTF-8');
 
         event_trigger('mw_robot_url_hit');
 
@@ -574,7 +587,6 @@ class DefaultController extends Controller
                 define('IN_EDIT', true);
             }
         }
-
 
 
         $request_data = array_merge($_GET, $_POST);
@@ -1278,10 +1290,6 @@ class DefaultController extends Controller
             } else {
 
 
-
-
-
-
                 $found_mod = false;
                 $page = $this->app->content_manager->get_by_url($page_url);
                 $page_exact = $this->app->content_manager->get_by_url($page_url, true);
@@ -1295,214 +1303,210 @@ class DefaultController extends Controller
 
                 if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {
 
-                  $found_mod = true;
-
+                    $found_mod = true;
 
 
                 }
 
 
-               // if ($found_mod == false) {
-                    if (empty($page)) {
-                        $the_new_page_file = false;
-                        $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
-                        $td = templates_path() . $page_url_segment_1;
-                        $td_base = $td;
+                // if ($found_mod == false) {
+                if (empty($page)) {
+                    $the_new_page_file = false;
+                    $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
+                    $td = templates_path() . $page_url_segment_1;
+                    $td_base = $td;
 
-                        $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
-                        $directly_to_file = false;
-                        $page_url_segment_3 = $all_url_segments= $this->app->url_manager->segment(-1, $page_url);
+                    $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
+                    $directly_to_file = false;
+                    $page_url_segment_3 = $all_url_segments = $this->app->url_manager->segment(-1, $page_url);
 
-                        $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
-                        $td_base = templates_path() . $the_active_site_template . DS;
+                    $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                    $td_base = templates_path() . $the_active_site_template . DS;
 
-                        $page_url_segment_3_str = implode(DS, $page_url_segment_3);
+                    $page_url_segment_3_str = implode(DS, $page_url_segment_3);
 
-                        if ($page_url_segment_3_str != '') {
-                            $page_url_segment_3_str = rtrim($page_url_segment_3_str, DS);
-                            $page_url_segment_3_str = rtrim($page_url_segment_3_str, '\\');
-                            $page_url_segment_3_str_copy = $page_url_segment_3_str;
+                    if ($page_url_segment_3_str != '') {
+                        $page_url_segment_3_str = rtrim($page_url_segment_3_str, DS);
+                        $page_url_segment_3_str = rtrim($page_url_segment_3_str, '\\');
+                        $page_url_segment_3_str_copy = $page_url_segment_3_str;
 
-                            $is_ext = get_file_extension($page_url_segment_3_str);
-                            if ($is_ext == false or $is_ext != 'php') {
-                                $page_url_segment_3_str = $page_url_segment_3_str . '.php';
-                            }
-
-                            $td_f = $td_base . DS . $page_url_segment_3_str;
-                            $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
-                            $td_fd2 = $td_base . DS . $page_url_segment_3[0];
-
-                            if (is_file($td_f)) {
-                                $the_new_page_file = $page_url_segment_3_str;
-                                $simply_a_file = $directly_to_file = $td_f;
-                            } else {
-                                if (is_dir($td_fd)) {
-                                    $td_fd_index = $td_fd . DS . 'index.php';
-                                    if (is_file($td_fd_index)) {
-                                        $the_new_page_file = $td_fd_index;
-                                        $simply_a_file = $directly_to_file = $td_fd_index;
-                                    }
-                                } else {
-                                    $is_ext = get_file_extension($td_fd);
-                                    if ($is_ext == false or $is_ext != 'php') {
-                                        $td_fd = $td_fd . '.php';
-                                    }
-                                    $is_ext = get_file_extension($td_fd2);
-                                    if ($is_ext == false or $is_ext != 'php') {
-                                        $td_fd2 = $td_fd2 . '.php';
-                                    }
-                                    if (is_file($td_fd)) {
-                                        $the_new_page_file = $td_fd;
-                                        $simply_a_file = $directly_to_file = $td_fd;
-                                    } elseif (is_file($td_fd2)) {
-                                        $the_new_page_file = $td_fd2;
-                                        $simply_a_file = $directly_to_file = $td_fd2;
-                                    } else {
-                                        $td_basedef = templates_path() . 'default' . DS . $page_url_segment_3_str;
-                                        if (is_file($td_basedef)) {
-                                            $the_new_page_file = $td_basedef;
-                                            $simply_a_file = $directly_to_file = $td_basedef;
-                                        }
-                                    }
-                                }
-                            }
+                        $is_ext = get_file_extension($page_url_segment_3_str);
+                        if ($is_ext == false or $is_ext != 'php') {
+                            $page_url_segment_3_str = $page_url_segment_3_str . '.php';
                         }
 
-                        $fname1 = 'index.php';
-                        $fname2 = $page_url_segment_2 . '.php';
-                        $fname3 = $page_url_segment_2;
+                        $td_f = $td_base . DS . $page_url_segment_3_str;
+                        $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
+                        $td_fd2 = $td_base . DS . $page_url_segment_3[0];
 
-
-                        $tf1 = $td . DS . $fname1;
-                        $tf2 = $td . DS . $fname2;
-                        $tf3 = $td . DS . $fname3;
-
-
-
-
-
-                        if ($directly_to_file == false and is_dir($td)) {
-                            if (is_file($tf1)) {
-                                $simply_a_file = $tf1;
-                                $the_new_page_file = $fname1;
-                            }
-
-                            if (is_file($tf2)) {
-                                $simply_a_file = $tf2;
-                                $the_new_page_file = $fname2;
-                            }
-                            if (is_file($tf3)) {
-                                $simply_a_file = $tf3;
-                                $the_new_page_file = $fname3;
-                            }
-
-                            if (($simply_a_file) != false) {
-                                $simply_a_file = str_replace('..', '', $simply_a_file);
-                                $simply_a_file = normalize_path($simply_a_file, false);
-                            }
-                        }
-
-
-                        if ($simply_a_file == false) {
-
-                            //$page = $this->app->content_manager->homepage();
-                            $page = false;
-                            if (!is_array($page)) {
-                                $page = array();
-
-                                $page['id'] = 0;
-                                $page['content_type'] = 'page';
-                                $page['parent'] = '0';
-                                $page['url'] = $this->app->url_manager->string();
-                                //  $page['active_site_template'] = $page_url_segment_1;
-                                $page['simply_a_file'] = 'clean.php';
-                                $page['layout_file'] = 'clean.php';
-
-                                if ($all_url_segments) {
-                                    $page_url_segments_str_for_file = implode('/', $page_url_segment_3);
-                                    $file1 =  $page_url_segments_str_for_file . '.php';
-                                    $file2 =   'layouts' . DS . $page_url_segments_str_for_file . '.php';
-                                    $render_file_temp = $td_base . $file1;
-                                    $render_file_temp2 = $td_base . $file2;
-
-                                    if(is_file($render_file_temp)){
-                                        $page['simply_a_file'] = $file1;
-                                        $page['layout_file'] = $file1;
-                                    }  else if(is_file($render_file_temp2)){
-                                        $page['simply_a_file'] = $file2;
-                                        $page['layout_file'] = $file2;
-                                    } elseif($found_mod){
-                                         $page['id'] = 0;
-                                        $page['content_type'] = 'page';
-                                        $page['parent'] = '0';
-                                        $page['url'] = $this->app->url_manager->string();
-                                        $page['active_site_template'] = $the_active_site_template;
-                                        template_var('no_edit', 1);
-
-                                        $mod_params = '';
-                                        if ($preview_module_template != false) {
-                                            $mod_params = $mod_params . " template='{$preview_module_template}' ";
-                                        }
-                                        if ($preview_module_id != false) {
-                                            $mod_params = $mod_params . " id='{$preview_module_id}' ";
-                                        }
-                                        $found_mod = $page_url;
-                                        $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
-
-                                        //  $page['simply_a_file'] = 'clean.php';
-                                        $page['layout_file'] = 'clean.php';
-                                        template_var('content', $page['content']);
-
-                                        template_var('new_page', $page);
-                                    }
-                                }
-
-                                $show_404_to_non_admin = true;
-                            } elseif (is_array($page_url_segment_3)) {
-                                foreach ($page_url_segment_3 as $mvalue) {
-                                    if ($found_mod == false and $this->app->modules->is_installed($mvalue)) {
-                                        $found_mod = true;
-                                        $page['id'] = 0;
-                                        $page['content_type'] = 'page';
-                                        $page['parent'] = '0';
-                                        $page['url'] = $this->app->url_manager->string();
-                                        $page['active_site_template'] = $page_url_segment_1;
-                                        $page['content'] = '<module type="' . $mvalue . '" />';
-                                        $page['simply_a_file'] = 'clean.php';
-                                        $page['layout_file'] = 'clean.php';
-                                        template_var('content', $page['content']);
-
-                                        template_var('new_page', $page);
-                                        $show_404_to_non_admin = false;
-                                    }
-                                }
-                            }
+                        if (is_file($td_f)) {
+                            $the_new_page_file = $page_url_segment_3_str;
+                            $simply_a_file = $directly_to_file = $td_f;
                         } else {
-                            if (!is_array($page)) {
-                                $page = array();
+                            if (is_dir($td_fd)) {
+                                $td_fd_index = $td_fd . DS . 'index.php';
+                                if (is_file($td_fd_index)) {
+                                    $the_new_page_file = $td_fd_index;
+                                    $simply_a_file = $directly_to_file = $td_fd_index;
+                                }
+                            } else {
+                                $is_ext = get_file_extension($td_fd);
+                                if ($is_ext == false or $is_ext != 'php') {
+                                    $td_fd = $td_fd . '.php';
+                                }
+                                $is_ext = get_file_extension($td_fd2);
+                                if ($is_ext == false or $is_ext != 'php') {
+                                    $td_fd2 = $td_fd2 . '.php';
+                                }
+                                if (is_file($td_fd)) {
+                                    $the_new_page_file = $td_fd;
+                                    $simply_a_file = $directly_to_file = $td_fd;
+                                } elseif (is_file($td_fd2)) {
+                                    $the_new_page_file = $td_fd2;
+                                    $simply_a_file = $directly_to_file = $td_fd2;
+                                } else {
+                                    $td_basedef = templates_path() . 'default' . DS . $page_url_segment_3_str;
+                                    if (is_file($td_basedef)) {
+                                        $the_new_page_file = $td_basedef;
+                                        $simply_a_file = $directly_to_file = $td_basedef;
+                                    }
+                                }
                             }
+                        }
+                    }
+
+                    $fname1 = 'index.php';
+                    $fname2 = $page_url_segment_2 . '.php';
+                    $fname3 = $page_url_segment_2;
+
+
+                    $tf1 = $td . DS . $fname1;
+                    $tf2 = $td . DS . $fname2;
+                    $tf3 = $td . DS . $fname3;
+
+
+                    if ($directly_to_file == false and is_dir($td)) {
+                        if (is_file($tf1)) {
+                            $simply_a_file = $tf1;
+                            $the_new_page_file = $fname1;
+                        }
+
+                        if (is_file($tf2)) {
+                            $simply_a_file = $tf2;
+                            $the_new_page_file = $fname2;
+                        }
+                        if (is_file($tf3)) {
+                            $simply_a_file = $tf3;
+                            $the_new_page_file = $fname3;
+                        }
+
+                        if (($simply_a_file) != false) {
+                            $simply_a_file = str_replace('..', '', $simply_a_file);
+                            $simply_a_file = normalize_path($simply_a_file, false);
+                        }
+                    }
+
+
+                    if ($simply_a_file == false) {
+
+                        //$page = $this->app->content_manager->homepage();
+                        $page = false;
+                        if (!is_array($page)) {
+                            $page = array();
 
                             $page['id'] = 0;
-
-                            if (isset($page_data) and isset($page_data['id'])) {
-
-                                //  $page['id'] = $page_data['id'];
-                            }
-
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
                             $page['url'] = $this->app->url_manager->string();
+                            //  $page['active_site_template'] = $page_url_segment_1;
+                            $page['simply_a_file'] = 'clean.php';
+                            $page['layout_file'] = 'clean.php';
 
-                            $page['active_site_template'] = $page_url_segment_1;
+                            if ($all_url_segments) {
+                                $page_url_segments_str_for_file = implode('/', $page_url_segment_3);
+                                $file1 = $page_url_segments_str_for_file . '.php';
+                                $file2 = 'layouts' . DS . $page_url_segments_str_for_file . '.php';
+                                $render_file_temp = $td_base . $file1;
+                                $render_file_temp2 = $td_base . $file2;
 
-                            $page['layout_file'] = $the_new_page_file;
-                            $page['simply_a_file'] = $simply_a_file;
+                                if (is_file($render_file_temp)) {
+                                    $page['simply_a_file'] = $file1;
+                                    $page['layout_file'] = $file1;
+                                } else if (is_file($render_file_temp2)) {
+                                    $page['simply_a_file'] = $file2;
+                                    $page['layout_file'] = $file2;
+                                } elseif ($found_mod) {
+                                    $page['id'] = 0;
+                                    $page['content_type'] = 'page';
+                                    $page['parent'] = '0';
+                                    $page['url'] = $this->app->url_manager->string();
+                                    $page['active_site_template'] = $the_active_site_template;
+                                    template_var('no_edit', 1);
 
-                            template_var('new_page', $page);
-                            template_var('simply_a_file', $simply_a_file);
+                                    $mod_params = '';
+                                    if ($preview_module_template != false) {
+                                        $mod_params = $mod_params . " template='{$preview_module_template}' ";
+                                    }
+                                    if ($preview_module_id != false) {
+                                        $mod_params = $mod_params . " id='{$preview_module_id}' ";
+                                    }
+                                    $found_mod = $page_url;
+                                    $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
+
+                                    //  $page['simply_a_file'] = 'clean.php';
+                                    $page['layout_file'] = 'clean.php';
+                                    template_var('content', $page['content']);
+
+                                    template_var('new_page', $page);
+                                }
+                            }
+
+                            $show_404_to_non_admin = true;
+                        } elseif (is_array($page_url_segment_3)) {
+                            foreach ($page_url_segment_3 as $mvalue) {
+                                if ($found_mod == false and $this->app->modules->is_installed($mvalue)) {
+                                    $found_mod = true;
+                                    $page['id'] = 0;
+                                    $page['content_type'] = 'page';
+                                    $page['parent'] = '0';
+                                    $page['url'] = $this->app->url_manager->string();
+                                    $page['active_site_template'] = $page_url_segment_1;
+                                    $page['content'] = '<module type="' . $mvalue . '" />';
+                                    $page['simply_a_file'] = 'clean.php';
+                                    $page['layout_file'] = 'clean.php';
+                                    template_var('content', $page['content']);
+
+                                    template_var('new_page', $page);
+                                    $show_404_to_non_admin = false;
+                                }
+                            }
                         }
+                    } else {
+                        if (!is_array($page)) {
+                            $page = array();
+                        }
+
+                        $page['id'] = 0;
+
+                        if (isset($page_data) and isset($page_data['id'])) {
+
+                            //  $page['id'] = $page_data['id'];
+                        }
+
+                        $page['content_type'] = 'page';
+                        $page['parent'] = '0';
+                        $page['url'] = $this->app->url_manager->string();
+
+                        $page['active_site_template'] = $page_url_segment_1;
+
+                        $page['layout_file'] = $the_new_page_file;
+                        $page['simply_a_file'] = $simply_a_file;
+
+                        template_var('new_page', $page);
+                        template_var('simply_a_file', $simply_a_file);
                     }
-               // }
+                }
+                // }
             }
         }
 
@@ -1780,13 +1784,13 @@ class DefaultController extends Controller
             }
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
-         //   if (!stristr($l, $apijs_loaded)) {
-                //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;;
-                $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
-                $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
-                $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
-          //  }
+            //   if (!stristr($l, $apijs_loaded)) {
+            //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;;
+            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+            $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+            $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+            $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
+            //  }
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
                 $content['active_site_template'] = $the_active_site_template;
@@ -1948,12 +1952,11 @@ class DefaultController extends Controller
             }
 
             $response = \Response::make($l);
- if($is_editmode == true and $is_admin == true){
-            $response->header('Pragma', 'no-cache');
-            $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
-            $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
- }
-
+            if ($is_editmode == true and $is_admin == true) {
+                $response->header('Pragma', 'no-cache');
+                $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
+                $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
+            }
 
 
             return $response;
@@ -2322,8 +2325,8 @@ class DefaultController extends Controller
             }
         }
 
-       // $params = $_REQUEST;
-        $params = array_merge($_GET,$_POST);
+        // $params = $_REQUEST;
+        $params = array_merge($_GET, $_POST);
         $tool = str_replace('..', '', $tool);
 
         $p_index = mw_includes_path() . 'toolbar/editor_tools/index.php';
