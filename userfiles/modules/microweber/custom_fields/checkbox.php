@@ -30,7 +30,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 		<?php $i = 0; foreach($data['values'] as $v):  ?>
 		<?php $i++; ?>
 			<label class="mw-ui-check"   >
-				<input type="checkbox"   name="<?php print $data["name"]; ?>[]" id="field-<?php print $data["id"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $v; ?>" />
+				<input class="<?php print $data["input_class"]; ?>" type="checkbox"   name="<?php print $data["name"]; ?>[]" id="field-<?php print $data["id"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $v; ?>" />
 				<span></span>
 				<span><?php print ($v); ?></span>
             </label>

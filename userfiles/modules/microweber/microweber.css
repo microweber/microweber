@@ -44,7 +44,7 @@
     top: 0;
     left: 50%;
     margin-left: -75px;
-    z-index: 999;
+    z-index: 99999;
     border-radius: 0 0 3px 3px;
 
     font-family: Verdana, Geneva, sans-serif !important;
@@ -161,7 +161,6 @@ img[align='middle'] {
     transform-origin: 50% 50%;
 }
 
-
 .mw-col-container > h1:first-child,
 .mw-col-container > h2:first-child,
 .mw-col-container > h3:first-child,
@@ -186,8 +185,6 @@ img[align='middle'] {
 .mw-col-container .picture:last-child img.element {
     margin-bottom: 0;
 }
-
-
 
 /*****************  Grids  *******************/
 
@@ -217,7 +214,6 @@ img[align='middle'] {
     line-height: 0;
     height: 0;
 }*/
-
 
 .mw-live-edit .element:empty {
     min-height: 20px;
