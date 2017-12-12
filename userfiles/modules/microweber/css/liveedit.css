@@ -466,8 +466,31 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     width: auto !important;
 }
 
-.column_separator_title {
-    background: #E1E1E1;
+.column_separator_title,
+a.mw-make-cols{
+    color: white;
+    background: #2b2b2b;
+    text-decoration: none;
+    display: inline-block;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    height: 23px;
+    border-radius: 30px;
+    padding: 0 7px;
+    line-height: 23px;
+}
+
+#mw_handle_row{
+    background: #2b2b2b;
+    border-radius: 30px;
+    padding: 2px;
+}
+
+.mw-make-cols + .mw_edit_delete {
+    right: -23px !important;
+    border-radius: 30px !important;
+    margin-top: 2px;
 }
 
 #mw_handle_module, #mw_handle_module * {
@@ -489,7 +512,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     margin-right: 3px;
 }
 
-a.mw-make-cols,
+
 #mw_handle_module .mw_edit_settings,
 #mw_handle_module .mw_edit_settings_multiple {
     /*color: #111;
@@ -3578,17 +3601,22 @@ body {
     position: absolute;
     z-index: 1101;
     margin: 5px;
+    background: #2b2b2b;
+    -webkit-border-radius:30px;
+    -moz-border-radius:30px;
+    border-radius:30px;
+    padding: 2px;
 }
 
 .mw-cloneable-control-item {
     /*width: 20px;*/
     /*height: 20px;*/
     /*line-height: 20px;*/
-    line-height: 15px;
-    width: 15px;
-    height: 15px;
+    line-height: 16px;
+    width: 16px;
+    height: 16px;
     border-radius: 40px;
-    background: black;
+    background: #2b2b2b;
     color: white;
     font-family: Arial;
     text-align: center;
@@ -3596,8 +3624,17 @@ body {
     display: block;
     float: left;
     margin: 0 2px;
-    opacity: 0.8;
-    font-size: 9px;
+    /*opacity: 0.8;*/
+    font-size: 13px;
+}
+
+.mw-cloneable-control-item.mw-cloneable-control-minus{
+    font-size: 10px;
+}
+
+.mw-cloneable-control-item:hover{
+    background: #fff;
+    color: #000;
 }
 
 body.isTyping .mw-cloneable-control-item{
@@ -3608,10 +3645,6 @@ body.isTyping .mw-cloneable-control-item{
     content: '\002b';
     font-family: Microweber !important;
     text-transform: none !important;
-}
-
-.mw-cloneable-control-minus {
-    font-size: 7px;
 }
 
 .mw-cloneable-control-minus:after {
