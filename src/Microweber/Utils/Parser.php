@@ -1379,7 +1379,7 @@ if($field != 'content'){
         $pq = \phpQuery::newDocument($layout);
 
 
-        $remove_clases = ['changed','inaccessibleModule','module-over'];
+        $remove_clases = ['changed','inaccessibleModule','module-over', 'currentDragMouseOver'];
 
         foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;

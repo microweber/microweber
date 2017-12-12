@@ -12,7 +12,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 } elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
      $data['input_class'] = $params['input_class'];
 } else {
-	$data['input_class'] = 'form-control';
+	$data['input_class'] = '';
 	
 }
 ?>
@@ -25,7 +25,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
         data-custom-field-id="<?php print $data["id"]; ?>"
         name="<?php print $data["name"]; ?>"
         id="custom_field_help_text<?php print $rand; ?>"
-		class="mw-ui-field"
+		class="<?php print $data['input_class']; ?> mw-ui-field"
         placeholder="<?php print $data["value"]; ?>" />
 
 </div>
