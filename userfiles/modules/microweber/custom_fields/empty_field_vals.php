@@ -34,6 +34,6 @@ if (isset($params['input-class'])) {
 } elseif (isset($params['input_class'])) {
      $data['input_class'] = $params['input_class'];
 } else {
-	// $data['input_class'] = 'form-control';
+	  $data['input_class'] = ' ';
 	
 }
