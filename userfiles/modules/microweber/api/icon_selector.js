@@ -1,7 +1,5 @@
 
-$(document).ready(function(){
-  mw.iconSelector.addCSS('link[href*="/iconsmind.css"]', '.icon-')
-})
+
 
 mw.iconSelector = mw.iconSelector || {
     _string: '',
@@ -184,13 +182,11 @@ mw.iconSelector = mw.iconSelector || {
                 + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:300px">' + mw.iconSelector._string + '</div>'
                 + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:300px">' + theOptions + '</div>'
                 ;
-
               mw.iconSelectorToolTip = mw.tooltip({
                   content: mw.iconSelector._string,
-                  element: mw.iconSelector._activeElement,
+                  element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
                   position: 'bottom-center'
               });
-
               $(mw.iconSelectorToolTip).addClass('tooltip-icon-picker')
 
               $('.mw-icon-selector', mw.iconSelectorToolTip).show();

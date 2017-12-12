@@ -488,7 +488,6 @@ mw.wysiwyg = {
         if(mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])){
           if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
             var text = clipboard.getData('text');
-            console.log(text)
             mw.wysiwyg.insert_html(text);
             e.preventDefault()
             return false;
@@ -899,13 +898,16 @@ mw.wysiwyg = {
                 if (event.keyCode == 13) {
 
                   if(mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])){
-                    event.preventDefault();
-                    if(event.shiftKey){
-                      mw.wysiwyg.insert_html('<br>');
+                    if(!mw.tools.firstMatchesOnNodeOrParent(event.target, ['li'])){
+                      event.preventDefault();
+                      if(event.shiftKey){
+                        mw.wysiwyg.insert_html('<br>');
+                      }
+                      else{
+                        mw.wysiwyg.insert_html('<br><br>');
+                      }
                     }
-                    else{
-                      mw.wysiwyg.insert_html('<br><br>');
-                    }
+
 
                   }
 

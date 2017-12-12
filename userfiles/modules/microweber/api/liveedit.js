@@ -378,9 +378,7 @@ document.body.appendChild(mw.inaccessibleModules);
     });
     $(window).on("onIconElementClick", function(e, el) {
         mw.iconSelector._activeElement = el;
-
-        mw.iconSelector.popup(true);
-
+        mw.iconSelector.popup();
     });
     $(window).on("onElementClick", function(e, el, c) {
 
@@ -554,9 +552,11 @@ mw.drag = {
         })
         $('.mw-cloneable-control-next', this._onCloneableControl).on('click', function(){
            $(mw.drag._onCloneableControl.__target).next().after(mw.drag._onCloneableControl.__target)
+           mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
         $('.mw-cloneable-control-prev', this._onCloneableControl).on('click', function(){
            $(mw.drag._onCloneableControl.__target).prev().before(mw.drag._onCloneableControl.__target)
+           mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
       }
       if(target == 'hide'){
@@ -659,7 +659,6 @@ mw.drag = {
 
                         }
                         else{
-                          console.log(cloneable)
                           if(mw.drag._onCloneableControl && mw.mm_target !== mw.drag._onCloneableControl){
                             $(mw.drag._onCloneableControl).hide()
                           }
@@ -1226,7 +1225,7 @@ mw.drag = {
             }).addClass('mw-active-item');
             $(mw.handle_module).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
-            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings').outerWidth() + 20)
+            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings')[0].offsetWidth + 20)
 
         });
         $(window).on("onRowOver", function(a, element) {

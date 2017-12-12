@@ -627,6 +627,7 @@ a.mw-make-cols.active {
     top: -9999px;
     font-family: Verdana, sans-serif;
     font-size: 12px;
+    margin-top: -17px;
 }
 
 html.mw_pages #mw_handle_module,
@@ -646,6 +647,10 @@ html.mw_pages #items_handle {
     text-align: left;
     background-color: #262626;
     color: #fff;
+}
+
+.mw-icon-selector-set-icon-size{
+  -webkit-appearance: slider-horizontal !important;
 }
 
 /****************************

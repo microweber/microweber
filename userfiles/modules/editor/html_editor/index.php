@@ -13,11 +13,12 @@
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js');
 </script>
 
-
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.js"></script>
 
+ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js"></script>
@@ -25,7 +26,54 @@
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify.js"></script>
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-css.js"></script>
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-html.js"></script>
-
+<!--<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/3024-day.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/3024-night.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/abcdef.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/ambiance.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/base16-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/bespin.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/base16-light.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/blackboard.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/cobalt.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/colorforth.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/dracula.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/duotone-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/eclipse.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/elegant.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/erlang-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/icecoder.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/isotope.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/lesser-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/liquibyte.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/mbo.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/mdn-like.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/midnight.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/monokai.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/neat.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/neo.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/night.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/panda-syntax.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/paraiso-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/paraiso-light.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/pastel-on-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/railscasts.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/rubyblue.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/seti.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/solarized.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/the-matrix.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/tomorrow-night-bright.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/tomorrow-night-eighties.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/ttcn.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/twilight.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/vibrant-ink.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/xq-dark.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/xq-light.css">-->
+<link rel="stylesheet" href="https://codemirror.net/theme/yeti.css">
+<!--<link rel="stylesheet" href="https://codemirror.net/theme/zenburn.css">-->
 
 
 
