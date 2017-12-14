@@ -7,11 +7,21 @@
 
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js');
+    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js');
 </script>
+
+
+
+
+
 
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.js"></script>
@@ -72,10 +82,13 @@
 <link rel="stylesheet" href="https://codemirror.net/theme/vibrant-ink.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/xq-dark.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/xq-light.css">-->
-<link rel="stylesheet" href="https://codemirror.net/theme/yeti.css">
+<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
 <!--<link rel="stylesheet" href="https://codemirror.net/theme/zenburn.css">-->
 
-
+<style>
+    .CodeMirror, #select_edit_field_wrap { height: 100%; }
+</style>
 
 <script type="text/javascript">
     $time_out_handle = 0;
@@ -95,6 +108,7 @@
         });
 
         html_code_area_editor.setOption("theme", 'material');
+        html_code_area_editor.setSize("100%", "100%");
 
         html_code_area_editor.on("change", function (cm, change) {
             var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")

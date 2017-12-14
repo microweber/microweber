@@ -104,7 +104,7 @@
 <script type="text/javascript">
     $time_out_handle = 0;
     $(document).ready(function () {
-        var css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
+        css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
             lineNumbers: true,
             indentWithTabs: true,
 			matchBrackets: true,  
@@ -115,6 +115,7 @@
             }
         });
 
+        css_code_area_editor.setSize("100%", "100%");
 
         css_code_area_editor.on("change", function (cm, change) {
             var custom_css_code_mirror = document.getElementById("custom_css_code_mirror")

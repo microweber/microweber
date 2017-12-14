@@ -11,6 +11,16 @@
                             cm.refresh()
                         }
 
+                        if(typeof(css_code_area_editor) != 'undefined'){
+                            css_code_area_editor.refresh()
+                        }
+                            if(typeof(html_code_area_editor) != 'undefined'){
+                                html_code_area_editor.refresh()
+                    }
+
+
+
+
                     }
                 });
 
