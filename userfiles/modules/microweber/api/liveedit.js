@@ -3410,7 +3410,12 @@ $(document).ready(function() {
 
     setInterval(function(){
 
-      $(".background-image-holder").addClass('element')
+      $(".background-image-holder").each(function(){
+        var po = mw.tools.parentsOrder(this, ['edit', 'module']);
+        if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
+          mw.tools.addClass(this, 'element')
+        }
+      })
 
       var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
       if(all.length !== 0){
