@@ -1976,9 +1976,9 @@ form:after {
     font-weight: 400;
 }
 
-.main-container  input[type],
-.main-container  textarea,
-.main-container  select {
+input[type],
+textarea,
+select {
     -webkit-appearance: none;
     background: #ffffff;
     padding: 0.8125em;
@@ -9976,6 +9976,10 @@ body.mw-live-edit {
     -ms-transition: none !important;
     -o-transition: none !important;
     transition: none !important;
+}
+
+.masonry__container{
+  overflow: hidden;
 }
 
 /*.mw-template-settings .mw_modal_container {*/

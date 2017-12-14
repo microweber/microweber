@@ -86,9 +86,10 @@
     <?php endif; ?>
     <script>
      $(window).on('load', function () {
-      mw.iconSelector.addCSS('link[href*="/iconsmind.css"]', '.icon-')
+       if(mw.iconSelector){
+          mw.iconSelector.addCSS('link[href*="/iconsmind.css"]', '.icon-')
+       }
      });
-
     </script>
 </head>
 <body>

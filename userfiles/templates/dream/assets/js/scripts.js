@@ -782,7 +782,7 @@ mr = (function (mr, $, window, document){
 
                         // If this tag does not appear in the list already, add it
                         if(!filtersList.find('[data-masonry-filter="'+slug+'"]').length){
-                           filtersList.append('<li data-masonry-filter="'+slug+'">'+tag+'</li>');
+                            filtersList.append('<li data-masonry-filter="'+slug+'">'+tag+'</li>');
 
                         }
                     });
