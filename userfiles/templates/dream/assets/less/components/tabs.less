@@ -1,0 +1,68 @@
+// MARKUP:
+//
+// <ul class="tabs">
+//   <li class="active || not">
+//     <div class="tab__title">
+//       ...
+//     </div>
+//     <div class="tab__content">
+//       ...
+//     </div>
+//   </li>
+// </ul>
+//
+// MODIFIERS:
+// .active - place this class on the tab you want initially to be open.
+// [data-content-align] - set to 'left' when you want the tabs aligned center but the content aligned left
+
+.tabs{
+	display: block;
+	margin-bottom: 0;
+	
+	> li{
+		display: inline-block;
+		opacity: .5;
+		.transition(0.3s,ease);
+		.disable-select;
+	}
+	> .active, &:hover{
+		opacity: 1;
+	}
+	.tab__title{
+		cursor: pointer;
+		&:not(.btn){
+			padding: @tab-title-padding;
+		}
+	}
+	li:first-child{
+		.tab__title{
+			&:not(.btn){
+				padding-left: 0;
+			}	
+		}
+	}	
+	.tab__content{
+		display: none;
+	}
+}
+
+.tabs-content{
+	margin-top: 1em;
+	li > .tab__content{
+		width: 100%;
+		display: none;
+	}
+	> .active{
+		> .tab__content{
+			display: block;
+		}
+	}
+}
+
+.tabs-container{
+	&[data-content-align="left"]{
+		.tabs-content{
+			text-align: left;
+		}
+	}
+}

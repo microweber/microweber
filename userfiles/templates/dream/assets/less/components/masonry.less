@@ -1,0 +1,38 @@
+// MARKUP:
+//
+// <div class="masonry">
+//   <div class="masonry__item col-*">
+//       ...
+//   </div>
+// </div>
+//
+// MODIFIERS:
+// .modal-trigger[data-modal-id] - use any element to trigger a modal using its ID
+// [data-autoshow] - place on '.modal-container' outside the main container for autoshow modals
+// [data-width][data-height] - place on modal content to control height in %
+
+.masonry{
+	.masonry__container{
+		&.masonry--active{
+			.masonry__item{
+				opacity: 1;
+				pointer-events: initial;
+			}
+		}
+		.masonry__item{
+			opacity: 0;
+			pointer-events: none;
+		}
+	}
+	.masonry__filters{
+		li{
+			display: inline-block;
+			cursor: pointer;
+			text-transform: capitalize;
+			.disable-select();
+			&.active{
+				cursor: default;
+			}
+		}
+	}
+}

@@ -1,0 +1,346 @@
+// MARKUP FOR LOCAL VIDEO BACKGROUNDS
+//
+// <section || div class="videobg imagebg">
+//   <div class="background-image-holder">
+//     <img />
+//   </div>
+//
+//   <video autoplay muted loop>...</video>
+// </section || /div>
+//
+//
+// MARKUP FOR YOUTUBE BACKGROUNDS
+//
+// <section || div class="videobg imagebg">
+//   <div class="background-image-holder">
+//     <img />
+//   </div>
+//
+//   <div class="youtube-background" data-video-url="9d8wWcJLnFI" data-start-at="0"></div>
+// </section || /div>
+//
+//
+// MODIFIERS:
+// [data-video-url] - the unique ID for the video obtained from Youtube
+// [data-start-at] - at what point through the video (in seconds) do you want it to start playing
+//
+//
+// MARKUP FOR VIDEO COVERS
+//
+// <div class="video-cover">
+//   <div class="background-image-holder">
+//     <img />
+//   </div>
+//
+//   <div class="video-play-icon video-play-icon--dark"></div>
+//
+//   <video>...</video> || <iframe></iframe>
+// </div>
+//
+//
+// MODIFIERS:
+// .video-play-icon--dark - make the play icon dark instead of white
+// .video-play-icon--sm - make the play icon smaller
+
+
+iframe{
+		width: 100%;
+		min-height: 350px;
+		border: none;
+	}
+
+@media all and (max-width: 767px){
+	iframe{
+		min-height: 220px;
+	}
+}
+
+.videobg{
+	background: @color-dark;
+	position: relative;
+	overflow: hidden;
+	.container, .background-image-holder{
+		opacity: 0;
+		.transition(0.3s,linear);
+	}
+	.background-image-holder{
+		opacity: 0 !important;
+	}
+	&.video-active{
+		.container{
+			opacity: 1;
+		}
+		.loading-indicator{
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+	video{
+			object-fit: cover;
+			height: 100%;
+			min-width: 100%;
+			position: absolute;
+			top: 0;
+			z-index: 0 !important;
+			left: 0;
+	}
+}
+
+@media all and (max-width: 1024px){
+	.videobg{
+		.background-image-holder, .container{
+			opacity: 1 !important;
+		}
+		.loading-indicator{
+			display: none;
+		}
+		video{
+			display: none;
+		}
+	}
+}
+
+.youtube-background{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	z-index: 0 !important;
+	.mb_YTPBar{
+		opacity: 0;
+		height: 0;
+		visibility: hidden;
+	}
+}
+
+@media all and(max-width: 1024px){
+	.youtube-background{
+		display: none;
+	}
+}
+
+.loading-indicator{
+	position: absolute !important;
+	top: 50%;
+	left: 50%;
+	z-index: 99 !important;
+	width: 50px;
+	height: 50px;
+	margin-top: -25px;
+	margin-left: -25px;
+	background-color: #fff;
+	border-radius: 100%;  
+	-webkit-animation: loading-spinner 1.0s infinite ease-in-out;
+	animation: loading-spinner 1.0s infinite ease-in-out;
+	.transition(0.3s,linear);
+}
+
+@-webkit-keyframes loading-spinner {
+  0% { -webkit-transform: scale(0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes loading-spinner {
+  0% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 100% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+.video-cover{
+	position: relative;
+	video{
+		max-width: 100%;
+	}
+	iframe{
+		background: @color-dark;
+	}
+	.background-image-holder{
+		z-index: 3;
+	}
+	.video-play-icon{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		.translate3d(-50%,-50%,0);
+	}
+	.video-play-icon, .background-image-holder{
+		.transition(.3s,linear);
+	}
+	&.reveal-video{
+		.video-play-icon, .background-image-holder{
+			opacity: 0 !important;
+			pointer-events: none;
+		}
+	}
+	&[data-scrim-bottom],&[data-overlay],&[data-scrim-top]{
+		&:before{
+			.transition(0.3s,linear);
+			z-index: 4;
+		}
+	}
+	&.reveal-video{
+		&[data-scrim-bottom],&[data-overlay],&[data-scrim-top]{
+			&:before{
+				opacity: 0;
+				pointer-events: none;
+			}
+		}
+	}
+}
+
+.video-play-icon{
+	width: @play-icon-width-height;
+	height: @play-icon-width-height;
+	border-radius: 50%;
+	position: relative;
+	z-index: 4;
+	display: inline-block;
+	border: @play-icon-border;
+	cursor: pointer;
+	&.video-play-icon--sm{
+		width: @play-icon-width-height / 2;
+		height: @play-icon-width-height / 2;
+		&:before{
+			border-width: @play-icon-triangle/1.5 0 @play-icon-triangle/1.5 @play-icon-triangle * 1.5;	
+		}
+	}
+	&.video-play-icon--xs{
+		width: @play-icon-width-height / 4;
+		height: @play-icon-width-height / 4;
+		&:before{
+			border-width: @play-icon-triangle/2 0 @play-icon-triangle/2 @play-icon-triangle * 1;
+			margin-left: -3px;	
+		}
+	}
+	&.bg--primary{
+		&:before{
+			border-color: transparent transparent transparent #fff;
+		}
+	}
+	&when (@play-icon-filled = true){
+		background: @play-icon-default-color;
+	}
+	&:before{
+		position: absolute;
+		top: 50%;
+		margin-top: -@play-icon-triangle + 1;
+		left: 50%;
+		margin-left: -@play-icon-triangle + 2;
+		content: '';
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: @play-icon-triangle 0 @play-icon-triangle @play-icon-triangle*2;
+		border-color: transparent transparent transparent @play-icon-default-color;
+		&when (@play-icon-filled = true){
+			border-color: transparent transparent transparent darken(@play-icon-default-color,50%);
+		}
+	}
+
+	&.video-play-icon--dark{
+		border-color: @color-dark;
+		&:before{
+			border-color: transparent transparent transparent @color-dark;	
+		}
+		&when (@play-icon-filled = true){
+			background: @color-dark;
+			&:before{
+				border-color: transparent transparent transparent #fff;	
+			}
+		}
+	}
+
+}
+
+@media all and (max-width: 767px){
+	.video-play-icon{
+		width: @play-icon-width-height / 1.5;
+		height: @play-icon-width-height / 1.5;
+	}
+}
+
+div[class*='col-'][class*='12']:not([class*='xs-12']){
+	.video-cover{
+		iframe{
+			min-height: 550px;
+		}
+	}
+}
+
+@media all and (max-width: 990px){
+	div[class*='col-'][class*='12']:not([class*='xs-12']){
+		.video-cover{
+			iframe{
+				min-height: 350px;
+			}
+		}
+	}
+}
+
+div[class*='col-'][class*='10']{
+	.video-cover{
+		iframe{
+			min-height: 450px;
+		}
+	}
+}
+
+div[class*='col-'][class*='8']{
+	.video-cover{
+		iframe{
+			min-height: 400px;
+		}
+	}
+}
+
+div[class*='col-'][class*='6']{
+	.video-cover{
+		iframe{
+			min-height: 350px;
+		}
+	}
+}
+
+@media all and (max-width: 1200px){
+	div[class*='col-'][class*='6']{
+		.video-cover{
+			iframe{
+				min-height: 300px;
+			}
+		}
+	}	
+}
+
+@media all and (max-width: 990px){
+	div[class*='col-'][class*='6']{
+		.video-cover{
+			iframe{
+				min-height: 220px;
+			}
+		}
+	}	
+}
+
+@media all and (max-width: 767px){
+	div[class*='col-']{
+		.video-cover{
+			iframe{
+				min-height: 220px !important;
+			}
+		}
+	}	
+}
+
+.modal-container{
+	video{
+		max-width: 100%;
+	}
+}

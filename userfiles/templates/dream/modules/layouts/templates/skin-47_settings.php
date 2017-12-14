@@ -1,0 +1,1 @@
+<?php include('default_settings.php'); ?>

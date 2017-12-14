@@ -1,0 +1,114 @@
+// MARKUP:
+//
+// <div class="modal-instance">
+//   <a class="modal-trigger">Trigger</a>
+//   <div class="modal-container" data-modal-id="optional">
+//     <div class="modal-content" data-width="80" data-height="80">
+//       ...
+//     </div>
+//   </div>
+// </div>
+//
+// MODIFIERS:
+// .modal-trigger[data-modal-id] - use any element to trigger a modal using its ID
+// [data-autoshow] - place on '.modal-container' outside the main container for autoshow modals
+// [data-width][data-height] - place on modal content to control height in %
+// .height--natural - (on modal-content) content dictates the height and width for the modal
+
+.modal-instance{
+	.modal-body{
+		display: none;
+	}
+}
+.modal-container{
+	.transition(0.3s,linear);
+	padding: 0;
+	visibility: hidden;
+	opacity: 0;
+	z-index: -1;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	&.modal-active{
+		opacity: 1;
+		visibility: visible;
+		z-index: 999;
+	}
+	&:before{
+		background: rgba(0,0,0,0.85);
+		content: '';
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 1;
+	}
+	.modal-content{
+		backface-visibility: hidden;
+		position: fixed;
+		z-index: 2;
+		top: 50%;
+		left: 50%;
+		max-height: 100%;
+		overflow-y: auto;
+		border: none;
+		.translate3d(-50%,-50%,0);
+		&:not(.height--natural){
+			width: 50%;
+			height: 50%;
+		}
+		padding: @default-modal-padding;
+		border-radius: 0;
+		box-shadow: none;
+		.modal-close-cross{
+			cursor: pointer;
+			position: absolute;
+			opacity: .5;
+			.transition(0.1s,linear);
+			top: 1em;
+			right: 1em;
+			z-index: 99;
+			&:before{
+				content: '\2715';
+				font-size: 1.5em;
+			}
+			&:hover{
+				opacity: 1;
+			}
+		}
+		&.imagebg:not(.image--light) .modal-close-cross{
+			&:before{
+				color: #fff;
+			}
+		}
+		
+		iframe{
+			width: 100%;
+			outline: none;
+			border: none;
+			height: 100%;
+			backface-visibility: hidden;
+			&:first-child{
+				+.modal-close-cross{
+					&:last-child{
+						top: -@base-line-height*2;
+					}
+				}
+			}
+		}	
+	}
+}
+
+@media all and (max-width: 767px){
+	.modal-container{
+		.modal-content{
+			width: 97% !important;
+			height: auto !important;
+			padding-top: 2em;
+			padding-bottom: 2em;
+		}
+	}
+}

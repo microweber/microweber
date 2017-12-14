@@ -1,0 +1,85 @@
+// MARKUP:
+//
+// <section class="image-block">
+//   <div class="image-block__content pos-left">
+//     ...
+//   </div>
+//
+//   <div class="container">
+//     ...
+//   </div>
+// </section>
+//
+// MODIFIERS:
+// .pos-left,.pos-right,.col-* - Adjust the position and width of the image blocks content on the '.imaeg-block__content' element.
+
+.imageblock{
+	position: relative;
+	padding: 0;
+	> .container, > div[class*='col-']:not(.imageblock__content){
+		padding-top: @standard-space-n;
+		padding-bottom: @standard-space-s;
+		float: none;
+		overflow: hidden;
+	}
+	&.imageblock--lg{
+		> .container, > div[class*='col-']:not(.imageblock__content){
+			padding-top: @standard-space-s * 1.25;
+			padding-bottom: @standard-space-s * 1.25;
+			float: none;
+			overflow: hidden;
+		}	
+	}
+	.imageblock__content{
+		position: absolute;
+		height: 100%;
+		top: 0;
+		z-index: 2;
+		padding: 0;
+		.slider{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			.slides{
+				> li{
+					padding: 0;
+					min-height: 100%;
+					position: absolute !important;
+				}
+			}
+		}
+	}
+	&.allow-overflow{
+		.imageblock__content{
+			overflow: visible;
+		}
+	}
+}
+
+@media all and (max-width: 767px){
+	.imageblock{
+		&[class*='space-']{
+			padding-bottom: 0;
+			padding-top: 0;
+		}
+		.imageblock__content{
+			position: relative;
+			min-height: @base-line-height * 10;
+		}
+		> .container, > div[class*='col-']:not(.imageblock__content){
+			padding-top: @standard-space-mobile;
+			padding-bottom: @standard-space-mobile;
+			float: none;
+			overflow: hidden;
+		}
+		&.imageblock--lg{
+			> .container, > div[class*='col-']:not(.imageblock__content){
+				padding-top: @standard-space-mobile;
+				padding-bottom: @standard-space-mobile;
+				float: none;
+				overflow: hidden;
+			}	
+		}
+	}
+}

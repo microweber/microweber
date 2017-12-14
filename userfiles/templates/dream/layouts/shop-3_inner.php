@@ -1,0 +1,1 @@
+<?php include('shop_elements/inner.php'); ?>

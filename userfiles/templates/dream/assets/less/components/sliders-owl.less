@@ -1,0 +1,240 @@
+// MARKUP:
+// <div || section class="slider" data-animation="fade" data-arrows="true" data-pageing="false" data-timing="5000">
+//  <ul class="slides">
+//    <li>
+//      ...
+//    </li>
+//  </ul>
+// </div>
+//
+// MODIFIERS
+// [data-items] - denotes the number of items the slider should show
+// [data-arrows] - T/F do you want navigation arrows (left/right)?
+// [data-paging] - T/F do you want paging navigation?
+// [data-timing] - How long in ms for each slide?
+// .slider-controls--white - For the sliders controls to be white
+
+
+section.slider{
+	padding: 0 !important;
+	overflow: hidden;
+	position: relative;
+	.owl-theme{
+		.owl-controls{
+			.owl-nav{
+				div.owl-prev, div.owl-next{
+					color: #fff;
+				}
+			}
+		}
+	}
+}
+
+.slides{
+	margin: 0;
+	overflow: hidden;
+	li{
+		>[class*='col-']{
+			&:first-child{
+				&:last-child{
+					&:not([class*='offset']){
+						width: 100% !important;
+					}
+				}
+			}
+		}
+	}
+}
+
+.heightSlides(@number) when (@number > 0){
+	.heightSlides((@number - 1));
+	@multiplier: @number*10;
+	&.height-@{multiplier}{
+		height: auto;
+		.slides li{
+			height: @number*10vh;
+			padding: 0;
+		}
+	}
+}
+
+.slider{
+	position: relative;
+	overflow: hidden;
+	.slides li{
+		position: relative;
+		padding: @standard-space-n 0;
+	}
+	&.space--lg{
+		.slides li{
+			padding: @standard-space-n * 2 0;
+		}
+	}
+	&.space--xlg{
+		.slides li{
+			padding: @standard-space-n * 4 0;
+		}
+	}
+	&:hover{
+		.flex-direction-nav{
+			a{
+				opacity: 1;
+			}
+		}
+	}
+	.heightSlides(10);
+	&.slider-controls--white{
+		.flex-direction-nav{
+			a{
+				color: #fff;
+			}
+		}
+		.flex-control-paging{
+			a{
+				background: #fff;
+			}
+		}
+	}
+}
+
+.slider[data-animation="slide"]{
+	.slides{
+		li{
+			-webkit-backface-visibility: hidden;
+		}
+	}
+}
+
+@media all and (max-width: 767px){
+	.slider{
+		&[class*='height-']{
+			.slides li{
+				height: auto;
+				padding: @standard-space-n 0;
+			}
+		}
+		&.space--lg{
+			.slides li{
+				padding: @standard-space-mobile * 2 0;
+			}
+		}
+		&.space--xlg{
+			.slides li{
+				padding: @standard-space-mobile * 2 0;
+			}
+		}
+	}
+}
+
+.owl-theme .owl-controls{
+	margin: 0;
+}
+
+.owl-theme .owl-controls .owl-dots{
+	position: absolute;
+	width: 100%;
+	bottom: @base-line-height;
+	z-index: 99;
+	text-align: @slider-paging-alignment;
+	.owl-dot{
+		display: inline-block;
+		margin: 0 @slider-paging-spacing;
+		overflow: hidden;
+		span{
+			display: inline-block;
+			height: @slider-paging-height;
+			width: @slider-paging-width;
+			border-radius: @slider-paging-radius;
+			background: @slider-paging-bg;
+			border: @slider-paging-border;
+			box-shadow: none;
+			margin: 0;
+			&:hover{
+				background: @slider-paging-bg-active;
+			}
+		}
+		&.active{
+			span{
+				background: @slider-paging-bg-active;
+			}
+		}
+	}
+}
+
+.owl-theme .owl-controls .owl-nav{
+	position:absolute;
+	z-index: 99;
+	top: 50%;
+	width: 100%;
+	.translate3d(0,-50%,0);
+	div{
+		.transition(0.3s,ease);
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		background: none;
+		&:before{
+			font-family: @slider-arrow-font;
+			font-size: @slider-arrow-size;
+			text-align: center;
+		}
+		&.owl-next{
+			right: @base-line-height;
+			&:before{ 
+				content: @slider-arrow-right;
+			}
+		}
+		&.owl-prev{
+			left: @base-line-height;
+			&:before{ 
+				content: @slider-arrow-left;
+			}
+		}
+	}
+}
+
+.slider.slider--controlsoutside{
+	overflow: visible;
+	.slides li{
+		padding: 0;
+	}
+	&[data-paging="true"]{
+		.owl-theme .owl-controls .owl-dots{
+			position: relative;
+			bottom: 0;
+			.owl-dot{
+				display: inline-block;
+				span{
+					background: @color-dark;
+					display: inline-block;
+				}
+			}
+		}
+	}
+	&[data-arrows="true"]{
+		.owl-theme .owl-controls .owl-nav{
+			.owl-next{
+				right: -4em;
+			}
+			.owl-prev{
+				left: -4em;
+			}
+		}
+	}
+}
+
+.imagebg,section.bg--dark{
+	.slider.slider--controlsoutside{
+		&[data-paging="true"]{
+		.owl-theme .owl-controls .owl-dots{
+			position: relative;
+			bottom: 0;
+			.owl-dot{
+				span{
+					background: #fff;
+				}
+			}
+		}
+	}
+	}
+}

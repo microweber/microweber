@@ -1,0 +1,85 @@
+.transition(@time,@ease){
+	transition: @time @ease ;
+	-webkit-transition: @time @ease ;
+	-moz-transition: @time @ease ;
+}
+
+.rotate(@amount){
+	transform: rotate(@amount);
+	-webkit-transform: rotate(@amount);
+}
+
+.scale(@amount){
+	transform: scale(@amount);
+	-webkit-transform: scale(@amount);
+}
+
+.translate3d(@x,@y,@z){
+	transform: translate3d(@x,@y,@z);
+	-webkit-transform: translate3d(@x,@y,@z);
+}
+
+.placeholder-text(@color){
+	&::-webkit-input-placeholder {
+	   color: @color;
+	   font-size: @input-placeholder-size;
+	}
+	&:-moz-placeholder { /* Firefox 18- */
+	color: @color;
+	   font-size: @input-placeholder-size;
+	}
+	&::-moz-placeholder {  /* Firefox 19+ */
+	   color: @color;
+	   font-size: @input-placeholder-size;
+	}
+	&:-ms-input-placeholder {  
+	   color: @color;
+	   font-size: @input-placeholder-size;
+	}
+}
+
+.disable-select() {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.smart-text-color (@color,@amount) when (lightness(@color) >= 50%) {
+  color: darken(@color,@amount);
+}
+.smart-text-color (@color,@amount) when (lightness(@color) < 50%) {
+  color: lighten(@color,@amount);
+}
+.smart-text-color (@color,@amount) when (lightness(@color) < 20%) {
+  color: lighten(@color,80%);
+}
+
+.translate3d(@x,@y,@z){
+	transform: translate3d(@x,@y,@z);
+	-webkit-transform: translate3d(@x,@y,@z);
+}
+
+.animation(@name,@duration,@timing,@delay,@fillmode){
+	animation: @name @duration @timing @delay @fillmode; 
+	-webkit-animation: @name @duration @timing @delay @fillmode; 
+	-moz-animation: @name @duration @timing @delay @fillmode;
+}
+
+.box-shadow(@level: 1){
+    & when (@level = 1) {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    & when (@level = 2) {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+    & when (@level = 3) {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    }
+    & when (@level = 4) {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+    & when (@level = 5) {
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    }
+}

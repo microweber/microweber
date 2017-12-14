@@ -1,0 +1,33 @@
+// MARKUP:
+//
+// <section class="transition--NAME">...</section>
+//
+//
+// MODIFIERS:
+// --fade - will fade the transition element in with opacity
+// --scale - will make the element grow to full size on load
+// --slide - will bring the content in from the right-side on load
+
+[class*='transition--']{
+	.transition(0.3s,ease);
+	opacity: 0;	
+	&.transition--active{
+		opacity: 1;
+	}
+}
+
+.transition--scale{
+	.scale(.98);
+	&.transition--active{
+		opacity: 1;
+		.scale(1);
+	}
+}
+
+.transition--slide{
+	.translate3d(200px,0,0);
+	.translate3d(30vw,0,0);
+	&.transition--active{
+		.translate3d(0,0,0);
+	}
+}

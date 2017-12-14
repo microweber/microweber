@@ -1,0 +1,164 @@
+body{
+	background: @color-bg-site;
+}
+
+.color--primary{
+	color: @color-primary !important;
+}
+
+a{
+	color: @color-primary;
+}
+
+&when (@has-primary-1 = true){
+	.color--primary-1{
+		color: @color-primary-1 !important;
+	}
+}
+
+&when (@has-primary-2 = true){
+	.color--primary-2{
+		color: @color-primary-2 !important;
+	}
+}
+
+.color--white{
+	color: #fff;
+}
+
+.color--dark{
+	color: @color-dark;
+}
+
+.bg--dark{
+	background: @color-dark;
+	&:not(.nav-bar){
+		h1,h2,h3,h4,h5,h6,i,span:not(.btn__text),p{
+			color: @color-on-dark;
+		}
+		color: @color-on-dark;
+		a:not(.btn){
+			color: #fff;
+		}
+	}
+}
+
+.bg--site{
+	background: @color-bg-site;
+}
+
+.bg--secondary{
+	background: @color-bg-secondary;
+}
+
+.bg--primary{
+	background: @color-primary;
+	p,span,ul,a:not(.btn){
+		color: #fff;
+	}
+	h1,h2,h3,h4,h5,h6,i{
+		color: #fff;
+	}
+}
+
+.bg--white{
+	background: #fff;
+	p,span,ul,a:not(.btn){
+		color: @color-body;
+	}
+	h1,h2,h3,h4,h5,h6,i{
+		color: @color-dark;
+	}
+}
+
+.imagebg:not(.image--light){
+	.bg--white{
+		p,span,ul,a:not(.btn){
+			color: @color-body;
+		}
+		h1,h2,h3,h4,h5,h6,i{
+			color: @color-dark;
+		}	
+	}
+}
+
+&when (@has-primary-1 = true){
+	.bg--primary-1{
+		background: @color-primary-1;
+		p,span,ul,a:not(.btn){
+			color: #fff;
+		}
+		h1,h2,h3,h4,h5,h6,i{
+			color: #fff;
+		}
+	}
+}
+
+&when (@has-primary-2 = true){
+	.bg--primary-2{
+		background: @color-primary-2;
+		p,span,ul,a:not(.btn){
+			color: #fff;
+		}
+		h1,h2,h3,h4,h5,h6,i{
+			color: #fff;
+		}
+	}
+}
+
+.image-bg:not(.image-light){
+	*:not(a){
+		color: #fff;
+	}
+}
+
+.color--facebook{
+	color: #3b5998;
+}
+.color--twitter{
+	color: #00aced;
+}
+.color--googleplus{
+	color: #dd4b39;
+}
+.color--instagram{
+	color: #125688;
+}
+.color--pinterest{
+	color: #cb2027;
+}
+.color--dribbble{
+	color: #ea4c89;
+}
+.color--behance{
+	color: #053eff;
+}
+
+.bg--facebook{
+	background: #3b5998;
+	color: #fff;	
+}
+.bg--twitter{
+	background: #00aced;
+	color: #fff;	
+}
+.bg--googleplus{
+	background: #dd4b39;
+	color: #fff;	
+}
+.bg--instagram{
+	background: #125688;
+	color: #fff;	
+}
+.bg--pinterest{
+	background: #cb2027;
+	color: #fff;	
+}
+.bg--dribbble{
+	background: #ea4c89;
+	color: #fff;	
+}
+.bg--behance{
+	background: #053eff;
+	color: #fff;	
+}

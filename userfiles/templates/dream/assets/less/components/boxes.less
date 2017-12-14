@@ -1,0 +1,65 @@
+// DESCRIPTION:
+// An easy way to create 'card' like content
+// that appears inside a padded box.
+//
+//
+// MARKUP:
+//
+// <div class="boxed">
+//   ...
+// </div>
+//
+// MODIFIERS:
+// .boxed--lg - place more padding on the box
+// .boxed--sm - place less padding on the box
+// .boxed--border - place a border around the box
+// .bg--primary, .bg--primary-1 etc. - Change the BG colour of the box
+
+.boxed{
+	position: relative;
+	overflow: hidden;
+	padding: @box-padding;
+	margin-bottom: 30px;
+	&.boxed--lg{
+		padding: @box-padding * 1.5;
+	}
+	&.boxed--sm{
+		padding: @box-padding / 1.5;
+	}
+	&.boxed--border{
+		border: @box-border;
+	}
+	>div[class*='col-']:first-child:not(.boxed){
+		padding-left: 0;
+	}
+	>div[class*='col-']:last-child:not(.boxed){
+		padding-right: 0;
+	}
+}
+
+img + .boxed{
+	margin-top: -@base-line-height;
+}
+
+@media all and (max-width: 767px){
+	.boxed{
+		padding: @box-padding/1.5;
+		margin-bottom: 15px;
+		&.boxed--lg{
+			padding: @box-padding/1.5;
+		}
+		div[class*='col-']:not(.boxed){
+			padding: 0;
+		}
+		&:last-child{
+			margin-bottom: 15px;
+		}
+	}
+	.row:last-child{
+		div[class*='col-']:last-child{
+			.boxed:last-child{
+				margin-bottom: 0;
+			}
+		}
+	}
+}

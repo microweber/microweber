@@ -1,0 +1,96 @@
+section,footer{
+	padding-top: @standard-space-n;
+	padding-bottom: @standard-space-s;
+	&.space--xxs{
+		padding-top: @standard-space-n/4;
+		padding-bottom: @standard-space-n/4;
+	}
+	&.space--xs{
+		padding-top: @standard-space-n/2;
+		padding-bottom: @standard-space-n/2;
+	}
+	&.space--sm{
+		padding-top: @standard-space-n/1.5;
+		padding-bottom: @standard-space-n/1.5;
+	}
+	&.space--md{
+		padding-top: @standard-space-n *1.5;
+		padding-bottom: @standard-space-n *1.5;
+	}
+	&.space--lg{
+		padding-top: @standard-space-n * 2;
+		padding-bottom: @standard-space-n * 2;
+	}
+	&.space--xlg{
+		padding-top: @standard-space-n * 4;
+		padding-bottom: @standard-space-s * 4;
+	}
+	&.space--0{
+		padding: 0;
+	}
+	&.section--even{
+		padding-top: @standard-space-s;
+		padding-bottom: @standard-space-s;
+	}
+	&.space-bottom--sm{
+		padding-bottom: @standard-space-n/1.5;
+	}
+}
+
+
+@media all and (max-width: 767px){
+	section,footer,section.section--even{
+		padding: @standard-space-mobile 0;
+		&.space--lg{
+			padding: @standard-space-mobile 0;
+		}
+		&.space--xlg{
+			padding: @standard-space-mobile * 1.5 0;
+		}
+	}
+	
+}
+
+// Bootstrap nested columns
+
+div[class*='col-'] > div[class*='col-']:first-child{
+	padding-left: 0;
+}
+
+div[class*='col-'] > div[class*='col-']:last-child{
+	padding-right: 0;
+}
+
+// Bootstrap six col fix
+
+@media all and (max-width: 767px){
+	.col-xs-6:nth-child(odd){
+		padding-right: 7.5px;
+	}
+	.col-xs-6:nth-child(even){
+		padding-left: 7.5px;
+	}
+}
+
+// Spacing Classes
+
+@media all and (min-width: 768px){
+	.mt--1{
+		margin-top: @base-line-height;
+	}
+	.mt--2{
+		margin-top: @base-line-height*2;
+	}
+	.mt--3{
+		margin-top: @base-line-height*3;
+	}
+}
+
+@media all and (max-width: 990px){
+	.mt--1,.mt--2{
+		margin-top: @base-line-height;
+	}
+	.mt--3{
+		margin-top: @base-line-height*1.5;
+	}
+}

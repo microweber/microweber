@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2016 by original authors @ fontello.com</metadata>
+<defs>
+<font id="pillar-interface" horiz-adv-x="1000" >
+<font-face font-family="pillar-interface" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="down-open-big" unicode="&#xe800;" d="M63 570l370-356 372 356q22 26 48 0 26-22 0-48l-396-392q-22-22-48 0l-396 392q-26 26 0 48 24 24 50 0z" horiz-adv-x="866" />
+
+<glyph glyph-name="left-open-big" unicode="&#xe801;" d="M452-20q26-26 0-48-26-26-48 0l-392 394q-24 24 0 50l392 394q22 26 48 0 26-22 0-48l-358-372z" horiz-adv-x="465" />
+
+<glyph glyph-name="right-open-big" unicode="&#xe802;" d="M13-20l358 370-358 372q-26 26 0 48 26 26 48 0l392-394q24-26 0-50l-392-394q-22-26-48 0-26 22 0 48z" horiz-adv-x="465" />
+
+<glyph glyph-name="up-open-big" unicode="&#xe803;" d="M804 130l-372 358-370-358q-26-22-50 0-24 24 0 50l396 390q26 26 48 0l396-390q24-26 0-50-26-22-48 0z" horiz-adv-x="864" />
+
+<glyph glyph-name="bag" unicode="&#xe804;" d="M835 668q28-26 24-60l-98-648q-8-30-38-30l-586 0q-28 0-40 30-94 620-96 648-5 34 22 60 6 6 54 43t56 43q18 16 56 16l480 0q38 0 56-16 78-58 110-86z m-406-436q56 0 98 34t63 89 30 89 13 66l-92 0q-38-188-112-188t-112 188l-92 0q46-278 204-278z m-352 368l704 0-110 116-484 0z" horiz-adv-x="859" />
+
+<glyph glyph-name="search" unicode="&#xe805;" d="M772 78q30-34 6-62l-46-46q-36-32-68 0l-190 190q-74-42-156-42-128 0-223 95t-95 223 90 219 218 91 224-95 96-223q0-88-46-162z m-678 358q0-88 68-156t156-68 151 63 63 153q0 88-68 155t-156 67-151-63-63-151z" horiz-adv-x="789" />
+</font>
+</defs>
+</svg>

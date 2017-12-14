@@ -1,0 +1,23 @@
+.height-100,.height-90,.height-80,.height-70,.height-60,.height-50,.height-40,.height-30,.height-20,.height-10{
+	height: auto;
+	padding: 5em 0;
+}
+
+@media all and (max-width: 767px){
+	.height-100,.height-90,.height-80,.height-70,.height-60,.height-50,.height-40,.height-30,.height-20,.height-10{
+		height: auto;
+		padding: 4em 0;
+	}
+}
+
+.heightClasses(@number) when (@number > 0){
+	.heightClasses((@number - 1));
+	@multiplier: @number*10;
+	.height-@{multiplier}{
+		height: @number*10vh;
+	}
+}
+
+@media all and (min-height: 600px) and (min-width: 767px){
+	.heightClasses(10);
+}

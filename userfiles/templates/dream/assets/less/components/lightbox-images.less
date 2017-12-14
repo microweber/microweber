@@ -1,0 +1,41 @@
+// MARKUP:
+// 
+// <ul class="ligtbox-gallery gallery--gaps masonry" data-grid="6">
+//   <li>
+//     <a href="big-image.jpg" data-lightbox="gallery name">
+//       <img />
+//     </a>
+//   </li>
+// </ul>
+//
+//
+// MODIFIERS:
+// .gallery--gaps - make whitespace around each item
+// .masonry - arrange the items in a masonry layout
+// [data-grid] - how many items per row
+
+.lb-outerContainer{
+	border-radius: 0;
+	.lb-container{
+		padding: 0;
+		img{
+			margin: 0;
+		}
+	}
+}
+
+.lightbox-gallery{
+	overflow: hidden;
+	li{
+		float: left;
+		img{
+			margin: 0;
+			width: 100%;
+		}
+	}
+	&.gallery--gaps{
+		li{
+			padding: @default-gap-padding;
+		}
+	}
+}

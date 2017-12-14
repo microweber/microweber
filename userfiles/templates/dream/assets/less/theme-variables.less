@@ -1,0 +1,193 @@
+//////// Colours
+
+@color-bg-site: #F8F8F8;
+@color-primary: #425cbb;
+@color-primary-1: #7cc36a;
+@color-primary-2: #d14b4b;
+@color-primary-3: #6c9a81;
+@color-dark: #232323;
+@color-bg-secondary: #F4F4F4;
+@color-on-dark: #f5f5f5;
+
+@has-primary-1: true;
+@has-primary-2: true;
+
+//////// Typography
+
+@base-font-size: percentage(16/16); // change first value to pixel font size
+@base-font-size-px: 16px; // the first value from above;
+@base-font-size-mobile: percentage(14/16); // change first value to pixel font size
+@base-font-size-mobile-px: 14px; // the first value from above;
+
+@base-line-height: 1.625em;
+
+@body-font: 'Lora';
+@heading-font: 'Montserrat';
+@button-font: 'Montserrat';
+@nav-item-font: 'Montserrat';
+
+@h1-size: 4em;
+@h2-size: 2.8125em;
+@h3-size: 2em;
+@h4-size: 1.4375em;
+@h5-size: 1em;
+@h6-size: 0.625em;
+
+@ligatures-active: true;
+
+@h1-line-height: 1.015625em;
+@h2-line-height: 1.15555555555556em;
+@h3-line-height: 1.421875em;
+@h4-line-height: 1.41304347826087em;
+@h5-line-height: @base-line-height;
+@h6-line-height: 2.6em;
+
+@p-lead-size: 1.4375em;
+@p-lead-line-height: 1.69565217391304em;
+
+@blockquote-size: @h3-size;
+@blockquote-line-height: @h3-line-height;
+
+@fine-print-size: 0.6875em; 
+
+@ul-line-height: 2.34375em; 
+
+@color-body: #767676;
+@color-heading: #343434;
+
+@heading-uppercase: false;
+@heading-weight: 600;
+
+@body-font-weight: 400;
+@strong-font-weight: 600;
+
+//////// Standard Space
+
+@standard-space-n: 4 * @base-line-height;
+@standard-space-s: 5 * @base-line-height;
+@standard-space-mobile: 3 * @base-line-height;
+
+//////// Buttons
+
+@buttons-uppercase: true;
+
+@button-radius: 100px;
+@button-padding-n: @base-line-height / 3;
+@button-padding-s: @base-line-height / 2.5;
+@button-padding-e: @base-line-height *2;
+@button-padding-w: @base-line-height *2;
+@border-width: 2px;
+@button-text-size: @h6-size;
+@button-font-weight: 400;
+@button-spacing: @base-line-height;
+
+//////// Icon
+
+@icon-sm-size: @h3-size;
+@icon-md-size: @h2-size;
+@icon-lg-size: @h1-size;
+
+//////// Nav Bar
+
+@nav-uppercase-menu: false;
+@nav-bg-color: none;
+@navbar-height: 65px; // in pixels (not em)
+
+	// for navs not constrained to container 
+
+@nav-padding-e: @base-line-height * 2; 
+@nav-padding-w: @base-line-height * 2;
+
+@nav-logo-size: 40%; // default 70%;
+@nav-item-padding: @base-line-height/1.25; // default 1em
+@nav-item-font-size: 10px; // default 1em
+@nav-item-font-weight: 400; // default 400
+@nav-item-letter-spacing: 0px; // default 0
+@nav-dropdown-width: 8 * @base-line-height; // default 12em
+@nav-dropdown-bottom-padding: @base-line-height;
+
+//////// Forms
+
+@input-label-font-size: 1em;
+@input-label-font-weight: 400;
+
+@inputs-have-border: false;
+
+@input-padding: @base-line-height / 2;
+@input-border-radius: 50px;
+@input-border: 1px solid #ccc;
+@input-background-color: #fff;
+@input-placeholder-color: lighten(@color-body,30%);
+@input-placeholder-size: 1em;
+
+@checkbox-height: @base-line-height;
+@checkbox-width: @base-line-height;
+@checkbox-border-radius: 50%;
+@checkbox-padding: 0;
+
+@radio-height: @base-line-height;
+@radio-width: @base-line-height;
+@radio-border-radius: 50%;
+@radio-padding: 0;
+
+//////// Accordions
+
+@accordion-title-padding: @base-line-height/1.5 @base-line-height;
+@accordion-title-border: 1px solid darken(@color-bg-site,10%);
+@accordion-title-bg: @color-bg-secondary;
+@accordion-title-bg-active: @color-primary;
+
+@accordion-content-padding: @base-line-height;
+
+//////// Breadcrumbs
+
+@breadcrumbs-uppercase: true;
+@breadcrumb-item-padding: @base-line-height/4; // space between breadcrumbs
+@breadcrumb-font-size: 1em;
+
+//////// Tabs
+
+@tab-title-padding: 0 @base-line-height; // space between tabs
+
+//////// Boxes
+
+@box-padding: @base-line-height * 1.5;
+@box-border: 1px solid lighten(@color-dark,65%);
+@box-shadow-level: 1; // value from 1 - 5, shallow - deep
+
+//////// Image Grid Settings
+
+@default-gap-padding: @base-line-height/4;
+
+//////// Sliders
+
+@slider-paging-alignment: center;
+
+@slider-paging-height: 6px;
+@slider-paging-width: 6px;
+@slider-paging-radius: 50%;
+@slider-paging-bg: rgba(255,255,255,0.4);
+@slider-paging-bg-active: #fff;
+@slider-paging-border: none;
+@slider-paging-spacing: @base-line-height/4; // space between each paging button
+
+@slider-arrow-font: 'pillar-interface';
+@slider-arrow-right: "\e802";
+@slider-arrow-left: "\e801";
+@slider-arrow-size: 2em;
+
+//////// Video Styling
+
+@play-icon-default-color: #fff;
+@play-icon-filled: true;
+@play-icon-width-height: @base-line-height*4;
+@play-icon-border: 2px solid @play-icon-default-color;
+@play-icon-triangle: 6px;
+
+//////// Modals
+
+@default-modal-padding: 0;
+
+//////// Notifications
+
+@default-notification-padding: 0;

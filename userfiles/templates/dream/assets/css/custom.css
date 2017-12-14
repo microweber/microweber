@@ -1,0 +1,411 @@
+/***************************
+Add your custom styles below
+****************************/
+
+.logo-text span {
+    font-size: 136px;
+    line-height: 136px;
+    font-family: 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+    color: #fff;
+    font-weight: 600;
+    font-variant-ligatures: common-ligatures;
+}
+
+.logo.logo-dark .logo-text span {
+    font-size: 32px;
+    line-height: 32px;
+    color: #343434;
+}
+
+.logo.logo-light .logo-text span {
+    font-size: 32px;
+    line-height: 32px;
+    color: #fff;
+}
+
+/*
+@media screen and (max-width: 480px) {
+    .logo-text span {
+        font-size: 136px;
+        line-height: 136px;
+    }
+}
+
+@media screen and (min-width: 1200px ) and (max-width: 1365px) {
+    .logo-text span {
+        font-size: 110px;
+        line-height: 110px;
+    }
+}*/
+
+.nav-bar .phone-header {
+    margin-right: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #232323;
+    line-height: 68px;
+    font-family: 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+}
+
+.nav--absolute.nav--transparent .phone-header {
+    color: #fff;
+}
+
+.nav--absolute.nav--transparent.nav--fixed .phone-header {
+    color: #232323;
+}
+
+.feature .icon {
+    font-size: 70px;
+}
+
+.background-image-holder {
+    transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    opacity: 1 !important;
+}
+
+.inline-element {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.background-image-holder {
+    background-color: transparent !important;
+}
+
+.nav-main a.active {
+    font-weight: bold;
+}
+
+.nav-bar .logo {
+    max-height: 100%;
+}
+
+.cover-10 .logo {
+    max-height: 100%;
+}
+
+.slider.slider--controlsoutside {
+    overflow: hidden;
+}
+
+/*.btn .btn__text{
+    color: #fff !important;
+}
+
+.btn.btn-default .btn__text{
+    color: #343434 !important;
+}*/
+
+.search-modal .modal-content {
+    background: none !important;
+}
+
+/* Typography */
+
+.center {
+    text-align: center !important;
+}
+
+.justify {
+    text-align: justify !important;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.underline {
+    text-decoration: underline !important;
+}
+
+.italic {
+    font-style: italic !important;
+}
+
+.red {
+    color: #dd2229 !important;
+}
+
+.darkred {
+    color: #BA0519 !important;
+}
+
+.green {
+    color: green !important;
+}
+
+.silver {
+    color: #666666 !important;
+}
+
+.m-a {
+    margin: auto !important;
+}
+
+.m-0 {
+    margin: 0px !important;
+}
+
+.m-10 {
+    margin: 10px !important;
+}
+
+.m-20 {
+    margin: 20px !important;
+}
+
+.m-30 {
+    margin: 30px !important;
+}
+
+.m-40 {
+    margin: 40px !important;
+}
+
+.m-t-0 {
+    margin-top: 0px !important;
+}
+
+.m-t-10 {
+    margin-top: 10px !important;
+}
+
+.m-t-20 {
+    margin-top: 20px !important;
+}
+
+.m-t-30 {
+    margin-top: 30px !important;
+}
+
+.m-t-40 {
+    margin-top: 40px !important;
+}
+
+.m-t-50 {
+    margin-top: 50px !important;
+}
+
+.m-t-60 {
+    margin-top: 60px !important;
+}
+
+.m-t-70 {
+    margin-top: 70px !important;
+}
+
+.m-b-0 {
+    margin-bottom: 0px !important;
+}
+
+.m-b-10 {
+    margin-bottom: 10px !important;
+}
+
+.m-b-20 {
+    margin-bottom: 20px !important;
+}
+
+.m-b-30 {
+    margin-bottom: 30px !important;
+}
+
+.m-b-40 {
+    margin-bottom: 40px !important;
+}
+
+.m-b-50 {
+    margin-bottom: 50px !important;
+}
+
+.m-b-60 {
+    margin-bottom: 60px !important;
+}
+
+.m-b-70 {
+    margin-bottom: 70px !important;
+}
+
+.p-0 {
+    padding: 0px !important;
+}
+
+.p-10 {
+    padding: 10px !important;
+}
+
+.p-20 {
+    padding: 20px !important;
+}
+
+.p-30 {
+    padding: 30px !important;
+}
+
+.p-40 {
+    padding: 40px !important;
+}
+
+.p-t-0 {
+    padding-top: 0px !important;
+}
+
+.p-t-5 {
+    padding-top: 5px !important;
+}
+
+.p-t-10 {
+    padding-top: 10px !important;
+}
+
+.p-t-20 {
+    padding-top: 20px !important;
+}
+
+.p-t-30 {
+    padding-top: 30px !important;
+}
+
+.p-t-40 {
+    padding-top: 40px !important;
+}
+
+.p-t-50 {
+    padding-top: 50px !important;
+}
+
+.p-t-60 {
+    padding-top: 60px !important;
+}
+
+.p-t-70 {
+    padding-top: 70px !important;
+}
+
+.p-b-0 {
+    padding-bottom: 0px !important;
+}
+
+.p-b-10 {
+    padding-bottom: 10px !important;
+}
+
+.p-b-20 {
+    padding-bottom: 20px !important;
+}
+
+.p-b-30 {
+    padding-bottom: 30px !important;
+}
+
+.p-b-40 {
+    padding-bottom: 40px !important;
+}
+
+.p-b-50 {
+    padding-bottom: 50px !important;
+}
+
+.p-b-60 {
+    padding-bottom: 60px !important;
+}
+
+.p-b-70 {
+    padding-bottom: 70px !important;
+}
+
+.r-15 {
+    border-radius: 15px;
+}
+
+.parallax .background-image-holder {
+    transform: none !important;
+    background-attachment: fixed !important;
+}
+
+.parallax .slides.owl-carousel .background-image-holder {
+    transform: none !important;
+    background-attachment: inherit !important;
+}
+
+.min-h {
+    min-height: 235px;
+}
+
+.mwf-gallery .mwf-play:after {
+    margin-top: -3px;
+    display: block;
+}
+
+body.mw-live-edit {
+    margin-top: 0 !important;
+}
+
+.mw-live-edit .nav--fixed {
+    margin-top: 51px;
+}
+
+nav .nav-module.search-module {
+    padding-right: 0 !important;
+}
+
+.has-opened-sidebar .nav--fixed {
+    padding-right: 300px;
+    transition: 0.6s;
+}
+
+.btn__text i {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.card-1 .card__icon i {
+    font-size: 4em;
+}
+
+.newsletter * {
+    opacity: 1 !important;
+}
+
+.nav-module.right.cart-module,
+.nav-module.right.search-module {
+    padding-right: 26px !important;
+}
+
+.clean-container img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto !important;
+    /*width: auto;*/
+}
+
+.cta-5 h4 {
+    white-space: normal !important;
+}
+
+section.blog-post .container .container {
+    width: auto;
+}
+
+.container div[class^="col-"] .container {
+    width: auto;
+}
+
+.pagination li:first-child, .pagination li:last-child {
+    opacity: 1;
+}
+
+.module-shop-products .pagination > li > a, .module-shop-products .pagination > li > span, .module-shop-products .pagination > li > a:focus, .module-shop-products .pagination > li > a:hover, .module-shop-products .pagination > li > span:focus, .module-shop-productslayout-1 .pagination > li > span:hover {
+    padding: 9px 12px;
+    color: #373737;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    font-size: 18px;
+    font-weight: bold;
+}

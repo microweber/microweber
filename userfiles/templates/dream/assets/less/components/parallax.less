@@ -1,0 +1,26 @@
+.parallax > .background-image-holder,
+.parallax .slides li > .background-image-holder {
+  height: 100vh;
+  top: -50vh;
+  transition: opacity 0.3s ease !important;
+  -webkit-transition: opacity 0.3s ease !important;
+  -webkit-transform-style: preserve-3d;
+}
+.parallax:first-child .slides li > .background-image-holder,
+.parallax:first-child .background-image-holder {
+  top: 0;
+}
+.main-container > a:first-child + .parallax .background-image-holder {
+  top: 0;
+}
+@media all and (max-width: 1024px) {
+  .parallax > .background-image-holder,
+  .parallax .slides li > .background-image-holder {
+    top: 0 !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    height: 100%;
+  }
+}
+
+.parallax{ will-change: contents; }

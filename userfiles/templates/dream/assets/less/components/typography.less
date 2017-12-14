@@ -1,0 +1,151 @@
+html{ 
+	font-size: @base-font-size;
+}
+@media all and (max-width: 768px){
+	html{
+		font-size: @base-font-size-mobile;
+	}
+}
+body {
+  font-size: 1em;
+  line-height: @base-line-height;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: @body-font, 'Helvetica', 'Arial', sans-serif;
+  color: @color-body;
+  font-weight: @body-font-weight;
+}
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
+	font-family: @heading-font, 'Helvetica', 'Arial', sans-serif;
+	color: @color-heading;
+	font-weight: @heading-weight;
+	&when (@heading-uppercase = true){
+		text-transform: uppercase;
+	}
+	&when(@ligatures-active = true){
+		font-variant-ligatures: common-ligatures;
+	}
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+h1,.h1 {
+  font-size: @h1-size;
+  line-height: @h1-line-height;
+}
+
+h2,.h2 {
+  font-size: @h2-size;
+  line-height: @h2-line-height;
+}
+h3,.h3 {
+  font-size: @h3-size;
+  line-height: @h3-line-height;
+}
+h4,.h4 {
+  font-size: @h4-size;
+  line-height: @h4-line-height;
+}
+h5,.h5 {
+  font-size: @h5-size;
+  line-height: @h5-line-height;
+}
+h6,.h6 {
+  font-size: @h6-size;
+  line-height: @h6-line-height;
+}
+.lead{
+	font-size: @p-lead-size;
+	line-height: @p-lead-line-height;
+}
+
+@media all and (max-width: 767px){
+	h1,.h1{
+		font-size: @h2-size;
+		line-height: @h2-line-height;
+	}
+
+	h2,.h2{
+		font-size: @h3-size;
+		line-height: @h3-line-height;
+	}
+	h3,.h3{
+		font-size: @h4-size;
+		line-height: @h5-line-height;
+	}
+	.lead{
+		font-size: @h4-size;
+		line-height: @h4-line-height;
+	}
+}
+
+p, ul, ol, pre, table, blockquote {
+  margin-bottom: @base-line-height;
+}
+ul,ol{
+	list-style: none;
+	&:not(.menu):not(.slides):not(.accordion):not(.tabs):not(.tabs-content){
+		line-height: @ul-line-height;
+	}
+}
+ul.bullets{
+	list-style: inside;
+}
+ol{
+	list-style-type: upper-roman;
+	list-style-position: inside;
+}
+
+blockquote{
+	font-size: @blockquote-size;
+	line-height: @blockquote-line-height;
+	padding: 0;
+	margin: 0;
+	border-left: 0;
+}
+
+strong{
+	font-weight: @strong-font-weight;
+}
+
+hr{
+	margin: @base-line-height 0;
+	border-color: @color-bg-secondary;
+}
+a:hover,a:focus,a:active{
+	text-decoration: none;
+	outline: none;
+}
+
+/*! Typography -- Helpers */
+
+.type--fade{
+	opacity: .5;
+}
+
+.type--uppercase{ 
+	text-transform: uppercase; 
+}
+.type--bold{
+	font-weight: bold;
+}
+.type--italic{
+	font-style: italic;
+}
+
+.type--fine-print{
+	font-size: @fine-print-size;
+}
+
+.type--strikethrough{
+	text-decoration: line-through;
+	opacity: .5;
+}
+
+.type--underline{
+	text-decoration: underline;
+}
+
+.type--body-font{
+	font-family: @body-font, 'Helvetica';
+}

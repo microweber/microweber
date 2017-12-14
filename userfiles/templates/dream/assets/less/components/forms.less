@@ -1,0 +1,234 @@
+// MARKUP:
+//
+// <form>
+//   <input type="text" placeholder="Input Placeholder" name="name" />
+//   
+//   <textarea></textarea>
+//   
+//   <div class="input-checkbox">
+//	   <labeL>Y/N</label>
+//	   <div class="inner"></div>
+//	   <input type="checkbox" />
+//	  </div>
+//
+//   <div class="input-radio">
+//	   <label>L</label>
+//	   <div class="inner"></div>
+//	   <input type="radio" name="radio" value="radio1" />
+//	  </div>
+//
+//   <div class="input-select">
+//	   <i class="glyphicon glyphicon-chevron-down"></i>
+//	   <select>
+//	     <option selected="" value="Default">Select An Option</option>
+//		 <option value="Small">Small</option>
+//		 <option value="Medium">Medium</option>
+//		 <option value="Larger">Large</option>
+//	   </select>
+//	 </div>
+//
+//   <button class="btn--primary" type="submit">
+//	   <span class="btn__text">
+//	     Submit form
+//	   </span>
+//	  </button>
+//
+// </form>
+
+form{
+	max-width: 100%;
+  + form{
+    margin-top: 30px;
+  }
+  &:before,&:after{
+		content: ".";    
+	    display: block;    
+	    height: 0;    
+	    overflow: hidden; 
+	}
+	&:after{
+		clear: both;
+	}
+}
+
+label{
+	margin: 0;
+	font-size: @input-label-font-size;
+	font-weight: @input-label-font-weight;
+}
+
+input[type],textarea,select{
+	-webkit-appearance: none;
+	background: @input-background-color;
+	padding: @input-padding;
+	border-radius: @input-border-radius;
+	&when (@inputs-have-border = true){
+		border: @input-border;
+	}
+	&when (@inputs-have-border = false){
+		border: none;
+	}
+	&:focus{
+		outline: none;
+	}
+	&:active{
+		outline: none;
+	}
+	.placeholder-text(@input-placeholder-color);
+}
+
+textarea{
+	display:block;
+	width: 100%;
+	max-width: 100%;
+}
+
+select{
+	cursor: pointer;
+	padding-right: @input-padding * 4;
+	-webkit-appearance: none;
+}
+
+select::ms-expand{
+	display: none;
+}
+
+input[type="submit"]{
+	background: none;
+	outline: none;
+	border: none;
+	background: @color-primary;
+	padding: @input-padding @button-padding-e @input-padding @button-padding-w;
+	color: #fff;
+}
+
+@keyframes load{
+	0% { opacity: 0; width: 0; }
+	50%{ width: 100%; opacity: .8; left: 0; }
+	100% { left: 100%; opacity: 0;  }
+}
+
+button{
+	background: none;
+	&[type="submit"]{
+		&.btn--loading{
+			position: relative;
+			overflow: hidden;
+			pointer-events: none;
+			color: rgba(0,0,0,0);
+			*{
+				opacity: 0;
+			}
+			&:after{
+				content: '';
+				position: absolute;
+				width: 0;
+				height: 100%;
+				background: #ddd;
+				animation: load 1.5s ease-out infinite;
+				left: 0;
+				top: 0;
+			}
+			.btn__text{
+				opacity: 0;
+			}
+		}
+	}
+	&:focus{
+		outline: none !important;
+	}
+}
+
+.input-checkbox, .input-radio, .input-select{
+	.disable-select;
+	display: inline-block;
+	cursor: pointer;
+	.inner{
+		display: inline-block;
+	}
+	input{
+		display: none;
+	}
+	&.checked .inner{
+		background: @color-primary;
+	}
+	label{
+		display: block;
+	}
+}
+
+.input-checkbox{
+	.inner{
+		width: @checkbox-width;
+		height: @checkbox-height;
+		border-radius: @checkbox-border-radius;
+		background: #000;
+	}
+	padding: @checkbox-padding;
+}
+
+.input-radio{
+	.inner{
+		width: @radio-width;
+		height: @radio-height;
+		border-radius: @radio-border-radius;
+		background: #000;
+	}
+	padding: @radio-padding;
+}
+
+.input-select{
+	position: relative;
+	i{
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		-webkit-transform: translateY(-50%);
+		right: 1em;
+		font-size: .87em;
+	}
+}
+
+.input-file{
+	position: relative;
+	display: inline-block;
+	input{
+		display: none;
+	}
+}
+
+.form-error {
+  margin-top: 1.5625em;
+  padding: 0.78125em;
+  background: #D84D4D;
+  color: #fff;
+  position: fixed;
+  min-width: 350px;
+  left: 50%;
+  bottom: 1.5625em;
+  transform: translate3d(-50%, 0, 0);
+  -webkit-transform: translate3d(-50%, 0, 0);
+  z-index: 999;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+}
+
+.form-success {
+  margin-top: 1.5625em;
+  padding: 0.78125em;
+  background: #1DC020;
+  color: #fff;
+  position: fixed;
+  min-width: 350px;
+  left: 50%;
+  bottom: 1.5625em;
+  transform: translate3d(-50%, 0, 0);
+  -webkit-transform: translate3d(-50%, 0, 0);
+  z-index: 999;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+}
+
+.attempted-submit .field-error {
+  border-color: #D84D4D !important;
+}

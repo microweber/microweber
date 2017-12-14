@@ -1,0 +1,40 @@
+.piechart {
+    display: inline-block;
+    vertical-align: middle;
+    background: rgba(0,0,0,0);
+    border-radius: 100%;
+    fill: @color-primary;
+    position: relative;
+    opacity: 0;
+    .transition(0.2s,linear);
+    svg{
+    	overflow: visible;
+    }
+    .piechart__overlay , .piechart__description{
+    	position: absolute;
+    	.translate3d(-50%,-50%,0);
+    	top: 50%;
+    	left: 50%;
+    }
+    .piechart__overlay{
+    	background: #fff;
+    	border-radius: 50%;
+    }
+    &.active{
+        opacity: 1;
+    }
+}
+
+.barchart{
+    .barchart__bar{
+        position: relative;
+        overflow: hidden;
+    }
+	.barchart__progress{
+		position: absolute;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 2;
+	}
+}

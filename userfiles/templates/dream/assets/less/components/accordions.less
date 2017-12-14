@@ -1,0 +1,65 @@
+// MARKUP:
+//
+// <ul class="accordion">
+// 	 <li>
+//		 <div class="accordion__title">
+//			 <span>Title</span>
+//		 </div>
+//		 <div class="accordion__content">
+//			 ...
+//		 </div>
+//	 </li>
+// </ul>
+//
+// MODIFIERS:
+//
+// .accordion--oneopen - means that only one panel can be open at once
+
+
+.accordion li{
+	.accordion__title, .accordion__content, .accordion__content *{
+		.transition(.3s,linear);
+	}
+	.accordion__title{
+		cursor: pointer;
+		padding: @accordion-title-padding;
+		border: @accordion-title-border;
+		border-bottom: none;
+		background: @accordion-title-bg;
+		.disable-select;
+	}
+	&:last-child{
+		.accordion__title{
+			border-bottom: @accordion-title-border;
+		}
+	}
+	.accordion__content{
+		opacity: 0;
+		visibility: hidden;
+		max-height: 0;
+		>*{
+			display: none;
+		}
+		*:first-child{
+			padding-top: @accordion-content-padding;
+		}
+		*:last-child{
+			padding-bottom: @accordion-content-padding;
+		}
+	}
+}
+
+.accordion li.active{
+	.accordion__title{
+		background: @accordion-title-bg-active;
+		border-bottom: @accordion-title-border;
+	}
+	.accordion__content{
+		opacity: 1;
+		visibility: visible;
+		max-height: 500px;
+		>*{
+			display: inline-block;
+		}
+	}
+}

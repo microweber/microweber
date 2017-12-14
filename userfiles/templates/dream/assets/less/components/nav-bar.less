@@ -1,0 +1,354 @@
+nav{
+	background: @nav-bg-color;
+	z-index: 10;
+}
+
+.nav-bar{
+	will-change: scroll-position, transform;
+	height: @navbar-height;
+	max-height: @navbar-height; 
+	line-height: (@navbar-height - 3);
+	.logo{
+		max-height: @nav-logo-size;
+		margin: 0;
+	}
+	.nav-module{
+		display: inline-block;
+		height: @navbar-height;
+		padding: 0 1em;
+		
+		> a:not(.btn){
+			height: 100%;
+			display: inline-block;
+		}
+	}
+	&.nav--fixed{
+		position: fixed;
+		width: 100%;
+		left: 0;
+		z-index: 999;
+		top: 0;
+		&:not(.bg--dark):not(.bg--primary):not(.bg--white){
+			background: @color-bg-site;
+		}
+		+.nav-mobile-toggle{
+			position: fixed;
+			top: 0;
+			right: 0;
+			z-index: 999;
+			color: #222;
+		}
+	}
+}
+
+.nav-module.left{
+	float: left;
+}
+.nav-module.right{
+	float: right;
+}
+.nav-module:first-of-type{
+	padding-left: 0;
+}
+.nav-module:last-of-type{
+	padding-right: 0;
+}
+
+.nav-bar, .utility-bar{
+	padding: 0 @nav-padding-e 0 @nav-padding-w;
+}
+
+.utility-bar{
+	overflow: hidden;
+}
+
+.utility-bar:not(.hidden)+.nav-bar+.nav-mobile-toggle{
+	top: @navbar-height;
+}
+
+@media all and (max-width: 1280px){
+	.nav-bar{
+		padding: 0 15px;
+	}
+}
+
+.container .nav-bar{
+	padding: 0;
+}
+
+.menu{
+	height: @navbar-height;
+	li{
+		position: relative;
+	}
+	>li{
+		position: relative;
+		float: left;
+		font-size: @nav-item-font-size;
+		font-weight: @nav-item-font-weight;
+		letter-spacing: @nav-item-letter-spacing;
+		font-family: @nav-item-font,'Helvetica','Arial',sans-serif;
+		&when (@nav-uppercase-menu = true){
+			text-transform: uppercase;
+		}
+	}
+	>li > a{
+		padding: 0 @nav-item-padding;
+		height: 100%;
+		display: inline-block;
+	}
+	>li:first-child > a{
+		padding-left: 0;
+	}
+	>li:last-child a{
+		padding-right: 0;
+	}
+}
+
+.nav-bar{
+	&.bg--white{
+		.menu{
+			> li > a{
+				color: @color-body;
+			}
+		}
+	}
+	&.bg--dark{
+		.menu{
+			>li > a{
+				color: #fff;
+			}
+		}
+	}
+}
+
+.menu > li{
+	ul{
+		left: 0;
+		margin: 0;
+		line-height: @base-line-height !important;
+		padding: 1em 0;
+		background: @nav-bg-color;
+		opacity: 0;
+		visibility: hidden;
+		position: absolute;
+		min-width: @nav-dropdown-width;
+		float: left;
+	}
+	>ul a{
+		padding: 0 1em @nav-dropdown-bottom-padding 1em;
+		display: inline-block;
+	}
+	>ul li:last-child > a{
+		padding-bottom: 0;
+	}
+}
+
+.menu > li:hover > ul, .menu > li > ul > li:hover ul{
+	opacity: 1;
+	visibility: visible;
+	z-index: 10;
+}
+
+.menu > li:hover .multi-column ul{
+	position: relative !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+.menu > li > ul:not(.multi-column) ul{
+	top: 0;
+	left: 100%;
+}
+
+.multi-column{
+	width: auto !important;
+	white-space: nowrap;
+	
+	li{
+		width: @nav-dropdown-width;
+		overflow: hidden;
+		display: inline-block;
+		vertical-align: top;
+		ul{
+			position: relative;
+		}
+	}
+	ul li{
+		float: none;
+		display: block;
+	}
+}
+
+.module-applet{
+	position: relative;
+	padding: 0 1em;
+}
+
+.module-applet__handle{
+	cursor: pointer;
+	position: relative;
+}
+
+.module-applet__body{
+	position: absolute;
+	width: @nav-dropdown-width * 2;
+	background: @nav-bg-color;
+	z-index: 10;
+	padding: 1em;
+	visibility: hidden;
+	opacity: 0;
+
+	*{
+		line-height: @base-line-height;
+	}
+}
+
+.module-applet:hover .module-applet__body{
+	opacity: 1;
+	visibility: visible;
+}
+
+.nav-mobile-toggle{
+	position: absolute;
+	top: 0;
+	right: 15px;
+	z-index:99;
+	cursor: pointer;
+	line-height: (@navbar-height - 3);
+	padding: 0 1em;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+@media all and (max-width: 990px){
+	.nav-bar{
+		height: auto;
+		overflow: hidden;
+		
+		.nav-module.left, .nav-module.right{
+			float: none;
+			display: block;
+		}
+		
+		.nav-module{
+			padding: 0;
+		}
+		
+		.nav-module:not(.logo-module){
+			height: auto;
+			line-height: 2em;
+		}
+	}
+	
+	.menu{
+		height: auto;
+	
+		li{
+			float: none;
+			width: 100%;
+		}
+		
+		>li > a{
+			padding: 0;
+		}
+		
+		> li ul{
+			position: relative;
+			float: none;
+			display: none;
+			width: 100%;
+		}
+		
+		> li ul ul{
+			left: 0 !important;
+			padding-left: 2em;
+		}
+		
+		> li > ul:not(.multi-column) ul{
+			padding-top: 0;
+			padding-bottom: 1.5em;
+		}
+		
+		li.active > ul, li.active .multi-column ul{
+			display: block;
+			opacity: 1;
+			visibility: visible;
+		}
+		
+		.multi-column{
+			white-space: initial;
+		}
+		
+		.multi-column ul{
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+		
+		.multi-column ul li a{
+			padding-left: 0;
+		}
+		
+		.multi-column ul li:last-child a{
+			padding-bottom: @nav-dropdown-bottom-padding
+		}
+	}
+	
+	.module-applet{
+		padding: 0;
+	
+		.module-applet__body{
+			position: relative;
+			display: none;
+			padding: 1em 0;
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+	
+	.module-applet.active{
+		.module-applet__body{
+			display: block;
+		}
+	}	
+	
+}
+
+.nav-open{
+	.nav-bar{
+		max-height: 100000px !important;
+	}
+}
+
+.nav--fixed,.nav--absolute{
+	width: 100%;
+	z-index: 99;
+}
+
+.nav--fixed{
+	position: fixed;
+}
+
+.nav--absolute{
+	position: absolute;
+}
+
+.nav--transparent:not(.nav--fixed){
+	background: none !important;
+}
+
+nav:not(.nav--fixed):not(.nav--absolute){
+	position: relative;
+}
+
+@media all and (max-width: 990px){
+	.nav-bar{
+		&.nav--absolute, &.nav--fixed{
+			position: relative;
+			+.nav-mobile-toggle{
+				position: absolute;
+			}
+		}
+	}	
+}
+
