@@ -672,9 +672,7 @@ html.mw_pages #items_handle {
     color: #fff;
 }
 
-.mw-icon-selector-set-icon-size{
-  -webkit-appearance: slider-horizontal !important;
-}
+
 
 /****************************
       Design tool
@@ -2696,7 +2694,6 @@ div[id*='SSDIVEL'] {
     display: block;
     text-align: center;
     width: 200px;
-    height: 200px;
 }
 
 #image-edit-nav .mw-ui-btn span {
@@ -2944,7 +2941,7 @@ div[id*='SSDIVEL'] {
 .mwInaccessibleModulesMenu {
     position: absolute;
     z-index: 1102;
-    margin: 0;
+    margin: 20px 0 0;
 }
 
 .mwInaccessibleModulesMenu .mw-ui-btn {

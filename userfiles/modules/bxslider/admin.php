@@ -6,68 +6,38 @@
 
     <div id="bxslider-settings">
 
-        <script>mw.require('icon_selector.js')</script>
-        <script>mw.require('ui.css')</script>
-
-        <script>
-            setIconDefault = function (val) {
-                return {
-                    mode: 'absolute',
-                    onchange: function (val, el) {
-                        $(el).next().val(val);
-                        Bxslider.save()
-                    },
-                    value: val
-                }
-            }
-
-            $(document).ready(function () {
+      <script>mw.require('icon_selector.js')</script>
+      <script>mw.require('ui.css')</script>
+      <script>mw.require('wysiwyg.css')</script>
 
 
-                /*$(".item-icon").each(function(){
-                 var el = this;
-                 mw.iconSelector.iconDropdown(this, bxIconConfig)
-                 }) */
-            })
-        </script>
 
         <style>
 
+        .item-icon ul {
+          height: 220px;
+          padding: 12px;
+          background: white;
+          box-shadow: 0 0 6p -3px rgba(0,0,0.5);
+          min-width: 300px;
+        }
 
-            .mw-icon-selector-dropdown {
-                max-height: 300px;
-                overflow: auto;
-            }
+        .item-icon li {
+          margin: 5px 0;
+          float: left;
+          width: 33.333%;
+          text-align: center;
+          list-style: none;
+          font-size: 33px;
+          cursor: pointer;
+          color: #777
+        }
 
-            .item-icon ul {
-                height: 220px;
-                padding: 12px;
-                background: white;
-                box-shadow: 0 0 6 p -3px rgba(0, 0, 0.5);
-                min-width: 300px;
-                display: none;
-            }
-
-            .mw-icon-selector-dropdown-wrapper.focused ul {
-                display: block;
-            }
-
-            .item-icon li {
-                margin: 5px 0;
-                float: left;
-                width: 33.333%;
-                text-align: center;
-                list-style: none;
-                font-size: 33px;
-                cursor: pointer;
-                color: #777
-            }
-
-            .item-icon {
-                position: relative;
-                display: block;
-                z-index: 10;
-            }
+          .item-icon{
+            position: relative;
+            display: block;
+            z-index: 10;
+          }
 
             .bxslider-skinselector {
                 width: 150px;
@@ -134,6 +104,17 @@
                 margin-right: 12px;
                 font-size: 14px !important;
             }
+
+            .item-icon input{
+              position: absolute;
+              opacity: 0;
+              left: 0;
+              top: 0;
+            }
+            .item-icon .mw-ui-field-holder{
+              padding: 0;
+            }
+
         </style>
 
         <?php
@@ -154,13 +135,13 @@
             $json = array(0 => $defaults);
         }
         $module_template = get_option('data-template', $params['id']);
-        if (!$module_template) {
+        if(!$module_template){
             $module_template = 'default';
         }
-        $module_template_clean = str_replace('.php', '', $module_template);
+        $module_template_clean = str_replace('.php','',$module_template);
 
-        $default_skins_path = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins';
-        $template_skins_path = template_dir() . 'modules/bxslider/templates/' . $module_template_clean . '/skins';
+        $default_skins_path = $config['path_to_module'] . 'templates/'.$module_template_clean.'/skins';
+        $template_skins_path = template_dir() . 'modules/bxslider/templates/'.$module_template_clean.'/skins';
         $skins = array();
 
         if (is_dir($template_skins_path)) {
@@ -207,7 +188,13 @@
                                 <?php print $skinSelector; ?>
                             </div>
                         </div>
-
+                        <div class="mw-ui-col" style="width: 70px;">
+                            <div class="mw-ui-col-container">
+                                <label class="mw-ui-label">Icon</label>
+                                <span class="item-icon"></span>
+                                <span class="item-icon-value" style="display: none"><?php print isset($slide['icon']) ? $slide['icon'] : ''; ?></span>
+                            </div>
+                        </div>
 
                         <div class="mw-ui-col">
                             <div class="mw-ui-col-container">
@@ -224,25 +211,9 @@
                         </div>
                     </div>
 
-                    <div class="mw-ui-row">
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <div class="mw-ui-field-holder">
-                                    <label class="mw-ui-label">Icon</label>
-                                    <span class="item-icon"></span>
-                                    <textarea class="bxslider-iconselector" style="display: none"><?php print isset($slide['icon']) ? $slide['icon'] : ''; ?></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <div class="mw-ui-field-holder">
-                                    <label class="mw-ui-label">URL</label>
-                                    <input type="text" class="mw-ui-field bxslider-url" value="<?php print $slide['url']; ?>">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label">URL</label>
+                        <input type="text" class="mw-ui-field bxslider-url" value="<?php print $slide['url']; ?>">
                     </div>
 
                     <?php if (!isset($slide['seemoreText'])) {
@@ -264,8 +235,9 @@
                                     foreach ($arr as $image) {
                                         if ($image != '') {
                                             ?>
-                                            <li><span class="bgimg" data-image="<?php print $image; ?>" style="background-image:url(<?php print $image; ?>);"></span><span class="mw-icon-close"
-                                                                                                                                                                           onclick="deletebxsliderimage(event);"></span>
+                                            <li>
+                                                <span class="bgimg" data-image="<?php print $image; ?>" style="background-image:url(<?php print $image; ?>);"></span>
+                                                <span class="mw-icon-close" onclick="deletebxsliderimage(event);"></span>
                                             </li>
                                         <?php }
                                     }
@@ -280,6 +252,32 @@
         <?php } ?>
 
         <script>
+         $(document).ready(function(){
+
+           initIcons()
+
+        })
+
+        initIcons = function(){
+          $(".item-icon").each(function(){
+            var el = this;
+            if(!el.__ready){
+              el.__ready = true;
+            mw.iconSelector.iconDropdown(this, {
+              mode:'absolute',
+              value:$(this).next('.item-icon-value').html(),
+              onchange:function(val){
+                $('input', el).val(val);
+
+              }
+            })
+            }
+          })
+          setTimeout(function(){
+            $(".item-icon input").addClass('bxslider-icon')
+          }, 100)
+
+        }
             deletebxsliderimage = function (e) {
                 $(mw.tools.firstParentWithTag(e.target, 'li')).remove();
                 Bxslider.save();
@@ -303,8 +301,8 @@
                         data[i]['secondaryText'] = item.querySelector('.bxslider-secondary-text').value;
                         data[i]['seemoreText'] = item.querySelector('.bxslider-seemore').value;
                         data[i]['url'] = item.querySelector('.bxslider-url').value;
-                        data[i]['icon'] = item.querySelector('.bxslider-iconselector').value;
                         data[i]['skin'] = item.querySelector('.bxslider-skinselector').value;
+                        data[i]['icon'] = item.querySelector('.bxslider-icon').value;
                         data[i]['images'] = '';
 
                         if (item.querySelector('.bxslider-images-holder .bgimg') !== null) {
@@ -330,8 +328,6 @@
                 },
 
                 initItem: function (item) {
-                    mw.iconSelector.iconDropdown($('.item-icon', item)[0], setIconDefault($(".bxslider-iconselector", item).val()));
-
                     $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
                         mw.on.stopWriting(this, function () {
                             Bxslider.save();
@@ -378,18 +374,18 @@
                     item.className = last.attr("class");
                     item.innerHTML = html;
                     $(item.querySelectorAll('input')).val('');
-                    $(item.querySelectorAll('.item-icon')).html('');
                     $(item.querySelectorAll('.bxslider-images-holder .bgimg')).remove();
                     $(item.querySelectorAll('.mw-uploader')).remove();
                     last.after(item);
                     Bxslider.initItem(item);
+                     initIcons()
                 }
             }
 
             $(window).bind('load', function () {
-                if (!!window.thismodal && !!thismodal.resize) {
-                    thismodal.resize(800);
-                }
+              if(thismodal.resize){
+                thismodal.resize(800);
+              }
 
                 Bxslider.initSlideSettings();
                 mw.$("#bxslider-settings").sortable({

@@ -165,10 +165,10 @@ mw.iconSelector = mw.iconSelector || {
 
 
             var theOptions = ''
-                + '<span class="mw-ui-btn" id="icon-color-pick">Color</span>'
+                + '<span class="mw-ui-btn" id="icon-color-pick">Icon Color</span>'
                 + '<br><br>'
-                + '<label class="mw-ui-label" style="padding-bottom:20px;font-size:11px">Size</label>'
-                + '<input class="mw-icon-selector-set-icon-size" type="range" name="mw-icon-selector-set-icon-size"  min="10" max="120" onchange="mw.iconSelector.set_icon_size(this.value)"  />';
+                + '<span class="mw-ui-label">Icon Size</span>'
+                + '<input class="mw-ui-field mw-icon-selector-set-icon-size" type="number" name="mw-icon-selector-set-icon-size"  min="10" max="120" oninput="mw.iconSelector.set_icon_size(this.value)"  />';
 
 
 
@@ -179,13 +179,15 @@ mw.iconSelector = mw.iconSelector || {
 
                mw.iconSelector._string =
                 '<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs live-edit-icon-pick-menu"><span class="mw-ui-btn">Icons</span><span class="mw-ui-btn">Options</span></div>'
-                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:300px">' + mw.iconSelector._string + '</div>'
-                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:300px">' + theOptions + '</div>'
+                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:500px">' + mw.iconSelector._string + '</div>'
+                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:500px">' + theOptions + '</div>'
                 ;
               mw.iconSelectorToolTip = mw.tooltip({
                   content: mw.iconSelector._string,
                   element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
-                  position: 'bottom-center'
+                  position: 'bottom-center',
+                  width:500,
+                  height:500
               });
               $(mw.iconSelectorToolTip).addClass('tooltip-icon-picker')
 
@@ -267,13 +269,14 @@ mw.iconSelector = mw.iconSelector || {
       val = val.toLowerCase();
       var final = [];
       $.each(mw.iconSelector.iconFontClasses, function(){
-        if(this.indexOf(val) !== -1){
-          final.push(final)
+        console.log(this.toLowerCase().indexOf(val))
+        if(this.toLowerCase().indexOf(val) !== -1){
+          final.push(this)
         }
       })
       $.each(mw.materialIcons, function(){
         if(this.indexOf(val) !== -1){
-          final.push(final)
+          final.push(this)
         }
       });
       return final;
@@ -294,7 +297,7 @@ mw.iconSelector = mw.iconSelector || {
           }
           var results = mw.iconSelector.search(mw.iconSelector.searchelement.value);
           $(".live-edit-icon-pick-tab li").hide().each(function(){
-            if(this.title.indexOf(val) !== -1){
+            if(this.title.toLowerCase().indexOf(val) !== -1){
               $(this).show();
             }
           })
@@ -340,7 +343,7 @@ mw.iconSelector = mw.iconSelector || {
 
         mw.iconSelector.getMaterialIconsDropdown(function(){
           html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; left:0;top:100%;">' + html + this + '</ul>';
-          $(selector).addClass('mw-icon-selector-dropdown-wrapper').append(holder).append(html)
+          $(selector).addClass('mw-icon-selector-dropdown-wrapper').empty().append(holder).append(html)
           $('li', el).on('mousedown touchstart', function(){
             var val =  $(this).html()
             $('.mw-ui-field-icon', holder).html(val);

@@ -326,7 +326,7 @@ mw.wysiwyg = {
             }
             else{
               var firstBlock = target;
-              var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'li'];
+              var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'ul', 'ol'];
               var blocksClass = ['safe-element'];
               var po = mw.tools.parentsOrder(firstBlock, ['edit', 'module']);
               if(po.module == -1 || po.module > po.edit){
@@ -898,8 +898,10 @@ mw.wysiwyg = {
                 if (event.keyCode == 13) {
 
                   if(mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])){
-                    if(!mw.tools.firstMatchesOnNodeOrParent(event.target, ['li'])){
-                      event.preventDefault();
+
+                    var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
+                    if(!isList){
+                      event.preventDefault(); 
                       if(event.shiftKey){
                         mw.wysiwyg.insert_html('<br>');
                       }

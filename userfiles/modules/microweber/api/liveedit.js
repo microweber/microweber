@@ -1225,7 +1225,7 @@ mw.drag = {
             }).addClass('mw-active-item');
             $(mw.handle_module).data("curr", element);
             element.id == "" ? element.id = "element_" + mw.random() : "";
-            $(mw.inaccessibleModules).css('left', mw.$('.mw_edit_settings')[0].offsetWidth + 20)
+            
 
         });
         $(window).on("onRowOver", function(a, element) {
@@ -2570,6 +2570,7 @@ mw.drag = {
     },
     grammarlyFix:function(html){
       var data = mw.tools.parseHtml(html).body;
+      $("grammarly-btn", data).remove()
       $("g.gr_", data).each(function(){
         $(this).replaceWith(this.innerHTML)
       });
