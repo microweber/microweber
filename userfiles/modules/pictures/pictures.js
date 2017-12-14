@@ -81,7 +81,7 @@ mw.module_pictures = {
           clearTimeout(mw.module_pictures.time)
           mw.module_pictures.time = setTimeout(function(){
             el.parents('[data-type="pictures/admin"]').trigger('change')
-          }, 900)
+          }, 1500)
         })
         el.sortable({
             items: ".admin-thumb-item",

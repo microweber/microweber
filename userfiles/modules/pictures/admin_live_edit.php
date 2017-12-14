@@ -82,12 +82,12 @@ if(isset($params['quick-add'])){
  </script>
 <script  type="text/javascript">
 
-
+    mw.module_pictures_upload_time = null;
 __mw_pics_save_msg = function(){
-	
-	
-	 
-	
+
+
+
+
 	
 	 if(mw.notification != undefined){
 			 mw.notification.success('Picture settings are saved!');
@@ -102,13 +102,22 @@ __mw_pics_save_msg = function(){
 		 $("#mw-pics-list-live-ed").attr('for', 'modules');
 		 $("#mw-pics-list-live-ed").attr('for-id', '<?php print $mod_id ?>');
 	 }
-	  mw.reload_module_parent("pictures");
+
 	 //  mw.reload_module_parent("#<?php print $params['id'] ?>");
-	 
+
+
+    clearTimeout(mw.module_pictures_upload_time)
+    mw.module_pictures_upload_time = setTimeout(function () {
+        mw.reload_module_parent("pictures");
+        mw.reload_module("#mw-pics-list-live-ed");
+    }, 1500)
+
+
+
+
+
 										
-										
-										
-	 mw.reload_module("#mw-pics-list-live-ed");
+
 	 
 	 
 	 
