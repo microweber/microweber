@@ -702,6 +702,10 @@ class UpdateManager
                 return;
             }
 
+
+
+
+
             if ($download_link != false and $expected > 0) {
                 $text = $download_link;
                 $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
@@ -727,6 +731,9 @@ class UpdateManager
                 }
             }
         }
+
+
+
 
 
         if ($download_target != false and is_file($download_target)) {
