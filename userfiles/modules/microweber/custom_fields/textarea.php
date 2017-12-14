@@ -1,4 +1,10 @@
-<div class="mw-custom-field-group">
+<?php
+if(!isset($data['input_class'])){
+    $data['input_class'] = '';
+}
+
+
+?><div class="mw-custom-field-group">
   <label class="mw-custom-field-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print $data['name'] ?>

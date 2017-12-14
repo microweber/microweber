@@ -6,6 +6,10 @@ if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 
+if(!isset($data['input_class'])){
+    $data['input_class'] = '';
+}
+
 
 
 if (!isset( $data['input_class']) and isset($params['input-class'])) {
