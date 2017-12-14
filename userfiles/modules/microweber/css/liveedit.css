@@ -3108,7 +3108,7 @@ div[id*='SSDIVEL'] {
     bottom: 0;
     right: 0px;
     background: white;
-    z-index: 9999;
+    z-index: 999;
     font-size: 11px;
     border-left: 1px solid #e5e5e5;
     -webkit-box-shadow: -2px 0px 5px -3px #e5e5e5;
@@ -3610,10 +3610,8 @@ body.mw-live-edit .mw-tooltip-content {
 .mw-cloneable-control {
     position: absolute;
     z-index: 1101;
-    margin: 5px;
+    margin: -15px 0;
     background: #2b2b2b;
-    -webkit-border-radius:30px;
-    -moz-border-radius:30px;
     border-radius:30px;
     padding: 2px;
 }
@@ -3684,4 +3682,14 @@ body.isTyping .mw-cloneable-control-item{
 .html-editor-selcted{
   outline: 2px solid #329A4F;
   outline-offset: 2px;
+}
+
+.wysiwyg-undo-redo{
+  display: inline-block;
+  float: left;
+  margin: 10px 0;
+}
+
+.wysiwyg-cell-undo-redo{
+  padding-left: 10px;
 }
