@@ -282,7 +282,7 @@ mw.html_editor.reset_content = function () {
     if (typeof(mw.html_editor.map[cur]) != 'undefined') {
 
 
-        var el = mw.html_editor.map[cur];
+        var el = mw.html_editor.map[cur].el;
         if(field == 'title'){
            // var old_var =  $(el).html();
             var html = 'Untitled content';
