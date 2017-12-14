@@ -1,16 +1,20 @@
 
-<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
-  <div class="wysiwyg-table">
     <?php if(is_admin()): ?>
-    <div class="wysiwyg-cell">
-        <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-        <span class="mw_editor_btn" id="history_panel_toggle" onclick="mw.$('#mw-history-panel').toggle()"><span class="mw-dropdown-arrow" style="margin: 12px 5px 0;"></span></span>
-      <div class="mw-ui-dropdown left" id="history_dd">
-        <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
+    <div class="wysiwyg-undo-redo">
+      <div class="wysiwyg-cell-undo-redo">
+          <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+              <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
+          <span class="mw_editor_btn" id="history_panel_toggle" onclick="mw.$('#mw-history-panel').toggle()"><span class="mw-dropdown-arrow" style="margin: 12px 5px 0;"></span></span>
+        <div class="mw-ui-dropdown left" id="history_dd">
+          <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
+        </div>
       </div>
     </div>
     <?php endif; ?>
+
+<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
+  <div class="wysiwyg-table">
+
     <div class="wysiwyg-cell"> <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span> </div>
     <div class="wysiwyg-cell">
       <div class="relative"> <span class="mw_editor_btn mw_editor_t wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1000"> <span class="mw-dropdown-arrow"></span> <span class="ed-ico"></span> </span>

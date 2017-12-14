@@ -813,8 +813,7 @@
 /* Icons */
 
 .mw-icon-selector {
-    height: 400px;
-    width: 300px;
+    max-height: 375px;
     background-color: white;
     overflow-x: hidden;
     overflow-y: auto;

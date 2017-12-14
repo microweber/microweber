@@ -559,18 +559,33 @@ mw.drag = {
            mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
       }
+      var clc = $(this._onCloneableControl)
       if(target == 'hide'){
-        $(this._onCloneableControl).hide()
+        clc.hide()
       }
       else{
-        $(this._onCloneableControl).show()
+        clc.show()
         this._onCloneableControl.__target = target;
+        var next = $(this._onCloneableControl.__target).next();
+        var prev = $(this._onCloneableControl.__target).prev();
         var el = $(target), off = el.offset()
-        $(this._onCloneableControl).css({
+        clc.css({
           top: off.top,
           left: off.left
-        })
-        $(this._onCloneableControl).show()
+        });
+        if(next.length == 0){
+          $('.mw-cloneable-control-next', clc).hide()
+        }
+        else{
+          $('.mw-cloneable-control-next', clc).show()
+        }
+        if(prev.length == 0){
+          $('.mw-cloneable-control-prev', clc).hide()
+        }
+        else{
+          $('.mw-cloneable-control-prev', clc).show()
+        }
+        clc.show()
       }
 
     },
@@ -3509,7 +3524,7 @@ mw.toolbar = {
 }
 mw.setLiveEditor = function() {
     $(mwd.querySelector('.editor_wrapper_tabled')).css({
-        marginLeft: $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true),
+        marginLeft: $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) + 80,
         marginRight: $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true),
         left: 0,
         width: $(window).width() - $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) - $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true)

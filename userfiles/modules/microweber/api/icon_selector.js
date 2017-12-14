@@ -173,22 +173,26 @@ mw.iconSelector = mw.iconSelector || {
 
 
 
-            mw.iconSelector.getMaterialIconsPopup(function(){
-              mw.iconSelector._string = html + this;
+             mw.iconSelector.getMaterialIconsPopup(function(){
+             mw.iconSelector._string = html + this;
              mw.iconSelector._string = '<ul class="mw-icon-selector">' + mw.iconSelector._string + '</ul>';
 
                mw.iconSelector._string =
                 '<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs live-edit-icon-pick-menu"><span class="mw-ui-btn">Icons</span><span class="mw-ui-btn">Options</span></div>'
-                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:500px">' + mw.iconSelector._string + '</div>'
-                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:500px">' + theOptions + '</div>'
+                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:355px">' + mw.iconSelector._string + '</div>'
+                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:355px">' + theOptions + '</div>'
                 ;
-              mw.iconSelectorToolTip = mw.tooltip({
-                  content: mw.iconSelector._string,
-                  element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
-                  position: 'bottom-center',
-                  width:500,
-                  height:500
-              });
+                if(!mw.iconSelectorToolTip){
+                  mw.iconSelectorToolTip = mw.tooltip({
+                      content: mw.iconSelector._string,
+                      element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
+                      position: 'bottom-center',
+                  });
+                }
+                else if(refresh){
+                  $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                }
+
               $(mw.iconSelectorToolTip).addClass('tooltip-icon-picker')
 
               $('.mw-icon-selector', mw.iconSelectorToolTip).show();
