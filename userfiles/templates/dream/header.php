@@ -68,10 +68,14 @@
         <script>
             function checkFirstSectionForNav() {
                 var firstSectionHas = $('.main-container section').first().hasClass('imagebg');
-                if (firstSectionHas == true) {
-                    $('nav .nav-bar').addClass('nav--absolute nav--transparent');
+
+                var skip = $('.main-container section').first().hasClass('background-image-holder');
+//d(skip);
+//d($('.main-container section').first());
+                if (!skip && firstSectionHas == true) {
+                 //   $('nav .nav-bar').addClass('nav--absolute nav--transparent');
                 } else {
-                    $('nav .nav-bar').removeClass('nav--absolute nav--transparent');
+                //    $('nav .nav-bar').removeClass('nav--absolute nav--transparent');
                 }
             }
 
