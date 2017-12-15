@@ -414,3 +414,8 @@ section.blog-post .container .container {
     color: red !important;
     text-transform: lowercase;
 }
+
+
+.imagebg{
+    overflow: hidden;
+}
