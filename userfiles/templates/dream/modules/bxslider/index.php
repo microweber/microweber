@@ -11,12 +11,12 @@ if (!$module_template) {
     $module_template = 'default';
 }
 $defaults = array(
-    'images' => '',
+    'images' => '' . template_url('assets/img/hero6.jpg') . '',
     'primaryText' => 'A bxSlider',
     'secondaryText' => 'Your text here.',
     'seemoreText' => 'See more',
-    'url' => '',
-    'urlText' => '',
+    'url' => '#',
+    'urlText' => 'Click here',
     'skin' => 'default'
 );
 $data = array();

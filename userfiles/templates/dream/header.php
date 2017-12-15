@@ -133,8 +133,8 @@
             </div>
         <?php endif; ?>
 
-        <div class="nav-module right hidden-xs hidden-sm hidden-md">
-            <span class="nav-function phone-header edit" rel="global" field="dream_header_phone" style="">
+        <div class="nav-module right hidden-xs hidden-sm hidden-md safe-mode">
+            <span class="nav-function phone-header edit safe-element" rel="global" field="dream_header_phone" style="">
                 Call us: +1 555 666
             </span>
         </div>

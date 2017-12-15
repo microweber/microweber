@@ -409,3 +409,8 @@ section.blog-post .container .container {
     font-size: 18px;
     font-weight: bold;
 }
+
+.mw-cart-data-holder .remove{
+    color: red !important;
+    text-transform: lowercase;
+}
