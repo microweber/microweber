@@ -11,10 +11,22 @@ mw.html_editor.init = function () {
     var fields = mw.html_editor.get_edit_fields(true);
     mw.html_editor.build_dropdown(fields);
     mw.html_editor.populate_editor();
+    mw.html_editor.set_height();
 
 };
 
 
+mw.html_editor.set_height = function () {
+  var set = function(){
+    mw.$('.CodeMirror').each(function(){
+      var el = $(this)
+       el.height($(window).height() - el.offset().top - 40)
+    });
+  }
+  $(window).on('load resize orientationchange', function(){
+    set();
+  })
+}
 mw.html_editor.get_edit_fields = function (also_in_modules) {
 
     also_in_modules = typeof also_in_modules === 'undefined' ? false : also_in_modules;
@@ -51,16 +63,19 @@ mw.html_editor.build_dropdown = function (fields_array) {
     });
 
 
-    var $select = $("<select>");
+    var $select = $("<ul>");
     $select.attr('id', 'select_edit_field');
-    $select.attr('class', 'mw-ui-field');
+    //$select.attr('class', 'mw-ui-field');
 
     var has_selected = false;
 
     $select.appendTo("#select_edit_field_wrap");
     $.each(html_dd, function (groupName, options) {
-        var $optgroup = $("<optgroup>", {label: groupName, rel: groupName});
+        var $optgroup = $("<li>", {label: groupName, rel: groupName});
         $optgroup.appendTo($select);
+        $optgroup.html(groupName);
+        var $optgroupul = $("<ul>", {label: groupName, rel: groupName});
+        $optgroupul.appendTo($optgroup);
         $.each(options, function (j, option) {
 
             if (!option.field) {
@@ -70,7 +85,7 @@ mw.html_editor.build_dropdown = function (fields_array) {
             } else {
 
 
-                var $option = $("<option>", {
+                var $option = $("<li>", {
                     text: option.field,
                     value: option.rel,
                     rel: option.rel,
@@ -85,7 +100,7 @@ mw.html_editor.build_dropdown = function (fields_array) {
 
 
 
-                $option.appendTo($optgroup);
+                $option.appendTo($optgroupul);
             }
 
         });

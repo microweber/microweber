@@ -139,7 +139,7 @@ mw.iconSelector = mw.iconSelector || {
     },
 
     popup: function (refresh) {
-      
+
 
         if (mw.iconSelector.iconFontClasses.length == 0) {
             mw.iconSelector.init();
@@ -183,17 +183,24 @@ mw.iconSelector = mw.iconSelector || {
                 + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:355px">' + theOptions + '</div>'
                 ;
                 if(!mw.iconSelectorToolTip){
+
                   mw.iconSelectorToolTip = mw.tooltip({
                       content: mw.iconSelector._string,
                       element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
                       position: 'bottom-center',
                   });
+                  if(refresh){
+                    $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                    $(mw.iconSelectorToolTip).hide()
+                  }
                 }
-                else if(refresh){
+               else if(refresh){
                   $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                  $(mw.iconSelectorToolTip).hide()
                 }
 
               $(mw.iconSelectorToolTip).addClass('tooltip-icon-picker')
+
 
               $('.mw-icon-selector', mw.iconSelectorToolTip).show();
               var tabs = mw.tabs({
@@ -215,11 +222,18 @@ mw.iconSelector = mw.iconSelector || {
             })
         }
         else {
+          if(mw.iconSelector._activeElement !== null && !refresh){
+
             $(mw.iconSelectorToolTip).show();
             $('.mw-icon-selector', mw.iconSelectorToolTip).show();
 
 
             mw.tools.tooltip.setPosition(mw.iconSelectorToolTip, mw.iconSelector._activeElement, 'bottom-center');
+          }
+          else{
+            $(mw.iconSelectorToolTip).hide();
+          }
+
         }
         var icons_size_val = $(mw.iconSelector._activeElement).css("fontSize");
         var a = parseInt(icons_size_val);
@@ -228,7 +242,10 @@ mw.iconSelector = mw.iconSelector || {
             $('.mw-icon-selector-set-icon-size').val(a);
         }
 
+       if(mw.iconSelector._activeElement === null || refresh){
+         $(mw.iconSelectorToolTip).hide();
 
+       }
 
     },
     _exceptions:['fa-lg', 'fa-2x', 'fa-3x', 'fa-4x', 'fa-5x', 'fa-fw', 'fa-spin', 'fa-pule', 'fa-rotate-90', 'fa-rotate-180', 'fa-rotate-270', 'fa-flip-horizontal', 'fa-flip-vertical'],
@@ -273,7 +290,6 @@ mw.iconSelector = mw.iconSelector || {
       val = val.toLowerCase();
       var final = [];
       $.each(mw.iconSelector.iconFontClasses, function(){
-        console.log(this.toLowerCase().indexOf(val))
         if(this.toLowerCase().indexOf(val) !== -1){
           final.push(this)
         }

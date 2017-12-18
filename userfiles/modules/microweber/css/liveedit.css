@@ -3687,7 +3687,7 @@ body.isTyping .mw-cloneable-control-item{
 .wysiwyg-undo-redo{
   display: inline-block;
   float: left;
-  margin: 10px 0;
+  margin: 10px 0 0;
 }
 
 .wysiwyg-cell-undo-redo{

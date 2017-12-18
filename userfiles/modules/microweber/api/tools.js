@@ -882,7 +882,7 @@ mw.tools = {
         playing: false,
         playingInt: null,
         play: function (modal, interval) {
-            console.log(modal)
+            
             if (!modal) {
                 clearInterval(mw.tools.gallery.playingInt);
                 mw.tools.gallery.playing = false;
