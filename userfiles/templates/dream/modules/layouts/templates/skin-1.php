@@ -22,13 +22,15 @@ if ($overlay === null OR $overlay === false) {
     $overlay = '6';
 }
 ?>
-
 <script>
     mw.lib.require('fitty');
+</script>
+<script>
 
     $(document).ready(function () {
         var el = document.getElementById('fitty-<?php print $params['id'] ?>');
-        if (el && el.length > 0) {
+        $('#fitty-<?php print $params['id'] ?>').removeAttr('style');
+        if (el) {
             fitty(el);
         }
     });
@@ -64,16 +66,15 @@ if ($overlay === null OR $overlay === false) {
 
     <div class="container pos-vertical-center">
         <div class="row">
-            <div class="col-sm-6 text-right text-center-xs">
+            <div class="col-sm-12 text-center">
                 <div class="allow-drop">
                     <p class="logo-text"><span id="fitty-<?php print $params['id'] ?>" class="safe-element">Dream.</span></p>
                 </div>
             </div>
-            <div class="col-sm-6 text-center-xs">
+            <div class="col-sm-12 text-center">
                 <div class="allow-drop">
-                    <p class="lead">
-                        A beautiful collection of
-                        <br/> hand-crafted web components
+                    <p class="lead" style="top: 0;">
+                        A beautiful collection of hand-crafted web components
                     </p>
                 </div>
             </div>
