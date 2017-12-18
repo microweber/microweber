@@ -119,9 +119,7 @@ class Parser
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value);
                     $v1 = crc32($value) . '-' . $other_html_tag_replace_inc++;
-
                     $v1 = '<tag-comment>mw_replace_back_this_html_comment_code_' . $v1 . '</tag-comment>';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_mw_parser_replaced_html_comments[$v1])) {
@@ -145,13 +143,7 @@ class Parser
             foreach ($matches1 as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value) . '-' . $parser_modules_crc . $mod_tag_replace_inc++;
-                    //  $v1 =$mod_tag_replace_inc++.'_'. crc32($value) . '-' .$parser_modules_crc;
-                    //  $v1 = crc32($value) . '-' .$parser_modules_crc. $it_loop2;
-                    // $v1 = crc32($value);
-
                     $v1 = '<tag>mw_replace_back_this_module_' . $v1 . '</tag>';
-                    // \Log::info($v1);
-                    //d($this->mw_replaced_modules);
                     $layout = $this->_str_replace_first($value, $v1, $layout);
                     if (!isset($local_mw_replaced_modules[$static_parser_mem_crc][$v1])) {
                         $local_mw_replaced_modules[$static_parser_mem_crc][$v1] = $value;
@@ -160,9 +152,12 @@ class Parser
             }
         }
 
-        //  $this->have_more = !empty($mw_script_matches);
+        $should_parse_only_vars = false;
+        if (isset($options['parse_only_vars']) and $options['parse_only_vars']) {
+            $should_parse_only_vars = true;
+        }
 
-        if (!isset($options['parse_only_vars'])) {
+        if (!$should_parse_only_vars) {
             $layout = str_replace('<mw ', '<module ', $layout);
             $layout = str_replace('<editable ', '<div class="edit" ', $layout);
             $layout = str_replace('</editable>', '</div>', $layout);
@@ -1368,7 +1363,7 @@ if($field != 'content'){
         return $layout;
     }
 
-    public function make_tags($layout)
+    public function make_tags($layout,$options=array())
     {
 
         if ($layout == '') {
@@ -1379,7 +1374,7 @@ if($field != 'content'){
         $pq = \phpQuery::newDocument($layout);
 
 
-        $remove_clases = ['changed','inaccessibleModule','module-over', 'currentDragMouseOver'];
+        $remove_clases = ['changed','inaccessibleModule','module-over', 'currentDragMouseOver', 'mw-webkit-drag-hover-binded'];
 
         foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;
@@ -1419,20 +1414,57 @@ if($field != 'content'){
             if (!empty($attrs)) {
                 foreach ($attrs as $attribute_name => $attribute_node) {
                     $v = $attribute_node->nodeValue;
+                    if($attribute_name == 'class'){
+                        foreach($remove_clases as $remove_class){
+                            $v = str_replace(' '.$remove_class,'',$v);
+                        }
+                    }
+
+
                     $module_html .= " {$attribute_name}='{$v}'  ";
                 }
             }
             $module_html .= ' />';
             pq($elem)->replaceWith($module_html);
         }
-
-
-
-
         $layout = $pq->htmlOuter();
         $layout = str_replace("\u00a0", ' ', $layout);
         $layout = str_replace('<?', '&lt;?', $layout);
         $layout = str_replace('?>', '?&gt;', $layout);
+
+
+        if(isset($options['change_module_ids']) and $options['change_module_ids']){
+            $script_pattern = '/<module[^>]*>/Uis';
+            preg_match_all($script_pattern, $layout, $mw_script_matches);
+            if (!empty($mw_script_matches)) {
+                $matches1 = $mw_script_matches[0];
+
+                foreach ($matches1 as $key => $value) {
+                    if ($value != '') {
+                       $attrs =  $this->_extract_module_tag_attrs($value);
+                        $suffix = date("Ymdhis");
+                        if(isset($attrs['parent-module-id'])){
+                            $attrs['parent-module-id'] = $attrs['parent-module-id'].$suffix;
+                        }
+                        if(isset($attrs['id'])){
+                            $attrs['id'] = $attrs['id'].$suffix;
+                        }
+
+                        if($attrs){
+                            $module_tags = '<module ';
+                            foreach ($attrs as $nn => $nv) {
+                                $module_tags .= " {$nn}='{$nv}' ";
+                            }
+                            $module_tags .= "/>";
+                            $layout = $this->_str_replace_first($value, $module_tags, $layout);
+
+                        }
+
+                    }
+                }
+            }
+        }
+
 
         return $layout;
     }
@@ -1988,6 +2020,46 @@ if($field != 'content'){
             }
         }
         return $proceed_with_parse;
+    }
+
+    private function _extract_module_tag_attrs($module_tag)
+    {
+        $value = $module_tag;
+        $attrs = array();
+        $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+        $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
+        if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
+            foreach ($attrs1 as $item) {
+                $m_tag = trim($item[0], "\x22\x27");
+                $m_tag = trim($m_tag, "\x27\x22");
+                $m_tag = preg_replace('/=/', $mw_attrs_key_value_seperator, $m_tag, 1);
+
+
+                $m_tag = explode($mw_attrs_key_value_seperator, $m_tag);
+
+                $a = trim($m_tag[0], "''");
+                $a = trim($a, '""');
+                $b = trim($m_tag[1], "''");
+                $b = trim($b, '""');
+                if (isset($m_tag[2])) {
+                    $rest_pieces = $m_tag;
+                    if (isset($rest_pieces[0])) {
+                        unset($rest_pieces[0]);
+                    }
+                    if (isset($rest_pieces[1])) {
+                        unset($rest_pieces[1]);
+                    }
+                    $rest_pieces = implode($mw_attrs_key_value_seperator, $rest_pieces);
+                    $b = $b . $rest_pieces;
+                }
+
+                $attrs[$a] = $b;
+            }
+        }
+
+        if($attrs){
+            return $attrs;
+        }
     }
 
     private function _str_clean_mod_id($mod_id)
