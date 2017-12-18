@@ -3463,6 +3463,25 @@ div[id*='SSDIVEL'] {
     color: #919191;
 }
 
+.mw-toolbar-right-content .mw-ui-btn i.mw-icon-web-earth {
+    font-size: 19px;
+    margin: 0;
+    top: 5px;
+}
+
+.toolbar-sections-tabs i.mw-icon-plus {
+    font-size: 14px;
+    margin: 0 !important;
+    background: #0086db;
+    color: #fff;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+}
+
 .view-website-button {
     height: 33px;
     margin-top: -1px;
@@ -3682,19 +3701,43 @@ body.isTyping .mw-cloneable-control-item {
     outline-offset: 2px;
 }
 
-<<<<<<< HEAD
-.wysiwyg-undo-redo{
-  display: inline-block;
-  float: left;
-  margin: 10px 0 0;
-=======
 .wysiwyg-undo-redo {
     display: inline-block;
     float: left;
->>>>>>> 86d5ad4e4b7a90aa6e7e66023d1978962cb14503
 }
 
 .wysiwyg-cell-undo-redo {
     padding-left: 10px;
     padding-top: 10px;
+    height: 40px;
 }
+
+.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo,
+.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo {
+    padding: 1px 4px 0px 4px;
+    border: 1px solid transparent;
+    height: auto;
+}
+
+.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo:hover,
+.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo:hover {
+    border: 1px solid #e5e5e5;
+}
+
+#history_panel_toggle {
+    height: 30px;
+    border: 1px solid transparent;
+    padding: 5px 6px;
+}
+
+#history_panel_toggle span {
+    color: #6f6f6f;
+    font-size: 11px;
+    line-height: 1px;
+    margin-top: 5px;
+}
+
+#history_panel_toggle:hover {
+    border: 1px solid #e5e5e5;
+}
+
