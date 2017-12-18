@@ -66,12 +66,12 @@ if ($overlay === null OR $overlay === false) {
 
     <div class="container pos-vertical-center">
         <div class="row">
-            <div class="col-sm-12 text-center">
+            <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 text-center">
                 <div class="allow-drop">
                     <p class="logo-text"><span id="fitty-<?php print $params['id'] ?>" class="safe-element">Dream.</span></p>
                 </div>
             </div>
-            <div class="col-sm-12 text-center">
+            <div class="col-xs-12 text-center">
                 <div class="allow-drop">
                     <p class="lead" style="top: 0;">
                         A beautiful collection of hand-crafted web components
