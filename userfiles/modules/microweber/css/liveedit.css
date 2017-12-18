@@ -3682,9 +3682,16 @@ body.isTyping .mw-cloneable-control-item {
     outline-offset: 2px;
 }
 
+<<<<<<< HEAD
+.wysiwyg-undo-redo{
+  display: inline-block;
+  float: left;
+  margin: 10px 0 0;
+=======
 .wysiwyg-undo-redo {
     display: inline-block;
     float: left;
+>>>>>>> 86d5ad4e4b7a90aa6e7e66023d1978962cb14503
 }
 
 .wysiwyg-cell-undo-redo {

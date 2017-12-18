@@ -2502,10 +2502,16 @@ mw.linkTip = {
         });
     },
     find: function (target) {
-        if (mw.tools.hasClass(target, 'module') || mw.tools.hasParentsWithClass(target, 'module')) {
-            return undefined;
+      var module = mw.tools.firstMatchesOnNodeOrParent(target, ['.module']);
+        if (mw.tools.hasClass(target, 'module')) {
+            return ;
         }
-        else if (target.nodeName === 'A') {
+        else if (mw.tools.hasParentsWithClass(target, 'module')) {
+          var po = mw.tools.parentsOrder(target, ['edit', 'module'])
+          if(po.edit === -1 ) return;
+          if(po.edit > po.module ) return;
+        }
+        if (target.nodeName === 'A') {
             return target;
         }
         else if (mw.tools.hasParentsWithTag(target, 'a')) {

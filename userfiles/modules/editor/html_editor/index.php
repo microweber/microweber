@@ -88,6 +88,18 @@
 
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
+
+    #select_edit_field li{
+      margin-left: 10px;
+      padding: 5px 10px;
+    }
+    #select_edit_field > li{
+      font-weight: bold;
+    }
+    #select_edit_field > li li{
+      font-weight: normal;
+    }
+
 </style>
 
 <script type="text/javascript">
@@ -137,23 +149,37 @@
         mw.html_editor.init();
 
 
+
+
     })
 
 
 </script>
-<table>
-  <tr>
-    <td>
-      <div id="select_edit_field_wrap"></div>
 
-    </td>
-    <td>
-      <button onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Apply'); ?></button>
+<div class="mw-ui-row">
+  <div class="mw-ui-col" style="width: 200px;">
+    <div class="mw-ui-col-container">
+      <div class="mw-ui-box   ">
+          <div class="mw-ui-box-header">
+<span class="mw-icon-gear"></span><span><?php _e('Sections'); ?></span>
+</div>
+          <div class="mw-ui-box-content"><div id="select_edit_field_wrap"></div></div>
+        </div>
 
-    </td>
-  </tr>
-</table>
+    </div>
+  </div>
+    <div class="mw-ui-col">
+      <div class="mw-ui-col-container">
+        <textarea class="mw-ui-field w100" name="custom_html" id="custom_html_code_mirror" rows="30"
+            option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>
+      </div>
+  </div>
+</div>
 
 
-<textarea class="mw-ui-field w100" name="custom_html" id="custom_html_code_mirror" rows="30"
-          option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>
+
+
+
+
+
+<button onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></button>
