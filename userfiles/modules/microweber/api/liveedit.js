@@ -3929,3 +3929,5 @@ mw.beforeleave = function(url) {
         return false;
     }
 }
+
+mw.lib.require('font_awesome');
