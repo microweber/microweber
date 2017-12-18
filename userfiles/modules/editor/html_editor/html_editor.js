@@ -108,7 +108,9 @@ mw.html_editor.build_dropdown = function (fields_array) {
 
 
 
-    $($select).on('change',function(){
+    $('li', $select).on('click',function(){
+      $('li', $select).removeClass('selected');
+      $(this).addClass('selected');
         mw.html_editor.populate_editor()
     });
 
@@ -116,10 +118,10 @@ mw.html_editor.build_dropdown = function (fields_array) {
 
 
 mw.html_editor.populate_editor = function () {
-    var value = $('select#select_edit_field option:selected');
+    var value = $('select#select_edit_field li.selected');
 
     if (value.length == 0) {
-        var value = $('select#select_edit_field option:first');
+        var value = $('select#select_edit_field li:first');
     }
     if (value.length == 0) {
         return;
