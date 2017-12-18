@@ -89,15 +89,42 @@
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
 
+    #select_edit_field{
+      padding: 0;
+      margin: 0;
+    }
+
     #select_edit_field li{
-      margin-left: 10px;
-      padding: 5px 10px;
+      padding: 5px 10px 5px 0;
+      list-style: none;
+      word-break: break-all;
     }
     #select_edit_field > li{
       font-weight: bold;
+      cursor: default;
+      pointer-events: none;
     }
     #select_edit_field > li li{
       font-weight: normal;
+      cursor: pointer;
+      pointer-events: all;
+      padding-left: 10px;
+    }
+        #select_edit_field > li li:hover{
+      background-color: #8AD2FF;
+    }
+    #select_edit_field  > li li:hover,
+    #select_edit_field  > li li.selected{
+      background-color: #0084d8;
+      color: white;
+    }
+
+    #save{
+      margin: 10px 0 0 0;
+    }
+
+    .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:last-child{
+      padding-right: 0;
     }
 
 </style>
@@ -180,6 +207,8 @@
 
 
 
+<div class="mw-ui-btn-nav pull-right" id="save">
 
-
-<button onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></button>
+  <span onclick="mw.html_editor.apply();" class="mw-ui-btn" ><?php _e('Update'); ?></span>
+  <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
+</div>
