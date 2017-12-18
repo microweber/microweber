@@ -19,8 +19,8 @@ $params['li_class'] = '';
 $params['li_class_deep'] = 'hidden';
 ?>
 
-<div class="xxxxmasonry xxxmasonry-shop">
-    <div class="xxxxmasonry__filters text-center">
-        <?php  category_tree($params); ?>
+<div class="masonry masonry-shop">
+    <div class="masonry__filters text-center">
+        <?php category_tree($params); ?>
     </div>
 </div>

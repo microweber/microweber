@@ -68,10 +68,14 @@
         <script>
             function checkFirstSectionForNav() {
                 var firstSectionHas = $('.main-container section').first().hasClass('imagebg');
-                if (firstSectionHas == true) {
-                    $('nav .nav-bar').addClass('nav--absolute nav--transparent');
+
+                var skip = $('.main-container section').first().hasClass('background-image-holder');
+//d(skip);
+//d($('.main-container section').first());
+                if (!skip && firstSectionHas == true) {
+                 //   $('nav .nav-bar').addClass('nav--absolute nav--transparent');
                 } else {
-                    $('nav .nav-bar').removeClass('nav--absolute nav--transparent');
+                //    $('nav .nav-bar').removeClass('nav--absolute nav--transparent');
                 }
             }
 
@@ -133,8 +137,8 @@
             </div>
         <?php endif; ?>
 
-        <div class="nav-module right hidden-xs hidden-sm hidden-md">
-            <span class="nav-function phone-header edit" rel="global" field="dream_header_phone" style="">
+        <div class="nav-module right hidden-xs hidden-sm hidden-md safe-mode">
+            <span class="nav-function phone-header edit safe-element" rel="global" field="dream_header_phone" style="">
                 Call us: +1 555 666
             </span>
         </div>

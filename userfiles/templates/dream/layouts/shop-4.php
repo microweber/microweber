@@ -18,7 +18,7 @@ position: 4
     <module type="layouts" template="skin-42"/>
 
 
-    <section class="wide-grid masonry masonry-shop">
+    <section class="wide-grid masonry-shop">
         <module type="categories" content_id="<?php print PAGE_ID; ?>" />
 
         <module type="shop/products" limit="18" description-length="70" template="skin-3"/>

@@ -467,7 +467,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 }
 
 .column_separator_title,
-a.mw-make-cols{
+a.mw-make-cols {
     color: white;
     background: #2b2b2b;
     text-decoration: none;
@@ -481,7 +481,7 @@ a.mw-make-cols{
     line-height: 23px;
 }
 
-#mw_handle_row{
+#mw_handle_row {
     background: #2b2b2b;
     border-radius: 30px;
     padding: 2px;
@@ -511,7 +511,6 @@ a.mw-make-cols{
 .mw_edit_settings_multiple {
     margin-right: 3px;
 }
-
 
 #mw_handle_module .mw_edit_settings,
 #mw_handle_module .mw_edit_settings_multiple {
@@ -671,8 +670,6 @@ html.mw_pages #items_handle {
     background-color: #262626;
     color: #fff;
 }
-
-
 
 /****************************
       Design tool
@@ -3010,14 +3007,15 @@ div[id*='SSDIVEL'] {
     padding-left: 23px;
 }
 
-#liveedit_wysiwyg{
+#liveedit_wysiwyg {
     transition: opacity 0.6s, transform .3s;
     transform: translateY(-24%);
     opacity: 0;
 }
-.mw-active-element-iseditable #liveedit_wysiwyg{
-  transform:translateY(0%);
-  opacity: 1;
+
+.mw-active-element-iseditable #liveedit_wysiwyg {
+    transform: translateY(0%);
+    opacity: 1;
 }
 
 #liveedit_wysiwyg:before {
@@ -3590,8 +3588,6 @@ body.mw-live-edit .mw-tooltip-content {
     content: "\0136"
 }
 
-
-
 .has-opened-sidebar {
     margin-right: 300px;
 }
@@ -3612,7 +3608,7 @@ body.mw-live-edit .mw-tooltip-content {
     z-index: 1101;
     margin: -15px 0;
     background: #2b2b2b;
-    border-radius:30px;
+    border-radius: 30px;
     padding: 2px;
 }
 
@@ -3636,17 +3632,17 @@ body.mw-live-edit .mw-tooltip-content {
     font-size: 13px;
 }
 
-.mw-cloneable-control-item.mw-cloneable-control-minus{
+.mw-cloneable-control-item.mw-cloneable-control-minus {
     font-size: 10px;
 }
 
-.mw-cloneable-control-item:hover{
+.mw-cloneable-control-item:hover {
     background: #fff;
     color: #000;
 }
 
-body.isTyping .mw-cloneable-control-item{
-  display: none;
+body.isTyping .mw-cloneable-control-item {
+    display: none;
 }
 
 .mw-cloneable-control-plus:after {
@@ -3660,11 +3656,13 @@ body.isTyping .mw-cloneable-control-item{
     text-transform: none !important;
     content: "\f2f4";
 }
+
 .mw-cloneable-control-prev:after {
     font-family: Microweber !important;
     text-transform: none !important;
     content: "\0137";
 }
+
 .mw-cloneable-control-next:after {
     font-family: Microweber !important;
     text-transform: none !important;
@@ -3679,17 +3677,24 @@ body.isTyping .mw-cloneable-control-item{
     pointer-events: none;
 }
 
-.html-editor-selcted{
-  outline: 2px solid #329A4F;
-  outline-offset: 2px;
+.html-editor-selcted {
+    outline: 2px solid #329A4F;
+    outline-offset: 2px;
 }
 
+<<<<<<< HEAD
 .wysiwyg-undo-redo{
   display: inline-block;
   float: left;
   margin: 10px 0 0;
+=======
+.wysiwyg-undo-redo {
+    display: inline-block;
+    float: left;
+>>>>>>> 86d5ad4e4b7a90aa6e7e66023d1978962cb14503
 }
 
-.wysiwyg-cell-undo-redo{
-  padding-left: 10px;
+.wysiwyg-cell-undo-redo {
+    padding-left: 10px;
+    padding-top: 10px;
 }

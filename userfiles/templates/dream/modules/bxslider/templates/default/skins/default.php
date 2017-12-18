@@ -1,19 +1,15 @@
-<div class="caption-slider-default">
-    <div class="display-table">
-        <div class="display-table-cell vertical-align-middle">
-            <div class="caption-container text-left">
-                <h2><?php print $slide['primaryText']; ?></h2>
-                <p>
-                    <?php print $slide['secondaryText']; ?>
-                </p>
-                <?php if (isset($slide['url']) AND $slide['url'] != ''): ?>
-                    <br />
-                    <br />
-                    <a href="<?php print $slide['url']; ?>" class="btn btn-primary"><?php print $slide['seemoreText']; ?></a>
-                <?php endif; ?>
-            </div>
+<div class="background-image-holder" style="background-image: url('<?php print $slide['images'][0]; ?>');"></div>
+
+<div class="container pos-vertical-center">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h1><?php print $slide['primaryText']; ?></h1>
+            <p class="lead"><?php print $slide['secondaryText']; ?></p>
+            <?php if (isset($slide['url']) AND $slide['url'] != ''): ?>
+                <a class="btn btn--primary" href="<?php print $slide['url']; ?>"><span class="btn__text"><?php print $slide['seemoreText']; ?></span></a>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
-<img class="img-responsive radius-4" src="<?php print $slide['images'][0]; ?>" width="851" height="335" alt="">
+
