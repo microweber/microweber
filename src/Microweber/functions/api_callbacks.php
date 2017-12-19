@@ -88,6 +88,20 @@ api_expose_admin('content/copy', function ($data) {
     return mw()->content_manager->helpers->copy($data);
 });
 
+api_expose_admin('content/redirect_to_content', function ($data) {
+
+    if(isset($data['id'])){
+        $id = intval($data['id']);
+        $url = content_link($id);
+        if(!$url){
+            $url = site_url();
+        }
+        return redirect($url);
+    }
+});
+
+
+
 api_expose_admin('current_template_save_custom_css', function ($data) {
     return mw()->layouts_manager->template_save_css($data);
 });

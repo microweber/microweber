@@ -69,7 +69,15 @@ if (!empty($template_config)) {
                     if (data != null) {
                         var r = confirm("<?php _e('Go to the new page?'); ?>");
                         if (r == true) {
-                            mw.url.windowHashParam('action', 'editpage:' + data);
+                            if(self != top){
+                                top.window.location = mw.settings.site_url + "api/content/redirect_to_content?id=" + data;
+
+                            } else {
+                                mw.url.windowHashParam('action', 'editpage:' + data);
+
+                            }
+                            //content/redirect_to_content_id
+
                         } else {
 
                         }

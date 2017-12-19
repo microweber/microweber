@@ -464,6 +464,21 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if (!empty($content_cats)) {
                     $new_cont['categories'] = $content_cats;
                 }
+
+                if(isset($new_cont['is_home'])){
+                    unset($new_cont['is_home']);
+                }
+
+                if(isset($new_cont['content'])){
+                    $new_cont['content'] = $this->app->parser->make_tags($new_cont['content'], array('change_module_ids'=>true));
+
+                }
+
+                if(isset($new_cont['content_body'])){
+                    $new_cont['content_body'] = $this->app->parser->make_tags($new_cont['content_body'], array('change_module_ids'=>true));
+                }
+
+
                 $new_cont_id = $this->save($new_cont);
 
                 $cust_fields = get_custom_fields('content', $data['id'], true);
@@ -472,6 +487,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $new = $cust_field;
                         $new['id'] = 0;
                         $new['rel_id'] = $new_cont_id;
+                        $new['rel_type'] = 'content';
                         $new_item = save_custom_field($new);
                     }
                 }
@@ -799,6 +815,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $old = $for_histroy[$field];
                                     }
                                 }
+
+
                                 $history_to_save = array();
                                 $history_to_save['table'] = 'content';
                                 $history_to_save['id'] = $content_id;
@@ -850,7 +868,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 if ($is_no_save != true and $is_draft == false) {
                                     $to_save2 = $to_save;
-                                    $to_save2['rel_type'] = 'content';
+                                 //   $to_save2['rel_type'] = 'content';
                                     $to_save2['rel_type'] = $rel_ch;
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
@@ -884,6 +902,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
                             }
                             $cont_field['field'] = $the_field_data['attributes']['field'];
+
+
+                            if($cont_field['rel_type'] == 'module'){
+                                $cont_field['rel_id'] = false;
+                            }
+
+
 
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
