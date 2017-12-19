@@ -36,25 +36,37 @@
 
         //
     })
-
+   mw.require('<?php print modules_url()?>editor/selector.css');
 
 </script>
 <style>
-    #select_edit_field_wrap {
-        width: 400px;
+    .mw-ui-box {
+      margin: 20px;
+      margin-bottom: 70px;
     }
+
+    #save-toolbar{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background: white;
+      box-shadow: 0 -2px 2px rgba(0, 0, 0, .2);
+      padding: 10px;
+      text-align: right;
+      z-index: 1;
+      width: 100%;
+
+    }
+
 </style>
-<table>
-  <tr>
-    <td width="80%">
-      <div id="select_edit_field_wrap"></div>
+<div class="mw-ui-box   ">
+          <div class="mw-ui-box-header">
+<span class="mw-icon-gear"></span><span><?php _e('Sections'); ?></span>
+</div>
+          <div class="mw-ui-box-content"><div id="select_edit_field_wrap"></div></div>
+        </div>
 
-    </td>
-    <td width="20%">
-      <button onclick="mw.html_editor.reset_content();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Reset content'); ?></button>
-
-    </td>
-  </tr>
-</table>
-
+<div id="save-toolbar">
+  <button onclick="mw.html_editor.reset_content();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Reset content'); ?></button>
+</div>
 

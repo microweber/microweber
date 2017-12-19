@@ -98,9 +98,6 @@ mw.html_editor.build_dropdown = function (fields_array) {
                      $($option).attr('selected', 'selected');
 
                 }
-
-
-
                 $option.appendTo($optgroupul);
             }
 
@@ -123,7 +120,7 @@ mw.html_editor.populate_editor = function () {
     var value = $('#select_edit_field li.selected');
 
     if (value.length == 0) {
-        var value = $('select#select_edit_field li:first');
+        var value = $('select#select_edit_field li li').eq(0);
     }
     if (value.length == 0) {
         return;
@@ -151,7 +148,7 @@ mw.html_editor.populate_editor = function () {
         var html = ed_val;
         var holder = document.createElement("div")
         holder.id = 'fragment-holder'
-        holder.innerHTML = html_beautify(html)
+        holder.innerHTML = window.html_beautify ?  html_beautify(html) : html;
         frag.appendChild(holder)
         //var s = $('.module', $(frag)).html('[module]');
          var s = $('.module', $(frag)).html('[module]');
@@ -283,10 +280,10 @@ mw.html_editor.apply = function () {
 
 mw.html_editor.reset_content = function () {
 
-    var value = $('select#select_edit_field option:selected');
+    var value = $('#select_edit_field li.selected');
 
     if (value.length == 0) {
-        var value = $('select#select_edit_field option:first');
+        var value = $('#select_edit_field li li').eq(0);
     }
     if (value.length == 0) {
         return;
@@ -295,34 +292,16 @@ mw.html_editor.reset_content = function () {
     var rel = value.attr('rel');
     var cur = rel + '/' + field;
 
-//     mw.tools.confirm("Are you sure you want to Reset the content of this element?", function () {
-//         var obj = {
-//             rel: rel,
-//             field: field
-//         }
-//         $.post(mw.settings.site_url + "api/content/reset_edit", obj, function (data) {
-//
-//             if (typeof(mw.edit_content) == 'object') {
-//                 mw.edit_content.load_editor()
-//             }
-//
-// mw.drag.save()
-//             typeof callback === 'function' ? callback.call(data) : '';
-//         });
-//     });
-//
-//
-//
+
     var html = '';
+
 
     if (typeof(mw.html_editor.map[cur]) != 'undefined') {
 
 
         var el = mw.html_editor.map[cur].el;
         if(field == 'title'){
-           // var old_var =  $(el).html();
             var html = 'Untitled content';
-
         }
 
         $(el).html(html);

@@ -89,35 +89,7 @@
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
 
-    #select_edit_field{
-      padding: 0;
-      margin: 0;
-    }
 
-    #select_edit_field li{
-      padding: 5px 10px 5px 0;
-      list-style: none;
-      word-break: break-all;
-    }
-    #select_edit_field > li{
-      font-weight: bold;
-      cursor: default;
-      pointer-events: none;
-    }
-    #select_edit_field > li li{
-      font-weight: normal;
-      cursor: pointer;
-      pointer-events: all;
-      padding-left: 10px;
-    }
-        #select_edit_field > li li:hover{
-      background-color: #8AD2FF;
-    }
-    #select_edit_field  > li li:hover,
-    #select_edit_field  > li li.selected{
-      background-color: #0084d8;
-      color: white;
-    }
 
     #save{
       margin: 10px 0 0 0;
@@ -130,6 +102,7 @@
 </style>
 
 <script type="text/javascript">
+    mw.require('<?php print modules_url()?>editor/selector.css');
     $time_out_handle = 0;
     $(document).ready(function () {
         html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
