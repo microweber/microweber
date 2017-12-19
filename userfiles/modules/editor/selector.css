@@ -1,0 +1,29 @@
+#select_edit_field{
+      padding: 0;
+      margin: 0;
+    }
+
+    #select_edit_field li{
+      padding: 5px 10px 5px 0;
+      list-style: none;
+      word-break: break-all;
+    }
+    #select_edit_field > li{
+      font-weight: bold;
+      cursor: default;
+      pointer-events: none;
+    }
+    #select_edit_field > li li{
+      font-weight: normal;
+      cursor: pointer;
+      pointer-events: all;
+      padding-left: 10px;
+    }
+        #select_edit_field > li li:hover{
+      background-color: #8AD2FF;
+    }
+    #select_edit_field  > li li:hover,
+    #select_edit_field  > li li.selected{
+      background-color: #0084d8;
+      color: white;
+    }

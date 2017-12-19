@@ -123,7 +123,17 @@
 
             window.clearTimeout($time_out_handle);
             $time_out_handle = window.setTimeout(function () {
-                $(custom_css_code_mirror).change();
+                //$(custom_css_code_mirror).change();
+                mw.options.saveOption({
+                  group:'template',
+                  key:'custom_css',
+                  value:cm.getValue()
+                },
+                function(){
+                  var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                  mw.tools.refresh(el)
+                });
+
             }, 2000);
 
         });
