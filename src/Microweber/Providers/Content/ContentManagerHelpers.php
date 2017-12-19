@@ -464,6 +464,21 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if (!empty($content_cats)) {
                     $new_cont['categories'] = $content_cats;
                 }
+
+                if(isset($new_cont['is_home'])){
+                    unset($new_cont['is_home']);
+                }
+
+                if(isset($new_cont['content'])){
+                    $new_cont['content'] = $this->app->parser->make_tags($new_cont['content'], array('change_module_ids'=>true));
+
+                }
+
+                if(isset($new_cont['content_body'])){
+                    $new_cont['content_body'] = $this->app->parser->make_tags($new_cont['content_body'], array('change_module_ids'=>true));
+                }
+
+
                 $new_cont_id = $this->save($new_cont);
 
                 $cust_fields = get_custom_fields('content', $data['id'], true);
@@ -472,6 +487,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $new = $cust_field;
                         $new['id'] = 0;
                         $new['rel_id'] = $new_cont_id;
+                        $new['rel_type'] = 'content';
                         $new_item = save_custom_field($new);
                     }
                 }

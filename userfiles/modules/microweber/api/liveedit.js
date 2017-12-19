@@ -2722,7 +2722,7 @@ mw.drag = {
 
     saveDisabled: false,
     draftDisabled: false,
-    save: function(data) {
+    save: function(data, success, fail) {
         $(window).trigger('beforeSaveStart', data);
 
         if (typeof saveStaticElementsStyles === 'function') {
@@ -2791,9 +2791,16 @@ mw.drag = {
                 mw.askusertostay = false;
                 $(window).trigger('saveEnd', sdata);
             }
+            if(success){
+              success.call(sdata)
+            }
+
         });
         xhr.fail(function(jqXHR, textStatus, errorThrown) {
             $(window).trigger('saveFailed', textStatus, errorThrown);
+            if(fail){
+              fail.call(sdata)
+            }
         });
         return xhr;
     },
@@ -3929,5 +3936,3 @@ mw.beforeleave = function(url) {
         return false;
     }
 }
-
-mw.lib.require('font_awesome');

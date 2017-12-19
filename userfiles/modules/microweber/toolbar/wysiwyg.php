@@ -4,7 +4,7 @@
       <div class="wysiwyg-cell-undo-redo">
           <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
               <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-          <span class="mw_editor_btn" id="history_panel_toggle" onclick="mw.$('#mw-history-panel').toggle()"><span class="mw-dropdown-arrow" style="margin: 12px 5px 0;"></span></span>
+          <span class="mw_editor_btn" id="history_panel_toggle" onclick="mw.$('#mw-history-panel').toggle()"><span class="mw-icon-arrow-down-b"></span></span>
         <div class="mw-ui-dropdown left" id="history_dd">
           <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
         </div>

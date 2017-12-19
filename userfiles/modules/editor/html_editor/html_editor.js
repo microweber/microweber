@@ -1,7 +1,7 @@
 
 
 
-html_editor_parent_document = window.opener || top
+wroot = window.opener || top
 
 
 mw.html_editor = {};
@@ -20,12 +20,13 @@ mw.html_editor.set_height = function () {
   var set = function(){
     mw.$('.CodeMirror').each(function(){
       var el = $(this)
-       el.height($(window).height() - el.offset().top - 40)
+       el.height($(window).height() - el.offset().top - 90)
     });
+    setTimeout(function(){
+      set()
+    }, 333)
   }
-  $(window).on('load resize orientationchange', function(){
-    set();
-  })
+  set()
 }
 mw.html_editor.get_edit_fields = function (also_in_modules) {
 
@@ -33,8 +34,8 @@ mw.html_editor.get_edit_fields = function (also_in_modules) {
 
 
     var fields_arr = [];
-    var get_edit_fields = html_editor_parent_document.$('.edit').each(function () {
-        var is_in_module = html_editor_parent_document.mw.tools.firstParentWithClass(this, 'module');
+    var get_edit_fields = wroot.$('.edit').each(function () {
+        var is_in_module = wroot.mw.tools.firstParentWithClass(this, 'module');
         if (!is_in_module || also_in_modules) {
             fields_arr.push(this);
         }
@@ -108,17 +109,18 @@ mw.html_editor.build_dropdown = function (fields_array) {
 
 
 
-    $('li', $select).on('click',function(){
+    $('li li', $select).on('click',function(e){
+      e.stopPropagation()
       $('li', $select).removeClass('selected');
       $(this).addClass('selected');
-        mw.html_editor.populate_editor()
+      mw.html_editor.populate_editor()
     });
 
 };
 
 
 mw.html_editor.populate_editor = function () {
-    var value = $('select#select_edit_field li.selected');
+    var value = $('#select_edit_field li.selected');
 
     if (value.length == 0) {
         var value = $('select#select_edit_field li:first');
@@ -131,6 +133,8 @@ mw.html_editor.populate_editor = function () {
     var ed_val = '';
     var dd_grp = value.attr('rel');
     var dd_field = value.attr('field');
+    console.log(dd_grp)
+    console.log(dd_field)
 
     if (typeof(mw.html_editor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
@@ -138,16 +142,16 @@ mw.html_editor.populate_editor = function () {
         var ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field].el).html();
 
 
-        html_editor_parent_document.mw.tools.scrollTo('[field="'+dd_field+'"][rel="'+dd_grp+'"]')
+        wroot.mw.tools.scrollTo('[field="'+dd_field+'"][rel="'+dd_grp+'"]')
 
-        html_editor_parent_document.$('.html-editor-selcted').removeClass('html-editor-selcted');
-        html_editor_parent_document.$('[field="'+dd_field+'"][rel="'+dd_grp+'"]').addClass('html-editor-selcted');
+        wroot.$('.html-editor-selcted').removeClass('html-editor-selcted');
+        wroot.$('[field="'+dd_field+'"][rel="'+dd_grp+'"]').addClass('html-editor-selcted');
 
         var frag = document.createDocumentFragment();
         var html = ed_val;
         var holder = document.createElement("div")
         holder.id = 'fragment-holder'
-        holder.innerHTML = html
+        holder.innerHTML = html_beautify(html)
         frag.appendChild(holder)
         //var s = $('.module', $(frag)).html('[module]');
          var s = $('.module', $(frag)).html('[module]');
@@ -208,10 +212,23 @@ mw.html_editor.populate_editor = function () {
 
 };
 
+
+
+
+mw.html_editor.apply_and_save = function () {
+  mw.tools.loading('#module-id-mw_global_html_editor', true);
+
+  mw.html_editor.apply();
+  wroot.mw.drag.save(undefined, function(){
+    mw.tools.loading('#module-id-mw_global_html_editor', false);
+    mw.notification.success(mw.msg.saved)
+  })
+}
 mw.html_editor.apply = function () {
     var cur = $('#custom_html_code_mirror').attr('current');
     var html = $('#custom_html_code_mirror').val();
     if (typeof(mw.html_editor.map[cur]) != 'undefined') {
+
 
         var el = mw.html_editor.map[cur].el;
         $(el).html(html);
@@ -220,7 +237,7 @@ mw.html_editor.apply = function () {
             var master_edit_field_holder = el;
 
         } else {
-            var master_edit_field_holder = html_editor_parent_document.mw.tools.firstParentWithClass(el, 'edit');
+            var master_edit_field_holder = wroot.mw.tools.firstParentWithClass(el, 'edit');
 
         }
 
@@ -242,16 +259,18 @@ mw.html_editor.apply = function () {
 
 
         $.each(modules_ids, function (index, value) {
-            html_editor_parent_document.mw.reload_module(index);
+            wroot.mw.reload_module(index);
         });
 
 
         if (master_edit_field_holder) {
             $(master_edit_field_holder).addClass("changed");
             setTimeout(function () {
-                html_editor_parent_document.mw.drag.fix_placeholders(true);
-                html_editor_parent_document.mw.resizable_columns();
-                html_editor_parent_document.mw.on.DOMChangePause = false;
+                wroot.mw.drag.fix_placeholders(true);
+                wroot.mw.resizable_columns();
+                wroot.mw.on.DOMChangePause = false;
+
+
 
             }, 200);
         }
@@ -312,7 +331,7 @@ mw.html_editor.reset_content = function () {
             var master_edit_field_holder = el;
 
         } else {
-            var master_edit_field_holder = html_editor_parent_document.mw.tools.firstParentWithClass(el, 'edit');
+            var master_edit_field_holder = wroot.mw.tools.firstParentWithClass(el, 'edit');
 
         }
 
@@ -320,12 +339,12 @@ mw.html_editor.reset_content = function () {
 
         if (master_edit_field_holder) {
             $(master_edit_field_holder).addClass("changed");
-            html_editor_parent_document.mw.on.DOMChangePause = true;
+            wroot.mw.on.DOMChangePause = true;
             setTimeout(function () {
-                html_editor_parent_document.mw.drag.fix_placeholders(true);
-                html_editor_parent_document.mw.resizable_columns();
-                html_editor_parent_document.mw.on.DOMChangePause = false;
-                var saved = html_editor_parent_document.mw.drag.save();
+                wroot.mw.drag.fix_placeholders(true);
+                wroot.mw.resizable_columns();
+                wroot.mw.on.DOMChangePause = false;
+                var saved = wroot.mw.drag.save();
                 saved.success(function (saved_data) {
 
                     if (typeof saved_data[0] == 'undefined') {
@@ -333,7 +352,7 @@ mw.html_editor.reset_content = function () {
                     }
                     saved_data = saved_data[0];
 
-                    html_editor_parent_document.window.location.reload();
+                    wroot.window.location.reload();
 
 
                  /*   var get_edit_field = {};
