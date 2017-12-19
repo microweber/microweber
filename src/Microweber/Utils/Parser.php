@@ -1002,6 +1002,7 @@ if($field != 'content'){
                         $cont_field = false;
                     } elseif ($rel == 'module') {
                         $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+                     
 
 
                     }/* elseif (isset($attr['post'])) {
@@ -1121,76 +1122,11 @@ if($field != 'content'){
                         }
                     }
 
-                  //  d('aaaaaaaaaaaa ' . $field . '    -   ' . $rel);
-                 //   d($edit_field_content);
 
-
-
-                    //   $filter
 
                     $this->_current_parser_rel = $rel;
 
                     $no_edit = false;
-
-              /*      if ($field_content == false) {
-
-                        if ($get_global == true) {
-                            if (isset($data_id)) {
-                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
-                            }
-
-                            if (isset($cont_field) and !empty($cont_field)) {
-                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
-                            }
-
-                            if ($cont_field == false) {
-                                if ($option_mod != false) {
-                                    $field_content = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
-                                } else {
-                                    $field_content = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
-                                }
-                            } else {
-                                $field_content = $cont_field;
-                            }
-                        } else {
-                            if ($use_id_as_field != false) {
-                                if (isset($data[$use_id_as_field])) {
-                                    $field_content = $data[$use_id_as_field];
-                                }
-                            }
-                            if ($field_content == false) {
-                                if (isset($data_id) and $data_id != false) {
-                                    $cont_field = $this->app->content_manager->edit_field("rel_type={$orig_rel}&field={$field}&rel_id=$data_id");
-                                } else {
-                                    $cont_field = $this->app->content_manager->edit_field("rel_type={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
-                                }
-                            }
-                            if (isset($data[$field])) {
-                                $field_content = $data[$field];
-                            } else {
-                                if (isset($cont_field) and $cont_field != false) {
-                                    $field_content = $cont_field;
-                                }
-                            }
-                        }
-                        if ($field == 'content' and template_var('content') != false) {
-                            $field_content = template_var('content');
-                            template_var('content', false);
-                            $no_edit = template_var('no_edit');
-                        }
-                        if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
-                            if ($cont_field != false) {
-                                $field_content = $cont_field;
-                            }
-                        } elseif ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
-                            if ($cont_field != false) {
-                                $field_content = $cont_field;
-                            }
-                        }
-                    }
-*/
 
                     if ($field == 'content' and template_var('content') != false) {
 //                        $field_content = template_var('content');

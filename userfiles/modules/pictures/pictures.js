@@ -5,7 +5,7 @@ mw.module_pictures = {
 
             });
 
-        $('#'+data.for_id).trigger('change').find('[data-type="pictures/admin"]').trigger('change') 
+        //$('#'+data.for_id).trigger('change').find('[data-type="pictures/admin"]').trigger('change')
     },
     time:null,
     after_change: function (data) {

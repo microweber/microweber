@@ -821,7 +821,7 @@ class Backup
 
                         $return = 'REPLACE INTO ' . $table_without_prefix . ' ' . $columns_q . ' VALUES(';
                         for ($j = 0; $j < $num_fields; ++$j) {
-                            $row[$j] = str_replace("'", '&rsquo;', $row[$j]);
+                           // $row[$j] = str_replace("'", '&rsquo;', $row[$j]);
                             if (isset($row[$j])) {
                                 $return .= "'" . $row[$j] . "'";
                             } else {

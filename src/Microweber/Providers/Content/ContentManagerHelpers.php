@@ -799,6 +799,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $old = $for_histroy[$field];
                                     }
                                 }
+
+
                                 $history_to_save = array();
                                 $history_to_save['table'] = 'content';
                                 $history_to_save['id'] = $content_id;
@@ -850,7 +852,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 if ($is_no_save != true and $is_draft == false) {
                                     $to_save2 = $to_save;
-                                    $to_save2['rel_type'] = 'content';
+                                 //   $to_save2['rel_type'] = 'content';
                                     $to_save2['rel_type'] = $rel_ch;
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
@@ -884,6 +886,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
                             }
                             $cont_field['field'] = $the_field_data['attributes']['field'];
+
+
+                            if($cont_field['rel_type'] == 'module'){
+                                $cont_field['rel_id'] = false;
+                            }
+
+
 
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
