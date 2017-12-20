@@ -24,11 +24,11 @@
 mw.options = {
     saveOption:function(o, c, err){
       if(typeof o !== 'object'){ return false;}
-      if((!o.group && !o.option_group)  || (!o.key && !o.option_key) || (!o.value && !o.option_value)){ return false; }
+      if((!o.group && !o.option_group)  || (!o.key && !o.option_key) || (typeof o.value === 'undefined' && typeof o.option_value === 'undefined')){ return false; }
       var data = {
         option_group: o.group || o.option_group,
         option_key: o.key || o.option_key,
-        option_value: o.value || o.option_value
+        option_value: typeof o.value !== 'undefined' ? o.value : o.option_value
       }
       $.ajax({
           type: "POST",

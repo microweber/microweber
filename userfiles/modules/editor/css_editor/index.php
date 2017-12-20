@@ -118,29 +118,30 @@
         css_code_area_editor.setSize("100%", "100%");
 
         css_code_area_editor.on("change", function (cm, change) {
-            var custom_css_code_mirror = document.getElementById("custom_css_code_mirror")
-            custom_css_code_mirror.value = cm.getValue();
 
-            window.clearTimeout($time_out_handle);
-            $time_out_handle = window.setTimeout(function () {
-                //$(custom_css_code_mirror).change();
-                mw.options.saveOption({
-                  group:'template',
-                  key:'custom_css',
-                  value:cm.getValue()
-                },
-                function(){
-                  var el = (window.opener || top).$('#mw-custom-user-css')[0];
-                  mw.tools.refresh(el)
-                });
-
-            }, 2000);
 
         });
 
 
     })
 
+    savecss = function(){
+      console.log(css_code_area_editor.getValue() )
+
+        mw.options.saveOption({
+          group:'template',
+          key:'custom_css',
+          value:css_code_area_editor.getValue()
+        },
+        function(){
+          var el = (window.opener || top).$('#mw-custom-user-css')[0];
+          mw.tools.refresh(el)
+        });
+    }
+
 </script>
 <textarea class="mw-ui-field w100 mw_option_field" name="custom_css" id="custom_css_code_mirror" rows="30"
           option-group="template" placeholder="Type your CSS code here"><?php print $custom_css ?></textarea>
+<div class="mw-ui-btn-nav pull-right" id="csssave">
+  <span onclick="savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
+</div>

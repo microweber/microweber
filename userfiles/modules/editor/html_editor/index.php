@@ -159,13 +159,12 @@
 <div class="mw-ui-row">
   <div class="mw-ui-col" style="width: 200px;">
     <div class="mw-ui-col-container">
-      <div class="mw-ui-box   ">
-          <div class="mw-ui-box-header">
-<span class="mw-icon-gear"></span><span><?php _e('Sections'); ?></span>
-</div>
-          <div class="mw-ui-box-content"><div id="select_edit_field_wrap"></div></div>
+      <div class="mw-ui-box">
+        <div class="mw-ui-box-header">
+          <span class="mw-icon-gear"></span><span><?php _e('Sections'); ?></span>
         </div>
-
+        <div class="mw-ui-box-content selector-box"><div id="select_edit_field_wrap"></div></div>
+      </div>
     </div>
   </div>
     <div class="mw-ui-col">

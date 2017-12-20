@@ -27,3 +27,7 @@
       background-color: #0084d8;
       color: white;
     }
+
+    .selector-box{
+      overflow: auto;
+    }
