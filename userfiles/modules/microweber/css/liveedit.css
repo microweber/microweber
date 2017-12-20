@@ -2501,7 +2501,7 @@ body.design_hover .element-current {
     color: #FF0000;
     cursor: pointer;
     font-size: 11px;
-    text-align: center;
+    text-align: center !important;
     background: #fff;
     position: relative;
     z-index: 9;
@@ -2511,6 +2511,7 @@ body.design_hover .element-current {
     right: 0px !important;
     top: 0px;
     border: 1px solid #f5f5f5 !important;
+    letter-spacing:0 !important;
 }
 
 #mw_handle_module .mw_edit_delete:hover {
