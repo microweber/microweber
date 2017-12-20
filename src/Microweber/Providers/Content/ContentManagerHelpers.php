@@ -906,6 +906,17 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                             if($cont_field['rel_type'] == 'module'){
                                $cont_field['rel_id'] = 0;
+                                $del_params = array();
+                                $del_params['rel_type'] = 'module';
+                                $del_params['field'] = $field;
+                                $del_params['table'] = $this->tables['content_fields'];
+                                $del_params['no_cache'] = true;
+                                $del = $this->app->database_manager->get($del_params);
+                                if (!empty($del)) {
+                                    foreach ($del as $item) {
+                                        $this->app->database_manager->delete_by_id($this->tables['content_fields'], $item['id']);
+                                    }
+                                }
                             }
 
 

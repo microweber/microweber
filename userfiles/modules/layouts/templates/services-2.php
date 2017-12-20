@@ -23,7 +23,7 @@ name: Services 2
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry.
                 </p>
-                <module type="btn" text="Learn more..." id="button-1"/>
+                <module type="btn" text="Learn more..."  />
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4 service">
@@ -32,7 +32,7 @@ name: Services 2
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry . Lorem Ipsum has been the industry .
                 </p>
-                <module type="btn" text="Learn more..." id="button-2"/>
+                <module type="btn" text="Learn more..." />
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4 service">
@@ -41,7 +41,7 @@ name: Services 2
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry . Lorem Ipsum has been the industry .
                 </p>
-                <module type="btn" text="Learn more..." id="button-3"/>
+                <module type="btn" text="Learn more..." />
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4 service">
@@ -50,7 +50,7 @@ name: Services 2
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry . Lorem Ipsum has been the industry .
                 </p>
-                <module type="btn" text="Learn more..." id="button-4"/>
+                <module type="btn" text="Learn more..." />
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4 service">
@@ -59,7 +59,7 @@ name: Services 2
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry . Lorem Ipsum has been the industry .
                 </p>
-                <module type="btn" text="Learn more..." id="button-5"/>
+                <module type="btn" text="Learn more..." />
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4 service">
@@ -68,7 +68,7 @@ name: Services 2
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry . Lorem Ipsum has been the industry .
                 </p>
-                <module type="btn" text="Learn more..." id="button-6"/>
+                <module type="btn" text="Learn more..." />
             </div>
         </div>
     </div>
