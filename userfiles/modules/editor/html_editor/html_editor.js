@@ -10,6 +10,9 @@ mw.html_editor.init = function () {
 
     var fields = mw.html_editor.get_edit_fields(true);
     mw.html_editor.build_dropdown(fields);
+    mw.html_editor.build_dropdown(fields);
+    mw.html_editor.build_dropdown(fields);
+    mw.html_editor.build_dropdown(fields);
     mw.html_editor.populate_editor();
     mw.html_editor.set_height();
 
@@ -18,9 +21,9 @@ mw.html_editor.init = function () {
 
 mw.html_editor.set_height = function () {
   var set = function(){
-    mw.$('.CodeMirror').each(function(){
+    mw.$('.CodeMirror,.selector-box').each(function(){
       var el = $(this)
-       el.height($(window).height() - el.offset().top - 90)
+       this.style.height = ($(window).height() - el.offset().top - 90) + 'px'
     });
     setTimeout(function(){
       set()

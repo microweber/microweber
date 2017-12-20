@@ -252,9 +252,16 @@
         <?php } ?>
 
         <script>
-         $(document).ready(function(){
+         $(window).on('load', function(){
 
            initIcons()
+
+
+         setInterval(function(){
+
+              $(".item-icon input").addClass('bxslider-icon')
+
+         }, 333);
 
         })
 
@@ -268,14 +275,12 @@
               value:$(this).next('.item-icon-value').html(),
               onchange:function(val){
                 $('input', el).val(val);
-
+                Bxslider.save(); 
               }
             })
             }
           })
-          setTimeout(function(){
-            $(".item-icon input").addClass('bxslider-icon')
-          }, 100)
+
 
         }
             deletebxsliderimage = function (e) {
@@ -328,7 +333,7 @@
                 },
 
                 initItem: function (item) {
-                    $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
+                    $(item.querySelectorAll('input')).on('input change', function () {
                         mw.on.stopWriting(this, function () {
                             Bxslider.save();
                         });

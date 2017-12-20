@@ -905,7 +905,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
                             if($cont_field['rel_type'] == 'module'){
-                                $cont_field['rel_id'] = false;
+                               $cont_field['rel_id'] = 0;
                             }
 
 
@@ -1099,9 +1099,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $i = ($data['rel_id']);
                 $del_params['rel_id'] = $i;
             } else {
-                $del_params['rel_id'] = 0;
+                 $del_params['rel_id'] = 0;
             }
             $del = $this->app->database_manager->get($del_params);
+
+
             if (!empty($del)) {
                 foreach ($del as $item) {
                     $this->app->database_manager->delete_by_id($table, $item['id']);
@@ -1110,6 +1112,9 @@ class ContentManagerHelpers extends ContentManagerCrud
             $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
         }
+
+
+
         if (isset($fld)) {
             $this->app->cache_manager->delete('content_fields/' . $fld);
             $this->app->cache_manager->delete('content_fields/global/' . $fld);
