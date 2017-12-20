@@ -2,3 +2,18 @@
   font-size: 24px;
   margin: 0 6px;
 }
+
+.mw-element.mw-text-and-image .mw-image-holder .mw-background-image-holder {
+  width: 100%;
+  min-height: 100px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.mw-element.mw-text-and-image .mw-image-holder .mw-background-image-holder img {
+  visibility: hidden;
+}
+
+.mw-element.mw-text-and-image .mw-text-holder {
+  padding: 0 30px;
+}
