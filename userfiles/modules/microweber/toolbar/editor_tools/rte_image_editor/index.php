@@ -123,6 +123,7 @@ else{
 
             var type = mw.url.type(this);
             GlobalEmbed = mw.embed.generate(type, this);
+            console.log(9900, parent.mw.iframecallbacks[hash], this, GlobalEmbed, hash)
             if (typeof parent.mw.iframecallbacks[hash] === 'function') {
                 if (hash == 'editimage') {
 
