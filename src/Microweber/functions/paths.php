@@ -60,6 +60,15 @@ function elements_path()
     return $folder;
 }
 
+function elements_url()
+{
+    static $folder;
+    if (!$folder) {
+        $folder = (userfiles_url() . MW_ELEMENTS_FOLDER_NAME . '/');
+    }
+
+    return $folder;
+}
 function modules_url()
 {
     static $folder;
