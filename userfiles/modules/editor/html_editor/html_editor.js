@@ -10,9 +10,6 @@ mw.html_editor.init = function () {
 
     var fields = mw.html_editor.get_edit_fields(true);
     mw.html_editor.build_dropdown(fields);
-    mw.html_editor.build_dropdown(fields);
-    mw.html_editor.build_dropdown(fields);
-    mw.html_editor.build_dropdown(fields);
     mw.html_editor.populate_editor();
     mw.html_editor.set_height();
 
