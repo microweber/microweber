@@ -191,6 +191,25 @@
                 </ul>
               </div>
             </div>
+            <div class="ts_action_item">
+              <div class="ts_action_centerer">
+                <span class="ed_label pull-left"><?php _e("Size"); ?></span>
+                <div class="mw-dropdown mw-dropdown-type-wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="ts_bg_size" title="Background Size" data-value="auto">
+                  <span class="mw-dropdown-value">
+                    <span class="mw-dropdown-arrow"></span>
+                    <span class="mw-dropdown-val"  style="width: 95px;"><?php _e("Auto"); ?></span>
+                  </span>
+                  <div class="mw-dropdown-content">
+                    <ul style="width: 100px;">
+                      <li value="contain"><a href="javascript:;"><?php _e("Fit"); ?></a></li>
+                      <li value="cover"><a href="javascript:;"><?php _e("Cover"); ?></a></li>
+                      <li value="auto"><a href="javascript:;"><?php _e("Auto"); ?></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

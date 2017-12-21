@@ -597,6 +597,10 @@ if(typeof(shadow_pos.bind) != 'function'){
        mw.$('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
+    mw.$("#ts_bg_size").on("change", function(){
+       mw.$('.element-current').css('backgroundSize', $(this).getDropdownValue());
+       mw.wysiwyg.change(mwd.querySelector(".element-current"));
+    });
     mw.$("#ts_bg_position").on("change", function(e){
        var val = $(this).getDropdownValue();
        mw.$('.element-current').css('backgroundPosition', val);
