@@ -3302,7 +3302,7 @@ div[id*='SSDIVEL'] {
 }
 
 /* Default Layouts */
-#modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts {
+/*#modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts {
     cursor: pointer;
     width: 50%;
     float: left;
@@ -3347,6 +3347,7 @@ div[id*='SSDIVEL'] {
     background: none;
     border-top: 0;
 }
+*/
 
 /* Modules */
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item {
