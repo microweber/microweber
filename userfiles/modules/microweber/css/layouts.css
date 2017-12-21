@@ -33,18 +33,25 @@
 }
 
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder {
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-position: center top;
+    -webkit-background-size: contain;
+    background-size: contain;
+    background-position: center center;
     overflow: hidden;
+    background-repeat: no-repeat;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder .mw-image-holder-content {
-    height: 410px;
-    display: table;
-    width: 100%;
-    text-align: center;
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder img,
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder p {
+    margin: 0 !important;
+    margin-bottom: 0 !important;
 }
+
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder > img {
+    position: relative !important;
+    opacity: 0;
+    visibility: hidden !important;
+}
+
 
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder .mw-image-holder-content h1 {
     /*font-size: 48px;*/
@@ -95,7 +102,7 @@
 }
 
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-overlay {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .1);
 }
 
 /* Skin 3 */
@@ -115,7 +122,7 @@
 .mw-static-element.mw-head-image .mw-image-holder {
     -webkit-background-size: cover;
     background-size: cover;
-    background-position: center top;
+    background-position: center center;
     overflow: hidden;
 }
 
@@ -154,6 +161,9 @@
 }
 
 /* Skin 5 */
+.mw-static-element.mw-simple-title-and-text{
+    padding: 45px 0;
+}
 .mw-static-element.mw-simple-title-and-text .info h1 {
     margin: 25px 0;
     text-align: center;
@@ -228,7 +238,7 @@
 .mw-static-element.mw-head-100vh-image .mw-image-holder {
     -webkit-background-size: cover;
     background-size: cover;
-    background-position: center top;
+    background-position: center center;
     overflow: hidden;
     height: 80vh;
 }
@@ -304,7 +314,7 @@
 }
 
 .mw-static-element.mw-features-boxes .text,
-.mw-static-element.mw-features-boxes .text h4{
+.mw-static-element.mw-features-boxes .text h4 {
     text-align: justify !important;
 }
 
