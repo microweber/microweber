@@ -1,4 +1,4 @@
-<div class="mw-element mw-text-and-image">
+<div class="mw-static-element mw-text-and-image">
     <div class="mw-ui-row">
         <div class="mw-ui-col cloneable">
             <div class="mw-image-holder">

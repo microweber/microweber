@@ -133,13 +133,13 @@
       <div class="ts_action ts_bg_action">
         <div class="ts_action_item">
           <div class="ts_action_centerer">
-          <span class="mw-icon-close ed_none_bgcolor" style="cursor:pointer; position: absolute;right: 12px;top: 12px;" onclick="$('.element-current').css('backgroundColor', 'transparent');"></span>
+          <span class="mw-icon-close ed_none_bgcolor" style="cursor:pointer; position: absolute;right: 12px;top: 12px;" onclick="mw.current_element.style.backgroundColor='transparent'"></span>
           <span class="ed_label pull-left" onclick="mw.wysiwyg.request_change_bg_color(mwd.getElementById('ts_element_bgcolor'));"><?php _e("Background Color"); ?>&nbsp;</span>
           <span class="ed_item ed_color_pick right" id="ts_element_bgcolor" onclick="mw.wysiwyg.request_change_bg_color(this);"><span></span></span> </div>
         </div>
         <div class="ts_action_item">
           <div class="ts_action_centerer">
-            <span class="mw-icon-close ed_none_bgimage" style="cursor:pointer; position: absolute;right: 12px;top: 12px;" onclick="$('.element-current').css('backgroundImage', 'none');"></span>
+            <span class="mw-icon-close ed_none_bgimage" style="cursor:pointer; position: absolute;right: 12px;top: 12px;" onclick="mw.current_element.style.backgroundImage='none'"></span>
             <a href="javascript:;" class="ed_label pull-left" onclick="mw.wysiwyg.request_bg_image();"><?php _e("Background Image"); ?></a>
             <span class="ed_item right" id="ed_bg_image_status" onclick="mw.wysiwyg.request_bg_image();"></span> </div>
         </div>
@@ -191,25 +191,6 @@
                 </ul>
               </div>
             </div>
-            <div class="ts_action_item">
-              <div class="ts_action_centerer">
-                <span class="ed_label pull-left"><?php _e("Size"); ?></span>
-                <div class="mw-dropdown mw-dropdown-type-wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="ts_bg_size" title="Background Size" data-value="auto">
-                  <span class="mw-dropdown-value">
-                    <span class="mw-dropdown-arrow"></span>
-                    <span class="mw-dropdown-val"  style="width: 95px;"><?php _e("Auto"); ?></span>
-                  </span>
-                  <div class="mw-dropdown-content">
-                    <ul style="width: 100px;">
-                      <li value="contain"><a href="javascript:;"><?php _e("Fit"); ?></a></li>
-                      <li value="cover"><a href="javascript:;"><?php _e("Cover"); ?></a></li>
-                      <li value="auto"><a href="javascript:;"><?php _e("Auto"); ?></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

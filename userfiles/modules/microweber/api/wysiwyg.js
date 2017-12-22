@@ -1675,11 +1675,8 @@ mw.wysiwyg = {
         mw.wysiwyg.request_media('#set_bg_image');
     },
     set_bg_image: function (url) {
-      if(url.indexOf('<') !== -1 && url.indexOf('element') !== -1){
-        url = mw.tools.parseHtml(url).body.querySelector('img').src;
-      }
-      mw.$(".element-current").css("backgroundImage", "url(" + url + ")");
-      mw.wysiwyg.change('.element-current');
+        mw.$(".element-current").css("backgroundImage", "url(" + url + ")");
+        mw.wysiwyg.change('.element-current');
     },
     insert_html: function (html) {
         if (typeof html === 'string') {
