@@ -52,7 +52,6 @@
     visibility: hidden !important;
 }
 
-
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder .mw-image-holder-content h1 {
     /*font-size: 48px;*/
     color: #fff;
@@ -161,9 +160,10 @@
 }
 
 /* Skin 5 */
-.mw-static-element.mw-simple-title-and-text{
+.mw-static-element.mw-simple-title-and-text {
     padding: 45px 0;
 }
+
 .mw-static-element.mw-simple-title-and-text .info h1 {
     margin: 25px 0;
     text-align: center;
@@ -240,7 +240,7 @@
     background-size: cover;
     background-position: center center;
     overflow: hidden;
-    height: 80vh;
+    height: 90vh;
 }
 
 .mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content {
@@ -258,6 +258,12 @@
 .mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content p {
     /*font-size: 22px;*/
     color: #fff;
+}
+
+@media screen and (min-width: 1919px) {
+    .mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content p {
+        font-size: 22px;
+    }
 }
 
 .mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content .content-holder {
@@ -313,8 +319,11 @@
     font-size: 1.4em;
 }
 
-.mw-static-element.mw-features-boxes .text,
-.mw-static-element.mw-features-boxes .text h4 {
+.mw-static-element.mw-features-boxes .text{
     text-align: justify !important;
+}
+
+.mw-static-element.mw-features-boxes .text h4 {
+    text-align: left;
 }
 

@@ -2,7 +2,7 @@
     <div class="mw-ui-row">
         <div class="mw-ui-col cloneable">
             <div class="mw-icon">
-                <i class="fa fa-envelope text-primary"></i>
+                <i class="fa icon-Add-UserStar mw-wysiwyg-custom-icon text-primary"></i>
             </div>
             <div class="mw-text">
                 <h4>We love our customers</h4>
@@ -15,7 +15,7 @@
 
         <div class="mw-ui-col cloneable">
             <div class="mw-icon">
-                <i class="fa fa-envelope text-primary"></i>
+                <i class="fa icon-Approved-Window mw-wysiwyg-custom-icon text-primary"></i>
             </div>
             <div class="mw-text">
                 <h4>We love our customers</h4>
@@ -28,7 +28,7 @@
 
         <div class="mw-ui-col cloneable">
             <div class="mw-icon">
-                <i class="fa fa-envelope text-primary"></i>
+                <i class="fa icon-Astronaut mw-wysiwyg-custom-icon text-primary"></i>
             </div>
             <div class="mw-text">
                 <h4>We love our customers</h4>
