@@ -616,7 +616,7 @@ mw.drag = {
         }
         mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
-        $(mwd.body).mousemove(function(event) {
+        $(mwd.body).on('mousemove', function(event) {
 
             mw.dragSTOPCheck = false;
             mw.tools.removeClass(this, 'isTyping');
@@ -767,6 +767,11 @@ mw.drag = {
                             mw.image.resize.resizerSet(event.target, false);
                         }
                         else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
+                            $(mw.image_resizer).addClass("active");
+                            mw.image.resize.resizerSet(event.target, false);
+                        }
+                        else if (!!bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
+                          console.log(91919)
                             $(mw.image_resizer).addClass("active");
                             mw.image.resize.resizerSet(event.target, false);
                         }
@@ -3417,7 +3422,7 @@ $(document).ready(function() {
 
     setInterval(function(){
 
-      $(".background-image-holder").each(function(){
+      mw.$(".background-image-holder, .edit[style*='background-image']").each(function(){
         var po = mw.tools.parentsOrder(this, ['edit', 'module']);
         if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
           mw.tools.addClass(this, 'element')
@@ -3428,22 +3433,23 @@ $(document).ready(function() {
       if(all.length !== 0){
         for( ; i < all.length; i++){
           var el = all[i], nom = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['nodrop', 'allow-drop']);
+
           if(nom) continue;
           if(!mw.tools.hasClass(el, 'nodrop')) {
             mw.tools.addClass(el, 'allow-drop');
           }
           if(el.querySelector('.element') === null){
-            var all = el.querySelectorAll('div,img,h1,h2,h3,h4,h5,h6,section'), ai = 0, item;
-            for( ; ai < all.length ; ai++){
-              item = all[ai];
+            var children = el.querySelectorAll('div,img,h1,h2,h3,h4,h5,h6,section'), ai = 0, item;
+            for( ; ai < children.length ; ai++){
+              item = children[ai];
               if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
-                if( mw.drag.target.canBeElement(item)){
+                //if( mw.drag.target.canBeElement(item)){
                   var ord = mw.tools.parentsOrder(item, ['edit', 'module']);
                   if(ord.edit !== -1 && (ord.edit < ord.module || ord.module === -1)){
                     mw.tools.addClass(item, 'element')
                   }
 
-                }
+                //}
               }
             }
           }

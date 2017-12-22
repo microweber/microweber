@@ -1,9 +1,11 @@
 
 
 
+
+
 wroot = window.opener || top
 
-
+wroot.mw.require('https://html2canvas.hertzen.com/dist/html2canvas.min.js')
 mw.html_editor = {};
 mw.html_editor.map = {};
 mw.html_editor.init = function () {
@@ -94,9 +96,8 @@ mw.html_editor.build_dropdown = function (fields_array) {
                 });
 
                 if(!has_selected && option.rel == 'content'){
-                    has_selected = true;
-                     $($option).attr('selected', 'selected');
-
+                  has_selected = true;
+                  $($option).attr('selected', 'selected');
                 }
                 $option.appendTo($optgroupul);
             }
@@ -116,6 +117,25 @@ mw.html_editor.build_dropdown = function (fields_array) {
 };
 
 
+mw.html_editor.screenShots = function () {
+  var el = $("#select_edit_field li li:not('.ready')")[0];
+  if(!!el){
+
+    var rel = wroot.mwd.querySelector('[field="'+el.getAttribute('field')+'"][rel="'+el.getAttribute('rel')+'"]');
+    $(el).addClass('ready');
+    wroot.html2canvas(rel).then(function(canvas) {
+      var dataUrl = canvas.toDataURL();
+      var span = document.createElement('span');
+      span.className = 'mw-html-editor-option-item';
+      span.style.backgroundImage = 'url(' + dataUrl + ')';
+     $(el).append(span);
+     setTimeout(function(){
+       mw.html_editor.screenShots()
+     }, 100)
+    });
+  }
+
+}
 mw.html_editor.populate_editor = function () {
     var value = $('#select_edit_field li.selected');
 
@@ -130,13 +150,14 @@ mw.html_editor.populate_editor = function () {
     var ed_val = '';
     var dd_grp = value.attr('rel');
     var dd_field = value.attr('field');
-    console.log(dd_grp)
-    console.log(dd_field)
+
 
     if (typeof(mw.html_editor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
 
         var ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field].el).html();
+
+
 
 
         wroot.mw.tools.scrollTo('[field="'+dd_field+'"][rel="'+dd_grp+'"]')
@@ -380,3 +401,8 @@ mw.html_editor.reset_content = function () {
 
 
 }
+
+
+$(window).on('load', function(){
+  mw.html_editor.screenShots()
+})
