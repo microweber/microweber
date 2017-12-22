@@ -9,8 +9,8 @@
     </div>
 
     <div class="image">
-        <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-1.jpg');">
-            <img src="<?php print elements_url() ?>images/default-1.jpg" alt=""/>
+        <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-9.jpg');">
+            <img src="<?php print elements_url() ?>images/default-9.jpg" alt=""/>
             <span class="mw-image-holder-overlay"></span>
         </div>
     </div>

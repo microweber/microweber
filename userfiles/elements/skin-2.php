@@ -1,7 +1,7 @@
 <div class="mw-static-element mw-vertical-centered-text-and-image" id="text-image-left-<?php print CONTENT_ID; ?>">
     <div class="image">
-        <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-1.jpg');">
-            <img src="<?php print elements_url() ?>images/default-1.jpg" alt=""/>
+        <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-8.jpg');">
+            <img src="<?php print elements_url() ?>images/default-8.jpg" alt=""/>
             <span class="mw-image-holder-overlay"></span>
         </div>
     </div>

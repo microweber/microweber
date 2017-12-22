@@ -12,7 +12,12 @@ position: 0
 
 ?>
 
-<?php include 'settings_padding_front.php'; ?>
+<?php
+include 'settings_padding_front.php';
+if($padding === null OR $padding === false){
+    $padding = 'space--0';
+}
+?>
 
 <?php
 /* Overlay with Color */
