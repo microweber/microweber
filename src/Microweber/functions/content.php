@@ -224,6 +224,10 @@ function content_title($id = false)
     return mw()->content_manager->title($id);
 }
 
+function content_description($id = false)
+{
+    return mw()->content_manager->description($id);
+}
 /**
  * @param bool $id
  * @return mixed

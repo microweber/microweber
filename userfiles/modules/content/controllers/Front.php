@@ -593,23 +593,31 @@ class Front
                 }
 
                 $item['link'] = content_link($item['id']);
+
+
+
+                $item['description'] = content_description($item['id']);
+
+
+
                 $item['full_description'] = '';
                 if (!isset($item['description']) or $item['description'] == '') {
                     if (isset($item['content']) and $item['content'] != '') {
-
-
-                        $item['description'] = character_limiter(strip_tags($item['content']), $character_limit);
-                        $item['full_description'] = strip_tags($item['content']);
+                        $item['description'] = $item['content'];
                     } elseif (isset($item['content_body']) and $item['content_body'] != '') {
-                        $item['full_description'] = strip_tags($item['content']);
-                        $item['description'] = character_limiter(strip_tags($item['content_body']), $character_limit);
+                        $item['description'] = strip_tags($item['content_body']);
                     }
 
-
                 } else {
-                    $item['full_description'] = trim($item['description']);
-                    $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
+                    $item['description'] = strip_tags($item['description']);
 
+                }
+
+
+                if (isset($item['description']) and $item['description'] != '') {
+                    $item['full_description'] = trim(strip_tags($item['description']));
+
+                    $item['description'] = character_limiter(strip_tags($item['description']), $character_limit);
                 }
 
 

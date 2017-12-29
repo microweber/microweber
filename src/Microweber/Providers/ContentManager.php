@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers;
 
-use Microweber\Providers\Content\ContentManagerCrud; 
+use Microweber\Providers\Content\ContentManagerCrud;
 use Microweber\Providers\Content\ContentManagerHelpers;
 use Content;
 use Menu;
@@ -26,7 +26,7 @@ class ContentManager
 
     /** @var \Microweber\Providers\Content\ContentManagerCrud */
     public $crud;
-    
+
     /** @var \Microweber\Providers\Content\ContentManagerHelpers */
     public $helpers;
 
@@ -1547,9 +1547,6 @@ class ContentManager
         }
 
 
-
-
-
         if (defined('ACTIVE_TEMPLATE_DIR') == false) {
             define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
         }
@@ -1605,8 +1602,6 @@ class ContentManager
 
             define('LAYOUTS_URL', $layouts_url);
         }
-
-
 
 
         return true;
@@ -2013,7 +2008,7 @@ class ContentManager
                         }
                     } else {
                         $cap = $this->app->user_manager->session_get('captcha');
-                        if ( !mw()->captcha->validate($data['captcha'])) {
+                        if (!mw()->captcha->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
                         }
                     }
@@ -2401,6 +2396,53 @@ class ContentManager
         $content = $this->get_by_id($id);
         if (isset($content['title'])) {
             return $content['title'];
+        }
+    }
+
+
+    public function description($id)
+    {
+        $descr = false;
+
+        if ($id == false or $id == 0) {
+            if (defined('CONTENT_ID') == true) {
+                $id = CONTENT_ID;
+            } elseif (defined('PAGE_ID') == true) {
+                $id = PAGE_ID;
+            }
+        }
+        $meta = $this->get_by_id($id);
+        if(!$meta){
+            return;
+        }
+
+        if (isset($meta['description']) and $meta['description'] != '') {
+            $descr = $meta['description'];
+        } else if (isset($meta['content_meta_description']) and $meta['content_meta_description'] != '') {
+            $descr = $meta['content_meta_description'];
+        } else if (isset($meta['content_body']) and $meta['content_body'] != '') {
+            $descr = strip_tags($meta['content_body']);
+        } else if (isset($meta['content']) and $meta['content'] != '') {
+            $descr = strip_tags($meta['content']);
+        }
+
+        if ($descr) {
+            $descr = trim($descr);
+        }
+        if ($descr) {
+            if ($descr == 'mw_saved_inner_edit_from_parent_edit_field') {
+                $descr_from_edit_field =  $this->app->content_manager->edit_field("rel_type=content&rel_id=".$id);
+                if($descr_from_edit_field){
+                    $descr_from_edit_field = trim(strip_tags($descr_from_edit_field));
+                }
+                 if($descr_from_edit_field){
+                    $descr = trim($descr_from_edit_field);
+                }
+
+            }
+         }
+        if ($descr) {
+           return $descr;
         }
     }
 

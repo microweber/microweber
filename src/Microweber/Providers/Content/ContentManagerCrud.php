@@ -1149,15 +1149,15 @@ class ContentManagerCrud extends Crud
         if (isset($data['is_draft'])) {
             $table = $table_drafts;
         }
-        if (!isset($data['rel_type'])) {
-            if (isset($data['rel_type'])) {
-                if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
-                    $data['rel_type'] = 'content';
-                } else {
-                    $data['rel_type'] = $data['rel_type'];
-                }
-            }
-        }
+//        if (!isset($data['rel_type'])) {
+//            if (isset($data['rel_type'])) {
+//                if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
+//                    $data['rel_type'] = 'content';
+//                } else {
+//                    $data['rel_type'] = $data['rel_type'];
+//                }
+//            }
+//        }
         if (!isset($data['rel_id'])) {
             if (isset($data['data-id'])) {
                 $data['rel_id'] = $data['data-id'];
