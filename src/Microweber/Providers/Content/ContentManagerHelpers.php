@@ -1059,6 +1059,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($data['is_draft']) and isset($data['url'])) {
             $draft_url = $this->app->database_manager->escape_string($data['url']);
             $last_saved_date = date('Y-m-d H:i:s', strtotime('-1 week'));
+            $last_saved_date = date('Y-m-d H:i:s', strtotime('-5 min'));
             $history_files_params = array();
             $history_files_params['order_by'] = 'id desc';
             $history_files_params['fields'] = 'id';
@@ -1067,6 +1068,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $history_files_params['rel_id'] = $data['rel_id'];
             $history_files_params['is_draft'] = 1;
             $history_files_params['limit'] = 200;
+            $history_files_params['limit'] = 20;
             $history_files_params['no_cache'] = true;
 
             $history_files_params['url'] = $draft_url;
@@ -1079,8 +1081,12 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
 
             if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
-                ContentFields::whereIn('id', $history_files_ids)->delete();
-            }
+
+                    foreach ($history_files_ids as $item) {
+                        $this->app->database_manager->delete_by_id($table, $item);
+                    }
+
+             }
         }
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
