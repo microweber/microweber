@@ -73,9 +73,9 @@
 //d(skip);
 //d($('.main-container section').first());
                 if (!skip && firstSectionHas == true) {
-                 //   $('nav .nav-bar').addClass('nav--absolute nav--transparent');
+                    $('nav .nav-bar').addClass('nav--absolute nav--transparent');
                 } else {
-                //    $('nav .nav-bar').removeClass('nav--absolute nav--transparent');
+                    $('nav .nav-bar').removeClass('nav--absolute nav--transparent');
                 }
             }
 
