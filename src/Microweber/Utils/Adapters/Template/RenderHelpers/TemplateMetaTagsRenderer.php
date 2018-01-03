@@ -89,9 +89,9 @@ class TemplateMetaTagsRenderer
                 }
 
 
-
+`               if(isset($meta['id'])){
                 $meta['content_meta_description']  = content_description($meta['id']);
-
+                }
 
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);
