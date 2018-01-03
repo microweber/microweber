@@ -19,8 +19,8 @@ description: Skin-2
 
 <form class="form--square form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
     <?php print csrf_form() ?>
-    <input type="hidden" name="for" value="contact_form"/>
-    <input type="hidden" name="for_id" value="contact_form"/>
+    <input type="hidden" name="for" value="get_a_quote"/>
+    <input type="hidden" name="for_id" value="get_a_quote"/>
 
 
     <h4 class="text-center edit" rel="module" field="contact-form-<?php print $params['id'] ?>">Or reach us right here&hellip;</h4>

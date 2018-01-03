@@ -88,10 +88,11 @@ class TemplateMetaTagsRenderer
                     $meta['description'] = $this->app->option_manager->get('website_description', 'website');
                 }
 
-
-
-                $meta['content_meta_description']  = content_description($meta['id']);
-
+                if (isset($meta['content_meta_description'])) {
+                    $meta['content_meta_description'] = content_description($meta['id']);
+                } else {
+                    $meta['content_meta_description'] = $this->app->option_manager->get('website_description', 'website');
+                }
 
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);

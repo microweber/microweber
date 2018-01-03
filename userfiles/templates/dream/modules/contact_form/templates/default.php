@@ -19,8 +19,8 @@ description: Default contact form
 
 <form class="form--square form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
     <?php print csrf_form() ?>
-    <input type="hidden" name="for" value="contact_form"/>
-    <input type="hidden" name="for_id" value="contact_form"/>
+    <input type="hidden" name="for" value="default_contact_form"/>
+    <input type="hidden" name="for_id" value="default_contact_form"/>
 
 
     <h4 class="text-center edit" rel="module" field="contact-form-<?php print $params['id'] ?>">Or reach us right here&hellip;</h4>
