@@ -76,11 +76,10 @@ class DefaultController extends Controller
         if (!empty($cont)) {
             foreach ($cont as $k => $item) {
 
-                    $item['image'] = get_picture($item['id']);
-                    if($item['image']){
-                        $item['image'] = '<img src="'.$item['image'].'" width="100%" /> ' . $item['description'] ;
-                    }
-
+                $item['image'] = get_picture($item['id']);
+                if ($item['image']) {
+                    $item['image'] = '<img src="' . $item['image'] . '" width="100%" /> ' . $item['description'];
+                }
 
                 $cont[$k] = $item;
             }
@@ -91,7 +90,11 @@ class DefaultController extends Controller
 
         event_trigger('mw_robot_url_hit');
 
-        return view('mw_views::rss', compact('site_title', 'site_desc', 'cont'));
+        $contents = view('mw_views::rss', compact('site_title', 'site_desc', 'cont'));
+
+        return new Response($contents, 200, [
+            'Content-Type' => 'application/xml;charset=UTF-8',
+        ]);
     }
 
     public function api_html()

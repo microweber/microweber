@@ -53,7 +53,10 @@ class TemplateMetaTagsRenderer
                 $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
                 if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];
-                    if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
+                    if ($meta['content_type'] == 'post') {
+                        $meta['og_type'] = 'article';
+
+                    } elseif ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                         $meta['og_type'] = $meta['subtype'];
                     }
                     if ($meta['description'] != false and trim($meta['description']) != '') {
