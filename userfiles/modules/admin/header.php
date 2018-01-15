@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html <?php print lang_attributes(); ?>>
         <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css">
@@ -46,6 +46,9 @@
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
+        <?php if(_lang_is_rtl()){ ?>
+            mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
+        <?php } ?>
     </script>
         <?php if (!isset($_REQUEST['no_toolbar'])): ?>
         <script type="text/javascript">
@@ -63,7 +66,7 @@
                     }
                 });
             });
-           // mw.require("<?php print mw_includes_url(); ?>css/ui.css"); 
+           // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
 
             $(window).load(function () {
                 if($(".bootstrap3ns").size() > 0){

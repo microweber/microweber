@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html <?php print lang_attributes(); ?>>
   <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta charset="UTF-8">
@@ -9,11 +9,6 @@
        <script>mw.require('<?php print mw_includes_url(); ?>api/editor_externals.js');</script>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/popup.css"/>
-
-
-
-
-
       <script>
         window.RegisterChange = function(){
           if(self !== parent){
