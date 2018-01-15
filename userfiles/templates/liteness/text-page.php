@@ -4,10 +4,10 @@
 
 type: layout
 content_type: static
-name: Clean
+name: Text Page
 position: 1
 is_default: true
-description: Clean layout
+description: Text Page
 
 */
 
@@ -16,7 +16,7 @@ description: Clean layout
 <?php include TEMPLATE_DIR. "header.php"; ?>
 
 <div class="edit" rel="content" field="liteness_content">
-<!-- Do not delete this comment - it is for parser -->
+    <module type="layouts" template="skin-5"/>
 </div>
 
 <?php include TEMPLATE_DIR. "footer.php"; ?>
