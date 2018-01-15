@@ -12,7 +12,7 @@ if (!$module_template) {
 }
 $defaults = array(
     'images' => '',
-    'primaryText' => 'A bxSlider',
+    'primaryText' => lang('A bxSlider', 'module/bxslider'),
     'secondaryText' => 'Your text here.',
     'seemoreText' => 'See more',
     'url' => '',

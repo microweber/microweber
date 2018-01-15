@@ -110,8 +110,8 @@ else {
 
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
-  
- 
+
+
 ?>
 <?php /*<div id="admin-user-nav">
 
@@ -386,17 +386,17 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
          ?>
 
-                  
+
                   <?php if(mw()->ui->disable_marketplace != true): ?>
-              
-             
+
+
                   <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:marketplace"> <span class="mw-icon-market-rocket" style="font-size: 24px;"></span> <strong>
                   <?php _e("Marketplace"); ?>
                   </strong> </a> </li>
                    <?php endif; ?>
-                  
-                  
-                  
+
+
+
                   <li <?php if ($view == 'settings' ): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
                   <?php _e("Settings"); ?>
                   </strong> </a> </li>
@@ -404,7 +404,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 </ul>
       </li>
             </ul>
-    <?php 
+    <?php
 $past_page  = site_url().'?editmode=y';
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -437,7 +437,7 @@ if ($last_page_front != false) {
 
            $( '.go-live-edit-href-set' ).bind('mousedown',function() {
 			   var url_to_go =  $(this).attr('href');;
-  					
+
 					var n = url_to_go.indexOf("editmode");
 					if(n == -1){
 						url_to_go = url_to_go+'?editmode:y';
@@ -445,9 +445,9 @@ if ($last_page_front != false) {
  				//window.location.href=url_to_go;
 				 $(this).attr('href' , url_to_go);;
   				 return false;
-				 
-			}); 
-           
+
+			});
+
 
 
         });

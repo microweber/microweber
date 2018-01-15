@@ -36,7 +36,7 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("liveedit.js");
         mw.require("upgrades.js");
 
-        <?php if(){ ?>
+        <?php if(_lang_is_rtl()){ ?>
             mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
         <?php } ?>
 
