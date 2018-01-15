@@ -12,7 +12,17 @@ description: Skin 1
 
 ?>
     <script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
+    <style>
+        <?php print '#'.$params['id']; ?>
+        .owl-carousel .owl-item img {
+            max-height: 100px;
+        }
 
+        <?php print '#'.$params['id']; ?>
+        .owl-carousel .owl-item {
+            text-align: center;
+        }
+    </style>
 <?php if (is_array($data)): ?>
     <?php $rand = uniqid(); ?>
     <div class="slider" data-items="6" data-timing="3000">
