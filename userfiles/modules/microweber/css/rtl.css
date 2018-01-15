@@ -1,5 +1,6 @@
 html,body{
   direction: rtl;
+  text-align: right;
 }
 
 .pull-left{
@@ -48,6 +49,8 @@ html,body{
 
 .mw_modal_title {
   float: right;
+  margin-left:0;
+  margin-right:6px;
 }
 
 .mw-ui-dropdown .idownarr {
@@ -117,5 +120,108 @@ html,body{
   float: right;
 }
 
+#main-bar{
+    left: auto;
+    right: 0;
+}
 
-/* live edit */
+.top-form-submit{
+    float: left;
+    right:0;
+}
+
+.manage-post-image{
+    float: right;
+}
+
+.manage-post-item-col-1 .mw-ui-check input+span{
+    margin-right:1px;
+}
+
+.mw-tree a.depth-1{
+    padding-left: 0;
+    padding-right: 42px;
+}
+.mw-tree ul.depth-2 li.depth-2 > a{
+    padding-left: 0;
+    padding-right: 44px;
+}
+
+.mw-tree .module a:before, .mw-tree label:before{
+    left: auto;
+    right:23px;
+}
+#pages_tree_toolbar .mw-icon-bin{
+    right:auto;
+    left:10px;
+}
+
+#pages_tree_toolbar .mw-icon-pen{
+   right:auto;
+    left:30px;
+}
+.mw_toggle_tree{
+    left: auto;
+    right:6px;
+}
+a.depth-1 .mw_toggle_tree{
+    left: auto;
+    right:6px;
+}
+
+.quick-lists .mw-ui-navigation a [class*="mw-icon-"]{
+    float: right;
+    margin:-5px 0 0 8px;
+}
+
+.request-stats-btn{
+    left: auto;
+    right:10px;
+}
+
+.mw-tag-selector .mw-ui-btn{
+    float:right;
+    margin-left:5px;
+    margin-right:0;
+}
+.post-thumb-uploader{
+    float: right;
+    margin:0 0 15px 15px;
+}
+.main-bar-user-tip-active{
+    right:100px;
+    left:auto;
+}
+.mw-ui-btn-vertical-nav .mw-ui-btn{
+    text-align: right;
+}
+.admin-thumb-item{
+    float: right;
+}
+
+.mw-tree li li {
+    background: url(../img/treelisub_rtl.gif) no-repeat right -3px, url(../img/treelisub_single.gif) repeat-y right 0;
+    background-position: calc(100% - 15px) 0;
+}
+.mw-tree li > ul:last-child > li:last-child {
+    background: url(../img/treelisub_last_rtl.gif) no-repeat right -3px;
+    background-position: calc(100% - 15px) 0;
+}
+
+
+.mw_modal_default .mw-modal-close{
+    right:auto;
+    left:0;
+}
+
+
+.admin-thumbs-holder .admin-thumb-item-placeholder{
+    float: right;
+}
+
+
+.mw-ui-label{
+    text-align: right;
+}
+
+

@@ -1,0 +1,36 @@
+/* live edit */
+
+.toolbar-sections-tabs{
+    float: right;
+}
+
+#mw-toolbar-right{
+    float: left;
+}
+
+.wysiwyg-undo-redo{
+    float: right;
+}
+
+.toolbar-sections-tabs > ul > li{
+    float: right;
+}
+
+#live_edit_toolbar_holder [class*='tst-']{
+    border-right:0;
+    border-left:1px solid #EAEAEA;
+}
+
+.mw-toolbar-add-new-content-ctrl {
+    margin: 9px 12px 0 0 !important;
+}
+
+.create-content-dropdown-list{
+    left:auto;
+    right:-1px;
+}
+
+#sidebar-hidden-area{
+    left:0;
+    right:auto;
+}

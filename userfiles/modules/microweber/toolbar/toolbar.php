@@ -35,6 +35,11 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("session.js");
         mw.require("liveedit.js");
         mw.require("upgrades.js");
+
+        <?php if(){ ?>
+            mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
+        <?php } ?>
+
     </script>
     <script type="text/javascript">
         //if(mw.cookie.get("helpinfoliveedit") != 'false'){
@@ -697,6 +702,8 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.drag.plus.init('.edit');
         mw.drag.columns.init();
     });
+
+
 
 </script>
 <span class="mw-plus-top mw-wyswyg-plus-element">+</span>

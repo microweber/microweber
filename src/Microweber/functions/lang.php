@@ -229,6 +229,20 @@ function current_lang()
     return $app_locale;
 }
 
+function lang_attributes(){
+    $lang = current_lang();
+    $attr = array(
+        'lang="'.$lang.'"'
+    );
+    $dir = 'ltr';
+    if($lang == 'ar'){
+        $dir = 'rtl';
+    }
+    array_push($attr, 'dir="'.$dir.'"');
+    return implode(' ', $attr);
+
+}
+
 
 function _lang_is_rtl($lang = false)
 {

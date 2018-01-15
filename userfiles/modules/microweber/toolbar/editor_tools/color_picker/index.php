@@ -69,6 +69,13 @@
 
     <?php  } ?>
 
+    html[dir='rtl'] #main_holder .mw-ui-label{
+        float: right;
+    }
+    html[dir='rtl'] #hex_color_value{
+        float: left;
+    }
+
 </style>
 
 
