@@ -9,7 +9,7 @@ $config['no_cache'] = true;
 $config['as_element'] = true;
 
 $config['categories'] = "portfolio";
-$config['position'] = 9;
+$config['position'] = 39;
 $config['version'] = 0.02;
 
 

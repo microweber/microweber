@@ -8,6 +8,6 @@ $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['categories'] = "portfolio, online shop, gallery, recommended";
 $config['version'] = 0.01;
-$config['position'] = 10;
+$config['position'] = 40;
 $config['as_element'] = true;
 $config['layout_type'] = "dynamic";
