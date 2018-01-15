@@ -126,6 +126,13 @@
             $search_field = 'true';
         }
 
+        $profile_link = get_option('profile-link', 'mw-template-dream');
+        if ($profile_link == '') {
+            $profile_link = 'false';
+        } else {
+            $profile_link = 'true';
+        }
+
         $preloader = get_option('preloader', 'mw-template-dream');
         if ($preloader == '') {
             $preloader = 'false';
@@ -158,6 +165,7 @@
             $stop_transparent_nav = 'false';
         }
         ?>
+
         <div class="form-group">
             <div class="col-xs-12">
                 <div class="checkbox">
@@ -190,6 +198,18 @@
                         <input type="checkbox" class="mw_option_field" id="search-field" name="search-field" data-option-group="mw-template-dream" value="true" <?php if ($search_field == 'true') {
                             echo 'checked';
                         } ?> /> Show search field in header
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" class="mw_option_field" id="profile-link" name="profile-link" data-option-group="mw-template-dream" value="true" <?php if ($profile_link == 'true') {
+                            echo 'checked';
+                        } ?> /> Show Profile link in header
                     </label>
                 </div>
             </div>
