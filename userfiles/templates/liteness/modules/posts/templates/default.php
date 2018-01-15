@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Columns
+name: Default
 
-description: Columns
+description: Default
 
 */
 ?>
