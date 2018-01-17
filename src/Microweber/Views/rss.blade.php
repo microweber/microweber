@@ -12,7 +12,10 @@
             <?php $row['description'] = character_limiter(strip_tags(($row['description'])), 500); ?>
             <item>
                 <title>{{$row['title']}}</title>
-                <description><![CDATA[{!!$row['image']!!}{{$row['description']}}]]></description>
+                <description><![CDATA[{{$row['image_tag']}}{{$row['description']}}]]></description>
+                @if ($row['image'])
+                    {{--<enclosure url="{{$row['image']}}" length="{{$row['image_bits']}}" type="{{$row['image_mime']}}"/>--}}
+                @endif
                 <link>{{content_link($row['id']) }}</link>
                 <pubDate>{{date('D, d M Y H:i:s O', strtotime($row['created_at'])) }}</pubDate>
                 <guid>{{content_link($row['id']) }}</guid>
@@ -20,6 +23,3 @@
         @endforeach
     </channel>
 </rss>
-
-
- 
