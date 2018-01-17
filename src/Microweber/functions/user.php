@@ -47,6 +47,11 @@ function login_url()
     return mw()->user_manager->login_url();
 }
 
+function profile_url()
+{
+    return mw()->user_manager->profile_url();
+}
+
 function session_set($key, $val)
 {
     return mw()->user_manager->session_set($key, $val);

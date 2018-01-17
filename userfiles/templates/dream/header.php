@@ -101,6 +101,7 @@
 
 <?php $shopping_cart = get_option('shopping-cart', 'mw-template-dream'); ?>
 <?php $search_field = get_option('search-field', 'mw-template-dream'); ?>
+<?php $profile_link = get_option('profile-link', 'mw-template-dream'); ?>
 <?php $preloader = get_option('preloader', 'mw-template-dream'); ?>
 <?php $shop1_header_style = get_option('shop1-header-style', 'mw-template-dream'); ?>
 <?php $shop2_header_style = get_option('shop2-header-style', 'mw-template-dream'); ?>
@@ -124,6 +125,15 @@
                 <a href="#" class="nav-function" data-notification-link="cart-overview">
                     <i class="interface-bag icon icon--sm"></i>
                     <span><?php _e("Cart") ?></span>
+                </a>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($profile_link == 'true'): ?>
+            <div class="nav-module right cart-module">
+                <a href="<?php print profile_url(); ?>" class="nav-function">
+                    <i class="fa fa-user"></i>
+                    <span>Profile</span>
                 </a>
             </div>
         <?php endif; ?>

@@ -77,8 +77,16 @@ class DefaultController extends Controller
             foreach ($cont as $k => $item) {
 
                 $item['image'] = get_picture($item['id']);
-                if ($item['image']) {
-                    $item['image'] = '<img src="' . $item['image'] . '" width="100%" /> ' . $item['description'];
+                if ($item['image'] and $item['image'] != '') {
+//                    $imageSize = getimagesize($item['image']);
+                    $item['image_tag'] = '<img src="' . $item['image'] . '" width="100%" /> ';
+//                    $item['image_mime'] = $imageSize['mime'];
+//                    $item['image_bits'] = $imageSize['bits'];
+
+                    $item['image_mime'] = '';
+                    $item['image_bits'] = '';
+                } else {
+                    $item['image_tag'] = '';
                 }
 
                 $cont[$k] = $item;

@@ -13,6 +13,12 @@
 ?>
 <?php include template_dir() . "header.php"; ?>
 
+<?php
+if (is_logged() == true) {
+    return mw()->url_manager->redirect(profile_url());
+}
+?>
+
 <div class="edit" rel="content" field="dream_content">
     <section class="height-100 cover cover-8">
         <div class="col-md-7 col-sm-5">

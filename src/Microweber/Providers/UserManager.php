@@ -1576,6 +1576,31 @@ class UserManager
         }
     }
 
+    public function profile_url()
+    {
+        $template_dir = $this->app->template->dir();
+        $file = $template_dir . 'profile.php';
+        $default_url = false;
+        if (is_file($file)) {
+            $default_url = 'profile';
+        } else {
+            $default_url = 'users/profile';
+        }
+
+        $profile_url = $this->app->option_manager->get('profile_url', 'users');
+        if ($profile_url != false and trim($profile_url) != '') {
+            $profile_url = $profile_url;
+        }
+
+        $profile_url_sess = $this->session_get('profile_url');
+
+        if ($profile_url_sess == false) {
+            return $this->app->url_manager->site($default_url);
+        } else {
+            return $this->app->url_manager->site($profile_url_sess);
+        }
+    }
+
     public function forgot_password_url()
     {
         $template_dir = $this->app->template->dir();

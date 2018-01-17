@@ -12,7 +12,7 @@ $defaults = array(
 $is_empty = false;
 $data = json_decode($settings, true);
 
-if (count($data) == 0) {
+if (!$data) {
     $is_empty = true;
     print lnotif("Click on settings to edit this module");
   //  $data = array($defaults);
