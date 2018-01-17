@@ -39,11 +39,10 @@ if ($height === null OR $height === false OR $height == '') {
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h6>Case Study</h6>
-                <h3>Reimagining the Chat Experience</h3>
+                <h6><?php _lang("Case Study", "templates/dream"); ?></h6>
+                <h3><?php _lang("Reimagining the Chat Experience", "templates/dream"); ?></h3>
                 <p class="lead">
-                    Dream provided conceptualization through design, deployment
-                    <br> and marketing for this burgeoning startup
+                    <?php _lang("Dream provided conceptualization through design, deployment <br> and marketing for this burgeoning startup", "templates/dream"); ?>
                 </p>
             </div>
         </div>

@@ -10,17 +10,17 @@ if ($is_parallax == '') {
     <select name="is_parallax" class="mw-ui-field mw_option_field" data-option-group="<?php print $params['id']; ?>">
         <option value="" <?php if ($is_parallax == '') {
             echo 'selected';
-        } ?>>No Selected
+        } ?>><?php _lang("No Selected", "templates/dream"); ?>
         </option>
 
         <option value="yes"<?php if ($is_parallax == 'yes') {
             echo 'selected';
-        } ?>>Yes
+        } ?>><?php _lang("Yes", "templates/dream"); ?>
         </option>
 
         <option value="no"<?php if ($is_parallax == 'no') {
             echo 'selected';
-        } ?>>No
+        } ?>><?php _lang("No", "templates/dream"); ?>
         </option>
     </select>
 </div>

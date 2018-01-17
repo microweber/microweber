@@ -18,10 +18,8 @@ position: 33
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-12 text-center allow-drop">
-                <h6>Fall Collection 2016</h6>
-                <p class="lead">Robust design, sustainable production and honest pricing are the cornerstones of the Dream vision — Ours values of craftsmanship and authenticity pervade every
-                    piece.
-                </p>
+                <h6><?php _lang("Fall Collection 2016", "templates/dream"); ?></h6>
+                <p class="lead"><?php _lang("Robust design, sustainable production and honest pricing are the cornerstones of the Dream vision — Ours values of craftsmanship and authenticity pervade every piece.", "templates/dream"); ?></p>
                 <img class="signature" alt="signature" src="<?php print template_url('assets/img/'); ?>signature.png">
             </div>
         </div>

@@ -18,11 +18,11 @@ position: 51
     <div class="container">
         <div class="row">
             <div class="col-md-5 allow-drop">
-                <h5>A Modular Approach</h5>
+                <h5><?php _lang("A Modular Approach", "templates/dream"); ?></h5>
                 <p>
-                    Minimum viable product sticky note affordances prototype parallax unicorn quantitative vs. qualitative affordances dream responsive integrate. Waterfall is so 2000 and late user
+                    <?php _lang("Minimum viable product sticky note affordances prototype parallax unicorn quantitative vs. qualitative affordances dream responsive integrate. Waterfall is so 2000 and late user
                     story prototype personas piverate viral intuitive disrupt responsive earned media user centered design. Paradigm thought leader bootstrapping ideate workflow disrupt
-                    human-centered design venture capital viral viral food-truck pair programming entrepreneur.
+                    human-centered design venture capital viral viral food-truck pair programming entrepreneur.", "templates/dream"); ?>
                 </p>
             </div>
             <div class="col-md-6 col-md-offset-1">

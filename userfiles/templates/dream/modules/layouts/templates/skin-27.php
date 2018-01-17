@@ -29,7 +29,7 @@ if ($overlay === null OR $overlay === false) {
     <div class="container pos-vertical-center text-center-xs">
         <div class="row pos-vertical-align-columns">
             <div class="col-md-7 col-sm-8 col-sm-offset-2 allow-drop">
-                <h2>Build smart, effective websites in no time with Dream</h2>
+                <h2><?php _lang("Build smart, effective websites in no time with Dream", "templates/dream"); ?></h2>
             </div>
             <div class="col-md-5 col-sm-8 col-sm-offset-2 voh">
                 <module type="newsletter" template="skin-1"/>

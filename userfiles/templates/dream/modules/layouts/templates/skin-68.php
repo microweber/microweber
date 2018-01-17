@@ -23,8 +23,8 @@ if ($height === null OR $height === false OR $height == '') {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h1>Title</h1>
-                <p class="lead">Showcase blog posts in a classic column arrangement</p>
+                <h1><?php _lang("Title", "templates/dream"); ?></h1>
+                <p class="lead"><?php _lang("Showcase blog posts in a classic column arrangement", "templates/dream"); ?></p>
             </div>
         </div>
     </div>

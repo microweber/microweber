@@ -24,10 +24,10 @@ position: 55
                     </div>
                     <div class="card__body boxed bg--white allow-drop">
                         <div class="card__title">
-                            <h5>Interface Design</h5>
+                            <h5><?php _lang("Interface Design", "templates/dream"); ?></h5>
                         </div>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                            <?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -39,10 +39,10 @@ position: 55
                     </div>
                     <div class="card__body boxed bg--white allow-drop">
                         <div class="card__title">
-                            <h5>User Experience</h5>
+                            <h5><?php _lang("User Experience", "templates/dream"); ?></h5>
                         </div>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                            <?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -54,10 +54,10 @@ position: 55
                     </div>
                     <div class="card__body boxed bg--white allow-drop">
                         <div class="card__title">
-                            <h5>Strategy & Innovation</h5>
+                            <h5><?php _lang("Strategy & Innovation", "templates/dream"); ?></h5>
                         </div>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                            <?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -69,10 +69,10 @@ position: 55
                     </div>
                     <div class="card__body boxed bg--white allow-drop">
                         <div class="card__title">
-                            <h5>Internet Of Things</h5>
+                            <h5><?php _lang("Internet Of Things", "templates/dream"); ?></h5>
                         </div>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                            <?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -84,10 +84,10 @@ position: 55
                     </div>
                     <div class="card__body boxed bg--white allow-drop">
                         <div class="card__title">
-                            <h5>Full Service Development</h5>
+                            <h5><?php _lang("Full Service Development", "templates/dream"); ?></h5>
                         </div>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                            <?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -99,10 +99,10 @@ position: 55
                     </div>
                     <div class="card__body boxed bg--white allow-drop">
                         <div class="card__title">
-                            <h5>Digital Presence</h5>
+                            <h5><?php _lang("Digital Presence", "templates/dream"); ?></h5>
                         </div>
                         <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                            <?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>

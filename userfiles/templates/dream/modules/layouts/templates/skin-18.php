@@ -22,14 +22,12 @@ position: 18
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-sm-8 allow-drop">
-                <h4>Full service &mdash; No compromise.</h4>
+                <h4><?php _lang("Full service &mdash; No compromise.", "templates/dream"); ?></h4>
                 <p>
-                    Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user
-                    interface.
+                    <?php _lang("Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user interface.", "templates/dream"); ?>
                 </p>
                 <p>
-                    Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user
-                    interface. Infrastructure bootstrapping branding leverage twitter channels MVP iPad launch party non-disclosure agreement.
+                    <?php _lang("Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user interface.", "templates/dream"); ?>
                 </p>
             </div>
         </div>

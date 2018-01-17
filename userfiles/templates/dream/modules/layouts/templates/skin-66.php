@@ -29,11 +29,11 @@ if ($overlay === null OR $overlay === false) {
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h2>Bold, Simple,
-                    <em>Robust.</em>
+                <h2><?php _lang("Bold, Simple", "templates/dream"); ?>,
+                    <em><?php _lang("Robust", "templates/dream"); ?>.</em>
                 </h2>
                 <p class="lead">
-                    Pillar features a bevvy of content blocks and layouts to create your website.
+                    <?php _e("Pillar features a bevvy of content blocks and layouts to create your website") ?>.
                 </p>
             </div>
         </div>
@@ -43,16 +43,16 @@ if ($overlay === null OR $overlay === false) {
                 <div class="boxed boxed--lg voh">
                     <div class="feature col-sm-6">
                         <i class="icon icon--lg icon-Windows-2 safe-element"></i>
-                        <h5>Lovingly Crafted Components</h5>
+                        <h5><?php _lang("Lovingly Crafted Components", "templates/dream"); ?></h5>
                         <p class="lead allow-drop">
-                            Tailored for modern startups, portfolios shops and more.
+                            <?php _lang("Tailored for modern startups, portfolios shops and more", "templates/dream"); ?>.
                         </p>
                     </div>
                     <div class="feature col-sm-6">
                         <i class="icon icon--lg icon-Medal safe-element"></i>
-                        <h5>Highly Regarded Author</h5>
+                        <h5><?php _lang("Highly Regarded Author", "templates/dream"); ?></h5>
                         <p class="lead allow-drop">
-                            Awarded by Envato for providing high quality products.
+                            <?php _lang("Awarded by Envato for providing high quality products", "templates/dream"); ?>.
                         </p>
                     </div>
                 </div>

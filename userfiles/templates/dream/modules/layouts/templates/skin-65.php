@@ -20,22 +20,22 @@ position: 65
             <div class="col-sm-4 voh cloneable">
                 <div class="feature feature-1 text-center">
                     <i class="icon icon--lg icon-Astronaut color--primary safe-element"></i>
-                    <h5>Launch A Startup</h5>
-                    <p>Piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.</p>
+                    <h5><?php _lang("Launch A Startup", "templates/dream"); ?></h5>
+                    <p><?php _lang("Piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.", "templates/dream"); ?></p>
                 </div>
             </div>
             <div class="col-sm-4 voh cloneable">
                 <div class="feature feature-1 text-center">
                     <i class="icon icon--lg icon-Bag-Coins color--primary safe-element"></i>
-                    <h5>Open A Shop</h5>
-                    <p>Piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.</p>
+                    <h5><?php _lang("Open A Shop", "templates/dream"); ?></h5>
+                    <p><?php _lang("Piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.", "templates/dream"); ?></p>
                 </div>
             </div>
             <div class="col-sm-4 voh cloneable">
                 <div class="feature feature-1 text-center">
                     <i class="icon icon--lg icon-Pencil-Ruler color--primary safe-element"></i>
-                    <h5>Showcase Your Work</h5>
-                    <p>Piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.</p>
+                    <h5><?php _lang("Showcase Your Work", "templates/dream"); ?></h5>
+                    <p><?php _lang("Piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.", "templates/dream"); ?></p>
                 </div>
             </div>
         </div>

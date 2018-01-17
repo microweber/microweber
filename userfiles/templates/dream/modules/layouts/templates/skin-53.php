@@ -23,19 +23,19 @@ position: 53
         <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="feature feature-1 service-1 text-center allow-drop">
                 <i class="icon icon--lg icon-Sidebar-Window safe-element"></i>
-                <h4>Interface Design</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.</p>
+                <h4><?php _lang("Interface Design", "templates/dream"); ?></h4>
+                <p><?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?></p>
                 <hr>
-                <h6>Key Focus Areas Include</h6>
+                <h6><?php _lang("Key Focus Areas Include", "templates/dream"); ?></h6>
                 <ul class="bullets">
                     <li>
-                        <em>Motion Interaction</em>
+                        <em><?php _lang("Motion Interaction", "templates/dream"); ?></em>
                     </li>
                     <li>
-                        <em>Rapid Prototyping</em>
+                        <em><?php _lang("Rapid Prototyping", "templates/dream") ?></em>
                     </li>
                     <li>
-                        <em>Continual Improvement</em>
+                        <em><?php _lang("Continual Improvement", "templates/dream"); ?></em>
                     </li>
                 </ul>
             </div>

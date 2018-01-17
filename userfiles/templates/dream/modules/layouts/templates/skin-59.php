@@ -19,7 +19,7 @@ position: 59
         <div class="row">
             <div class="related-products">
                 <div class="col-sm-12">
-                    <h4>New Products</h4>
+                    <h4><?php _lang("New Products", "templates/dream"); ?></h4>
                 </div>
 
                 <module type="shop/products" template="skin-4" limit="3" />

@@ -19,7 +19,7 @@ position: 43
         <div class="row">
             <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 allow-drop">
                 <div class="elements--title text-center">
-                    <h4>Multiple Open</h4>
+                    <h4><?php _lang("Multiple Open", "templates/dream"); ?></h4>
                 </div>
 
                 <module type="accordion" />

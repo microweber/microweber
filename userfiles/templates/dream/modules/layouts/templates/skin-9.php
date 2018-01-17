@@ -18,8 +18,8 @@ position: 9
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h4>Interested in working with Dream?</h4><br/><br/>
-                <module type="btn" template="bootstrap" button_style="btn-simple" text="Lets Talk"/>
+                <h4><?php _lang("Interested in working with Dream", "templates/dream"); ?>?</h4><br/><br/>
+                <module type="btn" template="bootstrap" button_style="btn-simple" text="<?php _lang("Lets Talk", "templates/dream"); ?>"/>
             </div>
         </div>
     </div>

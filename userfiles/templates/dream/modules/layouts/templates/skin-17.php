@@ -24,14 +24,12 @@ position: 17
         <div class="row">
             <div class="col-md-5 col-md-push-7 col-sm-8 col-sm-push-4 allow-drop">
                 <div>
-                    <h4>Expertise is just the beginning&hellip;</h4>
+                    <h4><?php _lang("Expertise is just the beginning&hellip;", "templates/dream"); ?></h4>
                     <p>
-                        Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user
-                        interface.
+                        <?php _lang("Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user interface.", "templates/dream"); ?>
                     </p>
                     <p>
-                        Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user
-                        interface. Infrastructure bootstrapping branding leverage twitter channels MVP iPad launch party non-disclosure agreement.
+                        <?php _lang("Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen disruptive graphical user interface.", "templates/dream"); ?>
                     </p>
                 </div>
             </div>

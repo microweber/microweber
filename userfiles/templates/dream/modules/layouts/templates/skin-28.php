@@ -33,7 +33,7 @@ if ($is_parallax === null OR $is_parallax === false OR $is_parallax == '') {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-6 allow-drop">
-                <h1>I'm fighting for a fair go for all Australians</h1>
+                <h1><?php _lang("I'm fighting for a fair go for all Australians", "templates/dream"); ?></h1>
             </div>
         </div>
 

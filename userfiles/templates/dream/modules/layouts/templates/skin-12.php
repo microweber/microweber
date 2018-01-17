@@ -22,12 +22,12 @@ position: 12
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-sm-8 allow-drop">
-                <h3>Assemble pages with over a lot of content blocks</h3>
+                <h3><?php _lang("Assemble pages with over a lot of content blocks", "templates/dream"); ?></h3>
                 <p>
-                    Dream combines smart, modern styling with all the features you’ll need to launch websites of almost any kind. Achieve results faster than ever with the included Microweber CMS & Website Builder.
+                    <?php _lang("Dream combines smart, modern styling with all the features you’ll need to launch websites of almost any kind. Achieve results faster than ever with the included Microweber CMS & Website Builder.", "templates/dream"); ?>
                 </p>
 
-                <module type="btn" template="bootstrap" text="Click Here" button_style="btn-simple" />
+                <module type="btn" template="bootstrap" text="<?php _lang("Click Here", "templates/dream"); ?>" button_style="btn-simple" />
             </div>
         </div>
     </div>

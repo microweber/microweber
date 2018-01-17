@@ -29,9 +29,9 @@ if ($overlay === null OR $overlay === false) {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h2>Start a conversation.</h2>
+                <h2><?php _lang("Start a conversation.", "templates/dream"); ?></h2>
                 <p class="lead">
-                    Browse and connect with employers from all over the world.
+                    <?php _lang("Browse and connect with employers from all over the world", "templates/dream"); ?>.
                 </p>
             </div>
         </div>
@@ -44,7 +44,7 @@ if ($overlay === null OR $overlay === false) {
         <div class="row">
             <div class="col-sm-12 text-center">
                 <div class="inline-element">
-                    <span class="h6 safe-element" style="line-height: 0px;">How Does Dream Work?</span>
+                    <span class="h6 safe-element" style="line-height: 0px;"><?php _lang("How Does Dream Work?", "templates/dream"); ?></span>
                 </div>
                 <div class="inline-element">
                     <module type="btn" text="Purchase Dream" template="skin-1"/>

@@ -24,8 +24,7 @@ position: 25
             <div class="col-sm-12 text-center">
                 <img alt="Logo" class="logo" src="<?php print template_url('assets/img/'); ?>logo-dark.png">
                 <p class="lead">
-                    A stunning collection of
-                    <br> front-end web components.
+                   <?php _lang(" A stunning collection of <br> front-end web components", "templates/dream"); ?>.
                 </p>
             </div>
         </div>

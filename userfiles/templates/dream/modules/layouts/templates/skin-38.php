@@ -23,8 +23,8 @@ position: 38
                         <i class="icon icon-Astronaut safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>New Startups</h6>
-                        <p>Grok integrate thinker-maker-doer piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.</p>
+                        <h6><?php _e("New Startups") ?></h6>
+                        <p><?php _lang("Grok integrate thinker-maker-doer piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>
@@ -34,8 +34,8 @@ position: 38
                         <i class="icon icon-Fingerprint-2 safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>Personal Portfolios</h6>
-                        <p>Grok integrate thinker-maker-doer piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.</p>
+                        <h6><?php _lang("Personal Portfolios", "templates/dream"); ?></h6>
+                        <p><?php _lang("Grok integrate thinker-maker-doer piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>
@@ -45,8 +45,8 @@ position: 38
                         <i class="icon icon-Bag-Coins safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>Digital Storefronts</h6>
-                        <p>Grok integrate thinker-maker-doer piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.</p>
+                        <h6><?php _lang("Digital Storefronts", "templates/dream"); ?></h6>
+                        <p><?php _lang("Grok integrate thinker-maker-doer piverate entrepreneur sticky note iterate waterfall is so 2000 and late 360 campaign cortado quantitative vs. qualitative.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>

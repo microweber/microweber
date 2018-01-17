@@ -21,7 +21,7 @@ if ($padding == false) {
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 text-center allow-drop">
-                <h3>Your Creative Collective</h3>
+                <h3><?php _lang("Your Creative Collective", "templates/dream"); ?></h3>
             </div>
         </div>
     </div>

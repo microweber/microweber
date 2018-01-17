@@ -19,7 +19,7 @@ $popup_function_id = 'btn_popup' . uniqid();
 if ($text == false and isset($params['text'])) {
     $text = $params['text'];
 } elseif ($text == '') {
-    $text = 'Button';
+    $text = lang('Button', 'templates/dream/modules/btn');
 }
 
 $text = $icon . '&nbsp;' . $text;

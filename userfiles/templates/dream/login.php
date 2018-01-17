@@ -23,7 +23,7 @@
             <div class="pos-vertical-center">
                 <img class="logo" alt="Dream" src="<?php print template_url('assets/img/'); ?>logo-large-dark.png">
                 <br /><br />
-                <p class="lead">Login</p>
+                <p class="lead"><?php _e("Login") ?></p>
                 <div class="text-left">
                     <module type="users/login" />
                 </div>

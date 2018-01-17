@@ -29,8 +29,8 @@ if ($overlay === null OR $overlay === false) {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h1 class="">Sam Gibbs &amp; Aisha Roberts</h1>
-                <p>August 6th 2017, Flinders Ranges, Victoria</p>
+                <h1 class=""><?php _lang("Sam Gibbs &amp; Aisha Roberts", "templates/dream"); ?></h1>
+                <p><?php _lang("August 6th 2017, Flinders Ranges, Victoria", "templates/dream"); ?></p>
             </div>
         </div>
     </div>

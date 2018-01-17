@@ -320,7 +320,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .main-bar-column {
-    width: 100px;
+    width: 230px;
 
 }
 
@@ -841,7 +841,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 *************************************/
 
 #main-bar {
-    width: 100px;
+    width: 230px;
     height: 100%;
     background: #000000;
     color: white;
@@ -993,7 +993,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #mw-admin-main-menu a [class*='mw-icon-'] {
-    font-size: 36px;
+    font-size: 22px;
+    float: left;
 }
 
 #mw-admin-main-menu a .mw-icon-menu {

@@ -23,8 +23,8 @@ position: 5
                         <i class="icon icon-Sidebar-Window color--primary safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>Interface Design</h6>
-                        <p>Dream comes packed with flexible content blocks and Microweber CMS & Website Builder - this makes building your perfect layout easier than ever before.</p>
+                        <h6><?php _lang("Interface Design", "templates/dream"); ?></h6>
+                        <p><?php _lang("Dream comes packed with flexible content blocks and Microweber CMS & Website Builder - this makes building your perfect layout easier than ever before.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,8 @@ position: 5
                         <i class="icon icon-RGB color--primary safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>User Interaction</h6>
-                        <p>Combine multiple purpose-built elements to craft your perfect, conversion focussed landing page - and do it all in the comfort of your browser.</p>
+                        <h6><?php _lang("User Interaction", "templates/dream"); ?></h6>
+                        <p><?php _lang("Combine multiple purpose-built elements to craft your perfect, conversion focussed landing page - and do it all in the comfort of your browser.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>
@@ -47,8 +47,8 @@ position: 5
                         <i class="icon icon-Brain color--primary safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>Internet Of Things</h6>
-                        <p>Clever social integrations such as Mail Chimp, Compaign Monitor and styled Twitter feeds give your site a dynamic edge.</p>
+                        <h6><?php _lang("Internet Of Things", "templates/dream"); ?></h6>
+                        <p><?php _lang("Clever social integrations such as Mail Chimp, Compaign Monitor and styled Twitter feeds give your site a dynamic edge.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@ position: 5
                         <i class="icon icon-Astronaut color--primary safe-element"></i>
                     </div>
                     <div class="feature__right allow-drop">
-                        <h6>Product Design</h6>
-                        <p>Flexible data attribute modifiers make customising elements fast and easy. Add overlays, scrims and adjust plugin parameters all from the HTML.</p>
+                        <h6><?php _lang("Product Design", "templates/dream"); ?></h6>
+                        <p><?php _lang("Flexible data attribute modifiers make customising elements fast and easy. Add overlays, scrims and adjust plugin parameters all from the HTML.", "templates/dream"); ?></p>
                     </div>
                 </div>
             </div>

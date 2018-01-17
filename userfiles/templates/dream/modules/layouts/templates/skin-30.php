@@ -37,7 +37,7 @@ if ($youtube == false) {
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 text-center allow-drop">
                 <p class="lead">
-                    Dream is a Chicago-based collective of passionate designers, developers and brand strategists offering insight to some of the world's most admired brands.
+                    <?php _lang("Dream is a Chicago-based collective of passionate designers, developers and brand strategists offering insight to some of the world's most admired brands.", "templates/dream"); ?>
                 </p>
             </div>
         </div>

@@ -18,10 +18,9 @@ position: 31
     <div class="container">
         <div class="row">
             <div class="col-sm-10 allow-drop">
-                <h6>Digital, Delivered.</h6>
+                <h6><?php _lang("Digital, Delivered.", "templates/dream"); ?></h6>
                 <p class="lead">
-                    We are a global design agency specialising in the art of brand storytelling. We craft digital, graphic and 3 dimensional thinking, to create category leading brand
-                    experiences that have meaning, relevance and deliver extraordinary value.
+                    <?php _lang("We are a global design agency specialising in the art of brand storytelling. We craft digital, graphic and 3 dimensional thinking, to create category leading brand experiences that have meaning, relevance and deliver extraordinary value.", "templates/dream"); ?>
                 </p>
             </div>
         </div>

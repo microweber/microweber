@@ -18,24 +18,21 @@ position: 15
     <div class="container">
         <div class="row">
             <div class="col-sm-4 allow-drop cloneable">
-                <h6>Your Site, Your Way</h6>
+                <h6><?php _lang("Your Site, Your Way", "templates/dream"); ?></h6>
                 <p>
-                    Responsive intuitive user story engaging quantitative vs. qualitative SpaceTeam pitch deck co-working engaging pair programming fund integrate. Physical computing innovate
-                    pivot integrate fund disrupt latte driven.
+                    <?php lang("Responsive intuitive user story engaging quantitative vs. qualitative SpaceTeam pitch deck co-working engaging pair programming fund integrate. Physical computing innovate pivot integrate fund disrupt latte driven", "templates/dream"); ?>.
                 </p>
             </div>
             <div class="col-sm-4 allow-drop cloneable">
                 <h6>Developer Friendly</h6>
                 <p>
-                    Responsive intuitive user story engaging quantitative vs. qualitative SpaceTeam pitch deck co-working engaging pair programming fund integrate. Physical computing innovate
-                    pivot integrate fund disrupt latte driven.
+                    <?php lang("Responsive intuitive user story engaging quantitative vs. qualitative SpaceTeam pitch deck co-working engaging pair programming fund integrate. Physical computing innovate pivot integrate fund disrupt latte driven", "templates/dream"); ?>.
                 </p>
             </div>
             <div class="col-sm-4 allow-drop cloneable">
                 <h6>Modular & Reusable</h6>
                 <p>
-                    Responsive intuitive user story engaging quantitative vs. qualitative SpaceTeam pitch deck co-working engaging pair programming fund integrate. Physical computing innovate
-                    pivot integrate fund disrupt latte driven.
+                    <?php lang("Responsive intuitive user story engaging quantitative vs. qualitative SpaceTeam pitch deck co-working engaging pair programming fund integrate. Physical computing innovate pivot integrate fund disrupt latte driven", "templates/dream"); ?>.
                 </p>
             </div>
         </div>

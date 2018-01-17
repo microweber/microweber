@@ -42,9 +42,8 @@ if ($height === null OR $height === false OR $height == '') {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 text-center allow-drop">
-                <h3>Development Process</h3>
-                <p class="lead">Our rigorous process ensures your project is managed strategically and efficiently from initial conception through to final delivery and after-sales
-                    support.</p>
+                <h3><?php _lang("Development Process", "templates/dream"); ?></h3>
+                <p class="lead"><?php _lang("Our rigorous process ensures your project is managed strategically and efficiently from initial conception through to final delivery and after-sales support", "templates/dream"); ?>.</p>
             </div>
         </div>
 

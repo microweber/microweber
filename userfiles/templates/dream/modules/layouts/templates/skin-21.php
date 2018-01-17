@@ -18,20 +18,19 @@ position: 21
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <img alt="Logo" class="logo" src="<?php print template_url('assets/img/'); ?>logo-large-dark.png">
+                <img alt="<?php _lang("Logo", "templates/dream"); ?>" class="logo" src="<?php print template_url('assets/img/'); ?>logo-large-dark.png">
                 <p class="lead">
-                    A stunning collection of
-                    <br> front-end web components.
+                    <?php _lang("A stunning collection of <br> front-end web components", "templates/dream"); ?>.
                 </p>
 
-                <module type="btn" text="Take a Your" template="bootstrap" class="inline-element"/>
-                <module type="btn" text="Get It On The App Store" template="bootstrap" class="inline-element"/>
+                <module type="btn" text="<?php _lang("Take a Your", "templates/dream"); ?>" template="bootstrap" class="inline-element"/>
+                <module type="btn" text="<?php _lang("Get It On The App Store", "templates/dream"); ?>" template="bootstrap" class="inline-element"/>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12 text-center">
-                <img class="cover__image" alt="Device" src="<?php print template_url('assets/img/'); ?>device1.png">
+                <img class="cover__image" alt="<?php _lang("Device", "templates/dream"); ?>" src="<?php print template_url('assets/img/'); ?>device1.png">
             </div>
         </div>
 
