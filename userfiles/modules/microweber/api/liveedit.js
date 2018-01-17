@@ -771,9 +771,10 @@ mw.drag = {
                             mw.image.resize.resizerSet(event.target, false);
                         }
                         else if (!!bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
-                          console.log(91919)
-                            $(mw.image_resizer).addClass("active");
-                            mw.image.resize.resizerSet(event.target, false);
+                            if(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit', 'module'])  ){
+                                $(mw.image_resizer).addClass("active");
+                                mw.image.resize.resizerSet(event.target, false);
+                            }
                         }
                         else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
                           $(mw.image_resizer).addClass("active");
