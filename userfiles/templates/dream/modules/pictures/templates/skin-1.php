@@ -21,6 +21,7 @@ description: Skin 1
         <?php print '#'.$params['id']; ?>
         .owl-carousel .owl-item {
             text-align: center;
+            padding: 10px !important;
         }
     </style>
 <?php if (is_array($data)): ?>

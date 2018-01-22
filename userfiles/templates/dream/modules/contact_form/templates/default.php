@@ -22,8 +22,7 @@ description: Default contact form
     <input type="hidden" name="for" value="default_contact_form"/>
     <input type="hidden" name="for_id" value="default_contact_form"/>
 
-
-    <h4 class="text-center edit" rel="module" field="contact-form-<?php print $params['id'] ?>">Or reach us right here&hellip;</h4>
+    <h4 class="text-center edit" rel="module" field="contact-form-title-<?php print $params['id'] ?>">Or reach us right here&hellip;</h4>
 
     <div class="input-with-icon col-sm-12">
         <i class="icon-MaleFemale"></i>
