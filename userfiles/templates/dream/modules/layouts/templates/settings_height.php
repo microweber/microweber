@@ -6,11 +6,11 @@ if ($height === null OR $height === false OR $height == '') {
 ?>
 
 <div class="height-select" style="padding-top: 15px;">
-    <label class="mw-ui-label">Height</label>
+    <label class="mw-ui-label"><?php _lang("Height", "templates/dream"); ?></label>
     <select name="height" class="mw-ui-field mw_option_field" data-option-group="<?php print $params['id']; ?>">
         <option value="" <?php if ($height == '') {
             echo 'selected';
-        } ?>>No Selected
+        } ?>><?php _lang("Not Selected", "templates/dream"); ?>
         </option>
 
         <option value="10"<?php if ($height == '10') {

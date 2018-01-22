@@ -12,11 +12,11 @@ if (!$module_template) {
 }
 $defaults = array(
     'images' => '' . template_url('assets/img/hero6.jpg') . '',
-    'primaryText' => 'A bxSlider',
-    'secondaryText' => 'Your text here.',
-    'seemoreText' => 'See more',
+    'primaryText' => lang("A bxSlider", "templates/dream");,
+    'secondaryText' => lang("Your text here", "templates/dream");,
+    'seemoreText' => lang("See more", "templates/dream");,
     'url' => '#',
-    'urlText' => 'Click here',
+    'urlText' => lang("Click here", "templates/dream");,
     'skin' => 'default'
 );
 $data = array();
@@ -132,13 +132,13 @@ if (isset($params['speed'])) {
 if (isset($params['prev_text'])) {
     $prevText = $params['prev_text'];
 } else {
-    $prevText = 'Prev';
+    $prevText = lang("Prev", "templates/dream");;
 }
 
 if (isset($params['next_text'])) {
     $nextText = $params['next_text'];
 } else {
-    $nextText = 'Next';
+    $nextText = lang("Next", "templates/dream");;
 }
 
 if (isset($params['prev_selector'])) {

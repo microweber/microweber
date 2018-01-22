@@ -18,10 +18,10 @@ position: 56
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center allow-drop">
-                <h3>Start building with Dream</h3>
-                <p class="lead">We'd love to hear from you to discuss web design, product development or to hear your new startup idea.</p>
+                <h3><?php _lang("Start building with Dream", "templates/dream"); ?></h3>
+                <p class="lead"><?php _lang("We'd love to hear from you to discuss web design, product development or to hear your new startup idea.", "templates/dream"); ?></p>
 
-                <module type="btn" text="Lets Talk"/>
+                <module type="btn" text="<?php _lang("Lets Talk", "templates/dream"); ?>"/>
             </div>
         </div>
     </div>

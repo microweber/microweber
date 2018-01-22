@@ -68,13 +68,13 @@ if ($overlay === null OR $overlay === false) {
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 text-center">
                 <div class="allow-drop">
-                    <p class="logo-text"><span id="fitty-<?php print $params['id'] ?>" class="safe-element">Dream.</span></p>
+                    <p class="logo-text"><span id="fitty-<?php print $params['id'] ?>" class="safe-element"><?php _lang("Dream", "templates/dream"); ?>.</span></p>
                 </div>
             </div>
             <div class="col-xs-12 text-center">
                 <div class="allow-drop">
                     <p class="lead" style="top: 0;">
-                        A beautiful collection of hand-crafted web components
+                        <?php print _lang('A beautiful collection of hand-crafted web components', 'templates/dream'); ?>
                     </p>
                 </div>
             </div>
@@ -87,7 +87,7 @@ if ($overlay === null OR $overlay === false) {
                       class="edit allow-drop"
                       field="layout-skin-1-btn-<?php print $params['id'] ?>"
                       rel="module">
-                        <div class="element"><module type="btn" text="Watch video" /></div>
+                        <div class="element"><module type="btn" text="<?php _lang("Watch video", "templates/dream"); ?>" /></div>
                     </div>
                 </div>
             </div>

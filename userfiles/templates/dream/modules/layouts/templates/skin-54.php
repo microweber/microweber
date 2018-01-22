@@ -24,19 +24,19 @@ position: 54
         <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="feature feature-1 service-1 text-center allow-drop">
                 <i class="icon icon--lg icon-Compass-4 safe-element"></i>
-                <h4>Strategy & Innovation</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.</p>
+                <h4><?php _lang("Strategy & Innovation", "templates/dream"); ?></h4>
+                <p><?php _lang("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.", "templates/dream"); ?></p>
                 <hr>
-                <h6>Key Focus Areas Include</h6>
+                <h6><?php _lang("Key Focus Areas Include", "templates/dream"); ?></h6>
                 <ul class="bullets">
                     <li>
-                        <em>Project Management</em>
+                        <em><?php _lang("Project Management", "templates/dream"); ?></em>
                     </li>
                     <li>
-                        <em>Product Design</em>
+                        <em><?php _lang("Product Design", "templates/dream"); ?></em>
                     </li>
                     <li>
-                        <em>Market Feasability</em>
+                        <em><?php _lang("Market Feasability", "templates/dream"); ?></em>
                     </li>
                 </ul>
             </div>

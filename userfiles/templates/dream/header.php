@@ -124,7 +124,7 @@
             <div class="nav-module right cart-module">
                 <a href="#" class="nav-function" data-notification-link="cart-overview">
                     <i class="interface-bag icon icon--sm"></i>
-                    <span>Cart</span>
+                    <span><?php _e("Cart") ?></span>
                 </a>
             </div>
         <?php endif; ?>
@@ -142,14 +142,14 @@
             <div class="nav-module right search-module">
                 <a href="#" class="nav-function modal-trigger" data-modal-id="search-form">
                     <i class="interface-search icon icon--sm"></i>
-                    <span>Search</span>
+                    <span><?php _e("Search") ?></span>
                 </a>
             </div>
         <?php endif; ?>
 
         <div class="nav-module right hidden-xs hidden-sm hidden-md safe-mode">
             <span class="nav-function phone-header edit safe-element" rel="global" field="dream_header_phone" style="">
-                Call us: +1 555 666
+                <?php _lang("Call us", "templates/dream"); ?>: +1 555 666
             </span>
         </div>
     </div>
@@ -173,7 +173,7 @@
                     <form class="clearfix" action="<?php print site_url(); ?>search.php" method="get">
                         <div class="input-with-icon">
                             <i class="icon-Magnifi-Glass2 icon icon--sm"></i>
-                            <input type="search" name="keywords" placeholder="Type your search and hit enter"/>
+                            <input type="search" name="keywords" placeholder="<?php _lang("Type your search and hit enter", "templates/dream"); ?>"/>
                         </div>
                     </form>
                 </div>

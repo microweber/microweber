@@ -13,7 +13,7 @@
     ?>
 
     <div class="youtube-code" style="margin-top:15px;">
-        <label class="mw-ui-label">YouTube Video Code</label>
+        <label class="mw-ui-label"><?php _lang("YouTube Video Code", "templates/dream"); ?></label>
         <input type="text" name="youtube" placeholder="JyNIJ8U03I0" class="mw-ui-field mw_option_field"/>
     </div>
 </div>

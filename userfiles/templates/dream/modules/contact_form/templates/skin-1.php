@@ -1,13 +1,13 @@
 <div class="alert alert-success margin-bottom-30" id="msg<?php print $form_id; ?>" style="display:none;">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong>Thank You!</strong> Your message successfully sent!
+    <strong><?php _lang("Thank You", "templates/dream"); ?>!</strong> <?php _lang("Your message successfully sent", "templates/dream"); ?>!
 </div>
 
 <div class="form-subscribe-1 boxed boxed--lg bg--white box-shadow-wide">
     <div class="subscribe__title text-center edit" rel="module" field="module-<?php print $params['id'] ?>">
-        <h4>Keep Informed</h4>
+        <h4><?php _lang("Keep Informed", "templates/dream"); ?></h4>
         <p class="lead">
-            Subscribe for free resources and news updates.
+            <?php _lang("Subscribe for free resources and news updates", "templates/dream"); ?>.
         </p>
     </div>
 

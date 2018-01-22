@@ -39,9 +39,9 @@ if ($height === null OR $height === false OR $height == '') {
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 text-center allow-drop">
-                <h3>Your Creative Collective</h3>
+                <h3><?php _lang("Your Creative Collective", "templates/dream"); ?></h3>
                 <p class="lead">
-                    Our diverse team comprises talent from a range of design disciplines working together to deliver effective solutions
+                    <?php _lang("Our diverse team comprises talent from a range of design disciplines working together to deliver effective solutions", "templates/dream"); ?>
                 </p>
             </div>
         </div>

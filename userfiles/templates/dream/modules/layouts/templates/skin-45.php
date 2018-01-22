@@ -23,27 +23,27 @@ position: 45
 
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 allow-drop">
                 <div class="subscribe__feature cloneable">
-                    <h6>Free Resources</h6>
+                    <h6><?php _lang("Free Resources", "templates/dream"); ?></h6>
                     <p>
-                        Our team of designers give back with mockups, logos and tons more.
+                        <?php _lang("Our team of designers give back with mockups, logos and tons more", "templates/dream"); ?>.
                     </p>
                 </div>
                 <div class="subscribe__feature cloneable">
                     <h6>Expert Interviews</h6>
                     <p>
-                        We speak with some of the web’s foremost designers and developers on a range of topics.
+                        <?php _lang("We speak with some of the web’s foremost designers and developers on a range of topics", "templates/dream"); ?>.
                     </p>
                 </div>
                 <div class="subscribe__feature cloneable">
-                    <h6>Monthly Prizes</h6>
+                    <h6><?php _lang("Monthly Prizes", "templates/dream"); ?></h6>
                     <p>
-                        As if the free resources weren’t enough - we give away a sweet design stash each month.
+                        <?php _lang("As if the free resources weren’t enough - we give away a sweet design stash each month", "templates/dream"); ?>.
                     </p>
                 </div>
                 <div class="subscribe__feature cloneable">
-                    <h6>Monthly Prizes</h6>
+                    <h6><?php _lang("Monthly Prizes", "templates/dream"); ?></h6>
                     <p>
-                        As if the free resources weren’t enough - we give away a sweet design stash each month.
+                        <?php _lang("As if the free resources weren’t enough - we give away a sweet design stash each month", "templates/dream"); ?>.
                     </p>
                 </div>
             </div>

@@ -42,8 +42,8 @@ if ($height === null OR $height === false OR $height == '') {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h1>Image Showcase</h1>
-                <p class="lead">Showcase a gallery of images with lightbox capability</p>
+                <h1><?php _lang("Image Showcase", "templates/dream"); ?></h1>
+                <p class="lead"><?php _lang("Showcase a gallery of images with lightbox capability", "templates/dream"); ?></p>
             </div>
         </div>
     </div>

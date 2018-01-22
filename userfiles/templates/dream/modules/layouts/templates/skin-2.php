@@ -29,18 +29,18 @@ if ($is_color === null OR $is_color === false OR $is_color == '') {
 <?php endif; ?>
 
 <?php
-include 'settings_height_front.php';
-if ($height === null OR $height === false OR $height == '') {
-    $height = '40';
-}
+    include 'settings_height_front.php';
+    if ($height === null OR $height === false OR $height == '') {
+        $height = '40';
+    }
 ?>
 
 <section class="height-<?php print $height; ?> edit safe-mode <?php print $padding ?> nodrop" field="layout-skin-2-<?php print $params['id'] ?>" rel="module">
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center  allow-drop">
-                <h2>Clean Page</h2>
-                <div><span class="safe-element"><em>Effective February 9th, 2016</em></span></div>
+                <h2><?php _lang("Clean Page", "templates/dream"); ?></h2>
+                <div><span class="safe-element"><em><?php _lang("Effective February 9th, 2016", "templates/dream"); ?></em></span></div>
             </div>
         </div>
     </div>

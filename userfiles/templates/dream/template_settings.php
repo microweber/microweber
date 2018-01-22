@@ -1,6 +1,6 @@
 <div id="settings-holder">
     <div class="col-xs-12">
-        <h5 style="font-weight: bold;">Website Settings</h5>
+        <h5 style="font-weight: bold;"><?php _lang("Website Settings", "templates/dream"); ?></h5>
     </div>
 
     <script>mw.lib.require('bootstrap3ns');</script>
@@ -173,7 +173,7 @@
                         <input type="checkbox" class="mw_option_field" id="stop_transparent_nav" name="stop_transparent_nav" data-option-group="mw-template-dream"
                                value="true" <?php if ($stop_transparent_nav == 'true') {
                             echo 'checked';
-                        } ?> /> Stop Transparent of Navigation
+                        } ?> /> <?php _lang("Stop Transparent of Navigation", "templates/dream"); ?>
                     </label>
                 </div>
             </div>
@@ -185,7 +185,7 @@
                     <label>
                         <input type="checkbox" class="mw_option_field" id="shopping-cart" name="shopping-cart" data-option-group="mw-template-dream" value="true" <?php if ($shopping_cart == 'true') {
                             echo 'checked';
-                        } ?> /> Show shopping cart in header
+                        } ?> /> <?php _lang("Show shopping cart in header", "templates/dream"); ?>
                     </label>
                 </div>
             </div>
@@ -197,7 +197,7 @@
                     <label>
                         <input type="checkbox" class="mw_option_field" id="search-field" name="search-field" data-option-group="mw-template-dream" value="true" <?php if ($search_field == 'true') {
                             echo 'checked';
-                        } ?> /> Show search field in header
+                        } ?> /> <?php _lang("Show search field in header", "templates/dream"); ?>
                     </label>
                 </div>
             </div>
@@ -221,7 +221,7 @@
                     <label>
                         <input type="checkbox" class="mw_option_field" id="preloader" name="preloader" data-option-group="mw-template-dream" value="true" <?php if ($preloader == 'true') {
                             echo 'checked';
-                        } ?> /> Turn on Page Preloader
+                        } ?> /> <?php _lang("Turn on Page Preloader", "templates/dream"); ?>
                     </label>
                 </div>
             </div>
@@ -237,7 +237,7 @@
                     </option>
                     <option value="background"<?php if ($shop1_header_style == 'background') {
                         echo 'selected';
-                    } ?>>Poster With Background
+                    } ?>><?php _lang("Poster With Background", "templates/dream"); ?>
                     </option>
                 </select>
             </div>
@@ -253,7 +253,7 @@
                     </option>
                     <option value="background"<?php if ($shop2_header_style == '' OR $shop2_header_style == 'background') {
                         echo 'selected';
-                    } ?>>Poster With Background
+                    } ?>><?php _lang("Poster With Background", "templates/dream"); ?>
                     </option>
                 </select>
             </div>
@@ -362,7 +362,7 @@
                     <label>
                         <input type="checkbox" class="mw_option_field" id="footer" name="footer" data-option-group="mw-template-dream" value="true" <?php if ($footer == 'true') {
                             echo 'checked';
-                        } ?> /> The Footer is turned off for website
+                        } ?> /> <?php _lang("The Footer is turned off for website", "templates/dream"); ?>
                     </label>
                 </div>
             </div>

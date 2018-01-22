@@ -18,9 +18,9 @@ position: 36
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h3>Bold, Simple, Robust.</h3>
+                <h3><?php _lang("Bold, Simple, Robust.", "templates/dream"); ?></h3>
                 <p class="lead">
-                    Dream features a bevvy of content blocks and layouts to create your website.
+                    <?php _lang("Dream features a bevvy of content blocks and layouts to create your website", "templates/dream"); ?>.
                 </p>
             </div>
 
@@ -28,9 +28,9 @@ position: 36
                 <div class="feature feature-2">
                     <div class="feature__title">
                         <i class="icon icon-Orientation-2 safe-element"></i>
-                        <h6>Beautifully Responsive</h6>
+                        <h6><?php _lang("Beautifully Responsive", "templates/dream"); ?></h6>
                     </div>
-                    <p>Every one of Dream’s stylish blocks are fully responsive,meaning that your site shines - regardless of the device your users are viewing from.</p>
+                    <p><?php _lang("Every one of Dream’s stylish blocks are fully responsive,meaning that your site shines - regardless of the device your users are viewing from", "templates/dream"); ?>.</p>
                 </div>
             </div>
 
@@ -38,10 +38,10 @@ position: 36
                 <div class="feature feature-2">
                     <div class="feature__title">
                         <i class="icon icon-People-onCloud safe-element"></i>
-                        <h6>Six Months Free Support</h6>
+                        <h6><?php _lang("Six Months Free Support", "templates/dream"); ?></h6>
                     </div>
                     <p>
-                        Each purchase of Dream comes with six months of our much-lauded customer support. We have our own dedicated support forum setup to help you.
+                        <?php _lang("Each purchase of Dream comes with six months of our much-lauded customer support. We have our own dedicated support forum setup to help you", "templates/dream"); ?>.
                     </p>
                 </div>
             </div>

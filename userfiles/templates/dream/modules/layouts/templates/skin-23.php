@@ -22,11 +22,10 @@ position: 23
         <div class="pos-vertical-center allow-drop">
             <img class="logo" alt="Dream" src="<?php print template_url('assets/img/'); ?>logo-large-dark.png">
             <p class="lead">
-                A beautiful collection of
-                <br> hand-crafted web components
+                <?php _lang("A beautiful collection of <br> hand-crafted web components", "templates/dream"); ?>
             </p>
 
-            <module type="btn" template="default" text="Purchase Dream"/>
+            <module type="btn" template="default" text="<?php _lang("Purchase Dream", "templates/dream"); ?>"/>
         </div>
 
         <div class="col-sm-12 text-center pos-absolute pos-bottom">

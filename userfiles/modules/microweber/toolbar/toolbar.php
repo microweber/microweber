@@ -238,13 +238,13 @@ if (isset($_COOKIE['mw_exp'])) {
 
     </script>
 
-    <div class="mw-defaults" id="live_edit_side_holder" dir="ltr" lang="en">
+    <div class="mw-defaults" id="live_edit_side_holder">
         <div id="live_edit_sidebar_wrap">
             <module type="admin/modules/sidebar_live_edit" class=""/>
         </div>
     </div>
 
-    <div class="mw-defaults" id="live_edit_toolbar_holder" dir="ltr" lang="en">
+    <div class="mw-defaults" id="live_edit_toolbar_holder" <?php print lang_attributes(); ?>>
         <div id="live_edit_toolbar">
             <div id="mw-text-editor" class="mw-defaults mw_editor">
                 <div class="toolbar-sections-tabs">

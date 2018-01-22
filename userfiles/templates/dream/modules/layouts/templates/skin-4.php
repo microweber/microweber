@@ -32,7 +32,7 @@ if ($overlay === null OR $overlay === false) {
             <div class="feature feature-1 text-center">
                 <i class="icon icon--lg icon-Bodybuilding safe-element"></i>
                 <h3>16,000+</h3>
-                <span class="safe-element"><em>Customers strong</em></span>
+                <span class="safe-element"><em><?php _lang("Customers strong", "templates/dream"); ?></em></span>
             </div>
         </div>
 
@@ -40,7 +40,7 @@ if ($overlay === null OR $overlay === false) {
             <div class="feature feature-1 text-center">
                 <i class="icon icon--lg icon-Fingerprint safe-element"></i>
                 <h3>16</h3>
-                <span class="safe-element"><em>Passionate team members</em></span>
+                <span class="safe-element"><em><?php _lang("Passionate team members", "templates/dream"); ?></em></span>
             </div>
         </div>
 
@@ -48,15 +48,15 @@ if ($overlay === null OR $overlay === false) {
             <div class="feature feature-1 text-center">
                 <i class="icon icon--lg icon-Astronaut safe-element"></i>
                 <h3>82</h3>
-                <span class="safe-element"><em>Launched startups</em></span>
+                <span class="safe-element"><em><?php _lang("Launched startups", "templates/dream"); ?></em></span>
             </div>
         </div>
 
         <div class="col-sm-3 col-xs-6 cloneable">
             <div class="feature feature-1 text-center">
                 <i class="icon icon--lg icon-Cardigan safe-element"></i>
-                <h3>Zero</h3>
-                <span class="safe-element"><em>Plaid cardigans</em></span>
+                <h3><?php _lang("Zero", "templates/dream"); ?></h3>
+                <span class="safe-element"><em><?php _lang("Plaid cardigans", "templates/dream"); ?></em></span>
             </div>
         </div>
     </div>

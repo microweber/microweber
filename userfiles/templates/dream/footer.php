@@ -10,7 +10,7 @@ if ($footer == '') {
             <div class="row">
                 <div class="col-md-3 col-sm-4 allow-drop">
                     <module type="logo" id="footer-logo" template="footer"/>
-                    <p><em>Free CMS & Website Builder</em></p>
+                    <p><em><?php _e("Free CMS & Website Builder") ?></em></p>
                     <module type="menu" template="footer" name="footer_menu" id="footer_menu"/>
                 </div>
 
@@ -20,12 +20,12 @@ if ($footer == '') {
                 </div>
 
                 <div class="col-md-4 col-md-offset-1 col-sm-12 allow-drop">
-                    <h6>Subscribe</h6>
-                    <p>Get monthly updates and free resources.</p>
+                    <h6><?php _e("Subscribe") ?></h6>
+                    <p><?php _lang("Get monthly updates and free resources.", "templates/dream"); ?></p>
 
                     <module type="newsletter" id="footer-newsletter"/>
 
-                    <h6>Connect with Us</h6>
+                    <h6><?php _lang("Connect with Us", "templates/dream"); ?></h6>
                     <module type="social_links" id="socials"/>
                 </div>
             </div>
@@ -35,7 +35,7 @@ if ($footer == '') {
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6 text-center-xs">
-                        <span class="type--fine-print"><?php print powered_by_link(); ?> | <a href="<?php print admin_url() ?>">Admin</a></span>
+                        <span class="type--fine-print"><?php print powered_by_link(); ?> | <a href="<?php print admin_url() ?>"><?php _e("Admin") ?></a></span>
                     </div>
                     <div class="col-sm-6 text-right text-center-xs">
                         <a href="#top" class="inner-link top-link">

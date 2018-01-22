@@ -29,7 +29,7 @@ if ($overlay === null OR $overlay === false) {
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 text-center allow-drop">
-                <h4>What can Dream do for your business?</h4>
+                <h4><?php _lang("What can Dream do for your business?", "templates/dream"); ?></h4>
                 <module type="btn" text="Arrange A Consultation"/>
             </div>
         </div>

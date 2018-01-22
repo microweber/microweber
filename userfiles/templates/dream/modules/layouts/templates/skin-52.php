@@ -18,7 +18,7 @@ position: 52
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-                <h5>Scope and application</h5>
+                <h5><?php _lang("Scope and application", "templates/dream"); ?></h5>
                 <p>
                     Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
                     architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
@@ -27,7 +27,7 @@ position: 52
                     ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
                     nulla pariatur?
                 </p>
-                <h5>Collection of information</h5>
+                <h5><?php _lang("Collection of information", "templates/dream"); ?></h5>
                 <p>
                     At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
                     occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est.

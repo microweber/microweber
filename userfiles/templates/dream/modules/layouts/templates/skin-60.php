@@ -20,7 +20,7 @@ position: 60
             <div class="masonry-shop">
                 <div class="col-sm-12">
                     <div class="elements--title">
-                        <h4>New Products</h4>
+                        <h4><?php _lang("New Products", "templates/dream"); ?></h4>
                     </div>
                 </div>
                 <module type="shop/products" limit="3" hide-paging="true"/>

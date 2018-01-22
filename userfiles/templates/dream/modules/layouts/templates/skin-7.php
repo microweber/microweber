@@ -20,7 +20,7 @@ position: 7
 
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <module type="btn" text="View the blog" template="bootstrap"/>
+                <module type="btn" text="<?php _lang("View the blog", "templates/dream"); ?>" template="bootstrap"/>
             </div>
         </div>
     </div>

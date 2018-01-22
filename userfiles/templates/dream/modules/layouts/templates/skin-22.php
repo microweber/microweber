@@ -28,9 +28,9 @@ if ($overlay === null OR $overlay === false) {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h1>Combine, Edit, Deploy.</h1>
+                <h1><?php _lang("Combine, Edit, Deploy.", "templates/dream"); ?></h1>
                 <p class="lead">
-                    Building a beautiful website is simple with Dream and Microweber CMS & Website Builder
+                    <?php _lang("Building a beautiful website is simple with Dream and Microweber CMS & Website Builder", "templates/dream"); ?>
                 </p>
                 <module type="btn" text="Take a Your" class="inline-element"/>
             </div>

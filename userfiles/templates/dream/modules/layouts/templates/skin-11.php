@@ -20,21 +20,21 @@ position: 11
             <div class="col-sm-4 cloneable">
                 <div class="feature feature-1 allow-drop">
                     <i class="icon icon-Ship safe-element"></i>
-                    <h6>New Startups</h6>
+                    <h6><?php _lang("New Startups", "templates/dream"); ?></h6>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.</p>
                 </div>
             </div>
             <div class="col-sm-4 cloneable">
                 <div class="feature feature-1 allow-drop">
                     <i class="icon icon-Fingerprint-2 safe-element"></i>
-                    <h6>Personal Portfolios</h6>
+                    <h6><?php _lang("Personal Portfolios", "templates/dream"); ?></h6>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.</p>
                 </div>
             </div>
             <div class="col-sm-4 cloneable">
                 <div class="feature feature-1 allow-drop">
                     <i class="icon icon-Shop-2 safe-element"></i>
-                    <h6>Online Storefronts</h6>
+                    <h6><?php _lang("Online Storefronts", "templates/dream"); ?></h6>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500.</p>
                 </div>
             </div>

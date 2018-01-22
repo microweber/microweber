@@ -18,9 +18,9 @@ position: 35
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center allow-drop">
-                <h3>Showcase Features &amp; Benefits</h3>
+                <h3><?php _lang("Showcase Features &amp; Benefits", "templates/dream"); ?></h3>
                 <p class="lead">
-                    Dream features a bevvy of content blocks and layouts to create your website.
+                    <?php _lang("Dream features a bevvy of content blocks and layouts to create your website", "templates/dream"); ?>.
                 </p>
             </div>
         </div>
@@ -32,25 +32,25 @@ position: 35
             <div class="col-md-3 col-md-pull-4 col-sm-6 col-xs-6 text-right text-left-xs voh">
                 <div class="feature feature-1 cloneable">
                     <i class="icon icon-Fingerprint-2 safe-element"></i>
-                    <h5>Over 2,000 Icons</h5>
-                    <p>Dream includes the Icons Mind kit with each purchase.</p>
+                    <h5><?php _lang("Over 2,000 Icons", "templates/dream"); ?></h5>
+                    <p><?php _lang("Dream includes the Icons Mind kit with each purchase.", "templates/dream"); ?></p>
                 </div>
                 <div class="feature feature-1 cloneable">
                     <i class="icon icon-Approved-Window safe-element"></i>
-                    <h5>Intuitive Markup</h5>
-                    <p>Focussed on readability and performance: Tinker on!</p>
+                    <h5><?php _lang("Intuitive Markup", "templates/dream"); ?></h5>
+                    <p><?php _lang("Focussed on readability and performance: Tinker on", "templates/dream"); ?>!</p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6 col-md-push-2 voh">
                 <div class="feature feature-1 cloneable">
                     <i class="icon icon-Support safe-element"></i>
-                    <h5>Top Notch Support</h5>
-                    <p>Each purchase of Dream includes 6 months of support.</p>
+                    <h5><?php _lang("Top Notch Support", "templates/dream"); ?></h5>
+                    <p><?php _lang("Each purchase of Dream includes 6 months of support.", "templates/dream"); ?></p>
                 </div>
                 <div class="feature feature-1 cloneable">
                     <i class="icon icon-Box-Open safe-element"></i>
-                    <h5>Builder Included</h5>
-                    <p>Assemble pages with the included Microweber CMS & Website Builder.</p>
+                    <h5><?php _lang("Builder Included", "templates/dream"); ?></h5>
+                    <p><?php _lang("Assemble pages with the included Microweber CMS & Website Builder.", "templates/dream"); ?></p>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
                     <h3><?php print content_title(); ?></h3>
                     <div class="edit" field="content_body_short" rel="content">
                         <p>
-                            This timeless staple represents a casual, elegant addition to any summer wardrobe
+                            <?php _lang("This timeless staple represents a casual, elegant addition to any summer wardrobe ", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-4 col-md-offset-1 col-sm-6">
                     <div class="item__title">
-                        <h4 class="edit" field="title" rel="content">Product name</h4>
+                        <h4 class="edit" field="title" rel="content"><?php _lang("Product name", "templates/dream"); ?></h4>
                     </div>
 
                     <div class="item__price" style="margin-bottom: 10px;">
@@ -41,13 +41,13 @@
                         }
                         ?>
                         <?php if ($in_stock == true): ?>
-                            <span class="text-success"><i class="fa fa-check"></i> In Stock</span>
+                            <span class="text-success"><i class="fa fa-check"></i> <?php _e("In Stock") ?></span>
                         <?php else: ?>
-                            <span class="text-danger"><i class="glyphicon glyphicon-remove"></i> Out of Stock</span>
+                            <span class="text-danger"><i class="glyphicon glyphicon-remove"></i> <?php _e("Out of Stock") ?></span>
                         <?php endif; ?>
                         <div class="clearfix"></div>
                         <?php if (isset($content_data['sku'])): ?>
-                            <strong>SKU:</strong> <?php print $content_data['sku']; ?>
+                            <strong><?php _e("SKU") ?>:</strong> <?php print $content_data['sku']; ?>
                         <?php endif; ?>
                     </div>
 
@@ -58,7 +58,7 @@
 
                         <div class="edit" field="content_body" rel="content">
                             <p>
-                                A sturdy, handwoven fabric makes this American Apparel indigo-T a dependable addition to your casual wardrobe. This is a no bullshit plain ol’ t-shirt.
+                                <?php _lang("A sturdy, handwoven fabric makes this American Apparel indigo-T a dependable addition to your casual wardrobe. This is a no bullshit plain ol’ t-shirt.", "templates/dream"); ?>
                             </p>
                         </div>
                     </div>
@@ -67,19 +67,19 @@
 
                         <div class="edit safe-mode" field="product_sheets" rel="content">
                             <div class="item__subinfo cloneable">
-                                <span class="safe-element">Fabric</span>
+                                <span class="safe-element"><?php _lang("Fabric", "templates/dream"); ?></span>
                                 <span class="safe-element">100% Cotton</span>
                             </div>
                             <div class="item__subinfo cloneable">
-                                <span class="safe-element">Origin</span>
-                                <span class="safe-element">Handmade in Aus</span>
+                                <span class="safe-element"><?php _lang("Origin", "templates/dream"); ?></span>
+                                <span class="safe-element"><?php _lang("Handmade in Aus", "templates/dream"); ?></span>
                             </div>
                             <div class="item__subinfo cloneable">
-                                <span class="safe-element">Weight</span>
+                                <span class="safe-element"><?php _lang("Weight", "templates/dream"); ?></span>
                                 <span class="safe-element">280gm - 340gm</span>
                             </div>
                             <div class="item__subinfo cloneable">
-                                <span class="safe-element">Sizes</span>
+                                <span class="safe-element"><?php _lang("Sizes", "templates/dream"); ?></span>
                                 <span class="safe-element">S,M,L,XL</span>
                             </div>
                         </div>

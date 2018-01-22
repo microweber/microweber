@@ -21,9 +21,9 @@
 
         <div class="col-md-5 col-sm-7 bg--white text-center">
             <div class="pos-vertical-center">
-                <img class="logo" alt="Dream" src="<?php print template_url('assets/img/'); ?>logo-large-dark.png">
+                <img class="logo" alt="<?php _lang("Dream", "templates/dream"); ?>" src="<?php print template_url('assets/img/'); ?>logo-large-dark.png">
                 <br /><br />
-                <p class="lead">Register</p>
+                <p class="lead"><?php _lang("Register"); ?></p>
                 <div class="text-left">
                     <module type="users/register" />
                 </div>

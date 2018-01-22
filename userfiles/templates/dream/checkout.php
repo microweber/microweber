@@ -13,7 +13,7 @@ description: Checkout
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h2 class="edit" rel="content" field="title">Shopping Cart</h2>
+                <h2 class="edit" rel="content" field="title"><?php _lang("Shopping Cart", "templates/dream"); ?></h2>
             </div>
         </div>
     </div>

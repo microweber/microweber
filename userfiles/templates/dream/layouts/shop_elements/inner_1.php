@@ -8,7 +8,7 @@
                     <h3><?php print content_title(); ?></h3>
                     <div class="edit" field="content_body_short" rel="content">
                         <p>
-                            This timeless staple represents a casual, elegant addition to any summer wardrobe
+                            <?php _lang("This timeless staple represents a casual, elegant addition to any summer wardrobe", "templates/dream"); ?>
                         </p>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
 
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 text-center">
                     <div class="item__title">
-                        <h4 class="edit" field="title" rel="content">Product name</h4>
+                        <h4 class="edit" field="title" rel="content"><?php _e("Product name") ?></h4>
                     </div>
 
                     <div class="clearfix" style="margin-bottom: 30px;">
@@ -39,14 +39,14 @@
                         ?>
 
                         <?php if (isset($content_data['sku'])): ?>
-                            <strong>SKU:</strong> <?php print $content_data['sku']; ?>
+                            <strong><?php _e("SKU") ?>:</strong> <?php print $content_data['sku']; ?>
                         <?php endif; ?>
                         <br/>
                         <br/>
                         <?php if ($in_stock == true): ?>
-                            <span class="text-success"><i class="fa fa-check"></i> In Stock</span>
+                            <span class="text-success"><i class="fa fa-check"></i> <?php _e("In Stock") ?></span>
                         <?php else: ?>
-                            <span class="text-danger"><i class="glyphicon glyphicon-remove"></i> Out of Stock</span>
+                            <span class="text-danger"><i class="glyphicon glyphicon-remove"></i> <?php _e("Out of Stock") ?></span>
                         <?php endif; ?>
                     </div>
 
@@ -63,10 +63,10 @@
                                 <div class="tab__content">
                                     <div class="edit" field="content_body" rel="content">
                                         <p>
-                                            Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen
+                                            <?php _lang("Strategy gamification alpha startup angel investor channels customer direct mailing burn rate churn rate bandwidth innovator seed round. Ramen
                                             disruptive
                                             graphical user interface. Infrastructure bootstrapping branding leverage twitter channels MVP iPad launch party non-disclosure agreement. Infrastructure
-                                            validation android release success.
+                                            validation android release success.", "templates/dream"); ?>
                                         </p>
                                     </div>
                                 </div>
@@ -83,34 +83,34 @@
                                                 <table class="table table-hover item__subinfo">
                                                     <thead>
                                                     <tr>
-                                                        <th>Column name</th>
-                                                        <th>Column name</th>
+                                                        <th><?php _lang("Column name", "templates/dream"); ?></th>
+                                                        <th><?php _lang("Column name", "templates/dream"); ?></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <td>Size</td>
+                                                        <td><?php _lang("Size", "templates/dream"); ?></td>
                                                         <td>2XL</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Color</td>
+                                                        <td><?php _lang("Color", "templates/dream"); ?></td>
                                                         <td>Red</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Weight</td>
+                                                        <td><?php _lang("Weight", "templates/dream"); ?></td>
                                                         <td>132lbs</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Height</td>
+                                                        <td><?php _lang("Height", "templates/dream"); ?></td>
                                                         <td>74cm</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Bluetooth</td>
-                                                        <td><i class="fa fa-check text-success"></i> YES</td>
+                                                        <td><?php _lang("Bluetooth", "templates/dream"); ?></td>
+                                                        <td><i class="fa fa-check text-success"></i> <?php _lang("YES", "templates/dream"); ?></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Wi-Fi</td>
-                                                        <td><i class="glyphicon glyphicon-remove text-danger"></i> NO</td>
+                                                        <td><?php _lang("Wi-Fi", "templates/dream"); ?></td>
+                                                        <td><i class="glyphicon glyphicon-remove text-danger"></i> <?php _lang("NO", "templates/dream"); ?></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -138,10 +138,10 @@
                                                     <div class="star"></div>
                                                     <div class="star empty"></div>
                                                 </div>
-                                                <h5>Sarah King</h5>
-                                                <span class="type--fine-print">February 4th, 2016</span>
+                                                <h5><?php _lang("Sarah King", "templates/dream"); ?></h5>
+                                                <span class="type--fine-print"><?php _lang("February 4th, 2018", "templates/dream"); ?></span>
                                                 <p>
-                                                    This wallet is the highest quality I've purchased. The leather is luxuioursly delish.
+                                                    <?php _lang("This wallet is the highest quality I've purchased. The leather is luxuioursly delish.", "templates/dream"); ?>
                                                 </p>
                                             </div>
                                         </li>
@@ -155,11 +155,11 @@
                                                     <div class="star"></div>
                                                     <div class="star"></div>
                                                 </div>
-                                                <h5>Luke Saunders</h5>
-                                                <span class="type--fine-print">January 28th, 2016</span>
+                                                <h5><?php _lang("Luke Saunders", "templates/dream"); ?></h5>
+                                                <span class="type--fine-print"><?php _lang("January 28th, 2016", "templates/dream"); ?></span>
                                                 <p>
-                                                    What a beautifully crafted wallet. It holds all my cards comfortably and even after six months it's showing no signs of ware - none of that
-                                                    annoying 'card imprint' that I've had with inferior brands.
+                                                    <?php _lang("What a beautifully crafted wallet. It holds all my cards comfortably and even after six months it's showing no signs of ware - none of that
+                                                    annoying 'card imprint' that I've had with inferior brands.", "templates/dream"); ?>
                                                 </p>
                                             </div>
                                         </li>
@@ -173,10 +173,10 @@
                                                     <div class="star empty"></div>
                                                     <div class="star empty"></div>
                                                 </div>
-                                                <h5>Bonnie Thompson</h5>
-                                                <span class="type--fine-print">January 13th, 2016</span>
+                                                <h5><?php _lang("Bonnie Thompson", "templates/dream"); ?></h5>
+                                                <span class="type--fine-print"><?php _lang("January 13th, 2016", "templates/dream"); ?></span>
                                                 <p>
-                                                    I loved the wallet but found the colour to be a little less brown than it appeared in the photos.
+                                                    <?php _lang("I loved the wallet but found the colour to be a little less brown than it appeared in the photos.", "templates/dream"); ?>
                                                 </p>
                                             </div>
                                         </li>

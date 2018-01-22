@@ -30,8 +30,7 @@ if ($overlay === null OR $overlay === false) {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 allow-drop">
-                <p class="lead">Hi, I’m David, I’m a serial entrepreneur turned interactive strategist specializing in digital product development, creative direction, and marketing. My most
-                    recent project is Mylo, a men’s style advice app and staples shop.</p>
+                <p class="lead"><?php _lang("Hi, I’m David, I’m a serial entrepreneur turned interactive strategist specializing in digital product development, creative direction, and marketing. My most recent project is Mylo, a men’s style advice app and staples shop.", "templates/dream"); ?></p>
             </div>
         </div>
     </div>

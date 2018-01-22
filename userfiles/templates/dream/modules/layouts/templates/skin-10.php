@@ -22,9 +22,9 @@ position: 10
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-md-push-7 col-sm-8 col-sm-push-4 allow-drop">
-                <h2>Build smart, effective websites in no time.</h2>
+                <h2><?php _lang("Build smart, effective websites in no time.", "templates/dream"); ?></h2>
                 <p>
-                    Dream features a bevy of content blocks and layouts to create websites of almost any kind &mdash; easier than ever before.
+                    <?php _lang("Dream features a bevy of content blocks and layouts to create websites of almost any kind &mdash; easier than ever before.", "templates/dream"); ?>
                 </p>
             </div>
         </div>

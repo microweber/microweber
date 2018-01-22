@@ -13,7 +13,7 @@
                             <?php if ($post['created_by']): ?>
                                 <div class="blog-post__author">
                                     <span>
-                                        <em>by </em>
+                                        <em><?php _lang("by", "templates/dream"); ?> </em>
                                     </span>
                                     <span class="h6"><?php print user_name($post['created_by']); ?></span>
                                 </div>
@@ -31,10 +31,7 @@
                     <div class="col-sm-8 col-sm-offset-2">
                         <div class="edit dropcap" field="content" rel="content">
                             <div class="element">
-                                <p align="justify">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it
-                                    anywhere on
-                                    the
-                                    site. Get creative, Make Web.</p>
+                                <p align="justify"><?php _lang("This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.", "templates/dream"); ?></p>
                             </div>
                         </div>
                         <hr/>
@@ -45,7 +42,7 @@
                 <div class="row">
                     <div class="col-sm-12 text-center">
                         <div class="blog-post__share">
-                            <h5>Share this article</h5>
+                            <h5><?php _lang("Share this article", "templates/dream"); ?></h5>
 
                             <module type="sharer" id="share-post"/>
                         </div>
@@ -56,7 +53,7 @@
                     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
                         <div class="blog-post__comments">
                             <hr>
-                            <h6><?php print get_comments('count=1&content_id=' . content_id()) ?> Comments:</h6>
+                            <h6><?php print get_comments('count=1&content_id=' . content_id()) ?> <?php _lang("Comments", "templates/dream"); ?>:</h6>
 
                             <div class="edit" rel="content" field="comments">
                                 <module type="comments" data-content-id="<?php print CONTENT_ID; ?>"/>

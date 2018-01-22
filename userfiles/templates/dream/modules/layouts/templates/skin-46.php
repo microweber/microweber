@@ -18,7 +18,7 @@ position: 46
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 text-center allow-drop">
-                <h4>Text Tabs</h4>
+                <h4><?php _lang("Text Tabs", "templates/dream"); ?></h4>
                 <module type="tabs"/>
             </div>
         </div>

@@ -41,7 +41,7 @@ if ($height === null OR $height === false OR $height == '') {
     <div class="container pos-vertical-center">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 text-center allow-drop">
-                <h1>Digital Delivered.</h1>
+                <h1><?php _lang("Digital Delivered.", "templates/dream"); ?></h1>
             </div>
         </div>
 
