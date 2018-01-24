@@ -3,7 +3,7 @@
     <section id="content" class="nodrop">
         <div class="container">
             <div class="box-container">
-                <div data-mw="main">
+                <div>
                     <div class="mw-ui-row shop-product-row">
                         <div class="mw-ui-col" style="width:65%">
                             <div class="mw-ui-col-container">
