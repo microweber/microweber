@@ -3558,6 +3558,7 @@ body.mw-live-edit .mw-tooltip-content {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    border: 0;
 }
 
 #modules-and-layouts-sidebar .settings-iframe body {
