@@ -11,7 +11,6 @@ description: Skin 3
 */
 
 ?>
-    <script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
 <?php if (is_array($data)): ?>
 
     <?php $rand = uniqid(); ?>

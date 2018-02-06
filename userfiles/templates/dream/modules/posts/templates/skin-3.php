@@ -14,7 +14,6 @@ description: Skin 3
     <div class="container">
         <div class="row">
             <?php if (!empty($data)): ?>
-                <script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
                 <div class=" masonry-blog">
                     <div class="masonry__container masonry--animate">
                         <?php foreach ($data as $item): ?>

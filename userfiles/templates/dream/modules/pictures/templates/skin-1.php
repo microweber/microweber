@@ -11,7 +11,6 @@ description: Skin 1
 */
 
 ?>
-    <script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
     <style>
         <?php print '#'.$params['id']; ?>
         .owl-carousel .owl-item img {
