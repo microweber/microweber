@@ -39,6 +39,62 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
         <div class="admin-manage-toolbar-content">
             <div class="mw-ui-row-nodrop">
                 <div class="mw-ui-col">
+                    <div class="create-root">
+                    <div  id="content-title-field-buttons">
+
+                        <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid pull-right" style="width: auto;">
+                            <?php if ($data['is_active'] == 0) { ?>
+                                <li><span
+                                        onclick="mw.admin.postStates.toggle()"
+                                        data-val="0"
+                                        class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
+                                        data-tip="<?php _e("Unpublished"); ?>"
+                                        data-tipposition="left-center"><span class="mw-icon-unpublish"></span> </span></li>
+                            <?php } else { ?>
+                                <li><span
+                                        onclick="mw.admin.postStates.toggle()"
+                                        data-val="1"
+                                        class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
+                                        data-tip="<?php _e("Published"); ?>"
+                                        data-tipposition="left-center"><span class="mw-icon-check"></span> </span></li>
+                            <?php } ?>
+                            <?php if ($is_live_edit == false) : ?>
+
+                                <li>
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification"
+                                            form="quickform-edit-content">
+                                        <?php _e("Save"); ?>
+                                    </button>
+                                </li>
+                            <?php else: ?>
+                                <?php if ($data['id'] == 0): ?>
+                                    <li>
+                                        <button type="submit" class="mw-ui-btn"
+                                                onclick="mw.edit_content.handle_form_submit(true);"
+                                                data-text="<?php _e("Live Edit"); ?>"
+                                                form="quickform-edit-content"><span
+                                                class="mw-icon-live"></span>
+                                            <?php _e("Live Edit"); ?>
+                                        </button>
+                                    </li>
+                                <?php else: ?>
+                                    <li>
+                                        <button type="button" class="mw-ui-btn"
+                                                onclick="mw.edit_content.handle_form_submit(true);"
+                                                data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
+                                            <?php _e("Live Edit"); ?>
+                                        </button>
+                                    </li>
+                                <?php endif; ?>
+                                <li>
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
+                                            form="quickform-edit-content">
+                                        <?php _e("Save"); ?>
+                                    </button>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
                     <?php
 
 
@@ -71,12 +127,14 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     }
 
                     if (isset($edit_page_info['title'])): ?>
-                        <?php //$title_for_input = htmlentities($edit_page_info['title'], ENT_QUOTES); ?>
 
+                        <div class="post-type-action-label">
+                            <span  class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>
+                            <span class="post-type-action-label-text"><?php print $action_text; ?></span>
+                        </div>
 
+                        </div>
                         <div class="mw-ui-row-nodrop" id="content-title-field-row">
-                            <div class="mw-ui-col" style="width: 30px;"><span
-                                    class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span></div>
                             <div class="mw-ui-col">
                                 <input type="text" class="mw-ui-invisible-field mw-ui-field-big" style="min-width: 230px;"
                                        value="<?php print ($title_for_input) ?>"
@@ -95,8 +153,6 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                          title="<?php print $title; ?>"><?php print $html; ?></div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-
-
                             <?php $custom_title_ui = mw()->modules->ui('content.edit.title.end'); ?>
                             <?php if (!empty($custom_title_ui)): ?>
                                 <?php foreach ($custom_title_ui as $item): ?>
@@ -109,10 +165,8 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                                          title="<?php print $title; ?>"><?php print $html; ?></div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-
-
-
                         </div>
+
                         <script>mwd.getElementById('content-title-field').focus();</script>
                     <?php else: ?>
                         <?php if ($edit_page_info['is_shop'] == 1) {
@@ -122,69 +176,13 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                         } else {
                             $type = 'page';
                         }; ?>
-                        <h2><span class="mw-icon-<?php print $type; ?>"></span><?php print $action_text ?> </h2>
+                        <h2>
+                            <span class="mw-icon-<?php print $type; ?>"></span>
+                            <?php print $action_text ?>
+                        </h2>
                     <?php endif; ?>
                 </div>
-                <div class="mw-ui-col" id="content-title-field-buttons">
-                    <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid pull-right" style="width: auto;">
-                        <?php if ($data['is_active'] == 0) { ?>
-                            <li><span
-                                    onclick="mw.admin.postStates.toggle()"
-                                    data-val="0"
-                                    class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
-                                    data-tip="<?php _e("Unpublished"); ?>"
-                                    data-tipposition="left-center"><span class="mw-icon-unpublish"></span> </span></li>
-                        <?php } else { ?>
-                            <li><span
-                                    onclick="mw.admin.postStates.toggle()"
-                                    data-val="1"
-                                    class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
-                                    data-tip="<?php _e("Published"); ?>"
-                                    data-tipposition="left-center"><span class="mw-icon-check"></span> </span></li>
-                        <?php } ?>
-                        <?php if ($is_live_edit == false) : ?>
-                            <li>
-                                <button type="button" class="mw-ui-btn"
-                                        onclick="mw.edit_content.handle_form_submit(true);"
-                                        data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
-                                    <?php _e("Live Edit"); ?>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
-                                        form="quickform-edit-content">
-                                    <?php _e("Save"); ?>
-                                </button>
-                            </li>
-                        <?php else: ?>
-                            <?php if ($data['id'] == 0): ?>
-                                <li>
-                                    <button type="submit" class="mw-ui-btn"
-                                            onclick="mw.edit_content.handle_form_submit(true);"
-                                            data-text="<?php _e("Live Edit"); ?>"
-                                            form="quickform-edit-content"><span
-                                            class="mw-icon-live"></span>
-                                        <?php _e("Live Edit"); ?>
-                                    </button>
-                                </li>
-                            <?php else: ?>
-                                <li>
-                                    <button type="button" class="mw-ui-btn"
-                                            onclick="mw.edit_content.handle_form_submit(true);"
-                                            data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
-                                        <?php _e("Live Edit"); ?>
-                                    </button>
-                                </li>
-                            <?php endif; ?>
-                            <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
-                                        form="quickform-edit-content">
-                                    <?php _e("Save"); ?>
-                                </button>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
+
                 <script>
                     $(window).on('load', function(){
                         mw.admin.titleColumnNavWidth();
@@ -911,13 +909,18 @@ mw.save_inner_editable_fields = function (data) {
             });
         }
 
+        $(".postbtnmore").on('mousedown', function(){
+            $(this).remove()
+        })
+
         mww.QTABS = mw.tools.tabGroup({
-            nav: mw.$("#quick-add-post-options .mw-ui-btn"),
+            nav: mw.$("#quick-add-post-options .mw-ui-abtn"),
             tabs: mw.$("#quick-add-post-options-items-holder .quick-add-post-options-item"),
             toggle: true,
             onclick: function (qtab) {
+
                 var tabs = $(mwd.getElementById('quick-add-post-options-items-holder'));
-                if (mw.$("#quick-add-post-options .mw-ui-btn.active").length > 0) {
+                if (mw.$("#quick-add-post-options .mw-ui-abtn.active").length > 0) {
                     var tabsnav = $(mwd.getElementById('quick-add-post-options'));
                     var off = tabsnav.offset();
                     $(tabs).show();

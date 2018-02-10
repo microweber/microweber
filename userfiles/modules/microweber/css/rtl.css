@@ -224,4 +224,79 @@ a.depth-1 .mw_toggle_tree{
     text-align: right;
 }
 
+.mw-admin-main-menu-mini{
+    left: 17px;
+    right: auto;
+}
+.mw-tree ul.depth-2{
+    margin-right: 0px;
+    margin-left: 0;
+}
 
+.admin-toolbar{
+    right: 230px;
+    left: 0;
+    padding: 7px 0 7px 20px;
+}
+
+.toolbar-live-edit {
+    float: left;
+    margin-right: 8px;
+    margin-left: 0;
+}
+
+.toolbar-search{
+    float: left;
+}
+
+.toolbar-search:after {
+    left: 15px;
+    right: auto;
+}
+
+#mw-admin-main-menu a strong, #main-bar-mw-icon strong {
+
+    padding-right: 5px;
+    padding-left: 0;
+
+}
+
+
+#create-content-btn .mai-plus {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+
+.stats-legend > span:before {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.stats-legend > span + span {
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+.stats-legend{
+    margin-left:10px;
+}
+
+#stats_nav {
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+#mw-admin-main-menu li a {
+    padding-right:28px;
+    padding-left:0;
+}
+
+#modules-sort-types{
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+.mw-dropdown>.mw-ui-btn.mw-dropdown-val{
+    text-align: right;
+}

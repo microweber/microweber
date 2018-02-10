@@ -95,6 +95,10 @@ body.browser-liveedit .mw-browser-list .mw-ui-check{
   margin: 11px 11px 0 0;
 }
 
+html[dir='rtl'] .posts-selector{
+    margin: 11px 0 0 11px;
+}
+
 #mw_files_admin{
   margin-bottom: 20px;
 }

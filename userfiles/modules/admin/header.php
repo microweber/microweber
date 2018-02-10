@@ -81,6 +81,36 @@
         <?php event_trigger('admin_head'); ?>
         </head>
         <body  class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
+
+
+                <?php
+    $past_page  = site_url().'?editmode=y';
+    $last_page_front = session_get('last_content_id');
+    if ($last_page_front == false) {
+        if (isset($_COOKIE['last_page'])) {
+            $last_page_front = $_COOKIE['last_page'];
+        }
+    }
+
+    if ($last_page_front != false) {
+        $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
+        if (isset($cont_by_url) and $cont_by_url == false) {
+            $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
+            $past_page = mw()->content_manager->link($past_page[0]['id']);
+        } else {
+            $past_page = mw()->content_manager->link($last_page_front);
+        }
+    } else {
+        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
+    	if(isset($past_page[0])){
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
+    	}
+    }
+
+
+
+
+     ?>
 <?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -146,6 +176,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 #mw-admin-mobile-header nav{
   float: left;
+  margin-top: -4px;
 }
 
 #main-bar-user-menu-link-top{
@@ -164,6 +195,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   max-height: 100%;
 }
 
+#main-bar-user-menu-link-top,
 #mw-admin-mobile-header nav a{
   color: #8F8F8F;
   -webkit-transition: all 0.3s;
@@ -172,6 +204,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   cursor: pointer;
   font-size: 24px;
   padding: 0 5px;
+}
+#main-bar-user-menu-link-top{
+    padding: 0;
 }
 
 #mw-admin-mobile-header nav a .mw-notification-count{
@@ -218,9 +253,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
     })
 
-    $("#main-bar-user-menu-link-top").on('click', function(){
-      $("#user-menu-top-links").toggle();
-    })
+
   })
 </script>
 
@@ -252,10 +285,11 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     ?>
     <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-has-image">
       <span class="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span>
-      <span class="mw-icon-dropdown"></span>
     </a>
     <?php } else { ?>
-    <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
+    <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-no-image">
+        <span class="mw-icon-user" id="main-bar-profile-icon"></span>
+    </a>
     <?php } }  ?>
     <div id="user-menu-top-links" style="display: none">
         <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation">
@@ -291,204 +325,221 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <div id="mw-admin-container">
 <?php if(is_admin()): ?>
 
+<div class="admin-toolbar">
+  <div class="create-content scroll-height-exception">
+        <a href="javascript:;" class="mw-ui-btn create-content-btn"  id="create-content-btn">
+            <span class="mai-plus"></span>
+            <?php _e("Add New"); ?>
+            <span class="mai-cd"></span>
+        </a>
+        <a href="<?php print $past_page  ?>?editmode=y" class="mw-ui-btn toolbar-live-edit" target="_blank">
+                <span class="mai-edit"></span>
+                &nbsp;
+                <?php _e("Live Edit"); ?>
+
+          </a>
+        <form action="" method="post" class="toolbar-search">
+            <input type="text">
+        </form>
+    </div>
+
+</div>
+
 <div class="mw-ui-row main-admin-row">
-<div class="mw-ui-col main-bar-column">
-          <div id="main-bar" class="scroll-height-exception-master">
-    <?php $view = url_param('view'); ?>
-    <?php $action = url_param('action'); ?>
-    <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
-            <?php if(mw()->ui->admin_logo != false) : ?>
-            <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />
-            <?php else: ?>
-            <span class="mw-icon-mw"></span>
-            <?php endif;  ?>
-            <strong>
-    <?php _e("Dashboard"); ?>
-    </strong> </a>
-    <ul id="mw-admin-main-menu">
-              <li id="mw-admin-main-menu-back"> <a href="javascript:;"><span class="mw-icon-back"></span></a> </li>
+    <div class="mw-ui-col main-bar-column">
+              <div id="main-bar" class="scroll-height-exception-master">
+        <?php $view = url_param('view'); ?>
+        <?php $action = url_param('action'); ?>
+        <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
+                <?php if(mw()->ui->admin_logo != false) : ?>
+                <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />
+                <?php else: ?>
+                <span class="mai-logo"></span>
+                <?php endif;  ?>
+                <strong>
+        <?php print str_replace(array('http://','https://'), '', site_url()); ?>
+        </strong> </a>
+        <ul id="mw-admin-main-menu">
+
+              <li  <?php if ($action == 'dashboard'): ?> class="active" <?php endif; ?>>
+                  <a href="<?php print admin_url(); ?>">
+                      <span class="mai-dashboard"></span>
+                      <strong><?php _e("Dashboard"); ?></strong>
+                  </a>
+              </li>
               <li
-					<?php if ($view == 'content' and $action==false): ?>
-                    class="active"
-					<?php elseif ($view == 'content' and $action!=false): ?>
-                    class="active-parent"
-					<?php endif; ?>
-                    >
-              <a href="<?php print admin_url(); ?>view:content" title=""> <span class="mw-icon-website"></span> <strong>
-              <?php _e("Website"); ?>
-              </strong> </a>
-              <ul>
-        <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:pages">
-          <?php _e("Pages"); ?>
-          </a></li>
-        <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:posts">
-          <?php _e("Posts"); ?>
-          </a></li>
-        <?php if($shop_disabled == false): ?>
-        <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
-                                                                        href="<?php print admin_url(); ?>view:content/action:products">
-          <?php _e("Products"); ?>
-          </a></li>
-        <?php endif; ?>
-        <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:categories">
-          <?php _e("Categories"); ?>
-          </a></li>
-      </ul>
-              </li>
-              <?php if($shop_disabled == false): ?>
-              <li <?php if ($view == 'shop' and $action==false): ?> class="active"
-                    <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
-              <a href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop">
+    					<?php if ($view == 'content' and $action==false): ?>
+                        class="active"
+    					<?php elseif ($view == 'content' and $action!=false): ?>
+                        class="active-parent"
+    					<?php endif; ?>
+                        >
+                  <a href="<?php print admin_url(); ?>view:content" title="">
+                  <span class="mai-website"></span>
+                  <strong>
+                    <?php _e("Website"); ?>
+                  </strong> </a>
+                  <ul>
+            <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>>
+                <a  href="<?php print admin_url(); ?>view:content/action:pages">
+                    <span class="mai-page"></span>
+                      <strong><?php _e("Pages"); ?></strong>
+                      </a></li>
+            <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>>
+                <a  href="<?php print admin_url(); ?>view:content/action:posts">
+                    <span class="mai-post"></span>
+                    <strong><?php _e("Posts"); ?></strong>
+                    <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><?php _e("Add"); ?></span>
+              </a></li>
+            <?php if($shop_disabled == false): ?>
+            <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
+                <a  href="<?php print admin_url(); ?>view:content/action:products">
+                    <span class="mai-product"></span>
+              <strong><?php _e("Products"); ?></strong>
+              </a></li>
+            <?php endif; ?>
+            <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>>
+                <a  href="<?php print admin_url(); ?>view:content/action:categories">
+                    <span class="mai-category"></span>
+             <strong> <?php _e("Categories"); ?></strong>
+              </a></li>
+          </ul>
+                  </li>
+                  <?php if($shop_disabled == false): ?>
+                  <li <?php if ($view == 'shop' and $action==false): ?> class="active"
+                        <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
+                  <a href="<?php print admin_url(); ?>view:shop" title="">
+                  <span class="mai-shop">
 
 
 
-                               <?php  if($view != 'shop' and $notif_count > 0){   print $notif_html; } ; ?>
+                                   <?php  if($view != 'shop' and $notif_count > 0){   print $notif_html; } ; ?>
 
-              </span> <strong>
-              <?php _e("My Shop"); ?>
-              </strong> </a>
-              <ul>
-        <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:orders"><span class="relative">
-          <?php _e("Orders"); ?>
-          <?php if( $view =='shop' ){ print $notif_html; } ?>
-          </span></a></li>
-        <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:clients">
-          <?php _e("Clients"); ?>
-          </a></li>
-      <!--  <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:shipping">
-          <?php _e("Shipping"); ?>
-          </a></li>-->
-        <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:options">
-          <?php _e("Options"); ?>
-          </a></li>
-      </ul>
-              </li>
+                  </span> <strong>
+                  <?php _e("Shop"); ?>
+                  </strong> </a>
+                  <ul>
+            <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
+                                        href="<?php print admin_url(); ?>view:shop/action:orders">
+                                        <span class="mai-order"></span>
+                                        <span class="relative">
+              <?php _e("Orders"); ?>
+              <?php if( $view =='shop' ){ print $notif_html; } ?>
+              </span></a></li>
+            <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>>
+
+            <a
+                                        href="<?php print admin_url(); ?>view:shop/action:clients">
+                                            <span class="mai-user"></span>
+              <?php _e("Clients"); ?>
+              </a></li>
+          <!--  <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
+                                        href="<?php print admin_url(); ?>view:shop/action:shipping">
+              <?php _e("Shipping"); ?>
+              </a></li>-->
+            <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
+
+                <a  href="<?php print admin_url(); ?>view:shop/action:options">
+                    <span class="mai-options"></span>
+                <?php _e("Options"); ?>
+                </a>
+            </li>
+          </ul>
+                  </li>
+                  <?php endif; ?>
+
+
+
+
+                      <?php if(mw()->ui->disable_marketplace != true): ?>
+                      <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>>
+                        <a href="<?php print admin_url(); ?>view:marketplace">
+                          <span class="mai-market"></span> <strong>
+                          <?php _e("Marketplace"); ?>
+                          </strong>
+                        </a>
+                      </li>
+                       <?php endif; ?>
+                      <li <?php if ($view == 'settings' ): ?> class="active" <?php endif; ?>>
+                          <a href="<?php print admin_url(); ?>view:settings"> <span class="mai-setting"></span>
+                              <strong>
+                                <?php _e("Settings"); ?>
+                              </strong>
+                          </a>
+                      </li>
+                      <li >
+
+                          <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
+
+                              <span class="mai-user2"></span>
+                              <strong>
+                                <?php _e("Profile"); ?>
+                              </strong>
+                          </a>
+                          <ul style="display: block">
+               <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" >
+                <?php _e("My Profile"); ?>
+              </a></li>
+              <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank" >
+                <?php _e("Manage Users"); ?>
+
+              </a></li>
+
+              <?php if(mw()->ui->enable_service_links): ?>
+              <?php if(mw()->ui->custom_support_url): ?>
+               <li><a href="<?php print mw()->ui->custom_support_url ?>"  >
+              <?php _e("Support"); ?>
+              </a></li>
+              <?php else: ?>
+              <li><a href="javascript:;" onmousedown="mw.contactForm();" >
+              <?php _e("Support"); ?>
+              </a></li>
               <?php endif; ?>
-              <li id="mw-admin-main-menu-bottom">
-        <ul>
-                  <li class="user-menu-sub"> <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank"> <span class="mw-icon-live" style="font-size: 24px;"></span> <strong>
-                  <?php _e("Live Edit"); ?>
-                  </strong> </a> </li>
+              <?php endif; ?>
+
+                <li><a href="<?php print site_url(); ?>?editmode=y" class=go-live-edit-href-set">
+              <?php _e("View Website"); ?>
+              </a></li> <li><a href="<?php print api_url('logout'); ?>" >
+              <?php _e("Log out"); ?>
+              </a></li>
+                          </ul>
+                      </li>
+                      <li id="mw-admin-main-menu-toggle">
+                        <a href="javascript:;"><span class="mw-icon-menu"></span></a>
+                      </li>
 
 
-         <?php
-
-         /*   <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:modules"> <span class="mw-icon-module" style="font-size: 24px;"></span> <strong>
-                        <?php _e("Modules"); ?>
-                    </strong> </a> </li>*/
-
-         ?>
-
-
-                  <?php if(mw()->ui->disable_marketplace != true): ?>
-
-
-                  <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:marketplace"> <span class="mw-icon-market-rocket" style="font-size: 24px;"></span> <strong>
-                  <?php _e("Marketplace"); ?>
-                  </strong> </a> </li>
-                   <?php endif; ?>
-
-
-
-                  <li <?php if ($view == 'settings' ): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear " style="font-size: 24px;"></span> <strong>
-                  <?php _e("Settings"); ?>
-                  </strong> </a> </li>
-                  <li id="mw-admin-main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
                 </ul>
-      </li>
-            </ul>
-    <?php
-$past_page  = site_url().'?editmode=y';
-$last_page_front = session_get('last_content_id');
-if ($last_page_front == false) {
-    if (isset($_COOKIE['last_page'])) {
-        $last_page_front = $_COOKIE['last_page'];
-    }
-}
 
-if ($last_page_front != false) {
-    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
-    if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
-        $past_page = mw()->content_manager->link($past_page[0]['id']);
-    } else {
-        $past_page = mw()->content_manager->link($last_page_front);
-    }
-} else {
-    $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
-	if(isset($past_page[0])){
-    $past_page = mw()->content_manager->link($past_page[0]['id']);
-	}
-}
+        <script>
+            $(function () {
+
+               $( '.go-live-edit-href-set' ).bind('mousedown',function() {
+    			   var url_to_go =  $(this).attr('href');;
+
+    					var n = url_to_go.indexOf("editmode");
+    					if(n == -1){
+    						url_to_go = url_to_go+'?editmode:y';
+    					}
+     				//window.location.href=url_to_go;
+    				 $(this).attr('href' , url_to_go);;
+      				 return false;
+
+    			});
 
 
 
-
- ?>
-    <script>
-        $(function () {
-
-           $( '.go-live-edit-href-set' ).bind('mousedown',function() {
-			   var url_to_go =  $(this).attr('href');;
-
-					var n = url_to_go.indexOf("editmode");
-					if(n == -1){
-						url_to_go = url_to_go+'?editmode:y';
-					}
- 				//window.location.href=url_to_go;
-				 $(this).attr('href' , url_to_go);;
-  				 return false;
-
-			});
+            });
+        </script>
+        <div id="user-menu" class="scroll-height-exception">
 
 
 
-        });
-    </script>
-    <div id="user-menu" class="scroll-height-exception">
-              <?php $user_id = user_id(); $user = get_user_by_id($user_id);
-
-                            if(!empty($user)){
-                              $img = user_picture($user_id);
-                              if($img != ''){  ?>
-              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span class="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
-              <?php } else { ?>
-              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
-              <?php } }  ?>
-              <div id="main-bar-user-tip">
-        <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
-          <?php _e("My Profile"); ?>
-          </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank" class="mw-ui-btn">
-          <?php _e("Manage Users"); ?>
-
-          </a>
-
-          <?php if(mw()->ui->enable_service_links): ?>
-          <?php if(mw()->ui->custom_support_url): ?>
-           <a href="<?php print mw()->ui->custom_support_url ?>"  class="mw-ui-btn">
-          <?php _e("Support"); ?>
-          </a>
-          <?php else: ?>
-          <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn">
-          <?php _e("Support"); ?>
-          </a>
-          <?php endif; ?>
-          <?php endif; ?>
-
-            <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set">
-          <?php _e("View Website"); ?>
-          </a> <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn">
-          <?php _e("Log out"); ?>
-          </a> </div>
+                  <div id="main-bar-user-tip">
+            <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> </div>
+          </div>
+                </div>
       </div>
+      <span id="mb-active"></span>
             </div>
-  </div>
-        </div>
 <?php endif; ?>

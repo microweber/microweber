@@ -2,6 +2,9 @@
 if(defined('LARAVEL_START')){
     return;
 }
+
+//define( 'MW_SITE_URL', 'http://30668601.ngrok.io/mw1/' );
+
 if (version_compare(phpversion(), "5.6.0", "<=")) {
     exit("Error: You must have PHP version 5.6 or greater to run Microweber");
 }

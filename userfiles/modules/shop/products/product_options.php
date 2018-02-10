@@ -39,31 +39,23 @@ $out_of_stock = false;
         		</div>
             </div>
             </div>
-            <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-               <div class="mw-ui-field-holder">
-                    <span
-                        data-help="<?php _e("Set your shipping options"); ?>"
-                        class="mw-ui-btn left"
-                        onclick="mw.$('#mw-admin-product-shipping-options').toggle(); mw.$('#mw-admin-product-order-options').hide();"> <span><?php _e("Shipping Options"); ?></span> <span class="mw-icon-dropdown"></span> </span>
-                        
-                        
-                        
-                        <span
-                        data-help="<?php _e("Set your order options"); ?>"
-                        class="mw-ui-btn left"
-                        onclick="mw.$('#mw-admin-product-order-options').toggle(); mw.$('#mw-admin-product-shipping-options').hide();"> <span><?php _e("Order Options"); ?></span> <span class="mw-icon-dropdown"></span> </span>
-                        
-                        
-                        
-                </div>
-            </div>
-            </div>
+
             
             
         </div>
 
+<div class="mw-ui-btn-nav">
+                        <span
+                        data-tip="<?php _e("Set your shipping options"); ?>"
+                        class="mw-ui-btn tip"
+                        onclick="mw.$('#mw-admin-product-shipping-options').toggle(); mw.$('#mw-admin-product-order-options').hide();"> <span><?php _e("Shipping Options"); ?></span> <span class="mw-icon-dropdown"></span> </span>
+                        <span
+                        data-tip="<?php _e("Set your order options"); ?>"
+                        class="mw-ui-btn tip"
+                        onclick="mw.$('#mw-admin-product-order-options').toggle(); mw.$('#mw-admin-product-shipping-options').hide();"> <span><?php _e("Order Options"); ?></span> <span class="mw-icon-dropdown"></span> </span>
 
+
+</div>
 
 
 		<div id="mw-admin-product-shipping-options" style="display: none">
@@ -72,16 +64,11 @@ $out_of_stock = false;
         <h4><?php _e("Shipping Options"); ?></h4>
 <hr />
         
-        
 			<div>
-
 
             <label class="mw-ui-inline-label"><?php _e("Free Shipping"); ?></label>
             <label class="mw-ui-check" style="margin-right:10px;"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "y"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="y"><span></span><span><?php _e("Yes"); ?></span></label>
             <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "n"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="n"><span></span><span><?php _e("No"); ?></span></label>
-
-
-
 
 				<div id="data_shipping_fields" >
                      <div class="mw-ui-row">
@@ -131,37 +118,10 @@ $out_of_stock = false;
                          </div>
 
                      </div>
-
-
-
-
-
-
-
-
 				</div>
 			</div>
 		</div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         <div id="mw-admin-product-order-options" style="display: none">
 			<div >
@@ -169,58 +129,23 @@ $out_of_stock = false;
 <hr />
 
            <div class="mw-ui-row">
-                         <div class="mw-ui-col">
-                           <div class="mw-ui-col-container">
-                                <div class="mw-ui-field-holder">
-            						<label class="mw-ui-label"> <?php _e("Max quantity per order"); ?> </label>
-            						<span class="mwsico-weight"></span>
-            						<input type="number" min="1" step="1" name="data_max_qty_per_order" class="mw-ui-field"  <?php if (isset($data_fields['max_qty_per_order'])): ?> value="<?php print $data_fields['max_qty_per_order']; ?>" <?php endif; ?>  />
-            					</div>
-                           </div>
-                         </div>
-                         <div class="mw-ui-col">
-                           <div class="mw-ui-col-container">
-                                
-                           </div>
-                         </div>
-                         
-                     </div>
+                 <div class="mw-ui-col">
+                   <div class="mw-ui-col-container">
+                        <div class="mw-ui-field-holder">
+    						<label class="mw-ui-label"> <?php _e("Max quantity per order"); ?> </label>
+    						<span class="mwsico-weight"></span>
+    						<input type="number" min="1" step="1" name="data_max_qty_per_order" class="mw-ui-field"  <?php if (isset($data_fields['max_qty_per_order'])): ?> value="<?php print $data_fields['max_qty_per_order']; ?>" <?php endif; ?>  />
+    					</div>
+                   </div>
+                 </div>
+                 <div class="mw-ui-col">
+                   <div class="mw-ui-col-container">
 
-
-
-				 
+                   </div>
+                 </div>
+             </div>
 			</div>
 		</div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
 </div>
 
 <script>

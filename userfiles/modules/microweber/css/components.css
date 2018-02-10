@@ -129,6 +129,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   color: #8C8C8C;
 }
 
+.mw-tag-selector{
+    background: #fafafa
+}
+
 .mw-tag-selector .mw-ui-btn{
   float: left;
   margin-right: 5px;
@@ -136,9 +140,13 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   padding-right: 16px;
   height: 24px;
   line-height:16px;
-  background-color: #3b3b3b;
-  border-color:transparent;
-  color:white;
+  background-color: #fff;
+  border-color:#eaeaea;
+}
+
+.mw-tag-selector .mw-ui-btn:hover{
+    background: #0086db;
+    color:#fff;
 }
 
 .tag-label-content{

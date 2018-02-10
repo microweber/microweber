@@ -308,8 +308,7 @@
               </span> </label>
                     </li>
                 </ul>
-                <div class="mw-dropdown mw-dropdown-default pull-left" id="modules-sort-types"
-                     style="margin-right: 20px;"> <span
+                <div class="mw-dropdown mw-dropdown-default pull-left" id="modules-sort-types"> <span
                             class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val">
           <?php _e("Module types"); ?>
           </span>
