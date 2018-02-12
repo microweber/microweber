@@ -28,8 +28,6 @@ if ($youtube == false) {
 }
 ?>
 
-<script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
-
 <section class="imagebg safe-mode videobg height-100 nodrop edit <?php print $padding ?>" field="layout-skin-29-<?php print $params['id'] ?>" rel="module" data-overlay="<?php print $overlay; ?>">
     <div class="youtube-background" data-video-url="<?php print $youtube ?>" data-start-at="0"></div>
     <div class="background-image-holder" style="background-image: url('<?php print template_url('assets/img/'); ?>hero27.jpg');"></div>

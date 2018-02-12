@@ -2978,25 +2978,19 @@ input#edit-content-url:focus, input#edit-content-url.active {
 
 .mw-notification-count {
     display: inline-block;
-    background-color: #DC0D17;
-    background: #fa3c45;
-    background: -moz-linear-gradient(top, #fa3c45 0%, #dc0d17 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fa3c45), color-stop(100%, #dc0d17));
-    background: -webkit-linear-gradient(top, #fa3c45 0%, #dc0d17 100%);
-    background: -o-linear-gradient(top, #fa3c45 0%, #dc0d17 100%);
-    background: -ms-linear-gradient(top, #fa3c45 0%, #dc0d17 100%);
-    background: linear-gradient(to bottom, #fa3c45 0%, #dc0d17 100%);
+    background: #ff0000;
     color: #FFFFFF;
     min-height: 13px;
-    padding: 1px 3px;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    padding: 0 2px;
     position: absolute;
     top: -2px;
     right: 0;
-    font-family: Verdana, Arial, sans-serif;
     font-size: 11px;
-    line-height: normal;
-    border-radius: 2px;
+    line-height: 22px;
+    border-radius: 22px;
+    height: 22px;
+    min-width:22px;
+    text-align: center;
 }
 
 .mw-ui-navigation a .relative .mw-notification-count {

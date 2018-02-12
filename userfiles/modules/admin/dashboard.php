@@ -101,8 +101,28 @@
 
 
 
-            var_dump($comments);
-            foreach($comments as $comment){ ?>
+            foreach($comments as $comment){
+
+            $params = array(
+                'id' => $comment['id']
+            );
+
+            $post = get_content($params);
+            $post = $post[0];
+
+            $comments_data = array(
+                'order_by'=>'created_at desc',
+                'rel_id'=>$post['id']
+            );
+            $postComments =  get_comments($comments_data);
+
+
+
+            ?>
+
+            <?php
+
+            var_dump($postComments); ?>
             <div class="dr-item">
                 <div class="dr-item-table">
                     <table>
@@ -112,7 +132,7 @@
                             </td>
 
                             <td class="dr-item-title">
-                                Lorem Ipsum
+                                <?php print $post['title']; ?>
                             </td>
                             <td class="dr-item-price">
                                33 <span class="mai-comment"></span> comments

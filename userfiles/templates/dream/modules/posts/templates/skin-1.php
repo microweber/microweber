@@ -10,7 +10,7 @@ description: Skin 1
 
 */
 ?>
-<script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
+
 <?php if (!empty($data)): ?>
     <div class="container">
         <div class="row">

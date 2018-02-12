@@ -11,7 +11,6 @@ description: Skin 1
 */
 
 ?>
-    <script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
     <style>
         <?php print '#'.$params['id']; ?>
         .owl-carousel .owl-item img {
@@ -21,6 +20,7 @@ description: Skin 1
         <?php print '#'.$params['id']; ?>
         .owl-carousel .owl-item {
             text-align: center;
+            padding: 10px !important;
         }
     </style>
 <?php if (is_array($data)): ?>

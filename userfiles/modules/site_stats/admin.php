@@ -39,8 +39,6 @@ if ($params['subtype'] == 'graph') {
 
     <div id="stats">
 
-
-
         <div class="mw-ui-box">
             <div class="mw-ui-box-header">
                 <span><?php _e("Statistics") ?></span>

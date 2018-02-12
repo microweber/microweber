@@ -14,8 +14,6 @@ position: 25
 
 <?php include 'settings_padding_front.php'; ?>
 
-<script src="<?php print template_url(); ?>assets/js/scripts.js"></script>
-
 <section class="cover cover-10 safe-mode imagebg image--light nodrop edit <?php print $padding ?>" field="layout-skin-25-<?php print $params['id'] ?>" rel="module">
     <div class="background-image-holder" style="background-image: url('<?php print template_url('assets/img/'); ?>large11.jpg');"></div>
 
