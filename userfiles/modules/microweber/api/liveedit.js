@@ -570,8 +570,8 @@ mw.drag = {
         var prev = $(this._onCloneableControl.__target).prev();
         var el = $(target), off = el.offset()
         clc.css({
-          top: off.top,
-          left: off.left
+          top: off.top > 0 ? off.top : 0 ,
+          left: off.left > 0 ? off.left : 0
         });
         if(next.length == 0){
           $('.mw-cloneable-control-next', clc).hide()

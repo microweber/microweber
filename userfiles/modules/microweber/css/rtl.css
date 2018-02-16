@@ -300,3 +300,22 @@ a.depth-1 .mw_toggle_tree{
 .mw-dropdown>.mw-ui-btn.mw-dropdown-val{
     text-align: right;
 }
+
+
+.dr-head .mw-ui-btn [class*='mw-icon-'],
+.dr-head .mw-ui-btn [class*='mai-']{
+    margin-right:0;
+    margin-left: 5px;
+}
+
+.quick-lists .mw-ui-navigation a [class*="mai-"],
+.quick-lists .mw-ui-navigation a [class*="mw-icon-"] {
+    margin-right:0;
+    margin-left: 8px;
+}
+
+.quick-lists .mw-ui-navigation a{
+    text-align: right;
+}
+
+

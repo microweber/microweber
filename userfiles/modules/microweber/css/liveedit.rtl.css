@@ -26,11 +26,23 @@
 }
 
 .create-content-dropdown-list{
-    left:auto;
-    right:-1px;
+    left:0 !important;
+    right:auto;
 }
 
 #sidebar-hidden-area{
     left:0;
     right:auto;
 }
+
+.mw-toolbar-add-new-content-ctrl{
+    width: auto;
+    margin-left:10px !important;
+}
+
+.mw-ui-navigation a>[class*=mw-icon-] {
+    margin-right:0;
+    margin-left:8px;
+}
+
+

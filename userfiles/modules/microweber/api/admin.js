@@ -849,6 +849,10 @@ $(mww).bind('load', function () {
         btn.innerHTML = mw.msg.save;
     });
 
+    mw.$(".dr-item-table > table").click(function(){
+        $(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
+    })
+
 
 
 

@@ -295,7 +295,7 @@ event_bind(
 		$admin_dashboard_btn         = array();
 		$admin_dashboard_btn['view'] = 'comments';
 
-		$admin_dashboard_btn['icon_class'] = 'mw-icon-comment';
+		$admin_dashboard_btn['icon_class'] = 'mai-comment';
 		$notif_html                        = '';
 		$notif_count                       = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
 

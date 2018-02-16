@@ -59,6 +59,42 @@
                             </td>
                         </tr>
                     </table>
+                    <div class="dr-item-data">
+                        <div class="dr-item-data-head">
+                            <a href="<?php print admin_url() ?>view:shop/action:orders#vieworder=<?php print $order['id'] ?>" class="mw-ui-abtn"><span class="mai-eye"></span><?php _e("View order") ?></a>
+                            <a href="javascript:;" class="mw-ui-abtn"><span class="mai-edit"></span><?php _e("Edit") ?></a>
+                            <a href="<?php print admin_url() ?>view:shop/action:clients#?clientorder=<?php print $order['id'] ?>" class="mw-ui-abtn"><span class="mai-user"></span><?php _e("View client") ?></a>
+
+                        </div>
+                        <div class="dr-item-data-content">
+                            <div class="dr-item-data-content-list">
+                                <h3><?php _e("Customer Information") ?></h3>
+                                <dl>
+                                    <dt><?php _e("Client") ?></dt>
+                                    <dd><?php print $order['first_name'] . ' ' . $order['last_name'] ?></dd>
+                                    <dt><?php _e("Phone") ?></dt>
+                                    <dd><?php print $order['phone']; ?></dd>
+                                    <dt><?php _e("E-mail") ?></dt>
+                                    <dd><?php print $order['email']; ?></dd>
+                                </dl>
+                            </div>
+
+                            <div class="dr-item-data-content-list">
+                                <h3><?php _e("Shipping Information") ?></h3>
+                                <dl>
+
+                                    <dt><?php _e("Address") ?></dt>
+                                    <dd><?php print $order['address']; ?><?php print isset($order['address2']) ? ('<br>' . $order['address2']) : ''; ?></dd>
+                                    <?php if(isset($order['other_info'])){ ?>
+                                        <dt><?php _e("Comment") ?></dt>
+                                        <dd><?php print $order['other_info']; ?></dd>
+                                    <?php } ?>
+                                </dl>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <?php } ?>

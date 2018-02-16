@@ -52,7 +52,7 @@ if ($params['subtype'] == 'graph') {
                     <span class="stats-legend-visitors"><?php _e("visitors") ?></span>
                 </div>
             </div>
-            <div class="mw-ui-box-content">
+            <div class="stat-box-content">
                 <div class="users-online">
                     <?php
                         $users_online = get_visits('users_online');
@@ -91,34 +91,7 @@ if ($params['subtype'] == 'graph') {
     </div>
 
 
-    <style>
-    .dashboard_stats{
-        height: 155px;
-        vertical-align: bottom;
-        margin-bottom: 20px
-    }
 
-        .mw-admin-stat-item{
-            display: inline-block;
-            width: 30px;
-            cursor: default;
-            margin:0 12px;
-        }
-        .mw-admin-stat-item-views{
-            background: #0086db
-        }
-        .mw-admin-stat-item-uniques{
-            background: #005c97
-        }
-
-        .mw-admin-stat-item:last-child .mw-admin-stat-item-views{
-            background: #ff9c00
-        }
-        .mw-admin-stat-item:last-child .mw-admin-stat-item-uniques{
-            background: #df642b
-        }
-
-    </style>
 
 
     <script type="text/javascript">
@@ -175,9 +148,7 @@ if ($params['subtype'] == 'graph') {
                     }
 
                     html += '</div>';
-
                     final.push(html);
-
                 }
                 return final.join('')
             }
@@ -195,15 +166,26 @@ if ($params['subtype'] == 'graph') {
 
             mw.$("#stats_nav a").click(function () {
                 var el = $(this);
+
                 if (!el.hasClass("active")) {
+                    mw.$('.dashboard_stats').addClass('no-transition').height(0)
                     mw.$("#stats_nav a").removeClass("active");
                     el.addClass("active");
                     var data = el.dataset("stat");
                     mw.stat.draw(mw.statdatas[data], data);
+
+                    setTimeout(function () {
+                        mw.$('.dashboard_stats').removeClass('no-transition')
+                        mw.$('.dashboard_stats').height(125)
+                    }, 100)
                 }
             });
 
             mw.stat.draw(mw.statdatas.day, 'day');
+
+            setTimeout(function () {
+                mw.$('.dashboard_stats').height(125)
+            }, 500)
 
         });
 

@@ -239,6 +239,7 @@ mw.treeRenderer = {
           var toggle = "";
 
           var attr = master.attributes;
+          $(master).addClass(master.querySelector('li') === null ? '' : 'has-children')
 
           // type: page or category
           if(attr['data-page-id']!==undefined){
@@ -293,8 +294,7 @@ mw.treeRenderer = {
 
         mw.tools.tree.recall(mwd.querySelector(holder));
 
-       //
-      //  mw.log(mw.cookie.ui("tree_"+mwd.querySelector(holder).id));
+
     }
     else{
 

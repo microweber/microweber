@@ -54,31 +54,37 @@ class Ui
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'admin__notifications';
         $admin_dashboard_btn['text'] = _e('Notifications', true).$notif_count_html;
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-notification';
+        $admin_dashboard_btn['icon_class'] = 'mai-notification';
         $this->module('admin.dashboard.menu', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'content';
         $admin_dashboard_btn['text'] = _e('Manage Website', true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-website';
+        $admin_dashboard_btn['icon_class'] = 'mai-earth';
         $this->module('admin.dashboard.menu.second', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'modules';
         $admin_dashboard_btn['text'] = _e('Manage Modules', true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-module';
+        $admin_dashboard_btn['icon_class'] = 'mai-market';
         $this->module('admin.dashboard.menu.second', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'files';
         $admin_dashboard_btn['text'] = _e('File Manager', true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-upload';
+        $admin_dashboard_btn['icon_class'] = 'mai-file-manage';
         $this->module('admin.dashboard.menu.second', $admin_dashboard_btn);
 
-        $admin_dashboard_btn = array();
+        /*$admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'upgrades';
         $admin_dashboard_btn['text'] = _e('Upgrades', true);
         $admin_dashboard_btn['icon_class'] = 'mw-icon-market';
+        $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);*/
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'marketplace';
+        $admin_dashboard_btn['text'] = _e('Go to Marketplace', true);
+        $admin_dashboard_btn['icon_class'] = 'mai-market2';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);
 
         $notif_count = 0;
