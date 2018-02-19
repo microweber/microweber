@@ -3694,6 +3694,14 @@ body.grabbing, body.grabbing * {
     position: relative;
     background: white;
 }
+.manage-menus li > div.module_item.active + div.module:after{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
 
 .manage-menus li > div.module_item.active {
     border-radius: 3px 3px 0 0;

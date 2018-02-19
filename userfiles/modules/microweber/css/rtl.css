@@ -318,4 +318,31 @@ a.depth-1 .mw_toggle_tree{
     text-align: right;
 }
 
+.drh-activity-name{
+    float: right;
+}
 
+.dr-head .mw-ui-btn {
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+
+.drh-activity-name:after {
+
+
+    margin-left: 0;
+    margin-right: 12px;
+}
+
+
+.layouts_box_holder  .mw-ui-col:last-child .mw-ui-col-container{
+    padding-left: 0;
+    padding-right: 15px;
+}
+
+.mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:first-child > .mw-ui-col-container {
+    padding-left: 15px;
+    padding-right: 0;
+}

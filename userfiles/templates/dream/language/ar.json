@@ -1,4 +1,9 @@
 {
+    "overlay": "Overlay",
+    "color-as-overlay": "Color as overlay",
+    "color-name-or-hex": "Color name Or HEX",
+    "yes": "Yes",
+    "no": "No",
     "build-smart-effective-websites-in-no-time": "Build smart, effective websites in no time.",
     "dream-features-a-bevy-of-content-blocks-and-layouts-to-creat": "Dream features a bevy of content blocks and layouts to create websites of almost any kind &mdash; easier than ever before.",
     "new-startups": "New Startups",
@@ -6,7 +11,7 @@
     "online-storefronts": "Online Storefronts",
     "assemble-pages-with-over-a-lot-of-content-blocks": "Assemble pages with over a lot of content blocks",
     "dream-combines-smart-modern-styling-with-all-the-features-yo": "Dream combines smart, modern styling with all the features you’ll need to launch websites of almost any kind. Achieve results faster than ever with the included Microweber CMS & Website Builder.",
-    "click-here": "Click Here",
+    "click-here": "Click here",
     "skin-settings": "Skin Settings",
     "no-selected": "No Selected",
     "padding-bottom": "Padding Bottom",
@@ -67,5 +72,10 @@
     "internet-of-things": "Internet Of Things",
     "clever-social-integrations-such-as-mail-chimp-compaign-monit": "Clever social integrations such as Mail Chimp, Compaign Monitor and styled Twitter feeds give your site a dynamic edge.",
     "product-design": "Product Design",
-    "flexible-data-attribute-modifiers-make-customising-elements": "Flexible data attribute modifiers make customising elements fast and easy. Add overlays, scrims and adjust plugin parameters all from the HTML."
+    "flexible-data-attribute-modifiers-make-customising-elements": "Flexible data attribute modifiers make customising elements fast and easy. Add overlays, scrims and adjust plugin parameters all from the HTML.",
+    "a-bxslider": "A bxSlider",
+    "your-text-here": "Your text here",
+    "see-more": "See more",
+    "prev": "Prev",
+    "next": "Next"
 }
