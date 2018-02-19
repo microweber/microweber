@@ -216,7 +216,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <?php if ($mod_obj_str == 'elements'): ?>
             <li>
                 <hr>
-                <h4 style="font-weight: bold;"><?php _e('Default static layouts'); ?></h4>
+                <h4 style="font-weight: bold; font-size: 18px; margin-top: 10px; margin-bottom: 10px;"><?php _e('Default static layouts'); ?></h4>
                 <hr>
             </li>
         <?php endif; ?>
