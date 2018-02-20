@@ -324,7 +324,6 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <?php endif; ?>
 <div id="mw-admin-container">
 <?php if(is_admin()): ?>
-
 <div class="admin-toolbar">
   <div class="create-content scroll-height-exception">
         <a href="javascript:;" class="mw-ui-btn create-content-btn"  id="create-content-btn">
@@ -333,47 +332,46 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
             <span class="mai-cd"></span>
         </a>
         <a href="<?php print $past_page  ?>?editmode=y" class="mw-ui-btn toolbar-live-edit" target="_blank">
-                <span class="mai-edit"></span>
-                &nbsp;
-                <?php _e("Live Edit"); ?>
-
-          </a>
+            <span class="mai-edit"></span>
+            &nbsp;
+            <?php _e("Live Edit"); ?>
+        </a>
         <form action="" method="post" class="toolbar-search">
             <input type="text">
         </form>
     </div>
-
 </div>
-
 <div class="mw-ui-row main-admin-row">
     <div class="mw-ui-col main-bar-column">
-              <div id="main-bar" class="scroll-height-exception-master">
+      <div id="main-bar" class="scroll-height-exception-master">
         <?php $view = url_param('view'); ?>
         <?php $action = url_param('action'); ?>
-        <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
+        <a href="<?php print admin_url(); ?>"
+            id="main-bar-mw-icon"
+            class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
                 <?php if(mw()->ui->admin_logo != false) : ?>
                 <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />
                 <?php else: ?>
-                <span class="mai-logo"></span>
+                    <span class="mai-logo"></span>
+                    <span class="mw-icon-microweber"></span>
                 <?php endif;  ?>
-                <strong>
-        <?php print str_replace(array('http://','https://'), '', site_url()); ?>
+        <strong>
+            <?php //print str_replace(array('http://','https://'), '', site_url()); ?>
         </strong> </a>
         <ul id="mw-admin-main-menu">
-
-              <li  <?php if ($action == 'dashboard'): ?> class="active" <?php endif; ?>>
+              <li  <?php if (!$view): ?> class="active" <?php endif; ?>>
                   <a href="<?php print admin_url(); ?>">
                       <span class="mai-dashboard"></span>
                       <strong><?php _e("Dashboard"); ?></strong>
                   </a>
               </li>
               <li
-    					<?php if ($view == 'content' and $action==false): ?>
-                        class="active"
-    					<?php elseif ($view == 'content' and $action!=false): ?>
-                        class="active-parent"
-    					<?php endif; ?>
-                        >
+                    <?php if ($view == 'content' and $action==false): ?>
+                    class="active"
+                    <?php elseif ($view == 'content' and $action!=false): ?>
+                    class="active-parent"
+                    <?php endif; ?>
+                    >
                   <a href="<?php print admin_url(); ?>view:content" title="">
                   <span class="mai-website"></span>
                   <strong>
@@ -409,7 +407,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                         <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
                   <a href="<?php print admin_url(); ?>view:shop" title="">
-                  <span class="mai-shop">
+                  <span class="mai-market2">
 
 
 
@@ -476,7 +474,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <?php _e("Profile"); ?>
                               </strong>
                           </a>
-                          <ul style="display: block">
+                          <ul>
                <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" >
                 <?php _e("My Profile"); ?>
               </a></li>
