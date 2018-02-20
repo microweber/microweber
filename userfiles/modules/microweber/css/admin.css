@@ -974,24 +974,25 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     z-index: 100;
 }
 
-#main-bar-mw-icon .mai-logo{
-    display: block;
-    margin: auto;
-    font-size:30px;
-    width:70px;
-    height: 70px;
-    border-radius:70px;
-    background: #dedede;
-    color: #0086db;
-    padding-top: 20px;
-}
 
 #main-bar-mw-icon {
     display: block;
     overflow: hidden;
     text-align: center;
-    padding-top: 10px;
-    height: 115px;
+    padding-top: 16px;
+    height: 66px;
+    color: #0091EB;
+    text-decoration: none
+}
+
+#main-bar-mw-icon .mw-icon-microweber{
+    font-size: 170px;
+    line-height: 0;
+    position: relative;
+    top:-8px;
+}
+#main-bar-mw-icon .mai-logo{
+    font-size: 30px;
 }
 
 
@@ -1049,10 +1050,11 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 }
 #mw-admin-main-menu li  li a{
-    height: 50px;
-    border-bottom: 1px solid #2b2b2b;
+    height: 40px;
+    line-height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
     padding-left: 50px;
-    padding-top: 12px;
     background: #333;
 }
 
@@ -1109,6 +1111,14 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 
 
+#mw-admin-main-menu a {
+    border-bottom: 1px solid #383838
+}
+#mw-admin-main-menu .active a{
+    border-bottom: 1px solid #ebebeb;
+    color: #3B3B3B
+}
+
 #mw-admin-main-menu a [class*='mai-'],
 #mw-admin-main-menu a [class*='mw-icon-'] {
     font-size: 17px;
@@ -1133,15 +1143,20 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 
 
+#mw-admin-main-menu li.active a{
+    background: #f5f5f5;
+}
+
 #mw-admin-main-menu li.active > a,
 #mw-admin-main-menu li.active:hover > a{
-    background: #f5f5f5;
+
     border-left: solid 10px #0086db;
-
-
 }
+
+
 #mw-admin-main-menu li.active > a{
     padding-left: 18px;
+    border-bottom: 1px solid #ebebeb
 }
 
 #mw-admin-main-menu li li.active > a{
@@ -1162,17 +1177,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     background-color: #3B3B3B
 }
 
-#mw-admin-main-menu li:hover > a strong, #mw-admin-main-menu li.active-parent a strong, #mw-admin-main-menu li a:focus strong {
+#mw-admin-main-menu li:hover > a strong,
+#mw-admin-main-menu li a:focus strong {
     color: white;
 }
 
-#mw-admin-main-menu li.active-parent a strong {
-    color: #888;
-}
 
-#mw-admin-main-menu li.active-parent a:hover strong {
-    color: white;
-}
+
 
 #mw-admin-main-menu li.active ul, #mw-admin-main-menu li.active-parent ul, #mw-admin-main-menu li#mw-admin-main-menu-bottom ul {
     display: block;
@@ -1180,6 +1191,11 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 #mw-admin-main-menu > li > a:hover, #mw-admin-main-menu > li > a:focus {
     color: white;
+}
+
+
+#mw-admin-main-menu > li.active a:hover, #mw-admin-main-menu > li.active  a:focus {
+    color: #2C82DD;
 }
 
 #mw-admin-main-menu > li > a:active {
@@ -4666,7 +4682,7 @@ body.is_admin .mw-admin-container {
 
 
 .admin-content-column.modules {
-    padding: 50px 20px 20px;
+    padding: 66px 20px 20px;
 }
 
 .the-icoimage {
@@ -5146,14 +5162,14 @@ span.mw-icon-upload {
 
     .admin-toolbar{
         position: fixed;
-        height: 50px;
+        height: 66px;
         top: 0;
         right:0;
         left: 230px;
         background: #2b2b2b;
         color: white;
         z-index: 100;
-        padding: 7px 20px 7px 0;
+        padding: 15px 20px 15px 0;
     }
     .admin-content-column{
         padding-top: 50px;
