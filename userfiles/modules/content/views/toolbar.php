@@ -273,7 +273,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                   </div>
                   <?php endif; ?> 
                   <div class="pull-right relative">
-                      <div class="top-search">
+                      <?php /* <div class="top-search">
                         <input
 
                             value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
@@ -285,7 +285,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                             onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"
                             />
                            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
-                      </div>
+                      </div> */ ?>
                       <script>
                         $(document).ready(function(){
                             $(".top-search input").on('focus', function () {

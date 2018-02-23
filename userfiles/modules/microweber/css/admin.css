@@ -73,6 +73,7 @@
 .mai-shop:before{content:'\006d';}
 .mai-link:before{content:'\006e';}
 .mai-notification:before{content:'\006f';}
+.mai-home:before{content:'\0070';}
 
 .mw-ui-btn.mw-ui-btn-medium>[class*=mw-icon-], .mw-ui-btn.mw-ui-btn-medium>[class*=mai-] {
     top: 2px;
@@ -235,7 +236,7 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .fixed-side-column {
     position: fixed;
-    top: 50px;
+    top: 66px;
     height: 100%;
     background-color: #F5F5F5;
 }
@@ -627,7 +628,7 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .mw-tree .module a:before, .mw-tree label:before {
     font-family: Microweber;
-    color: #111;
+    color: #999;
     font-size: 19px;
     display: inline-block;
     position: absolute;
@@ -663,15 +664,21 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-tree .is_blog > a:before, .mw-tree .is_blog > label:before {
-    content: 'b';
-    font-size: 21px;
-    top: 3px;
+    content: '\0058';
+    font-family: admin;
+    font-size: 14px;
+    top: 8px;
 }
 
 .mw-tree .category_element > a:before, .mw-tree .category_element > label:before {
     content: 'c';
-    color: white;
     text-shadow: 0 0 1px #000;
+}
+
+.mw-tree .pages_tree_item > a:before, .mw-tree .pages_tree_item > label:before {
+    font-family: admin;
+    content: '\0057';
+    font-size: 17px;
 }
 
 .mw-tree .category_element.active-bg > a:before, .mw-tree .category_element.active-bg > label:before {
@@ -680,11 +687,12 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-tree .is_shop > a:before, .mw-tree .is_shop > label:before {
-    content: 's';
+    content: '\0053';
+    font-family: admin;
 }
 
 #mw_edit_page_left .is_home > a:before, .mw-tree .is_home > a:before, .mw-tree .is_home > label:before {
-    content: "\0105";
+    content: "\0070";
 }
 
 #mw_edit_page_left .is_home > a:hover:before {
@@ -1045,10 +1053,33 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     color: #999;
     font-size: 13px;
     display: block;
-    padding: 20px 0 0 28px;
-    height: 64px;
 
 }
+
+#mw-admin-main-menu > li > a{
+    height: 64px;
+    line-height: 64px;
+    padding: 0 0 0 28px;
+}
+
+#mw-admin-main-menu > li > a:after{
+    position: absolute;
+    display: block;
+    content: '\006a';
+    font-family: admin;
+    top: 0px;
+    right: 10px;
+    font-size: 9px;
+    transition: all .3s;
+    transform: rotate(-90deg);
+}
+
+#mw-admin-main-menu > li.active > a:after{
+   transform: rotate(0);
+}
+
+
+
 #mw-admin-main-menu li  li a{
     height: 40px;
     line-height: 40px;
@@ -1071,13 +1102,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 
-#mw-admin-main-menu > li > ul > li:last-child > a {
-    padding-bottom: 10px;
-}
 
-#mw-admin-main-menu > li > ul > li > a:hover, #mw-admin-main-menu > li > ul > li > a:focus, #mw-admin-main-menu > li > ul > li.active, #mw-admin-main-menu li.active-parent > a {
-    color: white
-}
+
 
 #mw-admin-main-menu > li #main-nav-live {
     margin-top: 10px;
@@ -1091,8 +1117,6 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu a strong, #main-bar-mw-icon strong {
     display: inline-block;
     position: relative;
-    padding-top: 4px;
-    padding-bottom: 12px;
     padding-left: 5px;
     font-weight: normal;
     color: #888;
@@ -1111,18 +1135,34 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 
 
+#mw-admin-main-menu > li.active:first-child > a{
+    border-top-width:0;
+}
+
+#mw-admin-main-menu > li:first-child > a {
+    border-top: 1px solid #2f2f2f;
+}
+
 #mw-admin-main-menu a {
     border-bottom: 1px solid #383838
 }
+
+#mw-admin-main-menu .active a:hover,
+#mw-admin-main-menu .active a:active,
+#mw-admin-main-menu .active a:focus,
 #mw-admin-main-menu .active a{
     border-bottom: 1px solid #ebebeb;
     color: #3B3B3B
+}
+#mw-admin-main-menu .active-parent a:hover,
+#mw-admin-main-menu .active-parent a{
+    color: #3B3B3B;
+    border-bottom: 1px solid #ebebeb;
 }
 
 #mw-admin-main-menu a [class*='mai-'],
 #mw-admin-main-menu a [class*='mw-icon-'] {
     font-size: 17px;
-    float: left;
     width: 35px;
     top: 2px;
     position: relative;
@@ -1133,7 +1173,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu li li a [class*='mw-icon-'] {
     font-size: 14px;
     width: 25px;
-    top: 1px;
+    top: 3px;
 
 }
 
@@ -1142,9 +1182,19 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 
+#mw-admin-main-menu > li > a:hover{
+    background-color: #555;
+    color: white;
+}
 
+
+
+#mw-admin-main-menu > li.active-parent > a:hover,
+#mw-admin-main-menu li.active-parent a,
+#mw-admin-main-menu > li.active > a:hover,
 #mw-admin-main-menu li.active a{
     background: #f5f5f5;
+    color: #3B3B3B
 }
 
 #mw-admin-main-menu li.active > a,
@@ -1156,31 +1206,28 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 #mw-admin-main-menu li.active > a{
     padding-left: 18px;
-    border-bottom: 1px solid #ebebeb
+    border-bottom: 1px solid #ebebeb;
+    font-weight: bold;
+    color: #0086db
+}
+
+#mw-admin-main-menu li.active > a strong{
+    font-weight: bold;
+    color: #0086db
 }
 
 #mw-admin-main-menu li li.active > a{
     padding-left: 40px;
 }
 
-#mw-admin-main-menu li.active:hover > a strong,
-#mw-admin-main-menu li.active > a strong{
-    color: #2b2b2b
-}
 
 #mw-admin-main-menu li.active:hover > a span,
 #mw-admin-main-menu li.active > a span{
     color: #0086db
 }
 
-#mw-admin-main-menu li.active-parent {
-    background-color: #3B3B3B
-}
 
-#mw-admin-main-menu li:hover > a strong,
-#mw-admin-main-menu li a:focus strong {
-    color: white;
-}
+
 
 
 
@@ -1260,7 +1307,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 .mw-admin-main-menu-mini{
     position: absolute;
     right: 17px;
-    top: 17px;
+    top: 12px;
     height: 16px;
     line-height: 16px;
     border-radius: 2px;
@@ -5172,7 +5219,7 @@ span.mw-icon-upload {
         padding: 15px 20px 15px 0;
     }
     .admin-content-column{
-        padding-top: 50px;
+        padding-top: 66px;
     }
 
     .create-root{
@@ -5279,4 +5326,11 @@ span.mw-icon-upload {
 }
 .mw-admin-stat-item:last-child .mw-admin-stat-item-uniques{
     background: #df642b
+}
+
+.mw-edit-content-item-admin{
+    padding: 0 20px 20px;
+    background: white;
+    box-shadow: 0 0 6px rgba(0,0,0,.2);
+    border-radius: 0 0 2px 2px;
 }

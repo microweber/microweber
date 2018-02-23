@@ -5,6 +5,11 @@ $(document).ready(function(){
 
       mw.admin.simpleRotator(Rotator);
 
+    var ord = mw.url.getHashParams(location.hash).vieworder;
+    if(typeof ord != 'undefined'){
+        mw_select_order_for_editing(ord)
+    }
+
       mw.on.hashParam("vieworder", function(){
           if(this!=false){
             mw_select_order_for_editing(this);
@@ -13,8 +18,7 @@ $(document).ready(function(){
             mw_select_order_for_editing(0);
           }
       });
-      Rotator.ongo(function(){
-      });
+
 
       function mw_select_order_for_editing($p_id){
       	 if(parseInt($p_id) == 0){

@@ -667,8 +667,12 @@ html.mw_pages #items_handle {
     border-radius: 0;
     display: block;
     text-align: left;
-    background-color: #262626;
+    background-color: #0084D8;
     color: #fff;
+}
+
+#backtoadminindropdown .mw-icon-back{
+    top: -1px;
 }
 
 /****************************

@@ -322,14 +322,16 @@ mw.wysiwyg = {
                         }
                     }
                 }
-            }
+            } 
             }
             else{
               var firstBlock = target;
               var blocks = ['p','div','h1','h2','h3','h4','h5','h6', 'header','section','footer', 'ul', 'ol'];
               var blocksClass = ['safe-element'];
               var po = mw.tools.parentsOrder(firstBlock, ['edit', 'module']);
+
               if(po.module == -1 || po.module > po.edit){
+
                 if( blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1 && !mw.tools.hasAnyOfClassesOnNodeOrParent(firstBlock, blocksClass)){
                   var cls = [];
                   blocksClass.forEach(function(item){
@@ -340,6 +342,9 @@ mw.wysiwyg = {
                 }
                 mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
                 firstBlock.contentEditable = true;
+              }
+              else{
+                  mw.$('[contenteditable]').removeAttr('contenteditable')
               }
 
             }
@@ -2339,14 +2344,7 @@ $(mwd).ready(function () {
 
     mw.wysiwyg.editorFonts = [];
 
-    $(window).on('execCommand', function(event, commandName, node, nodeBeforeExec, elementNode){
-      /*if(elementNode.nodeName == 'P'){
-        var div = elementNode.querySelector('div');
-        if(div !== null){
-          mw.tools.setTag(div, 'span').style.display = 'block';
-        }
-      }  */
-    });
+
 
 
 });

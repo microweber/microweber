@@ -1,22 +1,29 @@
 
 
 <script type="text/javascript">
-
-
-$(window).on('load', function(){
-  Rotator = mwd.getElementById('clients-rotator');
-  mw.admin.simpleRotator(Rotator);
-  mw.on.hashParam("clientorder", function(){
-    if(this!=false){
-        mwd.getElementById('mw-clientorder').setAttribute('data-order-id', this);
+function clientorderHandleParam(paramvalue){
+    if(paramvalue!=false){
+        mwd.getElementById('mw-clientorder').setAttribute('data-order-id', paramvalue);
         mw.load_module('shop/orders/client_inner','#mw-clientorder', function(){
             Rotator.go(1)
         });
-     }
-     else{
-       mw.reload_module('#mw-clients-orders');
+    }
+    else{
+        mw.reload_module('#mw-clients-orders');
         Rotator.go(0);
-     }
+    }
+}
+
+$(document).ready(function(){
+  Rotator = mwd.getElementById('clients-rotator');
+  mw.admin.simpleRotator(Rotator);
+  var ord = mw.url.getHashParams(location.hash).clientorder;
+  if(typeof ord != 'undefined'){
+      clientorderHandleParam(ord)
+  }
+
+  mw.on.hashParam("clientorder", function(){
+      clientorderHandleParam(this)
   });
 });
 

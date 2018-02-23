@@ -17,7 +17,7 @@
 
              ?>
             <?php
-
+            if(is_array($orders)){
             foreach($orders as $order){
 
             $ord = mw()->shop_manager->get_order_by_id($order['id']);
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <?php } ?>
+            <?php }} ?>
 
         </div>
     </div>
