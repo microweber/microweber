@@ -7,6 +7,7 @@ use Microweber\Providers\Modules;
 $parser_cache_object = false; //global cache storage
 $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
+$mw_replaced_codes_tag = array();
 
 $mw_parser_nest_counter_level = 0;
 $mod_tag_replace_inc = 0;
@@ -64,6 +65,7 @@ class Parser
         global $mw_replaced_edit_fields_vals;
         // global $mod_tag_replace_inc;
         global $other_html_tag_replace_inc;
+        global $mw_replaced_codes_tag;
         $coming_from_parent_strz1 = false;
         $root_module_id = false;
         $coming_from_parentz = false;
@@ -184,7 +186,7 @@ class Parser
                     }
                 }
             }
-
+//
             $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
             preg_match_all($script_pattern, $layout, $mw_script_matches);
 
@@ -196,6 +198,7 @@ class Parser
                         $layout = str_replace($value, $v1, $layout);
                         if (!isset($replaced_scripts[$v1])) {
                             $this->_replaced_codes[$v1] = $value;
+                            $mw_replaced_codes_tag[$v1] = $value;
                         }
                     }
                 }
@@ -682,6 +685,23 @@ class Parser
                                 $plain_modules = false;
                                 unset($local_mw_replaced_modules[$parse_key][$key]);
 
+
+                                $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
+                                preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+                                if (!empty($mw_script_matches)) {
+                                    foreach ($mw_script_matches [0] as $key => $value) {
+                                        if ($value != '') {
+                                            $v1 = crc32($value);
+                                            $v1 = '<tag>mw_replace_back_this_code_mod_inner_' . $v1 . '</tag>';
+                                            $mod_content = str_replace($value, $v1, $mod_content);
+                                            if (!isset($replaced_scripts[$v1])) {
+                                                $mw_replaced_codes_tag[$v1] = $value;
+                                            }
+                                        }
+                                    }
+                                }
+
                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
                                 if ($proceed_with_parse == true) {
@@ -698,6 +718,7 @@ class Parser
 
                                     }
 
+
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
 
                                     if(strstr($mod_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
@@ -705,6 +726,11 @@ class Parser
                                         $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
 
                                     }
+
+
+
+
+
 
                                 } else {
                                     $this->have_more = false;
@@ -751,12 +777,20 @@ class Parser
             $it_loop2 = 0;
         }
 
-        if (!empty($this->_replaced_codes)) {
-            foreach ($this->_replaced_codes as $key => $value) {
+//        if (!empty($this->_replaced_codes)) {
+//            foreach ($this->_replaced_codes as $key => $value) {
+//                if ($value != '') {
+//                    $layout = str_replace($key, $value, $layout);
+//                }
+//                unset($this->_replaced_codes[$key]);
+//            }
+//        }
+        if (!empty($mw_replaced_codes_tag)) {
+            foreach ($mw_replaced_codes_tag as $key => $value) {
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-                unset($this->_replaced_codes[$key]);
+            // unset($mw_replaced_codes_tag[$key]);
             }
         }
 
