@@ -38,119 +38,55 @@ if ($params['subtype'] == 'graph') {
     ?>
 
     <div id="stats">
+        <a
+                class="mw-ui-btn mw-ui-btn-invert pull-right golive-button"
+                style="margin-top:11px;width:auto;background-color: #000" href="<?php print $past_page; ?>?editmode=y"><?php _e('Go Live edit'); ?></a>
 
-        <div class="mw-ui-box">
-            <div class="mw-ui-box-header">
-                <span><?php _e("Statistics") ?></span>
-                <div id="stats_nav">
-                    <a href="javascript:;" data-stat='day' class="mw-ui-btn mw-ui-btn-outline active"><?php _e("Daily"); ?></a>
-                    <a href="javascript:;" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
-                    <a href="javascript:;" data-stat='month' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
-                </div>
-                <div class="stats-legend">
-                    <span class="stats-legend-views"><?php _e("views") ?></span>
-                    <span class="stats-legend-visitors"><?php _e("visitors") ?></span>
-                </div>
-            </div>
-            <div class="stat-box-content">
-                <div class="users-online">
-                    <?php
-                        $users_online = get_visits('users_online');
-                        print intval($users_online);
-                    ?>
-                    <span><?php _e("Users online") ?></span>
-                </div>
-                <div class="dashboard_stats" id="stats_{rand}"></div>
-            </div>
-            <div class="stats_box_footer">
-                <span class="sbf-item active">
-                    <span class="mai-eye"></span>
-                    Views
-                    <span class="sbf-item-n">41,099</span>
-                </span>
-                <span class="sbf-item">
-                    <span class="mai-user3"></span>
-                    Visitors
-                    <span class="sbf-item-n">41,099</span>
-                </span>
-                <span class="sbf-item">
-                    <span class="mai-order"></span>
-                    Orders
-                    <span class="sbf-item-n">41,099</span>
-                </span>
-                <span class="sbf-item">
-                    <span class="mai-comment"></span>
-                    Comments
-                    <span class="sbf-item-n">41,099</span>
-                </span>
-            </div>
+
+        <h2><?php _e("Traffic Statistic"); ?></h2>
+
+        <div id="stats_nav" class="mw-ui-btn-nav">
+            <a href="javascript:;" data-stat='day' class="mw-ui-btn active"><?php _e("Daily"); ?></a>
+            <a href="javascript:;" data-stat='week' class="mw-ui-btn"><?php _e("Weekly"); ?></a>
+            <a href="javascript:;" data-stat='month' class="mw-ui-btn"><?php _e("Monthly"); ?></a>
         </div>
 
-
+        <div class="dashboard_stats" id="stats_{rand}"></div>
 
     </div>
 
 
+    <script type="text/javascript">
+        $r1 = '<?php print $config['url_to_module'] ?>raphael-min.js';
+        mw.require($r1, 1);
 
-
+        $r2 = '<?php print $config['url_to_module'] ?>morris.min.js';
+        mw.require($r2, 1);
+    </script>
 
     <script type="text/javascript">
 
 
         mw.stat = {
-            weekDays: [
-                '<?php _e("Sun"); ?>' ,
-                '<?php _e("Mon"); ?>' ,
-                '<?php _e("Tue"); ?>' ,
-                '<?php _e("Wed"); ?>' ,
-                '<?php _e("Thu"); ?>' ,
-                '<?php _e("Fri"); ?>' ,
-                '<?php _e("Sat"); ?>'
-            ],
-            draw: function (data, type) {
+            draw: function (data, obj) {
                 if (typeof(data[0]) != 'undefined') {
-                    var html = mw.stat.html(data, type);
-                    mw.$('.dashboard_stats').html(html)
+                    var el = obj || mwd.getElementById('stats_{rand}');
+                    $(el).empty().removeClass('graph-initialised');
+                    Morris.Line({
+                        element: el,
+                        data: data,
+                        lineColors: ['#9A9A9A', '#E6E6E6'],
+                        pointStrokeColors: ['#5B5B5B', '#5B5B5B'],
+                        pointFillColors: ['#ffffff', '#5B5B5B'],
+                        xkey: 'visit_date',
+                        ykeys: ['total_visits', 'unique_visits'],
+                        labels: ['<?php _e('Total visits'); ?>', '<?php _e('Unique visits'); ?>'],
+                        xLabelFormat: function (d) {
+                            return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
+                        },
+                        xLabels: 'day'
+                    });
                 }
-            },
-            getMax:function (data) {
-                return data.reduce(function(prev, current) {
-                    var calc_prev = parseInt(prev.total_visits, 10)+ parseInt(prev.unique_visits, 10);
-                    var calc_current = parseInt(current.total_visits, 10) + parseInt(current.unique_visits, 10);
-                    return (calc_prev > calc_current) ? prev : current
-                })
-            },
-            html:function (idata, type) {
-                data = idata.reverse();
-                data = data.slice(0, Math.min(13, data.length));
-                var max = mw.stat.getMax(data), i, final = [];
-                max =  parseInt(max.total_visits, 10) + parseInt(max.unique_visits, 10);
-                for( i = data.length-1; i >= 0; i--){
-                    var unique_visits = parseInt(data[i].unique_visits, 10)
-                    var views = parseInt(data[i].total_visits, 10);
-                    var total = unique_visits + views;
-
-                    var height_percent = (total/max) * 100;
-                    var unique_visits_percent = (unique_visits/total) * 100;
-                    var views_percent = (views/total) * 100;
-                    var tip = 'Unique visitors: ' + unique_visits + '<br>';
-                    tip += 'All views: ' + views + '<br>';
-                    tip += 'Date: ' + data[i].visit_date + '';
-                    var html = '<div class="mw-admin-stat-item tip" style="height:'+height_percent+'%;" data-tip="'+tip+'">';
-
-                    html += '<div class="mw-admin-stat-item-views" style="height:'+views_percent+'%;"></div>';
-                    html += '<div class="mw-admin-stat-item-uniques" style="height:'+unique_visits_percent+'%;"></div>';
-
-                    var date =  new Date(data[i].visit_date)
-                    if( type == 'day' ){
-                        var day =  mw.stat.weekDays[date.getUTCDay()];
-                        html +='<div class="mw-admin-stat-item-date">'+day+'</div>' ;
-                    }
-
-                    html += '</div>';
-                    final.push(html);
-                }
-                return final.join('')
             }
         }
 
@@ -166,27 +102,28 @@ if ($params['subtype'] == 'graph') {
 
             mw.$("#stats_nav a").click(function () {
                 var el = $(this);
-
                 if (!el.hasClass("active")) {
-                    mw.$('.dashboard_stats').addClass('no-transition').height(0)
                     mw.$("#stats_nav a").removeClass("active");
                     el.addClass("active");
                     var data = el.dataset("stat");
-                    mw.stat.draw(mw.statdatas[data], data);
-
-                    setTimeout(function () {
-                        mw.$('.dashboard_stats').removeClass('no-transition')
-                        mw.$('.dashboard_stats').height(125)
-                    }, 100)
+                    mw.stat.draw(mw.statdatas[data]);
                 }
             });
 
-            mw.stat.draw(mw.statdatas.day, 'day');
+            mw.stat.draw(mw.statdatas.day);
 
-            setTimeout(function () {
-                mw.$('.dashboard_stats').height(125)
-            }, 500)
-
+            $(window).resize(function () {
+                var w = $(window).width();
+                var h = $(window).height();
+                setTimeout(function () {
+                    var w1 = $(window).width();
+                    var h1 = $(window).height();
+                    if (w == w1 && h == h1) {
+                        var data = $("#stats_nav a.active").dataset("stat");
+                        mw.stat.draw(mw.statdatas[data]);
+                    }
+                }, 299);
+            });
         });
 
     </script>
@@ -194,5 +131,57 @@ if ($params['subtype'] == 'graph') {
     <?php $users_last5 = get_visits_for_sid($params['user-sid']);
 
     ?>
+    <?php if (!empty($users_last5)): ?>
 
-<?php }  ?>
+        <span class="ipicon">IP</span> <?php print($users_last5[0]['user_ip']); ?>
+
+        <div class="table-responsive">
+            <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic mw-ui-table-fixed">
+                <colgroup>
+                    <col>
+
+                    <col width="50%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col"><?php _e("Date"); ?></th>
+
+                    <th scope="col"><?php _e("Last page"); ?></th>
+                    <th scope="col"><?php _e("Page views"); ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i = 0;
+                foreach ($users_last5 as $item) : ?>
+                    <tr>
+
+                        <td class="stat-time tip" data-tip="<?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?>" data-tipposition="top-center">
+                            <div style="max-width: 60px;"><?php print mw('format')->ago($item['visit_date'] . $item['visit_time']); ?></div>
+                        </td>
+
+                        <?php
+                        $last = explode('/', $item['last_page']);
+                        $size = count($last);
+                        if ($last[$size - 1] == '') {
+                            $last = $last[$size - 2];
+                        } else {
+                            $last = $last[$size - 1];
+                        }
+                        ?>
+                        <td class="stat-page"><a href="<?php print $item['last_page'] ?>" class="tip" data-tip="<?php print $item['last_page'] ?>"
+                                                 data-tipposition="top-center"><?php print $item['last_page']; ?></a></td>
+                        <td class="stat-views"><?php print $item['view_count'] ?></td>
+                    </tr>
+                    <?php $i++; endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+<?php } else { ?>
+
+
+    <module="site_stats/dashboard_last" id="stats_dashboard_last" />
+
+
+<?php } ?>

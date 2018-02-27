@@ -62,9 +62,6 @@ mw.notification.msg(this);
       text-align: center;
       margin-top: -77px;
     }
-    html[dir="rtl"] .send-your-lang {
-        float: left;
-    }
     .send-your-lang label{
       text-align: center;
     }

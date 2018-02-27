@@ -3,7 +3,7 @@
 <script type="text/javascript">
 
 
-$(window).on('load', function(){
+$(document).ready(function(){
   Rotator = mwd.getElementById('clients-rotator');
   mw.admin.simpleRotator(Rotator);
   mw.on.hashParam("clientorder", function(){

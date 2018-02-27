@@ -2,8 +2,7 @@ mw.admin = {
     scrollBoxSettings: {
         height: 'auto',
         size: 5,
-        distance: 5,
-        position:(document.documentElement.dir == 'rtl' ? 'left': 'right')
+        distance: 5
     },
     scrollBox: function (selector, settings) {
         var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
@@ -48,9 +47,7 @@ mw.admin = {
             var newheight = mw.admin.contentScrollBoxHeightFix(el)
             el.style.height = newheight + 'px';
             el.parentNode.style.height = newheight + 'px';
-            $(el).slimscroll({
-                position:(document.documentElement.dir == 'rtl' ? 'left': 'right')
-            });
+            $(el).slimscroll();
         });
     },
     treeboxwidth: function () {
@@ -179,24 +176,33 @@ mw.admin = {
     manageToolbarQuickNav: null,
     manageToolbarInt: null,
     manageToolbarSet: function () {
-        return false;
         var toolbar = mwd.querySelector('.admin-manage-toolbar');
         if (toolbar === null) {
             return false;
         }
-
+        var scrolltop = $(window).scrollTop();
+        if (scrolltop > 0) {
+            mw.tools.addClass(toolbar, 'admin-manage-toolbar-scrolled');
+            // toolbar.style.width = toolbar.parentNode.offsetWidth + 'px';
+            //toolbar.style.top = scrolltop + 'px';
+            toolbar.style.width = ($(toolbar.parentNode).width() + 35) + 'px';
+        }
+        else {
+            mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
+            toolbar.style.width = $(toolbar.parentNode).width() + 'px';
+        }
         if (mw.admin.manageToolbarQuickNav === null && mwd.getElementById('content-edit-settings-tabs') !== null) {
             mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
         }
         if (mw.admin.manageToolbarQuickNav !== null) {
             if ((scrolltop) > 0) {
                 if (mwd.getElementById('content-edit-settings-tabs') != null) {
-
+                    mw.$("#content-edit-settings-tabs").addClass('fixed').css('left', $(mwd.getElementById('content-edit-settings-tabs').parentNode).offset().left);
                     mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
                 }
             }
             else {
-
+                mw.$("#content-edit-settings-tabs").removeClass('fixed');
                 mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
             }
             QTABSArrow('#quick-add-post-options .active');
@@ -741,11 +747,7 @@ $(mwd).ready(function () {
 
     mw.admin.beforeLeaveLocker();
 
-    $(document.body).on('click', '[data-href]', function(e){
-        e.preventDefault();
-        e.stopPropagation()
-        location.href = e.target.getAttribute('data-href')
-    })
+    
 
 
 });
@@ -848,10 +850,6 @@ $(mww).bind('load', function () {
         var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
         btn.innerHTML = mw.msg.save;
     });
-
-    mw.$(".dr-item-table > table").click(function(){
-        $(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
-    })
 
 
 

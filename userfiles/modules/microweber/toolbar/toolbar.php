@@ -35,11 +35,6 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("session.js");
         mw.require("liveedit.js");
         mw.require("upgrades.js");
-
-        <?php if(_lang_is_rtl()){ ?>
-            mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
-        <?php } ?>
-
     </script>
     <script type="text/javascript">
         //if(mw.cookie.get("helpinfoliveedit") != 'false'){
@@ -238,13 +233,13 @@ if (isset($_COOKIE['mw_exp'])) {
 
     </script>
 
-    <div class="mw-defaults" id="live_edit_side_holder">
+    <div class="mw-defaults" id="live_edit_side_holder" dir="ltr" lang="en">
         <div id="live_edit_sidebar_wrap">
             <module type="admin/modules/sidebar_live_edit" class=""/>
         </div>
     </div>
 
-    <div class="mw-defaults" id="live_edit_toolbar_holder" <?php print lang_attributes(); ?>>
+    <div class="mw-defaults" id="live_edit_toolbar_holder" dir="ltr" lang="en">
         <div id="live_edit_toolbar">
             <div id="mw-text-editor" class="mw-defaults mw_editor">
                 <div class="toolbar-sections-tabs">
@@ -702,8 +697,6 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.drag.plus.init('.edit');
         mw.drag.columns.init();
     });
-
-
 
 </script>
 <span class="mw-plus-top mw-wyswyg-plus-element">+</span>
