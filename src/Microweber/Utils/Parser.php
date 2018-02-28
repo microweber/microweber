@@ -1045,9 +1045,9 @@ class Parser
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
-if($field != 'content'){
+                        if($field != 'content' and $field != 'title'){
                         $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".content_id());
-}
+                        }
 //d($data);
                     } elseif ($rel == 'page') {
                         if (!isset($data_id) or $data_id == false) {
