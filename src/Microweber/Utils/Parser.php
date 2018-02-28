@@ -30,6 +30,7 @@ class Parser
     private $_replaced_modules_values = array();
     private $_replaced_modules = array();
     private $_replaced_codes = array();
+    private $_replaced_textarea_tag  = array();
     private $_existing_module_ids = array();
     private $_current_parser_rel = false;
     private $_current_parser_field = false;
@@ -116,6 +117,25 @@ class Parser
         $layout = str_replace('<?', '&lt;?', $layout);
 
 
+        $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
+                    $layout = str_replace($value, $v1, $layout);
+                    if (!isset($this->_replaced_textarea_tag[$v1])) {
+                        $this->_replaced_textarea_tag[$v1] = $value;
+                    }
+                }
+            }
+        }
+
+
+
+
         $script_pattern = "/<!--(?!<!)[^\[>].*?-->/";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
         if (!empty($mw_script_matches)) {
@@ -130,6 +150,9 @@ class Parser
                 }
             }
         }
+
+
+
 
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
         $layout = str_replace('</microweber>', '', $layout);
@@ -203,6 +226,8 @@ class Parser
                     }
                 }
             }
+
+
 
 
 //
@@ -702,6 +727,24 @@ class Parser
                                     }
                                 }
 
+
+
+                                $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+                                preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+                                if (!empty($mw_script_matches)) {
+                                    foreach ($mw_script_matches [0] as $key => $value) {
+                                        if ($value != '') {
+                                            $v1 = crc32($value);
+                                            $v1 = '<tag-textarea>mw_replace_back_this_textarea_inner_' . $v1 . '</tag-textarea>';
+                                            $mod_content = str_replace($value, $v1, $mod_content);
+                                            if (!isset($this->_replaced_textarea_tag[$v1])) {
+                                              $this->_replaced_textarea_tag[$v1] = $value;
+                                            }
+                                        }
+                                    }
+                                }
+
                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
                                 if ($proceed_with_parse == true) {
@@ -785,6 +828,10 @@ class Parser
 //                unset($this->_replaced_codes[$key]);
 //            }
 //        }
+
+
+
+
         if (!empty($mw_replaced_codes_tag)) {
             foreach ($mw_replaced_codes_tag as $key => $value) {
                 if ($value != '') {
@@ -821,6 +868,15 @@ class Parser
             }
         }
         //}
+
+        if (!empty($this->_replaced_textarea_tag)) {
+            foreach ($this->_replaced_textarea_tag as $key => $value) {
+                if ($value != '') {
+                    $layout = str_replace($key, $value, $layout);
+                }
+                unset($this->_replaced_textarea_tag[$key]);
+            }
+        }
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
