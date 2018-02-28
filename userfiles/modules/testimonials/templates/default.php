@@ -36,7 +36,6 @@ description: Testimonials Default
 
 <div class="mw-testimonials mw-testimonials-default">
 
-<?php $data = get_testimonials(); ?>
 
 
 	<?php
@@ -67,5 +66,7 @@ description: Testimonials Default
       </div>
 
 
-    <?php } ?>
+    <?php
+}
+    ?>
 </div>

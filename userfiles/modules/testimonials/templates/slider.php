@@ -29,7 +29,6 @@ description: Testimonials displayed in Slider
 
 
 <div class="mw-testimonials mw-testimonials-slider">
-    <?php $data = get_testimonials(); ?>
 
     <?php
     foreach ($data as $item) {
