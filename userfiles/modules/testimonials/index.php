@@ -26,6 +26,7 @@ if (isset($params['limit'])) {
     $limit = intval($params['limit']);
 }
 $testimonials_limit = get_option('testimonials_limit', $params['id']);
+
 if ($show_testimonials_per_project) {
 
     $get = array();
@@ -36,6 +37,7 @@ if ($show_testimonials_per_project) {
     }
 
     $get['project_name'] = $show_testimonials_per_project;
+
     $data = get_testimonials($get);
 
 } else {
@@ -76,4 +78,3 @@ if ($template_file == false) {
 if ($template_file != false and is_file($template_file)) {
     include($template_file);
 }
-?>

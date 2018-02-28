@@ -26,6 +26,8 @@ function get_testimonials($params=array())
     }
     $params['table'] = "testimonials";
 	$params['order_by'] = "position asc";
+
+
     return db_get($params);
 }
 

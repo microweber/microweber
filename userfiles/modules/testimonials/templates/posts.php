@@ -18,7 +18,6 @@ description: Testimonials displayed as posts
 
 <div class="mw-testimonials mw-testimonials-posts">
 
-<?php $data = get_testimonials(); ?>
 
 
 	<?php
