@@ -525,7 +525,7 @@ function _mw_get_language_file_content_namespaced($namespace)
 //    $lang_file = normalize_path($lang_file, false);
 
     $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
-    $lang_file2 = normalize_path($lang_file2, false); 
+    $lang_file2 = normalize_path($lang_file2, false);
 
     //$lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
     $lang_file3 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR .  'en.json';
