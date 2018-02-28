@@ -8,6 +8,7 @@ $parser_cache_object = false; //global cache storage
 $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 $mw_replaced_codes_tag = array();
+$mw_replaced_textarea_tag = array();
 
 $mw_parser_nest_counter_level = 0;
 $mod_tag_replace_inc = 0;
@@ -67,6 +68,7 @@ class Parser
         // global $mod_tag_replace_inc;
         global $other_html_tag_replace_inc;
         global $mw_replaced_codes_tag;
+        global $mw_replaced_textarea_tag;
         $coming_from_parent_strz1 = false;
         $root_module_id = false;
         $coming_from_parentz = false;
@@ -740,6 +742,7 @@ class Parser
                                             $mod_content = str_replace($value, $v1, $mod_content);
                                             if (!isset($this->_replaced_textarea_tag[$v1])) {
                                               $this->_replaced_textarea_tag[$v1] = $value;
+                                                $mw_replaced_textarea_tag[$v1] = $value;
                                             }
                                         }
                                     }
@@ -877,6 +880,16 @@ class Parser
                 unset($this->_replaced_textarea_tag[$key]);
             }
         }
+
+        if (!empty($mw_replaced_textarea_tag)) {
+            foreach ($mw_replaced_textarea_tag as $key => $value) {
+                if ($value != '') {
+                    $layout = str_replace($key, $value, $layout);
+                }
+             }
+        }
+
+
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
