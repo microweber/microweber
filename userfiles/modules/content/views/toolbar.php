@@ -10,14 +10,15 @@ $act = url_param('action', 1);
 
 if(isset($params['page-id'])){
 	$last_page_front = $params['page-id'];
-} else {
-
-$last_page_front = session_get('last_content_id');
-if ($last_page_front == false) {
-    if (isset($_COOKIE['last_page'])) {
-        $last_page_front = $_COOKIE['last_page'];
-    }
 }
+else {
+
+    $last_page_front = session_get('last_content_id');
+    if ($last_page_front == false) {
+        if (isset($_COOKIE['last_page'])) {
+            $last_page_front = $_COOKIE['last_page'];
+        }
+    }
 }
 
 
@@ -273,7 +274,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                   </div>
                   <?php endif; ?> 
                   <div class="pull-right relative">
-                      <?php /* <div class="top-search">
+                       <div class="top-search">
                         <input
 
                             value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
@@ -285,7 +286,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                             onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"
                             />
                            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
-                      </div> */ ?>
+                      </div>
                       <script>
                         $(document).ready(function(){
                             $(".top-search input").on('focus', function () {
@@ -343,11 +344,14 @@ $( "#content_type_filter_by_select" ).change(function() {
         <div class="manage-toobar-content">
           <div class="mw-ui-link-nav">
 
-          <span class="mw-ui-link"  onclick="mw.check.all('#pages_edit_container')">
-            <?php _e("Select All"); ?>
-            </span> <span class="mw-ui-link" onclick="mw.check.none('#pages_edit_container')">
-            <?php _e("Unselect All"); ?>
-            </span>
+
+            <label class="mw-ui-check" id="posts-check">
+                <input type="checkbox">
+                <span></span>
+                <span>Check all</span>
+            </label>
+
+
 
             <div class="mw-dropdown mw-dropdown-default" id="bulk-actions">
               <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"><?php _e("Bulk actions"); ?></span>
@@ -371,6 +375,9 @@ $( "#content_type_filter_by_select" ).change(function() {
 <script>
     $(document).ready(function(){
        mw.dropdown();
+       $("#posts-check").on('change', function(){
+           mw.check.toggle('#mw_admin_posts_sortable')
+       });
     });
 </script>
 

@@ -226,8 +226,9 @@ mw.tools = {
             mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
+
             if (off.top <= 0 || off.left <= 0) {
-                return false;
+                //return false;
             }
             if (position == 'bottom-left') {
                 $(tooltip).css({
@@ -260,6 +261,7 @@ mw.tools = {
                 });
             }
             else if (position == 'top-center') {
+
                 $(tooltip).css({
                     top: off.top - tipheight - arrheight,
                     left: off.left - tipwidth / 2 + w / 2
@@ -357,6 +359,7 @@ mw.tools = {
             }
         },
         init: function (o, wl) {
+            console.log(o)
             var orig_options = o;
             var o = mw.tools.tooltip.prepare(o);
             if (o === false) return false;
@@ -3678,6 +3681,15 @@ mw.check = {
         mw.$(selector).find("input[type='checkbox']").each(function () {
             this.checked = false;
         });
+    },
+    toggle:function (selector) {
+        var els = $(selector).find("input[type='checkbox']"), checked = els.filter(':checked');
+        if(els.length === checked.length){
+            mw.check.none(selector)
+        }
+        else{
+            mw.check.all(selector);
+        }
     },
     collectChecked: function (parent) {
         var arr = [];

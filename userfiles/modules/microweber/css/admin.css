@@ -108,7 +108,7 @@ html, body {
     height: 100%;
 }
 body.is_admin{
-    background: #f5f5f5;
+    background: #fff;
 }
 
 body, textarea, input {
@@ -202,8 +202,11 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .main-admin-row {
-    padding-right: 20px;
+
     max-width: 1220px;
+
+    padding: 66px 20px 0;
+
 }
 
 #mw-edit-page-editor-holder {
@@ -374,9 +377,6 @@ h3 > [class*="mw-icon-"]:first-child {
     margin-top: 25px;
 }
 
-.main-content-column > .mw-ui-col-container, .admin-section-container {
-    padding-left: 35px;
-}
 
 .admin-section-container:after {
     content: ".";
@@ -397,7 +397,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .main-bar-column {
-    width: 230px;
+    width: 200px;
 
 }
 
@@ -663,12 +663,7 @@ h3 > [class*="mw-icon-"]:first-child {
     background-color: #F5F5F5;
 }
 
-.mw-tree .is_blog > a:before, .mw-tree .is_blog > label:before {
-    content: '\0058';
-    font-family: admin;
-    font-size: 14px;
-    top: 8px;
-}
+
 
 .mw-tree .category_element > a:before, .mw-tree .category_element > label:before {
     content: 'c';
@@ -679,6 +674,14 @@ h3 > [class*="mw-icon-"]:first-child {
     font-family: admin;
     content: '\0057';
     font-size: 17px;
+}
+.mw-tree .is_blog > a:before, .mw-tree .is_blog > label:before {
+    content: 'B';
+    font-family: inherit;
+    font-size: 20px;
+    top: 3px;
+    color: #2b2b2b;
+    font-weight: 600;
 }
 
 .mw-tree .category_element.active-bg > a:before, .mw-tree .category_element.active-bg > label:before {
@@ -1119,21 +1122,14 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     position: relative;
     padding-left: 5px;
     font-weight: normal;
-    color: #888;
 }
 #main-bar-mw-icon strong {
     color: #fff;
 }
 
-
-
 #mw-admin-main-menu li ul {
     display: none;
 }
-
-
-
-
 
 #mw-admin-main-menu > li.active:first-child > a{
     border-top-width:0;
@@ -1151,13 +1147,15 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu .active a:active,
 #mw-admin-main-menu .active a:focus,
 #mw-admin-main-menu .active a{
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #8b8b8b;
     color: #3B3B3B
 }
+#mw-admin-main-menu .active li a:hover,
 #mw-admin-main-menu .active-parent a:hover,
 #mw-admin-main-menu .active-parent a{
     color: #3B3B3B;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #8b8b8b;
+    background: white;
 }
 
 #mw-admin-main-menu a [class*='mai-'],
@@ -1189,11 +1187,16 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 
 
-#mw-admin-main-menu > li.active-parent > a:hover,
+
 #mw-admin-main-menu li.active-parent a,
 #mw-admin-main-menu > li.active > a:hover,
 #mw-admin-main-menu li.active a{
-    background: #f5f5f5;
+    background: #909090;
+    color: white;
+}
+
+#mw-admin-main-menu > li.active-parent > a:hover{
+    background: white;
     color: #3B3B3B
 }
 
@@ -1201,6 +1204,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu li.active:hover > a{
 
     border-left: solid 10px #0086db;
+    background: #f5f5f5;
+    color: #3B3B3B
 }
 
 
@@ -1324,7 +1329,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     background: -moz-linear-gradient(top, #0086db 0%, #007ac7 100%);
     background: -webkit-linear-gradient(top, #0086db 0%,#007ac7 100%);
     background: linear-gradient(to bottom, #0086db 0%,#007ac7 100%);
-    color:white;
+    color:white !important;
 }
 
 #user-menu {
@@ -2605,6 +2610,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 #content-title-field-buttons {
     text-align: right;
     vertical-align: bottom;
+    float: right;
 }
 
 .content-title-field-buttons {
@@ -2832,6 +2838,10 @@ input#edit-content-url:focus, input#edit-content-url.active {
     clear: both;
     position: relative;
     z-index: 10;
+    height: 45px;
+    border: 1px solid #eaeaea;
+    background: #fafafa;
+    padding:12px 14px
 }
 
 #bulk-actions {
@@ -2847,6 +2857,10 @@ input#edit-content-url:focus, input#edit-content-url.active {
 
 .admin-manage-toolbar-title-icon {
     font-size: 28px;
+}
+.admin-manage-toolbar-title-icon[class*="mai-"] {
+    font-size: 21px;
+    top: 7px;
 }
 
 .mw-icon-category.admin-manage-toolbar-title-icon {
@@ -2941,19 +2955,12 @@ input#edit-content-url:focus, input#edit-content-url.active {
 #mw-quick-add-choose-layout-middle-pos {
     clear: both;
 }
-
-
-
-.manage-toolbar-top .mw-ui-link-nav {
-    padding-top: 7px;
-    padding-bottom: 2px;
-}
-
 .manage-post-item {
     padding: 12px 15px;
     border: 1px solid #ececec;
     border-bottom: 0;
     position: relative;
+    background: #fafafa;
 }
 .manage-post-item:hover{
     background: white;
@@ -3047,9 +3054,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     margin: 40px 0;
 }
 
-.manage-toobar-content .mw-ui-link-nav {
-    display: none;
-}
+
 
 /************************************
         Notification Count bubble
@@ -3686,15 +3691,7 @@ body.grabbing, body.grabbing * {
     vertical-align: middle;
 }
 
-#mw-modules-toolbar {
-    padding-left: 35px;
-    margin-left: -35px;
-    padding-top: 30px;
-    vertical-align: middle;
-    margin-bottom: 35px;
-    background: none repeat scroll 0 0 #f5f5f5;
-    padding: 36px 33px 30px 35px;
-}
+
 
 #mw-modules-toolbar * {
     vertical-align: middle;
@@ -4331,6 +4328,7 @@ body.grabbing, body.grabbing * {
 
 .mw-simple-rotator-item {
     margin-right: 20px;
+    width: 100%;
 }
 
 .mw-simple-rotator-container {
@@ -4912,10 +4910,7 @@ span.mw-icon-upload {
         visibility: visible;
     }
 
-    .main-admin-row {
-        padding: 0 20px;
-        margin-top: 40px;
-    }
+
 
     .main-admin-row > .admin-content-column > .mw-ui-col-container {
         padding-left: 0 !important;
@@ -5053,7 +5048,7 @@ span.mw-icon-upload {
 
     #mw-modules-toolbar {
         margin-left: 0;
-        padding: 15px 33px 30px 15px;
+        padding: 36px 0;
     }
 
     .quick-lists #quick-links-row > .mw-ui-col .mw-ui-navigation {
@@ -5218,9 +5213,7 @@ span.mw-icon-upload {
         z-index: 100;
         padding: 15px 20px 15px 0;
     }
-    .admin-content-column{
-        padding-top: 66px;
-    }
+
 
     .create-root{
         overflow: hidden;
@@ -5328,9 +5321,15 @@ span.mw-icon-upload {
     background: #df642b
 }
 
-.mw-edit-content-item-admin{
+.mw-edit-content-item-admin,
+.add-edit-category-form{
     padding: 0 20px 20px;
     background: white;
     box-shadow: 0 0 6px rgba(0,0,0,.2);
     border-radius: 0 0 2px 2px;
+}
+
+
+#users-admin{
+    padding-top: 30px;
 }

@@ -260,19 +260,7 @@ mw.admin = {
 
         mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
     },
-    titleColumnNavWidth: function () {
-        var _n = mwd.getElementById('content-title-field-buttons');
-        if (_n !== null) {
-            var n1 = _n.querySelector('.content-title-field-buttons');
-            var n2 = _n.querySelector('.mw-ui-btn-nav');
-            if (n1 !== null) {
-                _n.style.width = n1.offsetWidth + 20 + 'px';
-            }
-            else if (n2 !== null) {
-                _n.style.width = n2.offsetWidth + 20 + 'px';
-            }
-        }
-    },
+
     postStates: {
         show: function (el, pos) {
             if (!mw.admin.postStatesTip) {
@@ -352,15 +340,7 @@ mw.admin = {
             }
         }
     },
-    showLinkNav: function () {
-        var all = mwd.querySelector('.select_posts_for_action:checked');
-        if (all === null) {
-            mw.$('.mw-ui-link-nav').hide();
-        }
-        else {
-            mw.$('.mw-ui-link-nav').show();
-        }
-    },
+
     simpleRotator: function (rotator) {
         if (rotator === null) {
             return undefined;

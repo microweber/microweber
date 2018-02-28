@@ -197,12 +197,13 @@ mw.on.hashParam("pg", function(){
                     $pub_class = ' content-unpublished';
                     $append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">' . _e("Unpublished", true) . '</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</span></div>';
                 }
+
                 ?>
-                <div class="mw-ui-row-nodrop manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
+                <div class="mw-ui-row-nodrop manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                     <div class="mw-ui-col manage-post-item-col-1">
                         <label class="mw-ui-check">
                             <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox"
-                                   value="<?php print ($item['id']) ?>" onclick="mw.admin.showLinkNav();">
+                                   value="<?php print ($item['id']) ?>" >
                             <span></span> </label>
         <span class="mw-icon-drag mw_admin_posts_sortable_handle"
               onmousedown="mw.manage_content_sort()"></span></div>
@@ -236,23 +237,25 @@ mw.on.hashParam("pg", function(){
                     </div>
                     <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
                         <div class="manage-item-main-top">
-                            <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link_front; ?>"
-                                                                  onxClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
+                            <h3 class="manage-post-item-title">
+                                <a target="_top" href="<?php print $edit_link_front; ?>" onxClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
                                         <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                            <span class="mw-icon-shop"></span>
+                                            <span class="mai-shop"></span>
                                         <?php else : ?>
-                                            <span class="mw-icon-page"></span>
+                                            <span class="mai-page"></span>
                                         <?php endif; ?>
                                     <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
                                         <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                            <span class="mw-icon-product"></span>
+                                            <span class="mai-product"></span>
                                         <?php else : ?>
-                                            <span class="mw-icon-post"></span>
+                                            <span class="mai-post"></span>
                                         <?php endif; ?>
                                     <?php else : ?>
                                     <?php endif; ?>
-                                    <?php print strip_tags($item['title']) ?> </a></h3>
+                                    <?php print strip_tags($item['title']) ?>
+                                </a>
+                            </h3>
                             <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
                             <a class="manage-post-item-link-small mw-small" target="_top"

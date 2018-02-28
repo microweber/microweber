@@ -308,7 +308,13 @@
               </span> </label>
                     </li>
                 </ul>
-                <div class="mw-dropdown mw-dropdown-default pull-left" id="modules-sort-types"> <span
+                <span
+                    onclick="mw_reload_all_modules()"
+                    class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-medium pull-left tip"
+                    data-tip="<?php _e("Reload modules"); ?>">
+                        <span class="mw-icon-reload"></span>
+                </span>
+                <div class="mw-dropdown mw-dropdown-default" id="modules-sort-types"> <span
                             class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val">
           <?php _e("Module types"); ?>
           </span>
@@ -326,7 +332,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="mw-dropdown pull-left nested-dropdown" style="margin-right: 20px; display:none;"> <span
+                <div class="mw-dropdown pull-left nested-dropdown" style="display:none;"> <span
                             class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button">
           <?php _e("Categories"); ?>
           </span>
@@ -335,8 +341,7 @@
                                 id="modules_admin_categories_<?php print $params['id']; ?>"/>
                     </div>
                 </div>
-                <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-medium pull-left tip"
-                      data-tip="<?php _e("Reload modules"); ?>"> <span class="mw-icon-reload"></span> </span></div>
+                </div>
             <div id="modules_admin_<?php print $params['id']; ?>"></div>
             <div id="modules_market_<?php print $params['id']; ?>"></div>
         </div>

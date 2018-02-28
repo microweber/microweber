@@ -129,7 +129,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     if (isset($edit_page_info['title'])): ?>
 
                         <div class="post-type-action-label">
-                            <span  class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>
+                            <span  class="mai-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>
                             <span class="post-type-action-label-text"><?php print $action_text; ?></span>
                         </div>
 
@@ -183,11 +183,6 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     <?php endif; ?>
                 </div>
 
-                <script>
-                    $(window).on('load', function(){
-                        mw.admin.titleColumnNavWidth();
-                    })
-                </script>
             </div>
         </div>
     </div>
