@@ -1061,7 +1061,7 @@ class Parser
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
                         if($field != 'content' and $field != 'content_body' and $field != 'title'){
-                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".content_id());
+                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
                         }
 
 
