@@ -1091,7 +1091,7 @@ class Parser
                             $data = $this->app->content_manager->get_page($data_id);
                         }
 
-                        if($field != 'content'){
+                        if($field != 'content' and $field != 'content_body' and $field != 'title'){
                             $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
                      // d($data);
                         }
