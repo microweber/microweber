@@ -3483,7 +3483,7 @@ $(document).ready(function() {
       mw.drag.onCloneableControl(target)
     });
 
-    var onModuleBetweenModulesTime = null
+    var onModuleBetweenModulesTime = null;
 
     $(window).on('onModuleBetweenModules', function(e, el, pos){
         clearTimeout(onModuleBetweenModulesTime);

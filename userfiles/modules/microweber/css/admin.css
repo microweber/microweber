@@ -205,7 +205,7 @@ h3 > [class*="mw-icon-"]:first-child {
 
     max-width: 1220px;
 
-    padding: 66px 20px 0;
+    padding: 66px 0 0;
 
 }
 
@@ -397,7 +397,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .main-bar-column {
-    width: 200px;
+    width: 230px;
 
 }
 
@@ -632,7 +632,7 @@ h3 > [class*="mw-icon-"]:first-child {
     font-size: 19px;
     display: inline-block;
     position: absolute;
-    left: 23px;
+    left: 30px;
     top: 5px;
     content: 'q';
     opacity: 0.777;
@@ -726,6 +726,8 @@ h3 > [class*="mw-icon-"]:first-child {
     margin-left: 3px;
     resize: none;
     display: inline-block;
+    max-width:-webkit-calc(100% - 40px);
+    max-width:calc(100% - 40px);
 }
 
 .pages-nav a:hover > .pages_tree_link_text, .pages-nav a:focus > .pages_tree_link_text {
@@ -781,11 +783,11 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-tree a.depth-1 {
-    padding-left: 42px;
+    padding-left: 48px;
 }
 
 .mw-tree ul.depth-2 {
-    margin-left: 30px;
+    margin-left: 35px;
 }
 
 .mw-tree ul.depth-2 ul {
@@ -872,17 +874,18 @@ html.mw_pages, html.mw_pages body {
 }
 
 label .mw_toggle_tree {
-    left: 41px;
+    left: 50px;
     top: 10px;
 }
 
 .mw-tree .mw-ui-check span span + span, .mw-tree .mw-ui-check label span + span {
-    margin-left: 17px;
+    margin-left: 24px;
     position: relative;
 }
 
+
 .has-children > .mw-ui-check .pages_tree_link_text span + span {
-     margin-left: 33px;
+     margin-left: 42px;
 }
 
 .mw-tree .mw-ui-check input:checked + span + span {
@@ -894,7 +897,7 @@ label .mw_toggle_tree {
 }
 
 a.depth-1 .mw_toggle_tree {
-    left: 6px;
+    left: 10px;
 }
 
 .mw-tree li.active > a .mw_toggle_tree:before, .mw-tree li.active > label .mw_toggle_tree:before{
@@ -2845,7 +2848,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 #bulk-actions {
-    width: 140px;
+    width: 100px;
 }
 
 .admin-manage-toolbar h2 {
@@ -2902,7 +2905,12 @@ input#edit-content-url:focus, input#edit-content-url.active {
     margin-left: 8px;
 }
 .pages_tree{
-    padding: 10px;
+    padding: 15px 0 ;
+
+}
+
+.pages_tree li {
+    list-style: none
 }
 
 

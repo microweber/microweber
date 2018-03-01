@@ -227,9 +227,7 @@ mw.tools = {
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
 
-            if (off.top <= 0 || off.left <= 0) {
-                //return false;
-            }
+
             if (position == 'bottom-left') {
                 $(tooltip).css({
                     top: off.top + h + arrheight,
