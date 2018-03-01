@@ -41,12 +41,17 @@
                                 <?php
 
                                     $cart_items = mw()->shop_manager->order_items($order['id']);
+
+                                    if($cart_items){
+
                                     foreach($cart_items as $cart_item){
                                 ?>
 
                                 <a href="javascript:;"><?php print($cart_item['title']); ?></a>
 
-                                <?php } ?>
+                                <?php }
+                                    }
+                                ?>
                             </td>
                             <td class="dr-item-price">
                                <?php print  currency_format($order['amount'], $order['payment_currency']); ?>

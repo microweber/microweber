@@ -260,7 +260,7 @@ setACValue = function(val){
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Page Section"); ?></a>
+            <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;"><?php _e("Page Section"); ?></a>
         </div>
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
@@ -317,12 +317,14 @@ setACValue = function(val){
                     <span class="mw-ui-btn mw-ui-btn-info right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
                 </div>
             </div>
-            <div class="tab">
+            <div class="tab available_elements_tab_show_hide_ctrl">
                 <div id="available_elements"></div>
                 <script>
                   $(document).ready(function(){
+                    available_elements_tab_show_hide_ctrl_counter  = 0;
                     var html = [];
                     top.$("h1[id],h12[id],h3[id],h4[id],h5[id],h6[id]", top.document.body).each(function(){
+                       available_elements_tab_show_hide_ctrl_counter++;
                       html.push({id:this.id, text:this.textContent});
                       mw.$('#available_elements').append('<a data-href="#'+this.id+'"><strong>'+this.nodeName+'</strong> - '+this.textContent+'</a>')
                     })
@@ -331,6 +333,10 @@ setACValue = function(val){
                       parent.mw.iframecallbacks[hash](top.location.href.split('#')[0] + $(this).dataset('href'));
                       parent.mw.tools.modal.remove('mw_rte_link');
                     })
+                      if(available_elements_tab_show_hide_ctrl_counter == 0){
+                          mw.$('.available_elements_tab_show_hide_ctrl').hide();
+                      }
+
                   })
                 </script>
             </div>

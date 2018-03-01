@@ -521,13 +521,14 @@ function _mw_get_language_file_content_namespaced($namespace)
 
     $lang = current_lang();
 
-    $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
-    $lang_file = normalize_path($lang_file, false);
+//    $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+//    $lang_file = normalize_path($lang_file, false);
 
     $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
     $lang_file2 = normalize_path($lang_file2, false);
 
-    $lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
+    //$lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
+    $lang_file3 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR .  'en.json';
     $lang_file3 = normalize_path($lang_file3, false);
 
     if (!isset($mw_language_content_namespace[$namespace])) {
@@ -545,18 +546,18 @@ function _mw_get_language_file_content_namespaced($namespace)
         }
     }
 
-    if (is_file($lang_file)) {
-        $language_str = file_get_contents($lang_file);
-        $language = json_decode($language_str, true);
-
-        if (isset($language) and is_array($language)) {
-            foreach ($language as $k => $v) {
-                if (isset($mw_language_content_namespace[$namespace][$k]) == false) {
-                    $mw_language_content_namespace[$namespace][$k] = $v;
-                }
-            }
-        }
-    }
+//    if (is_file($lang_file)) {
+//        $language_str = file_get_contents($lang_file);
+//        $language = json_decode($language_str, true);
+//
+//        if (isset($language) and is_array($language)) {
+//            foreach ($language as $k => $v) {
+//                if (isset($mw_language_content_namespace[$namespace][$k]) == false) {
+//                    $mw_language_content_namespace[$namespace][$k] = $v;
+//                }
+//            }
+//        }
+//    }
     if (is_file($lang_file3)) {
         $language_str = file_get_contents($lang_file3);
         $language = json_decode($language_str, true);
