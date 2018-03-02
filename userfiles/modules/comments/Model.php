@@ -37,7 +37,7 @@ class Model
             }
         }
 
-        $this->app->database_manager->build_table($this->table, $this->fields);
+     //   $this->app->database_manager->build_table($this->table, $this->fields);
     }
 
     public function save($data)

@@ -13,29 +13,27 @@ $config['position'] = 10;
 $config['version'] = 0.33;
 
 
- //$config['tables'] = array();
- //$fields_to_add = array();
-//$fields_to_add[] = array('rel_type', 'longText');
-//$fields_to_add[] = array('rel_id', 'longText');
-//$fields_to_add[] = array('updated_at', 'dateTime');
-//$fields_to_add[] = array('created_at', 'dateTime');
-//$fields_to_add[] = array('created_by', 'integer');
-//$fields_to_add[] = array('edited_by', 'integer');
-//$fields_to_add[] = array('comment_name', 'longText');
-//$fields_to_add[] = array('comment_body', 'longText');
-//$fields_to_add[] = array('comment_email', 'longText');
-//$fields_to_add[] = array('comment_website', 'longText');
-//$fields_to_add[] = array('is_moderated', "integer");
-//$fields_to_add[] = array('from_url', 'longText');
-//$fields_to_add[] = array('comment_subject', 'longText');
-//
-//
-//$fields_to_add[] = array('is_new', "integer");
-//
-//$fields_to_add[] = array('for_newsletter', "integer");
-//$fields_to_add[] = array('session_id', 'string');
-//$config['tables']['comments'] = $fields_to_add;
+$config['tables'] = array();
 
+$config['tables']['comments'] = array(
+    'rel_type' => 'text',
+    'rel_id' => 'text',
+    'session_id' => 'text',
+    'comment_name' => 'text',
+    'comment_body' => 'text',
+    'comment_email' => 'text',
+    'comment_website' => 'text',
+    'from_url' => 'text',
+    'comment_subject' => 'text',
+    'is_moderated' => "integer",
+    'for_newsletter' => "integer",
+    'is_new' => "integer",
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'created_by' => 'integer',
+    'edited_by' => 'integer',
+    'user_ip' => 'text'
+);;
 
 
 $options = array();
