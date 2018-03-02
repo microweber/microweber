@@ -1095,16 +1095,21 @@ mw.wysiwyg = {
                     e.target.innerHTML = '&zwnj;&nbsp;';
                 }
                 if (e.keyCode == 13) {
+
                     mw.$(".element-current").removeClass("element-current");
                     var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
                     for (; i < l; i++) {
                         if (el[i].id == '') {
-                            el[i].id = 'element_' + mw.random();
+                            el[i].id = mw.wysiwyg.createElementId();
                         }
                     }
                     e.preventDefault();
                     if (!e.shiftKey) {
                         var p = mw.wysiwyg.findTagAcrossSelection('p');
+                    }
+                    var newNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+                    if(newNode.id){
+                        newNode.id = mw.wysiwyg.createElementId(); 
                     }
                 }
             }
@@ -1122,6 +1127,9 @@ mw.wysiwyg = {
             mw.wysiwyg.check_selection(e.target);
 
         });
+    },
+    createElementId : function(){
+        return 'mw-element_' + mw.random();
     },
     change: function (el) {
         if (typeof el === 'string') {

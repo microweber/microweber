@@ -475,11 +475,15 @@ function mw_option_save_rebind_form_fields(){
                 url: mw.settings.site_url + "api/save_option",
                 data: o_data,
                 success: function () {
+
+
+
                     if (refresh_modules11 != undefined && refresh_modules11 != '') {
                         refresh_modules11 = refresh_modules11.toString();
 						 if(!!mw.admin){
 						 if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
                              setTimeout(function(){
+
 							  top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
                              }, 777);
 							}
@@ -489,7 +493,19 @@ function mw_option_save_rebind_form_fields(){
 
 							if(self !== top){
                                 setTimeout(function(){
-								mw.reload_module_parent('#<?php print $params['id'] ?>');
+
+                                    var mod_element = window.parent.document.getElementById('<?php print $params['id'] ?>');
+                                    if(mod_element){
+                                     // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
+                                      var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                                    if(module_parent_edit_field){
+                                        window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
+                                        window.parent.mw.askusertostay = true;
+
+                                    }
+                                    }
+
+                                    mw.reload_module_parent('#<?php print $params['id'] ?>');
                                 }, 777);
 							}
 

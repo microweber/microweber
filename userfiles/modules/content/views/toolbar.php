@@ -10,14 +10,15 @@ $act = url_param('action', 1);
 
 if(isset($params['page-id'])){
 	$last_page_front = $params['page-id'];
-} else {
-
-$last_page_front = session_get('last_content_id');
-if ($last_page_front == false) {
-    if (isset($_COOKIE['last_page'])) {
-        $last_page_front = $_COOKIE['last_page'];
-    }
 }
+else {
+
+    $last_page_front = session_get('last_content_id');
+    if ($last_page_front == false) {
+        if (isset($_COOKIE['last_page'])) {
+            $last_page_front = $_COOKIE['last_page'];
+        }
+    }
 }
 
 
@@ -47,14 +48,14 @@ if ($last_page_front != false) {
 ?> 
 <?php if(isset($past_page) and $past_page != false): ?>
 <script>
-        $(function () {
-			mw.tabs({nav:"#manage-content-toolbar-tabs-nav a",tabs:'#manage-content-toolbar-tabs .mw-ui-box-content'});
-            
-            $('.go-live-edit-href-set').attr('href','<?php print $past_page; ?>');
-
-
+    $(function () {
+        mw.tabs({
+            nav:"#manage-content-toolbar-tabs-nav a",
+            tabs:'#manage-content-toolbar-tabs .mw-ui-box-content'
         });
-    </script>
+        $('.go-live-edit-href-set').attr('href','<?php print $past_page; ?>');
+    });
+</script>
 <?php endif; ?>
 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>
 <?php
@@ -156,18 +157,18 @@ $( "#content_type_filter_by_select" ).change(function() {
       <?php mw()->event_manager->trigger('module.content.manager.toolbar.start', $page_info) ?>
       <div class="mw-ui-row" style="width: 100%;">
         <div class="mw-ui-col">
-          <div class="mw-ui-row" style="width: 100%;padding-top: 19px;">
+          <div class="mw-ui-row" style="width: 100%;padding: 20px 0;">
             <div class="mw-ui-col">
               <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
               <?php if ($page_info['is_shop'] == 1) {
-                                    $type = 'shop';
-                                } elseif ($page_info['subtype'] == 'dynamic') {
-                                    $type = 'dynamicpage';
-                                } else {
-                                    $type = 'page';
-                                }
+                    $type = 'shop';
+                } elseif ($page_info['subtype'] == 'dynamic') {
+                    $type = 'dynamicpage';
+                } else {
+                    $type = 'page';
+                }
 
-                                ?>
+                 ?>
               <h2><span
                                         class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?> </h2>
               <?php elseif (isset($params['category-id'])): ?>
@@ -198,9 +199,8 @@ $( "#content_type_filter_by_select" ).change(function() {
               <?php endif; ?>
             </div>
             <div class="mw-ui-col">
-              <div class="manage-toobar ">
-                <div class="manage-toobar-content">
-                  <div class="mw-ui-btn-nav pull-right" style="height: 36px;">
+
+                  <div class="mw-ui-btn-nav pull-right">
                   <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                   <div class="mw-ui-dropdown">
                 <span class="mw-ui-btn mw-icon-plus"><span class=""></span></span>
@@ -273,7 +273,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                   </div>
                   <?php endif; ?> 
                   <div class="pull-right relative">
-                      <?php /* <div class="top-search">
+                       <div class="top-search">
                         <input
 
                             value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
@@ -285,7 +285,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                             onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"
                             />
                            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
-                      </div> */ ?>
+                      </div>
                       <script>
                         $(document).ready(function(){
                             $(".top-search input").on('focus', function () {
@@ -298,8 +298,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                       </script>
                   </div>
 
-                </div>
-              </div>
+
             </div>
             <div class="mw-ui-col col-bar-live-edit">
                     <a href="<?php print $past_page; ?>?editmode=y"
@@ -341,13 +340,16 @@ $( "#content_type_filter_by_select" ).change(function() {
       <?php if (!isset($edit_page_info)): ?>
       <div class="manage-toobar manage-toolbar-top">
         <div class="manage-toobar-content">
-          <div class="mw-ui-link-nav">
+          <div class="">
 
-          <span class="mw-ui-link"  onclick="mw.check.all('#pages_edit_container')">
-            <?php _e("Select All"); ?>
-            </span> <span class="mw-ui-link" onclick="mw.check.none('#pages_edit_container')">
-            <?php _e("Unselect All"); ?>
-            </span>
+
+            <label class="mw-ui-check" id="posts-check">
+                <input type="checkbox">
+                <span></span>
+                <span>Check all</span>
+            </label>
+
+
 
             <div class="mw-dropdown mw-dropdown-default" id="bulk-actions">
               <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"><?php _e("Bulk actions"); ?></span>
@@ -371,6 +373,9 @@ $( "#content_type_filter_by_select" ).change(function() {
 <script>
     $(document).ready(function(){
        mw.dropdown();
+       $("#posts-check").on('change', function(){
+           mw.check.toggle('#mw_admin_posts_sortable')
+       });
     });
 </script>
 

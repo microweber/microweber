@@ -42,8 +42,7 @@ if ($bgImage == false) {
 ?>
 
 <div class="mw-testimonials mw-testimonials-slider-2" style="<?php print $wrapperStyle; ?>">
-    <?php $data = get_testimonials(); ?>
-    <?php foreach ($data as $item): ?>
+     <?php foreach ($data as $item): ?>
         <div class="mw-testimonials-item">
             <span class="mw-testimonials-item-image" style="background-image: url(<?php print $item['client_picture']; ?>);"></span>
             <div class="mw-testimonials-item-content">

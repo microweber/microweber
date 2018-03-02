@@ -64,13 +64,14 @@
 }
 
 body.mw-preview {
-    zoom: 0.36;
     -moz-transform: scale(0.36);
     -moz-transform-origin: 0 0;
     -o-transform: scale(0.36);
     -o-transform-origin: 0 0;
     -webkit-transform: scale(0.36);
     -webkit-transform-origin: 0 0;
+    transform: scale(0.36);
+    transform-origin: 0 0;
 }
 
 .mw-empty {
@@ -230,6 +231,14 @@ img[align='middle'] {
     min-height: 30px;
     position: relative;
     vertical-align: top;
+}
+
+.mw-ui-col:first-child > .mw-col-container{
+    padding-left: 0
+}
+
+.mw-ui-col:last-child > .mw-col-container{
+    padding-right: 0
 }
 
 .mw-col-container:after {

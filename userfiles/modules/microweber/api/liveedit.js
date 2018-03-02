@@ -800,25 +800,53 @@ mw.drag = {
 
                     if ( !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])
                     && !(mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')) {
+                        var scope = mw.mm_target;
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
                         mw.currentDragMouseOver = null;
                         mw.dropable.hide();
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
+                        var el = $(mw.tools.firstMatchesOnNodeOrParent(scope, mw.drag.section_selectors));
+                        var height = el.height(), width = el.width(), offset = el.offset();
+                        if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
+                            $(window).trigger('onModuleBetweenModules', [el, 'bottom'])
+                        } else {
+                            $(window).trigger('onModuleBetweenModules', [el, 'top'])
+                        }
+                        mw.dropable.hide();
                     }
                     else if(mw.tools.matchesAnyOnNodeOrParent(mw.mm_target, mw.drag.section_selectors)
                         && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')){
                         mw.currentDragException = true;
                         mw.currentDragMouseOver = mw.tools.firstMatchesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors);
+
                         var el = $(mw.currentDragMouseOver);
                         var height = el.height(), width = el.width(), offset = el.offset();
-                        if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
+                        if (event.pageY > offset.top + (height / 2)) {
                             mw.dropables.set('bottom', offset, height, width);
                         } else {
                             mw.dropables.set('top', offset, height, width);
                         }
                         mw.dropable.show();
                     }
+                   /* else if(mw.tools.matchesAnyOnNodeOrParent(mw.mm_target, mw.drag.section_selectors)
+                        && (mw.dragCurrent.getAttribute('data-module-name') != 'layouts' && mw.dragCurrent.getAttribute('data-type') != 'layouts')){
+                            console.log(909)
+                        mw.currentDragException = true;
+                        mw.currentDragMouseOver = mw.tools.firstMatchesOnNodeOrParent(mw.mm_target, mw.drag.section_selectors);
+                        var el = $(mw.currentDragMouseOver);
+                        var height = el.height(), width = el.width(), offset = el.offset();
+                        mw.dropable.hide();
+                        if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
+                            mw.dropables.set('bottom', offset, height, width);
+                            $(window).trigger('onModuleBetweenModules', [el, 'bottom'])
+                        } else {
+                            mw.dropables.set('top', offset, height, width);
+                            $(window).trigger('onModuleBetweenModules', [el, 'top'])
+                        }
+
+
+                    }*/
                     else{
 
                     if (mw.$mm_target.hasClass("empty-element")) {
@@ -3454,6 +3482,29 @@ $(document).ready(function() {
     $(window).on('onCloneableOver', function(e, target){
       mw.drag.onCloneableControl(target)
     });
+
+    var onModuleBetweenModulesTime = null;
+
+    $(window).on('onModuleBetweenModules', function(e, el, pos){
+        clearTimeout(onModuleBetweenModulesTime);
+        onModuleBetweenModulesTime = setTimeout(function(){
+            if($("#moduleinbetween").length === 0){
+                var tip = mw.tooltip({
+                    content:'To drop this element here, select Clean container first',
+                    element:el[0],
+                    position:pos+'-center',
+                    skin:'dark',
+                    id:'moduleinbetween'
+                });
+                setTimeout(function(){
+                   $("#moduleinbetween").fadeOut(function(){
+                       $(this).remove()
+                   })
+                }, 3000)
+            }
+        }, 1000)
+
+    })
 
 
 });

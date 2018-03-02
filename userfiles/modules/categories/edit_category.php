@@ -212,12 +212,8 @@ $(document).ready(function(){
 ?>
 
 
-<h2 id="category-page-title">
-  <span id="category-page-title-add"><?php _e('Add') ?></span>
-  <span id="category-page-title-edit"><?php _e('Edit') ?></span>
-  <?php _e('category'); ?>
-</h2>
-<div class="mw-box-pad">
+
+<div >
   <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
 
@@ -225,9 +221,36 @@ $(document).ready(function(){
        <input name="rel_id" type="hidden" value="<?php print ($data['rel_id'])?>" id="rel_id_<?php print $form_rand_id ?>"  />
         <input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
       <input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
+
+      <div class="create-root">
+          <div id="content-title-field-buttons">
+              <button onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification" form="quickform-edit-content"><?php _e('Save') ?></button>
+              <?php if(intval($data['id']) != 0): ?>
+                  <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
+                      <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("New sub category"); ?>">
+                          <span class="mw-icon-plus"></span>
+                          <span class="mw-icon-category"></span>
+                      </a>
+                      <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a>
+                  </div>
+              <?php endif; ?>
+          </div>
+
+          <div class="post-type-action-label">
+
+              <span class="mw-icon-category admin-manage-toolbar-title-icon"></span>
+              <span id="category-page-title">
+                  <span id="category-page-title-add"><?php _e('Add') ?></span>
+                  <span id="category-page-title-edit"><?php _e('Edit') ?></span>
+                  <?php _e('category'); ?>
+              </span>
+          </div>
+
+      </div>
+
     <div class="mw-ui-field-holder">
       <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
-        <div class="mw-ui-col" style="width: 30px;"> <span class="mw-icon-category admin-manage-toolbar-title-icon"></span> </div>
+
         <div class="mw-ui-col">
 
           <?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
@@ -243,18 +266,10 @@ $(document).ready(function(){
           <input  class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
           <?php endif; ?>
         </div>
-        <div class="mw-ui-col" id="content-title-field-buttons">
-          <div class="content-title-field-buttons">
-            <?php if(intval($data['id']) != 0): ?>
-            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;"> <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("New sub category"); ?>"> <span class="mw-icon-plus"></span> <span class="mw-icon-category"></span> </a> <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a> </div>
-            <?php endif; ?>
-            <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert pull-right" id="mw-admin-cat-save">
-            <?php _e("Save"); ?>
-            </button>
-          </div>
-        </div>
-        <script>mw.admin.titleColumnNavWidth();</script>
+
+
       </div>
+
     </div>
     <div class="mw-ui-field-holder">
 Parent:
@@ -271,25 +286,14 @@ Parent:
 
 		 var _parent = mwd.querySelector('#edit_category_set_par_<?php print $form_rand_id ?> input:checked');
 
-     if(_parent !== null){
-       $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
-     }
+         if(_parent !== null){
+           $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
+         }
 
-     $('#edit_category_set_par_<?php print $form_rand_id ?> input').on('change', function(){
-       var html = $(this).parent().find('span:last').html();
-       $("#category-dropdown-holder").html(html)
-     })
-
-		 /*if(_parent !== null){
-			 var plabel = mw.tools.firstParentWithClass(_parent, 'mw-ui-check');
-			plabel.scrollIntoView(false);
-			mw.tools.highlight(plabel);
-
-		}  */
-
-
-
-
+         $('#edit_category_set_par_<?php print $form_rand_id ?> input').on('change', function(){
+           var html = $(this).parent().find('span:last').html();
+           $("#category-dropdown-holder").html(html)
+         });
         mw.tabs({
             nav:"#tabsnav .mw-ui-btn",
             tabs:".quick-add-post-options-item",

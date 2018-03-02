@@ -61,6 +61,15 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                             <?php if ($is_live_edit == false) : ?>
 
                                 <li>
+                                    <button type="submit" class="mw-ui-btn"
+                                            onclick="mw.edit_content.handle_form_submit(true);"
+                                            data-text="<?php _e("Live Edit"); ?>"
+                                            form="quickform-edit-content"><span
+                                                class="mai-edit"></span>
+                                        <?php _e("Live Edit"); ?>
+                                    </button>
+                                </li>
+                                <li>
                                     <button type="submit" class="mw-ui-btn mw-ui-btn-notification"
                                             form="quickform-edit-content">
                                         <?php _e("Save"); ?>
@@ -120,7 +129,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     };
                     $action_text = _e("Creating new " . $type, true);
                     if (isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0) {
-                        $action_text = _e("Editting " . $type, true);
+                        $action_text = _e("Editing " . $type, true);
                     }
                     if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])) {
                         //     $action_text2 = $edit_page_info['subtype'];
@@ -129,7 +138,7 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     if (isset($edit_page_info['title'])): ?>
 
                         <div class="post-type-action-label">
-                            <span  class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>
+                            <span  class="mai-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>
                             <span class="post-type-action-label-text"><?php print $action_text; ?></span>
                         </div>
 
@@ -183,11 +192,6 @@ if(isset($data['content_type']) and $data['content_type'] == 'page') {
                     <?php endif; ?>
                 </div>
 
-                <script>
-                    $(window).on('load', function(){
-                        mw.admin.titleColumnNavWidth();
-                    })
-                </script>
             </div>
         </div>
     </div>

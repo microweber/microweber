@@ -35,8 +35,7 @@ function mw_print_stats_on_dashboard() {
     if ($active=='shop'){
         //   $cls = ' class="active" ';
     }
-    print '  <module type="site_stats/admin" subtype="graph" />
-  <module type="site_stats/admin" />';
+    print '  <module type="site_stats/admin" />';
     //print '<microweber module="site_stats" view="admin" />';
 }
 
@@ -273,7 +272,7 @@ function get_visits($range = 'daily') {
 			if($results){
 					$results = $results->toArray();
 				}
-				
+
             break;
 
         case 'weekly' :
@@ -302,7 +301,8 @@ function get_visits($range = 'daily') {
                 ->get();
 			if($results){
 					$results = $results->toArray();
-				}		
+				}
+
             $results = stats_group_by($rows, 'm');
             break;
 
