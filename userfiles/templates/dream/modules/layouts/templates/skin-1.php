@@ -83,12 +83,9 @@ if ($overlay === null OR $overlay === false) {
         <div class="row">
             <div class="col-sm-12 text-center">
                 <div class="modal-instance modal-video-1">
-                    <div
-                      class="edit allow-drop"
-                      field="layout-skin-1-btn-<?php print $params['id'] ?>"
-                      rel="module">
+<!--                    <div class="edit allow-drop" field="layout-skin-1-btn---><?php //print $params['id'] ?><!--" rel="module">-->
                         <div class="element"><module type="btn" text="<?php _lang("Watch video", "templates/dream"); ?>" /></div>
-                    </div>
+<!--                    </div>-->
                 </div>
             </div>
         </div>
