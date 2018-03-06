@@ -1101,11 +1101,13 @@ class ContentManagerHelpers extends ContentManagerCrud
             $del_params['table'] = $table;
             $del_params['no_cache'] = true;
 
+            if($fld_rel != 'module'){
             if (isset($data['rel_id'])) {
                 $i = ($data['rel_id']);
                 $del_params['rel_id'] = $i;
             } else {
                  $del_params['rel_id'] = 0;
+            }
             }
             $del = $this->app->database_manager->get($del_params);
 
