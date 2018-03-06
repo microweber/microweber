@@ -59,6 +59,10 @@ if ($overlay === null OR $overlay === false) {
     });
 </script>
 
+<?php /*<style>#<?php print $params['id'] ?> .imagebg .background-image-holder{
+        transform: none;
+    }</style> */ ?>
+
 <section class="height-100 imagebg cover cover-1 <?php if ($is_parallax == 'yes'): ?>parallax<?php endif; ?> nodrop edit safe-mode <?php print $padding ?>" data-overlay="<?php print $overlay; ?>"
          field="layout-skin-1-<?php print $params['id'] ?>"
          rel="module">
