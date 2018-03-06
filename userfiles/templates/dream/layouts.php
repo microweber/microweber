@@ -84,8 +84,6 @@
     <module type="layouts" template="skin-68"/>
     <module type="layouts" template="skin-69"/>
     <module type="layouts" template="skin-70"/>
-
-
 </div>
 
 <?php include template_dir() . "footer.php"; ?>
