@@ -431,7 +431,7 @@
                  title="<?php _e('Create new event by dragging to calendar'); ?>"><?php _e('New Event'); ?>
             </div>
         </div>
-        <module type="admin/modules/templates" simple=true/>
+        <module type="admin/modules/templates" simple="true"/>
         <div style='clear:both'></div>
     </div>
 
