@@ -6,7 +6,8 @@ only_admin_access();
 
 <?php
 $comments_data = array(
-    'order_by'=>'created_at desc'
+    'order_by'=>'created_at desc',
+    'limit'=>'30',
 );
 $comments = get_comments($comments_data);
 
