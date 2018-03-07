@@ -238,7 +238,7 @@ $(document).ready(function(){
 
           <div class="post-type-action-label">
 
-              <span class="mw-icon-category admin-manage-toolbar-title-icon"></span>
+              <span class="mai-category admin-manage-toolbar-title-icon"></span>
               <span id="category-page-title">
                   <span id="category-page-title-add"><?php _e('Add') ?></span>
                   <span id="category-page-title-edit"><?php _e('Edit') ?></span>

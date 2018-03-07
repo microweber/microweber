@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 $custom_tabs = false;
@@ -116,39 +119,40 @@ $content_types = false;
  
   ?>
 <script>
-$(function () {
-$( "#content_type_filter_by_select" ).change(function() {
-	var val = $(this).val();
-	if(val != null){
-	vals  = val.split('.');	
-	if(vals[0] != null){
-		mw.$('#<?php print $params['id']; ?>').attr('content_type_filter',vals[0]);
-      
-	}else {
-			   mw.$('#<?php print $params['id']; ?>').removeAttr('content_type_filter');
+    $(function () {
+        $( "#content_type_filter_by_select" ).change(function() {
+            var val = $(this).val();
+            if(val != null){
+            vals  = val.split('.');
+            if(vals[0] != null){
+                mw.$('#<?php print $params['id']; ?>').attr('content_type_filter',vals[0]);
 
-	}
-	if(vals[1] != null){
-	   mw.$('#<?php print $params['id']; ?>').attr('subtype_filter',vals[1]);
+            }else {
+                       mw.$('#<?php print $params['id']; ?>').removeAttr('content_type_filter');
 
-	} else {
-			   mw.$('#<?php print $params['id']; ?>').removeAttr('subtype_filter');
+            }
+            if(vals[1] != null){
+               mw.$('#<?php print $params['id']; ?>').attr('subtype_filter',vals[1]);
 
-	}
-	
-	
-	
-	mw.reload_module('#<?php print $params['id']; ?>');
-	
-	}
-   
-});
+            } else {
+                       mw.$('#<?php print $params['id']; ?>').removeAttr('subtype_filter');
 
+            }
+
+
+
+            mw.reload_module('#<?php print $params['id']; ?>');
+
+            }
 
         });
-    </script>
+
+    });
+</script>
 <?php endif; ?>
 <?php endif; ?>
+
+
  
 <div class="admin-manage-toolbar-holder">
   <div class="admin-manage-toolbar">
@@ -157,14 +161,18 @@ $( "#content_type_filter_by_select" ).change(function() {
       <?php mw()->event_manager->trigger('module.content.manager.toolbar.start', $page_info) ?>
       <div class="mw-ui-row" style="width: 100%;">
         <div class="mw-ui-col">
-          <div class="mw-ui-row" style="width: 100%;padding: 20px 0;">
+          <div class="mw-ui-row admin-section-bar">
             <div class="mw-ui-col">
               <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
               <?php if ($page_info['is_shop'] == 1) {
                     $type = 'shop';
                 } elseif ($page_info['subtype'] == 'dynamic') {
                     $type = 'dynamicpage';
-                } else {
+                }
+                else if (isset($page_info ['layout_file']) and stristr($page_info ['layout_file'], 'blog')) {
+                    $type .= 'blog';
+                }
+                else {
                     $type = 'page';
                 }
 
@@ -177,11 +185,11 @@ $( "#content_type_filter_by_select" ).change(function() {
               <h2><span class="mw-icon-category"></span> <?php print $cat['title'] ?> </h2>
               <?php endif; ?>
               <?php elseif ($act == 'pages'): ?>
-              <h2><span class="mw-icon-website"></span>
+              <h2><span class="mai-website"></span>
                 <?php _e("Pages"); ?>
               </h2>
               <?php elseif ($act == 'posts'): ?>
-              <h2><span class="mw-icon-website"></span>
+              <h2><span class="mai-website"></span>
                 <?php _e("Posts"); ?>
               </h2>
               <?php elseif ($act == 'products'): ?>
@@ -193,7 +201,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                 <?php _e("My Shop"); ?>
               </h2>
               <?php else: ?>
-              <h2><span class="mw-icon-website"></span>
+              <h2><span class="mai-website"></span>
                 <?php _e("Website"); ?>
               </h2>
               <?php endif; ?>
@@ -207,7 +215,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                 <div class="mw-ui-dropdown-content">
                     <div class="mw-ui-btn-vertical-nav">
                            <?php   event_trigger('content.create.menu'); ?>
- 
+
     <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
     <?php if (!empty($create_content_menu)): ?>
     <?php foreach ($create_content_menu as $type => $item): ?>
@@ -223,12 +231,12 @@ $( "#content_type_filter_by_select" ).change(function() {
                 </div>
             </div>
    <?php endif; ?>
-   
-   
 
-                  
-                  
-                  
+
+
+
+
+
                     <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
                     <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
                     <?php endif; ?>
@@ -251,9 +259,9 @@ $( "#content_type_filter_by_select" ).change(function() {
                     <?php endif; ?>
                   </div>
                   <?php if(isset($content_types) and !empty($content_types)): ?>
-                  
+
                   <div class="pull-right" style="margin-right:5px;">
-                
+
                     <select id="content_type_filter_by_select" class="mw-ui-field" <?php if(!$selected): ?> style="display:none" <?php endif; ?>>
                       <option value=""><?php _e('All'); ?></option>
                       <?php foreach($content_types as $k=>$items): ?>
@@ -271,7 +279,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                       <span class="mw-ui-btn mw-icon-menu" onclick="$('#content_type_filter_by_select').toggle(); $(this).hide();"></span>
                     <?php endif; ?>
                   </div>
-                  <?php endif; ?> 
+                  <?php endif; ?>
                   <div class="pull-right relative">
                        <div class="top-search">
                         <input
@@ -300,12 +308,7 @@ $( "#content_type_filter_by_select" ).change(function() {
 
 
             </div>
-            <div class="mw-ui-col col-bar-live-edit">
-                    <a href="<?php print $past_page; ?>?editmode=y"
-                        class="mw-ui-btn mw-ui-btn-invert tip golive-button"
 
-                        data-tipposition="bottom-center"> <?php _e("Go Live Edit"); ?></a>
-            </div>
             <?php mw()->event_manager->trigger('module.content.manager.toolbar.end', $page_info); ?>
 
           </div>
@@ -373,8 +376,21 @@ $( "#content_type_filter_by_select" ).change(function() {
 <script>
     $(document).ready(function(){
        mw.dropdown();
-       $("#posts-check").on('change', function(){
-           mw.check.toggle('#mw_admin_posts_sortable')
+       var el = $("#posts-check input")
+       el.on('change', function(){
+           mw.check.toggle('#mw_admin_posts_sortable');
+
+
+               var all = $('#mw_admin_posts_sortable input[type="checkbox"]');
+               var checked = all.filter(':checked');
+               if(checked.length && checked.length === all.length){
+                   el[0].checked = true;
+               }
+               else{
+                   el[0].checked = false;
+               }
+
+
        });
     });
 </script>

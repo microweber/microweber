@@ -115,13 +115,6 @@ ordersSort = function(obj){
 
 
 </script>
-<style>
-
-.main-admin-row, .mw-simple-rotator{
-  max-width: 1200px;
-}
-
-</style>
 <?php $is_orders = get_orders('order_completed=1&count=1'); ?>
 
 <?php $latest_orders = get_orders('order_completed=1&count=1&order_status=pending'); ?>
@@ -167,7 +160,7 @@ ordersSort = function(obj){
 
 <div id="manage-orders-menus">
 
-<h3 class="pull-left" style="margin: 0 12px 0 14px;"><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h3>
+<h3 class="pull-left"><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h3>
 
 
 

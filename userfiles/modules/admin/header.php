@@ -167,6 +167,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   display: none;
 }
 
+
 @media (max-width:768px){
   #mw-admin-mobile-header{
     display: block;
@@ -326,17 +327,28 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <?php if(is_admin()): ?>
 <div class="admin-toolbar">
   <div class="create-content scroll-height-exception">
-        <a href="javascript:;" class="mw-ui-btn create-content-btn"  id="create-content-btn">
-            <span class="mai-plus"></span>
-            <?php _e("Add New"); ?>
-            <span class="mai-cd"></span>
-        </a>
+      <a href="javascript:;" class="mw-ui-btn create-content-btn"  id="create-content-btn">
+          <span class="mai-plus"></span>
+          <?php _e("Add New"); ?>
+          <span class="mai-cd"></span>
+      </a>
         <a href="<?php print $past_page  ?>?editmode=y" class="mw-ui-btn toolbar-live-edit" target="_blank">
             <span class="mai-edit"></span>
             &nbsp;
             <?php _e("Live Edit"); ?>
         </a>
         <form action="" method="post" class="toolbar-search">
+            <div class="mw-dropdown mw-dropdown-default">
+                <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val"></span>
+                <div class="mw-dropdown-content" style="display: none;">
+                    <ul>
+                        <li value="posts">Posts</li>
+                        <li value="pages">Pages</li>
+                        <li value="products">Products</li>
+                        <li value="modules">Modules</li>
+                    </ul>
+                </div>
+            </div>
             <input type="text">
         </form>
     </div>
@@ -417,24 +429,48 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                   <?php _e("Shop"); ?>
                   </strong> </a>
                   <ul>
-            <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
-                                        href="<?php print admin_url(); ?>view:shop/action:orders">
-                                        <span class="mai-order"></span>
-                                        <span class="relative">
-              <?php _e("Orders"); ?>
-              <?php if( $view =='shop' ){ print $notif_html; } ?>
-              </span></a></li>
+            <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>>
+                <a  href="<?php print admin_url(); ?>view:shop/action:orders">
+                    <span class="mai-shop"></span>
+                    <span class="relative">
+                        <?php _e("Orders"); ?>
+                        <?php if( $view =='shop' ){ print $notif_html; } ?>
+                    </span>
+                </a>
+            </li>
             <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>>
+                <a href="<?php print admin_url(); ?>view:shop/action:clients">
+                    <span class="mai-user"></span>
+                    <?php _e("Clients"); ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=payment-methods">
+                    <span class="mai-order"></span>
+                    <?php _e("Payment methods"); ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=taxes">
+                    <span class="mai-percent"></span>
+                    <?php _e("Taxes"); ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=shipping">
+                    <span class="mai-shipping"></span>
+                    <?php _e("Shipping"); ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=email">
+                    <span class="mai-mail"></span>
+                    <?php _e("Email confirmation"); ?>
+                </a>
+            </li>
 
-            <a
-                                        href="<?php print admin_url(); ?>view:shop/action:clients">
-                                            <span class="mai-user"></span>
-              <?php _e("Clients"); ?>
-              </a></li>
-          <!--  <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
-                                        href="<?php print admin_url(); ?>view:shop/action:shipping">
-              <?php _e("Shipping"); ?>
-              </a></li>-->
+
+
             <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
 
                 <a  href="<?php print admin_url(); ?>view:shop/action:options">
@@ -510,7 +546,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 </ul>
 
         <script>
-            $(function () {
+            $(document).ready(function () {
 
                $( '.go-live-edit-href-set' ).bind('mousedown',function() {
     			   var url_to_go =  $(this).attr('href');;
@@ -527,7 +563,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
 
+
             });
+            mw.on.hashParam('edit-user', function () {
+                if(typeof this != 'undefi+ned'){
+                    $('#main-bar-user-menu-link').addClass('active')
+                }
+            })
         </script>
         <div id="user-menu" class="scroll-height-exception">
 

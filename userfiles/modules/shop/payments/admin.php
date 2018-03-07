@@ -23,6 +23,19 @@ if (!is_admin()){
     }
 
 
+    mw.on.hashParam('option', function(){
+
+        $(".mw-set-payment-options .otab").hide();
+        $("#db-"+this).show();
+        $(".active-parent li.active").removeClass('active');
+        var link = $('a[href*="?option='+this+'"]');
+        link
+            .parent()
+            .addClass('active');
+        //$(".shop-options-title-icon").attr('class', 'shop-options-title-icon ' + link.find('span').attr('class'))
+    })
+
+
     $(document).ready(function () {
 
 
@@ -46,16 +59,9 @@ if (!is_admin()){
         });
 
 
-        mw.tools.tabGroup({
-            nav: '.payment-tab',
-            tabs: '.otab',
-            master: mwd.querySelector('.mw-admin-side-nav'),
-            onclick: function () {
-                /* if(this.id == 'payment-tab-email' && !window.MailEditor){
-                 runMailEditor();
-                 }*/
-            }
-        });
+
+
+
 
 
         mw.$("#available_providers").sortable({
@@ -112,17 +118,9 @@ if (!is_admin()){
         });
     }
 </script>
+
 <style>
-    .mw-set-payment-options {
-        padding-left: 30px;
-    }
 
-    @media (max-width:768px){
-      .mw-set-payment-options{
-        padding-left: 0
-      }
-
-    }
 
     .admin-side-box {
         padding-top: 19px;
@@ -175,6 +173,9 @@ if (!is_admin()){
         visibility: hidden;
     }
 
+    .mw-ui-box-header:hover {
+        background: #fefbea;
+    }
     .mw-ui-box-header:hover .mw-icon-drag {
         visibility: visible;
     }
@@ -212,6 +213,11 @@ if (!is_admin()){
         cursor: -moz-grab;
         cursor: -webkit-moz-grab;
     }
+    
+    .gateway-icon-title > .mw-ui-row > .mw-ui-col:nth-child(2){
+        width: 170px;
+        text-align: center;
+    }
 
     .otab {
         padding-right: 10px;
@@ -222,7 +228,11 @@ if (!is_admin()){
     }
 
     #available_providers > .mw-ui-box {
-        margin-bottom: 15px;
+        margin-bottom: -1px;
+        border-radius:0;
+    }
+    #available_providers .mw-ui-box-header{
+        padding: 25px;
     }
 
     #test_ord_eml_toggle {
@@ -250,36 +260,15 @@ $payment_modules = get_modules('type=payment_gateway');
 
 ?>
 
+
+
 <div class="mw-ui-row">
     <div class="mw-ui-col">
         <div class="mw-ui-col-container">
             <div class="mw-set-payment-options">
-                <div
-                    style="overflow: hidden;position: relative;padding: 30px 0 0;">
-                    <div class="mw-ui-btn-nav"><a
-                            class="mw-ui-btn payment-tab active"
-                            href="javascript:;">
-                            <?php _e("Payments"); ?>
-                        </a>  <a class="mw-ui-btn payment-tab"
-                                 href="javascript:;">
-                            <?php _e("Taxes"); ?>
-                        </a> <a class="mw-ui-btn payment-tab"
-                                href="javascript:;">
-                            <?php _e("Shipping"); ?>
-                        </a> <a class="mw-ui-btn payment-tab"
-                                href="javascript:;" id="payment-tab-email">
-                            <?php _e("Email"); ?>
-                        </a> <a class="mw-ui-btn payment-tab"
-                                href="javascript:;">
-                            <?php _e("Other"); ?>
-                        </a> </div>
-                </div>
-                <div class="otab" style="display: block">
-                    <div class="section-header">
-                        <h2>
-                            <?php _e("Payment providers"); ?>
-                        </h2>
-                    </div>
+
+                <div class="otab" style="display: block" id="db-payment-methods">
+
                     <?php if (is_array($payment_modules)): ?>
                     <div class="mw_simple_tabs mw_tabs_layout_stylish"
                          id="available_providers">
@@ -297,12 +286,14 @@ $payment_modules = get_modules('type=payment_gateway');
                                      onmousedown="mw.tools.accordion(this.parentNode);">
                                     <div class="gateway-icon-title">
                                         <div class="mw-ui-row">
-                                            <div class="mw-ui-col"><span
-                                                    class="mw-icon-drag"></span>
+                                            <div class="mw-ui-col">
+                                                <span class="mw-icon-drag"></span>
                                             </div>
-                                            <div class="mw-ui-col"><img
+                                            <div class="mw-ui-col">
+                                                <img
                                                     src="<?php print $payment_module['icon']; ?>"
-                                                    alt=""/></div>
+                                                    alt=""/>
+                                            </div>
                                             <div class="mw-ui-col"> <span
                                                     class="gateway-title"><?php print $payment_module['name'] ?>
                                                     <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')!=1): ?>
@@ -370,20 +361,20 @@ $payment_modules = get_modules('type=payment_gateway');
                     <hr>
                     <module type="shop/payments/currency" id="mw_curr_select"/>
                 </div>
-                <div class="otab">
+                <div class="otab" id="db-taxes">
                     <module type="shop/taxes/admin"
                             id="mw_shop_set_tax_settings"/>
                 </div>
-                <div class="otab">
+                <div class="otab" id="db-shipping">
                     <module type="shop/shipping" view="admin"
                             id="mw_shop_set_shipping_settings"/>
                 </div>
-                <div class="otab">
+                <div class="otab" id="db-email">
                     <module type="shop/orders/settings/setup_emails_on_order"
                             id="setup_emails_on_order"/>
                 </div>
 
-                <div class="otab">
+                <div class="otab" id="db-other">
                     <module type="shop/orders/settings/other"
                             id="mw_shop_set_other_settings"/>
                 </div>
