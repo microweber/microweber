@@ -357,7 +357,7 @@ mw.tools = {
             }
         },
         init: function (o, wl) {
-            console.log(o)
+
             var orig_options = o;
             var o = mw.tools.tooltip.prepare(o);
             if (o === false) return false;

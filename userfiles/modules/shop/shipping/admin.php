@@ -31,7 +31,7 @@ $(document).ready(function(){
 });
 </script>
 <div class="section-header">
-    <h2><span class="mw-icon-truck"></span><?php _e("Shipping"); ?></h2>
+    <h2><span class="mai-shipping"></span><?php _e("Shipping"); ?></h2>
 </div>
 <?php 
     $here = dirname(__FILE__).DS.'gateways'.DS;
