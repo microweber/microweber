@@ -12,6 +12,6 @@ position: 70
 
 ?>
 
-<section class="nodrop" field="layout-skin-70-<?php print $params['id'] ?>" rel="module">
+<section class="nodrop" field="layout-skin-70-<?php print $params['id']; ?>" rel="module">
     <module type="bxslider" />
 </section>
