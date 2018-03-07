@@ -224,10 +224,10 @@ $(window).load(function(){
     <div class="demobox">
 
 
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification"><span class="mw-icon-website"></span>Small</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><span class="mw-icon-website"></span>Medium</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-website"></span>Normal</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification"><span class="mw-icon-website"></span>Big</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification"><span class="mai-website"></span>Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><span class="mai-website"></span>Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification"><span class="mai-website"></span>Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification"><span class="mai-website"></span>Big</a>
 
     <br>
 

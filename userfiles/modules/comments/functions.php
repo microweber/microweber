@@ -264,7 +264,7 @@ event_bind(
 
 			}
 			$link = "<a class='comments-bubble' href='{$comments_link}'  title='{$new}'>";
-			$link .= "<span class='mw-icon-comment'></span><span class='comment-number'>{$new}</span>";
+			$link .= "<span class='mai-comment'></span><span class='comment-number'>{$new}</span>";
 			$link .= "</a>";
 			print $link;
 		}

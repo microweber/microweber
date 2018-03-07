@@ -199,7 +199,8 @@ mw.on.hashParam("pg", function(){
                 }
 
                 ?>
-                <div class="mw-ui-row-nodrop manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
+                <?php  $pic = get_picture($item['id']); ?>
+                <div class="mw-ui-row-nodrop post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                     <div class="mw-ui-col manage-post-item-col-1">
                         <label class="mw-ui-check">
                             <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox"
@@ -211,7 +212,7 @@ mw.on.hashParam("pg", function(){
                     
 
 
-                        <?php  $pic = get_picture($item['id']); ?>
+
                         <?php if ($pic == true): ?>
                             <a class="manage-post-image"
                                style="background-image: url('<?php print thumbnail($pic, 108) ?>');"
@@ -261,12 +262,14 @@ mw.on.hashParam("pg", function(){
                             <a class="manage-post-item-link-small mw-small" target="_top"
                                href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                         </div>
-                        <div class="manage-post-item-links"><a target="_top" href="<?php print $edit_link ?>"
-                                                               onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                        <div class="manage-post-item-links">
+                            <a target="_top" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                 <?php _e("Edit"); ?>
-                            </a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
+                            </a>
+                            <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
                                 <?php _e("Delete"); ?>
-                            </a></div>
+                            </a>
+                        </div>
                     </div>
                     <div class="mw-ui-col manage-post-item-col-4"><span class="manage-post-item-author"
                                                                         title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
