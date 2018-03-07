@@ -64,6 +64,8 @@ event_bind('frontend', function ($params = false) {
         }
     }
 });
+
+
 function mw_stats_track_pageview()
 {
     if (!get_option('track_pageviews', 'stats')) {

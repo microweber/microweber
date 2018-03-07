@@ -1,7 +1,7 @@
 <?php
 
 
-namespace site_stats\controllers;
+namespace Microweber\SiteStats\Controllers;
 
 
 
@@ -26,12 +26,38 @@ class Admin
 
 
 
+
+
+
+
+    function recent_comments($params=null)
+    {
+
+
+
+        $comments_data = array(
+            'order_by'=>'created_at desc',
+            'limit'=>'30',
+        );
+        $comments = get_comments($comments_data);
+
+
+
+        if($comments){
+
+        }
+
+
+
+
+
+
+    }
+
+
+
     function index($params)
     {
-        
-
-		 
-
 
 
         $view = new View($post_list_view);
