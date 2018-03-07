@@ -28,7 +28,7 @@ if ($overlay === null OR $overlay === false) {
     <div class="background-image-holder" style="background-image: url('<?php print template_url('assets/img/'); ?>hero15.jpg');"></div>
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 text-center">
+            <div class="col-sm-12 text-center allow-drop">
                 <h2><?php _lang("Bold, Simple", "templates/dream"); ?>,
                     <em><?php _lang("Robust", "templates/dream"); ?>.</em>
                 </h2>

@@ -1037,7 +1037,22 @@ class Parser
                     }
 
 
-                    if ($rel == 'content') {
+                    if ($rel == 'content' or $rel == 'page' or $rel == 'post') {
+
+
+                        if ($rel == 'page') {
+                            if (!isset($data_id) or $data_id == false) {
+                                $data_id = PAGE_ID;
+                            }
+                        }
+                        if ($rel == 'post') {
+                            if (!isset($data_id) or $data_id == false) {
+                                $data_id = POST_ID;
+                            }
+                            if (!isset($data_id) or $data_id == false) {
+                                $data_id = PAGE_ID;
+                            }
+                        }
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = content_id();
                         }
@@ -1045,28 +1060,13 @@ class Parser
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
-                        if($field != 'content' and $field != 'title'){
-                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".content_id());
+                        if($field != 'content' and $field != 'content_body' and $field != 'title'){
+                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
                         }
-//d($data);
-                    } elseif ($rel == 'page') {
-                        if (!isset($data_id) or $data_id == false) {
-                            $data_id = PAGE_ID;
-                        }
-                        if (!isset($data_id) or $data_id == false) {
-                            $data_id = content_id();
-                        }
-                        $data = $this->app->content_manager->get_by_id($data_id);
-                        $get_global = false;
-                    } elseif ($rel == 'post') {
-                        $get_global = false;
-                        if (!isset($data_id) or $data_id == false) {
-                            $data_id = POST_ID;
-                        }
-                        if (!isset($data_id) or $data_id == false) {
-                            $data_id = PAGE_ID;
-                        }
-                        $data = $this->app->content_manager->get_by_id($data_id);
+
+
+
+
                     } elseif ($rel == 'inherit') {
                         $get_global = false;
                         if (!isset($data_id) or $data_id == false) {
@@ -1091,7 +1091,7 @@ class Parser
                             $data = $this->app->content_manager->get_page($data_id);
                         }
 
-                        if($field != 'content'){
+                        if($field != 'content' and $field != 'content_body' and $field != 'title'){
                             $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
                      // d($data);
                         }

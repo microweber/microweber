@@ -134,4 +134,3 @@ function remove_event(){
 	else
 		echo json_encode(array('status'=>'failed'));
 }
-?>
