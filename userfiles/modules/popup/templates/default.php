@@ -15,27 +15,9 @@ description: Default
 </script>
 
 <div class="bootstrap3ns">
-    <?php if ($showPopUp): ?>
-        <script>
-            $(window).on('load', function () {
-                <?php if (in_live_edit()): ?>
-                $('#popup-<?php print $params['id']; ?>').modal({backdrop: false});
-                <?php else: ?>
-                $('#popup-<?php print $params['id']; ?>').modal('show');
-                <?php endif; ?>
-            });
-        </script>
+    <?php if ($type == 'on_click'): ?>
+        <a data-toggle="modal" href="#popup-<?php print $params['id']; ?>" data-backdrop="false">Click to open modal</a>
     <?php endif; ?>
-
-    <script>
-        $(document).ready(function () {
-            $('#popup-<?php print $params['id']; ?>-accept').on('click', function () {
-                mw.cookie.set('<?php print $modal_id; ?>', 'yes');
-                $('#popup-<?php print $params['id']; ?>').modal('toggle');
-            });
-        });
-    </script>
-
 
     <div class="modal fade" tabindex="-1" role="dialog" id="popup-<?php print $params['id']; ?>">
         <div class="modal-dialog" role="document">
@@ -61,10 +43,8 @@ description: Default
                         <button type="button" class="btn btn-success" onclick="mw.drag.save();">Save</button>
                     <?php endif; ?>
 
-                    <?php if (!in_live_edit()): ?>
-                        <button type="button" id="popup-<?php print $params['id']; ?>-accept" class="btn btn-success">
-                            Accept
-                        </button>
+                    <?php if (!in_live_edit() AND $type == 'on_time'): ?>
+                        <button type="button" id="popup-<?php print $params['id']; ?>-accept" class="btn btn-success">Accept</button>
                     <?php endif; ?>
                 </div>
             </div>

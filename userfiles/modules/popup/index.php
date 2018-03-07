@@ -1,18 +1,89 @@
 <?php
-//setcookie("TestCookie", $value);
-
-$session_get = false;
-$modal_id = 'popup-' . $params['id'];
-if (isset($_COOKIE['popup-' . $params['id']])) {
-    $session_get = $_COOKIE['popup-' . $params['id']];
-}
-
-if ($session_get != 'yes') {
-    $showPopUp = true;
-} else {
-    $showPopUp = false;
+$type = get_option('type', $params['id']);
+$time_delay = get_option('time_delay', $params['id']);
+if (!$time_delay) {
+    $time_delay = 3000;
 }
 ?>
+
+
+<?php if ($type == 'on_time'): ?>
+    <?php $session_get = false;
+    $modal_id = 'popup-' . $params['id'];
+    if (isset($_COOKIE['popup-' . $params['id']])) {
+        $session_get = $_COOKIE['popup-' . $params['id']];
+    }
+
+    if ($session_get != 'yes') {
+        $showPopUp = true;
+    } else {
+        $showPopUp = false;
+    }
+    ?>
+
+    <?php if ($showPopUp): ?>
+        <script>
+            $(window).on('load', function () {
+
+                <?php if (in_live_edit()): ?>
+                $('#popup-<?php print $params['id']; ?>').modal({backdrop: false});
+                <?php else: ?>
+                setTimeout(function () {
+                    $('#popup-<?php print $params['id']; ?>').modal('show');
+                }, <?php print $time_delay; ?>);
+                <?php endif; ?>
+
+            });
+        </script>
+    <?php endif; ?>
+
+    <script>
+        $(document).ready(function () {
+            $('#popup-<?php print $params['id']; ?>-accept').on('click', function () {
+                mw.cookie.set('<?php print $modal_id; ?>', 'yes');
+                $('#popup-<?php print $params['id']; ?>').modal('toggle');
+            });
+        });
+    </script>
+<?php elseif ($type == 'on_leave_window'): ?>
+    <?php $session_get = false;
+    $modal_id = 'popup-' . $params['id'];
+    if (isset($_COOKIE['popup-' . $params['id']])) {
+        $session_get = $_COOKIE['popup-' . $params['id']];
+    }
+
+    if ($session_get != 'yes') {
+        $showPopUp = true;
+    } else {
+        $showPopUp = false;
+    }
+    ?>
+
+    <?php if ($showPopUp): ?>
+        <style>
+            .on_leave_window {
+                z-index: 99999;
+                height: 2px;
+                top: 0;
+                width: 100%;
+                position: fixed;
+                /*border: 1px solid red;*/
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $('body').append('<div class="on_leave_window"></div>');
+                    $('.on_leave_window').mouseenter(function () {
+                        mw.cookie.set('<?php print $modal_id; ?>', 'yes');
+                        $('#popup-<?php print $params['id']; ?>').modal('show');
+                        $('.on_leave_window').remove();
+                    });
+                }, 5000);
+            });
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
 
 
 <?php
