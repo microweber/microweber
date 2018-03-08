@@ -201,10 +201,16 @@ class InstallController extends Controller
                     $installer = new Install\DefaultOptionsInstaller();
                     $installer->run();
                 }
+
+                if (!$install_step or $install_step == 5) {
+                    $this->log('Setting up modules');
+                    $installer = new Install\ModulesInstaller();
+                    $installer->run();
+                }
                 if ($install_step) {
                     if ($install_step != 'finalize') {
                         $install_step_return = array('install_step' => $install_step + 1);
-                        if ($install_step == 4) {
+                        if ($install_step == 5) {
                             $install_step_return['finalize'] = true;
                             $install_step_return['install_step'] = 'finalize';
                         }
