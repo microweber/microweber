@@ -494,7 +494,7 @@ mw.tools = {
                 + '</div>';
             return {html: html, id: id}
         },
-        _init: function (html, width, height, callback, title, name, template, overlay, draggable, onremove) {
+        _init: function (html, width, height, callback, title, name, template, overlay, draggable, onremove, onopen) {
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
             }
@@ -520,6 +520,10 @@ mw.tools = {
                     containment: 'window',
                     iframeFix: false,
                     distance: 10,
+                    containment: "window",
+                    drag : function(e,ui){
+                        if(ui.position.top < 0) ui.position.top = 0;
+                    },
                     start: function () {
                         $(this).find(".iframe_fix").show();
                         if ($(".mw_modal").length > 1) {
@@ -570,7 +574,7 @@ mw.tools = {
             modal_return.remove = function () {
                 $(modal_return).trigger('modal.remove');
                 if (typeof modal_return.onremove === 'function') {
-                    modal_return.onremove.call();
+                    modal_return.onremove.call(window, modal_return);
                 }
                 modal_object.remove();
                 $(modal_return.overlay).remove();
@@ -586,6 +590,9 @@ mw.tools = {
                 mw.tools.modal.setDimmensions(modal_object[0], w, h);
                 $(modal_return).trigger('modal.resize');
                 return modal_return;
+            }
+            if(onopen){
+                onopen.call(window, modal_return)
             }
             return modal_return;
         },
@@ -609,7 +616,7 @@ mw.tools = {
             if (typeof o.id !== 'undefined' && typeof o.name === 'undefined') {
                 o.name = o.id;
             }
-            return new mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable, o.onremove);
+            return new mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable, o.onremove, o.onopen);
         },
         minimize: function (id) {
             var doc = mwd;

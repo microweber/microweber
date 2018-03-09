@@ -3469,7 +3469,6 @@ div.mw-ui-field:after {
   left: 0;
   display: none;
   background: white;
-  border: 1px solid black;
   overflow: hidden;
   box-shadow: 0 0 27px -20px #111111;
   /*
@@ -3495,17 +3494,15 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   box-sizing: border-box;
   font-size: 11px;
   position: absolute;
-  right: 0px;
+  right: 5px;
   text-indent: 0;
-  top: 0px;
-  padding-top: 2px;
-  width: 27px;
-  height: 22px;
-  border-left: 1px solid rgba(196, 196, 196, 0.3);
+  top: 5px;
+  width: 26px;
+  height: 21px;
   text-align: center;
-  color: rgba(245, 245, 245, 0.5);
-  border-bottom: 1px solid transparent;
-  line-height: 20px;
+  color: #7b7b7b;
+  line-height: 21px;
+  background: #000;
 }
 
 .mw_modal_default .mw-modal-close:hover,
@@ -3595,6 +3592,7 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+  border: 1px solid #2b2b2b;
 }
 
 .iframe_fix {
@@ -3630,13 +3628,19 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
 }
 
 .mw_modal_default .mw_modal_toolbar {
-  height: 22px;
+  height: 31px;
   width: 100%;
   cursor: move;
   position: relative;
   background-repeat: no-repeat;
   background-position: center center;
-  background-color: black;
+  background-color: #2b2b2b;
+}
+.mw_modal_default {
+  overflow: visible;
+}
+.mw_modal_default .mw_modal_container{
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .mw-modal-draggable.mw_modal_default .mw_modal_toolbar {
@@ -4552,6 +4556,115 @@ body.bup.dragStart.state-element {
 .mw-color-important{ color:@important; }
 .mw-color-notification{ color:@notification; }
 
+
+.mw-switch{
+  display: inline-block;
+  white-space: nowrap;
+  position: relative;
+  height: 24px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mw-switch [class*="mw-switch-"]{
+  display: inline-block;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 22px;
+  height: 24px;
+  text-transform: uppercase;
+  color: #8d8d8d;
+  background: #d3d3d3;
+  text-align: center;
+  min-width: 40px;
+  border-top: 1px solid #cbcbcb;
+  border-bottom: 1px solid #b8b8b8;
+  -webkit-transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.mw-switch-off{
+  border-left: 1px solid #bfbfbf;
+  border-radius:2px 0 0 2px;
+}
+.mw-switch-on{
+  border-right: 1px solid #bfbfbf;
+  border-radius: 0 2px 2px 0
+}
+
+.mw-switch input{
+  visibility: hidden;
+  position: absolute;
+}
+
+.mw-switcher{
+  position: absolute;
+  display: block;
+  width: 40px;
+  height: 27px;
+  border-radius: 2px;
+  top: -2px;
+  right: -2px;
+  background: #f9f9f9;
+  background: -moz-linear-gradient(left, #f9f9f9 0%, #ececec 100%);
+  background: -webkit-linear-gradient(left, #f9f9f9 0%,#ececec 100%);
+  background: linear-gradient(to right, #f9f9f9 0%,#ececec 100%);
+  z-index: 2;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cbcbcb #bdbdbd #b8b8b8 #a1a1a1;
+  box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  -webkit-transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: all .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.mw-switcher:before,
+.mw-switcher:after{
+  position: absolute;
+  display: block;
+  content: '';
+  top: 7px;
+  left: 50%;
+  height:11px;
+}
+
+.mw-switcher:before{
+  width: 4px;
+  border-left:1px solid #c6c6c6;
+  border-right:1px solid #c6c6c6;
+  margin-left:-4px;
+}
+.mw-switcher:after{
+  width: 1px;
+  background: #c6c6c6;
+  margin-left:3px;
+}
+
+
+
+.mw-switch :checked ~ .mw-switcher{
+  right: 100%;
+  margin-right: -39px;
+}
+
+
+.mw-switch :checked ~ [class*="mw-switch-"]{
+  color: #004571;
+  background: #0086db;
+  border-top-color: #0080d2;
+  border-bottom-color: #005992;
+}
+.mw-switch :checked ~ .mw-switch-off{
+  border-left-color:#006cb1
+}
+.mw-switch :checked ~ .mw-switch-on{
+  border-right-color:#006cb1
+}
 
 
 

@@ -22,6 +22,22 @@ if (!is_admin()){
         }
     }
 
+    paymentModal = function (el) {
+        var html = el.querySelector('.mw-ui-box-content').innerHTML
+        var modal = mw.modal({
+            content:el.querySelector('.mw-ui-box-content').innerHTML,
+            onremove:function (modal) {
+                el.querySelector('.mw-ui-box-content').innerHTML = modal.container.innerHTML;
+                $(mwd.body).removeClass('paymentSettingsModal')
+            },
+            onopen:function () {
+                $(mwd.body).addClass('paymentSettingsModal')
+            },
+            overlay:true,
+            id:'paymentSettingsModal'
+        })
+    }
+
 
     mw.on.hashParam('option', function(){
 
@@ -121,6 +137,10 @@ if (!is_admin()){
 
 <style>
 
+    .paymentSettingsModal  #mw-admin-container{
+        -webkit-filter:blur(3px);
+        filter:blur(3px);
+    }
 
     .admin-side-box {
         padding-top: 19px;
@@ -147,6 +167,10 @@ if (!is_admin()){
         padding-bottom: 5px;
         padding-top: 10px;
         clear: both
+    }
+    .mw-set-payment-options .mw-ui-box-header:hover .mw-ui-btn{
+        background-color: #398abe;
+        color: #fff;
     }
 
     .payment-state-status {
@@ -189,7 +213,7 @@ if (!is_admin()){
     }
 
     .gateway-icon-title > .mw-ui-row {
-        width: auto;
+        width: 100%;
     }
 
     .gateway-icon-title > .mw-ui-row * {
@@ -203,6 +227,17 @@ if (!is_admin()){
 
     .gateway-icon-title > .mw-ui-row .mw-ui-col {
         padding-right: 15px;
+    }
+
+    .gateway-icon-title > .mw-ui-row .mw-ui-col:first-child{
+        width: 40px;
+    }
+    .gateway-icon-title > .mw-ui-row .mw-ui-col:nth-child(2){
+        width: 200px;
+    }
+    .gateway-icon-title > .mw-ui-row .mw-ui-col:last-child{
+        width: 200px;
+        text-align: center;
     }
 
     .gateway-icon-title > .mw-ui-row .mw-icon-drag {
@@ -265,7 +300,8 @@ $payment_modules = get_modules('type=payment_gateway');
 <div class="mw-ui-row">
     <div class="mw-ui-col">
         <div class="mw-ui-col-container">
-            <div class="mw-set-payment-options">
+            <div class="mw-ui-row admin-section-bar"><div class="mw-ui-col"><h2><span class="mai-order"></span><?php _e("Payment methods"); ?></h2></div></div>
+            <div class="mw-set-payment-options" style="padding: 14px;">
 
                 <div class="otab" style="display: block" id="db-payment-methods">
 
@@ -283,7 +319,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                 class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
                                 id="module-db-id-<?php print $module_info['id'] ?>">
                                 <div class="mw-ui-box-header"
-                                     onmousedown="mw.tools.accordion(this.parentNode);">
+                                     onmousedown="paymentModal(this.parentNode);">
                                     <div class="gateway-icon-title">
                                         <div class="mw-ui-row">
                                             <div class="mw-ui-col">
@@ -302,6 +338,12 @@ $payment_modules = get_modules('type=payment_gateway');
                                                         </small>
                                                     <?php endif; ?>
                       </span></div>
+                                            <div class="mw-ui-col">
+                                            <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline">
+                                                <span class="mai-setting2"></span>
+                                                <?php _e('Settings'); ?>
+                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
@@ -346,6 +388,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="mw-set-payment-gw-options">
                                         <module

@@ -322,7 +322,7 @@ img[align='middle'] {
 }
 
 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:last-child > .mw-ui-col-container {
-    padding-right: 15px;
+    padding-right: 0;
 }
 
 .mw-ui-col-container:after {

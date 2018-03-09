@@ -83,8 +83,9 @@
 .mai-licenses:before{content:'\0077';}
 .mai-lock:before{content:'\0078';}
 .mai-templates:before{content:'\0079';}
+.mai-setting2:before{content:'\007a';}
 
-.mw-ui-btn.mw-ui-btn-medium>[class*=mw-icon-], .mw-ui-btn.mw-ui-btn-medium>[class*=mai-] {
+.mw-ui-btn.mw-ui-btn-medium>[class*=mw-icon-]{
     top: 2px;
 }
 
@@ -212,6 +213,7 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .main-admin-row {
     padding: 66px 0 0;
+    max-width: 1200px;
 }
 
 #mw-edit-page-editor-holder {
@@ -449,9 +451,7 @@ h3 > [class*="mw-icon-"]:first-child {
         visibility: visible;
     }
 
-    #user-menu {
-        display: none;
-    }
+
 
 }
 
@@ -592,6 +592,7 @@ h3 > [class*="mw-icon-"]:first-child {
     background: #fff;
     border-color: #dadada;
     top: 2px;
+
 }
 
 #admin_login .mw-ui-inline-list {
@@ -1337,22 +1338,6 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     color:white !important;
 }
 
-#user-menu {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding-bottom: 20px;
-}
-
-#main-bar-user-menu-tooltip {
-    margin-left: 12px;
-}
-
-#main-bar-user-menu-tooltip.top-left .mw-tooltip-arrow:after {
-    margin-left: 0px;
-}
 
 .main-bar-profile-img {
     display: inline-block;
@@ -4781,6 +4766,7 @@ body.is_admin .mw-admin-container {
     min-width: 840px;
 }
 
+.admin-content-column{max-width: 1100px;}
 
 
 .admin-content-column.modules {
@@ -5398,6 +5384,10 @@ span.mw-icon-upload {
     height: 66px;
 }
 
+.admin-section-bar *{
+    vertical-align: middle;
+}
+
 .admin-section-bar h2{
     font-size: 13px;
     color: #0e80e5;
@@ -5417,6 +5407,11 @@ span.mw-icon-upload {
 
 #mw_index_contact_form .mw-ui-btn-nav{
 
+}
+
+.mw-ui-btn-medium > [class*="mai-"]{
+    font-size:15px;
+    top: 0px;
 }
 
 

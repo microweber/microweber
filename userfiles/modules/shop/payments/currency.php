@@ -6,14 +6,23 @@ $cur_pos = get_option('currency_symbol_position', 'payments');
    
    
 ?>
-
+<div class="mw-ui-box">
+    <div class="mw-ui-box-header" style="padding: 0">
+        <div class="mw-ui-row admin-section-bar"><div class="mw-ui-col"><h2><span class="mai-order"></span><?php _e('Currency settings') ?></h2></div></div>
+    </div>
+    <div class="mw-ui-box-content">
 <div class="mw-ui-row">
   <div class="mw-ui-col" style="width:70%">
     <div class="mw-ui-col-container">
-      <h2>
-        <?php _e("Currency settings"); ?>
-      </h2>
+
+
+
       <?php if(is_array($curencies )): ?>
+          <label class="mw-ui-label">
+
+              <?php _e("Currency settings"); ?>
+
+          </label>
       <select name="currency" class="mw-ui-field mw_option_field w100" data-option-group="payments" data-reload="mw_curr_rend">
         <?php if(!$cur): ?>
         <option value="" disabled="disabled" selected="selected"><?php _e('Select currency'); ?></option>
@@ -27,9 +36,11 @@ $cur_pos = get_option('currency_symbol_position', 'payments');
   </div>
   <div class="mw-ui-col">
     <div class="mw-ui-col-container">
-      <h2>
+      <label class="mw-ui-label">
+
         <?php _e("Symbol position"); ?>
-      </h2>
+
+      </label>
        <select name="currency_symbol_position" class="mw-ui-field mw_option_field w100" data-option-group="payments" data-reload="mw_curr_rend">
         <option value="default"><?php _e('Default'); ?></option>
         <option value="before"><?php _e('Before number'); ?></option>
@@ -40,10 +51,14 @@ $cur_pos = get_option('currency_symbol_position', 'payments');
 </div>
 
 <br />
- <a href="javascript:$('#mw_currency_render_holder').toggle();void(0);" class="pull-right"> <?php _e('Advanced'); ?> <span style="opacity:0.3" class="mw-icon-arrow-down-b"></span> </a>
+ <a href="javascript:$('#mw_currency_render_holder').toggle();void(0);" class="pull-right"> <?php _e('Advanced'); ?>
+     <span style="opacity:0.3" class="mw-icon-arrow-down-b"></span>
+ </a>
         <div id="mw_currency_render_holder" style="display:none;"><br />
         
         
         
 <module type="shop/payments/currency_render" id="mw_curr_rend" />
+</div>
+</div>
 </div>

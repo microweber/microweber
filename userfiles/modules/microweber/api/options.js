@@ -126,12 +126,22 @@ mw.options = {
 				}
 				
                 if(el.type==='checkbox'){
-                   var val = '';
-                   var items = mwd.getElementsByName(el.name), i=0, len = items.length;
-                   for( ; i<len; i++){
-                       var _val = items[i].value;
-                       var val = items[i].checked==true ? (val==='' ? _val: val+","+_val) : val;
-                   }
+                    var val = '',
+					    $el = $(el),
+						dvu = $el.attr('data-value-unchecked'),
+						dvc = $el.attr('data-value-checked');
+					if(!!dvu && !!dvc){
+                        val = el.checked ? dvc : dvu;
+					}
+					else{
+
+                        var items = mwd.getElementsByName(el.name), i=0, len = items.length;
+                        for( ; i<len; i++){
+                            var _val = items[i].value;
+                            val = items[i].checked==true ? (val==='' ? _val: val+","+_val) : val;
+                        }
+					}
+
                 }
                 else{val = el.value }
 				var o_data = {
@@ -284,7 +294,7 @@ mw.options.form = function($selector, callback, beforepost){
               item.addClass('mw-options-form-binded');
 			  item.addClass('mw-options-form-binded-custom');
 
-              item.bind("change", function(e){
+              item.on("change", function(e){
               	  if(typeof beforepost === 'function'){
               	  	beforepost.call(this);
               	  }

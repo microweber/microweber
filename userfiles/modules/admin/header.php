@@ -500,6 +500,55 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <?php _e("Settings"); ?>
                               </strong>
                           </a>
+
+
+                                      <ul class="mw-ui-sidenav">
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'admin__modules');return false;" class="item-admin__modules" href="#option_group=admin__modules">
+                                                  <span class="mai-modules"></span><?php _e("My Modules"); ?>
+                                              </a>
+                                          </li>
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template">
+                                                  <span class="mai-templates"></span><?php _e("Template"); ?>
+                                              </a>
+                                          </li>
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="#option_group=website">
+                                                  <span class="mai-website"></span><?php _e("Website"); ?>
+                                              </a>
+                                          </li>
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users">
+                                                  <span class="mai-lock"></span><?php _e("Login & Register"); ?>
+                                              </a>
+                                          </li>
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website">
+                                                  <span class="mai-mail"></span><?php _e("Email"); ?>
+                                              </a>
+                                          </li>
+                                          <?php event_trigger('mw_admin_settings_menu'); ?>
+                                          <?php $settings_menu =  mw()->modules->ui('admin.settings.menu'); ?>
+                                          <?php if(is_array($settings_menu) and !empty($settings_menu)): ?>
+                                              <?php foreach($settings_menu as $item): ?>
+                                                  <?php $module = ( isset( $item['module'])) ? module_name_encode($item['module']) : false ; ?>
+                                                  <?php $title = ( isset( $item['title'])) ? ($item['title']) : false ; ?>
+                                                  <?php $class = ( isset( $item['class'])) ? ($item['class']) : false ; ?>
+                                                  <?php if($module != 'admin') { ?>
+                                                      <li><a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="<?php print $class ?>" href="#option_group=<?php print $module ?>"><?php print $title ?></a></li>
+                                                  <?php } ?>
+                                              <?php endforeach; ?>
+                                          <?php endif; ?>
+                                          <?php $got_lic = mw()->update->get_licenses('count=1') ?>
+                                          <?php if(($got_lic) > 0): ?>
+                                              <li><a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-licenses" href="#option_group=licenses">
+                                                      <?php _e("Licenses"); ?>
+                                                  </a></li>
+                                          <?php endif; ?>
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced">
+                                                  <?php _e("Advanced"); ?>
+                                              </a></li>
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language">
+                                                  <?php _e("Language"); ?>
+                                              </a></li>
+                                      </ul>
+
                       </li>
                       <li >
 
@@ -571,14 +620,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 }
             })
         </script>
-        <div id="user-menu" class="scroll-height-exception">
 
-
-
-                  <div id="main-bar-user-tip">
-            <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> </div>
-          </div>
-                </div>
       </div>
       <span id="mb-active"></span>
             </div>
