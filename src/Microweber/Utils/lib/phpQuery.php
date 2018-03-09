@@ -581,7 +581,7 @@ class DOMDocumentWrapper
 
     protected function charsetAppendToHTML($html, $charset, $xhtml = false)
     {
-    // return $html;
+     // return $html;
 
      // sry it break
         // remove existing meta[type=content-type]
@@ -599,9 +599,19 @@ class DOMDocumentWrapper
                 );
             }
         } else {
+           // return $html;
+
+            //   /<head[^>]*>[\s\S]*<\/head>/gi)
+            // orig  '@<head(.*?)(?(?<!\?)>)@s'
+
+            //   "/<head>s*(.*?)<\/head>/i";
             return preg_replace(
-                            '@<head(.*?)(?(?<!\?)>)@s', '<head\\1>'.$meta, $html
+                "@<head>s*(.*?)@s", '<head\\1>'.$meta, $html
             );
+// here bug tyka
+//            return preg_replace(
+//                            '@<head(.*?)(?(?<!\?)>)@s', '<head\\1>'.$meta, $html
+//            );
         }
     }
 
