@@ -3643,6 +3643,7 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
 }
 .mw_modal_default {
   overflow: visible;
+  background: transparent;
 }
 .mw_modal_default .mw_modal_container{
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -3654,6 +3655,11 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
 
 .mw-modal-draggable.mw_modal_default .mw_modal_toolbar {
   background-image: url(../img/popup_settings_bar.png);
+  border-radius: 2px 2px 0 0;
+  cursor: move;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .mw_modal_simple .mw_modal_toolbar {
@@ -3664,7 +3670,8 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   position: relative;
   background: #EEEEEE;
   cursor: move;
-  border-radius: 2px 2px 0 0;
+  cursor: -moz-grab;
+  cursor: grab;
 }
 
 .mw_modal_basic .mw_modal_toolbar {
