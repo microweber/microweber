@@ -372,7 +372,7 @@ function cache_get($cache_id, $cache_group = 'global', $expiration = false)
  *                                      retrieve the cached content.
  * @param string $cache_group
  *                                      (default is 'global') - this is the subfolder in the cache dir.
- * @param bool $expiration_in_seconds
+ * @param bool $expiration_in_minutes
  *
  * @return bool
  */

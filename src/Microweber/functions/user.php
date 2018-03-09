@@ -1,15 +1,28 @@
 <?php
 
+function user_ip()
+{
+    if (!defined('MW_USER_IP')) {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            define('MW_USER_IP', $_SERVER['HTTP_CF_CONNECTING_IP']);
+        } else if (isset($_SERVER['REMOTE_ADDR'])) {
+            define('MW_USER_IP', $_SERVER['REMOTE_ADDR']);
+        } else {
+            define('MW_USER_IP', '127.0.0.1');
+        }
+    }
+
+    return MW_USER_IP;
+}
+
 
 if (!defined('MW_USER_IP')) {
-    if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-        define('MW_USER_IP', $_SERVER['HTTP_CF_CONNECTING_IP']);
-    } else if (isset($_SERVER['REMOTE_ADDR'])) {
-        define('MW_USER_IP', $_SERVER['REMOTE_ADDR']);
-    } else {
-        define('MW_USER_IP', '127.0.0.1');
-    }
+    user_ip();
 }
+
+
+
+
 
 function forgot_password_url()
 {
@@ -238,7 +251,7 @@ function user_name($user_id = false, $mode = 'full')
 
 function user_email($user_id = false)
 {
-    return user_name($user_id, $mode='email');
+    return user_name($user_id, $mode = 'email');
 }
 
 function user_picture($user_id = false)
@@ -289,9 +302,9 @@ api_expose_admin('users/register_email_send_test', function () {
     mw()->option_manager->override('users', 'register_email_enabled', true);
     return mw()->user_manager->register_email_send();
 });
-api_expose('users/register_email_send', function ($params=false) {
+api_expose('users/register_email_send', function ($params = false) {
     $uid = null;
-    if(isset($params['user_id']) and is_admin()){
+    if (isset($params['user_id']) and is_admin()) {
         $uid = intval($params['user_id']);
     }
     return mw()->user_manager->register_email_send($uid);
@@ -309,11 +322,11 @@ api_expose('users/verify_email_link', function ($params) {
                 $adminUser->is_verified = 1;
                 $adminUser->save();
                 mw()->cache_manager->delete('users/global');
-                mw()->cache_manager->delete('users/'.$decoded);
+                mw()->cache_manager->delete('users/' . $decoded);
                 $params['user_id'] = $decoded;
                 mw()->event_manager->trigger('mw.user.verify_email_link', $params);
 
-                return  mw()->url_manager->redirect(site_url());
+                return mw()->url_manager->redirect(site_url());
             }
 
         } catch (Exception $e) {

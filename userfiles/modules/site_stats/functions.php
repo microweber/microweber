@@ -53,13 +53,14 @@ function mw_print_stats_on_dashboard()
 event_bind('frontend', function ($params = false) {
     if (!defined('MW_API_CALL')) {
 
-        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field'])) {
+        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field']) and !is_ajax()) {
 
 
 
             $tracker = new Microweber\SiteStats\Tracker(); ;
-            $tracker->track_visit();
-            $tracker->track_pageview();
+            $tracker->track();
+           // $tracker->track_visit();
+          //  $tracker->track_pageview();
 
         }
     }

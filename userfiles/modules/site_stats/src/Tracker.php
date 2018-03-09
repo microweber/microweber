@@ -8,7 +8,6 @@ use Carbon\Carbon;
 class Tracker
 {
     public $app = null;
-    public $views_dir = 'views';
 
 
     function __construct($app = null)
@@ -20,8 +19,68 @@ class Tracker
                 $this->app = mw();
             }
         }
-        $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
 
+    }
+
+
+    function track()
+    {
+return;
+        $buffer = cache_get('stats_buffer', 'site_stats');
+        $buffer_timeout = cache_get('stats_buffer_timeout', 'site_stats');
+        if(!$buffer_timeout){
+            cache_save('skip', 'stats_buffer_timeout', 'site_stats',1);
+
+        }
+
+        $user_data = $this->collect_user_data();
+
+        if (!$buffer) {
+            $buffer = array();
+        }
+        $buffer[] = $user_data;
+
+        if(!$buffer_timeout){
+          if($buffer){
+
+          }
+        }
+        cache_save($buffer, 'stats_buffer', 'site_stats');
+
+       // dd($buffer,$buffer_timeout);
+
+
+    }
+
+
+    private function collect_user_data()
+    {
+
+        $user_data = array();
+        $user_data['ip'] = user_ip();
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $user_data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+
+        $lp = url_current(true);
+
+        if ($lp == false) {
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                $lp = $_SERVER['HTTP_REFERER'];
+            } else {
+                $lp = $_SERVER['PHP_SELF'];
+            }
+        }
+
+        $user_data['referrer'] = $lp;
+        $user_data['datetime'] = date("Y-m-d h:i:s");
+        $user_data['session_id'] = mw()->user_manager->session_id();
+        $user_data['user_id'] = mw()->user_manager->id();
+        $user_data['content_id'] = content_id();
+        $user_data['category_id'] = category_id();
+
+        return $user_data;
     }
 
 
@@ -134,5 +193,6 @@ class Tracker
 
         }
     }
+
 
 }
