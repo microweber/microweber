@@ -541,10 +541,12 @@ mw.askusertostay = false;
     })
     .fail(function(){
        mw.pauseSave = false;
+       typeof obj.fail === 'function' ? obj.fail.call(selector) : '';
     })
     .always(function(){
         mw.pauseSave = false;
     });
+    return xhr;
   }
 
 

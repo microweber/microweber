@@ -2276,17 +2276,22 @@ mw.drag = {
         var need_re_init = false;
         mw.$(".edit .module-item").each(function(c) {
 
-            mw._({
-                selector: this,
-                done: function(module) {
-                    mw.drag.fancynateLoading(module);
-                    mw.pauseSave = false;
-                    mw.wysiwyg.init_editables();
-                }
-            }, true);
-            need_re_init = true;
+            (function (el) {
+                var xhr = mw._({
+                    selector: el,
+                    done: function(module) {
+                        mw.drag.fancynateLoading(module);
+                        mw.pauseSave = false;
+                        mw.wysiwyg.init_editables();
+                    },
+                    fail:function () {
+                        $(this).remove();
+                        mw.notification.error('Error loading module.')
+                    }
+                }, true);
+                need_re_init = true;
+            })(this);
         });
-
         if (mw.have_new_items == true) {
             need_re_init = true;
         }
