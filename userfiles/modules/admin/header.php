@@ -30,6 +30,7 @@
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
         mw.require("<?php print mw_includes_url(); ?>css/admin.css");
+        mw.require("<?php print mw_includes_url(); ?>css/admin-new.css");
         mw.require("wysiwyg.js");
         mw.require("tools.js");
         mw.require("url.js");

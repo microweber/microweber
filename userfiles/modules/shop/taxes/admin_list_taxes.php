@@ -5,7 +5,7 @@ $defined_taxes = mw()->tax_manager->get();
 //d($defined_taxes);
 ?>
 
-<table cellspacing="0" cellpadding="0" class="mw-ui-table">
+<table cellspacing="0" cellpadding="0" class="table-style-3 mw-ui-table">
   <thead>
     <tr>
       <th><?php _e('Tax name'); ?></th>
