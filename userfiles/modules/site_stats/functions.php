@@ -50,10 +50,14 @@ function mw_print_stats_on_dashboard()
 }
 
 
-event_bind('frontend', function ($params = false) {
-    if (!defined('MW_API_CALL')) {
+event_bind('mw.pageview', function ($params = false) {
 
-        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field']) and !is_ajax()) {
+
+        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field'])
+            and !is_ajax()
+            and !is_cli()
+
+        ) {
 
 
 
@@ -63,7 +67,7 @@ event_bind('frontend', function ($params = false) {
           //  $tracker->track_pageview();
 
         }
-    }
+
 });
 
 

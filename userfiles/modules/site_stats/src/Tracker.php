@@ -2,89 +2,84 @@
 
 namespace Microweber\SiteStats;
 
-use Carbon\Carbon;
-
 
 class Tracker
 {
-    public $app = null;
-
-
-    function __construct($app = null)
-    {
-        if (!is_object($this->app)) {
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw();
-            }
-        }
-
-    }
 
 
     function track()
     {
-return;
-        $buffer = cache_get('stats_buffer', 'site_stats');
-        $buffer_timeout = cache_get('stats_buffer_timeout', 'site_stats');
-        if(!$buffer_timeout){
-            cache_save('skip', 'stats_buffer_timeout', 'site_stats',1);
 
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+            return;
         }
-
-        $user_data = $this->collect_user_data();
-
-        if (!$buffer) {
+        $buffer = cache_get('stats_buffer_visits', 'site_stats');
+        $buffer_skip = cache_get('stats_buffer_timeout', 'site_stats');
+        if (!$buffer_skip) {
+            cache_save('skip', 'stats_buffer_timeout', 'site_stats', 1);
+        }
+        if (!is_array($buffer)) {
             $buffer = array();
         }
-        $buffer[] = $user_data;
 
-        if(!$buffer_timeout){
-          if($buffer){
 
-          }
+        $data = $this->_collect_user_data();
+        $buffer_key = 'stat' . crc32($data['referrer'].$data['session_id']);
+
+
+        if (!isset($buffer[$buffer_key])) {
+            $data['visit_date'] = date("Y-m-d");
+            $data['visit_time'] = date("H:i:s");
+            $buffer[$buffer_key] = $data;
+            cache_save($buffer, 'stats_buffer_visits', 'site_stats');
         }
-        cache_save($buffer, 'stats_buffer', 'site_stats');
 
-       // dd($buffer,$buffer_timeout);
+        if (!$buffer_skip) {
+            $this->process_buffer();
+        }
+    }
 
+    function process_buffer()
+    {
+        $buffer = cache_get('stats_buffer_visits', 'site_stats');
+        //dd($buffer);
+
+        //cache_save($buffer, 'stats_buffer_visits', 'site_stats');
 
     }
 
 
-    private function collect_user_data()
+    private function _collect_user_data()
     {
 
-        $user_data = array();
-        $user_data['ip'] = user_ip();
+        $data = array();
+        $data['user_ip'] = user_ip();
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $user_data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+            $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
         }
 
 
-        $lp = url_current(true);
+        $ref = url_current(true);
 
-        if ($lp == false) {
+        if ($ref == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
-                $lp = $_SERVER['HTTP_REFERER'];
+                $ref = $_SERVER['HTTP_REFERER'];
             } else {
-                $lp = $_SERVER['PHP_SELF'];
+                $ref = $_SERVER['PHP_SELF'];
             }
         }
 
-        $user_data['referrer'] = $lp;
-        $user_data['datetime'] = date("Y-m-d h:i:s");
-        $user_data['session_id'] = mw()->user_manager->session_id();
-        $user_data['user_id'] = mw()->user_manager->id();
-        $user_data['content_id'] = content_id();
-        $user_data['category_id'] = category_id();
+        $data['referrer'] = $ref;
+        $data['session_id'] = mw()->user_manager->session_id();
+        $data['user_id'] = mw()->user_manager->id();
+        $data['content_id'] = content_id();
+        $data['category_id'] = category_id();
 
-        return $user_data;
+        return $data;
     }
 
 
-    function track_visit()
+    private function _track_visit()
     {
 
 
@@ -165,7 +160,7 @@ return;
     }
 
 
-    function track_pageview()
+    private function _track_pageview()
     {
         if (!get_option('track_pageviews', 'stats')) {
             return;

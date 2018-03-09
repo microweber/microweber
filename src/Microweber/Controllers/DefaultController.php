@@ -1961,7 +1961,9 @@ class DefaultController extends Controller
                 $response->setStatusCode(404);
                 return $response;
             }
-
+            if ($is_editmode == false and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field']) and !is_cli() and !defined('MW_API_CALL')) {
+               event_trigger('mw.pageview');
+            }
             $response = \Response::make($l);
             if ($is_editmode == true and $is_admin == true) {
                 $response->header('Pragma', 'no-cache');
