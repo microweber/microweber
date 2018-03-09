@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Gallery With Categories Full Width
+name: Portfolio With Categories Full Width
 
 position: 58
 
