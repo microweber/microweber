@@ -423,3 +423,7 @@ section.blog-post .container .container {
 .input-with-icon label + i {
     top: 68px !important;
 }
+
+.accordion li.active .accordion__content{
+    max-height: auto !important;
+}

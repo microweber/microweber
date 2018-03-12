@@ -2,30 +2,84 @@
 
 namespace Microweber\SiteStats;
 
-use Carbon\Carbon;
-
 
 class Tracker
 {
-    public $app = null;
-    public $views_dir = 'views';
 
 
-    function __construct($app = null)
+    function track()
     {
-        if (!is_object($this->app)) {
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw();
-            }
+
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+            return;
         }
-        $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
+        $buffer = cache_get('stats_buffer_visits', 'site_stats');
+        $buffer_skip = cache_get('stats_buffer_timeout', 'site_stats');
+        if (!$buffer_skip) {
+            cache_save('skip', 'stats_buffer_timeout', 'site_stats', 1);
+        }
+        if (!is_array($buffer)) {
+            $buffer = array();
+        }
+
+
+        $data = $this->_collect_user_data();
+        $buffer_key = 'stat' . crc32($data['referrer'].$data['session_id']);
+
+
+        if (!isset($buffer[$buffer_key])) {
+            $data['visit_date'] = date("Y-m-d");
+            $data['visit_time'] = date("H:i:s");
+            $buffer[$buffer_key] = $data;
+            cache_save($buffer, 'stats_buffer_visits', 'site_stats');
+        }
+
+        if (!$buffer_skip) {
+            $this->process_buffer();
+        }
+    }
+
+    function process_buffer()
+    {
+        $buffer = cache_get('stats_buffer_visits', 'site_stats');
+        //dd($buffer);
+
+        //cache_save($buffer, 'stats_buffer_visits', 'site_stats');
 
     }
 
 
-    function track_visit()
+    private function _collect_user_data()
+    {
+
+        $data = array();
+        $data['user_ip'] = user_ip();
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+
+        $ref = url_current(true);
+
+        if ($ref == false) {
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                $ref = $_SERVER['HTTP_REFERER'];
+            } else {
+                $ref = $_SERVER['PHP_SELF'];
+            }
+        }
+
+        $data['referrer'] = $ref;
+        $data['session_id'] = mw()->user_manager->session_id();
+        $data['user_id'] = mw()->user_manager->id();
+        $data['content_id'] = content_id();
+        $data['category_id'] = category_id();
+
+        return $data;
+    }
+
+
+    private function _track_visit()
     {
 
 
@@ -106,7 +160,7 @@ class Tracker
     }
 
 
-    function track_pageview()
+    private function _track_pageview()
     {
         if (!get_option('track_pageviews', 'stats')) {
             return;
@@ -134,5 +188,6 @@ class Tracker
 
         }
     }
+
 
 }

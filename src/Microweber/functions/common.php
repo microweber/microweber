@@ -372,13 +372,13 @@ function cache_get($cache_id, $cache_group = 'global', $expiration = false)
  *                                      retrieve the cached content.
  * @param string $cache_group
  *                                      (default is 'global') - this is the subfolder in the cache dir.
- * @param bool $expiration_in_seconds
+ * @param int $expiration_in_minutes
  *
  * @return bool
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration = false)
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration_in_minutes = false)
 {
-    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration);
+    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_minutes);
 }
 
 api_expose_admin('clearcache');
@@ -456,22 +456,23 @@ function cache_delete($cache_group = 'global')
 if (!function_exists('is_cli')) {
     function is_cli()
     {
-        if (defined('STDIN')) {
+        static $is;
+        if ($is !== null) {
+            return $is;
+        }
+        if (
+            defined('STDIN')
+            or php_sapi_name() === 'cli'
+            or php_sapi_name() === 'cli-server'
+            or array_key_exists('SHELL', $_ENV)
+
+        ) {
+            $is = true;
             return true;
         }
 
-        if (php_sapi_name() === 'cli') {
-            return true;
-        }
 
-        if (php_sapi_name() === 'cli-server') {
-            return true;
-        }
-
-        if (array_key_exists('SHELL', $_ENV)) {
-            return true;
-        }
-
+        $is = false;
         return false;
     }
 }
@@ -489,7 +490,7 @@ if (!function_exists('is_https')) {
     }
 }
 if (!function_exists('is_closure')) {
-function is_closure($t)
+    function is_closure($t)
     {
         return is_object($t) or ($t instanceof \Closure);
     }
