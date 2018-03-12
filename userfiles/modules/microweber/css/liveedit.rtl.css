@@ -45,4 +45,13 @@
     margin-left:8px;
 }
 
+.mw_edit_delete{
+    left: 0px !important;
+    right: auto !important;
+}
+#mw_handle_module_up, #mw_handle_module_down{
+    right: auto;
+    left: 30px;
+    float: left;
+}
 

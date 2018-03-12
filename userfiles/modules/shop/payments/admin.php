@@ -300,11 +300,15 @@ $payment_modules = get_modules('type=payment_gateway');
 <div class="mw-ui-row">
     <div class="mw-ui-col">
         <div class="mw-ui-col-container">
-            <div class="mw-ui-row admin-section-bar"><div class="mw-ui-col"><h2><span class="mai-order"></span><?php _e("Payment methods"); ?></h2></div></div>
+
             <div class="mw-set-payment-options" style="padding: 14px;">
 
                 <div class="otab" style="display: block" id="db-payment-methods">
-
+                    <div class="mw-ui-row admin-section-bar">
+                        <div class="mw-ui-col">
+                            <h2><span class="mai-order"></span><?php _e("Payment methods"); ?>1</h2>
+                        </div>
+                    </div>
                     <?php if (is_array($payment_modules)): ?>
                     <div class="mw_simple_tabs mw_tabs_layout_stylish"
                          id="available_providers">
