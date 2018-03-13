@@ -114,6 +114,12 @@
 .mw-ui-settings-box.box-white {
     background: #fff;
 }
+.mw-ui-settings-box.box-enabled {
+    background: rgba(170, 237, 154, 0.18);
+}
+.mw-ui-settings-box.box-disabled {
+    background: rgba(255, 192, 210, 0.18);
+}
 
 .clearfix {
     clear: both;
@@ -267,7 +273,7 @@
 }
 
 .mw-shipping-items .mw-ui-table tr:nth-child(even) td {
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 .mw-shipping-items .mw-ui-table > tbody > tr > td:first-child,
@@ -278,11 +284,26 @@
 .mw-shipping-items.add-new-country {
     display: none;
 }
-.mw-shipping-items.add-new-country .mw-ui-box{
-    background: #fffdb7;
-}
 
 .mw-shipping-items.add-new-country .mw-ui-table tr:nth-child(even) td {
     background: none;
 }
 
+.mw-shipping-items .shipping-country-holder .mw-icon-close{
+    visibility: visible;
+
+    color: #0086db;
+    background: #fff;
+    padding: 4px 5px;
+    -webkit-border-radius: 52px;
+    -moz-border-radius: 52px;
+    border-radius: 52px;
+    font-size: 10px;
+    border: 1px solid #0086db;
+}
+
+.mw-shipping-items .shipping-country-holder .mw-icon-close:hover{
+    color: #fff;
+    background: #0086db;
+    border: 1px solid #0086db;
+}

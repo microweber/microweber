@@ -287,6 +287,10 @@ if ($weight_units == false) {
                         <?php _e("Save"); ?>
                     <?php endif; ?>
                 </button>
+
+            </div>
+
+            <div>
                 <?php if ($new == false): ?>
                     <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span> <span
                             onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip"
