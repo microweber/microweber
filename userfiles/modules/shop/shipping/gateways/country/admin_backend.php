@@ -15,7 +15,7 @@ if ($data == false) {
 }
 
 $countries_used = array();
-$data[] = array();
+//$data[] = array();
 
 $countries = mw()->forms_manager->countries_list();
 
@@ -33,7 +33,7 @@ $data_active = array();
 $data_disabled = array();
 foreach ($data as $item) {
 
-    if (isset($item['is_active']) and 'n' == trim($item['is_active'])) {
+    if (isset($item['is_active']) and 0 == intval($item['is_active'])) {
         $data_disabled[] = $item;
     } else {
         $data_active[] = $item;
@@ -63,6 +63,8 @@ $view->assign('countries', $countries);
 $view->assign('countries_used', $countries_used);
 $view->assign('data', $data_active);
 $view->assign('data_key', 'data_active');
+$view->assign('active_or_disabled', 'active');
+
 print $view->display();
 
 $view_file = __DIR__ . DS . 'views/admin_table_list.php';
@@ -70,9 +72,11 @@ $view = new View($view_file);
 $view->assign('params', $params);
 $view->assign('config', $config);
 $view->assign('countries', $countries);
+$view->assign('countries_used', $countries_used);
+
 $view->assign('data', $data_disabled);
 $view->assign('data_key', 'data_disabled');
-
+$view->assign('active_or_disabled', 'disabled');
 print $view->display();
 
 
