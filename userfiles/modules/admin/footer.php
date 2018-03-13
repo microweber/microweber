@@ -31,7 +31,9 @@
 	?>
     
 
-    <a href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a>
+    <a href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>">
+        <span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong>
+    </a>
     <?php endforeach; ?>
     <?php endif; ?>
   </div>

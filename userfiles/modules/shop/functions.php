@@ -14,7 +14,7 @@ function mw_add_admin_menu_buttons($params = false)
         $btn = array();
         $btn['content_type'] = 'product';
         $btn['title'] = _e("Product", true);
-        $btn['class'] = 'mw-icon-product';
+        $btn['class'] = 'mai-product';
         mw()->modules->ui('content.create.menu', $btn);
     }
     $btn = array();

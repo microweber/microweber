@@ -4596,6 +4596,7 @@ body.bup.dragStart.state-element {
   font-size: 12px;
   line-height: 22px;
   height: 24px;
+  padding: 0 5px;
   text-transform: uppercase;
   color: #8d8d8d;
   background: #d3d3d3;
@@ -4609,10 +4610,12 @@ body.bup.dragStart.state-element {
 .mw-switch-off{
   border-left: 1px solid #bfbfbf;
   border-radius:2px 0 0 2px;
+  padding-right: 2px;
 }
 .mw-switch-on{
   border-right: 1px solid #bfbfbf;
-  border-radius: 0 2px 2px 0
+  border-radius: 0 2px 2px 0;
+  padding-left: 2px;
 }
 
 .mw-switch input{
@@ -4671,16 +4674,54 @@ body.bup.dragStart.state-element {
 
 
 .mw-switch :checked ~ [class*="mw-switch-"]{
-  color: #004571;
   background: #0086db;
   border-top-color: #0080d2;
   border-bottom-color: #005992;
+}
+.mw-switch .mw-switch-on{
+  color: transparent;
 }
 .mw-switch :checked ~ .mw-switch-off{
   border-left-color:#006cb1
 }
 .mw-switch :checked ~ .mw-switch-on{
-  border-right-color:#006cb1
+  border-right-color:#006cb1;
+  color: #004571;
+}
+
+
+.mw-switch-action [class*="mw-switch-"]{
+  color: #db0000;
+  background: #ffc0d2;
+}
+
+.mw-switch-action :checked ~ [class*="mw-switch-"]{
+  color: #237100;
+  background: #aaed9a;
+}
+
+.mw-switch-action .mw-switch-off{
+  border-left: 1px solid #d87272;
+  border-top: 1px solid #d87272;
+  border-bottom: 1px solid #d87272;
+}
+.mw-switch-action .mw-switch-on{
+  border-right: 1px solid #d87272;
+  border-top: 1px solid #d87272;
+  border-bottom: 1px solid #d87272;
+}
+
+.mw-switch-action :checked ~ .mw-switch-off{
+  border-left: 1px solid #669000;
+  border-top: 1px solid #669000;
+  border-bottom: 1px solid #669000;
+
+}
+.mw-switch-action :checked ~ .mw-switch-on{
+  border-right: 1px solid #669000;
+  border-top: 1px solid #669000;
+  border-bottom: 1px solid #669000;
+  
 }
 
 

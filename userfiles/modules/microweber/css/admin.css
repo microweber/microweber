@@ -1200,7 +1200,9 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     color: white;
 }
 
-#mw-admin-main-menu > li.active-parent > a:hover{
+
+#mw-admin-main-menu > li.active-parent > a:hover,
+#mw-admin-main-menu li a:hover{
     background: white;
     color: #3B3B3B
 }
@@ -1501,6 +1503,14 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 .create-content-menu a [class*='mw-icon-'] {
     font-size: 39px;
     line-height: 50px;
+    height: 40px;
+    display: block;
+    color: #F5F5F5;
+}
+
+.create-content-menu a [class*='mai-'] {
+    font-size: 29px;
+    line-height: 58px;
     height: 40px;
     display: block;
     color: #F5F5F5;
@@ -3000,7 +3010,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     color: #CCCCCC;
     content: "\0109";
     display: block;
-    font-family: Microweber;
+    font-family: admin;
     font-size: 36px;
     line-height: 31px;
     margin-top: -18px;
@@ -3011,19 +3021,19 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 .manage-post-image-page:after {
-    content: "\0071";
+    content: '\0057';
 }
 
 .manage-post-image-post:after {
-    content: '\006f';
+    content: '\0058';
 }
 
 .manage-post-image-shop:after {
-    content: 's';
+    content: '\0053';
 }
 
 .manage-post-image-product:after {
-    content: '\0112';
+    content: ''\0071';
 }
 
 .manage-post-item.ui-sortable-helper {

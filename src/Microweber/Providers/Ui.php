@@ -31,19 +31,19 @@ class Ui
         $btn = array();
         $btn['content_type'] = 'page';
         $btn['title'] = _e('Page', true);
-        $btn['class'] = 'mw-icon-page';
+        $btn['class'] = 'mai-page';
         $this->module('content.create.menu', $btn);
 
         $btn = array();
         $btn['content_type'] = 'post';
         $btn['title'] = _e('Post', true);
-        $btn['class'] = 'mw-icon-post';
+        $btn['class'] = 'mai-post';
         $this->module('content.create.menu', $btn);
 
         $btn = array();
         $btn['content_type'] = 'category';
         $btn['title'] = _e('Category', true);
-        $btn['class'] = 'mw-icon-category';
+        $btn['class'] = 'mai-category';
         $this->module('content.create.menu', $btn);
 
         $notif_count = mw()->notifications_manager->get('is_read=0&count=1');

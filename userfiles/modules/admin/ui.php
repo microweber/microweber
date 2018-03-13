@@ -566,6 +566,33 @@
             <h2>Form elements</h2>
 
             <div class="demobox">
+                <label class="mw-switch">
+                    <input
+                            type="checkbox"
+                            name="enabled"
+                            data-value-checked="1"
+                            data-value-unchecked="0"
+                    >
+                    <span class="mw-switch-off">OFF</span>
+                    <span class="mw-switch-on">ON</span>
+                    <span class="mw-switcher"></span>
+                </label>
+            </div>
+
+            <div class="demobox">
+                <label class="mw-switch mw-switch-action">
+                    <input
+                            type="checkbox"
+                            name="enabled"
+                            data-value-checked="1"
+                            data-value-unchecked="0"
+                    >
+                    <span class="mw-switch-off">OFF</span>
+                    <span class="mw-switch-on">ON</span>
+                    <span class="mw-switcher"></span>
+                </label>
+            </div>
+            <div class="demobox">
                 <label class="mw-ui-label">Field</label>
                 <input type="text" class="mw-ui-field"/>
 
