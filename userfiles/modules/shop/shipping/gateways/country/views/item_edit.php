@@ -111,9 +111,10 @@ if ($weight_units == false) {
 
                         <label class="mw-switch mw-switch-action pull-left inline-switch">
                             <input
+                                    onchange="ToggleShipping(event)"
                                     type="checkbox"
                                     name="is_active"
-                                    class="mw_option_field"
+                                    data-id="<?php print $item['id']; ?>"
                                     data-value-checked="1"
                                     data-value-unchecked="0"
                                 <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?> checked="1" <?php endif; ?>>
