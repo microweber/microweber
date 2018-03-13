@@ -667,6 +667,8 @@ class UpdateManager
             Config::set('microweber.version', $version);
             Config::save('microweber');
         }
+
+        return true;
     }
 
     private function install_from_market($item)

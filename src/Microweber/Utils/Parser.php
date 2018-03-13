@@ -31,7 +31,7 @@ class Parser
     private $_replaced_modules_values = array();
     private $_replaced_modules = array();
     private $_replaced_codes = array();
-    private $_replaced_textarea_tag  = array();
+    private $_replaced_textarea_tag = array();
     private $_existing_module_ids = array();
     private $_current_parser_rel = false;
     private $_current_parser_field = false;
@@ -136,8 +136,6 @@ class Parser
         }
 
 
-
-
         $script_pattern = "/<!--(?!<!)[^\[>].*?-->/";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
         if (!empty($mw_script_matches)) {
@@ -152,8 +150,6 @@ class Parser
                 }
             }
         }
-
-
 
 
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
@@ -228,8 +224,6 @@ class Parser
                     }
                 }
             }
-
-
 
 
 //
@@ -357,12 +351,12 @@ class Parser
                                     $attrs['data-type'] = $attrs['module'];
                                     unset($attrs['module']);
                                 }
-                              if(isset( $attrs['parent-module'] )){
-                                  $coming_from_parent =  $attrs['parent-module'];
-                              }
-                              if(isset( $attrs['parent-module-id'] )){
-                                  $coming_from_parent_id =  $attrs['parent-module-id'];
-                              }
+                                if (isset($attrs['parent-module'])) {
+                                    $coming_from_parent = $attrs['parent-module'];
+                                }
+                                if (isset($attrs['parent-module-id'])) {
+                                    $coming_from_parent_id = $attrs['parent-module-id'];
+                                }
 
 
 //                            if ($coming_from_parent == true) {
@@ -379,7 +373,7 @@ class Parser
                                 $z = 0;
                                 $mod_as_element = false;
                                 $mod_no_wrapper = false;
- 
+
                                 if (isset($attrs['data-module'])) {
                                     $attrs['data-type'] = $attrs['data-module'];
                                     unset($attrs['data-module']);
@@ -482,10 +476,6 @@ class Parser
                                         }
 
 
-
-
-
-
                                         if (!$mod_id) {
                                             $mod_id = $module_class;
                                             if ($coming_from_parent_id and $coming_from_parent) {
@@ -502,7 +492,7 @@ class Parser
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
-                                             $mod_id = $coming_from_parent_id . '-' . $module_name;
+                                            $mod_id = $coming_from_parent_id . '-' . $module_name;
 
                                         }
 
@@ -537,7 +527,7 @@ class Parser
                                         $it++;
 
                                         if (isset($this->_existing_module_ids[$mod_id])) {
-                                             ++$it_loop;
+                                            ++$it_loop;
                                             $inc_mod_num = 0;
 
                                             if ($coming_from_parent_id != false) {
@@ -587,7 +577,7 @@ class Parser
 
                                             }
                                         }
-                                         $this->_existing_module_ids[$mod_id] = $mod_id;
+                                        $this->_existing_module_ids[$mod_id] = $mod_id;
 
 
                                         $attrs['id'] = $mod_id;
@@ -696,7 +686,7 @@ class Parser
                                 foreach ($attrs as $nn => $nv) {
                                     if ($nn != 'class') {
                                         $pass = true;
-                                        if($mod_no_wrapper){
+                                        if ($mod_no_wrapper) {
                                             if ($nn == 'id') {
                                                 $pass = false;
 
@@ -730,7 +720,6 @@ class Parser
                                 }
 
 
-
                                 $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
                                 preg_match_all($script_pattern, $mod_content, $mw_script_matches);
 
@@ -741,7 +730,7 @@ class Parser
                                             $v1 = '<tag-textarea>mw_replace_back_this_textarea_inner_' . $v1 . '</tag-textarea>';
                                             $mod_content = str_replace($value, $v1, $mod_content);
                                             if (!isset($this->_replaced_textarea_tag[$v1])) {
-                                              $this->_replaced_textarea_tag[$v1] = $value;
+                                                $this->_replaced_textarea_tag[$v1] = $value;
                                                 $mw_replaced_textarea_tag[$v1] = $value;
                                             }
                                         }
@@ -757,7 +746,7 @@ class Parser
 
                                         $pq_mod_inner = \phpQuery::newDocument($mod_content);
                                         $els_mod_inner = $pq_mod_inner['.edit'];
-                                        if(count($els_mod_inner)){
+                                        if (count($els_mod_inner)) {
                                             $mod_content = $this->_replace_editable_fields($mod_content);
 
                                         }
@@ -767,15 +756,11 @@ class Parser
 
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
 
-                                    if(strstr($mod_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                                    if (strstr($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                         $mod_content = $this->_replace_editable_fields($mod_content);
                                         $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
 
                                     }
-
-
-
-
 
 
                                 } else {
@@ -785,7 +770,6 @@ class Parser
                                     $coming_from_parent_str = '';
 
                                 }
-
 
 
                                 global $other_html_tag_replace_inc;
@@ -833,14 +817,12 @@ class Parser
 //        }
 
 
-
-
         if (!empty($mw_replaced_codes_tag)) {
             foreach ($mw_replaced_codes_tag as $key => $value) {
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-            // unset($mw_replaced_codes_tag[$key]);
+                // unset($mw_replaced_codes_tag[$key]);
             }
         }
 
@@ -886,9 +868,8 @@ class Parser
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-             }
+            }
         }
-
 
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
@@ -931,8 +912,8 @@ class Parser
             }
 
             if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc]) and !$no_cache) {
-              //  dd($parser_mem_crc);
-                 return $this->_mw_parser_passed_replaces[$parser_mem_crc];
+                //  dd($parser_mem_crc);
+                return $this->_mw_parser_passed_replaces[$parser_mem_crc];
             }
             if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc]) and !$no_cache) {
                 // return false;
@@ -1060,11 +1041,9 @@ class Parser
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
-                        if($field != 'content' and $field != 'content_body' and $field != 'title'){
-                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
+                        if ($field != 'content' and $field != 'content_body' and $field != 'title') {
+                            $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
                         }
-
-
 
 
                     } elseif ($rel == 'inherit') {
@@ -1084,23 +1063,22 @@ class Parser
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
-                           // $rel = 'content';
+                            // $rel = 'content';
                             $data = $this->app->content_manager->get_by_id($data_id);
                         } else {
                             // $rel = 'content';
                             $data = $this->app->content_manager->get_page($data_id);
                         }
 
-                        if($field != 'content' and $field != 'content_body' and $field != 'title'){
-                            $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=".$data_id);
-                     // d($data);
+                        if ($field != 'content' and $field != 'content_body' and $field != 'title') {
+                            $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+                            // d($data);
                         }
                     } elseif ($rel == 'global') {
                         $get_global = 1;
                         $cont_field = false;
                     } elseif ($rel == 'module') {
                         $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
-                     
 
 
                     }/* elseif (isset($attr['post'])) {
@@ -1119,6 +1097,7 @@ class Parser
                     $field_content = false;
                     $orig_rel = $rel;
 
+
                     $this->_current_parser_rel = $rel;
                     $this->_current_parser_field = $field;
 
@@ -1135,9 +1114,11 @@ class Parser
 
                     if (isset($data[$field])) {
                         if (isset($data[$field])) {
-                          //  $field_content = $data[$field];
+                            //  $field_content = $data[$field];
                         }
                     } else {
+
+
                         if ($rel == 'page') {
                             $rel = 'content';
                         }
@@ -1182,14 +1163,13 @@ class Parser
                         }
 
 
-
                     }
                     if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
 
 
-                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+                        $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
 
                         if ($cont_field == false) {
@@ -1199,13 +1179,14 @@ class Parser
                                 $cont_field = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
                             }
                         } else {
-                            $cont_field=  $field_content = $cont_field;
+                            $cont_field = $field_content = $cont_field;
                         }
                     }
 
                     $edit_field_content = false;
 
                     if (isset($data[$field])) {
+
                         $edit_field_content = $data[$field];
                     }
                     if ($use_id_as_field != false) {
@@ -1213,13 +1194,12 @@ class Parser
                             $edit_field_content = $data[$use_id_as_field];
                         }
                     }
-                    if(!$edit_field_content){
-                        if(isset($cont_field['value'])){
+                    if (!$edit_field_content) {
+                        if (isset($cont_field['value'])) {
                             $edit_field_content = $cont_field['value'];
 
                         }
                     }
-
 
 
                     $this->_current_parser_rel = $rel;
@@ -1236,7 +1216,7 @@ class Parser
 
                     //$mw_replaced_edit_fields_vals[$parser_mem_crc] = $edit_field_content;
 
-                    if($edit_field_content){
+                    if ($edit_field_content) {
                         $field_content = $edit_field_content;
                     }
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
@@ -1247,7 +1227,7 @@ class Parser
                         if ($ch2 == false) {
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
                             $this->_mw_parser_passed_hashes_rel[$rel][] = $parser_mem_crc2;
-                            if ( $field_content != false and $field_content != '') {
+                            if ($field_content != false and $field_content != '') {
                                 $mw_replaced_edit_fields_vals[$parser_mem_crc2] = $ch2;
                                 $parser_mem_crc3 = 'mw_replace_back_this_editable_' . $parser_mem_crc2 . '';
 
@@ -1258,6 +1238,7 @@ class Parser
                                 //  $rep = trim($rep);
                                 $rep = preg_replace("/(^\s+)|(\s+$)/us", "", $rep);
 
+
                                 if ($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] != false)) {
                                     $is_editable = false;
                                     if ($is_editable === false) {
@@ -1266,12 +1247,17 @@ class Parser
                                     }
                                     $is_editable = 1;
                                 }
-                                $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
+                                //   $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
 
-                        if(strstr($field_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
-                            $field_content = $this->_replace_editable_fields($field_content);
+                                if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
+                                    $field_content = $this->_replace_editable_fields($field_content);
+                                }
 
-                        }
+
+                                if ($field_content and is_object($elem) and $elem->nodeName != 'div') {
+                                    pq($elem)->html($field_content);
+                                }
+
 
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                 $this->_mw_edit_field_map[$parser_mem_crc] = array(
@@ -1282,7 +1268,7 @@ class Parser
                         } else {
 
                         }
-                    mw_var($parser_mem_crc2, 1);
+                        mw_var($parser_mem_crc2, 1);
 
 //                        if(strstr($field_content,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
 //                            $field_content = $this->_replace_editable_fields($field_content);
@@ -1291,7 +1277,7 @@ class Parser
 
                     } else {
                         $el_html = pq($elem)->html();
-                        if(strstr($el_html,'<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')){
+                        if (strstr($el_html, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                             pq($elem)->html('<!-- edit_field_not_found_in_database -->');
 //dd($el_html);
                         }
@@ -1302,11 +1288,6 @@ class Parser
                 $layout = $pq->htmlOuter();
 
                 $pq->__destruct();
-
-
-
-
-
 
 
                 $pq = null;
@@ -1394,15 +1375,13 @@ class Parser
         }
 
 
-
-
         $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
         return $layout;
     }
 
-    public function make_tags($layout,$options=array())
+    public function make_tags($layout, $options = array())
     {
 
         if ($layout == '') {
@@ -1413,35 +1392,35 @@ class Parser
         $pq = \phpQuery::newDocument($layout);
 
 
-        $remove_clases = ['changed','inaccessibleModule','module-over', 'currentDragMouseOver', 'mw-webkit-drag-hover-binded'];
+        $remove_clases = ['changed', 'inaccessibleModule', 'module-over', 'currentDragMouseOver', 'mw-webkit-drag-hover-binded'];
 
         foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;
             $tag = $elem->tagName;
 
 
-            $module_html = '<'.$tag.' ';
+            $module_html = '<' . $tag . ' ';
             if (!empty($attrs)) {
                 foreach ($attrs as $attribute_name => $attribute_node) {
                     $v = $attribute_node->nodeValue;
-                    if($attribute_name == 'class'){
-                        foreach($remove_clases as $remove_class){
-                            $v = str_replace(' '.$remove_class,'',$v);
+                    if ($attribute_name == 'class') {
+                        foreach ($remove_clases as $remove_class) {
+                            $v = str_replace(' ' . $remove_class, '', $v);
                         }
                     }
                     $module_html .= " {$attribute_name}='{$v}'  ";
                 }
             }
-           // inaccessibleModule
-            $module_html .= '><inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag><'.$tag.'/>';
+            // inaccessibleModule
+            $module_html .= '><inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag><' . $tag . '/>';
             pq($elem)->replaceWith($module_html);
 
-         //   d('======================');
+            //   d('======================');
 
         }
-       // $layout = $pq->htmlOuter();
-      //  d($layout);
-       // exit;
+        // $layout = $pq->htmlOuter();
+        //  d($layout);
+        // exit;
         $layout = $pq->htmlOuter();
 
         $pq = \phpQuery::newDocument($layout);
@@ -1453,9 +1432,9 @@ class Parser
             if (!empty($attrs)) {
                 foreach ($attrs as $attribute_name => $attribute_node) {
                     $v = $attribute_node->nodeValue;
-                    if($attribute_name == 'class'){
-                        foreach($remove_clases as $remove_class){
-                            $v = str_replace(' '.$remove_class,'',$v);
+                    if ($attribute_name == 'class') {
+                        foreach ($remove_clases as $remove_class) {
+                            $v = str_replace(' ' . $remove_class, '', $v);
                         }
                     }
 
@@ -1472,7 +1451,7 @@ class Parser
         $layout = str_replace('?>', '?&gt;', $layout);
 
 
-        if(isset($options['change_module_ids']) and $options['change_module_ids']){
+        if (isset($options['change_module_ids']) and $options['change_module_ids']) {
             $script_pattern = '/<module[^>]*>/Uis';
             preg_match_all($script_pattern, $layout, $mw_script_matches);
             if (!empty($mw_script_matches)) {
@@ -1480,16 +1459,16 @@ class Parser
 
                 foreach ($matches1 as $key => $value) {
                     if ($value != '') {
-                       $attrs =  $this->_extract_module_tag_attrs($value);
+                        $attrs = $this->_extract_module_tag_attrs($value);
                         $suffix = date("Ymdhis");
-                        if(isset($attrs['parent-module-id'])){
-                            $attrs['parent-module-id'] = $attrs['parent-module-id'].$suffix;
+                        if (isset($attrs['parent-module-id'])) {
+                            $attrs['parent-module-id'] = $attrs['parent-module-id'] . $suffix;
                         }
-                        if(isset($attrs['id'])){
-                            $attrs['id'] = $attrs['id'].$suffix;
+                        if (isset($attrs['id'])) {
+                            $attrs['id'] = $attrs['id'] . $suffix;
                         }
 
-                        if($attrs){
+                        if ($attrs) {
                             $module_tags = '<module ';
                             foreach ($attrs as $nn => $nv) {
                                 $module_tags .= " {$nn}='{$nv}' ";
@@ -1831,7 +1810,6 @@ class Parser
             }
         }
         //
-
         if (isset($try_file1) != false and $try_file1 != false and is_file($try_file1)) {
             if (isset($attrs) and is_array($attrs) and !empty($attrs)) {
                 $attrs2 = array();
@@ -1848,7 +1826,7 @@ class Parser
                 }
                 $attrs = $attrs2;
             }
-
+            $config = array();
             $config['path_to_module'] = $config['mp'] = $config['path'] = normalize_path((dirname($try_file1)) . '/', true);
             $config['the_module'] = $module_name;
             $config['module'] = $module_name;
@@ -1917,6 +1895,7 @@ class Parser
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
+
 
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
@@ -2096,7 +2075,7 @@ class Parser
             }
         }
 
-        if($attrs){
+        if ($attrs) {
             return $attrs;
         }
     }

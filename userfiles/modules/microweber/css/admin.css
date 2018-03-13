@@ -4714,10 +4714,10 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 
 /* Shipping */
 
-.shipping-country-holder {
-    padding: 15px;
-    background: white;
-}
+/*.shipping-country-holder {*/
+    /*padding: 15px;*/
+    /*background: white;*/
+/*}*/
 
 .save_shipping_btn {
     visibility: hidden;
@@ -4749,11 +4749,11 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     text-align: center;
 }
 
-.shipping_per_item, .shipping_dimensions {
-    margin-top: 15px;
-    padding-top: 2px;
-    border-top: 1px solid #EDEDED;
-}
+/*.shipping_per_item, .shipping_dimensions {*/
+    /*margin-top: 15px;*/
+    /*padding-top: 2px;*/
+    /*border-top: 1px solid #EDEDED;*/
+/*}*/
 
 .shipping-country-row .mw-ui-inline-list {
     padding-top: 10px;
