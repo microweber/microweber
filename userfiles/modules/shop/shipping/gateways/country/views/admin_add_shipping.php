@@ -86,6 +86,27 @@
 </script>
 
 <script type="text/javascript">
+
+    ToggleShipping = function (e) {
+
+        var el = e.target;
+        var eroot = $(el).parents('.mw-ui-box')[0];
+        mw.tools.loading(eroot, true)
+        var data = {
+            id:el.getAttribute('data-id'),
+            is_active:el.checked ? 1 : 0
+        }
+        SaveShippingData(data).always(function () {
+            mw.tools.loading(eroot, false)
+        });
+    }
+
+    SaveShippingData = function(data){
+        return $.post('<?php print $config['module_api']; ?>/shipping_to_country/save', data)
+        .done(function () {
+            mw.notification.success('<?php _e("Saved"); ?>')
+        })
+    }
     SaveShipping = function (form, dataType) {
         var country = mw.$('[name="shipping_country"]', form).val();
         if (country == 'none') {

@@ -285,7 +285,7 @@ mw.wysiwyg = {
             var _el = $(el);
             if(!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])){
               _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
-               /*if (!mw.is.ie) { //Non IE browser
+               if (!mw.is.ie) { //Non IE browser
 
                 if (mw.tools.hasParentsWithClass(el, "module")) {
                     el.contentEditable = true;
@@ -297,7 +297,7 @@ mw.wysiwyg = {
                     else {
                         el.contentEditable = false;
                     }
-                }*/
+                }
             }
             else {   // IE browser
                 mw.wysiwyg.removeEditable();
