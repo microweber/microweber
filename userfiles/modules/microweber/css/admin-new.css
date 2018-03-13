@@ -1,3 +1,228 @@
+/* Typography */
+.right {
+    text-align: right !important;
+}
+
+.left {
+    text-align: left !important;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.justify {
+    text-align: justify !important;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.underline {
+    text-decoration: underline !important;
+}
+
+.italic {
+    font-style: italic !important;
+}
+
+.red {
+    color: #dd2229 !important;
+}
+
+.darkred {
+    color: #BA0519 !important;
+}
+
+.green {
+    color: green !important;
+}
+
+.silver {
+    color: #666666 !important;
+}
+
+.m-a {
+    margin: auto !important;
+}
+
+.m-0 {
+    margin: 0px !important;
+}
+
+.m-10 {
+    margin: 10px !important;
+}
+
+.m-20 {
+    margin: 20px !important;
+}
+
+.m-30 {
+    margin: 30px !important;
+}
+
+.m-40 {
+    margin: 40px !important;
+}
+
+.m-t-0 {
+    margin-top: 0px !important;
+}
+
+.m-t-10 {
+    margin-top: 10px !important;
+}
+
+.m-t-20 {
+    margin-top: 20px !important;
+}
+
+.m-t-30 {
+    margin-top: 30px !important;
+}
+
+.m-t-40 {
+    margin-top: 40px !important;
+}
+
+.m-t-50 {
+    margin-top: 50px !important;
+}
+
+.m-t-60 {
+    margin-top: 60px !important;
+}
+
+.m-t-70 {
+    margin-top: 70px !important;
+}
+
+.m-b-0 {
+    margin-bottom: 0px !important;
+}
+
+.m-b-10 {
+    margin-bottom: 10px !important;
+}
+
+.m-b-20 {
+    margin-bottom: 20px !important;
+}
+
+.m-b-30 {
+    margin-bottom: 30px !important;
+}
+
+.m-b-40 {
+    margin-bottom: 40px !important;
+}
+
+.m-b-50 {
+    margin-bottom: 50px !important;
+}
+
+.m-b-60 {
+    margin-bottom: 60px !important;
+}
+
+.m-b-70 {
+    margin-bottom: 70px !important;
+}
+
+.p-0 {
+    padding: 0px !important;
+}
+
+.p-10 {
+    padding: 10px !important;
+}
+
+.p-20 {
+    padding: 20px !important;
+}
+
+.p-30 {
+    padding: 30px !important;
+}
+
+.p-40 {
+    padding: 40px !important;
+}
+
+.p-t-0 {
+    padding-top: 0px !important;
+}
+
+.p-t-5 {
+    padding-top: 5px !important;
+}
+
+.p-t-10 {
+    padding-top: 10px !important;
+}
+
+.p-t-20 {
+    padding-top: 20px !important;
+}
+
+.p-t-30 {
+    padding-top: 30px !important;
+}
+
+.p-t-40 {
+    padding-top: 40px !important;
+}
+
+.p-t-50 {
+    padding-top: 50px !important;
+}
+
+.p-t-60 {
+    padding-top: 60px !important;
+}
+
+.p-t-70 {
+    padding-top: 70px !important;
+}
+
+.p-b-0 {
+    padding-bottom: 0px !important;
+}
+
+.p-b-10 {
+    padding-bottom: 10px !important;
+}
+
+.p-b-20 {
+    padding-bottom: 20px !important;
+}
+
+.p-b-30 {
+    padding-bottom: 30px !important;
+}
+
+.p-b-40 {
+    padding-bottom: 40px !important;
+}
+
+.p-b-50 {
+    padding-bottom: 50px !important;
+}
+
+.p-b-60 {
+    padding-bottom: 60px !important;
+}
+
+.p-b-70 {
+    padding-bottom: 70px !important;
+}
+
+.r-15 {
+    border-radius: 15px;
+}
+
 /* Petko */
 
 /* Tables */
@@ -107,16 +332,18 @@
 /* UI Box */
 .mw-ui-settings-box {
     background: #fafafa;
-    padding: 30px 25px;
+    padding: 0px 25px;
     margin-bottom: 10px;
 }
 
 .mw-ui-settings-box.box-white {
     background: #fff;
 }
+
 .mw-ui-settings-box.box-enabled {
     background: rgba(170, 237, 154, 0.18);
 }
+
 .mw-ui-settings-box.box-disabled {
     background: rgba(255, 192, 210, 0.18);
 }
@@ -130,25 +357,12 @@
     margin-left: 20px;
 }
 
-.m-b-10 {
-    margin-bottom: 10px;
+.disabled-and-enabled-label {
+    padding: 10px 0;
+    font-weight: bold;
 }
 
-.m-r-10 {
-    margin-right: 10px;
-}
 
-.m-b-10 {
-    margin-bottom: 10px;
-}
-
-.m-b-20 {
-    margin-bottom: 20px;
-}
-
-.p-t-10 {
-    padding-top: 10px;
-}
 
 /* Modals */
 /*
@@ -289,7 +503,7 @@
     background: none;
 }
 
-.mw-shipping-items .shipping-country-holder .mw-icon-close{
+.mw-shipping-items .shipping-country-holder .mw-icon-close {
     visibility: visible;
 
     color: #0086db;
@@ -302,8 +516,14 @@
     border: 1px solid #0086db;
 }
 
-.mw-shipping-items .shipping-country-holder .mw-icon-close:hover{
+.mw-shipping-items .shipping-country-holder .mw-icon-close:hover {
     color: #fff;
     background: #0086db;
     border: 1px solid #0086db;
+}
+
+.switcher-label-left {
+    font-weight: bold;
+    padding: 10px;
+    display: inline-block;
 }

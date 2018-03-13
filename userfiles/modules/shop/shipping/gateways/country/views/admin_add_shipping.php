@@ -164,7 +164,7 @@
         <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
     </a>
 
-    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show().effect('highlight', {}, 3000)">
+    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show()">
         <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
     </a>
     <div class="clearfix"></div>
