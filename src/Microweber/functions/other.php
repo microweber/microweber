@@ -582,6 +582,10 @@ function template_head($script_src)
 {
     return mw()->template->head($script_src);
 }
+function template_foot($script_src)
+{
+    return mw()->template->foot($script_src);
+}
 
 function template_headers_src()
 {
