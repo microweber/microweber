@@ -93,7 +93,8 @@ $is_orders = get_orders('count=1');
     <input type="text" class="mw-ui-searchfield pull-right active" placeholder="<?php _e("Search in clients"); ?>"
            onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('clients_search',this.value)})" value="<?php print $keyword ?>" autofocus="autofocus"/>
 </div>
-<hr>
+
+<div class="admin-side-content">
 <?php if ($is_orders != 0) { ?>
     <div class="table-responsive">
         <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
@@ -151,3 +152,4 @@ $is_orders = get_orders('count=1');
         </h2>
     </div>
 <?php } ?>
+</div>

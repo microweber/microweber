@@ -430,13 +430,20 @@ if (!empty($recomended_layouts)) {
 <!--<span onclick="$('.layouts_box_holder_small').toggleClass('semi_hidden');" class="mw-ui-btn mw-ui-btn-small" style="top: -3px;">--><?php //_e("Change template"); ?><!--</span>-->
 
     <?php else: ?>
-        <h2><?php _e("Choose template"); ?></h2>
+    
+
+            <div class="mw-ui-row admin-section-bar">
+                <div class="mw-ui-col">
+                    <h2><?php _e("Choose template"); ?></h2>
+                </div>
+            </div>
+
 
     <?php endif; ?>
 
 <?php endif ?>
 
-<div class="layout_selector_wrap">
+<div class="layout_selector_wrap admin-side-content">
 
     <?php
     if (defined('ACTIVE_SITE_TEMPLATE')) {

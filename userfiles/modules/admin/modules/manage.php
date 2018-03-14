@@ -83,6 +83,7 @@ if ($load_module == true): ?>
     </style>
     <?php if (isset($mods) and is_array($mods) == true): ?>
 
+        <div class="admin-side-content">
         <div class="mw-modules-box">
             <ul class="mw-modules-admin">
                 <?php if (is_array($upds) == true): ?>
@@ -123,6 +124,7 @@ if ($load_module == true): ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
+        </div>
         </div>
     <?php else : ?>
         <?php _e("No modules found"); ?>

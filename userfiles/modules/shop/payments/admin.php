@@ -301,112 +301,113 @@ $payment_modules = get_modules('type=payment_gateway');
     <div class="mw-ui-col">
         <div class="mw-ui-col-container">
 
-            <div class="mw-set-payment-options" style="padding: 14px;">
+            <div class="mw-set-payment-options">
 
                 <div class="otab" style="display: block" id="db-payment-methods">
                     <div class="mw-ui-row admin-section-bar">
                         <div class="mw-ui-col">
-                            <h2><span class="mai-order"></span><?php _e("Payment methods"); ?>1</h2>
+                            <h2><span class="mai-order"></span><?php _e("Payment methods"); ?></h2>
                         </div>
                     </div>
-                    <?php if (is_array($payment_modules)): ?>
-                    <div class="mw_simple_tabs mw_tabs_layout_stylish"
-                         id="available_providers">
-                        <?php foreach ($payment_modules as $payment_module): ?>
-                            <?php
-                            $module_info = ($payment_module);
-                            if (!isset($module_info['id']) or $module_info['id']==false){
-                                $module_info['id'] = 0;
-                            }
-                            ?>
-                            <div
-                                class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
-                                id="module-db-id-<?php print $module_info['id'] ?>">
-                                <div class="mw-ui-box-header"
-                                     onmousedown="paymentModal(this.parentNode);">
-                                    <div class="gateway-icon-title">
-                                        <div class="mw-ui-row">
-                                            <div class="mw-ui-col">
-                                                <span class="mw-icon-drag"></span>
-                                            </div>
-                                            <div class="mw-ui-col">
-                                                <img
-                                                    src="<?php print $payment_module['icon']; ?>"
-                                                    alt=""/>
-                                            </div>
-                                            <div class="mw-ui-col"> <span
-                                                    class="gateway-title"><?php print $payment_module['name'] ?>
-                                                    <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')!=1): ?>
-                                                        <small class="mw-small">
-                                                            (disabled)
-                                                        </small>
-                                                    <?php endif; ?>
-                      </span></div>
-                                            <div class="mw-ui-col">
-                                            <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline">
-                                                <span class="mai-setting2"></span>
-                                                <?php _e('Settings'); ?>
-                                            </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
+                    <div class="admin-side-content">
 
-                                </div>
+                        <?php if (is_array($payment_modules)): ?>
+                        <div class="mw_simple_tabs mw_tabs_layout_stylish"
+                             id="available_providers">
+                            <?php foreach ($payment_modules as $payment_module): ?>
+                                <?php
+                                $module_info = ($payment_module);
+                                if (!isset($module_info['id']) or $module_info['id']==false){
+                                    $module_info['id'] = 0;
+                                }
+                                ?>
                                 <div
-                                    class="mw-ui-box-content mw-accordion-content">
-                                    <div class="mw-ui-row">
-                                        <div class="mw-ui-col">
-                                            <h3><?php print $payment_module['name'] ?>
-                                                :</h3>
-                                        </div>
-                                        <div class="mw-ui-col">
-                                            <div
-                                                class="mw-ui-box payment-state-status <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')==1): ?>active<?php endif; ?> pull-right">
-                                                <div
-                                                    class="mw-ui-check-selector">
-                                                    <label class="mw-ui-check">
-                                                        <input
-                                                            onchange="setActiveProvider(this);"
-                                                            name="payment_gw_<?php print $payment_module['module'] ?>"
-                                                            class="mw_option_field"
-                                                            data-option-group="payments"
-                                                            value="1"
-                                                            type="radio" <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')==1): ?> checked="checked" <?php endif; ?> >
-                                                        <span></span> <span
-                                                            class="first">
-                          <?php _e("Enabled"); ?>
-                          </span> </label>
-                                                    <label class="mw-ui-check">
-                                                        <input
-                                                            onchange="setActiveProvider(this);"
-                                                            name="payment_gw_<?php print $payment_module['module'] ?>"
-                                                            class="mw_option_field"
-                                                            data-option-group="payments"
-                                                            value="0"
-                                                            type="radio" <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')!=1): ?> checked="checked" <?php endif; ?> >
-                                                        <span></span> <span
-                                                            class="second">
-                          <?php _e("Disabled"); ?>
-                          </span> </label>
+                                    class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
+                                    id="module-db-id-<?php print $module_info['id'] ?>">
+                                    <div class="mw-ui-box-header"
+                                         onmousedown="paymentModal(this.parentNode);">
+                                        <div class="gateway-icon-title">
+                                            <div class="mw-ui-row">
+                                                <div class="mw-ui-col">
+                                                    <span class="mw-icon-drag"></span>
+                                                </div>
+                                                <div class="mw-ui-col">
+                                                    <img
+                                                        src="<?php print $payment_module['icon']; ?>"
+                                                        alt=""/>
+                                                </div>
+                                                <div class="mw-ui-col"> <span
+                                                        class="gateway-title"><?php print $payment_module['name'] ?>
+                                                        <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')!=1): ?>
+                                                            <small class="mw-small">
+                                                                (disabled)
+                                                            </small>
+                                                        <?php endif; ?>
+                          </span></div>
+                                                <div class="mw-ui-col">
+                                                <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline">
+                                                    <span class="mai-setting2"></span>
+                                                    <?php _e('Settings'); ?>
+                                                </span>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
 
                                     </div>
-                                    <div class="mw-set-payment-gw-options">
-                                        <module
-                                            type="<?php print $payment_module['module'] ?>"
-                                            view="admin"/>
+                                    <div
+                                        class="mw-ui-box-content mw-accordion-content">
+                                        <div class="mw-ui-row">
+                                            <div class="mw-ui-col">
+                                                <h3><?php print $payment_module['name'] ?>
+                                                    :</h3>
+                                            </div>
+                                            <div class="mw-ui-col">
+                                                <div
+                                                    class="mw-ui-box payment-state-status <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')==1): ?>active<?php endif; ?> pull-right">
+                                                    <div
+                                                        class="mw-ui-check-selector">
+                                                        <label class="mw-ui-check">
+                                                            <input
+                                                                onchange="setActiveProvider(this);"
+                                                                name="payment_gw_<?php print $payment_module['module'] ?>"
+                                                                class="mw_option_field"
+                                                                data-option-group="payments"
+                                                                value="1"
+                                                                type="radio" <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')==1): ?> checked="checked" <?php endif; ?> >
+                                                            <span></span> <span
+                                                                class="first">
+                              <?php _e("Enabled"); ?>
+                              </span> </label>
+                                                        <label class="mw-ui-check">
+                                                            <input
+                                                                onchange="setActiveProvider(this);"
+                                                                name="payment_gw_<?php print $payment_module['module'] ?>"
+                                                                class="mw_option_field"
+                                                                data-option-group="payments"
+                                                                value="0"
+                                                                type="radio" <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments')!=1): ?> checked="checked" <?php endif; ?> >
+                                                            <span></span> <span
+                                                                class="second">
+                              <?php _e("Disabled"); ?>
+                              </span> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="mw-set-payment-gw-options">
+                                            <module
+                                                type="<?php print $payment_module['module'] ?>"
+                                                view="admin"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                        <module type="shop/payments/currency" id="mw_curr_select"/>
                     </div>
-                    <br/>
-                    <hr>
-                    <module type="shop/payments/currency" id="mw_curr_select"/>
                 </div>
                 <div class="otab" id="db-taxes">
                     <module type="shop/taxes/admin"

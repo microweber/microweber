@@ -8,11 +8,12 @@ $(document).ready(function(){
 });
 </script>
 
-
-
-<h2>
-  <?php _e("Website"); ?>
-</h2>
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2><?php _e("Website"); ?></h2>
+    </div>
+</div>
+<div class="admin-side-content">
 <div class="<?php print $config['module_class'] ?>">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -149,22 +150,13 @@ $(document).ready(function(){
   
   
   
-  <div id="the-icoimage">
-
-</div>
-
+    <div id="the-icoimage"></div>
     <input type="hidden" class="mw_option_field" name="favicon_image" id="favicon_image" value="<?php print $favicon_image; ?>" option-group="website" />
-
-
-
-            <span class="pull-left the-icoimage" style="background-image: url('<?php print $favicon_image; ?>');" <?php if($favicon_image != '' and $favicon_image != false){ ?><?php } else{ ?> style="display:block;" <?php } ?>></span>
-
-
-            <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span><?php _e('Upload favion'); ?></span>
-  
-  
+    <span class="pull-left the-icoimage" style="background-image: url('<?php print $favicon_image; ?>');" <?php if($favicon_image != '' and $favicon_image != false){ ?><?php } else{ ?> style="display:block;" <?php } ?>></span>
+    <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span><?php _e('Upload favion'); ?></span>
   </div>
-  
+  </div>
+
   
 
 

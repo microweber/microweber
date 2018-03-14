@@ -96,7 +96,9 @@ $keyword_search = '&keyword='.$keyword;
   </h2>
   <input type="text" class="mw-ui-searchfield pull-right active"  placeholder="<?php _e("Search in clients"); ?>" onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('clients_search',this.value)})" value="<?php print $keyword ?>" autofocus="autofocus" />
 </div>
-<hr>
+
+<div class="admin-side-content">
+
 <?php if($is_orders != 0){   ?>
 <table class="mw-ui-table mw-order-table mw-ui-table-spacious" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
   <thead>
@@ -145,3 +147,4 @@ $keyword_search = '&keyword='.$keyword;
   </h2>
 </div>
 <?php  }  ?>
+</div>
