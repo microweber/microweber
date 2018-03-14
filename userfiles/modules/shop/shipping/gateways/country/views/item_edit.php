@@ -73,7 +73,7 @@ if ($weight_units == false) {
         <div class="mw-ui-box mw-ui-settings-box <?php if ($item['is_active'] == 1 AND $new == false): ?>box-enabled<?php elseif ($item['is_active'] == 0): ?>box-disabled<?php endif; ?> mw-ui-box-content <?php if ($new == false): ?>toggle-item closed-fields<?php endif; ?>">
             <table class="mw-ui-table mw-ui-table-basic admin-shipping-table">
                 <tr class="shipping-country-row">
-                    <td width="33%" class="shipping-country-label">
+                    <td class="shipping-country-label">
                         <?php if ($new == true): ?>
                             <?php _e("Add new"); ?>
                         <?php else : ?>
@@ -82,7 +82,7 @@ if ($weight_units == false) {
                         <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Select a country to deliver your products to"); ?>." data-tipposition="right-center"></span>
 
                     </td>
-                    <td width="33%" class="shipping-country-setting"><?php if ($new == false): ?>
+                    <td class="shipping-country-setting"><?php if ($new == false): ?>
                             <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                         <?php endif; ?>
                         <select name="shipping_country" class="mw-ui-field">
@@ -106,7 +106,7 @@ if ($weight_units == false) {
                             <?php endif; ?>
                         </select>
                     </td>
-                    <td width="33%">
+                    <td>
                         <span class="switcher-label-left"><?php _e("Allow shipping to this country"); ?></span>
 
                         <label class="mw-switch mw-switch-action inline-switch">
@@ -122,8 +122,6 @@ if ($weight_units == false) {
                             <span class="mw-switch-on">YES</span>
                             <span class="mw-switcher"></span>
                         </label>
-
-
                     </td>
                 </tr>
                 <tr class="shipping-country-row hide-item hidden">
@@ -214,7 +212,7 @@ if ($weight_units == false) {
                         </div>
                     </td>
                 </tr>
-                <tr class="shipping-country-row hide-item hidden">
+                <tr class="shipping-discount-row hide-item hidden">
                     <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?>
                         <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Set a discount shipping price for orders exceeding certain value"); ?>."
                               data-tipposition="right-center"></span></td>
@@ -263,8 +261,9 @@ if ($weight_units == false) {
                 </tr>
             </table>
 
-            <div class="hide-item hidden">
-                <button class="mw-ui-btn mw-ui-btn-invert save_shipping_btn" type="submit">
+
+            <div>
+                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small save_shipping_btn" type="submit">
                     <?php if ($new == true): ?>
                         <?php _e("Add"); ?>
                     <?php else: ?>
@@ -272,13 +271,9 @@ if ($weight_units == false) {
                     <?php endif; ?>
                 </button>
 
-            </div>
-
-            <div>
                 <?php if ($new == false): ?>
-                    <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span> <span
-                            onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip"
-                            data-tip="<?php _e("Delete"); ?>"></span>
+                    <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
+                    <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>"></span>
                 <?php endif; ?>
             </div>
         </div>
