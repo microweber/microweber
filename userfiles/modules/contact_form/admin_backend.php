@@ -15,7 +15,7 @@
     }
 
     </style>
-  <div id="mw_index_contact_form">
+  <div class="admin-side-content" id="mw_index_contact_form">
     <div>
       <?php
           $mw_notif =  (url_param('mw_notif'));

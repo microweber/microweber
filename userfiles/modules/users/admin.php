@@ -227,6 +227,7 @@
     </script>
     <?php endif; ?>
 
+      <div class="admin-side-content">
 
     <div class="mw-ui-row-nodrop pull-left" style="width: auto">
         <div class="mw-ui-col"><div class="mw-col-container"><h2 id="user-section-title"><?php _e("Manage Users"); ?></h2></div></div>
@@ -312,4 +313,4 @@
       </div>
     </div>
   </div>
-</div>
+</div></div>

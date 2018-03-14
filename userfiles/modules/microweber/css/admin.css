@@ -1153,12 +1153,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu .active a:focus,
 #mw-admin-main-menu .active a{
     border-bottom: 1px solid #8b8b8b;
-    color: #3B3B3B
+    color: #0086db
 }
 #mw-admin-main-menu .active li a:hover,
+#mw-admin-main-menu .active-parent > a:hover,
 #mw-admin-main-menu .active-parent a:hover,
 #mw-admin-main-menu .active-parent a{
-    color: #3B3B3B;
+    color: #0086db;
     border-bottom: 1px solid #8b8b8b;
     background: white;
 }
@@ -1194,14 +1195,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 
 #mw-admin-main-menu li.active-parent a,
-#mw-admin-main-menu > li.active > a:hover,
 #mw-admin-main-menu li.active a{
     background: #909090;
     color: white;
 }
 
 
-#mw-admin-main-menu > li.active-parent > a:hover,
+
 #mw-admin-main-menu li a:hover{
     background: white;
     color: #3B3B3B
@@ -1249,7 +1249,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #mw-admin-main-menu > li > a:hover, #mw-admin-main-menu > li > a:focus {
-    color: white;
+    color: #0086db;
 }
 
 
@@ -3662,6 +3662,9 @@ body.grabbing, body.grabbing * {
     padding: 0 14px;
     background: white;
     height: 66px;
+}
+.modules-index-bar-transparent{
+    background: transparent;
 }
 
 .modules-index-bar h2 {

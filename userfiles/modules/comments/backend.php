@@ -154,12 +154,14 @@ $(document).ready(function(){
 </script>
 <?php endif; ?>
 
+<div class="admin-side-content">
 
-
-		<div class="mw-ui-btn-nav"><a class="mw-ui-btn comments-group active" href="#content_id=0">
-		<?php _e("Comments"); ?>
-		</a> <a class="mw-ui-btn comments-group mw-ui-btn " href="#content_id=settings">
-		<?php _lang("Settings","modules/comments"); ?>
+		<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+            <a class="mw-ui-btn comments-group active" href="#content_id=0">
+		        <?php _e("Comments"); ?>
+		    </a>
+        <a class="mw-ui-btn comments-group mw-ui-btn " href="#content_id=settings">
+		    <?php _lang("Settings","modules/comments"); ?>
 		</a>
          
 		<?php /*<a href="#content_id=templates" class="comments-group mw-ui-btn ">
@@ -169,7 +171,7 @@ $(document).ready(function(){
 
 
 	<div class="comments-tabs active">
-		<div class="comments-tab comments-items" id="the_comments">
+		<div class="comments-tab  mw-ui-box mw-ui-box-content comments-items" id="the_comments">
 			<div id="comments-admin-side">
 				<div class="comments-admin-header">
 					<div class="comments-admin-header-info">
@@ -189,7 +191,7 @@ $(document).ready(function(){
 				<module type="comments/search_content" id="mw_admin_posts_with_comments"  />
 			</div>
 		</div>
-		<div class="comments-tab comments-settings" style="display: none">
+		<div class="comments-tab mw-ui-box mw-ui-box-content comments-settings" style="display: none">
 			<module type="comments/settings" id="mw_admin_comments_settings"  />
 		</div>
 		<?php /*<div class="comments-tab comments-templates" style="display: none">
@@ -200,4 +202,4 @@ $(document).ready(function(){
 			</div>
 		</div>*/ ?>
 	</div>
-
+</div>

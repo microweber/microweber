@@ -262,23 +262,15 @@ $(document).ready(function(){
      }
  }
 
-
-
-
 	$active_menu = $menu_name;
-  $menu_id = false;
-
-
-
+    $menu_id = false;
 
   if($menu_id == false and $menu_name != false){
   $menu_id = get_menus('one=1&title='.$menu_name);
- 
 	  if($menu_id == false and isset($params['title'])){
 	  mw()->menu_manager->menu_create('id=0&title=' . $params['title']);
 	    $menu_id = get_menus('one=1&title='.$menu_name);
 	  }
-
   }
  
  if(isset($menu_id['title'])){
@@ -287,20 +279,21 @@ $(document).ready(function(){
  $menu_id = get_menus('one=1&title='.$menu_name);
  if($menu_id == false){
 	 $active_menu = $menu_name = 'header_menu';
-	  $menu_id = get_menus('one=1&title='.$menu_name);
-
+	 $menu_id = get_menus('one=1&title='.$menu_name);
  }
    
  ?>
+
+<div class="admin-side-content">
+
 
 
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label">
-    <?php _e("Select the Menu you want to edit"); ?>
-
+   <label class="mw-ui-label">
+        <?php _e("Select the Menu you want to edit"); ?>
    </label>
   <div id="quick_new_menu_holder">
 
@@ -407,4 +400,4 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  menu-id="<?php  print $menu_id ?>" />
   <?php endif; ?>
 </div>
-
+</div>

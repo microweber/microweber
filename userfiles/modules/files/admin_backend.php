@@ -479,11 +479,10 @@ ProgressBar.hide()
 
  ?>
   <div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-    <h2 id="files_ctrl_holder_title_text"><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;
-      <?php _e("File Manager"); ?>
-      </a></h2>
+
+    <div class="admin-side-content">
     <div id="files_ctrl_holder">
-      <div class="modules-index-bar">
+      <div class="modules-index-bar modules-index-bar-transparent">
         <div class="browser-ctrl-bar"> <span id="files_ctrl_holder_select_all_holder" class="mw-ui-link-nav posts-selector pull-left"> <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">
           <?php _e("Select All"); ?>
           </span> <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">
@@ -509,4 +508,5 @@ ProgressBar.hide()
     <span class="mw-ui-btn pull-right disabled delete_item">
     <?php _e("Delete Selected"); ?>
     </span> </div>
+</div>
 </div>
