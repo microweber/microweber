@@ -3,6 +3,11 @@
 namespace Microweber\SiteStats;
 
 use Microweber\App\Providers\Illuminate\Support\Facades\DB;
+use Microweber\SiteStats\Models\Browsers;
+use Microweber\SiteStats\Models\Log;
+use Microweber\SiteStats\Models\Referrers;
+use Microweber\SiteStats\Models\Sessions;
+use Microweber\SiteStats\Models\Urls;
 
 
 class Tracker
@@ -11,7 +16,7 @@ class Tracker
 
     function track()
     {
-
+        return;
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
@@ -37,9 +42,6 @@ class Tracker
         }
 
 
-        return;
-
-
         // REMOVE ME !!!!!!
         // REMOVE ME !!!!!!
         // REMOVE ME !!!!!!
@@ -56,7 +58,7 @@ class Tracker
         // REMOVE ME !!!!!!
         // REMOVE ME !!!!!!
         // REMOVE ME !!!!!!
-        $this->process_buffer();
+        return $this->process_buffer();
 
         // REMOVE ME !!!!!!
         // REMOVE ME !!!!!!
@@ -83,15 +85,108 @@ class Tracker
     function process_buffer()
     {
         $buffer = cache_get('stats_buffer_visits', 'site_stats');
-        if ($buffer) {
-            $data_to_save_bulk = array();
-            foreach ($buffer as $key => $item) {
+        if (is_array($buffer) and !empty($buffer)) {
 
-                $this->_track_visit($item);
-                $this->_track_pageview($item);
+            $log = new Log();
+
+
+            // $buffer = false;
+            foreach ($buffer as $key => $item) {
+                $browser_id = false;
+                $language = false;
+
+                if (isset($item['language']) and $item['language']) {
+                    $language = $item['language'];
+                }
+                if (isset($item['browser_agent']) and $item['browser_agent']) {
+                    $hash = md5($item['browser_agent']);
+                    $related_data = new Browsers();
+                    $related_data = $related_data->firstOrCreate([
+                        'browser_agent_hash' => $hash
+                    ], [
+                        'browser_agent_hash' => $hash,
+                        'browser_agent' => $item['browser_agent']
+                    ]);
+                    if ($related_data->id) {
+                        $browser_id = $related_data->id;
+                    }
+                }
+
+                if (isset($item['session_id']) and $item['session_id']
+                    and isset($item['user_ip'])
+                    and isset($item['user_id'])
+                ) {
+                    $hash = $item['session_id'];
+                    $related_data = new Sessions();
+                    $related_data = $related_data->firstOrCreate([
+                        'session_id' => $hash
+                    ], [
+                        'browser_id' => $browser_id,
+                        'language' => $language,
+                        'session_id' => $hash,
+                        'user_id' => $item['user_id'],
+                        'user_ip' => $item['user_ip']
+                    ]);
+                    if ($related_data->id) {
+                        $item['session_id_key'] = $related_data->id;
+                    }
+                }
+
+                if (isset($item['referrer']) and $item['referrer']) {
+                    $hash = md5($item['referrer']);
+                    $related_data = new Referrers();
+                    $is_internal = false;
+                    if(strstr($item['referrer'],site_url())){
+                        $is_internal = true;
+                    }
+                    $related_data = $related_data->firstOrCreate([
+                        'referrer_hash' => $hash
+                    ], [
+                        'referrer_hash' => $hash,
+                        'is_internal' => $is_internal,
+                        'referrer' => $item['referrer']
+                    ]);
+                    if ($related_data->id) {
+                        $item['referrer_id'] = $related_data->id;
+                    }
+                }
+
+
+
+                if (isset($item['visit_url']) and $item['visit_url']) {
+                    $hash = md5($item['visit_url']);
+                    $related_data = new Urls();
+
+                    $related_data = $related_data->firstOrCreate([
+                        'url_hash' => $hash
+                    ], [
+                        'url_hash' => $hash,
+
+                        'url' => $item['visit_url']
+                    ]);
+                    if ($related_data->id) {
+                        $item['url_id'] = $related_data->id;
+                    }
+                }
+
+
+
+
+
+
+
+
+                $log->create($item);
+
+                // $user = User::firstOrCreate(array('name' => 'John'));
+
+
+                //   $this->_track_visit($item);
+                //   $this->_track_pageview($item);
                 unset($buffer[$key]);
             }
 
+            // $log->save();
         }
 
         cache_save($buffer, 'stats_buffer_visits', 'site_stats');
@@ -105,7 +200,12 @@ class Tracker
         $data = array();
         $data['user_ip'] = user_ip();
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+            $data['browser_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+            $data['language'] = $lang;
         }
 
 
@@ -116,12 +216,16 @@ class Tracker
             $last_page = $_SERVER['PHP_SELF'];
 
 
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                $ref = $_SERVER['HTTP_REFERER'];
-            }
         }
 
-        $data['last_page'] = $last_page;
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $ref = $_SERVER['HTTP_REFERER'];
+        }
+        if($last_page){
+            $last_page = rtrim($last_page,'?');
+            $last_page = rtrim($last_page,'#');
+        }
+        $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
         $data['user_id'] = mw()->user_manager->id();
