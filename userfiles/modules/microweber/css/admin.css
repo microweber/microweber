@@ -4602,9 +4602,9 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     max-width: 100%;
   }
 
-  .shipping-country-row:nth-child(2n+1){
-    background: #F2F2F2
-  }
+  /*.shipping-country-row:nth-child(2n+1){*/
+    /*background: #F2F2F2*/
+  /*}*/
 
 }
 
@@ -5425,3 +5425,8 @@ span.mw-icon-upload {
 
 
 
+.save_shipping_btn{
+    position: absolute;
+    right: 0;
+    
+}

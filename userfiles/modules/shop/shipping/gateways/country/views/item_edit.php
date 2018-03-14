@@ -276,9 +276,8 @@ if ($weight_units == false) {
 
             <div>
                 <?php if ($new == false): ?>
-                    <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span> <span
-                            onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip"
-                            data-tip="<?php _e("Delete"); ?>"></span>
+                    <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
+                    <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>"></span>
                 <?php endif; ?>
             </div>
         </div>
