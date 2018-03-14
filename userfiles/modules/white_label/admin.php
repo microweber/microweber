@@ -1,4 +1,10 @@
 <?php only_admin_access(); ?>
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2><?php _e("White label"); ?></h2>
+    </div>
+</div>
+<div class="admin-side-content">
 <?php if (!have_license('modules/white_label')): ?>
     <style>
         .mw-lssssicense-key-activate {
@@ -307,3 +313,5 @@ if (isset($settings['custom_support_url']) and $settings['custom_support_url'] !
         </div>
     </form>
 </div>
+</div>
+

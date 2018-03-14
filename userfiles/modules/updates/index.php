@@ -115,13 +115,7 @@ mw()->notifications_manager->delete_for_module('updates');
 
 </script>
 <style type="text/css">
-    #mw-updates-holder {
-        padding: 0 20px;
-        max-width: 960px;
-    }
 
-    #mw-update-table {
-    }
 
     #updates-list-info {
         padding: 15px 0;
@@ -133,16 +127,21 @@ mw()->notifications_manager->delete_for_module('updates');
 </style>
 <?php $notif_count = mw_updates_count() ?>
 
-<div id="mw-updates-holder">
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span>
+        <?php _e("Updates"); ?>
+            <?php if ($notif_count != 0) : ?>
+                &nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count ?></sup>
+            <?php endif; ?>
+        </h2>
+    </div>
+</div>
+
+<div class="admin-side-content">
     <div class="mw-sided">
         <div class="mw-side-left" style="width: 170px;">
-            <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span><span>
-        <?php _e("Updates"); ?>
-        </span>
-                <?php if ($notif_count != 0) : ?>
-                    &nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count ?></sup>
-                <?php endif; ?>
-            </h2>
+
             <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert"
                   title="<?php _e("Current version"); ?> <?php print MW_VERSION ?>">
       <?php _e("Check for updates"); ?>

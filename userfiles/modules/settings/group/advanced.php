@@ -4,30 +4,40 @@
         mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_cont_head_change_holder', function () {
             mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
         });
-
-
         mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_robots_txt_change_holder', function () {
             mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
         });
     });
-
-
 </script>
 
-<h2>
-    <?php _e("Advanced"); ?>
-</h2>
+
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2>
+            <?php _e("Advanced"); ?>
+        </h2>
+    </div>
+</div>
+<div class="admin-side-content">
 <div class="<?php print $config['module_class'] ?>">
-    <div class="mw-ui-btn-vertical-nav"><a class="mw-ui-btn" href="javascript:mw.clear_cache()">
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+        <a class="mw-ui-btn" href="javascript:mw.clear_cache()">
             <?php _e("Clear cache"); ?>
-        </a> <a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);">
+        </a>
+        <a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);">
             <?php _e("Reload Database"); ?>
-        </a> <a class="mw-ui-btn"
-                href="javascript:$('.mw_adm_dev_tools_change_holder').toggle(); void(0);"> <?php _e('Developer tools'); ?> </a>
+        </a>
+        <a class="mw-ui-btn"
+                href="javascript:$('.mw_adm_dev_tools_change_holder').toggle(); void(0);"> <?php _e('Developer tools'); ?>
+
+        </a>
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);">
             <?php _e("Custom head tags"); ?>
-        </a> <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);">
-            robots.txt </a> <a class="mw-ui-btn"
+        </a>
+        <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);">
+            robots.txt
+        </a>
+        <a class="mw-ui-btn"
                                href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')">
             <?php _e("Internal settings"); ?>
         </a>
@@ -35,7 +45,8 @@
         <a class="mw-ui-btn"
            href="javascript:mw.load_module('settings/group/live_edit','#mw-advanced-settings-module-load-holder')">
             <?php _e("Live Edit"); ?> <?php _e("settings"); ?>
-        </a> <a class="mw-ui-btn"
+        </a>
+        <a class="mw-ui-btn"
                 href="javascript:mw.load_module('settings/group/seo','#mw-advanced-settings-module-load-holder')">
             <?php print("SEO"); ?> <?php _e("settings"); ?>
         </a>

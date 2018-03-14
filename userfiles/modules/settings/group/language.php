@@ -12,7 +12,13 @@
         });
     });
 </script>
-<h2><?php _e("Language"); ?></h2>
+
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2><?php _e("Language"); ?></h2>
+    </div>
+</div>
+<div class="admin-side-content">
 <div class="<?php print $config['module_class'] ?>">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">
@@ -161,4 +167,5 @@
     </div>
     <div class="mw-ui-field-holder">
         <microweber module="settings/group/language_edit" id="mw_lang_file_edit"/>
+    </div>
     </div>

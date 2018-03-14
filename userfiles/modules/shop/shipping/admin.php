@@ -32,7 +32,7 @@ $here = dirname(__FILE__) . DS . 'gateways' . DS;
 $shipping_modules = get_modules("type=shipping_gateway");
 ?>
 
-<div class="mw-set-shipping-options mw-admin-wrap">
+<div class="mw-set-shipping-options mw-admin-wrap admin-side-content">
     <div class="">
         <?php if (is_array($shipping_modules)): ?>
             <?php foreach ($shipping_modules as $shipping_module): ?>

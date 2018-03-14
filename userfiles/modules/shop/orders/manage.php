@@ -132,7 +132,7 @@ ordersSort = function(obj){
                         </div>
                     </div>
                     <div class="mw-ui-col"><div class="mw-ui-col-container">
-                        <h2 style="margin: 0;white-space:nowrap">
+                        <h2>
                         <a href="#orderstype=completed">
                             <?php if($latest_orders > 1){ ?>
                                 <?php _e("New orders"); ?>
@@ -158,6 +158,7 @@ ordersSort = function(obj){
 
 
 
+<div class="admin-side-content">
 <div id="manage-orders-menus">
 
 <h3 class="pull-left"><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h3>
@@ -199,3 +200,4 @@ ordersSort = function(obj){
 
 
 <module type="shop/orders"  id="mw-admin-manage-orders-list"  />
+</div>

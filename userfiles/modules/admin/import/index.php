@@ -71,7 +71,14 @@ mw.ok_import_file = function(){
   
 }
 </script>
-<div class="mw-module-admin-wrap">
+
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2><?php _e("Import Content"); ?></h2>
+    </div>
+</div>
+<div class="admin-side-content">
+    <div class="mw-module-admin-wrap">
 <div id="mw_import_to_page_holder">
   <?php $all_pages = get_pages(); ?>
   <?php if(!empty($all_pages)): ?>
@@ -89,9 +96,9 @@ mw.ok_import_file = function(){
   <?php _e("Start import"); ?>
   </button>
 </div>
-<div style="padding: 10px 0;">
 
-<h1><?php _e("Import Content"); ?></h1>
+
+
 
  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
  

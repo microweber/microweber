@@ -102,10 +102,17 @@
     }
 </style>
 
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2>
+            <?php _e("Login & Register"); ?>
+        </h2>
+    </div>
+</div>
+
+<div class="admin-side-content">
 <div class="<?php print $config['module_class'] ?>">
-    <h2>
-        <?php _e("Login & Register"); ?>
-    </h2>
+
     <?php $curent_val = get_option('enable_user_registration', 'users'); ?>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">
@@ -412,7 +419,6 @@
             <script type="text/javascript">
 
                 runRegisterMailEditor = function () {
-
                     RegisterMailEditor = mw.editor({
                         element: "#register_email_content",
                         addControls: mwd.getElementById('register_mail_editorctrls').innerHTML,
@@ -423,17 +429,12 @@
                             });
                         }
                     });
-
-
                 }
 
 
                 $(document).ready(function () {
-
                     runRegisterMailEditor();
-
-
-                })
+                });
             </script>
             <h2>
                 <?php _e("Send email on new user registration"); ?>
@@ -727,4 +728,5 @@
 
 
     </div>
+</div>
 </div>

@@ -36,14 +36,17 @@
                 }
             });
         }
-
-
         return false;
     }
 </script>
 
-<a class="mw-ui-btn mw-ui-btn-icon" href="javascript:;" onclick="$('#add-subscriber-form').show()"> <span
-            class="mw-icon-plus"><?php _e('Add new subscriber'); ?></span> </a>
+
+
+<a
+    class="mw-ui-btn mw-ui-btn-icon"
+    href="javascript:;"
+    onclick="$('#add-subscriber-form').show()">
+    <span class="mw-icon-plus"><?php _e('Add new subscriber'); ?></span> </a>
 <form id="add-subscriber-form" onSubmit="edit_subscriber(this); return false;" style="display:none">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e('Subscriber Name'); ?></label>
@@ -55,6 +58,7 @@
     </div>
     <button type="submit" class="mw-ui-btn"><?php _e('Save'); ?></button>
 </form>
-<div class="mw-clear"></div>
-<br/>
+
 <module type="newsletter/subscribers_list"/>
+
+

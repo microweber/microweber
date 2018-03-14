@@ -70,7 +70,7 @@ if ($weight_units == false) {
     } else {
         print 'new';
     } ?>');return false;" action="<?php print $config['module_api']; ?>/shipping_add_to_country" data-field-id="<?php print $item['id']; ?>">
-        <div class="mw-ui-box mw-ui-settings-box box-white mw-ui-box-content <?php if ($new == false): ?>toggle-item closed-fields<?php endif; ?>">
+        <div class="mw-ui-box mw-ui-settings-box <?php if ($item['is_active'] == 1 AND $new == false): ?>box-enabled<?php elseif ($item['is_active'] == 0): ?>box-disabled<?php endif; ?> mw-ui-box-content <?php if ($new == false): ?>toggle-item closed-fields<?php endif; ?>">
             <table class="mw-ui-table mw-ui-table-basic admin-shipping-table">
                 <tr class="shipping-country-row">
                     <td class="shipping-country-label">
@@ -107,9 +107,9 @@ if ($weight_units == false) {
                         </select>
                     </td>
                     <td>
-                        <?php _e("Allow shipping to this country"); ?>
+                        <span class="switcher-label-left"><?php _e("Allow shipping to this country"); ?></span>
 
-                        <label class="mw-switch mw-switch-action pull-left inline-switch">
+                        <label class="mw-switch mw-switch-action inline-switch">
                             <input
                                     onchange="ToggleShipping(event)"
                                     type="checkbox"
@@ -122,28 +122,6 @@ if ($weight_units == false) {
                             <span class="mw-switch-on">YES</span>
                             <span class="mw-switcher"></span>
                         </label>
-
-                        <ul class="mw-ui-inline-list">
-                            <li> <span>
-                                                    <span class="mw-icon-help-outline mwahi tip" data-tip="#shippingtip" data-tipposition="right-center"></span> </span></li>
-                            <li>
-                                <label class="mw-ui-check">
-                                    <input
-                                            name="is_active" type="radio" class="semi_hidden is_active_n"
-                                            value="0" <?php if (!isset($item['is_active']) or 1 != ($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-                                    <span></span> <span>
-                    <?php _e("No"); ?>
-                    </span> </label>
-                            </li>
-                            <li>
-                                <label class="mw-ui-check">
-                                    <input name="is_active" type="radio" class="semi_hidden is_active_y"
-                                           value="1" <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-                                    <span></span> <span>
-                    <?php _e("Yes"); ?>
-                    </span> </label>
-                            </li>
-                        </ul>
                     </td>
                 </tr>
                 <tr class="shipping-country-row hide-item hidden">
@@ -184,30 +162,33 @@ if ($weight_units == false) {
                     </td>
                     <td>
                         <div class="shipping_dimensions" style="display: none">
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Additional cost for"); ?>
-                                    <em>1 <?php _e("cubic"); ?> <?php print $size_units ?></em>
-                                </label>
-                                <span class="mwsico-width"></span>
-                                <div class="input-with-currency">
-                                    <span><?php print mw()->shop_manager->currency_symbol() ?></span>
-                                    <input type="text" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>"
-                                           class="mw-ui-field price-field"/>
-                                </div>
-                            </div>
-
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Additional cost for"); ?>
-                                    <em>1 <?php print $weight_units ?></em>
-                                </label>
-                                <span class="mwsico-usd"></span>
-                                <div class="input-with-currency">
+                            <div class="pull-left p-10 p-t-0">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Additional cost for"); ?>
+                                        <em>1 <?php _e("cubic"); ?> <?php print $size_units ?></em>
+                                    </label>
+                                    <span class="mwsico-width"></span>
                                     <div class="input-with-currency">
                                         <span><?php print mw()->shop_manager->currency_symbol() ?></span>
-                                        <input type="text" name="shipping_price_per_weight" value="<?php print floatval($item['shipping_price_per_weight']); ?>"
+                                        <input type="text" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>"
                                                class="mw-ui-field price-field"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-left p-10 p-t-0">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label">
+                                        <?php _e("Additional cost for"); ?>
+                                        <em>1 <?php print $weight_units ?></em>
+                                    </label>
+                                    <span class="mwsico-usd"></span>
+                                    <div class="input-with-currency">
+                                        <div class="input-with-currency">
+                                            <span><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                            <input type="text" name="shipping_price_per_weight" value="<?php print floatval($item['shipping_price_per_weight']); ?>"
+                                                   class="mw-ui-field price-field"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +212,7 @@ if ($weight_units == false) {
                         </div>
                     </td>
                 </tr>
-                <tr class="shipping-country-row hide-item hidden">
+                <tr class="shipping-discount-row hide-item hidden">
                     <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?>
                         <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Set a discount shipping price for orders exceeding certain value"); ?>."
                               data-tipposition="right-center"></span></td>
@@ -280,18 +261,19 @@ if ($weight_units == false) {
                 </tr>
             </table>
 
-            <div class="hide-item hidden">
-                <button class="mw-ui-btn mw-ui-btn-invert save_shipping_btn" type="submit">
+
+            <div>
+                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small save_shipping_btn" type="submit">
                     <?php if ($new == true): ?>
                         <?php _e("Add"); ?>
                     <?php else: ?>
                         <?php _e("Save"); ?>
                     <?php endif; ?>
                 </button>
+
                 <?php if ($new == false): ?>
-                    <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span> <span
-                            onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip"
-                            data-tip="<?php _e("Delete"); ?>"></span>
+                    <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
+                    <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>"></span>
                 <?php endif; ?>
             </div>
         </div>

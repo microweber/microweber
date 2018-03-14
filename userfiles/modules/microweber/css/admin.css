@@ -1153,12 +1153,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu .active a:focus,
 #mw-admin-main-menu .active a{
     border-bottom: 1px solid #8b8b8b;
-    color: #3B3B3B
+    color: #0086db
 }
 #mw-admin-main-menu .active li a:hover,
+#mw-admin-main-menu .active-parent > a:hover,
 #mw-admin-main-menu .active-parent a:hover,
 #mw-admin-main-menu .active-parent a{
-    color: #3B3B3B;
+    color: #0086db;
     border-bottom: 1px solid #8b8b8b;
     background: white;
 }
@@ -1194,14 +1195,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 
 #mw-admin-main-menu li.active-parent a,
-#mw-admin-main-menu > li.active > a:hover,
 #mw-admin-main-menu li.active a{
     background: #909090;
     color: white;
 }
 
 
-#mw-admin-main-menu > li.active-parent > a:hover,
+
 #mw-admin-main-menu li a:hover{
     background: white;
     color: #3B3B3B
@@ -1249,7 +1249,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #mw-admin-main-menu > li > a:hover, #mw-admin-main-menu > li > a:focus {
-    color: white;
+    color: #0086db;
 }
 
 
@@ -1575,7 +1575,9 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 .manage-post-item-col-3 {
     width: auto;
 }
-
+.manage-posts-holder{
+    width: 90%;
+}
 .manage-posts-holder .manage-post-item-col-4 {
     width: 110px;
     text-align: center;
@@ -2842,6 +2844,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     background: #fafafa;
     padding:12px 14px;
     margin: 10px 0;
+    width: 90%;
 }
 
 #bulk-actions {
@@ -3494,10 +3497,6 @@ body.grabbing, body.grabbing * {
     position: relative;
 }
 
-.mw-site-theme-selector, .layouts_box_holder {
-    padding-top: 10px;
-    padding-bottom: 20px;
-}
 
 .module-settings-group-template .layout_selector_wrap {
     padding-bottom: 20px;
@@ -3659,10 +3658,21 @@ body.grabbing, body.grabbing * {
 }
 
 .modules-index-bar {
-    clear: both;
-    position: relative;
-    padding-bottom: 30px;
+    width: 100%;
+    padding: 0 14px;
+    background: white;
+    height: 66px;
 }
+.modules-index-bar-transparent{
+    background: transparent;
+}
+
+.modules-index-bar h2 {
+    font-size: 13px;
+    color: #0e80e5;
+    font-weight: bold;
+}
+
 
 .modules-index-bar:after {
     content: ".";
@@ -4380,9 +4390,7 @@ body.grabbing, body.grabbing * {
     font-size: 12px;
 }
 
-#manage-orders-menus, #manage-orders-menus + .module{
-    padding: 0 20px;
-}
+
 
 #manage-orders-menus .mw-ui-btn-nav .mw-ui-btn.active {
     background-color: #fff;
@@ -4392,8 +4400,6 @@ body.grabbing, body.grabbing * {
     clear: both;
     position: relative;
     border-top: 1px solid #e5e5e5;
-    padding-top: 15px;
-    padding-bottom: 5px;
 }
 
 .ordersnum {
@@ -4602,9 +4608,9 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     max-width: 100%;
   }
 
-  .shipping-country-row:nth-child(2n+1){
-    background: #F2F2F2
-  }
+  /*.shipping-country-row:nth-child(2n+1){*/
+    /*background: #F2F2F2*/
+  /*}*/
 
 }
 
@@ -4695,9 +4701,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     vertical-align: middle;
 }
 
-.admin-section-box{
-    padding: 14px;
-}
+
 
 .section-header:after {
     content: ".";
@@ -4719,13 +4723,13 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     /*background: white;*/
 /*}*/
 
-.save_shipping_btn {
-    visibility: hidden;
-}
+/*.save_shipping_btn {*/
+    /*visibility: hidden;*/
+/*}*/
 
-.shipping-country-holder:hover .save_shipping_btn {
-    visibility: visible;
-}
+/*.shipping-country-holder:hover .save_shipping_btn {*/
+    /*visibility: visible;*/
+/*}*/
 
 .shipping-country-holder .mw-icon-close {
     position: absolute;
@@ -4757,11 +4761,6 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 
 .shipping-country-row .mw-ui-inline-list {
     padding-top: 10px;
-}
-
-.save_shipping_btn {
-    float: right;
-    margin-top: 15px;
 }
 
 #admin-user-nav .mw-icon-off {
@@ -5401,6 +5400,7 @@ span.mw-icon-upload {
     font-size: 13px;
     color: #0e80e5;
     font-weight: bold;
+    margin: 0;
 }
 
 .admin-section-bar h2 span{
@@ -5423,5 +5423,10 @@ span.mw-icon-upload {
     top: 0px;
 }
 
-
+.admin-side-content{
+    /*max-width: 965px;*/
+    width: 90%;
+    margin: auto;
+    padding: 50px 0;
+}
 

@@ -1,6 +1,6 @@
 <?php only_admin_access(); ?>
 
-<div class="module-live-edit-settings">
+
     <style type="text/css">
 
         #testimonials-list tbody tr {
@@ -88,6 +88,14 @@
         }
 
     </script>
+    <div class="mw-ui-row admin-section-bar">
+        <div class="mw-ui-col">
+            <h2><?php _e("Testimonials"); ?></h2>
+        </div>
+    </div>
+    <div class="admin-side-content">
+
+
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="ttabnav">
         <a class="mw-ui-btn active" href="javascript:;"><?php _e('Explore'); ?></a>
 

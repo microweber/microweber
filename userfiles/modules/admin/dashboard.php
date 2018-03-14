@@ -1,5 +1,8 @@
 <?php event_trigger('mw.admin.dashboard.start'); ?>
-<div class="mw-ui-col-container" style="padding-left: 35px;">
+<div class="mw-ui-col-container">
+<div class="admin-side-content">
+
+
     <?php event_trigger('mw.admin.dashboard.content'); ?>
 
 
@@ -102,4 +105,5 @@
 
     </div>
     <?php event_trigger('mw.admin.dashboard.main'); ?>
+</div>
 </div>

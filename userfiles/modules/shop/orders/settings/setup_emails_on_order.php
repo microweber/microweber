@@ -32,7 +32,7 @@ $(document).ready(function(){
     <?php _e("Send email to the client on new order"); ?>
   </h2>
 </div>
-<div class="admin-section-box">
+<div class="admin-side-content">
         <label class="mw-ui-check" style="margin-right: 15px;">
             <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="1"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 1): ?> checked="checked" <?php endif; ?> >
             <span></span><span>
