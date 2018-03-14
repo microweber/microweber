@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Base extends Eloquent
 {
+    public $timestamps = [ "updated_at" ]; // enable only to created_at
+    const CREATED_AT = null;
+
 
     public function scopePeriod($query, $minutes, $alias = '')
     {

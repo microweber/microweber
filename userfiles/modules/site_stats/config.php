@@ -35,7 +35,7 @@ $fields_to_add['url_id'] = 'integer';
 $fields_to_add['referrer_id'] = 'integer';
 
 $fields_to_add['updated_at'] = 'dateTime';
-$fields_to_add['created_at'] = 'dateTime';
+//$fields_to_add['created_at'] = 'dateTime';
 
 $fields_to_add['session_id_key'] = 'integer';
 //$fields_to_add['user_ip'] = 'string';
@@ -57,7 +57,7 @@ $fields_to_add = array();
 $fields_to_add['browser_agent'] = 'string';
 $fields_to_add['browser_agent_hash'] = 'string';
 $fields_to_add['updated_at'] = 'dateTime';
-$fields_to_add['created_at'] = 'dateTime';
+//$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_browser_agents'] = $fields_to_add;
 
 
@@ -66,7 +66,7 @@ $fields_to_add['referrer'] = 'string';
 $fields_to_add['referrer_hash'] = 'string';
 $fields_to_add['is_internal'] = 'integer';
 $fields_to_add['updated_at'] = 'dateTime';
-$fields_to_add['created_at'] = 'dateTime';
+//$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_referrers'] = $fields_to_add;
 
 
@@ -75,7 +75,7 @@ $fields_to_add = array();
 $fields_to_add['url'] = 'string';
 $fields_to_add['url_hash'] = 'string';
 $fields_to_add['updated_at'] = 'dateTime';
-$fields_to_add['created_at'] = 'dateTime';
+//$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_urls'] = $fields_to_add;
 
 $fields_to_add = array();
@@ -87,7 +87,7 @@ $fields_to_add['browser_id'] = 'integer';
 $fields_to_add['language'] = 'string';
 
 $fields_to_add['updated_at'] = 'dateTime';
-$fields_to_add['created_at'] = 'dateTime';
+//$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_sessions'] = $fields_to_add;
 
 

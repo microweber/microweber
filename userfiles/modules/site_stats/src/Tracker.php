@@ -16,7 +16,7 @@ class Tracker
 
     function track()
     {
-        return;
+
         if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
@@ -31,6 +31,7 @@ class Tracker
 
 
         $data = $this->_collect_user_data();
+
         $buffer_key = 'stat' . crc32($data['referrer'] . $data['session_id']);
 
 
@@ -136,7 +137,7 @@ class Tracker
                     $hash = md5($item['referrer']);
                     $related_data = new Referrers();
                     $is_internal = false;
-                    if(strstr($item['referrer'],site_url())){
+                    if (strstr($item['referrer'], site_url())) {
                         $is_internal = true;
                     }
                     $related_data = $related_data->firstOrCreate([
@@ -150,7 +151,6 @@ class Tracker
                         $item['referrer_id'] = $related_data->id;
                     }
                 }
-
 
 
                 if (isset($item['visit_url']) and $item['visit_url']) {
@@ -168,12 +168,6 @@ class Tracker
                         $item['url_id'] = $related_data->id;
                     }
                 }
-
-
-
-
-
-
 
 
                 $log->create($item);
@@ -204,7 +198,6 @@ class Tracker
         }
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-
             $data['language'] = $lang;
         }
 
@@ -221,9 +214,22 @@ class Tracker
         if (isset($_SERVER['HTTP_REFERER'])) {
             $ref = $_SERVER['HTTP_REFERER'];
         }
-        if($last_page){
-            $last_page = rtrim($last_page,'?');
-            $last_page = rtrim($last_page,'#');
+
+        if (is_ajax()) {
+            if (isset($_POST['referrer']) and isset($_POST['_token'])) {
+                $validate = mw()->user_manager->csrf_validate($_POST);
+                if (!$validate) {
+                    return;
+                } else {
+                    $ref = $_POST['referrer'];
+                }
+            }
+        }
+
+
+        if ($last_page) {
+            $last_page = rtrim($last_page, '?');
+            $last_page = rtrim($last_page, '#');
         }
         $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
@@ -234,89 +240,89 @@ class Tracker
 
         return $data;
     }
-
-
-    private function _track_visit($visit_data)
-    {
-
-
-        $uip = $visit_data['user_ip'];
-        $lp = $visit_data['referrer'];
-        $ref = $visit_data['referrer'];
-        $visit_date = $visit_data['visit_date'];
-        $visit_time = $visit_data['visit_time'];
-
-
-        $data = array();
-        $data['visit_date'] = $visit_date;
-        $data['visit_time'] = $visit_time;
-        $data['user_ip'] = $uip;
-
-        $table = MODULE_DB_USERS_ONLINE;
-        $check = db_get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
-
-        if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
-            $data['id'] = $check['id'];
-            $vc = 0;
-            if (isset($check['view_count'])) {
-                $vc = ($check['view_count']);
-            }
-            $vc1 = 0;
-            $vc = $vc + $vc1;
-            $data['view_count'] = $vc;
-        }
-        $data['last_page'] = $lp;
-        $data['referrer'] = $ref;
-        $save = mw()->database_manager->save($table, $data);
-        return $save;
-    }
-
-
-    private function _track_pageview($visit_data)
-    {
-
-
-        if (!get_option('track_pageviews', 'stats')) {
-            //  return;
-        }
-
-
-        $content_id = $visit_data['content_id'];
-        if ($content_id != 0) {
-            $visit_date = $visit_data['visit_date'];
-            $visit_time = $visit_data['visit_time'];
-
-
-            $updated_at = date("Y-m-d H:i:s");
-
-            $existing = DB::table('stats_pageviews')
-                ->where('page_id', $content_id)
-                ->where('visit_date', $visit_date)
-                ->limit(1)->first();
-
-            if ($existing) {
-
-                dd($existing);
-                $track = array(
-                    'updated_at' => $visit_date
-
-                );
-                if (isset($visit_data['category_id']) and $visit_data['category_id']) {
-                    $track['category_id'] = $visit_data['category_id'];
-                }
-                DB::table('stats_pageviews')->where('id', intval($existing))->increment('view_count', 1, $track);
-            } else {
-                DB::table('stats_pageviews')->insert(
-                    [
-                        'page_id' => $content_id,
-                        'updated_at' => $updated_at,
-                        'visit_date' => $visit_date,
-                        'view_count' => 1
-                    ]
-                );
-            }
-        }
-    }
+//
+//
+//    private function _track_visit($visit_data)
+//    {
+//
+//
+//        $uip = $visit_data['user_ip'];
+//        $lp = $visit_data['referrer'];
+//        $ref = $visit_data['referrer'];
+//        $visit_date = $visit_data['visit_date'];
+//        $visit_time = $visit_data['visit_time'];
+//
+//
+//        $data = array();
+//        $data['visit_date'] = $visit_date;
+//        $data['visit_time'] = $visit_time;
+//        $data['user_ip'] = $uip;
+//
+//        $table = MODULE_DB_USERS_ONLINE;
+//        $check = db_get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+//
+//        if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
+//            $data['id'] = $check['id'];
+//            $vc = 0;
+//            if (isset($check['view_count'])) {
+//                $vc = ($check['view_count']);
+//            }
+//            $vc1 = 0;
+//            $vc = $vc + $vc1;
+//            $data['view_count'] = $vc;
+//        }
+//        $data['last_page'] = $lp;
+//        $data['referrer'] = $ref;
+//        $save = mw()->database_manager->save($table, $data);
+//        return $save;
+//    }
+//
+//
+//    private function _track_pageview($visit_data)
+//    {
+//
+//
+//        if (!get_option('track_pageviews', 'stats')) {
+//            //  return;
+//        }
+//
+//
+//        $content_id = $visit_data['content_id'];
+//        if ($content_id != 0) {
+//            $visit_date = $visit_data['visit_date'];
+//            $visit_time = $visit_data['visit_time'];
+//
+//
+//            $updated_at = date("Y-m-d H:i:s");
+//
+//            $existing = DB::table('stats_pageviews')
+//                ->where('page_id', $content_id)
+//                ->where('visit_date', $visit_date)
+//                ->limit(1)->first();
+//
+//            if ($existing) {
+//
+//                dd($existing);
+//                $track = array(
+//                    'updated_at' => $visit_date
+//
+//                );
+//                if (isset($visit_data['category_id']) and $visit_data['category_id']) {
+//                    $track['category_id'] = $visit_data['category_id'];
+//                }
+//                DB::table('stats_pageviews')->where('id', intval($existing))->increment('view_count', 1, $track);
+//            } else {
+//                DB::table('stats_pageviews')->insert(
+//                    [
+//                        'page_id' => $content_id,
+//                        'updated_at' => $updated_at,
+//                        'visit_date' => $visit_date,
+//                        'view_count' => 1
+//                    ]
+//                );
+//            }
+//        }
+//    }
 
 
 //

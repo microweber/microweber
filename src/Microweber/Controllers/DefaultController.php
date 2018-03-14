@@ -1803,7 +1803,7 @@ class DefaultController extends Controller
                     }
                 }
             }
- 
+
             if ($template_footer_src != false and is_string($template_footer_src)) {
                 $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
             }
