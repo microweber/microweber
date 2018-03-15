@@ -137,10 +137,7 @@ if (!is_admin()){
 
 <style>
 
-    .paymentSettingsModal  #mw-admin-container{
-        -webkit-filter:blur(3px);
-        filter:blur(3px);
-    }
+    
 
     .admin-side-box {
         padding-top: 19px;

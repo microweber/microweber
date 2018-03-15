@@ -520,7 +520,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                                   <span class="mai-lock"></span><strong><?php _e("Login & Register"); ?></strong>
                                               </a>
                                           </li>
-                                          <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website">
+                                          <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=email">
                                                   <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                                               </a>
                                           </li>
@@ -554,9 +554,12 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                       </ul>
 
                       </li>
-                      <li >
+                    <?php $load_module = url_param('load_module'); ?>
+                      <li <?php print 'class="' . ($load_module == 'users' ? 'active':'') . '"'; ?>>
 
-                          <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
+                          <a
+                             href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>"
+                             id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
 
                               <span class="mai-user2"></span>
                               <strong>
@@ -564,10 +567,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                               </strong>
                           </a>
                           <ul>
-               <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" >
+               <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-menu-my-profile">
                 <?php _e("My Profile"); ?>
               </a></li>
-              <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank" >
+              <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>" id="main-menu-manage-users">
                 <?php _e("Manage Users"); ?>
 
               </a></li>
@@ -618,11 +621,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
             });
-            mw.on.hashParam('edit-user', function () {
-                if(typeof this != 'undefi+ned'){
-                    $('#main-bar-user-menu-link').addClass('active')
-                }
-            })
+
         </script>
 
       </div>

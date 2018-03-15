@@ -48,6 +48,13 @@ mw.on.hashParam('option_group', function(){
 
    _settingsSort()
 
+    $(".active-parent li.active, #mw-admin-main-menu .active .active").removeClass('active');
+    var link = $('a[href*="option_group='+this+'"]');
+
+    link
+        .parent()
+        .addClass('active');
+
 });
 if(!mw.url.windowHashParam('option_group') ){
   mw.url.windowHashParam('option_group', 'admin__modules');
@@ -73,20 +80,10 @@ $(document).ready(function(){
 	mw.require("options.js");
     mw.require("<?php print $config['url_to_module']; ?>settings.css");
 
-    mw.on.hashParam('option_group', function(){
 
-
-        $(".active-parent li.active").removeClass('active');
-        var link = $('a[href*="?option_group='+this+'"]');
-
-        link
-            .parent()
-            .addClass('active');
-    })
 </script>
 
 <div id="edit-content-row" class="mw-ui-row">
-
 
     <div id="settings_admin_<?php print $rand; ?>" >
 

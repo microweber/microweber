@@ -85,7 +85,7 @@ if ($weight_units == false) {
                     <td class="shipping-country-setting"><?php if ($new == false): ?>
                             <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                         <?php endif; ?>
-                        <select name="shipping_country" class="mw-ui-field">
+                        <select name="shipping_country" class="mw-ui-field" onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_country:$(this).val()});">
                             <?php if ($new == true): ?>
                                 <option value="none">
                                     <?php _e("Choose country"); ?>
@@ -123,6 +123,12 @@ if ($weight_units == false) {
                             <span class="mw-switcher"></span>
                         </label>
                     </td>
+                    <td>
+
+                        <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
+                        <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
+
+                    </td>
                 </tr>
                 <tr class="shipping-country-row hide-item hidden">
                     <td class="shipping-country-label"><?php _e("Shipping type"); ?>
@@ -132,7 +138,7 @@ if ($weight_units == false) {
                             <div class="mw-ui-col">
                                 <div class="mw-ui-col-container">
                                     <span class="mw-ui-label"><?php _e("Price per order"); ?></span>
-                                    <select name="shipping_type" class="mw-ui-field shipping_type_dropdown">
+                                    <select name="shipping_type" class="mw-ui-field shipping_type_dropdown"  onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_type:$(this).val()});">
                                         <option value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> >
                                             <?php _e("Fixed"); ?>
                                         </option>
@@ -145,7 +151,7 @@ if ($weight_units == false) {
                                     </select>
                                 </div>
                             </div>
-                            <div class="mw-ui-col">
+                            <div class="mw-ui-col shipping-cost">
                                 <div class="mw-ui-col-container">
                                     <label class="mw-ui-label">
                                         <?php _e("Shipping cost"); ?>
@@ -154,6 +160,7 @@ if ($weight_units == false) {
                                         <span><?php print mw()->shop_manager->currency_symbol() ?></span>
 
                                         <input class="mw-ui-field shipping-price-field price-field" type="text" onkeyup="mw.form.typeNumber(this);"
+                                               onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_cost:$(this).val()});"
                                                placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
                                     </div>
                                 </div>
@@ -171,7 +178,11 @@ if ($weight_units == false) {
                                     <span class="mwsico-width"></span>
                                     <div class="input-with-currency">
                                         <span><?php print mw()->shop_manager->currency_symbol() ?></span>
-                                        <input type="text" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>"
+                                        <input
+                                                type="text"
+                                                name="shipping_price_per_size"
+                                                value="<?php print  floatval($item['shipping_price_per_size']); ?>"
+                                                onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_price_per_size:$(this).val()});"
                                                class="mw-ui-field price-field"/>
                                     </div>
                                 </div>
@@ -186,7 +197,7 @@ if ($weight_units == false) {
                                     <div class="input-with-currency">
                                         <div class="input-with-currency">
                                             <span><?php print mw()->shop_manager->currency_symbol() ?></span>
-                                            <input type="text" name="shipping_price_per_weight" value="<?php print floatval($item['shipping_price_per_weight']); ?>"
+                                            <input type="text" name="shipping_price_per_weight" value="<?php print floatval($item['shipping_price_per_weight']); ?>" onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_price_per_weight:$(this).val()});"
                                                    class="mw-ui-field price-field"/>
                                         </div>
                                     </div>
@@ -206,11 +217,13 @@ if ($weight_units == false) {
                                     <span><?php print mw()->shop_manager->currency_symbol() ?></span>
                                     <input type="text" name="shipping_price_per_item"
                                            value="<?php print  floatval($item['shipping_price_per_item']); ?>"
+                                           onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_price_per_item:$(this).val()});"
                                            class="mw-ui-field price-field"/>
                                 </div>
                             </div>
                         </div>
                     </td>
+
                 </tr>
                 <tr class="shipping-discount-row hide-item hidden">
                     <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?>
@@ -232,6 +245,7 @@ if ($weight_units == false) {
                                                     onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);"
                                                     name="shipping_cost_above"
                                                     value="<?php print $item['shipping_cost_above']; ?>"
+                                                    onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_cost_above:$(this).val()});"
                                                     placeholder="0">
                                         </div>
                                         <span class="mw-ui-label-help">
@@ -239,7 +253,7 @@ if ($weight_units == false) {
                       <?php print currency_format(100); ?></span></div>
                                 </div>
                             </div>
-                            <div class="mw-ui-col">
+                            <div class="mw-ui-col shipping-cost">
                                 <div class="mw-ui-col-container">
                                     <label class="mw-ui-label">
                                         <?php _e("Shipping cost"); ?></label>
@@ -250,6 +264,7 @@ if ($weight_units == false) {
                                                onblur="mw.form.fixPrice(this);"
                                                name="shipping_cost_max"
                                                value="<?php print $item['shipping_cost_max']; ?>"
+                                               onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_cost_max:$(this).val()});"
                                                placeholder="0"/>
                                     </div>
                                     <span class="mw-ui-label-help">
@@ -263,13 +278,7 @@ if ($weight_units == false) {
 
 
             <div>
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small save_shipping_btn" type="submit">
-                    <?php if ($new == true): ?>
-                        <?php _e("Add"); ?>
-                    <?php else: ?>
-                        <?php _e("Save"); ?>
-                    <?php endif; ?>
-                </button>
+
 
                 <?php if ($new == false): ?>
                     <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
