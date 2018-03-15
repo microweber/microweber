@@ -182,17 +182,24 @@
 
         var val = this.toString();
 
+
         if(val == 'false'){
             mw.$("#user-section-title").html(userSections.manage);
             mw.$("#add-new-user-btn").show();
+            $("#main-menu-my-profile").addClass('active');
+            $("#main-menu-manage-users").removeClass('active');
         }
         else if(val == '0'){
             mw.$("#user-section-title").html(userSections.create);
             mw.$("#add-new-user-btn").hide();
+            $("#main-menu-my-profile").removeClass('active');
+            $("#main-menu-manage-users").addClass('active');
         }
         else{
             mw.$("#user-section-title").html(userSections.edit);
             mw.$("#add-new-user-btn").hide();
+            $("#main-menu-my-profile").removeClass('active');
+            $("#main-menu-manage-users").addClass('active');
         }
 
     });

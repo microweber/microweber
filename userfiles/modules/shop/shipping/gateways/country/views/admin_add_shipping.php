@@ -66,7 +66,7 @@
             }
         });
 
-        mw.$(".shipping_type_dropdown").change(function () {
+        mw.$(".shipping_type_dropdown").on('change', function () {
             var parent = mw.tools.firstParentWithTag(this, 'td');
             parent = $(parent).next('td');
             if ($(this).val() == 'dimensions') {
