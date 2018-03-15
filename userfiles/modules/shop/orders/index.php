@@ -1,5 +1,3 @@
-
-
 <?php
 only_admin_access();
 
@@ -30,12 +28,32 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
 
 }
 
+
+$has_new = true;
+?>
+
+
+<?php
+//$notif_html = '';
+//$notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
+//
+//print $notif_count;
+//if( $notif_count > 0){
+//    $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+//}
 ?>
 
 
 <div id="mw-order-table-holder">
     <?php if ($ordert_type == 'completed' and isset($orders) and is_array($orders)) : ?>
         <div class="orders-holder" id="shop-orders">
+            <?php if ($has_new): ?>
+                <div class="you-have-new-orders">
+                    <p class="new-orders">You have <?php //print $notif_html; ?> new orders</p>
+                </div>
+            <?php endif; ?>
+
+            <p class="bold p-b-10 p-t-10">List of all orders</p>
             <?php foreach ($orders as $item) : ?>
                 <script>
                     $(document).ready(function () {
@@ -66,7 +84,7 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
                                 <?php if (count($cart_item) > 1): ?>
                                     <div class="cnt-products">+<?php echo count($cart_item) - 1; ?></div>
                                 <?php endif; ?>
-                            <?php }else{ ?>
+                            <?php } else { ?>
                                 <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
 
                             <?php } ?>
@@ -181,6 +199,7 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
         </div>
 
         <div class="mw-clear"></div>
+
     <br/>
 
         <script>
@@ -257,7 +276,9 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
                     }
                     ?>
                     <div class="mw-order-images">
-                        <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
+                        <?php for ($i = 0;
+                                   $i < sizeof($cart_items);
+                                   $i++) { ?>
                             <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
                             <?php if ($p != false): ?>
 
@@ -361,10 +382,13 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
             });
         </script>
     <?php else: ?>
-        <div class="mw-ui-box mw-ui-box-content info-box" style="margin-top: 15px;">
-            <h2>
-                <?php _e("You don't have any orders"); ?>
-            </h2>
+        <div class="orders-holder mw-ui-box mw-ui-box-content">
+            <div class="you-have-new-orders p-40">
+                <p class="no-new-orders">
+                    <span class="mw-icon-shopcart"></span><br/>
+                    <?php _e("You don't have any orders"); ?>
+                </p>
+            </div>
         </div>
     <?php endif; ?>
 </div>

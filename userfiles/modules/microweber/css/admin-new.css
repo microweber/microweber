@@ -1,0 +1,17 @@
+.orders-holder .you-have-new-orders p.new-orders {
+    color: #0086db;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.orders-holder .you-have-new-orders p.no-new-orders {
+    color: #333333;
+    font-size: 24px;
+    text-align: center;
+}
+
+.orders-holder .you-have-new-orders p.no-new-orders span {
+    color: #0086db;
+    font-size: 80px;
+    text-align: center;
+}
