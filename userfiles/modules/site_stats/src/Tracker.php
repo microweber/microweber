@@ -2,7 +2,7 @@
 
 namespace Microweber\SiteStats;
 
-use Microweber\App\Providers\Illuminate\Support\Facades\DB;
+
 use Microweber\SiteStats\Models\Browsers;
 use Microweber\SiteStats\Models\Log;
 use Microweber\SiteStats\Models\Referrers;
@@ -38,45 +38,11 @@ class Tracker
         if (!isset($buffer[$buffer_key])) {
             $data['visit_date'] = date("Y-m-d");
             $data['visit_time'] = date("H:i:s");
+            $data['updated_at'] = date("Y-m-d H:i:s");
             $buffer[$buffer_key] = $data;
             cache_save($buffer, 'stats_buffer_visits', 'site_stats');
         }
 
-
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        return $this->process_buffer();
-
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
-        // REMOVE ME !!!!!!
 
         if (!$buffer_skip) {
             $this->process_buffer();
@@ -90,8 +56,6 @@ class Tracker
 
             $log = new Log();
 
-
-            // $buffer = false;
             foreach ($buffer as $key => $item) {
                 $browser_id = false;
                 $language = false;
@@ -168,21 +132,37 @@ class Tracker
                         $item['url_id'] = $related_data->id;
                     }
                 }
+                $existing = false;
+
+                if (isset($item['url_id']) and isset($item['session_id_key'])) {
 
 
-                $log->create($item);
+                    $existing_log = new Log();
 
-                // $user = User::firstOrCreate(array('name' => 'John'));
+                    $check_existing = $existing_log->where('url_id', $item['url_id'])
+                        ->where('session_id_key', $item['session_id_key'])
+                        ->limit(1)->first();
 
+                    if ($check_existing and $check_existing->id) {
+                        $existing = $check_existing->id;
 
-                //   $this->_track_visit($item);
-                //   $this->_track_pageview($item);
+                    }
+                    if ($check_existing and isset($item['updated_at'])) {
+                        $existing_log = new Log();
+
+                        $track = array(
+                            'updated_at' => $item['updated_at']
+                        );
+                        $existing_log->where('id', intval($existing))->increment('view_count', 1, $track);
+                    } else {
+                        $log->create($item);
+
+                    }
+                }
                 unset($buffer[$key]);
             }
 
-            // $log->save();
         }
-
         cache_save($buffer, 'stats_buffer_visits', 'site_stats');
 
     }
@@ -237,6 +217,7 @@ class Tracker
         $data['user_id'] = mw()->user_manager->id();
         $data['content_id'] = content_id();
         $data['category_id'] = category_id();
+
 
         return $data;
     }

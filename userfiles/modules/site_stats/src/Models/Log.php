@@ -7,6 +7,7 @@ class Log extends Base
 {
     protected $table = 'stats_visits_log';
     protected $fillable = [
+
         'session_id_key',
         'url_id',
        // 'visit_url',

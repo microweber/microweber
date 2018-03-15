@@ -47,7 +47,7 @@ $fields_to_add['session_id_key'] = 'integer';
 //$fields_to_add['browser_agent_id'] = 'integer';
 
 
-
+$fields_to_add['view_count'] = ['type' => 'integer', 'default' => 1];
 
 $config['tables']['stats_visits_log'] = $fields_to_add;
 
