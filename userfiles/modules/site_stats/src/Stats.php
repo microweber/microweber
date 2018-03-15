@@ -43,8 +43,8 @@ class Stats
             if ($return) {
                 return $return->count();
             }
+            return 0;
 
-            return $return;
         }
 
 
@@ -56,6 +56,18 @@ class Stats
             return $return;
         }
 
+
+        if ($return == 'users_online') {
+            $log = new Log();
+            $log = $log->period('-15 minutes');
+            $log = $log->select('session_id_key');
+            $log = $log->groupBy('session_id_key');
+            $return = $log->get();
+            if ($return) {
+                return $return->count();
+            }
+            return 0;
+        }
 
         if ($return == 'orders_count') {
             $log = new Orders();

@@ -4,8 +4,17 @@
 //d($visits_daily);
 //d($visits_weekly);
 //d($visits_monthly);
-
+//d($params);
+$module_id = $params['id'];
 ?>
+
+
+<script>
+    function mw_stats_period_switch($module_id,$period) {
+        $('#'+$module_id).attr('period',$period);
+        mw.reload_module('#'+$module_id);
+    }
+</script>
 
 <div id="stats">
 
@@ -14,10 +23,10 @@
             <span><?php _e("Statistics") ?></span>
 
             <div id="stats_nav">
-                <a href="javascript:;" data-stat='day'
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');;" data-stat='day'
                    class="mw-ui-btn mw-ui-btn-outline active"><?php _e("Daily"); ?></a>
-                <a href="javascript:;" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
-                <a href="javascript:;" data-stat='month'
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');;" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='month'
                    class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
             </div>
             <div class="stats-legend">

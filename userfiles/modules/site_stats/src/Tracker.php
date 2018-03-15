@@ -43,6 +43,7 @@ class Tracker
             cache_save($buffer, 'stats_buffer_visits', 'site_stats');
         }
 
+return             $this->process_buffer();
 
         if (!$buffer_skip) {
             $this->process_buffer();

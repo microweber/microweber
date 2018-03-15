@@ -10,15 +10,9 @@ class Log extends Base
 
         'session_id_key',
         'url_id',
-       // 'visit_url',
-     //   'referrer',
         'referrer_id',
-      //  'user_ip',
-      //  'user_id',
         'content_id',
         'category_id',
-       // 'browser_agent_id',
-       // 'language',
         'updated_at',
         'view_count',
     ];

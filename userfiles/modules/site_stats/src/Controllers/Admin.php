@@ -81,11 +81,12 @@ class Admin
 
 
         $get_visits_params = array();
-        $get_visits_params['period'] =  'users_online';
+        $get_visits_params['period'] = $params['period'];
+        $get_visits_params['return'] =  'users_online';
         $stats = new Stats();
-  //      $users_online = $stats->get_stats_count($get_visits_params);
+        $users_online = $stats->get_stats_count($get_visits_params);
 
-        $users_online = 0;
+
 
         $get_visits_params = array();
         $get_visits_params['period'] = $params['period'];
