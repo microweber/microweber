@@ -13,15 +13,17 @@
 }
 </style>
 
-<div id="mw-admin-content">
-  <div class="mw_edit_page_default" id="mw_edit_page_left">
-    <div class="mw-admin-sidebar">
-      <h2>
-        <?php _e("Backups"); ?>
-      </h2>
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2><?php _e("Backups"); ?></h2>
     </div>
+</div>
 
-      <div style="padding: 20px 0 0;">
+<div id="mw-admin-content" class="admin-side-content">
+  <div class="mw_edit_page_default" id="mw_edit_page_left">
+
+
+
         <div class="mw-ui-btn-nav pull-left">
 
           <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-warn">
@@ -74,7 +76,7 @@
         </div>
         <div class="vSpace">&nbsp;</div>
         <div id="mw_backup_log" type="admin/backup/log"></div>
-      </div>
+
 
   </div>
   <div class="mw_edit_page_right" style="padding: 20px 0;">

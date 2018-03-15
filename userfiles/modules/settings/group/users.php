@@ -110,6 +110,7 @@
     </div>
 </div>
 
+<div class="admin-side-content">
 <div class="<?php print $config['module_class'] ?>">
 
     <?php $curent_val = get_option('enable_user_registration', 'users'); ?>
@@ -727,4 +728,5 @@
 
 
     </div>
+</div>
 </div>

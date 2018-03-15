@@ -24,7 +24,13 @@ mw.email_send_test = function(){
 	  });
 }
 </script>
-<h2><?php _e("Email"); ?></h2>
+
+<div class="mw-ui-row admin-section-bar">
+    <div class="mw-ui-col">
+        <h2><?php _e("Email"); ?></h2>
+    </div>
+</div>
+<div class="admin-side-content">
 <div class="<?php print $config['module_class'] ?> mw-ui-box">
 	<div class="mw-ui-box-content">
 		<div class="mw-ui-field-holder">
@@ -184,4 +190,5 @@ mw.email_send_test = function(){
 				<a class="mw-ui-btn " href="javascript:$('#test_eml_toggle').toggle(); void(0);"><?php _e("Test Method"); ?></a> </div>
 		</div>
 	</div>
+</div>
 </div>

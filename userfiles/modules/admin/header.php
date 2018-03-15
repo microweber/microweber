@@ -505,23 +505,23 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
                                       <ul class="mw-ui-sidenav">
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'admin__modules');return false;" class="item-admin__modules" href="#option_group=admin__modules">
-                                                  <span class="mai-modules"></span><?php _e("My Modules"); ?>
+                                                  <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
                                               </a>
                                           </li>
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template">
-                                                  <span class="mai-templates"></span><?php _e("Template"); ?>
+                                                  <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                                               </a>
                                           </li>
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="#option_group=website">
-                                                  <span class="mai-website"></span><?php _e("Website"); ?>
+                                                  <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                                               </a>
                                           </li>
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users">
-                                                  <span class="mai-lock"></span><?php _e("Login & Register"); ?>
+                                                  <span class="mai-lock"></span><strong><?php _e("Login & Register"); ?></strong>
                                               </a>
                                           </li>
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website">
-                                                  <span class="mai-mail"></span><?php _e("Email"); ?>
+                                                  <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                                               </a>
                                           </li>
                                           <?php event_trigger('mw_admin_settings_menu'); ?>
@@ -539,14 +539,17 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                           <?php $got_lic = mw()->update->get_licenses('count=1') ?>
                                           <?php if(($got_lic) > 0): ?>
                                               <li><a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-licenses" href="#option_group=licenses">
-                                                      <?php _e("Licenses"); ?>
+                                                      <strong><?php _e("Licenses"); ?></strong>
                                                   </a></li>
                                           <?php endif; ?>
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced">
-                                                  <?php _e("Advanced"); ?>
+
+                                                  <span class="mai-options"></span>
+                                                  <stong><?php _e("Advanced"); ?></stong>
                                               </a></li>
                                           <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language">
-                                                  <?php _e("Language"); ?>
+                                                  <span class="mai-languages"></span>
+                                                  <strong><?php _e("Language"); ?></strong>
                                               </a></li>
                                       </ul>
 
@@ -572,11 +575,11 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
               <?php if(mw()->ui->enable_service_links): ?>
               <?php if(mw()->ui->custom_support_url): ?>
                <li><a href="<?php print mw()->ui->custom_support_url ?>"  >
-              <?php _e("Support"); ?>
+              <strong><?php _e("Support"); ?></strong>
               </a></li>
               <?php else: ?>
               <li><a href="javascript:;" onmousedown="mw.contactForm();" >
-              <?php _e("Support"); ?>
+              <strong><?php _e("Support"); ?></strong>
               </a></li>
               <?php endif; ?>
               <?php endif; ?>
@@ -584,7 +587,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 <li><a href="<?php print site_url(); ?>?editmode=y" class=go-live-edit-href-set">
               <?php _e("View Website"); ?>
               </a></li> <li><a href="<?php print api_url('logout'); ?>" >
-              <?php _e("Log out"); ?>
+              <strong><?php _e("Log out"); ?></strong>
               </a></li>
                           </ul>
                       </li>

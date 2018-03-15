@@ -8,6 +8,7 @@
         );
     });
 </script>
+<div class="admin-side-content">
 <div class="module-live-edit-settings" id="newsletter-admin">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <a class="mw-ui-btn active" href="javascript:;"><?php _e('Subscribers'); ?></a>
@@ -25,4 +26,6 @@
             <module type="newsletter/campaigns"/>
         </div>
     </div>
+</div>
+
 </div>
