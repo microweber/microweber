@@ -27,10 +27,7 @@
         </div>
         <div class="stat-box-content">
             <div class="users-online">
-                <?php
-
-                print intval($users_online);
-                ?>
+                <?php print $users_online; ?>
                 <span><?php _e("Users online") ?></span>
             </div>
             <div class="dashboard_stats"></div>
@@ -39,28 +36,31 @@
                 <span class="sbf-item active">
                     <span class="mai-eye"></span>
                     Views
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $views_count; ?></span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-user3"></span>
                     Visitors
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $visits_count; ?></span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-order"></span>
                     Orders
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $orders_count; ?></span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-comment"></span>
                     Comments
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $comments_count; ?></span>
                 </span>
         </div>
     </div>
 
 
 </div>
+
+
+<?php return; ?>
 
 <script type="text/javascript">
     mw.statdatas = {
