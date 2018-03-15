@@ -414,6 +414,21 @@ class Template
         }
     }
 
+    public function foot_callback($data = false)
+    {
+        $data = array();
+        if (!empty($this->foot_callable)) {
+            foreach ($this->foot_callable as $callback) {
+                $data[] = call_user_func($callback, $data);
+            }
+        }
+
+        return $data;
+    }
+
+
+
+
     /**
      * Return the path to the layout file that will render the page.
      */

@@ -93,19 +93,19 @@
         var eroot = $(el).parents('.mw-ui-box')[0];
         mw.tools.loading(eroot, true)
         var data = {
-            id:el.getAttribute('data-id'),
-            is_active:el.checked ? 1 : 0
+            id: el.getAttribute('data-id'),
+            is_active: el.checked ? 1 : 0
         }
         SaveShippingData(data).always(function () {
             mw.tools.loading(eroot, false)
         });
     }
 
-    SaveShippingData = function(data){
+    SaveShippingData = function (data) {
         return $.post('<?php print $config['module_api']; ?>/shipping_to_country/save', data)
-        .done(function () {
-            mw.notification.success('<?php _e("Saved"); ?>')
-        })
+            .done(function () {
+                mw.notification.success('<?php _e("Saved"); ?>')
+            })
     }
     SaveShipping = function (form, dataType) {
         var country = mw.$('[name="shipping_country"]', form).val();
@@ -153,6 +153,7 @@
         <li><strong><?php _e("Per item"); ?></strong> -<?php _e("Charge a set shipping price for each product a customer orders"); ?></li>
     </ol>
 </div>
+
 <div id="shippingtip" style="display: none">
     <div style="width: 320px;">
         <?php _e("You are able to allow or disallow shipping to the selected country. For example if you ship worldwide you can disallow shipping to one or more countries."); ?>
@@ -170,7 +171,10 @@
     <div class="clearfix"></div>
 </div>
 
+<div class="add-new-country mw-shipping-items" <?php if ($has_data == false): ?>style="display: block;" <?php endif; ?>>
 
-<div class="mw-shipping-items add-new-country">
-    <?php include __DIR__ . "/item_edit.php"; ?>
+    <p class="disabled-and-enabled-label">Add shipping to country</p>
+    <div class="">
+        <?php include __DIR__ . "/item_edit.php"; ?>
+    </div>
 </div>

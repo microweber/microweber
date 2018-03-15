@@ -45,6 +45,11 @@ foreach ($data as $item) {
     }
 }
 
+$has_data = false;
+
+if(!empty($data_active) OR !empty($data_disabled)){
+    $has_data = true;
+}
 
 $view_file = __DIR__ . DS . 'views/admin_add_shipping.php';
 $view = new View($view_file);
@@ -52,6 +57,7 @@ $view->assign('params', $params);
 $view->assign('config', $config);
 $view->assign('countries', $countries);
 $view->assign('countries_used', $countries_used);
+$view->assign('has_data', $has_data);
 print $view->display();
 
 

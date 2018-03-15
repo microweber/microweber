@@ -24,7 +24,6 @@
     });
 </script>
 
-<div class="section-header"><h2><span class="mai-shipping"></span><?php _e("Shipping"); ?></h2></div>
 
 <?php
 $here = dirname(__FILE__) . DS . 'gateways' . DS;
@@ -32,46 +31,44 @@ $here = dirname(__FILE__) . DS . 'gateways' . DS;
 $shipping_modules = get_modules("type=shipping_gateway");
 ?>
 
+<div class="section-header">
+    <h2 class="pull-left" style="padding: 7px;"><span class="mai-shipping"></span> <?php _e("Shipping"); ?></h2>
+    <?php if (is_array($shipping_modules)): ?>
+        <?php foreach ($shipping_modules as $shipping_module): ?>
+            <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
+                <div class="pull-left" id="set-shipping-to-country">
+                        <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
+
+                    <span class="switcher-label-left"><?php _e("Enable shipping to countries"); ?></span>
+
+                    <label class="mw-switch inline-switch">
+                        <input
+                                onchange="shippingToCountryClass()"
+                                type="checkbox"
+                                name="shipping_gw_<?php print $shipping_module['module'] ?>"
+                                data-option-group="shipping"
+                                data-id="shipping_gw_<?php print $shipping_module['module'] ?>"
+                                data-value-checked="y"
+                                data-value-unchecked="n"
+                                class="mw_option_field"
+                            <?php if ($status == 'notification'): ?> checked="y" <?php endif; ?>>
+                        <span class="mw-switch-off">OFF</span>
+                        <span class="mw-switch-on">ON</span>
+                        <span class="mw-switcher"></span>
+                    </label>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+
+
 <div class="mw-set-shipping-options mw-admin-wrap admin-side-content">
     <div class="">
         <?php if (is_array($shipping_modules)): ?>
             <?php foreach ($shipping_modules as $shipping_module): ?>
                 <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
-                    <div class="mw-ui-box-header mw-set-shipping-options-swticher">
-                        <h4 class="pull-left">
-                            <span>
-                              <?php print $shipping_module['name']; ?>
-                                <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping') != 'y'): ?> &nbsp;
-                                    <small class="mw-ui-label-help" style="display:inline;"><em>(<?php _e('inactive'); ?>)</em></small>
-                                <?php endif; ?>
-  		                    </span>
-                        </h4>
 
-                        <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
-
-                        <div class="mw-ui-box mw-ui-box-content mw-ui-box-<?php print $status; ?> pull-right" style="clear: none;padding: 5px 10px;margin-left:12px;" id="set-shipping-to-country">
-                            <ul class="mw-ui-inline-list">
-                                <li>
-                                    <label class="mw-ui-check">
-                                        <input name="shipping_gw_<?php print $shipping_module['module'] ?>" class="mw_option_field" onchange="shippingToCountryClass()" data-option-group="shipping"
-                                               value="y" type="radio" <?php if ($status == 'notification'): ?> checked="checked" <?php endif; ?> />
-                                        <span></span>
-                                        <span><?php _e("Yes"); ?></span>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="mw-ui-check">
-                                        <input name="shipping_gw_<?php print $shipping_module['module'] ?>" class="mw_option_field" onchange="shippingToCountryClass()" data-option-group="shipping"
-                                               value="n" type="radio" <?php if ($status == 'warn'): ?> checked="checked" <?php endif; ?> />
-                                        <span></span>
-                                        <span><?php _e("No"); ?></span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <label class="mw-ui-label-inline pull-right" style="margin-top: 7px;"><?php _e("Activated?"); ?></label>
-                    </div>
 
                     <div class="mw-set-shipping-gw-options">
                         <module type="<?php print $shipping_module['module'] ?>" view="admin"/>

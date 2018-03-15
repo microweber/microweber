@@ -3,12 +3,6 @@
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
 
 
-
-
-
-
-
-
 if (!defined("MODULE_DB_USERS_ONLINE")) {
     define('MODULE_DB_USERS_ONLINE', 'stats_users_online');
 }
@@ -49,24 +43,57 @@ function mw_print_stats_on_dashboard()
     //print '<microweber module="site_stats" view="admin" />';
 }
 
+//
+//event_bind('mw.pageviewffffff', function ($params = false) {
+//
+//
+//        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field'])
+//            and !is_ajax()
+//            and !is_cli()
+//
+//        ) {
+//
+//
+//
+//            $tracker = new Microweber\SiteStats\Tracker(); ;
+//            $tracker->track();
+//           // $tracker->track_visit();
+//          //  $tracker->track_pageview();
+//
+//        }
+//
+//});
 
-event_bind('mw.pageview', function ($params = false) {
+template_foot(function ($page) {
+    //$track_src = modules_url().'site_stats/track.js';
+    //$link = '<script type="text/javascript" src="'.$track_src.'"></script>';
 
+    $track_url = api_url('pingstats');
 
-        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field'])
-            and !is_ajax()
-            and !is_cli()
+    $link = '<script defer type="text/javascript">
+    $( document ).ready(function() {
+           setTimeout(function(){
+            var track = { _token :"' . csrf_token() . '", referrer : document.referrer }
+            $.ajax({
+                url: "' . $track_url . '",
+                data: track,
+                type: "POST",
+                dataType: "json"
+            });
+            }, 3000);
+     });
+    </script>';
+    return $link;
 
-        ) {
+});
 
+api_expose('pingstats', function ($params = false) {
 
-
-            $tracker = new Microweber\SiteStats\Tracker(); ;
-            $tracker->track();
-           // $tracker->track_visit();
-          //  $tracker->track_pageview();
-
-        }
+    if (!is_ajax()) {
+        return;
+    }
+    $tracker = new Microweber\SiteStats\Tracker();
+    return $tracker->track();
 
 });
 
