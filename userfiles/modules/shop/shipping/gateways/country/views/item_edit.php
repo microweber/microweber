@@ -145,7 +145,7 @@ if ($weight_units == false) {
                                     </select>
                                 </div>
                             </div>
-                            <div class="mw-ui-col">
+                            <div class="mw-ui-col shipping-cost">
                                 <div class="mw-ui-col-container">
                                     <label class="mw-ui-label">
                                         <?php _e("Shipping cost"); ?>
@@ -246,7 +246,7 @@ if ($weight_units == false) {
                       <?php print currency_format(100); ?></span></div>
                                 </div>
                             </div>
-                            <div class="mw-ui-col">
+                            <div class="mw-ui-col shipping-cost">
                                 <div class="mw-ui-col-container">
                                     <label class="mw-ui-label">
                                         <?php _e("Shipping cost"); ?></label>

@@ -1,3 +1,5 @@
+
+
 <?php
 only_admin_access();
 
@@ -55,13 +57,18 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
                                     <?php $p = $cart_item[0]['item_image']; ?>
                                 <?php endif; ?>
 
-                                <?php
-                                if (isset($p) and $p != false): ?>
+                                <?php if (isset($p) and $p != false): ?>
                                     <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($p, 120, 120); ?>)"></span>
-                                    <?php if (count($cart_item) > 1): ?>
-                                        <div class="cnt-products">+<?php echo count($cart_item) - 1; ?></div>
-                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
                                 <?php endif; ?>
+
+                                <?php if (count($cart_item) > 1): ?>
+                                    <div class="cnt-products">+<?php echo count($cart_item) - 1; ?></div>
+                                <?php endif; ?>
+                            <?php }else{ ?>
+                                <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
+
                             <?php } ?>
                         </div>
 
