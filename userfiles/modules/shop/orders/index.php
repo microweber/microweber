@@ -38,9 +38,12 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
                 <script>
                     $(document).ready(function () {
                         $('#order-n-<?php print $item['id'] ?>').on('click', function () {
-                            $('.order-data-more').slideUp();
-                            $('.order-holder').removeClass('active');
-                            mw.accordion('#order-n-<?php print $item['id'] ?>');
+                            var curr = $('.order-data-more', this);
+                            $('.order-data-more').not(curr).stop().slideUp();
+                            $('.order-holder').not(this).removeClass('active');
+                            $(curr).stop().slideToggle();
+                            $(this).toggleClass('active');
+                            $('#mw-order-table-holder').toggleClass('has-active');
                         });
                     });
                 </script>

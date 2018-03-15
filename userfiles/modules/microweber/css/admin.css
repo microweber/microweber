@@ -1107,11 +1107,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     right: auto;
     top: 0px;
     left: -22px;
+    position: absolute;
 }
-
-
-
-
 
 #mw-admin-main-menu > li #main-nav-live {
     margin-top: 10px;
@@ -5382,9 +5379,6 @@ span.mw-icon-upload {
 }
 
 
-#users-admin{
-    padding: 30px 15px 15px 15px;
-}
 .admin-section-bar{
     width: 100%;
     padding: 0 14px;

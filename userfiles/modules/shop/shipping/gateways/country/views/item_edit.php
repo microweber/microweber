@@ -123,6 +123,12 @@ if ($weight_units == false) {
                             <span class="mw-switcher"></span>
                         </label>
                     </td>
+                    <td>
+
+                        <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
+                        <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
+
+                    </td>
                 </tr>
                 <tr class="shipping-country-row hide-item hidden">
                     <td class="shipping-country-label"><?php _e("Shipping type"); ?>
@@ -217,6 +223,7 @@ if ($weight_units == false) {
                             </div>
                         </div>
                     </td>
+
                 </tr>
                 <tr class="shipping-discount-row hide-item hidden">
                     <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?>

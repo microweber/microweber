@@ -675,12 +675,35 @@
     -ms-transform: scale(1, 1);
     -o-transform: scale(1, 1);
     transform: scale(1, 1);
-    -webkit-transition: transform 0.5s ease-in-out;
-    -moz-transition: transform 0.5s ease-in-out;
-    -ms-transition: transform 0.5s ease-in-out;
-    -o-transition: transform 0.5s ease-in-out;
-    transition: transform 0.5s ease-in-out;
+    -webkit-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -moz-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -ms-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -o-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 5px 0;
+    margin-bottom: -1px;
+}
+.order-data-more{
+    -webkit-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -moz-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -ms-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -o-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    -o-transform: scale(0.7);
+    transform: scale(1) translateY(100px);
+    opacity: 0;
+}
+
+.orders-holder .order-holder.active .order-data-more{
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
 }
 
 .orders-holder .order-holder.active {
@@ -689,13 +712,14 @@
     -ms-transform: scale(1.03, 1);
     -o-transform: scale(1.03, 1);
     transform: scale(1.03, 1);
-    -webkit-transition: transform 0.5s ease-in-out;
-    -moz-transition: transform 0.5s ease-in-out;
-    -ms-transition: transform 0.5s ease-in-out;
-    -o-transition: transform 0.5s ease-in-out;
-    transition: transform 0.5s ease-in-out;
+    -webkit-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -moz-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -ms-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -o-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: #fff;
     border-color: #0086db;
+    z-index: 1;
 }
 
 .orders-holder .order-holder.active:hover:before {
