@@ -97,9 +97,14 @@
             is_active: el.checked ? 1 : 0
         }
         SaveShippingData(data).always(function () {
-            mw.tools.loading(eroot, false)
+            mw.reload_module('#mw-shop-set-shipping-settings-shop-shipping-gateways-country', function () {
+                mw.tools.loading(eroot, false);
+            });
+
         });
     }
+
+
 
     SaveShippingData = function (data) {
         return $.post('<?php print $config['module_api']; ?>/shipping_to_country/save', data)
