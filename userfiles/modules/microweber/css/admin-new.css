@@ -505,9 +505,8 @@
     background: none;
 }
 
-.mw-shipping-items .shipping-country-holder .mw-icon-close {
+.new-close.mw-icon-close {
     visibility: visible;
-
     color: #0086db;
     background: #fff;
     padding: 4px 5px;
@@ -516,10 +515,13 @@
     border-radius: 52px;
     font-size: 10px;
     border: 1px solid #0086db;
-    margin-top: 10px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
 }
 
-.mw-shipping-items .shipping-country-holder .mw-icon-close:hover {
+.new-close.mw-icon-close:hover {
     color: #fff;
     background: #0086db;
     border: 1px solid #0086db;
@@ -536,9 +538,13 @@
     right: 0;
     top: 0;
     float: right;
-    margin-top: 30px;
+    margin-top: 23px;
     margin-right: 50px;
     /*border-radius: 30px;*/
+}
+
+.mw-shipping-items .new-close {
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 1600px ) {
@@ -567,15 +573,14 @@
         padding: 0 !important;
     }
 
-
     .mw-shipping-items td {
         border: 0;
     }
+
     .shipping-country-row + .shipping-country-row,
     .shipping-country-row {
         padding: 0 0 15px 0;
     }
-
 
     .mw-shipping-items .mw-ui-table td,
     .mw-shipping-items .mw-ui-table tfoot td,
@@ -583,23 +588,23 @@
         padding: 0px 10px 20px 10px !important;
     }
 
-    .mw-shipping-items .mw-ui-table tr:first-child td:first-child{
+    .mw-shipping-items .mw-ui-table tr:first-child td:first-child {
         padding: 10px 10px 20px 10px !important;
     }
 
-    .switcher-label-left{
+    .switcher-label-left {
         padding: 0;
     }
 
-    .save_shipping_btn{
+    .save_shipping_btn {
         margin-top: 20px;
     }
 
-    .mw-shipping-items .shipping-country-holder .mw-icon-close{
+    .mw-shipping-items .shipping-country-holder .mw-icon-close {
         margin-top: 0;
     }
 
-    .shipping-discount-row{
+    .shipping-discount-row {
         margin-top: 20px;
         padding: 0 0 15px 0;
         display: block;
@@ -614,14 +619,13 @@
         padding: 0 !important;
     }
 
-    .mw-shipping-items .shipping_dimensions .pull-left .mw-ui-label{
+    .mw-shipping-items .shipping_dimensions .pull-left .mw-ui-label {
         padding: 0;
     }
 
-    .mw-shipping-items .shipping_dimensions .pull-left:nth-child(2){
-    margin-bottom: 10px;
+    .mw-shipping-items .shipping_dimensions .pull-left:nth-child(2) {
+        margin-bottom: 10px;
     }
-
 
     .mw-shipping-items select {
         max-width: 100%;
@@ -643,4 +647,183 @@
     .mw-shipping-items .mw-ui-table thead th {
         padding: 20px 10px 0 10px !important;
     }
+}
+
+/* Orders */
+.orders-holder {
+}
+
+.orders-holder .order-holder:hover:before {
+    display: block;
+    left: 0;
+    top: 0;
+    border-left: 3px solid #0086db;
+    content: '';
+    min-height: 100px;
+    position: absolute;
+}
+
+.orders-holder .order-holder {
+    clear: both;
+    position: relative;
+    min-height: 85px;
+    background-color: #fafafa;
+    width: 100%;
+    border: 1px solid #ededed;
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    padding: 5px 0;
+}
+
+.orders-holder .order-holder.active {
+    -webkit-transform: scale(1.03, 1);
+    -moz-transform: scale(1.03, 1);
+    -ms-transform: scale(1.03, 1);
+    -o-transform: scale(1.03, 1);
+    transform: scale(1.03, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    background: #fff;
+    border-color: #0086db;
+}
+
+.orders-holder .order-holder.active:hover:before {
+    border-left: 0;
+}
+
+.orders-holder .order-holder .order-data {
+    display: table;
+
+}
+
+.orders-holder .order-holder .order-data > div {
+    display: inline-block;
+    width: auto;
+    padding: 10px 35px;
+    vertical-align: middle;
+}
+
+.orders-holder .order-holder .order-data .order-number a{
+    color: #0086db;
+    font-size: 14px;
+}
+
+.orders-holder .order-holder.active .order-data .product-name {
+    font-weight: bold;
+}
+
+.orders-holder .order-holder .order-data .product-name {
+    color: #0086db;
+    font-size: 13px;
+    min-width: 300px;
+}
+
+.orders-holder .order-holder .order-data-more {
+    display: none;
+    padding: 0 35px;
+    padding-bottom: 20px;
+}
+
+.orders-holder .order-holder .order-data-more .title {
+    color: #0086db;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.orders-holder .order-holder .order-data-more .pull-left {
+    padding-right: 50px;
+    min-width: 320px;
+}
+
+/*.orders-holder .order-holder .order-data-more .pull-left .box:last-of-type {*/
+    /*border-bottom: 0;*/
+/*}*/
+
+.orders-holder .order-holder .order-data-more .box {
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 15px;
+}
+
+.orders-holder .order-holder .order-data-more .box p {
+    margin-bottom: 10px;
+}
+
+.orders-holder .order-holder .order-data-more .box .label {
+    color: #929292;
+    font-size: 13px;
+}
+
+.orders-holder .order-holder .order-data-more .box .content {
+    color: #2b2b2b;
+    font-size: 13px;
+}
+
+.orders-holder .order-holder .new-close {
+    margin-top: 0;
+    top: 15px;
+    right: 15px;
+}
+
+.orders-holder .order-holder .view-order-button {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.orders-holder .order-holder.active .is_paid {
+    font-weight: bold;
+}
+
+.orders-holder .order-holder .not_paid {
+    /*color: red;*/
+}
+
+.orders-holder .order-holder .product-image .product-thumbnail-tooltip {
+    border: 1px solid #fff;
+}
+
+.orders-holder .order-holder.active .product-image .product-thumbnail-tooltip {
+    border-color: #0086db;
+}
+
+.orders-holder .order-holder .product-image{
+    position: relative;
+}
+
+.orders-holder .order-holder .product-image .cnt-products{
+    width: 33px;
+    height: 33px;
+    padding: 9px 0;
+    text-align: center;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    background: #0086db;
+    color: #fff;
+    position: absolute;
+    font-size: 13px;
+    right: 26px;
+    bottom: 10px;
+    /*display: none;*/
+}
+
+.orders-holder .order-holder.active .product-image .cnt-products{
+    display: block;
+}
+
+
+.admin-side-content {
+    max-width: 980px;
+    margin: 0 50px;
 }

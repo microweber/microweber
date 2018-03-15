@@ -1218,7 +1218,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 #mw-admin-main-menu li.active > a{
     padding-left: 18px;
-    border-bottom: 1px solid #ebebeb;
+    /*border-bottom: 1px solid #ebebeb;*/
     font-weight: bold;
     color: #0086db
 }

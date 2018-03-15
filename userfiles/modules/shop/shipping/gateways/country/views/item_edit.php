@@ -263,7 +263,7 @@ if ($weight_units == false) {
 
 
             <div>
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small save_shipping_btn" type="submit">
+                <button class="mw-ui-btn mw-ui-btn-info save_shipping_btn" type="submit">
                     <?php if ($new == true): ?>
                         <?php _e("Add"); ?>
                     <?php else: ?>
@@ -273,7 +273,7 @@ if ($weight_units == false) {
 
                 <?php if ($new == false): ?>
                     <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
-                    <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>"></span>
+                    <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
                 <?php endif; ?>
             </div>
         </div>
