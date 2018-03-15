@@ -12,10 +12,10 @@
     shippingToCountryClass = function () {
         var val = mw.$('[data-option-group="shipping"]:checked').val();
         if (val == 'y') {
-            mw.$("#set-shipping-to-country").removeClass('mw-ui-box-warn').addClass('mw-ui-box-notification');
+            // mw.$("#set-shipping-to-country").removeClass('mw-ui-box-warn').addClass('mw-ui-box-notification');
         }
         else {
-            mw.$("#set-shipping-to-country").removeClass('mw-ui-box-notification').addClass('mw-ui-box-warn');
+            // mw.$("#set-shipping-to-country").removeClass('mw-ui-box-notification').addClass('mw-ui-box-warn');
         }
     }
 
@@ -56,6 +56,17 @@ $shipping_modules = get_modules("type=shipping_gateway");
                         <span class="mw-switch-on">ON</span>
                         <span class="mw-switcher"></span>
                     </label>
+                </div>
+
+                <div class="pull-right">
+                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline pull-right" onclick="mw.tools.open_global_module_settings_modal('shop/shipping/set_units', 'shipping');">
+                        <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
+                    </a>
+
+                    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show()">
+                        <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
+                    </a>
+                    <div class="clearfix"></div>
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>

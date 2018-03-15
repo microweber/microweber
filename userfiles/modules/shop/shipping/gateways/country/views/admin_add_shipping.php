@@ -165,16 +165,7 @@
     </div>
 </div>
 
-<div class="m-b-20">
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline pull-right" onclick="mw.tools.open_global_module_settings_modal('shop/shipping/set_units', 'shipping');">
-        <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
-    </a>
 
-    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show()">
-        <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
-    </a>
-    <div class="clearfix"></div>
-</div>
 
 <div class="add-new-country mw-shipping-items" <?php if ($has_data == false): ?>style="display: block;" <?php endif; ?>>
 
