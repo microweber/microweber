@@ -26,38 +26,51 @@ class Stats
         if (isset($params['period'])) {
             $period = $params['period'];
         }
-        $log = new Log();
-        $log = $log->period($period);
 
 
+        $return = 'visitors_count';
         if (isset($params['return'])) {
-            if ($params['return'] == 'views_count') {
-                $return = $log->sum('view_count');
-
-                return $return;
-            }
-
-
-            if ($params['return'] == 'orders_count') {
-                $log = new Orders();
-                $log =$log->period($period);
-                $log =$log->where('order_completed',1);
-                $return = $log->count();
-                return $return;
-            }
-
-            if ($params['return'] == 'comments_count') {
-                $log = new Comments();
-                $log =$log->period($period);
-                 $return = $log->count();
-                return $return;
-            }
-
+            $return = $params['return'];
         }
-        $return = $log = $log->count();
 
 
-        return $return;
+        if ($return == 'visitors_count') {
+            $log = new Log();
+            $log = $log->period($period);
+            $log = $log->select('session_id_key');
+            $log = $log->groupBy('session_id_key');
+            $return = $log->get();
+            if ($return) {
+                return $return->count();
+            }
+
+            return $return;
+        }
+
+
+        if ($return == 'views_count') {
+            $log = new Log();
+            $log = $log->period($period);
+            $return = $log->sum('view_count');
+
+            return $return;
+        }
+
+
+        if ($return == 'orders_count') {
+            $log = new Orders();
+            $log = $log->period($period);
+            $log = $log->where('order_completed', 1);
+            $return = $log->count();
+            return $return;
+        }
+
+        if ($return == 'comments_count') {
+            $log = new Comments();
+            $log = $log->period($period);
+            $return = $log->count();
+            return $return;
+        }
 
 
     }

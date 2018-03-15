@@ -83,12 +83,14 @@ class Admin
         $get_visits_params = array();
         $get_visits_params['period'] =  'users_online';
         $stats = new Stats();
-        $users_online = $stats->get_stats_count($get_visits_params);
+  //      $users_online = $stats->get_stats_count($get_visits_params);
 
-
+        $users_online = 0;
 
         $get_visits_params = array();
         $get_visits_params['period'] = $params['period'];
+        $get_visits_params['return'] = 'visitors_count';
+
         $stats = new Stats();
         $visits_count = $stats->get_stats_count($get_visits_params);
 
@@ -138,8 +140,7 @@ class Admin
         $view->assign('params', $params);
         $view->assign('views_count', $views_count);
         $view->assign('visits_count', $visits_count);
-        $view->assign('visits_count', $visits_count);
-        $view->assign('orders_count', $orders_count);
+         $view->assign('orders_count', $orders_count);
         $view->assign('comments_count', $comments_count);
         $view->assign('users_online', $users_online);
         return $view->display();

@@ -25,8 +25,7 @@ class Base extends Eloquent
                 break;
         }
 
-
-        $alias = $alias ? "$alias." : '';
+         $alias = $alias ? "$alias." : '';
         return $query
             ->where($alias . 'updated_at', '>=', $start_date ? $start_date : 1)
             ->where($alias . 'updated_at', '<=', $end_date ? $end_date : 1);
