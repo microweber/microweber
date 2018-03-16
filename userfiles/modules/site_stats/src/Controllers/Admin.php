@@ -121,6 +121,12 @@ class Admin
         $stats = new Stats();
         $views_count_grouped_by_period = $stats->get_stats_count($get_visits_params);
 
+        $get_visits_params = array();
+        $get_visits_params['period'] = $params['period'];
+        $get_visits_params['return'] = 'visits_count_grouped_by_period';
+        $stats = new Stats();
+        $visits_count_grouped_by_period = $stats->get_stats_count($get_visits_params);
+
 
 //        $visits_daily = get_visits();
 //        $v_weekly = get_visits('weekly');
@@ -132,6 +138,7 @@ class Admin
 
         $graph_data = array();
         $graph_data['views'] = $views_count_grouped_by_period;
+        $graph_data['visits'] = $visits_count_grouped_by_period;
 
         $view_file = $this->views_dir . 'visits_graph.php';
         $view = new View($view_file);

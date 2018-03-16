@@ -73,6 +73,12 @@ class Handler extends ExceptionHandler
                 $body = str_replace('<h1>Whoops, looks like something went wrong.</h1>',
                     '<h1>Whoops, looks like something went wrong.</h1>' . $this->__get_error_bar_html()
                     , $body);
+
+                if(is_ajax()){
+                    $body = html_entity_decode(strip_tags($handler->getContent($e)));
+
+                }
+
             }
 
         }

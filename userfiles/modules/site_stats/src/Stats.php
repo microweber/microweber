@@ -35,39 +35,22 @@ class Stats
         }
 
 
-        switch ($period) {
-            case 'daily':
-                $date_column_substr_to_char = 13;
-                break;
-
-            case 'weekly':
-                 $date_column_substr_to_char = 10;
-
-                break;
-
-
-            case 'monthly':
-                $date_column_substr_to_char = 7;
-                break;
-            default:
-
-                break;
-        }
-
-
-
-
         switch ($return) {
             case 'visitors_count':
 
-                $log = new Log();
+                $log = new Sessions();
                 $log = $log->period($period);
-                $log = $log->select('session_id_key');
-                $log = $log->groupBy('session_id_key');
-                $return = $log->get();
-                if ($return) {
-                    return $return->count();
-                }
+                $log = $log->select('session_id');
+                $log = $log->groupBy('session_id');
+                return $log->count('session_id');
+//                $log = new Log();
+//                $log = $log->period($period);
+//                $log = $log->select('session_id_key');
+//                $log = $log->groupBy('session_id_key');
+//                $return = $log->get();
+//                if ($return) {
+//                    return $return->count();
+//                }
                 return 0;
 
                 break;
@@ -83,21 +66,44 @@ class Stats
 
 
             case 'views_count_grouped_by_period':
+            case 'visits_count_grouped_by_period':
                 $log = new Log();
-                $log = $log->period($period);
+                //  $log = $log->period($period);
+
+
+                if ($period == 'weekly') {
+                    $date_period_q = "DATE(updated_at,'weekday 1','+7 days') as date_key";
+                }
+
+                if ($period == 'monthly') {
+                    $date_period_q = "DATE(updated_at,'start of month','+1 month','-1 day') as date_key";
+
+                }
+                if ($period == 'daily') {
+                    $date_period_q = "DATE(updated_at) as date_key";
+
+                }
+                if($return == 'visits_count_grouped_by_period'){
+
+                    $log = $log->select(DB::raw($date_period_q . ', count(session_id_key) as date_value'));
+                    $log = $log->groupBy('date_key');
+
+
+                    $log = new Sessions();
+                    $log = $log->select(DB::raw($date_period_q . ', count(session_id) as date_value'));
+                    $log = $log->groupBy('date_key');
+                } else {
+                    $log = $log->select(DB::raw($date_period_q . ', sum(view_count) as date_value'));
+                    $log = $log->groupBy('date_key');
+                }
 
 
 
-                $date_period_q = 'substr(updated_at, 1, '.$date_column_substr_to_char.') as date_period';
-                $log->select(DB::raw($date_period_q.', sum(view_count) as view_count_period'));
-
-
-                $log = $log->groupBy('date_period');
-
-
+                $log = $log->limit(30);
                 $return = $log->get();
 
                 $return = collection_to_array($return);
+
                 return $return;
 
                 break;
@@ -141,5 +147,8 @@ class Stats
 
 
     }
+
+
+
 
 }
