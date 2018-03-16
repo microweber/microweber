@@ -23,9 +23,9 @@ $module_id = $params['id'];
             <span><?php _e("Statistics") ?></span>
 
             <div id="stats_nav">
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');;" data-stat='day'
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='day'
                    class="mw-ui-btn mw-ui-btn-outline active"><?php _e("Daily"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');;" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
                 <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='month'
                    class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
             </div>

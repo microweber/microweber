@@ -50,7 +50,10 @@
                 href="javascript:mw.load_module('settings/group/seo','#mw-advanced-settings-module-load-holder')">
             <?php print("SEO"); ?> <?php _e("settings"); ?>
         </a>
-
+        <a class="mw-ui-btn"
+           href="javascript:mw.load_module('site_stats/settings','#mw-advanced-settings-module-load-holder')">
+            <?php print("Statistics"); ?> <?php _e("settings"); ?>
+        </a>
 
     </div>
 </div>
@@ -94,5 +97,8 @@
         <div id="mw-advanced-settings-dev-tools-output"></div>
     </div>
 </div>
+
+
+    <hr />
 <div id="mw-advanced-settings-module-load-holder"></div>
 </div>

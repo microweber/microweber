@@ -333,12 +333,11 @@ class LegacyCategoryTreeRenderer
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
 
-
-            $cont_check = true;
+             $cont_check = true;
             if ($cat_get_params['rel_type'] == 'content' and $cat_get_params['rel_id']) {
                 $cont_check = $this->app->content_manager->get_by_id($cat_get_params['rel_id']);
                 if (!$cont_check) {
-                    return;
+                   return;
                 }
             }
             if (isset($parent) and $parent != false) {
@@ -370,11 +369,14 @@ class LegacyCategoryTreeRenderer
                 $fors = $this->app->database_manager->get($cat_get_params);
 
             } else {
+
                 return;
             }
 
         }
 
+
+       //d($fors);
         if ($fors != false and is_array($fors) and !empty($fors)) {
             foreach ($fors as $cat) {
                 $tree_only_ids[] = $cat['id'];
@@ -383,17 +385,28 @@ class LegacyCategoryTreeRenderer
 
         ob_start();
 
- //d($tree_only_ids);
         if ($tree_only_ids != false) {
+            if(!$parent){
+                foreach ($tree_only_ids as $tree_only_id){
+                    $this->html_tree($tree_only_id, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
 
-            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
+                }
+            }else {
+                $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
+
+            }
+
+
         } elseif ($skip123 == false) {
+
+
 
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         }/* else if (!$parent  and !$fors) {
 d($fors);
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep, $tree_only_ids);
         }*/ else {
+
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 //    $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
 

@@ -13,13 +13,24 @@ use Microweber\SiteStats\Models\Urls;
 class Tracker
 {
 
-
     function track()
     {
+        $track = array();
+        $data = $this->_collect_user_data();
+        $data['updated_at'] = date("Y-m-d H:i:s");
 
-        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-            return;
-        }
+        $track[] = $data;
+
+
+        return $this->process_buffer($track);
+
+
+    }
+
+    function track_buffered()
+    {
+
+
         $buffer = cache_get('stats_buffer_visits', 'site_stats');
         $buffer_skip = cache_get('stats_buffer_timeout', 'site_stats');
         if (!$buffer_skip) {
@@ -36,23 +47,26 @@ class Tracker
 
 
         if (!isset($buffer[$buffer_key])) {
-            $data['visit_date'] = date("Y-m-d");
-            $data['visit_time'] = date("H:i:s");
             $data['updated_at'] = date("Y-m-d H:i:s");
             $buffer[$buffer_key] = $data;
             cache_save($buffer, 'stats_buffer_visits', 'site_stats');
         }
 
-return             $this->process_buffer();
 
         if (!$buffer_skip) {
             $this->process_buffer();
         }
     }
 
-    function process_buffer()
+    function process_buffer($track_data = false)
     {
-        $buffer = cache_get('stats_buffer_visits', 'site_stats');
+
+        if ($track_data != false) {
+            $buffer = $track_data;
+        } else {
+            $buffer = cache_get('stats_buffer_visits', 'site_stats');
+
+        }
         if (is_array($buffer) and !empty($buffer)) {
 
             $log = new Log();
@@ -164,7 +178,9 @@ return             $this->process_buffer();
             }
 
         }
-        cache_save($buffer, 'stats_buffer_visits', 'site_stats');
+        if ($track_data == false) {
+            cache_save($buffer, 'stats_buffer_visits', 'site_stats');
+        }
 
     }
 
@@ -197,13 +213,8 @@ return             $this->process_buffer();
         }
 
         if (is_ajax()) {
-            if (isset($_POST['referrer']) and isset($_POST['_token'])) {
-                $validate = mw()->user_manager->csrf_validate($_POST);
-                if (!$validate) {
-                    return;
-                } else {
-                    $ref = $_POST['referrer'];
-                }
+            if (isset($_POST['referrer'])) {
+                $ref = $_POST['referrer'];
             }
         }
 
