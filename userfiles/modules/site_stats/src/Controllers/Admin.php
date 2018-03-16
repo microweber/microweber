@@ -79,21 +79,19 @@ class Admin
         }
 
 
-
         $get_visits_params = array();
         $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] =  'users_online';
+        $get_visits_params['return'] = 'users_online';
         $stats = new Stats();
         $users_online = $stats->get_stats_count($get_visits_params);
-
 
 
         $get_visits_params = array();
         $get_visits_params['period'] = $params['period'];
         $get_visits_params['return'] = 'visitors_count';
-
         $stats = new Stats();
         $visits_count = $stats->get_stats_count($get_visits_params);
+
 
         $get_visits_params = array();
         $get_visits_params['period'] = $params['period'];
@@ -102,17 +100,11 @@ class Admin
         $views_count = $stats->get_stats_count($get_visits_params);
 
 
-
-
         $get_visits_params = array();
         $get_visits_params['period'] = $params['period'];
         $get_visits_params['return'] = 'orders_count';
         $stats = new Stats();
         $orders_count = $stats->get_stats_count($get_visits_params);
-
-
-
-
 
 
         $get_visits_params = array();
@@ -123,9 +115,11 @@ class Admin
 
 
 
-
-
-
+        $get_visits_params = array();
+        $get_visits_params['period'] = $params['period'];
+        $get_visits_params['return'] = 'views_count_grouped_by_period';
+        $stats = new Stats();
+        $views_count_grouped_by_period = $stats->get_stats_count($get_visits_params);
 
 
 //        $visits_daily = get_visits();
@@ -136,14 +130,22 @@ class Admin
 //            return;
 //        }
 
+        $graph_data = array();
+        $graph_data['views'] = $views_count_grouped_by_period;
+
         $view_file = $this->views_dir . 'visits_graph.php';
         $view = new View($view_file);
         $view->assign('params', $params);
         $view->assign('views_count', $views_count);
         $view->assign('visits_count', $visits_count);
-         $view->assign('orders_count', $orders_count);
+        $view->assign('orders_count', $orders_count);
         $view->assign('comments_count', $comments_count);
         $view->assign('users_online', $users_online);
+      //  $view->assign('visitors_count_by_period', $visitors_count_by_period);
+
+
+
+        $view->assign('graph_data', $graph_data);
         return $view->display();
     }
 }

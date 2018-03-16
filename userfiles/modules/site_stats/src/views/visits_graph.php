@@ -6,6 +6,12 @@
 //d($visits_monthly);
 //d($params);
 $module_id = $params['id'];
+$period = 'daily';
+
+if($params['period']){
+    $period = $params['period'];
+
+}
 ?>
 
 
@@ -14,7 +20,18 @@ $module_id = $params['id'];
         $('#'+$module_id).attr('period',$period);
         mw.reload_module('#'+$module_id);
     }
+
+    $( document ).ready(function() {
+        $( "[data-stat='<?php print $period ?>']" ).addClass( "active" );
+
+    });
+
+
+
 </script>
+
+
+
 
 <div id="stats">
 
@@ -23,10 +40,10 @@ $module_id = $params['id'];
             <span><?php _e("Statistics") ?></span>
 
             <div id="stats_nav">
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='day'
-                   class="mw-ui-btn mw-ui-btn-outline active"><?php _e("Daily"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='month'
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily'
+                   class="mw-ui-btn mw-ui-btn-outline"><?php _e("Daily"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly'
                    class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
             </div>
             <div class="stats-legend">
@@ -64,11 +81,12 @@ $module_id = $params['id'];
                 </span>
         </div>
     </div>
-
-
 </div>
 
+<?php
 
+print_R($graph_data)
+?>
 <?php return; ?>
 
 <script type="text/javascript">
