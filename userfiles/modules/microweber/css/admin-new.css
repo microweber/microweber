@@ -1,0 +1,40 @@
+.orders-holder .you-have-new-orders p.new-orders {
+    color: #0086db;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.orders-holder .you-have-new-orders p.no-new-orders {
+    color: #333333;
+    font-size: 24px;
+    text-align: center;
+}
+
+.orders-holder .you-have-new-orders p.no-new-orders span {
+    color: #0086db;
+    font-size: 80px;
+    text-align: center;
+}
+
+.orders-holder .you-have-new-orders .order-holder{
+background: rgba(170, 237, 154, 0.18);
+}
+
+/* UI Box */
+.mw-ui-settings-box {
+    background: #fafafa;
+    padding: 15px 25px;
+    margin-bottom: 10px;
+}
+
+.mw-ui-settings-box.box-white {
+    background: #fff;
+}
+
+.mw-ui-settings-box.box-enabled {
+    background: rgba(170, 237, 154, 0.18);
+}
+
+.mw-ui-settings-box.box-disabled {
+    background: rgba(255, 192, 210, 0.18);
+}

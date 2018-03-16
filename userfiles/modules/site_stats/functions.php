@@ -65,6 +65,13 @@ function mw_print_stats_on_dashboard()
 //});
 
 template_foot(function ($page) {
+
+    if(get_option('stats_disabled', 'site_stats') == 1){
+        return;
+    }
+
+
+
     //$track_src = modules_url().'site_stats/track.js';
     //$link = '<script type="text/javascript" src="'.$track_src.'"></script>';
 
@@ -89,11 +96,36 @@ template_foot(function ($page) {
 
 api_expose('pingstats', function ($params = false) {
 
+    if(get_option('stats_disabled', 'site_stats') == 1){
+        return;
+    }
+
     if (!is_ajax()) {
         return;
     }
+    if (!isset($_POST['_token'])) {
+        return;
+    }
+    if (isset($_POST['_token'])) {
+        $validate = mw()->user_manager->csrf_validate($_POST);
+        if (!$validate) {
+            return;
+        }
+    }
+
+
+
     $tracker = new Microweber\SiteStats\Tracker();
-    return $tracker->track();
+
+    if(get_option('stats_is_buffered', 'site_stats') == 1){
+        return $tracker->track();
+    } else {
+        return $tracker->track();
+    }
+
+
+
+
 
 });
 

@@ -1,7 +1,7 @@
 <?php
 
 
-class Order extends BaseModel
+class Orders extends BaseModel
 {
     public $table = 'cart_orders';
 

@@ -495,3 +495,18 @@ if (!function_exists('is_closure')) {
         return is_object($t) or ($t instanceof \Closure);
     }
 }
+
+if (!function_exists('collection_to_array')) {
+    function collection_to_array($data)
+    {
+        if (
+            $data instanceof \Illuminate\Database\Eloquent\Collection
+            or $data instanceof \Illuminate\Support\Collection
+
+        ) {
+            return $data->toArray();
+        }
+        return $data;
+
+    }
+}

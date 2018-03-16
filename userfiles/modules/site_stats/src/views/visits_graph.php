@@ -4,8 +4,34 @@
 //d($visits_daily);
 //d($visits_weekly);
 //d($visits_monthly);
+//d($params);
+$module_id = $params['id'];
+$period = 'daily';
 
+if($params['period']){
+    $period = $params['period'];
+
+}
 ?>
+
+
+<script>
+    function mw_stats_period_switch($module_id,$period) {
+        $('#'+$module_id).attr('period',$period);
+        mw.reload_module('#'+$module_id);
+    }
+
+    $( document ).ready(function() {
+        $( "[data-stat='<?php print $period ?>']" ).addClass( "active" );
+
+    });
+
+
+
+</script>
+
+
+
 
 <div id="stats">
 
@@ -14,10 +40,10 @@
             <span><?php _e("Statistics") ?></span>
 
             <div id="stats_nav">
-                <a href="javascript:;" data-stat='day'
-                   class="mw-ui-btn mw-ui-btn-outline active"><?php _e("Daily"); ?></a>
-                <a href="javascript:;" data-stat='week' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
-                <a href="javascript:;" data-stat='month'
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily'
+                   class="mw-ui-btn mw-ui-btn-outline"><?php _e("Daily"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly'
                    class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
             </div>
             <div class="stats-legend">
@@ -27,10 +53,7 @@
         </div>
         <div class="stat-box-content">
             <div class="users-online">
-                <?php
-
-                print intval($users_online);
-                ?>
+                <?php print $users_online; ?>
                 <span><?php _e("Users online") ?></span>
             </div>
             <div class="dashboard_stats"></div>
@@ -39,28 +62,32 @@
                 <span class="sbf-item active">
                     <span class="mai-eye"></span>
                     Views
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $views_count; ?></span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-user3"></span>
                     Visitors
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $visits_count; ?></span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-order"></span>
                     Orders
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $orders_count; ?></span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-comment"></span>
                     Comments
-                    <span class="sbf-item-n">41,099</span>
+                    <span class="sbf-item-n"><?php print $comments_count; ?></span>
                 </span>
         </div>
     </div>
-
-
 </div>
+
+<?php
+
+print_R($graph_data)
+?>
+<?php return; ?>
 
 <script type="text/javascript">
     mw.statdatas = {
