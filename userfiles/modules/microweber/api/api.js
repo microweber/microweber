@@ -777,6 +777,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
 //mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
 
 
 <?php  // include "jquery.js";  ?>
@@ -787,6 +788,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
 <?php  include "shop.js"; ?>
+<?php  include "common.js"; ?>
 
 
 

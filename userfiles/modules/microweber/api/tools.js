@@ -752,12 +752,15 @@ mw.tools = {
                 root.style.width = mw.tools.cssNumber(w);
             }
             if (!!h) {
+                console.log(12, h)
+                h = h + $('.mw_modal_toolbar', modal).outerHeight();
                 if (typeof h === 'number') {
                     var h = h < maxH ? h : maxH;
                 }
+                console.log(14, h, maxH)
                 root.style.height = mw.tools.cssNumber(h);
             }
-            var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
+            var toolbarHeight = mw.$('.mw_modal_toolbar', root).outerHeight();
             mw.tools.modal.containerHeight(mw.$('.mw_modal_container', root)[0])
             if (trigger) {
                 $(root).trigger("resize");
@@ -772,8 +775,9 @@ mw.tools = {
                 return false;
             }
             var root = container.parentNode;
-            var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
-            var final = ($(root).height() - toolbarHeight - mw.CSSParser(container).get.margin(true).top) + 'px'
+            var toolbarHeight = mw.$('.mw_modal_toolbar', root).outerHeight();
+            var cp = mw.CSSParser(container);
+            var final = ($(root).outerHeight() - toolbarHeight - cp.get.margin(true).top) + 'px'
             if (container.style.height != final) {
                 container.style.height = final;
             }
@@ -2831,22 +2835,32 @@ mw.tools = {
         }
         return a;
     },
-    notificationPermission: false,
-    notification: function (a, b, c) {
+    notification: function (body, tag, icon) {
+        if(!body) return;
         var n = window.Notification || window.webkitNotification || window.mozNotification;
         if (typeof n == 'undefined') {
             return false;
         }
         if (n.permission == 'granted') {
             new Notification("MW Update", {
-                tag: "update",
-                body: "There is a new version of Microweber",
-                icon: mw.settings.includes_url + "img/logomark.png"
+                tag: tag || "Microweber",
+                body: body,
+                icon: icon || mw.settings.includes_url + "img/logomark.png"
             });
         }
         else if (n.permission == 'default') {
             Notification.requestPermission(function (result) {
-                mw.tools.notificationPermission = result
+                console.log(result)
+                if(result == 'granted'){
+                    return mw.tools.notification(body, tag, icon)
+                }
+                else if(result == 'denied'){
+                    mw.notification.error('Notifications are blocked')
+                }
+                else if(result == 'default'){
+                    mw.notification.warn('Notifications are canceled')
+
+                }
             });
         }
     },

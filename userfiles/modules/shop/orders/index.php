@@ -45,7 +45,7 @@ if (isset($params['order-type']) and $params['order-type'] == 'carts') {
                             $('.order-holder').not(this).removeClass('active');
                             $(curr).stop().slideToggle();
                             $(this).toggleClass('active');
-                            $('#mw-order-table-holder').toggleClass('has-active');
+                            $('#mw-order-table-holder')[$('.order-holder.active').length === 0 ? 'removeClass':'addClass']('has-active');
                         });
                     });
                 </script>

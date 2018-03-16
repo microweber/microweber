@@ -137,7 +137,7 @@ if (!is_admin()){
 
 <style>
 
-    
+
 
     .admin-side-box {
         padding-top: 19px;
