@@ -16,7 +16,36 @@ use Microweber\App\Providers\Illuminate\Support\Facades\DB;
 class Stats
 {
 
+    function get_stats_items($params)
+    {
+        if (!is_array($params)) {
+            $params = parse_params($params);
+        }
 
+        $period = 'daily';
+        if (isset($params['period'])) {
+            $period = $params['period'];
+        }
+
+
+        $return = 'visitors';
+        if (isset($params['return'])) {
+            $return = $params['return'];
+        }
+
+
+        $log = new Sessions();
+        $log = $log->period($period);
+    //    $log = $log->select('session_id');
+        $log = $log->groupBy('session_id');
+        return $log->get();
+
+
+
+
+
+
+    }
     function get_stats_count($params)
     {
         if (!is_array($params)) {
@@ -42,7 +71,11 @@ class Stats
                 $log = $log->period($period);
                 $log = $log->select('session_id');
                 $log = $log->groupBy('session_id');
-                return $log->count('session_id');
+                                $return = $log->get();
+                if ($return) {
+                    return $return->count();
+                }
+            //    return $log->count('session_id');
 //                $log = new Log();
 //                $log = $log->period($period);
 //                $log = $log->select('session_id_key');

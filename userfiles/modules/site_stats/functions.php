@@ -87,7 +87,7 @@ template_foot(function ($page) {
                 type: "POST",
                 dataType: "json"
             });
-            }, 3000);
+            }, 1337);
      });
     </script>';
     return $link;
