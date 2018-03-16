@@ -15,3 +15,7 @@
     font-size: 80px;
     text-align: center;
 }
+
+.orders-holder .you-have-new-orders .order-holder{
+background: rgba(170, 237, 154, 0.18);
+}
