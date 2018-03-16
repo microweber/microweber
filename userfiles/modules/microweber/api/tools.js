@@ -2842,14 +2842,14 @@ mw.tools = {
             return false;
         }
         if (n.permission == 'granted') {
-            new Notification("MW Update", {
+            new n("MW Update", {
                 tag: tag || "Microweber",
                 body: body,
                 icon: icon || mw.settings.includes_url + "img/logomark.png"
             });
         }
         else if (n.permission == 'default') {
-            Notification.requestPermission(function (result) {
+            n.requestPermission(function (result) {
                 console.log(result)
                 if(result == 'granted'){
                     return mw.tools.notification(body, tag, icon)
