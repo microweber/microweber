@@ -2020,22 +2020,25 @@ class Parser
             preg_match_all('/<module.*[^>]*>/', $mod_content, $modinner);
             if (!empty($modinner) and isset($modinner[0][0])) {
                 $proceed_with_parse = true;
-            } else {
-                preg_match_all('/<mw.*[^>]*>/', $mod_content, $modinner);
-                if (!empty($modinner) and isset($modinner[0][0])) {
-                    $proceed_with_parse = true;
-                } else {
-                    preg_match_all('/<microweber.*[^>]*>/', $mod_content, $modinner);
-                    if (!empty($modinner) and isset($modinner[0][0])) {
-                        $proceed_with_parse = true;
-                    } else {
-//                        preg_match_all('/<tag.*[^>]*>/', $mod_content, $modinner);
-//                        if (!empty($modinner) and isset($modinner[0][0])) {
-//                            $proceed_with_parse = true;
-//                        }
-                    }
-                }
             }
+
+
+//            else {
+//                preg_match_all('/<mw.*[^>]*>/', $mod_content, $modinner);
+//                if (!empty($modinner) and isset($modinner[0][0])) {
+//                    $proceed_with_parse = true;
+//                } else {
+//                    preg_match_all('/<microweber.*[^>]*>/', $mod_content, $modinner);
+//                    if (!empty($modinner) and isset($modinner[0][0])) {
+//                        $proceed_with_parse = true;
+//                    } else {
+////                        preg_match_all('/<tag.*[^>]*>/', $mod_content, $modinner);
+////                        if (!empty($modinner) and isset($modinner[0][0])) {
+////                            $proceed_with_parse = true;
+////                        }
+//                    }
+//                }
+//            }
         }
         return $proceed_with_parse;
     }
