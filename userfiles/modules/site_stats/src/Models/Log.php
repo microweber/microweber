@@ -11,8 +11,8 @@ class Log extends Base
         'session_id_key',
         'url_id',
         'referrer_id',
-        'content_id',
-        'category_id',
+//        'content_id',
+//        'category_id',
         'updated_at',
         'view_count',
     ];
