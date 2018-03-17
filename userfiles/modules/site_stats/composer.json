@@ -2,7 +2,10 @@
     "name": "microweber-modules/site_stats",
     "description": "Stats for Microweber CMS",
     "type": "metapackage",
-    "require": {},
+    "require": {
+        "jenssegers/agent": "~2.1",
+        "geoip2/geoip2": "~2.0"
+    },
     "autoload": {
         "psr-0": {
             "SiteStats": "src/"
