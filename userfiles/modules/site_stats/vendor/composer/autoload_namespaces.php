@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'SiteStats' => array($baseDir . '/src'),
-    'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
 );

@@ -46,7 +46,8 @@
     "arcanedev/seo-helper": "^1.2",
     "intervention/image": "^2.3",
     "knplabs/knp-menu": "^2.2",
-    "pragmarx/tracker": "v2.0.10"
+    "jenssegers/agent": "~2.1",
+    "geoip2/geoip2": "~2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"
