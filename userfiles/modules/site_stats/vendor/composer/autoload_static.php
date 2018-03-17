@@ -6,20 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitcf3d934e7085b818999d73fce2d7e286
 {
-    public static $prefixesPsr0 = array (
-        'S' => 
+    public static $prefixLengthsPsr4 = array (
+        'M' => 
         array (
-            'SiteStats' => 
-            array (
-                0 => __DIR__ . '/../..' . '/src',
-            ),
+            'Microweber\\SiteStats\\' => 21,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Microweber\\SiteStats\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInitcf3d934e7085b818999d73fce2d7e286::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitcf3d934e7085b818999d73fce2d7e286::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitcf3d934e7085b818999d73fce2d7e286::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

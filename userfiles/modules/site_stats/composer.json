@@ -4,8 +4,8 @@
     "type": "metapackage",
     
     "autoload": {
-        "psr-0": {
-            "SiteStats": "src/"
+        "psr-4": {
+            "Microweber\\SiteStats\\": "src/"
         }
     }
 }
