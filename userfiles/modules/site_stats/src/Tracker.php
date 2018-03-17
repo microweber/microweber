@@ -236,7 +236,7 @@ class Tracker
         $data['user_id'] = mw()->user_manager->id();
         $data['content_id'] = content_id();
         $data['category_id'] = category_id();
- 
+
         return $data;
     }
 

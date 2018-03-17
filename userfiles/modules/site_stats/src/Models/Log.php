@@ -17,4 +17,10 @@ class Log extends Base
         'view_count',
     ];
 
+
+    public function url()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\Urls');
+    }
+
 }

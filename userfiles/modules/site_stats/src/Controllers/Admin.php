@@ -77,6 +77,8 @@ class Admin
             $params['period'] = 'daily';
         }
 
+        \DB::enableQueryLog();
+
         $get_data = array();
         $get_data['period'] = $params['period'];
         $get_data['return'] = 'visitors_list';
@@ -84,7 +86,9 @@ class Admin
         $get_data = $stats->get_stats_items($get_data);
 
 
-
+//        dd(
+//            \DB::getQueryLog()
+//        );
 
         $view_file = $this->views_dir . 'visitors_list.php';
         $view = new View($view_file);

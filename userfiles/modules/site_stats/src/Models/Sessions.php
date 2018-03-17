@@ -16,4 +16,15 @@ class Sessions extends Base
         'updated_at',
     ];
 
+
+    public function views()
+    {
+        return $this->hasMany('Microweber\SiteStats\Models\Log','session_id_key');
+    }
+
+    public function browser()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\Browsers');
+    }
+
 }
