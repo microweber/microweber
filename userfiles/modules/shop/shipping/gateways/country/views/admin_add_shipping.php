@@ -169,7 +169,7 @@
 
 <div class="add-new-country mw-shipping-items" <?php if ($has_data == false): ?>style="display: block;" <?php endif; ?>>
 
-    <p class="disabled-and-enabled-label">Add shipping to country</p>
+    <p class="disabled-and-enabled-label"><?php print _e('Add shipping to country'); ?></p>
     <div class="">
         <?php include __DIR__ . "/item_edit.php"; ?>
     </div>

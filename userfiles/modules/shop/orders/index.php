@@ -51,11 +51,14 @@ $has_new = true;
                 <div class="you-have-new-orders">
                     <p class="new-orders p-b-10 p-t-10 ">You have <?php //print $notif_html; ?> new orders</p>
 
+                    <div class="mw-ui-box mw-ui-box-content mw-ui-box-warn new-warn m-b-10"> <span class="mai-shop"></span> <strong>No new orders</strong> <button class="close-alert"><i class="mw-icon-close"></i></button></div>
+                    <div class="mw-ui-box mw-ui-box-content mw-ui-box-notification new-notification m-b-10"> <span class="mai-shop"></span> <strong>You have <?php //print $notif_html; ?> new orders</strong> <button class="close-alert"><i class="mw-icon-close"></i></button></div>
+
                     <?php include(__DIR__ . '/views/orders-list.php'); ?>
                 </div>
             <?php endif; ?>
 
-            <p class="bold p-b-10 p-t-10 m-t-20">List of all orders</p>
+            <p class="bold p-b-10 p-t-10 m-t-20"><?php print _e('List of all orders'); ?></p>
             <?php include(__DIR__ . '/views/orders-list.php'); ?>
         </div>
 
@@ -86,9 +89,7 @@ $has_new = true;
         </div>
 
 
-    <?php foreach ($orders
-
-    as $item) : ?>
+    <?php foreach ($orders as $item) : ?>
 
 
         <h2><?php _e("Abandoned Cart ID"); ?>: <?php print $item['id']; ?></h2>
@@ -246,7 +247,7 @@ $has_new = true;
         <div class="orders-holder mw-ui-box mw-ui-box-content">
             <div class="you-have-new-orders p-40">
                 <p class="no-new-orders">
-                    <span class="mw-icon-shopcart"></span><br/>
+                    <span class="mai-shop"></span><br/>
                     <?php _e("You don't have any orders"); ?>
                 </p>
             </div>

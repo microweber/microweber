@@ -162,7 +162,6 @@
 <div class="admin-side-content">
     <div id="manage-orders-menus">
 
-        <h3 class="pull-left"><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h3>
 
 
         <?php if ($is_orders != 0) { ?>

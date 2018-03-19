@@ -73,7 +73,7 @@ else{
                                     <?php print $post['title']; ?>
                                 </td>
                                 <td class="dr-item-price">
-                                    33 <span class="mai-comment"></span> comments
+                                    33 <span class="mai-comment"></span> <?php echo _e('comments'); ?>
                                 </td>
                                 <td class="dr-item-date">
                                     10 days ago

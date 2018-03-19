@@ -343,10 +343,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val"></span>
                 <div class="mw-dropdown-content" style="display: none;">
                     <ul>
-                        <li value="posts">Posts</li>
-                        <li value="pages">Pages</li>
-                        <li value="products">Products</li>
-                        <li value="modules">Modules</li>
+                        <li value="posts"><?php print _e("Posts"); ?></li>
+                        <li value="pages"><?php print _e("Pages"); ?></li>
+                        <li value="products"><?php print _e("Products"); ?></li>
+                        <li value="modules"><?php print _e("Modules"); ?></li>
                     </ul>
                 </div>
             </div>
