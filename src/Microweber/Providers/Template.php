@@ -80,8 +80,14 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
+            $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
+            $mtime = false;
+            if (is_file($file)) {
+                $mtime = filemtime($file);
+            }
+
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-            $fn = 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $fn = 'api_settings.' . md5(site_url() . template_dir().$mtime) . '.' . MW_VERSION . '.js';
             $userfiles_cache_filename = $userfiles_cache_dir . $fn;
             if (is_file($userfiles_cache_filename)) {
                 if (is_file($userfiles_cache_filename)) {
@@ -425,8 +431,6 @@ class Template
 
         return $data;
     }
-
-
 
 
     /**
