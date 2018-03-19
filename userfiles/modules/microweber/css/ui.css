@@ -1461,11 +1461,11 @@ input.mw-ui-btn {
 }
 .mw-ui-btn-info {
   color: #ffffff;
-  background-color: #4494c7;
-  border-color: #4494c7;
+  background-color: #0086db;
+  border-color: #0086db;
 }
 .mw-ui-btn-outline.mw-ui-btn-info {
-  color: #4494c7;
+  color: #0086db;
 }
 .mw-ui-btn-notification {
   color: #ffffff;
@@ -1558,7 +1558,7 @@ input.mw-ui-btn {
 }
 .mw-ui-btn-info:hover,
 .mw-ui-btn-info:focus {
-  background-color: #398abe;
+  background-color: #007ac7;
 }
 .mw-ui-btn-notification:hover,
 .mw-ui-btn-notification:focus {
@@ -1887,8 +1887,8 @@ input.mw-ui-btn {
   color: #262626;
 }
 .mw-paging-info a {
-  background-color: #4494c7;
-  border-color: #4494c7;
+  background-color: #0086db;
+  border-color: #0086db;
   color: white;
 }
 .mw-paging-info a:hover,
@@ -1983,7 +1983,7 @@ input.mw-ui-btn {
   border-color: transparent;
 }
 .mw-ui-box-info {
-  background-color: #4494c7;
+  background-color: #0086db;
   color: white;
   border-color: transparent;
 }
@@ -2007,7 +2007,7 @@ input.mw-ui-btn {
   color: white;
 }
 .mw-ui-box-info > .mw-ui-box-header {
-  background-color: #6baad3;
+  background-color: #0fa2ff;
   color: white;
 }
 .mw-ui-box-warn > .mw-ui-box-header {
@@ -3660,7 +3660,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   color: #262626;
 }
 .mw-color-info {
-  color: #4494c7;
+  color: #0086db;
 }
 .mw-color-warn {
   color: #ef924d;
