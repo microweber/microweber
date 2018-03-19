@@ -4704,7 +4704,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     border-top: none
 }
 
-@media (max-width: 800px) {
+@media (max-width: 991px) {
     .admin-shipping-table select {
         width: 120px;
     }
@@ -6405,4 +6405,9 @@ span.mw-icon-upload {
 .admin-side-content {
     max-width: 1100px;
     margin: 0 50px;
+}
+
+
+.shipping-cost{
+    min-width: 100px;
 }
