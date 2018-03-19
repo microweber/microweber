@@ -6070,7 +6070,7 @@ span.mw-icon-upload {
     -webkit-border-radius: 52px;
     -moz-border-radius: 52px;
     border-radius: 52px;
-    font-size: 10px;
+    font-size: 10px !important;
     border: 1px solid #0086db;
     position: absolute;
     right: 20px;
@@ -6410,4 +6410,8 @@ span.mw-icon-upload {
 
 .shipping-cost{
     min-width: 100px;
+}
+
+#manage-orders-menus{
+    border: 0;
 }

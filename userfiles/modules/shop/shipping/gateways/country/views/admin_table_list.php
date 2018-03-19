@@ -1,9 +1,9 @@
 <?php if (is_array($data) and !empty($data)): ?>
     <div class=" m-t-20">
         <?php if ($active_or_disabled == 'active'): ?>
-            <p class="disabled-and-enabled-label">List of enabled countries</p>
+            <p class="disabled-and-enabled-label"><?php print _e('List of enabled countries'); ?></p>
         <?php else: ?>
-            <p class="disabled-and-enabled-label">List of disabled countries</p>
+            <p class="disabled-and-enabled-label"><?php print _e('List of disabled countries'); ?></p>
         <?php endif; ?>
 
         <div class="mw-shipping-items" id="shipping_to_country_holder">

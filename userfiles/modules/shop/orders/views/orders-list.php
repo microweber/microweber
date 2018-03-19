@@ -1,3 +1,4 @@
+<?php if($orders): ?>
 <?php foreach ($orders as $item) : ?>
     <script>
         $(document).ready(function () {
@@ -83,32 +84,32 @@
 
             <hr/>
             <div class="pull-left">
-                <p class="title">Customer Information</p>
+                <p class="title"><?php print _e('Customer Information'); ?></p>
 
                 <?php if (isset($item['first_name']) AND isset($item['last_name'])): ?>
                     <div class="box">
-                        <p class="label">Client Name:</p>
+                        <p class="label"><?php print _e('Client Name:'); ?></p>
                         <p class="content"><a href="<?php print admin_url() ?>view:shop/action:clients#?clientorder=<?php print $item['id'] ?>"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></a></p>
                     </div>
                 <?php endif; ?>
 
                 <?php if (isset($item['phone'])): ?>
                     <div class="box">
-                        <p class="label">Phone:</p>
+                        <p class="label"><?php print _e('Phone:'); ?></p>
                         <p class="content"><?php print $item['phone']; ?></p>
                     </div>
                 <?php endif; ?>
 
                 <?php if (isset($item['email'])): ?>
                     <div class="box">
-                        <p class="label">E-mail:</p>
+                        <p class="label"><?php print _e('E-mail:'); ?></p>
                         <p class="content"><?php print $item['email'] ?></p>
                     </div>
                 <?php endif; ?>
             </div>
 
             <div class="pull-left">
-                <p class="title">Shipping Information</p>
+                <p class="title"><?php print _e('Shipping Information'); ?></p>
 
                 <div class="box">
                     <p class="label">Address:</p>
@@ -130,7 +131,7 @@
 
                 <?php if (isset($item['comment'])): ?>
                     <div class="box">
-                        <p class="label">Comment:</p>
+                        <p class="label"><?php print _e('Comment:'); ?></p>
                         <p class="content"><?php print $item['comment'] ?></p>
                     </div>
                 <?php endif; ?>
@@ -143,3 +144,4 @@
         <div class="clearfix"></div>
     </div>
 <?php endforeach; ?>
+<?php endif; ?>
