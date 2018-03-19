@@ -29,7 +29,7 @@
       mw.dd_autocomplete = function(id){
       var el = $(id);
 
-      el.bind("change keyup paste focus", function(event){
+      el.on("change keyup paste focus", function(event){
         if(!is_searching){
             var val = el.val();
             if(event.type=='focus'){
@@ -99,13 +99,13 @@ setACValue = function(val){
     frame.height = frame_holder.height();
 
     frame.className += ' mw_upload_frame';
-    $(frame).bind("progress", function(frame, file){
+    $(frame).on("progress", function(frame, file){
 		  Progress.show();
           ProgressBar.width(file.percent+'%');
           ProgressInfo.html(file.name);
           ProgressPercent.html(file.percent+'%');
     });
-    $(frame).bind("done", function(frame, item){
+    $(frame).on("done", function(frame, item){
           ProgressBar.width('0%');
           ProgressPercent.html('');
           ProgressInfo.html(ProgressDoneHTML);
@@ -113,20 +113,20 @@ setACValue = function(val){
           Progress.hide();
     });
 
-    $(frame).bind("error", function(frame, file){
+    $(frame).on("error", function(frame, file){
           ProgressBar.width('0%');
           ProgressPercent.html('');
           ProgressInfo.html(ProgressErrorHTML(file.name));
           Progress.hide();
     });
 
-    $(frame).bind("FilesAdded", function(frame, files_array, runtime){
+    $(frame).on("FilesAdded", function(frame, files_array, runtime){
         if(runtime == 'html4'){
           ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
         }
         Progress.show()
     });
-    $(frame).bind("FileUploaded", function(frame, item){
+    $(frame).on("FileUploaded", function(frame, item){
         parent.mw.iframecallbacks[hash](item.src);
     });
 

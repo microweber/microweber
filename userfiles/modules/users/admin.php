@@ -169,6 +169,8 @@
         mw.url.windowDeleteHashParam('edit-user');
        _mw_admin_users_manage();
     });
+    $("#main-menu-my-profile").parent().removeClass('active');
+    $("#main-menu-manage-users").parent().addClass('active');
     mw.on.hashParam('edit-user', function () {
         if (this == false && this != 0) {
             _mw_admin_users_manage();
@@ -182,24 +184,32 @@
 
         var val = this.toString();
 
+        var current_user = '<?php print user_id(); ?>';
 
         if(val == 'false'){
             mw.$("#user-section-title").html(userSections.manage);
             mw.$("#add-new-user-btn").show();
-            $("#main-menu-my-profile").addClass('active');
-            $("#main-menu-manage-users").removeClass('active');
+            $("#main-menu-my-profile").parent().removeClass('active');
+            $("#main-menu-manage-users").parent().addClass('active');
         }
         else if(val == '0'){
             mw.$("#user-section-title").html(userSections.create);
             mw.$("#add-new-user-btn").hide();
-            $("#main-menu-my-profile").removeClass('active');
-            $("#main-menu-manage-users").addClass('active');
+            $("#main-menu-my-profile").parent().removeClass('active');
+            $("#main-menu-manage-users").parent().addClass('active');
         }
         else{
             mw.$("#user-section-title").html(userSections.edit);
             mw.$("#add-new-user-btn").hide();
-            $("#main-menu-my-profile").removeClass('active');
-            $("#main-menu-manage-users").addClass('active');
+            if(val == current_user){
+                $("#main-menu-my-profile").parent().addClass('active');
+                $("#main-menu-manage-users").parent().removeClass('active');
+            }
+            else{
+                $("#main-menu-my-profile").parent().removeClass('active');
+                $("#main-menu-manage-users").parent().addClass('active');
+            }
+
         }
 
     });

@@ -3597,7 +3597,7 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  border: 1px solid #2b2b2b;
+
 }
 
 .iframe_fix {
@@ -3647,10 +3647,9 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
 }
 .mw_modal_default .mw_modal_container{
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  -webkit-border-radius: 0 0 2px 2px;
-  -moz-border-radius: 0 0 2px 2px;
   border-radius: 0 0 2px 2px;
   background: #fafafa;
+  border: 1px solid #2b2b2b;
 }
 
 .mw-modal-draggable.mw_modal_default .mw_modal_toolbar {
@@ -3674,6 +3673,9 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   cursor: grab;
 }
 
+.mw_modal_basic {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
 .mw_modal_basic .mw_modal_toolbar {
   height: 20px;
   width: 100%;
@@ -3682,6 +3684,9 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   position: relative;
   background: white;
   cursor: move;
+}
+.mw_modal_basic .mw_modal_toolbar .mw_modal_title{
+  color: @textColor;
 }
 
 .mw_modal_gallery .mw_modal_toolbar {

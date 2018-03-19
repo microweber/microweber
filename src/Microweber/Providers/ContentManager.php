@@ -1293,9 +1293,13 @@ class ContentManager
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
                 if ($ref_page != '') {
-                    $ref_page = $this->get_by_url($ref_page);
-//                    $e = new \Exception();
-//                    print_r($e->getTraceAsString());
+                    $ref_page = strtok($ref_page, '?');
+                    if ($ref_page == site_url()) {
+                        $ref_page = $this->homepage($ref_page);
+                    } else {
+                        $ref_page = $this->get_by_url($ref_page);
+
+                    }
                     if ($ref_page != false and !empty($ref_page)) {
                         $content = $ref_page;
                     }
@@ -2412,7 +2416,7 @@ class ContentManager
             }
         }
         $meta = $this->get_by_id($id);
-        if(!$meta){
+        if (!$meta) {
             return;
         }
 
@@ -2431,18 +2435,18 @@ class ContentManager
         }
         if ($descr) {
             if ($descr == 'mw_saved_inner_edit_from_parent_edit_field') {
-                $descr_from_edit_field =  $this->app->content_manager->edit_field("rel_type=content&rel_id=".$id);
-                if($descr_from_edit_field){
+                $descr_from_edit_field = $this->app->content_manager->edit_field("rel_type=content&rel_id=" . $id);
+                if ($descr_from_edit_field) {
                     $descr_from_edit_field = trim(strip_tags($descr_from_edit_field));
                 }
-                 if($descr_from_edit_field){
+                if ($descr_from_edit_field) {
                     $descr = trim($descr_from_edit_field);
                 }
 
             }
-         }
+        }
         if ($descr) {
-           return $descr;
+            return $descr;
         }
     }
 

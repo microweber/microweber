@@ -775,14 +775,8 @@ class DatabaseManager extends DbUtils
 
     private function _collection_to_array($data)
     {
-        if (
-            $data instanceof \Illuminate\Database\Eloquent\Collection
-            or $data instanceof \Illuminate\Support\Collection
 
-        ) {
-            return $data->toArray();
-        }
-        return $data;
+        return collection_to_array($data);
 
     }
 }

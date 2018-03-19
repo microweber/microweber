@@ -50,6 +50,8 @@ class Base extends Eloquent
             ->where($alias . 'updated_at', '>=', $start_date ? $start_date : 1)
             ->where($alias . 'updated_at', '<=', $end_date ? $end_date : 1);
     }
+
+
 }
 
 
