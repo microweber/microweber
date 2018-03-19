@@ -70,7 +70,35 @@ class Admin
 //        $view->assign('paging_param', $posts_mod['paging_param']);
         return $view->display();
     }
+    function visitors_list($params)
+    {
 
+        if (!isset($params['period'])) {
+            $params['period'] = 'daily';
+        }
+
+        \DB::enableQueryLog();
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'visitors_list';
+        $stats = new Stats();
+        $get_data = $stats->get_stats_items($get_data);
+
+
+//        dd(
+//            \DB::getQueryLog()
+//        );
+
+        $view_file = $this->views_dir . 'visitors_list.php';
+        $view = new View($view_file);
+        $view->assign('params', $params);
+        $view->assign('data', $get_data);
+        return $view->display();
+
+
+
+    }
     function visits_graph($params)
     {
 
@@ -79,47 +107,53 @@ class Admin
         }
 
 
-        $get_visits_params = array();
-        $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] = 'users_online';
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'users_online';
         $stats = new Stats();
-        $users_online = $stats->get_stats_count($get_visits_params);
+        $users_online = $stats->get_stats_count($get_data);
 
 
-        $get_visits_params = array();
-        $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] = 'visitors_count';
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'visitors_count';
         $stats = new Stats();
-        $visits_count = $stats->get_stats_count($get_visits_params);
+        $visits_count = $stats->get_stats_count($get_data);
 
 
-        $get_visits_params = array();
-        $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] = 'views_count';
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'views_count';
         $stats = new Stats();
-        $views_count = $stats->get_stats_count($get_visits_params);
+        $views_count = $stats->get_stats_count($get_data);
 
 
-        $get_visits_params = array();
-        $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] = 'orders_count';
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'orders_count';
         $stats = new Stats();
-        $orders_count = $stats->get_stats_count($get_visits_params);
+        $orders_count = $stats->get_stats_count($get_data);
 
 
-        $get_visits_params = array();
-        $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] = 'comments_count';
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'comments_count';
         $stats = new Stats();
-        $comments_count = $stats->get_stats_count($get_visits_params);
+        $comments_count = $stats->get_stats_count($get_data);
 
 
 
-        $get_visits_params = array();
-        $get_visits_params['period'] = $params['period'];
-        $get_visits_params['return'] = 'views_count_grouped_by_period';
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'views_count_grouped_by_period';
         $stats = new Stats();
-        $views_count_grouped_by_period = $stats->get_stats_count($get_visits_params);
+        $views_count_grouped_by_period = $stats->get_stats_count($get_data);
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'visits_count_grouped_by_period';
+        $stats = new Stats();
+        $visits_count_grouped_by_period = $stats->get_stats_count($get_data);
 
 
 //        $visits_daily = get_visits();
@@ -132,6 +166,7 @@ class Admin
 
         $graph_data = array();
         $graph_data['views'] = $views_count_grouped_by_period;
+        $graph_data['visits'] = $visits_count_grouped_by_period;
 
         $view_file = $this->views_dir . 'visits_graph.php';
         $view = new View($view_file);

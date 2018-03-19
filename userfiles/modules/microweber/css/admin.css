@@ -4704,7 +4704,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
     border-top: none
 }
 
-@media (max-width: 800px) {
+@media (max-width: 991px) {
     .admin-shipping-table select {
         width: 120px;
     }
@@ -5503,6 +5503,10 @@ span.mw-icon-upload {
     border-radius: 0 0 2px 2px;
 }
 
+#users-admin {
+    padding: 30px 15px 15px 15px;
+}
+
 .admin-section-bar {
     width: 100%;
     padding: 0 14px;
@@ -5542,22 +5546,11 @@ span.mw-icon-upload {
     top: 0px;
 }
 
-
-.admin-side-content, .admin-side-content-flat{
-    max-width: 1100px;
-    margin: 0 5%;
-    width: 90%;
-}
-
 .admin-side-content {
-
+    /*max-width: 965px;*/
+    width: 90%;
+    margin: auto;
     padding: 50px 0;
-}
-
-.admin-side-content .admin-side-content{
-    margin: 0;
-    width: 100%;
-    padding: 0;
 }
 
 /* Typography */
@@ -6262,13 +6255,12 @@ span.mw-icon-upload {
     -ms-transform: scale(1, 1);
     -o-transform: scale(1, 1);
     transform: scale(1, 1);
-    -webkit-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -moz-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -ms-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -o-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     padding: 5px 0;
-    margin-bottom: -1px;
 }
 
 .orders-holder .order-holder.active {
@@ -6277,14 +6269,13 @@ span.mw-icon-upload {
     -ms-transform: scale(1.03, 1);
     -o-transform: scale(1.03, 1);
     transform: scale(1.03, 1);
-    -webkit-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -moz-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -ms-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    -o-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     background: #fff;
     border-color: #0086db;
-    z-index: 1;
 }
 
 .orders-holder .order-holder.active:hover:before {
@@ -6322,28 +6313,6 @@ span.mw-icon-upload {
     display: none;
     padding: 0 35px;
     padding-bottom: 20px;
-    -webkit-transition: transform 0.4s, opacity .4s ;
-    -moz-transition: transform 0.4s, opacity .4s;
-    -ms-transition: transform 0.4s, opacity .4s;
-    -o-transition: transform 0.4s, opacity .4s;
-    transition: transform 0.4s, opacity .4s;
-    -webkit-transform: translateY(100px);
-    -moz-transform: translateY(100px);
-    -ms-transform: translateY(100px);
-    -o-transform: translateY(100px);
-    transform: translateY(100px);
-    opacity: 0;
-}
-.has-active .order-holder:not(.active){
-    opacity: 0.6;
-}
-.has-active .order-holder:not(.active):hover{
-    opacity: 1;
-}
-
-.orders-holder .order-holder.active .order-data-more{
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .orders-holder .order-holder .order-data-more .title {
@@ -6433,4 +6402,12 @@ span.mw-icon-upload {
     display: block;
 }
 
+.admin-side-content {
+    max-width: 1100px;
+    margin: 0 50px;
+}
 
+
+.shipping-cost{
+    min-width: 100px;
+}

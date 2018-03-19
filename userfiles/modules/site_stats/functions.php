@@ -87,7 +87,7 @@ template_foot(function ($page) {
                 type: "POST",
                 dataType: "json"
             });
-            }, 3000);
+            }, 1337);
      });
     </script>';
     return $link;
@@ -118,7 +118,7 @@ api_expose('pingstats', function ($params = false) {
     $tracker = new Microweber\SiteStats\Tracker();
 
     if(get_option('stats_is_buffered', 'site_stats') == 1){
-        return $tracker->track();
+        return $tracker->track_buffered();
     } else {
         return $tracker->track();
     }

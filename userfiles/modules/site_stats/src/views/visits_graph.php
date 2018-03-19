@@ -83,10 +83,11 @@ if($params['period']){
     </div>
 </div>
 
-<?php
+<small><pre style="max-height: 100px; overflow: scroll; font-size: 7px;">
+    <?php
 
-print_R($graph_data)
-?>
+    print_R($graph_data)
+    ?></pre></small>
 <?php return; ?>
 
 <script type="text/javascript">

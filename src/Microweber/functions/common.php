@@ -502,7 +502,7 @@ if (!function_exists('collection_to_array')) {
         if (
             $data instanceof \Illuminate\Database\Eloquent\Collection
             or $data instanceof \Illuminate\Support\Collection
-
+            or $data instanceof \Illuminate\Database\Eloquent\Model
         ) {
             return $data->toArray();
         }
