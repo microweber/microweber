@@ -1,8 +1,40 @@
 $(document).ready(function(){
-    var skin = 'basic';
-    var overlay = true;
-    $(mwd.body).on('click', '[data-mw-dialog]', function(e){
-        var data = this.getAttribute('data-mw-dialog');
+
+    mw.common['data-mw-close']();
+    $(mwd.body)
+    .on('click', '[data-mw-dialog]', function(e){
+        mw.common['data-mw-dialog'](e);
+    })
+    .on('click', '[data-mw-close]', function(e){
+        mw.common['data-mw-close'](e);
+    });
+});
+
+mw.common = {
+    'data-mw-close':function(e){
+        if(e && e.target){
+            var data = e.target.getAttribute('data-mw-close');
+            var cookie = JSON.parse(mw.cookie.get('data-mw-close') || '{}');
+            $(data).slideUp(function(){
+                $(this).remove();
+                cookie[data] = true;
+                mw.cookie.set('data-mw-close', JSON.stringify(cookie));
+            })
+        }
+        else{
+            var cookie =  JSON.parse(mw.cookie.get('data-mw-close') || '{}');
+            mw.$('[data-mw-close]').each(function(){
+                var data = this.getAttribute('data-mw-dialog');
+                if(cookie[data]){
+                    $(data).remove();
+                }
+            })
+        }
+    },
+    'data-mw-dialog':function(e){
+        var skin = 'basic';
+        var overlay = true;
+        var data = e.target.getAttribute('data-mw-dialog');
         if(data){
             e.preventDefault();
             data = data.trim();
@@ -39,5 +71,5 @@ $(document).ready(function(){
                 });
             }
         }
-    });
-})
+    }
+}

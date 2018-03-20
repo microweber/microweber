@@ -18,8 +18,9 @@ function mw_add_admin_menu_buttons($params = false)
         mw()->modules->ui('content.create.menu', $btn);
     }
     $btn = array();
+    $btn['icon'] = '<span class="mai-market2"></span>';
     $btn['module'] = 'shop/settings';
-    $btn['title'] = _e("Shop", true);
+    $btn['title'] =  _e("Shop", true);
 
     mw()->modules->ui('admin.settings.menu', $btn);
 

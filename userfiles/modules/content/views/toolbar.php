@@ -185,19 +185,19 @@ $content_types = false;
               <h2><span class="mw-icon-category"></span> <?php print $cat['title'] ?> </h2>
               <?php endif; ?>
               <?php elseif ($act == 'pages'): ?>
-              <h2><span class="mai-website"></span>
+              <h2><span class="mai-page"></span>
                 <?php _e("Pages"); ?>
               </h2>
               <?php elseif ($act == 'posts'): ?>
-              <h2><span class="mai-website"></span>
+              <h2><span class="mai-post"></span>
                 <?php _e("Posts"); ?>
               </h2>
               <?php elseif ($act == 'products'): ?>
-              <h2><span class="mw-icon-shop"></span>
+              <h2><span class="mai-product"></span>
                 <?php _e("Products"); ?>
               </h2>
               <?php elseif (isset($params['is_shop'])): ?>
-               <h2><span class="mw-icon-shop"></span>
+               <h2><span class="mai-market2"></span>
                 <?php _e("My Shop"); ?>
               </h2>
               <?php else: ?>

@@ -274,7 +274,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   <nav>
     <a class="mw-admin-mobile-admin-sidebar-toggle"><span class="mw-icon-menu"></span></a>
     <a class="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus-circled"></span></a>
-    <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mw-icon-shop"></span><?php print $notif_html; ?></a>
+    <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mai-product"></span><?php print $notif_html; ?></a>
 
 
 
@@ -532,18 +532,28 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                                   <?php $title = ( isset( $item['title'])) ? ($item['title']) : false ; ?>
                                                   <?php $class = ( isset( $item['class'])) ? ($item['class']) : false ; ?>
                                                   <?php if($module != 'admin') { ?>
-                                                      <li><a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="<?php print $class ?>" href="#option_group=<?php print $module ?>"><?php print $title ?></a></li>
+                                                      <li>
+                                                        <a
+                                                            onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;"
+                                                            class="<?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                                            <?php print isset( $item['icon']) ? $item['icon'] : '';  ?>
+                                                            <?php print $title ?>
+                                                        </a>
+                                                      </li>
                                                   <?php } ?>
                                               <?php endforeach; ?>
                                           <?php endif; ?>
                                           <?php $got_lic = mw()->update->get_licenses('count=1') ?>
-                                          <?php if(($got_lic) > 0): ?>
-                                              <li><a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-licenses" href="#option_group=licenses">
+                                          <?php if(($got_lic) >= 0): ?>
+                                              <li>
+                                                  <a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-licenses" href="#option_group=licenses">
+                                                      <span class="mai-licenses"></span>
                                                       <strong><?php _e("Licenses"); ?></strong>
-                                                  </a></li>
+                                                  </a>
+                                              </li>
                                           <?php endif; ?>
-                                          <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced">
-
+                                          <li>
+                                              <a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced">
                                                   <span class="mai-options"></span>
                                                   <stong><?php _e("Advanced"); ?></stong>
                                               </a></li>
