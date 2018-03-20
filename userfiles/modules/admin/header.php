@@ -359,8 +359,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
       <div id="main-bar" class="scroll-height-exception-master">
         <?php $view = url_param('view'); ?>
         <?php $action = url_param('action'); ?>
-        <a href="<?php print admin_url(); ?>"
+        <a href="<?php print site_url(); ?>"
             id="main-bar-mw-icon"
+            target="_blank"
+
             class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
                 <?php if(mw()->ui->admin_logo != false) : ?>
                 <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />

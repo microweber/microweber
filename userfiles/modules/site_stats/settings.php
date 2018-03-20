@@ -55,13 +55,13 @@ only_admin_access();
 
     <div class="mw-ui-check-selector">
         <label class="mw-ui-check">
-            <input name="stats_is_buffered" class="mw_option_field"    data-option-group="site_stats"  value="0"  type="radio"  <?php if(get_option('stats_is_buffered', 'orders') == 0): ?> checked="checked" <?php endif; ?> >
+            <input name="stats_is_buffered" class="mw_option_field"    data-option-group="site_stats"  value="0"  type="radio"  <?php if(get_option('stats_is_buffered', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
             <span></span><span>
     		Live
     		</span>
         </label>
         <label class="mw-ui-check">
-            <input name="stats_is_buffered" class="mw_option_field"     data-option-group="site_stats"  value="1"  type="radio"  <?php if(get_option('stats_is_buffered', 'orders') == 1): ?> checked="checked" <?php endif; ?> >
+            <input name="stats_is_buffered" class="mw_option_field"     data-option-group="site_stats"  value="1"  type="radio"  <?php if(get_option('stats_is_buffered', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
             <span></span><span>
     		Buffered (records every 1 minute)
     		</span>

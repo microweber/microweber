@@ -8,6 +8,7 @@ use Microweber\SiteStats\Models\Log;
 use Microweber\SiteStats\Models\Referrers;
 use Microweber\SiteStats\Models\Sessions;
 use Microweber\SiteStats\Models\Urls;
+use Jenssegers\Agent\Agent;
 
 
 class Tracker
@@ -80,13 +81,17 @@ class Tracker
                 }
                 if (isset($item['browser_agent']) and $item['browser_agent']) {
                     $hash = md5($item['browser_agent']);
+
+                    $browser_data = array(
+                        'browser_agent_hash' => $hash,
+                        'browser_agent' => $item['browser_agent']
+                    );
+
+
                     $related_data = new Browsers();
                     $related_data = $related_data->firstOrCreate([
                         'browser_agent_hash' => $hash
-                    ], [
-                        'browser_agent_hash' => $hash,
-                        'browser_agent' => $item['browser_agent']
-                    ]);
+                    ], array_merge($browser_data, $this->_parse_agent($item['browser_agent'])));
                     if ($related_data->id) {
                         $browser_id = $related_data->id;
                     }
@@ -238,6 +243,59 @@ class Tracker
         $data['category_id'] = category_id();
 
         return $data;
+    }
+
+
+    private function _parse_agent($browser_agent_string)
+    {
+
+        $return = array();
+        $agent = new Agent();
+        $agent->setUserAgent($browser_agent_string);
+
+
+        $platform = $agent->platform();
+        $version = $agent->version($platform);
+
+
+        $return['platform'] = $platform;
+        $return['platform_version'] = $version;
+
+
+        $browser = $agent->browser();
+        $version = $agent->version($browser);
+
+        $return['browser'] = $browser;
+        $return['browser_version'] = $version;
+
+
+        $return['is_desktop'] = $agent->isDesktop();
+        $return['is_phone'] = $agent->isPhone();
+        $return['is_mobile'] = $agent->isMobile();
+        $return['is_tablet'] = $agent->isTablet();
+
+
+        $return['browser_version'] = $version;
+        $return['browser_version'] = $version;
+
+        $return['device'] = $agent->device();
+       
+
+        $langs = $agent->languages();
+        if ($langs and !empty($langs)) {
+            $return['language'] = array_pop($langs);
+        }
+
+
+        $is_robot = $agent->isRobot();
+        if ($is_robot) {
+            $return['is_robot'] = $is_robot;
+            $return['robot_name'] = $agent->robot();
+        }
+
+
+        return $return;
+
     }
 
 
