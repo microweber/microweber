@@ -81,13 +81,13 @@
 }
 
 /* Stats */
-.stats-view .visitors{
-    margin: 0 10px;
-    padding:10px;
+.stats-view .visitors {
+    margin: 0 7px;
+    padding: 10px;
 }
 
-.stats-view .visitors .visitor{
-    border-bottom:1px solid #e5e5e5;
+.stats-view .visitors .visitor {
+    border-bottom: 1px solid #e5e5e5;
     padding: 7px 0;
 }
 
@@ -97,11 +97,12 @@
 
 .stats-view .visitors .visitor .top-row {
     clear: both;
-    width:100%;
+    width: 100%;
 }
 
 .stats-view .visitors .visitor .top-row .flag {
     width: 20px;
+    margin-right: 10px;
 }
 
 .stats-view .visitors .visitor .top-row .flag,
@@ -114,35 +115,175 @@
     float: right;
     min-width: 100px;
     text-align: right;
-    font-size:11px;
+    font-size: 11px;
     color: #858681;
 }
 
-.stats-view .visitors .current-page-row{
+.stats-view .visitors .current-page-row {
     display: block;
-    width:100%;
+    width: 100%;
     font-size: 11px;
     margin: 10px 0;
 }
-.stats-view .visitors .visitor .referral img{
+
+.stats-view .visitors .visitor .referral img {
     width: 16px;
 }
-.stats-view .visitors .visitor .page-dots{
+
+.stats-view .visitors .visitor .page-dots {
     border: 1px solid #e5e5e5;
     clear: both;
-    height:14px;
-    padding:1px;
-    margin-top:2px;
+    height: 14px;
+    padding: 1px;
+    margin-top: 2px;
 }
 
-.stats-view .visitors .visitor .page-dots .page-circle{
+.stats-view .visitors .visitor .page-dots .page-circle {
     float: left;
     display: block;
     margin: 0 1px 0 0;
     width: 5px;
     height: 10px;
     background: #ccc;
-    -webkit-box-shadow: inset 0 -1px 2px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.25);
-    box-shadow: inset 0 -1px 2px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.25);
+    -webkit-box-shadow: inset 0 -1px 2px rgba(0, 0, 0, .15), inset 0 1px 0 rgba(255, 255, 255, .25);
+    box-shadow: inset 0 -1px 2px rgba(0, 0, 0, .15), inset 0 1px 0 rgba(255, 255, 255, .25);
 
+}
+
+.stats-view .contents {
+    margin: 0 7px;
+    padding: 10px;
+}
+
+.stats-view .contents .content {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+}
+
+.stats-view .contents .content .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #4B555C;
+    padding: 7px 10px 10px 10px;
+    font-weight: bold;
+}
+
+.stats-view .contents .content .slug {
+    white-space: nowrap;
+    color: #323538;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0px 10px 7px 10px;
+}
+
+.stats-view .contents .content .cnt {
+    text-align: right;
+    padding: 7px 10px 7px 0;
+    font-weight: bold;
+}
+
+.stats-view .contents .content .content-progressbar {
+    background-color: rgba(177, 177, 177, 0.13);
+    display: block;
+    height: 57px;
+    position: absolute;
+}
+
+.stats-view .sources {
+    margin: 0 7px;
+    padding: 10px;
+}
+.stats-view .sources ul{
+    list-style-type: none;
+
+}
+
+.stats-view .sources .source {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.stats-view .sources .source .subsources {
+    display: none;
+    padding-left: 25px;
+    list-style-type: none;
+}
+
+.stats-view .sources .source.active .subsources {
+    display: block;
+}
+
+.stats-view .sources .source .arrow {
+    vertical-align: middle !important;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    position: relative;
+    display: inline-block;
+    font-size: 100%;
+    vertical-align: middle;
+    padding: 5px 3px 5px 5px;
+    width: 20px;
+    text-align: center;
+    color: #868686;
+}
+
+.stats-view .sources .source .source-name,
+.stats-view .sources .source .icon-wrapper {
+    display: inline-block;
+}
+
+.stats-view .sources .source .source-name span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.stats-view .sources .source .icon-wrapper img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.stats-view .sources .source .arrow:before {
+    content: "\f10a";
+    display: inline-block;
+    font-family: Microweber !important;
+    text-transform: none !important;
+    font-size: 18px;
+}
+
+.stats-view .sources .source.active .arrow:before {
+    content: "\0118";
+    /*font-size: 20px;*/
+
+}
+
+.stats-view .sources .source .source-title {
+    position: relative;
+    width: 100%;
+    display: block;
+}
+
+.stats-view .sources .source .source-progressbar {
+    background-color: rgba(177, 177, 177, 0.13);
+    display: block;
+    height: 28px;
+    position: absolute;
+}
+
+.stats-view .sources .source .cnt {
+    text-align: right;
+    min-width: 35px;
+    padding: 7px 10px 7px 0;
+    font-weight: bold;
+    right: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+}
+
+.stats-view > .mw-ui-col{
+    width: 33%;
 }
