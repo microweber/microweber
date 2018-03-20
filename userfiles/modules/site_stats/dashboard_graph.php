@@ -43,23 +43,23 @@ $v_monthly = get_visits('monthly');
         <div class="stats_box_footer">
                 <span class="sbf-item active">
                     <span class="mai-eye"></span>
-                    Views
+                    <?php _e("Views") ?>
                     <span class="sbf-item-n">41,099</span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-user3"></span>
-                    Visitors
-                    <span class="sbf-item-n">41,099</span>
+                <?php _e("Visitors") ?>
+                <span class="sbf-item-n">41,099</span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-order"></span>
-                    Orders
-                    <span class="sbf-item-n">41,099</span>
+                <?php _e("Orders") ?>
+                <span class="sbf-item-n">41,099</span>
                 </span>
             <span class="sbf-item">
                     <span class="mai-comment"></span>
-                    Comments
-                    <span class="sbf-item-n">41,099</span>
+                <?php _e("Comments") ?>
+                <span class="sbf-item-n">41,099</span>
                 </span>
         </div>
     </div>

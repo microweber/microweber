@@ -1,0 +1,28 @@
+{
+  "name": "flag-icon-css",
+  "version": "3.1.0",
+  "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/lipis/flag-icon-css"
+  },
+  "devDependencies": {
+    "grunt": "1.0.2",
+    "grunt-contrib-less": "1.4.1",
+    "grunt-contrib-cssmin": "2.2.1",
+    "grunt-contrib-watch": "1.0.0",
+    "grunt-contrib-connect": "1.0.2",
+    "svgo": "1.0.5"
+  },
+  "scripts": {
+    "svgo": "svgo --pretty --indent=2 --precision=1 --config=svgo.yaml",
+    "svgo:min": "find flags | grep '\\.svg$' | xargs -Iz -n 1 svgo --config=svgo.yaml z",
+    "svgo:all": "find flags | grep '\\.svg$' | xargs -Iz -n 1 yarn svgo z"
+  }
+}

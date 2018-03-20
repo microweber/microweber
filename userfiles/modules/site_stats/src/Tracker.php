@@ -4,10 +4,13 @@ namespace Microweber\SiteStats;
 
 
 use Microweber\SiteStats\Models\Browsers;
+use Microweber\SiteStats\Models\Geoip;
 use Microweber\SiteStats\Models\Log;
 use Microweber\SiteStats\Models\Referrers;
 use Microweber\SiteStats\Models\Sessions;
 use Microweber\SiteStats\Models\Urls;
+use Jenssegers\Agent\Agent;
+use GeoIp2\Database\Reader;
 
 
 class Tracker
@@ -80,13 +83,17 @@ class Tracker
                 }
                 if (isset($item['browser_agent']) and $item['browser_agent']) {
                     $hash = md5($item['browser_agent']);
+
+                    $browser_data = array(
+                        'browser_agent_hash' => $hash,
+                        'browser_agent' => $item['browser_agent']
+                    );
+
+
                     $related_data = new Browsers();
                     $related_data = $related_data->firstOrCreate([
                         'browser_agent_hash' => $hash
-                    ], [
-                        'browser_agent_hash' => $hash,
-                        'browser_agent' => $item['browser_agent']
-                    ]);
+                    ], array_merge($browser_data, $this->_parse_agent($item['browser_agent'])));
                     if ($related_data->id) {
                         $browser_id = $related_data->id;
                     }
@@ -120,6 +127,7 @@ class Tracker
                     and isset($item['user_ip'])
                     and isset($item['user_id'])
                 ) {
+
                     $hash = $item['session_id'];
                     $related_data = new Sessions();
                     $related_data = $related_data->firstOrCreate([
@@ -129,6 +137,7 @@ class Tracker
                         'referrer_id' => $session_original_ref,
                         'language' => $language,
                         'session_id' => $hash,
+                        'geoip_id' =>  $this->_geo_ip_id($item['user_ip']),
                         'user_id' => $item['user_id'],
                         'user_ip' => $item['user_ip']
                     ]);
@@ -238,6 +247,105 @@ class Tracker
         $data['category_id'] = category_id();
 
         return $data;
+    }
+
+
+    private function _parse_agent($browser_agent_string)
+    {
+
+        $return = array();
+        $agent = new Agent();
+        $agent->setUserAgent($browser_agent_string);
+
+
+        $platform = $agent->platform();
+        $version = $agent->version($platform);
+
+
+        $return['platform'] = $platform;
+        $return['platform_version'] = $version;
+
+
+        $browser = $agent->browser();
+        $version = $agent->version($browser);
+
+        $return['browser'] = $browser;
+        $return['browser_version'] = $version;
+
+
+        $return['is_desktop'] = $agent->isDesktop();
+        $return['is_phone'] = $agent->isPhone();
+        $return['is_mobile'] = $agent->isMobile();
+        $return['is_tablet'] = $agent->isTablet();
+
+
+        $return['browser_version'] = $version;
+        $return['browser_version'] = $version;
+
+        $return['device'] = $agent->device();
+
+
+        $langs = $agent->languages();
+        if ($langs and !empty($langs)) {
+            $return['language'] = array_pop($langs);
+        }
+
+
+        $is_robot = $agent->isRobot();
+        if ($is_robot) {
+            $return['is_robot'] = $is_robot;
+            $return['robot_name'] = $agent->robot();
+        }
+         return $return;
+
+    }
+
+    private function _geo_ip_id($ip)
+    {
+        $ip = $this->_parse_geo_ip($ip);
+
+        if ($ip and isset($ip['country_code'])) {
+            $data = new Geoip();
+            $data = $data->firstOrCreate([
+                'country_code' => $ip['country_code']
+            ], $ip);
+            if ($data->id) {
+                return $data->id;
+            }
+
+
+        }
+    }
+
+    private function _parse_geo_ip($ip)
+    {
+
+        $return = array();
+
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            return $return;
+        }
+
+        $mmdb = normalize_path(MW_PATH . 'Utils/lib/geoip_lite/GeoLite2-Country.mmdb', false);
+        if (is_file($mmdb)) {
+
+            try {
+                $reader = new Reader($mmdb);
+                $record = $reader->country($ip);
+
+                if ($record) {
+                    $return['country_code'] = $record->country->isoCode;
+                    $return['country_name'] = $record->country->name;
+                }
+
+            } catch (\Exception $e) {
+
+            }
+
+
+        }
+
+        return $return;
     }
 
 

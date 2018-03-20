@@ -58,6 +58,9 @@ if (isset($is_elements) and $is_elements == true) {
 
     $modules_from_template = mw()->modules->get_modules_from_current_site_template();
     if (!empty($modules_from_template)) {
+        if(!is_array($modules)){
+            $modules = array();
+        }
         $modules = array_merge($modules, $modules_from_template);
     }
 

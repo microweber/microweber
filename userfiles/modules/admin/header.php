@@ -343,10 +343,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val"></span>
                 <div class="mw-dropdown-content" style="display: none;">
                     <ul>
-                        <li value="posts">Posts</li>
-                        <li value="pages">Pages</li>
-                        <li value="products">Products</li>
-                        <li value="modules">Modules</li>
+                        <li value="posts"><?php print _e("Posts"); ?></li>
+                        <li value="pages"><?php print _e("Pages"); ?></li>
+                        <li value="products"><?php print _e("Products"); ?></li>
+                        <li value="modules"><?php print _e("Modules"); ?></li>
                     </ul>
                 </div>
             </div>
@@ -359,8 +359,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
       <div id="main-bar" class="scroll-height-exception-master">
         <?php $view = url_param('view'); ?>
         <?php $action = url_param('action'); ?>
-        <a href="<?php print admin_url(); ?>"
+        <a href="<?php print site_url(); ?>"
             id="main-bar-mw-icon"
+            target="_blank"
+
             class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
                 <?php if(mw()->ui->admin_logo != false) : ?>
                 <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;" />

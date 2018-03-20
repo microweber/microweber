@@ -55,6 +55,23 @@ $config['tables']['stats_visits_log'] = $fields_to_add;
 $fields_to_add = array();
 $fields_to_add['browser_agent'] = 'string';
 $fields_to_add['browser_agent_hash'] = 'string';
+
+$fields_to_add['platform'] = 'string';
+$fields_to_add['platform_version'] = 'string';
+$fields_to_add['browser'] = 'string';
+$fields_to_add['browser_version'] = 'string';
+$fields_to_add['device'] = 'string';
+
+$fields_to_add['is_desktop'] = 'integer';
+$fields_to_add['is_mobile'] = 'integer';
+$fields_to_add['is_phone'] = 'integer';
+$fields_to_add['is_tablet'] = 'integer';
+
+$fields_to_add['robot_name'] = 'integer';
+$fields_to_add['is_robot'] = 'string';
+$fields_to_add['language'] = 'string';
+
+
 $fields_to_add['updated_at'] = 'dateTime';
 //$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_browser_agents'] = $fields_to_add;
@@ -86,11 +103,26 @@ $fields_to_add['user_ip'] = 'integer';
 $fields_to_add['user_id'] = 'integer';
 $fields_to_add['browser_id'] = 'integer';
 $fields_to_add['referrer_id'] = 'integer';
+$fields_to_add['geoip_id'] = 'integer';
 $fields_to_add['language'] = 'string';
 
 $fields_to_add['updated_at'] = 'dateTime';
 //$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_sessions'] = $fields_to_add;
+
+
+$fields_to_add = array();
+$fields_to_add['country_code'] = 'string';
+$fields_to_add['country_name'] = 'string';
+$fields_to_add['region'] = 'string';
+$fields_to_add['city'] = 'string';
+$fields_to_add['latitude'] = 'string';
+$fields_to_add['longitude'] = 'string';
+$fields_to_add['updated_at'] = 'dateTime';
+//$fields_to_add['created_at'] = 'dateTime';
+$config['tables']['stats_geoip'] = $fields_to_add;
+
+
 
 
 //

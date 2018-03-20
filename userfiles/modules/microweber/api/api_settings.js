@@ -103,6 +103,12 @@ mw.settings.libs = {
 
         }
     ],
+    flag_icons: [
+        function () {
+            mw.require(mw.settings.libs_url + 'flag-icon-css' + '/css/flag-icon.min.css');
+
+        }
+    ],
     font_awesome: [
         function () {
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
