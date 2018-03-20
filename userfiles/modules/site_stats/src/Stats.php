@@ -27,7 +27,7 @@ class Stats
             $period = $params['period'];
         }
 
-
+        return;
         $return = 'visitors_list';
         if (isset($params['return'])) {
             $return = $params['return'];
@@ -36,11 +36,36 @@ class Stats
             case 'visitors_list':
 
                 $log = new Sessions();
-                $log = $log->period($period);
+                //   $log = $log->select('stats_sessions.*');
+                $log = $log->period($period, 'stats_sessions');
                 //    $log = $log->select('session_id');
+
+
+                $log = $log->join('stats_browser_agents', function ($join) {
+                    $join->on('stats_sessions.browser_id', '=', 'stats_browser_agents.id');
+                });
+
+//                $log = $log->join('stats_referrers', function ($join) {
+//                    $join->on('stats_sessions.referrer_id', '=', 'stats_referrers.id');
+//                });
+
+                $log = $log->select('stats_sessions.*',
+
+                 //   'stats_referrers.referrer',
+
+
+                    'stats_browser_agents.browser',
+                    'stats_browser_agents.platform'
+
+                );
+
+
                 $log = $log->groupBy('session_id');
 
                 $data = $log->get();
+
+                return;
+               dd($data);
 
                 if (!$data) {
                     return;
@@ -75,7 +100,6 @@ class Stats
                                 'category_id' => $category_id,
                             );
                         }
-
 
 
                         $item_array['views_data'] = $related_data;

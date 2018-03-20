@@ -4,6 +4,8 @@ if (!$data) {
 }
 
 
+dd($data);
+
 ?>
 <table>
     <?php foreach ($data as $item): ?>
