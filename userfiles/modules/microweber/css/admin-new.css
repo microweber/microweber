@@ -81,9 +81,21 @@
 }
 
 /* Stats */
+.stats-view .sources,
+.stats-view .contents,
+.stats-view .visitors {
+    /*padding: 10px;*/
+    max-height: 515px;
+    overflow-y: scroll;
+    margin-bottom:20px;
+}
+
+.stats-view .visitors {
+    padding: 10px;
+}
+
 .stats-view .visitors {
     margin: 0 7px;
-    padding: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -154,7 +166,6 @@
 
 .stats-view .contents {
     margin: 0 7px;
-    padding: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -198,7 +209,6 @@
 
 .stats-view .sources {
     margin: 0 7px;
-    padding: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -246,7 +256,7 @@
     display: inline-block;
     font-size: 100%;
     vertical-align: middle;
-    padding: 5px 3px 5px 5px;
+    padding: 5px 13px 5px 11px;
     width: 20px;
     text-align: center;
     color: #868686;
@@ -306,6 +316,54 @@
     top: 0;
 }
 
+.stats-view .locations {
+    margin: 0 7px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.stats-view .locations .location {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+}
+
+.stats-view .locations .location .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #4B555C;
+    padding: 7px 10px 10px 10px;
+}
+
+.stats-view .locations .location .flag {
+    width: 20px;
+    margin: 7px 0 7px 10px;
+    float: left;
+}
+
+.stats-view .locations .location .flag img {
+    width: 20px;
+}
+
+.stats-view .locations .location .cnt {
+    text-align: right;
+    padding: 7px 10px 7px 0;
+    font-weight: bold;
+}
+
+.stats-view .locations .location .location-progressbar {
+    background-color: rgba(177, 177, 177, 0.13);
+    display: block;
+    height: 33px;
+    position: absolute;
+}
+
+/* Tabs */
+
+.stats-view .mw-ui-box-content {
+    padding: 0;
+}
+
 .stats-view > .mw-ui-col {
     width: 33%;
 }
@@ -316,5 +374,40 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: 0;
-    font-weight:bold;
+    font-weight: bold;
+}
+
+.stats-view .mw-ui-btn-nav-tabs {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.stats-view .mw-ui-btn-nav-tabs small {
+    display: block;
+}
+
+.stats-view .mw-ui-btn-nav-tabs .number {
+    font-size: 24px;
+}
+
+.stats-view .mw-ui-btn-nav-tabs .mw-ui-btn {
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 3px;
+    padding-top: 7px;
+    padding-bottom: 4px;
+    border: 1px solid transparent;
+    height: auto;
+    min-width: 25%;
+    text-align: center;
+    float: none;
+    /* margin: 0 auto; */
+    color: #2b2b2b;
+}
+
+.stats-view .mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #2b2b2b;
+    color: #999;
 }
