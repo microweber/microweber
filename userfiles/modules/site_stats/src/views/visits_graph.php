@@ -82,7 +82,7 @@ if($params['period']){
         </div>
     </div>
 </div>
-
+<?php return;  ?>
 <small><pre style="max-height: 100px; overflow: scroll; font-size: 7px;">
     <?php
 

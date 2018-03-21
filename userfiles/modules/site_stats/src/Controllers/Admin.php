@@ -77,7 +77,6 @@ class Admin
             $params['period'] = 'daily';
         }
 
-        \DB::enableQueryLog();
 
         $get_data = array();
         $get_data['period'] = $params['period'];
@@ -86,11 +85,7 @@ class Admin
         $get_data = $stats->get_stats_items($get_data);
 
 
-//        dd(
-//            \DB::getQueryLog()
-//        );
-
-        $view_file = $this->views_dir . 'visitors_list.php';
+        $view_file = $this->views_dir . 'parts/visitors.php';
         $view = new View($view_file);
         $view->assign('params', $params);
         $view->assign('data', $get_data);
@@ -99,6 +94,34 @@ class Admin
 
 
     }
+
+    function content_list($params)
+    {
+
+        if (!isset($params['period'])) {
+            $params['period'] = 'daily';
+        }
+
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'content_list';
+        $stats = new Stats();
+        $get_data = $stats->get_stats_items($get_data);
+
+
+        $view_file = $this->views_dir . 'parts/contents.php';
+        $view = new View($view_file);
+        $view->assign('params', $params);
+        $view->assign('data', $get_data);
+        return $view->display();
+
+
+
+    }
+
+
+
     function visits_graph($params)
     {
 

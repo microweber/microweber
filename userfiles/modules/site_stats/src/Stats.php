@@ -27,12 +27,77 @@ class Stats
             $period = $params['period'];
         }
 
+        $site_url = site_url();
 
         $return = 'visitors_list';
         if (isset($params['return'])) {
             $return = $params['return'];
         }
         switch ($return) {
+
+            case 'content_list':
+                if (isset($_GET['d'])) {
+                    $return = array();
+                    $log = new Log();
+                    $log = $log->period($period, 'stats_visits_log');
+
+                    $log = $log->join('stats_urls', function ($join) {
+                        $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
+                    });
+
+                    $log = $log->select('stats_visits_log.*',
+                        //      'stats_referrers.referrer',
+                        'stats_urls.url as url',
+                        'stats_urls.content_id as content_id',
+                        'stats_urls.category_id as category_id',
+                        DB::raw('sum(view_count) as view_count_sum'),
+                        DB::raw('count(session_id_key) as sessions_count')
+
+
+                    );
+                    //  $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
+                    //  $log = $log->orderBy('view_count_sum', 'desc');
+                    $log = $log->orderBy('sessions_count', 'desc');
+
+                    $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
+                    $log = $log->groupBy('url_id');
+                    $data = $log->get();
+
+                    if (!$data) {
+                        return;
+                    }
+
+                    $data = collection_to_array($data);
+
+                    $return = array();
+                    // return $data;
+                    $most_sessions_count = 0;
+                    foreach ($data as $item) {
+                        if (isset($item['sessions_count']) and $item['sessions_count'] > $most_sessions_count) {
+                            $most_sessions_count = $item['sessions_count'];
+                        }
+                    }
+                    foreach ($data as $item) {
+                        if (isset($item['content_id'])) {
+                            $item['content_title'] = content_title($item['content_id']);
+                        }
+                        if (isset($item['url'])) {
+                            $item['url_slug'] = str_replace($site_url, '', $item['url']);
+                        }
+                        if (isset($item['sessions_count'])) {
+                            $item['sessions_percent'] = mw()->format->percent( $item['sessions_count'], $most_sessions_count);
+                        }
+
+
+                        $return[] = $item;
+                    }
+                }
+
+                return $return;
+
+                break;
+
+
             case 'visitors_list':
 
                 $log = new Sessions();
@@ -50,18 +115,13 @@ class Stats
 //                });
 
 
-
-                                $log = $log->join('stats_geoip', function ($join) {
+                $log = $log->join('stats_geoip', function ($join) {
                     $join->on('stats_sessions.geoip_id', '=', 'stats_geoip.id');
                 });
 
 
-
                 $log = $log->select('stats_sessions.*',
-
-             //      'stats_referrers.referrer',
-
-
+                    //      'stats_referrers.referrer',
                     'stats_browser_agents.browser as browser_name',
                     'stats_browser_agents.platform as browser_os',
 
@@ -78,7 +138,7 @@ class Stats
 
                 $data = $log->get();
 
-            //  dd($data);
+                //  dd($data);
 
                 if (!$data) {
                     return;
@@ -86,7 +146,7 @@ class Stats
                 $return = array();
                 // return $data;
                 foreach ($data as $item) {
-                    if(isset($item['updated_at'])){
+                    if (isset($item['updated_at'])) {
                         $item['updated_at'] = trim($item['updated_at']);
                     }
 
