@@ -137,7 +137,7 @@ class Tracker
                         'referrer_id' => $session_original_ref,
                         'language' => $language,
                         'session_id' => $hash,
-                        'geoip_id' =>  $this->_geo_ip_id($item['user_ip']),
+                        'geoip_id' => $this->_geo_ip_id($item['user_ip']),
                         'user_id' => $item['user_id'],
                         'user_ip' => $item['user_ip']
                     ]);
@@ -296,7 +296,7 @@ class Tracker
             $return['is_robot'] = $is_robot;
             $return['robot_name'] = $agent->robot();
         }
-         return $return;
+        return $return;
 
     }
 
@@ -309,6 +309,7 @@ class Tracker
             $data = $data->firstOrCreate([
                 'country_code' => $ip['country_code']
             ], $ip);
+
             if ($data->id) {
                 return $data->id;
             }
@@ -321,6 +322,8 @@ class Tracker
     {
 
         $return = array();
+        $return['country_name'] = 'unknown';
+        $return['country_code'] = 'unknown';
 
         if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
             return $return;
@@ -337,7 +340,7 @@ class Tracker
                     $return['country_code'] = $record->country->isoCode;
                     $return['country_name'] = $record->country->name;
                 }
-
+                unset($reader);
             } catch (\Exception $e) {
 
             }

@@ -11,6 +11,7 @@ class Sessions extends Base
         'referrer_id',
         'user_ip',
         'user_id',
+        'geoip_id',
         'browser_id',
         'language',
         'updated_at',
@@ -25,6 +26,11 @@ class Sessions extends Base
     public function browser()
     {
         return $this->belongsTo('Microweber\SiteStats\Models\Browsers');
+    }
+
+    public function geoip()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\Geoip');
     }
 
 }

@@ -27,7 +27,7 @@ class Stats
             $period = $params['period'];
         }
 
-        return;
+
         $return = 'visitors_list';
         if (isset($params['return'])) {
             $return = $params['return'];
@@ -49,23 +49,36 @@ class Stats
 //                    $join->on('stats_sessions.referrer_id', '=', 'stats_referrers.id');
 //                });
 
+
+
+                                $log = $log->join('stats_geoip', function ($join) {
+                    $join->on('stats_sessions.geoip_id', '=', 'stats_geoip.id');
+                });
+
+
+
                 $log = $log->select('stats_sessions.*',
 
-                 //   'stats_referrers.referrer',
+             //      'stats_referrers.referrer',
 
 
-                    'stats_browser_agents.browser',
-                    'stats_browser_agents.platform'
+                    'stats_browser_agents.browser as browser_name',
+                    'stats_browser_agents.platform as browser_os',
+
+                    'stats_geoip.country_code as country_code',
+                    'stats_geoip.country_name as country_name'
+
 
                 );
 
 
+                $log = $log->limit(500);
+                $log = $log->orderBy('stats_sessions.updated_at', 'desc');
                 $log = $log->groupBy('session_id');
 
                 $data = $log->get();
 
-                return;
-               dd($data);
+            //  dd($data);
 
                 if (!$data) {
                     return;
@@ -73,8 +86,14 @@ class Stats
                 $return = array();
                 // return $data;
                 foreach ($data as $item) {
+                    if(isset($item['updated_at'])){
+                        $item['updated_at'] = trim($item['updated_at']);
+                    }
+
+
                     $item_array = collection_to_array($item);
                     //dd($item_array);
+
                     if ($item->views) {
                         // $item_array['views_data'] =$item->views->toArray();
 
@@ -86,15 +105,19 @@ class Stats
                             $content_id = false;
                             $category_id = false;
                             $browser = false;
+                            $title = false;
                             if ($related_item->url) {
                                 $url = $related_item->url->url;
                                 $content_id = $related_item->url->content_id;
                                 $category_id = $related_item->url->category_id;
+                                $title = content_title($content_id);
+
                             }
 
                             $related_data[$related_item->id] = array(
                                 'updated_at' => $updated_at,
                                 'url_id' => $url_id,
+                                'title' => $title,
                                 'url' => $url,
                                 'content_id' => $content_id,
                                 'category_id' => $category_id,
@@ -105,14 +128,24 @@ class Stats
                         $item_array['views_data'] = $related_data;
 
                     }
-                    if ($item->browser) {
-                        $browser = $item->browser->browser_agent;
-                        $item_array['browser_agent'] = $browser;
-                    }
+
+//                    if ($item->geoip) {
+//                        $item_array['geoip_data'] = collection_to_array($item->geoip);;
+//
+//
+//                    }
+//                    if ($item->browser) {
+//                        $browser = $item->browser->browser_agent;
+//                        $item_array['browser_agent'] = $browser;
+//                    }
+
+
                     $item_array['views_count'] = $item->views()->count();;
                     $return[] = $item_array;
 
                 }
+
+
                 $return = collection_to_array($return);
 
                 return $return;
@@ -195,8 +228,8 @@ class Stats
                 }
                 if ($return == 'visits_count_grouped_by_period') {
 
-                    $log = $log->select(DB::raw($date_period_q . ', count(session_id_key) as date_value'));
-                    $log = $log->groupBy('date_key');
+//                    $log = $log->select(DB::raw($date_period_q . ', count(session_id_key) as date_value'));
+//                    $log = $log->groupBy('date_key');
 
 
                     $log = new Sessions();

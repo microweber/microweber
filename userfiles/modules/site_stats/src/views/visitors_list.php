@@ -4,7 +4,7 @@ if (!$data) {
 }
 
 
-dd($data);
+d($data);
 
 ?>
 <table>
@@ -21,7 +21,7 @@ dd($data);
                 <?php endif; ?>
 
             </td>
-            <td>  <?php print $item['browser_agent'] ?>            </td>
+            <td>  <?php print $item['browser_name'] ?>            </td>
             <td>  <?php print $item['updated_at'] ?>            </td>
         </tr>
     <?php endforeach; ?>
