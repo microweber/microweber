@@ -36,7 +36,6 @@ class Stats
         switch ($return) {
 
             case 'content_list':
-                if (isset($_GET['d'])) {
                     $return = array();
                     $log = new Log();
                     $log = $log->period($period, 'stats_visits_log');
@@ -91,7 +90,7 @@ class Stats
 
                         $return[] = $item;
                     }
-                }
+
 
                 return $return;
 

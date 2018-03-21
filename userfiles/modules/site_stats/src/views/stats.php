@@ -69,9 +69,8 @@
             Some statistic
         </div>
         <div class="contents mw-ui-box">
-            <?php include('parts/contents.php'); ?>
-            <?php include('parts/contents.php'); ?>
-            <?php include('parts/contents.php'); ?>
+            <module type="site_stats/admin" view="content_list"/>
+
         </div>
     </div>
 

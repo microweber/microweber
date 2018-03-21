@@ -26,6 +26,7 @@ if (!$data) {
         </div>
         <div class="clearfix"></div>
 
+
         <div class="current-page-row">
             <div class="current-page">
                 <?php
