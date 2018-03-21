@@ -100,7 +100,7 @@ if ($id != false) {
             } ?> "
             id="module_admin_settings_form_<?php print $params['id']; ?>">
         <div class="admin-modules-list-form-content" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
-            <div class="bgimg admin-modules-list-image" style="<?php if (isset($data['icon'])): ?> background-image: url('<?php print $data['icon'] ?>'); <?php endif; ?>"></div>
+            <div class="bgimg admin-modules-list-image" style="<?php if (isset($data['icon'])): ?> background-image: url('<?php print $data['icon'] ?>' ); <?php endif; ?>"></div>
             <div class="admin-modules-list-description">
                 <h2 title="<?php print $data['module'] ?>">
                     <?php if (isset($data['name'])): ?>

@@ -90,7 +90,7 @@ class Admin
 //            \DB::getQueryLog()
 //        );
 
-        $view_file = $this->views_dir . 'visitors_list.php';
+        $view_file = $this->views_dir . 'parts/visitors.php';
         $view = new View($view_file);
         $view->assign('params', $params);
         $view->assign('data', $get_data);
