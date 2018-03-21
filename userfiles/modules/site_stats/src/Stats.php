@@ -35,61 +35,68 @@ class Stats
         }
         switch ($return) {
 
-            case 'content_list':
-                    $return = array();
-                    $log = new Log();
-                    $log = $log->period($period, 'stats_visits_log');
-
-                    $log = $log->join('stats_urls', function ($join) {
-                        $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
-                    });
-
-                    $log = $log->select('stats_visits_log.*',
-                        //      'stats_referrers.referrer',
-                        'stats_urls.url as url',
-                        'stats_urls.content_id as content_id',
-                        'stats_urls.category_id as category_id',
-                        DB::raw('sum(view_count) as view_count_sum'),
-                        DB::raw('count(session_id_key) as sessions_count')
 
 
-                    );
-                    //  $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
-                    //  $log = $log->orderBy('view_count_sum', 'desc');
-                    $log = $log->orderBy('sessions_count', 'desc');
+                case 'content_list':
+                $return = array();
+                $log = new Log();
+                $log = $log->period($period, 'stats_visits_log');
 
-                    $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
-                    $log = $log->groupBy('url_id');
-                    $data = $log->get();
+                $log = $log->join('stats_urls', function ($join) {
+                    $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
+                });
 
-                    if (!$data) {
-                        return;
+                $log = $log->select('stats_visits_log.*',
+                    //      'stats_referrers.referrer',
+                    'stats_urls.url as url',
+                    'stats_urls.content_id as content_id',
+                    'stats_urls.category_id as category_id',
+                    DB::raw('sum(view_count) as view_count_sum'),
+                    DB::raw('count(session_id_key) as sessions_count')
+
+
+                );
+                //  $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
+                //  $log = $log->orderBy('view_count_sum', 'desc');
+                $log = $log->orderBy('sessions_count', 'desc');
+
+                $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
+                $log = $log->groupBy('url_id');
+                $data = $log->get();
+
+                if (!$data) {
+                    return;
+                }
+
+                $data = collection_to_array($data);
+
+                $return = array();
+                // return $data;
+                $most_sessions_count = 0;
+                foreach ($data as $item) {
+                    if (isset($item['sessions_count']) and $item['sessions_count'] > $most_sessions_count) {
+                        $most_sessions_count = $item['sessions_count'];
+                    }
+                }
+                foreach ($data as $item) {
+                    if (isset($item['content_id'])) {
+                        $item['content_title'] = content_title($item['content_id']);
+                    }
+                    $item['url_slug'] = '/';
+                    if (isset($item['url'])) {
+                        $item['url_slug'] = str_replace($site_url, '', $item['url']);
+                    }
+                    if (!$item['url_slug']) {
+                        $item['url_slug'] = '/';
+                    }
+                    if (isset($item['sessions_count'])) {
+                        $item['sessions_percent'] = mw()->format->percent($item['sessions_count'], $most_sessions_count);
                     }
 
-                    $data = collection_to_array($data);
 
-                    $return = array();
-                    // return $data;
-                    $most_sessions_count = 0;
-                    foreach ($data as $item) {
-                        if (isset($item['sessions_count']) and $item['sessions_count'] > $most_sessions_count) {
-                            $most_sessions_count = $item['sessions_count'];
-                        }
-                    }
-                    foreach ($data as $item) {
-                        if (isset($item['content_id'])) {
-                            $item['content_title'] = content_title($item['content_id']);
-                        }
-                        if (isset($item['url'])) {
-                            $item['url_slug'] = str_replace($site_url, '', $item['url']);
-                        }
-                        if (isset($item['sessions_count'])) {
-                            $item['sessions_percent'] = mw()->format->percent( $item['sessions_count'], $most_sessions_count);
-                        }
+                    $return[] = $item;
 
-
-                        $return[] = $item;
-                    }
+                }
 
 
                 return $return;
@@ -97,7 +104,58 @@ class Stats
                 break;
 
 
-            case 'visitors_list':
+            case 'locations_list':
+                $log = new Sessions();
+                 $log = $log->period($period, 'stats_sessions');
+
+                $log = $log->join('stats_geoip', function ($join) {
+                    $join->on('stats_sessions.geoip_id', '=', 'stats_geoip.id');
+                });
+
+
+                $log = $log->select('stats_sessions.id',
+
+                    'stats_sessions.geoip_id as geoip_id',
+                    'stats_geoip.country_code as country_code',
+                    'stats_geoip.country_name as country_name',
+                    DB::raw('count(geoip_id) as sessions_count')
+
+
+                );
+
+
+
+
+                $log = $log->limit(500);
+                $log = $log->orderBy('sessions_count', 'desc');
+                $log = $log->groupBy('geoip_id');
+
+                $data = $log->get();
+
+
+
+                $most_sessions_count = 0;
+                foreach ($data as $item) {
+                    if (isset($item['sessions_count']) and $item['sessions_count'] > $most_sessions_count) {
+                        $most_sessions_count = $item['sessions_count'];
+                    }
+                }
+
+                $return = array();
+                foreach ($data as $item) {
+                    $item_array = collection_to_array($item);
+
+                    if (isset($item['sessions_count'])) {
+                        $item_array['sessions_percent'] = mw()->format->percent($item['sessions_count'], $most_sessions_count);
+                    }
+                    $return[] = $item_array;
+
+                }
+
+                return $return;
+                break;
+
+                case 'visitors_list':
 
                 $log = new Sessions();
                 //   $log = $log->select('stats_sessions.*');
@@ -137,7 +195,6 @@ class Stats
 
                 $data = $log->get();
 
-                //  dd($data);
 
                 if (!$data) {
                     return;
@@ -166,14 +223,16 @@ class Stats
                             $browser = false;
                             $title = false;
                             if ($related_item->url) {
+
                                 $url = $related_item->url->url;
                                 $content_id = $related_item->url->content_id;
+
                                 $category_id = $related_item->url->category_id;
                                 $title = content_title($content_id);
 
                             }
 
-                            $related_data[$related_item->id] = array(
+                            $related_data[] = array(
                                 'updated_at' => $updated_at,
                                 'url_id' => $url_id,
                                 'title' => $title,
@@ -182,7 +241,13 @@ class Stats
                                 'category_id' => $category_id,
                             );
                         }
+                        $item_array['title'] = false;
+                        $item_array['url'] = false;
 
+                        if (!empty($related_data)) {
+                            $item_array['title'] = $related_data[0]['title'];
+                            $item_array['url'] = $related_data[0]['url'];
+                        }
 
                         $item_array['views_data'] = $related_data;
 
