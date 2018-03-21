@@ -33,12 +33,11 @@ class Stats
         if (isset($params['return'])) {
             $return = $params['return'];
         }
-        $orig_return  = $return;
+        $orig_return = $return;
         switch ($return) {
 
 
-
-                case 'content_list':
+            case 'content_list':
                 $return = array();
                 $log = new Log();
                 $log = $log->period($period, 'stats_visits_log');
@@ -108,15 +107,14 @@ class Stats
             case 'locations_list':
             case 'languages_list':
                 $log = new Sessions();
-                 $log = $log->period($period, 'stats_sessions');
+                $log = $log->period($period, 'stats_sessions');
 
                 $log = $log->join('stats_geoip', function ($join) {
                     $join->on('stats_sessions.geoip_id', '=', 'stats_geoip.id');
                 });
 
 
-
-                if($orig_return == 'locations_list'){
+                if ($orig_return == 'locations_list') {
                     $log = $log->select('stats_sessions.id',
                         'stats_sessions.geoip_id as geoip_id',
                         'stats_geoip.country_code as country_code',
@@ -127,7 +125,7 @@ class Stats
                     $log = $log->groupBy('geoip_id');
                 }
 
-                if($orig_return == 'languages_list'){
+                if ($orig_return == 'languages_list') {
                     $log = $log->select('stats_sessions.id',
                         'stats_sessions.language as language',
 
@@ -142,12 +140,6 @@ class Stats
                 $log = $log->orderBy('sessions_count', 'desc');
 
                 $data = $log->get();
-
-
-
-
-
-
 
 
                 $most_sessions_count = 0;
@@ -171,7 +163,7 @@ class Stats
                 return $return;
                 break;
 
-                case 'visitors_list':
+            case 'visitors_list':
 
                 $log = new Sessions();
                 //   $log = $log->select('stats_sessions.*');
@@ -261,8 +253,10 @@ class Stats
                         $item_array['url'] = false;
 
                         if (!empty($related_data)) {
-                            $item_array['title'] = $related_data[0]['title'];
-                            $item_array['url'] = $related_data[0]['url'];
+                            $last = end($related_data);
+                            $item_array['title'] = $last['title'];
+                            $item_array['url'] = $last['url'];
+                            $item_array['updated_at'] = $last['updated_at'];
                         }
 
                         $item_array['views_data'] = $related_data;
@@ -287,9 +281,17 @@ class Stats
 
 
                 $return = collection_to_array($return);
+                if ($return){
+                    $sort = array();
+                    foreach ($return as $key => $part) {
+                        if(isset($part['updated_at'])){
+                        $sort[$key] = strtotime($part['updated_at']);
+                        }
+                    }
+                    array_multisort($sort, SORT_DESC, $return);
 
-                return $return;
-
+                    return $return;
+                }
                 break;
 
         }
