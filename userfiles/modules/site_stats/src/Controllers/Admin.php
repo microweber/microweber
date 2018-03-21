@@ -147,6 +147,33 @@ class Admin
     }
 
 
+
+    function languages_list($params)
+    {
+
+        if (!isset($params['period'])) {
+            $params['period'] = 'daily';
+        }
+
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'languages_list';
+        $stats = new Stats();
+        $get_data = $stats->get_stats_items($get_data);
+
+
+        $view_file = $this->views_dir . 'parts/languages.php';
+        $view = new View($view_file);
+        $view->assign('params', $params);
+        $view->assign('data', $get_data);
+        return $view->display();
+
+
+
+    }
+
+
     function visits_graph($params)
     {
 

@@ -33,6 +33,7 @@ class Stats
         if (isset($params['return'])) {
             $return = $params['return'];
         }
+        $orig_return  = $return;
         switch ($return) {
 
 
@@ -105,6 +106,7 @@ class Stats
 
 
             case 'locations_list':
+            case 'languages_list':
                 $log = new Sessions();
                  $log = $log->period($period, 'stats_sessions');
 
@@ -113,24 +115,38 @@ class Stats
                 });
 
 
-                $log = $log->select('stats_sessions.id',
 
-                    'stats_sessions.geoip_id as geoip_id',
-                    'stats_geoip.country_code as country_code',
-                    'stats_geoip.country_name as country_name',
-                    DB::raw('count(geoip_id) as sessions_count')
+                if($orig_return == 'locations_list'){
+                    $log = $log->select('stats_sessions.id',
+                        'stats_sessions.geoip_id as geoip_id',
+                        'stats_geoip.country_code as country_code',
+                        'stats_geoip.country_name as country_name',
+                        DB::raw('count(geoip_id) as sessions_count')
+                    );
 
+                    $log = $log->groupBy('geoip_id');
+                }
 
-                );
+                if($orig_return == 'languages_list'){
+                    $log = $log->select('stats_sessions.id',
+                        'stats_sessions.language as language',
 
+                        DB::raw('count(language) as sessions_count')
+                    );
 
+                    $log = $log->groupBy('language');
+                }
 
 
                 $log = $log->limit(500);
                 $log = $log->orderBy('sessions_count', 'desc');
-                $log = $log->groupBy('geoip_id');
 
                 $data = $log->get();
+
+
+
+
+
 
 
 
