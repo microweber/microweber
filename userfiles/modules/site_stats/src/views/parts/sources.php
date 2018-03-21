@@ -9,10 +9,23 @@
     </a>
 
     <ul class="subsources">
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+            <div class="clearfix"></div>
+        </li>
     </ul>
 </li>
 
@@ -27,10 +40,19 @@
     </a>
 
     <ul class="subsources">
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+            <div class="clearfix"></div>
+        </li>
     </ul>
 </li>
 
@@ -45,9 +67,14 @@
     </a>
 
     <ul class="subsources">
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
-        <li>/market/listing/</li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
+        <li>
+            <span class="subsource-url">/market/listing/</span>
+            <span class="subsource-cnt">3</span>
+        </li>
         <li>/market/listing/</li>
     </ul>
 </li>

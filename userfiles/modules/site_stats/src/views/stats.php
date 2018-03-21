@@ -12,6 +12,9 @@
 
 <div class="stats-view">
     <div class="mw-ui-col">
+        <div class="heading  mw-ui-box">
+            Some statistic
+        </div>
         <div class="sources mw-ui-box">
             <ul class="">
                 <?php include('parts/sources.php'); ?>
@@ -24,6 +27,9 @@
     </div>
 
     <div class="mw-ui-col">
+        <div class="heading  mw-ui-box">
+            Some statistic
+        </div>
         <div class="contents mw-ui-box">
             <?php include('parts/contents.php'); ?>
             <?php include('parts/contents.php'); ?>
@@ -32,6 +38,9 @@
     </div>
 
     <div class="mw-ui-col">
+        <div class="heading  mw-ui-box">
+            Some statistic
+        </div>
         <div class="visitors mw-ui-box">
             <?php include('parts/visitors.php'); ?>
             <?php include('parts/visitors.php'); ?>
