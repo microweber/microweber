@@ -9,6 +9,8 @@ class Referrers extends Base
     protected $fillable = [
         'referrer_hash',
         'referrer',
+        'referrer_domain_id',
+        'referrer_path_id',
         'is_internal',
         'updated_at',
     ];

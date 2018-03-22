@@ -7,6 +7,8 @@ use Microweber\SiteStats\Models\Browsers;
 use Microweber\SiteStats\Models\Geoip;
 use Microweber\SiteStats\Models\Log;
 use Microweber\SiteStats\Models\Referrers;
+use Microweber\SiteStats\Models\ReferrersDomains;
+use Microweber\SiteStats\Models\ReferrersPaths;
 use Microweber\SiteStats\Models\Sessions;
 use Microweber\SiteStats\Models\Urls;
 use Jenssegers\Agent\Agent;
@@ -103,6 +105,7 @@ class Tracker
                 $session_original_ref = false;
                 if (isset($item['referrer']) and $item['referrer']) {
                     $hash = md5($item['referrer']);
+                    $ref = $item['referrer'];
                     $related_data = new Referrers();
                     $is_internal = false;
                     if (strstr($item['referrer'], site_url())) {
@@ -112,8 +115,10 @@ class Tracker
                         'referrer_hash' => $hash
                     ], [
                         'referrer_hash' => $hash,
+                        'referrer_domain_id' => $this->_referrer_domain_id($ref),
+                        'referrer_path_id' => $this->_referrer_path_id($ref),
                         'is_internal' => $is_internal,
-                        'referrer' => $item['referrer']
+                        'referrer' => $ref
                     ]);
                     if ($related_data->id) {
                         $item['referrer_id'] = $related_data->id;
@@ -239,6 +244,11 @@ class Tracker
             $last_page = rtrim($last_page, '?');
             $last_page = rtrim($last_page, '#');
         }
+     
+        if(strstr($ref, admin_url())){
+            return;
+        }
+
         $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
@@ -302,7 +312,7 @@ class Tracker
 
     private function _geo_ip_id($ip)
     {
-        $ip = $this->_parse_geo_ip($ip);
+        $ip = $this->__parse_geo_ip_country($ip);
 
         if ($ip and isset($ip['country_code'])) {
             $data = new Geoip();
@@ -318,7 +328,69 @@ class Tracker
         }
     }
 
-    private function _parse_geo_ip($ip)
+
+    private function _referrer_domain_id($referrer_url = false)
+    {
+
+        if(!$referrer_url){
+            return;
+        }
+
+        $parse = parse_url($referrer_url);
+
+        if(isset($parse['host']) and $parse['host']){
+
+            $domain = $parse['host']; //referrer_domain
+            if ($domain) {
+                $data = new ReferrersDomains();
+                $data = $data->firstOrCreate([
+                    'referrer_domain' => $domain
+                ], array('referrer_domain' => $domain));
+
+                if ($data->id) {
+                    return $data->id;
+                }
+
+
+            }
+        }
+    }
+
+
+    private function _referrer_path_id($referrer_url = false)
+    {
+
+        if(!$referrer_url){
+            return;
+        }
+
+        $parse = parse_url($referrer_url);
+
+        if(isset($parse['host']) and $parse['host']){
+            if(isset($parse['path']) and $parse['path']) {
+
+                $domain = $parse['host'];
+                $path = $parse['path'];
+                $domain_id = $this->_referrer_domain_id($referrer_url);
+                if ($domain_id) {
+                    $data = new ReferrersPaths();
+                    $data = $data->firstOrCreate([
+                        'referrer_path' => $path,
+                        'referrer_domain_id' => $domain_id
+                    ], array('referrer_domain_id' => $domain_id,'referrer_path' => $path));
+
+                    if ($data->id) {
+                        return $data->id;
+                    }
+
+
+                }
+            }
+        }
+    }
+
+
+    private function __parse_geo_ip_country($ip)
     {
 
         $return = array();
@@ -350,6 +422,8 @@ class Tracker
 
         return $return;
     }
+
+
 
 
 }
