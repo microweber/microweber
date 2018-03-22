@@ -66,17 +66,16 @@
 
     <div class="mw-ui-col">
         <div class="heading  mw-ui-box">
-            Some statistic
+            <?php print _e('Content'); ?>
         </div>
         <div class="contents mw-ui-box">
             <module type="site_stats/admin" view="content_list"/>
-
         </div>
     </div>
 
     <div class="mw-ui-col">
         <div class="heading  mw-ui-box">
-            Some statistic
+            <?php print _e('Visitors'); ?>
         </div>
         <div class="visitors mw-ui-box">
             <module type="site_stats/admin" view="visitors_list"/>
@@ -87,32 +86,20 @@
 <div class="stats-view">
     <div class="mw-ui-col">
         <div class="heading  mw-ui-box">
-            Locations
+            <?php print _e('Locations'); ?>
         </div>
         <div class="locations mw-ui-box">
-            <?php include('parts/locations.php'); ?>
-            <?php include('parts/locations.php'); ?>
-            <?php include('parts/locations.php'); ?>
+            <module type="site_stats/admin" view="locations_list" />
         </div>
     </div>
 
     <div class="mw-ui-col">
         <div class="heading  mw-ui-box">
-            Languages
+            <?php print _e('Browser language'); ?>
         </div>
         <div class="locations mw-ui-box">
-            <div class="item location">
-                <div class="location-progressbar" style="width: 30%;"></div>
-                <div class="mw-ui-row">
-                    <div class="mw-ui-col">
-                        <div class="title">Some page title from the our microweber website</div>
-                    </div>
+            <module type="site_stats/admin" view="languages_list"  />
 
-                    <div class=" mw-ui-col" style="width:30px;">
-                        <div class="cnt">3</div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

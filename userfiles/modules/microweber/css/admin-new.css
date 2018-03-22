@@ -81,15 +81,6 @@
 }
 
 /* Stats */
-.stats-view .sources,
-.stats-view .contents,
-.stats-view .visitors {
-    /*padding: 10px;*/
-    max-height: 515px;
-    overflow-y: scroll;
-    margin-bottom:20px;
-}
-
 .stats-view .visitors {
     padding: 10px;
 }
@@ -356,6 +347,15 @@
     display: block;
     height: 33px;
     position: absolute;
+}
+
+.stats-view .sources,
+.stats-view .contents,
+.stats-view .visitors {
+    /*padding: 10px;*/
+    max-height: 515px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
 }
 
 /* Tabs */
