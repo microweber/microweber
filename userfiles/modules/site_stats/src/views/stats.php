@@ -7,12 +7,6 @@
             $(this).find('id').toggleClass('active');
         });
 
-        $('.more-info-show').on('click', function () {
-            var showID = $(this).data('id');
-            $('.more-info').slideUp();
-            $('#' + showID).slideDown();
-        });
-
         $('.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors').slimScroll({});
     });
 </script>

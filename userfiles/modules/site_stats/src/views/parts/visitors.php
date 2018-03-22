@@ -4,11 +4,32 @@ if (!$data) {
 }
 ?>
 
+    <script>
+        $(document).ready(function () {
+            $('.more-info-show').on('click', function () {
+                var showID = $(this).data('id');
+
+                if ($(this).hasClass('active')) {
+                    $('#' + showID).slideUp();
+                    $(this).removeClass('active');
+                } else {
+                    $('.more-info-show').removeClass('active');
+                    $('.more-info').slideUp();
+
+                    $('#' + showID).slideDown();
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
+
 <?php foreach ($data as $item): ?>
     <?php
     $os = strtolower($item['browser_os']);
     if ($os == 'ios' OR $os == 'os x') {
         $os = 'apple';
+    } elseif ($os == 'androidos') {
+        $os = 'android';
     } elseif ($os == 'windows') {
         $os = 'windows';
     } elseif ($os == 'linux') {
@@ -16,9 +37,22 @@ if (!$data) {
     } else {
         $os = 'question-circle';
     }
+
+    $browser = strtolower($item['browser_name']);
+    if ($browser == 'firefox') {
+        $browser = 'firefox';
+    } elseif ($browser == 'chrome') {
+        $browser = 'chrome';
+    } elseif ($browser == 'ie') {
+        $browser = 'internet-explorer';
+    } elseif ($browser == 'safari') {
+        $browser = 'safari';
+    } else {
+        $browser = 'question-circle';
+    }
     ?>
 
-    <div class="item visitor">
+    <div class="item visitor more-info-show" data-id="more-<?php print $item['id']; ?>">
         <div class="top-row">
             <div class="flag"><span class="flag-icon flag-icon-<?php print strtolower($item['country_code']); ?> tip" data-tip="<?php print $item['country_name']; ?>"></span></div>
             <div class="visitor-name"><?php print $item['user_ip']; ?></div>
@@ -37,7 +71,7 @@ if (!$data) {
                 }
                 ?>
                 <div class="tip pull-right" data-tip="Browser: <?php print $item['browser_name']; ?>">
-                    <i class="fa fa-<?php print strtolower($item['browser_name']); ?>"></i>
+                    <i class="fa fa-<?php print $browser; ?>"></i>
                 </div>
                 <div class="tip pull-right m-r-5" data-tip="OS: <?php print $item['browser_os']; ?>">
                     <i class="fa fa-<?php print $os; ?>"></i>
@@ -55,24 +89,21 @@ if (!$data) {
             <div class=" mw-ui-col">
                 <ul class="page-dots">
                     <?php foreach ($item['views_data'] as $view): ?>
-                        <li class="page-circle more-info-show" data-id="more-<?php print $view['view_id']; ?>" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" title="<?php print $view['url'] ?>"></a></li>
+                        <li class="page-circle" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" title="<?php print $view['url'] ?>"></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
         </div>
 
-        <?php foreach ($item['views_data'] as $view): ?>
-            <div class="more-info" id="more-<?php print $view['view_id']; ?>">
-                <?php print $view['view_id']; ?><br />
-                <?php print $view['updated_at']; ?><br />
-
-
-                <?php print $view['url_id']; ?><br />
-                <?php print $view['title']; ?><br />
-                <?php print $view['url']; ?><br />
-                <?php print $view['content_id']; ?><br />
-                <?php print $view['category_id']; ?>
-            </div>
-        <?php endforeach; ?>
+        <div class="more-info" id="more-<?php print $item['id']; ?>">
+            <?php foreach ($item['views_data'] as $view): ?>
+                <div class="page-visited">
+                    <div class="page-title"><?php print $view['title']; ?>
+                        <div class="pull-right"><?php print mw()->format->ago($view['updated_at']); ?></div>
+                    </div>
+                    <div class="page-url"><?php print $view['url']; ?></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 <?php endforeach; ?>

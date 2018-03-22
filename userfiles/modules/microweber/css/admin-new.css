@@ -89,11 +89,13 @@
     margin: 0 7px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    padding: 10px 0;
 }
 
 .stats-view .visitors .visitor {
     border-bottom: 1px solid #e5e5e5;
-    padding: 7px 0;
+    padding: 7px 10px;
+    cursor: pointer;
 }
 
 .stats-view .visitors .visitor:last-of-type {
@@ -159,9 +161,22 @@
     position: relative;
 }
 
-.stats-view .visitors .visitor .more-info{
-    margin-top:20px;
+.stats-view .visitors .visitor.active {
+    background: rgba(177, 177, 177, 0.13);
+}
+
+.stats-view .visitors .visitor .more-info {
+    margin-top: 0px;
     display: none;
+}
+
+.stats-view .visitors .visitor .page-visited {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 10px 10px 32px;
+}
+
+.stats-view .visitors .visitor .page-visited:last-of-type {
+    border-bottom: 0;
 }
 
 .stats-view .contents {
@@ -452,7 +467,27 @@
     margin: 0 -7px 25px -7px;
 }
 
-
-.stats-view .slimScrollBar{
+.stats-view .slimScrollBar {
     right: 10px !important;
+}
+
+.stats-view .more-info .page-title {
+    font-size: 11px;
+    display: block;
+    color: #393c3f;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.stats-view .more-info .page-url {
+    display: block;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    margin-top: 3px;
 }
