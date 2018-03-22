@@ -7,7 +7,7 @@ if (!$data) {
 <?php foreach ($data as $item): ?>
     <div class="item content">
         <div class="content-progressbar" style="width: <?php print $item['sessions_percent']; ?>%;"></div>
-        <div class="mw-ui-row">
+        <div class="mw-ui-row-nodrop">
             <div class="mw-ui-col">
                 <div class="title">
                     <?php
