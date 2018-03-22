@@ -15,4 +15,16 @@ class Referrers extends Base
         'updated_at',
     ];
 
+
+    public function domain()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\ReferrersDomains' ,'referrer_domain_id' );
+    }
+
+    public function path()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\ReferrersPaths','referrer_path_id');
+    }
+
+
 }

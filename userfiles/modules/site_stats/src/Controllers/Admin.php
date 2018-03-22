@@ -70,6 +70,7 @@ class Admin
 //        $view->assign('paging_param', $posts_mod['paging_param']);
         return $view->display();
     }
+
     function visitors_list($params)
     {
 
@@ -90,7 +91,6 @@ class Admin
         $view->assign('params', $params);
         $view->assign('data', $get_data);
         return $view->display();
-
 
 
     }
@@ -117,7 +117,6 @@ class Admin
         return $view->display();
 
 
-
     }
 
     function locations_list($params)
@@ -135,7 +134,6 @@ class Admin
         $get_data = $stats->get_stats_items($get_data);
 
 
-
         $view_file = $this->views_dir . 'parts/locations.php';
         $view = new View($view_file);
         $view->assign('params', $params);
@@ -143,9 +141,27 @@ class Admin
         return $view->display();
 
 
-
     }
 
+    function referrers_list($params)
+    {
+        if (!isset($_GET['d'])) {
+            return;
+        }
+
+        if (!isset($params['period'])) {
+            $params['period'] = 'daily';
+        }
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'referrers_list';
+        $stats = new Stats();
+        $get_data = $stats->get_stats_items($get_data);
+
+dd($get_data);
+
+    }
 
 
     function languages_list($params)
@@ -168,7 +184,6 @@ class Admin
         $view->assign('params', $params);
         $view->assign('data', $get_data);
         return $view->display();
-
 
 
     }
@@ -217,7 +232,6 @@ class Admin
         $comments_count = $stats->get_stats_count($get_data);
 
 
-
         $get_data = array();
         $get_data['period'] = $params['period'];
         $get_data['return'] = 'views_count_grouped_by_period';
@@ -251,8 +265,7 @@ class Admin
         $view->assign('orders_count', $orders_count);
         $view->assign('comments_count', $comments_count);
         $view->assign('users_online', $users_online);
-      //  $view->assign('visitors_count_by_period', $visitors_count_by_period);
-
+        //  $view->assign('visitors_count_by_period', $visitors_count_by_period);
 
 
         $view->assign('graph_data', $graph_data);

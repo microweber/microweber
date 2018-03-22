@@ -35,7 +35,7 @@ class Stats
         }
         $orig_return = $return;
         switch ($return) {
-
+ 
 
             case 'content_list':
                 $return = array();
@@ -103,7 +103,85 @@ class Stats
 
                 break;
 
+            case 'referrers_list':
 
+                $log = new Sessions();
+                $log = $log->period($period, 'stats_sessions');
+
+                $log = $log->join('stats_referrers', function ($join) {
+                    $join->on('stats_sessions.referrer_id', '=', 'stats_referrers.id');
+                });
+
+                $log = $log->select('stats_sessions.*',
+//                    'stats_sessions.geoip_id as geoip_id',
+//                    'stats_geoip.country_code as country_code',
+//                    'stats_geoip.country_name as country_name',
+                    DB::raw('count(session_id) as sessions_count')
+                );
+
+
+               // $log = $log->groupBy('referrer_id');
+                $log = $log->groupBy('referrer_domain');
+
+                $log = $log->limit(500);
+                $log = $log->orderBy('sessions_count', 'desc');
+
+                $data = $log->get();
+
+                if (!$data) {
+                    return;
+                }
+
+
+                $return = array();
+
+
+                $most_sessions_count = 0;
+                foreach ($data as $item) {
+                    $item_array = collection_to_array($item);
+
+                    if (isset($item_array['sessions_count']) and $item_array['sessions_count'] > $most_sessions_count) {
+                        $most_sessions_count = $item_array['sessions_count'];
+                    }
+
+
+                    if ($item->referrer) {
+                        if ($item->referrer->domain) {
+                            $item_array['referrer_domain'] = $item->referrer->domain->referrer_domain;
+
+                            if ($item->referrer->domain) {
+
+                            }
+                            // $item_array['views_data'] =$item->views->toArray();
+//                            dd();
+//                            dd($item->referrer);
+                            $related_data = array();
+                            foreach ($item->referrer as $related_item) {
+
+
+                            }
+
+                        }
+                    }
+
+                    $return[] = $item_array;
+
+                }
+                if ($return) {
+                    $data = $return;
+                    $return = array();
+                    foreach ($data as $item) {
+                        $item_array = $item;
+                        if (isset($item['sessions_count'])) {
+                            $item_array['sessions_percent'] = mw()->format->percent($item['sessions_count'], $most_sessions_count);
+                        }
+                        $return[] = $item_array;
+
+                    }
+                }
+                return $return;
+
+                break;
             case 'locations_list':
             case 'languages_list':
                 $log = new Sessions();
@@ -241,6 +319,7 @@ class Stats
                             }
 
                             $related_data[] = array(
+                                'view_id' => $related_item->id,
                                 'updated_at' => $updated_at,
                                 'url_id' => $url_id,
                                 'title' => $title,
@@ -281,11 +360,11 @@ class Stats
 
 
                 $return = collection_to_array($return);
-                if ($return){
+                if ($return) {
                     $sort = array();
                     foreach ($return as $key => $part) {
-                        if(isset($part['updated_at'])){
-                        $sort[$key] = strtotime($part['updated_at']);
+                        if (isset($part['updated_at'])) {
+                            $sort[$key] = strtotime($part['updated_at']);
                         }
                     }
                     array_multisort($sort, SORT_DESC, $return);

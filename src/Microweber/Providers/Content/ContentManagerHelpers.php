@@ -149,17 +149,21 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                $del_ids[] = $c_id;
-                if ($to_trash == false) {
-                    $this->app->database_manager->delete_by_id('content', $c_id);
+                if($c_id) {
+                    $del_ids[] = $c_id;
+                    if ($to_trash == false) {
+                        $this->app->database_manager->delete_by_id('content', $c_id);
+                    }
                 }
             }
         }
-
+//dd($del_ids);
         if (!empty($del_ids)) {
-            DB::transaction(function () use ($del_ids, $to_untrash, $to_trash) {
+            //DB::transaction(function () use ($del_ids, $to_untrash, $to_trash) {
                 foreach ($del_ids as $value) {
                     $c_id = intval($value);
+
+                    if($c_id){
                     if ($to_untrash == true) {
                         DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
@@ -200,7 +204,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     $this->app->cache_manager->delete('content/' . $c_id);
                 }
-            });
+                }
+           // });
         }
         $this->app->cache_manager->delete('menus');
         $this->app->cache_manager->delete('content');

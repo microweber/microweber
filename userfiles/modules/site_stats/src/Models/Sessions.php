@@ -33,4 +33,9 @@ class Sessions extends Base
         return $this->belongsTo('Microweber\SiteStats\Models\Geoip');
     }
 
+    public function referrer()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\Referrers');
+    }
+
 }

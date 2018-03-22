@@ -248,7 +248,9 @@ class Tracker
         if(strstr($ref, admin_url())){
             return;
         }
-
+        $ref = 'http://dir.bg/';
+        $ref = 'http://life.dir.bg/news.php?id=26981039&nt=5';
+        $ref = 'http://dir.bg/old';
         $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
