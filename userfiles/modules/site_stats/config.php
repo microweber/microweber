@@ -109,11 +109,13 @@ $config['tables']['stats_urls'] = $fields_to_add;
 
 $fields_to_add = array();
 $fields_to_add['session_id'] = 'string';
-$fields_to_add['session_id'] = 'string';
+$fields_to_add['session_hostname'] = 'string';
 $fields_to_add['user_ip'] = 'integer';
 $fields_to_add['user_id'] = 'integer';
 $fields_to_add['browser_id'] = 'integer';
 $fields_to_add['referrer_id'] = 'integer';
+$fields_to_add['referrer_domain_id'] = 'integer';
+$fields_to_add['referrer_path_id'] = 'integer';
 $fields_to_add['geoip_id'] = 'integer';
 $fields_to_add['language'] = 'string';
 
