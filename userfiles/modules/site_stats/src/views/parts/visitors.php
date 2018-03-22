@@ -7,7 +7,7 @@ if (!$data) {
 <?php foreach ($data as $item): ?>
     <?php
     $os = strtolower($item['browser_os']);
-    if ($os == 'ios') {
+    if ($os == 'ios' OR $os == 'os x') {
         $os = 'apple';
     } elseif ($os == 'windows') {
         $os = 'windows';
@@ -55,10 +55,24 @@ if (!$data) {
             <div class=" mw-ui-col">
                 <ul class="page-dots">
                     <?php foreach ($item['views_data'] as $view): ?>
-                        <li class="page-circle" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" title="<?php print $view['url'] ?>">&nbsp;<a></a></li>
+                        <li class="page-circle more-info-show" data-id="more-<?php print $view['view_id']; ?>" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" title="<?php print $view['url'] ?>"></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
         </div>
+
+        <?php foreach ($item['views_data'] as $view): ?>
+            <div class="more-info" id="more-<?php print $view['view_id']; ?>">
+                <?php print $view['view_id']; ?><br />
+                <?php print $view['updated_at']; ?><br />
+
+
+                <?php print $view['url_id']; ?><br />
+                <?php print $view['title']; ?><br />
+                <?php print $view['url']; ?><br />
+                <?php print $view['content_id']; ?><br />
+                <?php print $view['category_id']; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
 <?php endforeach; ?>

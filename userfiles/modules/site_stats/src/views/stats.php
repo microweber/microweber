@@ -6,12 +6,20 @@
             $(this).parent().toggleClass('active');
             $(this).find('id').toggleClass('active');
         });
+
+        $('.more-info-show').on('click', function () {
+            var showID = $(this).data('id');
+            $('.more-info').slideUp();
+            $('#' + showID).slideDown();
+        });
+
+        $('.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors').slimScroll({});
     });
 </script>
 
 
 <div class="stats-view">
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
         <script>
             $(document).ready(function () {
                 mw.tabs({
@@ -37,7 +45,7 @@
                 </div>
             </div>
 
-            <div class="sources mw-ui-box">
+            <div class="sources mw-ui-box has-tabs">
                 <div class="mw-ui-box-content" style="">
                     <ul class="">
                         <?php include('parts/sources.php'); ?>
@@ -64,7 +72,7 @@
         </div>
     </div>
 
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
         <div class="heading  mw-ui-box">
             <?php print _e('Content'); ?>
         </div>
@@ -73,7 +81,7 @@
         </div>
     </div>
 
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
         <div class="heading  mw-ui-box">
             <?php print _e('Visitors'); ?>
         </div>
@@ -81,25 +89,22 @@
             <module type="site_stats/admin" view="visitors_list"/>
         </div>
     </div>
-</div>
 
-<div class="stats-view">
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
         <div class="heading  mw-ui-box">
             <?php print _e('Locations'); ?>
         </div>
         <div class="locations mw-ui-box">
-            <module type="site_stats/admin" view="locations_list" />
+            <module type="site_stats/admin" view="locations_list"/>
         </div>
     </div>
 
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
         <div class="heading  mw-ui-box">
             <?php print _e('Browser language'); ?>
         </div>
         <div class="locations mw-ui-box">
-            <module type="site_stats/admin" view="languages_list"  />
-
+            <module type="site_stats/admin" view="languages_list"/>
         </div>
     </div>
 </div>

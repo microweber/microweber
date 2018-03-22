@@ -155,6 +155,15 @@
 
 }
 
+.stats-view .visitors .visitor {
+    position: relative;
+}
+
+.stats-view .visitors .visitor .more-info{
+    margin-top:20px;
+    display: none;
+}
+
 .stats-view .contents {
     margin: 0 7px;
     border-top-left-radius: 0;
@@ -176,12 +185,10 @@
 }
 
 .stats-view .contents .content .slug {
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
     color: #323538;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     padding: 0px 10px 7px 10px;
 }
 
@@ -351,21 +358,42 @@
 
 .stats-view .sources,
 .stats-view .contents,
+.stats-view .locations,
 .stats-view .visitors {
     /*padding: 10px;*/
-    max-height: 515px;
-    overflow-y: scroll;
+    /*max-height: 515px;*/
+    height: 515px;
+    overflow: hidden;
+    /*overflow-y: scroll;*/
     margin-bottom: 20px;
 }
 
-/* Tabs */
+.stats-view .sources.has-tabs,
+.stats-view .contents.has-tabs,
+.stats-view .locations.has-tabs,
+.stats-view .visitors.has-tabs {
+    max-height: 435px;
+}
 
+/* Tabs */
 .stats-view .mw-ui-box-content {
     padding: 0;
 }
 
-.stats-view > .mw-ui-col {
+.stats-view > .mw-ui-flex-item {
     width: 33%;
+}
+
+@media screen and (max-width: 1200px) {
+    .stats-view > .mw-ui-flex-item {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .stats-view > .mw-ui-flex-item {
+        width: 100%;
+    }
 }
 
 .stats-view .heading {
@@ -410,4 +438,21 @@
 .stats-view .mw-ui-btn-nav-tabs .mw-ui-btn.active {
     background: #2b2b2b;
     color: #999;
+}
+
+.stats-view {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+    justify-content: space-around;
+    margin: 0 -7px 25px -7px;
+}
+
+
+.stats-view .slimScrollBar{
+    right: 10px !important;
 }
