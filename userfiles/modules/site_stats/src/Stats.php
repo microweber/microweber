@@ -191,7 +191,12 @@ class Stats
                                     if ($related_item and $related_item->referrer) {
                                         $item_array['referrer_paths'][$rel_key]['referrer_url'] = $related_item->referrer;
                                     }
+                                    if (isset($item_array['sessions_count']) and $item_array['sessions_count']) {
+                                        if (isset($related_data['path_sessions_count']) and $related_data['path_sessions_count']) {
+                                            $item_array['referrer_paths'][$rel_key]['path_sessions_percent'] = mw()->format->percent($related_data['path_sessions_count'], $item_array['sessions_count']);;
 
+                                        }
+                                    }
                                     if (isset($related_data['referrer_path_id']) and $related_data['referrer_path_id']) {
                                         $related_item = new ReferrersPaths();
                                         $related_item = $related_item->where('id', $related_data['referrer_path_id'])->first();
@@ -199,17 +204,15 @@ class Stats
                                             $item_array['referrer_paths'][$rel_key]['referrer_path'] = $related_item->referrer_path;
                                         }
                                     }
-
-
                                 }
-
                             }
                         }
                     }
 
- 
-
-                    $return[] = $item_array;
+                    if ($item_array and !empty($item_array)) {
+                        ksort($item_array);
+                        $return[] = $item_array;
+                    }
 
                 }
                 if ($return) {
@@ -386,17 +389,6 @@ class Stats
                         $item_array['views_data'] = $related_data;
 
                     }
-
-//                    if ($item->geoip) {
-//                        $item_array['geoip_data'] = collection_to_array($item->geoip);;
-//
-//
-//                    }
-//                    if ($item->browser) {
-//                        $browser = $item->browser->browser_agent;
-//                        $item_array['browser_agent'] = $browser;
-//                    }
-
 
                     $item_array['views_count'] = $item->views()->count();;
                     $return[] = $item_array;
