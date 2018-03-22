@@ -149,17 +149,21 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                $del_ids[] = $c_id;
-                if ($to_trash == false) {
-                    $this->app->database_manager->delete_by_id('content', $c_id);
+                if($c_id) {
+                    $del_ids[] = $c_id;
+                    if ($to_trash == false) {
+                        $this->app->database_manager->delete_by_id('content', $c_id);
+                    }
                 }
             }
         }
-
+//dd($del_ids);
         if (!empty($del_ids)) {
-            DB::transaction(function () use ($del_ids, $to_untrash, $to_trash) {
-                foreach ($del_ids as $value) {
-                    $c_id = intval($value);
+            //DB::transaction(function () use ($del_ids, $to_untrash, $to_trash) {
+            foreach ($del_ids as $value) {
+                $c_id = intval($value);
+
+                if($c_id){
                     if ($to_untrash == true) {
                         DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
@@ -200,7 +204,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     $this->app->cache_manager->delete('content/' . $c_id);
                 }
-            });
+            }
+            // });
         }
         $this->app->cache_manager->delete('menus');
         $this->app->cache_manager->delete('content');
@@ -868,7 +873,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 if ($is_no_save != true and $is_draft == false) {
                                     $to_save2 = $to_save;
-                                 //   $to_save2['rel_type'] = 'content';
+                                    //   $to_save2['rel_type'] = 'content';
                                     $to_save2['rel_type'] = $rel_ch;
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
@@ -905,7 +910,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
                             if($cont_field['rel_type'] == 'module'){
-                               $cont_field['rel_id'] = 0;
+                                $cont_field['rel_id'] = 0;
                             }
 
 
@@ -1082,11 +1087,11 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
 
-                    foreach ($history_files_ids as $item) {
-                        $this->app->database_manager->delete_by_id($table, $item);
-                    }
+                foreach ($history_files_ids as $item) {
+                    $this->app->database_manager->delete_by_id($table, $item);
+                }
 
-             }
+            }
         }
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
@@ -1101,11 +1106,13 @@ class ContentManagerHelpers extends ContentManagerCrud
             $del_params['table'] = $table;
             $del_params['no_cache'] = true;
 
-            if (isset($data['rel_id'])) {
-                $i = ($data['rel_id']);
-                $del_params['rel_id'] = $i;
-            } else {
-                 $del_params['rel_id'] = 0;
+            if($fld_rel != 'module'){
+                if (isset($data['rel_id'])) {
+                    $i = ($data['rel_id']);
+                    $del_params['rel_id'] = $i;
+                } else {
+                    $del_params['rel_id'] = 0;
+                }
             }
             $del = $this->app->database_manager->get($del_params);
 

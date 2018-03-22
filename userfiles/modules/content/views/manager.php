@@ -147,6 +147,18 @@ mw.on.hashParam("pg", function(){
 	  
 	  
 });
+
+mw.admin.showLinkNav =  function () {
+    var all = mwd.querySelector('.select_posts_for_action:checked');
+    if (all === null) {
+        mw.$('.mw-ui-link-nav').hide();
+    }
+    else {
+        mw.$('.mw-ui-link-nav').show();
+    }
+}
+
+
 </script>  
 
 
