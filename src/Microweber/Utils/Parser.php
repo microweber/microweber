@@ -1233,6 +1233,8 @@ class Parser
                                 $mw_replaced_edit_fields_vals[$parser_mem_crc2] = $ch2;
                                 $parser_mem_crc3 = 'mw_replace_back_this_editable_' . $parser_mem_crc2 . '';
 
+                                $elem_clone = $elem->cloneNode();
+
                                 $mw_found_elems = ',' . $parser_mem_crc2;
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 // $rep = pq($elem)->html();
@@ -1253,7 +1255,10 @@ class Parser
 
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                     $field_content = $this->_replace_editable_fields($field_content);
-                                    pq($elem)->html($field_content);
+                                    if($field_content){
+
+                                    pq($elem_clone)->html('aaaaaaaa');
+                                    }
                                 } else {
                                     //  pq($elem)->html($field_content);
                                 }
