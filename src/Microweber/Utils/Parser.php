@@ -1236,9 +1236,9 @@ class Parser
                                 $mw_found_elems = ',' . $parser_mem_crc2;
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 // $rep = pq($elem)->html();
-                               $rep = pq($elem)->html();
+                                $rep = pq($elem)->html();
                                 //  $rep = trim($rep);
-                             //   $rep = preg_replace("/(^\s+)|(\s+$)/us", "", $rep);
+                                //   $rep = preg_replace("/(^\s+)|(\s+$)/us", "", $rep);
 
 
                                 if ($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] != false)) {
@@ -1255,25 +1255,8 @@ class Parser
                                     $field_content = $this->_replace_editable_fields($field_content);
                                     pq($elem)->html($field_content);
                                 } else {
-                                  //  pq($elem)->html($field_content);
+                                    //  pq($elem)->html($field_content);
                                 }
-                                // pq($elem)->replaceWith($field_content);
-//                                if (strstr($field_content, 'asdasdasdas')){
-//
-//
-//                               //     dd($elem,$rep,$field_content,$edit_field_content,$data);
-//
-//                                    //$field_content ='ssdd5d5dd5d5d5d5d5';
-//                                }
-//                                if ($field_content and is_object($elem) and $elem->nodeName != 'div') {
-//                                    pq($elem)->html($field_content);
-//
-//                                }
-//                                if ($field_content and is_object($elem) and $elem->nodeName) {
-//                                   // $elem->innerHTML  = $field_content;
-//                                  //  $layout->saveHTML() ;
-//                                }
-
 
 
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
@@ -1428,16 +1411,11 @@ class Parser
                     $module_html .= " {$attribute_name}='{$v}'  ";
                 }
             }
-            // inaccessibleModule
             $module_html .= '><inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag><' . $tag . '/>';
             pq($elem)->replaceWith($module_html);
 
-            //   d('======================');
-
         }
-        // $layout = $pq->htmlOuter();
-        //  d($layout);
-        // exit;
+
         $layout = $pq->htmlOuter();
 
         $pq = \phpQuery::newDocument($layout);
