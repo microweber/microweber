@@ -1252,16 +1252,18 @@ class Parser
                                     $is_editable = 1;
                                 }
                                 //   $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
-
+                                if (strstr($field_content, 'ffffffffffffff')) {
+                                  //  dd($field_content);
+                                }
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                     $field_content = $this->_replace_editable_fields($field_content);
                                     if($field_content){
                                     pq($elem_clone)->html($field_content);
                                     }
                                 } else {
-                                    //  pq($elem)->html($field_content);
+                                    pq($elem_clone)->html($field_content);
                                 }
-
+                                pq($elem)->replaceWith($elem_clone);
 
                                 $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                 $this->_mw_edit_field_map[$parser_mem_crc] = array(
