@@ -1252,9 +1252,7 @@ class Parser
                                     $is_editable = 1;
                                 }
                                 //   $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
-                                if (strstr($field_content, 'ffffffffffffff')) {
-                                  //  dd($field_content);
-                                }
+                                
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                     $field_content = $this->_replace_editable_fields($field_content);
                                     if($field_content){
