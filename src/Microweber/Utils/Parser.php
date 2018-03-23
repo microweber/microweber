@@ -1256,8 +1256,7 @@ class Parser
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                     $field_content = $this->_replace_editable_fields($field_content);
                                     if($field_content){
-
-                                    pq($elem_clone)->html('aaaaaaaa');
+                                    pq($elem_clone)->html($field_content);
                                     }
                                 } else {
                                     //  pq($elem)->html($field_content);
