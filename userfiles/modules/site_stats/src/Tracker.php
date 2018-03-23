@@ -102,7 +102,8 @@ class Tracker
                 }
 
 
-                $session_original_ref = false;
+                $session_original_ref_id = false;
+                $ref = false;
                 if (isset($item['referrer']) and $item['referrer']) {
                     $hash = md5($item['referrer']);
                     $ref = $item['referrer'];
@@ -122,9 +123,9 @@ class Tracker
                     ]);
                     if ($related_data->id) {
                         $item['referrer_id'] = $related_data->id;
-                        if (!$is_internal) {
-                            $session_original_ref = $item['referrer_id'];
-                        }
+                       // if (!$is_internal) {
+                            $session_original_ref_id = $item['referrer_id'];
+                       // }
                     }
                 }
 
@@ -139,15 +140,18 @@ class Tracker
                         'session_id' => $hash
                     ], [
                         'browser_id' => $browser_id,
-                        'referrer_id' => $session_original_ref,
+                        'referrer_id' => $session_original_ref_id,
                         'language' => $language,
                         'session_id' => $hash,
                         'geoip_id' => $this->_geo_ip_id($item['user_ip']),
+                        'referrer_domain_id' => $this->_referrer_domain_id($ref),
+                        'referrer_path_id' => $this->_referrer_path_id($ref),
                         'user_id' => $item['user_id'],
                         'user_ip' => $item['user_ip']
                     ]);
                     if ($related_data->id) {
                         $item['session_id_key'] = $related_data->id;
+
                     }
                 }
 
@@ -249,9 +253,9 @@ class Tracker
             return;
         }
         $ref = 'http://dir.bg/';
-        $ref = 'http://life.dir.bg/news.php?id=26981039&nt=5';
-        $ref = 'http://dir.bg/old';
-        $data['visit_url'] = $last_page;
+        $ref = 'http://php.net/manual/en/function.gethostbyaddr.php';
+        $ref = 'https://laracasts.com/discuss/channels/laravel/basics-of-modelfind';
+         $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
         $data['user_id'] = mw()->user_manager->id();

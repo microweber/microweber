@@ -9,11 +9,14 @@ class Sessions extends Base
     protected $fillable = [
         'session_id',
         'referrer_id',
+        'referrer_domain_id',
+        'referrer_path_id',
         'user_ip',
         'user_id',
         'geoip_id',
         'browser_id',
         'language',
+        'session_hostname',
         'updated_at',
     ];
 

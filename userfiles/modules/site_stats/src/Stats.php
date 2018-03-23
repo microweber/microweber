@@ -8,6 +8,8 @@ use Microweber\SiteStats\Models\Comments;
 use Microweber\SiteStats\Models\Log;
 use Microweber\SiteStats\Models\Orders;
 use Microweber\SiteStats\Models\Referrers;
+use Microweber\SiteStats\Models\ReferrersDomains;
+use Microweber\SiteStats\Models\ReferrersPaths;
 use Microweber\SiteStats\Models\Sessions;
 use Microweber\SiteStats\Models\Urls;
 use Carbon\Carbon;
@@ -35,7 +37,7 @@ class Stats
         }
         $orig_return = $return;
         switch ($return) {
- 
+
 
             case 'content_list':
                 $return = array();
@@ -112,7 +114,11 @@ class Stats
                     $join->on('stats_sessions.referrer_id', '=', 'stats_referrers.id');
                 });
 
-                $log = $log->select('stats_sessions.*',
+
+                $log = $log->select(
+                    'stats_sessions.id',
+                    'stats_sessions.referrer_domain_id',
+                    'stats_referrers.is_internal',
 //                    'stats_sessions.geoip_id as geoip_id',
 //                    'stats_geoip.country_code as country_code',
 //                    'stats_geoip.country_name as country_name',
@@ -120,8 +126,8 @@ class Stats
                 );
 
 
-               // $log = $log->groupBy('referrer_id');
-                $log = $log->groupBy('referrer_domain');
+                // $log = $log->groupBy('referrer_id');
+                $log = $log->groupBy('stats_sessions.referrer_domain_id');
 
                 $log = $log->limit(500);
                 $log = $log->orderBy('sessions_count', 'desc');
@@ -144,27 +150,69 @@ class Stats
                         $most_sessions_count = $item_array['sessions_count'];
                     }
 
+                    if (isset($item_array['referrer_domain_id']) and $item_array['referrer_domain_id']) {
+                        $log = new Sessions();
+                        $log = $log->period($period, 'stats_sessions');
 
-                    if ($item->referrer) {
-                        if ($item->referrer->domain) {
-                            $item_array['referrer_domain'] = $item->referrer->domain->referrer_domain;
+                        $log = $log->select(
+                            'stats_sessions.referrer_domain_id',
+                            'stats_sessions.referrer_path_id',
+                            'stats_sessions.referrer_id',
 
-                            if ($item->referrer->domain) {
 
+                            DB::raw('count(referrer_path_id) as path_sessions_count')
+                        );
+
+
+                        $log = $log->where('referrer_domain_id', $item_array['referrer_domain_id']);
+                        $log = $log->groupBy('stats_sessions.referrer_path_id');
+                        $log = $log->orderBy('path_sessions_count', 'desc');
+
+
+                        $data2 = $log->get();
+                        if ($data2) {
+                            $item_array2 = collection_to_array($data2);
+                            $item_array['referrer_paths'] = $item_array2;
+                            foreach ($item_array2 as $related_data) {
+                                if (isset($related_data['referrer_domain_id']) and $related_data['referrer_domain_id']) {
+                                    $related_item = new ReferrersDomains();
+                                    $related_item = $related_item->where('id', $related_data['referrer_domain_id'])->first();
+                                    if ($related_item and $related_item->referrer_domain) {
+                                        $item_array['referrer_domain'] = $related_item->referrer_domain;
+                                    }
+                                }
                             }
-                            // $item_array['views_data'] =$item->views->toArray();
-//                            dd();
-//                            dd($item->referrer);
-                            $related_data = array();
-                            foreach ($item->referrer as $related_item) {
 
 
+                            foreach ($item_array['referrer_paths'] as $rel_key => $related_data) {
+                                if (isset($related_data['referrer_id']) and $related_data['referrer_id']) {
+                                    $related_item = new Referrers();
+                                    $related_item = $related_item->where('id', $related_data['referrer_id'])->first();
+                                    if ($related_item and $related_item->referrer) {
+                                        $item_array['referrer_paths'][$rel_key]['referrer_url'] = $related_item->referrer;
+                                    }
+                                    if (isset($item_array['sessions_count']) and $item_array['sessions_count']) {
+                                        if (isset($related_data['path_sessions_count']) and $related_data['path_sessions_count']) {
+                                            $item_array['referrer_paths'][$rel_key]['path_sessions_percent'] = mw()->format->percent($related_data['path_sessions_count'], $item_array['sessions_count']);;
+
+                                        }
+                                    }
+                                    if (isset($related_data['referrer_path_id']) and $related_data['referrer_path_id']) {
+                                        $related_item = new ReferrersPaths();
+                                        $related_item = $related_item->where('id', $related_data['referrer_path_id'])->first();
+                                        if ($related_item and $related_item->referrer_path) {
+                                            $item_array['referrer_paths'][$rel_key]['referrer_path'] = $related_item->referrer_path;
+                                        }
+                                    }
+                                }
                             }
-
                         }
                     }
 
-                    $return[] = $item_array;
+                    if ($item_array and !empty($item_array)) {
+                        ksort($item_array);
+                        $return[] = $item_array;
+                    }
 
                 }
                 if ($return) {
@@ -341,17 +389,6 @@ class Stats
                         $item_array['views_data'] = $related_data;
 
                     }
-
-//                    if ($item->geoip) {
-//                        $item_array['geoip_data'] = collection_to_array($item->geoip);;
-//
-//
-//                    }
-//                    if ($item->browser) {
-//                        $browser = $item->browser->browser_agent;
-//                        $item_array['browser_agent'] = $browser;
-//                    }
-
 
                     $item_array['views_count'] = $item->views()->count();;
                     $return[] = $item_array;
