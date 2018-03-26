@@ -723,10 +723,10 @@ mw.edit_content.handle_form_submit = function (go_live) {
 
                     var xhr = mw.save_inner_editable_fields(save_inner_edit_data);
                     xhr.success(function () {
-                        $(window).trigger('adminSaveEnd');
+                        mw.trigger('adminSaveEnd');
                     });
                     xhr.fail(function () {
-                        $(window).trigger('adminSaveFailed');
+                        mw.trigger('adminSaveFailed');
                     });
 
                 }
@@ -769,7 +769,7 @@ mw.edit_content.handle_form_submit = function (go_live) {
 
 
 
-			$(window).trigger('adminSaveContentCompleted');
+			mw.trigger('adminSaveContentCompleted');
 
 			if (self !== parent) {
 			if ((data.id) == 0) {
@@ -784,7 +784,7 @@ mw.edit_content.handle_form_submit = function (go_live) {
 
         },
         onError: function () {
-            $(window).trigger('adminSaveFailed');
+            mw.trigger('adminSaveFailed');
             module.removeClass('loading');
             if (typeof this.title !== 'undefined') {
                 mw.notification.error('<?php _e('Please enter title'); ?>');

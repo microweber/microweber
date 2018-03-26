@@ -365,7 +365,7 @@ if (!empty($recomended_layouts)) {
                 mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
                 <?php if($params['id'] !='mw-quick-add-choose-layout-middle-pos') { ?>
 
-                $(window).trigger('templateSelected');
+                mw.trigger('templateSelected');
 
 				
                 <?php  } ?>
@@ -407,12 +407,12 @@ if (!empty($recomended_layouts)) {
 //				
 //            });
             }
-            //$(window).trigger('templateChanged');
+            //mw.trigger('templateChanged');
         });
 
         mw.$('#active_site_layout_<?php print $rand; ?>').bind("change", function (e) {
             mw.templatePreview<?php print $rand; ?>.generate();
-            $(window).trigger('templateChanged');
+            mw.trigger('templateChanged');
         });
 
         mw.templatePreview<?php print $rand; ?>.generate();
@@ -434,7 +434,7 @@ if (!empty($recomended_layouts)) {
 
             <div class="mw-ui-row admin-section-bar">
                 <div class="mw-ui-col">
-                    <h2><?php _e("Choose template"); ?></h2>
+                    <h2><span class="mai-templates"></span><?php _e("Choose template"); ?></h2>
                 </div>
             </div>
 

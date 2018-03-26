@@ -105,7 +105,7 @@ mw.custom_fields = {
 
             mw.reload_module_parent('custom_fields/list', function () {
                 if (!!callback) callback.call(data);
-                $(window).trigger('customFieldSaved', [id, data]);
+                mw.trigger('customFieldSaved', [id, data]);
             });
             mw.custom_fields.after_save();
         });
@@ -119,7 +119,7 @@ mw.custom_fields = {
         mw.reload_module_parent('custom_fields');
 
 
-        $(window).trigger("custom_fields.save");
+        mw.trigger("custom_fields.save");
 
     },
 

@@ -175,7 +175,7 @@ if (isset($params['pager_custom'])) {
                 prevSelector: '<?php print $prevSelector; ?>',
                 nextSelector: '<?php print $nextSelector; ?>',
                 onSliderLoad: function () {
-                    $(window).trigger("mw.bxslider.onSliderLoad");
+                    mw.trigger("mw.bxslider.onSliderLoad");
                 },
                 <?php if(isset($pagerCustom) AND $pagerCustom != ''): ?>
                 pagerCustom: '#<?php print $params['id'] ?> .<?php print $pagerCustom; ?>'

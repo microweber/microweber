@@ -10,7 +10,7 @@ $(document).ready(function(){
 
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
-        <h2><?php _e("Website"); ?></h2>
+        <h2><span class="mai-website"></span><?php _e("Website"); ?></h2>
     </div>
 </div>
 <div class="admin-side-content">

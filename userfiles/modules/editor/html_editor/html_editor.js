@@ -46,6 +46,30 @@ mw.html_editor.get_edit_fields = function (also_in_modules) {
     return fields_arr;
 };
 
+mw.html_editor.createItemContent = function (option) {
+    var method = 'frame';
+    var text = option.el.innerText.trim();
+    if(method == 'text'){
+        return text.substring(0,45) +'...';
+    }
+    else{
+        var framehold = mwd.createElement('div');
+        framehold.className = 'liframe'
+        var frame = mwd.createElement('iframe');
+        framehold.appendChild(frame)
+        frame.src = 'about:blank'
+        frame.frameBorder = 0;
+        frame.scrolling = 'no';
+        setTimeout(function () {
+            frame.contentDocument.body.innerHTML = option.el.innerHTML;
+            var root = window.top.opener ? window.top.opener.document.documentElement : window.top.document.documentElement;
+            $('link', root).each(function(){
+                $(this).clone(true).appendTo(frame.contentDocument.body);
+            });
+        }, 78)
+        return framehold;
+    }
+}
 mw.html_editor.build_dropdown = function (fields_array) {
     var html_dd = {};
     $(fields_array).each(function () {
@@ -89,12 +113,13 @@ mw.html_editor.build_dropdown = function (fields_array) {
             } else {
 
 
+
                 var $option = $("<li>", {
-                    text: option.field,
+
                     value: option.rel,
                     rel: option.rel,
                     field: option.field
-                });
+                }).append(mw.html_editor.createItemContent(option));
 
                 if(!has_selected && option.rel == 'content'){
                   has_selected = true;
@@ -354,47 +379,7 @@ mw.html_editor.reset_content = function () {
                     saved_data = saved_data[0];
 
                     wroot.window.location.reload();
-
-
-                 /*   var get_edit_field = {};
-                    if (typeof saved_data.rel_type != 'undefined') {
-                        get_edit_field.rel_type = saved_data.rel_type;
-                    }
-                    if (typeof saved_data.rel_id != 'undefined') {
-                        get_edit_field.rel_id = saved_data.rel_id;
-                    }
-                    if (typeof saved_data.field != 'undefined') {
-                        get_edit_field.field = saved_data.field;
-                    }
-
-                    $.ajax({
-                        type: 'POST',
-                        url: mw.settings.site_url + "api/get_content_field",
-                        data: get_edit_field,
-                        dataType: "json",
-                        success: function (data) {
-                            mw.history.apply_fields(data)
-                        }
-                    })*/
-
                 })
-
-
-                //
-                // if ($id != undefined) {
-                //     $.ajax({
-                //         type: 'POST',
-                //         url: mw.settings.site_url + "api/get_content_field_draft",
-                //         data: {
-                //             id: $id
-                //         },
-                //         dataType: "json",
-                //         success: function (data) {
-                //             mw.history.apply_fields(data)
-                //         }
-                //     })
-                // }
-
 
             }, 200);
         }

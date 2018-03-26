@@ -36,7 +36,7 @@ canvasCTRL_rendValue = function(canvas, x, y, opt){
       top: y-zeroY,
       left: r_left
     });
-    $(window).trigger('staticElementStyleChanged');
+    mw.trigger('staticElementStyleChanged');
 }
 
 
@@ -275,7 +275,7 @@ mw.styleSliders = function(el){
             else{
               custom._exec(ui.value);
             }
-            $(window).trigger('staticElementStyleChanged');
+            mw.trigger('staticElementStyleChanged');
          }
        },
        create: function(event, ui) {
@@ -315,7 +315,7 @@ init_square_maps = function(){
     var val = $(this).getDropdownValue();
     var who = $(this).attr("data-for");
     mw.$("#"+who).attr("data-type", val);
-    $(window).trigger('staticElementStyleChanged');
+    mw.trigger('staticElementStyleChanged');
   });
 }
 
@@ -401,7 +401,7 @@ if( typeof $.fn.draggable === 'function'){
 
 }
 
-$(window).on("onItemClick onImageClick onElementClick", function(e, el){
+mw.on("ItemClick onImageClick onElementClick", function(e, el){
 
 $("#mw_ts_width").val(el.offsetWidth)
 $("#mw_ts_height").val(el.offsetHeight)

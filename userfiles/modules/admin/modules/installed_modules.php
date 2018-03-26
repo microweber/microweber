@@ -275,6 +275,7 @@
                 <div class="mw-ui-row" id="modules-list-title-and-search">
                     <div class="mw-ui-col">
                         <h2 class="mw-side-main-title scroll-height-exception"> <span>
+                                <span class="mai-modules"></span>
               <?php _e("My Modules"); ?>
               </span></h2>
                     </div>

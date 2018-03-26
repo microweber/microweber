@@ -327,7 +327,7 @@
         mw.$("#mw_image_reset").click(function () {
             if (!$(this).hasClass("disabled")) {
                 mw.image.current.src = mw.image.current_original;
-                window.top.$(window).trigger('imageSrcChanged', [mw.image.current, mw.image.current_original])
+                window.top.mw.trigger('imageSrcChanged', [mw.image.current, mw.image.current_original])
                 mw.image.current_need_resize = true;
             }
         });

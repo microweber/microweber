@@ -88,7 +88,7 @@ only_admin_access();
                     $('#mw-update-res-log').addClass('done');
                     $('.show-on-install-complete').addClass('done');
                     $('.hide-on-install-complete').hide();
-                    $(window).trigger('mw_updates_done')
+                    mw.trigger('mw_updates_done')
 
                 } else {
                     //  mw_apply_upd_timeout = setTimeout(mw_apply_upd, timeout);

@@ -458,7 +458,7 @@ function mw_option_save_rebind_form_fields(){
 //
 //              if (mw.tools.isEmptyObject(data)) return false;
 //
-//              $(window).trigger('saveStart', data);
+//              mw.trigger('saveStart', data);
 //
 //
 //

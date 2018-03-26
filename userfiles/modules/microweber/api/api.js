@@ -372,6 +372,11 @@ mw.askusertostay = false;
 	}
   }
   mw.reload_modules = function(array, callback, simultaneously) {
+      if(array.array && !array.slice){
+          callback = array.callback || array.done || array.ready;
+          simultaneously = array.simultaneously;
+          array = array.array;
+      }
       simultaneously = simultaneously || false;
       if(simultaneously){
         var l = array.length, ready = 0, i = 0;
@@ -545,7 +550,7 @@ mw.askusertostay = false;
       }
       mw.$(selector).replaceWith($(docdata.body).html());
       setTimeout(function(){
-        $(window).trigger('moduleLoaded'); 
+        mw.trigger('moduleLoaded');
       }, 33)
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
 

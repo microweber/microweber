@@ -203,7 +203,7 @@ mw.admin.custom_fields.del = function (id, toremove) {
                         $(toremove).remove();
                     }
                     mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
-                    $(window).trigger('customFieldSaved', id);
+                    mw.trigger('customFieldSaved', id);
                     if (typeof load_iframe_editor === 'function') {
                         load_iframe_editor();
                     }

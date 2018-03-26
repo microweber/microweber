@@ -96,7 +96,7 @@
         event.preventDefault();
       });
 
-      $(window).trigger("resize.twentytwenty");
+      mw.trigger("resize.twentytwenty");
     });
   };
 
