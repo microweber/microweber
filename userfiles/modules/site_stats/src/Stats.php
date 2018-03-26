@@ -484,6 +484,11 @@ class Stats
                     $date_period_q = "DATE(updated_at) as date_key";
 
                 }
+
+            if ($period == 'yearly') {
+                $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
+
+            }
                 if ($return == 'visits_count_grouped_by_period') {
 
 //                    $log = $log->select(DB::raw($date_period_q . ', count(session_id_key) as date_value'));

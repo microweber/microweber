@@ -145,9 +145,7 @@ class Admin
 
     function referrers_list($params)
     {
-        if (!isset($_GET['d'])) {
-            return;
-        }
+
 
         if (!isset($params['period'])) {
             $params['period'] = 'daily';
@@ -159,8 +157,12 @@ class Admin
         $stats = new Stats();
         $get_data = $stats->get_stats_items($get_data);
 
-dd($get_data);
 
+        $view_file = $this->views_dir . 'parts/referrers.php';
+        $view = new View($view_file);
+        $view->assign('params', $params);
+        $view->assign('data', $get_data);
+        return $view->display();
     }
 
 

@@ -25,7 +25,7 @@
 
         <div class="demobox" id="demotabsnav">
             <div class="heading  mw-ui-box">
-                <div>Some statistic</div>
+                <div>Referrers</div>
                 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
                     <a href="javascript:;" class="mw-ui-btn"><span class="number">726</span>
                         <small>Sites</small>
@@ -41,26 +41,16 @@
 
             <div class="sources mw-ui-box has-tabs">
                 <div class="mw-ui-box-content" style="">
-                    <ul class="">
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                    </ul>
+                    <module type="site_stats/admin" view="referrers_list" period="<?php print $period ; ?>"  />
                 </div>
+
                 <div class="mw-ui-box-content" style="display: none;">
-                    <ul class="">
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                    </ul>
+                    <module type="site_stats/admin" view="referrers_list"   period="<?php print $period ; ?>" />
+
                 </div>
                 <div class="mw-ui-box-content" style="display: none">
-                    <ul class="">
-                        <?php include('parts/sources.php'); ?>
-                        <?php include('parts/sources.php'); ?>
-                    </ul>
+                    <module type="site_stats/admin" view="referrers_list"  period="<?php print $period ; ?>"  />
+
                 </div>
             </div>
         </div>
@@ -71,7 +61,7 @@
             <?php print _e('Content'); ?>
         </div>
         <div class="contents mw-ui-box">
-            <module type="site_stats/admin" view="content_list"/>
+            <module type="site_stats/admin" view="content_list"  period="<?php print $period ; ?>" />
         </div>
     </div>
 
@@ -80,7 +70,7 @@
             <?php print _e('Visitors'); ?>
         </div>
         <div class="visitors mw-ui-box">
-            <module type="site_stats/admin" view="visitors_list"/>
+            <module type="site_stats/admin" view="visitors_list"  period="<?php print $period ; ?>" />
         </div>
     </div>
 
@@ -89,7 +79,7 @@
             <?php print _e('Locations'); ?>
         </div>
         <div class="locations mw-ui-box">
-            <module type="site_stats/admin" view="locations_list"/>
+            <module type="site_stats/admin" view="locations_list"  period="<?php print $period ; ?>" />
         </div>
     </div>
 
@@ -98,7 +88,7 @@
             <?php print _e('Browser language'); ?>
         </div>
         <div class="locations mw-ui-box">
-            <module type="site_stats/admin" view="languages_list"/>
+            <module type="site_stats/admin" view="languages_list"  period="<?php print $period ; ?>" />
         </div>
     </div>
 </div>

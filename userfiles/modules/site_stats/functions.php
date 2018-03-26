@@ -39,7 +39,7 @@ function mw_print_stats_on_dashboard()
     if ($active == 'shop') {
         //   $cls = ' class="active" ';
     }
-    print '  <module type="site_stats/admin" />';
+    print '  <module type="site_stats/admin" id="site_stats_admin" />';
     //print '<microweber module="site_stats" view="admin" />';
 }
 

@@ -1,3 +1,5 @@
+@import "fade-window.css";
+
 .orders-holder .you-have-new-orders p.new-orders {
     color: #0086db;
     font-size: 14px;
@@ -289,6 +291,14 @@
     width: 16px;
     height: 16px;
     vertical-align: middle;
+}
+
+.stats-view .sources .source .icon-wrapper i {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    font-size: 17px;
+    color: #c1c1c1;
 }
 
 .stats-view .sources .source .arrow:before {
