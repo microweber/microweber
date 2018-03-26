@@ -78,14 +78,13 @@ if (isset($params['rel_id'])) {
 
 $rand = uniqid();
 
-if (trim($for_id) != '' and trim($for_id) != '0') {
+if (intval($for_id) != 0) {
     $media = get_pictures("rel_id={$for_id}&rel_type={$for}");
 } else {
     $sid = mw()->user_manager->session_id();
     if ($sid == '') {
         $sid = mw()->user_manager->session_id();
     }
-
     $media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 }
 
@@ -128,7 +127,7 @@ if (trim($for_id) != '' and trim($for_id) != '0') {
                             });
                         }
                     }
-                }, 300);
+                }, 1300);
             }
         }
 </script>
@@ -377,7 +376,7 @@ if (!isset($data["thumbnail"])) {
             $(uploader).bind("FileUploaded done", function (e, a) {
                 setTimeout(function () {
                     after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                }, 300);
+                }, 1300);
             });
             $(".image-tag-view").remove();
             $(".image-tags").each(function () {
