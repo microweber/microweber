@@ -1,163 +1,162 @@
-<?php if(!isset($data)){
-$data = $params;
+<?php if (!isset($data)) {
+    $data = $params;
 }
+
 
 $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 ?>
+<div id="settings-tabs" class="">
+    <!-- TABS BUTTONS -->
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+        <a href="javascript:;" class="mw-ui-btn active"><i class="mai-image"></i> <?php print _e('Add to categories'); ?></a>
+        <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> Add images</a>
 
-<div class="mw-admin-edit-content-holder-default">
-  <div id="content-edit-settings-tabs-holder">
-    <div id="content-edit-settings-tabs">
-      <div id="quick-add-post-options-holder">
-        <div id="quick-add-post-options">
+        <?php if ($data['content_type'] == 'page'): ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e('Add to navigation'); ?>"><i class="mw-icon-menuadd"></i> <?php _e('Add to navigation'); ?></a>
+        <?php endif; ?>
 
+        <?php if ($data['content_type'] == 'product'): ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Price & Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Price & Fields"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Shipping & Options"); ?>"><i class="mw-icon-truck"></i> <?php _e("Shipping & Options"); ?></a>
+        <?php else: ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Custom Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Custom Fields"); ?></a>
+        <?php endif; ?>
 
+        <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mw-icon-gear"></i> <?php _e("Advanced"); ?></a>
 
-        <div class="mw-ui-btn-nav more-inactive">
-            <span class="mw-ui-abtn  tip" data-tip="<?php _e("Thumbnail (Main gallery)"); ?>">
-                <span class="mai-image"></span>
-                <?php _e("Images") ?>
-            </span>
-            <span class="mw-ui-abtn  tip" data-tip="<?php _e("Comments"); ?>">
-                <span class="mai-comment2"></span>
-                <?php _e("Comments") ?>
-            </span>
-            <span class="mw-ui-abtn postbtnmore">
-                <?php _e("More") ?>
-            </span>
+        <?php if ($data['content_type'] == 'old_page'): ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Template"); ?>"><i class="mw-icon-template"></i> <?php _e("Template"); ?></a>
+        <?php endif; ?>
 
-
-            <?php if($data['content_type'] == 'page'): ?>
-            <span class="mw-ui-abtn  tip" data-tip="<?php _e('Add to navigation'); ?>" > <span class="mw-icon-menuadd"></span> <span>
-            <?php _e('Add to navigation'); ?>
-            </span> </span>
-            <?php endif; ?>
-            <?php  if($data['content_type'] == 'product'): ?>
-            <span class="mw-ui-abtn  tip" data-tip="<?php _e("Price & Fields"); ?>">
-                <span class="mw-icon-pricefields"></span> <span>
-            <?php _e("Price & Fields"); ?>
-            </span> </span>
-            <span class="mw-ui-abtn  tip" data-tip="<?php _e("Shipping & Options"); ?>"> <span class="mw-icon-truck"></span> <span>
-            <?php _e("Shipping & Options"); ?>
-            </span> </span>
-            <?php else: ?>
-            <span class="mw-ui-abtn  tip" data-tip="<?php _e("Custom Fields"); ?>"> <span class="mw-icon-pricefields"></span> <span>
-            <?php _e("Custom Fields"); ?>
-            </span> </span>
-            <?php endif; ?>
-
-            <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
- <span class="mw-ui-abtn mw-ui-abtn tip" data-tip="<?php _e("Advanced"); ?>"> <span class="mw-icon-gear"></span> <span>
-            <?php _e("Advanced"); ?>
-            </span> </span>
-            <?php if($data['content_type'] == 'old_page'):  ?>
-            <span id="quick-add-post-options-item-template-btn" class="mw-ui-abtn tip" data-tip="<?php _e("Template"); ?>"> <span class="mw-icon-template"></span> <span>
-            <?php _e("Template"); ?>
-            </span> </span>
-            <?php endif; ?>
-
-          <?php if(!empty($custom_tabs)): ?>
-          <?php foreach($custom_tabs as $item): ?>
-          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
-          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
-          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
-  <span class="mw-ui-abtn  tip" data-tip="<?php print $title; ?>"> <span class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span> </span>
-          <?php endforeach; ?>
-          <?php endif; ?>
-          </div>
-        </div>
-      </div>
-      <div id="quick-add-post-options-items-holder" class="tip-box">
-        <div id="quick-add-post-options-items-holder-container">
-
-          <div  id="post-gallery-manager" class="quick-add-post-options-item">
-              <div id="edit-post-gallery-main" type="pictures/admin" for="content" for-id="<?php print $data['id']; ?>"></div>
-            </div>
-          <div class="quick-add-post-options-item">
-              <?php _e("Comments") ?>
-          </div>
-          <?php if($data['content_type'] == 'page'): ?>
-          <div class="quick-add-post-options-item">
-            <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
-
-
-
-              <?php if(isset($data['add_to_menu'])): ?>
-
-                  <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>" add_to_menu="<?php print $data['add_to_menu']; ?>"  />
-
-
-                  <?php else: ?>
-                  <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"  />
-
-
-              <?php endif; ?>
-
-            <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
-            <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
-          </div>
-          <?php endif; ?>
-          <div class="quick-add-post-options-item">
-            <module
-                    type="custom_fields/admin"
-                    <?php if( trim($data['content_type']) == 'product' ): ?> default-fields="price" <?php endif; ?>
-                    content-id="<?php print $data['id'] ?>"
-                    suggest-from-related="true"
-                    list-preview="true"
-                    id="fields_for_post_<?php print $data['id']; ?>" 	 />
-            <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
-          </div>
-          <?php  if(trim($data['content_type']) == 'product'): ?>
-          <div class="quick-add-post-options-item">
-            <?php event_trigger('mw_edit_product_admin', $data); ?>
-          </div>
-          <?php endif; ?>
-          <div class="quick-add-post-options-item" id="quick-add-post-options-item-advanced">
-            <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
-            <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
-          </div>
-          <?php if($data['content_type'] == 'old_page'):  ?>
-
-          <?php
-		  $no_content_type_setup_from_layout = false;
-		  if($data['content_type'] != 'page' and $data['content_type'] != 'post' and $data['content_type'] != 'product'){
-			$no_content_type_setup_from_layout = true;
-		  } else if(isset($data['subtype']) and $data['subtype'] != 'static'  and $data['subtype'] != 'dynamic' and $data['subtype'] != 'post' and $data['subtype'] != 'product'){
-			$no_content_type_setup_from_layout = true;
-		  }
-
-		  if($no_content_type_setup_from_layout  != false){
-			$no_content_type_setup_from_layout  = ' no_content_type_setup="true" '  ;
-		  }
-
-		  ?>
-
-
-          <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
-
-
-
-            <div type="content/views/layout_selector" id="mw-quick-add-choose-layout" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> ></div>
-
-
-
-
-
-
-          </div>
-          <?php endif; ?>
-          <?php if(!empty($custom_tabs)): ?>
-          <?php foreach($custom_tabs as $item): ?>
-          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
-          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
-          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
-          <div class="quick-add-post-options-item"><?php print $html; ?></div>
-          <?php endforeach; ?>
-          <?php endif; ?>
-          <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
-        </div>
-      </div>
+        <?php if (!empty($custom_tabs)): ?>
+            <?php foreach ($custom_tabs as $item): ?>
+                <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                <a href="javascript:;" class="mw-ui-btn " data-tip="<?php print $title; ?>"><i class="<?php print $class; ?>"></i> <?php print $title; ?></a>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
-  </div>
+
+    <!-- CONTENT -->
+    <div class="mw-ui-box">
+        <div class="mw-ui-box-content mw-settings-tabs-content categories" style="">
+            <?php if (isset($data['url']) and $data['id'] > 0): ?>
+                <script>
+                    $(function () {
+                        $('.go-live-edit-href-set').attr('href', '<?php print content_link($data['id']); ?>');
+                    });
+                </script>
+            <?php endif; ?>
+            <?php if ($data['content_type'] == 'page') { ?>
+                <div class="mw-admin-edit-page-primary-settings parent-selector ">
+                    <div class="mw-ui-field-holder">
+                        <div class="quick-parent-selector">
+                            <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>"
+                                    recommended-id="<?php print $recommended_parent; ?>"/>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+                <div class="mw-admin-edit-page-primary-settings content-category-selector">
+                    <div class="mw-ui-field-holder" style="padding-top: 0">
+                        <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full"
+                             id="mw-post-added-<?php print $rand; ?>">
+                            <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field"/>
+                        </div>
+                        <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector"
+                             id="mw-category-selector-<?php print $rand; ?>">
+                            <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+                                <module type="categories/selector" for="content" active_ids="<?php print $data['parent']; ?>" subtype="<?php print $data['subtype']; ?>" categories_active_ids="<?php print $categories_active_ids; ?>" for-id="<?php print $data['id']; ?>"/>
+
+                                <?php include(__DIR__ . '/edit_default_scripts_two.php'); ?>
+                                <div id="category-tree-not-found-message">
+                                    <h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3>
+                                    <br>
+                                    <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(3)"><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span>
+                                </div>
+                                <div id="parent-category-selector-block">
+                                    <h3>
+                                        <?php _e("Select parent"); ?>
+                                    </h3>
+
+                                    <div id="parent-category-selector-holder"></div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="mw-ui-box-content mw-settings-tabs-content images" style="display: none;">
+            <div id="edit-post-gallery-main" type="pictures/admin" for="content" for-id="<?php print $data['id']; ?>"></div>
+        </div>
+
+        <?php if ($data['content_type'] == 'page'): ?>
+            <div class="mw-ui-box-content mw-settings-tabs-content menus" style="display: none;">
+                <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
+                <?php if (isset($data['add_to_menu'])): ?>
+                    <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>" add_to_menu="<?php print $data['add_to_menu']; ?>"/>
+                <?php else: ?>
+                    <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"/>
+                <?php endif; ?>
+
+                <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+                <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
+            </div>
+        <?php endif; ?>
+
+
+        <div class="mw-ui-box-content mw-settings-tabs-content fields" style="display: none;">
+            <module type="custom_fields/admin"
+                <?php if (trim($data['content_type']) == 'product'): ?> default-fields="price" <?php endif; ?>
+                    content-id="<?php print $data['id'] ?>" suggest-from-related="true" list-preview="true" id="fields_for_post_<?php print $data['id']; ?>"/>
+            <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
+        </div>
+
+        <?php if (trim($data['content_type']) == 'product'): ?>
+            <div class="mw-ui-box-content mw-settings-tabs-content" style="display: none;">
+                <?php event_trigger('mw_edit_product_admin', $data); ?>
+            </div>
+        <?php endif; ?>
+
+
+        <div class="mw-ui-box-content mw-settings-tabs-content advanced" style="display: none;">
+            <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
+            <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>" content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"/>
+        </div>
+
+        <?php if ($data['content_type'] == 'old_page'): ?>
+            <?php
+            $no_content_type_setup_from_layout = false;
+            if ($data['content_type'] != 'page' and $data['content_type'] != 'post' and $data['content_type'] != 'product') {
+                $no_content_type_setup_from_layout = true;
+            } else if (isset($data['subtype']) and $data['subtype'] != 'static' and $data['subtype'] != 'dynamic' and $data['subtype'] != 'post' and $data['subtype'] != 'product') {
+                $no_content_type_setup_from_layout = true;
+            }
+            if ($no_content_type_setup_from_layout != false) {
+                $no_content_type_setup_from_layout = ' no_content_type_setup="true" ';
+            }
+            ?>
+
+            <div class="mw-ui-box-content mw-settings-tabs-content old-page" style="display: none;">
+                <div type="content/views/layout_selector" id="mw-quick-add-choose-layout" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> ></div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($custom_tabs)): ?>
+            <?php foreach ($custom_tabs as $item): ?>
+                <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                <div class="mw-ui-box-content mw-settings-tabs-content advanced" style="display: none;"><?php print $html; ?></div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
+    </div>
 </div>

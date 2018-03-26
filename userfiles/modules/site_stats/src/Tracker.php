@@ -7,6 +7,8 @@ use Microweber\SiteStats\Models\Browsers;
 use Microweber\SiteStats\Models\Geoip;
 use Microweber\SiteStats\Models\Log;
 use Microweber\SiteStats\Models\Referrers;
+use Microweber\SiteStats\Models\ReferrersDomains;
+use Microweber\SiteStats\Models\ReferrersPaths;
 use Microweber\SiteStats\Models\Sessions;
 use Microweber\SiteStats\Models\Urls;
 use Jenssegers\Agent\Agent;
@@ -100,9 +102,11 @@ class Tracker
                 }
 
 
-                $session_original_ref = false;
+                $session_original_ref_id = false;
+                $ref = false;
                 if (isset($item['referrer']) and $item['referrer']) {
                     $hash = md5($item['referrer']);
+                    $ref = $item['referrer'];
                     $related_data = new Referrers();
                     $is_internal = false;
                     if (strstr($item['referrer'], site_url())) {
@@ -112,14 +116,16 @@ class Tracker
                         'referrer_hash' => $hash
                     ], [
                         'referrer_hash' => $hash,
+                        'referrer_domain_id' => $this->_referrer_domain_id($ref),
+                        'referrer_path_id' => $this->_referrer_path_id($ref),
                         'is_internal' => $is_internal,
-                        'referrer' => $item['referrer']
+                        'referrer' => $ref
                     ]);
                     if ($related_data->id) {
                         $item['referrer_id'] = $related_data->id;
-                        if (!$is_internal) {
-                            $session_original_ref = $item['referrer_id'];
-                        }
+                       // if (!$is_internal) {
+                            $session_original_ref_id = $item['referrer_id'];
+                       // }
                     }
                 }
 
@@ -134,15 +140,18 @@ class Tracker
                         'session_id' => $hash
                     ], [
                         'browser_id' => $browser_id,
-                        'referrer_id' => $session_original_ref,
+                        'referrer_id' => $session_original_ref_id,
                         'language' => $language,
                         'session_id' => $hash,
-                        'geoip_id' =>  $this->_geo_ip_id($item['user_ip']),
+                        'geoip_id' => $this->_geo_ip_id($item['user_ip']),
+                        'referrer_domain_id' => $this->_referrer_domain_id($ref),
+                        'referrer_path_id' => $this->_referrer_path_id($ref),
                         'user_id' => $item['user_id'],
                         'user_ip' => $item['user_ip']
                     ]);
                     if ($related_data->id) {
                         $item['session_id_key'] = $related_data->id;
+
                     }
                 }
 
@@ -239,7 +248,14 @@ class Tracker
             $last_page = rtrim($last_page, '?');
             $last_page = rtrim($last_page, '#');
         }
-        $data['visit_url'] = $last_page;
+     
+        if(strstr($ref, admin_url())){
+            return;
+        }
+        $ref = 'http://dir.bg/';
+        $ref = 'http://php.net/manual/en/function.gethostbyaddr.php';
+        $ref = 'https://laracasts.com/discuss/channels/laravel/basics-of-modelfind';
+         $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
         $data['user_id'] = mw()->user_manager->id();
@@ -296,19 +312,20 @@ class Tracker
             $return['is_robot'] = $is_robot;
             $return['robot_name'] = $agent->robot();
         }
-         return $return;
+        return $return;
 
     }
 
     private function _geo_ip_id($ip)
     {
-        $ip = $this->_parse_geo_ip($ip);
+        $ip = $this->__parse_geo_ip_country($ip);
 
         if ($ip and isset($ip['country_code'])) {
             $data = new Geoip();
             $data = $data->firstOrCreate([
                 'country_code' => $ip['country_code']
             ], $ip);
+
             if ($data->id) {
                 return $data->id;
             }
@@ -317,10 +334,74 @@ class Tracker
         }
     }
 
-    private function _parse_geo_ip($ip)
+
+    private function _referrer_domain_id($referrer_url = false)
+    {
+
+        if(!$referrer_url){
+            return;
+        }
+
+        $parse = parse_url($referrer_url);
+
+        if(isset($parse['host']) and $parse['host']){
+
+            $domain = $parse['host']; //referrer_domain
+            if ($domain) {
+                $data = new ReferrersDomains();
+                $data = $data->firstOrCreate([
+                    'referrer_domain' => $domain
+                ], array('referrer_domain' => $domain));
+
+                if ($data->id) {
+                    return $data->id;
+                }
+
+
+            }
+        }
+    }
+
+
+    private function _referrer_path_id($referrer_url = false)
+    {
+
+        if(!$referrer_url){
+            return;
+        }
+
+        $parse = parse_url($referrer_url);
+
+        if(isset($parse['host']) and $parse['host']){
+            if(isset($parse['path']) and $parse['path']) {
+
+                $domain = $parse['host'];
+                $path = $parse['path'];
+                $domain_id = $this->_referrer_domain_id($referrer_url);
+                if ($domain_id) {
+                    $data = new ReferrersPaths();
+                    $data = $data->firstOrCreate([
+                        'referrer_path' => $path,
+                        'referrer_domain_id' => $domain_id
+                    ], array('referrer_domain_id' => $domain_id,'referrer_path' => $path));
+
+                    if ($data->id) {
+                        return $data->id;
+                    }
+
+
+                }
+            }
+        }
+    }
+
+
+    private function __parse_geo_ip_country($ip)
     {
 
         $return = array();
+        $return['country_name'] = 'unknown';
+        $return['country_code'] = 'unknown';
 
         if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
             return $return;
@@ -337,7 +418,7 @@ class Tracker
                     $return['country_code'] = $record->country->isoCode;
                     $return['country_name'] = $record->country->name;
                 }
-
+                unset($reader);
             } catch (\Exception $e) {
 
             }
@@ -347,6 +428,8 @@ class Tracker
 
         return $return;
     }
+
+
 
 
 }

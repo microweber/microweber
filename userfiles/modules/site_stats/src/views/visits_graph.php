@@ -17,8 +17,13 @@ if($params['period']){
 
 <script>
     function mw_stats_period_switch($module_id,$period) {
-        $('#'+$module_id).attr('period',$period);
-        mw.reload_module('#'+$module_id);
+        if(typeof(mw_stats_period_switch_main)!= 'undefined'){
+
+            mw_stats_period_switch_main($period);
+        } else {
+            $('#'+$module_id).attr('period',$period);
+            mw.reload_module('#'+$module_id);
+        }
     }
 
     $( document ).ready(function() {
@@ -32,7 +37,6 @@ if($params['period']){
 
 
 
-
 <div id="stats">
 
     <div class="mw-ui-box">
@@ -40,11 +44,10 @@ if($params['period']){
             <span><?php _e("Statistics") ?></span>
 
             <div id="stats_nav">
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily'
-                   class="mw-ui-btn mw-ui-btn-outline"><?php _e("Daily"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily' class="mw-ui-btn mw-ui-btn-outline"><?php _e("Daily"); ?></a>
                 <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly'
-                   class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','yearly');" data-stat='yearly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Yearly"); ?></a>
             </div>
             <div class="stats-legend">
                 <span class="stats-legend-views"><?php _e("views") ?></span>
@@ -82,7 +85,7 @@ if($params['period']){
         </div>
     </div>
 </div>
-
+<?php return;  ?>
 <small><pre style="max-height: 100px; overflow: scroll; font-size: 7px;">
     <?php
 

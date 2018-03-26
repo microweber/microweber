@@ -39,7 +39,7 @@ function mw_print_stats_on_dashboard()
     if ($active == 'shop') {
         //   $cls = ' class="active" ';
     }
-    print '  <module type="site_stats/admin" />';
+    print '  <module type="site_stats/admin" id="site_stats_admin" />';
     //print '<microweber module="site_stats" view="admin" />';
 }
 
@@ -63,21 +63,20 @@ function mw_print_stats_on_dashboard()
 //        }
 //
 //});
+event_bind('mw.pageview', function ($params = false) {
+    template_foot(function () {
 
-template_foot(function ($page) {
-
-    if(get_option('stats_disabled', 'site_stats') == 1){
-        return;
-    }
+        if (get_option('stats_disabled', 'site_stats') == 1) {
+            return;
+        }
 
 
+        //$track_src = modules_url().'site_stats/track.js';
+        //$link = '<script type="text/javascript" src="'.$track_src.'"></script>';
 
-    //$track_src = modules_url().'site_stats/track.js';
-    //$link = '<script type="text/javascript" src="'.$track_src.'"></script>';
+        $track_url = api_url('pingstats');
 
-    $track_url = api_url('pingstats');
-
-    $link = '<script defer type="text/javascript">
+        $link = '<script defer type="text/javascript">
     $( document ).ready(function() {
            setTimeout(function(){
             var track = { _token :"' . csrf_token() . '", referrer : document.referrer }
@@ -90,13 +89,13 @@ template_foot(function ($page) {
             }, 1337);
      });
     </script>';
-    return $link;
+        return $link;
 
+    });
 });
-
 api_expose('pingstats', function ($params = false) {
 
-    if(get_option('stats_disabled', 'site_stats') == 1){
+    if (get_option('stats_disabled', 'site_stats') == 1) {
         return;
     }
 
@@ -114,17 +113,13 @@ api_expose('pingstats', function ($params = false) {
     }
 
 
-
     $tracker = new Microweber\SiteStats\Tracker();
 
-    if(get_option('stats_is_buffered', 'site_stats') == 1){
-         return $tracker->track_buffered();
+    if (get_option('stats_is_buffered', 'site_stats') == 1) {
+        return $tracker->track_buffered();
     } else {
         return $tracker->track();
     }
-
-
-
 
 
 });

@@ -1182,6 +1182,7 @@ class DefaultController extends Controller
         }
         $preview_module = false;
         $preview_module_template = false;
+        $is_preview_module_skin = false;
         $preview_module_id = false;
         $template_relative_layout_file_from_url = false;
         $is_preview_module = $this->app->url_manager->param('preview_module');
@@ -1749,6 +1750,18 @@ class DefaultController extends Controller
                 $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
+            if ($is_editmode == false
+                and !$is_preview_template
+                and !$is_preview_module
+                and $this->isolate_by_html_id == false
+                and !isset($_REQUEST['isolate_content_field'])
+                and !isset($_REQUEST['embed_id'])
+                and !is_cli()
+                and !defined('MW_API_CALL')
+            ) {
+                event_trigger('mw.pageview');
+            }
+
             $apijs_loaded = $this->app->template->get_apijs_url();
 
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
@@ -1975,9 +1988,7 @@ class DefaultController extends Controller
                 $response->setStatusCode(404);
                 return $response;
             }
-            if ($is_editmode == false and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field']) and !is_cli() and !defined('MW_API_CALL')) {
-               event_trigger('mw.pageview');
-            }
+
             $response = \Response::make($l);
             if ($is_editmode == true and $is_admin == true) {
                 $response->header('Pragma', 'no-cache');

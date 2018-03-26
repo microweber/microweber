@@ -9,10 +9,14 @@ class Sessions extends Base
     protected $fillable = [
         'session_id',
         'referrer_id',
+        'referrer_domain_id',
+        'referrer_path_id',
         'user_ip',
         'user_id',
+        'geoip_id',
         'browser_id',
         'language',
+        'session_hostname',
         'updated_at',
     ];
 
@@ -25,6 +29,16 @@ class Sessions extends Base
     public function browser()
     {
         return $this->belongsTo('Microweber\SiteStats\Models\Browsers');
+    }
+
+    public function geoip()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\Geoip');
+    }
+
+    public function referrer()
+    {
+        return $this->belongsTo('Microweber\SiteStats\Models\Referrers');
     }
 
 }

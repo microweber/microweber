@@ -6,36 +6,89 @@
             $(this).parent().toggleClass('active');
             $(this).find('id').toggleClass('active');
         });
+
+        $('.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors').slimScroll({});
     });
 </script>
 
 
 <div class="stats-view">
-    <div class="mw-ui-col">
-        <div class="sources mw-ui-box">
-            <ul class="">
-                <?php include('parts/sources.php'); ?>
-                <?php include('parts/sources.php'); ?>
-                <?php include('parts/sources.php'); ?>
-                <?php include('parts/sources.php'); ?>
-                <?php include('parts/sources.php'); ?>
-            </ul>
+    <div class="mw-ui-flex-item">
+        <script>
+            $(document).ready(function () {
+                mw.tabs({
+                    nav: '#demotabsnav .mw-ui-btn-nav-tabs a',
+                    tabs: '#demotabsnav .mw-ui-box-content'
+                });
+            });
+        </script>
+
+        <div class="demobox" id="demotabsnav">
+            <div class="heading  mw-ui-box">
+                <div>Referrers</div>
+                <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+                    <a href="javascript:;" class="mw-ui-btn"><span class="number">726</span>
+                        <small>Sites</small>
+                    </a>
+                    <a href="javascript:;" class="mw-ui-btn active"><span class="number">84</span>
+                        <small>Social</small>
+                    </a>
+                    <a href="javascript:;" class="mw-ui-btn"><span class="number">10.7k</span>
+                        <small>Search</small>
+                    </a>
+                </div>
+            </div>
+
+            <div class="sources mw-ui-box has-tabs">
+                <div class="mw-ui-box-content" style="">
+                    <module type="site_stats/admin" view="referrers_list" period="<?php print $period ; ?>"  />
+                </div>
+
+                <div class="mw-ui-box-content" style="display: none;">
+                    <module type="site_stats/admin" view="referrers_list"   period="<?php print $period ; ?>" />
+
+                </div>
+                <div class="mw-ui-box-content" style="display: none">
+                    <module type="site_stats/admin" view="referrers_list"  period="<?php print $period ; ?>"  />
+
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
+        <div class="heading  mw-ui-box">
+            <?php print _e('Content'); ?>
+        </div>
         <div class="contents mw-ui-box">
-            <?php include('parts/contents.php'); ?>
-            <?php include('parts/contents.php'); ?>
-            <?php include('parts/contents.php'); ?>
+            <module type="site_stats/admin" view="content_list"  period="<?php print $period ; ?>" />
         </div>
     </div>
 
-    <div class="mw-ui-col">
+    <div class="mw-ui-flex-item">
+        <div class="heading  mw-ui-box">
+            <?php print _e('Visitors'); ?>
+        </div>
         <div class="visitors mw-ui-box">
-            <?php include('parts/visitors.php'); ?>
-            <?php include('parts/visitors.php'); ?>
-            <?php include('parts/visitors.php'); ?>
+            <module type="site_stats/admin" view="visitors_list"  period="<?php print $period ; ?>" />
+        </div>
+    </div>
+
+    <div class="mw-ui-flex-item">
+        <div class="heading  mw-ui-box">
+            <?php print _e('Locations'); ?>
+        </div>
+        <div class="locations mw-ui-box">
+            <module type="site_stats/admin" view="locations_list"  period="<?php print $period ; ?>" />
+        </div>
+    </div>
+
+    <div class="mw-ui-flex-item">
+        <div class="heading  mw-ui-box">
+            <?php print _e('Browser language'); ?>
+        </div>
+        <div class="locations mw-ui-box">
+            <module type="site_stats/admin" view="languages_list"  period="<?php print $period ; ?>" />
         </div>
     </div>
 </div>
