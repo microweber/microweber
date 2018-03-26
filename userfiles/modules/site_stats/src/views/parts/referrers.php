@@ -9,7 +9,7 @@ if (!$data) {
         <?php
         if ($item['referrer_domain_id'] != null) {
             $referrer = $item['referrer_domain'];
-            $referrerIcon = '<img class="icon" src="https://fav.gs/' . $referrer . '" alt="">';
+            $referrerIcon = '<img class="icon" src="https://favicon.microweberapi.com/' . $referrer . '" alt="">';
         } else {
             $referrer = _e('Direct', true);
             $referrerIcon = '<i class="fa fa-globe"></i>';
@@ -30,7 +30,7 @@ if (!$data) {
 
                     <?php foreach ($item['referrer_paths'] as $path): ?>
                         <li>
-                            <span class="subsource-url"><?php print $path['referrer_path']; ?></span>
+                            <span class="subsource-url"><a href="<?php print $path['referrer_url']; ?>" target="_blank"><?php print $path['referrer_path']; ?></a></span>
                             <span class="subsource-cnt"><?php print $path['path_sessions_count']; ?></span>
                             <div class="clearfix"></div>
                         </li>
