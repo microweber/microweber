@@ -9,7 +9,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 <div id="settings-tabs" class="">
     <!-- TABS BUTTONS -->
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a href="javascript:;" class="mw-ui-btn active"><i class="mai-image"></i> <?php print _e('Add to categories'); ?></a>
+        <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Add to categories'); ?></a>
         <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> Add images</a>
 
         <?php if ($data['content_type'] == 'page'): ?>
@@ -64,9 +64,9 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                 <div class="mw-admin-edit-page-primary-settings content-category-selector">
                     <div class="mw-ui-field-holder" style="padding-top: 0">
-                        <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full"
-                             id="mw-post-added-<?php print $rand; ?>">
+                        <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
                             <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field"/>
+                            <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats"><i class="mai-plus"></i> Add to categories</button>
                         </div>
                         <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector"
                              id="mw-category-selector-<?php print $rand; ?>">
@@ -154,7 +154,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                 <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                 <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                <div class="mw-ui-box-content mw-settings-tabs-content advanced" style="display: none;"><?php print $html; ?></div>
+                <div class="mw-ui-box-content mw-settings-tabs-content custom-tabs" style="display: none;"><?php print $html; ?></div>
             <?php endforeach; ?>
         <?php endif; ?>
         <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
