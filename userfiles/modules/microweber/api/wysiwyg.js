@@ -104,7 +104,7 @@ mw.wysiwyg = {
       dropdown.append('<li value=".'+cls+'"><a href="#"><div class="'+cls+'">Custom '+i+'</div></a></li>')
     })
   },
-    editInsideModule: function (el) {
+  editInsideModule: function (el) {
         el = el.target ? el.target : el;
         var order = mw.tools.parentsOrder(el, ['edit', 'module']);
         if (order.edit < order.module) {
@@ -279,7 +279,7 @@ mw.wysiwyg = {
         });
     },
     prepareContentEditable: function () {
-        $(window).on("onEditMouseDown", function (e, el, target) {
+        mw.on("EditMouseDown", function (e, el, target, originalEvent) {
             mw.wysiwyg.removeEditable();
             mw.$(".edit").attr("contentEditable", "false");
             var _el = $(el);
@@ -287,17 +287,9 @@ mw.wysiwyg = {
               _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
                if (!mw.is.ie) { //Non IE browser
 
-                if (mw.tools.hasParentsWithClass(el, "module")) {
-                    el.contentEditable = true;
-                }
-                else {
-                    if (!mw.tools.hasParentsWithClass(target, "module")) {
-                        el.contentEditable = true;
-                    }
-                    else {
-                        el.contentEditable = false;
-                    }
-                }
+                var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
+
+                el.contentEditable = orderValid;
             }
             else {   // IE browser
                 mw.wysiwyg.removeEditable();
@@ -417,7 +409,7 @@ mw.wysiwyg = {
 
                 if (node !== null && mw.loaded) {
                     mw.wysiwyg.change(node);
-                    $(window).trigger('execCommand', [a, node, before, elementNode]);
+                    mw.trigger('execCommand', [a, node, before, elementNode]);
                 }
             }
         }
@@ -553,7 +545,6 @@ mw.wysiwyg = {
               }
           }
        }
-
     },
     hasContentFromWord: function (node) {
         if (node.getElementsByTagName("o:p").length > 0 ||
@@ -1139,18 +1130,18 @@ mw.wysiwyg = {
         if (mw.tools.hasClass(el, 'edit')) {
             mw.tools.addClass(el, 'changed');
             var target = el;
-            $(window).trigger('editChanged', target)
+            mw.trigger('editChanged', target)
         }
         else if (mw.tools.hasParentsWithClass(el, 'edit')) {
             var target = mw.tools.firstParentWithClass(el, 'edit');
             mw.tools.addClass(target, 'changed');
-            $(window).trigger('editChanged', target)
+            mw.trigger('editChanged', target)
         }
         if (target !== null) {
             mw.tools.foreachParents(target, function () {
                 if (mw.tools.hasClass(this, 'edit')) {
                     mw.tools.addClass(this, 'changed');
-                    $(window).trigger('editChanged', this)
+                    mw.trigger('editChanged', this)
                 }
             });
             mw.askusertostay = true;
@@ -2281,7 +2272,7 @@ mw.wysiwyg = {
                     callback.call(node);
                 }
                 mw.wysiwyg.change(node);
-                $(window).trigger('imageSrcChanged', [node, node.src])
+                mw.trigger('imageSrcChanged', [node, node.src])
             });
         }
     },
@@ -2330,16 +2321,16 @@ $(mwd).ready(function () {
     $(mwd.body).mousedown(function (event) {
         var target = event.target;
         if ($(target).hasClass("element")) {
-            $(window).trigger("onElementMouseDown", target);
+            mw.trigger("ElementMouseDown", target);
         }
         else if ($(target).parents(".element").length > 0) {
-            $(window).trigger("onElementMouseDown", $(target).parents(".element")[0]);
+            mw.trigger("ElementMouseDown", $(target).parents(".element")[0]);
         }
         if ($(target).hasClass("edit")) {
-            $(window).trigger("onEditMouseDown", [target, target]);
+            mw.trigger("EditMouseDown", [target, target, event]);
         }
         else if ($(target).parents(".edit").length > 0) {
-            $(window).trigger("onEditMouseDown", [$(target).parents(".edit")[0], target]);
+            mw.trigger("EditMouseDown", [$(target).parents(".edit")[0], target, event]);
         }
         var hp = mwd.getElementById('mw-history-panel');
         if (hp !== null && hp.style.display != 'none') {

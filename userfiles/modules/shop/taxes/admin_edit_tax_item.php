@@ -5,7 +5,7 @@
         var url = mw.settings.api_url + 'shop/save_tax_item';
         $.post(url, data)
             .done(function (data) {
-                $(window).trigger("mw.admin.shop.tax.edit.item.saved");
+                mw.trigger("mw.admin.shop.tax.edit.item.saved");
             });
 
         return false;

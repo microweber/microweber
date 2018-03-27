@@ -2,7 +2,15 @@ mw.require('url.js');
 
 mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; }
 
-mw.on = mw.on || {
+mw.on = function(eventName, callback){
+    return $(mw._on._eventsRegister).on(eventName, callback);
+}
+mw.trigger = function(eventName, paramsArray){
+    return $(mw._on._eventsRegister).trigger(eventName, paramsArray);
+}
+
+mw._on = {
+  _eventsRegister:{},
   mouseDownAndUp:function(el, callback){
     var $el = mw.$(el), el = $el[0];
     $el.on('mousedown touchstart', function(){
@@ -244,6 +252,8 @@ DOMChange:function(element, callback, attr, a){
     }
   }
 }
+
+for(var x in mw._on) mw.on[x] = mw._on[x];
 
 
 

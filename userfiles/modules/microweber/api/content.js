@@ -95,7 +95,7 @@
           master.title = data.title;
           master.content = data.content;
           $(mwd.body).addClass("loading");
-          $(window).trigger('adminSaveStart');
+          mw.trigger('adminSaveStart');
           $.ajax({
               type: 'POST',
 			  url: mw.settings.api_url + 'save_content_admin',

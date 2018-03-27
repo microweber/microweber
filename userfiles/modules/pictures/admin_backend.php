@@ -48,7 +48,6 @@ if (isset($params['for'])) {
 
 if (!isset($for)) {
     $for = 'content';
-
 }
 
 if (isset($params['content_id'])) {
@@ -61,9 +60,7 @@ if (isset($params['content_id'])) {
 
 $for = mw()->database_manager->assoc_table_name($for);
 
-if (!isset($params['for-id'])) {
-    $params['for-id'] = $params['id'];
-}
+
 
 if (isset($params['for-id'])) {
     $for_id = $params['for-id'];
@@ -82,9 +79,7 @@ if (intval($for_id) != 0) {
     $media = get_pictures("rel_id={$for_id}&rel_type={$for}");
 } else {
     $sid = mw()->user_manager->session_id();
-    if ($sid == '') {
-        $sid = mw()->user_manager->session_id();
-    }
+
     $media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 }
 
@@ -92,7 +87,7 @@ if (intval($for_id) != 0) {
 ?>
 
 <script type="text/javascript">
-    after_upld = window.after_upld || function (a, e, f, id, module_id) {
+    after_upld =   function (a, e, f, id, module_id) {
             if (e != 'done') {
                 var data = {};
                 data['for'] = f;
@@ -105,6 +100,8 @@ if (intval($for_id) != 0) {
                     data.for_id = (id);
 
                 }
+
+
                 mw.module_pictures.after_upload(data);
             }
             if (e == 'done') {

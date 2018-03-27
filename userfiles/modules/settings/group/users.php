@@ -104,7 +104,7 @@
 
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
-        <h2>
+        <h2><span class="mai-lock"></span>
             <?php _e("Login & Register"); ?>
         </h2>
     </div>

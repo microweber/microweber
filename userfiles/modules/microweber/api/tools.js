@@ -735,6 +735,7 @@ mw.tools = {
             }
             modalMain.style.top = mtop + 'px';
         },
+
         setDimmensions: function (modal, w, h, trigger) {
             if (typeof modal === 'string') {
                 var modal = mw.$(modal)[0];
@@ -752,12 +753,19 @@ mw.tools = {
                 root.style.width = mw.tools.cssNumber(w);
             }
             if (!!h) {
-                console.log(12, h)
-                h = h + $('.mw_modal_toolbar', modal).outerHeight();
+                var toolbar_height = $('.mw_modal_toolbar', modal).outerHeight();
+                if(typeof h == 'string'){
+                    if(h.indexOf('px') !== -1){
+                        h = parseInt(h, 10);
+                        h = h + toolbar_height
+                    }
+                }
+                else{
+                    h = h + toolbar_height
+                }
                 if (typeof h === 'number') {
                     var h = h < maxH ? h : maxH;
                 }
-                console.log(14, h, maxH)
                 root.style.height = mw.tools.cssNumber(h);
             }
             var toolbarHeight = mw.$('.mw_modal_toolbar', root).outerHeight();
@@ -4111,10 +4119,10 @@ $(document).ready(function () {
     _mwoldww = $(window).width();
     $(window).resize(function () {
         if ($(window).width() > _mwoldww) {
-            $(window).trigger("increaseWidth");
+            mw.trigger("increaseWidth");
         }
         else if ($(window).width() < _mwoldww) {
-            $(window).trigger("decreaseWidth");
+            mw.trigger("decreaseWidth");
         }
         $.noop();
         _mwoldww = $(window).width();
@@ -4501,7 +4509,7 @@ mw.image = {
              this.style.width = $(img).width()+'px';
              this.style.height = $(img).height()+'px';
              });     */
-            $(window).bind("onImageClick", function (e, el) {
+            mw.on("ImageClick", function (e, el) {
                 if (!mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName == 'IMG') {
                     mw.image.resize.resizerSet(el);
                 }

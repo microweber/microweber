@@ -36,6 +36,7 @@
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify.js"></script>
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-css.js"></script>
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-html.js"></script>
+<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 <!--<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/3024-day.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/3024-night.css">
@@ -81,10 +82,10 @@
 <link rel="stylesheet" href="https://codemirror.net/theme/twilight.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/vibrant-ink.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/xq-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/xq-light.css">-->
+<link rel="stylesheet" href="https://codemirror.net/theme/xq-light.css">
 <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 <link rel="stylesheet" href="https://codemirror.net/theme/material.css">
-<!--<link rel="stylesheet" href="https://codemirror.net/theme/zenburn.css">-->
+<link rel="stylesheet" href="https://codemirror.net/theme/zenburn.css">-->
 
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
@@ -97,6 +98,35 @@
 
     .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:last-child{
       padding-right: 0;
+    }
+
+    .liframe{
+        width:100%;
+        height: 120px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .liframe:after{
+        position: absolute;
+        content: '';
+        display: block;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        top:0;
+        left: 0;
+    }
+
+    .liframe iframe{
+        overflow: hidden;
+        width:300%;
+        height: 360px;
+        transform: scale(.33333);
+        transform-origin: 0 0;
+        pointer-events: none;
     }
 
 </style>

@@ -27,7 +27,7 @@ mw.email_send_test = function(){
 
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
-        <h2><?php _e("Email"); ?></h2>
+        <h2><span class="mai-mail"></span><?php _e("Email"); ?></h2>
     </div>
 </div>
 <div class="admin-side-content">
