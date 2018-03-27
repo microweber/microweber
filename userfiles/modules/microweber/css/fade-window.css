@@ -324,3 +324,100 @@
 .fade-window .window-holder .mw-ui-category-selector-abs {
     position: relative !important;
 }
+
+.fade-window .window-holder .mw-ui-category-selector {
+    border: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.fade-window .window-holder .mw-tag-selector .add-to-cats {
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid #0086db;
+    width: auto;
+    font-size: 12px;
+    padding: 5px 10px 5px 10px;
+    height: auto;
+    outline: none;
+}
+
+.fade-window .window-holder .mw-tag-selector .add-to-cats i {
+    color: #0086db;
+    font-size: 15px;
+    margin-right: 6px;
+    float: left;
+    line-height: 10px;
+}
+
+.fade-window .window-holder .mw-tag-selector .add-to-cats:hover i {
+    color: #fff;
+}
+
+.fade-window .window-holder .advanced-settins-tab input,
+.fade-window .window-holder .advanced-settins-tab textarea {
+    background: #f8f8f8;
+    width: 100%;
+    color: #999999;
+    border-color: #c2c2c2;
+}
+
+.fade-window .window-holder .advanced-settins-tab textarea {
+    min-height: 70px;
+}
+
+/*.fade-window .window-holder .advanced-settins-tab input:hover,*/
+/*.fade-window .window-holder .advanced-settins-tab textarea:hover,*/
+.fade-window .window-holder .advanced-settins-tab input:focus,
+.fade-window .window-holder .advanced-settins-tab textarea:focus {
+    background: #fff;
+    border-color: #82c4ed;
+    -webkit-box-shadow: 0 0 10px #82c4ed;
+    box-shadow: 0 0 10px #82c4ed;
+}
+
+.fade-window .window-holder .advanced-settins-tab .bootstrap-tagsinput input,
+.fade-window .window-holder .advanced-settins-tab .bootstrap-tagsinput input:focus {
+    background-color: #fff;
+    border: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.fade-window .window-holder .advanced-settins-tab .mw-ui-label {
+    font-weight: bold;
+}
+
+.fade-window .window-holder #mw-edit-page-editor-holder {
+    border: 0;
+}
+
+.fade-window .window-holder .btn-small {
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid #0086db;
+    color: #0086db;
+    width: auto;
+    font-size: 12px;
+    padding: 3px 10px 4px 10px;
+    height: auto;
+    outline: none;
+    line-height: normal;
+}
+
+.fade-window .window-holder .mw-ui-box-content {
+    padding: 25px;
+}
+
+.fade-window .window-holder .admin-section-bar {
+    height: 38px;
+    padding: 0;
+}
+
+.fade-window .window-holder .preview_frame_wrapper {
+    margin-top:25px;
+}

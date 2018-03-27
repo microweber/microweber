@@ -443,7 +443,7 @@ if (!empty($recomended_layouts)) {
 
 <?php endif ?>
 
-<div class="layout_selector_wrap admin-side-content">
+<div class="layout_selector_wrap">
 
     <?php
     if (defined('ACTIVE_SITE_TEMPLATE')) {

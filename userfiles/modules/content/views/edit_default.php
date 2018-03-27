@@ -62,7 +62,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
     <div class="window-holder">
         <div class="top-bar">
             <div class="left-side">
-                <button class="btn-close"><i class="mw-icon-close"></i> Close</button>
+                <button class="btn-close" onclick="javascript: window.location = '<?php print admin_url('view:content'); ?>'"><i class="mw-icon-close"></i> Close</button>
             </div>
             <div class="center-side">
                 <div class="window-title"><i class="mai-<?php print $type; ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
@@ -203,7 +203,9 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                                     <input name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
                                            onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
                                 </div>
-                                <div class="mw-ui-col"><button type="button" class="btn-settings mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><span class="mai-setting2"></span> Settings</button></div>
+                                <div class="mw-ui-col">
+                                    <button type="button" class="btn-settings mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><span class="mai-setting2"></span> Settings</button>
+                                </div>
                             </div>
                         </div>
                         <script>
