@@ -272,25 +272,23 @@
     <div class="mw-ui-col main-content-column">
         <div class="mw-ui-col-modules-container">
             <div class="modules-index-bar">
-                <div class="mw-ui-row" id="modules-list-title-and-search">
-                    <div class="mw-ui-col">
-                        <h2 class="mw-side-main-title scroll-height-exception"> <span>
-                                <span class="mai-modules"></span>
-              <?php _e("My Modules"); ?>
-              </span></h2>
-                    </div>
-                    <div class="mw-ui-col">
-                        <input
-                                name="module_keyword"
-                                id="module_keyword"
-                                autocomplete="off"
-                                class="mw-ui-searchfield"
-                                type="text"
-                                placeholder='<?php _e("Search for modules"); ?>'
-                                onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
-                        />
-                    </div>
-                </div>
+                <input
+                        name="module_keyword"
+                        id="module_keyword"
+                        autocomplete="off"
+                        class="mw-ui-searchfield pull-right"
+                        type="text"
+                        placeholder='<?php _e("Search for modules"); ?>'
+                        onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+                />
+                <h2 class="mw-side-main-title scroll-height-exception"> <span>
+                    <span class="mai-modules"></span>
+                        <?php _e("My Modules"); ?>
+                    </span>
+                </h2>
+
+
+
                 <ul class="mw-ui-inline-list">
                     <li>
                         <label class="mw-ui-check">

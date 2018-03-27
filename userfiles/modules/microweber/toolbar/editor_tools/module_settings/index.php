@@ -363,11 +363,10 @@ function mw_option_save_rebind_form_fields(){
 
 
 
-
       mw.$(".mw_option_field").not('.mw-options-form-binded-custom').not('.mw-options-form-binded').bind("change", function (e) {
 
 			if($(this).hasClass('mw-options-form-binded-custom')){
-			return;
+			    return;
 			}
 
      	$(this).addClass('mw-options-form-binded');

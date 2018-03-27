@@ -3019,35 +3019,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     top: 0;
 }
 
-.toolbar-search:after {
-    position: absolute;
-    font-family: 'Microweber';
-    color: #989898;
-    content: "\f1d9";
-    top: 6px;
-    right: 15px;
-    font-size: 20px;
-    pointer-events: none;
-}
 
-.toolbar-search .mw-dropdown .mw-ui-btn {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    background: #525252;
-    border-color: #525252;
-    color: rgba(255, 255, 255, .66);
-    border-right: 1px solid rgba(255, 255, 255, .14);
-}
-
-.toolbar-search .mw-dropdown-content {
-    background: #525252;
-    border: transparent;
-    width: 185px;
-}
-
-.toolbar-search .mw-dropdown {
-    float: left;
-}
 
 .toolbar-live-edit {
     float: right;
@@ -3068,27 +3040,6 @@ input#edit-content-url:focus, input#edit-content-url.active {
 
 }
 
-.toolbar-search {
-    float: right;
-    display: inline-block;
-    position: relative;
-}
-
-.toolbar-search input {
-    width: 45px;
-    height: 36px;
-    background: #525252;
-    border: none;
-    outline: none;
-    transition: width .3s;
-    border-radius: 0 3px 3px 0;
-    padding: 10px;
-    color: white;
-}
-
-.toolbar-search input:focus {
-    width: 140px;
-}
 
 .admin-manage-toolbar-content {
     position: relative;

@@ -245,14 +245,6 @@ a.depth-1 .mw_toggle_tree{
     margin-left: 0;
 }
 
-.toolbar-search{
-    float: left;
-}
-
-.toolbar-search:after {
-    left: 15px;
-    right: auto;
-}
 
 #mw-admin-main-menu a strong, #main-bar-mw-icon strong {
 

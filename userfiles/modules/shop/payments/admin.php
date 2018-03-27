@@ -31,11 +31,19 @@ if (!is_admin()){
                 $(mwd.body).removeClass('paymentSettingsModal')
             },
             onopen:function () {
-                $(mwd.body).addClass('paymentSettingsModal')
+                $(mwd.body).addClass('paymentSettingsModal');
+
             },
             overlay:true,
-            id:'paymentSettingsModal'
-        })
+            id:'paymentSettingsModal',
+            title:$('.gateway-title', el).html()
+        });
+
+        $(modal.container).find('.mw-small').remove()
+        mw.options.form($(modal.container), function () {
+            mw.notification.success("<?php _e("Shop settings are saved"); ?>.");
+            mw.reload_module_everywhere("shop/settings");
+        });
     }
 
 
@@ -61,13 +69,7 @@ if (!is_admin()){
         }
 
 
-        mw.options.form('.mw-set-payment-options', function () {
-            mw.notification.success("<?php _e("Shop settings are saved"); ?>.");
 
-            mw.reload_module_parent("shop/payments");
-
-
-        });
 
 
         $('.mw-admin-wrap').click(function () {
@@ -322,7 +324,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                     class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
                                     id="module-db-id-<?php print $module_info['id'] ?>">
                                     <div class="mw-ui-box-header"
-                                         onmousedown="paymentModal(this.parentNode);">
+                                         onclick="paymentModal(this.parentNode);">
                                         <div class="gateway-icon-title">
                                             <div class="mw-ui-row">
                                                 <div class="mw-ui-col">
