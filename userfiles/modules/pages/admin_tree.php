@@ -13,9 +13,16 @@ only_admin_access();
  */
 $append_to_link = '';
 
-  $params['content_link_class'] = "mw-tree-renderer-admin-content-link-item";
-  $params['link'] = '<a data-page-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
- 
+//$params['content_link_class'] = "mw-tree-renderer-admin-content-link-item";
+$params['link_class'] = "mw-tree-renderer-admin-link-item pages_tree_link ";
+$params['categories_extra_attributes'] = array(
+    'data-page-id' => '{category_page}',
+    'data-count' => '{count}',
+    'data-categories-type' => '{category_type}',
+    'value' => '{id}'
+);
+$params['link'] = '<a data-page-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
+
 if (isset($params['data-parent'])) {
     $params['parent'] = intval($params['data-parent']);
 } else {
@@ -51,12 +58,18 @@ if ($o != false and intval($o) > 0) {
 }
 
 
-
 if (is_admin() == false) {
     $params['is_active'] = 1;
 }
 
- 
+$params['categories_link_class'] = 'mw-tree-renderer-admin-link-item     pages_tree_link';
+$params['categories_ul_class'] = 'category_tree';
+$params['categories_li_class'] = 'category_element';
+
+
+$params['categories_ul_class_deep'] = 'category_tree';
+$params['categories_li_class_deep'] = 'category_element';
+//categories_li_class  categories_ul_class_deep    categories_li_class_deep     categories_ul_class_deep
 
 $params['return_data'] = true;
 //$params['no_cache'] = true;
@@ -79,5 +92,5 @@ $params['return_data'] = true;
                                                                                       class="pages_trash_link pages_tree_link depth-1"
                                                                                       onclick="mw.url.windowHashParam('action', 'trash');"
                                                                                       href="javascript: return false;"><span
-                class="pages_tree_link_text pages_trash_text"><?php _e("Trash"); ?></span></a></li>
+                    class="pages_tree_link_text pages_trash_text"><?php _e("Trash"); ?></span></a></li>
 </ul>

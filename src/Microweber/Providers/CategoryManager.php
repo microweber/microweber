@@ -3,6 +3,7 @@
 namespace Microweber\Providers;
 
 use DB;
+use Microweber\Providers\Categories\Helpers\KnpCategoryTreeRenderer;
 use Microweber\Providers\Categories\Helpers\LegacyCategoryTreeRenderer;
 
 /**
@@ -81,7 +82,10 @@ class CategoryManager
      */
     public function tree($params = false)
     {
-        $renderer = new LegacyCategoryTreeRenderer($this->app);
+
+      $renderer = new KnpCategoryTreeRenderer($this->app);
+
+     $renderer = new LegacyCategoryTreeRenderer($this->app);
         return $renderer->render($params);
     }
 
@@ -392,6 +396,7 @@ class CategoryManager
         }
 
         $params['count'] = true;
+
         $data = $this->app->database_manager->get($params);
 
         return $data;

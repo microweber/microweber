@@ -1203,6 +1203,13 @@ class ContentManager
                                 $cat_params['active_code'] = $active_code;
                             }
 
+                            if (isset($params['categories_extra_attributes'])) {
+                                $cat_params['extra_attributes'] = $params['categories_extra_attributes'];
+                            }
+
+
+
+
                             //$cat_params['for'] = 'content';
                             $cat_params['list_tag'] = $list_tag;
                             $cat_params['list_item_tag'] = $list_item_tag;
@@ -1210,7 +1217,7 @@ class ContentManager
                             $cat_params['rel_id'] = $item['id'];
 
                             $cat_params['include_first'] = 1;
-                            $cat_params['nest_level'] = $nest_level;
+                            $cat_params['nest_level'] = $nest_level+1;
                             if ($max_level != false) {
                                 $cat_params['max_level'] = $max_level;
                             }
@@ -1229,6 +1236,28 @@ class ContentManager
                                 if (isset($params['li_class'])) {
                                     $cat_params['li_class'] = $params['li_class'];
                                 }
+                            }
+
+
+                            if (isset($params['categories_ul_class'])) {
+                                $cat_params['ul_class'] = $params['categories_ul_class'];
+                            }
+
+                            if (isset($params['categories_link_class'])) {
+                                $cat_params['link_class'] = $params['categories_link_class'];
+                            }
+
+
+                            if (isset($params['categories_li_class'])) {
+                                $cat_params['li_class'] = $params['categories_li_class'];
+                            }
+                            if (isset($params['categories_ul_class_deep'])) {
+                                $cat_params['ul_class_deep'] = $params['categories_ul_class_deep'];
+                            }
+
+
+                            if (isset($params['categories_li_class_deep'])) {
+                                $cat_params['li_class_deep'] = $params['categories_li_class_deep'];
                             }
 
                             $this->app->category_manager->tree($cat_params);
