@@ -248,10 +248,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     edit_load = function (module) {
-
-
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
-
         if (n == 'true') {
             var slide = false;
             mw.url.windowDeleteHashParam('new_content');
@@ -259,7 +256,23 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         else {
             var slide = true;
         }
-        mw.load_module(module, '#pages_edit_container');
+        var action = mw.url.windowHashParam('action');
+        var holder = $('#pages_edit_container');
+
+        mw.tools.loading('.fade-window', !!action);
+        var time = !action ? 300 : 0;
+        if(!action){
+            mw.$('.fade-window').removeClass('active');
+        }
+            setTimeout(function () {
+                mw.load_module(module, holder, function(){
+                    mw.tools.loading('.fade-window', false);
+                    mw.$('.fade-window').addClass('active')
+                });
+            }, time)
+
+
+
     }
 
     function mw_select_category_for_editing($p_id) {
@@ -275,19 +288,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         active_item.addClass('active-bg');
 
 
-//        var active_cat = $('#pages_tree_container_<?php //print $my_tree_id; ?>// li.category_element.active-bg').first();
-//        if (active_cat != undefined) {
-//            var active_cat = active_cat.attr('data-category-id');
-//            mw.$('#pages_edit_container').attr('data-selected-category-id', active_cat);
-//        }
-//        else {
-//            mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-//        }
-
         mw.$('#pages_edit_container').removeAttr('parent_id');
         mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         mw.$('#pages_edit_container').attr('data-category-id', $p_id);
-       // mw.$('#pages_edit_container').attr('data-parent-category-id', 45);
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
         edit_load('categories/edit_category');
     }
@@ -296,14 +299,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw_clear_edit_module_attrs();
 
-//        var active_cat = $('#pages_tree_container_<?php //print $my_tree_id; ?>// li.category_element.active-bg').first();
-//        if (active_cat != undefined) {
-//            var active_cat = active_cat.attr('data-category-id');
-//            mw.$('#pages_edit_container').attr('data-selected-category-id', active_cat);
-//        }
-//        else {
-//            mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-//        }
 
         mw.$('#pages_edit_container').removeAttr('parent_id');
         mw.$('#pages_edit_container').attr('data-category-id', 0);
@@ -346,13 +341,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
-
-
-
-
-
-
-
 
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
@@ -693,7 +681,6 @@ if ($action == 'posts') {
             <script>
                 $(window).bind('load', function () {
                     if (!mw.url.windowHashParam("action")) {
-                        //var params = mw.url.mwParams();
                         edit_load('content/manager');
                     }
                     mw.on.hashParam('view', function () {

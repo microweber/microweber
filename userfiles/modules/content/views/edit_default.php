@@ -62,7 +62,11 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
     <div class="window-holder">
         <div class="top-bar">
             <div class="left-side">
-                <button class="btn-close" onclick="javascript: window.location = '<?php print admin_url('view:content'); ?>'"><i class="mw-icon-close"></i> Close</button>
+                <button
+                        class="btn-close"
+                        onclick="mw.url.windowDeleteHashParam('action')">
+                    <i class="mw-icon-close"></i> <?php _e('Close'); ?>
+                </button>
             </div>
             <div class="center-side">
                 <div class="window-title"><i class="mai-<?php print $type; ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
