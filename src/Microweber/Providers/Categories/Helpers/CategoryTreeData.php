@@ -327,7 +327,7 @@ class CategoryTreeData
             $ids_remove_q[] = $temp;
         } elseif (is_array($remove_ids) and !empty($remove_ids)) {
             $ids_remove_q = array_merge($ids_remove_q, $remove_ids);
-        }
+         }
 
         if (is_array($add_ids) and !empty($add_ids)) {
             $ids_add_q = array_merge($ids_add_q, $add_ids);
@@ -339,20 +339,23 @@ class CategoryTreeData
         $cat_get_params['order_by'] = "{$orderby [0]}  {$orderby [1]}";
         $cat_get_params['limit'] = '1000';
         $cat_get_params['table'] = $table;
-        $cat_get_params['no_cache'] = $table;
+
         $cat_get_params['parent_id'] = $parent;
         $cat_get_params['loop_fix_q'] = function ($query) use ($table) {
-            $query->where($table . 'id', '!=', $table . 'parent_id');
+            $query = $query->where($table . '.id', '!=', $table . '.parent_id');
+            return $query;
         };
 
         if ($ids_add_q) {
             $cat_get_params['add_ids_q'] = function ($query) use ($ids_add_q) {
+
                 $query = $query->whereIn('id', $ids_add_q);
+
                 return $query;
             };
 
         }
-
+ 
         if ($ids_remove_q) {
             $cat_get_params['remove_ids_q'] = function ($query) use ($ids_remove_q) {
                 $query = $query->whereNotIn('id', $ids_remove_q);
