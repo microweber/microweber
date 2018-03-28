@@ -132,7 +132,9 @@
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
                             <h2>
-                                <a href="#orderstype=completed">
+                                <span class="mai-shop"></span>
+
+
                                     <?php if ($latest_orders > 1) { ?>
                                         <?php _e("New orders"); ?>
                                     <?php }
@@ -142,7 +144,7 @@
                                     if ($latest_orders == 0) { ?>
                                         <?php _e("No new orders"); ?>
                                     <?php } ?>
-                                </a>
+
                             </h2>
                         </div>
                     </div>

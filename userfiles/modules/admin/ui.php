@@ -99,14 +99,26 @@
 
     $(window).load(function () {
         var uicss = mwd.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html = '';
+        var admincss = mwd.querySelector('link[href*="/admin.css"]').sheet.cssRules, al = admincss.length, ai = 0;
+        html += '<hr><h3>Admin Icons</h3>'
+        for (; ai < al; ai++) {
+            var sel = admincss[ai].selectorText;
+            if (!!sel && sel.indexOf('.mai-') === 0) {
+                var cls = sel.replace(".", '').split(':')[0];
+                html += '<li><span class="' + cls + '"></span><em>.' + cls + '</em></li>';
+            }
+        }
+
+        html += '<hr><h3>UI Icons</h3>'
+
         for (; i < l; i++) {
             var sel = uicss[i].selectorText;
-
             if (!!sel && sel.indexOf('.mw-icon-') === 0) {
                 var cls = sel.replace(".", '').split(':')[0];
                 html += '<li><span class="' + cls + '"></span><em>.' + cls + '</em></li>';
             }
         }
+
         mw.$('#info-icon-list').html('<ul>' + html + '</ul>');
 
         mw.$("#ui-info-table h2").each(function () {
