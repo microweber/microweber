@@ -126,6 +126,41 @@ mw.tools = {
             }
         }
     },
+    foreachAllWindows:function (callback, iframes) {
+        var curr = window, iframes = iframes || true;
+        callback.call(curr, curr)
+        while( curr !== top ){
+            curr = curr.parent;
+            callback.call(curr, curr);
+        }
+        var all = document.querySelectorAll('iframe'), i = 0;
+        for( ; i < all.length ; i++){
+            if(mw.tools.canAccessIFrame(all[i])){
+                callback.call(all[i].contentWindow, all[i].contentWindow);
+            }
+        }
+        if(window.opener !== null && mw.tools.canAccessWindow(opener)){
+            callback.call(window.opener, window.opener);
+        }
+    },
+    canAccessWindow:function(winObject) {
+        var can = false;
+        try {
+            var doc = winObject.document;
+            can = !!doc.body;
+        } catch(err){
+        }
+        return can;
+    },
+    canAccessIFrame:function(iframe) {
+        var can = false;
+        try {
+            var doc = iframe.contentDocument || iframe.contentWindow.document;
+            can = !!doc.body;
+        } catch(err){
+        }
+        return can;
+    },
     createStyle: function (c, css, ins) {
         var ins = ins || mwd.getElementsByTagName('head')[0];
         var style = mw.$(c)[0];
@@ -494,7 +529,18 @@ mw.tools = {
                 + '</div>';
             return {html: html, id: id}
         },
-        _init: function (html, width, height, callback, title, name, template, overlay, draggable, onremove, onopen) {
+        _init: function (o) {
+            var html = o.html,
+                width = o.width,
+                height = o.height,
+                callback = o.callback,
+                title = o.title,
+                name = o.name,
+                template = o.template,
+                overlay = o.overlay,
+                draggable = o.draggable,
+                onremove = o.onremove,
+                onopen = o.onopen;
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
             }
@@ -555,6 +601,11 @@ mw.tools = {
             modal_return.onremove = typeof onremove === 'function' ? onremove : false;
             if (overlay == true) {
                 var ol = mw.tools.modal.overlay(modal_object);
+                if(o.overlayRemovesModal){
+                    ol.onclick = function () {
+                        modal_return.remove();
+                    }
+                }
                 modal_object[0].overlay = ol;
                 modal_return.overlay = ol;
             }
@@ -596,18 +647,7 @@ mw.tools = {
             }
             return modal_return;
         },
-        get: function (selector) {
-            if (mw.$(selector).find(".mw_modal_container").length > 0) {
-                return {
-                    main: mw.$(selector),
-                    container: mw.$(selector).find(".mw_modal_container")[0],
-                    overlay: mw.$(selector)[0].overlay
-                }
-            }
-            else {
-                return false;
-            }
-        },
+
         init: function (o) {
             var o = $.extend({}, mw.tools.modal.settings, o);
             if (typeof o.content !== 'undefined' && typeof o.html === 'undefined') {
@@ -616,7 +656,21 @@ mw.tools = {
             if (typeof o.id !== 'undefined' && typeof o.name === 'undefined') {
                 o.name = o.id;
             }
-            return new mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable, o.onremove, o.onopen);
+            return new mw.tools.modal._init(o);
+        },
+        get: function (selector) {
+            var el = mw.$(selector),
+                child_cont = el.find(".mw_modal_container:first"),
+                parent_cont = el.parents(".mw_modal_container:first");
+            if (child_cont.length !== 0) {
+                return child_cont.parent()[0].modal;
+            }
+            else if(parent_cont.length !== 0){
+                return parent_cont.parent()[0].modal;
+            }
+            else {
+                return false;
+            }
         },
         minimize: function (id) {
             var doc = mwd;
@@ -3756,43 +3810,7 @@ Array.prototype.min = function () {
 Array.prototype.max = function () {
     return Math.max.apply(Math, this);
 };
-__mwextend = function (el) {
-    if (el.attributes['data-extended'] === undefined) {
-        el.setAttribute('data-extended', true);
-        el.getModal = function () {
-            var modal = mw.tools.firstParentWithClass(el, 'mw_modal');
-            if (!!modal) {
-                return {
-                    main: modal,
-                    container: modal.querySelector(".mw_modal_container")
-                }
-            }
-            else {
-                return false
-            }
-            ;
-        }
-        el.attr = el.attr || function (name, value) {
-                if (value === undefined) {
-                    return el.attributes[name] !== undefined ? el.attributes[name].nodeValue : undefined;
-                }
-                else {
-                    el.setAttribute(name, value);
-                    return el;
-                }
-            }
-        el.addClass = el.addClass || function (cls) {
-                return mw.tools.addClass(el, cls);
-            }
-        el.removeClass = el.removeClass || function (cls) {
-                return mw.tools.removeClass(el, cls);
-            }
-    }
-    return el;
-}
-mw.extend = function (el) {
-    return __mwextend(el);
-}
+
 $(window).load(function () {
     mw.loaded = true;
     mw.tools.addClass(mwd.body, 'loaded');

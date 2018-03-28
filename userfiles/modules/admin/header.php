@@ -335,20 +335,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 &nbsp;
                 <?php _e("Live Edit"); ?>
             </a>
-            <form action="" method="post" class="toolbar-search">
-                <div class="mw-dropdown mw-dropdown-default">
-                    <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val"></span>
-                    <div class="mw-dropdown-content" style="display: none;">
-                        <ul>
-                            <li value="posts"><?php print _e("Posts"); ?></li>
-                            <li value="pages"><?php print _e("Pages"); ?></li>
-                            <li value="products"><?php print _e("Products"); ?></li>
-                            <li value="modules"><?php print _e("Modules"); ?></li>
-                        </ul>
-                    </div>
-                </div>
-                <input type="text">
-            </form>
+
         </div>
     </div>
     <div class="mw-ui-row main-admin-row">

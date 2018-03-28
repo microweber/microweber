@@ -48,9 +48,9 @@ mw.options = {
     },
     save:function(el, callback){
 
-            	var el = el;
+            	var el = $(el);
 
-        		mw.extend(el);
+
 
 
 			  	var also_reload = el.attr('data-also-reload');
@@ -86,12 +86,10 @@ mw.options = {
 				}
 
 
-                var modal = el.getModal().container;
-
-
+                var modal = $(mw.tools.modal.get(el).container);
 
 				if(refresh_modules11 == undefined && modal!==undefined){
-					mw.extend(modal);
+
 				    var for_m_id = modal.attr('data-settings-for-module');
 
 				}
@@ -124,18 +122,17 @@ mw.options = {
 				 og = og_test.id;
 				 //alert(og);
 				}
-				
-                if(el.type==='checkbox'){
-                    var val = '',
-					    $el = $(el),
-						dvu = $el.attr('data-value-unchecked'),
-						dvc = $el.attr('data-value-checked');
+        		var val;
+                if(el[0].type==='checkbox'){
+                     val = '',
+						dvu = el.attr('data-value-unchecked'),
+						dvc = el.attr('data-value-checked');
 					if(!!dvu && !!dvc){
-                        val = el.checked ? dvc : dvu;
+                        val = el[0].checked ? dvc : dvu;
 					}
 					else{
 
-                        var items = mwd.getElementsByName(el.name), i=0, len = items.length;
+                        var items = mwd.getElementsByName(el[0].name), i=0, len = items.length;
                         for( ; i<len; i++){
                             var _val = items[i].value;
                             val = items[i].checked==true ? (val==='' ? _val: val+","+_val) : val;
@@ -143,7 +140,7 @@ mw.options = {
 					}
 
                 }
-                else{val = el.value }
+                else{val = el.val() }
 				var o_data = {
                     option_key: el.attr('name'),
                     option_group: og,
