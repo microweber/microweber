@@ -437,3 +437,10 @@
 .fade-window .window-holder .preview_frame_wrapper {
     margin-top:25px;
 }
+
+.fade-window .window-holder .admin-side-content{
+    width: 100%;
+    max-width:100%;
+    margin: 0;
+    padding: 0;
+}
