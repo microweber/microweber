@@ -252,9 +252,7 @@ class Tracker
         if(strstr($ref, admin_url())){
             return;
         }
-        $ref = 'http://dir.bg/';
-        $ref = 'http://php.net/manual/en/function.gethostbyaddr.php';
-        $ref = 'https://laracasts.com/discuss/channels/laravel/basics-of-modelfind';
+       
          $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();

@@ -20,8 +20,6 @@ class CategoryTreeData
     }
 
 
-
-
     public function get($params)
     {
         $p2 = array();
@@ -387,9 +385,10 @@ class CategoryTreeData
         $q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
 
         $result = $q;
-
         $only_with_content2 = $only_with_content;
-
+        if (isset($remove_ids) and !is_array($remove_ids)) {
+            $remove_ids = array(intval($remove_ids));
+        }
 
         if (isset($result) and is_array($result) and !empty($result)) {
             $return = array();
@@ -398,7 +397,7 @@ class CategoryTreeData
             foreach ($result as $item) {
                 $remove_ids[] = $item['id'];
 
-                $item['children'] = $this->_build_children_array($item['id'], $remove_ids, $add_ids, $include_first, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
+                $item['children'] = $this->_build_children_array($item['id'], $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
                 $return[] = $item;
             }
             return $return;

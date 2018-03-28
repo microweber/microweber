@@ -17,8 +17,8 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
 
     /**
      * @param MatcherInterface $matcher
-     * @param array            $defaultOptions
-     * @param string           $charset
+     * @param array $defaultOptions
+     * @param string $charset
      */
     public function __construct(MatcherInterface $matcher, array $defaultOptions = array(), $charset = null)
     {
@@ -34,10 +34,14 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             'compressed' => false,
             'allow_safe_labels' => false,
             'clear_matcher' => true,
+
             'leaf_class' => null,
             'branch_class' => null,
+            'leaf_class_deep' => null,
+            'branch_class_deep' => null,
+
             'leaf_tag' => 'li',
-            'branch_tag' => 'ul' ,
+            'branch_tag' => 'ul',
         ), $defaultOptions);
 
         parent::__construct($charset);
@@ -69,9 +73,9 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             return '';
         }
 
-        $html = $this->format('<'.$options['branch_tag'].$this->renderHtmlAttributes($attributes).'>', 'ul', $item->getLevel(), $options);
+        $html = $this->format('<' . $options['branch_tag'] . $this->renderHtmlAttributes($attributes) . '>', 'ul', $item->getLevel(), $options);
         $html .= $this->renderChildren($item, $options);
-        $html .= $this->format('</'.$options['branch_tag'].'>', 'ul', $item->getLevel(), $options);
+        $html .= $this->format('</' . $options['branch_tag'] . '>', 'ul', $item->getLevel(), $options);
 
         return $html;
     }
@@ -85,7 +89,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
      * This method updates the depth for the children.
      *
      * @param ItemInterface $item
-     * @param array         $options The options to render the item.
+     * @param array $options The options to render the item.
      *
      * @return string
      */
@@ -102,6 +106,8 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
 
         $html = '';
         foreach ($item->getChildren() as $child) {
+
+
             $html .= $this->renderItem($child, $options);
         }
 
@@ -115,7 +121,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
      * own nested ul tag if this menu item has children
      *
      * @param ItemInterface $item
-     * @param array         $options The options to render the item
+     * @param array $options The options to render the item
      *
      * @return string
      */
@@ -127,7 +133,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
         }
 
         // create an array than can be imploded as a class list
-        $class = (array) $item->getAttribute('class');
+        $class = (array)$item->getAttribute('class');
 
         if ($this->matcher->isCurrent($item)) {
             $class[] = $options['currentClass'];
@@ -142,13 +148,30 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             $class[] = $options['lastClass'];
         }
 
-        if ($item->hasChildren() && $options['depth'] !== 0) {
+        if ($item->hasChildren() && $options['depth'] > 0) {
             if (null !== $options['branch_class'] && $item->getDisplayChildren()) {
                 $class[] = $options['branch_class'];
             }
+
         } elseif (null !== $options['leaf_class']) {
             $class[] = $options['leaf_class'];
+
         }
+      //  $class[] = 'category_tree';
+
+
+        if ($item->hasChildren() && $options['depth'] > 0) {
+            if (null !== $options['leaf_class']) {
+                $class[] = $options['leaf_class'];
+            }
+        } elseif (!$item->hasChildren() && $options['depth'] > 0) {
+            if (null !== $options['branch_class_deep']) {
+                $class[] = $options['branch_class_deep'];
+            }
+
+
+        }
+
 
         // retrieve the attributes and put the final class string back on it
         $attributes = $item->getAttributes();
@@ -157,15 +180,15 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
         }
 
         // opening li tag
-        $html = $this->format('<'.$options['leaf_tag'].$this->renderHtmlAttributes($attributes).'>', 'li', $item->getLevel(), $options);
+        $html = $this->format('<' . $options['leaf_tag'] . $this->renderHtmlAttributes($attributes) . '>', 'li', $item->getLevel(), $options);
 
         // render the text/link inside the li tag
         //$html .= $this->format($item->getUri() ? $item->renderLink() : $item->renderLabel(), 'link', $item->getLevel());
         $html .= $this->renderLink($item, $options);
 
         // renders the embedded ul
-        $childrenClass = (array) $item->getChildrenAttribute('class');
-        $childrenClass[] = 'menu_level_'.$item->getLevel();
+        $childrenClass = (array)$item->getChildrenAttribute('class');
+     //   $childrenClass[] = 'menu_level_' . $item->getLevel();
 
         $childrenAttributes = $item->getChildrenAttributes();
         $childrenAttributes['class'] = implode(' ', $childrenClass);
@@ -173,7 +196,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
         $html .= $this->renderList($item, $childrenAttributes, $options);
 
         // closing li tag
-        $html .= $this->format('</'.$options['leaf_tag'].'>', 'li', $item->getLevel(), $options);
+        $html .= $this->format('</' . $options['leaf_tag'] . '>', 'li', $item->getLevel(), $options);
 
         return $html;
     }
@@ -186,8 +209,8 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
      * the current item and if the text has to be rendered
      * as a link or not.
      *
-     * @param ItemInterface $item    The item to render the link or label for
-     * @param array         $options The options to render the item
+     * @param ItemInterface $item The item to render the link or label for
+     * @param array $options The options to render the item
      *
      * @return string
      */
@@ -226,10 +249,10 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
      * spacing and line-breaking so that the particular thing being rendered
      * makes up its part in a fully-rendered and spaced menu.
      *
-     * @param string  $html    The html to render in an (un)formatted way
-     * @param string  $type    The type [ul,link,li] of thing being rendered
+     * @param string $html The html to render in an (un)formatted way
+     * @param string $type The type [ul,link,li] of thing being rendered
      * @param integer $level
-     * @param array   $options
+     * @param array $options
      *
      * @return string
      */
@@ -251,6 +274,6 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
                 break;
         }
 
-        return str_repeat(' ', $spacing).$html."\n";
+        return str_repeat(' ', $spacing) . $html . "\n";
     }
 }

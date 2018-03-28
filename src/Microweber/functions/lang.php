@@ -263,7 +263,7 @@ function _lang_is_rtl($lang = false)
     ur	Urdu	rtl	اردو
     yi	Yiddish	rtl	ייִדיש
     */
-    $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi	Yiddish');
+    $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
     if ($lang and in_array($lang, $rtl_langs)) {
         return true;
     }
