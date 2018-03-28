@@ -67,20 +67,9 @@ if (!is_admin()){
             thismodal.main.width(1000);
             $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
         }
-
-
-
-
-
         $('.mw-admin-wrap').click(function () {
             // mw.options.form('.mw-set-payment-options');
         });
-
-
-
-
-
-
 
         mw.$("#available_providers").sortable({
             items: ".mw-ui-box",

@@ -1661,6 +1661,7 @@ mw.wysiwyg = {
     media: function (hash) {
         if (mw.settings.liveEdit && typeof mw.target.item === 'undefined') return false;
         var hash = hash || '#insert_html';
+        console.log(hash, $("#mw_rte_image").length)
         if ($("#mw_rte_image").length > 0) {
             $("#mw_rte_image").remove();
         }

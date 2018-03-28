@@ -37,59 +37,13 @@
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-css.js"></script>
 <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-html.js"></script>
 <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
-<!--<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/3024-day.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/3024-night.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/abcdef.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/ambiance.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/base16-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/bespin.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/base16-light.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/blackboard.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/cobalt.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/colorforth.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/dracula.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/duotone-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/eclipse.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/elegant.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/erlang-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/icecoder.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/isotope.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/lesser-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/liquibyte.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/mbo.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/mdn-like.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/midnight.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/monokai.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/neat.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/neo.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/night.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/panda-syntax.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/paraiso-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/paraiso-light.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/pastel-on-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/railscasts.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/rubyblue.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/seti.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/solarized.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/the-matrix.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/tomorrow-night-bright.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/tomorrow-night-eighties.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/ttcn.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/twilight.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/vibrant-ink.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/xq-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/xq-light.css">
-<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/zenburn.css">-->
 
+<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
-
+    html,body{
+        direction: initial;
+    }
 
 
     #save{
@@ -142,7 +96,13 @@
             indentWithTabs: true,
             matchBrackets: true,
             extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-            mode: "htmlmixed",
+            mode: {
+                name: "htmlmixed",
+                scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+                    mode: null},
+                    {matches: /(text|application)\/(x-)?vb(a|script)/i,
+                        mode: "vbscript"}]
+            },
 
             foldGutter: true,
             gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]

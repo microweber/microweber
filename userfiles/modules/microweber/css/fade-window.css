@@ -3,11 +3,27 @@
     background: #fff;
     position: fixed;
     top: 0;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     left: 0;
     z-index: 111;
-    overflow-y: scroll;
+    overflow-y: auto;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    transition: all .5s;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.fade-window.active{
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    transform: scale(1);
+    visibility: visible;
 }
 
 .fade-window .window-holder {
@@ -94,8 +110,8 @@
     border-radius: 30px;
     width: 21px;
     height: 21px;
+    line-height: 20px;
     text-align: center;
-    padding-top: 5px;
     margin-right: 10px;
     font-size: 11px;
 }

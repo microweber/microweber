@@ -19,8 +19,8 @@
         mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
 </script>
 <style>
-.CodeMirror{
-        direction: ltr !important;
+html,body{
+    direction: initial;
 }
 
 </style>
@@ -122,7 +122,7 @@
                         }
                 });
 
-                css_code_area_editor.setSize("100%", "100%");
+                css_code_area_editor.setSize("100%", "auto");
 
                 css_code_area_editor.on("change", function (cm, change) {
 
@@ -147,8 +147,8 @@
         }
 
 </script>
-<textarea class="mw-ui-field w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
-                    option-group="template" placeholder="Type your CSS code here"><?php print $custom_css ?></textarea>
+<div class="holder"><textarea class="mw-ui-field w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
+                    option-group="template" placeholder="Type your CSS code here"><?php print $custom_css ?></textarea></div>
 <div class="mw-ui-btn-nav pull-right" id="csssave">
     <span onclick="savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
 </div>

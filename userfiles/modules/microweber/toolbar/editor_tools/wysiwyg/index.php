@@ -8,18 +8,20 @@
     mwAdmin = true; 
 
 </script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/tools.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/url.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/events.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/wysiwyg.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/external_callbacks.js"></script>
- 
 <script>
- 
+    mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/tools.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/url.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/events.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/wysiwyg.js")
+    mw.require("<?php print(mw_includes_url()); ?>api/external_callbacks.js")
+</script>
+
+<script>
+
 GalleriesRemote = function(){
         if(parent.document.querySelector('#manage-galleries-holder') !== null){
           parent.mw.$('#manage-galleries-holder').empty()
@@ -329,10 +331,15 @@ img{
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
 <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-<script src="<?php print mw_includes_url(); ?>api/liveedit.js"></script>
+<script src="<?php print mw_includes_url(); ?>api/"></script>
 <script src="<?php print mw_includes_url(); ?>api/columns.js"></script>
 <script src="<?php print mw_includes_url(); ?>api/plus.js"></script>
 
+    <script>
+        mw.require('liveedit.js')
+        mw.require('columns.js')
+        mw.require('plus.js')
+    </script>
 
 
 <script>
@@ -398,7 +405,7 @@ window.onfocus = function(){
  
 
 <div class="mw-admin-editor <?php print $mainclass; ?>" id="the_admin_editor">
- <?php //include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+ <?php include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
  <?php include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
   <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" >{content}</div>
 </div>

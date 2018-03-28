@@ -1,19 +1,20 @@
+
+<script>
+
+    window.orderToggle = window.orderToggle || function (item) {
+        var curr = $('.order-data-more', item);
+        $('.order-data-more').not(curr).stop().slideUp();
+        $('.order-holder').not(item).removeClass('active');
+        $(curr).stop().slideToggle();
+        $(item).toggleClass('active');
+        $('#mw-order-table-holder').toggleClass('has-active');
+    }
+</script>
 <?php if($orders): ?>
 <?php foreach ($orders as $item) : ?>
-    <script>
-        $(document).ready(function () {
-            $('#order-n-<?php print $item['id'] ?>').on('click', function () {
-                var curr = $('.order-data-more', this);
-                $('.order-data-more').not(curr).stop().slideUp();
-                $('.order-holder').not(this).removeClass('active');
-                $(curr).stop().slideToggle();
-                $(this).toggleClass('active');
-                $('#mw-order-table-holder').toggleClass('has-active');
-            });
-        });
-    </script>
 
-    <div class="order-holder" id="order-n-<?php print $item['id'] ?>">
+
+    <div class="order-holder" id="order-n-<?php print $item['id'] ?>" onclick="orderToggle(this);">
         <div class="order-data">
             <div class="product-image">
                 <?php $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . ''); ?>
