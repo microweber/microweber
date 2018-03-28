@@ -248,11 +248,11 @@ class Tracker
             $last_page = rtrim($last_page, '?');
             $last_page = rtrim($last_page, '#');
         }
-     
+
         if(strstr($ref, admin_url())){
             return;
         }
-       
+
          $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
