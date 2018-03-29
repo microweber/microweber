@@ -383,6 +383,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <a href="<?php print admin_url(); ?>view:content/action:pages">
                                     <span class="mai-page"></span>
                                     <strong><?php _e("Pages"); ?></strong>
+                                    <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new page") ?>" data-href="<?php print admin_url('view:content#action=new:page'); ?>"><?php _e("Add"); ?></span>
                                 </a></li>
                             <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>>
                                 <a href="<?php print admin_url(); ?>view:content/action:posts">
@@ -395,12 +396,14 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <a href="<?php print admin_url(); ?>view:content/action:products">
                                         <span class="mai-product"></span>
                                         <strong><?php _e("Products"); ?></strong>
+                                        <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new product") ?>" data-href="<?php print admin_url('view:content#action=new:product'); ?>"><?php _e("Add"); ?></span>
                                     </a></li>
                             <?php endif; ?>
                             <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>>
                                 <a href="<?php print admin_url(); ?>view:content/action:categories">
                                     <span class="mai-category"></span>
                                     <strong> <?php _e("Categories"); ?></strong>
+                                    <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new category") ?>" data-href="<?php print admin_url('view:content#action=new:category'); ?>"><?php _e("Add"); ?></span>
                                 </a></li>
                         </ul>
                     </li>

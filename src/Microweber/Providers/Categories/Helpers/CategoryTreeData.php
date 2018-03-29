@@ -20,8 +20,6 @@ class CategoryTreeData
     }
 
 
-
-
     public function get($params)
     {
         $p2 = array();
@@ -268,8 +266,12 @@ class CategoryTreeData
                         $max_level
                     );
 
-
-                    $cat['children'] = $tree;
+//                    if (isset($tree[0]) and $tree[0]['id'] == $cat['id']) {
+//                        unset($tree[0]);
+//                    }
+                    if ($tree) {
+                        $cat['children'] = $tree;
+                    }
                     $tree_data[] = $cat;
                 }
             }
@@ -290,10 +292,22 @@ class CategoryTreeData
                                            $max_level = false,
                                            $only_ids = false)
     {
+
+
+        if ($max_level != false and $depth_level_counter != false) {
+            if (intval($depth_level_counter) >= intval($max_level)) {
+                // return if max depth
+                return;
+            }
+        }
+
+
         $db_t_content = $this->app->category_manager->tables['content'];
 
         $table = $db_categories = $this->app->category_manager->tables['categories'];
 
+        $ids_add_q = array();
+        $ids_remove_q = array($parent);
         if ($parent == false) {
             $parent = (0);
 
@@ -310,86 +324,55 @@ class CategoryTreeData
 
         if (isset($remove_ids) and !is_array($remove_ids)) {
             $temp = intval($remove_ids);
-
-            $remove_ids_q = " and id not in ($temp) ";
+            $ids_remove_q[] = $temp;
         } elseif (is_array($remove_ids) and !empty($remove_ids)) {
-            $remove_ids_q = implode(',', $remove_ids);
-            if ($remove_ids_q != '') {
-                $remove_ids_q = " and id not in ($remove_ids_q) ";
-            }
-        } else {
-            $remove_ids_q = false;
-        }
+            $ids_remove_q = array_merge($ids_remove_q, $remove_ids);
+         }
 
-        if (!empty($add_ids)) {
-            $add_ids_q = implode(',', $add_ids);
-
-            $add_ids_q = " and id in ($add_ids_q) ";
-        } else {
-            $add_ids_q = false;
-        }
-
-        if ($max_level != false and $depth_level_counter != false) {
-            if (intval($depth_level_counter) >= intval($max_level)) {
-
-
-                return;
-            }
+        if (is_array($add_ids) and !empty($add_ids)) {
+            $ids_add_q = array_merge($ids_add_q, $add_ids);
         }
 
 
-        if (empty($limit)) {
-            $limit = array(0, 10);
+        $cat_get_params = array();
+        $cat_get_params['is_deleted'] = 0;
+        $cat_get_params['order_by'] = "{$orderby [0]}  {$orderby [1]}";
+        $cat_get_params['limit'] = '1000';
+        $cat_get_params['table'] = $table;
+
+        $cat_get_params['parent_id'] = $parent;
+        $cat_get_params['loop_fix_q'] = function ($query) use ($table) {
+            $query = $query->where($table . '.id', '!=', $table . '.parent_id');
+            return $query;
+        };
+
+        if ($ids_add_q) {
+            $cat_get_params['add_ids_q'] = function ($query) use ($ids_add_q) {
+
+                $query = $query->whereIn('id', $ids_add_q);
+
+                return $query;
+            };
+
         }
-        $table = $this->app->database_manager->real_table_name($table);
-        $content_type = addslashes($content_type);
-        $hard_limit = ' LIMIT 300 ';
-        $inf_loop_fix = "  and $table.id!=$table.parent_id  ";
-
-        if ($only_ids != false) {
-            if (is_string($only_ids)) {
-                $only_ids = explode(',', $only_ids);
-            }
-
-            $sql = "SELECT * FROM $table WHERE id IN (" . implode(',', $only_ids) . ') ';
-            $sql = $sql . " and data_type='category'   and is_deleted=0  ";
-            $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
-        } elseif ($content_type == false) {
-            if ($include_first == true) {
-                $sql = "SELECT * FROM $table WHERE id=$parent ";
-                $sql = $sql . " and data_type='category'   and is_deleted=0  ";
-                $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
-                $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
-            } else {
-                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND data_type='category' AND is_deleted=0 ";
-                $sql = $sql . "$remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
-            }
-        } else {
-            if ($include_first == true) {
-                $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted=0  ";
-                $sql = $sql . "$remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
-            } else {
-                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND is_deleted=0 AND data_type='category' AND (category_subtype='$content_type' OR category_subtype='inherit' ) ";
-                $sql = $sql . " $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
-
-            }
+ 
+        if ($ids_remove_q) {
+            $cat_get_params['remove_ids_q'] = function ($query) use ($ids_remove_q) {
+                $query = $query->whereNotIn('id', $ids_remove_q);
+                return $query;
+            };
         }
 
-        if (!empty($limit)) {
-            $my_offset = $limit[1] - $limit[0];
 
-            $my_limit_q = " limit  {$limit[0]} , $my_offset  ";
-        } else {
-            $my_limit_q = false;
-        }
+        $result = $this->app->database_manager->get($cat_get_params);
+
         $output = '';
 
-        $q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
-
-        $result = $q;
 
         $only_with_content2 = $only_with_content;
-
+        if (isset($remove_ids) and !is_array($remove_ids)) {
+            $remove_ids = array(intval($remove_ids));
+        }
 
         if (isset($result) and is_array($result) and !empty($result)) {
             $return = array();
@@ -398,7 +381,7 @@ class CategoryTreeData
             foreach ($result as $item) {
                 $remove_ids[] = $item['id'];
 
-                $item['children'] = $this->_build_children_array($item['id'], $remove_ids, $add_ids, $include_first, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
+                $item['children'] = $this->_build_children_array($item['id'], $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
                 $return[] = $item;
             }
             return $return;
