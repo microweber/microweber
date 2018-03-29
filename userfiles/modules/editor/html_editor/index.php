@@ -4,18 +4,12 @@
 
 <script type="text/javascript">
     mw.require('options.js');
-
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js');
+
+
+
+
+
 </script>
 
 
@@ -23,19 +17,12 @@
 
 
 
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.js"></script>
 
- -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js"></script>
+<script src=""></script>
+<script src=""></script>
+<script src=""></script>
 
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-css.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-html.js"></script>
+
 <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 
 <link rel="stylesheet" href="https://codemirror.net/theme/material.css">
@@ -89,39 +76,57 @@
     mw.require('<?php print modules_url()?>editor/selector.css');
     $time_out_handle = 0;
     $(document).ready(function () {
-        html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
-            lineNumbers: true,
-            lineWrapping: true,
+        mw.tools.loading(document.body, true);
+        mw.getScripts([
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js'
+            ], function(){
+                html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
+                    lineNumbers: true,
+                    lineWrapping: true,
 
-            indentWithTabs: true,
-            matchBrackets: true,
-            extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-            mode: {
-                name: "htmlmixed",
-                scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
-                    mode: null},
-                    {matches: /(text|application)\/(x-)?vb(a|script)/i,
-                        mode: "vbscript"}]
-            },
+                    indentWithTabs: true,
+                    matchBrackets: true,
+                    extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+                    mode: {
+                        name: "htmlmixed",
+                        scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+                            mode: null},
+                            {matches: /(text|application)\/(x-)?vb(a|script)/i,
+                                mode: "vbscript"}]
+                    },
 
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+                    foldGutter: true,
+                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
 
-        });
+                });
 
-        html_code_area_editor.setOption("theme", 'material');
-        html_code_area_editor.setSize("100%", "100%");
+                html_code_area_editor.setOption("theme", 'material');
+                html_code_area_editor.setSize("100%", "100%");
 
-        html_code_area_editor.on("change", function (cm, change) {
-            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
-            custom_html_code_mirror.value = cm.getValue();
+                html_code_area_editor.on("change", function (cm, change) {
+                    var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
+                    custom_html_code_mirror.value = cm.getValue();
 
-            window.clearTimeout($time_out_handle);
-            $time_out_handle = window.setTimeout(function () {
-                $(custom_html_code_mirror).change();
-            }, 2000);
+                    window.clearTimeout($time_out_handle);
+                    $time_out_handle = window.setTimeout(function () {
+                        $(custom_html_code_mirror).change();
+                    }, 2000);
 
-        });
+                });
+          });
+
 
 
     })

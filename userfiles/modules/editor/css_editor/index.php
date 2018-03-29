@@ -2,16 +2,47 @@
 ?>
 <?php only_admin_access(); ?>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 <script type="text/javascript">
         mw.require('options.js');
 
+        $(document).ready(function(){
 
-        mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js');
-        mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js');
-        mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js');
-        mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
+
+
+                mw.require('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
+
+                mw.getScripts([
+                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
+                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
+                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js',
+                    '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
+                ], function(){
+                    css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
+                            lineNumbers: true,
+                            indentWithTabs: true,
+                            matchBrackets: true,
+                            extraKeys: {"Ctrl-Space": "autocomplete"},
+                            mode: {
+                                    name: "css", globalVars: true
+
+                            }
+                    });
+
+                    css_code_area_editor.setSize("100%", "auto");
+
+                    css_code_area_editor.on("change", function (cm, change) {
+
+
+                    });
+                })
+
+
+        })
+
+
 </script>
 <style>
 html,body{
@@ -44,26 +75,7 @@ html,body{
 </script>
 <script type="text/javascript">
         $time_out_handle = 0;
-        $(window).on('load', function () {
-                css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
-                        lineNumbers: true,
-                        indentWithTabs: true,
-                        matchBrackets: true,
-                        extraKeys: {"Ctrl-Space": "autocomplete"},
-                        mode: {
-                                name: "css", globalVars: true
 
-                        }
-                });
-
-                css_code_area_editor.setSize("100%", "auto");
-
-                css_code_area_editor.on("change", function (cm, change) {
-
-
-                });
-
-        })
 
         savecss = function(){
 

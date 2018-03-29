@@ -164,6 +164,26 @@ mw.askusertostay = false;
       }
     }
   }
+
+  mw.getScripts = function (array, callback) {
+    if(array.length === 0){
+        callback.call();
+    }
+    else{
+        var curr = array.shift();
+        if (!~mw.required.indexOf(curr)) {
+            mw.required.push(curr);
+            $.getScript(curr, function () {
+                mw.getScripts(array, callback)
+            });
+        }
+        else{
+            mw.getScripts(array, callback)
+        }
+
+    }
+  }
+
   mw.moduleCSS = mw.module_css = function(url){
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
