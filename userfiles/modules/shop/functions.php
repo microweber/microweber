@@ -35,7 +35,7 @@ function mw_print_admin_dashboard_orders_btn()
     }
     $admin_dashboard_btn = array();
     $admin_dashboard_btn['view'] = 'shop/action:orders';
-    $admin_dashboard_btn['icon_class'] = 'mai-order';
+    $admin_dashboard_btn['icon_class'] = 'mai-shop';
     $notif_html = '';
     $notif_count = get_orders('count=1&order_status=[null]&is_completed=y');
     if ($notif_count > 0) {

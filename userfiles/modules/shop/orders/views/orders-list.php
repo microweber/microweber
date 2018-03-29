@@ -79,7 +79,7 @@
         </div>
 
         <div class="order-data-more mw-accordion-content">
-            <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $item['id']; ?>" href="#vieworder=<?php print ($item['id']) ?>">
+            <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $item['id']; ?>" href="<?php print admin_url('view:shop/action:orders#vieworder='.$item['id']); ?>">
                 <?php _e("View order"); ?>
             </a>
 

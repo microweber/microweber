@@ -18,7 +18,7 @@
     transform: scale(1.2);
 }
 
-.fade-window.active{
+.fade-window.active {
     opacity: 1;
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
@@ -140,9 +140,23 @@
 
 .fade-window .window-holder #content-title-field-row #content-title-field {
     padding: 0;
-    color: #999999;
+    color: #0086db;
     font-size: 28px;
     font-weight: bold;
+    font-weight: 500;
+}
+
+.fade-window .window-holder #content-title-field-row #content-title-field::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #999999;
+    opacity: 1; /* Firefox */
+}
+
+.fade-window .window-holder #content-title-field-row #content-title-field:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #999999;
+}
+
+.fade-window .window-holder #content-title-field-row #content-title-field::-ms-input-placeholder { /* Microsoft Edge */
+    color: #999999;
 }
 
 .fade-window .window-holder #slug-field-holder {
@@ -435,12 +449,12 @@
 }
 
 .fade-window .window-holder .preview_frame_wrapper {
-    margin-top:25px;
+    margin-top: 25px;
 }
 
-.fade-window .window-holder .admin-side-content{
+.fade-window .window-holder .admin-side-content {
     width: 100%;
-    max-width:100%;
+    max-width: 100%;
     margin: 0;
     padding: 0;
 }
