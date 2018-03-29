@@ -3,203 +3,194 @@ $paging_links = false;
 $pages_count = intval($pages);
 
 
-
-
 ?>
-<script  type="text/javascript">
-mw.require('forms.js', true);
-mw.require('content.js', true);
+<script type="text/javascript">
+    mw.require('forms.js', true);
+    mw.require('content.js', true);
 
 </script>
-<script  type="text/javascript">
-delete_selected_posts = function(){
-  mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function(){
-    var master = mwd.getElementById('<?php print $params['id']; ?>');
-    var arr = mw.check.collectChecked(master);
-    mw.post.del(arr, function(){
-     mw.reload_module('#<?php print $params['id']; ?>', function(){
-         $.each(arr,function( index ) {
-			var fade = this;
-			 mw.$(".manage-post-item-"+fade).fadeOut();
-			});
-     });
-   });
-  });
-}
-
-assign_selected_posts_to_category_exec = function(){
-mw.tools.confirm("Are you sure you want to move the selected posts?", function(){	
-	var selected_cats ;
-	
-	
-	 var master = mwd.getElementById('<?php print $params['id']; ?>');
-     var arr = mw.check.collectChecked(master);
-	
-	var data = {};
-	data.content_ids = arr;
-	
-	var page = mwd.querySelector('#posts_bulk_assing_category_tree_resp input[type="radio"]:checked');
-	
-	if(page !== null){
-		data.parent_id = page.value; 
-	} 
-	
-	var categories = mwd.querySelectorAll('#posts_bulk_assing_category_tree_resp input[type="checkbox"]:checked'), l = categories.length, i = 0, arr = [] ;
-	
-	if(l > 0){
-		
-		for( ; i<l; i++){
-			arr.push(categories[i].value);	
-		}
-		
-		data.categories = arr;
-		
-	}
-	
-	
-	 
-	
-	 $.post("<?php print api_link('content/bulk_assign'); ?>", data, function(msg){
-		 mw.notification.msg(msg);
-		  mw.reload_module('#<?php print $params['id']; ?>');
-        // close modal
-		
-		
-		CategoryAssignModal.remove();
-	 });
-			  
-			  
-			 });	  
-	
-	
-	
-}
-assign_selected_posts_to_category = function(){
-	
-	CategoryAssignModal = mw.modal({
-		content:'<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div><button onclick="assign_selected_posts_to_category_exec()">Move posts</button></div>'	
-	});
-	mw.load_module('categories/selector', "#posts_bulk_assing_category_tree_resp", function(){
-	mw.treeRenderer.appendUI('#posts_bulk_assing_category')
-	 	
-	});
-	$('#posts_bulk_assing_category').show();
- 
-
-}
-
-mw.delete_single_post = function(id){
-   mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function(){
-      var arr = id;
-       mw.post.del(arr, function(){
-        mw.$(".manage-post-item-"+id).fadeOut(function(){ $(this).remove() });
-      });
-   });
-}
-
-mw.manage_content_sort = function(){
-  if(!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")){
-        mw.$("#mw_admin_posts_sortable").sortable({
-             items: '.manage-post-item',
-             axis:1,
-             handle:'.mw_admin_posts_sortable_handle',
-             update:function(){
-               var obj = {ids:[]}
-               $(this).find('.select_posts_for_action').each(function(){
-                var id = this.attributes['value'].nodeValue;
-                obj.ids.push(id);
-              });
-              $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
-        		   mw.reload_module('#mw_page_layout_preview');
-				   mw.reload_module_parent('posts');
-				   mw.reload_module_parent('content');
-				   mw.reload_module_parent('shop/products');
-        	  });
-             },
-             start:function(a,ui){
-              $(this).height($(this).outerHeight());
-              $(ui.placeholder).height($(ui.item).outerHeight())
-              $(ui.placeholder).width($(ui.item).outerWidth())
-            },
-            scroll:false
+<script type="text/javascript">
+    delete_selected_posts = function () {
+        mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function () {
+            var master = mwd.getElementById('<?php print $params['id']; ?>');
+            var arr = mw.check.collectChecked(master);
+            mw.post.del(arr, function () {
+                mw.reload_module('#<?php print $params['id']; ?>', function () {
+                    $.each(arr, function (index) {
+                        var fade = this;
+                        mw.$(".manage-post-item-" + fade).fadeOut();
+                    });
+                });
+            });
         });
-   }
-}
-
-
-
-mw.on.hashParam("pg", function(){
- 
-      var dis = $p_id = this;
-      mw.$('#<?php print $params['id']; ?>').attr("paging_param", 'pg');
-      if(dis!==''){
-         mw.$('#<?php print $params['id']; ?>').attr("pg", dis);
-         mw.$('#<?php print $params['id']; ?>').attr("data-page-number", dis);
-      }
-      var $p_id = $(this).attr('data-page-number');
-      var $p_param = $(this).attr('data-paging-param');
-      mw.$('#<?php print $params['id']; ?>').attr('data-page-number',$p_id);
-      mw.$('#<?php print $params['id']; ?>').attr('data-page-param',$p_param);
-      mw.$('#<?php print $params['id']; ?>').removeAttr('data-content-id');
-	  
-	 
-      mw.reload_module('#<?php print $params['id']; ?>');
-	  
-	  
-});
-
-mw.admin.showLinkNav =  function () {
-    var all = mwd.querySelector('.select_posts_for_action:checked');
-    if (all === null) {
-        mw.$('.mw-ui-link-nav').hide();
     }
-    else {
-        mw.$('.mw-ui-link-nav').show();
+
+    assign_selected_posts_to_category_exec = function () {
+        mw.tools.confirm("Are you sure you want to move the selected posts?", function () {
+            var selected_cats;
+
+
+            var master = mwd.getElementById('<?php print $params['id']; ?>');
+            var arr = mw.check.collectChecked(master);
+
+            var data = {};
+            data.content_ids = arr;
+
+            var page = mwd.querySelector('#posts_bulk_assing_category_tree_resp input[type="radio"]:checked');
+
+            if (page !== null) {
+                data.parent_id = page.value;
+            }
+
+            var categories = mwd.querySelectorAll('#posts_bulk_assing_category_tree_resp input[type="checkbox"]:checked'), l = categories.length, i = 0, arr = [];
+
+            if (l > 0) {
+
+                for (; i < l; i++) {
+                    arr.push(categories[i].value);
+                }
+
+                data.categories = arr;
+
+            }
+
+
+            $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
+                mw.notification.msg(msg);
+                mw.reload_module('#<?php print $params['id']; ?>');
+                // close modal
+
+
+                CategoryAssignModal.remove();
+            });
+
+
+        });
+
+
     }
-}
+    assign_selected_posts_to_category = function () {
+
+        CategoryAssignModal = mw.modal({
+            content: '<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div><button onclick="assign_selected_posts_to_category_exec()">Move posts</button></div>'
+        });
+        mw.load_module('categories/selector', "#posts_bulk_assing_category_tree_resp", function () {
+            mw.treeRenderer.appendUI('#posts_bulk_assing_category')
+
+        });
+        $('#posts_bulk_assing_category').show();
 
 
-</script>  
+    }
+
+    mw.delete_single_post = function (id) {
+        mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
+            var arr = id;
+            mw.post.del(arr, function () {
+                mw.$(".manage-post-item-" + id).fadeOut(function () {
+                    $(this).remove()
+                });
+            });
+        });
+    }
+
+    mw.manage_content_sort = function () {
+        if (!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")) {
+            mw.$("#mw_admin_posts_sortable").sortable({
+                items: '.manage-post-item',
+                axis: 1,
+                handle: '.mw_admin_posts_sortable_handle',
+                update: function () {
+                    var obj = {ids: []}
+                    $(this).find('.select_posts_for_action').each(function () {
+                        var id = this.attributes['value'].nodeValue;
+                        obj.ids.push(id);
+                    });
+                    $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
+                        mw.reload_module('#mw_page_layout_preview');
+                        mw.reload_module_parent('posts');
+                        mw.reload_module_parent('content');
+                        mw.reload_module_parent('shop/products');
+                    });
+                },
+                start: function (a, ui) {
+                    $(this).height($(this).outerHeight());
+                    $(ui.placeholder).height($(ui.item).outerHeight())
+                    $(ui.placeholder).width($(ui.item).outerWidth())
+                },
+                scroll: false
+            });
+        }
+    }
 
 
+    mw.on.hashParam("pg", function () {
 
+        var dis = $p_id = this;
+        mw.$('#<?php print $params['id']; ?>').attr("paging_param", 'pg');
+        if (dis !== '') {
+            mw.$('#<?php print $params['id']; ?>').attr("pg", dis);
+            mw.$('#<?php print $params['id']; ?>').attr("data-page-number", dis);
+        }
+        var $p_id = $(this).attr('data-page-number');
+        var $p_param = $(this).attr('data-paging-param');
+        mw.$('#<?php print $params['id']; ?>').attr('data-page-number', $p_id);
+        mw.$('#<?php print $params['id']; ?>').attr('data-page-param', $p_param);
+        mw.$('#<?php print $params['id']; ?>').removeAttr('data-content-id');
+
+
+        mw.reload_module('#<?php print $params['id']; ?>');
+
+
+    });
+
+    mw.admin.showLinkNav = function () {
+        var all = mwd.querySelector('.select_posts_for_action:checked');
+        if (all === null) {
+            mw.$('.mw-ui-link-nav').hide();
+        }
+        else {
+            mw.$('.mw-ui-link-nav').show();
+        }
+    }
+
+
+</script>
 
 
 <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
-   
-   
-	  <?php print $toolbar; ?>
-      
+
+
+    <?php print $toolbar; ?>
+
 <?php else: ?>
 
 
- 
-        <div class="manage-toobar-content">
-          <div class="mw-ui-link-nav"> <span class="mw-ui-link"
-                                                           onclick="mw.check.all('#<?php print $params['id']; ?>')">
+    <div class="manage-toobar-content">
+        <div class="mw-ui-link-nav"> <span class="mw-ui-link"
+                                           onclick="mw.check.all('#<?php print $params['id']; ?>')">
             <?php _e("Select All"); ?>
             </span> <span class="mw-ui-link" onclick="mw.check.none('#<?php print $params['id']; ?>')">
             <?php _e("Unselect All"); ?>
             </span> <span class="mw-ui-link" onclick="delete_selected_posts();">
             <?php _e("Delete"); ?>
             </span></div>
-        </div>
-       
+    </div>
+
 <?php endif; ?>
+
+
 
 <?php if (intval($pages_count) > 1): ?>
     <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
 
 
+<?php if (is_array($data) and !empty($data)): ?>
 
-
-
-<?php if(is_array($data) and !empty($data)): ?>
-
-<div class="manage-posts-holder" id="mw_admin_posts_sortable">
+    <div class="manage-posts-holder" id="mw_admin_posts_sortable">
     <div class="manage-posts-holder-inner">
-        <?php if(is_array($data)): ?>
+    <?php if (is_array($data)): ?>
         <?php foreach ($data as $item): ?>
             <?php if (isset($item['id'])): ?>
                 <?php
@@ -211,18 +202,16 @@ mw.admin.showLinkNav =  function () {
                 }
 
                 ?>
-                <?php  $pic = get_picture($item['id']); ?>
+                <?php $pic = get_picture($item['id']); ?>
                 <div class="mw-ui-row-nodrop post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                     <div class="mw-ui-col manage-post-item-col-1">
                         <label class="mw-ui-check">
                             <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox"
-                                   value="<?php print ($item['id']) ?>" >
+                                   value="<?php print ($item['id']) ?>">
                             <span></span> </label>
-        <span class="mw-icon-drag mw_admin_posts_sortable_handle"
-              onmousedown="mw.manage_content_sort()"></span></div>
+                        <span class="mw-icon-drag mw_admin_posts_sortable_handle"
+                              onmousedown="mw.manage_content_sort()"></span></div>
                     <div class="mw-ui-col manage-post-item-col-2">
-                    
-
 
 
                         <?php if ($pic == true): ?>
@@ -231,20 +220,17 @@ mw.admin.showLinkNav =  function () {
                                onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
                         <?php else : ?>
                             <a
-                                class="manage-post-image manage-post-image-no-image <?php if (isset($item['content_type'])) {
-                                    print ' manage-post-image-' . $item['content_type'];
-                                } ?><?php if (isset($item['is_shop']) and $item['is_shop'] == 1) {
-                                    print ' manage-post-image-shop';
-                                } ?><?php if (isset($item['subtype']) and $item['content_type'] == 'product') {
-                                    print ' manage-post-image-product';
-                                } ?>"
-                                onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
+                                    class="manage-post-image manage-post-image-no-image <?php if (isset($item['content_type'])) {
+                                        print ' manage-post-image-' . $item['content_type'];
+                                    } ?><?php if (isset($item['is_shop']) and $item['is_shop'] == 1) {
+                                        print ' manage-post-image-shop';
+                                    } ?><?php if (isset($item['subtype']) and $item['content_type'] == 'product') {
+                                        print ' manage-post-image-product';
+                                    } ?>"
+                                    onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
                         <?php endif; ?>
-                        <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']);  ?>
-                        <?php $edit_link_front = content_link($item['id']).'?editmode:y';  ?>
-
-
-
+                        <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']); ?>
+                        <?php $edit_link_front = content_link($item['id']) . '?editmode:y'; ?>
 
 
                     </div>
@@ -287,34 +273,33 @@ mw.admin.showLinkNav =  function () {
                                                                         title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                     </div>
                     <div class="mw-ui-col manage-post-item-col-5">
-                     
+
                         <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                         <?php print $append; ?> </div>
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>
-    </div>
-</div>
+        </div>
+        </div>
 
-<?php endif; ?>
-
-
+    <?php endif; ?>
 
 
-<?php
+    <?php
 
-$numactive = 1;
+    $numactive = 1;
 
-if (isset($params['data-page-number'])) {
-    $numactive = intval($params['data-page-number']);
-} else if (isset($params['current_page'])) {
-    $numactive = intval($params['current_page']);
-}
+    if (isset($params['data-page-number'])) {
+        $numactive = intval($params['data-page-number']);
+    } else if (isset($params['current_page'])) {
+        $numactive = intval($params['current_page']);
+    }
 
 
-    if (isset($paging_links) and is_array($paging_links)):  ?>
+    if (isset($paging_links) and is_array($paging_links)): ?>
         <div class="mw-paging" style="display: none">
-            <?php $i = 1; foreach ($paging_links as $item): ?>
+            <?php $i = 1;
+            foreach ($paging_links as $item): ?>
                 <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
                    href="#<?php print $paging_param ?>=<?php print $i ?>"
                    onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
@@ -323,44 +308,47 @@ if (isset($params['data-page-number'])) {
     <?php endif; ?>
 
 
-    <?php  if (isset($paging_links) and is_array($paging_links)):  ?>
+    <?php if (isset($paging_links) and is_array($paging_links)): ?>
         <div class="mw-paging pull-right">
-                <?php $count =  count($paging_links);  ?>
-                <?php if($count < 6){ ?>
-                  <?php $i = 1; foreach ($paging_links as $item): ?>
-                  <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
-                     href="#<?php print $paging_param ?>=<?php print $i ?>"
-                     onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
-                  <?php $i++; endforeach; ?>
-                <?php } else { ?>
-                    <?php if($numactive > 2){ ?>
+            <?php $count = count($paging_links); ?>
+            <?php if ($count < 6) { ?>
+                <?php $i = 1;
+                foreach ($paging_links as $item): ?>
+                    <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+                       href="#<?php print $paging_param ?>=<?php print $i ?>"
+                       onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                    <?php $i++; endforeach; ?>
+            <?php } else { ?>
+                <?php if ($numactive > 2) { ?>
 
-                         <a class="page-1"
-                            href="#<?php print $paging_param ?>=1"
-                            onclick="mw.url.windowHashParam('<?php print $paging_param ?>','1');return false;">First</a>
+                    <a class="page-1"
+                       href="#<?php print $paging_param ?>=1"
+                       onclick="mw.url.windowHashParam('<?php print $paging_param ?>','1');return false;">First</a>
 
 
-                        <?php for($i = $numactive-2;$i<=$numactive+2;$i++){ ?>
-                         <?php if($i<$count){ ?>
+                    <?php for ($i = $numactive - 2; $i <= $numactive + 2; $i++) { ?>
+                        <?php if ($i < $count) { ?>
+                            <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+                               href="#<?php print $paging_param ?>=<?php print $i ?>"
+                               onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+
+
+                        <?php }
+                    }
+                } else { ?>
+
+                    <?php for ($i = 1; $i <= 5; $i++) { ?>
                         <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
-                            href="#<?php print $paging_param ?>=<?php print $i ?>"
-                            onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
-
-
-                    <?php }}} else{ ?>
-
-                     <?php  for($i=1;$i<=5;$i++){ ?>
-                                  <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
-                     href="#<?php print $paging_param ?>=<?php print $i ?>"
-                     onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
-                     <?php  }?>
-
+                           href="#<?php print $paging_param ?>=<?php print $i ?>"
+                           onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
                     <?php } ?>
 
-                    <a class="page-<?php print $count; ?>"
-                            href="#<?php print $paging_param .'='. ($count-1); ?>"
-                            onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $count-1; ?>');return false;"><?php _e("Last"); ?></a>
                 <?php } ?>
+
+                <a class="page-<?php print $count; ?>"
+                   href="#<?php print $paging_param . '=' . ($count - 1); ?>"
+                   onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $count - 1; ?>');return false;"><?php _e("Last"); ?></a>
+            <?php } ?>
         </div>
     <?php endif; ?>
 
@@ -368,60 +356,80 @@ if (isset($params['data-page-number'])) {
 <?php else: ?>
 
     <div class="mw-no-posts-foot">
-        <?php 
-		$page_is_shop = false;
-		if(isset($post_params["page-id"])){
-			$page_is_shop_check = get_content_by_id($post_params["page-id"]);
-			if(isset($page_is_shop_check['is_shop']) and $page_is_shop_check['is_shop'] == 1){
-				$page_is_shop = true;
-			}
-			 
-		}
- 
-		if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) : ?>
 
-            <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
-
-            <?php
-
-
-
-            if (isset($post_params['category-id'])) {
-                $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
-            }
-            elseif (isset($post_params['category'])) {
-                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
-            }
-            else if (isset($post_params['parent'])) {
-                $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
-            } else {
-                $url = "#action=new:product";
+        <?php
+        $page_is_shop = false;
+        if (isset($post_params["page-id"])) {
+            $page_is_shop_check = get_content_by_id($post_params["page-id"]);
+            if (isset($page_is_shop_check['is_shop']) and $page_is_shop_check['is_shop'] == 1) {
+                $page_is_shop = true;
             }
 
-            ?>
-            <a href="<?php print$url; ?>" class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-product"></span><?php _e("Add New Product"); ?></a>
+        }
+
+        if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) : ?>
+            <div class="no-items-found">
+                <img src="<?php print modules_url(); ?>/microweber/img/no_products.svg" class="no-posts-img"/>
+
+
+                <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
+
+                <?php
+
+
+                if (isset($post_params['category-id'])) {
+                    $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
+                } elseif (isset($post_params['category'])) {
+                    $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+                } else if (isset($post_params['parent'])) {
+                    $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
+                } else {
+                    $url = "#action=new:product";
+                }
+
+                ?>
+                <a href="<?php print$url; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-t-20 m-b-20"><i class="mai-product"></i> <span><?php _e("Add New Product"); ?></span></a>
+
+                <script>
+                    $(document).ready(function () {
+                        $('.manage-toobar').hide();
+                        $('.top-search').hide();
+                    });
+                </script>
+            </div>
         <?php else: ?>
+            <div class="no-items-found posts">
+                <img src="<?php print modules_url(); ?>/microweber/img/no_posts.svg" class="no-posts-img"/>
 
                 <span class="mw-no-posts-foot-label"><?php _e("No Posts Here"); ?></span>
 
-            <?php
-            if (isset($post_params['category-id'])) {
-                $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
+                <?php
+                if (isset($post_params['category-id'])) {
+                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
 
-            }
-            elseif (isset($post_params['category'])) {
-                $url = "#action=new:post&amp;category_id=" . $post_params['category'];
+                } elseif (isset($post_params['category'])) {
+                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
 
-            }
-            else if (isset($post_params['parent'])) {
-                $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
+                } else if (isset($post_params['parent'])) {
+                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
 
-            }
-            ?>
-            <?php if (isset($url)): ?>
-                <a href="<?php print $url; ?>"  class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-post"></span><span><?php _e("Add New Post"); ?></span></a>
-               <?php endif; ?>
+                }
+                ?>
+
+                <?php if (isset($url)): ?>
+                    <a href="<?php print $url; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-t-20 m-b-20"><i class="mai-post"></i> <span><?php _e("Add New Post"); ?></span></a>
+                <?php endif; ?>
+
+
+                <script>
+                    $(document).ready(function () {
+                        $('.manage-toobar').hide();
+                        $('.top-search').hide();
+                    });
+                </script>
+            </div>
         <?php endif; ?>
+
     </div>
 <?php endif; ?>
   
