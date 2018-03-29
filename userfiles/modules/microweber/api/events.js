@@ -6,6 +6,9 @@ mw.on = function(eventName, callback){
     return $(mw._on._eventsRegister).on(eventName, callback);
 }
 mw.trigger = function(eventName, paramsArray){
+    var es = JSON.parse(mw.storage.get('es') || '{}');
+    es[eventName] = true;
+    mw.storage.set('es', JSON.stringify(es));
     return $(mw._on._eventsRegister).trigger(eventName, paramsArray);
 }
 

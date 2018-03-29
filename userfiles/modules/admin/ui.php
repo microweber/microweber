@@ -121,21 +121,26 @@
 
         mw.$('#info-icon-list').html('<ul>' + html + '</ul>');
 
-        mw.$("#ui-info-table h2").each(function () {
+        mw.$("#ui-info-table h2").each(function (i) {
             var el = this;
             var li = mwd.createElement('li');
-            li.innerHTML = "<a href='javascript:;'>" + this.innerHTML + "</a>";
-            li.onclick = function () {
-                mw.tools.scrollTo(el);
-                mw.$("#ui-info-table tbody > tr:visible:first").hide();
-                $(mw.tools.firstParentWithTag(el, 'tr')).show();
-                mw.$(".mw-tooltip-mwexample").remove()
-            }
+            li.innerHTML = "<a href='#?uisection="+i+"'>" + this.innerHTML + "</a>";
+
             $("#apinav").append(li)
         });
 
-    });
 
+
+    });
+    mw.on.hashParam('uisection', function () {
+        var el = mw.$("#ui-info-table h2")[this]
+        if(this){
+            mw.tools.scrollTo(el);
+            mw.$("#ui-info-table tbody > tr:visible:first").hide();
+            $(mw.tools.firstParentWithTag(el, 'tr')).show();
+            mw.$(".mw-tooltip-mwexample").remove()
+        }
+    })
 
 </script>
 

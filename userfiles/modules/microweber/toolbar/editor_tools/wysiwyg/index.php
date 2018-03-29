@@ -123,13 +123,13 @@ PrepareEditor = function(){
      });
 
 
-     $(window).bind('moduleLoaded', function(){
+     $(window).on('moduleLoaded', function(){
          setTimeout(function(){
 
          ScaleFrame();
          var imgs = mwd.querySelectorAll('.edit img'), l = imgs.length, i = 0;
          for( ; i < l; i++){
-            $(imgs[i]).bind('load', function(){
+            $(imgs[i]).on('load', function(){
                 ScaleFrame();
             });
          }
@@ -153,7 +153,7 @@ ScaleFrame();
    scaleHeight()
 });
 
-  mw.$("#mw-iframe-editor-area").bind("mouseup", function(e){
+  mw.$("#mw-iframe-editor-area").on("mouseup", function(e){
     if(!e.target.isContentEditable){
         var el = this.querySelector('.edit');
         if(el !== null){
@@ -178,7 +178,7 @@ $(document).ready(function(){
 
 $(".edit").attr("contenteditable", true);
 $(".module").attr("contenteditable", false);
-$(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
+$(mwd.body).on('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
   ScaleFrame()
   var el= $(e.target);
   if(mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
@@ -199,19 +199,19 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 
 
 $(window).load(function(){
-      $(mwd.body).bind('mousedown', function(e){
+      $(mwd.body).on('mousedown', function(e){
         parent.mw.$(".mw-ui-category-selector").hide();
         parent.$(parent.mwd.body).trigger('mousedown');
       });
-      $(mwd.body).bind('mouseup', function(e){
+      $(mwd.body).on('mouseup', function(e){
         parent.$(parent.mwd.body).trigger('mouseup');
       });
-      $(mwd.body).bind('click', function(e){
+      $(mwd.body).on('click', function(e){
         parent.$(parent.mwd.body).trigger('click');
       });
 
 
-      mw.$("#mw-iframe-editor-area").bind("keypress", function(e){
+      mw.$("#mw-iframe-editor-area").on("keypress", function(e){
         parent.mw.$('#'+window.name).trigger("editorKeyup");
         $(mwd.body).addClass('editorKeyup');
         if(e.ctrlKey){
@@ -225,7 +225,7 @@ $(window).load(function(){
             }
         }
       });
-      mw.$("#mw-iframe-editor-area").bind("mousedown", function(e){
+      mw.$("#mw-iframe-editor-area").on("mousedown", function(e){
         if(mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')){
             mw.$('.mw-tooltip-insert-module').remove();
             mw.drag.plus.locked = false;
@@ -256,7 +256,6 @@ delete_module = function(inner_node){
 }
 
 body {
-    padding: 15px;
     margin-top: 0 !important;
 }
 
@@ -282,18 +281,7 @@ body {
 .mw-admin-editor{
     background: none;
 }
-#mw-admin-text-editor{
-  opacity:0;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-  -ms-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  transition: opacity 0.3s;
-}
 
-#mw-admin-text-editor.show-editor{
-  opacity:1;
-}
 
 .mw-wysiwyg-module-helper{
   min-height: 23px;
@@ -331,44 +319,33 @@ img{
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
 <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-<script src="<?php print mw_includes_url(); ?>api/"></script>
-<script src="<?php print mw_includes_url(); ?>api/columns.js"></script>
-<script src="<?php print mw_includes_url(); ?>api/plus.js"></script>
+
 
     <script>
         mw.require('liveedit.js')
         mw.require('columns.js')
         mw.require('plus.js')
+        mw.require('columns.js')
     </script>
 
 
 <script>
-  //mw.require("liveedit.js");
-//  mw.require("columns.js");
-//  mw.require("plus.js");
-  $(window).bind('load', function(){
+
+  $(window).on('load', function(){
+
       mw.drag.plus.init('#mw-iframe-editor-area');
       mw.drag.columns.init();
       mw.drag.saveDisabled = true;
       mw.drag.draftDisabled = true;
+
+
   });
 </script>
 
 <?php } ?>
 
 <script>
-window.onblur = function(){
-    var ed = document.getElementById('mw-admin-text-editor');
-    if(ed !== null){
-        mw.tools.removeClass(ed, 'show-editor');
-    }
-}
-window.onfocus = function(){
-    var ed = document.getElementById('mw-admin-text-editor');
-    if(ed !== null){
-        mw.tools.addClass(ed, 'show-editor');
-    }
-}
+
 
     $(document).ready(function(){
 		
@@ -377,7 +354,7 @@ window.onfocus = function(){
 		$('#the_admin_editor').find('.edit').attr('contenteditable',true);;
 
 		
-        $(mwd).bind('mousedown', function(e){
+        $(mwd).on('mousedown', function(e){
             if(!e.target.isContentEditable){
                 var target = null;
                 if(e.target.nodeName === 'A'){

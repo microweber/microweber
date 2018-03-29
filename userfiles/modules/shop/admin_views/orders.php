@@ -36,7 +36,8 @@ $(document).ready(function(){
 
 });
 
-function mw_delete_shop_order(pid, iscart){
+function mw_delete_shop_order(pid, iscart, e){
+    if(e)e.preventDefault();
      var iscart = iscart || false;
      mw.tools.confirm("<?php _e("Are you sure you want to delete this order"); ?>?", function(){
         $.post("<?php print api_url('delete_order') ?>", { id: pid,is_cart:iscart}, function(data) {

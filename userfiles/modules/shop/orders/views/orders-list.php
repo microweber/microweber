@@ -141,7 +141,7 @@
         </div>
 
         <span class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>" data-tipposition="top-center"
-              onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span>
+              onclick="mw_delete_shop_order('<?php print ($item['id']) ?>', event);"></span>
         <div class="clearfix"></div>
     </div>
 <?php endforeach; ?>
