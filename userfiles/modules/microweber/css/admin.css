@@ -6131,7 +6131,8 @@ span.mw-icon-upload {
     font-weight: bold;
 }
 
-.orders-holder .order-holder .order-data .product-name {
+.orders-holder .order-holder .order-data .product-name,
+.orders-holder .order-holder .order-data .product-name a{
     color: #0086db;
     font-size: 13px;
     min-width: 300px;
