@@ -2,11 +2,6 @@
 ?>
 <?php only_admin_access(); ?>
 
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>-->
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js"></script>-->
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js"></script>-->
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js"></script>-->
-<!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css">-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 
 <script type="text/javascript">
@@ -24,67 +19,6 @@ html,body{
 }
 
 </style>
-
-<?php
-
-/*
- *
-
-
-
-
-<script type="text/javascript">
-        mw.css_ed = {};
-
-        $(document).ready(function () {
-
-                mw.css_ed.init_element_picker();
-
-
-        });
-
-        mw.css_ed.init_element_picker = function(){
-
-                $(window.parent.document.body).on('mousemove.css_element_picker', function(event) {
-                        var target = event.target || event.srcElement;
-                        var id = target.id
-                        $('#element_picker_preview').html( id);
-                })
-
-                $(window.parent.document.body).on('click.css_element_picker', function(event) {
-                        var target = event.target || event.srcElement;
-                        var id = target.id
-
-                        chosen_target = id;
-                        $('#element_picker_picked').html(chosen_target);
-                        $(window.parent.document.body).off('click.css_element_picker');
-                        $(window.parent.document.body).off('mousemove.css_element_picker');
-                })
-
-//        $(mwd.body).mousemove(function(event) {
-//
-//
-//
-//
-//
-//
-//        });
-        }
-</script>
-<button id="pick_element_btn" onclick="mw.css_ed.init_element_picker()">pick element</button>
-<div id="element_picker_preview"></div>
-<div id="element_picker_picked"></div>
-
-
-*/
-
-?>
-
-
-
-
-
-
 
 
 
@@ -114,7 +48,7 @@ html,body{
                 css_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_css_code_mirror"), {
                         lineNumbers: true,
                         indentWithTabs: true,
-            matchBrackets: true,
+                        matchBrackets: true,
                         extraKeys: {"Ctrl-Space": "autocomplete"},
                         mode: {
                                 name: "css", globalVars: true
@@ -129,11 +63,9 @@ html,body{
 
                 });
 
-
         })
 
         savecss = function(){
-            console.log(css_code_area_editor.getValue() )
 
                 mw.options.saveOption({
                     group:'template',

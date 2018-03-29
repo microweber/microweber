@@ -837,14 +837,16 @@ mw.wysiwyg = {
     init: function (selector) {
 
         var selector = selector || ".mw_editor_btn";
-        var mw_editor_btns = mw.$(selector);
-        mw_editor_btns.on("mouseup touchend mousedown touchstart", function (event) {
+        var mw_editor_btns = mw.$(selector).not('.ready');
+        mw_editor_btns
+            .addClass('ready')
+            .on("click", function (event) {
             if (mw.wysiwyg.editors_disabled) {
                 return false;
             }
             event.preventDefault();
 
-            if ((event.type == 'mouseup' || event.type == 'touchend') && !$(this).hasClass('disabled')) {
+            if (!$(this).hasClass('disabled')) {
                 var command = $(this).dataset('command');
                 if (!command.contains('custom-')) {
                     mw.wysiwyg._do(command);
@@ -1661,7 +1663,6 @@ mw.wysiwyg = {
     media: function (hash) {
         if (mw.settings.liveEdit && typeof mw.target.item === 'undefined') return false;
         var hash = hash || '#insert_html';
-        console.log(hash, $("#mw_rte_image").length)
         if ($("#mw_rte_image").length > 0) {
             $("#mw_rte_image").remove();
         }

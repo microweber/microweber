@@ -2,7 +2,7 @@
 <script>
 
 $(document).ready(function(){
-   mw.wysiwyg.init();
+   //mw.wysiwyg.init();
    mw.tools.dropdown(mwd.getElementById('mw-admin-text-editor'));
 
    Editor = mw.$('#mw-admin-text-editor');
@@ -13,6 +13,18 @@ $(document).ready(function(){
    }, function(){
      $(this).removeClass('editor_hover');
    });
+
+
+   window.parent.$('html,body,.fade-window').on('scroll', function () {
+       var stop = $(this).scrollTop() + $(this).offset().top,
+           otop = parent.$('.mw-iframe-editor').offset().top;
+        if(otop <= 0 ){
+            $("#mw-admin-text-editor").css({
+                top:Math.abs(otop)
+            })
+        }
+        $('#mw-admin-text-editor')[otop <= 0 ? 'addClass':'removeClass']('scrolled');
+   })
 
 
 });
@@ -115,11 +127,7 @@ $(document).ready(function(){
             <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span>
 
-<?php
-/*  <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
-    <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
-*/
-?>
+
 
 
             <span class="mw_dlm"></span>
