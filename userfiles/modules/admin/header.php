@@ -330,8 +330,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 <?php _e("Add New"); ?>
                 <span class="mai-cd"></span>
             </a>
-            <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn toolbar-live-edit" target="_blank">
-                <span class="mai-edit"></span>
+            <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
+                <span class="mai-eye2"></span>
                 &nbsp;
                 <?php _e("Live Edit"); ?>
             </a>

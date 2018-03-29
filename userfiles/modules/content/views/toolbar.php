@@ -245,9 +245,8 @@ $content_types = false;
                     <?php endif; ?>
                     <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
                     <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                    <a href="<?php print $edit_link; ?>" class="editbtn"
-                                               id="edit-content-btn" data-tip="bottom-left">
-                    <span><?php _e("Edit page"); ?></span>
+                    <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline " id="edit-content-btn" data-tip="bottom-left">
+                        <span class="mai-setting2"></span> <span><?php _e("Edit page"); ?></span>
                     </a>
                     <?php endif; ?>
                     <?php if (isset($params['category-id'])): ?>

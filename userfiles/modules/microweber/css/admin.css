@@ -34,62 +34,229 @@
     -moz-osx-font-smoothing: grayscale
 }
 
-.mai-file-manage:before{content:'\0041';}
-.mai-warn:before{content:'\0042';}
-.mai-edit:before{content:'\0043';}
-.mai-website:before{content:'\0044';}
-.mai-bin:before{content:'\0045';}
-.mai-category:before{content:'\0046';}
-.mai-cl:before{content:'\0047';}
-.mai-comment:before{content:'\0048';}
-.mai-cr:before{content:'\0049';}
-.mai-dashboard:before{content:'\004a';}
-.mai-download:before{content:'\004b';}
-.mai-earth:before{content:'\004c';}
-.mai-edit:before{content:'\004d';}
-.mai-eye:before{content:'\004e';}
-.mai-idea:before{content:'\004f';}
-.mai-logo:before{content:'\0050';}
-.mai-map:before{content:'\0051';}
-.mai-market:before{content:'\0052';}
-.mai-market2:before{content:'\0053';}
-.mai-options:before{content:'\0054';}
-.mai-optionsv:before{content:'\0055';}
-.mai-order:before{content:'\0056';}
-.mai-page:before{content:'\0057';}
-.mai-post:before{content:'\0058';}
-.mai-product:before{content:'\0059';}
-.mai-setting:before{content:'\005a';}
-.mai-image:before{content:'\0061';}
-.mai-user:before{content:'\0062';}
-.mai-user2:before{content:'\0063';}
-.mai-user3:before{content:'\0064';}
-.mai-comment2:before{content:'\0065';}
-.mai-close:before{content:'\0066';}
-.mai-download2:before{content:'\0067';}
-.mai-code:before{content:'\0068';}
-.mai-bin2:before{content:'\0069';}
-.mai-cd:before{content:'\006a';}
-.mai-cu:before{content:'\006b';}
-.mai-plus:before{content:'\006c';}
-.mai-shop:before{content:'\006d';}
-.mai-link:before{content:'\006e';}
-.mai-notification:before{content:'\006f';}
-.mai-home:before{content:'\0070';}
-.mai-product:before{content:'\0071';}
-.mai-mail:before{content:'\0072';}
-.mai-shipping:before{content:'\0073';}
-.mai-percent:before{content:'\0074';}
-.mai-modules:before{content:'\0075';}
-.mai-languages:before{content:'\0076';}
-.mai-licenses:before{content:'\0077';}
-.mai-login:before{content:'\0078';}
-.mai-templates:before{content:'\0079';}
-.mai-setting2:before{content:'\007a';}
-.mai-eye2:before{content:'\002c';}
-.mai-link2:before{content:'\002d';}
-.mai-monitor-minus:before{content:'\002e';}
-.mai-thunder:before{content:'\002f';}
+.mai-file-manage:before {
+    content: '\0041';
+}
+
+.mai-warn:before {
+    content: '\0042';
+}
+
+.mai-edit:before {
+    content: '\0043';
+}
+
+.mai-website:before {
+    content: '\0044';
+}
+
+.mai-bin:before {
+    content: '\0045';
+}
+
+.mai-category:before {
+    content: '\0046';
+}
+
+.mai-cl:before {
+    content: '\0047';
+}
+
+.mai-comment:before {
+    content: '\0048';
+}
+
+.mai-cr:before {
+    content: '\0049';
+}
+
+.mai-dashboard:before {
+    content: '\004a';
+}
+
+.mai-download:before {
+    content: '\004b';
+}
+
+.mai-earth:before {
+    content: '\004c';
+}
+
+.mai-edit:before {
+    content: '\004d';
+}
+
+.mai-eye:before {
+    content: '\004e';
+}
+
+.mai-idea:before {
+    content: '\004f';
+}
+
+.mai-logo:before {
+    content: '\0050';
+}
+
+.mai-map:before {
+    content: '\0051';
+}
+
+.mai-market:before {
+    content: '\0052';
+}
+
+.mai-market2:before {
+    content: '\0053';
+}
+
+.mai-options:before {
+    content: '\0054';
+}
+
+.mai-optionsv:before {
+    content: '\0055';
+}
+
+.mai-order:before {
+    content: '\0056';
+}
+
+.mai-page:before {
+    content: '\0057';
+}
+
+.mai-post:before {
+    content: '\0058';
+}
+
+.mai-product:before {
+    content: '\0059';
+}
+
+.mai-setting:before {
+    content: '\005a';
+}
+
+.mai-image:before {
+    content: '\0061';
+}
+
+.mai-user:before {
+    content: '\0062';
+}
+
+.mai-user2:before {
+    content: '\0063';
+}
+
+.mai-user3:before {
+    content: '\0064';
+}
+
+.mai-comment2:before {
+    content: '\0065';
+}
+
+.mai-close:before {
+    content: '\0066';
+}
+
+.mai-download2:before {
+    content: '\0067';
+}
+
+.mai-code:before {
+    content: '\0068';
+}
+
+.mai-bin2:before {
+    content: '\0069';
+}
+
+.mai-cd:before {
+    content: '\006a';
+}
+
+.mai-cu:before {
+    content: '\006b';
+}
+
+.mai-plus:before {
+    content: '\006c';
+}
+
+.mai-shop:before {
+    content: '\006d';
+}
+
+.mai-link:before {
+    content: '\006e';
+}
+
+.mai-notification:before {
+    content: '\006f';
+}
+
+.mai-home:before {
+    content: '\0070';
+}
+
+.mai-product:before {
+    content: '\0071';
+}
+
+.mai-mail:before {
+    content: '\0072';
+}
+
+.mai-shipping:before {
+    content: '\0073';
+}
+
+.mai-percent:before {
+    content: '\0074';
+}
+
+.mai-modules:before {
+    content: '\0075';
+}
+
+.mai-languages:before {
+    content: '\0076';
+}
+
+.mai-licenses:before {
+    content: '\0077';
+}
+
+.mai-login:before {
+    content: '\0078';
+}
+
+.mai-templates:before {
+    content: '\0079';
+}
+
+.mai-setting2:before {
+    content: '\007a';
+}
+
+.mai-eye2:before {
+    content: '\002c';
+}
+
+.mai-link2:before {
+    content: '\002d';
+}
+
+.mai-monitor-minus:before {
+    content: '\002e';
+}
+
+.mai-thunder:before {
+    content: '\002f';
+}
 
 .mw-ui-btn.mw-ui-btn-medium > [class*=mw-icon-] {
     top: 2px;
@@ -1087,8 +1254,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #mw-admin-main-menu li li a {
-    height: 40px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 50px;
@@ -1147,7 +1314,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu .active a:active,
 #mw-admin-main-menu .active a:focus,
 #mw-admin-main-menu .active a {
-    border-bottom: 1px solid #8b8b8b;
+    border-bottom: 1px solid #555555;
     color: #0086db
 }
 
@@ -1156,7 +1323,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu .active-parent a:hover,
 #mw-admin-main-menu .active-parent a {
     color: #0086db;
-    border-bottom: 1px solid #8b8b8b;
+    border-bottom: 1px solid #555555;
     background: white;
 }
 
@@ -1174,7 +1341,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     font-size: 14px;
     width: 25px;
     top: 3px;
-
+    float: left;
 }
 
 #mw-admin-main-menu a .mw-icon-menu {
@@ -1188,7 +1355,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 #mw-admin-main-menu li.active-parent a,
 #mw-admin-main-menu li.active a {
-    background: #909090;
+    background: #555555;
     color: white;
 }
 
@@ -1313,19 +1480,26 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     color: #2b2b2b;
 }
 
-#mw-admin-main-menu .mw-admin-main-menu-mini{
+#mw-admin-main-menu .mw-admin-main-menu-mini {
     font-size: 0;
     border-radius: 20px;
     transition: all .2s;
     background: #999;
 }
-#mw-admin-main-menu .mw-admin-main-menu-mini:after{
+
+#mw-admin-main-menu .active-parent li.active .mw-admin-main-menu-mini {
+    /*border: 1px solid #0086db;*/
+    background: #0086db;
+    color: #fff;
+}
+
+#mw-admin-main-menu .mw-admin-main-menu-mini:after {
     content: '+';
     font-size: 14px;
     transition: all .2s;
 }
 
-#mw-admin-main-menu a:hover .mw-admin-main-menu-mini{
+#mw-admin-main-menu a:hover .mw-admin-main-menu-mini {
     font-size: 11px;
     border-radius: 2px;
     background: #f5f5f5;
@@ -1333,7 +1507,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     background: -webkit-linear-gradient(top, #f5f5f5 0%, #e6e6e6 100%);
     background: linear-gradient(to bottom, #f5f5f5 0%, #e6e6e6 100%);
 }
-#mw-admin-main-menu a:hover .mw-admin-main-menu-mini:after{
+
+#mw-admin-main-menu a:hover .mw-admin-main-menu-mini:after {
     font-size: 0;
 }
 
@@ -2892,11 +3067,15 @@ input#edit-content-url:focus, input#edit-content-url.active {
     top: 0;
 }
 
-
-
 .toolbar-live-edit {
     float: right;
     margin-left: 8px;
+    font-weight: bold;
+}
+
+.toolbar-live-edit span {
+    font-size: 17px;
+    float: left;
 }
 
 .pages_tree {
@@ -2912,7 +3091,6 @@ input#edit-content-url:focus, input#edit-content-url.active {
     color: rgba(0, 145, 235, 1);
 
 }
-
 
 .admin-manage-toolbar-content {
     position: relative;
@@ -4752,11 +4930,11 @@ body.is_admin .mw-admin-container {
 
 .top-search {
     border: 1px solid #a8a8a8;
-    height: 36px;
+    height: 38px;
     width: 190px;
     background: #f5f5f5;
     border-radius: 2px;
-    position: absolute;
+    position: relative;
     right: 0;
 }
 
@@ -4765,10 +4943,26 @@ body.is_admin .mw-admin-container {
     height: 36px;
     padding: 10px;
     border: none;
-    background: transparent;
     outline: none;
     float: left;
     position: absolute;
+
+    width: 100%;
+    color: #000;
+    background: #f8f8f8;
+    width: 100%;
+    border-color: #c2c2c2;
+}
+
+.top-search input:focus {
+    background: #fff;
+    border-color: #82c4ed;
+    -webkit-box-shadow: 0 0 10px #82c4ed;
+    box-shadow: 0 0 10px #82c4ed;
+}
+
+.top-search .top-form-submit{
+    background: transparent;
 }
 
 .golive-button {
@@ -5834,7 +6028,7 @@ span.mw-icon-upload {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .mw-shipping-items .input-with-currency span {
@@ -5956,7 +6150,7 @@ span.mw-icon-upload {
 
 @media screen and (max-width: 1100px ) {
     .mw-shipping-items table tr:first-child td:last-child {
-         padding-right: 0px;
+        padding-right: 0px;
     }
 
     .mw-shipping-items .mw-ui-table > tbody > tr > td:first-child, .mw-shipping-items .mw-ui-table > tfoot > tr > td:first-child {
@@ -6132,7 +6326,7 @@ span.mw-icon-upload {
 }
 
 .orders-holder .order-holder .order-data .product-name,
-.orders-holder .order-holder .order-data .product-name a{
+.orders-holder .order-holder .order-data .product-name a {
     color: #0086db;
     font-size: 13px;
     min-width: 300px;
@@ -6236,11 +6430,19 @@ span.mw-icon-upload {
     margin: 0 50px;
 }
 
-
-.shipping-cost{
+.shipping-cost {
     min-width: 100px;
 }
 
-#manage-orders-menus{
+#manage-orders-menus {
     border: 0;
+}
+
+#bulk-actions {
+    width: 150px;
+    margin-left: 15px;
+}
+
+#bulk-actions li {
+    padding: 0;
 }

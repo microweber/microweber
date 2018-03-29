@@ -36,6 +36,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
             <?php _e("Order"); ?>
             #<?php print $show_ord_id ?> </h2>
     </div>
+
+    <div class="admin-side-content ">
     <div class="mw-ui-row" id="orders-info-row">
         <div class="mw-ui-col">
             <div class="mw-ui-box mw-ui-box-order-info">
@@ -498,5 +500,6 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>

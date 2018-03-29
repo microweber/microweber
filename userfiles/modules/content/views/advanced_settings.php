@@ -230,9 +230,12 @@ if (!empty($template_config)) {
         <div class="mw-ui-col">
             <div class="mw-ui-col-container">
                 <?php if (isset($data['id']) and $data['id'] > 0): ?>
-                    <div class="mw-ui-field-holder pull-right">
-                        <a class="mw-ui-btn btn-small" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>
-                        <a class="mw-ui-btn btn-small" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                    <div class="mw-ui-field-holder pull-right" style="width: 100%;">
+                        <div class="pull-left bold">More options:</div>
+                        <div class="pull-right">
+                            <a class="mw-ui-btn btn-small" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
+                            <a class="mw-ui-btn btn-small" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                        </div>
                     </div>
                 <?php endif; ?>
 

@@ -633,3 +633,32 @@
 /*font-size: 24px;*/
 /*}*/
 
+.no-items-found {
+    width: 100%;
+    text-align: center;
+}
+
+.no-items-found .no-posts-img {
+    max-width: 450px;
+    display: block;
+    margin: 20px auto 0 auto;
+}
+
+.no-items-found.posts .no-posts-img {
+    max-width: 500px;
+    margin: 0px auto 40px auto;
+}
+
+.no-items-found .mw-no-posts-foot-label {
+    color: #0086db;
+    display: block;
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.no-items-found i {
+    float: left;
+    margin-top: 1px;
+    margin-right: 10px;
+    font-size: 14px;
+}
