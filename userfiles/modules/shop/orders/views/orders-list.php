@@ -40,12 +40,12 @@
             </div>
 
             <div class="order-number">
-                <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>">#<?php print $item['id'] ?></a>
+                <a class="mw-ord-id" href="<?php print admin_url('view:shop/action:orders#vieworder='.$item['id']); ?>">#<?php print $item['id'] ?></a>
             </div>
 
             <div class="product-name">
                 <?php if (isset($cart_item[0]) and isset($cart_item[0]['rel_id'])): ?>
-                    <?php print($cart_item[0]['title']); ?>
+                    <a href="<?php print admin_url('view:shop/action:orders#vieworder='.$item['id']); ?>"><?php print($cart_item[0]['title']); ?></a>
                 <?php endif; ?>
             </div>
 
@@ -79,7 +79,7 @@
         </div>
 
         <div class="order-data-more mw-accordion-content">
-            <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $item['id']; ?>" href="#vieworder=<?php print ($item['id']) ?>">
+            <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $item['id']; ?>" href="<?php print admin_url('view:shop/action:orders#vieworder='.$item['id']); ?>">
                 <?php _e("View order"); ?>
             </a>
 

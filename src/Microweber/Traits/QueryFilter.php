@@ -577,9 +577,12 @@ trait QueryFilter
                     $query = $query->where(function ($query) use (&$params, $filter) {
                         $call = $params[$filter];
                         unset($params[$filter]);
-                        //call_user_func_array($call, $params);
-                        call_user_func($call, $query, $params);
 
+
+                        //call_user_func_array($call, $params);
+                        $query = call_user_func($call, $query, $params);
+
+                        return $query;
 
                     });
 

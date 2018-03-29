@@ -39,6 +39,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             'branch_class' => null,
             'leaf_class_deep' => null,
             'branch_class_deep' => null,
+            'custom_link_html' => null,
 
             'leaf_tag' => 'li',
             'branch_tag' => 'ul',
@@ -51,6 +52,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
     public function render(ItemInterface $item, array $options = array())
     {
         $options = array_merge($this->defaultOptions, $options);
+
 
         $html = $this->renderList($item, $item->getChildrenAttributes(), $options);
 
@@ -73,9 +75,19 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             return '';
         }
 
-        $html = $this->format('<' . $options['branch_tag'] . $this->renderHtmlAttributes($attributes) . '>', 'ul', $item->getLevel(), $options);
+        $branch_tag =  trim($options['branch_tag']);
+        $html = '';
+        if($branch_tag){
+            $html = $this->format('<' . $options['branch_tag'] . $this->renderHtmlAttributes($attributes) . '>', 'ul', $item->getLevel(), $options);
+
+        }
+
+
+
         $html .= $this->renderChildren($item, $options);
-        $html .= $this->format('</' . $options['branch_tag'] . '>', 'ul', $item->getLevel(), $options);
+        if($branch_tag) {
+            $html .= $this->format('</' . $options['branch_tag'] . '>', 'ul', $item->getLevel(), $options);
+        }
 
         return $html;
     }
@@ -157,7 +169,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             $class[] = $options['leaf_class'];
 
         }
-      //  $class[] = 'category_tree';
+        //  $class[] = 'category_tree';
 
 
         if ($item->hasChildren() && $options['depth'] > 0) {
@@ -179,16 +191,40 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
             $attributes['class'] = implode(' ', $class);
         }
 
+
         // opening li tag
         $html = $this->format('<' . $options['leaf_tag'] . $this->renderHtmlAttributes($attributes) . '>', 'li', $item->getLevel(), $options);
+        if (isset($options['custom_link_html']) and $options['custom_link_html']) {
+            $custom_html   = $options['custom_link_html'];
+            $replaces = array();
+            if($attributes and !empty($attributes)){
+                $replaces = array_merge($replaces,$attributes);
+            }
 
+            $extras = $item->getExtras();
+            if($extras and !empty($extras)){
+                $replaces = array_merge($replaces,$extras);
+            }
+            if($replaces){
+                foreach($replaces as $item_k=>$item_v){
+                    if ( !is_array($item_v) and !is_object($item_v)) {
+                        $custom_html = str_replace('{' . $item_k . '}', $item_v, $custom_html);
+                    }
+                }
+            }
+
+            $html .= $custom_html;
+
+        } else {
+            $html .= $this->renderLink($item, $options);
+
+        }
         // render the text/link inside the li tag
         //$html .= $this->format($item->getUri() ? $item->renderLink() : $item->renderLabel(), 'link', $item->getLevel());
-        $html .= $this->renderLink($item, $options);
 
         // renders the embedded ul
         $childrenClass = (array)$item->getChildrenAttribute('class');
-     //   $childrenClass[] = 'menu_level_' . $item->getLevel();
+        //   $childrenClass[] = 'menu_level_' . $item->getLevel();
 
         $childrenAttributes = $item->getChildrenAttributes();
         $childrenAttributes['class'] = implode(' ', $childrenClass);
