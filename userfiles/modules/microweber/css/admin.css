@@ -3070,11 +3070,11 @@ input#edit-content-url:focus, input#edit-content-url.active {
 .toolbar-live-edit {
     float: right;
     margin-left: 8px;
-    font-weight:bold;
+    font-weight: bold;
 }
 
-.toolbar-live-edit span{
-    font-size:14px;
+.toolbar-live-edit span {
+    font-size: 17px;
     float: left;
 }
 
@@ -4930,11 +4930,11 @@ body.is_admin .mw-admin-container {
 
 .top-search {
     border: 1px solid #a8a8a8;
-    height: 36px;
+    height: 38px;
     width: 190px;
     background: #f5f5f5;
     border-radius: 2px;
-    position: absolute;
+    position: relative;
     right: 0;
 }
 
@@ -4943,10 +4943,26 @@ body.is_admin .mw-admin-container {
     height: 36px;
     padding: 10px;
     border: none;
-    background: transparent;
     outline: none;
     float: left;
     position: absolute;
+
+    width: 100%;
+    color: #000;
+    background: #f8f8f8;
+    width: 100%;
+    border-color: #c2c2c2;
+}
+
+.top-search input:focus {
+    background: #fff;
+    border-color: #82c4ed;
+    -webkit-box-shadow: 0 0 10px #82c4ed;
+    box-shadow: 0 0 10px #82c4ed;
+}
+
+.top-search .top-form-submit{
+    background: transparent;
 }
 
 .golive-button {
@@ -6420,4 +6436,13 @@ span.mw-icon-upload {
 
 #manage-orders-menus {
     border: 0;
+}
+
+#bulk-actions {
+    width: 150px;
+    margin-left: 15px;
+}
+
+#bulk-actions li {
+    padding: 0;
 }

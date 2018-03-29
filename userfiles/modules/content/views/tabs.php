@@ -24,7 +24,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
         <?php endif; ?>
 
         <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
-        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mw-icon-gear"></i> <?php _e("Advanced"); ?></a>
+        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mai-monitor-minus"></i> <?php _e("Advanced"); ?></a>
 
         <?php if ($data['content_type'] == 'old_page'): ?>
             <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Template"); ?>"><i class="mw-icon-template"></i> <?php _e("Template"); ?></a>
