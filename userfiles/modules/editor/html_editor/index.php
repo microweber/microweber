@@ -5,22 +5,7 @@
 <script type="text/javascript">
     mw.require('options.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
-
-
-
-
-
 </script>
-
-
-
-
-
-
-
-<script src=""></script>
-<script src=""></script>
-<script src=""></script>
 
 
 <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
@@ -142,9 +127,6 @@
     $(document).ready(function () {
 
         mw.html_editor.init();
-
-
-
 
     })
 

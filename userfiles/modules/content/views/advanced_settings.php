@@ -300,15 +300,6 @@ if (!empty($template_config)) {
                     </label>
 
 
-                    <label class="mw-ui-check">
-                        <input name="require_login" type="radio" value="0" <?php if (1 != ($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span><span><?php _e("No"); ?></span>
-                    </label>
-
-                    <label class="mw-ui-check">
-                        <input name="require_login" type="radio" value="1" <?php if ('1' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span><span><?php _e("Yes"); ?></span>
-                    </label>
                 </div>
 
                 <?php

@@ -511,7 +511,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 </a>
                             </li>
                             <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users">
-                                    <span class="mai-lock"></span><strong><?php _e("Login & Register"); ?></strong>
+                                    <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
                                 </a>
                             </li>
                             <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=email">

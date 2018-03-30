@@ -58,17 +58,11 @@ GalleriesRemote = function(){
     }
  
 
-scaleHeight = function(){
-  var pt = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingTop"));
-  var pb = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingBottom"));
-  var h = $(window).height() - mw.$("#mw-admin-text-editor").outerHeight() - pt - pb - 4;
-  mw.$("#mw-iframe-editor-area").height(h);
 
-}
 
 ScaleFrame = function(){
 
-  scaleHeight = function(){};
+
   var par_frame = parent.mw.$('iframe[name="'+window.name+'"]')[0];
   if(par_frame != undefined){
     parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
@@ -146,11 +140,11 @@ $(window).load(function(){
   mw.linkTip.init(mwd.getElementById('mw-iframe-editor-area'));
 
 
-scaleHeight();
+
 ScaleFrame();
     __area = mwd.getElementById('mw-iframe-editor-area');
    $(window).resize(function(){
-   scaleHeight()
+
 });
 
   mw.$("#mw-iframe-editor-area").on("mouseup", function(e){
@@ -260,9 +254,11 @@ body {
 }
 
 .mw-admin-editor #mw-iframe-editor-area{
-  line-height: 1.85;
-  padding: 15px 0;
-  min-height: 200px;
+    line-height: 1.85;
+    border: 1px solid #dfdfdf;
+    padding: 10px;
+    min-height: 200px;
+
 }
 
 .mw-admin-editor-area .edit{
