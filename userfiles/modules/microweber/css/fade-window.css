@@ -192,6 +192,7 @@
 
 .fade-window .window-holder #content-title-field-buttons ul li a,
 .fade-window .window-holder #content-title-field-buttons ul li button {
+    padding: 0 20px;
     font-size: 12px;
     font-weight: bold;
     min-width: 115px;
@@ -206,6 +207,7 @@
     content: "\0118";
     font-family: Microweber;
     float: right;
+    margin-left: 10px;
 }
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-settings {
@@ -245,6 +247,7 @@
     margin-right: 10px;
     float: left;
     height: 10px;
+    color: #999999;
 }
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn:hover,
@@ -268,6 +271,10 @@
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:hover,
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:focus {
     background: #fff;
+}
+
+.fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active i {
+    color: #0086db;
 }
 
 .fade-window .window-holder #settings-tabs .mw-ui-box {
@@ -387,7 +394,8 @@
 }
 
 .fade-window .window-holder .advanced-settins-tab input,
-.fade-window .window-holder .advanced-settins-tab textarea {
+.fade-window .window-holder .advanced-settins-tab textarea,
+.fade-window .window-holder select {
     background: #f8f8f8;
     width: 100%;
     color: #999999;
@@ -457,4 +465,16 @@
     max-width: 100%;
     margin: 0;
     padding: 0;
+}
+
+.fade-window .window-holder #content-title-field-buttons .mw-ui-btn > [class*=mw-icon-] {
+    font-size: 14px;
+}
+
+
+.fade-window .window-holder #content-title-field-buttons .mw-ui-btn > .mai-eye2 {
+    font-size: 17px;
+    float: left;
+    margin-top: -2px;
+    height: 10px;
 }

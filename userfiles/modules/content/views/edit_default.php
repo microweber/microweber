@@ -80,19 +80,20 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                         </li>
                         <?php if ($data['is_active'] == 0) { ?>
                             <li>
-                                <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i class="mw-icon-unpublish"></i> <?php _e("Unpublish"); ?></button>
+                                <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i class="mw-icon-unpublish"></i> <?php _e("Unpublish"); ?></button>
                             </li>
                         <?php } else { ?>
                             <li>
-                                <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i class="mw-icon-publish"></i> <?php _e("Publish"); ?></button>
+                                <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i class="mw-icon-check"></i> <?php _e("Published"); ?></button>
                             </li>
                         <?php } ?>
                         <?php if ($is_live_edit == false) : ?>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content"><?php _e("Live Edit"); ?></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content"><span class="mai-eye2"></span> <?php _e("Live Edit");
+                                    ?></button>
                             </li>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-outline btn-save" form="quickform-edit-content"><i class="fa fa-save"></i></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save" form="quickform-edit-content"><i class="fa fa-save"></i> &nbsp; <?php print _e('Save'); ?></button>
                             </li>
                         <?php else: ?>
                             <?php if ($data['id'] == 0): ?>
@@ -106,7 +107,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                                 </li>
                             <?php endif; ?>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-outline btn-save" form="quickform-edit-content"><i class="fa fa-save"></i></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save" form="quickform-edit-content"><i class="fa fa-save"></i> &nbsp; <?php print _e('Save'); ?></button>
                             </li>
                         <?php endif; ?>
                     </ul>
