@@ -252,14 +252,7 @@ if (!empty($template_config)) {
                             <span class="mw-switch-on">YES</span>
                             <span class="mw-switcher"></span>
                         </label>
-                        <label class="mw-ui-check">
-                            <input name="is_home" type="radio" value="0" <?php if ('' == trim($data['is_home']) or '0' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span><span><?php _e("No"); ?></span>
-                        </label>
-                        <label class="mw-ui-check">
-                            <input name="is_home" type="radio" value="1" <?php if ('1' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span><span><?php _e("Yes"); ?></span>
-                        </label>
+
                     </div>
                     <div class="mw_clear vSpace"></div>
                     <div class="mw-ui-check-selector">
@@ -273,15 +266,7 @@ if (!empty($template_config)) {
                             <span class="mw-switch-on">YES</span>
                             <span class="mw-switcher"></span>
                         </label>
-                        <label class="mw-ui-check">
-                            <input name="is_shop" type="radio" value="0" <?php if ('' == trim($data['is_shop']) or '0' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span><span><?php _e("No"); ?></span>
-                        </label>
-
-                        <label class="mw-ui-check">
-                            <input name="is_shop" type="radio" value="1" <?php if ('1' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span><span><?php _e("Yes"); ?></span>
-                        </label>
+                        
                     </div>
                     <div class="mw_clear vSpace"></div>
                 <?php endif; ?>
