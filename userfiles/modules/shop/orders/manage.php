@@ -135,15 +135,15 @@
                                 <span class="mai-shop"></span>
 
 
-                                    <?php if ($latest_orders > 1) { ?>
-                                        <?php _e("New orders"); ?>
-                                    <?php }
-                                    if ($latest_orders == 1) { ?>
-                                        <?php _e("New order"); ?>
-                                    <?php }
-                                    if ($latest_orders == 0) { ?>
-                                        <?php _e("No new orders"); ?>
-                                    <?php } ?>
+                                <?php if ($latest_orders > 1) { ?>
+                                    <?php _e("New orders"); ?>
+                                <?php }
+                                if ($latest_orders == 1) { ?>
+                                    <?php _e("New order"); ?>
+                                <?php }
+                                if ($latest_orders == 0) { ?>
+                                    <?php _e("No new orders"); ?>
+                                <?php } ?>
 
                             </h2>
                         </div>
@@ -153,8 +153,12 @@
             </div>
 
             <div class="mw-ui-col" style="width: 80%">
-                <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>"
-                       onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"/>
+                <div class="pull-right relative">
+                    <div class="top-search">
+                        <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>" />
+                        <span class="top-form-submit" onclick="mw.url.windowHashParam('search', $(this).prev().val());"><span class="mw-icon-search"></span></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -163,7 +167,6 @@
 
 <div class="admin-side-content">
     <div id="manage-orders-menus">
-
 
 
         <?php if ($is_orders != 0) { ?>

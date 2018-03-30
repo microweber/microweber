@@ -4845,7 +4845,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 }
 
 .section-header h2, .section-header h3 {
-    margin-top: 0;
+    margin-top: 7px;
 }
 
 /* Shipping */
@@ -4939,7 +4939,7 @@ body.is_admin .mw-admin-container {
 }
 
 .top-search input {
-    width: 150px;
+    width: 150px !important;
     height: 36px;
     padding: 10px;
     border: none;

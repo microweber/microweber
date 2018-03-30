@@ -227,13 +227,18 @@ class Template
     public function get_custom_css_url()
     {
         $url = api_nosession_url('template/print_custom_css');
+        if(in_live_edit()){
+            return $url;
+        }
+
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+                $custom_live_editmtime = filemtime($userfiles_cache_filename);
+                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver='.$custom_live_editmtime;
             }
         }
 
