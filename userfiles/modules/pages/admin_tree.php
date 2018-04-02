@@ -88,9 +88,9 @@ $params['return_data'] = true;
 
 
 <ul class="pages_tree pages_trash_holder depth-1">
-    <li class="pages_trash pages_tree_item  depth-1" title="<?php _e("Trash"); ?>"><a data-page-id="deleted"
-                                                                                      class="pages_trash_link pages_tree_link depth-1"
-                                                                                      onclick="mw.url.windowHashParam('action', 'trash');"
-                                                                                      href="javascript: return false;"><span
-                    class="pages_tree_link_text pages_trash_text"><?php _e("Trash"); ?></span></a></li>
+    <li class="pages_trash pages_tree_item  depth-1" title="<?php _e("Trash"); ?>">
+        <a data-page-id="deleted" class="pages_trash_link pages_tree_link depth-1" onclick="mw.url.windowHashParam('action', 'trash');" href="javascript: return false;">
+            <span class="pages_tree_link_text pages_trash_text"><?php _e("Trash"); ?></span>
+        </a>
+    </li>
 </ul>

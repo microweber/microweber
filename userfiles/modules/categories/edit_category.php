@@ -238,8 +238,11 @@ if (isset($params['live_edit'])) {
 
                     <span class="mai-category admin-manage-toolbar-title-icon"></span>
                     <span id="category-page-title">
+                        <?php if($data['id'] == 0): ?>
                   <span id="category-page-title-add"><?php _e('Add') ?></span>
+                        <?php else: ?>
                   <span id="category-page-title-edit"><?php _e('Edit') ?></span>
+                        <?php endif; ?>
                         <?php _e('category'); ?>
               </span>
                 </div>

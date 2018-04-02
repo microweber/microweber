@@ -784,6 +784,12 @@ h3 > [class*="mw-icon-"]:first-child {
     position: relative;
 }
 
+.mw-tree .module li:before {
+    content: '';
+    display: block;
+    padding-left: 15px;
+}
+
 .mw-tree .module a {
     color: #212121;
     padding: 0;
@@ -804,7 +810,7 @@ h3 > [class*="mw-icon-"]:first-child {
     font-size: 19px;
     display: inline-block;
     position: absolute;
-    left: 30px;
+    left: 35px;
     top: 5px;
     content: 'q';
     opacity: 0.777;
@@ -952,14 +958,15 @@ h3 > [class*="mw-icon-"]:first-child {
     border-top-color: #EDEDED;
     border-bottom-color: #EDEDED;
     color: #0e80e5;
+    font-weight: bold;
 }
 
 .mw-tree a.depth-1 {
-    padding-left: 48px;
+    padding-left: 58px;
 }
 
 .mw-tree ul.depth-2 {
-    margin-left: 35px;
+    margin-left: 42px;
 }
 
 .mw-tree ul.depth-2 ul {
@@ -1069,7 +1076,7 @@ label .mw_toggle_tree {
 }
 
 a.depth-1 .mw_toggle_tree {
-    left: 10px;
+    left: 13px;
 }
 
 .mw-tree li.active > a .mw_toggle_tree:before, .mw-tree li.active > label .mw_toggle_tree:before {
@@ -1495,8 +1502,12 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 #mw-admin-main-menu .mw-admin-main-menu-mini:after {
     content: '+';
-    font-size: 14px;
+    font-size: 16px;
     transition: all .2s;
+    width: 7px;
+    display: block;
+    float: left;
+    margin: 0 1px 0 -1px;
 }
 
 #mw-admin-main-menu a:hover .mw-admin-main-menu-mini {
@@ -4961,7 +4972,7 @@ body.is_admin .mw-admin-container {
     box-shadow: 0 0 10px #82c4ed;
 }
 
-.top-search .top-form-submit{
+.top-search .top-form-submit {
     background: transparent;
 }
 
@@ -6445,4 +6456,8 @@ span.mw-icon-upload {
 
 #bulk-actions li {
     padding: 0;
+}
+
+.mw-tree .pages_tree_item .pages_trash_link:before {
+    content: '\0045';
 }
