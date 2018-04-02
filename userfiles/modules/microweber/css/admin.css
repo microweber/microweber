@@ -1276,9 +1276,9 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #mw-admin-main-menu li li .relative .mw-notification-count {
-    right: auto;
-    top: 0px;
-    left: -22px;
+    /*right: auto;*/
+    top: 18px;
+    /*left: -22px;*/
 }
 
 #mw-admin-main-menu > li #main-nav-live {
@@ -3241,6 +3241,9 @@ input#edit-content-url:focus, input#edit-content-url.active {
     min-width: 20px;
     text-align: center;
     position: relative;
+    float: right;
+    top: 22px;
+    right: 28px;
 }
 
 .mw-ui-navigation a .relative .mw-notification-count {
@@ -5413,6 +5416,7 @@ span.mw-icon-upload {
     padding: 15px 20px 15px 0;
 }
 
+
 .create-root {
     overflow: hidden;
     padding: 10px 0 15px;
@@ -6461,3 +6465,4 @@ span.mw-icon-upload {
 .mw-tree .pages_tree_item .pages_trash_link:before {
     content: '\0045';
 }
+

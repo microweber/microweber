@@ -208,7 +208,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                                     <input name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
                                            onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
                                 </div>
-                                <div class="mw-ui-col">
+                                <div class="mw-ui-col" id="settings-btn-column">
                                     <button type="button" class="btn-settings mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><span class="mai-setting2"></span> Settings</button>
                                 </div>
                             </div>
