@@ -200,6 +200,10 @@
     min-width: 115px;
 }
 
+.fade-window .window-holder #content-title-field-buttons ul li .btn-posts-state {
+    min-width: 142px;
+}
+
 .fade-window .window-holder #content-title-field-buttons ul li .btn-save {
     min-width: 35px;
     font-size: 14px;
@@ -477,10 +481,26 @@
     font-size: 17px;
     float: left;
     margin-top: -2px;
-    height: 10px;
+    height: 14px;
+}
+
+@media screen and (max-width: 1199px) {
+    .fade-window .window-holder #content-title-field-buttons ul li a,
+    .fade-window .window-holder #content-title-field-buttons ul li button {
+        min-width: auto;
+    }
+
+    .fade-window .window-holder #content-title-field-buttons ul li a span,
+    .fade-window .window-holder #content-title-field-buttons ul li button span {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    .fade-window .window-holder .top-bar .center-side {
+        display: none;
+    }
+
     .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs {
         width: 100%;
         border: 1px solid #0086db;
@@ -546,6 +566,7 @@
     .fade-window .window-holder .mw-admin-edit-content-holder {
         margin-bottom: 0px;
     }
+
 }
 
 @media screen and (max-width: 480px) {
@@ -556,5 +577,26 @@
 
     .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn:last-of-type {
         border-bottom: 0 !important;
+    }
+
+    .fade-window .window-holder .top-bar {
+        height: 120px;
+        border-bottom:0;
+    }
+
+    .fade-window .window-holder .top-bar .left-side,
+    .fade-window .window-holder .top-bar .right-side {
+        height: 60px;
+    }
+
+    .fade-window .window-holder .top-bar .left-side,
+    .fade-window .window-holder .top-bar .right-side,
+    .fade-window .window-holder .top-bar .btn-close {
+        width: 100%;
+    }
+
+    .fade-window .window-holder .top-bar .btn-close {
+        border-left: 1px solid #138fde;
+        border-bottom: 1px solid #138fde;
     }
 }
