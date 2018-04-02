@@ -16,6 +16,10 @@ if($params['period']){
 
 
 <script>
+    mw.admin.__statdata = <?php print json_encode($graph_data);   ?>;
+
+</script>
+<script>
     function mw_stats_period_switch($module_id,$period) {
         if(typeof(mw_stats_period_switch_main)!= 'undefined'){
 
@@ -28,8 +32,113 @@ if($params['period']){
 
     $( document ).ready(function() {
         $( "[data-stat='<?php print $period ?>']" ).addClass( "active" );
-
     });
+
+
+
+    mw.admin.stat = mw.admin.stat || function(options){
+        this.weekDays = [
+            '<?php _e("Sun"); ?>',
+            '<?php _e("Mon"); ?>',
+            '<?php _e("Tue"); ?>',
+            '<?php _e("Wed"); ?>',
+            '<?php _e("Thu"); ?>',
+            '<?php _e("Fri"); ?>',
+            '<?php _e("Sat"); ?>'
+        ]
+        this.options = options || {};
+        this.data = this.options.data;
+        this.element = $(this.options.element)[0];
+        if(!this.data) return;
+        if(!this.element) return;
+
+
+        this.element.__mwstat = this;
+        this.reload = function(id, options){
+
+        }
+        this.merge = function(force){
+            if(this._data && !force) return this._data;
+            this._data = [];
+            var x, i=0, n = 0, keys = Object.keys(this.data), firstData;
+            for( x in this.data) break;
+            for( i ; i < this.data[x].length; i++){
+                var item = {}
+                for( n ; n < keys.length ; n++ ){
+                    var key = keys[n];
+                    item['date'] = this.data[key][i]['date_key'];
+                    item[key] = this.data[key][i]['date_value'];
+                }
+                n = 0;
+                this._data.push(item)
+            }
+            return this._data;
+        }
+        this.prepare = function(){
+            this.merge(true)
+        }
+        this.draw = function(){
+
+            var max = this.getMax(), i, final = [];
+            max = parseInt(max.views, 10) + parseInt(max.visits, 10);
+            for (i = this.merge().length - 1; i >= 0; i--) {
+                var unique_visits = parseInt(this.merge()[i].visits, 10)
+                var views = parseInt(this.merge()[i].views, 10);
+                var total = unique_visits + views;
+
+                var height_percent = (total / max) * 100;
+                var unique_visits_percent = (unique_visits / total) * 100;
+                var views_percent = (views / total) * 100;
+                var tip = 'Unique visitors: ' + unique_visits + '<br>';
+                tip += 'All views: ' + views + '<br>';
+                tip += 'Date: ' + this.merge()[i].date + '';
+                var html = '<div class="mw-admin-stat-item tip" style="height:' + height_percent + '%;" data-tip="' + tip + '">';
+
+                html += '<div class="mw-admin-stat-item-views" style="height:' + views_percent + '%;"></div>';
+                html += '<div class="mw-admin-stat-item-uniques" style="height:' + unique_visits_percent + '%;"></div>';
+
+                var date = new Date(this.merge()[i].date);
+                var type = 'day';
+                if (type == 'day') {
+                    var day = this.weekDays[date.getUTCDay()];
+                    html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
+                }
+
+                html += '</div>';
+                final.push(html);
+            }
+            return final.join('')
+        }
+        this.getMax = function () {
+            return this.merge().reduce(function (prev, current) {
+                var calc_prev = parseInt(prev.views, 10) + parseInt(prev.visits, 10);
+                var calc_current = parseInt(current.views, 10) + parseInt(current.visits, 10);
+                return (calc_prev > calc_current) ? prev : current
+            })
+        }
+
+        this.init = function(){
+            this.prepare();
+            this.element.innerHTML = this.draw()
+            var scope = this;
+            setTimeout(function () {
+                mw.$( scope.element ).removeClass('no-transition').height(125)
+            }, 100)
+
+        }
+
+        this.init();
+
+    }
+
+    $(document).ready(function(){
+        DasboardStats = new mw.admin.stat({
+            data:mw.admin.__statdata,
+            element:'.dashboard_stats'
+        });
+    })
+
+
 
 
 
@@ -85,121 +194,3 @@ if($params['period']){
         </div>
     </div>
 </div>
-<?php //return;  ?>
-<small><pre style="max-height: 100px; overflow: scroll; font-size: 7px;">
-    <?php
-
-    //print_R($graph_data);
-
-    $data1 = json_encode($graph_data);
-    ?></pre></small>
-<?php //return; ?>
-
-
-
-
-<script type="text/javascript">
-
-
-    mw.adminStat = {
-        weekDays: [
-            '<?php _e("Sun"); ?>',
-            '<?php _e("Mon"); ?>',
-            '<?php _e("Tue"); ?>',
-            '<?php _e("Wed"); ?>',
-            '<?php _e("Thu"); ?>',
-            '<?php _e("Fri"); ?>',
-            '<?php _e("Sat"); ?>'
-        ],
-        eachStatItem:function(data, callback){
-            var i = 0;
-            for( i in data){
-                callback.call(data[i], data[i], i);
-            }
-        },
-        draw: function (data, type) {
-            console.log(122, data)
-            if (typeof(data[0]) != 'undefined') {
-                var html = mw.adminStat.html(data, type);
-                mw.$('.dashboard_stats').html(html)
-            }
-        },
-        getMax: function (data) {
-            return data.reduce(function (prev, current) {
-                var calc_prev = parseInt(prev.total_visits, 10) + parseInt(prev.unique_visits, 10);
-                var calc_current = parseInt(current.total_visits, 10) + parseInt(current.unique_visits, 10);
-                return (calc_prev > calc_current) ? prev : current
-            })
-        },
-        prepare:function(data){
-            mw.adminStat.eachItem(data, function(){
-                this.reverse()
-                this.slice(0, Math.min(13, data.visists.length));
-            })
-            return data;
-        },
-        html: function (idata, type) {
-
-            data = mw.adminStat.prepare(idata);
-
-            var max = mw.adminStat.getMax(data), i, final = [];
-            console.log(idata)
-            max = parseInt(max.total_visits, 10) + parseInt(max.unique_visits, 10);
-            for (i = data.length - 1; i >= 0; i--) {
-                var unique_visits = parseInt(data[i].unique_visits, 10)
-                var views = parseInt(data[i].total_visits, 10);
-                var total = unique_visits + views;
-
-                var height_percent = (total / max) * 100;
-                var unique_visits_percent = (unique_visits / total) * 100;
-                var views_percent = (views / total) * 100;
-                var tip = 'Unique visitors: ' + unique_visits + '<br>';
-                tip += 'All views: ' + views + '<br>';
-                tip += 'Date: ' + data[i].visit_date + '';
-                var html = '<div class="mw-admin-stat-item tip" style="height:' + height_percent + '%;" data-tip="' + tip + '">';
-
-                html += '<div class="mw-admin-stat-item-views" style="height:' + views_percent + '%;"></div>';
-                html += '<div class="mw-admin-stat-item-uniques" style="height:' + unique_visits_percent + '%;"></div>';
-
-                var date = new Date(data[i].visit_date)
-                if (type == 'day') {
-                    var day = mw.adminStat.weekDays[date.getUTCDay()];
-                    html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
-                }
-
-                html += '</div>';
-                final.push(html);
-            }
-            return final.join('')
-        }
-    }
-
-
-    $(document).ready(function () {
-
-        mw.$("#stats_nav a").click(function () {
-            var el = $(this);
-
-            if (!el.hasClass("active")) {
-                mw.$('.dashboard_stats').addClass('no-transition').height(0)
-                mw.$("#stats_nav a").removeClass("active");
-                el.addClass("active");
-                var data = el.dataset("stat");
-                mw.adminStat.draw(mw.adminStatdatas[data], data);
-
-                setTimeout(function () {
-                    mw.$('.dashboard_stats').removeClass('no-transition')
-                    mw.$('.dashboard_stats').height(125)
-                }, 100)
-            }
-        });
-
-        mw.adminStat.draw(<?php print $data1; ?>, 'day');
-
-        setTimeout(function () {
-            mw.$('.dashboard_stats').height(125)
-        }, 500)
-
-    });
-
-</script>
