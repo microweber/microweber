@@ -1,6 +1,11 @@
-<div>
-  <h2><?php _e('Other shop settings'); ?></h2>
-  <hr>
+<div class="section-header">
+    <h2>
+        <span class="mai-options"></span>
+         <?php _e('Other shop settings'); ?></h2>
+</div>
+<div class="admin-side-content">
+
+
   <h4>
     <?php _e("Users must agree to Terms and Conditions"); ?>
   </h4>

@@ -77,17 +77,33 @@ mw.admin = {
                     });
                     var el = this;
                     this.mwtooltip.style.display = 'none';
-
+                    this.__tooltipActive = false;
                     $(this).on('click', function () {
-                        mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
-                        $(this).addClass('active');
-                        $(this.mwtooltip).show();
+                        if(!this.__tooltipActive){
+                            this.__tooltipActive = true;
+                            mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
+                            $(this).addClass('active');
+                            $(this.mwtooltip).show();
+                        }
+                        else{
+                            this.__tooltipActive = false;
+                            $(this).removeClass('active');
+                            $(this.mwtooltip).hide();
+                        }
+
 
                     });
 
                     $(document.body).on('click', function (e) {
                       if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['create-content-btn'])){
-                        $(tip).hide();
+
+                          var create_content_btn = mwd.querySelectorAll('.create-content-btn');
+                          $(create_content_btn).each(function () {
+                              $(this.mwtooltip).hide();
+                              this.__tooltipActive = false;
+                              $(this).removeClass('active');
+                          })
+
                       }
 
                     });
@@ -95,26 +111,7 @@ mw.admin = {
 
 
 
-                    /*
-                    $(this).timeoutHover(function () {
-                        mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
-                        $(el).addClass('active');
-                        $(this.mwtooltip).show();
-                    }, function () {
-                        if (this.mwtooltip.originalOver === false) {
-                            $(this.mwtooltip).hide();
-                            $(el).removeClass('active');
-                        }
-                    });
 
-                    $(this.mwtooltip).timeoutHover(function () {
-                        $(el).addClass('active');
-                    }, function () {
-                        if (this.originalOver === false) {
-                            $(this).hide();
-                            $(el).removeClass('active');
-                        }
-                    });*/
                 }
             });
         }

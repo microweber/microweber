@@ -1347,7 +1347,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu li li a [class*='mw-icon-'] {
     font-size: 14px;
     width: 25px;
-    top: 3px;
+    top: 2px;
     float: left;
 }
 
@@ -3181,7 +3181,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 .manage-post-image-product:after {
-    content: '' \0071 ';
+    content: '\0071';
 }
 
 .manage-post-item.ui-sortable-helper {

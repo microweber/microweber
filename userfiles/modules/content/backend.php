@@ -174,6 +174,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     mw.on.hashParam("action", function () {
 
+
         if (this == false) {
             mw.$('#pages_edit_container').removeAttr('page-id');
             mw_clear_edit_module_attrs();
@@ -183,7 +184,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.admin.CategoryTreeWidth(this);
 
-        $(mwd.body).addClass("loading");
+        mw.tools.loading(mwd.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
@@ -247,7 +248,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     });
 
 
-    edit_load = function (module) {
+    edit_load = function (module, callback) {
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
         if (n == 'true') {
             var slide = false;
@@ -258,7 +259,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
-
+        mw.tools.loading(mwd.body, true)
         mw.tools.loading('.fade-window', !!action);
         var time = !action ? 300 : 0;
         if(!action){
@@ -268,6 +269,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                 mw.load_module(module, holder, function(){
                     mw.tools.loading('.fade-window', false);
                     mw.$('.fade-window').addClass('active')
+                    if(callback)callback.call();
+                    mw.tools.loading(mwd.body, false)
                 });
             }, time)
 

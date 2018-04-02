@@ -18,12 +18,10 @@ $(document).ready(function(){
    window.parent.$('html,body,.fade-window').on('scroll', function () {
        var stop = $(this).scrollTop() + $(this).offset().top,
            otop = parent.$('.mw-iframe-editor').offset().top;
-        if(otop <= 0 ){
-            $("#mw-admin-text-editor").css({
-                top:Math.abs(otop)
-            })
-        }
-        $('#mw-admin-text-editor')[otop <= 0 ? 'addClass':'removeClass']('scrolled');
+
+        $('#mw-admin-text-editor')[otop <= 0 ? 'addClass':'removeClass']('scrolled').css({
+            top: otop <= 0 ? Math.abs(otop) : 0
+        });
    })
 
 
