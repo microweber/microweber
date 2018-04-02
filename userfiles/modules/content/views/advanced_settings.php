@@ -266,7 +266,7 @@ if (!empty($template_config)) {
                             <span class="mw-switch-on">YES</span>
                             <span class="mw-switcher"></span>
                         </label>
-                        
+
                     </div>
                     <div class="mw_clear vSpace"></div>
                 <?php endif; ?>

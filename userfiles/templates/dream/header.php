@@ -31,7 +31,7 @@
                 return html;
             }
 
-        $(window).on('mw.cart.add', function () {
+        mw.on('mw.cart.add', function () {
             var notification = $('body').find('.notification[data-notification-link="cart-overview"]');
             notification.removeClass('notification--dismissed');
             mr.notifications.showNotification(notification, 0);

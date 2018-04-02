@@ -25,7 +25,7 @@ $(document).ready(function () {
         mw.msg.product_added = "Your product is added to the shopping cart";
     }
 
-    // $(window).bind('mw.cart.add', function () {
+    // mw.on('mw.cart.add', function () {
     //     var modal_html = ''
     //         + '<div id="mw-product-added-popup-holder"> '
     //         + '<h4>' + mw.msg.product_added + '</h4>'
@@ -38,7 +38,7 @@ $(document).ready(function () {
     //
     // });
 
-    $(window).bind('mw.cart.add', function(event, data){
+    mw.on('mw.cart.add', function(event, data){
 
         if(document.getElementById('AddToCartModal') === null){
 

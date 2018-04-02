@@ -85,26 +85,23 @@ if($params['period']){
         </div>
     </div>
 </div>
-<?php return;  ?>
+<?php //return;  ?>
 <small><pre style="max-height: 100px; overflow: scroll; font-size: 7px;">
     <?php
 
-    print_R($graph_data)
+    //print_R($graph_data);
+
+    $data1 = json_encode($graph_data);
     ?></pre></small>
-<?php return; ?>
+<?php //return; ?>
 
-<script type="text/javascript">
-    mw.statdatas = {
-        day:<?php print json_encode($visits_daily); ?>,
-        week:<?php print json_encode($visits_weekly); ?>,
-        month:<?php print json_encode($visits_monthly); ?>
-    }
 
-</script>
+
+
 <script type="text/javascript">
 
 
-    mw.stat = {
+    mw.adminStat = {
         weekDays: [
             '<?php _e("Sun"); ?>',
             '<?php _e("Mon"); ?>',
@@ -114,9 +111,16 @@ if($params['period']){
             '<?php _e("Fri"); ?>',
             '<?php _e("Sat"); ?>'
         ],
+        eachStatItem:function(data, callback){
+            var i = 0;
+            for( i in data){
+                callback.call(data[i], data[i], i);
+            }
+        },
         draw: function (data, type) {
+            console.log(122, data)
             if (typeof(data[0]) != 'undefined') {
-                var html = mw.stat.html(data, type);
+                var html = mw.adminStat.html(data, type);
                 mw.$('.dashboard_stats').html(html)
             }
         },
@@ -127,10 +131,19 @@ if($params['period']){
                 return (calc_prev > calc_current) ? prev : current
             })
         },
+        prepare:function(data){
+            mw.adminStat.eachItem(data, function(){
+                this.reverse()
+                this.slice(0, Math.min(13, data.visists.length));
+            })
+            return data;
+        },
         html: function (idata, type) {
-            data = idata.reverse();
-            data = data.slice(0, Math.min(13, data.length));
-            var max = mw.stat.getMax(data), i, final = [];
+
+            data = mw.adminStat.prepare(idata);
+
+            var max = mw.adminStat.getMax(data), i, final = [];
+            console.log(idata)
             max = parseInt(max.total_visits, 10) + parseInt(max.unique_visits, 10);
             for (i = data.length - 1; i >= 0; i--) {
                 var unique_visits = parseInt(data[i].unique_visits, 10)
@@ -150,7 +163,7 @@ if($params['period']){
 
                 var date = new Date(data[i].visit_date)
                 if (type == 'day') {
-                    var day = mw.stat.weekDays[date.getUTCDay()];
+                    var day = mw.adminStat.weekDays[date.getUTCDay()];
                     html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
                 }
 
@@ -172,7 +185,7 @@ if($params['period']){
                 mw.$("#stats_nav a").removeClass("active");
                 el.addClass("active");
                 var data = el.dataset("stat");
-                mw.stat.draw(mw.statdatas[data], data);
+                mw.adminStat.draw(mw.adminStatdatas[data], data);
 
                 setTimeout(function () {
                     mw.$('.dashboard_stats').removeClass('no-transition')
@@ -181,7 +194,7 @@ if($params['period']){
             }
         });
 
-        mw.stat.draw(mw.statdatas.day, 'day');
+        mw.adminStat.draw(<?php print $data1; ?>, 'day');
 
         setTimeout(function () {
             mw.$('.dashboard_stats').height(125)
