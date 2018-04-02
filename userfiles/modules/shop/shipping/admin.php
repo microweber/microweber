@@ -32,7 +32,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 ?>
 
 <div class="section-header">
-    <h2 class="pull-left" style="padding: 7px;"><span class="mai-shipping"></span> <?php _e("Shipping"); ?></h2>
+    <h2 class="pull-left"><span class="mai-shipping"></span> <?php _e("Shipping"); ?></h2>
     <?php if (is_array($shipping_modules)): ?>
         <?php foreach ($shipping_modules as $shipping_module): ?>
             <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>

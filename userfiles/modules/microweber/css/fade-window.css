@@ -35,8 +35,10 @@
 }
 
 .fade-window .window-holder .content {
-    width: 940px;
+    width: 100%;
+    max-width: 980px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .fade-window .window-holder .top-bar {
@@ -196,6 +198,10 @@
     font-size: 12px;
     font-weight: bold;
     min-width: 115px;
+}
+
+.fade-window .window-holder #content-title-field-buttons ul li .btn-posts-state {
+    min-width: 142px;
 }
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-save {
@@ -471,10 +477,126 @@
     font-size: 14px;
 }
 
-
 .fade-window .window-holder #content-title-field-buttons .mw-ui-btn > .mai-eye2 {
     font-size: 17px;
     float: left;
     margin-top: -2px;
-    height: 10px;
+    height: 14px;
+}
+
+@media screen and (max-width: 1199px) {
+    .fade-window .window-holder #content-title-field-buttons ul li a,
+    .fade-window .window-holder #content-title-field-buttons ul li button {
+        min-width: auto;
+    }
+
+    .fade-window .window-holder #content-title-field-buttons ul li a span,
+    .fade-window .window-holder #content-title-field-buttons ul li button span {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .fade-window .window-holder .top-bar .center-side {
+        display: none;
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs {
+        width: 100%;
+        border: 1px solid #0086db;
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
+        width: 50%;
+        border: 0 !important;
+        text-align: left;
+
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active,
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:focus {
+        color: #fff;
+        background-color: #0086db;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:hover {
+        color: #4d4d4d;
+        background: #f5f5f5;
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active i {
+        color: #fff;
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:hover i {
+        color: #4d4d4d;
+    }
+
+    .fade-window .window-holder .mw-ui-box-content {
+        padding: 20px;
+    }
+
+    .fade-window .window-holder .module-live-edit-settings {
+        padding: 0px;
+    }
+
+    #mw-admin-text-editor {
+        opacity: 1 !important;
+    }
+
+    .fade-window .window-holder #content-title-field-row {
+        margin-top: 20px;
+    }
+
+    #slug-field-holder {
+        width: 100%;
+    }
+
+    .fade-window .window-holder .edit-post-url {
+        display: block;
+    }
+
+    .fade-window .window-holder #settings-btn-column {
+        float: right;
+    }
+
+    .fade-window .window-holder .mw-admin-edit-content-holder {
+        margin-bottom: 0px;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
+        width: 100%;
+        border-bottom: 1px solid #0086db !important;
+    }
+
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn:last-of-type {
+        border-bottom: 0 !important;
+    }
+
+    .fade-window .window-holder .top-bar {
+        height: 120px;
+        border-bottom:0;
+    }
+
+    .fade-window .window-holder .top-bar .left-side,
+    .fade-window .window-holder .top-bar .right-side {
+        height: 60px;
+    }
+
+    .fade-window .window-holder .top-bar .left-side,
+    .fade-window .window-holder .top-bar .right-side,
+    .fade-window .window-holder .top-bar .btn-close {
+        width: 100%;
+    }
+
+    .fade-window .window-holder .top-bar .btn-close {
+        border-left: 1px solid #138fde;
+        border-bottom: 1px solid #138fde;
+    }
 }

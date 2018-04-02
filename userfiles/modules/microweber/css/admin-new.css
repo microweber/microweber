@@ -681,6 +681,45 @@
     padding: 3px 7px;
 }
 
-.mw-ui-btn-circle.btn-back span{
+.mw-ui-btn-circle.btn-back span {
     font-size: 13px;
+}
+
+.admin-toolbar .notif-btn .mw-notification-count {
+    right: 0;
+    top: 0;
+    margin-left: 10px;
+}
+
+.admin-toolbar .notif-btn:hover {
+    background: #555555;
+}
+
+.admin-toolbar .notif-btn:hover {
+    background: #555555;
+}
+
+.admin-toolbar .notif-btn {
+    color: #fff;
+    border: 0;
+    background: none;
+}
+
+.admin-toolbar .notif-btn span[class*='mw-icon-'] {
+    float: left;
+    width: 13px;
+}
+
+@media screen and (max-width: 1199px) {
+    .admin-toolbar .notif-btn .notif-label {
+        display: none;
+    }
+
+    .admin-toolbar .notif-btn .mw-notification-count {
+        margin-left: 0px;
+    }
+
+    .admin-toolbar .notif-btn span {
+        font-size: 18px;
+    }
 }

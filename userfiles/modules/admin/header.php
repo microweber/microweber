@@ -213,9 +213,17 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     }
 
     #mw-admin-mobile-header nav a.mamh-shop {
-        font-size: 28px;
+        font-size: 24px;
         display: inline-block;
         position: relative;
+    }
+
+    #mw-admin-mobile-header nav a.mamh-shop span:before {
+        vertical-align: middle;
+    }
+
+    #mw-admin-mobile-header nav a.mamh-shop .mw-notification-count {
+        right: 10px;
     }
 
     #mw-admin-mobile-header nav a:hover {
@@ -270,9 +278,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
         <nav>
             <a class="mw-admin-mobile-admin-sidebar-toggle"><span class="mw-icon-menu"></span></a>
             <a class="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus-circled"></span></a>
-            <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mai-product"></span><?php print $notif_html; ?></a>
-
-
+            <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mai-shop"></span><?php print $notif_html; ?></a>
         </nav>
         <div id="user-menu-top">
             <?php $user_id = user_id();
@@ -321,32 +327,76 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
         </div>
     </div>
 <?php endif; ?>
+
 <div id="mw-admin-container">
     <?php if (is_admin()): ?>
     <div class="admin-toolbar">
         <div class="create-content scroll-height-exception">
-            <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn">
-                <span class="mai-plus"></span>
-                <?php _e("Add New"); ?>
-                <span class="mai-cd"></span>
-            </a>
-            <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
-                <span class="mai-eye2"></span>
-                &nbsp;
-                <?php _e("Live Edit"); ?>
-            </a>
+            <div class="mw-ui-row">
+                <div class="mw-ui-col">
+                    <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn">
+                        <span class="mai-plus"></span>
+                        <?php _e("Add New"); ?>
+                        <span class="mai-cd"></span>
+                    </a>
+                </div>
+                <div class="mw-ui-col center">
+                    <?php if ($notif_count != ''): ?>
+                        <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn mw-ui-btn-default notif-btn">
+                            <span class="mai-shop"></span> &nbsp; <?php print $notif_html; ?>
+                            <span class="notif-label">
+                                <?php if ($notif_count == 1): ?>
+                                    <?php _e("New order"); ?>
+                                <?php elseif ($notif_count > 1): ?>
+                                    <?php _e("New orders"); ?>
+                                <?php endif; ?>
+                            </span>
+                        </a>
+                    <?php endif; ?>
 
+                    <?php if ($notif_count != ''): ?>
+                        <a href="<?php print admin_url(); ?>" class="mw-ui-btn mw-ui-btn-default notif-btn">
+                            <span class="mw-icon-comment"></span> &nbsp; <?php print $notif_html; ?>
+                            <span class="notif-label">
+                                <?php if ($notif_count == 1): ?>
+                                    <?php _e("New comment"); ?>
+                                <?php elseif ($notif_count > 1): ?>
+                                    <?php _e("New comments"); ?>
+                                <?php endif; ?>
+                            </span>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if ($notif_count != ''): ?>
+                        <a href="<?php print admin_url(); ?>" class="mw-ui-btn mw-ui-btn-default notif-btn">
+                            <span class="mai-notification"></span> &nbsp; <?php print $notif_html; ?>
+                            <span class="notif-label">
+                                <?php if ($notif_count == 1): ?>
+                                    <?php _e("New notification"); ?>
+                                <?php elseif ($notif_count > 1): ?>
+                                    <?php _e("New notifications"); ?>
+                                <?php endif; ?>
+                            </span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+                <div class="mw-ui-col">
+                    <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
+                        <span class="mai-eye2"></span>
+                        &nbsp;
+                        <?php _e("Live Edit"); ?>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
             <div id="main-bar" class="scroll-height-exception-master">
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
-                <a href="<?php print site_url(); ?>"
-                   id="main-bar-mw-icon"
-                   target="_blank"
-
+                <a href="<?php print site_url(); ?>" id="main-bar-mw-icon" target="_blank"
                    class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {
                        print 'active';
                    } ?>">
@@ -410,27 +460,17 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php if ($shop_disabled == false): ?>
                         <li <?php if ($view == 'shop' and $action == false): ?> class="active"
                         <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent" <?php endif; ?>>
-                            <a href="<?php print admin_url(); ?>view:shop" title="">
-                  <span class="mai-market2">
-
-
-
-                                   <?php if ($view != 'shop' and $notif_count > 0) {
-                                       print $notif_html;
-                                   }; ?>
-
-                  </span> <strong>
-                                    <?php _e("Shop"); ?>
-                                </strong> </a>
+                            <a href="<?php print admin_url(); ?>view:shop" title=""><span class="mai-market2"><?php if ($view != 'shop' and $notif_count > 0) {
+                                        print $notif_html;
+                                    }; ?></span> <strong><?php _e("Shop"); ?></strong></a>
                             <ul>
                                 <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:shop/action:orders">
                                         <span class="mai-shop"></span>
-                                        <span class="relative">
-                        <?php _e("Orders"); ?>
-                        <?php if ($view == 'shop') {
-                            print $notif_html;
-                        } ?>
+                                        <span class="relative"><?php _e("Orders"); ?>
+                                            <?php if ($view == 'shop') {
+                                                print $notif_html;
+                                            } ?>
                     </span>
                                     </a>
                                 </li>
