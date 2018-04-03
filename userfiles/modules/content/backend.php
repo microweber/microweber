@@ -143,16 +143,19 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         else {
             mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         }
-        if (active_item_is_parent != undefined) {
-           // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
-          //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
-            mw.$(".is_page.content-item-" + active_item_is_parent).addClass('active-bg')
-            mw.$(".is_page.content-item-" + active_item_is_parent).children().first().addClass('active')
-            mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
-        }
-        else {
-            mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
-        }
+//        if (active_item_is_parent != undefined) {
+//           // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
+//          //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+//            mw.$(".is_page.content-item-" + active_item_is_parent).addClass('active-bg')
+//            mw.$(".is_page.content-item-" + active_item_is_parent).children().first().addClass('active')
+//            mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
+//        }
+//        else {
+//            mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+//        }
+
+        mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+
         mw.$('#pages_edit_container').attr('data-page-id', $p_id);
         mw.$('#pages_edit_container').attr('data-type', 'content/edit');
         mw.$('#pages_edit_container').removeAttr('data-subtype');
