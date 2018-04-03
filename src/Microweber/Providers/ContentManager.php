@@ -1185,8 +1185,8 @@ class ContentManager
                             }
                             //$cat_params['try_rel_id'] = $item['id'];
 
-                            if (isset($categores_link)) {
-                                $cat_params['link'] = $categores_link;
+                            if (isset($categories_link)) {
+                                $cat_params['link'] = $categories_link;
                             } else {
                                 $cat_params['link'] = $link;
                             }

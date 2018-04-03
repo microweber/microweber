@@ -102,7 +102,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if(!active_item_is_parent){
             active_item_is_parent  = $p_id;
         }
-        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .pages_tree_item.item_'+active_item_is_parent).first();
+        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .content-item-'+active_item_is_parent).first();
 
 
         var active_item_is_category = active_item.attr('data-category-id');
@@ -146,8 +146,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if (active_item_is_parent != undefined) {
            // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
           //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
-            mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).addClass('active-bg')
-            mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).children().first().addClass('active')
+            mw.$(".is_page.content-item-" + active_item_is_parent).addClass('active-bg')
+            mw.$(".is_page.content-item-" + active_item_is_parent).children().first().addClass('active')
             mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
         }
         else {
@@ -184,7 +184,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.admin.CategoryTreeWidth(this);
 
-        mw.tools.loading(mwd.body, true)
+      //  mw.tools.loading(mwd.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
@@ -197,9 +197,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var arr = this.split(":");
         $(mwd.body).removeClass("action-Array");
-        var cat_id = mw.url.windowHashParam("category_id");
+        var cat_id = mw.url.windowHashParam("data-category-id");
         if (typeof cat_id != 'undefined') {
-            mw.$('#pages_edit_container').attr('category_id', cat_id);
+            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
         }
         else {
             mw.$('#pages_edit_container').removeAttr('data-active-item');
@@ -214,10 +214,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.$(".mw_action_nav").removeClass("not-active");
             var active_item = mw.$(".item_" + arr[1]);
             if (arr[0] == 'showposts') {
-                var active_item = mw.$(".pages_tree_item.item_" + arr[1]);
+                var active_item = mw.$(".content-item-" + arr[1]);
             }
             else if (arr[0] == 'showpostscat') {
-                var active_item = mw.$(".category_element.item_" + arr[1]);
+                var active_item = mw.$(".category-item-" + arr[1]);
             }
             //active_item.addClass('active-bg');
             //active_item.parents("li").addClass('active');
@@ -259,8 +259,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
-        mw.tools.loading(mwd.body, true)
-        mw.tools.loading('.fade-window', !!action);
+       // mw.tools.loading(mwd.body, true)
+       // mw.tools.loading('.fade-window', !!action);
         var time = !action ? 300 : 0;
         if(!action){
             mw.$('.fade-window').removeClass('active');
@@ -287,7 +287,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
 
-        var active_item = mw.$(".category_element.item_" + $p_id);
+        var active_item = mw.$(".category-item-" + $p_id);
         active_item.addClass('active-bg');
 
 
@@ -347,13 +347,13 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
-            var active_item = mw.$(".pages_tree_item.item_" + in_page);
+            var active_item = mw.$(".content-item-" + in_page);
             active_item.addClass('active-bg');
         }
 
         if (in_page != undefined && is_cat != undefined) {
             cont.attr('data-category-id', in_page);
-            var active_item = mw.$(".category_element.item_" + in_page);
+            var active_item = mw.$(".category-item-" + in_page);
             active_item.addClass('active-bg');
         }
 
@@ -368,8 +368,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             .removeAttr('subtype')
             .removeAttr('data-parent-category-id')
             .removeAttr('data-category-id')
-            .removeAttr('category_id')
-            .removeAttr('category_id')
+            .removeAttr('data-category-id')
+            .removeAttr('data-category-id')
             .removeAttr('content-id')
             .removeAttr('data-page-id')
             .removeAttr('content_type_filter')
@@ -475,8 +475,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container')
             .removeAttr('data-parent-category-id')
             .removeAttr('data-category-id')
-            .removeAttr('category_id')
-            .removeAttr('category_id')
+            .removeAttr('data-category-id')
+            .removeAttr('data-category-id')
             .removeAttr('content-id')
             .removeAttr('content-id')
             .removeAttr('content-id')
