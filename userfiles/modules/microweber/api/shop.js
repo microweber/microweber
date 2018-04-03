@@ -33,7 +33,7 @@ mw.cart = {
                 if (typeof c === 'function') {
                     c.call(data);
                 }
-                $(window).trigger('mw.cart.add', [data]);
+                mw.trigger('mw.cart.add', [data]);
             });
     },
 
@@ -82,7 +82,7 @@ mw.cart = {
                     c.call(data);
                 }
 
-                $(window).trigger('mw.cart.add', [data]);
+                mw.trigger('mw.cart.add', [data]);
             });
     },
 
@@ -98,7 +98,7 @@ mw.cart = {
                         mw.reload_module("shop/cart");
                     }
                 });
-                $(window).trigger('mw.cart.remove', [data]);
+                mw.trigger('mw.cart.remove', [data]);
             });
     },
 
@@ -110,7 +110,7 @@ mw.cart = {
         $.post(mw.settings.api_url + 'update_cart_item_qty', data,
             function (data) {
                 mw.reload_module('shop/cart');
-                $(window).trigger('mw.cart.qty', [data]);
+                mw.trigger('mw.cart.qty', [data]);
             });
 
     },
@@ -131,7 +131,7 @@ mw.cart = {
             data: obj
         })
             .done(function (data) {
-                $(window).trigger('checkoutDone', data);
+                mw.trigger('checkoutDone', data);
 
 
                 var data2 = data;
@@ -163,7 +163,7 @@ mw.cart = {
                         }
 
 
-                        $(window).trigger('mw.cart.checkout.success', data2);
+                        mw.trigger('mw.cart.checkout.success', data2);
 
 
             						if (typeof(data2.redirect) != 'undefined') {
@@ -201,7 +201,7 @@ mw.cart = {
                 form.dataset("loading", 'false');
                 form.find('.mw-checkout-btn').removeAttr('disabled');
                 form.find('.mw-checkout-btn').show();
-                $(window).trigger('mw.cart.checkout', [data]);
+                mw.trigger('mw.cart.checkout', [data]);
             });
     }
 }

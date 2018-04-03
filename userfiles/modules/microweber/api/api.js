@@ -135,6 +135,9 @@ mw.askusertostay = false;
     if (!~mw.required.indexOf(toPush)) {
       mw.required.push(toPush);
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+      if(document.querySelector('link[href="'+url+'"],script[src="'+url+'"]') !== null){
+          return
+      }
       var string = t != "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
       if ((mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
          mwd.write(string);
@@ -161,6 +164,25 @@ mw.askusertostay = false;
       }
     }
   }
+
+  mw.getScripts = function (array, callback) {
+    if(array.length === 0){
+        callback.call();
+    }
+    else{
+        var curr = array.shift();
+        if (!~mw.required.indexOf(curr)) {
+            mw.required.push(curr);
+            $.getScript(curr, function () {
+                mw.getScripts(array, callback)
+            });
+        }
+        else{
+            mw.getScripts(array, callback)
+        }
+    }
+  }
+
   mw.moduleCSS = mw.module_css = function(url){
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
@@ -371,6 +393,45 @@ mw.askusertostay = false;
 
 	}
   }
+  mw.reload_modules = function(array, callback, simultaneously) {
+      if(array.array && !array.slice){
+          callback = array.callback || array.done || array.ready;
+          simultaneously = array.simultaneously;
+          array = array.array;
+      }
+      simultaneously = simultaneously || false;
+      if(simultaneously){
+        var l = array.length, ready = 0, i = 0;
+        for( ; i<l; i++){
+            mw.reload_module(array[i], function(){
+                ready++;
+                if(ready === l && callback){
+                    callback.call();
+                }
+            });
+        }
+      }
+      else{
+        if(array.length === 0){
+            if(callback){
+                callback.call()
+            }
+        }
+        else{
+            mw.reload_module(array[0], function(){
+                array.shift();
+                mw.reload_modules(array, callback, false);
+            });
+        }
+      }
+  };
+  mw.reload_module_everywhere = function(module) {
+    mw.tools.foreachAllWindows(function () {
+        if(this.mw && this.mw.reload_module){
+            this.mw.reload_module(module)
+        }
+    })
+  }
   mw.reload_module = function(module, callback) {
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;
@@ -518,7 +579,7 @@ mw.askusertostay = false;
       }
       mw.$(selector).replaceWith($(docdata.body).html());
       setTimeout(function(){
-        $(window).trigger('moduleLoaded'); 
+        mw.trigger('moduleLoaded');
       }, 33)
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
 
@@ -541,10 +602,12 @@ mw.askusertostay = false;
     })
     .fail(function(){
        mw.pauseSave = false;
+       typeof obj.fail === 'function' ? obj.fail.call(selector) : '';
     })
     .always(function(){
         mw.pauseSave = false;
     });
+    return xhr;
   }
 
 
@@ -625,20 +688,25 @@ mw.askusertostay = false;
   mw.serializeFields =  function(id, ignorenopost){
         var ignorenopost = ignorenopost || false;
         var el = mw.$(id);
-        fields = "input[type='text'], input[type='email'], input[type='number'], input[type='tel'], input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+        var fields = "input[type='text'], input[type='email'], input[type='number'], input[type='tel'], "
+                    + "input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], "
+                    +"input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked, "
+                    +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
         var data = {}
         $(fields, el).each(function(){
-            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name != '' && typeof this.name != 'undefined'){
+            if(!this.name){
+                console.warn('Name attribute missing on ' + this.outerHTML);
+            }
+            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name != 'undefined'){
               var el = this, _el = $(el);
               var val = _el.val();
               var name = el.name;
               if(el.name.contains("[]")){
-                try {
-                   data[name].push(val);
-                }
-                catch(e){
-                  data[name] = [val];
-                }
+                  data[name] = data[name] || []
+                  data[name].push(val);
+              }
+              else if(el.type === 'checkbox' && el.getAttribute('data-value-checked') ){
+                  data[name] = el.checked ? el.getAttribute('data-value-checked') : el.getAttribute('data-value-unchecked');
               }
               else{
                 data[name] = val;
@@ -775,6 +843,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
 //mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
 
 
 <?php  // include "jquery.js";  ?>
@@ -785,6 +854,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
 <?php  include "shop.js"; ?>
+<?php  include "common.js"; ?>
 
 
 

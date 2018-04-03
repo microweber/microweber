@@ -2,7 +2,8 @@ mw.admin = {
     scrollBoxSettings: {
         height: 'auto',
         size: 5,
-        distance: 5
+        distance: 5,
+        position:(document.documentElement.dir == 'rtl' ? 'left': 'right')
     },
     scrollBox: function (selector, settings) {
         var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
@@ -47,7 +48,9 @@ mw.admin = {
             var newheight = mw.admin.contentScrollBoxHeightFix(el)
             el.style.height = newheight + 'px';
             el.parentNode.style.height = newheight + 'px';
-            $(el).slimscroll();
+            $(el).slimscroll({
+                position:(document.documentElement.dir == 'rtl' ? 'left': 'right')
+            });
         });
     },
     treeboxwidth: function () {
@@ -74,17 +77,33 @@ mw.admin = {
                     });
                     var el = this;
                     this.mwtooltip.style.display = 'none';
-
+                    this.__tooltipActive = false;
                     $(this).on('click', function () {
-                        mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
-                        $(this).addClass('active');
-                        $(this.mwtooltip).show();
+                        if(!this.__tooltipActive){
+                            this.__tooltipActive = true;
+                            mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
+                            $(this).addClass('active');
+                            $(this.mwtooltip).show();
+                        }
+                        else{
+                            this.__tooltipActive = false;
+                            $(this).removeClass('active');
+                            $(this.mwtooltip).hide();
+                        }
+
 
                     });
 
                     $(document.body).on('click', function (e) {
                       if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['create-content-btn'])){
-                        $(tip).hide();
+
+                          var create_content_btn = mwd.querySelectorAll('.create-content-btn');
+                          $(create_content_btn).each(function () {
+                              $(this.mwtooltip).hide();
+                              this.__tooltipActive = false;
+                              $(this).removeClass('active');
+                          })
+
                       }
 
                     });
@@ -92,26 +111,7 @@ mw.admin = {
 
 
 
-                    /*
-                    $(this).timeoutHover(function () {
-                        mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
-                        $(el).addClass('active');
-                        $(this.mwtooltip).show();
-                    }, function () {
-                        if (this.mwtooltip.originalOver === false) {
-                            $(this.mwtooltip).hide();
-                            $(el).removeClass('active');
-                        }
-                    });
 
-                    $(this.mwtooltip).timeoutHover(function () {
-                        $(el).addClass('active');
-                    }, function () {
-                        if (this.originalOver === false) {
-                            $(this).hide();
-                            $(el).removeClass('active');
-                        }
-                    });*/
                 }
             });
         }
@@ -176,33 +176,24 @@ mw.admin = {
     manageToolbarQuickNav: null,
     manageToolbarInt: null,
     manageToolbarSet: function () {
+        return false;
         var toolbar = mwd.querySelector('.admin-manage-toolbar');
         if (toolbar === null) {
             return false;
         }
-        var scrolltop = $(window).scrollTop();
-        if (scrolltop > 0) {
-            mw.tools.addClass(toolbar, 'admin-manage-toolbar-scrolled');
-            // toolbar.style.width = toolbar.parentNode.offsetWidth + 'px';
-            //toolbar.style.top = scrolltop + 'px';
-            toolbar.style.width = ($(toolbar.parentNode).width() + 35) + 'px';
-        }
-        else {
-            mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
-            toolbar.style.width = $(toolbar.parentNode).width() + 'px';
-        }
+
         if (mw.admin.manageToolbarQuickNav === null && mwd.getElementById('content-edit-settings-tabs') !== null) {
             mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
         }
         if (mw.admin.manageToolbarQuickNav !== null) {
             if ((scrolltop) > 0) {
                 if (mwd.getElementById('content-edit-settings-tabs') != null) {
-                    mw.$("#content-edit-settings-tabs").addClass('fixed').css('left', $(mwd.getElementById('content-edit-settings-tabs').parentNode).offset().left);
+
                     mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
                 }
             }
             else {
-                mw.$("#content-edit-settings-tabs").removeClass('fixed');
+
                 mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
             }
             QTABSArrow('#quick-add-post-options .active');
@@ -266,19 +257,7 @@ mw.admin = {
 
         mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
     },
-    titleColumnNavWidth: function () {
-        var _n = mwd.getElementById('content-title-field-buttons');
-        if (_n !== null) {
-            var n1 = _n.querySelector('.content-title-field-buttons');
-            var n2 = _n.querySelector('.mw-ui-btn-nav');
-            if (n1 !== null) {
-                _n.style.width = n1.offsetWidth + 20 + 'px';
-            }
-            else if (n2 !== null) {
-                _n.style.width = n2.offsetWidth + 20 + 'px';
-            }
-        }
-    },
+
     postStates: {
         show: function (el, pos) {
             if (!mw.admin.postStatesTip) {
@@ -358,15 +337,7 @@ mw.admin = {
             }
         }
     },
-    showLinkNav: function () {
-        var all = mwd.querySelector('.select_posts_for_action:checked');
-        if (all === null) {
-            mw.$('.mw-ui-link-nav').hide();
-        }
-        else {
-            mw.$('.mw-ui-link-nav').show();
-        }
-    },
+
     simpleRotator: function (rotator) {
         if (rotator === null) {
             return undefined;
@@ -747,7 +718,11 @@ $(mwd).ready(function () {
 
     mw.admin.beforeLeaveLocker();
 
-    
+    $(document.body).on('click', '[data-href]', function(e){
+        e.preventDefault();
+        e.stopPropagation()
+        location.href = e.target.getAttribute('data-href')
+    })
 
 
 });
@@ -850,6 +825,10 @@ $(mww).bind('load', function () {
         var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
         btn.innerHTML = mw.msg.save;
     });
+
+    mw.$(".dr-item-table > table").click(function(){
+        $(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
+    })
 
 
 

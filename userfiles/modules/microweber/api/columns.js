@@ -55,7 +55,7 @@ mw.drag.columns = {
         }
         mw.drag.columns.resizer.pos = e.pageX;
         mw.drag.columns.position(mw.drag.columns.resizer.curr);
-        $(window).trigger('columnResize', mw.drag.columns.resizer.curr);
+        mw.trigger('columnResize', mw.drag.columns.resizer.curr);
     },
     position: function (el) {
         if (!!mw.drag.columns.nextColumn(el)) {
@@ -70,11 +70,11 @@ mw.drag.columns = {
     },
     init: function () {
         mw.drag.columns.prepare();
-        $(window).bind("onColumnOver", function (e, col) {
+        mw.on("ColumnOver", function (e, col) {
             mw.drag.columns.resizer.pos = 0;
             mw.drag.columns.position(col);
         });
-        $(window).bind("onColumnOut", function (e, col) {
+        mw.on("ColumnOut", function (e, col) {
             $(mw.drag.columns.resizer).hide();
         });
 
