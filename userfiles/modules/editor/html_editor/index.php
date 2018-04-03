@@ -4,91 +4,18 @@
 
 <script type="text/javascript">
     mw.require('options.js');
-
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js');
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js');
 </script>
 
 
-
-
-
-
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.js"></script>
-
- -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js"></script>
-
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-css.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.7.4/js/lib/beautify-html.js"></script>
-<!--<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/3024-day.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/3024-night.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/abcdef.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/ambiance.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/base16-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/bespin.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/base16-light.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/blackboard.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/cobalt.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/colorforth.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/dracula.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/duotone-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/duotone-light.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/eclipse.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/elegant.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/erlang-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/hopscotch.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/icecoder.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/isotope.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/lesser-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/liquibyte.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/mbo.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/mdn-like.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/midnight.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/monokai.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/neat.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/neo.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/night.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/panda-syntax.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/paraiso-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/paraiso-light.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/pastel-on-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/railscasts.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/rubyblue.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/seti.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/solarized.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/the-matrix.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/tomorrow-night-bright.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/tomorrow-night-eighties.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/ttcn.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/twilight.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/vibrant-ink.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/xq-dark.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/xq-light.css">-->
 <link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
-<!--<link rel="stylesheet" href="https://codemirror.net/theme/zenburn.css">-->
 
+<link rel="stylesheet" href="https://codemirror.net/theme/material.css">
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
-
+    html,body{
+        direction: initial;
+    }
 
 
     #save{
@@ -99,39 +26,92 @@
       padding-right: 0;
     }
 
+    .liframe{
+        width:100%;
+        height: 120px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .liframe:after{
+        position: absolute;
+        content: '';
+        display: block;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        top:0;
+        left: 0;
+    }
+
+    .liframe iframe{
+        overflow: hidden;
+        width:300%;
+        height: 360px;
+        transform: scale(.33333);
+        transform-origin: 0 0;
+        pointer-events: none;
+    }
+
 </style>
 
 <script type="text/javascript">
     mw.require('<?php print modules_url()?>editor/selector.css');
     $time_out_handle = 0;
     $(document).ready(function () {
-        html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
-            lineNumbers: true,
-            lineWrapping: true,
+        mw.tools.loading(document.body, true);
+        mw.getScripts([
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js',
+            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js'
+            ], function(){
+                html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
+                    lineNumbers: true,
+                    lineWrapping: true,
 
-            indentWithTabs: true,
-            matchBrackets: true,
-            extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-            mode: "htmlmixed",
+                    indentWithTabs: true,
+                    matchBrackets: true,
+                    extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+                    mode: {
+                        name: "htmlmixed",
+                        scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+                            mode: null},
+                            {matches: /(text|application)\/(x-)?vb(a|script)/i,
+                                mode: "vbscript"}]
+                    },
 
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+                    foldGutter: true,
+                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
 
-        });
+                });
 
-        html_code_area_editor.setOption("theme", 'material');
-        html_code_area_editor.setSize("100%", "100%");
+                html_code_area_editor.setOption("theme", 'material');
+                html_code_area_editor.setSize("100%", "100%");
 
-        html_code_area_editor.on("change", function (cm, change) {
-            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
-            custom_html_code_mirror.value = cm.getValue();
+                html_code_area_editor.on("change", function (cm, change) {
+                    var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
+                    custom_html_code_mirror.value = cm.getValue();
 
-            window.clearTimeout($time_out_handle);
-            $time_out_handle = window.setTimeout(function () {
-                $(custom_html_code_mirror).change();
-            }, 2000);
+                    window.clearTimeout($time_out_handle);
+                    $time_out_handle = window.setTimeout(function () {
+                        $(custom_html_code_mirror).change();
+                    }, 2000);
 
-        });
+                });
+          });
+
 
 
     })
@@ -147,9 +127,6 @@
     $(document).ready(function () {
 
         mw.html_editor.init();
-
-
-
 
     })
 
