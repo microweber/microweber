@@ -160,10 +160,13 @@ if (!empty($cats__parents)): ?>
             $active_cats[] = $tree['categories_active_ids'];
             $active_cats = array_unique($active_cats);
             $tree['categories_active_ids'] = $active_cats;
+        } else {
+            $tree['categories_active_ids'] = $params['categories_active_ids'];
+
         }
 
     } else if (!empty($active_cats1)) {
-        // $tree['categories_active_ids'] = $active_cats1;
+       // $tree['categories_active_ids'] = $active_cats1;
 
     } else {
 
@@ -197,9 +200,9 @@ if (!empty($cats__parents)): ?>
     $tree['active_code'] = 'checked="checked" ';
 
     $tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
-    $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
+    $tree['categories_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
     if (isset($params['show_edit_categories_admin_link'])) {
-// $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title} "."<span title='Edit' onclick=\"event.stopPropagation();mw.url.windowHashParam('action', 'editcategory:{id}');return false;\" class='mw-icon-pen category-tree-icon-category-editable-hover-crtl'  ></span>"."</span></label>";
+// $tree['categories_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title} "."<span title='Edit' onclick=\"event.stopPropagation();mw.url.windowHashParam('action', 'editcategory:{id}');return false;\" class='mw-icon-pen category-tree-icon-category-editable-hover-crtl'  ></span>"."</span></label>";
     }
 
 

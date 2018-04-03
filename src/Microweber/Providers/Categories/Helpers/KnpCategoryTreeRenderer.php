@@ -256,13 +256,15 @@ class KnpCategoryTreeRenderer
 
             $active_ids = array($this->active_item_id);
             if(isset($params['active_ids']) and $params['active_ids']){
-                if(!is_array($params['active_ids'])){
-                    $params['active_ids'] = array($params['active_ids']);
+                if(!is_array($params['active_ids']) and $params['active_ids']){
+                    $a = explode(',', $params['active_ids']);
+                    $params['active_ids'] = $a;
                 }
                 $active_ids = array_merge($active_ids,$params['active_ids']);
                 $active_ids = array_map('intval', $active_ids);
 
             }
+
             $active_code = false;
             if (isset($params['active_code'])) {
                 $active_code = $params['active_code'];
@@ -440,9 +442,12 @@ class KnpCategoryTreeRenderer
                             $menu_attrs['checked'] = 'checked';
                         }
 
+
+
+
                         if($active_code){
                             $extra_attributes['active_code'] = $active_code;
-                        }
+                         }
 
                    // if ($this->active_item_id == $data['id']) {
                         $menu[$data['id']]->setCurrent(true);
