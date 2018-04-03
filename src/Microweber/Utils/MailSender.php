@@ -10,6 +10,7 @@ use View;
 use Swift_Mailer;
 use Swift_Message;
 use Swift_TransportException;
+use Illuminate\Support\Facades\Mail;
 
 
 class MailSender
@@ -81,6 +82,7 @@ class MailSender
             if (strstr($disabled_functions, 'escapeshellarg')) {
                 //if disabled, switch mail transporter
                 $transport = \Microweber\Utils\lib\mail\Swift_MailTransport::newInstance();
+
                 // set new swift mailer
                 \Mail::setSwiftMailer(new \Swift_Mailer($transport));
             }
@@ -116,22 +118,22 @@ class MailSender
         }
 
 
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'notifications/email';
-        $cache_content = mw()->cache_manager->get($function_cache_id, $cache_group);
-
-        if ($no_cache == false and ($cache_content) != false) {
-
-            // return $cache_content;
-        }
+//        $function_cache_id = false;
+//
+//        $args = func_get_args();
+//
+//        foreach ($args as $k => $v) {
+//            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//        }
+//
+//        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+//        $cache_group = 'notifications/email';
+//        $cache_content = mw()->cache_manager->get($function_cache_id, $cache_group);
+//
+//        if ($no_cache == false and ($cache_content) != false) {
+//
+//            // return $cache_content;
+//        }
 
         $email_from = $email_from ?: mw()->option_manager->get('email_from', 'email');
 
@@ -144,13 +146,14 @@ class MailSender
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-            $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to);
+           $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to);
             if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                $this->exec_send($cc, $subject, $message);
+                $sender = $this->exec_send($cc, $subject, $message);
             }
-            mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
 
-            return true;
+           // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
+
+            return $sender;
         } else {
             return false;
         }
@@ -213,8 +216,8 @@ class MailSender
         ///  escapeshellcmd() has been disabled for security reasons
 
 
-        try {
-            $exec = \Mail::send(
+       try {
+              \Mail::send(
                 'mw_email_send::emails.simple',
                 $content,
                 function ($message) use ($to, $subject, $from_address, $from_name, $reply_to) {
@@ -229,20 +232,21 @@ class MailSender
                         }
                     }
                     $message->to($to)->subject($subject);
+                    return true;
                 }
             );
-
-        } catch (\Exception $e) {
+           return true;
+         } catch (\Exception $e) {
             if ($this->silent_exceptions) {
-                return;
+               return false;
             } else {
-                echo 'Caught exception: ', $e->getMessage(), "\n";
-                return;
+               echo 'Caught exception: ', $e->getMessage(), "\n";
+               return false;
             }
-        }
+         }
 
 
-        return $exec;
+        return false;
 
 
     }
