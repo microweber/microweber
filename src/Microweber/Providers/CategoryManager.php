@@ -83,9 +83,9 @@ class CategoryManager
     public function tree($params = false)
     {
 
-//      $renderer = new KnpCategoryTreeRenderer($this->app);
+    $renderer = new KnpCategoryTreeRenderer($this->app);
 
-   $renderer = new LegacyCategoryTreeRenderer($this->app);
+   //$renderer = new LegacyCategoryTreeRenderer($this->app);
         return $renderer->render($params);
     }
 

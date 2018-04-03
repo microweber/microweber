@@ -86,7 +86,7 @@ $rand = uniqid(); ?>
             </option>
             <?php
             $pt_opts = array();
-            $pt_opts['link'] = "{empty}{title}";
+            $pt_opts['link'] = "{title}";
             $pt_opts['list_tag'] = " ";
             $pt_opts['list_item_tag'] = "option";
             //$pt_opts['include_categories'] = "option";
@@ -118,7 +118,7 @@ $rand = uniqid(); ?>
                 </option>
                 <?php
                 $pt_opts = array();
-                $pt_opts['link'] = "{empty}{title}";
+                $pt_opts['link'] = " {title}";
                 $pt_opts['list_tag'] = " ";
                 $pt_opts['list_item_tag'] = "option";
                 $pt_opts['active_ids'] = $posts_parent_category;

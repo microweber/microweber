@@ -1185,8 +1185,8 @@ class ContentManager
                             }
                             //$cat_params['try_rel_id'] = $item['id'];
 
-                            if (isset($categores_link)) {
-                                $cat_params['link'] = $categores_link;
+                            if (isset($categories_link)) {
+                                $cat_params['link'] = $categories_link;
                             } else {
                                 $cat_params['link'] = $link;
                             }
@@ -1203,6 +1203,13 @@ class ContentManager
                                 $cat_params['active_code'] = $active_code;
                             }
 
+                            if (isset($params['categories_extra_attributes'])) {
+                                $cat_params['extra_attributes'] = $params['categories_extra_attributes'];
+                            }
+
+
+
+
                             //$cat_params['for'] = 'content';
                             $cat_params['list_tag'] = $list_tag;
                             $cat_params['list_item_tag'] = $list_item_tag;
@@ -1210,7 +1217,7 @@ class ContentManager
                             $cat_params['rel_id'] = $item['id'];
 
                             $cat_params['include_first'] = 1;
-                            $cat_params['nest_level'] = $nest_level;
+                            $cat_params['nest_level'] = $nest_level+1;
                             if ($max_level != false) {
                                 $cat_params['max_level'] = $max_level;
                             }
@@ -1229,6 +1236,28 @@ class ContentManager
                                 if (isset($params['li_class'])) {
                                     $cat_params['li_class'] = $params['li_class'];
                                 }
+                            }
+
+
+                            if (isset($params['categories_ul_class'])) {
+                                $cat_params['ul_class'] = $params['categories_ul_class'];
+                            }
+
+                            if (isset($params['categories_link_class'])) {
+                                $cat_params['link_class'] = $params['categories_link_class'];
+                            }
+
+
+                            if (isset($params['categories_li_class'])) {
+                                $cat_params['li_class'] = $params['categories_li_class'];
+                            }
+                            if (isset($params['categories_ul_class_deep'])) {
+                                $cat_params['ul_class_deep'] = $params['categories_ul_class_deep'];
+                            }
+
+
+                            if (isset($params['categories_li_class_deep'])) {
+                                $cat_params['li_class_deep'] = $params['categories_li_class_deep'];
                             }
 
                             $this->app->category_manager->tree($cat_params);
@@ -1293,9 +1322,13 @@ class ContentManager
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
                 if ($ref_page != '') {
-                    $ref_page = $this->get_by_url($ref_page);
-//                    $e = new \Exception();
-//                    print_r($e->getTraceAsString());
+                    $ref_page = strtok($ref_page, '?');
+                    if ($ref_page == site_url()) {
+                        $ref_page = $this->homepage($ref_page);
+                    } else {
+                        $ref_page = $this->get_by_url($ref_page);
+
+                    }
                     if ($ref_page != false and !empty($ref_page)) {
                         $content = $ref_page;
                     }
@@ -2412,7 +2445,7 @@ class ContentManager
             }
         }
         $meta = $this->get_by_id($id);
-        if(!$meta){
+        if (!$meta) {
             return;
         }
 
@@ -2431,18 +2464,18 @@ class ContentManager
         }
         if ($descr) {
             if ($descr == 'mw_saved_inner_edit_from_parent_edit_field') {
-                $descr_from_edit_field =  $this->app->content_manager->edit_field("rel_type=content&rel_id=".$id);
-                if($descr_from_edit_field){
+                $descr_from_edit_field = $this->app->content_manager->edit_field("rel_type=content&rel_id=" . $id);
+                if ($descr_from_edit_field) {
                     $descr_from_edit_field = trim(strip_tags($descr_from_edit_field));
                 }
-                 if($descr_from_edit_field){
+                if ($descr_from_edit_field) {
                     $descr = trim($descr_from_edit_field);
                 }
 
             }
-         }
+        }
         if ($descr) {
-           return $descr;
+            return $descr;
         }
     }
 

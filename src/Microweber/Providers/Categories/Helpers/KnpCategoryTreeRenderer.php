@@ -220,7 +220,12 @@ class KnpCategoryTreeRenderer
 
 
         $renderer = new ListRenderer(new \Knp\Menu\Matcher\Matcher(), $options);
-        print $renderer->render($main_menu);
+        $tree = $renderer->render($main_menu);
+        if(isset($params['return_data']) and $params['return_data']){
+            return $tree;
+        } else {
+            print $tree;
+        }
 
     }
 

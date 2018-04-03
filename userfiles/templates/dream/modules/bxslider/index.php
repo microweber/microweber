@@ -12,11 +12,11 @@ if (!$module_template) {
 }
 $defaults = array(
     'images' => '' . template_url('assets/img/hero6.jpg') . '',
-    'primaryText' => lang("A bxSlider", "templates/dream");,
-    'secondaryText' => lang("Your text here", "templates/dream");,
-    'seemoreText' => lang("See more", "templates/dream");,
+    'primaryText' => lang("A bxSlider", "templates/dream"),
+    'secondaryText' => lang("Your text here", "templates/dream"),
+    'seemoreText' => lang("See more", "templates/dream"),
     'url' => '#',
-    'urlText' => lang("Click here", "templates/dream");,
+    'urlText' => lang("Click here", "templates/dream"),
     'skin' => 'default'
 );
 $data = array();

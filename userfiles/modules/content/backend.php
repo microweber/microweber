@@ -102,7 +102,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if(!active_item_is_parent){
             active_item_is_parent  = $p_id;
         }
-        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .pages_tree_item.item_'+active_item_is_parent).first();
+        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .content-item-'+active_item_is_parent).first();
 
 
         var active_item_is_category = active_item.attr('data-category-id');
@@ -143,16 +143,22 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         else {
             mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         }
-        if (active_item_is_parent != undefined) {
-           // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
-          //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
-            mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).addClass('active-bg')
-            mw.$(".is_page.pages_tree_item.item_" + active_item_is_parent).children().first().addClass('active')
-            mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
-        }
-        else {
-            mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
-        }
+
+//        if (active_item_is_parent != undefined) {
+//           // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
+//          //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+//            mw.$(".is_page.content-item-" + active_item_is_parent).addClass('active-bg')
+//            mw.$(".is_page.content-item-" + active_item_is_parent).children().first().addClass('active')
+//            mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
+//        }
+//        else {
+//            mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+//        }
+
+        mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+
+
+
         mw.$('#pages_edit_container').attr('data-page-id', $p_id);
         mw.$('#pages_edit_container').attr('data-type', 'content/edit');
         mw.$('#pages_edit_container').removeAttr('data-subtype');
@@ -174,6 +180,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     mw.on.hashParam("action", function () {
 
+
         if (this == false) {
             mw.$('#pages_edit_container').removeAttr('page-id');
             mw_clear_edit_module_attrs();
@@ -183,7 +190,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.admin.CategoryTreeWidth(this);
 
-        $(mwd.body).addClass("loading");
+      //  mw.tools.loading(mwd.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
@@ -196,9 +203,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var arr = this.split(":");
         $(mwd.body).removeClass("action-Array");
-        var cat_id = mw.url.windowHashParam("category_id");
+        var cat_id = mw.url.windowHashParam("data-category-id");
         if (typeof cat_id != 'undefined') {
-            mw.$('#pages_edit_container').attr('category_id', cat_id);
+            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
         }
         else {
             mw.$('#pages_edit_container').removeAttr('data-active-item');
@@ -213,10 +220,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.$(".mw_action_nav").removeClass("not-active");
             var active_item = mw.$(".item_" + arr[1]);
             if (arr[0] == 'showposts') {
-                var active_item = mw.$(".pages_tree_item.item_" + arr[1]);
+                var active_item = mw.$(".content-item-" + arr[1]);
             }
             else if (arr[0] == 'showpostscat') {
-                var active_item = mw.$(".category_element.item_" + arr[1]);
+                var active_item = mw.$(".category-item-" + arr[1]);
             }
             //active_item.addClass('active-bg');
             //active_item.parents("li").addClass('active');
@@ -247,11 +254,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     });
 
 
-    edit_load = function (module) {
-
-
+    edit_load = function (module, callback) {
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
-
         if (n == 'true') {
             var slide = false;
             mw.url.windowDeleteHashParam('new_content');
@@ -259,7 +263,25 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         else {
             var slide = true;
         }
-        mw.load_module(module, '#pages_edit_container');
+        var action = mw.url.windowHashParam('action');
+        var holder = $('#pages_edit_container');
+       // mw.tools.loading(mwd.body, true)
+       // mw.tools.loading('.fade-window', !!action);
+        var time = !action ? 300 : 0;
+        if(!action){
+            mw.$('.fade-window').removeClass('active');
+        }
+            setTimeout(function () {
+                mw.load_module(module, holder, function(){
+                    mw.tools.loading('.fade-window', false);
+                    mw.$('.fade-window').addClass('active')
+                    if(callback)callback.call();
+                    mw.tools.loading(mwd.body, false)
+                });
+            }, time)
+
+
+
     }
 
     function mw_select_category_for_editing($p_id) {
@@ -271,23 +293,13 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
 
-        var active_item = mw.$(".category_element.item_" + $p_id);
+        var active_item = mw.$(".category-item-" + $p_id);
         active_item.addClass('active-bg');
 
-
-//        var active_cat = $('#pages_tree_container_<?php //print $my_tree_id; ?>// li.category_element.active-bg').first();
-//        if (active_cat != undefined) {
-//            var active_cat = active_cat.attr('data-category-id');
-//            mw.$('#pages_edit_container').attr('data-selected-category-id', active_cat);
-//        }
-//        else {
-//            mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-//        }
 
         mw.$('#pages_edit_container').removeAttr('parent_id');
         mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         mw.$('#pages_edit_container').attr('data-category-id', $p_id);
-       // mw.$('#pages_edit_container').attr('data-parent-category-id', 45);
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
         edit_load('categories/edit_category');
     }
@@ -296,14 +308,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw_clear_edit_module_attrs();
 
-//        var active_cat = $('#pages_tree_container_<?php //print $my_tree_id; ?>// li.category_element.active-bg').first();
-//        if (active_cat != undefined) {
-//            var active_cat = active_cat.attr('data-category-id');
-//            mw.$('#pages_edit_container').attr('data-selected-category-id', active_cat);
-//        }
-//        else {
-//            mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-//        }
 
         mw.$('#pages_edit_container').removeAttr('parent_id');
         mw.$('#pages_edit_container').attr('data-category-id', 0);
@@ -347,22 +351,15 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
-
-
-
-
-
-
-
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
-            var active_item = mw.$(".pages_tree_item.item_" + in_page);
+            var active_item = mw.$(".content-item-" + in_page);
             active_item.addClass('active-bg');
         }
 
         if (in_page != undefined && is_cat != undefined) {
             cont.attr('data-category-id', in_page);
-            var active_item = mw.$(".category_element.item_" + in_page);
+            var active_item = mw.$(".category-item-" + in_page);
             active_item.addClass('active-bg');
         }
 
@@ -377,8 +374,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             .removeAttr('subtype')
             .removeAttr('data-parent-category-id')
             .removeAttr('data-category-id')
-            .removeAttr('category_id')
-            .removeAttr('category_id')
+            .removeAttr('data-category-id')
+            .removeAttr('data-category-id')
             .removeAttr('content-id')
             .removeAttr('data-page-id')
             .removeAttr('content_type_filter')
@@ -484,8 +481,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container')
             .removeAttr('data-parent-category-id')
             .removeAttr('data-category-id')
-            .removeAttr('category_id')
-            .removeAttr('category_id')
+            .removeAttr('data-category-id')
+            .removeAttr('data-category-id')
             .removeAttr('content-id')
             .removeAttr('content-id')
             .removeAttr('content-id')
@@ -633,8 +630,7 @@ if ($action == 'posts') {
                  <span class="mw-icon-app-more mobile-tree-menu"></span>
                 <div class="fixed-side-column scroll-height-exception-master">
 
-                    <div class="create-content scroll-height-exception"><a href="javascript:;" class="mw-ui-btn default-invert create-content-btn"
-                                                                           id="create-content-btn"><span class="mw-icon-plus"></span><?php _e("Create New"); ?></a> </div>
+                    
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
                         <?php if ($action == 'pages'): ?>
                             <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
@@ -694,7 +690,6 @@ if ($action == 'posts') {
             <script>
                 $(window).bind('load', function () {
                     if (!mw.url.windowHashParam("action")) {
-                        //var params = mw.url.mwParams();
                         edit_load('content/manager');
                     }
                     mw.on.hashParam('view', function () {
