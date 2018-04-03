@@ -481,9 +481,12 @@ h3 > [class*="mw-icon-"]:first-child {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
     .mobile-tree-menu {
         display: inline-block;
+
+        font-size: 18px;
+        margin-top: 10px;
     }
 
     .tree-column {
@@ -1474,7 +1477,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 .mw-admin-main-menu-mini {
     position: absolute;
     right: 17px;
-    top: 12px;
+    top: 17px;
     height: 16px;
     line-height: 16px;
     border-radius: 2px;
@@ -1508,6 +1511,10 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     display: block;
     float: left;
     margin: 0 1px 0 -1px;
+}
+
+#mw-admin-main-menu a:hover .mw-admin-main-menu-mini:after {
+    width: 0px;
 }
 
 #mw-admin-main-menu a:hover .mw-admin-main-menu-mini {
@@ -5416,7 +5423,6 @@ span.mw-icon-upload {
     padding: 15px 20px 15px 0;
 }
 
-
 .create-root {
     overflow: hidden;
     padding: 10px 0 15px;
@@ -6466,3 +6472,22 @@ span.mw-icon-upload {
     content: '\0045';
 }
 
+@media screen and (max-width: 991px) {
+    .manage-posts-holder,
+    .manage-toobar {
+        width: 98%;
+    }
+
+    .admin-side-content {
+        width: 98%;
+        max-width: 98%;
+        margin: 0 auto;
+        padding-top: 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .manage-posts-holder, .manage-toobar {
+        width: 100%;
+    }
+}

@@ -261,10 +261,15 @@ $pages_count = intval($pages);
                                href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                         </div>
                         <div class="manage-post-item-links">
-                            <a target="_top" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                            <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-small" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                 <?php _e("Edit"); ?>
                             </a>
-                            <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
+
+                            <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-small" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                                <?php _e("Live Edit"); ?>
+                            </a>
+
+                            <a class="mw-ui-btn mw-ui-btn-default mw-ui-btn-small" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
                                 <?php _e("Delete"); ?>
                             </a>
                         </div>
