@@ -1182,6 +1182,7 @@ class DefaultController extends Controller
         }
         $preview_module = false;
         $preview_module_template = false;
+        $is_preview_module_skin = false;
         $preview_module_id = false;
         $template_relative_layout_file_from_url = false;
         $is_preview_module = $this->app->url_manager->param('preview_module');
@@ -1749,6 +1750,18 @@ class DefaultController extends Controller
                 $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
+            if ($is_editmode == false
+                and !$is_preview_template
+                and !$is_preview_module
+                and $this->isolate_by_html_id == false
+                and !isset($_REQUEST['isolate_content_field'])
+                and !isset($_REQUEST['embed_id'])
+                and !is_cli()
+                and !defined('MW_API_CALL')
+            ) {
+                event_trigger('mw.pageview');
+            }
+
             $apijs_loaded = $this->app->template->get_apijs_url();
 
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
@@ -1780,6 +1793,8 @@ class DefaultController extends Controller
                     }
                 }
             }
+
+
             if (isset($page['created_by'])) {
                 $author = $this->app->user_manager->get_by_id($page['created_by']);
                 if (is_array($author) and isset($author['profile_url']) and $author['profile_url'] != false) {
@@ -1790,6 +1805,18 @@ class DefaultController extends Controller
             if ($template_headers_src != false and is_string($template_headers_src)) {
                 $l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
             }
+
+            $template_footer_src = $this->app->template->foot(true);
+
+            $template_footer_src_callback = $this->app->template->foot_callback($page);
+            if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
+                foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
+                    if (is_string($template_footer_src_callback_str)) {
+                        $template_footer_src = $template_footer_src . "\n" . $template_footer_src_callback_str;
+                    }
+                }
+            }
+
             if ($template_footer_src != false and is_string($template_footer_src)) {
                 $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
             }
