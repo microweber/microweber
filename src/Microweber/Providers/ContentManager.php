@@ -1193,6 +1193,7 @@ class ContentManager
 
                             if (isset($categories_active_ids)) {
                                 $cat_params['active_ids'] = $categories_active_ids;
+
                             }
 
                             if (isset($categories_removed_ids)) {
