@@ -169,7 +169,10 @@ class LayoutsManager
                     }
                 }
                 if ($skip == false and is_file($filename)) {
+
                     $fin = file_get_contents($filename);
+                    $fin = preg_replace('/\r\n?/', "\n", $fin);
+
                     $here_dir = dirname($filename).DS;
                     $to_return_temp = array();
                     if (preg_match('/type:.+/', $fin, $regs)) {

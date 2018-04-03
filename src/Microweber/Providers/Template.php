@@ -80,8 +80,14 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
+            $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
+            $mtime = false;
+            if (is_file($file)) {
+                $mtime = filemtime($file);
+            }
+
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-            $fn = 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $fn = 'api_settings.' . md5(site_url() . template_dir().$mtime) . '.' . MW_VERSION . '.js';
             $userfiles_cache_filename = $userfiles_cache_dir . $fn;
             if (is_file($userfiles_cache_filename)) {
                 if (is_file($userfiles_cache_filename)) {
@@ -221,13 +227,18 @@ class Template
     public function get_custom_css_url()
     {
         $url = api_nosession_url('template/print_custom_css');
+        if(in_live_edit()){
+            return $url;
+        }
+
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
             $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+                $custom_live_editmtime = filemtime($userfiles_cache_filename);
+                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver='.$custom_live_editmtime;
             }
         }
 
@@ -413,6 +424,19 @@ class Template
             }
         }
     }
+
+    public function foot_callback($data = false)
+    {
+        $data = array();
+        if (!empty($this->foot_callable)) {
+            foreach ($this->foot_callable as $callback) {
+                $data[] = call_user_func($callback, $data);
+            }
+        }
+
+        return $data;
+    }
+
 
     /**
      * Return the path to the layout file that will render the page.
