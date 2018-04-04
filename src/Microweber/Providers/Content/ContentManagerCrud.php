@@ -392,10 +392,11 @@ class ContentManagerCrud extends Crud
         } else {
             if (isset($data['url'])) {
                 $theurl = $data['url'];
-            } else {
+            } elseif (isset($data['title'])) {
                 $theurl = $data['title'];
+                $thetitle = $data['title'];
             }
-            $thetitle = $data['title'];
+
         }
 
         if (isset($data['id']) and intval($data['id']) == 0) {
