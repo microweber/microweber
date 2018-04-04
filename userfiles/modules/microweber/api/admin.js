@@ -318,6 +318,7 @@ mw.admin = {
                 mw.$('#is_post_active').val('1');
                 mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
                 mw.admin.postStatesTip.style.display = 'none';
+                $(".btn-posts-state").html($('.btn-publish').html())
             }
             else if (a == 'unpublish') {
                 mw.$('.btn-publish').removeClass('active');
@@ -326,7 +327,10 @@ mw.admin = {
                 mw.$('#is_post_active').val('0');
                 mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
                 mw.admin.postStatesTip.style.display = 'none';
+                $(".btn-posts-state").html($('.btn-unpublish').html())
             }
+
+
         },
         toggle: function () {
             if (!mw.admin.postStatesTip || mw.admin.postStatesTip.style.display == 'none') {

@@ -126,8 +126,20 @@ mw.tools = {
             }
         }
     },
-    foreachAllWindows:function (callback, iframes) {
-        var curr = window, iframes = iframes || true;
+    eachIframe:function (callback, root) {
+        root = root || document, scope = this;
+        var all = root.querySelectorAll('iframe'), i = 0;
+        for( ; i < all.length ; i++){
+            if(mw.tools.canAccessIFrame(all[i])){
+                callback.call(all[i].contentWindow, all[i].contentWindow);
+                scope.eachIframe(callback, all[i].contentWindow.document)
+            }
+        }
+    },
+    eachWindow:function (callback, options) {
+        options = options || {};
+        var iframes = typeof options.iframes !== 'undefined' ? options.iframes : true;
+        var curr = window;
         callback.call(curr, curr)
         while( curr !== top ){
             curr = curr.parent;
@@ -2764,6 +2776,15 @@ mw.tools = {
         return el;
     },
     loading: function (el, state) {
+        if(el === false){
+            this.loading('.mw-loading', false);
+            this.loading('.mw-loading-defaults', false);
+            return;
+        }
+        if(typeof el === 'boolean'){
+            state = !!el;
+            el = mwd.body;
+        }
         if (typeof el === 'string') {
             var el = mwd.querySelector(el);
         }

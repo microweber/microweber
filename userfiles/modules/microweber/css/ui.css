@@ -3725,6 +3725,7 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 .mw-switch [class*="mw-switch-"] {
   display: inline-block;
+  vertical-align: top;
   font-weight: bold;
   font-size: 12px;
   line-height: 22px;
@@ -3759,6 +3760,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   display: block;
   width: 40px;
   height: 27px;
+  line-height: 27px;
   border-radius: 2px;
   top: -2px;
   right: -2px;
@@ -3803,8 +3805,12 @@ body.bup.dragStart.state-element .edit .element:empty {
   border-top-color: #0080d2;
   border-bottom-color: #005992;
 }
-.mw-switch .mw-switch-on {
-  color: transparent;
+.mw-switch input:not(:checked) ~ .mw-switch-on,
+.mw-switch input:checked ~ .mw-switch-off {
+  color: transparent !important;
+  font-size: 1px;
+  overflow: hidden !important;
+  text-indent: 20px;
 }
 .mw-switch :checked ~ .mw-switch-off {
   border-left-color: #006cb1;

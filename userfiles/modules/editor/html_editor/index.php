@@ -91,29 +91,21 @@
                             {matches: /(text|application)\/(x-)?vb(a|script)/i,
                                 mode: "vbscript"}]
                     },
-
                     foldGutter: true,
                     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-
                 });
-
                 html_code_area_editor.setOption("theme", 'material');
                 html_code_area_editor.setSize("100%", "100%");
-
                 html_code_area_editor.on("change", function (cm, change) {
                     var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
                     custom_html_code_mirror.value = cm.getValue();
-
                     window.clearTimeout($time_out_handle);
                     $time_out_handle = window.setTimeout(function () {
                         $(custom_html_code_mirror).change();
                     }, 2000);
-
                 });
+                mw.tools.loading(false);
           });
-
-
-
     })
 
 
