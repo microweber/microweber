@@ -17,10 +17,10 @@
 
         if (mw.url.getHashParams(window.location.hash).installed === '0') {
             mw.$('.installed_switcher').addClass('mw-switcher-off');
-            mwd.getElementById('installed_0').checked = true;
+
         } else {
             mw.$('.installed_switcher').removeClass('mw-switcher-off');
-            mwd.getElementById('installed_1').checked = true;
+
         }
 
         var h = mw.hash();
@@ -35,7 +35,7 @@
             }
         }
 
-        mw.$("#modules-sort-types").bind('change', function () {
+        mw.$("#modules-sort-types").on('change', function () {
             var val = $(this).getDropdownValue();
             mw.url.windowHashParam('ui', val);
         });
@@ -43,13 +43,16 @@
 
     function mw_reload_all_modules() {
         mw.notification.success('Reloading...', 3000)
+        mw.tools.loading(true);
 
         mw.$('#modules_admin_<?php print $params['id']; ?>').attr('reload_modules', 1);
         mw.$('#modules_admin_<?php print $params['id']; ?>').attr('cleanup_db', 1);
-
+        $(".reload-module-btn").addClass('reloading')
         mw.load_module('admin/modules/manage', '#modules_admin_<?php print $params['id']; ?>', function () {
             mw.notification.success('Modules have been reloaded', 5000)
             mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db');
+            $(".reload-module-btn").removeClass('reloading');
+            mw.tools.loading(false);
         });
     }
 
@@ -254,23 +257,10 @@
                 </div>
             </div>
 
-            <ul class="mw-ui-inline-list  pull-left">
-                <li><label class="mw-ui-check"><input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1"/><span></span> <span><?php _e("Installed"); ?></span></label></li>
-                <li><label class="mw-ui-check"><input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"/><span></span> <span><?php _e("Uninstalled"); ?></span> </label></li>
-            </ul>
 
 
-            <div class="mw-dropdown mw-dropdown-default  pull-left" id="modules-sort-types"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php _e("Module types"); ?></span>
-                <div class="mw-dropdown-content" style="display: none;">
-                    <ul>
-                        <li value="live_edit"><?php _e("Live edit modules"); ?></li>
-                        <li value="admin"><?php _e("Admin modules"); ?></li>
-                        <li value="advanced"><?php _e("Advanced"); ?></li>
-                    </ul>
-                </div>
-            </div>
 
-            <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-medium pull-left tip" data-tip="<?php _e("Reload modules"); ?>"><span class="mw-icon-reload"></span></span>
+
 
 
             <div class="mw-dropdown pull-left nested-dropdown" style="display:none;"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
@@ -282,7 +272,28 @@
     </div>
 
     <div class="admin-side-content">
-        <div id="modules_admin_<?php print $params['id']; ?>"></div>
-        <div id="modules_market_<?php print $params['id']; ?>"></div>
+        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+            <a href="#installed=1" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 1);return false;" ><?php _e("Installed"); ?></a>
+            <a href="#installed=0" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 0);return false;" ><?php _e("Uninstalled"); ?></a>
+            <div class="mw-dropdown mw-dropdown-default  pull-left" id="modules-sort-types">
+                <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
+                    <?php _e("Module types"); ?>
+                </span>
+                <div class="mw-dropdown-content" style="display: none;">
+                    <ul>
+                        <li value="live_edit"><?php _e("Live edit modules"); ?></li>
+                        <li value="admin"><?php _e("Admin modules"); ?></li>
+                        <li value="advanced"><?php _e("Advanced"); ?></li>
+                    </ul>
+                </div>
+            </div>
+            <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon tip reload-module-btn" data-tip="<?php _e("Reload modules"); ?>"><span class="mw-icon-reload"></span></span>
+
+        </div>
+        <div class="mw-ui-box mw-ui-box-content">
+            <div id="modules_admin_<?php print $params['id']; ?>"></div>
+            <div id="modules_market_<?php print $params['id']; ?>"></div>
+        </div>
+
     </div>
 </div>

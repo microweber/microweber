@@ -126,11 +126,11 @@ mw.tools = {
             }
         }
     },
-    eachIframe:function (callback, root) {
-        root = root || document, scope = this;
+    eachIframe:function (callback, root, ignore) {
+        root = root || document, scope = this, ignore = ignore || [];
         var all = root.querySelectorAll('iframe'), i = 0;
         for( ; i < all.length ; i++){
-            if(mw.tools.canAccessIFrame(all[i])){
+            if(mw.tools.canAccessIFrame(all[i]) && ignore.indexOf(all[i]) === -1){
                 callback.call(all[i].contentWindow, all[i].contentWindow);
                 scope.eachIframe(callback, all[i].contentWindow.document)
             }
@@ -138,21 +138,23 @@ mw.tools = {
     },
     eachWindow:function (callback, options) {
         options = options || {};
-        var iframes = typeof options.iframes !== 'undefined' ? options.iframes : true;
         var curr = window;
-        callback.call(curr, curr)
+        callback.call(curr, curr);
         while( curr !== top ){
+            this.eachIframe(function(iframeWindow){
+                callback.call(iframeWindow, iframeWindow);
+            }, curr.parent.document, [curr]);
             curr = curr.parent;
             callback.call(curr, curr);
         }
-        var all = document.querySelectorAll('iframe'), i = 0;
-        for( ; i < all.length ; i++){
-            if(mw.tools.canAccessIFrame(all[i])){
-                callback.call(all[i].contentWindow, all[i].contentWindow);
-            }
-        }
+        this.eachIframe(function(iframeWindow){
+            callback.call(iframeWindow, iframeWindow);
+        })
         if(window.opener !== null && mw.tools.canAccessWindow(opener)){
             callback.call(window.opener, window.opener);
+            this.eachIframe(function(iframeWindow){
+                callback.call(iframeWindow, iframeWindow);
+            }, window.opener.document);
         }
     },
     canAccessWindow:function(winObject) {

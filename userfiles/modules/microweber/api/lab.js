@@ -21,8 +21,6 @@ mw.ajax = function(url, data, callback){
         });
     }
     else{
-        callback.call(cache.toString());
+        callback.call(cache.toS tring());
     }
 }
-
-

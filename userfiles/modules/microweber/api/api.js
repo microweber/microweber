@@ -18,10 +18,18 @@ if (typeof jQuery == 'undefined') {
 ?>
 
 
-}  
+}
 
 
-
+$.ajaxSetup({
+    cache: false,
+    error: function (xhr, e) {
+        mw.notification.error('Error ' + xhr.status + ' - ' + xhr.statusText + ' - \r\n' + xhr.responseText );
+        setTimeout(function(){
+            mw.tools.loading(false);
+        }, 333)
+    }
+});
 
 
 jQuery.cachedScript = function( url, options ) {

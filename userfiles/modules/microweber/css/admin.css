@@ -3719,18 +3719,19 @@ body.grabbing, body.grabbing * {
 .mw-modules-admin li.mw-admin-module-list-item {
     list-style: none;
     float: left;
-    width: 33.3333%;
+    width: 25%;
 }
 
 .mw-modules-admin li.mw-admin-module-list-item > div {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
     background: #FFFFFF;
     border-radius: 2px;
-    margin: 5px;
-    border: 1px solid transparent;
+    margin: -1px;
+    border: 1px solid #e4e7f0;
     text-align: center;
     height: auto;
     cursor: pointer;
+    padding:20px;
 }
 
 .module-uninstalled {
@@ -3794,9 +3795,7 @@ body.grabbing, body.grabbing * {
     font-size: 15px;
 }
 
-.mw-modules-admin li.mw-admin-module-list-item :last-child {
-    border: none;
-}
+
 
 .modules-index-bar .mw-dropdown {
     width: 150px;
@@ -5484,9 +5483,6 @@ span.mw-icon-upload {
     display: none;
 }
 
-#modules-sort-types {
-    margin-right: 20px;
-}
 
 .stat-box-content {
     overflow: hidden;
