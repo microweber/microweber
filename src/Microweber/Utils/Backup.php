@@ -8,7 +8,7 @@
 
 namespace Microweber\Utils;
 
-use League\Flysystem\File;
+
 use ZipArchive;
 use Illuminate\Database\QueryException;
 
@@ -306,13 +306,15 @@ class Backup
                 $back_log_action = 'Unzipping userfiles';
                 $this->log_action($back_log_action);
 
-                $exract_folder = md5(basename($filename));
+                $exract_folder = md5($filename.filemtime($filename));
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = mw_cache_path() . 'backup_restore' . DS . $exract_folder . DS;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);
+                    $result = $unzip->extract($filename, $target_dir, $preserve_filepath = true);
                 }
-                $result = $unzip->extract($filename, $target_dir, $preserve_filepath = true);
+
+
                 $temp_dir_restore = $target_dir;
                 $sql_restore = $target_dir . 'mw_sql_restore.sql';
                 if (is_file($sql_restore)) {
