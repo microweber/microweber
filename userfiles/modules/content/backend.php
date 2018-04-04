@@ -99,10 +99,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         //var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
         var active_item_is_page = $p_id;
         var active_item_is_parent = mw.url.windowHashParam("parent-page");
-        if(!active_item_is_parent){
-            active_item_is_parent  = $p_id;
+        if (!active_item_is_parent) {
+            active_item_is_parent = $p_id;
         }
-        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .content-item-'+active_item_is_parent).first();
+        var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .content-item-' + active_item_is_parent).first();
 
 
         var active_item_is_category = active_item.attr('data-category-id');
@@ -122,9 +122,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
         mw.$('#pages_edit_container').removeAttr('data-active_ids');
         mw.$('#pages_edit_container').removeAttr('active_ids');
-
-
-
 
 
         if (active_item_is_category != undefined) {
@@ -187,7 +184,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.admin.CategoryTreeWidth(this);
 
-      //  mw.tools.loading(mwd.body, true)
+        //  mw.tools.loading(mwd.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
@@ -243,7 +240,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             }
             else if (arr[0] === 'editpost') {
                 mw_select_post_for_editing(arr[1]);
-            }  else if (arr[0] === 'addsubcategory') {
+            } else if (arr[0] === 'addsubcategory') {
                 mw_select_add_sub_category(arr[1]);
             }
         }
@@ -262,21 +259,20 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
-       // mw.tools.loading(mwd.body, true)
-       // mw.tools.loading('.fade-window', !!action);
+        // mw.tools.loading(mwd.body, true)
+        // mw.tools.loading('.fade-window', !!action);
         var time = !action ? 300 : 0;
-        if(!action){
+        if (!action) {
             mw.$('.fade-window').removeClass('active');
         }
-            setTimeout(function () {
-                mw.load_module(module, holder, function(){
-                    mw.tools.loading('.fade-window', false);
-                    mw.$('.fade-window').addClass('active')
-                    if(callback)callback.call();
-                    mw.tools.loading(mwd.body, false)
-                });
-            }, time)
-
+        setTimeout(function () {
+            mw.load_module(module, holder, function () {
+                mw.tools.loading('.fade-window', false);
+                mw.$('.fade-window').addClass('active')
+                if (callback) callback.call();
+                mw.tools.loading(mwd.body, false)
+            });
+        }, time)
 
 
     }
@@ -287,7 +283,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
-
 
 
         var active_item = mw.$(".category-item-" + $p_id);
@@ -312,8 +307,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
         edit_load('categories/edit_category');
     }
-
-
 
 
     function mw_set_edit_posts(in_page, is_cat, c) {
@@ -617,17 +610,19 @@ if ($action == 'posts') {
 
 ?>
 
-
+<?php if ($action != 'categories'): ?>
+    <span class="mw-icon-app-more mobile-tree-menu"></span>
+<?php endif; ?>
 <div class="mw-ui-row-nodrop" id="edit-content-row">
     <?php if ($action != 'categories'): ?>
-
         <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?><?php endif ?>>
+
+
             <div class="tree-column-holder">
 
-                 <span class="mw-icon-app-more mobile-tree-menu"></span>
                 <div class="fixed-side-column scroll-height-exception-master">
 
-                    
+
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
                         <?php if ($action == 'pages'): ?>
                             <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
@@ -673,7 +668,8 @@ if ($action == 'posts') {
 
                         <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
                            onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Open All"); ?></a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
-                                                                                                                                                                    onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Close All"); ?></a></div>
+                                                                                                                                                                    onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Close All"); ?></a>
+                    </div>
 
 
                 </div>
@@ -683,7 +679,7 @@ if ($action == 'posts') {
         </div>
     <?php endif ?>
     <div class="mw-ui-col main-content-column">
-        <div class="mw-ui-col-container">
+        <div class="mw-ui-col-container admin-side-content">
             <script>
                 $(window).bind('load', function () {
                     if (!mw.url.windowHashParam("action")) {
