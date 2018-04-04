@@ -710,6 +710,22 @@
     width: 13px;
 }
 
+.manage-post-item:hover .manage-post-item-links .mw-ui-btn-default{
+    border-color: #0086db;
+}
+
+.manage-post-item:hover .manage-post-item-links .mw-ui-btn-default:hover {
+    border-color: #0086db;
+    background-color: #0086db;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.manage-post-item-title span{
+color: #999999;
+}
+
 @media screen and (max-width: 1199px) {
     .admin-toolbar .notif-btn .notif-label {
         display: none;

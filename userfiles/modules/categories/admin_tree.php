@@ -11,9 +11,7 @@ only_admin_access();
  * @uses pages_tree($params);
  * @usage  type="pages" append_to_link="/editmode:y"
  */
-
-
-if (!isset($params['link'])) {
+ if (!isset($params['link'])) {
     if (isset($params['append_to_link'])) {
         $append_to_link = $params['append_to_link'];
     } else {
@@ -21,10 +19,15 @@ if (!isset($params['link'])) {
     }
 
     $params['link'] = '<a data-page-id="{id}" class="{active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
+    $params['categories_link'] = '<a data-category-id="{id}" class="{active_class} {active_parent_class} category_tree {nest_level} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
+
 
 } else {
 
     $params['link'] = '<a data-page-id="{id}" class="{active_class} {active_parent_class} pages_tree_link {nest_level} {exteded_classes}"  href="' . $params['link'] . '">{title}</a>';
+    $params['categories_link'] = '<a data-category-id="{id}" class="{active_class} {active_parent_class} category_tree {nest_level} {exteded_classes}"  href="' . $params['link'] . '">{title}</a>';
+
+
 }
 
 

@@ -255,7 +255,7 @@ body {
 
 .mw-admin-editor #mw-iframe-editor-area{
     line-height: 1.85;
-    border: 1px solid #dfdfdf;
+    /*border: 1px solid #dfdfdf;*/
     padding: 10px;
     min-height: 200px;
 

@@ -484,6 +484,10 @@
     height: 14px;
 }
 
+.fade-window .window-holder .mw-admin-editor #mw-iframe-editor-area{
+    border: 0 !important;
+}
+
 @media screen and (max-width: 1199px) {
     .fade-window .window-holder #content-title-field-buttons ul li a,
     .fade-window .window-holder #content-title-field-buttons ul li button {
