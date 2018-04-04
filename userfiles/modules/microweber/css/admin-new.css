@@ -710,7 +710,7 @@
     width: 13px;
 }
 
-.manage-post-item:hover .manage-post-item-links .mw-ui-btn-default{
+.manage-post-item:hover .manage-post-item-links .mw-ui-btn-default {
     border-color: #0086db;
 }
 
@@ -721,9 +721,8 @@
     text-decoration: none;
 }
 
-
-.manage-post-item-title span{
-color: #999999;
+.manage-post-item-title span {
+    color: #999999;
 }
 
 @media screen and (max-width: 1199px) {
@@ -737,5 +736,21 @@ color: #999999;
 
     .admin-toolbar .notif-btn span {
         font-size: 18px;
+    }
+}
+
+.mobile-tree-menu,
+.tree-column-mobile-active.mobile-tree-menu {
+    width: 100%;
+    left: 0;
+    position: relative;
+    top: 0;
+    margin: 0;
+    padding: 5px;
+}
+
+@media screen and (max-width: 767px) {
+    .main-admin-row {
+        padding: 40px 0 0;
     }
 }
