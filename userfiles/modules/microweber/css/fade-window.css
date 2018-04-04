@@ -553,6 +553,54 @@
     }
 }
 
+@media screen and (min-width: 769px) and (max-width: 920px) {
+    .fade-window.closed {
+
+    }
+
+    .fade-window.closed .window-holder .top-bar .center-side {
+        display: none;
+    }
+
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs {
+        width: 100%;
+        border: 1px solid #0086db;
+    }
+
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
+        width: 50%;
+        border: 0 !important;
+        text-align: left;
+
+    }
+
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active,
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:focus {
+        color: #fff;
+        background-color: #0086db;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:hover {
+        color: #4d4d4d;
+        background: #f5f5f5;
+    }
+
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active i {
+        color: #fff;
+    }
+
+    .fade-window.closed .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:hover i {
+        color: #4d4d4d;
+    }
+
+    .fade-window.closed .window-holder .mw-ui-box-content {
+        padding: 20px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .fade-window .window-holder .top-bar .center-side {
         display: none;
