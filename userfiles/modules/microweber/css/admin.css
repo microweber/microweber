@@ -4960,7 +4960,7 @@ body.is_admin .mw-admin-container {
 }
 
 .top-search input {
-    width: 150px !important;
+    width: 148px !important;
     height: 36px;
     padding: 10px;
     border: none;
@@ -6489,5 +6489,29 @@ span.mw-icon-upload {
 @media screen and (max-width: 767px) {
     .manage-posts-holder, .manage-toobar {
         width: 100%;
+    }
+
+    .admin-manage-toolbar .mw-ui-row,
+    .admin-manage-toolbar .mw-ui-row > .mw-ui-col {
+        float: none;
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .admin-manage-toolbar .pull-right {
+        float: none;
+        margin: 0 auto;
+        right: auto;
+        left: auto;
+width: 100%;
+    }
+
+    .admin-manage-toolbar .top-search {
+        float: none;
+        margin: 0 auto;
+        right: auto;
+        left: auto;
+
     }
 }

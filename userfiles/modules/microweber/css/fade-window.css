@@ -26,6 +26,12 @@
     visibility: visible;
 }
 
+.fade-window.closed {
+    position: relative;
+    top: 0;
+    z-index: auto;
+}
+
 .fade-window .window-holder {
     max-width: 100%;
 }
@@ -105,6 +111,53 @@
 }
 
 .fade-window .window-holder .top-bar .btn-close i {
+    border: 1px solid #138fde;
+    color: #0086db;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    width: 21px;
+    height: 21px;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 11px;
+}
+
+.fade-window .window-holder .top-bar .btn-fullscreen {
+    background: #e8f6ff;
+    width: 140px;
+    height: 100%;
+    border: 0;
+    border-right: 1px solid #138fde;
+    color: #0086db;
+    font-size: 12px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    display: block;
+    float: left;
+}
+
+.fade-window .window-holder .top-bar .btn-fullscreen i {
+    -webkit-transition: 0.6s ease-out;
+    -moz-transition: 0.6s ease-out;
+    transition: 0.6s ease-out;
+}
+
+.fade-window .window-holder .top-bar .btn-fullscreen:hover i {
+    -webkit-transform: rotateZ(180deg);
+    -moz-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+}
+
+.fade-window .window-holder .top-bar .btn-fullscreen:hover,
+.fade-window .window-holder .top-bar .btn-fullscreen:focus {
+    background: rgba(19, 143, 222, 0.43);
+    /*color: #fff;*/
+}
+
+.fade-window .window-holder .top-bar .btn-fullscreen i {
     border: 1px solid #138fde;
     color: #0086db;
     -webkit-border-radius: 30px;
@@ -484,7 +537,7 @@
     height: 14px;
 }
 
-.fade-window .window-holder .mw-admin-editor #mw-iframe-editor-area{
+.fade-window .window-holder .mw-admin-editor #mw-iframe-editor-area {
     border: 0 !important;
 }
 
@@ -585,7 +638,7 @@
 
     .fade-window .window-holder .top-bar {
         height: 120px;
-        border-bottom:0;
+        border-bottom: 0;
     }
 
     .fade-window .window-holder .top-bar .left-side,
@@ -603,4 +656,12 @@
         border-left: 1px solid #138fde;
         border-bottom: 1px solid #138fde;
     }
+}
+
+.mw-edit-content-item-admin, .add-edit-category-form {
+    padding: 0;
+}
+
+.fade-window .top-bar .hidden {
+    display: none !important;
 }
