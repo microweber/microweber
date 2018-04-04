@@ -265,7 +265,7 @@ $pages_count = intval($pages);
                                 <?php _e("Edit"); ?>
                             </a>
 
-                            <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-small" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                            <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-small" href="<?php print content_link($item['id']); ?>?editmode:y">
                                 <?php _e("Live Edit"); ?>
                             </a>
 

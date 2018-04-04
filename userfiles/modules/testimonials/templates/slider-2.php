@@ -23,11 +23,14 @@ description: Testimonials displayed in Slider
 <script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.min.js", true);</script>
 <script>
     $(document).ready(function () {
-        $("#<?php print $params['id']; ?> .mw-testimonials-slider-2").slick({
+        var el = $("#<?php print $params['id']; ?> .mw-testimonials-slider-2");
+        el.slick({
             infinite: true,
             dots: true,
             prevArrow: '<span class="slick-prev"><span class="mw-icon-prev-thick"></span></span>',
-            nextArrow: '<span class="slick-next"><span class="mw-icon-next-thick"></span></span>'
+            nextArrow: '<span class="slick-next"><span class="mw-icon-next-thick"></span></span>',
+            rtl:getComputedStyle(el[0]).direction == 'rtl'
+
         });
     })
 </script>

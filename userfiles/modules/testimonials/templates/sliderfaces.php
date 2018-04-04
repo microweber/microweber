@@ -33,11 +33,13 @@ description: Testimonials displayed in Slider with Faces
             active.prev('.mwt-face-holder').addClass('subactive')
             active.next('.mwt-face-holder').addClass('subactive')
         }
-        var el = $("#<?php print $params['id']; ?> .mw-testimonials-faces").slick({
+        var el = $("#<?php print $params['id']; ?> .mw-testimonials-faces");
+        el.slick({
             infinite: true,
             dots: true,
             arrows: false,
-            adaptiveHeight: true
+            adaptiveHeight: true,
+            rtl:getComputedStyle(el[0]).direction == 'rtl'
         })
             .on('beforeChange init reInit', function (event, slick, currentSlide, nextSlide) {
                 configFaces(nextSlide)

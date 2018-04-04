@@ -58,14 +58,33 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 }
 ?>
 
-<div class="fade-window">
+
+<script>
+    $(document).ready(function () {
+        $('.fade-window .btn-fullscreen').on('click', function () {
+            $(this).toggleClass('hidden');
+            $('.fade-window .btn-close').toggleClass('hidden');
+            $('.fade-window').toggleClass('closed');
+
+        });
+        $('.fade-window .btn-close').on('click', function () {
+            $(this).toggleClass('hidden');
+            $('.fade-window .btn-fullscreen').toggleClass('hidden');
+            $('.fade-window').toggleClass('closed');
+        });
+    });
+</script>
+
+<div class="fade-window closed">
     <div class="window-holder">
         <div class="top-bar">
             <div class="left-side">
-                <button
-                        class="btn-close"
-                        onclick="mw.url.windowDeleteHashParam('action')">
+                <button class="btn-close hidden">
                     <i class="mw-icon-close"></i> <?php _e('Close'); ?>
+                </button>
+
+                <button class="btn-fullscreen">
+                    <i class="mw-icon-arrow-expand"></i> <?php _e('Full screen'); ?>
                 </button>
             </div>
             <div class="center-side">
@@ -80,11 +99,13 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                         </li>
                         <?php if ($data['is_active'] == 0) { ?>
                             <li>
-                                <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i class="mw-icon-unpublish"></i> <?php _e("Unpublish"); ?></button>
+                                <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i
+                                            class="mw-icon-unpublish"></i> <?php _e("Unpublish"); ?></button>
                             </li>
                         <?php } else { ?>
                             <li>
-                                <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i class="mw-icon-check"></i> <?php _e("Published"); ?></button>
+                                <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i
+                                            class="mw-icon-check"></i> <?php _e("Published"); ?></button>
                             </li>
                         <?php } ?>
                         <?php if ($is_live_edit == false) : ?>
