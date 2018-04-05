@@ -754,3 +754,18 @@
         padding: 40px 0 0;
     }
 }
+
+.password-input input {
+    padding-right: 35px;
+}
+
+.password-input button {
+    border: 0;
+    background: none;
+    position: absolute;
+    right: 7px;
+    font-size: 17px;
+    margin-top: 9px;
+    cursor: pointer;
+    outline:none;
+}
