@@ -739,6 +739,7 @@ class ModuleController extends Controller
 //                }
 
                 $editable = $this->app->parser->isolate_content_field($l, true);
+               // $editable = $l;
 
                 if ($editable != false) {
                     $page['content'] = $editable;

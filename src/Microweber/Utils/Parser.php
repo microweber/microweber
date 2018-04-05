@@ -1634,7 +1634,7 @@ class Parser
             }
         }
         if ($found == false) {
-            foreach ($pq ['[field=content]'] as $elem) {
+            foreach ($pq ['[field=content]:last'] as $elem) {
                 $l = pq($elem)->htmlOuter();
 
                 $found = true;
@@ -1642,7 +1642,7 @@ class Parser
         }
 
         if ($found == false) {
-            foreach ($pq ['[field=content_body]'] as $elem) {
+            foreach ($pq ['[field=content_body]:last'] as $elem) {
                 $l = pq($elem)->htmlOuter();
                 $found = true;
             }
@@ -1661,14 +1661,14 @@ class Parser
 
         $pq = \phpQuery::newDocument($l);
         $found = false;
-        foreach ($pq ['[field=content][rel_type=content]:last'] as $elem) {
+        foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
             $l = pq($elem)->htmlOuter();
 
             $found = true;
         }
 
         if ($found == false) {
-            foreach ($pq ['[field=content_body][rel_type=content]:last'] as $elem) {
+            foreach ($pq ['[field=content_body][rel=content]:last'] as $elem) {
                 $l = pq($elem)->htmlOuter();
                 $found = true;
             }

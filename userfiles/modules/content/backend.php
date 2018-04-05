@@ -680,7 +680,7 @@ if ($action == 'posts') {
         </div>
     <?php endif ?>
     <div class="mw-ui-col main-content-column">
-        <div class="mw-ui-col-container admin-side-content">
+        <div class="mw-ui-col-container">
             <script>
                 $(window).bind('load', function () {
                     if (!mw.url.windowHashParam("action")) {

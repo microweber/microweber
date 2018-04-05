@@ -205,9 +205,9 @@ if (!isset($data["thumbnail"])) {
             <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>" id="admin-thumb-item-<?php print $item['id'] ?>">
                 <?php $tn = thumbnail($item['filename'], 200, 200, true); ?>
                 <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
-                <?php if ($key == 0): ?>
+                <?php //if ($key == 0): ?>
                     <div class="featured-image"><?php print _e('featured image'); ?></div>
-                <?php endif; ?>
+                <?php //endif; ?>
                 <span class="mw-icon-gear image-settings" onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
                 <label class="mw-ui-check">
                     <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>" value="<?php print $item['id'] ?>"><span></span>
