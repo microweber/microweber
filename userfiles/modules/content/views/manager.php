@@ -437,4 +437,3 @@ $pages_count = intval($pages);
 
     </div>
 <?php endif; ?>
-  
