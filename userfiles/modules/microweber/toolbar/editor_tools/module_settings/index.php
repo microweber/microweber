@@ -19,6 +19,7 @@ if (isset($params['module'])): ?>
     mw.require('<?php print mw_includes_url(); ?>default.css');
     mw.require('<?php print mw_includes_url(); ?>css/components.css');
     mw.require('<?php print mw_includes_url(); ?>css/admin.css');
+    mw.require('<?php print mw_includes_url(); ?>css/fade-window.css');
     mw.require('<?php print mw_includes_url(); ?>css/popup.css');
     <?php if(_lang_is_rtl()){ ?>
     mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
