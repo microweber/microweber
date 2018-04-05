@@ -94,9 +94,6 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
             <div class="right-side">
                 <div id="content-title-field-buttons">
                     <ul class="mw-ui-btn-nav-fluid pull-right" style="width: auto;">
-                        <li>
-                            <button class="btn-settings" type="button"><span class="mai-setting2"></span></button>
-                        </li>
                         <?php if ($data['is_active'] == 0) { ?>
                             <li>
                                 <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i
