@@ -4762,5 +4762,32 @@ body.bup.dragStart.state-element {
   
 }
 
+.mw-progress{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 101;
+}
+.mw-progress-index{
+  width: 0;
+  height: 3px;
+  max-width: 100%;
+  background: @info;
+  transition: width 10s;
+}
+.mw-progress-slow .mw-progress-index{
+  transition-duration: 5s;
+}
+
+.mw-progress-normal .mw-progress-index{
+  transition-duration: 2s;
+}
+
+.mw-progress-fast .mw-progress-index{
+  transition-duration: .6s;
+}
+
 
 

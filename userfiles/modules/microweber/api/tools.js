@@ -2805,6 +2805,79 @@ mw.tools = {
             $(el).removeClass("mw-loading mw-loading-defaults");
         }
     },
+    loading:function (element, progress, speed ) {
+        /*
+
+            progress:number 0 - 100,
+            speed:string, -> 'slow', 'normal, 'fast'
+
+            mw.tools.loading(true) -> slowly animates to 95% on body
+            mw.tools.loading(false) -> fast animates to 100% on body
+
+        */
+        function set(el, progress, speed){
+            speed = speed || 'normal';
+            mw.tools.removeClass(el, 'mw-progress-slow');
+            mw.tools.removeClass(el, 'mw-progress-normal');
+            mw.tools.removeClass(el, 'mw-progress-fast');
+            mw.tools.addClass(el, 'mw-progress-' + speed);
+            element.__loadingTime = setTimeout(function(){
+                el.querySelector('.mw-progress-index').style.width = progress + '%';
+            }, 10)
+
+        }
+        if(typeof element === 'boolean'){
+            progress = !!element;
+            element = mwd.body;
+        }
+        if(typeof element === 'number'){
+            progress = element;
+            element = mwd.body;
+        }
+        if(element === document || element === mwd.documentElement){
+            element = mwd.body;
+        }
+        element = $(element)[0]
+        if (element === null || !element) return false;
+        if(element.__loadingTime){
+            clearTimeout(element.__loadingTime)
+        }
+        var isLoading = mw.tools.hasClass(element, 'mw-loading');
+        var el = element.querySelector('.mw-progress');
+        if(!el){
+            el = document.createElement('div');
+            el.className = 'mw-progress';
+            el.innerHTML = '<div class="mw-progress-index"></div>';
+            if(element === mwd.body) el.style.position = 'fixed';
+            element.appendChild(el);
+        }
+        var pos = mw.CSSParser(element).get.position();
+        if(pos == 'static'){
+            element.style.position = 'relative';
+        }
+        if(progress){
+            if(progress === true){
+                set(el, 95, speed||'slow')
+            }
+            else if(typeof progress === 'number'){
+                progress = progress <= 100 ? progress : 100;
+                progress = progress >= 0 ? progress : 0;
+                set(el, progress, speed)
+            }
+        }
+        else{
+            if(el){
+               set(el, 100, speed||'fast')
+            }
+            element.__loadingTime = setTimeout(function(){
+                    $(element).removeClass('mw-loading-defaults mw-loading');
+                    $(el).remove()
+            }, 700)
+        }
+    },
+    prependClass:function(el,cls){
+        el.className = (cls + ' ' + el.className).trim()
+    },
     inview: function (el) {
         var $el = $(el);
         if ($el.length === 0) {

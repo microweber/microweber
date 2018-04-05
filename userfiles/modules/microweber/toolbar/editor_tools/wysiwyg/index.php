@@ -305,6 +305,10 @@ img{
   display: none;
 }
 
+.edit:empty{
+    min-height: 150px;
+}
+
 
 </style>
 
