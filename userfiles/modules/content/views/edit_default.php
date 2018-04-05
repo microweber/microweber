@@ -75,17 +75,27 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
     });
 </script>
 
-<div class="fade-window closed">
+<?php
+$wrapper_class = '';
+if (isset($params['live_edit'])) {
+    $wrapper_class = 'active';
+}
+?>
+
+
+<div class="fade-window <?php print $wrapper_class; ?> closed">
     <div class="window-holder">
         <div class="top-bar">
             <div class="left-side">
-                <button class="btn-close hidden">
-                    <i class="mw-icon-close"></i> <?php _e('Close'); ?>
-                </button>
+                <?php if ($wrapper_class == ''): ?>
+                    <button class="btn-close hidden">
+                        <i class="mw-icon-close"></i> <?php _e('Close'); ?>
+                    </button>
 
-                <button class="btn-fullscreen">
-                    <i class="mw-icon-arrow-expand"></i> <?php _e('Full screen'); ?>
-                </button>
+                    <button class="btn-fullscreen">
+                        <i class="mw-icon-arrow-expand"></i> <?php _e('Full screen'); ?>
+                    </button>
+                <?php endif; ?>
             </div>
             <div class="center-side">
                 <div class="window-title"><i class="mai-<?php print $type; ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
