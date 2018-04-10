@@ -152,7 +152,7 @@ class CategoryTreeData
                 $cat_get_params['limit'] = '1000';
                 $cat_get_params['data_type'] = 'category';
                 $cat_get_params['no_cache'] = 1;
-                $cat_get_params['parent_id'] = '0';
+                $cat_get_params['parent_id'] = 0;
                 $cat_get_params['table'] = $table;
                 $cat_get_params['rel_type'] = $table_assoc_name;
                 if ($users_can_create_content != false) {
@@ -305,16 +305,21 @@ class CategoryTreeData
         $db_t_content = $this->app->category_manager->tables['content'];
 
         $table = $db_categories = $this->app->category_manager->tables['categories'];
+        $parent = intval($parent);
 
         $ids_add_q = array();
-        $ids_remove_q = array($parent);
-        if ($parent == false) {
-            $parent = (0);
-
-            $include_first = false;
-        } else {
-            $parent = (int)$parent;
+        $ids_remove_q = array();
+        if ($parent) {
+            $ids_remove_q = array($parent);
         }
+
+//        if ($parent == false) {
+//            $parent = (0);
+//
+//            $include_first = false;
+//        } else {
+//            $parent = intval($parent);
+//        }
 
         if (!is_array($orderby)) {
             $orderby[0] = 'position';
@@ -332,6 +337,7 @@ class CategoryTreeData
         if (is_array($add_ids) and !empty($add_ids)) {
             $ids_add_q = array_merge($ids_add_q, $add_ids);
             $ids_add_q = array_filter($ids_add_q);
+            $ids_add_q = array_map('intval', $ids_add_q);
         }
 
 
@@ -342,12 +348,18 @@ class CategoryTreeData
         $cat_get_params['table'] = $table;
 
         $cat_get_params['parent_id'] = $parent;
-        $cat_get_params['loop_fix_q'] = function ($query) use ($table) {
-            $query = $query->where($table . '.id', '!=', $table . '.parent_id');
+
+
+        $cat_get_params['loop_fix_q'] = function ($query) use ($table, $parent) {
+            // there is bug on postgres:  Invalid text representation: 7 ERROR: invalid input syntax for integer: "categories.parent_id"
+            // $query = $query->where($table . '.id', '!=', $table . '.parent_id');
+
+            $query = $query->where($table . '.id', '!=', $parent);
             return $query;
         };
 
         if ($ids_add_q) {
+
             $cat_get_params['add_ids_q'] = function ($query) use ($ids_add_q) {
 
                 $query = $query->whereIn('id', $ids_add_q);
@@ -358,7 +370,7 @@ class CategoryTreeData
         }
 
         if ($ids_remove_q and !empty($ids_remove_q)) {
-            $ids_remove_q = array_filter($ids_remove_q);
+
             $cat_get_params['remove_ids_q'] = function ($query) use ($ids_remove_q) {
                 $query = $query->whereNotIn('id', $ids_remove_q);
                 return $query;
@@ -381,9 +393,10 @@ class CategoryTreeData
             ++$depth_level_counter;
             $i = 0;
             foreach ($result as $item) {
-                $remove_ids[] = $item['id'];
+                $id = intval($item['id']);
+                $remove_ids[] = $id;
 
-                $item['children'] = $this->_build_children_array($item['id'], $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
+                $item['children'] = $this->_build_children_array($id, $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
                 $return[] = $item;
             }
             return $return;
