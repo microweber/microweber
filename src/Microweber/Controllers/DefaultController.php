@@ -65,6 +65,10 @@ class DefaultController extends Controller
             event_trigger('mw_cron');
         }
 
+        $embed_images = false;
+        if (isset($_GET['images']) and $_GET['images']) {
+            $embed_images = true;
+        }
 
         $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc');
 
@@ -75,20 +79,21 @@ class DefaultController extends Controller
 
         if (!empty($cont)) {
             foreach ($cont as $k => $item) {
+                $item['image_tag'] = '';
+                $item['image'] = '';
 
-                $item['image'] = get_picture($item['id']);
-                if ($item['image'] and $item['image'] != '') {
+                if ($embed_images) {
+                    $item['image'] = get_picture($item['id']);
+                    if ($item['image'] and $item['image'] != '') {
 //                    $imageSize = getimagesize($item['image']);
-                    $item['image_tag'] = '<img src="' . $item['image'] . '" width="100%" /> ';
+                        $item['image_tag'] = '<img src="' . $item['image'] . '" width="100%" /> ';
 //                    $item['image_mime'] = $imageSize['mime'];
 //                    $item['image_bits'] = $imageSize['bits'];
 
-                    $item['image_mime'] = '';
-                    $item['image_bits'] = '';
-                } else {
-                    $item['image_tag'] = '';
+                        $item['image_mime'] = '';
+                        $item['image_bits'] = '';
+                    }
                 }
-
                 $cont[$k] = $item;
             }
         }

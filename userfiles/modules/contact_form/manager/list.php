@@ -122,6 +122,9 @@ if (is_array($data)) {
                                 }
                                 $values_plain = mw('format')->clean_html($val_print);;
 
+                                if(is_array($values_plain)){
+                                    $values_plain = implode(',', $values_plain);
+                                }
                                 $max = 150;
                                 if (strlen($values_plain) > $max) {
                                     $first = substr($values_plain, 0, $max);
