@@ -96,6 +96,8 @@ if (isset($data['options']) and is_array($data['options']) and !empty($data['opt
 
                             <select name="<?php print $data['name'] ?>[country]"
                                     class="mw-ui-field field-full form-control">
+
+                                <option><?php _e('Choose country') ?></option>
                                 <?php foreach ($countries_all as $country): ?>
                                     <option value="<?php print $country ?>"><?php print $country ?></option>
                                 <?php endforeach; ?>
