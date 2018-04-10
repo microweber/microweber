@@ -327,10 +327,11 @@ class CategoryTreeData
             $ids_remove_q[] = $temp;
         } elseif (is_array($remove_ids) and !empty($remove_ids)) {
             $ids_remove_q = array_merge($ids_remove_q, $remove_ids);
-         }
+        }
 
         if (is_array($add_ids) and !empty($add_ids)) {
             $ids_add_q = array_merge($ids_add_q, $add_ids);
+            $ids_add_q = array_filter($ids_add_q);
         }
 
 
@@ -355,8 +356,9 @@ class CategoryTreeData
             };
 
         }
- 
-        if ($ids_remove_q) {
+
+        if ($ids_remove_q and !empty($ids_remove_q)) {
+            $ids_remove_q = array_filter($ids_remove_q);
             $cat_get_params['remove_ids_q'] = function ($query) use ($ids_remove_q) {
                 $query = $query->whereNotIn('id', $ids_remove_q);
                 return $query;
