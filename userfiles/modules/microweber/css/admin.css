@@ -1,4 +1,5 @@
 /*@import url(//fonts.googleapis.com/css?family=Open+Sans:800,700,600,500,400,300&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext);*/
+@import "navs.css";
 
 @font-face {
     font-family: 'mwadmin';
@@ -384,9 +385,7 @@ h3 > [class*="mw-icon-"]:first-child {
     /*max-width: 1200px;*/
 }
 
-.main-admin-row {
-    padding: 66px 0 0;
-}
+
 
 #mw-edit-page-editor-holder {
     border: 1px solid #DADADA;
@@ -427,138 +426,6 @@ h3 > [class*="mw-icon-"]:first-child {
     max-width: 230px;
 }
 
-.tree-column, .tree-column-menu {
-    -webkit-transition: width 0.2s;
-    -moz-transition: width 0.2s;
-    -o-transition: width 0.2s;
-    transition: width 0.2s;
-    width: 230px;
-}
-
-.mobile-tree-menu {
-    display: none;
-    cursor: pointer;
-    position: fixed;
-    left: 0;
-    top: 40px;
-    width: 40px;
-    height: 30px;
-    text-align: center;
-    font-size: 30px;
-    background: #F5F5F5;
-    color: #3B3B3B;
-    z-index: 12;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-}
-
-.tree-column-menu {
-    background: #F5F5F5
-}
-
-@media (max-width: 768px) {
-    .tree-column-menu .slimScrollDiv,
-    .tree-column-menu .fixed-side-column-container {
-        height: auto !important;
-    }
-
-    .tree-column-menu .mw-ui-sidenav li {
-        float: left;
-        width: 33.333%;
-    }
-}
-
-@media (max-width: 530px) {
-    .tree-column-menu .mw-ui-sidenav li {
-        width: 50%;
-    }
-}
-
-@media (max-width: 380px) {
-    .tree-column-menu .mw-ui-sidenav li {
-        width: 100%;
-    }
-}
-
-@media (max-width: 991px) {
-    .mobile-tree-menu {
-        display: inline-block;
-
-        font-size: 18px;
-        margin-top: 10px;
-    }
-
-    .tree-column {
-        width: 0;
-    }
-
-    .fixed-side-column {
-        top: 40px;
-        left: 0;
-        min-width: 0;
-        width: 0;
-        opacity: 0;
-        visibility: hidden;
-        -webkit-transition: all 0.3s;
-        -moz-transition: all 0.3s;
-        transition: all 0.3s;
-        -webkit-transform: translateX(-200px);
-        -moz-transform: translateX(-200px);
-        transform: translateX(-200px);
-    }
-
-    .tree-column-mobile-active .fixed-side-column {
-        width: 210px;
-        opacity: 1;
-        visibility: visible;
-        -webkit-transform: translateX(0);
-        -moz-transform: translateX(0);
-        transform: translateX(0);
-    }
-
-    .tree-column-mobile-active .mobile-tree-menu {
-        left: 170px;
-    }
-
-    .tree-column-mobile-active {
-        width: 210px;
-    }
-
-    .tree-column-mobile-active .tree-column-holder {
-        width: 210px;
-    }
-
-}
-
-.layouts_box_holder .mw-ui-col:last-child .mw-ui-col-container {
-    padding-right: 0;
-}
-
-@media (max-width: 670px) {
-    .tree-column-mobile-active {
-        width: 0;
-    }
-}
-
-.tree-column-mobile-active .fixed-side-column {
-
-    min-width: 0;
-}
-
-.tree-column-holder {
-    max-width: 100%;
-    position: relative;
-    z-index: 99;
-}
-
-.tree-column-holder-custom-item {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    margin-top: 25px;
-}
-
 .admin-section-container:after {
     content: ".";
     display: block;
@@ -572,61 +439,6 @@ h3 > [class*="mw-icon-"]:first-child {
     padding-left: 0;
 }
 
-.main-bar-column {
-    width: 230px;
-
-}
-
-#main-bar {
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    position: relative;
-    z-index: 100;
-}
-
-@media (max-width: 768px) {
-    #main-bar {
-        -moz-transform: translateX(-230px);
-        -ms-transform: translateX(-230px);
-        -webkit-transform: translateX(-230px);
-        transform: translateX(-230px);
-        height: auto;
-        top: 40px !important;
-        bottom: 0;
-    }
-
-    #main-bar.mobile-active {
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-    }
-
-    #mb-active {
-        -webkit-transition: all 0.3s;
-        -moz-transition: all 0.3s;
-        transition: all 0.3s;
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.1);
-        box-shadow: inset 100px 0 100px rgba(0, 0, 0, 0.3);
-        z-index: 99;
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    #main-bar.mobile-active + #mb-active {
-        left: 150px; /* should be less, most of the browsers do not sync the animations */
-        opacity: 1;
-        visibility: visible;
-    }
-
-}
 
 .tree-show-hide-nav {
     text-align: center;
@@ -5117,10 +4929,7 @@ span.mw-icon-upload {
     table-layout: fixed;
 }
 
-@media screen and (max-width: 767px) {
-    .admin-toolbar {
-        display: none;
-    }
+@media screen and (max-width: 768px) {
 
     .show-on-hover {
         visibility: visible;
@@ -5410,17 +5219,7 @@ span.mw-icon-upload {
     font-size: 32px;
 }
 
-.admin-toolbar {
-    position: fixed;
-    height: 66px;
-    top: 0;
-    right: 0;
-    left: 230px;
-    background: #2b2b2b;
-    color: white;
-    z-index: 100;
-    padding: 15px 20px 15px 0;
-}
+
 
 .create-root {
     overflow: hidden;
