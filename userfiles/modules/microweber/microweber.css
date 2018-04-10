@@ -673,3 +673,11 @@ span.mw-powered-by {
     pointer-events: none;
 }
 
+/* TODO */
+.control-group select.mw-ui-field.form-control,
+.module-contact-form select.mw-ui-field,
+.module-contact-form select.form-control,
+.module-contact-form select{
+    height:auto;
+}
+

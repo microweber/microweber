@@ -1479,6 +1479,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     right: 17px;
     top: 17px;
     height: 16px;
+    min-width: 16px;
     line-height: 16px;
     border-radius: 2px;
     padding: 0 5px;
@@ -1505,16 +1506,21 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 #mw-admin-main-menu .mw-admin-main-menu-mini:after {
     content: '+';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     font-size: 16px;
     transition: all .2s;
-    width: 7px;
     display: block;
-    float: left;
-    margin: 0 1px 0 -1px;
+    text-align: center;
 }
 
 #mw-admin-main-menu a:hover .mw-admin-main-menu-mini:after {
     width: 0px;
+    opacity: 0;
+    transform: translateX(-20px);
 }
 
 #mw-admin-main-menu a:hover .mw-admin-main-menu-mini {
@@ -3089,11 +3095,12 @@ input#edit-content-url:focus, input#edit-content-url.active {
     float: right;
     margin-left: 8px;
     font-weight: bold;
+    line-height: 13px;
 }
 
 .toolbar-live-edit span {
     font-size: 17px;
-    float: left;
+    vertical-align: middle;
 }
 
 .pages_tree {

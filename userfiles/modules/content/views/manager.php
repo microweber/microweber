@@ -98,7 +98,7 @@ $pages_count = intval($pages);
         if (!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")) {
             mw.$("#mw_admin_posts_sortable").sortable({
                 items: '.manage-post-item',
-                axis: 1,
+                axis: 'y',
                 handle: '.mw_admin_posts_sortable_handle',
                 update: function () {
                     var obj = {ids: []}
