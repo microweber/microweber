@@ -236,15 +236,40 @@ class KnpCategoryTreeRenderer
     {
         /** @var $menu \Knp\Menu\MenuItem */
 
+        if(!isset($options['__process_nodes_level'])){
+            $options['__process_nodes_level'] = 0;
+        }
+
         array_map(function ($data) use ($menu, $tree_data, $options, $params) {
             // dd($params);
             //  $menu = $this->menu_instance;
+
+            $has_children = false;
+
+
+            if (isset($data['children']) and !empty($data['children'])) {
+                $has_children = true;
+            }
+
 
             $nest_level = 0;
             if (isset($params['nest_level'])) {
                 $nest_level = intval($params['nest_level']);
             }
-            $level = $this->level + $nest_level;
+           // $level = $this->level + $nest_level;
+           // $level = $this->level + $nest_level;
+           // $options['__process_nodes_level']++;
+            if ($has_children) {
+                $this->level++;
+            } else {
+              //  $options['__process_nodes_level'] = 0;
+            }
+
+
+            $level = $options['__process_nodes_level'] + $nest_level;
+            if ($has_children) {
+               // $level++;
+            }
 
 
             $url = $this->app->category_manager->link($data['id']);
@@ -356,20 +381,15 @@ class KnpCategoryTreeRenderer
             }
 
 
-            $has_children = false;
 
-
-            if (isset($data['children']) and !empty($data['children'])) {
-                $has_children = true;
-            }
 
             $menu->addChild($data['id'],
                 $child_opts
             );
             //$level = $menu[$data['id']]->getLevel();
 
-            //  $level ='asdsad';
-            //  $level = $menu->getLevel();
+
+       //    $level = $menu->getLevel();
 
 
             $active_class = $options['currentClass'];
@@ -477,23 +497,36 @@ class KnpCategoryTreeRenderer
 
 
             if ($has_children) {
-                $this->level++;
-                $menu2 = $this->menu_factory->createItem($data['id'], $options)->setChildrenAttributes($children_attrs)
+               // $this->level++;
+
+                $child_opts['__process_nodes_level']++;
+
+                $menu2 = $this->menu_factory->createItem($data['id'], $child_opts)
+                    ->setChildrenAttributes($children_attrs)
                     ->setLabel($data['title'])
                     ->setLinkAttributes($link_attrs)
                     ->setAttributes($menu_attrs)
                     ->setExtras($extra_attributes)
-                    ->setUri($url);;
+                    ->setUri($url);
 
-                $menu2 = $this->__process_nodes($menu2, $data['children'], $options, $params);
+                $menu2 = $this->__process_nodes($menu2, $data['children'], $child_opts, $params);
 
+//
+//                $menu->addChild($menu2,
+//                    $child_opts
+//                );
 
-                $menu->addChild($menu2);
+                $menu->addChild($menu2,
+                    $child_opts
+                );
             } else {
-                $this->level = 0;
+                //$this->level = 0;
             }
 
         }, $tree_data);
+
+
+
         return $menu;
     }
 
