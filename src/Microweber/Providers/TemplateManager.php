@@ -74,7 +74,7 @@ class TemplateManager
                             }
                         }
                     }
-                    $styles[ $k ] = $style;
+                    $styles[$k] = $style;
                 }
             }
 
@@ -101,9 +101,9 @@ class TemplateManager
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $cache_id = __FUNCTION__.crc32($function_cache_id);
+        $cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'templates';
         $cache_content = false;
         //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
@@ -123,16 +123,24 @@ class TemplateManager
         if (!is_array($map) or empty($map)) {
             return false;
         }
+
+        $remove_hidden_from_install_screen = false;
+        if (isset($options['remove_hidden_from_install_screen']) and $options['remove_hidden_from_install_screen']) {
+            $remove_hidden_from_install_screen = true;
+
+        }
+
         foreach ($map as $dir) {
             //$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
-            $filename = $path.DIRECTORY_SEPARATOR.$dir;
+            $filename = $path . DIRECTORY_SEPARATOR . $dir;
             $filename_location = false;
             $filename_dir = false;
             $filename = normalize_path($filename);
             $filename = rtrim($filename, '\\');
             $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
             if (!@is_file($filename) and @is_dir($filename)) {
-                $fn1 = normalize_path($filename, true).'config.php';
+                $skip = false;
+                $fn1 = normalize_path($filename, true) . 'config.php';
                 $fn2 = normalize_path($filename);
                 if (is_file($fn1)) {
                     $config = false;
@@ -140,12 +148,21 @@ class TemplateManager
                     if (!empty($config)) {
                         $c = $config;
                         $c['dir_name'] = $dir;
-                        $screensshot_file = $fn2.'/screenshot.png';
+                        $screensshot_file = $fn2 . '/screenshot.png';
                         $screensshot_file = normalize_path($screensshot_file, false);
                         if (is_file($screensshot_file)) {
                             $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file);
                         }
-                        $to_return[] = $c;
+
+                        if ($remove_hidden_from_install_screen) {
+                            if (isset($c['is_hidden_from_install_screen']) and $c['is_hidden_from_install_screen']) {
+                                $skip = true;
+                            }
+                        }
+
+                        if (!$skip) {
+                            $to_return[] = $c;
+                        }
                     }
                 } else {
                     $filename_dir = false;
@@ -180,7 +197,7 @@ class TemplateManager
         if ($fp = @opendir($source_dir)) {
             $filedata = array();
             $new_depth = $directory_depth - 1;
-            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
             while (false !== ($file = readdir($fp))) {
                 // Remove '.', '..', and hidden files [optional]
@@ -188,13 +205,13 @@ class TemplateManager
                     continue;
                 }
 
-                if (($directory_depth < 1 or $new_depth > 0) && @is_dir($source_dir.$file)) {
-                    $filedata[ $file ] = $this->directory_map($source_dir.$file.DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
+                if (($directory_depth < 1 or $new_depth > 0) && @is_dir($source_dir . $file)) {
+                    $filedata[$file] = $this->directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
                 } else {
                     if ($full_path == false) {
                         $filedata[] = $file;
                     } else {
-                        $filedata[] = $source_dir.$file;
+                        $filedata[] = $source_dir . $file;
                     }
                 }
             }

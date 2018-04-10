@@ -465,7 +465,15 @@
 
                                                 <div>
                                                     <?php
-                                                    $templates = site_templates();
+
+                                                    $templates_opts = array(
+                                                          'remove_hidden_from_install_screen' => true
+                                                    );
+
+
+
+
+                                                    $templates = site_templates($templates_opts);
 
                                                     ?>
                                                     <?php if (is_array($templates) and !empty($templates)): ?>
