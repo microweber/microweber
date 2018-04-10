@@ -57,7 +57,15 @@ if (is_array($data)) {
 
         if (isset($item['custom_fields'])) {
             foreach ($item['custom_fields'] as $k => $value) {
-                $custom_fields[$k] = $value;
+
+                if ($k != 'for'
+                    and $k != 'for_id'
+                    and $k != 'module_name'
+                ) {
+                    $custom_fields[$k] = $value;
+                }
+
+
             }
         } else if (isset($item['form_values'])) {
             // $custom_fields =  json_decode($item['form_values']);
@@ -75,7 +83,7 @@ if (is_array($data)) {
         <th class="mw-ui-table-small"><?php _e("ID"); ?></th>
         <?php if (is_array($custom_fields)): ?>
             <?php foreach ($custom_fields as $k => $item): ?>
-                <th><?php print   mw('format')->no_dashes($k); ?></th>
+                <th><?php print   mw()->format->no_dashes($k); ?></th>
             <?php endforeach; ?>
         <?php endif; ?>
         <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
@@ -86,7 +94,7 @@ if (is_array($data)) {
         <td class="mw-ui-table-small"><?php _e("ID & Date"); ?></td>
         <?php if (is_array($custom_fields)): ?>
             <?php foreach ($custom_fields as $k => $item): ?>
-                <td><?php print   mw('format')->no_dashes($k); ?></td>
+                <td><?php print   mw()->format->no_dashes($k); ?></td>
             <?php endforeach; ?>
         <?php endif; ?>
         <td width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></td>
@@ -98,7 +106,7 @@ if (is_array($data)) {
             <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
                 <td width="50" style="text-align: center"><?php print $item['id'] ?>
                     <div class="mw-date"
-                         title="<?php print mw('format')->ago($item['created_at'], 1); ?>"><?php print mw('format')->date($item['created_at']);; ?></div>
+                         title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at']);; ?></div>
                 </td>
 
                 <?php
@@ -120,25 +128,29 @@ if (is_array($data)) {
                                 if (isset($item['custom_fields']) and isset($item['custom_fields'][$key])) {
                                     $val_print = $item['custom_fields'][$key];
                                 }
-                                $values_plain = mw('format')->clean_html($val_print);;
+                                $values_plain = mw()->format->clean_html($val_print);;
 
-                                if(is_array($values_plain)){
-                                    $values_plain = implode(',', $values_plain);
+                                if (is_array($values_plain)) {
+                                    $values_plain = mw()->format->array_to_ul($val_print);;
                                 }
-                                $max = 150;
-                                if (strlen($values_plain) > $max) {
-                                    $first = substr($values_plain, 0, $max);
-                                    $rest = substr($values_plain, $max);
-                                    print '<div>' . $first . '<span class="semi_hidden">' . $rest . '</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ' . _e('...more') . '</a></div>';
-                                } else {
-                                    print mw('format')->autolink($val_print);
-                                }
+
+                                print $values_plain;
+                                //var_dump($values_plain);
+                                //                                $max = 150;
+                                //                                if (strlen($values_plain) > $max) {
+                                //                                    $first = substr($values_plain, 0, $max);
+                                //                                    $rest = substr($values_plain, $max);
+                                //                                    print '<div>' . $first . '<span class="semi_hidden">' . $rest . '</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ' . _e('...more') . '</a></div>';
+                                //                                } else {
+                                //                                    print mw()->format->autolink($val_print);
+                                //                                }
                                 ?>
                             </div>
                         </td>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <td class="mw-ui-table-delete-item"><a class="show-on-hover mw-icon-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a>
+                <td class="mw-ui-table-delete-item"><a class="show-on-hover mw-icon-close"
+                                                       href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a>
                 </td>
             </tr>
         <?php endforeach; ?>
