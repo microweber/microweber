@@ -253,9 +253,11 @@ description: Dictionary
     <?php
     $sorted = array();
     foreach ($data as $item) {
-        $firstLetter = substr($item['title'], 0, 1);
-        $sorted[$firstLetter][] = $item;
+        $firstLetter = $item['title'];
+        $firstLetter = trim(preg_replace('/\s+/', ' ', $firstLetter));
 
+        $firstLetter = mb_substr($firstLetter, 0, 1);
+        $sorted[$firstLetter][] = $item;
     }
     ksort($sorted);
     ?>
