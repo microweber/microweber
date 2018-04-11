@@ -37,7 +37,7 @@ if (isset($params['live_edit'])) {
         mw.require('forms.js');
     </script>
     <script type="text/javascript">
-        function set_category_parent_<?php print $form_rand_id ?>() {
+        function set_category_parent_ <?php print $form_rand_id ?>() {
             var sel = mw.$('#edit_category_set_par_<?php print $form_rand_id; ?> input:checked').parents('li').first(),
                 is_cat = sel.attr("data-category-id"),
                 is_page = sel.attr("data-page-id");
@@ -52,7 +52,7 @@ if (isset($params['live_edit'])) {
             }
 
         }
-        function onload_set_parent_<?php print $form_rand_id ?>() {
+        function onload_set_parent_ <?php print $form_rand_id ?>() {
             var tti = mw.$('#rel_id_<?php print $form_rand_id ?>').val();
             var par_cat = mw.$('#parent_id_<?php print $form_rand_id ?>').val();
             if (par_cat != undefined && parseFloat(par_cat) > 0) {
@@ -203,7 +203,7 @@ if (isset($params['live_edit'])) {
     ?>
 
 
-    <div>
+    <div class="admin-side-content">
         <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>"
               name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off"
               style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
@@ -238,10 +238,10 @@ if (isset($params['live_edit'])) {
 
                     <span class="mai-category admin-manage-toolbar-title-icon"></span>
                     <span id="category-page-title">
-                        <?php if($data['id'] == 0): ?>
-                  <span id="category-page-title-add"><?php _e('Add') ?></span>
+                        <?php if ($data['id'] == 0): ?>
+                            <span id="category-page-title-add"><?php _e('Add') ?></span>
                         <?php else: ?>
-                  <span id="category-page-title-edit"><?php _e('Edit') ?></span>
+                            <span id="category-page-title-edit"><?php _e('Edit') ?></span>
                         <?php endif; ?>
                         <?php _e('category'); ?>
               </span>

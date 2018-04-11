@@ -385,8 +385,6 @@ h3 > [class*="mw-icon-"]:first-child {
     /*max-width: 1200px;*/
 }
 
-
-
 #mw-edit-page-editor-holder {
     border: 1px solid #DADADA;
     border-radius: 3px;
@@ -438,7 +436,6 @@ h3 > [class*="mw-icon-"]:first-child {
 #file_module_live_edit_adm .mw-module-admin-wrap {
     padding-left: 0;
 }
-
 
 .tree-show-hide-nav {
     text-align: center;
@@ -3550,7 +3547,7 @@ body.grabbing, body.grabbing * {
     text-align: center;
     height: auto;
     cursor: pointer;
-    padding:20px;
+    padding: 20px;
 }
 
 .module-uninstalled {
@@ -3613,8 +3610,6 @@ body.grabbing, body.grabbing * {
 .mw-modules-admin li.mw-admin-module-list-item h2 {
     font-size: 15px;
 }
-
-
 
 .modules-index-bar .mw-dropdown {
     width: 150px;
@@ -5226,8 +5221,6 @@ span.mw-icon-upload {
     font-size: 32px;
 }
 
-
-
 .create-root {
     overflow: hidden;
     padding: 10px 0 15px;
@@ -5289,7 +5282,6 @@ span.mw-icon-upload {
     display: none;
 }
 
-
 .stat-box-content {
     overflow: hidden;
     position: relative;
@@ -5301,7 +5293,10 @@ span.mw-icon-upload {
     margin-bottom: 20px;
     white-space: nowrap;
     position: absolute;
-    right: 0;
+    left: 140px;
+    text-align: right;
+    max-width: -webkit-calc(100% - 140px);
+    max-width: calc(100% - 140px);
     bottom: 20px;
     -webkit-transition: height .5s;
     transition: height .5s;
@@ -5317,15 +5312,29 @@ span.mw-icon-upload {
     width: 30px;
     cursor: default;
     margin: 0 12px;
-
+    transition: all .4s;
+    transform: scaleY(0);
+    opacity: .5;
+    transform-origin: center bottom;
 }
 
 .mw-admin-stat-item-views {
-    background: #0086db
+    background: #0086db;
+    /*transition: all .4s;
+    transform: scaleY(0);
+    transform-origin: center bottom;*/
 }
 
 .mw-admin-stat-item-uniques {
-    background: #005c97
+    background: #005c97;
+    /*transition: all .4s;
+    transform: scaleY(0);
+    transform-origin: center bottom;*/
+}
+
+.active.mw-admin-stat-item{
+    transform: scaleY(1);
+    opacity: 1;
 }
 
 .mw-admin-stat-item:last-child .mw-admin-stat-item-views {
@@ -5775,6 +5784,11 @@ span.mw-icon-upload {
     -moz-border-radius: 2px;
     border-radius: 2px;
     box-shadow: 0 0 27px -20px #111;
+}
+
+
+.mw_modal.mw_modal_default .mw_modal_title{
+    margin:4px 0 0px 14px;
 }
 
 .mw_modal.mw_modal_default .mw_modal_toolbar {
@@ -6305,7 +6319,7 @@ span.mw-icon-upload {
         margin: 0 auto;
         right: auto;
         left: auto;
-width: 100%;
+        width: 100%;
     }
 
     .admin-manage-toolbar .top-search {
@@ -6315,4 +6329,85 @@ width: 100%;
         left: auto;
 
     }
+}
+
+input.silver-field,
+textarea.silver-field,
+select.silver-field {
+    background: #f8f8f8;
+    width: 100%;
+    color: #323232;
+    border-color: #c2c2c2;
+}
+
+
+.block-field{
+    width: 100%;
+}
+
+.mw-ui-box-silver-blue {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-color: #fafafa;
+}
+
+.mw-ui-box-silver-blue .mw-ui-box-header {
+    color: #0086db;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 20px 20px 0 20px;
+}
+
+/*.mw-ui-box-silver-blue:not(.active):hover {*/
+/*border-bottom: 1px solid #0086db;*/
+/*}*/
+
+.mw-ui-box-silver-blue .mw-ui-box-header i {
+    font-size: 16px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+}
+
+.mw-ui-box-silver-blue .mw-ui-box-header .header-holder:after {
+    display: inline-block;
+    font-family: 'Microweber';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-left: 7px;
+}
+
+.mw-ui-box-silver-blue.active .mw-ui-box-header .header-holder:after {
+    content: "\f104";
+}
+
+.mw-ui-box-silver-blue:not(.active) .mw-ui-box-header .header-holder:after {
+    content: "\f10a";
+}
+
+.mw-ui-box-silver-blue .mw-ui-box-content {
+    background-color: #fafafa;
+    padding: 20px 20px;
+
+}
+
+.mw-ui-box-silver-blue .header-holder {
+    padding-bottom: 0px;
+    line-height: 16px;
+}
+
+.mw-ui-box-silver-blue.active .header-holder {
+    border-bottom: 1px solid #0086db;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+
+.mw-blue {
+    color: #0086db;
 }

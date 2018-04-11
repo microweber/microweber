@@ -495,6 +495,10 @@ mw.askusertostay = false;
     });
   }
   mw.temp_reload_module_queue_holder = [];
+
+
+
+
   mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
     if(mw.on != undefined){
         mw.on.DOMChangePause = true;
@@ -531,9 +535,6 @@ mw.askusertostay = false;
           }
 
        }
-
-
-
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""

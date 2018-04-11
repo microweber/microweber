@@ -124,17 +124,16 @@
         mw.$("#ui-info-table h2").each(function (i) {
             var el = this;
             var li = mwd.createElement('li');
-            li.innerHTML = "<a href='#?uisection="+i+"'>" + this.innerHTML + "</a>";
+            li.innerHTML = "<a href='#?uisection=" + i + "'>" + this.innerHTML + "</a>";
 
             $("#apinav").append(li)
         });
 
 
-
     });
     mw.on.hashParam('uisection', function () {
         var el = mw.$("#ui-info-table h2")[this]
-        if(this){
+        if (this) {
             mw.tools.scrollTo(el);
             mw.$("#ui-info-table tbody > tr:visible:first").hide();
             $(mw.tools.firstParentWithTag(el, 'tr')).show();
@@ -1178,6 +1177,21 @@
                     <div class="mw-ui-col-container">
                         <div id="accordion-example2" class="mw-ui-box">
                             <div class="mw-ui-box-header" onclick="mw.accordion('#accordion-example2');">Another Example</div>
+                            <div class="mw-accordion-content mw-ui-box-content">
+                                Lorem Ipsum
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mw-ui-col">
+                    <div class="mw-ui-col-container">
+                        <div id="accordion-example3" class="mw-ui-box mw-ui-box-silver-blue active">
+                            <div class="mw-ui-box-header" onclick="mw.accordion('#accordion-example3');">
+                                <div class="header-holder">
+                                    <i class="mai-setting2"></i> Another Example
+                                </div>
+                            </div>
                             <div class="mw-accordion-content mw-ui-box-content">
                                 Lorem Ipsum
                             </div>
