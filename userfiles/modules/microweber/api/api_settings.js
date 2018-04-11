@@ -266,7 +266,72 @@ mw.lib = {
     }
 }
 
-mw.msg = {
+mw.lang = function (key) {
+    var camel = key.trim().replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+        return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+    }).replace(/\s+/g, '');
+    if(mw._lang[camel]){
+        return mw._lang[camel];
+    }
+    else{
+        console.warn('"' + key + '" is not present.');
+        return key;
+    }
+}
+mw.msg = mw._lang = {
+    uniqueVisitors:'<?php _e("Unique visitors"); ?>',
+    allViews:'<?php _e("All views"); ?>',
+    date:'<?php _e("Date"); ?>',
+    weekDays:{
+        regular:[
+            '<?php _e("Sunday"); ?>',
+            '<?php _e("Monday"); ?>',
+            '<?php _e("Tuesday"); ?>',
+            '<?php _e("Wednesday"); ?>',
+            '<?php _e("Thursday"); ?>',
+            '<?php _e("Friday"); ?>',
+            '<?php _e("Saturday"); ?>'
+        ],
+        short:[
+            '<?php _e("Sun"); ?>',
+            '<?php _e("Mon"); ?>',
+            '<?php _e("Tue"); ?>',
+            '<?php _e("Wed"); ?>',
+            '<?php _e("Thu"); ?>',
+            '<?php _e("Fri"); ?>',
+            '<?php _e("Sat"); ?>'
+        ]
+    },
+    months:{
+        regular:[
+            '<?php _e("January") ?>',
+            '<?php _e("February") ?>',
+            '<?php _e("March") ?>',
+            '<?php _e("April") ?>',
+            '<?php _e("May") ?>',
+            '<?php _e("June") ?>',
+            '<?php _e("July") ?>',
+            '<?php _e("August") ?>',
+            '<?php _e("September") ?>',
+            '<?php _e("October") ?>',
+            '<?php _e("November") ?>',
+            '<?php _e("December") ?>'
+        ],
+        short:[
+            '<?php _e("Jan") ?>',
+            '<?php _e("Feb") ?>',
+            '<?php _e("Mar") ?>',
+            '<?php _e("Apr") ?>',
+            '<?php _e("May") ?>',
+            '<?php _e("June") ?>',
+            '<?php _e("July") ?>',
+            '<?php _e("Aug") ?>',
+            '<?php _e("Sept") ?>',
+            '<?php _e("Oct") ?>',
+            '<?php _e("Nov") ?>',
+            '<?php _e("Dec") ?>'
+        ]
+    },
     ok: "<?php _e('OK');  ?>",
     category: "<?php _e('Category');  ?>",
     published: "<?php _e('Published');  ?>",
