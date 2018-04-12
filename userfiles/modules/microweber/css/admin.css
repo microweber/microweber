@@ -1000,6 +1000,10 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     font-size: 30px;
 }
 
+#main-bar-mw-icon .admin-logo {
+    max-width: 165px;
+}
+
 #main-bar-mw-icon .mw-icon-mw {
     font-size: 38px;
     color: #999999;
@@ -2346,7 +2350,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 #pages_edit_container #mw-ui-category-selector-manage li li:last-child {
-    background: url(../img/treelisub_last.gif) no-repeat 26px -3px;
+    background: url(../img/treelisub_last.gif) no-repeat 16px -3px;
 }
 
 #mw-ui-category-selector-manage .mw-icon-category {
@@ -2360,7 +2364,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 #pages_edit_container > .mw-module-category-manager {
-    padding: 30px;
+    /*padding: 30px;*/
 }
 
 #mw_edit_category_admin_holder {
@@ -4235,7 +4239,7 @@ body.grabbing, body.grabbing * {
 
 #stats_nav {
     display: inline-block;
-    margin-left: 10px;
+    margin-left: 50px;
 }
 
 #stats_nav .mw-ui-btn {
@@ -4245,7 +4249,8 @@ body.grabbing, body.grabbing * {
 
 #stats_nav .mw-ui-btn.active {
     background: white;
-    color: #2e3192;
+    color: #005c97;
+    font-weight:bold;
 }
 
 .stats-legend {
@@ -4288,7 +4293,7 @@ body.grabbing, body.grabbing * {
 .users-online {
     float: left;
     display: block;
-    width: 150px;
+    width: 190px;
     height: 180px;
     font-size: 44px;
     text-align: center;
@@ -4298,6 +4303,7 @@ body.grabbing, body.grabbing * {
     background: white;
     z-index: 1;
     position: relative;
+    text-transform: uppercase;
 }
 
 .users-online span {
@@ -4667,6 +4673,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 .section-header h2 span {
     font-size: 22px;
     vertical-align: middle;
+    margin-right: 10px;
 }
 
 .section-header:after {
@@ -4680,6 +4687,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 
 .section-header h2, .section-header h3 {
     margin-top: 7px;
+    margin-right: 10px;
 }
 
 /* Shipping */
@@ -5293,10 +5301,10 @@ span.mw-icon-upload {
     margin-bottom: 20px;
     white-space: nowrap;
     position: absolute;
-    left: 140px;
+    left: 190px;
     text-align: right;
-    max-width: -webkit-calc(100% - 140px);
-    max-width: calc(100% - 140px);
+    max-width: -webkit-calc(100% - 190px);
+    max-width: calc(100% - 190px);
     bottom: 20px;
     -webkit-transition: height .5s;
     transition: height .5s;
@@ -5332,7 +5340,7 @@ span.mw-icon-upload {
     transform-origin: center bottom;*/
 }
 
-.active.mw-admin-stat-item{
+.active.mw-admin-stat-item {
     transform: scaleY(1);
     opacity: 1;
 }
@@ -5381,6 +5389,7 @@ span.mw-icon-upload {
 
 .admin-section-bar h2 span[class*='mai-'] {
     font-size: 15px;
+    margin-right: 10px;
 }
 
 .post-has-image-false .manage-post-item-title span {
@@ -5786,9 +5795,8 @@ span.mw-icon-upload {
     box-shadow: 0 0 27px -20px #111;
 }
 
-
-.mw_modal.mw_modal_default .mw_modal_title{
-    margin:4px 0 0px 14px;
+.mw_modal.mw_modal_default .mw_modal_title {
+    margin: 4px 0 0px 14px;
 }
 
 .mw_modal.mw_modal_default .mw_modal_toolbar {
@@ -6340,8 +6348,7 @@ select.silver-field {
     border-color: #c2c2c2;
 }
 
-
-.block-field{
+.block-field {
     width: 100%;
 }
 
@@ -6357,7 +6364,7 @@ select.silver-field {
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    padding: 20px 20px 0 20px;
+    padding: 20px;
 }
 
 /*.mw-ui-box-silver-blue:not(.active):hover {*/
@@ -6407,7 +6414,61 @@ select.silver-field {
     padding-bottom: 15px;
 }
 
-
 .mw-blue {
     color: #0086db;
+}
+
+.mw-switch {
+    line-height: 26px;
+}
+
+.mw-ui-category-selector {
+    margin-top: 10px;
+}
+
+.mw-ui-category-selector li {
+    padding: 0;
+}
+
+#mw-ui-category-selector-manage > ul > li > a {
+    background: white;
+    padding-left: 10px !important;
+}
+
+#mw-ui-category-selector-manage > ul > li a {
+    padding: 5px 0 5px 32px;
+}
+
+#mw-ui-category-selector-manage > ul > li > ul {
+    /*margin-left: 30px;*/
+}
+
+#mw-ui-category-selector-manage > ul > li > ul ul {
+    margin-left: 24px;
+}
+
+#pages_edit_container .mw-ui-category-selector {
+    height: calc(100vh - 400px);
+    height: -webkit-calc(100vh - 400px);
+}
+
+.stats-title {
+    color: #0086db;
+}
+
+.stats-title span {
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+    padding-top: 10px;
+}
+
+.stats-title i {
+    padding-top: 10px;
+    font-size: 18px;
+    margin-right: 8px;
+    line-height: 14px;
+    float: left;
+    margin-left: 9px;
 }

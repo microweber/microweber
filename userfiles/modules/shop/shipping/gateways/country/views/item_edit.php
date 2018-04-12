@@ -70,7 +70,7 @@ if ($weight_units == false) {
     } else {
         print 'new';
     } ?>');return false;" action="<?php print $config['module_api']; ?>/shipping_add_to_country" data-field-id="<?php print $item['id']; ?>">
-        <div class="mw-ui-box mw-ui-settings-box <?php if ($item['is_active'] == 1 AND $new == false): ?>box-enabled<?php elseif ($item['is_active'] == 0): ?>box-disabled<?php endif; ?> mw-ui-box-content <?php if ($new == false): ?>toggle-item closed-fields<?php endif; ?>">
+        <div class="mw-ui-box mw-ui-settings-box <?php if ($item['is_active'] == 1 AND $new == false): ?>box-enabled-<?php elseif ($item['is_active'] == 0): ?>box-disabled-<?php endif; ?> mw-ui-box-content <?php if ($new == false): ?>toggle-item closed-fields<?php endif; ?>">
             <table class="mw-ui-table mw-ui-table-basic admin-shipping-table">
                 <tr class="shipping-country-row">
                     <td class="shipping-country-label">
@@ -85,7 +85,7 @@ if ($weight_units == false) {
                     <td class="shipping-country-setting"><?php if ($new == false): ?>
                             <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                         <?php endif; ?>
-                        <select name="shipping_country" class="mw-ui-field" onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_country:$(this).val()});">
+                        <select name="shipping_country" class="mw-ui-field silver-field" onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_country:$(this).val()});">
                             <?php if ($new == true): ?>
                                 <option value="none">
                                     <?php _e("Choose country"); ?>

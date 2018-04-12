@@ -177,7 +177,7 @@ if($params['period']){
 
     <div class="mw-ui-box">
         <div class="mw-ui-box-header">
-            <span><?php _e("Statistics") ?></span>
+            <span class="stats-title"><i class="mw-icon-connectmw-icon-bars"></i> <span><?php _e("Statistics") ?></span></span>
 
             <div id="stats_nav">
                 <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily' class="mw-ui-btn mw-ui-btn-outline"><?php _e("Daily"); ?></a>

@@ -25,7 +25,6 @@ if (isset($_COOKIE['lang'])) {
 $current_lang = current_lang();
 
 
-
 ?>
 
 <div id="mw-login">
@@ -108,14 +107,15 @@ $current_lang = current_lang();
 
                 ?>
             <?php endif; ?>
-            <?php event_trigger('mw.ui.admin.login.form.before');  ?>
+            <?php event_trigger('mw.ui.admin.login.form.before'); ?>
 
             <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
                 <div class="mw-ui-field-holder">
-                    <input class="mw-ui-field mw-ui-field-big" autofocus="" tabindex="1" required name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif; ?> />
+                    <input class="mw-ui-field mw-ui-field-big silver-field" autofocus="" tabindex="1" required name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;
+                    ?> />
                 </div>
                 <div class="mw-ui-field-holder">
-                    <input class="mw-ui-field mw-ui-field-big" name="password" tabindex="2" required type="password" <?php if (isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif; ?> placeholder="<?php _e("Password"); ?>"/>
+                    <input class="mw-ui-field mw-ui-field-big silver-field" name="password" tabindex="2" required type="password" <?php if (isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif; ?> placeholder="<?php _e("Password"); ?>"/>
                 </div>
 
 
@@ -155,7 +155,7 @@ $current_lang = current_lang();
 
                                         $langs = get_available_languages(); ?>
                                         <?php foreach ($langs as $lang): ?>
-                                            <li value="<?php print $lang; ?>" <?php if($selected_lang == $lang) {  ?> class="active" <?php } ?>><a href="javascript:;"><?php print strtoupper($lang); ?></a></li>
+                                            <li value="<?php print $lang; ?>" <?php if ($selected_lang == $lang) { ?> class="active" <?php } ?>><a href="javascript:;"><?php print strtoupper($lang); ?></a></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </div>
@@ -163,10 +163,10 @@ $current_lang = current_lang();
                         </li>
                     </ul>
                     <input type="hidden" name="where_to" value="admin_content"/>
-                    <input class="mw-ui-btn mw-ui-btn-big pull-right" type="submit" tabindex="4" value="<?php _e("Login"); ?>"/>
+                    <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info mw-ui-btn-outline pull-right" type="submit" tabindex="4" value="<?php _e("Login"); ?>"/>
                 </div>
             </form>
-            <?php event_trigger('mw.ui.admin.login.form.after');  ?>
+            <?php event_trigger('mw.ui.admin.login.form.after'); ?>
         </div>
     </div>
     <div id="login_foot"><a href="<?php print site_url() ?>" class="pull-left"><span class="mw-icon-back"></span>

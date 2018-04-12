@@ -41,7 +41,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
                     <span class="switcher-label-left"><?php _e("Enable shipping to countries"); ?></span>
 
-                    <label class="mw-switch inline-switch">
+                    <label class="mw-switch inline-switch pull-right">
                         <input
                                 onchange="shippingToCountryClass()"
                                 type="checkbox"
