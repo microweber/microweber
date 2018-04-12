@@ -8,7 +8,9 @@
                 <?php
                 $categories = content_categories($item['id']);
 
-                $cnt_cats = count($categories) - 1;
+                if (is_array($categories)) {
+                    $cnt_cats = count($categories) - 1;
+                }
                 $filter_cats = '';
                 if ($categories) {
                     foreach ($categories as $key => $category) {
