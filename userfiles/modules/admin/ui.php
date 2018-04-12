@@ -96,7 +96,15 @@
 
 <script>
 
-
+    docopy = function(value) {
+        var tempInput = document.createElement("input");
+        tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+        tempInput.value = value;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+    }
     $(window).load(function () {
         var uicss = mwd.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html = '';
         var admincss = mwd.querySelector('link[href*="/admin.css"]').sheet.cssRules, al = admincss.length, ai = 0;
@@ -130,9 +138,26 @@
         });
 
 
+        ctip =  mw.tooltip({element:document.body}), $ctip = $(ctip).hide();
+
+        $(".demobox .mw-ui-box, #dabuttons a.mw-ui-btn, .mw-ui-table, .demobox .mw-switch").on('mouseenter', function(){
+            var copier = document.createElement('button');
+            copier.className ='mw-ui-btn mw-ui-btn-small'
+            copier.innerHTML = '<span class="mw-icon-app-copy-outline"></span>&nbsp;Copy snippet';
+            var el = this;
+            copier.onclick = function(){
+                docopy(el.outerHTML);
+                mw.notification.success('Snippet copied')
+            }
+            mw.$('.mw-tooltip-content', ctip).html('').append(copier);
+            mw.tools.tooltip.setPosition(ctip, this, 'top-center');
+            $ctip.show()
+        })
+
     });
     mw.on.hashParam('uisection', function () {
-        var el = mw.$("#ui-info-table h2")[this]
+        var el = mw.$("#ui-info-table h2")[this] ;
+        if(!!window.ctip) $ctip.hide()
         if (this) {
             mw.tools.scrollTo(el);
             mw.$("#ui-info-table tbody > tr:visible:first").hide();

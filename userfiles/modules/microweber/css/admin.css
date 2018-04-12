@@ -1285,6 +1285,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 .mw-admin-main-menu-mini {
     position: absolute;
+    overflow: hidden; /* Chrome 'jumping' bug on rtl */
     right: 17px;
     top: 17px;
     height: 16px;
@@ -4327,7 +4328,6 @@ body.grabbing, body.grabbing * {
 *************************************/
 
 .mw-simple-rotator-item {
-    margin-right: 20px;
     width: 100%;
 }
 
