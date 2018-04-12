@@ -612,7 +612,7 @@ if ($action == 'posts') {
 ?>
 
 <?php if ($action != 'categories'): ?>
-    <span class="mw-icon-app-more mobile-tree-menu"></span>
+    <span class="mw-icon-more mobile-tree-menu"></span>
 <?php endif; ?>
 <div class="mw-ui-row-nodrop" id="edit-content-row">
     <?php if ($action != 'categories'): ?>

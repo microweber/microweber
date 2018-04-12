@@ -394,6 +394,8 @@
 <script>
     $(mwd).ready(function () {
 
+
+
         mw.reload_module('#edit-post-gallery-main');
 
 
@@ -409,7 +411,7 @@
         <?php if($data['id'] != 0) : ?>
         mw.$(".mw-admin-go-live-now-btn").attr('content-id', <?php print $data['id']; ?>);
         <?php endif; ?>
-        mw.$('#mw-parent-page-value-<?php print $rand; ?>').bind('change', function (e) {
+        mw.$('#mw-parent-page-value-<?php print $rand; ?>').on('change', function (e) {
             var iframe_ed = $('.mw-iframe-editor');
 
 
@@ -570,5 +572,7 @@
             }
 
         });
+
+        $("")
     });
 </script>

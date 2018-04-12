@@ -306,8 +306,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php if (mw()->ui->admin_logo != false) : ?>
                         <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;"/>
                     <?php else: ?>
-                        <span class="mai-logo"></span>
-                        <span class="mw-icon-microweber"></span>
+<!--                        <span class="mai-logo"></span>-->
+<!--                        <span class="mw-icon-microweber"></span>-->
+                        <img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Microweber" class="admin-logo"  />
                     <?php endif; ?>
                     <strong>
                         <?php //print str_replace(array('http://','https://'), '', site_url()); ?>

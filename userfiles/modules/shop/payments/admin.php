@@ -338,9 +338,18 @@ $payment_modules = get_modules('type=payment_gateway');
                                                 <div class="mw-ui-col">
                                                     <span class="mw-icon-drag"></span>
                                                 </div>
+
+                                                <div class="mw-ui-col" style="width: 40px; font-size: 16px; color: green;">
+                                                    <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>
+                                                        <i class="mw-icon-checkmark-circled"></i>
+                                                    <?php endif; ?>
+                                                </div>
+
                                                 <div class="mw-ui-col">
                                                     <img src="<?php print $payment_module['icon']; ?>" alt=""/>
                                                 </div>
+
+
                                                 <div class="mw-ui-col">
                                                     <span class="gateway-title"><?php print $payment_module['name'] ?>
                                                         <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>
