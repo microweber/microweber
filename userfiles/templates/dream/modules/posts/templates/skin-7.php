@@ -6,10 +6,11 @@
             <?php foreach ($data as $item): ?>
                 <?php
                 $categories = content_categories($item['id']);
-                $filter_cats = ''; 
+                $filter_cats = '';
                 if ($categories) {
-                $cnt_cats = count($categories) - 1;
-
+                    if (is_array($categories)) {
+                        $cnt_cats = count($categories) - 1;
+                    }
 
                     foreach ($categories as $key => $category) {
                         $filter_cats .= $category['title'];
