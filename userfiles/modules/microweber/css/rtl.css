@@ -3,6 +3,10 @@ html,body{
   text-align: right;
 }
 
+.mw-switch [class*=mw-switch-]{
+    direction: rtl;
+}
+
 .pull-left{
   float: right !important;
 }
@@ -50,7 +54,7 @@ html,body{
 .mw_modal_title {
   float: right;
   margin-left:0;
-  margin-right:6px;
+  margin-right: 35px !important;
 }
 
 .mw-ui-dropdown .idownarr {
@@ -134,6 +138,11 @@ html,body{
     float: right;
 }
 
+.mw-ui-check input+span{
+    margin-right: 0;
+    margin-left: 8px;
+}
+
 .manage-post-item-col-1 .mw-ui-check input+span{
     margin-right:1px;
 }
@@ -171,7 +180,7 @@ a.depth-1 .mw_toggle_tree{
 
 .quick-lists .mw-ui-navigation a [class*="mw-icon-"]{
     float: right;
-    margin:-5px 0 0 8px;
+    margin:5px 0 0 8px;
 }
 
 .request-stats-btn{
@@ -337,4 +346,83 @@ a.depth-1 .mw_toggle_tree{
 .mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:first-child > .mw-ui-col-container {
     padding-left: 15px;
     padding-right: 0;
+}
+
+.users-online{
+    float: right;
+}
+
+.dashboard_stats{
+    left: auto;
+    right: 140px;
+}
+
+.quick-lists .mw-ui-box-header i.mai-link{
+    float: right;
+}
+
+@media screen and (max-width: 991px){
+    #main-bar {
+        -moz-transform: translateX(230px);
+        -ms-transform: translateX(230px);
+        -webkit-transform: translateX(230px);
+        transform: translateX(230px);
+    }
+    #mb-active{
+        box-shadow: inset -100px 0 100px rgba(0, 0, 0, 0.3);
+    }
+    #main-bar.mobile-active + #mb-active{
+        left: 0;
+        right: 220px;
+    }
+}
+
+[class*='mai-'] {
+    margin-right: 0;
+    margin-left: 3px;
+}
+
+@media screen and (max-width: 991px){
+
+}
+
+.ol {
+    list-style-type: decimal;
+    padding-right: 16px;
+    padding-left: 0px;
+}
+
+#mw-admin-main-menu li li a [class*='mai-'],
+#mw-admin-main-menu li li a [class*='mw-icon-']{
+    float: right;
+}
+.modules-list-init .mw_module_image{
+    float: right;
+}
+
+.mw-simple-rotator-item{
+    padding-right: 0;
+}
+#users_admin_panel {
+    float: none;
+    margin-right: 0px;
+}
+.mw-simple-rotator-item {
+    margin-right: 0px;
+}
+
+
+.mw-tree .mw-ui-check span span + span, .mw-tree .mw-ui-check label span + span {
+    margin-right: 24px;
+    margin-left: 0px;
+}
+
+label .mw_toggle_tree {
+    left: auto;
+    right: -18px;
+}
+.mw-tree li.active > label + ul {
+    position: relative;
+    margin: -15px -7px 0 0;
+    padding: 0;
 }

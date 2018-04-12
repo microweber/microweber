@@ -246,8 +246,8 @@ if (!empty($template_config)) {
                         </div>
                         <label class="mw-switch mw-switch-action">
                             <input type="checkbox" name="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['is_home'])): ?>checked="1"<?php endif; ?>>
-                            <span class="mw-switch-off">NO</span>
-                            <span class="mw-switch-on">YES</span>
+                            <span class="mw-switch-off"><?php _e("No"); ?></span>
+                            <span class="mw-switch-on"><?php _e("Yes"); ?></span>
                             <span class="mw-switcher"></span>
                         </label>
 
@@ -260,8 +260,8 @@ if (!empty($template_config)) {
                         </div>
                         <label class="mw-switch mw-switch-action">
                             <input type="checkbox" name="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['is_shop'])): ?>checked="1"<?php endif; ?>>
-                            <span class="mw-switch-off">NO</span>
-                            <span class="mw-switch-on">YES</span>
+                            <span class="mw-switch-off"><?php _e("No"); ?></span>
+                            <span class="mw-switch-on"><?php _e("Yes"); ?></span>
                             <span class="mw-switcher"></span>
                         </label>
 
@@ -304,8 +304,8 @@ if (!empty($template_config)) {
 
                             <label class="mw-switch mw-switch-action">
                                 <input type="checkbox" name="require_password" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
-                                <span class="mw-switch-off">NO</span>
-                                <span class="mw-switch-on">YES</span>
+                                <span class="mw-switch-off"><?php _e("No"); ?></span>
+                                <span class="mw-switch-on"><?php _e("Yes"); ?></span>
                                 <span class="mw-switcher"></span>
                             </label>
                         </div>
@@ -342,8 +342,8 @@ if (!empty($template_config)) {
 
                             <label class="mw-switch mw-switch-action">
                                 <input type="checkbox" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
-                                <span class="mw-switch-off">NO</span>
-                                <span class="mw-switch-on">YES</span>
+                                <span class="mw-switch-off"><?php _e("No"); ?></span>
+                                <span class="mw-switch-on"><?php _e("Yes"); ?></span>
                                 <span class="mw-switcher"></span>
                             </label>
                         </div>

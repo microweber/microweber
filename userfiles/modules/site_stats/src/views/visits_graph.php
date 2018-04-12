@@ -101,7 +101,7 @@ if($params['period']){
             var type = this.options.period, html='';
             if (type == 'daily') {
                 var day = this.weekDays[date.getUTCDay()];
-                html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
+                html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + '/' + day + '</div>';
             }
             else if(type == 'weekly'){
                 var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];

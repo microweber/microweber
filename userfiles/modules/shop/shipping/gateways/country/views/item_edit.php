@@ -118,8 +118,8 @@ if ($weight_units == false) {
                                     data-value-checked="1"
                                     data-value-unchecked="0"
                                 <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?> checked="1" <?php endif; ?>>
-                            <span class="mw-switch-off">NO</span>
-                            <span class="mw-switch-on">YES</span>
+                            <span class="mw-switch-off"><?php _e("No"); ?></span>
+                            <span class="mw-switch-on"><?php _e("Yes"); ?></span>
                             <span class="mw-switcher"></span>
                         </label>
                     </td>
