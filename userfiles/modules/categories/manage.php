@@ -70,28 +70,47 @@
                     });
                 }
                 mw.quick_cat_edit = function (id) {
-                    mw.tools.loading(mwd.body)
-                    mw.$("#mw_edit_category_admin_holder").attr("data-category-id", id);
-                    mw.$(".mw-module-category-manager").hide();
-                    mw.$("#mw-live-edit-cats-tab").removeClass('active');
-                    mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
-                        mw.tools.loading(mwd.body, false);
+
+                    if (!!id) {
+                        var modalTitle = '<?php _e('Edit category'); ?>';
+                    } else {
+                        var modalTitle = '<?php _e('Add category'); ?>';
+                    }
+
+
+                    mw_admin_edit_category_item_module_opened = mw.modal({
+                        content: '<div id="mw_admin_edit_category_item_module"></div>',
+                        title: modalTitle,
+                        id: 'mw_admin_edit_category_item_popup_modal'
                     });
+
+                    var params = {}
+                    params['data-category-id'] = id;
+                    params['no-toolbar'] = true;
+                    mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
+
+
+
+
+
+
+//                    mw.$("#mw_edit_category_admin_holder").attr("data-category-id", id);
+//                    mw.$("#mw_edit_category_admin_holder").attr("no-toolbar", 'true');
+//
+//                  //  mw.$(".mw-module-category-manager").hide();
+//                    mw.$("#mw-live-edit-cats-tab").removeClass('active');
+//                    mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
+//
+//                    });
                 }
 
                 mw.quick_cat_edit_create = function (id) {
-                    mw.tools.loading(mwd.body)
-                    mw.$("#mw_edit_category_admin_holder").attr("category-id", id);
+                  return  mw.quick_cat_edit(id);
                     <?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
-                    mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
+                    //mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
 
                     <?php endif; ?>
-                    mw.$(".mw-module-category-manager").hide();
-                    mw.$("#mw-live-edit-cats-tab").removeClass('active');
-                    mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
-                        mw.tools.loading(mwd.body, false)
 
-                    });
                 }
             </script>
             <script type="text/javascript">

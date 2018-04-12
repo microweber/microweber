@@ -1,4 +1,7 @@
 <?php
+
+
+
 only_admin_access();
 $form_rand_id = uniqid() . rand();
 $data = false;
@@ -89,6 +92,7 @@ if (isset($params['live_edit'])) {
             window.location.reload();
             <?php else: ?>
             mw.reload_module('#<?php print $params['id'] ?>');
+
             <?php endif; ?>
         }
 
@@ -203,6 +207,8 @@ if (isset($params['live_edit'])) {
 
     ?>
 
+    <?php if(!isset($params['no-toolbar'])): ?>
+
     <div class="section-header">
         <h2 class="pull-left">
             <span class="mw-icon-category"></span>
@@ -221,9 +227,16 @@ if (isset($params['live_edit'])) {
         </div>
     </div>
 
+    <?php endif; ?>
+
+    <?php if(!isset($params['no-toolbar'])): ?>
     <div class="admin-side-content">
 
         <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content">
+            <?php endif; ?>
+
+
+
             <form id="admin_edit_category_form"
                   name="admin_edit_category_form" autocomplete="off"
                   style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
@@ -455,6 +468,11 @@ if (isset($params['live_edit'])) {
                     </div>
                 </div>
             </form>
+
+            <?php if(!isset($params['no-toolbar'])): ?>
         </div>
     </div>
+
+<?php endif; ?>
+
 </div>
