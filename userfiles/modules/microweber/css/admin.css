@@ -1147,7 +1147,9 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu .active-parent a {
     color: #0086db;
     border-bottom: 1px solid #555555;
-    background: white;
+    /*background: white;*/
+    background: #f5f5f5;
+
 }
 
 #mw-admin-main-menu a [class*='mai-'],
@@ -1183,7 +1185,8 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #mw-admin-main-menu li a:hover {
-    background: white;
+    /*background: white;*/
+    background: #f5f5f5;
     color: #3B3B3B
 }
 
@@ -3953,6 +3956,7 @@ body.grabbing, body.grabbing * {
     border-color: #e5e5e5;
     z-index: 1;
     color: #005c97;
+    font-weight: bold;
 }
 
 .sbf-item:hover .sbf-item-n,
@@ -3972,6 +3976,7 @@ body.grabbing, body.grabbing * {
     font-size: 17px;
     position: relative;
     top: 4px;
+    text-transform: none;
 }
 
 .mw-admin-stat-item-date {
@@ -4251,7 +4256,7 @@ body.grabbing, body.grabbing * {
 #stats_nav .mw-ui-btn.active {
     background: white;
     color: #005c97;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .stats-legend {
@@ -5295,6 +5300,30 @@ span.mw-icon-upload {
     position: relative;
 }
 
+.stat-box-content .graph-holder {
+    /*position: relative;*/
+    height: 125px;
+}
+
+.stat-box-content .lines {
+    display: block;
+    position: absolute;
+    height: 125px;
+    width: -webkit-calc(100% - 230px);
+    width: calc(100% - 230px);
+    bottom: 40px;
+    left: 190px;
+    max-width: -webkit-calc(100% - 190px);
+    max-width: calc(100% - 190px);
+    z-index: 1;
+}
+
+.stat-box-content .lines .line {
+    display: block;
+    border-bottom: 2px solid #f7f7f7;
+    margin-bottom: 60px;
+}
+
 .dashboard_stats {
     height: 0;
     vertical-align: bottom;
@@ -5313,6 +5342,7 @@ span.mw-icon-upload {
 .dashboard_stats.no-transition {
     -webkit-transition: none;
     transition: none;
+    z-index: 2;
 }
 
 .mw-admin-stat-item {
@@ -6194,10 +6224,6 @@ span.mw-icon-upload {
     min-width: 320px;
 }
 
-/*.orders-holder .order-holder .order-data-more .pull-left .box:last-of-type {*/
-/*border-bottom: 0;*/
-/*}*/
-
 .orders-holder .order-holder .order-data-more .box {
     border-bottom: 1px solid #ebebeb;
     margin-bottom: 15px;
@@ -6269,6 +6295,161 @@ span.mw-icon-upload {
     display: block;
 }
 
+/* Comments */
+.comments-holder {
+}
+
+.comments-holder .comment-holder:hover:before {
+    display: block;
+    left: 0;
+    top: 0;
+    border-left: 3px solid #0086db;
+    content: '';
+    min-height: 100px;
+    position: absolute;
+}
+
+.comments-holder .comment-holder {
+    clear: both;
+    position: relative;
+    min-height: 85px;
+    background-color: #fafafa;
+    width: 100%;
+    border: 1px solid #ededed;
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    padding: 5px 0;
+}
+
+.comments-holder .comment-holder.active {
+    -webkit-transform: scale(1.03, 1);
+    -moz-transform: scale(1.03, 1);
+    -ms-transform: scale(1.03, 1);
+    -o-transform: scale(1.03, 1);
+    transform: scale(1.03, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    background: #fff;
+    border-color: #0086db;
+}
+
+.comments-holder .comment-holder.active:hover:before {
+    border-left: 0;
+}
+
+.comments-holder .comment-holder .order-data {
+    display: table;
+
+}
+
+.comments-holder .comment-holder .order-data > div {
+    display: inline-block;
+    width: auto;
+    padding: 10px 35px;
+    vertical-align: middle;
+}
+
+.comments-holder .comment-holder.active .order-data .post-name {
+    /*font-weight: bold;*/
+    font-size: 16px;
+    color: #005c97;
+}
+
+.comments-holder .comment-holder .order-data .post-name,
+.comments-holder .comment-holder .order-data .post-name a {
+    font-size: 16px;
+    color: #005c97;
+    min-width: 300px;
+}
+
+.comments-holder .comment-holder .order-data-more {
+    display: none;
+    padding: 0 35px;
+    padding-bottom: 20px;
+}
+
+.comments-holder .comment-holder .order-data-more .title {
+    color: #0086db;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.comments-holder .comment-holder .order-data-more .pull-left {
+    padding-right: 50px;
+    min-width: 320px;
+}
+
+.comments-holder .comment-holder .order-data-more .box {
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 15px;
+}
+
+.comments-holder .comment-holder .order-data-more .box p {
+    margin-bottom: 10px;
+}
+
+.comments-holder .comment-holder .order-data-more .box .label {
+    color: #929292;
+    font-size: 13px;
+}
+
+.comments-holder .comment-holder .order-data-more .box .content {
+    color: #2b2b2b;
+    font-size: 13px;
+}
+
+.comments-holder .comment-holder .view-order-button {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.comments-holder .comment-holder.active .is_paid {
+    font-weight: bold;
+}
+
+.comments-holder .comment-holder .not_paid {
+    /*color: red;*/
+}
+
+.comments-holder .comment-holder .comment-image .comment-thumbnail-tooltip {
+    border: 1px solid #fff;
+    display: block;
+    width: 70px;
+    height: 70px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 333px;
+}
+
+.comments-holder .comment-holder.active .comment-image .comment-thumbnail-tooltip {
+    border-color: #0086db;
+}
+
+.comments-holder .comment-holder .comment-image {
+    position: relative;
+}
+
+.comments-holder .comment-holder .author-name {
+    display: block;
+    font-size: 13px;
+    color: #2b2b2b;
+    margin-bottom: 10px;
+}
+
+/* Other */
 .admin-side-content {
     max-width: 1100px;
     margin: 0 50px;

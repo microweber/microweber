@@ -1,6 +1,4 @@
-
 <script>
-
     window.orderToggle = window.orderToggle || function (item) {
         var curr = $('.order-data-more', item);
         $('.order-data-more').not(curr).stop().slideUp();

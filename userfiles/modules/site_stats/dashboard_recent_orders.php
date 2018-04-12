@@ -4,7 +4,7 @@ only_admin_access();
 
 ?>
 
-<?php $orders = get_orders(); ?>
+<?php $orders = get_orders('limit=5'); ?>
 
 <div class="dashboard-recent">
     <div class="dr-head">
