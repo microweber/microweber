@@ -88,6 +88,10 @@ if (isset($params['live_edit'])) {
         <div class="top-bar">
             <div class="left-side">
                 <?php if ($wrapper_class == ''): ?>
+                    <button class="btn-back" type="button" onclick="history.back(-1)">
+                        <i class="mw-icon-arrowleft"></i> <span><?php _e('Back'); ?></span>
+                    </button>
+
                     <button class="btn-close hidden">
                         <i class="mw-icon-close"></i> <?php _e('Close'); ?>
                     </button>

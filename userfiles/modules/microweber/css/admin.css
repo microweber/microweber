@@ -765,7 +765,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-tree .module a:hover,
-.mw-tree li.active-bg > a {
+.mw-tree li > a.active-bg {
     background-color: white;
     border-top-color: #EDEDED;
     border-bottom-color: #EDEDED;
@@ -819,7 +819,8 @@ h3 > [class*="mw-icon-"]:first-child {
     padding-left: 24px;
 }
 
-.mw-tree ul.depth-2 li.depth-2 a:hover, .mw-tree ul.depth-2 li.active-bg a {
+.mw-tree ul.depth-2 li.depth-2 a:hover,
+.mw-tree ul.depth-2 li a.active-bg {
     border-left-color: #EDEDED;
     border-right-color: #EDEDED;
 }
@@ -3617,6 +3618,9 @@ body.grabbing, body.grabbing * {
 
 .mw-modules-admin li.mw-admin-module-list-item h2 {
     font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .modules-index-bar .mw-dropdown {
@@ -5822,6 +5826,10 @@ span.mw-icon-upload {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+    box-shadow: 0 0 27px -20px #111;
+}
+
+.mw_modal.mw_modal_default .mw_modal_container{
     box-shadow: 0 0 27px -20px #111;
 }
 
