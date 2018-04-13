@@ -1261,6 +1261,10 @@ class ContentManager
                                 $cat_params['li_class_deep'] = $params['categories_li_class_deep'];
                             }
 
+                            if (isset($params['active_class'])) {
+                                $cat_params['active_class'] = $params['active_class'];
+                            }
+
                             $this->app->category_manager->tree($cat_params);
                         }
                     }

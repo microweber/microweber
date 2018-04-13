@@ -17,12 +17,16 @@ $append_to_link = '';
 $params['link_class'] = "mw-tree-renderer-admin-link-item pages_tree_link ";
 $params['categories_extra_attributes'] = array(
     'data-page-id' => '{category_page}',
+    'content_link_class' => 'mw-tree-renderer-admin-link-item pages_tree_link',
     'data-count' => '{count}',
     'data-categories-type' => '{category_type}',
     'value' => '{id}'
 );
 $params['link'] = '<a data-page-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} content-item-{id} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
 $params['categories_link'] = '<a data-category-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} category-item-{id}" href="{link}' . $append_to_link . '">{title}</a>';
+
+
+
 
 if (isset($params['data-parent'])) {
     $params['parent'] = intval($params['data-parent']);

@@ -131,12 +131,17 @@ class KnpCategoryTreeRenderer
         $active_class = 'active';
         $active_parent_class = 'active-parent';
 
+
         if (isset($params['active_class'])) {
             $active_class = $params['active_class'];
         }
         if (isset($params['active_parent_class'])) {
             $active_parent_class = $params['active_parent_class'];
+
         }
+        $extra_attributes['set_active_class'] = $active_class;
+        $extra_attributes['set_active_parent_class'] = $active_parent_class;
+
 
         $link = isset($params['link']) ? $params['link'] : false;
 
@@ -221,7 +226,7 @@ class KnpCategoryTreeRenderer
 
         $renderer = new ListRenderer(new \Knp\Menu\Matcher\Matcher(), $options);
         $tree = $renderer->render($main_menu);
-        if(isset($params['return_data']) and $params['return_data']){
+        if (isset($params['return_data']) and $params['return_data']) {
             return $tree;
         } else {
             print $tree;
@@ -236,7 +241,7 @@ class KnpCategoryTreeRenderer
     {
         /** @var $menu \Knp\Menu\MenuItem */
 
-        if(!isset($options['__process_nodes_level'])){
+        if (!isset($options['__process_nodes_level'])) {
             $options['__process_nodes_level'] = 0;
         }
 
@@ -256,19 +261,19 @@ class KnpCategoryTreeRenderer
             if (isset($params['nest_level'])) {
                 $nest_level = intval($params['nest_level']);
             }
-           // $level = $this->level + $nest_level;
-           // $level = $this->level + $nest_level;
-           // $options['__process_nodes_level']++;
+            // $level = $this->level + $nest_level;
+            // $level = $this->level + $nest_level;
+            // $options['__process_nodes_level']++;
             if ($has_children) {
                 $this->level++;
             } else {
-              //  $options['__process_nodes_level'] = 0;
+                //  $options['__process_nodes_level'] = 0;
             }
 
 
             $level = $options['__process_nodes_level'] + $nest_level;
             if ($has_children) {
-               // $level++;
+                // $level++;
             }
 
 
@@ -280,12 +285,12 @@ class KnpCategoryTreeRenderer
             $link_class = $options['link_class'];
 
             $active_ids = array($this->active_item_id);
-            if(isset($params['active_ids']) and $params['active_ids']){
-                if(!is_array($params['active_ids']) and $params['active_ids']){
+            if (isset($params['active_ids']) and $params['active_ids']) {
+                if (!is_array($params['active_ids']) and $params['active_ids']) {
                     $a = explode(',', $params['active_ids']);
                     $params['active_ids'] = $a;
                 }
-                $active_ids = array_merge($active_ids,$params['active_ids']);
+                $active_ids = array_merge($active_ids, $params['active_ids']);
                 $active_ids = array_map('intval', $active_ids);
 
             }
@@ -381,15 +386,13 @@ class KnpCategoryTreeRenderer
             }
 
 
-
-
             $menu->addChild($data['id'],
                 $child_opts
             );
             //$level = $menu[$data['id']]->getLevel();
 
 
-       //    $level = $menu->getLevel();
+            //    $level = $menu->getLevel();
 
 
             $active_class = $options['currentClass'];
@@ -436,10 +439,10 @@ class KnpCategoryTreeRenderer
             $menu_attrs['title'] = $data['title'];
 
             $menu_attrs['data-category-id'] = $data['id'];
-            if($leaf_tag == 'option'
-            or $leaf_tag == 'radio'
-            or $leaf_tag == 'checkbox'
-            ){
+            if ($leaf_tag == 'option'
+                or $leaf_tag == 'radio'
+                or $leaf_tag == 'checkbox'
+            ) {
                 $menu_attrs['value'] = $data['id'];
 
             }
@@ -452,26 +455,39 @@ class KnpCategoryTreeRenderer
             $classes[] = $li_class;
             $classes[] = 'depth-' . $level;
 
-            if($active_ids and !empty($active_ids)){
-                foreach($active_ids as $active_id){
+            if ($active_ids and !empty($active_ids)) {
+                foreach ($active_ids as $active_id) {
                     if ($active_id == $data['id']) {
-                        if($leaf_tag == 'option'){
+                        if ($leaf_tag == 'option') {
                             $menu_attrs['selected'] = 'selected';
                         }
-                        if($leaf_tag == 'radio' or $leaf_tag == 'checkbox'){
+                        if ($leaf_tag == 'radio' or $leaf_tag == 'checkbox') {
                             $menu_attrs['checked'] = 'checked';
+                        }
+//
+                        if (isset($extra_attributes['set_active_class'])) {
+                            $classes[] = $extra_attributes['set_active_class'];
+                        } else {
+                            $extra_attributes['active_class']  = '';
+                        }
+                        if (isset($extra_attributes['set_active_parent_class'])) {
+                            $classes[] = $extra_attributes['active_parent_class'] = $extra_attributes['set_active_parent_class'];
                         }
 
 
-
-
-                        if($active_code){
+                        if ($active_code) {
                             $extra_attributes['active_code'] = $active_code;
-                         }
+                        }
 
-                   // if ($this->active_item_id == $data['id']) {
+                        // if ($this->active_item_id == $data['id']) {
                         $menu[$data['id']]->setCurrent(true);
                         $classes[] = $active_class;
+
+
+                        $extra_attributes['set_active_class'] = $active_class;
+                        $extra_attributes['set_active_parent_class'] = $active_parent_class;
+
+
                         if ($has_children) {
                             $classes[] = $active_parent_class;
                         }
@@ -479,10 +495,6 @@ class KnpCategoryTreeRenderer
                     }
                 }
             }
-
-
-
-
 
 
             $menu_attrs['class'] = implode(' ', $classes);
@@ -497,7 +509,7 @@ class KnpCategoryTreeRenderer
 
 
             if ($has_children) {
-               // $this->level++;
+                // $this->level++;
 
                 $child_opts['__process_nodes_level']++;
 
@@ -524,7 +536,6 @@ class KnpCategoryTreeRenderer
             }
 
         }, $tree_data);
-
 
 
         return $menu;
