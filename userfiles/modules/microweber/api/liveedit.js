@@ -762,7 +762,7 @@ mw.drag = {
                     }
 
                     if (!mw.image.isResizing) {
-                        if (event.target.nodeName === 'IMG' && (mw.tools.hasClass(event.target, 'element') || mw.tools.hasClass(event.target, 'safe-element')) && mw.drag.columns.resizing === false) {
+                        if (event.target.nodeName === 'IMG' && (mw.tools.hasClass(event.target, 'element') || mw.tools.hasClass(event.target, 'safe-element') || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) && mw.drag.columns.resizing === false) {
                             $(mw.image_resizer).addClass("active");
                             mw.image.resize.resizerSet(event.target, false);
 
@@ -3472,9 +3472,9 @@ $(document).ready(function() {
         }
       }
 
-      if(!!document.body.classList){
-        document.body.classList[(document.activeElement.contentEditable == 'true' ? 'add' : 'remove' )]('mw-active-element-iseditable')
-      }
+        if(!!document.body.classList){
+            document.body.classList[(mw.wysiwyg.isSelectionEditable() ? 'add' : 'remove' )]('mw-active-element-iseditable')
+        }
 
     }, 300);
 
@@ -3581,16 +3581,16 @@ mw.toolbar = {
 }
 mw.setLiveEditor = function() {
     $(mwd.querySelector('.editor_wrapper_tabled')).css({
-        marginLeft: $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) + 80,
-        marginRight: $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true),
-        left: 0,
-        width: $(window).width() - $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) - $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true)
+        left: $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) + $(mwd.querySelector('.wysiwyg-undo-redo')).outerWidth(true) + 30,
+        right: $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true)
+        //left: 0,
+        //width: $(window).width() - $(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) - $(mwd.querySelector('#mw-toolbar-right')).outerWidth(true)
     })
 }
 $(window).on("load", function() {
 
     mw.wysiwyg.prepareContentEditable();
-    mw.setLiveEditor();
+
 
     mw.$("#history_dd").hover(function() {
         $(this).addClass("hover");
@@ -3802,7 +3802,9 @@ $(window).on("load", function() {
         }
 
     });
+    mw.setLiveEditor();
     /*  /WYSIWYG */
+
 });
 
 $(window).resize(function() {

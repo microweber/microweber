@@ -8,6 +8,8 @@
                 <?php
                 $categories = content_categories($item['id']);
 
+                $categories = is_array($categories)?$categories:array();
+
                 $cnt_cats = count($categories) - 1;
                 $filter_cats = '';
                 if ($categories) {

@@ -17,7 +17,7 @@
 
 
 
-        mw.html_editor.build_dropdown(fields);
+        mw.html_editor.build_dropdown(fields, false);
         mw.html_editor.populate_editor();
 
         // mw.history.load

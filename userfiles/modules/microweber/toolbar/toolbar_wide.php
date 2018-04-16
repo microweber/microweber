@@ -14,7 +14,7 @@
         mw.require("content.js", true);
         mw.require("session.js");
         mw.require("liveedit.js");
-  
+
     </script>
 <script type="text/javascript">
 if(mw.cookie.get("helpinfoliveedit") != 'false'){
@@ -23,7 +23,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 }
 </script>
 <script type="text/javascript">
- 
+
 
   if(mw.cookie.get("helpinfoliveedit") != 'false'){
      mw.helpinfo.cookie = "helpinfoliveedit";
@@ -133,7 +133,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           </li>
               <?php event_trigger('live_edit_toolbar_menu_start'); ?>
           <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style=""> <span class="ico iplus"></span> <?php _e('Add New'); ?> </a>
-        
+
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
@@ -168,33 +168,33 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         id="liveedit_wysiwyg_main_prev"
                         title="<?php _e("Previous"); ?>"
                         onclick="mw.liveEditWYSIWYG.slideLeft();"> </span> </li>
-                        
+
          <?php event_trigger('live_edit_toolbar_menu_end'); ?>
 
         </ul>
-        
-    
 
-        
-        
+
+
+
+
       </div>
       <div id="mw-toolbar-right" class="mw-defaults"> <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next" title="<?php _e("Next"); ?>"
                           onclick="mw.liveEditWYSIWYG.slideRight();"></span>
-                          
-                          
-                          
 
-                          
-                          
-                          
-                          
-        <div class="right" style="padding: 5px 0;"> 
-        
-        
+
+
+
+
+
+
+
+        <div class="right" style="padding: 5px 0;">
+
+
                 <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
-        
-        
+
+
         <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right"
                               onclick="mw.drag.save(this)" id="main-save-btn">
           <?php _e("Save"); ?>
@@ -205,17 +205,17 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             </a>
             <div class="mw-dropdown-content" style="width: 155px;">
               <ul class="mw-dropdown-list mw-dropdown-list-icons">
-              
-              
+
+
                <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
-              
-              
-              
+
+
+
                 <li> <a title="Back to Admin" href="<?php print $back_url; ?>"><span
                                         class="ico ibackarr"></span><span>
                   <?php _e("Back to Admin"); ?>
                   </span></a> </li>
-                <li> 
+                <li>
                   <script>
 
                                         mw.userCanSwitchMode = false;
@@ -238,13 +238,13 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                                         class="ico iviewsite"></span><span>
                   <?php _e("View Website"); ?>
                   </span></a> </li>
-                  
-                  
+
+
                  <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
- 
-                  
-                  
-                  
+
+
+
+
                 <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                 <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
@@ -263,12 +263,12 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
-                  
-                  
+
+
                  <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
-  
-                  
-                  
+
+
+
               </ul>
             </div>
           </div>
@@ -282,7 +282,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');"><?php _e('Switch'); ?></span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;"><?php _e('Cancel'); ?></span> </div>
           </div>
         </div>
-         
+
       </div>
       <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
     </div>

@@ -78,6 +78,14 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
     }
 }
 mw.wysiwyg = {
+  isSafeMode:function (el) {
+      if(!el){
+          var sel = window.getSelection(),
+              range = sel.getRangeAt(0),
+              el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+      }
+      return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrBoth(el, ['safe-mode', 'edit']);
+  },
   parseClassApplierSheet:function(){
     var sheet = mwd.querySelector('link[classApplier]');
     if(sheet!==null){
@@ -1790,6 +1798,8 @@ mw.wysiwyg = {
     },
     format: function (command) {
               var el = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().focusNode);
+        mw.wysiwyg.change(el);
+
         classApplier.forEach(function(c){
           mw.tools.removeClass(el,c)
         })
@@ -1803,11 +1813,23 @@ mw.wysiwyg = {
       }
       else{
         if (!window.MSStream) {
-            if (command == 'code_text') {
-                mw.wysiwyg.execCommand("insertHTML", false, "<code>" + document.getSelection() + "</code>");
-            } else {
-                mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
+            console.log(mw.wysiwyg.isSafeMode())
+            if(mw.wysiwyg.isSafeMode()){
+                var tag =  command == 'code_text' ? 'code':command;
+                mw.wysiwyg.select_element(el);
+                console.log(command, el)
+                el.parentNode.contentEditable = true
+                mw.wysiwyg.execCommand("insertHTML", false, "<"+command+">" + el.innerHTML + "</"+command+">");
+                //el.parentNode.contentEditable = 'inherit'
             }
+            else{
+                if (command == 'code_text') {
+                    mw.wysiwyg.execCommand("insertHTML", false, "<code>" + document.getSelection() + "</code>");
+                } else {
+                    mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
+                }
+            }
+
         }
         else {
             var sel = window.getSelection();
@@ -2352,6 +2374,12 @@ $(mwd).ready(function () {
 $(window).on('load', function () {
 
 mw.wysiwyg.initFontSelectorBox();
+
+$("#live_edit_toolbar .editor_wrapper_tabled [title], #the_admin_editor #mw-admin-text-editor [title]").each(function () {
+    var ttitle = this.title;
+    $(this).removeAttr('title').addClass('tip').attr('data-tip', ttitle).attr('data-tipposition', 'bottom-center')
+})
+    $('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition', 'bottom-left')
 
   /*mw.$(".edit").on('paste', function(e){
     mw.wysiwyg.paste(e)

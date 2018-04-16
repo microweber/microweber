@@ -175,7 +175,6 @@
               var el = root.querySelectorAll('.mw-ui-box');
               for (var i = 0; i < el.length; i++) {
                 var h =  (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
-                d(h)
                 el[i].style.height = h + 'px'
               }
             }

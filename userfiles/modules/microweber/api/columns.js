@@ -7,7 +7,7 @@ mw.drag.columns = {
         mw.drag.columns.resizer.contenteditable = 'false';
         mw.drag.columns.resizer.className = 'unselectable mw-columns-resizer';
         mw.drag.columns.resizer.pos = 0;
-        $(mw.drag.columns.resizer).bind('mousedown', function () {
+        $(mw.drag.columns.resizer).on('mousedown', function () {
             mw.drag.columns.resizing = true;
             mw.drag.columns.resizer.pos = 0;
         });
@@ -44,14 +44,16 @@ mw.drag.columns = {
         //d("w1 "+ w + "  w2 "+ w2)
 
         if (mw.drag.columns.resizer.pos < e.pageX) {
-            if (w2 < 10) return false;
-            mw.drag.columns.resizer.curr.style.width = (w + mw.drag.columns.step) + '%';
-            next.style.width = (w2 - mw.drag.columns.step) + '%';
+            if (w2 < 10 && !mw.tools.isRtl()) return false;
+            mw.drag.columns.resizer.curr.style.width = mw.tools.isRtl()?(w - mw.drag.columns.step):(w + mw.drag.columns.step) + '%';
+            var calc = mw.tools.isRtl() ? (w2 + mw.drag.columns.step) : (w2 - mw.drag.columns.step);
+            next.style.width =  calc + '%';
         }
         else {
-            if (w < 10) return false;
-            mw.drag.columns.resizer.curr.style.width = (w - mw.drag.columns.step) + '%';
-            next.style.width = (w2 + mw.drag.columns.step) + '%';
+            if (w < 10 && !mw.tools.isRtl()) return false;
+            mw.drag.columns.resizer.curr.style.width = mw.tools.isRtl()?(w + mw.drag.columns.step):(w - mw.drag.columns.step) + '%';
+            var calc = mw.tools.isRtl() ? (w2 - mw.drag.columns.step) : (w2 + mw.drag.columns.step);
+            next.style.width = calc + '%';
         }
         mw.drag.columns.resizer.pos = e.pageX;
         mw.drag.columns.position(mw.drag.columns.resizer.curr);
@@ -63,7 +65,7 @@ mw.drag.columns = {
             var off = $(el).offset();
             $(mw.drag.columns.resizer).css({
                 top: off.top,
-                left: off.left + el.offsetWidth - 10,
+                left: mw.tools.isRtl() ? off.left - 10 : off.left + el.offsetWidth - 10,
                 height: el.offsetHeight
             }).show();
         }
@@ -93,7 +95,7 @@ mw.drag.columns = {
     }
 }
 $(mwd).ready(function () {
-    $(mwd.body).bind('mouseup', function () {
+    $(mwd.body).on('mouseup', function () {
         if (mw.drag.plus.locked) {
             mw.wysiwyg.change(mw.drag.columns.resizer.curr);
         }
@@ -101,7 +103,7 @@ $(mwd).ready(function () {
         mw.drag.plus.locked = false;
         mw.tools.removeClass(mwd.body, 'mw-column-resizing');
     });
-    $(mwd.body).bind('mousemove', function (e) {
+    $(mwd.body).on('mousemove', function (e) {
         if (mw.drag.columns.resizing === true && mw.isDrag === false) {
             mw.drag.columns.resize(e);
             e.preventDefault();

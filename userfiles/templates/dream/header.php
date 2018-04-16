@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
+<html prefix="og: http://ogp.me/ns#" <?php print lang_attributes(); ?>>
 <head>
     <title>{content_meta_title}</title>
     <meta charset="utf-8"/>
