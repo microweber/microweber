@@ -3959,7 +3959,7 @@ body.grabbing, body.grabbing * {
     background: white;
     border-color: #e5e5e5;
     z-index: 1;
-    color: #005c97;
+    color: #0086db;
     font-weight: bold;
 }
 
@@ -3989,7 +3989,7 @@ body.grabbing, body.grabbing * {
     text-align: center;
     top: 100%;
     font-size: 12px;
-    color: #005c97;
+    color: #0086db;
     left: 2px;
     margin-top: 7px;
 }
@@ -4151,7 +4151,7 @@ body.grabbing, body.grabbing * {
 .drh-activity-name {
     float: left;
     margin: 4px 8px;
-    color: #005c97;
+    color: #0086db;
 }
 
 .drh-activity-name:after {
@@ -4206,7 +4206,7 @@ body.grabbing, body.grabbing * {
 
 .dr-item-data-content-list h3 {
     font-size: 15px;
-    color: #005c97;
+    color: #0086db;
 }
 
 .dr-item-data-content-list dd:after {
@@ -4259,7 +4259,7 @@ body.grabbing, body.grabbing * {
 
 #stats_nav .mw-ui-btn.active {
     background: white;
-    color: #005c97;
+    color: #0086db;
     font-weight: bold;
 }
 
@@ -4291,7 +4291,7 @@ body.grabbing, body.grabbing * {
 }
 
 .stats-legend > span.stats-legend-visitors:before {
-    background: #005c97
+    background: #0086db
 }
 
 #stats_dashboard_last .mw-ui-row .mw-ui-col:first-child {
@@ -5368,7 +5368,7 @@ span.mw-icon-upload {
 }
 
 .mw-admin-stat-item-uniques {
-    background: #005c97;
+    background: #0086db;
     /*transition: all .4s;
     transform: scaleY(0);
     transform-origin: center bottom;*/
@@ -5545,6 +5545,10 @@ span.mw-icon-upload {
 
 .m-t-70 {
     margin-top: 70px !important;
+}
+
+.m-l-10 {
+    margin-left: 10px !important;
 }
 
 .m-b-0 {
@@ -5829,7 +5833,7 @@ span.mw-icon-upload {
     box-shadow: 0 0 27px -20px #111;
 }
 
-.mw_modal.mw_modal_default .mw_modal_container{
+.mw_modal.mw_modal_default .mw_modal_container {
     box-shadow: 0 0 27px -20px #111;
 }
 
@@ -6334,7 +6338,6 @@ span.mw-icon-upload {
     -ms-transition: transform 0.5s ease-in-out;
     -o-transition: transform 0.5s ease-in-out;
     transition: transform 0.5s ease-in-out;
-    padding: 5px 0;
 }
 
 .comments-holder .comment-holder.active {
@@ -6357,8 +6360,7 @@ span.mw-icon-upload {
 }
 
 .comments-holder .comment-holder .order-data {
-    display: table;
-
+    width: 100%;
 }
 
 .comments-holder .comment-holder .order-data > div {
@@ -6368,23 +6370,34 @@ span.mw-icon-upload {
     vertical-align: middle;
 }
 
-.comments-holder .comment-holder.active .order-data .post-name {
-    /*font-weight: bold;*/
-    font-size: 16px;
-    color: #005c97;
-}
-
 .comments-holder .comment-holder .order-data .post-name,
 .comments-holder .comment-holder .order-data .post-name a {
     font-size: 16px;
-    color: #005c97;
+    color: #0086db;
     min-width: 300px;
+
+}
+
+.comments-holder .comment-holder .order-data .post-name {
+    padding: 40px 0px;
+    min-width: 60%;
+
+}
+
+/*.comments-holder .comment-holder .order-data .post-name a {*/
+/*white-space: nowrap;*/
+/*overflow: hidden;*/
+/*text-overflow: ellipsis;*/
+/*}*/
+
+.comments-holder .comment-holder .order-data .last-comment-date {
+    padding: 40px 100px 40px 20px;
+
 }
 
 .comments-holder .comment-holder .order-data-more {
     display: none;
     padding: 0 35px;
-    padding-bottom: 20px;
 }
 
 .comments-holder .comment-holder .order-data-more .title {
@@ -6431,7 +6444,7 @@ span.mw-icon-upload {
     /*color: red;*/
 }
 
-.comments-holder .comment-holder .comment-image .comment-thumbnail-tooltip {
+.comments-holder .comment-holder .article-image .comment-thumbnail-tooltip {
     border: 1px solid #fff;
     display: block;
     width: 70px;
@@ -6439,15 +6452,83 @@ span.mw-icon-upload {
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.comments-holder .comment-holder.active .article-image .comment-thumbnail-tooltip {
+    border-color: #0086db;
+}
+
+.comments-holder .comment-holder .article-image {
+    position: relative;
+    float: left;
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.comments-holder .comment-holder .comment-image {
+    position: relative;
+    float: left;
+    width: 60px;
+    margin-bottom: 10px;
+}
+
+.comments-holder .comment-holder .comment-image .comment-thumbnail-tooltip {
+    border: 1px solid #fff;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
     border-radius: 333px;
+}
+
+.comments-holder .comment-holder .comment-image .comment-thumbnail-tooltip.mw-user-thumb {
+    padding: 6px;
+    color: #ffffff;
+    background-color: #c8c8c8;
 }
 
 .comments-holder .comment-holder.active .comment-image .comment-thumbnail-tooltip {
     border-color: #0086db;
 }
 
-.comments-holder .comment-holder .comment-image {
-    position: relative;
+.comments-holder .comment-holder .comment_heading {
+    width: 100%;
+}
+
+.comments-holder .comment-holder .comment_body {
+    width: 100%;
+}
+
+.comments-holder .comment-holder .actions-holder {
+    float: left;
+    width: calc(100% - 60px);
+    width: -webkit-calc(100% - 60px);
+    margin-bottom: 10px;
+}
+
+.comments-holder .comment-holder .actions-holder .date {
+    margin-top: 10px;
+    float: right;
+}
+
+.comments-holder .comment-holder .actions-holder .mw-ui-link {
+    text-decoration: none;
+    font-size: 13px !important;
+    color: #0086db;
+}
+
+.comments-holder .comment-holder .actions-holder .mw-ui-link.mw-btn-spam i {
+    color: #cfcfcf;
+}
+
+.comments-holder .comment-holder .actions-holder .mw-ui-link.mw-btn-remove i {
+    color: #cfcfcf;
+}
+
+.comments-holder .comment-holder .actions-holder i {
+    float: left;
 }
 
 .comments-holder .comment-holder .author-name {
@@ -6455,6 +6536,52 @@ span.mw-icon-upload {
     font-size: 13px;
     color: #2b2b2b;
     margin-bottom: 10px;
+    margin-top: 2px;
+    margin-right: 7px;
+
+}
+
+.comments-holder .comment-holder .comment-wrapper {
+    margin: 0 -35px 0px -35px;
+    padding: 15px 35px 0 35px;
+}
+
+.comments-holder .comment-holder .comment-wrapper:nth-of-type(odd) {
+    /*background: #f5f5f5;*/
+}
+
+.comments-holder .comment-holder .comment-wrapper .reply-form {
+    display: none;
+}
+
+.comments-holder .comment-holder .author-name > span {
+    color: #0086db;
+    font-weight: bold;
+
+}
+
+.comments-holder .comment-holder .reply-holder {
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    margin: 10px -35px 0 -35px;
+    padding: 10px 35px;
+}
+
+.comments-holder .comment-holder .reply-holder .comment-image .comment-thumbnail-tooltip {
+    width: 30px;
+    height: 30px;
+}
+
+.comments-holder .comment-holder .reply-holder .comment-image .comment-thumbnail-tooltip.mw-user-thumb {
+    padding: 4px;
+    font-size: 19px;
+}
+
+.comments-holder .comment-holder .reply-holder input {
+    color: #0086db;
+    border: 0;
+    background: transparent;
+    height: 30px;
 }
 
 /* Other */
