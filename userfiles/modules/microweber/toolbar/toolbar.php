@@ -329,13 +329,7 @@ if (isset($_COOKIE['mw_exp'])) {
                         </li>
 
 
-                        <li>
-            <span style="display: none"
-                  class="liveedit_wysiwyg_prev"
-                  id="liveedit_wysiwyg_main_prev"
-                  title="<?php _e("Previous"); ?>"
-                  onclick="mw.liveEditWYSIWYG.slideLeft();"></span>
-                        </li>
+
                         <?php event_trigger('live_edit_toolbar_menu_end'); ?>
                     </ul>
                 </div>

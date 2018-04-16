@@ -70,7 +70,8 @@ mw.html_editor.createItemContent = function (option) {
         return framehold;
     }
 }
-mw.html_editor.build_dropdown = function (fields_array) {
+mw.html_editor.build_dropdown = function (fields_array, screenShot) {
+    screenShot = typeof screenShot === 'undefined' ? true:screenShot
     var html_dd = {};
     $(fields_array).each(function () {
         var dd_grp = $(this).attr('rel');
@@ -119,8 +120,7 @@ mw.html_editor.build_dropdown = function (fields_array) {
                     value: option.rel,
                     rel: option.rel,
                     field: option.field
-                }).append(mw.html_editor.createItemContent(option));
-
+                }).append(screenShot ? mw.html_editor.createItemContent(option) : option.field);
                 if(!has_selected && option.rel == 'content'){
                   has_selected = true;
                   $($option).attr('selected', 'selected');
@@ -143,25 +143,7 @@ mw.html_editor.build_dropdown = function (fields_array) {
 };
 
 
-mw.html_editor.screenShots = function () {
-  var el = $("#select_edit_field li li:not('.ready')")[0];
-  if(!!el){
 
-    var rel = wroot.mwd.querySelector('[field="'+el.getAttribute('field')+'"][rel="'+el.getAttribute('rel')+'"]');
-    $(el).addClass('ready');
-    wroot.html2canvas(rel).then(function(canvas) {
-      var dataUrl = canvas.toDataURL();
-      var span = document.createElement('span');
-      span.className = 'mw-html-editor-option-item';
-      span.style.backgroundImage = 'url(' + dataUrl + ')';
-     $(el).append(span);
-     setTimeout(function(){
-       mw.html_editor.screenShots()
-     }, 100)
-    });
-  }
-
-}
 mw.html_editor.populate_editor = function () {
     var value = $('#select_edit_field li.selected');
 
@@ -387,8 +369,3 @@ mw.html_editor.reset_content = function () {
 
 
 }
-
-
-$(window).on('load', function(){
-  mw.html_editor.screenShots()
-})

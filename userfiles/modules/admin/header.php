@@ -171,6 +171,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     $notif_html = '';
     $notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
 
+    $notif_count =  1;
 
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
@@ -244,6 +245,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </a>
                 </div>
                 <div class="mw-ui-col center">
+                    <?php $notif_count = 1; ?>
                     <?php if ($notif_count != ''): ?>
                         <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn mw-ui-btn-default notif-btn">
                             <span class="mai-shop"></span> &nbsp; <?php print $notif_html; ?>

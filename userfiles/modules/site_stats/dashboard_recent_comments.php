@@ -28,17 +28,17 @@ if (is_array($comments_for_content)) {
     window.commentToggle = window.commentToggle || function (item) {
             var curr = $('.order-data-more', item);
             $('.order-data-more').not(curr).stop().slideUp();
-            $('.order-holder').not(item).removeClass('active');
+            $('.comment-holder').not(item).removeClass('active');
             $(curr).stop().slideToggle();
             $(item).toggleClass('active');
-            $('#mw-order-table-holder').toggleClass('has-active');
+//            $('#mw-order-table-holder').toggleClass('has-active');
         }
 </script>
 
 <div class="dashboard-recent">
     <div class="dr-head">
-        <span class="drh-activity-name"><i class="mai-thunder"></i> <?php _e("Last activity") ?></span>
-        <a href="<?php print admin_url('view:content/action:posts'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline"><?php _e("Go to posts"); ?></a>
+        <span class="drh-activity-name"><i class="mai-comment"></i> <?php _e("Last comments") ?></span>
+        <a href="<?php print admin_url('view:content/action:posts'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline"><?php _e("Go to comments "); ?></a>
         <a href="#" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print $ccount; ?></strong> <?php print _e('New comments'); ?></a>
     </div>
     <div class="dr-list">
@@ -67,7 +67,8 @@ if (is_array($comments_for_content)) {
 
                     <div class="comment-holder" id="comment-n-<?php print $comment_for_content['id'] ?>" onclick="commentToggle(this);">
                         <div class="order-data">
-                            <div class="comment-image">
+
+                            <div class="article-image">
                                 <?php $image = get_picture($comment_for_content['rel_id']); ?>
 
                                 <?php if (isset($image) and $image != ''): ?>
@@ -78,31 +79,96 @@ if (is_array($comments_for_content)) {
                             </div>
 
                             <div class="post-name">
-                                <span class="author-name"><?php print $comment_for_content['created_by']; ?></span>
                                 <a href="<?php print $post['url']; ?>"><?php print $post['title']; ?></a>
                             </div>
 
-                            <div><?php print mw()->format->ago($post['created_at']); ?></div>
+                            <div class="last-comment-date"><?php print mw()->format->ago($post['created_at']); ?></div>
                         </div>
 
                         <div class="order-data-more mw-accordion-content">
-                            <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $post['id']; ?>" href="<?php print admin_url('view:shop/action:orders#vieworder=' . $post['id']); ?>">
-                                <?php _e("View order"); ?>
-                            </a>
-
-                            <hr/>
-                            <div class="pull-left">
-                                <p class="title"><?php print _e('Comments:'); ?></p>
+                            <div>
+                                <p class="title"><?php print _e('Last comments:'); ?></p>
+                                <hr/>
                                 <?php
                                 if (is_array($postComments)) {
                                     foreach ($postComments as $comment) { ?>
-                                        <hr/>
-                                        <p><?php print $comment['comment_body']; ?></p>
+                                        <div class="comment-wrapper">
+                                            <div class="comment_heading">
+                                                <div class="comment-image">
+                                                    <?php
+                                                    $image = get_user_by_id($comment['created_by']);
+                                                    $image = $image['thumbnail'];
+                                                    ?>
+
+                                                    <?php if (isset($image) and $image != ''): ?>
+                                                        <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
+                                                    <?php else: ?>
+                                                        <span class="comment-thumbnail-tooltip mw-user-thumb mw-user-thumb-small mai-user3"></span>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                                <div class="actions-holder">
+                                                    <div class="mw-dropdown mw-dropdown-default">
+                                                        <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val mw-ui-btn-info view-order-button">
+                                                            <i class="mai-idea"></i> <?php _e("Approved"); ?>
+                                                        </span>
+                                                        <div class="mw-dropdown-content" style="display: none;">
+                                                            <ul>
+                                                                <li value="1">Option 1</li>
+                                                                <li value="2">Option 2 !!!</li>
+                                                                <li value="3">Option 3</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10"><?php print _e('Edit'); ?></a>
+                                                    <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i class="mai-warn"></i> <?php print _e('Spam'); ?></a>
+                                                    <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i class="mai-bin"></i> <?php print _e('Delete'); ?></a>
+
+                                                    <span class="date"><?php print mw()->format->ago($comment['created_at']); ?></span>
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+
+                                            <div class="author-name">
+                                                <span><?php print $comment_for_content['comment_name']; ?></span> <?php print _e('says'); ?>:
+                                            </div>
+
+                                            <div class="comment_body">
+                                                <p><?php print $comment['comment_body']; ?></p>
+                                            </div>
+
+                                            <div class="reply-holder">
+                                                <?php
+                                                $image = get_user_by_id($comment['created_by']);
+                                                $image = $image['thumbnail'];
+                                                ?>
+                                                <div class="reply-form">
+                                                    <div class="comment-image">
+                                                        <?php if (isset($image) and $image != ''): ?>
+                                                            <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
+                                                        <?php else: ?>
+                                                            <span class="comment-thumbnail-tooltip mw-user-thumb mw-user-thumb-small mai-user3"></span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <form>
+                                                        <input type="text" class="" placeholder="<?php print _e('Reply to'); ?> <?php print $comment_for_content['comment_name']; ?>"/>
+                                                    </form>
+                                                </div>
+
+                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><i class="mw-icon-reply"></i> Reply</button>
+                                            </div>
+                                        </div>
                                     <?php } ?>
                                 <?php } ?>
                             </div>
+
+
                             <div class="clearfix"></div>
                         </div>
+
+                        <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center" onclick=""></span>
                         <div class="clearfix"></div>
                     </div>
                 <?php } ?>

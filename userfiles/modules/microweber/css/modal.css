@@ -96,8 +96,12 @@ font-family:Verdana, Geneva, sans-serif;
   color: #444;
 }
 .mw_modal_basic .mw-modal-close {
-  top: 2px;
-  right: 4px;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  padding: 0px;
+  text-align: center;
+  width: 25px;
 }
 .mw_modal_simple .mw-modal-close:hover,
 .mw_modal_basic .mw-modal-close:hover {
@@ -193,7 +197,7 @@ font-family:Verdana, Geneva, sans-serif;
   cursor: move;
 }
 .mw_modal_basic .mw_modal_toolbar {
-  height: 20px;
+  height: 25px;
   width: 100%;
   top: 0px;
   left: 0px;

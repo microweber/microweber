@@ -2,6 +2,7 @@
 @import url("reset-css.css");
 @import url("fonts/mw-ui-icons-v2/css/mwi.css");
 
+
 /*********************************************
 
       Styles for Live-edit
@@ -3013,9 +3014,9 @@ div[id*='SSDIVEL'] {
 }
 
 #liveedit_wysiwyg {
-    transition: opacity 0.6s, transform .3s;
+   /* transition: opacity 0.6s, transform .3s;
     transform: translateY(-24%);
-    opacity: 0;
+    opacity: 0;*/
 }
 
 .mw-active-element-iseditable #liveedit_wysiwyg {
@@ -3711,11 +3712,17 @@ body.isTyping .mw-cloneable-control-item {
 .wysiwyg-undo-redo {
     display: inline-block;
     float: left;
+    position: relative;
+    z-index: 2;
+    background: #F5F5F5;
+    height: 53px;
 }
 
+.wysiwyg-cell-undo-redo .mw_editor_btn{
+    margin-top: 12px;
+}
 .wysiwyg-cell-undo-redo {
     padding-left: 10px;
-    padding-top: 10px;
     height: 40px;
 }
 

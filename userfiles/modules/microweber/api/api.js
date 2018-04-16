@@ -24,10 +24,12 @@ if (typeof jQuery == 'undefined') {
 $.ajaxSetup({
     cache: false,
     error: function (xhr, e) {
-        mw.notification.error('Error ' + xhr.status + ' - ' + xhr.statusText + ' - \r\n' + xhr.responseText );
-        setTimeout(function(){
-            mw.tools.loading(false);
-        }, 333)
+        if(xhr.status !== 200){
+            mw.notification.error('Error ' + xhr.status + ' - ' + xhr.statusText + ' - \r\n' + xhr.responseText );
+            setTimeout(function(){
+                mw.tools.loading(false);
+            }, 333);
+        }
     }
 });
 

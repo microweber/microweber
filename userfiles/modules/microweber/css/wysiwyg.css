@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 [contenteditable] {
     outline: none;
 }
@@ -142,6 +144,67 @@
     height: 61px;
 }
 
+.mw_editor_btn .ed-ico {
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-size: 19px;
+    line-height: 24px;
+    color: #777;
+    transition: color .3s;
+    text-align:center;
+}
+.mw_editor_btn .ed-ico:hover{
+    color: #555;
+}
+
+/* v2 */
+.mw_editor_undo span.ed-ico:before {content: 'undo';}
+.mw_editor_redo span.ed-ico:before {content: 'redo';}
+.mw_editor_element span.ed-ico:before {content: 'format_shapes';}
+.mw_editor_remove_formatting span.ed-ico:before {content: 'format_clear';}
+.mw_editor_justifyleft span.ed-ico:before {content: 'format_align_left';}
+.mw_editor_justifyright span.ed-ico:before {content: 'format_align_right';}
+.mw_editor_justifycenter span.ed-ico:before {content: 'format_align_center';}
+.mw_editor_justifyfull span.ed-ico:before {content: 'format_align_justify';}
+.mw_editor_indent span.ed-ico:before {content: 'format_indent_increase';}
+.mw_editor_outdent span.ed-ico:before {content: 'format_indent_decrease';}
+.mw_editor_ul span.ed-ico:before {content: 'format_list_bulleted';}
+.mw_editor_ol span.ed-ico:before {content: 'format_list_numbered';}
+.mw_editor_link span.ed-ico:before {content: 'insert_link';}
+.mw_editor_unlink span.ed-ico:before {content: 'insert_link';}
+.mw_editor_font_color span.ed-ico:before {content: 'format_color_text';}
+.mw_editor_font_background_color span.ed-ico:before {content: 'format_color_fill';}
+.mw_editor_image span.ed-ico:before {content: 'perm_media';}
+.mw_editor_bold span.ed-ico:before {content: 'format_bold';}
+.mw_editor_italic span.ed-ico:before {content: 'format_italic';}
+.mw_editor_underline span.ed-ico:before {content: 'format_underline';}
+.mw_editor_strike span.ed-ico:before {content: 'strikethrough_s';}
+.mw_editor_unlink span.ed-ico:after {
+    content: '';
+    position: absolute;
+    top:5px;
+    bottom:5px;
+    width:2px;
+    left:50%;
+    background: #777;
+    -moz-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+}
+
+.mw_editor_paste_from_word .ed-ico{
+    background-position: -877px 3px;
+    background-image: url(../img/editor.png);
+    background-repeat: no-repeat;
+}
+
+/*//v2*/
+
+
+/*
 .mw_editor_btn .ed-ico {
     background-image: url(../img/editor.png);
     background-repeat: no-repeat;
@@ -293,7 +356,7 @@
 
 .mw_editor_design .ed-ico {
     background-position: -667px 4px;
-}
+}*/
 
 .wysiwyg_checker {
     display: none;;
@@ -563,7 +626,9 @@
 
 .mw_editor_redo.disabled,
 .mw_editor_undo.disabled {
-    display: none;
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.3;
 }
 
 .show_editor {

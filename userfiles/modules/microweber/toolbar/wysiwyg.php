@@ -8,6 +8,13 @@
         <div class="mw-ui-dropdown left" id="history_dd">
           <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
         </div>
+
+            <span style="display: none"
+                  class="liveedit_wysiwyg_prev"
+                  id="liveedit_wysiwyg_main_prev"
+                  title="<?php _e("Previous"); ?>"
+                  onclick="mw.liveEditWYSIWYG.slideLeft();"></span>
+
       </div>
     </div>
     <?php endif; ?>
@@ -213,7 +220,7 @@
     <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
 
      <div class="wysiwyg-cell"> <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span></div>
-         
+
     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
 
 <?php

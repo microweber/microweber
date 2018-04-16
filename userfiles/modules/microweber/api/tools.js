@@ -106,6 +106,11 @@ mw.tools = {
             $(this).css('backgroundImage', 'url(' + img.src + ')')
         })
     },
+    isRtl:function(el){
+        //todo
+        el = el || document.documentElement;
+        return document.documentElement.dir == 'rtl'
+    },
     isEditable: function (item) {
         var el = item;
         if (!!item.type && !!item.target) {
@@ -1643,6 +1648,28 @@ mw.tools = {
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
                 return false;
+            }
+            else {
+                if (h1) {
+                    return true;
+                }
+                else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
+    parentsOrCurrentOrderMatchOrOnlyFirstOrBoth: function (node, arr) {
+        var curr = node,
+            has1 = false,
+            has2 = false;
+        while (curr !== document.body) {
+            var h1 = mw.tools.hasClass(curr, arr[0]);
+            var h2 = mw.tools.hasClass(curr, arr[1]);
+            if (h1 && h2) {
+                return true;
             }
             else {
                 if (h1) {
