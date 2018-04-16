@@ -1,4 +1,7 @@
 <?php
+
+
+
 only_admin_access();
 $form_rand_id = uniqid() . rand();
 $data = false;
@@ -37,42 +40,42 @@ if (isset($params['live_edit'])) {
         mw.require('forms.js');
     </script>
     <script type="text/javascript">
-        function set_category_parent_<?php print $form_rand_id ?>() {
-            var sel = mw.$('#edit_category_set_par_<?php print $form_rand_id; ?> input:checked').parents('li').first(),
+        function set_category_parent() {
+            var sel = mw.$('#edit_category_set_par input:checked').parents('li').first(),
                 is_cat = sel.attr("data-category-id"),
                 is_page = sel.attr("data-page-id");
 
             if (typeof is_cat !== "undefined") {
-                mw.$('#rel_id_<?php print $form_rand_id ?>').val(0);
-                mw.$('#parent_id_<?php print $form_rand_id ?>').val(is_cat);
+                mw.$('#rel_id').val(0);
+                mw.$('#parent_id').val(is_cat);
             }
             if (typeof is_page !== "undefined") {
-                mw.$('#rel_id_<?php print $form_rand_id ?>').val(is_page);
-                mw.$('#parent_id_<?php print $form_rand_id ?>').val(0);
+                mw.$('#rel_id').val(is_page);
+                mw.$('#parent_id').val(0);
             }
 
         }
-        function onload_set_parent_<?php print $form_rand_id ?>() {
-            var tti = mw.$('#rel_id_<?php print $form_rand_id ?>').val();
-            var par_cat = mw.$('#parent_id_<?php print $form_rand_id ?>').val();
+        function onload_set_parent() {
+            var tti = mw.$('#rel_id').val();
+            var par_cat = mw.$('#parent_id').val();
             if (par_cat != undefined && parseFloat(par_cat) > 0) {
-                var tree = mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
+                var tree = mwd.getElementById('edit_category_set_par');
                 var li = tree.querySelector('li[data-category-id="' + par_cat + '"]');
                 var radio = li.querySelector('input[type="radio"]');
                 radio.checked = true;
 
             }
             else if (tti != undefined && parseFloat(tti) > 0) {
-                var tree = mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
+                var tree = mwd.getElementById('edit_category_set_par');
                 var li = tree.querySelector('li[data-page-id="' + tti + '"]');
                 var radio = li.querySelector('input[type="radio"]');
                 radio.checked = true;
             }
         }
 
-        save_cat = function (el) {
+        function save_cat(el) {
             if (mwd.querySelector('.mw-ui-category-selector input:checked') !== null) {
-                $(document.forms['admin_edit_category_form_<?php print $form_rand_id ?>']).submit();
+                $(document.forms['admin_edit_category_form']).submit();
             }
             else {
                 Alert('<?php _e("Please choose Page or Category"); ?>.');
@@ -89,6 +92,7 @@ if (isset($params['live_edit'])) {
             window.location.reload();
             <?php else: ?>
             mw.reload_module('#<?php print $params['id'] ?>');
+
             <?php endif; ?>
         }
 
@@ -107,11 +111,12 @@ if (isset($params['live_edit'])) {
             mw.category_is_saving = false;
             <?php if(intval($data['id']) == 0): ?>
             <?php endif; ?>
-            var h = mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>');
+            var h = mwd.getElementById('edit_category_set_par');
             mw.$('label', h).click(function () {
-                set_category_parent_<?php print $form_rand_id ?>();
+                set_category_parent();
             });
-            mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>').submit(function () {
+            onload_set_parent()
+            mw.$('#admin_edit_category_form').submit(function () {
                 var form = this;
                 if (mw.category_is_saving) {
                     return false;
@@ -120,7 +125,7 @@ if (isset($params['live_edit'])) {
                 mw.category_is_saving = true;
                 $('.mw-cat-save-submit').addClass('disabled');
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
-                mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>'), '<?php print api_link('category/save') ?>', function (val) {
+                mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
 
 
                     if (typeof(this.error) != "undefined") {
@@ -202,251 +207,272 @@ if (isset($params['live_edit'])) {
 
     ?>
 
+    <?php if(!isset($params['no-toolbar'])): ?>
 
+    <div class="section-header">
+        <h2 class="pull-left">
+            <span class="mw-icon-category"></span>
+            <?php if ($data['id'] == 0): ?>
+                <?php _e('Add') ?>
+            <?php else: ?>
+                <?php _e('Edit') ?>
+            <?php endif; ?>
+            <?php _e('category'); ?>
+        </h2>
+
+        <div class="pull-right">
+            <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
+                <span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?>
+            </a>
+        </div>
+    </div>
+
+    <?php endif; ?>
+
+    <?php if(!isset($params['no-toolbar'])): ?>
     <div class="admin-side-content">
-        <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>"
-              name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off"
-              style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
-            <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
 
-            <input name="rel" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
-            <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>"
-                   id="rel_id_<?php print $form_rand_id ?>"/>
-            <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
-            <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>"
-                   id="parent_id_<?php print $form_rand_id ?>"/>
+        <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content">
+            <?php endif; ?>
 
-            <div class="create-root">
-                <div id="content-title-field-buttons">
-                    <button onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification"
-                            form="quickform-edit-content"><?php _e('Save') ?></button>
-                    <?php if (intval($data['id']) != 0): ?>
-                        <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
-                            <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>"
-                               target="_top" class="mw-ui-btn tip" data-tip="<?php _e("New sub category"); ?>">
-                                <span class="mw-icon-plus"></span>
-                                <span class="mw-icon-category"></span>
-                            </a>
-                            <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');"
-                               class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span
-                                        class="mw-icon-bin" style="font-size: 22px;"></span></a>
-                        </div>
-                    <?php endif; ?>
-                </div>
 
-                <div class="post-type-action-label">
 
-                    <span class="mai-category admin-manage-toolbar-title-icon"></span>
-                    <span id="category-page-title">
-                        <?php if ($data['id'] == 0): ?>
-                            <span id="category-page-title-add"><?php _e('Add') ?></span>
-                        <?php else: ?>
-                            <span id="category-page-title-edit"><?php _e('Edit') ?></span>
-                        <?php endif; ?>
-                        <?php _e('category'); ?>
-              </span>
-                </div>
+            <form id="admin_edit_category_form"
+                  name="admin_edit_category_form" autocomplete="off"
+                  style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
+                <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
 
-            </div>
+                <input name="rel" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
+                <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>"
+                       id="rel_id"/>
+                <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
+                <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>"
+                       id="parent_id"/>
 
-            <div class="mw-ui-field-holder">
-                <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
-
-                    <div class="mw-ui-col">
-
-                        <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
-                            <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-
-                            <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title"
-                                   type="text" placeholder="<?php _e("Sub-category Name"); ?>"/>
-                        <?php else: ?>
-                            <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
-                                <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-                            <?php else: ?>
-                                <span class="mw-title-field-label mw-title-field-label-category"></span>
-                            <?php endif; ?>
-                            <input class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title"
-                                   type="text"
-                                   <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
+                <div class="create-root">
+                    <div id="content-title-field-buttons">
+                        <button onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification"
+                                form="quickform-edit-content"><?php _e('Save') ?></button>
+                        <?php if (intval($data['id']) != 0): ?>
+                            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
+                                <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>"
+                                   target="_top" class="mw-ui-btn tip" data-tip="<?php _e("New sub category"); ?>">
+                                    <span class="mw-icon-plus"></span>
+                                    <span class="mw-icon-category"></span>
+                                </a>
+                                <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');"
+                                   class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span
+                                            class="mw-icon-bin" style="font-size: 22px;"></span></a>
+                            </div>
                         <?php endif; ?>
                     </div>
 
-
                 </div>
 
-            </div>
-            <div class="mw-ui-field-holder">
-                Parent:
-                <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()"
-                      id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
-                <?php $is_shop = ''; ?>
-                <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none"
-                     id="edit_category_set_par_<?php print $form_rand_id ?>">
-                    <module type="categories/selector" include_inactive="true"
-                            categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
-                            active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
-                            input-name="temp_<?php print $form_rand_id ?>"
-                            input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio"
-                            categories_removed_ids="<?php print (intval($data['id'])) ?>"
-                            show_edit_categories_admin_link="true"/>
+                <div class="mw-ui-field-holder">
+                    <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
+
+                        <div class="mw-ui-col">
+
+                            <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
+                                <span class="mw-title-field-label mw-title-field-label-subcat"></span>
+
+                                <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title"
+                                       type="text" placeholder="<?php _e("Sub-category Name"); ?>"/>
+                            <?php else: ?>
+                                <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
+                                    <span class="mw-title-field-label mw-title-field-label-subcat"></span>
+                                <?php else: ?>
+                                    <span class="mw-title-field-label mw-title-field-label-category"></span>
+                                <?php endif; ?>
+                                <input class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title"
+                                       type="text"
+                                       <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
+                            <?php endif; ?>
+                        </div>
+
+
+                    </div>
+
                 </div>
-            </div>
-            <script type="text/javascript">
-                $(mwd).ready(function () {
-                    mw.treeRenderer.appendUI('#edit_category_set_par_<?php print $form_rand_id ?>');
-                    mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>'));
+                <div class="mw-ui-field-holder">
+                    Parent:
+                    <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()"
+                          id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
+                    <?php $is_shop = ''; ?>
+                    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none"
+                         id="edit_category_set_par">
+                        <module type="categories/selector" include_inactive="true"
+                                categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
+                                active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
+                                input-name="temp"
+                                input-name-categories='temp' input-type-categories="radio"
+                                categories_removed_ids="<?php print (intval($data['id'])) ?>"
+                                show_edit_categories_admin_link="true"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(mwd).ready(function () {
+                        mw.treeRenderer.appendUI('#edit_category_set_par');
+                        mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par'));
 
-                    var _parent = mwd.querySelector('#edit_category_set_par_<?php print $form_rand_id ?> input:checked');
+                        var _parent = mwd.querySelector('#edit_category_set_par input:checked');
 
-                    if (_parent !== null) {
-                        $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
-                    }
+                        if (_parent !== null) {
+                            $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
+                        }
 
-                    $('#edit_category_set_par_<?php print $form_rand_id ?> input').on('change', function () {
-                        var html = $(this).parent().find('span:last').html();
-                        $("#category-dropdown-holder").html(html)
+                        $('#edit_category_set_par input').on('change', function () {
+                            var html = $(this).parent().find('span:last').html();
+                            $("#category-dropdown-holder").html(html)
+                        });
+                        mw.tabs({
+                            nav: "#tabsnav .mw-ui-btn",
+                            tabs: ".quick-add-post-options-item",
+                            toggle: true
+                        });
+
+                        $(".category-advanced-seetings-button span").on('click', function () {
+                            $(".advanced_settings").stop().slideToggle()
+                        })
                     });
-                    mw.tabs({
-                        nav: "#tabsnav .mw-ui-btn",
-                        tabs: ".quick-add-post-options-item",
-                        toggle: true
-                    });
-
-                    $(".category-advanced-seetings-button span").on('click', function () {
-                        $(".advanced_settings").stop().slideToggle()
-                    })
-                });
-            </script>
-            <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
-            <div class="category-advanced-seetings-button">
-                <span class="mw-icon-more "></span>
-            </div>
-            <div class="advanced_settings" style="display: none">
-                <label class="mw-ui-label">
-                    <?php _e("Category images and settings"); ?>
-                </label>
-                <div class="mw-ui-btn-nav" id="tabsnav"> <span class="mw-ui-btn"><span
-                                class="mw-icon-picture"></span><span>
+                </script>
+                <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
+                <div class="category-advanced-seetings-button">
+                    <span class="mw-icon-more "></span>
+                </div>
+                <div class="advanced_settings" style="display: none">
+                    <label class="mw-ui-label">
+                        <?php _e("Category images and settings"); ?>
+                    </label>
+                    <div class="mw-ui-btn-nav" id="tabsnav"> <span class="mw-ui-btn"><span
+                                    class="mw-icon-picture"></span><span>
         <?php _e("Picture Gallery"); ?>
         </span></span> <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
         <?php _e("Advanced"); ?>
         </span></span></div>
-                <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
-                    <div class="pictures-editor-holder">
-                        <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"
-                                id="mw-cat-pics-admin"/>
+                    <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+                        <div class="pictures-editor-holder">
+                            <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"
+                                    id="mw-cat-pics-admin"/>
+                        </div>
                     </div>
-                </div>
-                <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
-                    <?php if (isset($data['id']) and $data['id'] != 0): ?>
+                    <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+                        <?php if (isset($data['id']) and $data['id'] != 0): ?>
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">
+                                    <?php _e("Link"); ?>
+                                </label>
+                                <small><a href="<?php print category_link($data['id']); ?>"
+                                          target="_blank"><?php print category_link($data['id']); ?></a></small>
+                            </div>
+                        <?php endif; ?>
                         <div class="mw-ui-field-holder">
                             <label class="mw-ui-label">
-                                <?php _e("Link"); ?>
+                                <?php _e("Slug"); ?>
                             </label>
-                            <small><a href="<?php print category_link($data['id']); ?>"
-                                      target="_blank"><?php print category_link($data['id']); ?></a></small>
+                            <input type="text" class="mw-ui-field w100" name="url"
+                                   value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
                         </div>
-                    <?php endif; ?>
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label">
-                            <?php _e("Slug"); ?>
-                        </label>
-                        <input type="text" class="mw-ui-field w100" name="url"
-                               value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
-                    </div>
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label">
-                            <?php _e("Description"); ?>
-                        </label>
-                        <textarea class="mw-ui-field w100"
-                                  name="description"><?php print ($data['description']) ?></textarea>
-                    </div>
-                    <?php if (isset($data['id'])): ?>
-                        <module type="content/views/settings_from_template" content-type="category"
-                                category-id="<?php print $data['id'] ?>"/>
-                    <?php endif; ?>
-                    <div>
-                        <small><a href="javascript:$('.mw-edit-cat-edit-mote-advanced-toggle').toggle();void(0);"> <span
-                                        class="mw-icon-more" style="opacity:0.3"></span> </a></small>
-                    </div>
-                    <div class="mw-edit-cat-edit-mote-advanced-toggle" style="display:none">
                         <div class="mw-ui-field-holder">
-                            <?php if (!isset($data['users_can_create_content'])) {
-                                $data['users_can_create_content'] = 0;
-                            } ?>
-                            <div class="mw-ui-check-selector">
-                                <div class="mw-ui-label left" style="width: 230px">
-                                    <?php _e("Can users create content"); ?>
-                                    <small class="mw-help"
-                                           data-help="If you set this to YES the website users will be able to add content under this category">
-                                        (?)
-                                    </small>
-                                </div>
-                                <label class="mw-ui-check">
-                                    <input name="users_can_create_content" type="radio"
-                                           value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-                                    <span></span><span>
-                <?php _e("No"); ?>
-                </span></label>
-                                <label class="mw-ui-check">
-                                    <input name="users_can_create_content" type="radio"
-                                           value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-                                    <span></span><span>
-                <?php _e("Yes"); ?>
-                </span></label>
-                            </div>
+                            <label class="mw-ui-label">
+                                <?php _e("Description"); ?>
+                            </label>
+                            <textarea class="mw-ui-field w100"
+                                      name="description"><?php print ($data['description']) ?></textarea>
                         </div>
                         <?php if (isset($data['id'])): ?>
-                            <?php if (!isset($data['category_subtype'])) {
-                                $data['category_subtype'] = 'default';
-                            } ?>
-                            <input type="hidden" name="category_subtype"
-                                   value="<?php print $data['category_subtype'] ?>"/>
-                            <script type="text/javascript">
-
-                                $(document).ready(function () {
-
-                                    mw.dropdown();
-
-
-                                    $('.edit-category-choose-subtype-dd').on('change', function () {
-                                        var val = $(this).getDropdownValue();
-                                        $('[name="category_subtype"]', '#admin_edit_category_form_<?php print $form_rand_id ?>').val(val)
-
-                                        $('#admin_edit_category_subtype_settings_<?php print $form_rand_id ?>').attr('category_subtype', val);
-                                        mw.reload_module('#admin_edit_category_subtype_settings_<?php print $form_rand_id ?>');
-
-                                    });
-                                });
-
-
-                            </script>
+                            <module type="content/views/settings_from_template" content-type="category"
+                                    category-id="<?php print $data['id'] ?>"/>
+                        <?php endif; ?>
+                        <div>
+                            <small><a href="javascript:$('.mw-edit-cat-edit-mote-advanced-toggle').toggle();void(0);"> <span
+                                            class="mw-icon-more" style="opacity:0.3"></span> </a></small>
+                        </div>
+                        <div class="mw-edit-cat-edit-mote-advanced-toggle" style="display:none">
                             <div class="mw-ui-field-holder">
-                                <div class="mw-ui-label" style="width: 230px">
-                                    <?php _e("Category"); ?>
-                                    <?php _e("Subtype"); ?>
-                                    <small class="mw-help"
-                                           data-help="You can set the category behaviour by changing its subtype">(?)
-                                    </small>
-                                </div>
-                                <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"><span
-                                            class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
-                                    <div class="mw-dropdown-content" style="display: none;">
-                                        <ul>
-                                            <li value="default">Default</li>
-                                            <li value="content_filter">Content filter</li>
-                                        </ul>
+                                <?php if (!isset($data['users_can_create_content'])) {
+                                    $data['users_can_create_content'] = 0;
+                                } ?>
+                                <div class="mw-ui-check-selector">
+                                    <div class="mw-ui-label left" style="width: 230px">
+                                        <?php _e("Can users create content"); ?>
+                                        <small class="mw-help"
+                                               data-help="If you set this to YES the website users will be able to add content under this category">
+                                            (?)
+                                        </small>
                                     </div>
+                                    <label class="mw-ui-check">
+                                        <input name="users_can_create_content" type="radio"
+                                               value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+                                        <span></span><span>
+                <?php _e("No"); ?>
+                </span></label>
+                                    <label class="mw-ui-check">
+                                        <input name="users_can_create_content" type="radio"
+                                               value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+                                        <span></span><span>
+                <?php _e("Yes"); ?>
+                </span></label>
                                 </div>
                             </div>
-                            <module type="categories/edit_category_subtype_settings"
-                                    category_subtype="<?php print $data['category_subtype'] ?>"
-                                    category-id="<?php print $data['id'] ?>"
-                                    id="admin_edit_category_subtype_settings_<?php print $form_rand_id ?>"/>
-                        <?php endif; ?>
+                            <?php if (isset($data['id'])): ?>
+                                <?php if (!isset($data['category_subtype'])) {
+                                    $data['category_subtype'] = 'default';
+                                } ?>
+                                <input type="hidden" name="category_subtype"
+                                       value="<?php print $data['category_subtype'] ?>"/>
+                                <script type="text/javascript">
+
+                                    $(document).ready(function () {
+
+                                        mw.dropdown();
+
+
+                                        $('.edit-category-choose-subtype-dd').on('change', function () {
+                                            var val = $(this).getDropdownValue();
+                                            $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
+
+                                            $('#admin_edit_category_subtype_settings').attr('category_subtype', val);
+                                            mw.reload_module('#admin_edit_category_subtype_settings');
+
+                                        });
+                                    });
+
+
+                                </script>
+                                <div class="mw-ui-field-holder">
+                                    <div class="mw-ui-label" style="width: 230px">
+                                        <?php _e("Category"); ?>
+                                        <?php _e("Subtype"); ?>
+                                        <small class="mw-help"
+                                               data-help="You can set the category behaviour by changing its subtype">(?)
+                                        </small>
+                                    </div>
+                                    <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"><span
+                                                class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
+                                        <div class="mw-dropdown-content" style="display: none;">
+                                            <ul>
+                                                <li value="default">Default</li>
+                                                <li value="content_filter">Content filter</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <module type="categories/edit_category_subtype_settings"
+                                        category_subtype="<?php print $data['category_subtype'] ?>"
+                                        category-id="<?php print $data['id'] ?>"
+                                        id="admin_edit_category_subtype_settings"/>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+
+            <?php if(!isset($params['no-toolbar'])): ?>
+        </div>
     </div>
+
+<?php endif; ?>
+
 </div>

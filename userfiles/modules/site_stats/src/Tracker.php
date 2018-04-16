@@ -59,8 +59,9 @@ class Tracker
 
 
         if (!$buffer_skip) {
-            $this->process_buffer();
+            return $this->process_buffer();
         }
+        return true;
     }
 
     function process_buffer($track_data = false)
@@ -123,9 +124,9 @@ class Tracker
                     ]);
                     if ($related_data->id) {
                         $item['referrer_id'] = $related_data->id;
-                       // if (!$is_internal) {
-                            $session_original_ref_id = $item['referrer_id'];
-                       // }
+                        // if (!$is_internal) {
+                        $session_original_ref_id = $item['referrer_id'];
+                        // }
                     }
                 }
 
@@ -206,7 +207,7 @@ class Tracker
         if ($track_data == false) {
             cache_save($buffer, 'stats_buffer_visits', 'site_stats');
         }
-
+        return true;
     }
 
 
@@ -249,11 +250,11 @@ class Tracker
             $last_page = rtrim($last_page, '#');
         }
 
-        if(strstr($ref, admin_url())){
+        if (strstr($ref, admin_url())) {
             return;
         }
 
-         $data['visit_url'] = $last_page;
+        $data['visit_url'] = $last_page;
         $data['referrer'] = $ref;
         $data['session_id'] = mw()->user_manager->session_id();
         $data['user_id'] = mw()->user_manager->id();
@@ -336,13 +337,13 @@ class Tracker
     private function _referrer_domain_id($referrer_url = false)
     {
 
-        if(!$referrer_url){
+        if (!$referrer_url) {
             return;
         }
 
         $parse = parse_url($referrer_url);
 
-        if(isset($parse['host']) and $parse['host']){
+        if (isset($parse['host']) and $parse['host']) {
 
             $domain = $parse['host']; //referrer_domain
             if ($domain) {
@@ -364,14 +365,14 @@ class Tracker
     private function _referrer_path_id($referrer_url = false)
     {
 
-        if(!$referrer_url){
+        if (!$referrer_url) {
             return;
         }
 
         $parse = parse_url($referrer_url);
 
-        if(isset($parse['host']) and $parse['host']){
-            if(isset($parse['path']) and $parse['path']) {
+        if (isset($parse['host']) and $parse['host']) {
+            if (isset($parse['path']) and $parse['path']) {
 
                 $domain = $parse['host'];
                 $path = $parse['path'];
@@ -381,7 +382,7 @@ class Tracker
                     $data = $data->firstOrCreate([
                         'referrer_path' => $path,
                         'referrer_domain_id' => $domain_id
-                    ], array('referrer_domain_id' => $domain_id,'referrer_path' => $path));
+                    ], array('referrer_domain_id' => $domain_id, 'referrer_path' => $path));
 
                     if ($data->id) {
                         return $data->id;
@@ -426,8 +427,6 @@ class Tracker
 
         return $return;
     }
-
-
 
 
 }

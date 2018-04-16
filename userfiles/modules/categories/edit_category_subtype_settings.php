@@ -4,7 +4,7 @@
 if(!isset($params["category_subtype"]) or $params["category_subtype"] == false or $params["category_subtype"] == 'default'){
 	 return;
 }
-
+d($params);
 
 only_admin_access();
  

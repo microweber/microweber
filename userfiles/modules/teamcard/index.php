@@ -10,9 +10,14 @@ $defaults = array(
     'file' => ''
 );
 $is_empty = false;
+
 $data = json_decode($settings, true);
+if(!is_array($data)){
+    $data = array();
+}
 
 if (!$data) {
+    $data = array();
     $is_empty = true;
     print lnotif("Click on settings to edit this module");
   //  $data = array($defaults);

@@ -31,9 +31,10 @@ if (!is_array($countries)) {
 
 $data_active = array();
 $data_disabled = array();
+
 foreach ($data as $item) {
 
-    if (isset($item['is_active']) and 0 == intval($item['is_active'])) {
+    if (!$item['is_active']) {
         $data_disabled[] = $item;
     } else {
         $data_active[] = $item;

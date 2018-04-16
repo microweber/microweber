@@ -504,7 +504,7 @@ class Stats
                 }
 
 
-                $log = $log->limit(30);
+                $log = $log->limit(14);
                 $return = $log->get();
 
                 $return = collection_to_array($return);
