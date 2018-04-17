@@ -27,7 +27,7 @@ class FormsManager
         }
     }
 
-    public function get_entires($params)
+    public function get_entires($params = false)
     {
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_DATA;
