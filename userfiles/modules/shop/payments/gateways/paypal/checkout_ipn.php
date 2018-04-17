@@ -4,7 +4,7 @@
 $update_order = array();
 $data['host'] = $hostname;
 if (strtolower(trim($hostname)) == 'paypal.com') {
-    $update_order['payment_amount'] = $data['payment_gross'];;
+    $update_order['payment_amount'] = $data['payment_gross'];
     $update_order['payment_email'] = $data['payer_email'];
     $update_order['payer_id'] = $data['payer_id'];
     $update_order['payer_status'] = $data['payer_status'];

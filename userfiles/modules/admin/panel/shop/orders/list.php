@@ -85,7 +85,7 @@
         <?php endif; ?>
         <?php } ?>
         <td class="mw-order-item-id tip" data-tipposition="top-center" data-tipcircle="true" data-tip="#product-tip-<?php print $item['id'] ?>"><a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a></td>
-        <td title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']);; ?></td>
+        <td title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']); ?></td>
         <td class="mw-order-item-status"><?php  if($item['order_status'] == false): ?>
           <?php _e("New"); ?>
           <?php elseif($item['order_status'] == 'completed'): ?>

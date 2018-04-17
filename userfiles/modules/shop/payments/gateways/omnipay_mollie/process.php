@@ -35,7 +35,7 @@ try {
     } elseif ($response->isRedirect()) {
 		$place_order['order_completed'] = 1;
 		$place_order['is_paid'] = 0;
-		$place_order['redirect'] = $response->getRedirectUrl();;
+		$place_order['redirect'] = $response->getRedirectUrl();
 		
  
        // return $response->redirect();

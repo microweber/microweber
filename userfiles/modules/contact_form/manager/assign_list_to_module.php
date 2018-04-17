@@ -41,7 +41,7 @@ $rand = uniqid();
 
 </script>
 <?php $selected_list = get_option('list_id', $params['for-module-id']);
-$data = get_form_lists('order_by=created_at desc&module_name=' . $params['for-module']);;
+$data = get_form_lists('order_by=created_at desc&module_name=' . $params['for-module']);
 ?>
 <?php if (is_array($data)): ?>
 

@@ -6,7 +6,7 @@ if($params['module_info']){
 				if(is_file($try_config_file)){
 					include($try_config_file);
 					if($config['icon'] == false){
-					$config['icon'] = modules_path() . '' . $params['module_info'] .'.png';;
+					$config['icon'] = modules_path() . '' . $params['module_info'] .'.png';
 					$config['icon'] = mw()->url_manager->link_to_file($config['icon']);
 					}
 					 

@@ -5,7 +5,7 @@ $curencies = mw()->shop_manager->currency_get_for_paypal();
 
 
 $cur = get_option('currency', 'payments');
-//$num = rand(50,1000).'.'.rand(10,100);;
+//$num = rand(50,1000).'.'.rand(10,100);
 $num = 1.00;
 ?>
 <?php if (!in_array(strtoupper($cur), $curencies)): ?>

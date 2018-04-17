@@ -183,7 +183,7 @@ if (typeof thismodal.main[0] != 'undefined') {
         <?php if(is_array( $module_info)): ?>
 
 
-        <?php $mod_adm =  admin_url('load_module:').module_name_encode($module_info['module']);; ?>
+        <?php $mod_adm =  admin_url('load_module:').module_name_encode($module_info['module']); ?>
 
 
 

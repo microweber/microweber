@@ -94,7 +94,7 @@ include_once($config['path_to_module'].'../posts/index.php');
 		
 		
 		
-		 <a href="javascript:mw.delete_content_live_edit('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a>
+		 <a href="javascript:mw.delete_content_live_edit('<?php print ($item['id']) ?>');"><?php _e("Delete"); ?></a>
 		
 		
 		

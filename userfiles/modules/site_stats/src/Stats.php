@@ -390,7 +390,7 @@ class Stats
 
                     }
 
-                    $item_array['views_count'] = $item->views()->count();;
+                    $item_array['views_count'] = $item->views()->count();
                     $return[] = $item_array;
 
                 }
