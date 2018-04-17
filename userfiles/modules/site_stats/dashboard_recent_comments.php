@@ -25,16 +25,28 @@ if (is_array($comments_for_content)) {
 ?>
 
 <script>
-    window.commentToggle = window.commentToggle || function (item) {
-            var curr = $('.order-data-more', item);
-            $('.order-data-more').not(curr).stop().slideUp();
-            $('.comment-holder').not(item).removeClass('active');
-            $(curr).stop().slideToggle();
-            $(item).toggleClass('active');
-//            $('#mw-order-table-holder').toggleClass('has-active');
+    commentToggle = window.commentToggle || function (e) {
+
+            var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
+            if(!mw.tools.hasClass(item, 'active')){
+                var curr = $('.order-data-more', item);
+                $('.order-data-more').not(curr).stop().slideUp();
+                $('.comment-holder').not(item).removeClass('active');
+                $(curr).stop().slideToggle();
+                $(item).toggleClass('active');
+            }
+
         }
 
     $(document).ready(function () {
+        $('.new-close').on('click', function (e) {
+            e.stopPropagation();
+            var item =  mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder']);
+            $(item).removeClass('active')
+            $('.mw-accordion-content', item).stop().slideUp(function () {
+
+            });
+        });
         $('.mw-reply-btn').on('click', function () {
             $(this).prev().slideDown();
         })
@@ -71,7 +83,7 @@ if (is_array($comments_for_content)) {
                     ?>
 
 
-                    <div class="comment-holder" id="comment-n-<?php print $comment_for_content['id'] ?>" onclick="commentToggle(this);">
+                    <div class="comment-holder" id="comment-n-<?php print $comment_for_content['id'] ?>" onclick="commentToggle(event);">
                         <div class="order-data">
 
                             <div class="article-image">
@@ -174,7 +186,7 @@ if (is_array($comments_for_content)) {
                             <div class="clearfix"></div>
                         </div>
 
-                        <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center" onclick=""></span>
+                        <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center"></span>
                         <div class="clearfix"></div>
                     </div>
                 <?php } ?>

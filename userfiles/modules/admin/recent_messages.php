@@ -1,11 +1,13 @@
 <script>
-    window.messageToggle = window.messageToggle || function (item) {
-            var curr = $('.message-data-more', item);
-            $('.message-data-more').not(curr).stop().slideUp();
-            $('.message-holder').not(item).removeClass('active');
-            $(curr).stop().slideToggle();
-            $(item).toggleClass('active');
-            $('#mw-message-table-holder').toggleClass('has-active');
+    window.messageToggle = window.messageToggle || function (e) {
+            var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['message-holder']);
+            if(!mw.tools.hasClass(item, 'active')){
+                var curr = $('.message-data-more', item);
+                $('.order-data-more').not(curr).stop().slideUp();
+                $('.message-holder').not(item).removeClass('active');
+                $(curr).stop().slideToggle();
+                $(item).toggleClass('active');
+            }
         }
 </script>
 <?php $last_messages = mw()->forms_manager->get_entires();
@@ -13,7 +15,7 @@ if ($last_messages): ?>
     <?php foreach ($last_messages as $message) : ?>
 
 
-        <div class="message-holder" id="message-n-<?php print $message['id'] ?>" onclick="messageToggle(this);">
+        <div class="message-holder" id="message-n-<?php print $message['id'] ?>" onclick="messageToggle(event);">
             <div class="message-data">
                 <div class="product-image">
                     <span class="product-thumbnail-tooltip"><i class="mai-mail"></i></span>

@@ -5970,8 +5970,9 @@ span.mw-icon-upload {
     background: none;
 }
 
+
 .new-close.mw-icon-close {
-    visibility: visible;
+    visibility: hidden;
     color: #0086db;
     background: #fff;
     padding: 4px 5px;
@@ -5984,6 +5985,9 @@ span.mw-icon-upload {
     right: 20px;
     top: 20px;
     cursor: pointer;
+}
+.active .new-close.mw-icon-close {
+    visibility: visible;
 }
 
 .new-close.mw-icon-close:hover {
@@ -6319,6 +6323,7 @@ span.mw-icon-upload {
     width: 100%;
     height: 100%;
     content: '';
+    cursor: pointer;
 }
 .comments-holder .comment-holder.active:after{
     display: none;
