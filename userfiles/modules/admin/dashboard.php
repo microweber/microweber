@@ -3,6 +3,18 @@
     <div class="admin-side-content">
         <?php event_trigger('mw.admin.dashboard.content'); ?>
 
+
+        <div class="dashboard-recent">
+            <div class="dr-head">
+                <span class="drh-activity-name"><i class="mai-mail"></i> <?php _e("Recent Messages") ?></span>
+            </div>
+            <div class="dr-list">
+                <div class="messages-holder">
+                    <?php include('recent_messages.php'); ?>
+                </div>
+            </div>
+        </div>
+
         <div class="mw-ui-box quick-lists pull-left">
             <div class="mw-ui-box-header">
                 <i class="mai-link"></i> <?php _e("Quick Links"); ?>

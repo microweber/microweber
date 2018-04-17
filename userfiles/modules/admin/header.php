@@ -236,7 +236,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     <?php if (is_admin()): ?>
     <div class="admin-toolbar">
         <div class="create-content scroll-height-exception">
-            <div class="mw-ui-row">
+            <div class="mw-ui-row header-top-center-notifs">
                 <div class="mw-ui-col">
                     <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn">
                         <span class="mai-plus"></span>
