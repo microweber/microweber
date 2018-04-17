@@ -33,6 +33,12 @@ if (is_array($comments_for_content)) {
             $(item).toggleClass('active');
 //            $('#mw-order-table-holder').toggleClass('has-active');
         }
+
+    $(document).ready(function () {
+        $('.mw-reply-btn').on('click', function () {
+            $(this).prev().slideDown();
+        })
+    });
 </script>
 
 <div class="dashboard-recent">
@@ -82,7 +88,7 @@ if (is_array($comments_for_content)) {
                                 <a href="<?php print $post['url']; ?>"><?php print $post['title']; ?></a>
                             </div>
 
-                            <div class="last-comment-date"><?php print mw()->format->ago($post['created_at']); ?></div>
+                            <div class="last-comment-date"><?php print mw()->format->ago($comment_for_content['created_at']); ?></div>
                         </div>
 
                         <div class="order-data-more mw-accordion-content">
@@ -132,7 +138,7 @@ if (is_array($comments_for_content)) {
                                             </div>
 
                                             <div class="author-name">
-                                                <span><?php print $comment_for_content['comment_name']; ?></span> <?php print _e('says'); ?>:
+                                                <span><?php print $comment['comment_name']; ?></span> <?php print _e('says'); ?>:
                                             </div>
 
                                             <div class="comment_body">
@@ -153,11 +159,11 @@ if (is_array($comments_for_content)) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <form>
-                                                        <input type="text" class="" placeholder="<?php print _e('Reply to'); ?> <?php print $comment_for_content['comment_name']; ?>"/>
+                                                        <input type="text" class="" placeholder="<?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>"/>
                                                     </form>
                                                 </div>
 
-                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><i class="mw-icon-reply"></i> Reply</button>
+                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small mw-reply-btn"><i class="mw-icon-reply"></i> <?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?></button>
                                             </div>
                                         </div>
                                     <?php } ?>
