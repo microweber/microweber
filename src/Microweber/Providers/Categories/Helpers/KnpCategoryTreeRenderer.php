@@ -504,7 +504,7 @@ class KnpCategoryTreeRenderer
                 ->setLinkAttributes($link_attrs)
                 ->setAttributes($menu_attrs)
                 ->setExtras($extra_attributes)
-                ->setUri($url);;
+                ->setUri($url);
             // }
 
 

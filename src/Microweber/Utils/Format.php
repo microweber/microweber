@@ -808,7 +808,7 @@ class Format
     public function encode_ids($data)
     {
         $hashids = new \Hashids\Hashids();
-        return $hashids->encode($data);;
+        return $hashids->encode($data);
     }
 
     public function decode_ids($data)

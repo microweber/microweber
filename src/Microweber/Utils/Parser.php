@@ -103,7 +103,7 @@ class Parser
         //   $local_mw_replaced_modules = array();
         //$this->layout = $layout;
         static $process_started;
-        $local_mw_replaced_modules = array();;
+        $local_mw_replaced_modules = array();
         if ($process_started == false) {
             $process_started = true;
 
