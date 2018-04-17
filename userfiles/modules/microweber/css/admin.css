@@ -6676,6 +6676,7 @@ span.mw-icon-upload {
 .messages-holder .message-holder .message-data-more .pull-left {
     padding-right: 50px;
     min-width: 320px;
+    max-width: 33%;
 }
 
 .messages-holder .message-holder .message-data-more .box {
@@ -6719,7 +6720,7 @@ span.mw-icon-upload {
 }
 
 .messages-holder .message-holder .product-image .product-thumbnail-tooltip i {
-    color: #929292;
+    color: #c8c8c8;
     font-size: 28px;
 }
 
