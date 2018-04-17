@@ -18,6 +18,7 @@
 <script type="text/javascript">
 
  mw.add_new_page_to_menu = function(id){
+        mw.tools.loading(true);
 	 
 		 if(id == undefined){
 			var id = 0;
@@ -36,12 +37,18 @@
 		 mw.$('#mw_page_create_live_edit').attr('add-to-menu', '<?php print $menu_name ?>');
 
 		var v = mw.$('#menu_selector_<?php  print $params['id'] ?>').val();
-		if(v != undefined){
+		if(v){
 		 mw.$('#mw_page_create_live_edit').attr('add-to-menu', v);
-
 		}
       mw.load_module('content/edit_page', '#mw_page_create_live_edit', function(){
-        parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
+        parent.mw.tools.modal.resize("#"+thismodal.main[0].id, innerWidth, mw.$('#settings-container').height()+25, false);
+        $('.fade-window').removeClass('closed').addClass('active').css({
+            position:'static'
+        });
+        $(".mw-edit-content-item-admin").css({
+            boxShadow:'none'
+        })
+        mw.tools.loading(false)
       });
  	}
 

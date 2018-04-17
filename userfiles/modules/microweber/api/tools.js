@@ -1618,7 +1618,19 @@ mw.tools = {
             return false;
         }
     },
+    hasAllClasses: function (node, arr) {
+        if(!node) return;
+        var has = true;
+        var i =0, nodec = node.className.trim().split(' ');
+        for(; i<arr.length;i++){
+            if(nodec.indexOf(arr[i]) === -1){
+                return false;
+            }
+        }
+        return has;
+    },
     hasAnyOfClasses: function (node, arr) {
+
         var final = false, i = 0, l = arr.length, cls = node.className;
         for (; i < l; i++) {
             if (mw.tools.hasClass(cls, arr[i])) {
@@ -1988,6 +2000,19 @@ mw.tools = {
             }
         });
         return _has;
+    },
+    firstParentOrCurrentWithAllClasses: function (node, arr) {
+        if (mw.tools.hasAllClasses(node, arr)) {
+            return node;
+        }
+        var has = false;
+        mw.tools.foreachParents(node, function (loop) {
+            if (mw.tools.hasAllClasses(this, arr)) {
+                has = this;
+                mw.tools.stopLoop(loop);
+            }
+        });
+        return has;
     },
     firstParentOrCurrentWithAnyOfClasses: function (node, arr) {
         if (mw.tools.hasAnyOfClasses(node, arr)) {

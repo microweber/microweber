@@ -1828,7 +1828,7 @@ class DefaultController extends Controller
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             //   if (!stristr($l, $apijs_loaded)) {
-            //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;;
+            //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
             $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
             $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
             $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";

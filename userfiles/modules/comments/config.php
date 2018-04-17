@@ -33,7 +33,7 @@ $config['tables']['comments'] = array(
     'created_by' => 'integer',
     'edited_by' => 'integer',
     'user_ip' => 'text'
-);;
+);
 
 
 $options = array();

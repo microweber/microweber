@@ -38877,7 +38877,7 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
           }
           var map = new Array(cmap.length);
           // Convert UTF-16BE
-          // NOTE: cmap can be a sparse array, so use forEach instead of for(;;)
+          // NOTE: cmap can be a sparse array, so use forEach instead of for(;)
           // to iterate over all keys.
           cmap.forEach(function(charCode, token) {
             var str = [];

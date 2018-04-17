@@ -1248,13 +1248,33 @@ mw.drag = {
             var pleft = parseFloat(el.css("paddingLeft"));
             var prev_has_float_left = el.prev();
 
+            var minTop = document.querySelector("#live_edit_toolbar").offsetHeight;
+            if(mw.templateTopFixed){
+                var ex = document.querySelector(mw.templateTopFixed);
+                if(ex && !ex.contains(el[0])){
+                    minTop += ex.offsetHeight;
+                }
+            }
+
+
+            var topPos = o.top;
+
+            if(topPos<minTop){
+                topPos = minTop;
+            }
+            var ws = $(window).scrollTop();
+            if(topPos<(ws+minTop)){
+                topPos=(ws+minTop)
+            }
 
             $(mw.handle_module).css({
-                top: o.top,
+                top: topPos,
                 left: o.left + pleft,
                 width: width
             }).addClass('mw-active-item');
+
             $(mw.handle_module).data("curr", element);
+
             element.id == "" ? element.id = "element_" + mw.random() : "";
 
 
