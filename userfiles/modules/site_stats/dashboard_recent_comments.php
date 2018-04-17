@@ -190,6 +190,10 @@ if (is_array($comments_for_content)) {
                         <div class="clearfix"></div>
                     </div>
                 <?php } ?>
+            <?php else: ?>
+                <div class="mw-ui-box">
+                    <div class="mw-ui-box-content center p-40"><?php _e('You don\'t have any comments yet.'); ?></div>
+                </div>
             <?php endif; ?>
         </div>
     </div>

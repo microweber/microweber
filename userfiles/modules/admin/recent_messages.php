@@ -39,6 +39,8 @@ if ($last_messages): ?>
                     <?php endif; ?>
                 </div>
 
+                <div><?php print date('M m, Y - H:m', strtotime($message['created_at'])); ?></div>
+
                 <div><?php print mw()->format->ago($message['created_at']); ?></div>
             </div>
 
@@ -76,4 +78,8 @@ if ($last_messages): ?>
             <div class="clearfix"></div>
         </div>
     <?php endforeach; ?>
+<?php else: ?>
+    <div class="mw-ui-box">
+        <div class="mw-ui-box-content center p-40"><?php _e('You don\'t have any messages yet.'); ?></div>
+    </div>
 <?php endif; ?>

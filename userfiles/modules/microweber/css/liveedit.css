@@ -3755,3 +3755,12 @@ body.isTyping .mw-cloneable-control-item {
     border: 1px solid #e5e5e5;
 }
 
+
+#mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened){
+    border: 1px solid #0086db;
+    color: #0086db;
+}
+
+#mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) i{
+    color: #0086db;
+}

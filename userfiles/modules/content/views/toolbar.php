@@ -248,8 +248,8 @@ if ($last_page_front != false) {
                                     </a>
                                 <?php endif; ?>
                             </div>
-                            <?php if (isset($content_types) and !empty($content_types)): ?>
 
+                            <?php if (isset($content_types) and !empty($content_types)): ?>
                                 <div class="pull-right" style="margin-right:5px;">
 
                                     <select id="content_type_filter_by_select" class="mw-ui-field" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>

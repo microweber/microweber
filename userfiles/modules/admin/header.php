@@ -261,7 +261,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
                     <?php if ($notif_count != ''): ?>
                         <a href="<?php print admin_url(); ?>" class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mw-icon-comment"></span> &nbsp; <?php print $notif_html; ?>
+                            <span class="mai-comment"></span> &nbsp; <?php print $notif_html; ?>
                             <span class="notif-label">
                                 <?php if ($notif_count == 1): ?>
                                     <?php _e("New comment"); ?>
