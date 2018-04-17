@@ -52,7 +52,7 @@ description: Default template
                     </div>
 
                     <?php
-                    $total = cart_sum();;
+                    $total = cart_sum();
                     foreach ($data as $item) : ?>
                         <div class="item mw-cart-item-<?php print $item['id'] ?>">
                             <div class="cart_img pull-left width-100 padding-10 text-left">
