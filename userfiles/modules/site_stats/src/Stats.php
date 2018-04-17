@@ -193,7 +193,7 @@ class Stats
                                     }
                                     if (isset($item_array['sessions_count']) and $item_array['sessions_count']) {
                                         if (isset($related_data['path_sessions_count']) and $related_data['path_sessions_count']) {
-                                            $item_array['referrer_paths'][$rel_key]['path_sessions_percent'] = mw()->format->percent($related_data['path_sessions_count'], $item_array['sessions_count']);;
+                                            $item_array['referrer_paths'][$rel_key]['path_sessions_percent'] = mw()->format->percent($related_data['path_sessions_count'], $item_array['sessions_count']);
 
                                         }
                                     }
