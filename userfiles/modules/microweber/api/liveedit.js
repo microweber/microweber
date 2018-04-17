@@ -1256,7 +1256,7 @@ mw.drag = {
                 }
             }
 
-
+            var marginTop =  -15;
             var topPos = o.top;
 
             if(topPos<minTop){
@@ -1265,12 +1265,14 @@ mw.drag = {
             var ws = $(window).scrollTop();
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop)
+                var marginTop =  17;
             }
 
             $(mw.handle_module).css({
                 top: topPos,
                 left: o.left + pleft,
-                width: width
+                width: width,
+                marginTop:marginTop
             }).addClass('mw-active-item');
 
             $(mw.handle_module).data("curr", element);

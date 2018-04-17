@@ -3014,9 +3014,9 @@ div[id*='SSDIVEL'] {
 }
 
 #liveedit_wysiwyg {
-   /* transition: opacity 0.6s, transform .3s;
+    transition: opacity 0.6s, transform .3s;
     transform: translateY(-24%);
-    opacity: 0;*/
+    opacity: 0;
 }
 
 .mw-active-element-iseditable #liveedit_wysiwyg {

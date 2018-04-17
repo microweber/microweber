@@ -1,18 +1,22 @@
 <script>
-    window.orderToggle = window.orderToggle || function (item) {
+    window.orderToggle = window.orderToggle || function (e) {
+        var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['order-holder']);
         var curr = $('.order-data-more', item);
-        $('.order-data-more').not(curr).stop().slideUp();
-        $('.order-holder').not(item).removeClass('active');
-        $(curr).stop().slideToggle();
-        $(item).toggleClass('active');
-        $('#mw-order-table-holder').toggleClass('has-active');
+
+        if(!mw.tools.hasClass(item, 'active')){
+            var curr = $('.order-data-more', item);
+            $('.order-data-more').not(curr).stop().slideUp();
+            $('.order-holder').not(item).removeClass('active');
+            $(curr).stop().slideToggle();
+            $(item).toggleClass('active');
+        }
     }
 </script>
 <?php if($orders): ?>
 <?php foreach ($orders as $item) : ?>
 
 
-    <div class="order-holder" id="order-n-<?php print $item['id'] ?>" onclick="orderToggle(this);">
+    <div class="order-holder" id="order-n-<?php print $item['id'] ?>" onclick="orderToggle(event);">
         <div class="order-data">
             <div class="product-image">
                 <?php $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . ''); ?>
