@@ -5970,7 +5970,6 @@ span.mw-icon-upload {
     background: none;
 }
 
-
 .new-close.mw-icon-close {
     visibility: hidden;
     color: #0086db;
@@ -5986,6 +5985,7 @@ span.mw-icon-upload {
     top: 20px;
     cursor: pointer;
 }
+
 .active .new-close.mw-icon-close {
     visibility: visible;
 }
@@ -6315,7 +6315,7 @@ span.mw-icon-upload {
 .comments-holder {
 }
 
-.comments-holder .comment-holder:after{
+.comments-holder .comment-holder:after {
     display: block;
     position: absolute;
     top: 0;
@@ -6325,9 +6325,11 @@ span.mw-icon-upload {
     content: '';
     cursor: pointer;
 }
-.comments-holder .comment-holder.active:after{
+
+.comments-holder .comment-holder.active:after {
     display: none;
 }
+
 .comments-holder .comment-holder:hover:before {
     display: block;
     left: 0;
@@ -6400,6 +6402,7 @@ span.mw-icon-upload {
     min-width: 60%;
 
 }
+
 
 /*.comments-holder .comment-holder .order-data .post-name a {*/
 /*white-space: nowrap;*/
@@ -6594,11 +6597,33 @@ span.mw-icon-upload {
     font-size: 19px;
 }
 
-.comments-holder .comment-holder .reply-holder input {
+.comments-holder .comment-holder .reply-holder textarea {
     color: #0086db;
     border: 0;
     background: transparent;
     height: 30px;
+    width: calc(100% - 110px);
+    outline:0;
+    padding: 8px 0;
+}
+
+
+@media screen and (max-width: 767px) {
+    .comments-holder .comment-holder .order-data .article-image{
+        display: none;
+    }
+    .comments-holder .comment-holder .order-data .post-name {
+        padding: 10px 35px;
+        width: 100%;
+    }
+
+    .comments-holder .comment-holder .order-data > div{
+        width: 100%;
+    }
+
+    .comments-holder .comment-holder .order-data .last-comment-date {
+        padding: 10px 35px 10px 35px;
+    }
 }
 
 /* Form messages */
@@ -6739,6 +6764,10 @@ span.mw-icon-upload {
 .messages-holder .message-holder .product-image .product-thumbnail-tooltip i {
     color: #c8c8c8;
     font-size: 28px;
+}
+
+.messages-holder .message-holder.active .product-image .product-thumbnail-tooltip i {
+    color: #0086db;
 }
 
 .messages-holder .message-holder .product-image {

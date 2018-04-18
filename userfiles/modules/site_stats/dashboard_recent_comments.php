@@ -47,8 +47,11 @@ if (is_array($comments_for_content)) {
 
             });
         });
+
+
         $('.mw-reply-btn').on('click', function () {
-            $(this).prev().slideDown();
+            $(this).prev().show();
+            $(this).hide();
         })
     });
 </script>
@@ -171,7 +174,8 @@ if (is_array($comments_for_content)) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <form>
-                                                        <input type="text" class="" placeholder="<?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>"/>
+                                                        <textarea><?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?></textarea>
+                                                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right" style="margin-top:6px;"><?php print _e('Send'); ?></button>
                                                     </form>
                                                 </div>
 
