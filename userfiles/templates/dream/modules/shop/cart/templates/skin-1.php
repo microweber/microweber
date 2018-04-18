@@ -23,7 +23,7 @@ description: Full width cart template
         <?php if (is_array($data)) : ?>
             <div class="row">
                 <?php
-                $total = cart_sum();;
+                $total = cart_sum();
                 foreach ($data as $item) : ?>
                     <div class="col-md-3 col-sm-4 mw-cart-item mw-cart-item-<?php print $item['id'] ?>">
                         <div class="card card-10">

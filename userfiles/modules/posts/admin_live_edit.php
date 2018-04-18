@@ -8,7 +8,7 @@ if (isset($params['is_shop'])) {
 
 $dir_name = normalize_path(modules_path());
  
-$posts_mod = $dir_name . 'posts' . DS . 'admin_live_edit_tab1.php';;
+$posts_mod = $dir_name . 'posts' . DS . 'admin_live_edit_tab1.php';
 ?>
 <?php
 $set_content_type_mod = 'page';

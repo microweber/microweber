@@ -321,7 +321,7 @@ class MenuManager
      //                               $a['cccid'] = $menu_item['id'];
      //                              //   $a['parent_id'] =$content_item['id'];
      //                                 $a['parent_id'] =$params_o['parent_id'];
-     //                                 $a['parent_id'] = $params_o['parent_id'].$content_item['id'];;
+     //                                 $a['parent_id'] = $params_o['parent_id'].$content_item['id'];
      //                                // $a['parent_id'] =$params_o['parent_id'];
      //                                $a['url'] = $this->app->content_manager->link($content_item['id']);
      //                                $more_menu_items[] =$a;

@@ -106,7 +106,7 @@ if (is_array($data)) {
             <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
                 <td width="50" style="text-align: center"><?php print $item['id'] ?>
                     <div class="mw-date"
-                         title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at']);; ?></div>
+                         title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at']); ?></div>
                 </td>
 
                 <?php
@@ -128,10 +128,10 @@ if (is_array($data)) {
                                 if (isset($item['custom_fields']) and isset($item['custom_fields'][$key])) {
                                     $val_print = $item['custom_fields'][$key];
                                 }
-                                $values_plain = mw()->format->clean_html($val_print);;
+                                $values_plain = mw()->format->clean_html($val_print);
 
                                 if (is_array($values_plain)) {
-                                    $values_plain = mw()->format->array_to_ul($val_print);;
+                                    $values_plain = mw()->format->array_to_ul($val_print);
                                 }
 
                                 print $values_plain;

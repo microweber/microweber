@@ -81,7 +81,7 @@
 .bxSliderWrapper ul li:first-child,
 body.loaded .bxSliderWrapper ul li {
     visibility: visible;
-    position: relative;;
+    position: relative;
 }
 
 @media screen and (max-width: 767px) {

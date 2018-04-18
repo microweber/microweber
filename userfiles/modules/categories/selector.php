@@ -44,7 +44,7 @@ $rand = uniqid();
 
 $orig_params = ($params);
 
-//$rand =  $params['id'];;
+//$rand =  $params['id'];
 if (!isset($params['for'])) {
 
     $for = 'content';

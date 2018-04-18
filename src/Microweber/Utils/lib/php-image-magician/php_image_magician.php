@@ -2235,7 +2235,7 @@ class imageLib
         
         case 'tr':
           $width = $this->width - $assetWidth - $padding; 
-          $height = 0 + $padding;;
+          $height = 0 + $padding;
           break;
         
         case 'l':

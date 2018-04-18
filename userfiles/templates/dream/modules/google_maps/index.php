@@ -14,7 +14,7 @@ if($address == false or $address == ''){
     if (isset($params['parent-module-id'])) {
 
         $address = $params['parent-module-id'];
-        $address =  get_option('data-address',$address);;
+        $address =  get_option('data-address',$address);
     }
 }
 

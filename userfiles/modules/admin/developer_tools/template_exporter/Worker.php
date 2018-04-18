@@ -474,7 +474,7 @@ class Worker
             only_admin_access();
 
         }
-        $temp_db = false;;
+        $temp_db = false;
 
         // Settings
         $table = '*';
@@ -928,7 +928,7 @@ class Worker
                     $bak = array();
                     $bak['filename'] = basename($file);
                     $bak['date'] = $date;
-                    $bak['time'] = str_replace('_', ':', $time);;
+                    $bak['time'] = str_replace('_', ':', $time);
                     $bak['size'] = filesize($file);
 
                     $exports[] = $bak;

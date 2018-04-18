@@ -132,13 +132,13 @@ if (isset($params['speed'])) {
 if (isset($params['prev_text'])) {
     $prevText = $params['prev_text'];
 } else {
-    $prevText = lang("Prev", "templates/dream");;
+    $prevText = lang("Prev", "templates/dream");
 }
 
 if (isset($params['next_text'])) {
     $nextText = $params['next_text'];
 } else {
-    $nextText = lang("Next", "templates/dream");;
+    $nextText = lang("Next", "templates/dream");
 }
 
 if (isset($params['prev_selector'])) {

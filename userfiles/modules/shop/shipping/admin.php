@@ -9,14 +9,15 @@
 
     }
 
-    shippingToCountryClass = function () {
-        var val = mw.$('[data-option-group="shipping"]:checked').val();
-        if (val == 'y') {
-            // mw.$("#set-shipping-to-country").removeClass('mw-ui-box-warn').addClass('mw-ui-box-notification');
+    shippingToCountryClass = function (el) {
+        var data = {
+            option_group: 'shipping',
+            option_key: 'shipping_gw_shop/shipping/gateways/country',
+            option_value: el.checked?'y':'n'
         }
-        else {
-            // mw.$("#set-shipping-to-country").removeClass('mw-ui-box-notification').addClass('mw-ui-box-warn');
-        }
+        mw.options.saveOption(data, function () {
+            __shipping_options_save_msg()
+        });
     }
 
     $(document).ready(function () {
@@ -43,7 +44,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
                     <label class="mw-switch inline-switch pull-right">
                         <input
-                                onchange="shippingToCountryClass()"
+                                onchange="shippingToCountryClass(this)"
                                 type="checkbox"
                                 name="shipping_gw_<?php print $shipping_module['module'] ?>"
                                 data-option-group="shipping"
@@ -51,7 +52,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                 data-value-checked="y"
                                 data-value-unchecked="n"
                                 class="mw_option_field"
-                            <?php if ($status == 'notification'): ?> checked="y" <?php endif; ?>>
+                            <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
                         <span class="mw-switch-off">OFF</span>
                         <span class="mw-switch-on">ON</span>
                         <span class="mw-switcher"></span>

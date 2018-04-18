@@ -426,7 +426,7 @@ if (isset($_COOKIE['mw_exp'])) {
                         <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
 
 
-                        <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium">
+                        <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium mw-sidebar-open-btn">
                             <i class="mw-v2 m-r mwi-hamb"></i> <?php _e("Menu"); ?>
                         </a>
 

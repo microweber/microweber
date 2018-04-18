@@ -7,7 +7,7 @@
 	$opts = false;
 	$is_system = '';
 	if(isset($orig_params['is_system'])){
-		$is_system = '&is_system='.intval($orig_params['is_system']);;
+		$is_system = '&is_system='.intval($orig_params['is_system']);
 	}
 	if(isset($orig_params['for_module_id'])){
 

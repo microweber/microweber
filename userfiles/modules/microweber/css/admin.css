@@ -1486,7 +1486,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     color: #CCCCCC;
     font-size: 19px;
     right: 8px;
-    top: 2px;;
+    top: 2px;
     cursor: pointer;
 }
 
@@ -5971,7 +5971,7 @@ span.mw-icon-upload {
 }
 
 .new-close.mw-icon-close {
-    visibility: visible;
+    visibility: hidden;
     color: #0086db;
     background: #fff;
     padding: 4px 5px;
@@ -5984,6 +5984,10 @@ span.mw-icon-upload {
     right: 20px;
     top: 20px;
     cursor: pointer;
+}
+
+.active .new-close.mw-icon-close {
+    visibility: visible;
 }
 
 .new-close.mw-icon-close:hover {
@@ -6311,6 +6315,21 @@ span.mw-icon-upload {
 .comments-holder {
 }
 
+.comments-holder .comment-holder:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    cursor: pointer;
+}
+
+.comments-holder .comment-holder.active:after {
+    display: none;
+}
+
 .comments-holder .comment-holder:hover:before {
     display: block;
     left: 0;
@@ -6383,6 +6402,7 @@ span.mw-icon-upload {
     min-width: 60%;
 
 }
+
 
 /*.comments-holder .comment-holder .order-data .post-name a {*/
 /*white-space: nowrap;*/
@@ -6577,11 +6597,202 @@ span.mw-icon-upload {
     font-size: 19px;
 }
 
-.comments-holder .comment-holder .reply-holder input {
+.comments-holder .comment-holder .reply-holder textarea {
     color: #0086db;
     border: 0;
     background: transparent;
     height: 30px;
+    width: calc(100% - 110px);
+    outline:0;
+    padding: 8px 0;
+}
+
+
+@media screen and (max-width: 767px) {
+    .comments-holder .comment-holder .order-data .article-image{
+        display: none;
+    }
+    .comments-holder .comment-holder .order-data .post-name {
+        padding: 10px 35px;
+        width: 100%;
+    }
+
+    .comments-holder .comment-holder .order-data > div{
+        width: 100%;
+    }
+
+    .comments-holder .comment-holder .order-data .last-comment-date {
+        padding: 10px 35px 10px 35px;
+    }
+}
+
+/* Form messages */
+.messages-holder {
+}
+
+.messages-holder .message-holder:hover:before {
+    display: block;
+    left: 0;
+    top: 0;
+    border-left: 3px solid #0086db;
+    content: '';
+    min-height: 82px;
+    position: absolute;
+}
+
+.messages-holder .message-holder {
+    clear: both;
+    position: relative;
+    min-height: 85px;
+    background-color: #fafafa;
+    width: 100%;
+    border: 1px solid #ededed;
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    padding: 5px 0;
+}
+
+.messages-holder .message-holder.active {
+    -webkit-transform: scale(1.03, 1);
+    -moz-transform: scale(1.03, 1);
+    -ms-transform: scale(1.03, 1);
+    -o-transform: scale(1.03, 1);
+    transform: scale(1.03, 1);
+    -webkit-transition: transform 0.5s ease-in-out;
+    -moz-transition: transform 0.5s ease-in-out;
+    -ms-transition: transform 0.5s ease-in-out;
+    -o-transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    background: #fff;
+    border-color: #0086db;
+}
+
+.messages-holder .message-holder.active:hover:before {
+    border-left: 0;
+}
+
+.messages-holder .message-holder .message-data {
+    display: table;
+
+}
+
+.messages-holder .message-holder .message-data > div {
+    display: inline-block;
+    width: auto;
+    padding: 0px 35px;
+    vertical-align: middle;
+}
+
+.messages-holder .message-holder.active .message-data .product-name {
+    font-weight: bold;
+}
+
+.messages-holder .message-holder .message-data .product-name,
+.messages-holder .message-holder .message-data .product-name a {
+    color: #0086db;
+    font-size: 13px;
+    min-width: 300px;
+}
+
+.messages-holder .message-holder .message-data-more {
+    display: none;
+    padding: 0 35px;
+    padding-bottom: 20px;
+}
+
+.messages-holder .message-holder .message-data-more .title {
+    color: #0086db;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.messages-holder .message-holder .message-data-more .pull-left {
+    padding-right: 50px;
+    min-width: 320px;
+    max-width: 33%;
+}
+
+.messages-holder .message-holder .message-data-more .box {
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 15px;
+}
+
+.messages-holder .message-holder .message-data-more .box p {
+    margin-bottom: 10px;
+}
+
+.messages-holder .message-holder .message-data-more .box .label {
+    color: #929292;
+    font-size: 13px;
+}
+
+.messages-holder .message-holder .message-data-more .box .content {
+    color: #2b2b2b;
+    font-size: 13px;
+}
+
+.messages-holder .message-holder .new-close {
+    margin-top: 0;
+    top: 15px;
+    right: 15px;
+}
+
+.messages-holder .message-holder .view-order-button {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.messages-holder .message-holder .product-image .product-thumbnail-tooltip {
+    border: 1px solid #fff;
+    text-align: center;
+    padding-top: 18px;
+}
+
+.messages-holder .message-holder.active .product-image .product-thumbnail-tooltip {
+    /*border-color: #0086db;*/
+}
+
+.messages-holder .message-holder .product-image .product-thumbnail-tooltip i {
+    color: #c8c8c8;
+    font-size: 28px;
+}
+
+.messages-holder .message-holder.active .product-image .product-thumbnail-tooltip i {
+    color: #0086db;
+}
+
+.messages-holder .message-holder .product-image {
+    position: relative;
+}
+
+.messages-holder .message-holder .product-image .cnt-products {
+    width: 33px;
+    height: 33px;
+    padding: 9px 0;
+    text-align: center;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    background: #0086db;
+    color: #fff;
+    position: absolute;
+    font-size: 13px;
+    right: 26px;
+    bottom: 10px;
+    /*display: none;*/
+}
+
+.messages-holder .message-holder.active .product-image .cnt-products {
+    display: block;
 }
 
 /* Other */
@@ -6787,4 +6998,8 @@ select.silver-field {
     line-height: 14px;
     float: left;
     margin-left: 9px;
+}
+
+.header-top-center-notifs .center {
+    width: 480px;
 }

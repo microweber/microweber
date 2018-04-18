@@ -25,14 +25,35 @@ if (is_array($comments_for_content)) {
 ?>
 
 <script>
-    window.commentToggle = window.commentToggle || function (item) {
-            var curr = $('.order-data-more', item);
-            $('.order-data-more').not(curr).stop().slideUp();
-            $('.comment-holder').not(item).removeClass('active');
-            $(curr).stop().slideToggle();
-            $(item).toggleClass('active');
-//            $('#mw-order-table-holder').toggleClass('has-active');
+    commentToggle = window.commentToggle || function (e) {
+
+            var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
+            if(!mw.tools.hasClass(item, 'active')){
+                var curr = $('.order-data-more', item);
+                $('.order-data-more').not(curr).stop().slideUp();
+                $('.comment-holder').not(item).removeClass('active');
+                $(curr).stop().slideToggle();
+                $(item).toggleClass('active');
+            }
+
         }
+
+    $(document).ready(function () {
+        $('.new-close').on('click', function (e) {
+            e.stopPropagation();
+            var item =  mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+            $(item).removeClass('active')
+            $('.mw-accordion-content', item).stop().slideUp(function () {
+
+            });
+        });
+
+
+        $('.mw-reply-btn').on('click', function () {
+            $(this).prev().show();
+            $(this).hide();
+        })
+    });
 </script>
 
 <div class="dashboard-recent">
@@ -65,7 +86,7 @@ if (is_array($comments_for_content)) {
                     ?>
 
 
-                    <div class="comment-holder" id="comment-n-<?php print $comment_for_content['id'] ?>" onclick="commentToggle(this);">
+                    <div class="comment-holder" id="comment-n-<?php print $comment_for_content['id'] ?>" onclick="commentToggle(event);">
                         <div class="order-data">
 
                             <div class="article-image">
@@ -82,7 +103,7 @@ if (is_array($comments_for_content)) {
                                 <a href="<?php print $post['url']; ?>"><?php print $post['title']; ?></a>
                             </div>
 
-                            <div class="last-comment-date"><?php print mw()->format->ago($post['created_at']); ?></div>
+                            <div class="last-comment-date"><?php print mw()->format->ago($comment_for_content['created_at']); ?></div>
                         </div>
 
                         <div class="order-data-more mw-accordion-content">
@@ -132,7 +153,7 @@ if (is_array($comments_for_content)) {
                                             </div>
 
                                             <div class="author-name">
-                                                <span><?php print $comment_for_content['comment_name']; ?></span> <?php print _e('says'); ?>:
+                                                <span><?php print $comment['comment_name']; ?></span> <?php print _e('says'); ?>:
                                             </div>
 
                                             <div class="comment_body">
@@ -153,11 +174,12 @@ if (is_array($comments_for_content)) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <form>
-                                                        <input type="text" class="" placeholder="<?php print _e('Reply to'); ?> <?php print $comment_for_content['comment_name']; ?>"/>
+                                                        <textarea><?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?></textarea>
+                                                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right" style="margin-top:6px;"><?php print _e('Send'); ?></button>
                                                     </form>
                                                 </div>
 
-                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><i class="mw-icon-reply"></i> Reply</button>
+                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small mw-reply-btn"><i class="mw-icon-reply"></i> <?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?></button>
                                             </div>
                                         </div>
                                     <?php } ?>
@@ -168,10 +190,14 @@ if (is_array($comments_for_content)) {
                             <div class="clearfix"></div>
                         </div>
 
-                        <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center" onclick=""></span>
+                        <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center"></span>
                         <div class="clearfix"></div>
                     </div>
                 <?php } ?>
+            <?php else: ?>
+                <div class="mw-ui-box">
+                    <div class="mw-ui-box-content center p-40"><?php _e('You don\'t have any comments yet.'); ?></div>
+                </div>
             <?php endif; ?>
         </div>
     </div>

@@ -13,7 +13,7 @@ if(!isset($data['input_class'])){
 
 
 ?>
-<?php $up = 'up'.uniqid().rand().rand().crc32($data['id']);; ?>
+<?php $up = 'up'.uniqid().rand().rand().crc32($data['id']); ?>
 <?php if(!empty($data['name'])) : ?>
 <?php $rand = uniqid(); ?>
 <?php

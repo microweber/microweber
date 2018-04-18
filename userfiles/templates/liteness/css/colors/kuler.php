@@ -15,7 +15,7 @@ header("Content-type: text/css", true);
 <?php
 
 
-$hex =  str_replace("#","",$colors[4]);; //Bg color in hex, without any prefixing #!
+$hex =  str_replace("#","",$colors[4]); //Bg color in hex, without any prefixing #!
 
 
 $r = hexdec(substr($hex,0,2));

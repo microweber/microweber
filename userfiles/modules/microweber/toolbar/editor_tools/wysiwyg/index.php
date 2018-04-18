@@ -351,7 +351,7 @@ img{
 		
 		
 		/*autofocus="autofocus" contenteditable="true"*/
-		$('#the_admin_editor').find('.edit').attr('contenteditable',true);;
+		$('#the_admin_editor').find('.edit').attr('contenteditable',true);
 
 		
         $(mwd).on('mousedown', function(e){

@@ -58,7 +58,7 @@ description: Full width cart template
                     </thead>
                     <tbody>
                     <?php
-                    $total = cart_sum();;
+                    $total = cart_sum();
                     foreach ($data as $item) : ?>
                         <tr class="mw-cart-item mw-cart-item-<?php print $item['id'] ?>">
                             <td style="width: 100px;">

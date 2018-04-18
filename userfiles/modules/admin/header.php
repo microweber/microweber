@@ -236,7 +236,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     <?php if (is_admin()): ?>
     <div class="admin-toolbar">
         <div class="create-content scroll-height-exception">
-            <div class="mw-ui-row">
+            <div class="mw-ui-row header-top-center-notifs">
                 <div class="mw-ui-col">
                     <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn">
                         <span class="mai-plus"></span>
@@ -261,7 +261,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
                     <?php if ($notif_count != ''): ?>
                         <a href="<?php print admin_url(); ?>" class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mw-icon-comment"></span> &nbsp; <?php print $notif_html; ?>
+                            <span class="mai-comment"></span> &nbsp; <?php print $notif_html; ?>
                             <span class="notif-label">
                                 <?php if ($notif_count == 1): ?>
                                     <?php _e("New comment"); ?>

@@ -14,7 +14,7 @@ if(isset($params['selected-id'])){
 }
 
 $rand=uniqid();
-$no_parent_title = _e("None",1);;
+$no_parent_title = _e("None",1);
 if(isset($params['no-parent-title'])){ 
     $no_parent_title = $params['no-parent-title'];
 }

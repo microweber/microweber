@@ -2375,7 +2375,7 @@ $(window).on('load', function () {
 
 mw.wysiwyg.initFontSelectorBox();
 
-$("#live_edit_toolbar .editor_wrapper_tabled [title], #the_admin_editor #mw-admin-text-editor [title]").each(function () {
+$("#live_edit_toolbar .editor_wrapper_tabled [title], #the_admin_editor #mw-admin-text-editor [title], #mw_small_editor [title]").each(function () {
     var ttitle = this.title;
     $(this).removeAttr('title').addClass('tip').attr('data-tip', ttitle).attr('data-tipposition', 'bottom-center')
 })

@@ -33,9 +33,10 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
         <div class="mw-ui-row" id="orders-info-row">
             <div class="mw-ui-col">
                 <div class="mw-ui-box mw-ui-box-order-info">
-                    <div class="mw-ui-box-header"> <span>
-          <?php _e("Order Information"); ?>
-          </span></div>
+                    <div class="mw-ui-box-header">
+                        <a href="<?php admin_url();?>/action:clients#?clientorder=5" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"> <span class="mai-bin"></span>Delete</a>
+                        <span><?php _e("Order Information"); ?></span>
+                    </div>
                     <div class="mw-ui-box-content">
                         <?php if (is_array($cart_items)) : ?>
                             <div class="mw-order-images">
@@ -337,8 +338,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 <div class="mw-ui-box">
                     <div class="mw-ui-box-header"><a
                                 href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>"
-                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right"> <span class="mw-icon-pen"></span>
-                            <?php _e("Edit"); ?>
+                                class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mw-icon-pen"></span> <?php _e("Edit"); ?>
                         </a> <span>
           <?php _e("Client Information"); ?>
           </span></div>

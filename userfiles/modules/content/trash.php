@@ -178,7 +178,7 @@ $paging_links = false;
                     ?> </div>
                 <div class="manage-post-item-links"><a target="_top" href="<?php print content_link($item['id']); ?>/?editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>"
                                                                                                                                                                   onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a
-                            href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
+                            href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');"><?php _e("Restore"); ?></a></div>
             </div>
             <div class="mw-ui-col manage-post-item-col-4" title="<?php print user_name($item['created_by']); ?>"><span class="manage-post-item-author"><?php print user_name($item['created_by'], 'username') ?></span></div>
 
