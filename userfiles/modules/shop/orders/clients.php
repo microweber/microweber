@@ -41,12 +41,12 @@ only_admin_access();
         })
 
         mw.responsive.table('#shop-orders', {
-              breakPoints:{
-                768:4,
-                600:2,
-                400:1
-              }
-            })
+            breakPoints: {
+                768: 4,
+                600: 2,
+                400: 1
+            }
+        })
     });
 
 </script>
@@ -65,7 +65,7 @@ if (isset($params['keyword'])) {
 $clients = array();
 
 
-  $orders = get_orders('order_by=created_at desc&groupby=email&is_completed=1'.$keyword_search);
+$orders = get_orders('order_by=created_at desc&groupby=email&is_completed=1' . $keyword_search);
 
 
 $is_orders = get_orders('count=1');
@@ -95,61 +95,70 @@ $is_orders = get_orders('count=1');
 </div>
 
 <div class="admin-side-content">
-<?php if ($is_orders != 0) { ?>
-    <div class="table-responsive">
-        <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
-            <thead>
-            <tr>
-                <th><?php _e("Name & Number"); ?></th>
-                <th><?php _e("Email"); ?></th>
-                <th><?php _e("Client's Phone"); ?></th>
-                <th><?php _e("Country"); ?></th>
-                <th><?php _e("City"); ?></th>
-                <th><?php _e("Orders #"); ?></th>
-                <th><?php _e("View & Delete"); ?></th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-                <td><?php _e("Name & Number"); ?></td>
-                <td><?php _e("Email"); ?></td>
-                <td><?php _e("Client's Phone"); ?></td>
-                <td><?php _e("Country"); ?></td>
-                <td><?php _e("City"); ?></td>
-                <td><?php _e("Orders #"); ?></td>
-                <td><?php _e("View & Delete"); ?></td>
-            </tr>
-            </tfoot>
-            <tbody>
-            <?php if (!empty($orders)): foreach ($orders as $order) : ?>
+    <?php if ($is_orders != 0) { ?>
+        <div class="table-responsive">
+            <table class="mw-ui-table table-style-2 layout-auto table-clients" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
+                <thead>
                 <tr>
-                    <td><?php print $order['first_name'] . " " . $order['last_name']; ?></td>
-                    <td><?php print $order['email']; ?></td>
-                    <td><?php print $order['phone']; ?></td>
-                    <td><?php print $order['country']; ?></td>
-                    <td><?php print $order['city']; ?></td>
-                    <td><?php $total_ord = get_orders('count=1&email=' . $order['email'] . '&is_completed=1'); ?>
-                        <?php print $total_ord; ?></td>
-                    <td width="115">
-
-                      <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" style="white-space: nowrap" href="#?clientorder=<?php print $order['id']; ?>">
-                            <?php _e("View client"); ?>
-                      </a>
-                      <br><br>
-                      <span class="show-on-hover mw-ui-btn mw-ui-btn-warn mw-ui-btn-small">
-                        <span class="mw-icon-bin" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
-                      </span>
-                    </td>
+                    <th><?php _e("Image"); ?></th>
+                    <th><?php _e("Name"); ?></th>
+                    <th><?php _e("Email"); ?></th>
+                    <th><?php _e("Client's Phone"); ?></th>
+                    <th><?php _e("Country"); ?></th>
+                    <th><?php _e("City"); ?></th>
+                    <th><?php _e("Orders #"); ?></th>
+                    <th><?php _e("View & Delete"); ?></th>
                 </tr>
-            <?php endforeach; endif; ?>
-            </tbody>
-        </table>
-    </div>
-<?php } else { ?>
-    <div class="mw-ui-box mw-ui-box-content info-box">
-        <h2>
-            <?php _e("You don't have any clients"); ?>
-        </h2>
-    </div>
-<?php } ?>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td><?php _e("Image"); ?></td>
+                    <td><?php _e("Name"); ?></td>
+                    <td><?php _e("Email"); ?></td>
+                    <td><?php _e("Client's Phone"); ?></td>
+                    <td><?php _e("Country"); ?></td>
+                    <td><?php _e("City"); ?></td>
+                    <td><?php _e("Orders #"); ?></td>
+                    <td><?php _e("View & Delete"); ?></td>
+                </tr>
+                </tfoot>
+                <tbody>
+                <?php if (!empty($orders)): foreach ($orders as $order) : ?>
+                    <tr>
+                        <td class="text-center">
+                            <a href="#?clientorder=<?php print $order['id']; ?>" class="text-center">
+                                <?php if (user_picture($order['created_by'])): ?>
+                                    <span class=" mw-user-thumb image" style="background-image: url('<?php echo user_picture($order['created_by']); ?>');">
+                                </span>
+                                <?php else: ?>
+                                    <span class="mw-user-thumb  mai-user3"></span>
+                                <?php endif; ?>
+                            </a>
+                        </td>
+                        <td><a href="#?clientorder=<?php print $order['id']; ?>"><?php print $order['first_name'] . " " . $order['last_name']; ?></a></td>
+                        <td><?php print $order['email']; ?></td>
+                        <td><?php print $order['phone']; ?></td>
+                        <td><?php print $order['country']; ?></td>
+                        <td><?php print $order['city']; ?></td>
+                        <td><?php $total_ord = get_orders('count=1&email=' . $order['email'] . '&is_completed=1'); ?>
+                            <?php print $total_ord; ?></td>
+                        <td width="115">
+
+                            <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View"); ?></a>
+
+                            <span class="client-remove"><span class="mw-icon-bin" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
+                      </span>
+                        </td>
+                    </tr>
+                <?php endforeach; endif; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php } else { ?>
+        <div class="mw-ui-box mw-ui-box-content info-box">
+            <h2>
+                <?php _e("You don't have any clients"); ?>
+            </h2>
+        </div>
+    <?php } ?>
 </div>

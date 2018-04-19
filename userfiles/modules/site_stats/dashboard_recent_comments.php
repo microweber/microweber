@@ -27,8 +27,8 @@ if (is_array($comments_for_content)) {
 <script>
     commentToggle = window.commentToggle || function (e) {
 
-            var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
-            if(!mw.tools.hasClass(item, 'active')){
+            var item = mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
+            if (!mw.tools.hasClass(item, 'active')) {
                 var curr = $('.order-data-more', item);
                 $('.order-data-more').not(curr).stop().slideUp();
                 $('.comment-holder').not(item).removeClass('active');
@@ -41,7 +41,7 @@ if (is_array($comments_for_content)) {
     $(document).ready(function () {
         $('.new-close').on('click', function (e) {
             e.stopPropagation();
-            var item =  mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+            var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
             $(item).removeClass('active')
             $('.mw-accordion-content', item).stop().slideUp(function () {
 
@@ -49,11 +49,41 @@ if (is_array($comments_for_content)) {
         });
 
 
-        $('.mw-reply-btn').on('click', function () {
+        $('.mw-reply-btn').on('click', function (e) {
             $(this).prev().show();
             $(this).hide();
-        })
+        });
+
+        $('.js-edit-comment-btn').on('click', function (e) {
+            e.preventDefault();
+            var commentID = $(this).data('id');
+            $(this).hide();
+            $('#comment-' + commentID + ' .js-save-comment-btn').show();
+            $('#comment-' + commentID + ' .comment_body .js-comment').hide();
+            $('#comment-' + commentID + ' .comment_body textarea').show();
+
+        });
+
+        $('.js-save-comment-btn').on('click', function (e) {
+            e.preventDefault();
+            var commentID = $(this).data('id');
+            $(this).hide();
+            $('#comment-' + commentID + ' .js-edit-comment-btn').show();
+            $('#comment-' + commentID + ' .comment_body .js-comment').show();
+            $('#comment-' + commentID + ' .comment_body textarea').hide();
+
+            $('#comment-' + commentID + ' .comment_body .js-comment').text($('#comment-' + commentID + ' .comment_body textarea').val());
+
+        });
     });
+
+
+    save_comment_form = function (form_id) {
+        mw.form.post(form_id, '<?php print api_link('post_comment'); ?>')
+        mw.notification.success('Comment saved')
+    }
+
+
 </script>
 
 <div class="dashboard-recent">
@@ -109,11 +139,13 @@ if (is_array($comments_for_content)) {
                         <div class="order-data-more mw-accordion-content">
                             <div>
                                 <p class="title"><?php print _e('Last comments:'); ?></p>
-                                <hr/>
+                                <hr class="m-0"/>
                                 <?php
                                 if (is_array($postComments)) {
                                     foreach ($postComments as $comment) { ?>
-                                        <div class="comment-wrapper">
+
+
+                                        <div class="comment-wrapper" id="comment-<?php print $comment['id'] ?>">
                                             <div class="comment_heading">
                                                 <div class="comment-image">
                                                     <?php
@@ -142,7 +174,8 @@ if (is_array($comments_for_content)) {
                                                         </div>
                                                     </div>
 
-                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10"><?php print _e('Edit'); ?></a>
+                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-edit-comment-btn" data-id="<?php print $comment['id'] ?>"><?php print _e('Edit'); ?></a>
+                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-save-comment-btn" data-id="<?php print $comment['id'] ?>" style="display: none;" onclick="save_comment_form('#comment-form-<?php print $comment['id'] ?>');return false;"><?php print _e('Save'); ?></a>
                                                     <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i class="mai-warn"></i> <?php print _e('Spam'); ?></a>
                                                     <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i class="mai-bin"></i> <?php print _e('Delete'); ?></a>
 
@@ -152,13 +185,21 @@ if (is_array($comments_for_content)) {
                                                 <div class="clearfix"></div>
                                             </div>
 
+
                                             <div class="author-name">
                                                 <span><?php print $comment['comment_name']; ?></span> <?php print _e('says'); ?>:
                                             </div>
 
-                                            <div class="comment_body">
-                                                <p><?php print $comment['comment_body']; ?></p>
-                                            </div>
+                                            <form id="comment-form-<?php print $comment['id'] ?>">
+                                                <input type="hidden" name="id" value="<?php print $comment['id'] ?>">
+                                                <input type="text" name="action" class="comment_state semi_hidden"/>
+                                                <input type="hidden" name="connected_id" value="<?php print $comment['rel_id'] ?>">
+
+                                                <div class="comment_body">
+                                                    <p class="js-comment"><?php print $comment['comment_body']; ?></p>
+                                                    <textarea name="comment_body" style="display: none;"><?php print $comment['comment_body']; ?></textarea>
+                                                </div>
+                                            </form>
 
                                             <div class="reply-holder">
                                                 <?php
@@ -174,7 +215,7 @@ if (is_array($comments_for_content)) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <form>
-                                                        <textarea><?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?></textarea>
+                                                        <textarea placeholder="<?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>"></textarea>
                                                         <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right" style="margin-top:6px;"><?php print _e('Send'); ?></button>
                                                     </form>
                                                 </div>
