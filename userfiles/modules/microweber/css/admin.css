@@ -7056,6 +7056,10 @@ select.silver-field {
     margin: 0 auto;
 }
 
-#orders-info-row .mw-ui-table-basic tr:first-of-type td{
-    border-top:0;
+#orders-info-row .mw-ui-table-basic tr:first-of-type td {
+    border-top: 0;
+}
+
+#orders-info-row .table-responsive {
+    padding-bottom: 0;
 }
