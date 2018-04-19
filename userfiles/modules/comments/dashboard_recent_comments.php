@@ -34,11 +34,12 @@ if (is_array($comments_for_content)) {
 }
 ?>
 
+
 <script>
     commentToggle = window.commentToggle || function (e) {
 
-            var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
-            if(!mw.tools.hasClass(item, 'active')){
+            var item = mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
+            if (!mw.tools.hasClass(item, 'active')) {
                 var curr = $('.order-data-more', item);
                 $('.order-data-more').not(curr).stop().slideUp();
                 $('.comment-holder').not(item).removeClass('active');
@@ -51,7 +52,7 @@ if (is_array($comments_for_content)) {
     $(document).ready(function () {
         $('.new-close').on('click', function (e) {
             e.stopPropagation();
-            var item =  mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+            var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
             $(item).removeClass('active')
             $('.mw-accordion-content', item).stop().slideUp(function () {
 
@@ -59,11 +60,41 @@ if (is_array($comments_for_content)) {
         });
 
 
-        $('.mw-reply-btn').on('click', function () {
+        $('.mw-reply-btn').on('click', function (e) {
             $(this).prev().show();
             $(this).hide();
-        })
+        });
+
+        $('.js-edit-comment-btn').on('click', function (e) {
+            e.preventDefault();
+            var commentID = $(this).data('id');
+            $(this).hide();
+            $('#comment-' + commentID + ' .js-save-comment-btn').show();
+            $('#comment-' + commentID + ' .comment_body .js-comment').hide();
+            $('#comment-' + commentID + ' .comment_body textarea').show();
+
+        });
+
+        $('.js-save-comment-btn').on('click', function (e) {
+            e.preventDefault();
+            var commentID = $(this).data('id');
+            $(this).hide();
+            $('#comment-' + commentID + ' .js-edit-comment-btn').show();
+            $('#comment-' + commentID + ' .comment_body .js-comment').show();
+            $('#comment-' + commentID + ' .comment_body textarea').hide();
+
+            $('#comment-' + commentID + ' .comment_body .js-comment').text($('#comment-' + commentID + ' .comment_body textarea').val());
+
+        });
     });
+
+
+    save_comment_form = function (form_id) {
+        mw.form.post(form_id, '<?php print api_link('post_comment'); ?>')
+        mw.notification.success('Comment saved')
+    }
+
+
 </script>
 
 <div class="dashboard-recent">
