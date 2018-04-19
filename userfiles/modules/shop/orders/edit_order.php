@@ -24,8 +24,11 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     <div class="section-header">
         <h2 class="inline-element m-r-10"><?php _e("Order"); ?> #<?php print $show_ord_id ?></h2>
 
-        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium tip mw-ui-btn-circle btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">
-            <span class="mw-icon-arrowleft"></span>
+<!--        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium tip mw-ui-btn-circle btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">-->
+<!--            <span class="mw-icon-arrowleft"></span>-->
+<!--        </a>-->
+        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium  btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">
+            <span class="mw-icon-arrowleft"></span> Orders List
         </a>
     </div>
 
@@ -37,9 +40,9 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         <a href="<?php admin_url(); ?>/action:clients#?clientorder=5" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"> <span class="mai-bin"></span>Delete</a>
                         <span class=" bold"><?php _e("Order Information"); ?></span>
                     </div>
-                    <div class="mw-ui-box-content">
+                    <div class="mw-ui-box-content p-0">
                         <?php if (is_array($cart_items)) : ?>
-                            <div class="mw-order-images">
+                            <div class="mw-order-images" style="display: none;">
                                 <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
                                     <?php if (isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
                                         <?php
@@ -61,16 +64,37 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                     <?php endif; ?>
                                 <?php } ?>
                             </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $('.table-responsive .mw-order-item').mouseover(function () {
+                                        $(this).next('tr').find('td').css({'background': 'rgba(0, 134, 219, 0.07)', 'border-bottom': '1px solid #0086db'});
+                                    });
+                                    $('.table-responsive .mw-order-item').mouseout(function () {
+                                        $(this).next('tr').find('td').css({'background': 'none', 'border-bottom': '0'});
+                                    });
+
+
+                                    $('.table-responsive .mw-order-custom-fields').mouseover(function () {
+                                        $(this).find('td').css({'background': 'rgba(0, 134, 219, 0.07)', 'border-bottom': '1px solid #0086db'});
+                                        $(this).prev().trigger('mouseenter');
+                                    });
+                                    $('.table-responsive .mw-order-custom-fields').mouseout(function () {
+                                        $(this).find('td').css({'background': 'none', 'border-bottom': '0'});
+                                        $(this).prev().trigger('mouseleave');
+                                    });
+                                });
+                            </script>
                             <div class="table-responsive">
-                                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%"
-                                       id="order-information-table">
+                                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
                                     <thead>
                                     <tr>
-                                        <th><?php _e("Product Name"); ?></th>
+                                        <th><?php _e("Image"); ?></th>
+                                        <th><?php _e("Product"); ?></th>
                                         <!--  <th><?php _e("Custom fields"); ?></th>-->
                                         <th><?php _e("Price"); ?></th>
-                                        <th><?php _e("QTY"); ?></th>
+                                        <th class="center"><?php _e("QTY"); ?></th>
                                         <th><?php _e("Total"); ?></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -83,46 +107,66 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                         $subtotal = $subtotal + $item_total;
                                         $grandtotal = $subtotal + $ord['shipping'];
                                         ?>
-                                        <tr
-                                                data-index="<?php print $index; ?>"
-                                                class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
-                                            <td class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>"
-                                                                            target="_blank"><span><?php print $item['title'] ?></span></a>
+                                        <tr data-index="<?php print $index; ?>" class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
+                                            <td>
+                                                <?php if (isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
+                                                    <?php
+
+                                                    $p = $item['item_image']; ?>
+                                                    <?php if ($p != false): ?>
+                                                        <a class="bgimage mw-order-item-image>"
+                                                           style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"
+                                                           href="<?php print ($p); ?>" target="_blank"></a>
+                                                    <?php endif; ?>
+                                                <?php else: ?>
+                                                    <?php $p = get_picture($item['rel_id']); ?>
+                                                    <?php if ($p != false): ?>
+                                                        <span data-index="<?php print $i; ?>"
+                                                              class="bgimage mw-order-item-image"
+                                                              style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="mw-order-item-id">
+                                                <a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a>
                                                 <?php if ($item['rel_type'] == 'content'): ?>
                                                     <?php $data_fields = mw()->content_manager->data($item['rel_id']); ?>
                                                     <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
                                                         <small class="mw-ui-label-help">
-                                                            <?php _e("SKU"); ?>
-                                                            : <?php print $data_fields['sku']; ?></small>
+                                                            <?php _e("SKU"); ?>: <?php print $data_fields['sku']; ?>
+                                                        </small>
                                                     <?php endif; ?>
-                                                <?php endif; ?></td>
+                                                <?php endif; ?>
+                                            </td>
                                             <!--  <td class="mw-order-item-fields"></td>-->
                                             <td class="mw-order-item-amount nowrap"><?php print  currency_format($item['price'], $ord['currency']); ?></td>
-                                            <td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-                                            <td class="mw-order-item-count"
-                                                width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
+                                            <td class="mw-order-item-count center"><?php print $item['qty'] ?></td>
+                                            <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
+                                            <td class="mw-order-item-count" style="width: 10px"><a class="show-on-hover"><i class="mw-icon-close"</a></td>
                                         </tr>
                                         <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                                            <tr>
-                                                <td colspan="4"><?php
-
-                                                    print $item['custom_fields'] ?></td>
+                                            <tr class="mw-order-custom-fields">
+                                                <td colspan="6" class="mw-order-product-custom-fields"><?php print $item['custom_fields'] ?></td>
                                             </tr>
                                         <?php endif ?>
                                     <?php endforeach; ?>
+                                    <tr class="mw-ui-table-footer" style="background: #fafafa; font-weight: bold;">
+                                        <td colspan="4">&nbsp;</td>
+                                        <td colspan="2"><?php print _e('TOTAL AMOUNT'); ?></td>
+                                    </tr>
                                     <tr class="mw-ui-table-footer">
-                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="4">&nbsp;</td>
                                         <td><?php _e("Subtotal"); ?></td>
                                         <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
                                     </tr>
                                     <tr class="mw-ui-table-footer">
-                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="4">&nbsp;</td>
                                         <td><?php _e("Shipping price"); ?></td>
                                         <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
                                     </tr>
                                     <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
                                         <tr class="mw-ui-table-footer">
-                                            <td colspan="2">&nbsp;</td>
+                                            <td colspan="4">&nbsp;</td>
                                             <td><?php _e("Tax"); ?></td>
                                             <td class="mw-ui-table-green"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                                         </tr>
@@ -130,7 +174,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
 
 
                                     <tr class="mw-ui-table-footer last">
-                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="3">&nbsp;</td>
                                         <td class="mw-ui-table-green"><strong>
                                                 <?php _e("Total:"); ?>
                                             </strong></td>
@@ -457,24 +501,24 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                                 </li>
                                             <?php endif; ?>
                                             <?php if (isset($ord['address']) and $ord['address'] != ''): ?>
-                                                <li><strong><?php _e("Address"); ?>:</strong><br />
+                                                <li><strong><?php _e("Address"); ?>:</strong><br/>
                                                     <?php print $ord['address'] ?>
                                                 </li>
                                                 <?php $map_click[] = $ord['address']; ?>
                                             <?php endif; ?>
                                             <?php if (isset($ord['address2']) and $ord['address2'] != ''): ?>
                                                 <li>
-                                                    <strong><?php _e("Address 2"); ?>:</strong><br />
+                                                    <strong><?php _e("Address 2"); ?>:</strong><br/>
                                                     <?php print $ord['address2'] ?>
                                                 </li>
                                             <?php endif; ?>
                                             <?php if (isset($ord['phone']) and $ord['phone'] != ''): ?>
                                                 <li>
-                                                    <br />
-                                                    <br />
-                                                    <br />
-                                                    <br />
-                                                    <br />
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
                                                     <strong><?php _e("Phone"); ?>:</strong>
                                                     <?php print $ord['phone'] ?> </li>
                                             <?php endif; ?>

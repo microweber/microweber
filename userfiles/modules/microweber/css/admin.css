@@ -488,7 +488,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-tree .module a:hover, .mw-tree li.active-bg > a {
-    color: #4494C7;
+    color: #0086db;
 }
 
 /************************************
@@ -1104,7 +1104,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #main-nav-live:hover, #main-nav-live:focus {
-    background: #4494C7;
+    background: #0086db;
 }
 
 #mw-admin-main-menu a strong, #main-bar-mw-icon strong {
@@ -4502,7 +4502,8 @@ body.grabbing, body.grabbing * {
     table-layout: fixed;
 }
 
-tr.mw-order-item.hovered, tr.mw-order-item:hover {
+tr.mw-order-item.hovered, tr.mw-order-item:hover,
+tr.mw-order-item.hovered, tr.mw-order-item{
     background-color: #FAFAFA;
 }
 
@@ -4511,7 +4512,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 }
 
 #order-information-table tr.mw-order-item.hovered td, #order-information-table tr.mw-order-item:hover td {
-    background-color: #4494c7;
+    background-color: #0086db;
     color: white;
 }
 
@@ -4529,7 +4530,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 }
 
 .mw-order-item-image:hover, .mw-order-item-image.hovered {
-    border: 1px solid #4494c7
+    border: 1px solid #0086db
 }
 
 .order-table-info-list li {
@@ -7063,3 +7064,34 @@ select.silver-field {
 #orders-info-row .table-responsive {
     padding-bottom: 0;
 }
+
+#orders-info-row .table-responsive .mw-order-item-image{
+    margin: 0;
+}
+
+#orders-info-row .table-responsive thead{
+    text-transform: uppercase;
+}
+
+#orders-info-row .table-responsive thead th{
+    color: #0086db !important;
+}
+
+.mw-order-product-custom-fields > ul{
+    padding-left: 25px;
+}
+
+.mw-order-product-custom-fields ul li {
+    padding: 5px 0;
+    list-style-type: none;
+}
+
+.mw-order-product-custom-fields ul li span {
+    font-weight: bold;
+}
+
+#mw-admin-edit-order .mw-ui-table{
+    table-layout: auto;
+}
+
+
