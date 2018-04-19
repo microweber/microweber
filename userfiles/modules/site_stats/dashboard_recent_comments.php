@@ -2,6 +2,22 @@
 only_admin_access();
 
 
+// file moved to userfiles/modules/comments/dashboard_recent_comments.php
+// file moved to userfiles/modules/comments/dashboard_recent_comments.php
+// file moved to userfiles/modules/comments/dashboard_recent_comments.php
+// file moved to userfiles/modules/comments/dashboard_recent_comments.php
+// file moved to userfiles/modules/comments/dashboard_recent_comments.php
+// file moved to userfiles/modules/comments/dashboard_recent_comments.php
+
+
+
+
+
+return;
+
+
+
+
 ?>
 
 <?php

@@ -3,6 +3,13 @@
         'content_id' => $params['content_id']
     );
 
+if (isset($params['search-keyword']) and $params['search-keyword']) {
+    $kw = $data['keyword'] = $params['search-keyword'];
+    $data['search_in_fields'] = 'comment_name,comment_body,comment_email,comment_website,from_url,comment_subject';
+}
+
+
+
     $comments  = $postComments = get_comments($data);
 
 	$content = get_content_by_id($params['content_id']);
@@ -16,6 +23,9 @@
 
 
 <div class="comment-holder" id="comment-n-<?php print $content['id'] ?>" onclick="commentToggle(event);">
+    <?php if (!isset($params['no_post_head'])): ?>
+
+
     <div class="order-data">
 
         <div class="article-image">
@@ -34,6 +44,8 @@
 
         <div class="last-comment-date"><?php print mw()->format->ago($comments[0]['created_at']); ?></div>
     </div>
+
+    <?php endif; ?>
 
     <div class="order-data-more mw-accordion-content">
         <div>

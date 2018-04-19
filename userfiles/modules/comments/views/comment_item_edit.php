@@ -30,7 +30,7 @@ if(!$comment){
             ?>
 
             <?php if (isset($image) and $image != ''): ?>
-                <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
+                <span class="comment-thumbnail-tooltip" style="background-image: url('<?php print thumbnail($image, 120, 120); ?>')"></span>
             <?php else: ?>
                 <span class="comment-thumbnail-tooltip mw-user-thumb mw-user-thumb-small mai-user3"></span>
             <?php endif; ?>
