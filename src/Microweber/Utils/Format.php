@@ -35,14 +35,14 @@ class Format
                                 $retStr .= '<' . $li_tag . '>' . $this->array_to_ul($val, $ul_tag, $li_tag) . '</' . $li_tag . '>';
                                 $retStr .= '</' . $ul_tag . '>';
                             } else {
-                                $retStr .= '<' . $li_tag . '>' . $key . ': ' . $this->array_to_ul($val, $ul_tag, $li_tag) . '</' . $li_tag . '>';
+                                $retStr .= '<' . $li_tag . '><span>' . $key . ':</span> ' . $this->array_to_ul($val, $ul_tag, $li_tag) . '</' . $li_tag . '>';
                             }
                         }
                     } else {
                         if (is_string($val) != false and trim($val) != '') {
                             $has_items = true;
 
-                            $retStr .= '<' . $li_tag . '>' . $key . ': ' . $val . '</' . $li_tag . '>';
+                            $retStr .= '<' . $li_tag . '><span>' . $key . ':</span> ' . $val . '</' . $li_tag . '>';
                         }
                     }
                 } else {

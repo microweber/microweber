@@ -427,3 +427,7 @@ section.blog-post .container .container {
 .accordion li.active .accordion__content{
     max-height: auto !important;
 }
+
+.gateway-selector .mw-ui-check input[type=radio]+span:before{
+    text-transform: none;
+}

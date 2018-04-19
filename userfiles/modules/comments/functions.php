@@ -211,6 +211,7 @@ function get_comments($params) {
 		$date_format = "Y-m-d H:i:s";
 	}
 	$aj = mw()->url_manager->is_ajax();
+
 	if (is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
@@ -235,7 +236,8 @@ function get_comments($params) {
 			}
 
 			if (isset($params['single'])){
-				return $comments[ $i ];
+
+				return $comments ;
 			}
 
 			$i ++;
@@ -281,7 +283,9 @@ event_bind(
 				$btn          = array();
 				$btn['title'] = 'Comments';
 				$btn['class'] = 'mw-icon-comment';
-				$btn['html']  = '<module type="comments/comments_for_post" no_post_head="true" content_id=' . $item['id'] . '  />';
+				 $btn['html']  = '<module type="comments/search_content" no_post_head="true" content_id="' . $item['id'] . '"  />';
+				 //$btn['html']  = '<module type="comments/comments_for_post" no_post_head="true" content_id="' . $item['id'] . '"  />';
+			//	$btn['html']  = '<module type="comments/search_content" no_post_head="true" content_id=' . $item['id'] . '  />';
 				mw()->modules->ui('content.edit.tabs', $btn);
 			}
 		}

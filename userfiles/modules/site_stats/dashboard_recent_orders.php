@@ -3,6 +3,18 @@ only_admin_access();
 
 
 ?>
+<script>
+    $(document).ready(function () {
+        $('.new-close').on('click', function (e) {
+            e.stopPropagation();
+            var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+            $(item).removeClass('active')
+            $('.mw-accordion-content', item).stop().slideUp(function () {
+
+            });
+        });
+    });
+</script>
 
 <?php $orders = get_orders('limit=5'); ?>
 

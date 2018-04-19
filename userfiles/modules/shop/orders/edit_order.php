@@ -24,8 +24,11 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     <div class="section-header">
         <h2 class="inline-element m-r-10"><?php _e("Order"); ?> #<?php print $show_ord_id ?></h2>
 
-        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium tip mw-ui-btn-circle btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">
-            <span class="mw-icon-arrowleft"></span>
+<!--        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium tip mw-ui-btn-circle btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">-->
+<!--            <span class="mw-icon-arrowleft"></span>-->
+<!--        </a>-->
+        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium  btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">
+            <span class="mw-icon-arrowleft"></span> Orders List
         </a>
     </div>
 
@@ -34,12 +37,12 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
             <div class="mw-ui-col">
                 <div class="mw-ui-box mw-ui-box-order-info">
                     <div class="mw-ui-box-header">
-                        <a href="<?php admin_url();?>/action:clients#?clientorder=5" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"> <span class="mai-bin"></span>Delete</a>
-                        <span><?php _e("Order Information"); ?></span>
+                        <a href="<?php admin_url(); ?>/action:clients#?clientorder=5" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"> <span class="mai-bin"></span>Delete</a>
+                        <span class=" bold"><?php _e("Order Information"); ?></span>
                     </div>
-                    <div class="mw-ui-box-content">
+                    <div class="mw-ui-box-content p-0">
                         <?php if (is_array($cart_items)) : ?>
-                            <div class="mw-order-images">
+                            <div class="mw-order-images" style="display: none;">
                                 <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
                                     <?php if (isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
                                         <?php
@@ -61,16 +64,37 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                     <?php endif; ?>
                                 <?php } ?>
                             </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $('.table-responsive .mw-order-item').mouseover(function () {
+                                        $(this).next('tr').find('td').css({'background': 'rgba(0, 134, 219, 0.07)', 'border-bottom': '1px solid #0086db'});
+                                    });
+                                    $('.table-responsive .mw-order-item').mouseout(function () {
+                                        $(this).next('tr').find('td').css({'background': 'none', 'border-bottom': '0'});
+                                    });
+
+
+                                    $('.table-responsive .mw-order-custom-fields').mouseover(function () {
+                                        $(this).find('td').css({'background': 'rgba(0, 134, 219, 0.07)', 'border-bottom': '1px solid #0086db'});
+                                        $(this).prev().trigger('mouseenter');
+                                    });
+                                    $('.table-responsive .mw-order-custom-fields').mouseout(function () {
+                                        $(this).find('td').css({'background': 'none', 'border-bottom': '0'});
+                                        $(this).prev().trigger('mouseleave');
+                                    });
+                                });
+                            </script>
                             <div class="table-responsive">
-                                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%"
-                                       id="order-information-table">
+                                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
                                     <thead>
                                     <tr>
-                                        <th><?php _e("Product Name"); ?></th>
+                                        <th><?php _e("Image"); ?></th>
+                                        <th><?php _e("Product"); ?></th>
                                         <!--  <th><?php _e("Custom fields"); ?></th>-->
                                         <th><?php _e("Price"); ?></th>
-                                        <th><?php _e("QTY"); ?></th>
+                                        <th class="center"><?php _e("QTY"); ?></th>
                                         <th><?php _e("Total"); ?></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -83,46 +107,66 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                         $subtotal = $subtotal + $item_total;
                                         $grandtotal = $subtotal + $ord['shipping'];
                                         ?>
-                                        <tr
-                                                data-index="<?php print $index; ?>"
-                                                class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
-                                            <td class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>"
-                                                                            target="_blank"><span><?php print $item['title'] ?></span></a>
+                                        <tr data-index="<?php print $index; ?>" class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
+                                            <td>
+                                                <?php if (isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
+                                                    <?php
+
+                                                    $p = $item['item_image']; ?>
+                                                    <?php if ($p != false): ?>
+                                                        <a class="bgimage mw-order-item-image>"
+                                                           style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"
+                                                           href="<?php print ($p); ?>" target="_blank"></a>
+                                                    <?php endif; ?>
+                                                <?php else: ?>
+                                                    <?php $p = get_picture($item['rel_id']); ?>
+                                                    <?php if ($p != false): ?>
+                                                        <span data-index="<?php print $i; ?>"
+                                                              class="bgimage mw-order-item-image"
+                                                              style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="mw-order-item-id">
+                                                <a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a>
                                                 <?php if ($item['rel_type'] == 'content'): ?>
                                                     <?php $data_fields = mw()->content_manager->data($item['rel_id']); ?>
                                                     <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
                                                         <small class="mw-ui-label-help">
-                                                            <?php _e("SKU"); ?>
-                                                            : <?php print $data_fields['sku']; ?></small>
+                                                            <?php _e("SKU"); ?>: <?php print $data_fields['sku']; ?>
+                                                        </small>
                                                     <?php endif; ?>
-                                                <?php endif; ?></td>
+                                                <?php endif; ?>
+                                            </td>
                                             <!--  <td class="mw-order-item-fields"></td>-->
                                             <td class="mw-order-item-amount nowrap"><?php print  currency_format($item['price'], $ord['currency']); ?></td>
-                                            <td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-                                            <td class="mw-order-item-count"
-                                                width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
+                                            <td class="mw-order-item-count center"><?php print $item['qty'] ?></td>
+                                            <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
+                                            <td class="mw-order-item-count" style="width: 10px"><a class="show-on-hover"><i class="mw-icon-close"</a></td>
                                         </tr>
                                         <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                                            <tr>
-                                                <td colspan="4"><?php
-
-                                                    print $item['custom_fields'] ?></td>
+                                            <tr class="mw-order-custom-fields">
+                                                <td colspan="6" class="mw-order-product-custom-fields"><?php print $item['custom_fields'] ?></td>
                                             </tr>
                                         <?php endif ?>
                                     <?php endforeach; ?>
+                                    <tr class="mw-ui-table-footer" style="background: #fafafa; font-weight: bold;">
+                                        <td colspan="4">&nbsp;</td>
+                                        <td colspan="2"><?php print _e('TOTAL AMOUNT'); ?></td>
+                                    </tr>
                                     <tr class="mw-ui-table-footer">
-                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="4">&nbsp;</td>
                                         <td><?php _e("Subtotal"); ?></td>
                                         <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
                                     </tr>
                                     <tr class="mw-ui-table-footer">
-                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="4">&nbsp;</td>
                                         <td><?php _e("Shipping price"); ?></td>
                                         <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
                                     </tr>
                                     <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
                                         <tr class="mw-ui-table-footer">
-                                            <td colspan="2">&nbsp;</td>
+                                            <td colspan="4">&nbsp;</td>
                                             <td><?php _e("Tax"); ?></td>
                                             <td class="mw-ui-table-green"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                                         </tr>
@@ -130,7 +174,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
 
 
                                     <tr class="mw-ui-table-footer last">
-                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="3">&nbsp;</td>
                                         <td class="mw-ui-table-green"><strong>
                                                 <?php _e("Total:"); ?>
                                             </strong></td>
@@ -146,202 +190,190 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                 <?php _e("The cart is empty"); ?>
                             </h2>
                         <?php endif; ?>
-                        <div class="mw-ui-box" id="order-status">
-                            <div class="mw-ui-box-header"><span>
-              <?php _e("Order Status"); ?>
-              </span></div>
-                            <div class="mw-ui-box-content">
-                                <div class="order-status-selector">
-                                    <ul class="mw-ui-inline-list">
-                                        <li><span>
-                    <?php _e("What is the status of this order"); ?>
-                                                ?</span></li>
-                                        <li>
-                                            <label class="mw-ui-check">
-                                                <input
-                                                    <?php if ($ord['order_status'] == 'pending'): ?>checked="checked"<?php endif; ?>
-                                                    type="radio" name="order_status" value="pending"/>
-                                                <span></span><span>
-                      <?php _e("Pending"); ?>
-                      </span> </label>
-                                        </li>
-                                        <li>
-                                            <label class="mw-ui-check">
-                                                <input
-                                                    <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == ''): ?>checked="checked"<?php endif; ?>
-                                                    type="radio" name="order_status" value="completed"/>
-                                                <span></span><span>
-                      <?php _e("Completed Order"); ?>
-                      </span> </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <script type="text/javascript">
 
+                    </div>
+                </div>
 
-                                    $(document).ready(function () {
-                                        $(".mw-order-item-image").bind("mouseenter mouseleave", function (e) {
-                                            var index = $(this).dataset('index');
-                                            mw.tools.multihover(e, this, ".mw-order-item-index-" + index);
-                                        });
-                                        $("tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
-                                            var index = $(this).dataset('index');
-                                            mw.tools.multihover(e, this, ".mw-order-item-image-" + index);
-                                        });
+                <div class="mw-ui-box m-t-10" id="order-status">
+                    <div class="mw-ui-box-header bold"><span><?php _e("Order Status"); ?></span></div>
+                    <div class="mw-ui-box-content">
+                        <div class="order-status-selector">
+                            <ul class="mw-ui-inline-list">
+                                <li><span><?php _e("What is the status of this order"); ?>?</span></li>
+                                <li>
+                                    <label class="mw-ui-check">
+                                        <input <?php if ($ord['order_status'] == 'pending'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="pending"/>
+                                        <span></span>
+                                        <span><?php _e("Pending"); ?></span>
+                                    </label>
+                                </li>
 
-                                        var obj = {
-                                            id: "<?php print $ord['id']; ?>"
+                                <li>
+                                    <label class="mw-ui-check">
+                                        <input <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == ''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="completed"/>
+                                        <span></span><span><?php _e("Completed Order"); ?></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $(".mw-order-item-image").bind("mouseenter mouseleave", function (e) {
+                                    var index = $(this).dataset('index');
+                                    mw.tools.multihover(e, this, ".mw-order-item-index-" + index);
+                                });
+                                $("tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
+                                    var index = $(this).dataset('index');
+                                    mw.tools.multihover(e, this, ".mw-order-item-image-" + index);
+                                });
+
+                                var obj = {
+                                    id: "<?php print $ord['id']; ?>"
+                                }
+
+                                mw.$(".mw-order-is-paid-change").change(function () {
+                                    var val = this.value;
+                                    obj.is_paid = val;
+                                    $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
+                                        var upd_msg = "<?php _e("Order is marked as un-paid"); ?>"
+                                        if (obj.is_paid == 'y') {
+                                            var upd_msg = "<?php _e("Order is marked as paid"); ?>";
                                         }
-
-                                        mw.$(".mw-order-is-paid-change").change(function () {
-                                            var val = this.value;
-                                            obj.is_paid = val;
-                                            $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
-                                                var upd_msg = "<?php _e("Order is marked as un-paid"); ?>"
-                                                if (obj.is_paid == 'y') {
-                                                    var upd_msg = "<?php _e("Order is marked as paid"); ?>";
-                                                }
-                                                mw.notification.success(upd_msg);
-                                                mw.reload_module('shop/orders');
-                                            });
-                                        });
-
-
-                                        mw.$("input[name='order_status']").commuter(function () {
-                                            var val = this.value;
-                                            obj.order_status = val;
-
-                                            $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
-                                                mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
-                                                var states = {
-                                                    'y': '<?php _e("Completed"); ?>',
-                                                    'n': '<?php _e("Pending"); ?>',
-                                                }
-                                                mw.which(val, states, function () {
-                                                    mw.$(".mw-order-item-<?php print $ord['id']; ?> .mw-order-item-status").html(this.toString());
-                                                });
-                                                mw.reload_module('shop/orders');
-                                            });
-                                        });
+                                        mw.notification.success(upd_msg);
+                                        mw.reload_module('shop/orders');
                                     });
-                                </script>
-                                <div id="mw_order_status" style="overflow: hidden">
-                                    <div style="margin-right: 10px;width: 238px;"
-                                         class="mw-notification mw-warning right <?php if ($ord['order_status'] == 'completed'): ?>semi_hidden<?php endif; ?>">
-                                        <div style="height: 55px;">
-                                            <?php _e("Pending"); ?>
-                                        </div>
-                                    </div>
-                                    <div style="margin-right: 10px;width: 238px;"
-                                         class="mw-notification mw-success right <?php if ($ord['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
-                                        <div style="height: 55px;"><span>
-                    <?php _e("Successfully Completed"); ?>
-                    </span></div>
-                                    </div>
+                                });
+
+
+                                mw.$("input[name='order_status']").commuter(function () {
+                                    var val = this.value;
+                                    obj.order_status = val;
+
+                                    $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
+                                        mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
+                                        var states = {
+                                            'y': '<?php _e("Completed"); ?>',
+                                            'n': '<?php _e("Pending"); ?>',
+                                        }
+                                        mw.which(val, states, function () {
+                                            mw.$(".mw-order-item-<?php print $ord['id']; ?> .mw-order-item-status").html(this.toString());
+                                        });
+                                        mw.reload_module('shop/orders');
+                                    });
+                                });
+                            });
+                        </script>
+
+                        <div id="mw_order_status" style="overflow: hidden;">
+                            <div style="margin-right: 10px;width: 100%;"
+                                 class="mw-notification mw-warning right <?php if ($ord['order_status'] == 'completed'): ?>semi_hidden<?php endif; ?>">
+                                <div style="height: 55px; text-align: center; ">
+                                    <?php _e("Pending"); ?>
                                 </div>
                             </div>
-                        </div>
-                        <?php event_trigger('mw.ui.admin.shop.order.edit.status.after', $ord); ?>
-                        <?php $edit_order_custom_items = mw()->ui->module('mw.ui.admin.shop.order.edit.status.after'); ?>
-                        <?php if (!empty($edit_order_custom_items)): ?>
-                            <?php foreach ($edit_order_custom_items as $item): ?>
-                                <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
-                                <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
-                                <?php $text = (isset($item['text']) ? $item['text'] : false); ?>
-                                <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
-                                <?php $html = (isset($item['html']) ? $item['html'] : false); ?>
 
-                                <?php if ($view == false and $link != false) {
-                                    $btnurl = $link;
-                                } else {
-                                    $btnurl = admin_url('view:') . $view;
-                                } ?>
-                                <div class="mw-ui-box" style="margin-bottom: 20px;">
-                                    <div class="mw-ui-box-header"><?php if ($icon) { ?><span
-                                            class="<?php print $icon; ?>"></span><?php } ?>
-                                        <span><?php print $text; ?></span></div>
-                                    <div class="mw-ui-box-content"><?php print $html; ?></div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                        <div class="mw-ui-box">
-                            <div class="mw-ui-box-header">
-                                <?php _e("Payment Information"); ?>
-                                <span class="mw-icon-help-outline mwahi tip" style="float: none"
-                                      data-tip="<?php _e("Payment Information that we have from the payment provider"); ?>"
-                                      data-tipposition="top-center"></span></div>
-                            <div class="mw-ui-box-content">
-                                <ul class="order-table-info-list">
-                                    <li>
-                                        <?php _e("Payment Method"); ?>
-                                        <?php $gw = str_replace('shop/payments/gateways/', '', $ord['payment_gw']); ?>
-                                        : <strong><?php print $gw; ?></strong></li>
-                                    <li>
-                                        <?php _e("Is Paid"); ?>
-                                        :
-                                        <select name="is_paid"
-                                                class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
-                                            <option value="1" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 1): ?> selected="selected" <?php endif; ?>>
-                                                <?php _e("Yes"); ?>
-                                            </option>
-                                            <option value="0" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 1): ?> selected="selected" <?php endif; ?>>
-                                                <?php _e("No"); ?>
-                                            </option>
-                                        </select>
-                                    </li>
-                                    <?php if (isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
-                                        <li>
-                                            <?php _e("Transaction ID"); ?>
-                                            : <?php print $ord['transaction_id']; ?></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
-                                        <li>
-                                            <?php _e("Payment Amount"); ?>
-                                            : <?php print $ord['payment_amount']; ?>
-                                            <?php
-
-                                            /*		  <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
-                                                      <span> with <?php print $ord['payment_shipping']; ?>
-                                                      <?php _e("for shipping"); ?>
-                                                      </span>
-                                                      <?php endif; ?>*/
-
-
-                                            ?>
-
-
-                                            <span class="mw-icon-help-outline mwahi tip"
-                                                  data-tip="<?php _e("Amount paid by the user"); ?>"></span></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
-                                        <li>
-                                            <?php _e("Payment currency"); ?>
-                                            : <?php print $ord['payment_currency']; ?></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($ord['payer_id']) and $ord['payer_id'] != ''): ?>
-                                        <li>
-                                            <?php _e("Payer ID"); ?>
-                                            : <?php print $ord['payer_id']; ?></li>
-                                    <?php endif; ?>
-                                    <?php if (isset($ord['payment_status']) and $ord['payment_status'] != ''): ?>
-                                        <li>
-                                            <?php _e("Payment Status"); ?>
-                                            : <?php print $ord['payment_status']; ?></li>
-                                    <?php endif; ?>
-                                </ul>
+                            <div style="margin-right: 10px;width: 100%;" class="mw-notification mw-success right <?php if ($ord['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
+                                <div style="height: 55px; text-align: center;"><span><?php _e("Successfully Completed"); ?></span></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php event_trigger('mw.ui.admin.shop.order.edit.status.after', $ord); ?>
+                <?php $edit_order_custom_items = mw()->ui->module('mw.ui.admin.shop.order.edit.status.after'); ?>
+                <?php if (!empty($edit_order_custom_items)): ?>
+                    <?php foreach ($edit_order_custom_items as $item): ?>
+                        <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
+                        <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
+                        <?php $text = (isset($item['text']) ? $item['text'] : false); ?>
+                        <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
+                        <?php $html = (isset($item['html']) ? $item['html'] : false); ?>
+
+                        <?php if ($view == false and $link != false) {
+                            $btnurl = $link;
+                        } else {
+                            $btnurl = admin_url('view:') . $view;
+                        } ?>
+                        <div class="mw-ui-box" style="margin-bottom: 20px;">
+                            <div class="mw-ui-box-header"><?php if ($icon) { ?><span
+                                    class="<?php print $icon; ?>"></span><?php } ?>
+                                <span><?php print $text; ?></span></div>
+                            <div class="mw-ui-box-content"><?php print $html; ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <div class="mw-ui-box">
+                    <div class="mw-ui-box-header bold">
+                        <?php _e("Payment Information"); ?>
+                        <span class="mw-icon-help-outline mwahi tip" style="float: none" data-tip="<?php _e("Payment Information that we have from the payment provider"); ?>" data-tipposition="top-center"></span>
+                    </div>
+
+                    <div class="mw-ui-box-content">
+                        <ul class="order-table-info-list">
+                            <li>
+                                <?php _e("Payment Method"); ?>
+                                <?php $gw = str_replace('shop/payments/gateways/', '', $ord['payment_gw']); ?>: <strong><?php print $gw; ?></strong>
+                            </li>
+                            <li>
+                                <?php _e("Is Paid"); ?>:
+                                <select name="is_paid" class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
+                                    <option value="1" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 1): ?> selected="selected" <?php endif; ?>>
+                                        <?php _e("Yes"); ?>
+                                    </option>
+                                    <option value="0" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 1): ?> selected="selected" <?php endif; ?>>
+                                        <?php _e("No"); ?>
+                                    </option>
+                                </select>
+                            </li>
+                            <?php if (isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
+                                <li>
+                                    <?php _e("Transaction ID"); ?>: <?php print $ord['transaction_id']; ?>
+                                </li>
+                            <?php endif; ?>
+                            <?php if (isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
+                                <li>
+                                    <?php _e("Payment Amount"); ?>: <?php print $ord['payment_amount']; ?>
+                                    <?php
+
+                                    /*		  <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
+                                              <span> with <?php print $ord['payment_shipping']; ?>
+                                              <?php _e("for shipping"); ?>
+                                              </span>
+                                              <?php endif; ?>*/
+
+
+                                    ?>
+
+                                    <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Amount paid by the user"); ?>"></span>
+                                </li>
+                            <?php endif; ?>
+                            <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
+                                <li>
+                                    <?php _e("Payment currency"); ?>: <?php print $ord['payment_currency']; ?>
+                                </li>
+                            <?php endif; ?>
+                            <?php if (isset($ord['payer_id']) and $ord['payer_id'] != ''): ?>
+                                <li>
+                                    <?php _e("Payer ID"); ?>: <?php print $ord['payer_id']; ?>
+                                </li>
+                            <?php endif; ?>
+                            <?php if (isset($ord['payment_status']) and $ord['payment_status'] != ''): ?>
+                                <li>
+                                    <?php _e("Payment Status"); ?>: <?php print $ord['payment_status']; ?>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
             <div class="mw-ui-col">
                 <div class="mw-ui-box">
-                    <div class="mw-ui-box-header"><a
-                                href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>"
-                                class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mw-icon-pen"></span> <?php _e("Edit"); ?>
-                        </a> <span>
-          <?php _e("Client Information"); ?>
-          </span></div>
+                    <div class="mw-ui-box-header bold">
+                        <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mw-icon-pen"></span> <?php _e("Edit"); ?></a>
+                        <span><?php _e("Client Information"); ?></span>
+                    </div>
+
                     <div class="mw-ui-box-content">
                         <div class="table-responsive">
                             <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
@@ -371,126 +403,153 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                                         <?php endif; ?>
                                     </td>
                                 </tr>
-                        </div>
-                        </table>
-                        <div class="mw-ui-box order-details-box">
-                            <div class="mw-ui-box-header">
-                                <?php _e("Shipping Address"); ?>
-                            </div>
-                            <div class="mw-ui-box-content">
+                            </table>
+
+                            <?php if (isset($ord['custom_fields']) and $ord['custom_fields'] != ''): ?>
                                 <div class="table-responsive">
-                                    <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic"
-                                           style="margin-top: 0;">
+                                    <table class="mw-ui-table" cellspacing="0" cellpadding="0">
                                         <col width="50%"/>
                                         <tr>
-                                            <td valign="top"><?php
-                                                $map_click_str = false;
-                                                $map_click = array(); ?>
-                                                <ul class="order-table-info-list">
-                                                    <?php if (isset($ord['country']) and $ord['country'] != ''): ?>
-                                                        <li><?php print $ord['country'] ?></li>
-                                                        <?php $map_click[] = $ord['country']; ?>
-                                                    <?php endif; ?>
-                                                    <?php if (isset($ord['city']) and $ord['city'] != ''): ?>
-                                                        <li><?php print $ord['city'] ?></li>
-                                                        <?php $map_click[] = $ord['city']; ?>
-                                                    <?php endif; ?>
-                                                    <?php if (isset($ord['state']) and $ord['state'] != ''): ?>
-                                                        <li><?php print $ord['state'] ?></li>
-                                                        <?php $map_click[] = $ord['city']; ?>
-                                                    <?php endif; ?>
-                                                    <?php if (isset($ord['zip']) and $ord['zip'] != ''): ?>
-                                                        <li><?php print $ord['zip'] ?></li>
-                                                    <?php endif; ?>
-                                                    <?php if (isset($ord['address']) and $ord['address'] != ''): ?>
-                                                        <li><?php print $ord['address'] ?></li>
-                                                        <?php $map_click[] = $ord['address']; ?>
-                                                    <?php endif; ?>
-                                                    <?php if (isset($ord['address2']) and $ord['address2'] != ''): ?>
-                                                        <li><?php print $ord['address2'] ?></li>
-                                                    <?php endif; ?>
-                                                    <?php if (isset($ord['phone']) and $ord['phone'] != ''): ?>
-                                                        <li>
-                                                            <?php _e("Phone"); ?>
-                                                            <?php print $ord['phone'] ?> </li>
-                                                    <?php endif; ?>
-                                                </ul>
+                                            <td valign="top">
+                                                <span class="order-detail-title"><?php _e("Additional Details"); ?></span>
+                                                <?php print $ord['custom_fields'] ?>
                                             </td>
-                                            <td><?php
-                                                if (!empty($map_click)) {
-                                                    $map_click = array_unique($map_click);
-                                                    $map_click_str = implode(', ', $map_click);
-                                                }
-
-                                                ?>
-                                                <a target="_blank"
-                                                   href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
-                                                    <img class="map-shipping-address"
-                                                         src="http://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
-                                                </a></td>
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
-                        <?php if (isset($ord['custom_fields']) and $ord['custom_fields'] != ''): ?>
-                            <div class="table-responsive">
-                                <table class="mw-ui-table" cellspacing="0" cellpadding="0">
-                                    <col width="50%"/>
-                                    <tr>
-                                        <td valign="top"><span class="order-detail-title">
-                <?php _e("Additional Details"); ?>
-                </span> <?php print $ord['custom_fields'] ?></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
 
 
-                        <?php if ($ord['payment_name']
-                            || $ord['payment_country']
-                            || $ord['payment_city']
-                            || $ord['payment_state']
-                            || $ord['payment_zip']
-                            || $ord['payment_address']
-                        ): ?>
+                            <?php if ($ord['payment_name']
+                                || $ord['payment_country']
+                                || $ord['payment_city']
+                                || $ord['payment_state']
+                                || $ord['payment_zip']
+                                || $ord['payment_address']
+                            ): ?>
 
-                            <div class="mw-ui-box order-details-box" style="margin-top: 20px;">
-                                <div class="mw-ui-box-header">
-                                    <?php _e("Billing Details"); ?>
-                                </div>
-                                <div class="mw-ui-box-content">
-                                    <div class="table-responsive">
-                                        <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic"
-                                               style="margin-top:0">
-                                            <col width="50%"/>
-                                            <tr>
-                                                <td valign="top">
-                                                    <ul class="order-table-info-list">
-                                                        <li><?php print $ord['payment_name'] ?></li>
-                                                        <li><?php print $ord['payment_country'] ?></li>
-                                                        <li><?php print $ord['payment_email'] ?></li>
-                                                        <li><?php print $ord['payment_city'] ?></li>
-                                                        <li><?php print $ord['payment_state'] ?></li>
-                                                        <li><?php print $ord['payment_zip'] ?></li>
-                                                        <li><?php print $ord['payment_address'] ?></li>
-                                                    </ul>
-                                                </td>
-                                                <td valign="top"><a target="_blank"
-                                                                    href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
-                                                        <img class="map-shipping-address"
-                                                             src="https://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
-                                                    </a></td>
-                                            </tr>
-                                        </table>
+                                <div class="mw-ui-box order-details-box" style="margin-top: 20px;">
+                                    <div class="mw-ui-box-header">
+                                        <?php _e("Billing Details"); ?>
+                                    </div>
+                                    <div class="mw-ui-box-content">
+                                        <div class="table-responsive">
+                                            <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic"
+                                                   style="margin-top:0">
+                                                <col width="50%"/>
+                                                <tr>
+                                                    <td valign="top">
+                                                        <ul class="order-table-info-list">
+                                                            <li><?php print $ord['payment_name'] ?></li>
+                                                            <li><?php print $ord['payment_country'] ?></li>
+                                                            <li><?php print $ord['payment_email'] ?></li>
+                                                            <li><?php print $ord['payment_city'] ?></li>
+                                                            <li><?php print $ord['payment_state'] ?></li>
+                                                            <li><?php print $ord['payment_zip'] ?></li>
+                                                            <li><?php print $ord['payment_address'] ?></li>
+                                                        </ul>
+                                                    </td>
+                                                    <td valign="top"><a target="_blank"
+                                                                        href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
+                                                            <img class="map-shipping-address"
+                                                                 src="https://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
+                                                        </a></td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endif; ?>
-
-
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
+
+                <div class="mw-ui-box order-details-box m-t-10">
+                    <div class="mw-ui-box-header bold">
+                        <?php _e("Shipping Address"); ?>
+                    </div>
+
+                    <div class="mw-ui-box-content">
+                        <div class="table-responsive">
+                            <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" style="margin-top: 0;">
+                                <col width="50%"/>
+                                <tr>
+                                    <td valign="top"><?php
+                                        $map_click_str = false;
+                                        $map_click = array(); ?>
+                                        <ul class="order-table-info-list">
+                                            <?php if (isset($ord['country']) and $ord['country'] != ''): ?>
+                                                <li><strong><?php _e("Country"); ?>:</strong>
+                                                    <?php print $ord['country'] ?></li>
+                                                <?php $map_click[] = $ord['country']; ?>
+                                            <?php endif; ?>
+                                            <?php if (isset($ord['city']) and $ord['city'] != ''): ?>
+                                                <li><strong><?php _e("City"); ?>:</strong>
+                                                    <?php print $ord['city'] ?></li>
+                                                <?php $map_click[] = $ord['city']; ?>
+                                            <?php endif; ?>
+                                            <?php if (isset($ord['state']) and $ord['state'] != ''): ?>
+                                                <li>
+                                                    <strong><?php _e("State"); ?>:</strong>
+                                                    <?php print $ord['state'] ?></li>
+                                                <?php $map_click[] = $ord['city']; ?>
+                                            <?php endif; ?>
+                                            <?php if (isset($ord['zip']) and $ord['zip'] != ''): ?>
+                                                <li>
+                                                    <strong><?php _e("ZIP"); ?>:</strong>
+                                                    <?php print $ord['zip'] ?>
+                                                </li>
+                                            <?php endif; ?>
+                                            <?php if (isset($ord['address']) and $ord['address'] != ''): ?>
+                                                <li><strong><?php _e("Address"); ?>:</strong><br/>
+                                                    <?php print $ord['address'] ?>
+                                                </li>
+                                                <?php $map_click[] = $ord['address']; ?>
+                                            <?php endif; ?>
+                                            <?php if (isset($ord['address2']) and $ord['address2'] != ''): ?>
+                                                <li>
+                                                    <strong><?php _e("Address 2"); ?>:</strong><br/>
+                                                    <?php print $ord['address2'] ?>
+                                                </li>
+                                            <?php endif; ?>
+                                            <?php if (isset($ord['phone']) and $ord['phone'] != ''): ?>
+                                                <li>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <strong><?php _e("Phone"); ?>:</strong>
+                                                    <?php print $ord['phone'] ?> </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </td>
+                                    <td><?php
+                                        if (!empty($map_click)) {
+                                            $map_click = array_unique($map_click);
+                                            $map_click_str = implode(', ', $map_click);
+                                        }
+
+                                        ?>
+                                        <a target="_blank"
+                                           href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
+                                            <img class="map-shipping-address"
+                                                 src="http://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
+                                        </a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <?php if (isset($ord['other_info']) and $ord['other_info'] != ''): ?>
+                                            <strong><?php _e("Additional information"); ?></strong><br/><br/>
+                                            <?php print $ord['other_info'] ?>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

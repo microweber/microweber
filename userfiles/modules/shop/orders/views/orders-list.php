@@ -33,7 +33,7 @@
                         <?php endif; ?>
 
                         <?php if (count($cart_item) > 1): ?>
-                            <div class="cnt-products">+<?php echo count($cart_item) - 1; ?></div>
+                            <div class="cnt-products"><?php echo count($cart_item); ?></div>
                         <?php endif; ?>
                     <?php } else { ?>
                         <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
@@ -115,7 +115,7 @@
                     <p class="title"><?php print _e('Shipping Information'); ?></p>
 
                     <div class="box">
-                        <p class="label">Address:</p>
+                        <p class="label"><?php print _e('Address'); ?>:</p>
                         <p class="content">
                             <?php if (isset($item['country'])): ?>
                                 <?php print $item['country']; ?>,
@@ -142,8 +142,7 @@
                 <div class="clearfix"></div>
             </div>
 
-            <span class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>" data-tipposition="top-center"
-                  onclick="mw_delete_shop_order('<?php print ($item['id']) ?>', event);"></span>
+            <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center"></span>
             <div class="clearfix"></div>
         </div>
     <?php endforeach; ?>

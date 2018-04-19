@@ -488,7 +488,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-tree .module a:hover, .mw-tree li.active-bg > a {
-    color: #4494C7;
+    color: #0086db;
 }
 
 /************************************
@@ -1104,7 +1104,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #main-nav-live:hover, #main-nav-live:focus {
-    background: #4494C7;
+    background: #0086db;
 }
 
 #mw-admin-main-menu a strong, #main-bar-mw-icon strong {
@@ -4502,7 +4502,8 @@ body.grabbing, body.grabbing * {
     table-layout: fixed;
 }
 
-tr.mw-order-item.hovered, tr.mw-order-item:hover {
+tr.mw-order-item.hovered, tr.mw-order-item:hover,
+tr.mw-order-item.hovered, tr.mw-order-item{
     background-color: #FAFAFA;
 }
 
@@ -4511,7 +4512,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 }
 
 #order-information-table tr.mw-order-item.hovered td, #order-information-table tr.mw-order-item:hover td {
-    background-color: #4494c7;
+    background-color: #0086db;
     color: white;
 }
 
@@ -4529,7 +4530,7 @@ tr.mw-order-item.hovered, tr.mw-order-item:hover {
 }
 
 .mw-order-item-image:hover, .mw-order-item-image.hovered {
-    border: 1px solid #4494c7
+    border: 1px solid #0086db
 }
 
 .order-table-info-list li {
@@ -5688,13 +5689,30 @@ span.mw-icon-upload {
 ***************************** ***************************** */
 
 /* Tables */
+.table-style-2.layout-auto {
+    table-layout: auto;
+}
+
 .table-style-2 tr {
     border: 1px solid #ebebeb;
     background: #fafafa;
 }
 
 .table-style-2 tr:hover {
-    border-left: 1px solid #f6a555;
+    background: #fff;
+}
+
+.table-style-2 a {
+    color: #0086db;
+}
+
+.table-style-2 thead tr th {
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.table-style-2 tr:hover {
+    border-left: 1px solid #0086db;
 }
 
 .table-style-2 tr td,
@@ -6403,7 +6421,6 @@ span.mw-icon-upload {
 
 }
 
-
 /*.comments-holder .comment-holder .order-data .post-name a {*/
 /*white-space: nowrap;*/
 /*overflow: hidden;*/
@@ -6597,27 +6614,36 @@ span.mw-icon-upload {
     font-size: 19px;
 }
 
+.comments-holder .comment-holder .comment_body textarea {
+    width: 100%;
+    max-width: 100%;
+    outline: 0;
+    background: rgba(0, 134, 219, 0.07);
+    padding: 10px;
+    border: 0;
+}
+
 .comments-holder .comment-holder .reply-holder textarea {
-    color: #0086db;
+    color: #2b2b2b;
     border: 0;
     background: transparent;
     height: 30px;
     width: calc(100% - 110px);
-    outline:0;
+    outline: 0;
     padding: 8px 0;
 }
 
-
 @media screen and (max-width: 767px) {
-    .comments-holder .comment-holder .order-data .article-image{
+    .comments-holder .comment-holder .order-data .article-image {
         display: none;
     }
+
     .comments-holder .comment-holder .order-data .post-name {
         padding: 10px 35px;
         width: 100%;
     }
 
-    .comments-holder .comment-holder .order-data > div{
+    .comments-holder .comment-holder .order-data > div {
         width: 100%;
     }
 
@@ -7003,3 +7029,69 @@ select.silver-field {
 .header-top-center-notifs .center {
     width: 480px;
 }
+
+.client-remove {
+    color: red;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.table-clients tr:hover a.mw-ui-btn-info.mw-ui-btn-outline {
+    background-color: #0086db;
+    color: #fff;
+}
+
+.table-clients .mw-user-thumb {
+    border: 1px solid #0086db;
+    padding: 6px;
+    color: #ffffff;
+    background-color: #c8c8c8;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 333px;
+    margin: 0 auto;
+}
+
+#orders-info-row .mw-ui-table-basic tr:first-of-type td {
+    border-top: 0;
+}
+
+#orders-info-row .table-responsive {
+    padding-bottom: 0;
+}
+
+#orders-info-row .table-responsive .mw-order-item-image{
+    margin: 0;
+}
+
+#orders-info-row .table-responsive thead{
+    text-transform: uppercase;
+}
+
+#orders-info-row .table-responsive thead th{
+    color: #0086db !important;
+}
+
+.mw-order-product-custom-fields > ul{
+    padding-left: 25px;
+}
+
+.mw-order-product-custom-fields ul li {
+    padding: 5px 0;
+    list-style-type: none;
+}
+
+.mw-order-product-custom-fields ul li span {
+    font-weight: bold;
+}
+
+#mw-admin-edit-order .mw-ui-table{
+    table-layout: auto;
+}
+
+
