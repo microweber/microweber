@@ -211,6 +211,7 @@ function get_comments($params) {
 		$date_format = "Y-m-d H:i:s";
 	}
 	$aj = mw()->url_manager->is_ajax();
+
 	if (is_array($comments)){
 		$i = 0;
 		foreach ($comments as $item) {
@@ -235,7 +236,8 @@ function get_comments($params) {
 			}
 
 			if (isset($params['single'])){
-				return $comments[ $i ];
+
+				return $comments ;
 			}
 
 			$i ++;
