@@ -1,4 +1,24 @@
 <?php
+only_admin_access();
+
+
+
+$display = new \Microweber\Comments\Controllers\Admin();
+
+
+return $display->manage($params);
+
+
+
+
+
+
+
+
+
+?>
+
+<?php
  
  if(is_admin() == false){
 	 mw_error('Must be admin');

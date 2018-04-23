@@ -4,6 +4,10 @@ if (!defined("MODULE_DB_COMMENTS")){
 }
 
 
+require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
+
+
+
 /**
  * mark_comments_as_old
 
@@ -283,9 +287,9 @@ event_bind(
 				$btn          = array();
 				$btn['title'] = 'Comments';
 				$btn['class'] = 'mw-icon-comment';
-				 $btn['html']  = '<module type="comments/search_content" no_post_head="true" content_id="' . $item['id'] . '"  />';
+				 $btn['html']  = '<module type="comments/manage" no_post_head="true" content_id="' . $item['id'] . '"  />';
 				 //$btn['html']  = '<module type="comments/comments_for_post" no_post_head="true" content_id="' . $item['id'] . '"  />';
-			//	$btn['html']  = '<module type="comments/search_content" no_post_head="true" content_id=' . $item['id'] . '  />';
+			//	$btn['html']  = '<module type="comments/manage" no_post_head="true" content_id=' . $item['id'] . '  />';
 				mw()->modules->ui('content.edit.tabs', $btn);
 			}
 		}

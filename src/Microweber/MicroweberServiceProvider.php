@@ -139,6 +139,11 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
 
+        $this->app->singleton('lang_helper', function ($app) {
+            return new \Microweber\Providers\Helpers\Lang($app);
+        });
+
+
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
             'Utils\Adapters\Cache\CacheStore'
@@ -271,6 +276,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('checkout_manager', function ($app) {
             return new Providers\Shop\CheckoutManager($app);
         });
+
 
         // Other
 
