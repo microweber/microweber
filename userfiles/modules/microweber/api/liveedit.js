@@ -801,7 +801,7 @@ mw.drag = {
                     else{
 
                     if ( !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])
-                    && !(mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')) {
+                    && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')) {
                         var scope = mw.mm_target;
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
@@ -1005,12 +1005,11 @@ mw.drag = {
                         }
                     }
                   if (mw.isDrag && mw.currentDragMouseOver != null /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/ ) {
-
-                    if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) {
+                    if (mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop') && !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) {
                         mw.dropable.hide();
                         return false;
                     }
-                    if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) || mw.currentDragMouseOver.getAttribute('field') === 'title') {
+                    if ((mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop') && !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])) || mw.currentDragMouseOver.getAttribute('field') === 'title') {
                         mw.currentDragMouseOver = mw.drag.noop;
                         //return false;
                     }

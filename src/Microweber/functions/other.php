@@ -582,6 +582,7 @@ function template_head($script_src)
 {
     return mw()->template->head($script_src);
 }
+
 function template_foot($script_src)
 {
     return mw()->template->foot($script_src);
@@ -712,5 +713,44 @@ function load_layout_block($block_name)
     }
     if ($inc) {
         return include($inc);
+    }
+}
+
+
+/**
+ * Shows a section of the help file.
+ *
+ * @internal its used on the help in the admin
+ */
+function show_help($section = 'main')
+{
+    $lang = current_lang();
+
+    $lang = str_replace('..', '', $lang);
+    if (trim($lang) == '') {
+        $lang = 'en';
+    }
+
+    $lang_file = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file_en = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file = normalize_path($lang_file, false);
+
+    if (is_file($lang_file)) {
+        include $lang_file;
+    } elseif (is_file($lang_file_en)) {
+        return $lang_file_en;
+    }
+}
+
+
+if (!function_exists('mb_trim')) {
+    function mb_trim($string, $charlist = null)
+    {
+        if (is_null($charlist)) {
+            return trim($string);
+        } else {
+            $charlist = str_replace('/', '\/', preg_quote($charlist));
+            return preg_replace("/(^[$charlist]+)|([$charlist]+$)/us", '', $string);
+        }
     }
 }

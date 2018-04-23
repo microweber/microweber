@@ -1,6 +1,7 @@
 <?php only_admin_access();?>
 <script type="text/javascript">
-    mw.require('<?php print $config['url_to_module'] ?>style.css', true);
+    mw.require('<?php print modules_url() ?>comments/style.css');
+    mw.require('<?php print modules_url() ?>comments/edit_comments.js');
     mw.require('color.js', true);
 
 </script>
@@ -188,7 +189,7 @@ $(document).ready(function(){
                           onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
                     />
 				</div>
-				<module type="comments/search_content" id="mw_admin_posts_with_comments"  />
+				<module type="comments/manage" id="mw_admin_posts_with_comments"  />
 			</div>
 		</div>
 		<div class="comments-tab mw-ui-box mw-ui-box-content comments-settings" style="display: none">
