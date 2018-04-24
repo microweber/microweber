@@ -754,3 +754,20 @@ if (!function_exists('mb_trim')) {
         }
     }
 }
+
+
+function __ewchar_to_utf8($matches)
+{
+    $ewchar = $matches[1];
+    $binwchar = hexdec($ewchar);
+    $wchar = chr(($binwchar >> 8) & 0xFF) . chr(($binwchar) & 0xFF);
+
+    return iconv('unicodebig', 'utf-8', $wchar);
+}
+
+function special_unicode_to_utf8($str)
+{
+    return preg_replace_callback("/\\\u([[:xdigit:]]{4})/i", '__ewchar_to_utf8', $str);
+}
+
+

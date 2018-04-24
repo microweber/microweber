@@ -11,8 +11,8 @@ $mw_language_content_namespace = array();
 
 
 $mw_language_content_saved = false;
-$mw_new_language_entires = array();
-$mw_new_language_entires_ns = array();
+$mw_new_language_entries = array();
+$mw_new_language_entries_ns = array();
 $mw_all_langs = array();
 
 
@@ -66,23 +66,35 @@ class Lang
 
     function __store_lang_file_ns()
     {
-        global $mw_new_language_entires_ns;
-        $lang = current_lang();
-        if (!empty($mw_new_language_entires_ns)) {
-            foreach ($mw_new_language_entires_ns as $k => $v) {
-                $namespace = $k;
 
-                $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+        if (!is_admin()) {
+            return;
+        }
+
+
+        global $mw_new_language_entries_ns;
+
+
+
+
+
+        $lang = current_lang();
+        if (!empty($mw_new_language_entries_ns)) {
+            foreach ($mw_new_language_entries_ns as $k => $v) {
+                $namespace = $k;
+                $namespace = str_replace('\\', '/', $namespace);
+                //$lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+                $lang_file = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
                 $lang_file = normalize_path($lang_file, false);
 
-                $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
-                $lang_file2 = normalize_path($lang_file2, false);
-
-                $lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
-                $lang_file3 = normalize_path($lang_file3, false);
+//                $lang_file2 = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
+//                $lang_file2 = normalize_path($lang_file2, false);
+//
+//                $lang_file3 = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
+//                $lang_file3 = normalize_path($lang_file3, false);
 
                 $lang_file_save = false;
-                $existing = $mw_new_language_entires_ns[$k];
+                $existing = $mw_new_language_entries_ns[$k];
                 if (is_array($v)) {
                     $existing = array_merge($existing, $v);
                 }
@@ -102,20 +114,20 @@ class Lang
                         $existing = array_merge($existing, $lang_file_content);
                     }
                 }
-                if (is_file($lang_file2)) {
-                    $lang_file_content = file_get_contents($lang_file2);
-                    $lang_file_content = @json_decode($lang_file_content, true);
-                    if (is_array($lang_file_content)) {
-                        $existing = array_merge($existing, $lang_file_content);
-                    }
-                }
-                if (is_file($lang_file3)) {
-                    $lang_file_content = file_get_contents($lang_file3);
-                    $lang_file_content = @json_decode($lang_file_content, true);
-                    if (is_array($lang_file_content)) {
-                        $existing = array_merge($existing, $lang_file_content);
-                    }
-                }
+//                if (is_file($lang_file2)) {
+//                    $lang_file_content = file_get_contents($lang_file2);
+//                    $lang_file_content = @json_decode($lang_file_content, true);
+//                    if (is_array($lang_file_content)) {
+//                        $existing = array_merge($existing, $lang_file_content);
+//                    }
+//                }
+//                if (is_file($lang_file3)) {
+//                    $lang_file_content = file_get_contents($lang_file3);
+//                    $lang_file_content = @json_decode($lang_file_content, true);
+//                    if (is_array($lang_file_content)) {
+//                        $existing = array_merge($existing, $lang_file_content);
+//                    }
+//                }
 
                 if (is_array($existing) and !empty($existing)) {
                     $dn = dirname($lang_file);
@@ -125,30 +137,31 @@ class Lang
                     if (!is_file($lang_file)) {
                         @touch($lang_file);
                     }
-                    if (!is_file($lang_file2)) {
-                        @touch($lang_file2);
-                    }
-                    if (!is_file($lang_file3)) {
-                        @touch($lang_file3);
-                    }
-
-                    if (!is_dir($dn)) {
-                        $dn = dirname($lang_file2);
-                        @mkdir_recursive($dn);
-                    }
-                    if (!is_dir($dn)) {
-                        $dn = dirname($lang_file3);
-                        @mkdir_recursive($dn);
-                    }
+//                    if (!is_file($lang_file2)) {
+//                        @touch($lang_file2);
+//                    }
+//                    if (!is_file($lang_file3)) {
+//                        @touch($lang_file3);
+//                    }
+//
+//                    if (!is_dir($dn)) {
+//                        $dn = dirname($lang_file2);
+//                        @mkdir_recursive($dn);
+//                    }
+//                    if (!is_dir($dn)) {
+//                        $dn = dirname($lang_file3);
+//                        @mkdir_recursive($dn);
+//                    }
 
                     $store_file = false;
                     if (is_writable($lang_file)) {
                         $store_file = $lang_file;
-                    } elseif (is_writable($lang_file2)) {
-                        $store_file = $lang_file2;
-                    } elseif (is_writable($lang_file3)) {
-                        $store_file = $lang_file3;
                     }
+//                    elseif (is_writable($lang_file2)) {
+//                        $store_file = $lang_file2;
+//                    } elseif (is_writable($lang_file3)) {
+//                        $store_file = $lang_file3;
+//                    }
 
                     if ($store_file != false) {
                         $lang_file_str = json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
@@ -177,69 +190,91 @@ class Lang
      */
     function __store_lang_file()
     {
-        global $mw_language_content_saved;
-
-        if ($mw_language_content_saved == true) {
+        if (!is_admin()) {
             return;
         }
-        if (is_admin() == false) {
-            return false;
+        $lang_files_dir = userfiles_path() . 'language' . DIRECTORY_SEPARATOR;
+        if (!is_dir($lang_files_dir)) {
+            @mkdir_recursive($lang_files_dir);
         }
-        global $mw_new_language_entires;
-        $mw_language_content = get_language_file_content();
+
+        global $mw_language_content_saved;
+
+//        if ($mw_language_content_saved == true) {
+//            return;
+//        }
+
+        global $mw_new_language_entries;
+        $mw_language_content = $this->_mw_get_language_file_content_core();
 
         $lang = current_lang();
+        $lang_file = $lang_files_dir . $lang . '.json';
 
-        $lang_file = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
-        if (!is_array($mw_language_content) or empty($mw_language_content)) {
-            $lang_file_str = json_encode($mw_new_language_entires, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if (is_array($mw_new_language_entries) and !empty($mw_new_language_entries)) {
 
+            $mw_new_language_entries = array_merge($mw_new_language_entries,$mw_language_content);
+            $mw_new_language_entries = array_unique($mw_new_language_entries);
+            $lang_file_str = json_encode($mw_new_language_entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+            if (function_exists('iconv')) {
+                $lang_file_str = special_unicode_to_utf8($lang_file_str);
+            }
             @file_put_contents($lang_file, $lang_file_str);
+
         }
-        $mw_language_content2 = array();
-        if (is_array($mw_language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
-            $mw_language_content2 = $mw_new_language_entires;
+        return;
 
-            if (!empty($mw_language_content2)) {
-                foreach ($mw_language_content2 as $key => $value) {
-                    if (!isset($mw_language_content[$key])) {
-                        $mw_language_content[$key] = $value;
-                    }
-                }
-            }
 
-            $mw_language_content = array_unique($mw_language_content);
-
-            $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-            $mw_language_content_saved = 1;
-            if (is_admin() == true) {
-                $c1 = count($mw_language_content);
-                $c2 = count($mw_language_content2);
-
-                if ($c1 > $c2) {
-                    if (isset($lang_file) and $lang_file != false and isset($lang_file_str) and $lang_file_str != false) {
-                        $dn = dirname($lang_file);
-                        if (!is_dir($dn)) {
-                            @mkdir($dn);
-                        }
-                        if (isset($lang_file_str) and $lang_file_str != false) {
-                            if (!is_file($lang_file)) {
-                                @touch($lang_file);
-                            }
-
-                            if (function_exists('iconv')) {
-                                $lang_file_str = special_unicode_to_utf8($lang_file_str);
-                            }
-
-                            $lang_file_str = str_replace('","', '",' . "\n" . '"', $lang_file_str);
-                            if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
-                                @file_put_contents($lang_file, $lang_file_str);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        if (!is_array($mw_language_content) or empty($mw_language_content)) {
+//            $lang_file_str = json_encode($mw_new_language_entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+//
+//            @file_put_contents($lang_file, $lang_file_str);
+//        }
+ //        $mw_language_content2 = array();
+//        if (is_array($mw_language_content) and is_array($mw_new_language_entries) and !empty($mw_new_language_entries)) {
+//            $mw_language_content2 = $mw_new_language_entries;
+//
+//            if (!empty($mw_language_content2)) {
+//                foreach ($mw_language_content2 as $key => $value) {
+//                    if (!isset($mw_language_content[$key])) {
+//                        $mw_language_content[$key] = $value;
+//                    }
+//                }
+//            }
+//            $mw_language_content = array_unique($mw_language_content);
+//
+//            dd($mw_language_content);
+//
+//            $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+//            $mw_language_content_saved = 1;
+//            if (is_admin() == true) {
+//                $c1 = count($mw_language_content);
+//                $c2 = count($mw_language_content2);
+//
+//                if ($c1 > $c2) {
+//                    if (isset($lang_file) and $lang_file != false and isset($lang_file_str) and $lang_file_str != false) {
+//                        $dn = dirname($lang_file);
+//                        if (!is_dir($dn)) {
+//                            @mkdir($dn);
+//                        }
+//                        if (isset($lang_file_str) and $lang_file_str != false) {
+//                            if (!is_file($lang_file)) {
+//                                @touch($lang_file);
+//                            }
+//
+//                            if (function_exists('iconv')) {
+//                                $lang_file_str = special_unicode_to_utf8($lang_file_str);
+//                            }
+//
+//                            $lang_file_str = str_replace('","', '",' . "\n" . '"', $lang_file_str);
+//                            if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
+//                                @file_put_contents($lang_file, $lang_file_str);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -278,96 +313,72 @@ class Lang
     function e($k, $to_return = false)
     {
         static $lang_file;
-        global $mw_new_language_entires;
-
-        $k1 = mw()->url_manager->slug($k);
-
-
-//        $k = '#1 Charles Leather Bag $ 78.00 Dec 15, 2017Completed???? ko  File:';
-//        $k = 'Apr 4, 2011 - Craig Sefton is based in the UK, and is Senior Developer at Eagle Eye,
-//        specializing in PHP, MySQL, and REST APIs. He has extensive experience with Python, Web ...
-//        2. Strip All Non-Alpha Numeric Characters and Spaces .... Get an array of unique characters used in a string.
-//        This should also work with ...';
-//        //$k = 'يتعلّق وحرمان.';
-
-
-        $is_first_char_upper = false;
-        if (ctype_upper($k[0])) {
-
-        }
-
-
-        //      dd( $k[0]);
-
-        $count_of_space = mb_substr_count($k, ' ');
-        $count_chars = mb_strlen($k);
-
-        $lang_key = preg_replace("/[^[:alnum:][:space:]]/u", '', $k);
-        $sufix = $this->__make_lang_key_suffix($lang_key);
-
-      //  dd($sufix);
-
-
-        //$lang_key = mb_trim($lang_key);
-        //$lang_key = str_fast_checksum($lang_key);
-
-        // $lang_key = URLify::filter($lang_key,600,false);
-
-        //substr_count($text, ' ');
-
-
-        //   dd($lang_key,$count_of_space,$count_chars);
-
-
-        $lang = current_lang();
-
-        $mw_language_content = $this->get_language_file_content();
-
-
+        global $mw_new_language_entries;
         $lang_val = false;
-        $lang_key = false;
 
 
-        if (isset($mw_language_content[$k]) == false) {
-            if (isset($mw_language_content[$k1]) != false) {
-                $lang_val = $mw_language_content[$k1];
-            }
+        $string = $this->lang($k);
+
+        if ($to_return == true) {
+            return $string;
         }
+        echo $string;
 
-//        if ($lang_val) {
-//            return $lang_val;
+        return;
+
+//
+//dd($string);
+//
+//
+//
+//        $k1 = mw()->url_manager->slug($k);
+//        $lang_key = preg_replace("/[^[:alnum:][:space:]]/u", '', $k);
+//        $lang_key = preg_replace('/(\v|\s)+/', ' ', $lang_key);
+//
+//        $sufix = $this->__make_lang_key_suffix($lang_key);
+//
+//        $translation_key = $k1 . $sufix;
+//
+//
+//        $lang = current_lang();
+//
+//        $mw_language_content = $this->get_language_file_content();
+//
+//
+//        if (isset($mw_language_content[$translation_key]) == false) {
+//
+//            if (isset($mw_language_content[$k1]) != false) {
+//                $lang_val = $mw_language_content[$k1];
+//                $mw_language_content[$translation_key] = $lang_val;
+//                $k1  = $translation_key;
+//            }
 //        }
-
-
-//        if (isset($mw_language_content[$k1]) != false and $mw_language_content[$k1] != $lang_val) {
-//            $mw_language_content[$k1] = $lang_val;
+//
+//
+//        if (isset($mw_language_content[$k1]) == false) {
+//            //if (is_admin() == true) {
+//            $k2 = ($k);
+//            $mw_new_language_entries[$k1] = $k2;
+//            $mw_language_content[$k1] = $k2;
+//            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
+//                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
+//                $scheduler = new \Microweber\Providers\Event();
+//                // schedule a global scope function:
+//                $scheduler->registerShutdownEvent('__store_lang_file');
+//                // $scheduler->registerShutdownEvent('__store_lang_file');
+//            }
+//
+//            //}
+//            if ($to_return == true) {
+//                return $k;
+//            }
+//            echo $k;
+//        } else {
+//            if ($to_return == true) {
+//                return $mw_language_content[$k1];
+//            }
+//            echo $mw_language_content[$k1];
 //        }
-
-
-        if (isset($mw_language_content[$k1]) == false) {
-            //if (is_admin() == true) {
-            $k2 = ($k);
-            $mw_new_language_entires[$k1] = $k2;
-            $mw_language_content[$k1] = $k2;
-            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
-                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
-                $scheduler = new \Microweber\Providers\Event();
-                // schedule a global scope function:
-                $scheduler->registerShutdownEvent('__store_lang_file');
-                // $scheduler->registerShutdownEvent('__store_lang_file');
-            }
-
-            //}
-            if ($to_return == true) {
-                return $k;
-            }
-            echo $k;
-        } else {
-            if ($to_return == true) {
-                return $mw_language_content[$k1];
-            }
-            echo $mw_language_content[$k1];
-        }
     }
 
 
@@ -391,36 +402,68 @@ class Lang
     {
         static $lang_file;
         global $mw_language_content;
-        global $mw_new_language_entires_ns;
+        global $mw_new_language_entries_ns;
+        global $mw_new_language_entries;
         $k = $title;
         //$k1 = strip_tags($k);
         $k1 = url_title($k);
+
+
+        $lang_key = preg_replace("/[^[:alnum:][:space:]]/u", '', $k);
+        $lang_key = preg_replace('/(\v|\s)+/', ' ', $lang_key);
+
+        $sufix = $this->__make_lang_key_suffix($lang_key);
+
+        $translation_key = $k1 . '-key-' . $sufix;
 
 
         $lang = current_lang();
 
         $mw_language_content_file = $this->get_language_file_content($namespace);
 
+
+        if (isset($mw_language_content_file[$k1]) != false) {
+            $k = $mw_language_content_file[$k1];
+            $k1 = $translation_key;
+            $mw_new_language_entries[$k1] = $k;
+        }
+
+
         if (isset($mw_language_content_file[$k1]) == false) {
-            if (is_admin() == true) {
+            if (!$namespace) {
+                $k2 = ($k);
+                $mw_new_language_entries[$k1] = $k2;
+                $mw_language_content[$k1] = $k2;
+
+                if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
+                    define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
+                    $scheduler = new \Microweber\Providers\Event();
+                    // schedule a global scope function:
+                    $scheduler->registerShutdownEvent('__store_lang_file');
+                    // $scheduler->registerShutdownEvent('__store_lang_file');
+                }
+            } else {
                 $namespace = trim($namespace);
                 $namespace = str_replace(' ', '', $namespace);
                 $namespace = str_replace('..', '', $namespace);
                 $namespace = str_replace('\\', '/', $namespace);
-                if (!isset($mw_new_language_entires_ns[$namespace])) {
-                    $mw_new_language_entires_ns[$namespace] = array();
+                if (!isset($mw_new_language_entries_ns[$namespace])) {
+                    $mw_new_language_entries_ns[$namespace] = array();
                 }
                 $k2 = ($k);
-                $mw_new_language_entires_ns[$namespace][$k1] = $k2;
-                $mw_language_content_file[$k1] = $k2;
+                $mw_new_language_entries_ns[$namespace][$k1] = $k2;
+                 $mw_language_content_file[$k1] = $k2;
+
                 if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                     define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
                     $scheduler = new \Microweber\Providers\Event();
+
                     $scheduler->registerShutdownEvent('__store_lang_file_ns');
 
 
                 }
             }
+
 
             return $k;
         } else {
@@ -928,16 +971,3 @@ class Lang
 }
 
 
-function ewchar_to_utf8($matches)
-{
-    $ewchar = $matches[1];
-    $binwchar = hexdec($ewchar);
-    $wchar = chr(($binwchar >> 8) & 0xFF) . chr(($binwchar) & 0xFF);
-
-    return iconv('unicodebig', 'utf-8', $wchar);
-}
-
-function special_unicode_to_utf8($str)
-{
-    return preg_replace_callback("/\\\u([[:xdigit:]]{4})/i", 'ewchar_to_utf8', $str);
-}
