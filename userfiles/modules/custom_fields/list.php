@@ -220,6 +220,10 @@ if (isset($params['for_module_id'])): ?>
                     mw.$("#custom-fields-post-table tbody").sortable({
                         handle: "td.custom-field-icon",
                         axis: 'y',
+                        placeholder: "ui-state-highlight",
+                        start: function(e, ui){
+                            ui.placeholder.height(ui.item.height());
+                        },
                         update: function () {
                             var _data = $(this).sortable('serialize');
                             var xhr = $.post(mw.settings.api_url + 'fields/reorder', _data);

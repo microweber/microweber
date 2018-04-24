@@ -244,12 +244,14 @@ li.module-item.ui-draggable-dragging *:after {
 }
 
 li.module-item.ui-draggable-dragging {
-
+    pointer-events: none;
+    z-index: 1001;
     border-radius: 1px;
-    box-shadow: 0 0 6px -4px #111;
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
     background: white;
-    padding: 5px !important;
-    border: 1px solid #C7C7C7;
+    padding: 15px 5px !important;
+    transform: scale(.7);
+    opacity: .8;
 }
 
 li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggable-dragging .module_name, li.module-item.ui-draggable-dragging .mw_module_image {

@@ -201,6 +201,13 @@
     background-repeat: no-repeat;
 }
 
+
+.wysiwyg_external {
+    position: fixed;
+    top: -9999px;
+    z-index: 1101;
+}
+
 /*//v2*/
 
 
@@ -234,11 +241,7 @@
     background-position: -525px 0;
 }
 
-.wysiwyg_external {
-    position: fixed;
-    top: -9999px;
-    z-index: 1101;
-}
+
 
 .mw_editor_bold .ed-ico {
     background-position: -89px 4px;
