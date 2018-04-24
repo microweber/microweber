@@ -7055,6 +7055,7 @@ select.silver-field {
     background-size: cover;
     border-radius: 333px;
     margin: 0 auto;
+    padding: 13px 12px;
 }
 
 #orders-info-row .mw-ui-table-basic tr:first-of-type td {

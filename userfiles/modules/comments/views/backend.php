@@ -195,7 +195,7 @@ mw()->notifications_manager->mark_as_read('comments');
                                 onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
                         />
                     </div>
-                    <module type="comments/search_content" id="mw_admin_posts_with_comments"/>
+                    <module type="comments/manage" id="mw_admin_posts_with_comments"/>
                 </div>
                 <?php /*
 

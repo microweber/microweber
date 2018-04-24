@@ -1,4 +1,29 @@
-<?php only_admin_access(); ?>
+<?php
+
+
+only_admin_access();
+
+
+$display = new \Microweber\Comments\Controllers\Admin();
+
+if (isset($params['view']) and method_exists($display, $params['view'])) {
+    $view = $params['view'];
+    return $display->$view($params);
+}
+
+return $display->index($params);
+
+
+
+
+
+
+
+
+?>
+
+
+
 
 <div  <?php if(isset($params['backend'])): ?>       class="mw-module-admin-wrap"<?php endif; ?>>
 

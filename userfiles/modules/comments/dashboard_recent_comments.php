@@ -46,7 +46,7 @@ if (is_array($comments_for_content)) {
 
 
 
-        <module type="comments/search_content"  id="dashboard-recent-comments" limit="5" >
+        <module type="comments/manage"  id="dashboard-recent-comments" limit="5" >
 
 
 
