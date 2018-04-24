@@ -1596,9 +1596,9 @@ mw.drag = {
         var items = selector || ".modules-list li";
         mw.$(items).draggable({
             revert: true,
-            cursorAt: {
+            /*cursorAt: {
                 top: -30
-            },
+            },*/
             revertDuration: 0,
             start: function(a, b) {
                 mw.isDrag = true;
@@ -1955,6 +1955,15 @@ mw.drag = {
                                 row.replaceWith(row.find(".mw-col").html());
                             }
                         }
+
+                        mw.$(".edit + li.module-item").each(function () {
+                            $(this).prev().append(this);
+                            mw.have_new_items = true;
+                        });
+                        mw.$("li.module-item + .edit").each(function () {
+                            $(this).prev().prependTo(this);
+                            mw.have_new_items = true;
+                        });
                         if (mw.have_new_items == true) {
                             mw.drag.load_new_modules();
                         }
@@ -1981,7 +1990,26 @@ mw.drag = {
                         mw.currentDragMouseOver = null;
 
                         $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
+
+
+
+
                     }, 77);
+
+
+                    setTimeout(function () {
+                        mw.$(".edit + li.module-item").each(function () {
+                            $(this).prev().append(this);
+                            mw.have_new_items = true;
+                        });
+                        mw.$("li.module-item + .edit").each(function () {
+                            $(this).prev().prependTo(this);
+                            mw.have_new_items = true;
+                        });
+                        if (mw.have_new_items == true) {
+                            mw.drag.load_new_modules();
+                        }
+                    }, 120)
 
 
                 }
@@ -2627,10 +2655,15 @@ mw.drag = {
     },
     grammarlyFix:function(html){
       var data = mw.tools.parseHtml(html).body;
+
       $("grammarly-btn", data).remove()
+      $("grammarly-card", data).remove()
       $("g.gr_", data).each(function(){
         $(this).replaceWith(this.innerHTML)
       });
+      $("[data-gramm_id]", data).removeAttr('data-gramm_id')
+      $("[data-gramm]", data).removeAttr('data-gramm')
+      $("[data-gramm_id]", data).removeAttr('data-gramm_id')
       return data.innerHTML
     },
     saving: false,
@@ -2638,7 +2671,7 @@ mw.drag = {
         if (!data) return false;
         $.each(data, function(){
           this.html = mw.drag.grammarlyFix(this.html)
-        })
+        });
         mw.drag.saving = true;
         var xhr = $.ajax({
             type: 'POST',
@@ -2662,6 +2695,7 @@ mw.drag = {
         mw.$('.element-current', doc).removeClass('element-current');
         mw.$('.element-active', doc).removeClass('element-active');
         mw.$('.disable-resize', doc).removeClass('disable-resize');
+        mw.$('.mw-webkit-drag-hover-binded', doc).removeClass('mw-webkit-drag-hover-binded');
         mw.$('.empty-element', doc).remove();
         mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
