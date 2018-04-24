@@ -42,7 +42,7 @@
             <div class="demobox" id="demotabsnav">
                 <div class="heading  mw-ui-box">
                     <div>Referrers</div>
-                    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+                    <!--<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
                         <a href="javascript:;" class="mw-ui-btn"><span class="number">726</span>
                             <small>Sites</small>
                         </a>
@@ -52,7 +52,7 @@
                         <a href="javascript:;" class="mw-ui-btn"><span class="number">10.7k</span>
                             <small>Search</small>
                         </a>
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="sources mw-ui-box has-tabs">
