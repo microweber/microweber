@@ -410,13 +410,12 @@ section.blog-post .container .container {
     font-weight: bold;
 }
 
-.mw-cart-data-holder .remove{
+.mw-cart-data-holder .remove {
     color: red !important;
     text-transform: lowercase;
 }
 
-
-.imagebg{
+.imagebg {
     overflow: hidden;
 }
 
@@ -424,10 +423,81 @@ section.blog-post .container .container {
     top: 68px !important;
 }
 
-.accordion li.active .accordion__content{
+.accordion li.active .accordion__content {
     max-height: auto !important;
 }
 
-.gateway-selector .mw-ui-check input[type=radio]+span:before{
+.gateway-selector .mw-ui-check input[type=radio] + span:before {
     text-transform: none;
+}
+
+.video-background-holder {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-size: cover !important;
+    background-position: 50% 50% !important;
+    z-index: 0;
+    transition: 0.3s linear;
+    -webkit-transition: 0.3s linear;
+    -moz-transition: 0.3s linear;
+    /*background: #232323;*/
+    opacity: 0.8;
+}
+
+.videobg[data-overlay="1"] .video-background-holder {
+    opacity: 1;
+}
+
+.videobg[data-overlay="2"] .video-background-holder {
+    opacity: 0.9;
+}
+
+.videobg[data-overlay="3"] .video-background-holder {
+    opacity: 0.8;
+}
+
+.videobg[data-overlay="4"] .video-background-holder {
+    opacity: 0.7;
+}
+
+.videobg[data-overlay="5"] .video-background-holder {
+    opacity: 0.6;
+}
+
+.videobg[data-overlay="6"] .video-background-holder {
+    opacity: 0.5;
+}
+
+.videobg[data-overlay="7"] .video-background-holder {
+    opacity: 0.4;
+}
+
+.videobg[data-overlay="8"] .video-background-holder {
+    opacity: 0.3;
+}
+
+.videobg[data-overlay="9"] .video-background-holder {
+    opacity: 0.2;
+}
+
+.videobg[data-overlay="10"] .video-background-holder {
+    opacity: 0.1;
+}
+
+.video-background-holder:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: url('../img/videooverlay.png');
+}
+
+.video-background-holder video {
+    width: 100%;
 }

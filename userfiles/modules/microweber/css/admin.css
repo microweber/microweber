@@ -1183,6 +1183,10 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu li.active a {
     background: #555555;
     color: white;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #mw-admin-main-menu li a:hover {
@@ -2914,6 +2918,10 @@ input#edit-content-url:focus, input#edit-content-url.active {
     margin-left: 8px;
     font-weight: bold;
     line-height: 13px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .toolbar-live-edit span {
