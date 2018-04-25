@@ -19,6 +19,14 @@ if ($logoimage == false or $logoimage == '') {
     }
 }
 
+if ($logoimage_inverse == false or $logoimage_inverse == '') {
+    if (isset($params['logoimage_inverse'])) {
+        $logoimage_inverse = $params['logoimage_inverse'];
+    } else {
+        $logoimage_inverse = $default;
+    }
+}
+
 if ($font_family == false or $font_family == '') {
     if (isset($params['font_family'])) {
         $font_family = $params['font_family'];
