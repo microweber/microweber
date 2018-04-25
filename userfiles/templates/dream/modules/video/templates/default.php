@@ -1,3 +1,17 @@
+<?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: Default
+
+*/
+
+?>
+
 <br />
 
 <div class=" box-shadow-wide">
