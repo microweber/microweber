@@ -37,18 +37,18 @@ if (isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) a
 }
 
 if ($edit_page_info['is_shop'] == 1) {
-    $type = 'shop';
+    $type = 'Shop';
 } elseif ($edit_page_info['subtype'] == 'dynamic') {
-    $type = 'dynamicpage';
+    $type = 'Dynamicpage';
 } elseif ($edit_page_info['subtype'] == 'post') {
-    $type = 'post';
+    $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {
-    $type = 'product';
+    $type = 'Product';
 } else {
-    $type = 'page';
+    $type = 'Page';
 }
 
-$action_text = _e("Creating new " . $type, true);
+$action_text = _e($type . ' ' . "title ", true);
 if (isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0) {
     $action_text = _e("Editing " . $type, true);
 }
@@ -163,6 +163,14 @@ if (isset($params['live_edit'])) {
                                                        id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
                                             </div>
 
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $(document).ready(function () {
+                                                        setTimeout(function(){ $('#content-title-field').focus(); }, 100);
+                                                    });
+                                                });
+                                            </script>
+
                                             <?php event_trigger('content.edit.title.after'); ?>
                                             <?php $custom_title_ui = mw()->modules->ui('content.edit.title.after'); ?>
                                             <?php if (!empty($custom_title_ui)): ?>
@@ -190,7 +198,7 @@ if (isset($params['live_edit'])) {
                                             <?php endif; ?>
                                         </div>
 
-                                        <script>mwd.getElementById('content-title-field').focus();</script>
+
                                     <?php else: ?>
                                         <h2><span class="mw-icon-<?php print $type; ?>"></span> <?php print $action_text ?></h2>
                                     <?php endif; ?>

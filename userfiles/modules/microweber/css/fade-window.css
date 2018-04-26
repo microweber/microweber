@@ -285,7 +285,7 @@
 
 .fade-window .window-holder #slug-field-holder {
     margin-top: 10px;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
 }
 
 .fade-window .window-holder .edit-post-url #slug-base-url-column {
@@ -338,8 +338,10 @@
 .fade-window .window-holder #content-title-field-buttons ul .btn-posts-state:after {
     content: "\0118";
     font-family: Microweber;
-    float: right;
     margin-left: 10px;
+    right: 0;
+    position: absolute;
+    right: 7px;
 }
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-settings {
@@ -390,14 +392,11 @@
     }
 }
 
-
-
-@media screen and (min-width: 1426px){
+@media screen and (min-width: 1426px) {
     .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
         max-width: 220px;
     }
 }
-
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn i {
     font-size: 20px;
@@ -442,6 +441,9 @@
 
 .fade-window .window-holder .mw-admin-edit-content-holder {
     width: 100%;
+}
+
+.fade-window .window-holder .mw-admin-edit-content-holder #settings-tabs {
     margin-bottom: 20px;
 }
 
@@ -868,4 +870,8 @@
 
 .fade-window .window-holder ul ul .has-children > .mw-ui-check .pages_tree_link_text span + span {
     margin-left: 37px;
+}
+
+.fade-window .window-holder .mw-admin-edit-page-primary-settings.parent-selector{
+    float: none;
 }

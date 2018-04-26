@@ -190,7 +190,11 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                         <?php endif; ?>
                                     </div>
 
-                                    <script>mwd.getElementById('content-title-field').focus();</script>
+                                    <script>
+                                        $(document).ready(function () {
+                                            setTimeout(function(){ $('#content-title-field').focus(); }, 100);
+                                        });
+                                    </script>
                                     <?php else: ?>
                                         <?php if ($edit_page_info['is_shop'] == 1) {
                                             $type = 'shop';

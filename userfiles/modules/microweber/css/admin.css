@@ -628,6 +628,11 @@ h3 > [class*="mw-icon-"]:first-child {
     opacity: 0.777;
 }
 
+.mw-tree .module a.active-bg:before{
+    color: #0086db;
+    opacity:1;
+}
+
 .mw-tree .module a:hover:before, .mw-tree .module a:focus:before, .mw-tree .module a.active:before {
     opacity: 1;
 }
@@ -4513,7 +4518,7 @@ body.grabbing, body.grabbing * {
 }
 
 tr.mw-order-item.hovered, tr.mw-order-item:hover,
-tr.mw-order-item.hovered, tr.mw-order-item{
+tr.mw-order-item.hovered, tr.mw-order-item {
     background-color: #FAFAFA;
 }
 
@@ -7076,19 +7081,19 @@ select.silver-field {
     padding-bottom: 0;
 }
 
-#orders-info-row .table-responsive .mw-order-item-image{
+#orders-info-row .table-responsive .mw-order-item-image {
     margin: 0;
 }
 
-#orders-info-row .table-responsive thead{
+#orders-info-row .table-responsive thead {
     text-transform: uppercase;
 }
 
-#orders-info-row .table-responsive thead th{
+#orders-info-row .table-responsive thead th {
     color: #0086db !important;
 }
 
-.mw-order-product-custom-fields > ul{
+.mw-order-product-custom-fields > ul {
     padding-left: 25px;
 }
 
@@ -7101,7 +7106,7 @@ select.silver-field {
     font-weight: bold;
 }
 
-#mw-admin-edit-order .mw-ui-table{
+#mw-admin-edit-order .mw-ui-table {
     table-layout: auto;
 }
 .admin-side-content-flat:after{
@@ -7126,4 +7131,6 @@ select.silver-field {
     box-shadow: 0 -2px 10px rgba(0,0,0,.3);
 }
 
-
+.hidden {
+    display: none !important;
+}
