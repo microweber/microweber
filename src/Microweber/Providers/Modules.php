@@ -1028,7 +1028,7 @@ class Modules
                 if ($is_dot_php != false and $is_dot_php != 'php') {
                     $template_name = $template_name . '.php';
                 }
-
+                $tf_mw_default = $module_name_l . 'default.php';
                 $tf = $module_name_l . $template_name;
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = templates_path() . $template_name;
@@ -1036,9 +1036,15 @@ class Modules
 
                 $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
-               // d($tf);
+               // ;
 
-                if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
+
+                if($template_name == 'mw_default.php' and is_file($tf)){
+                    return $tf;
+                }else if($template_name == 'mw_default.php' and is_file($tf_mw_default)){
+                    return $tf_mw_default;
+                }
+                 else if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
                     return $tf_from_other_theme;
                 } elseif (is_file($tf_theme)) {
                     return $tf_theme;

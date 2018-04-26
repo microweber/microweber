@@ -34,6 +34,12 @@ $(document).ready(function(){
       	 }
       }
 
+
+
+
+
+
+
 });
 
 function mw_delete_shop_order(pid, iscart, e){

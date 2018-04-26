@@ -85,6 +85,9 @@ class shipping_to_country {
                 $items_items = $this->app->shop_manager->get_cart();
                 if (!empty($items_items)){
                     foreach ($items_items as $item) {
+                        if(!isset($item['content_data'])){
+                            $item['content_data'] = array();
+                        }
 
                         $content_data = $item['content_data'];
 

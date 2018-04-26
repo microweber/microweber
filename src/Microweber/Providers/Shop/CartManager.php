@@ -322,6 +322,7 @@ class CartManager extends Crud
                 }
             }
         }
+
         if (!isset($data['for']) and isset($data['rel_type'])) {
             $data['for'] = $data['rel_type'];
         }
@@ -361,7 +362,7 @@ class CartManager extends Crud
         $for = $data['for'];
         $for_id = intval($data['for_id']);
         if ($for_id == 0) {
-            return array('error' => 'Invalid data');
+            return array('error' => 'Invalid data for_id');
         }
         $cont_data = false;
 
