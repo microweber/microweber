@@ -675,12 +675,14 @@ class Format
     public function lnotif($text, $class = 'success')
     {
         $editmode_sess = mw()->user_manager->session_get('editmode');
-
-        if ($editmode_sess == false) {
+        if (defined('MW_BACKEND') and MW_BACKEND != false) {
+           return false;
+        }
+       // if ($editmode_sess == false) {
             if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
                 $editmode_sess = true;
             }
-        }
+        //}
 
         if ($editmode_sess == true) {
             return $this->notif($text, $class);
