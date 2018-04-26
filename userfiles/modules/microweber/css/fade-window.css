@@ -372,7 +372,32 @@
     margin: 0;
     height: auto;
     border-bottom: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+@media screen and (min-width: 921px) and (max-width: 1100px) {
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
+        max-width: 138px;
+    }
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1425px) {
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
+        max-width: 170px;
+    }
+}
+
+
+
+@media screen and (min-width: 1426px){
+    .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
+        max-width: 220px;
+    }
+}
+
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn i {
     font-size: 20px;
@@ -837,11 +862,9 @@
 }
 
 .fade-window .window-holder .mw-tree ul ul li > a .mw_toggle_tree,
-.fade-window .window-holder .mw-tree ul ul li > label .mw_toggle_tree{
+.fade-window .window-holder .mw-tree ul ul li > label .mw_toggle_tree {
     left: 43px;
 }
-
-
 
 .fade-window .window-holder ul ul .has-children > .mw-ui-check .pages_tree_link_text span + span {
     margin-left: 37px;

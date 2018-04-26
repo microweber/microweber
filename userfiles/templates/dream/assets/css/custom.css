@@ -501,3 +501,7 @@ section.blog-post .container .container {
 .video-background-holder video {
     width: 100%;
 }
+
+.mw-heading-image{
+    position: static;
+}
