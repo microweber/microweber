@@ -1,7 +1,8 @@
 <?php if ($shop2_header_style == '' OR $shop2_header_style == 'background'): ?>
     <section class="imagebg image--light height-60" data-overlay="1">
-        <div class="background-image-holder" style="background-image: url('<?php print template_url('assets/img/'); ?>header4.jpg');"></div>
-
+        <div class="edit mw-heading-image" rel="content" field="heading-image">
+            <div class="background-image-holder" style="background-image: url('<?php print template_url('assets/img/'); ?>header4.jpg');"></div>
+        </div>
         <div class="container pos-vertical-center">
             <div class="row">
                 <div class="col-sm-4 shop-item-detail">
@@ -102,7 +103,7 @@
                 <div class="col-sm-12">
                     <h4><?php _e('Related Products'); ?></h4>
                 </div>
-                <module type="shop/products" template="skin-4" related="true" limit="3" />
+                <module type="shop/products" template="skin-4" related="true" limit="3"/>
             </div>
         </div>
     </div>
