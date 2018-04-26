@@ -27,7 +27,7 @@ event_bind('mw_admin_quick_stats_by_session', function ($params = false) {
 function mw_print_quick_stats_by_session($sid = false)
 {
 
-    print '<microweber module="site_stats" view="admin" data-subtype="quick" data-user-sid="' . $sid . '" />';
+    print '<module type="site_stats/admin" view="quick_stats_by_session" class="mw-site-stats-quick-view-table" data-subtype="quick" data-user-sid="' . $sid . '" />';
 }
 
 function mw_print_stats_on_dashboard()

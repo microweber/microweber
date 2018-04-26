@@ -44,6 +44,16 @@ class Stats
                 $log = new Log();
                 $log = $log->period($period, 'stats_visits_log');
 
+                if (isset($params['only_for_session_id'])) {
+                    $sid = $params['only_for_session_id'];
+                    $log = $log->join('stats_sessions', function ($join) use ($sid) {
+                        $join->on('stats_sessions.id', '=', 'stats_visits_log.session_id_key');
+                    });
+
+                 $log = $log->where('stats_sessions.session_id', $sid);
+
+                }
+
                 $log = $log->join('stats_urls', function ($join) {
                     $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
                 });

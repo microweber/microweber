@@ -329,7 +329,7 @@ class CheckoutManager
                     $place_order['is_paid'] = 0;
                     $place_order['success'] = 'Your order has been placed successfully!';
                 }
-                $place_order['order_status'] = 'pending';
+                $place_order['order_status'] = 'new';
                 if (!empty($checkout_errors)) {
                     return array('error' => $checkout_errors);
                 }

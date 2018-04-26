@@ -36,6 +36,8 @@ if (!function_exists('site_url')) {
         if (defined('MW_SITE_URL')) {
             $site_url = MW_SITE_URL;
         }
+
+
         if ($site_url == false) {
             $pageURL = 'http';
             if (is_https()) {
@@ -102,7 +104,9 @@ if (!function_exists('site_url')) {
             $url_segs[] = '';
             $site_url = implode('/', $url_segs);
         }
-
+        if (defined('MW_SITE_URL_PATH_PREFIX')) {
+            $site_url .= MW_SITE_URL_PATH_PREFIX;
+        }
         return $site_url . $add_string;
     }
 }
