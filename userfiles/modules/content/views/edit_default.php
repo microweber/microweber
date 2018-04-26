@@ -245,7 +245,7 @@ if (isset($params['live_edit'])) {
                                 </div>
                                 <div class="mw-ui-col" id="slug-url-column">
                                     <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print $data['url']; ?></span>
-                                    <input name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
+                                    <input autocomplete="off" name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
                                            onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
                                 </div>
                                 <div class="mw-ui-col" id="settings-btn-column">

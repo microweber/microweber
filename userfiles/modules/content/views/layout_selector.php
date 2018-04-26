@@ -194,11 +194,13 @@ if (!empty($recomended_layouts)) {
 
     mw.templatePreview<?php print $rand; ?> = {
         set: function () {
-            var framewindow = mwd.querySelector('.preview_frame_wrapper iframe').contentWindow;
+            var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
+            var framewindow = iframe.contentWindow;
             framewindow.scrollTo(0, 0);
             mw.$('.preview_frame_wrapper').removeClass("loading");
             mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
-            $('html, body', framewindow.document).css('overflow', 'hidden');
+            //$('html, body', framewindow.document).css('overflow', 'hidden');
+            mw.templatePreview<?php print $rand; ?>.setHeight();
         },
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
@@ -221,6 +223,21 @@ if (!empty($recomended_layouts)) {
             mw.$("#layout_selector<?php print $rand; ?> li.active").removeClass('active');
             mw.$("#layout_selector<?php print $rand; ?> li").eq(which).addClass('active');
             $(mw.templatePreview<?php print $rand; ?>.selector).trigger('change');
+        },
+        setHeight:function () {
+            var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
+            $(iframe).css({
+                height:1*($(window).height() - 66)
+            })
+            var framewindow = iframe.contentWindow;
+            //iframe.style.height = framewindow.document.body.clientHeight + 'px';
+            if(!this._init){
+                this._init = true
+                $(window).on("resize", function () {
+                    mw.templatePreview<?php print $rand; ?>.setHeight();
+                })
+            }
+
         },
         zoom: function (a) {
             if (typeof a == 'undefined') {
@@ -693,7 +710,7 @@ if (!empty($recomended_layouts)) {
             <?php endif; ?>
             <div class="preview_frame_container"></div>
             <?php if (!isset($params['edit_page_id'])): ?>
-                <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div>
+               <?php /* <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div> */ ?>
             <?php else: ?>
                 <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
                      ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">

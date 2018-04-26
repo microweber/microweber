@@ -250,8 +250,7 @@ li.module-item.ui-draggable-dragging {
     box-shadow: 0 5px 15px rgba(0,0,0,.3);
     background: white;
     padding: 15px 5px !important;
-    transform: scale(.7);
-    opacity: .8;
+    opacity: .9;
 }
 
 li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggable-dragging .module_name, li.module-item.ui-draggable-dragging .mw_module_image {

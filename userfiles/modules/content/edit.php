@@ -14,7 +14,8 @@ $manager = new content\controllers\Edit();
 
 if (isset($params['view'])) {
     if (method_exists($manager, $params['view'])) {
-        return $manager->$params['view']($params);
+        $m = $params['view'];
+        return $manager->$m($params);
     }
 }
 return $manager->index($params);

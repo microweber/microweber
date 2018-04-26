@@ -62,9 +62,9 @@ $data['option_key'] = 'current_template';
 <div class=" mw-site-theme-selector">
   <input id="mw_curr_theme_val" name="current_template"   class="mw_option_field mw-ui-field"   type="hidden" option-group="template"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>"  />
   <module type="content/views/layout_selector" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1" xxlive_edit_styles_check="1" no-default-name="true" />
-<div class="admin-side-content-flat">
+<div class="layout-selector-footer">
  <?php if(mw()->ui->disable_marketplace != true): ?>
-    <a class="mw-ui-link pull-left" style="text-decoration: none; opacity: 0.6"  href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
+    <a class="mw-ui-link pull-left"  href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
         <small><?php _e("More Templates"); ?></small>
     </a>
 <?php endif; ?>

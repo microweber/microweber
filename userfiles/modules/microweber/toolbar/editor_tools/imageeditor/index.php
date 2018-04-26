@@ -52,7 +52,7 @@
           <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.createCropTool();">
             <span class="mw-icon-crop"></span>
           </span>
-                    <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
+          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
             <span class="mw-icon-app-refresh-empty"></span>
           </span>
 
@@ -63,17 +63,20 @@
                     <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Effects"); ?></span>
                     <div class="mw-dropdown-content" style="display: none;">
                         <ul>
-                            <li value="vintage" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><a href="javascript:;"><?php _e("Vintage Effect"); ?></a></li>
-                            <li value="grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><a href="javascript:;"><?php _e("Grayscale"); ?></a></li>
+                            <li value="vintage" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><?php _e("Vintage Effect"); ?></a></li>
+                            <li value="grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><?php _e("Grayscale"); ?></li>
                         </ul>
                     </div>
                 </div>
-                <span style="margin-left: 10px;" class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-savetheimage pull-right'><?php _e("Update"); ?></span>
+                <div class="mw-ui-btn-nav pull-right">
+
+                    <span class='mw-ui-btn mw-ui-btn-change-image'><?php _e("Change"); ?></span>
+
+                    <span class="mw-ui-btn mw-ui-btn-warn disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
 
 
-                <span style="margin-left: 10px;" class="mw-ui-btn mw-ui-btn-warn pull-right disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
-
-                <span style="margin-left: 10px;" class='mw-ui-btn mw-ui-btn-change-image pull-right'><?php _e("Change"); ?></span>
+                    <span class='mw-ui-btn mw-ui-btn-info mw-ui-btn-savetheimage'><?php _e("Update"); ?></span>
+                </div>
 
             </div>
 
@@ -280,19 +283,23 @@
         mw.image.current_original = src;
 
         mw.image.current = mwd.querySelector("#mwimagecurrent");
-
-        mw.$("#image-title").val(title);
-        mw.$("#image-alt").val(alt);
+        if(!!title)mw.$("#image-title").val(title);
+        if(!!alt)mw.$("#image-alt").val(alt);
 
         mw.$(".mw-ui-btn-savetheimage").click(function () {
 
 
 
             CurrSRC(mw.image.current.src)
-
-            theImage.align = mw.image.current_align;
-            theImage.title = mw.$("#image-title").val();
-            theImage.alt = mw.$("#image-alt").val();
+            if(!!mw.image.current_align){
+                theImage.align = mw.image.current_align;
+            }
+            if(!!theImage.title){
+                theImage.title = mw.$("#image-title").val();
+            }
+            if(!!theImage.alt){
+                theImage.alt = mw.$("#image-alt").val();
+            }
 
             if (mw.image.current_need_resize && theImage.nodeName == 'IMG') {
                 mw.image.preload(mw.image.current.src, function (w, h) {
@@ -305,8 +312,9 @@
 
             parent.mw.wysiwyg.normalizeBase64Image(theImage);
 
-            var link_url = $("#link").val();
-            if (link_url != '') {
+            var link_url = $("#link").val()
+            if (!!link_url ) {
+                link_url = link_url.trim();
                 if (mw.tools.hasParentsWithTag(theImage, 'a')) {
                     $(mw.tools.firstParentWithTag(theImage, 'a')).attr("href", link_url);
                 }

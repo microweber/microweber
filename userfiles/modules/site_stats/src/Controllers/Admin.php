@@ -189,7 +189,40 @@ class Admin
 
 
     }
+    function quick_stats_by_session($params)
+    {
+        if (!isset($params['data-user-sid'])) {
+            return;
+        }
+        if (!isset($params['period'])) {
+            $params['period'] = 'yearly';
+        }
 
+        $sid = $params['data-user-sid'];
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['only_for_session_id'] = $sid;
+        $get_data['return'] = 'content_list';
+        $stats = new Stats();
+        $get_data = $stats->get_stats_items($get_data);
+
+
+        $get_data = array();
+        $get_data['period'] = $params['period'];
+        $get_data['return'] = 'content_list';
+        $stats = new Stats();
+        $get_data = $stats->get_stats_items($get_data);
+
+
+        $view_file = $this->views_dir . 'parts/contents.php';
+        $view = new View($view_file);
+        $view->assign('params', $params);
+        $view->assign('data', $get_data);
+        return $view->display();
+
+
+    }
 
     function visits_graph($params)
     {

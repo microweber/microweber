@@ -2299,10 +2299,30 @@ mw.wysiwyg = {
                 mw.trigger('imageSrcChanged', [node, node.src])
             });
         }
+        else if(node.style.backgroundImage.indexOf('data:image/') !== -1){
+            var bg =   node.style.backgroundImage.replace(/url\(/g, '').replace(/\)/g, '')
+            var type = bg.split('/')[1].split(';')[0];
+            var obj = {
+                file: bg,
+                name: mw.random().toString(36) + "." + type
+            };
+            $.post(mw.settings.api_url + "media/upload", obj, function (data) {
+                var data = $.parseJSON(data);
+                node.style.backgroundImage = 'url(\'' + data.src + '\')';
+                console.log(99, node)
+
+                if (typeof callback === 'function') {
+                    callback.call(node);
+                }
+                mw.wysiwyg.change(node);
+                mw.trigger('nodeBackgroundChanged', [node, node.src])
+            });
+        }
     },
     normalizeBase64Images: function (root) {
         var root = root || mwd.body;
-        var all = root.querySelectorAll(".edit img[src*='data:image/']"), l = all.length, i = 0;
+        var all = root.querySelectorAll(".edit img[src*='data:image/'], .edit [style*='data:image/'][style*='background-image']"),
+            l = all.length, i = 0;
         if (l > 0) {
             for (; i < l; i++) {
                 mw.tools.addClass(all[i], 'element');

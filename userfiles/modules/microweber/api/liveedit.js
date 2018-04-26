@@ -800,15 +800,23 @@ mw.drag = {
                     }
                     else{
 
-                    if ( !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])
+                    if (
+                        !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop'])
+                        && !mw.tools.hasClass(mw.mm_target, 'edit')
                     && (mw.dragCurrent.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts')) {
+
                         var scope = mw.mm_target;
                         mw.mm_target = mw.drag.noop;
                         mw.$mm_target = $(mw.drag.noop);
                         mw.currentDragMouseOver = null;
                         mw.dropable.hide();
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
-                        var el = $(mw.tools.firstMatchesOnNodeOrParent(scope, mw.drag.section_selectors));
+                        var _el = mw.tools.firstMatchesOnNodeOrParent(scope, mw.drag.section_selectors);
+                        if(!_el){
+                            _el = scope
+                        }
+                        var el = $(_el);
+
                         var height = el.height(), width = el.width(), offset = el.offset();
                         if (event.pageY > offset.top + (height / 2)) { //is on the bottom part
                             mw.trigger('ModuleBetweenModules', [el, 'bottom'])
@@ -1732,6 +1740,7 @@ mw.drag = {
                 if (mw.isDrag) {
                     mw.isDrag = false;
 
+
                     mw.wysiwyg.change(mw.currentDragMouseOver);
                     $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
                     /*  var history_id = 'history_'+mw.random();
@@ -1763,21 +1772,24 @@ mw.drag = {
                           return false;
                         }
 
+                        console.log(mw.currentDragMouseOver);
+                        console.log(mw.dragCurrent);
+
                         var fce = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.edit']);
                         var fcnd = mw.tools.firstMatchesOnNodeOrParent(mw.currentDragMouseOver, ['.nodrop']);
                         var ndo = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.currentDragMouseOver, ['nodrop', 'allow-drop']);
 
-                        if(!!fcnd && ndo){
+                        if(!!fcnd && ndo){console.log(991)
                           return false;
                         }
-                        if (fce && fcnd) {
+                        if (fce && fcnd) {console.log(992)
                           if (mw.tools.hasClass(mw.currentDragMouseOver, 'nodrop') || mw.tools.hasClass(fce, 'nodrop')) {
                             if(ndo){
                               return false;
                             }
 
                           }
-                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'edit')) {
+                          if (mw.tools.hasClass(mw.currentDragMouseOver, 'edit')) {console.log(993)
                             if (ndo) {
                               return false;
                             }
@@ -1792,7 +1804,7 @@ mw.drag = {
 
 
 
-                        if(mw.currentDragException || mw.dropables.findNearestException){
+                        if(mw.currentDragException || mw.dropables.findNearestException){console.log(994)
                             mw.dropables.findNearestException = false;
                             if (position == 'top') {
                                 $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -1802,7 +1814,7 @@ mw.drag = {
                           return false;
                         }
 
-                        if(mw.tools.hasAnyOfClasses(mw.currentDragMouseOver, mw.drag.external_grids_col_classes)){
+                        if(mw.tools.hasAnyOfClasses(mw.currentDragMouseOver, mw.drag.external_grids_col_classes)){console.log(995)
                           if (position == 'top') {
                                 $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                             } else {

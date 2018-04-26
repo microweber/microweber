@@ -200,5 +200,5 @@
     </div>
 
 
-    <module type="shop/orders" id="mw-admin-manage-orders-list"/>
+    <module type="shop/orders/admin" id="mw-admin-manage-orders-list" />
 </div>

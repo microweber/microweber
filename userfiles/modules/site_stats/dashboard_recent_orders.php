@@ -26,7 +26,7 @@ only_admin_access();
     </div>
     <div class="dr-list">
         <div class="orders-holder" id="shop-orders">
-            <?php include(modules_path() . 'shop/orders/views/orders-list.php'); ?>
+             <module type="shop/orders/admin" limit="5" hide-controlls="true" />
         </div>
     </div>
 </div>
