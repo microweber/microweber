@@ -113,7 +113,11 @@
                         <label class="mw-ui-label bold p-b-10">Company Country:</label>
 
                         <select name="invoice_company_country" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="shop">
-                            <option value="Bulgaria" selected="selected">Bulgaria</option>
+                            <?php if (countries_list()): ?>
+                                <?php foreach (countries_list() as $country): ?>
+                                    <option value="<?php print $country; ?>" selected="selected"><?php print $country; ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                     </div>
                 </div>
