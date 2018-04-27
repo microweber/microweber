@@ -1,3 +1,10 @@
+<script>
+    $(document).ready(function () {
+        if (window.thismodal && thismodal.resize) {
+            thismodal.resize(991);
+        }
+    });
+</script>
 <?php
 only_admin_access();
 
@@ -121,7 +128,7 @@ if (isset($params['live_edit'])) {
                         <?php } ?>
                         <?php if ($is_live_edit == false) : ?>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
                                     <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                             </li>
                             <li>
@@ -130,12 +137,12 @@ if (isset($params['live_edit'])) {
                         <?php else: ?>
                             <?php if ($data['id'] == 0): ?>
                                 <li>
-                                    <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
-                                        <i class="mw-icon-live"></i> <span><?php _e("Live Edit"); ?></span></button>
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
+                                        <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                                 </li>
                             <?php else: ?>
                                 <li>
-                                    <button type="button" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>"><i class="mw-icon-live"></i> <span><?php _e("Live Edit"); ?></span></button>
+                                    <button type="button" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                                 </li>
                             <?php endif; ?>
                             <li>
@@ -166,7 +173,9 @@ if (isset($params['live_edit'])) {
                                             <script>
                                                 $(document).ready(function () {
                                                     $(document).ready(function () {
-                                                        setTimeout(function(){ $('#content-title-field').focus(); }, 100);
+                                                        setTimeout(function () {
+                                                            $('#content-title-field').focus();
+                                                        }, 100);
                                                     });
                                                 });
                                             </script>

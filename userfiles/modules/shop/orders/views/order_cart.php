@@ -76,8 +76,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 });
             </script>
             <div class="table-responsive">
-                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%"
-                       id="order-information-table">
+                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
                     <thead>
                     <tr>
                         <th><?php _e("Image"); ?></th>
@@ -147,37 +146,36 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             </tr>
                         <?php endif ?>
                     <?php endforeach; ?>
+
                     <tr class="mw-ui-table-footer" style="background: #fafafa; font-weight: bold;">
-                        <td colspan="4">&nbsp;</td>
-                        <td colspan="2"><?php print _e('TOTAL AMOUNT'); ?></td>
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="4"><?php print _e('TOTAL AMOUNT'); ?></td>
                     </tr>
+
                     <tr class="mw-ui-table-footer">
-                        <td colspan="4">&nbsp;</td>
-                        <td><?php _e("Subtotal"); ?></td>
-                        <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2"><?php _e("Subtotal"); ?></td>
+                        <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
                     </tr>
+
                     <tr class="mw-ui-table-footer">
-                        <td colspan="4">&nbsp;</td>
-                        <td><?php _e("Shipping price"); ?></td>
-                        <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2"><?php _e("Shipping price"); ?></td>
+                        <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
                     </tr>
+
                     <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
                         <tr class="mw-ui-table-footer">
-                            <td colspan="4">&nbsp;</td>
-                            <td><?php _e("Tax"); ?></td>
-                            <td class="mw-ui-table-green"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
+                            <td colspan="2">&nbsp;</td>
+                            <td colspan="2"><?php _e("Tax"); ?></td>
+                            <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                         </tr>
                     <?php endif ?>
 
-
                     <tr class="mw-ui-table-footer last">
-                        <td colspan="3">&nbsp;</td>
-                        <td class="mw-ui-table-green"><strong>
-                                <?php _e("Total:"); ?>
-                            </strong></td>
-                        <td class="mw-ui-table-green">
-                            <strong><?php print  currency_format($ord['amount'], $ord['currency']); ?></strong>
-                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2" class="mw-ui-table-green"><strong><?php _e("Total:"); ?></strong></td>
+                        <td class="mw-ui-table-green" colspan="2"><strong><?php print  currency_format($ord['amount'], $ord['currency']); ?></strong></td>
                     </tr>
                     </tbody>
                 </table>
