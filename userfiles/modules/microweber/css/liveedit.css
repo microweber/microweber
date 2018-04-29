@@ -3765,3 +3765,10 @@ body.isTyping .mw-cloneable-control-item {
 #mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) i{
     color: #0086db;
 }
+
+body.dragStart .nodrop{
+    pointer-events: none;
+}
+body.dragStart .allow-drop{
+    pointer-events: all;
+}

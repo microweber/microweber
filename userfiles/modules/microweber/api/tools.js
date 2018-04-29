@@ -1651,6 +1651,7 @@ mw.tools = {
         });
         return final;
     },
+
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node,
             has1 = false,
