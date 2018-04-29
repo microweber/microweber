@@ -154,20 +154,29 @@ class CartManager extends Crud
         $return = array();
         if (is_array($get)) {
             foreach ($get as $k => $item) {
-                if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
-                    $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
-                    $item['url'] = $this->app->content_manager->link($item['rel_id']);
-                    $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
+                if (is_array($item)) {
+                    if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
+                        $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
+                        $item['url'] = $this->app->content_manager->link($item['rel_id']);
+                        $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
+                    }
+                    if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+                        $item = $this->app->format->render_item_custom_fields_data($item);
+                    }
+                    if (isset($item['title'])) {
+                        $item['title'] = html_entity_decode($item['title']);
+                        $item['title'] = strip_tags($item['title']);
+                        $item['title'] = $this->app->format->clean_html($item['title']);
+                        $item['title'] = htmlspecialchars_decode($item['title']);
+                    }
+                    if (!isset($item['url'])) {
+                        $item['url'] = '';
+                    }
+                    if (!isset($item['picture'])) {
+                        $item['picture'] = '';
+                    }
                 }
-                if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item = $this->app->format->render_item_custom_fields_data($item);
-                }
-                if (isset($item['title'])) {
-                    $item['title'] = html_entity_decode($item['title']);
-                    $item['title'] = strip_tags($item['title']);
-                    $item['title'] = $this->app->format->clean_html($item['title']);
-                    $item['title'] = htmlspecialchars_decode($item['title']);
-                }
+
                 $return[$k] = $item;
             }
         } else {
@@ -188,11 +197,13 @@ class CartManager extends Crud
         $params['table'] = $table;
         $params['order_id'] = $order_id;
         $get = $this->app->database_manager->get($params);
+
         if (!empty($get)) {
             foreach ($get as $k => $item) {
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item = $this->app->format->render_item_custom_fields_data($item);
                 }
+
                 $get[$k] = $item;
             }
         }

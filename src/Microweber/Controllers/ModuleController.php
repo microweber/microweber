@@ -105,6 +105,11 @@ class ModuleController extends Controller
                     define('IN_EDITOR_TOOLS', true);
                 }
             }
+            if (stristr($from_url, admin_url())) {
+                if (!defined('MW_BACKEND')) {
+                    define('MW_BACKEND', true);
+                }
+            }
 
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);

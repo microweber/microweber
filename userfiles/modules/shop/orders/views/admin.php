@@ -8,9 +8,9 @@ use Microweber\View;
         <div class="orders-holder" id="shop-orders">
             <?php if ($has_new): ?>
                 <div class="you-have-new-orders">
-                    <p class="new-orders p-b-10 p-t-10 ">You have <?php //print $notif_html; ?> new orders</p>
+<!--                    <p class="new-orders p-b-10 p-t-10 ">You have --><?php ////print $notif_html; ?><!-- new orders</p>-->
 
-                    <div class="mw-ui-box mw-ui-box-content mw-ui-box-notification new-notification m-b-10"><span
+                    <div class="mw-ui-box mw-ui-box-content mw-ui-box-notification new-notification m-b-10 m-t-10"><span
                             class="mai-shop"></span> <strong>You have <?php //print $notif_html; ?> new orders</strong>
                         <button class="close-alert"><i class="mw-icon-close"></i></button>
                     </div>

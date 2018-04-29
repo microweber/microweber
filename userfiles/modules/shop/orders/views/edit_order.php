@@ -1,5 +1,3 @@
-
-
 <div id="mw-order-table-holder">
     <div class="section-header">
         <h2 class="inline-element m-r-10"><?php _e("Order"); ?> #<?php print $show_ord_id ?></h2>
@@ -17,10 +15,7 @@
             <div class="mw-ui-col">
 
 
-                <module type="shop/orders/views/order_cart" order-id="<?php print $show_ord_id; ?>" />
-
-
-
+                <module type="shop/orders/views/order_cart" order-id="<?php print $show_ord_id; ?>"/>
 
 
                 <div class="mw-ui-box m-t-10" id="order-status">
@@ -199,7 +194,7 @@
             <div class="mw-ui-col">
                 <div class="mw-ui-box">
                     <div class="mw-ui-box-header bold">
-                        <a href="#clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mw-icon-pen"></span> <?php _e("Edit"); ?></a>
+                        <a href="<?php print admin_url(); ?>view:shop/action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mw-icon-pen"></span> <?php _e("Edit"); ?></a>
                         <span><?php _e("Client Information"); ?></span>
                     </div>
 

@@ -87,9 +87,8 @@ $is_orders = get_orders('count=1');
 <?php endif; ?>
 
 <div class="section-header">
-    <h2 class="pull-left"><span class="mw-icon-users"></span>
-        <?php _e("Clients List"); ?>
-    </h2>
+    <h2 class="pull-left"><span class="mw-icon-users"></span><?php _e("Clients List"); ?></h2>
+
     <input type="text" class="mw-ui-searchfield pull-right active" placeholder="<?php _e("Search in clients"); ?>"
            onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('clients_search',this.value)})" value="<?php print $keyword ?>" autofocus="autofocus"/>
 </div>
