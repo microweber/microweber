@@ -121,6 +121,72 @@ class Shop
                 'shipping_price_custom' => 'float',
             ],
 
+
+            'cart_clients' => [
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+
+                'first_name' => 'longText',
+                'last_name' => 'longText',
+                'email' => 'longText',
+                'user_id' => 'integer',
+
+
+            ],
+
+            'cart_clients_address' => [
+                'address_title' => 'string',
+
+                'client_id' => 'integer',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+
+                'city' => 'text',
+                'state' => 'string',
+                'zip' => 'string',
+                'address' => 'longText',
+                'address2' => 'longText',
+                'phone' => 'text',
+                'address_notes' => 'longText',
+
+
+            ],
+
+
+            'cart_invoices' => [
+                'total' => 'float',
+                'amount' => 'float',
+                'tax' => 'float',
+                'discount' => 'float',
+                'currency' => 'string',
+                'status' => 'string',
+                'sender_info' => 'longText',
+                'receiver_info' => 'longText',
+                'payment_info' => 'longText',
+                'notes' => 'longText',
+                'order_id' => 'integer',
+                'client_id' => 'integer',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'created_by' => 'integer',
+                'edited_by' => 'integer',
+            ],
+
+            'cart_invoices_lines' => [
+                'description' => 'longText',
+                'qty' => 'integer',
+                'amount' => 'float',
+                'tax' => 'float',
+                'invoice_id' => 'integer',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'created_by' => 'integer',
+                'edited_by' => 'integer',
+            ],
+
+
+
+
         ];
     }
 }

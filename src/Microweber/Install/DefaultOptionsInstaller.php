@@ -4,7 +4,7 @@ namespace Microweber\Install;
 
 use Illuminate\Support\Facades\DB;
 use Option;
-use Shipping;
+
 
 class DefaultOptionsInstaller
 {
