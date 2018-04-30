@@ -1,5 +1,5 @@
 mw.require('wysiwyg.js');
-mw.require('element_analizer.js');
+mw.require('element_analyzer.js');
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -17,7 +17,7 @@ mw.mouseDownStarted = false;
 mw.SmallEditorIsDragging = false;
 
 mw.states = {}
-mw.live_edit_module_settings_array = new Array();
+mw.live_edit_module_settings_array = [];
 
 /**
  * Makes Droppable area
@@ -770,7 +770,10 @@ mw.drag = {
                 }
                 else {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
-                    mw.ea.interactionAnalizer(event);
+                    if((mw.emouse.x+mw.emouse.y)%2===0){
+                        mw.ea.interactionAnalizer(event);
+                    }
+
                 }
 
 
@@ -1412,8 +1415,8 @@ mw.drag = {
 
                     setTimeout(function() {
 
-                        console.log(9,mw.ea.data.target , mw.ea.data.currentGrabbed)
-                        console.log(10,mw.ea.data.target,mw.ea.data.dropableAction,mw.ea.data.currentGrabbed)
+                       /* console.log(9,mw.ea.data.target , mw.ea.data.currentGrabbed)
+                        console.log(10,mw.ea.data.target,mw.ea.data.dropableAction,mw.ea.data.currentGrabbed)   */
                         if(mw.ea.data.target && mw.ea.data.currentGrabbed){
                             $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed)
                         }
@@ -1421,6 +1424,7 @@ mw.drag = {
                         mw.drag.fixes();
                         setTimeout(function() {
                             mw.drag.fix_placeholders();
+                            mw.ea.afterAction()
                         }, 40)
                         mw.resizable_columns();
                         mw.dropable.hide();
@@ -2894,7 +2898,7 @@ PagesFrameSRCSet = false;
 $(document).ready(function() {
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
-    mw.ea = new mw.ElementAnalizer();
+    mw.ea = new mw.ElementAnalyzer();
 
     mw.$(".edit a, #mw-toolbar-right a").click(function() {
         var el = this;

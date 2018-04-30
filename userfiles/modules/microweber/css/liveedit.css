@@ -379,6 +379,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     left: 50%;
     display: block;
     width: 5px;
+    pointer-events: none;
 }
 
 .mw_dropable_arr:before,
@@ -2025,10 +2026,11 @@ body.dragStart .empty-element {
 .edit li.module-item {
     list-style: none;
     background: white url(../img/img_check_loading.gif) no-repeat center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #BDBBBB;
-    border-radius: 3px;
+    width: 100%;
+    height: 100px;
+    position: static !important;
+    display: block;
+
 }
 
 .edit li.module-item * {

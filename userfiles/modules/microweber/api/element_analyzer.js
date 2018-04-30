@@ -23,7 +23,7 @@
 
 *************************************************************/
 
-mw.ElementAnalizer = function(options){
+mw.ElementAnalyzer = function(options){
 
 
 
@@ -111,6 +111,22 @@ mw.ElementAnalizer = function(options){
         node = node || this.data.target;
         pos = node || this.data.dropablePosition;
     };
+    this.afterAction = function(node, pos){
+        setTimeout(function(){
+
+            mw.$(".mw_drag_current").each(function(){
+                $(this).removeClass('mw_drag_current').css({
+                    visibility:'visible'
+                })
+            });
+            mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
+            mw.$(".mw-empty").removeClass('mw-empty')
+        }, 78)
+
+    }
+    this.dropableHide = function(){
+
+    }
     this.analizeAction = function(node, pos){
         node = node || this.data.target;
         pos = pos || this.data.dropablePosition;
@@ -128,7 +144,11 @@ mw.ElementAnalizer = function(options){
                bottom:'append',
             }
         }
-        console.log(1,pos)
+
+        if(!pos){
+
+            return;
+        }
 
         if(this.helpers.isElement()){
             this.data.dropableAction = actions.Around[pos];
@@ -145,7 +165,8 @@ mw.ElementAnalizer = function(options){
         else if(this.helpers.isModule()){
             this.data.dropableAction = actions.Around[pos];
         }
-        console.log(2,this.data.dropableAction)
+
+
 
     };
 
@@ -186,7 +207,7 @@ mw.ElementAnalizer = function(options){
         },
         isElement:function(node){
             node = node || this.scope.data.target;
-            return mw.tools.hasClass(node, this.scope.cls.module);
+            return mw.tools.hasClass(node, this.scope.cls.element);
         },
         isEmpty:function(node){
             node = node || this.scope.data.target;
@@ -294,9 +315,11 @@ mw.ElementAnalizer = function(options){
             scope.data.target = e.target;
             scope.interactionTarget();
             scope.data.target = scope.getTarget();
+            mw.dropable.hide();
             if(scope.data.target){
                     scope.analizePosition(e);
                     scope.analizeAction();
+                    mw.dropable.show();
             }
             else{
                     var near = mw.dropables.findNearest(e);
@@ -304,17 +327,20 @@ mw.ElementAnalizer = function(options){
                         scope.data.target = near.element;
                         scope.data.dropablePosition = near.position;
                         mw.dropables.findNearestException = true;
+                        mw.dropable.show();
                     }
                     else{
-                            scope.dataReset()
+                        scope.dataReset();
+                        mw.dropable.hide();
                     }
 
             }
 
             var el = $(scope.data.target);
             mw.currentDragMouseOver = scope.data.target;
-            console.log(scope.data.target)
+
             mw.dropables.set(scope.data.dropablePosition, el.offset(), el.height(), el.width());
+
         }
     }
 
