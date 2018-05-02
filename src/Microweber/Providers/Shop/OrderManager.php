@@ -103,6 +103,18 @@ class OrderManager
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
 
+        //get client
+
+//        $client_id = $this->app->clients_manager->find_or_create_client_id($place_order);
+//
+//        if (isset($place_order['email']) and $place_order['email']) {
+//            $client = array();
+//            $client['email'] = $place_order['email'];
+//            if (isset($place_order['email']) and $place_order['email']) {
+//
+//            }
+//        }
+
         DB::transaction(function () use ($sid, $ord, $place_order) {
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
@@ -154,6 +166,7 @@ class OrderManager
         $table = $this->table;
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
+        $this->app->cache_manager->delete('cart');
 
         return $this->app->database_manager->save($table, $params);
     }

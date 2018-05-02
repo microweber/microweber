@@ -107,6 +107,7 @@ class Shop
                 'created_at' => 'dateTime',
                 'is_active' => 'string',
 
+
                 'shipping_cost' => 'float',
                 'shipping_cost_max' => 'float',
                 'shipping_cost_above' => 'float',
@@ -137,10 +138,13 @@ class Shop
             'cart_clients_address' => [
                 'address_title' => 'string',
 
+                'is_default' => 'string',
+                'address_type' => 'string',
+
                 'client_id' => 'integer',
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
-
+                'country' => 'text',
                 'city' => 'text',
                 'state' => 'string',
                 'zip' => 'string',
@@ -148,8 +152,6 @@ class Shop
                 'address2' => 'longText',
                 'phone' => 'text',
                 'address_notes' => 'longText',
-
-
             ],
 
 

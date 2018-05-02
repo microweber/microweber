@@ -2,9 +2,10 @@
 
 
 
-class Clients extends Base
+class Clients extends BaseModel
 {
     protected $table = 'cart_clients';
+    protected $timestamps = [ "created_at", "updated_at" ];
     protected $fillable = [
         'first_name',
         'last_name',
@@ -12,7 +13,6 @@ class Clients extends Base
         'user_id',
         'updated_at',
         'created_at',
-
     ];
 
 
