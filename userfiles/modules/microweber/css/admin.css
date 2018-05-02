@@ -4775,9 +4775,9 @@ body.is_admin .mw-admin-container {
     max-width: 1100px;
 }
 
-.admin-content-column.modules {
+/*.admin-content-column.modules {
     padding: 66px 20px 20px;
-}
+}*/
 
 .the-icoimage {
     width: 36px;
@@ -5411,9 +5411,11 @@ span.mw-icon-upload {
     border-radius: 0 0 2px 2px;
 }
 
+/*
 #users-admin {
     padding: 30px 15px 15px 15px;
 }
+*/
 
 .admin-section-bar {
     width: 100%;

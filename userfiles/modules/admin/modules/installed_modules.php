@@ -258,11 +258,6 @@
             </div>
 
 
-
-
-
-
-
             <div class="mw-dropdown pull-left nested-dropdown" style="display:none;"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
                 <div class="mw-dropdown-content">
                     <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>"/>
@@ -273,8 +268,8 @@
 
     <div class="admin-side-content">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a href="#installed=1" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 1);return false;" ><?php _e("Installed"); ?></a>
-            <a href="#installed=0" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 0);return false;" ><?php _e("Uninstalled"); ?></a>
+            <a href="#installed=1" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 1);return false;"><?php _e("Installed"); ?></a>
+            <a href="#installed=0" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 0);return false;"><?php _e("Uninstalled"); ?></a>
             <div class="mw-dropdown mw-dropdown-default  pull-left" id="modules-sort-types">
                 <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
                     <?php _e("Module types"); ?>
