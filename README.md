@@ -96,3 +96,22 @@ If you are a developer, submitting fixes is easy. Just fork the Microweber repos
 
 ## Build Status
 [![Build Status](https://api.travis-ci.org/microweber/microweber.svg)](https://travis-ci.org/microweber/microweber)
+
+
+
+## We need your help
+
+If you like this open source CMS help us with your knowledge and time to make it even more fantastic. 
+
+Our goal is to cleanup the code and make it more modern and up to standarts. 
+
+We are looking for your hand and help. 
+
+We are developing the new version [on branch 1.1.0](https://github.com/microweber/microweber/tree/1.1.0)
+
+
+![Microweber 1.1.0](https://upload.wikimedia.org/wikipedia/commons/a/ab/Microweber_CMS_-_Admin_dashboard.jpg "")
+
+ 
+
+Join us, together we can do more! Thank you!
