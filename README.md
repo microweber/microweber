@@ -2,14 +2,12 @@
 
 **Current version: 1.0 running on Laravel 5!** 
 
-<center>
 **[Download](https://microweber.com/download.php) |
 [What is Microweber?](#what-is) |
 [Requirements](#requirements) |
 [Installation](#installation) |
 [Getting Started](#getting-started) |
 [Contribute](#contribute)**
-</center>
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://deploy.azure.com/?repository=https://github.com/microweber/microweber)
 
