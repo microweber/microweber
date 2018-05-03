@@ -113,3 +113,7 @@ We are developing the new version [on branch 1.1.0](https://github.com/microwebe
  
 
 Join us, together we can do more! Thank you!
+
+[see demo of branch 1.1.0](http://demover.lab5.microweber.com/admin/?username=microweber&password=microweber)
+
+http://demover.lab5.microweber.com/admin/?username=microweber&password=microweber
