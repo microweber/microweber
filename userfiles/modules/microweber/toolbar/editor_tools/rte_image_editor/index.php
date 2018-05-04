@@ -432,7 +432,7 @@ else{
   display: inline-block;
   position: relative;
   cursor: default;
-  width: 100px;
+  min-width: 100px;
   text-align: center;
   overflow: hidden;
   transition: opacity 0.12s;

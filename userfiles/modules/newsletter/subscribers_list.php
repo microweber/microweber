@@ -29,8 +29,8 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
                             <option value="0" <?php if (!$subscriber['is_subscribed']): ?>  selected <?php endif; ?> ><?php _e('No'); ?></option>
                         </select></td>
                     <td><input type="hidden" name="id" value="<?php print $subscriber['id']; ?>"/>
-                        <button class="mw-ui-btn" onclick="edit_subscriber('#newsletter-subscriber-<?php print $subscriber['id']; ?>')"><?php _e('Save'); ?></button>
-                        <a class="mw-ui-btn mw-ui-btn-icon" href="javascript:;" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')"> <span class="mw-icon-bin"></span> </a></td>
+                        <button class="mw-ui-btn mw-ui-btn-notification" onclick="edit_subscriber('#newsletter-subscriber-<?php print $subscriber['id']; ?>')"><?php _e('Save'); ?></button>
+                        <a class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important" href="javascript:;" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')"> <span class="mw-icon-bin"></span> </a></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
