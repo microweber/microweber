@@ -1,3 +1,59 @@
+mw.AfterDrop = class {
+    constructor(){
+
+    }
+
+    loadNewModules(){
+        mw.pauseSave = true;
+        var need_re_init = false;
+        mw.$(".edit .module-item").each(function(c) {
+            (function (el) {
+                var xhr = mw._({
+                    selector: el,
+                    done: function(module) {
+                        mw.drag.fancynateLoading(module);
+                        mw.pauseSave = false;
+                        mw.wysiwyg.init_editables();
+                    },
+                    fail:function () {
+                        $(this).remove();
+                        mw.notification.error('Error loading module.')
+                    }
+                }, true);
+                need_re_init = true;
+            })(this);
+        });
+        if (mw.have_new_items == true) {
+            need_re_init = true;
+        }
+        if (need_re_init == true) {
+            if (!mw.isDrag) {
+                if (typeof callback === 'function') {
+                    callback.call(this);
+                }
+            }
+        }
+        mw.have_new_items = false;
+    }
+
+
+    init(){
+
+        setTimeout(()=>{
+
+            mw.$(".mw_drag_current").each(function(){
+                $(this).removeClass('mw_drag_current').css({
+                    visibility:'visible'
+                })
+            });
+            mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
+            mw.$(".mw-empty").removeClass('mw-empty');
+            this.loadNewModules()
+            mw.dropable.hide().removeClass('mw_dropable_onleaveedit');
+        }, 78)
+    }
+}
+
 
 /*************************************************************
 
@@ -90,9 +146,21 @@ mw.ElementAnalyzer = function(options){
         return !mw.tools.hasParentsWithClass(node, this.cls.noDrop) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.allowDrop, this.cls.noDrop]);
     }
 
+    this._layoutInLayout = function(){
+        if(!this.data.currentGrabbed){
+            return false;
+        }
+        var currentGrabbedIsLayout = (this.data.currentGrabbed.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts');
+        var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(this.data.target, ['[data-module-name="layouts"]', '[data-type="layouts"]']);
+        return {
+            target:targetIsLayout,
+            result:currentGrabbedIsLayout && !!targetIsLayout
+        };
+    }
+
     this.canDrop = function(node){
         node = node || this.data.target;
-        return this._isEditLike(node) && this._canDrop(node);
+        return this._isEditLike(node) && this._canDrop(node) && !this._layoutInLayout().result;
     }
 
 
@@ -112,16 +180,11 @@ mw.ElementAnalyzer = function(options){
         pos = node || this.data.dropablePosition;
     };
     this.afterAction = function(node, pos){
-        setTimeout(function(){
+        if(!this._afterAction){
+            this._afterAction = new mw.AfterDrop()
+        }
 
-            mw.$(".mw_drag_current").each(function(){
-                $(this).removeClass('mw_drag_current').css({
-                    visibility:'visible'
-                })
-            });
-            mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
-            mw.$(".mw-empty").removeClass('mw-empty')
-        }, 78)
+        this._afterAction.init()
 
     }
     this.dropableHide = function(){
@@ -150,6 +213,7 @@ mw.ElementAnalyzer = function(options){
             return;
         }
 
+
         if(this.helpers.isElement()){
             this.data.dropableAction = actions.Around[pos];
         }
@@ -162,9 +226,7 @@ mw.ElementAnalyzer = function(options){
         else if(this.helpers.isModule()){
             this.data.dropableAction = actions.Around[pos];
         }
-        else if(this.helpers.isModule()){
-            this.data.dropableAction = actions.Around[pos];
-        }
+
 
 
 
@@ -197,13 +259,24 @@ mw.ElementAnalyzer = function(options){
             this.scope.fragment().removeChild(test);
             return this._isBlockCache[name];
         },
+        getBlockElements:function(selector, root){
+            root = root || document.body;
+            selector = selector || '*';
+            var all = root.querySelectorAll(selector), i = 0; final = [];
+            for( ; i<all.length; i++){
+                if(this.scope.helpers.isBlockLevel(all[i])){
+                    final.push(all[i])
+                }
+            }
+            return final;
+        },
         isEdit:function(node){
             node = node || this.scope.data.target;
             return mw.tools.hasClass(node, this.scope.cls.edit);
         },
         isModule:function(node){
             node = node || this.scope.data.target;
-            return mw.tools.hasClass(node, this.scope.cls.module) && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.scope.cls.edit,this.scope.cls.module]));
+            return mw.tools.hasClass(node, this.scope.cls.module) && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.scope.cls.module, this.scope.cls.edit]));
         },
         isElement:function(node){
             node = node || this.scope.data.target;
@@ -272,6 +345,39 @@ mw.ElementAnalyzer = function(options){
              document.body.addEventListener(events[i], listener, false);
         }
     }
+    this.loadNewModules = function(){
+        mw.pauseSave = true;
+        var need_re_init = false;
+        mw.$(".edit .module-item").each(function(c) {
+
+            (function (el) {
+                var xhr = mw._({
+                    selector: el,
+                    done: function(module) {
+                        mw.drag.fancynateLoading(module);
+                        mw.pauseSave = false;
+                        mw.wysiwyg.init_editables();
+                    },
+                    fail:function () {
+                        $(this).remove();
+                        mw.notification.error('Error loading module.')
+                    }
+                }, true);
+                need_re_init = true;
+            })(this);
+        });
+        if (mw.have_new_items == true) {
+            need_re_init = true;
+        }
+        if (need_re_init == true) {
+            if (!mw.isDrag) {
+                if (typeof callback === 'function') {
+                    callback.call(this);
+                }
+            }
+        }
+        mw.have_new_items = false;
+    }
     this.whenUp = function(){
         var scope = this;
         this.on('mouseup touchend', function(){
@@ -306,16 +412,22 @@ mw.ElementAnalyzer = function(options){
 
     this.redirect = function(node){
         node = node || this.data.target;
+        var islayOutInLayout = this._layoutInLayout(node);
+        if(islayOutInLayout.result){
+            var res =  this.validateInteractionTarget(/*node === islayOutInLayout.target ? islayOutInLayout.target.parentNode : */islayOutInLayout.target);
+            return  res
+        }
         return this.validateInteractionTarget(node.parentNode);
     }
 
     this.interactionAnalizer = function(e){
         var scope = this;
+        mw.dropable.hide();
         if(this.data.currentGrabbed){
             scope.data.target = e.target;
             scope.interactionTarget();
             scope.data.target = scope.getTarget();
-            mw.dropable.hide();
+
             if(scope.data.target){
                     scope.analizePosition(e);
                     scope.analizeAction();
@@ -331,7 +443,6 @@ mw.ElementAnalyzer = function(options){
                     }
                     else{
                         scope.dataReset();
-                        mw.dropable.hide();
                     }
 
             }

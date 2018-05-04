@@ -245,7 +245,8 @@ a.depth-1 .mw_toggle_tree{
 .admin-toolbar{
     right: 230px;
     left: 0;
-    padding: 7px 0 7px 20px;
+    padding-right:0;
+    padding-left:20px;
 }
 
 .toolbar-live-edit {
@@ -354,7 +355,13 @@ a.depth-1 .mw_toggle_tree{
 
 .dashboard_stats{
     left: auto;
-    right: 140px;
+    right: 190px;
+}
+.dashboard_stats{
+    direction: ltr;
+}
+.mw-admin-stat-item{
+    direction: rtl ;
 }
 
 .quick-lists .mw-ui-box-header i.mai-link{
@@ -425,4 +432,10 @@ label .mw_toggle_tree {
     position: relative;
     margin: -15px -7px 0 0;
     padding: 0;
+}
+
+#mw-admin-main-menu .mw-notification-count{
+    float: left;
+    left: 28px;
+    right: auto;
 }

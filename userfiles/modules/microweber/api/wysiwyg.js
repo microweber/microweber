@@ -157,7 +157,7 @@ mw.wysiwyg = {
             range = sel.getRangeAt(0),
             common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
         //var nodrop_state = !mw.tools.hasClass(common, 'nodrop') && !mw.tools.hasParentsWithClass(common, 'nodrop');
-        var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(common, ['allow-drop', 'nodrop']);
+        var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
 
         if (mw.wysiwyg.isSelectionEditable() && nodrop_state) {
             if (typeof c === 'function') {
@@ -402,7 +402,13 @@ mw.wysiwyg = {
         var fnode = window.getSelection().focusNode;
 
         if ((fnode !== null) && (mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text') || mw.tools.hasParentsWithClass(fnode.parentNode, 'plain-text'))) {
-            return false;
+            if(a == 'inserthtml'){
+                c = mw.tools.parseHtml(c).body.innerText
+            }
+            else{
+                return false;
+            }
+
         }
         try {  // 0x80004005
             if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()) {
@@ -1372,10 +1378,12 @@ mw.wysiwyg = {
       mw.wysiwyg.change(r);
     },
     fontSize: function (a) {
+
         if (window.getSelection().isCollapsed) {
             return false;
         }
         mw.wysiwyg.allStatements(function () {
+
             rangy.init();
             var clstemp = 'mw-font-size-' + mw.random();
             var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
@@ -2395,11 +2403,11 @@ $(window).on('load', function () {
 
 mw.wysiwyg.initFontSelectorBox();
 
-$("#live_edit_toolbar .editor_wrapper_tabled [title], #the_admin_editor #mw-admin-text-editor [title], #mw_small_editor [title]").each(function () {
+/*$("#live_edit_toolbar .editor_wrapper_tabled [title], #the_admin_editor #mw-admin-text-editor [title], #mw_small_editor [title]").each(function () {
     var ttitle = this.title;
     $(this).removeAttr('title').addClass('tip').attr('data-tip', ttitle).attr('data-tipposition', 'bottom-center')
 })
-    $('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition', 'bottom-left')
+$('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition', 'bottom-left');*/
 
   /*mw.$(".edit").on('paste', function(e){
     mw.wysiwyg.paste(e)

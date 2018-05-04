@@ -1652,6 +1652,9 @@ mw.tools = {
         return final;
     },
 
+    parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
+        return !mw.tools.hasAnyOfClassesOnNodeOrParent(node, [arr[1]]) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, arr)
+    },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node,
             has1 = false,
@@ -1668,6 +1671,35 @@ mw.tools = {
                 }
                 else if (h2) {
                     return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
+    parentsOrCurrentOrderMatch: function (node, arr) {
+        var curr = node,
+            match = {a:0,b:0},
+            count = 1;
+        while (curr !== document.body) {
+            count++;
+            var h1 = mw.tools.hasClass(curr, arr[0]);
+            var h2 = mw.tools.hasClass(curr, arr[1]);
+            if (h1 && h2) {
+                if(match.a > 0){
+                    return true;
+                }
+                return false;
+            }
+            else {
+                if (h1) {
+                    match.a=count;
+                }
+                else if (h2) {
+                    match.b=count;
+                }
+                if(match.b > match.a){
+                    return true;
                 }
             }
             curr = curr.parentNode;

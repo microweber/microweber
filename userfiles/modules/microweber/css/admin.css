@@ -4326,7 +4326,7 @@ body.grabbing, body.grabbing * {
     font-weight: bold;
     color: rgba(44, 130, 221, 1);
     background: white;
-    z-index: 1;
+    z-index: 5;
     position: relative;
     text-transform: uppercase;
 }
@@ -5357,6 +5357,7 @@ span.mw-icon-upload {
     bottom: 20px;
     -webkit-transition: height .5s;
     transition: height .5s;
+    direction: rtl;
 }
 
 .dashboard_stats.no-transition {
@@ -5374,6 +5375,7 @@ span.mw-icon-upload {
     transform: scaleY(0);
     opacity: .5;
     transform-origin: center bottom;
+    direction: ltr;
 }
 
 .mw-admin-stat-item-views {
@@ -5384,7 +5386,7 @@ span.mw-icon-upload {
 }
 
 .mw-admin-stat-item-uniques {
-    background: #0086db;
+    background: #005C97;
     /*transition: all .4s;
     transform: scaleY(0);
     transform-origin: center bottom;*/
@@ -5395,11 +5397,11 @@ span.mw-icon-upload {
     opacity: 1;
 }
 
-.mw-admin-stat-item:last-child .mw-admin-stat-item-views {
+.mw-admin-stat-item:first-child .mw-admin-stat-item-views {
     background: #ff9c00
 }
 
-.mw-admin-stat-item:last-child .mw-admin-stat-item-uniques {
+.mw-admin-stat-item:first-child .mw-admin-stat-item-uniques {
     background: #df642b
 }
 

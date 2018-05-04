@@ -1,6 +1,13 @@
 
 <script>
 
+$(window).on("load", function(){
+
+
+
+
+
+})
 $(document).ready(function(){
    //mw.wysiwyg.init();
    mw.tools.dropdown(mwd.getElementById('mw-admin-text-editor'));
@@ -15,14 +22,7 @@ $(document).ready(function(){
    });
 
 
-   window.parent.$('html,body,.fade-window').on('scroll', function () {
-       var stop = $(this).scrollTop() + $(this).offset().top,
-           otop = parent.$('.mw-iframe-editor').offset().top;
 
-        $('#mw-admin-text-editor')[otop <= 0 ? 'addClass':'removeClass']('scrolled').css({
-            top: otop <= 0 ? Math.abs(otop) : 0
-        });
-   })
 
 
 });

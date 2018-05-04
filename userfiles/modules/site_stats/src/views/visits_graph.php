@@ -68,7 +68,8 @@ if ($params['period']) {
                     this._data.push(item)
                 }
 
-                return this._data.reverse();
+                //return this._data.reverse();
+                return this._data;
             }
             this.prepare = function () {
                 this.merge(true)
@@ -118,7 +119,8 @@ if ($params['period']) {
             }
             this.draw = function () {
                 var final = [];
-                for (i = this.merge().length - 1; i >= 0; i--) {
+                for (var i = this.merge().length - 1; i >= 0; i--) {
+                //for (var i = 0; i < this.merge().length; i++) {
                     final.push(this.drawSingle(i));
                 }
                 return final.join('')
