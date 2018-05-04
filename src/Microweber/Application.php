@@ -20,6 +20,8 @@ namespace Microweber;
  * @property \Microweber\Providers\Shop\OrderManager             $order_manager
  * @property \Microweber\Providers\Shop\TaxManager               $tax_manager
  * @property \Microweber\Providers\Shop\CheckoutManager          $checkout_manager
+ * @property \Microweber\Providers\Shop\ClientsManager           $clients_manager
+ * @property \Microweber\Providers\Shop\InvoicesManager          $invoices_manager
  * @property \Microweber\Providers\OptionManager                 $option_manager
  * @property \Microweber\Providers\CacheManager                  $cache_manager
  * @property \Microweber\Providers\UserManager                   $user_manager

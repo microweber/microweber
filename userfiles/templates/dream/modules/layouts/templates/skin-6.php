@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Tesimonial
+name: Testimonial
 
 position: 6
 

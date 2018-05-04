@@ -85,7 +85,7 @@ if ($weight_units == false) {
                     <td class="shipping-country-setting"><?php if ($new == false): ?>
                             <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                         <?php endif; ?>
-                        <select name="shipping_country" class="mw-ui-field silver-field" onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_country:$(this).val()});">
+                        <select name="shipping_country" class="mw-ui-field silver-field" onchange="SaveShippingData({id:<?php print $item['id'];  ?>, shipping_country:$(this).val()});" <?php if (isset($item['id']) AND $item['id'] != 0): ?>disabled<?php endif; ?>>
                             <?php if ($new == true): ?>
                                 <option value="none">
                                     <?php _e("Choose country"); ?>

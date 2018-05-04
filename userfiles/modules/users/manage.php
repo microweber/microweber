@@ -58,13 +58,7 @@ $self_id = user_id();
 ?>
 <?php if (is_array($data)): ?>
     <div class="table-responsive">
-        <table cellspacing="0" cellpadding="0" class="mw-ui-table users-list-table mw-ui-row-fixed" width="100%">
-            <col>
-            <col width="100">
-            <col>
-            <col width="60">
-            <col width="80">
-            <col width="65">
+        <table cellspacing="0" cellpadding="0" class="mw-ui-table table-style-2 layout-auto" width="100%">
             <thead>
             <tr>
                 <th><?php _e("Names"); ?></th>
@@ -89,7 +83,7 @@ $self_id = user_id();
             <tbody>
             <?php foreach ($data as $item): ?>
                 <tr id="mw-admin-user-<?php print $item['id']; ?>">
-                    <td width="170">
+                    <td>
 
                         <?php if (isset($item['thumbnail']) and trim($item['thumbnail']) != ''): ?>
                             <span class="mw-user-thumb mw-user-thumb-small" style="background-image: url(<?php print $item['thumbnail'] ?>);"></span>
@@ -103,24 +97,31 @@ $self_id = user_id();
                             <?php print $item['first_name']; ?>
                             &nbsp;
                             <?php print $item['last_name']; ?>
-				</span></td>
+				</span>
+                    </td>
                     <td><?php print $item['username']; ?></td>
                     <td title="<?php print $item['email']; ?>" style="overflow: hidden;text-overflow: ellipsis"><?php print $item['email']; ?></td>
-                    <td align="center"><?php if ($item['is_admin'] == 1) {
+                    <td>
+                        <?php if ($item['is_admin'] == 1) {
                             _e("Admin");
                         } else {
                             _e("User");
-                        } ?></td>
-                    <td align="center"><?php if ($item['is_active'] == 1): ?>
+                        }
+                        ?>
+                    </td>
+                    <td>
+                        <?php if ($item['is_active'] == 1): ?>
                             <span class="mw-icon-check" style="float: none"></span>
                         <?php else: ?>
-                        <span class="mw-icon-unpublish" style="float: none; ">
-				<?php endif; ?>
-				</span></td>
-                    <td><?php if ($self_id != $item['id']): ?>
+                            <span class="mw-icon-unpublish" style="float: none; "></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($self_id != $item['id']): ?>
                             <span class="show-on-hover del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"></span>
                         <?php endif; ?>
-                        <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a></td>
+                        <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

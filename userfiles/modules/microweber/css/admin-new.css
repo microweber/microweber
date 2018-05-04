@@ -588,6 +588,7 @@
 /* Top bar add new content */
 #create-content-btn {
     color: #0086db;
+    margin-left: 1px;
 }
 
 #create-content-btn.active {

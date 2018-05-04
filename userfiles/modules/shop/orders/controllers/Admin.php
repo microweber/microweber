@@ -54,11 +54,19 @@ class Admin
             //$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=0&'.$ord);
 
         } else {
+
+            $limit = 'no_limit=true';
+
+            if (isset($params['limit'])) {
+                $limit = 'limit='.$params['limit'];
+
+            }
+
             if (isset($params['get_new_orders'])) {
-                $orders = get_orders('no_limit=true&order_completed=1&order_status=new&' . $ord . $kw);
+                $orders = get_orders($limit.'&order_completed=1&order_status=new&' . $ord . $kw);
 
             } else {
-                $orders = get_orders('no_limit=true&order_completed=1&' . $ord . $kw);
+                $orders = get_orders($limit.'&order_completed=1&' . $ord . $kw);
 
             }
 
@@ -139,6 +147,18 @@ class Admin
 
         $ord = mw()->shop_manager->get_order_by_id($params['order-id']);
 
+        if(isset($ord['order_status']) and $ord['order_status'] == 'new'){
+
+
+            $s = array();
+            $s['id'] = $ord['id'];
+            $s['order_status'] = 'pending';
+            mw()->order_manager->save($s);
+
+
+
+        }
+
         $cart_items = array();
         if (is_array($ord)) {
             $cart_items = false;
@@ -161,6 +181,8 @@ class Admin
         $view->assign('show_ord_id', $show_ord_id);
         $view->assign('cart_items', $cart_items);
         $view->assign('ord', $ord);
+
+
 
         return $view->display();
     }
