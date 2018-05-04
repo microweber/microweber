@@ -502,6 +502,15 @@ section.blog-post .container .container {
     width: 100%;
 }
 
-.mw-heading-image{
+.mw-heading-image {
     position: static;
+}
+
+.mw-embed-iframe iframe,
+.mwembed video,
+.mwembed audio,
+.mwembed iframe {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
 }
