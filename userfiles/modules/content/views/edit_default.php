@@ -79,6 +79,29 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
             $('.fade-window .btn-fullscreen').toggleClass('hidden');
             $('.fade-window').toggleClass('closed');
         });
+
+
+        $('.fade-window').on('scroll', function () {
+            var otop = $('.mw-iframe-editor').offset().top;
+            $('#mw-admin-content-iframe-editor iframe').contents().find('#mw-admin-text-editor')[otop <= 0 ? 'addClass':'removeClass']('scrolled').css({
+                top: otop <= 0 ? Math.abs(otop) : 0
+            });
+        })
+
+        var all = $(window);
+
+        all.push(document)
+       all.on('scroll', function () {
+            var stop = $(this).scrollTop(),
+                otop = $('.mw-iframe-editor').offset().top,
+                tbheight = $('.admin-toolbar').outerHeight(),
+                is = (stop+tbheight) >= otop;
+
+
+           $('#mw-admin-content-iframe-editor iframe').contents().find('#mw-admin-text-editor')[is ? 'addClass':'removeClass']('scrolled').css({
+                top: is ? Math.abs((stop+tbheight)-otop) : 0
+            });
+        });
     });
 </script>
 

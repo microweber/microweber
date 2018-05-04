@@ -252,13 +252,19 @@ li.module-item.ui-draggable-dragging {
     padding: 15px 5px !important;
     opacity: .9;
 }
+li.module-item.ui-draggable-dragging img{
+    width: auto;
+    height: auto;
+}
 
-li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggable-dragging .module_name, li.module-item.ui-draggable-dragging .mw_module_image {
+li.module-item.ui-draggable-dragging .mw_module_hold,
+li.module-item.ui-draggable-dragging .module_name,
+li.module-item.ui-draggable-dragging .mw_module_image {
     margin: auto;
     text-align: center;
     min-width: 0;
     display: block;
-    width: 90px;
+    /*width: 90px;*/
 }
 
 /****************************************************************
@@ -1731,14 +1737,12 @@ body.loaded #live_edit_toolbar {
 .mw_module_image {
     display: block;
     position: relative;
-    height: 32px;
     margin: 0 auto;
 }
 
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    max-height: 32px;
 }
 
 .mw_module_image_holder {
@@ -1793,8 +1797,8 @@ body.loaded #live_edit_toolbar {
 *********************************************************/
 
 div.mw_drag_started, li.module-item.ui-draggable-dragging {
-    padding: 20px;
-    width: 100px;
+    padding: 10px;
+    min-width: 100px;
     background: white;
     list-style: none;
 }

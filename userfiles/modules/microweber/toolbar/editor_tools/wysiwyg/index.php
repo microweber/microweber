@@ -383,7 +383,7 @@ img{
 
 <div class="mw-admin-editor <?php print $mainclass; ?>" id="the_admin_editor">
  <?php include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
- <?php include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
+ <?php //include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
   <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" >{content}</div>
 </div>
 

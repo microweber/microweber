@@ -836,8 +836,8 @@ mw.drag = {
         });
 
         mw.on("ElementOver", function(a, element) {
-
-            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])) {
+                                   
+            if (!mw.ea.canDrop(element)) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
                 return false;
             } else {
@@ -1418,7 +1418,15 @@ mw.drag = {
                        /* console.log(9,mw.ea.data.target , mw.ea.data.currentGrabbed)
                         console.log(10,mw.ea.data.target,mw.ea.data.dropableAction,mw.ea.data.currentGrabbed)   */
                         if(mw.ea.data.target && mw.ea.data.currentGrabbed){
-                            $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed)
+                            //console.clear()
+
+                            if(!!mw.ea.data.dropableAction && !!mw.ea.data.target && !!mw.ea.data.currentGrabbed){
+                                $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed)
+                            }
+                            else{
+                                console.log(1022, mw.ea.data.target,mw.ea.data.currentGrabbed,mw.ea.data.dropableAction)
+                            }
+
                         }
 
                         mw.drag.fixes();
@@ -1760,37 +1768,7 @@ mw.drag = {
      * @return void
      */
     load_new_modules: function(callback) {
-        mw.pauseSave = true;
-        var need_re_init = false;
-        mw.$(".edit .module-item").each(function(c) {
-
-            (function (el) {
-                var xhr = mw._({
-                    selector: el,
-                    done: function(module) {
-                        mw.drag.fancynateLoading(module);
-                        mw.pauseSave = false;
-                        mw.wysiwyg.init_editables();
-                    },
-                    fail:function () {
-                        $(this).remove();
-                        mw.notification.error('Error loading module.')
-                    }
-                }, true);
-                need_re_init = true;
-            })(this);
-        });
-        if (mw.have_new_items == true) {
-            need_re_init = true;
-        }
-        if (need_re_init == true) {
-            if (!mw.isDrag) {
-                if (typeof callback === 'function') {
-                    callback.call(this);
-                }
-            }
-        }
-        mw.have_new_items = false;
+        return mw.ea.afterAction();
     },
 
     module_view: function(view) {
@@ -2932,39 +2910,22 @@ $(document).ready(function() {
 
     setInterval(function(){
 
-      mw.$(".background-image-holder, .edit[style*='background-image']").each(function(){
+      mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
         var po = mw.tools.parentsOrder(this, ['edit', 'module']);
         if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
           mw.tools.addClass(this, 'element')
         }
       })
 
-      var all = document.querySelectorAll('.module-layouts .edit:not(.allow-drop)'), i = 0;
-      if(all.length !== 0){
-        for( ; i < all.length; i++){
-          var el = all[i], nom = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['nodrop', 'allow-drop']);
 
-          if(nom) continue;
-          if(!mw.tools.hasClass(el, 'nodrop')) {
-            mw.tools.addClass(el, 'allow-drop');
-          }
-          if(el.querySelector('.element') === null){
-            var children = el.querySelectorAll('div,img,h1,h2,h3,h4,h5,h6,section'), ai = 0, item;
-            for( ; ai < children.length ; ai++){
-              item = children[ai];
-              if(!mw.tools.matches(item, '[field="'+el.getAttribute('field')+'"] .module *')){
-                //if( mw.drag.target.canBeElement(item)){
-                  var ord = mw.tools.parentsOrder(item, ['edit', 'module']);
-                  if(ord.edit !== -1 && (ord.edit < ord.module || ord.module === -1)){
-                    mw.tools.addClass(item, 'element')
-                  }
-
-                //}
-              }
+        mw.$(".edit").each(function(){
+            var all = mw.ea.helpers.getBlockElements(":not(.element)", this), i = 0;
+            for( ; i<all.length; i++){
+                if(mw.ea.canDrop(all[i])){
+                    mw.tools.addClass(all[i], 'element')
+                }
             }
-          }
-        }
-      }
+        })
 
         if(!!document.body.classList){
             document.body.classList[(mw.wysiwyg.isSelectionEditable() ? 'add' : 'remove' )]('mw-active-element-iseditable')
