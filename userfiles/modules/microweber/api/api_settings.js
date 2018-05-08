@@ -226,7 +226,7 @@ mw.lib = {
             i = 0,
             c = 0;
         for (; i < l; i++) {
-            (typeof arr[i] === 'string') ? mw.require(path + arr[i]) : (typeof arr[i] === 'function') ? arr[i].call() : '';
+            (typeof arr[i] === 'string') ? mw.require(path + arr[i], true) : (typeof arr[i] === 'function') ? arr[i].call() : '';
         }
     },
     get: function (name, done, error) {
