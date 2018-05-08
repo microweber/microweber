@@ -200,7 +200,7 @@ if (!empty($recomended_layouts)) {
             mw.$('.preview_frame_wrapper').removeClass("loading");
             mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
             //$('html, body', framewindow.document).css('overflow', 'hidden');
-            mw.templatePreview<?php print $rand; ?>.setHeight();
+            mw.templatePreview<?php print $rand; ?>.setOriginalHeight();
         },
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
@@ -223,6 +223,19 @@ if (!empty($recomended_layouts)) {
             mw.$("#layout_selector<?php print $rand; ?> li.active").removeClass('active');
             mw.$("#layout_selector<?php print $rand; ?> li").eq(which).addClass('active');
             $(mw.templatePreview<?php print $rand; ?>.selector).trigger('change');
+        },
+        setOriginalHeight:function () {
+            var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
+            var body = iframe.contentWindow.document.body,
+                html = iframe.contentWindow.document.documentElement;
+
+            var height = Math.max( body.scrollHeight, body.offsetHeight,
+                html.clientHeight, html.scrollHeight, html.offsetHeight );
+            $(iframe).css({
+                height:height
+            })
+            body.style.overflow = 'hidden';
+            html.style.overflow = 'hidden';
         },
         setHeight:function () {
             var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
