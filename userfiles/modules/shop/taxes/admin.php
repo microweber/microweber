@@ -57,11 +57,11 @@ only_admin_access();
 
 
 </script>
-<div class="mw-ui-row admin-section-bar">
-    <div class="mw-ui-col">
-        <h2><span class="mai-percent"></span><?php _e("Taxes"); ?></h2>
-    </div>
+
+<div class="section-header m-b-10">
+    <h2><span class="mai-percent"></span><?php _e("Taxes"); ?></h2>
 </div>
+
 <div class="admin-side-content ">
     <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content ">
         <div class="m-b-10">

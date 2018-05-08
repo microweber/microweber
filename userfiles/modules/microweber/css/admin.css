@@ -1323,12 +1323,15 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     border-radius: 20px;
     transition: all .2s;
     background: #999;
+    line-height: 16px;
+    height: 16px;
 }
 
 #mw-admin-main-menu .active-parent li.active .mw-admin-main-menu-mini {
     /*border: 1px solid #0086db;*/
     background: #0086db;
     color: #fff;
+
 }
 
 #mw-admin-main-menu .mw-admin-main-menu-mini:after {
@@ -1342,6 +1345,13 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     transition: all .2s;
     display: block;
     text-align: center;
+
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 600;
+    line-height: 17px;
+
 }
 
 #mw-admin-main-menu a:hover .mw-admin-main-menu-mini:after {
@@ -4687,6 +4697,7 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     background: white;
     padding: 15px;
     height: 66px;
+    margin-bottom: 15px;
 }
 
 .section-header h2 {
@@ -5059,6 +5070,7 @@ span.mw-icon-upload {
     #mw-order-table-holder {
         overflow-x: auto;
         padding-bottom: 20px;
+        width: 100%;
     }
 
     #mw-order-table-holder .table-responsive table {
@@ -5129,6 +5141,15 @@ span.mw-icon-upload {
     #quick-add-post-options-holder .mw-ui-btn {
         padding: 9px 10px;
     }
+
+    #clients-rotator .table-responsive {
+        width: 100%;
+    }
+
+    .gateway-icon-title > .mw-ui-row .mw-ui-col {
+        padding: 10px 0 !important;
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 440px) {
@@ -5139,6 +5160,20 @@ span.mw-icon-upload {
 
     .mw-modules-admin li.mw-admin-module-list-item {
         width: 50%;
+    }
+
+    #stats_nav {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #stats .sbf-item {
+        width: 50%;
+    }
+
+    #homepage-add-new-order-btn {
+        display: none;
     }
 }
 
@@ -5708,7 +5743,8 @@ span.mw-icon-upload {
 ***************************** ***************************** */
 
 /* Tables */
-.table-style-2.layout-auto {
+.table-style-2.layout-auto,
+.table-style-3.layout-auto {
     table-layout: auto;
 }
 

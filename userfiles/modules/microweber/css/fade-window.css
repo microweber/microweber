@@ -416,6 +416,7 @@
 }
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #fff;
     border: 1px solid #0086db;
     color: #0086db;
     border-bottom: 1px solid #fff;
@@ -802,11 +803,13 @@
     .fade-window .window-holder .top-bar .left-side,
     .fade-window .window-holder .top-bar .right-side,
     .fade-window .window-holder .top-bar .btn-close,
+    .fade-window .window-holder .top-bar .btn-back,
     .fade-window .window-holder .top-bar .btn-fullscreen {
         width: 100%;
     }
 
     .fade-window .window-holder .top-bar .btn-close,
+    .fade-window .window-holder .top-bar .btn-back,
     .fade-window .window-holder .top-bar .btn-fullscreen {
         border-left: 1px solid #138fde;
         border-bottom: 1px solid #138fde;
@@ -814,6 +817,10 @@
 
     .fade-window .window-holder .top-bar .btn-fullscreen {
         border-top: 1px solid #138fde;
+    }
+
+    .fade-window .window-holder .top-bar .btn-back{
+        border-left:0;
     }
 }
 
@@ -872,6 +879,6 @@
     margin-left: 37px;
 }
 
-.fade-window .window-holder .mw-admin-edit-page-primary-settings.parent-selector{
+.fade-window .window-holder .mw-admin-edit-page-primary-settings.parent-selector {
     float: none;
 }
