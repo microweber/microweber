@@ -12,6 +12,10 @@ if ($params['period']) {
     $period = $params['period'];
 
 }
+
+
+print_r($graph_data);
+
 ?>
 
 
@@ -19,6 +23,22 @@ if ($params['period']) {
     mw.admin.__statdata = <?php print json_encode($graph_data);   ?>;
 
 </script>
+
+<script>
+
+
+    Date.prototype.getWeekNumber = function () {
+        var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+        d.setUTCDate(d.getUTCDate() - d.getUTCDay());
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    };
+
+
+
+</script>
+
+
 <script>
     function mw_stats_period_switch($module_id, $period) {
         if (typeof(mw_stats_period_switch_main) != 'undefined') {
@@ -36,6 +56,7 @@ if ($params['period']) {
     $(document).ready(function () {
         $("[data-stat='<?php print $period ?>']").addClass("active");
     });
+
 
 
     mw.admin.stat = mw.admin.stat || function (options) {
@@ -104,7 +125,9 @@ if ($params['period']) {
                     html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + day + '</div>';
                 }
                 else if (type == 'weekly') {
-                    var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];
+                //    var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];
+                    var day = this.weekDays[date.getWeekNumber()];
+
                     html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
                 }
                 else if (type == 'monthly') {
