@@ -163,13 +163,16 @@ mw.treeRenderer = {
 		  var href = el.href;
 
            var is_content_in_admin = $(el).hasClass('mw-tree-renderer-admin-content-link-item');
-          
-         if(attr['data-page-id']!==undefined ){
+          var href_base   = '<?php print admin_url() ?>view:content';
 
-           el.href = '<?php print admin_url() ?>view:content#action=showposts:'+id;
+            if(self=top){
+href_base = '';
+}
+
+          if(attr['data-page-id']!==undefined ){
+           el.href = href_base+ '#action=showposts:'+id;
             if(subtype != 'dynamic'){
-            el.href = '<?php print admin_url() ?>view:content#action=editpage:'+id;
-
+            el.href = href_base+ '#action=editpage:'+id;
             }
 
 
