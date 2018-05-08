@@ -36,7 +36,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
         <div class="top-bar">
             <div class="left-side">
                 <button class="btn-close"><i class="mw-icon-close"></i> Close</button>
-                <div class="window-title"><i class="mw-icon-menuadd"></i> Addin new post</div>
+                <div class="window-title"><i class="mw-icon-menuadd"></i> Adding new post</div>
             </div>
 
             <div class="right-side">
@@ -161,6 +161,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                         <div class="mw-ui-col">
                                             <input type="text" class="mw-ui-invisible-field mw-ui-field-big" style="min-width: 230px;"
                                                    value="<?php print ($title_for_input) ?>"
+                                                   autocomplete="off"
                                                    id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
                                         </div>
                                         <?php event_trigger('content.edit.title.after'); ?>
@@ -193,6 +194,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                     <script>
                                         $(document).ready(function () {
                                             setTimeout(function(){ $('#content-title-field').focus(); }, 100);
+
                                         });
                                     </script>
                                     <?php else: ?>
@@ -253,7 +255,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                 name="title"
                                 onkeyup="slugFromTitle();"
                                 placeholder="<?php print $title_placeholder; ?>"
-                                value="<?php print $title_for_input; ?>"/>
+                                value="<?php print $title_for_input; ?>"  autocomplete="off" />
                         <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
 
                         <div class="edit-post-url">
@@ -266,7 +268,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                     <input name="content_url" id="edit-content-url"
                                            class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
                                            onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text"
-                                           value="<?php print ($data['url']) ?>"/>
+                                           value="<?php print ($data['url']) ?>" autocomplete="off"/>
                                 </div>
                             </div>
                         </div>
