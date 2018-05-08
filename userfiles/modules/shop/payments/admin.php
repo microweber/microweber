@@ -311,10 +311,8 @@ $payment_modules = get_modules('type=payment_gateway');
             <div class="mw-set-payment-options">
 
                 <div class="otab" style="display: block" id="db-payment-methods">
-                    <div class="mw-ui-row admin-section-bar">
-                        <div class="mw-ui-col">
+                    <div class="section-header">
                             <h2><span class="mai-order"></span><?php _e("Payment methods"); ?></h2>
-                        </div>
                     </div>
                     <div class="admin-side-content">
 

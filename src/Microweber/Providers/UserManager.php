@@ -912,6 +912,9 @@ class UserManager
 
         if (isset($params['id']) and intval($params['id']) != 0) {
             $user = User::find($params['id']);
+
+
+
         } else {
             $user = new User();
         }
@@ -924,6 +927,7 @@ class UserManager
             if (isset($user->id)) {
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
+
 
 
             if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
@@ -940,7 +944,13 @@ class UserManager
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
             }
+            if (isset($data_to_save['id'])) {
 
+                $can_edit = $this->__check_id_has_ability_to_edit_user($data_to_save['id']);
+                if (!$can_edit) {
+                    return array('error' => 'You do not have permission to edit this user');
+                }
+            }
             if (isset($params['extended_save'])) {
                 if (isset($data_to_save['password'])) {
                     unset($data_to_save['password']);
@@ -1027,6 +1037,11 @@ class UserManager
         }
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
+            $can_edit = $this->__check_id_has_ability_to_edit_user($c_id);
+            if (!$can_edit) {
+                return false;
+            }
+
             $this->app->database_manager->delete_by_id('users', $c_id);
 
             return $c_id;
@@ -1723,5 +1738,33 @@ class UserManager
                 return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
             });
         }
+    }
+
+
+    private function __check_id_has_ability_to_edit_user($user_id)
+    {
+        if (!$user_id) {
+            return true;
+        }
+        $disable_edit_users = Config::get('microweber.users_disable_edit');
+        if ($disable_edit_users) {
+            $a = array();
+            if (!is_array($disable_edit_users)) {
+                $a[] = $disable_edit_users;
+            } else {
+                $a = $disable_edit_users;
+            }
+            if (is_arr($a)) {
+                foreach ($a as $disabled_user_id) {
+                    if ($disabled_user_id and $disabled_user_id == $user_id) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+        return true;
+
     }
 }

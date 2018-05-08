@@ -37,19 +37,9 @@ if (is_array($comments_for_content)) {
 <div class="dashboard-recent">
     <div class="dr-head">
         <span class="drh-activity-name"><i class="mai-comment"></i> <?php _e("Last comments") ?></span>
-        <a href="<?php print admin_url('view:content/action:posts'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline"><?php _e("Go to comments "); ?></a>
-        <a href="#" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print $ccount; ?></strong> <?php print _e('New comments'); ?></a>
+        <a href="<?php print admin_url('view:content/action:posts'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print $ccount; ?></strong> <?php print _e('New comments'); ?></a>
     </div>
     <div class="dr-list">
-
-
-
-
-
         <module type="comments/manage"  id="dashboard-recent-comments" limit="5" >
-
-
-
-
     </div>
 </div>

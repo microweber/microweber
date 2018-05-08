@@ -1,6 +1,8 @@
 <script>
-    mw.lib.require('flag_icons');
+    mw.lib.require('flag_icons', true);
+</script>
 
+<script>
     $(document).ready(function () {
         $('.sources .source-title').on('click', function () {
             $(this).parent().toggleClass('active');

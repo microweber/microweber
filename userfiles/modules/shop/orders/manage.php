@@ -149,7 +149,7 @@
                     </div>
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <h2>
+                            <h2 class="pull-left m-t-10">
                                 <span class="mai-shop"></span>
 
 
@@ -164,7 +164,7 @@
                                 <?php } ?>
 
                             </h2>
-                            <a href="javascript:mw_admin_add_order_popup()">+</a>
+                            <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info pull-left"><i class="mai-plus"></i></a>
                         </div>
                     </div>
                 </div>

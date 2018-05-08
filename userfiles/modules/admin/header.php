@@ -537,12 +537,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <li><a href="<?php print site_url(); ?>?editmode=y" class=go-live-edit-href-set">
-                                    <?php _e("View Website"); ?>
-                                </a></li>
-                            <li><a href="<?php print api_url('logout'); ?>">
-                                    <strong><?php _e("Log out"); ?></strong>
-                                </a></li>
+                            <li><a href="<?php print site_url(); ?>?editmode=y" class=go-live-edit-href-set"><?php _e("View Website"); ?></a></li>
+                            <li><a href="<?php print api_url('logout'); ?>"><span class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
                         </ul>
                     </li>
                     <li id="mw-admin-main-menu-toggle">
