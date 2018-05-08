@@ -268,7 +268,7 @@ if (!empty($template_config)) {
                     </div>
                     <div class="mw_clear vSpace"></div>
                 <?php endif; ?>
-
+<!--
                 <div class="mw-ui-row">
                     <div class="mw-ui-col">
                         <div class="mw-ui-field-holder">
@@ -310,7 +310,7 @@ if (!empty($template_config)) {
                             </label>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="mw-ui-row">
                     <div class="mw-ui-col">
