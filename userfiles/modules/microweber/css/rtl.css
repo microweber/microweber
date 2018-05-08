@@ -424,18 +424,37 @@ a.depth-1 .mw_toggle_tree{
     margin-left: 0px;
 }
 
+.mw-tree li li .mw-ui-check span span + span,
+.mw-tree li li .mw-ui-check label span + span{
+    margin-right: 10px;
+}
+
 label .mw_toggle_tree {
     left: auto;
     right: -18px;
 }
-.mw-tree li.active > label + ul {
-    position: relative;
-    margin: -15px -7px 0 0;
-    padding: 0;
-}
+
 
 #mw-admin-main-menu .mw-notification-count{
     float: left;
     left: 28px;
     right: auto;
 }
+
+.category-edit-label{
+    left: 12px;
+    right: auto;
+}
+
+.layout-selector-footer{
+    left: 50px;
+    right: 280px;
+}
+
+
+
+.pages_tree li li .mw-ui-check input+span {
+    margin-left: 0;
+    margin-right: 44px;
+}
+

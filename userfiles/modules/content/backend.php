@@ -631,13 +631,13 @@ if ($action == 'posts') {
                         <?php elseif ($action == 'categories'): ?>
 
                             <module skip-static-pages="true" data-type="pages" template="admin"
-                                    active_ids="<?php print $active_content_id; ?>" active_class="active-bg"
+                                    active_ids="<?php print $active_content_id; ?>" active_class="active"
                                     include_categories="true" include_global_categories="true"
                                     id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
                                     home_first="true"/>
                         <?php else: ?>
                             <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
-                                    active_class="active-bg" include_categories="true" include_global_categories="true"
+                                    active_class="active" include_categories="true" include_global_categories="true"
                                     id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
                                     home_first="true"/>
                         <?php endif ?>

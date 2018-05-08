@@ -1,9 +1,7 @@
-mw.AfterDrop = class {
-    constructor(){
+mw.AfterDrop = function(){
 
-    }
 
-    loadNewModules(){
+    this.loadNewModules = function(){
         mw.pauseSave = true;
         var need_re_init = false;
         mw.$(".edit .module-item").each(function(c) {
@@ -37,9 +35,9 @@ mw.AfterDrop = class {
     }
 
 
-    init(){
-
-        setTimeout(()=>{
+    this.init = function(){
+        var scope = this;
+        setTimeout(function(){
 
             mw.$(".mw_drag_current").each(function(){
                 $(this).removeClass('mw_drag_current').css({
@@ -48,8 +46,9 @@ mw.AfterDrop = class {
             });
             mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
             mw.$(".mw-empty").removeClass('mw-empty');
-            this.loadNewModules()
+            scope.loadNewModules()
             mw.dropable.hide().removeClass('mw_dropable_onleaveedit');
+
         }, 78)
     }
 }

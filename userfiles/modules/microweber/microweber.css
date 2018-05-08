@@ -241,6 +241,16 @@ img[align='middle'] {
     padding-right: 0
 }
 
+html[dir="rtl"] .mw-ui-col:first-child > .mw-col-container{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
 .mw-col-container:after {
     content: ".";
     display: block;

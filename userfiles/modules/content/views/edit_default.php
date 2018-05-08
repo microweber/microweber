@@ -189,7 +189,7 @@ if (isset($params['live_edit'])) {
                                     <?php if (isset($edit_page_info['title'])): ?>
                                         <div class="mw-ui-row-nodrop" id="content-title-field-row">
                                             <div class="mw-ui-col">
-                                                <input type="text" class="mw-ui-invisible-field mw-ui-field-big" style="min-width: 230px;" value="<?php print ($title_for_input) ?>"
+                                                <input type="text" class="mw-ui-invisible-field mw-ui-field-big" autocomplete="off" style="min-width: 230px;" value="<?php print ($title_for_input) ?>"
                                                        id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
                                             </div>
 
@@ -198,6 +198,7 @@ if (isset($params['live_edit'])) {
                                                     $(document).ready(function () {
                                                         setTimeout(function () {
                                                             $('#content-title-field').focus();
+                                                           // alert(1);
                                                         }, 100);
                                                     });
                                                 });
@@ -251,7 +252,7 @@ if (isset($params['live_edit'])) {
 
                 <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?>
                       class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin"
-                      id="quickform-edit-content">
+                      id="quickform-edit-content" autocomplete="off" >
                     <input type="hidden" name="id" id="mw-content-id-value" value="<?php print $data['id']; ?>"/>
                     <input type="hidden" name="subtype" id="mw-content-subtype" value="<?php print $data['subtype']; ?>"/>
                     <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>"
@@ -267,7 +268,7 @@ if (isset($params['live_edit'])) {
 
 
                     <div class="mw-ui-field-holder" id="slug-field-holder">
-                        <input type="hidden" id="content-title-field-master" name="title" onkeyup="slugFromTitle();" placeholder="<?php print $title_placeholder; ?>" value="<?php print $title_for_input; ?>"/>
+                        <input type="hidden" id="content-title-field-master" name="title" onkeyup="slugFromTitle();" placeholder="<?php print $title_placeholder; ?>"  value="<?php print $title_for_input; ?>" autocomplete="off"/>
                         <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
 
                         <div class="edit-post-url">
@@ -275,10 +276,11 @@ if (isset($params['live_edit'])) {
                                 <div class="mw-ui-col" id="slug-base-url-column">
                                     <span class="view-post-site-url" id="slug-base-url"><?php print site_url(); ?></span>
                                 </div>
+
                                 <div class="mw-ui-col" id="slug-url-column">
                                     <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print $data['url']; ?></span>
                                     <input autocomplete="off" name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
-                                           onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
+                                           onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"     />
                                 </div>
                                 <div class="mw-ui-col" id="settings-btn-column">
                                     <button type="button" class="btn-settings mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><span class="mai-setting2"></span> Settings</button>
