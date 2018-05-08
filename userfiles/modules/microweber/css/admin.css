@@ -676,6 +676,7 @@ h3 > [class*="mw-icon-"]:first-child {
     top: 3px;
     color: #2b2b2b;
     font-weight: 600;
+    z-index: 1;
 }
 
 .mw-tree .category_element.active-bg > a:before, .mw-tree .category_element.active-bg > label:before {
@@ -722,6 +723,11 @@ h3 > [class*="mw-icon-"]:first-child {
     display: inline-block;
     max-width: -webkit-calc(100% - 40px);
     max-width: calc(100% - 40px);
+}
+
+.mw-tree label .pages_tree_link_text{
+    overflow: visible;
+    max-width: none;
 }
 
 .pages-nav a:hover > .pages_tree_link_text, .pages-nav a:focus > .pages_tree_link_text {
@@ -2935,7 +2941,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 .pages_tree {
-    padding: 15px 0;
+    padding: 15px 20px;
 
 }
 
