@@ -14,6 +14,16 @@ html, body {
     -ms-overflow-style: scrollbar;
 }
 
+.mw-drag-current-top,.mw-drag-current-bottom{
+    transition: all .9s !important;
+}
+.mw-drag-current-top{
+    transform: translateY(10px);
+}
+.mw-drag-current-bottom{
+    transform: translateY(-10px);
+}
+
 #mwxcursor {
     position: absolute;
     top: 0;
@@ -387,7 +397,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     width: 5px;
     pointer-events: none;
 }
-
+/*
 .mw_dropable_arr:before,
 .mw_dropable_arr:after {
     width: 0px;
@@ -410,7 +420,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
 .mw_dropable_arr:after {
     border-top: 5px solid #0088CC;
     bottom: -9px;
-}
+}*/
 
 .mw_dropable {
     position: absolute !important;
@@ -418,6 +428,61 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     background: #0088CC;
     z-index: 997;
     display: none;
+}
+
+
+/* v2 dropable*/
+
+.mw_dropable{
+    height: 5px;
+    border-radius: 2px;
+    box-shadow: 0 0 12px rgba(0,0,0,.3);
+}
+.mw_dropable_arr{
+    width: 20px;
+    text-align: center;
+    animation: mw_dropable_arr 2s linear infinite;
+    position: absolute;
+    bottom: 0;
+    color: #0e80e5;
+    transition: transform .2s;
+    transform: rotate(180deg);
+    top: 30px;
+}
+
+.mw_dropable_arr_up .mw_dropable_arr{
+    transform: rotate(0);
+    top: -30px;
+    animation: mw_dropable_arr_down 2s linear infinite;
+}
+
+@keyframes mw_dropable_arr {
+    0%, 100% {
+        top: 30px;
+        opacity: 1;
+    }
+    50% {
+        top: 40px;
+        opacity: .6;
+    }
+}
+
+@keyframes mw_dropable_arr_down {
+    0%, 100% {
+        top: -30px;
+        opacity: 1;
+    }
+    50% {
+        top: -40px;
+        opacity: .6;
+    }
+}
+
+.mw_dropable_arr:before{
+    content: "\0121";
+    display: inline-block;
+    font-family: Microweber;
+    font-size: 27px;
 }
 
 .mw_dropable_vertical {

@@ -39,6 +39,9 @@ mw.AfterDrop = function(){
         var scope = this;
         setTimeout(function(){
 
+            mw.$(".mw-drag-current-bottom, .mw-drag-current-top").removeClass('mw-drag-current-bottom mw-drag-current-top')
+            mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
+
             mw.$(".mw_drag_current").each(function(){
                 $(this).removeClass('mw_drag_current').css({
                     visibility:'visible'
@@ -451,6 +454,10 @@ mw.ElementAnalyzer = function(options){
 
             mw.dropables.set(scope.data.dropablePosition, el.offset(), el.height(), el.width());
 
+            if(el[0] && !mw.tools.hasAnyOfClasses(el[0], ['mw-drag-current-'+scope.data.dropablePosition])){
+                $('.mw-drag-current-top,.mw-drag-current-bottom').removeClass('mw-drag-current-top mw-drag-current-bottom');
+                mw.tools.addClass(el[0], 'mw-drag-current-'+scope.data.dropablePosition)
+            }
         }
     }
 

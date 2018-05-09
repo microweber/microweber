@@ -116,8 +116,10 @@
                               .join('');
                       }
                       else{
+
                         curr.style.backgroundImage = 'url('+mw.files.safeFilename(b)+')';
-                        top.mw.wysiwyg.bgQuotesFix(curr)
+                        top.mw.wysiwyg.bgQuotesFix(curr);
+                        //top.mw.trigger('nodeBackgroundChanged', [curr, b])
                       }
                     }
                   }

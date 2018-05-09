@@ -777,14 +777,15 @@ mw.drag = {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
                     if((mw.emouse.x+mw.emouse.y)%2===0){
                         mw.ea.interactionAnalizer(event);
+                        $(".currentDragMouseOver").removeClass("currentDragMouseOver");
+                        $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
                     }
 
                 }
 
 
             }
-            $(".currentDragMouseOver").removeClass("currentDragMouseOver");
-            $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
+
         });
         mw.dropables.prepare();
 

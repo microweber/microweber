@@ -69,7 +69,7 @@ else{
 
                     parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
 
-                    window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+                    parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
 
 
                 } else if (hash == 'set_bg_image') {
@@ -139,7 +139,7 @@ else{
                 parent[hash](GlobalEmbed)
             }
 
-             window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
+             parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
 
             parent.mw.tools.modal.remove('mw_rte_image');
 
@@ -306,7 +306,7 @@ else{
                 }
 
             }
-             window.top.$(window.top).trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+            parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
             parent.mw.tools.modal.remove('mw_rte_image');
         });
 
@@ -334,6 +334,7 @@ else{
                         window.fileBrowserLoaded = true;
                         mw.load_module('files/admin', '#file_module_live_edit_adm', function() {
                             setTimeout(function() {
+                                SetFileBrowserHeight();
                                 setTimeout(function() {
                                     SetFileBrowserHeight();
                                 }, 222)
