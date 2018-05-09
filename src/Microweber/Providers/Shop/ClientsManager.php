@@ -25,10 +25,15 @@ class ClientsManager extends Crud
     {
 
 
+
         $client = array();
 
         if (isset($data['email']) and $data['email']) {
             $client['email'] = $data['email'];
+            $use_fake_mail = false;
+        } else {
+            $use_fake_mail = true;
+           // $client['email'] = date("YmdHis").'@no-reply.local';
         }
 
         if (isset($data['first_name']) and $data['first_name']) {
@@ -46,7 +51,7 @@ class ClientsManager extends Crud
         $related_data = new \Clients();
 
 
-        if (isset($client['email'])) {
+        if (isset($client['email']) ) {
             $related_data = $related_data->firstOrCreate([
                 'email' => $client['email']
             ], [
@@ -54,7 +59,7 @@ class ClientsManager extends Crud
             ]);
         } elseif (isset($client['user_id'])) {
             $related_data = $related_data->firstOrCreate([
-                'user_id' => $client['user_id'],
+                'id' => $client['user_id'],
             ], [
                 $client
             ]);

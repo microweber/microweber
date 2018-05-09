@@ -14,8 +14,6 @@ if ($params['period']) {
 }
 
 
-print_r($graph_data);
-
 ?>
 
 
@@ -126,7 +124,8 @@ print_r($graph_data);
                 }
                 else if (type == 'weekly') {
                 //    var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];
-                    var day = this.weekDays[date.getWeekNumber()];
+                 //   var day = this.weekDays[date.getWeekNumber()];
+                    var day = this.weekDays[date.getUTCDay()];
 
                     html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
                 }
