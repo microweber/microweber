@@ -224,14 +224,14 @@ if (!empty($recomended_layouts)) {
             mw.$("#layout_selector<?php print $rand; ?> li").eq(which).addClass('active');
             $(mw.templatePreview<?php print $rand; ?>.selector).trigger('change');
         },
-        setHeight:function () {
+        setHeight: function () {
             var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
             $(iframe).css({
-                height:1*($(window).height() - 66)
+                height: 1 * ($(window).height() - 66)
             })
             var framewindow = iframe.contentWindow;
             //iframe.style.height = framewindow.document.body.clientHeight + 'px';
-            if(!this._init){
+            if (!this._init) {
                 this._init = true
                 $(window).on("resize", function () {
                     mw.templatePreview<?php print $rand; ?>.setHeight();
@@ -449,9 +449,9 @@ if (!empty($recomended_layouts)) {
     <?php else: ?>
 
 
-    <!--    <div class="mw-ui-row ">
+        <!--    <div class="mw-ui-row ">
             <div class="mw-ui-col">
-                <h2><span class="mai-templates"></span><?php /*_e("Choose template"); */?></h2>
+                <h2><span class="mai-templates"></span><?php /*_e("Choose template"); */ ?></h2>
             </div>
         </div>
 -->
@@ -521,7 +521,7 @@ if (!empty($recomended_layouts)) {
     ?>
 
     <?php if ($template_selector_position != 'none'): ?>
-        <div class="layouts_box_holder <?php if (isset($params['small'])): ?> layouts_box_holder_small    <?php endif; ?>">
+        <div class="layouts_box_holder <?php if (isset($params['small'])): ?>layouts_box_holder_small<?php else: ?>layouts_box_holder_big<?php endif; ?>">
             <div class="mw-ui-row">
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
@@ -568,16 +568,19 @@ if (!empty($recomended_layouts)) {
                 <script>
                     $(document).ready(function () {
                         $(document).ready(function () {
-                            setTimeout(function(){ $('#content-title-field').focus(); }, 100);
+                            setTimeout(function () {
+                                $('#content-title-field').focus();
+                            }, 100);
                         });
                     });
                 </script>
                 <?php if ($template_selector_position == 'top'): ?>
-                    <div class="mw-ui-col js-template-selector" style="display: none;">
+                    <div class="mw-ui-col js-template-selector" <?php if (isset($params['small'])): ?>style="display: none;"<?php endif; ?>>
                         <div class="mw-ui-col-container">
                             <div class="mw-template-selector">
                                 <div class="admin-section-bar">
-                                    <h2 class="inline-element"><span class="mw-icon-template"></span><?php _e("Template"); ?></h2> &nbsp; <small>(This change will be affected only on the current page.)</small>
+                                    <h2 class="inline-element"><span class="mw-icon-template"></span><?php _e("Template"); ?></h2> &nbsp;
+                                    <small>(This change will be affected only on the current page.)</small>
                                 </div>
 
                                 <?php if ($templates != false and !empty($templates)): ?>
@@ -610,6 +613,7 @@ if (!empty($recomended_layouts)) {
                         </div>
                     </div>
 
+                <?php if (isset($params['small'])): ?>
                     <div class="mw-ui-col" style="width: 36px;">
                         <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline js-show-template-selector tip" title="<?php _e('Change page template'); ?>" type="button" style="margin-top: 38px; text-align: center;"><i class="mw-icon-template m-0"></i></button>
                     </div>
@@ -627,6 +631,7 @@ if (!empty($recomended_layouts)) {
                             })
                         })
                     </script>
+                <?php endif; ?>
                 <?php endif; ?>
 
 
@@ -710,7 +715,7 @@ if (!empty($recomended_layouts)) {
             <?php endif; ?>
             <div class="preview_frame_container"></div>
             <?php if (!isset($params['edit_page_id'])): ?>
-               <?php /* <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div> */ ?>
+                <?php /* <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div> */ ?>
             <?php else: ?>
                 <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
                      ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">

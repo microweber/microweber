@@ -141,41 +141,32 @@
     <div class="section-header">
         <div class="mw-ui-row valign" style="margin-bottom: 20px;">
             <div class="mw-ui-col">
-                <div class="mw-ui-row" style=" width: auto">
-                    <div class="mw-ui-col">
-                        <div class="mw-ui-col-container">
-                            <a class="ordersnum" href="#orderstype=completed"><?php print $latest_orders; ?></a>
-                        </div>
-                    </div>
-                    <div class="mw-ui-col">
-                        <div class="mw-ui-col-container">
-                            <h2 class="pull-left m-t-10">
-                                <span class="mai-shop"></span>
+
+                    <a class="ordersnum pull-left m-r-10" href="#orderstype=completed"><?php print $latest_orders; ?></a>
+
+                    <h2 class="pull-left m-t-10">
+                        <span class="mai-shop"></span>
 
 
-                                <?php if ($latest_orders > 1) { ?>
-                                    <?php _e("New orders"); ?>
-                                <?php }
-                                if ($latest_orders == 1) { ?>
-                                    <?php _e("New order"); ?>
-                                <?php }
-                                if ($latest_orders == 0) { ?>
-                                    <?php _e("No new orders"); ?>
-                                <?php } ?>
+                        <?php if ($latest_orders > 1) { ?>
+                            <?php _e("New orders"); ?>
+                        <?php }
+                        if ($latest_orders == 1) { ?>
+                            <?php _e("New order"); ?>
+                        <?php }
+                        if ($latest_orders == 0) { ?>
+                            <?php _e("No new orders"); ?>
+                        <?php } ?>
 
-                            </h2>
-                            <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info pull-left"><i class="mai-plus"></i></a>
-                        </div>
-                    </div>
-                </div>
+                    </h2>
+                    <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info pull-left"><i class="mai-plus"></i></a>
 
-            </div>
 
-            <div class="mw-ui-col" style="width: 80%">
-                <div class="pull-right relative">
+
+                <div class="pull-right">
 
                     <div class="top-search">
-                        <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>" />
+                        <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>"/>
                         <span class="top-form-submit" onclick="mw.url.windowHashParam('search', $(this).prev().val());"><span class="mw-icon-search"></span></span>
                     </div>
                 </div>
@@ -220,5 +211,5 @@
     </div>
 
 
-    <module type="shop/orders/admin" id="mw-admin-manage-orders-list" />
+    <module type="shop/orders/admin" id="mw-admin-manage-orders-list"/>
 </div>

@@ -230,7 +230,7 @@ if(!!window.thismodal){
         <?php if(is_array($exiisting_fields)): ?>
 <?php foreach($exiisting_fields as $item): ?>
  
-   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span><?php print $item['name']; ?></span></li>
+   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span class="mw-custom-field-title"><?php print $item['name']; ?></span></li>
 
 <?php endforeach; ?>
 <?php endif; ?>
@@ -247,7 +247,7 @@ if(!!window.thismodal){
 
         foreach($fields as $field=>$value){  ?>
 
-        <li value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span><?php  _e($value); ?></span></li>
+        <li value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span class="mw-custom-field-title"><?php  _e($value); ?></span></li>
         <?php } ?>
 
  
