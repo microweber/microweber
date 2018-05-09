@@ -14,8 +14,6 @@ if ($params['period']) {
 }
 
 
-print_r($graph_data);
-
 ?>
 
 
@@ -126,9 +124,21 @@ print_r($graph_data);
                 }
                 else if (type == 'weekly') {
                 //    var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];
-                    var day = this.weekDays[date.getWeekNumber()];
+                 //   var day = this.weekDays[date.getWeekNumber()];
+                    var day = this.weekDays[date.getUTCDay()];
 
-                    html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
+                //    html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
+                  //  html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + this.monthDays[date.getUTCMonth()] + '</div>';
+
+                    //var day = date.getDate()
+
+                    //get weekend date
+                   // day += (date.getDay() == 0 ? 0 : 7 - date.getDay());
+
+                   // day = Math.ceil(parseFloat(day) / 7);
+                   // html += '<div class="mw-admin-stat-item-date">' + day + ' week of ' + this.monthDays[date.getUTCMonth()] +  '</div>';
+
+                     html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + this.monthDays[date.getUTCMonth()] + '</div>';
                 }
                 else if (type == 'monthly') {
                     var day = this.monthDays[date.getUTCMonth()];

@@ -543,7 +543,12 @@ mw.drag = {
 
         mwd.body.appendChild(this._onCloneableControl);
         $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
-          $(mw.drag._onCloneableControl.__target).after(mw.drag._onCloneableControl.__target.outerHTML);
+            var parser = mw.tools.parseHtml(mw.drag._onCloneableControl.__target.outerHTML).body;
+            var all = parser.querySelectorAll('[id]'), i = 0;
+            for( ; i<all.length; i++){
+                all[i].id = 'mw-cl-id-' + mw.random();
+            }
+          $(mw.drag._onCloneableControl.__target).after(parser.innerHTML);
           mw.wysiwyg.change(target)
         })
         $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){

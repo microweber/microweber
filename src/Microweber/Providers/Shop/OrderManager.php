@@ -124,6 +124,7 @@ class OrderManager
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     DB::table($this->table)->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
                 }
+
                 $this->app->cache_manager->delete('cart');
                 $this->app->cache_manager->delete('cart_orders');
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {

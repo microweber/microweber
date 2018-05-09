@@ -365,7 +365,16 @@ class InstallController extends Controller
         if (!$this->_is_escapeshellarg_available()) {
             $yes_i_can = false;
         }
+
+
+
+
+
         if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {
+            $yes_i_can = false;
+        }
+        $basedir = @ini_get('open_basedir');
+        if ($basedir) {
             $yes_i_can = false;
         }
 
