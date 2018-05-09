@@ -514,10 +514,17 @@ class Stats
                 }
 
 
-                $log = $log->limit(14);
+              //  $log = $log->limit(14);
                 $return = $log->get();
 
                 $return = collection_to_array($return);
+
+                if($return){
+                    $return = array_reverse($return);
+                    $return = array_slice($return, 0,14);
+                    $return = array_reverse($return);
+
+                }
 
                 return $return;
 

@@ -1808,11 +1808,14 @@ body.loaded #live_edit_toolbar {
 .mw_module_image img {
     position: relative;
     z-index: 1;
+    max-height: 30px;
 }
 
 .mw_module_image_holder {
     display: inline-block;
     position: relative;
+    max-width: 100%;
+    max-height: 30px;
 }
 
 .mw_module_image_shadow {

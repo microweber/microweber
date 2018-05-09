@@ -236,7 +236,7 @@ if ($last_page_front != false) {
                                 <?php endif; ?>
                                 <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
                                     <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                                    <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline " id="edit-content-btn" data-tip="bottom-left">
+                                    <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-l-10" id="edit-content-btn" data-tip="bottom-left">
                                         <span class="mai-edit"></span> <span><?php _e("Edit page"); ?></span>
                                     </a>
                                 <?php endif; ?>

@@ -725,7 +725,7 @@ h3 > [class*="mw-icon-"]:first-child {
     max-width: calc(100% - 40px);
 }
 
-.mw-tree label .pages_tree_link_text{
+.mw-tree label .pages_tree_link_text {
     overflow: visible;
     max-width: none;
 }
@@ -4435,6 +4435,7 @@ body.grabbing, body.grabbing * {
     font-size: 12px;
     padding: 0;
     line-height: 30px;
+    margin-top: 5px;
 }
 
 .product-thumbnail-tooltip {
@@ -4703,7 +4704,7 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     background: white;
     padding: 15px;
     height: 66px;
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
 }
 
 .section-header h2 {
@@ -4814,7 +4815,7 @@ body.is_admin .mw-admin-container {
 
 .top-search {
     border: 1px solid #a8a8a8;
-    height: 38px;
+    height: 36px;
     width: 190px;
     background: #f5f5f5;
     border-radius: 2px;
@@ -4824,7 +4825,7 @@ body.is_admin .mw-admin-container {
 
 .top-search input {
     width: 148px !important;
-    height: 36px;
+    height: 34px;
     padding: 10px;
     border: none;
     outline: none;
@@ -4979,6 +4980,13 @@ span.mw-icon-upload {
 
 .table-responsive table {
     table-layout: fixed;
+}
+
+@media screen and (max-width: 991px) {
+    #mw-update-frame {
+        width: 100% !important;
+        overflow-x: hidden;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -5156,6 +5164,7 @@ span.mw-icon-upload {
         padding: 10px 0 !important;
         text-align: center;
     }
+
 }
 
 @media screen and (max-width: 440px) {
@@ -7188,4 +7197,20 @@ select.silver-field {
 
 .mw-live-edit-top-bar-button span {
     margin-left: 7px;
+}
+
+.mw-site-theme-selector {
+    background-color: #fff;
+}
+
+.layouts_box_holder_big .admin-section-bar {
+    width: 100%;
+    padding: 0 5px;
+    background: white;
+    height: 40px;
+}
+
+.mw-custom-field-title {
+    height: 30px;
+    display: block;
 }
