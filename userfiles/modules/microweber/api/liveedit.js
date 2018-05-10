@@ -2236,9 +2236,11 @@ mw.drag = {
 
         if (mw.tools.isEmptyObject(data)) return false;
 
-        mw.trigger('saveStart', data);
+        mw._liveeditData = data;
 
-        var xhr = mw.drag.coreSave(data);
+        mw.trigger('saveStart', mw._liveeditData);
+
+        var xhr = mw.drag.coreSave(mw._liveeditData);
         xhr.error(function(){
 
             if(xhr.status == 403){

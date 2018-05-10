@@ -448,6 +448,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     transition: transform .2s;
     transform: rotate(180deg);
     top: 30px;
+    text-shadow: 0 0 12px rgba(0,0,0,.3);
 }
 
 .mw_dropable_arr_up .mw_dropable_arr{
