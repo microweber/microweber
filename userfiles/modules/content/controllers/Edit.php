@@ -106,7 +106,7 @@ class Edit
             $data = $this->app->content_manager->get_by_id(intval($params["content-id"]));
         }
         $recommended_parent = false;
-		 
+
         if (isset($params['recommended_parent']) and $params['recommended_parent'] != false) {
             $recommended_parent = $params['recommended_parent'];
         } elseif (isset($params['parent']) and $params['parent'] != false) {
@@ -266,7 +266,7 @@ class Edit
                     $parent_content = $this->app->content_manager->get($parent_content_params);
 
                 }
-            } elseif (isset($params['subtype']) and $params['content_type'] == 'product') {
+            } elseif (isset($params['content_type']) and $params['content_type'] == 'product') {
                 $parent_content_params['is_shop'] = 1;
                 $parent_content = $this->app->content_manager->get($parent_content_params);
 
@@ -280,11 +280,11 @@ class Edit
             }
 
             if (isset($parent_content) and isset($parent_content['id'])) {
-
                 $data['parent'] = $parent_content['id'];
             }
 
 
+//var_dump($data);
         } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['content_type'] == 'product') {
 
             //if we are adding product in a page that is not a shop
