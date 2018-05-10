@@ -61,7 +61,6 @@ if (isset($params['content_id'])) {
 $for = mw()->database_manager->assoc_table_name($for);
 
 
-
 if (isset($params['for-id'])) {
     $for_id = $params['for-id'];
 }
@@ -75,11 +74,10 @@ if (isset($params['rel_id'])) {
 
 $rand = uniqid();
 
-if (intval($for_id) != 0) {
+if ($for_id != false) {
     $media = get_pictures("rel_id={$for_id}&rel_type={$for}");
 } else {
     $sid = mw()->user_manager->session_id();
-
     $media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 }
 
@@ -87,46 +85,46 @@ if (intval($for_id) != 0) {
 ?>
 
 <script type="text/javascript">
-    after_upld =   function (a, e, f, id, module_id) {
-            if (e != 'done') {
-                var data = {};
-                data['for'] = f;
-                data.src = a;
-                data.media_type = 'picture';
+    after_upld = function (a, e, f, id, module_id) {
+        if (e != 'done') {
+            var data = {};
+            data['for'] = f;
+            data.src = a;
+            data.media_type = 'picture';
 
-                if (id == undefined || id == '') {
-                    data.for_id = 0;
-                } else {
-                    data.for_id = (id);
+            if (id == undefined || id == '') {
+                data.for_id = 0;
+            } else {
+                data.for_id = (id);
 
-                }
-
-
-                mw.module_pictures.after_upload(data);
             }
-            if (e == 'done') {
-                setTimeout(function () {
-                    mw.tools.modal.remove('mw_rte_image');
-                    if (typeof load_iframe_editor === 'function') {
-                        load_iframe_editor();
-                    }
-                    mw.reload_module('#' + module_id);
-                    mw.reload_module_parent('pictures');
-                    if (self !== top && typeof parent.mw === 'object') {
-                        parent.mw.reload_module('pictures');
-                        mw.reload_module_parent("pictures/admin");
-                        if (self !== top && typeof parent.mw === 'object') {
-                            parent.mw.reload_module('posts');
-                            parent.mw.reload_module('shop/products');
-                            parent.mw.reload_module('content', function () {
-                                mw.reload_module('#' + module_id);
-                                parent.mw.reload_module('pictures');
-                            });
-                        }
-                    }
-                }, 1300);
-            }
+
+
+            mw.module_pictures.after_upload(data);
         }
+        if (e == 'done') {
+            setTimeout(function () {
+                mw.tools.modal.remove('mw_rte_image');
+                if (typeof load_iframe_editor === 'function') {
+                    load_iframe_editor();
+                }
+                mw.reload_module('#' + module_id);
+                mw.reload_module_parent('pictures');
+                if (self !== top && typeof parent.mw === 'object') {
+                    parent.mw.reload_module('pictures');
+                    mw.reload_module_parent("pictures/admin");
+                    if (self !== top && typeof parent.mw === 'object') {
+                        parent.mw.reload_module('posts');
+                        parent.mw.reload_module('shop/products');
+                        parent.mw.reload_module('content', function () {
+                            mw.reload_module('#' + module_id);
+                            parent.mw.reload_module('pictures');
+                        });
+                    }
+                }
+            }, 1300);
+        }
+    }
 </script>
 
 <script type="text/javascript">
@@ -166,20 +164,25 @@ if (!isset($data["thumbnail"])) {
 
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
 
-<a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded pull-right"> <?php _e('Browse uploaded'); ?></a>
+<a href="javascript:mw_admin_puctires_upload_browse_existing()"
+   class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded pull-right"> <?php _e('Browse uploaded'); ?></a>
 
 <label class="mw-ui-label"><?php _e("Add new images"); ?> <?php _e('or'); ?>
-    <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a>
+    <a href="javascript:mw_admin_puctires_upload_browse_existing()"
+       class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a>
 </label>
 
 <div class="select_actions_holder">
     <div class="select_actions">
         <div class="mw-ui-btn-nav select_actions">
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important mw-ui-btn-icon" onclick="deleteSelected()">
-                <span class="mw-icon-bin tip" data-tip="<?php _e('Delete') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important mw-ui-btn-icon"
+               onclick="deleteSelected()">
+                <span class="mw-icon-bin tip" data-tip="<?php _e('Delete') ?> <?php _e('selected') ?>"
+                      data-tipposition="top-right"></span>
             </a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon" onclick="downloadSelected('none')">
-                <span class="mw-icon-download tip" data-tip="<?php _e('Download') ?> <?php _e('selected') ?>" data-tipposition="top-right"></span>
+                <span class="mw-icon-download tip" data-tip="<?php _e('Download') ?> <?php _e('selected') ?>"
+                      data-tipposition="top-right"></span>
             </a>
         </div>
     </div>
@@ -202,15 +205,18 @@ if (!isset($data["thumbnail"])) {
     <?php if (is_array($media)): ?>
         <?php $default_title = _e("Image title", true); ?>
         <?php foreach ($media as $key => $item): ?>
-            <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>" id="admin-thumb-item-<?php print $item['id'] ?>">
+            <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>"
+                 id="admin-thumb-item-<?php print $item['id'] ?>">
                 <?php $tn = thumbnail($item['filename'], 200, 200, true); ?>
                 <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
                 <?php //if ($key == 0): ?>
-                    <div class="featured-image"><?php print _e('featured image'); ?></div>
+                <div class="featured-image"><?php print _e('featured image'); ?></div>
                 <?php //endif; ?>
-                <span class="mw-icon-gear image-settings" onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
+                <span class="mw-icon-gear image-settings"
+                      onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
                 <label class="mw-ui-check">
-                    <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>" value="<?php print $item['id'] ?>"><span></span>
+                    <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
+                           value="<?php print $item['id'] ?>"><span></span>
                 </label>
                 <div class="mw-post-media-img-edit">
 
@@ -245,21 +251,25 @@ if (!isset($data["thumbnail"])) {
 
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php print $name ?></label>
-                                        <input type="text" class="mw-ui-field w100" name="<?php print $name ?>" value="<?php print isset($curr[$name]) ? $curr[$name] : ''; ?>"/>
+                                        <input type="text" class="mw-ui-field w100" name="<?php print $name ?>"
+                                               value="<?php print isset($curr[$name]) ? $curr[$name] : ''; ?>"/>
                                     </div>
                                 <?php } ?>
 
                                 <hr>
 
-                                <span class="mw-ui-btn pull-left" onclick="imageConfigDialogInstance.remove()">Cancel</span>
-                                <span class="mw-ui-btn mw-ui-btn-notification pull-right" onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
+                                <span class="mw-ui-btn pull-left"
+                                      onclick="imageConfigDialogInstance.remove()">Cancel</span>
+                                <span class="mw-ui-btn mw-ui-btn-notification pull-right"
+                                      onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
 
                             </div>
                         </div>
                     </div>
 
 
-                    <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></a>
+                    <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;"
+                       onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></a>
 
                 </div>
             </div>

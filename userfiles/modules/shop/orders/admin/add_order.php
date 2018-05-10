@@ -38,13 +38,22 @@ mw.cart.add($form);
 
 </script>
 <div id="mw_admin_custom_order_item_add_form">
+    <h2>Add custom item</h2>
+    Product name
     <input type="text" name="title">
     <input type="hidden" name="for" value="custom_item">
     <input type="hidden" name="for_id" value="1">
+
+    Price
     <input type="text" name="price">
     <button onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')">add</button>
 </div>
+<hr>
 <?php if (is_array($data) and !empty($data)): ?>
+
+    <h2>Add existing prodct</h2>
+    
+    Search product <input type="text" name="search" class="js-search-product-for-custom-order">
     <table class="mw-ui-table table-clients" width="100%" cellspacing="0" cellpadding="0">
 
 
@@ -103,6 +112,9 @@ mw.cart.add($form);
 
 <?php endif; ?>
 <hr>
+
+
+
 <script>
     mw_admin_custom_checkout_callback = function(){
         $('#mw_admin_edit_order_item_popup_modal').remove();
@@ -113,6 +125,9 @@ mw.cart.add($form);
         mw.notification.success("Order completed",5000);
     }
 </script>
+
+
+
 <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default"  />
 <module type="shop/checkout" data-checkout-link-enabled="n" template="admin_custom_order" id="mw-admin-custom-checkout-add-order"  />
 
