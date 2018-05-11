@@ -14,7 +14,7 @@ mw.color = {
       return 'transparent';
     }
   },
-  hexToRgb(hex) {
+  hexToRgb: function(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         r: parseInt(result[1], 16),
@@ -39,7 +39,17 @@ mw.color = {
       return final;
     }
   },
-  hexToRgbaCSS(hex, alpha) {
+  getBrightness: function(color) {
+      var rgb = this.colorParse(color);
+      return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+  },
+  isDark: function(color) {
+      return this.getBrightness(color) < 128;
+  },
+  isLight: function(color) {
+      return !this.isDark(color);
+  },
+  hexToRgbaCSS: function(hex, alpha) {
     alpha = alpha || 1;
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? ('rgba('+parseInt(result[1], 16)+','+parseInt(result[2], 16)+','+parseInt(result[3], 16)+','+alpha+')') : '';

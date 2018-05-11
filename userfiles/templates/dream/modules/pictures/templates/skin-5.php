@@ -8,6 +8,9 @@
             },
             <?php endforeach;  ?>
         ];
+        $(document).ready(function () {
+            mr.sliders.documentReady($)
+        })
     </script>
 
     <div class="">

@@ -92,7 +92,7 @@ if (!isset($tn[1])) {
 
                         <?php if ($show_fields == false or ($show_fields != false and in_array('add_to_cart', $show_fields))): ?>
                             <a class="btn btn--sm" href="javascript:;" onclick="mw.cart.add('.items .item-<?php print $item['id'] ?>');">
-                                <span class="btn__text"><?php $add_cart_text ? print $add_cart_text : print 'Add To Cart' ?></span>
+                                <span class="btn__text"><?php $add_cart_text ? print $add_cart_text : print _e('Add To Cart', true) ?></span>
                             </a>
                         <?php endif; ?>
 

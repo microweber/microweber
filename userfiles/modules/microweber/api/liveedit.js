@@ -2927,7 +2927,7 @@ $(document).ready(function() {
 
 
         mw.$(".edit").each(function(){
-            var all = mw.ea.helpers.getBlockElements(":not(.element)", this), i = 0;
+            var all = mw.ea.helpers.getElementsLike(":not(.element)", this), i = 0;
             for( ; i<all.length; i++){
                 if(mw.ea.canDrop(all[i])){
                     mw.tools.addClass(all[i], 'element')
@@ -2936,7 +2936,12 @@ $(document).ready(function() {
         })
 
         if(!!document.body.classList){
-            document.body.classList[(mw.wysiwyg.isSelectionEditable() ? 'add' : 'remove' )]('mw-active-element-iseditable')
+          var displayEditor = mw.wysiwyg.isSelectionEditable();
+          if(!displayEditor){
+              var editor = document.querySelector('.mw_editor');
+              if(editor && editor.contains(document.activeElement)) displayEditor = true;
+          }
+          document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable')
         }
 
     }, 300);

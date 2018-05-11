@@ -46,3 +46,8 @@ description: Skin 2
         <?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") ?>
     </div>
 <?php endif; ?>
+<script>
+    $(document).ready(function () {
+        mr.sliders.documentReady($)
+    })
+</script>

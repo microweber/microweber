@@ -272,6 +272,17 @@ mw.ElementAnalyzer = function(options){
             }
             return final;
         },
+        getElementsLike:function(selector, root){
+            root = root || document.body;
+            selector = selector || '*';
+            var all = root.querySelectorAll(selector), i = 0; final = [];
+            for( ; i<all.length; i++){
+                if(!this.scope.helpers.isColLike(all[i]) && !this.scope.helpers.isRowLike(all[i]) && this.scope.helpers.isBlockLevel(all[i])){
+                    final.push(all[i])
+                }
+            }
+            return final;
+        },
         isEdit:function(node){
             node = node || this.scope.data.target;
             return mw.tools.hasClass(node, this.scope.cls.edit);
@@ -292,21 +303,21 @@ mw.ElementAnalyzer = function(options){
             node = node || this.scope.data.target;
             var is = false;
             if(!node.className) return is;
-            is = mw.tools.hasAnyOfClasses(node, scope.settings.rows);
+            is = mw.tools.hasAnyOfClasses(node, this.scope.settings.rows);
             if(is){
                 return is;
             }
-            return mw.tools.matches(node, scope.settings.rowMatches);
+            return mw.tools.matches(node, this.scope.settings.rowMatches);
         },
         isColLike:function(node){
             node = node || this.scope.data.target;
             var is = false;
             if(!node.className) return is;
-            is = mw.tools.hasAnyOfClasses(node, scope.settings.columns);
+            is = mw.tools.hasAnyOfClasses(node, this.scope.settings.columns);
             if(is){
                 return is;
             }
-            return mw.tools.matches(node, scope.settings.columnMatches);
+            return mw.tools.matches(node, this.scope.settings.columnMatches);
         },
         isLayoutModule:function(node){
             node = node || this.scope.data.target;

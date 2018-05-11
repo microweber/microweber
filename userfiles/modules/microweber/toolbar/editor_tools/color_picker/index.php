@@ -31,6 +31,9 @@
 
     #hex_color_value {
         font-weight: bold;
+        padding: 1px 7px;
+        border-radius: 3px;
+        box-shadow: 0 2px 2px #0003;
     }
     #mwpicker {
         clear: both;
@@ -208,6 +211,7 @@
         }
         $('#hex_color_value').html('#'+val);
         $('#hex_color_value').css("background-color", '#'+val);
+        $('#hex_color_value').css("color", '#'+(mw.color.isDark(val)?'fff':'000'));
         RegisterChange(val);
 
     }
@@ -222,10 +226,14 @@
             parent.mw.wysiwyg.restore_selection();
 
              _do(color);
+
+             $("#hex_color_value").css('color', '#'+(mw.color.isDark(color)?'fff':'000'))
+
         } else {
             parent.mw.wysiwyg.restore_selection();
         }
         _prompt_is_open = false;
+
     }
 
 </script>

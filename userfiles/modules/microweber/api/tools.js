@@ -1266,7 +1266,7 @@ mw.tools = {
                 $(this).removeClass("hover");
                 $(this).removeClass('other-action');
             });
-            mw.$(el).on('mousedown touchstart', '[value]', function (event) {
+            mw.$(el).on('mousedown touchstart', 'li[value]', function (event) {
                 $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
                 return false;
             });
@@ -3644,11 +3644,13 @@ mw.wait('jQuery', function () {
             var isValidOption = true;
             el.dataset("value", val);
             triggerChange ? el.trigger("change") : '';
+            var valel = mw.$(".mw-dropdown-val", el);
+            var method = valel[0].type ? 'val':'html';
             if (!!customValueToDisplay) {
-                mw.$(".mw-dropdown-val", el).html(customValueToDisplay);
+                valel[method](customValueToDisplay);
             }
             else {
-                mw.$(".mw-dropdown-val", el).html(val);
+                valel[method](val);
             }
         }
         else {
@@ -5062,6 +5064,7 @@ mw._colorPicker = function (options) {
     if (settings.element === undefined || settings.element === null) {
         return false;
     }
+
     var $el = mw.$(settings.element);
     if ($el[0] === undefined) {
         return false;
@@ -5075,6 +5078,7 @@ mw._colorPicker = function (options) {
             settings.method = 'inline';
         }
     }
+    this.settings = settings;
     $el[0].mwToolTipBinded = true;
     var frame = document.createElement('iframe');
     frame.src = mw.external_tool('color_picker');
@@ -5095,6 +5099,7 @@ mw._colorPicker = function (options) {
     }
     else {
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
+        this.tip = tip;
         mw.$('.mw-tooltip-content', tip).empty().append(frame);
         if ($el[0].nodeName == 'INPUT') {
             $el.bind('focus', function (e) {
@@ -5118,6 +5123,13 @@ mw._colorPicker = function (options) {
                 $(tip).hide();
             });
         }
+    }
+    this.show = function(){
+        $(this.tip).show();
+        mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
+    }
+    this.hide = function(){
+        $(this.tip).hide()
     }
 }
 mw.colorPicker = mw.colourPicker = function (o) {

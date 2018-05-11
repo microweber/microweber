@@ -1,0 +1,12 @@
+.cart-overview{
+    height: auto;
+    bottom: 0;
+}
+
+.mw-live-edit .cart-overview{
+    top: 53px;
+}
+
+.cart-overview .cart-overview__items{
+    overflow: auto;
+}

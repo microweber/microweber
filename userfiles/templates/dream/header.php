@@ -64,16 +64,16 @@
     <link href="{TEMPLATE_URL}assets/css/theme.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="{TEMPLATE_URL}assets/css/theme<?php print $color_scheme; ?>.css" id="theme-color" rel="stylesheet" type="text/css" media="all"/>
     <link href="{TEMPLATE_URL}assets/css/custom.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{TEMPLATE_URL}assets/css/mw-dream.css" rel="stylesheet" type="text/css" media="all"/>
     <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
 
     <?php if ($stop_transparent_nav != 'true'): ?>
         <script>
-            function checkFirstSectionForNav() {
+             checkFirstSectionForNav = function() {
                 var firstSectionHas = $('.main-container section').first().hasClass('imagebg');
 
                 var skip = $('.main-container section').first().hasClass('background-image-holder');
-//d(skip);
-//d($('.main-container section').first());
+
                 if (!skip && firstSectionHas == true) {
                     $('nav .nav-bar').addClass('nav--absolute nav--transparent');
                 } else {
@@ -108,6 +108,9 @@
 <?php $shop1_header_style = get_option('shop1-header-style', 'mw-template-dream'); ?>
 <?php $shop2_header_style = get_option('shop2-header-style', 'mw-template-dream'); ?>
 
+
+<?php $is_live_edit = is_live_edit(); ?>
+
 <?php if ($preloader != '' AND $preloader == 'true'): ?>
     <div class="loader"></div>
 <?php endif; ?>
@@ -131,8 +134,8 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($profile_link == 'true'): ?>
-            <div class="nav-module right cart-module">
+        <?php if ( $profile_link == 'true' or $is_live_edit ): ?>
+            <div class="nav-module right cart-module dream-profile-link" style="display: <?php print $profile_link == 'true' ? 'inline-block' : 'none' ; ?>;" >
                 <a href="<?php print profile_url(); ?>" class="nav-function">
                     <i class="fa fa-user"></i>
                     <span>Profile</span>
@@ -140,8 +143,8 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($search_field == 'true'): ?>
-            <div class="nav-module right search-module">
+        <?php if ($search_field == 'true' or $is_live_edit ): ?>
+            <div class="nav-module right search-module dream-search-link" style="display: <?php print $search_field == 'true' ? 'inline-block' : 'none' ; ?>;" >
                 <a href="#" class="nav-function modal-trigger" data-modal-id="search-form">
                     <i class="interface-search icon icon--sm"></i>
                     <span><?php _e("Search") ?></span>

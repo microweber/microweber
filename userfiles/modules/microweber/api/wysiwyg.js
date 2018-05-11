@@ -1278,11 +1278,24 @@ mw.wysiwyg = {
         var el = mw.wysiwyg.applier('div', 'mw_applier element');
     },
     fontcolorpicker: function () {
+
+      mw.wysiwyg._fontcolorpicker.show();
+      setTimeout(function () {
+          mw.wysiwyg._fontcolorpicker.show();
+      },20);
+
+      return false;
         var el = "#mw_editor_font_color";
         mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontColor");
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontbgcolorpicker: function () {
+
+        setTimeout(function () {
+            mw.wysiwyg._bgfontcolorpicker.show();
+        },20);
+
+        return false;
         var el = ".mw_editor_font_background_color";
         mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontbg");
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
@@ -2355,7 +2368,32 @@ $(mwd).ready(function () {
     //    mw.wysiwyg.fontFamily(val);
     //});
 
-    mw.wysiwyg.initClassApplier()
+    mw.wysiwyg.initClassApplier();
+
+    if(!mw.wysiwyg._fontcolorpicker){
+        mw.wysiwyg._fontcolorpicker = mw.colorPicker({
+            element:document.querySelector('#mw_editor_font_color'),
+            onchange:function (color) {
+                mw.wysiwyg.fontColor(color)
+            }
+        });
+    }
+    if(!mw.wysiwyg._bgfontcolorpicker){
+        mw.wysiwyg._bgfontcolorpicker = mw.colorPicker({
+            element:document.querySelector('.mw_editor_font_background_color'),
+            onchange:function (color) {
+                mw.wysiwyg.fontbg(color)
+            }
+        });
+    }
+
+    $(document).on('scroll', function () {
+        if(mw.wysiwyg._bgfontcolorpicker && mw.wysiwyg._bgfontcolorpicker.settings){
+            mw.tools.tooltip.setPosition(mw.wysiwyg._bgfontcolorpicker.tip, mw.wysiwyg._bgfontcolorpicker.settings.element, mw.wysiwyg._bgfontcolorpicker.settings.position)
+            mw.tools.tooltip.setPosition(mw.wysiwyg._fontcolorpicker.tip, mw.wysiwyg._fontcolorpicker.settings.element, mw.wysiwyg._fontcolorpicker.settings.position)
+        }
+
+    })
 
     mw.$(".mw_dropdown_action_font_size").change(function () {
         var val = $(this).getDropdownValue();

@@ -9961,10 +9961,10 @@ section[class*='elements-'] hr + .row {
     text-align: center;
     clear: both;
 }
-
+/*
 .mw-live-edit .nav-bar {
     margin-top: 51px;
-}
+}*/
 
 body.mw-live-edit {
     margin-top: 0 !important;

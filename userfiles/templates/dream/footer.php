@@ -3,9 +3,11 @@ $footer = get_option('footer', 'mw-template-dream');
 if ($footer == '') {
     $footer = 'false';
 }
+
+$is_live =  mw()->user_manager->session_get('editmode') == true;
 ?>
-<?php if ($footer != 'true'): ?>
-    <footer class="bg--dark footer-4 nodrop">
+<?php if ($footer != 'true' || $is_live): ?>
+    <footer class="bg--dark footer-4 nodrop mwjs-dream-footer" style="display:<?php print ($footer == 'true' and $is_live) ? 'none' : 'block';  ?>;">
         <div class="container edit" field="dream_footer" rel="global">
             <div class="row">
                 <div class="col-md-3 col-sm-4 allow-drop">

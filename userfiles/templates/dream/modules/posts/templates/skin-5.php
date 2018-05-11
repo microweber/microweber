@@ -38,3 +38,10 @@ description: Skin 5
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
     <?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") ?>
 <?php endif; ?>
+
+
+<script>
+    $(document).ready(function () {
+        mr.sliders.documentReady($)
+    })
+</script>

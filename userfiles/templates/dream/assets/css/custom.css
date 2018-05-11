@@ -399,6 +399,9 @@ section.blog-post .container .container {
 .pagination li:first-child, .pagination li:last-child {
     opacity: 1;
 }
+.module-shop-products{
+    clear: both;
+}
 
 .module-shop-products .pagination > li > a, .module-shop-products .pagination > li > span, .module-shop-products .pagination > li > a:focus, .module-shop-products .pagination > li > a:hover, .module-shop-products .pagination > li > span:focus, .module-shop-productslayout-1 .pagination > li > span:hover {
     padding: 9px 12px;
