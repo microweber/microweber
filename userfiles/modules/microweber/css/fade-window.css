@@ -468,7 +468,7 @@
     height: 129px;
 }
 
-.fade-window .window-holder .admin-thumbs-holder .admin-thumb-item .featured-image {
+ .admin-thumbs-holder .admin-thumb-item .featured-image {
     width: auto;
     height: auto;
     background-color: #0086db;
@@ -479,7 +479,7 @@
     display: none;
 }
 
-.fade-window .window-holder .admin-thumbs-holder .admin-thumb-item:nth-of-type(2) .featured-image {
+.admin-thumbs-holder .admin-thumb-item:nth-of-type(2) .featured-image {
     display: block !important;
 }
 
