@@ -153,6 +153,19 @@ class Base
                 'content' => 'text',
                 'notification_data' => 'text',
             ],
+            'terms_accept_log' => [
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'created_by' => 'integer',
+                'edited_by' => 'integer',
+                'tos_name' => 'string',
+                'user_email' => 'string',
+                'user_id' => 'integer',
+                'is_opt_in' => 'integer',
+                'user_ip' => 'text',
+                'title' => 'text',
+                'description' => 'text',
+            ],
         ];
     }
 }

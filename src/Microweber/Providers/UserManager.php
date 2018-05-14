@@ -1,15 +1,5 @@
 <?php
 
-/*
- * This file is part of Microweber
- *
- * (c) Microweber LTD
- *
- * For full license information see
- * http://microweber.com/license/
- *
- */
-
 namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\DB;
@@ -58,8 +48,12 @@ class UserManager
         if (!isset($tables['log'])) {
             $tables['log'] = 'log';
         }
+        if (!isset($tables['terms_accept_log'])) {
+            $tables['terms_accept_log'] = 'terms_accept_log';
+        }
         $this->tables['users'] = $tables['users'];
         $this->tables['log'] = $tables['log'];
+        $this->tables['terms_accept_log'] = $tables['terms_accept_log'];
     }
 
     public function is_admin()
@@ -914,7 +908,6 @@ class UserManager
             $user = User::find($params['id']);
 
 
-
         } else {
             $user = new User();
         }
@@ -927,7 +920,6 @@ class UserManager
             if (isset($user->id)) {
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
-
 
 
             if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
@@ -1738,6 +1730,38 @@ class UserManager
                 return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
             });
         }
+    }
+
+    public function tos_set($tos_name, $user_id_or_email)
+    {
+        //terms_accept_log
+
+
+
+    }
+
+    public function tos_check($tos_name = false, $user_id_or_email = false)
+    {
+
+        if (!$tos_name or !$user_id_or_email) {
+            return;
+        }
+        $table = $this->tables['terms_accept_log'];
+        $data['table'] = $table;
+        $data['limit'] = 1;
+        if (is_numeric($user_id_or_email)) {
+            $data['user_id'] = intval($user_id_or_email);
+        } else if (is_numeric($user_id_or_email)) {
+            $data['user_email'] = trim($user_id_or_email);
+        }
+        $data['tos_name'] = $tos_name;
+
+        $get = $this->app->database_manager->get($data);
+        if ($get) {
+            return true;
+        }
+
+
     }
 
 
