@@ -75,9 +75,6 @@ class Lang
         global $mw_new_language_entries_ns;
 
 
-
-
-
         $lang = current_lang();
         if (!empty($mw_new_language_entries_ns)) {
             foreach ($mw_new_language_entries_ns as $k => $v) {
@@ -212,7 +209,7 @@ class Lang
 
         if (is_array($mw_new_language_entries) and !empty($mw_new_language_entries)) {
 
-            $mw_new_language_entries = array_merge($mw_new_language_entries,$mw_language_content);
+            $mw_new_language_entries = array_merge($mw_new_language_entries, $mw_language_content);
             $mw_new_language_entries = array_unique($mw_new_language_entries);
             $lang_file_str = json_encode($mw_new_language_entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
@@ -230,7 +227,7 @@ class Lang
 //
 //            @file_put_contents($lang_file, $lang_file_str);
 //        }
- //        $mw_language_content2 = array();
+        //        $mw_language_content2 = array();
 //        if (is_array($mw_language_content) and is_array($mw_new_language_entries) and !empty($mw_new_language_entries)) {
 //            $mw_language_content2 = $mw_new_language_entries;
 //
@@ -450,18 +447,21 @@ class Lang
                 if (!isset($mw_new_language_entries_ns[$namespace])) {
                     $mw_new_language_entries_ns[$namespace] = array();
                 }
-                $k2 = ($k);
-                $mw_new_language_entries_ns[$namespace][$k1] = $k2;
-                 $mw_language_content_file[$k1] = $k2;
 
-                if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
-                    define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
-                    $scheduler = new \Microweber\Providers\Event();
+                if (!isset($mw_new_language_entries_ns[$namespace][$k1])) {
+                    $k2 = ($k);
+                    $mw_new_language_entries_ns[$namespace][$k1] = $k2;
+                    $mw_language_content_file[$k1] = $k2;
 
-                    $scheduler->registerShutdownEvent('__store_lang_file_ns');
+                    if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
+                        define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
+                        $scheduler = new \Microweber\Providers\Event();
+                        $scheduler->registerShutdownEvent('__store_lang_file_ns');
 
-
+                    }
                 }
+
+
             }
 
 
