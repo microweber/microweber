@@ -215,7 +215,10 @@ $(window).bind("load", function(){
 
 
 <?php if(isset($params['start_path']) and $params['start_path'] == 'media_host_base') { ?>	
-mw.url.windowHashParam('path', "<?php print mw()->media_manager->relative_media_start_path(); ?>")	
+//mw.url.windowHashParam('path', "<?php print mw()->media_manager->relative_media_start_path(); ?>")
+//mw.url.windowHashParam('path', "<?php print media_uploads_path(); ?>")
+    _mw_admin_files_manage('all');
+
 <?php } else { ?>
  _mw_admin_files_manage('all');
 <?php }  ?>

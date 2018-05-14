@@ -50,6 +50,22 @@ function modules_path()
     return $folder;
 }
 
+
+function media_uploads_url()
+{
+    $environment = App::environment();
+    $folder = media_base_url() . ($environment . '/');
+    return $folder;
+}
+
+function media_uploads_path()
+{
+    $environment = App::environment();
+    $folder = media_base_path() . ($environment . DIRECTORY_SEPARATOR);
+    return $folder;
+}
+
+
 function elements_path()
 {
     static $folder;
@@ -69,6 +85,7 @@ function elements_url()
 
     return $folder;
 }
+
 function modules_url()
 {
     static $folder;
@@ -104,14 +121,14 @@ function admin_url($add_string = false)
     static $admin_url = null;
     if ($admin_url === null) {
         $admin_url = \Config::get('microweber.admin_url');
-        if(!$admin_url){
+        if (!$admin_url) {
             $admin_url = 'admin';
         }
     }
-    if($admin_url){
-        $url =  site_url($admin_url);
+    if ($admin_url) {
+        $url = site_url($admin_url);
     } else {
-        $url =  site_url('admin');
+        $url = site_url('admin');
 
     }
     return $url . '/' . $add_string;

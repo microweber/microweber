@@ -225,9 +225,16 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $cont['content_body'] = false;
                 $save = $this->save($cont);
 
-                $table_fields = $this->app->database_manager->real_table_name($this->tables['content_fields']);
-                $del = "DELETE FROM {$table_fields} WHERE rel_type='content' AND rel_id='{$id}' ";
-                $this->app->database_manager->query($del);
+              //  $table_fields = $this->app->database_manager->real_table_name($this->tables['content_fields']);
+
+
+
+
+                \DB::table($this->tables['content_fields'])->where('rel_id', '=', $id)->where('rel_type', '=', 'content')->delete();
+
+
+//                $del = "DELETE FROM {$table_fields} WHERE rel_type='content' AND rel_id='{$id}' ";
+               // $this->app->database_manager->query($del);
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('content_fields');
 
@@ -247,7 +254,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($this->app->url_manager->is_ajax() == true) {
                     $page_url = $this->app->url_manager->string();
                 }
-                dd($page_url);
+
 
             }
             if (isset($data['content_id'])) {
