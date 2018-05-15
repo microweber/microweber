@@ -589,10 +589,10 @@ class UserManager
              } else {
                 $terms_and_conditions_name = 'terms_user';
 
-                $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+                $check_term = $this->terms_check($terms_and_conditions_name, $user_id_or_email);
                 if (!$check_term) {
                     if (isset($data['terms']) and $data['terms']) {
-                        $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                        $this->terms_accept($terms_and_conditions_name, $user_id_or_email);
                     } else {
                         return array(
                             'error' =>_e('You must agree to terms and conditions', true),
