@@ -399,7 +399,8 @@ section.blog-post .container .container {
 .pagination li:first-child, .pagination li:last-child {
     opacity: 1;
 }
-.module-shop-products{
+
+.module-shop-products {
     clear: both;
 }
 
@@ -516,4 +517,9 @@ section.blog-post .container .container {
     max-width: 100%;
     width: 100%;
     height: auto;
+}
+
+.mw-payment-gateway-cart-checkout-shop-payments .mw-ui-check input + span {
+    float: left;
+    margin-top: 3px;
 }
