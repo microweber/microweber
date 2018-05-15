@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
+use Microweber\Providers\Users\TosManager;
 use User;
 
 if (!defined('MW_USER_IP')) {
@@ -48,13 +49,10 @@ class UserManager
         if (!isset($tables['log'])) {
             $tables['log'] = 'log';
         }
-        if (!isset($tables['terms_accept_log'])) {
-            $tables['terms_accept_log'] = 'terms_accept_log';
-        }
+
         $this->tables['users'] = $tables['users'];
         $this->tables['log'] = $tables['log'];
-        $this->tables['terms_accept_log'] = $tables['terms_accept_log'];
-    }
+     }
 
     public function is_admin()
     {
@@ -915,6 +913,15 @@ class UserManager
 
         $data_to_save = $this->app->format->clean_xss($data_to_save);
         if ($user->validateAndFill($data_to_save)) {
+
+            if (isset($data_to_save['id'])) {
+
+                $can_edit = $this->__check_id_has_ability_to_edit_user($data_to_save['id']);
+                if (!$can_edit) {
+                    return array('error' => 'You do not have permission to edit this user');
+                }
+            }
+
             $save = $user->save();
 
             if (isset($user->id)) {
@@ -936,13 +943,7 @@ class UserManager
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
             }
-            if (isset($data_to_save['id'])) {
 
-                $can_edit = $this->__check_id_has_ability_to_edit_user($data_to_save['id']);
-                if (!$can_edit) {
-                    return array('error' => 'You do not have permission to edit this user');
-                }
-            }
             if (isset($params['extended_save'])) {
                 if (isset($data_to_save['password'])) {
                     unset($data_to_save['password']);
@@ -1056,6 +1057,16 @@ class UserManager
         if (!isset($params['id']) or trim($params['id']) == '') {
             return array('error' => 'You must send id parameter');
         }
+
+        if (isset($params['id'])) {
+
+            $can_edit = $this->__check_id_has_ability_to_edit_user($params['id']);
+            if (!$can_edit) {
+                return array('error' => 'You do not have permission to edit this user');
+            }
+        }
+
+
 
         if (!isset($params['password_reset_hash']) or trim($params['password_reset_hash']) == '') {
             return array('error' => 'You must send password_reset_hash parameter');
@@ -1732,35 +1743,18 @@ class UserManager
         }
     }
 
-    public function tos_set($tos_name, $user_id_or_email)
+    public function terms_accept($tos_name, $user_id_or_email = false)
     {
-        //terms_accept_log
-
-
+        $tos = new TosManager();
+        return $tos->terms_check($tos_name, $user_id_or_email);
 
     }
 
-    public function tos_check($tos_name = false, $user_id_or_email = false)
+    public function terms_check($tos_name = false, $user_id_or_email = false)
     {
 
-        if (!$tos_name or !$user_id_or_email) {
-            return;
-        }
-        $table = $this->tables['terms_accept_log'];
-        $data['table'] = $table;
-        $data['limit'] = 1;
-        if (is_numeric($user_id_or_email)) {
-            $data['user_id'] = intval($user_id_or_email);
-        } else if (is_numeric($user_id_or_email)) {
-            $data['user_email'] = trim($user_id_or_email);
-        }
-        $data['tos_name'] = $tos_name;
-
-        $get = $this->app->database_manager->get($data);
-        if ($get) {
-            return true;
-        }
-
+        $tos = new TosManager();
+        return $tos->terms_check($tos_name, $user_id_or_email);
 
     }
 

@@ -163,8 +163,8 @@ class Base
                 'user_id' => 'integer',
                 'is_opt_in' => 'integer',
                 'user_ip' => 'text',
-                'title' => 'text',
-                'description' => 'text',
+               // 'title' => 'text',
+               // 'description' => 'text',
             ],
         ];
     }
