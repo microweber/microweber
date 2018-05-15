@@ -576,13 +576,56 @@ class UserManager
         }
 
 
+
+        $user_require_terms = $this->app->option_manager->get('require_terms', 'users');
+        if ($user_require_terms) {
+            $user_id_or_email = $email;
+            if (!$user_id_or_email) {
+                return array(
+                    'error' =>_e('You must provide email address', true),
+                    'form_data_required'=>'email'
+                );
+
+             } else {
+                $terms_and_conditions_name = 'terms_user';
+
+                $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+                if (!$check_term) {
+                    if (isset($data['terms']) and $data['terms']) {
+                        $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                    } else {
+                        return array(
+                            'error' =>_e('You must agree to terms and conditions', true),
+                            'form_data_required'=>'terms'
+                        );
+                    }
+                }
+            }
+        }
+
+
+
+
+
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
-            } else {
+                return array(
+                    'error' =>_e('Please enter the captcha answer!', true),
+                    'form_data_required'=>'captcha'
+                );
+
+             } else {
                 $validate_captcha = $this->app->captcha->validate($params['captcha']);
                 if (!$validate_captcha) {
-                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+
+                    return array(
+                        'error' =>_e('Invalid captcha answer!', true),
+                        'captcha_error' => true,
+                        'form_data_required'=>'captcha'
+                    );
+
+
+
                 }
             }
         }

@@ -143,8 +143,6 @@ class CheckoutManager
 
 
             if (!is_admin()) {
-
-
                 $shop_require_terms = $this->app->option_manager->get('shop_require_terms', 'website');
                 if ($shop_require_terms) {
                     $user_id_or_email = $this->app->user_manager->id();
@@ -164,14 +162,15 @@ class CheckoutManager
                             if (isset($data['terms']) and $data['terms']) {
                                 $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
                             } else {
-                                $checkout_errors['terms'] = _e('You must agree to terms and conditions', true);
+                                 return array(
+                                    'error' =>_e('You must agree to terms and conditions', true),
+                                    'form_data_required'=>'terms'
+                                );
+
                             }
                         }
                     }
-
-
                 }
-
             }
 
 

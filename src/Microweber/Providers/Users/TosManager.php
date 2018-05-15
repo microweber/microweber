@@ -32,12 +32,11 @@ class TosManager extends Crud
         if (!$user_id_or_email) {
             return;
         }
-        $table = $this->table;
 
         $existing = $this->terms_check($tos_name, $user_id_or_email);
         if (!$existing) {
             $save = array();
-            $save['table'] = $table;
+
 
             if (is_numeric($user_id_or_email)) {
                 $save['user_id'] = intval($user_id_or_email);
@@ -45,7 +44,7 @@ class TosManager extends Crud
                 $save['user_email'] = trim($user_id_or_email);
             }
             $save['tos_name'] = $tos_name;
-            $s = $this->app->database_manager->save($save);
+            $s = $this->save($save);
             if ($s) {
                 return $s;
             }
@@ -67,8 +66,7 @@ class TosManager extends Crud
             return;
         }
 
-        $table = $this->table;
-        $data['table'] = $table;
+
         $data['limit'] = 1;
         if (is_numeric($user_id_or_email)) {
             $data['user_id'] = intval($user_id_or_email);
@@ -77,7 +75,7 @@ class TosManager extends Crud
         }
         $data['tos_name'] = $tos_name;
 
-        $get = $this->app->database_manager->get($data);
+        $get = $this->get($data);
         if ($get) {
             return true;
         }
