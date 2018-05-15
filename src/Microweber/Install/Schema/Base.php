@@ -161,11 +161,8 @@ class Base
                 'tos_name' => 'string',
                 'user_email' => 'string',
                 'user_id' => 'integer',
-                'is_opt_in' => 'integer',
                 'user_ip' => 'text',
-               // 'title' => 'text',
-               // 'description' => 'text',
-            ],
+             ],
         ];
     }
 }

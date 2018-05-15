@@ -1746,7 +1746,7 @@ class UserManager
     public function terms_accept($tos_name, $user_id_or_email = false)
     {
         $tos = new TosManager();
-        return $tos->terms_check($tos_name, $user_id_or_email);
+        return $tos->terms_accept($tos_name, $user_id_or_email);
 
     }
 

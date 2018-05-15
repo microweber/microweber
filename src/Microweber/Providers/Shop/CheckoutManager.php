@@ -140,6 +140,41 @@ class CheckoutManager
         if (!is_array($check_cart)) {
             $checkout_errors['cart_empty'] = 'Your cart is empty';
         } else {
+
+
+            if (!is_admin()) {
+
+
+                $shop_require_terms = $this->app->option_manager->get('shop_require_terms', 'website');
+                if ($shop_require_terms) {
+                    $user_id_or_email = $this->app->user_manager->id();
+                    if (!$user_id_or_email) {
+                        if (isset($data['email'])) {
+                            $user_id_or_email = $data['email'];
+                        }
+                    }
+
+                    if (!$user_id_or_email) {
+                        $checkout_errors['cart_needs_email'] = _e('You must provide email address', true);
+                    } else {
+                        $terms_and_conditions_name = 'terms_shop';
+
+                        $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+                        if (!$check_term) {
+                            if (isset($data['terms']) and $data['terms']) {
+                                $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                            } else {
+                                $checkout_errors['terms'] = _e('You must agree to terms and conditions', true);
+                            }
+                        }
+                    }
+
+
+                }
+
+            }
+
+
             if (!isset($data['payment_gw']) and $mw_process_payment == true) {
                 $data['payment_gw'] = 'none';
             } else {
@@ -196,6 +231,7 @@ class CheckoutManager
             if (isset($data['payment_gw']) and $data['payment_gw'] != '') {
                 $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
             }
+
 
             $custom_order_id = $this->app->option_manager->get('custom_order_id', 'shop');
             $posted_fields = array();
@@ -491,7 +527,7 @@ class CheckoutManager
                             if (isset($cart_item['item_image']) and $cart_item['item_image']) {
 
                                 $arr['item_image'] = $cart_item['item_image'];
-                                $arr['item_image'] = '<img src="'.$arr['item_image'].'" width="100" />';
+                                $arr['item_image'] = '<img src="' . $arr['item_image'] . '" width="100" />';
                             }
                             if (isset($cart_item['link'])) {
                                 $arr['link'] = $cart_item['link'];
