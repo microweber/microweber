@@ -107,8 +107,8 @@ class MediaManager
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
 
-            if(isset($content['image_options'])){
-                $content['image_options'] = @json_decode($content['image_options'],true);
+            if (isset($content['image_options'])) {
+                $content['image_options'] = @json_decode($content['image_options'], true);
             }
 
 
@@ -398,8 +398,8 @@ class MediaManager
                         $item['title'] = $this->app->format->clean_html($item['title']);
                     }
 
-                    if(isset($item['image_options'])){
-                        $item['image_options'] = @json_decode($item['image_options'],true);
+                    if (isset($item['image_options'])) {
+                        $item['image_options'] = @json_decode($item['image_options'], true);
                     }
 
 
@@ -1043,12 +1043,14 @@ class MediaManager
     {
         only_admin_access();
         $resp = array();
-        $target_path = media_base_path() . 'uploaded' . DS;
+        // $target_path = media_base_path() . 'uploaded' . DS;
+        $target_path = media_uploads_path();
         $fn_path = media_base_path();
         if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '') {
             $_REQUEST['path'] = urldecode($_REQUEST['path']);
 
-            $fn_path = userfiles_path() . DS . $_REQUEST['path'] . DS;
+            $fn_path = $target_path . DS . $_REQUEST['path'] . DS;
+            $fn_path = str_replace('..', '', $fn_path);
             $fn_path = normalize_path($fn_path, false);
         }
         if (!isset($_REQUEST['name'])) {
@@ -1056,9 +1058,9 @@ class MediaManager
         } else {
             $fn_new_folder_path = $_REQUEST['name'];
             $fn_new_folder_path = urldecode($fn_new_folder_path);
+            $fn_new_folder_path = str_replace('..', '', $fn_new_folder_path);
             $fn_new_folder_path_new = $fn_path . DS . $fn_new_folder_path;
             $fn_path = normalize_path($fn_new_folder_path_new, false);
-            // d($fn_path);
             if (!is_dir($fn_path)) {
                 mkdir_recursive($fn_path);
                 $resp = array('success' => 'Folder ' . $fn_path . ' is created');
@@ -1074,7 +1076,8 @@ class MediaManager
     {
         only_admin_access();
 
-        $target_path = media_base_path() . 'uploaded' . DS;
+        // $target_path = media_base_path() . 'uploaded' . DS;
+        $target_path = media_uploads_path();
         $target_path = normalize_path($target_path, 0);
         $path_restirct = userfiles_path();
 
@@ -1092,7 +1095,8 @@ class MediaManager
                     $target_path = userfiles_path() . DS . $path;
                     $target_path = normalize_path($target_path, false);
 
-                    if (stristr($target_path, media_base_path())) {
+                    //  if (stristr($target_path, media_base_path())) {
+                    if (stristr($target_path, media_uploads_path())) {
                         if (is_dir($target_path)) {
                             mw('Microweber\Utils\Files')->rmdir($target_path, false);
                             $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
@@ -1112,22 +1116,22 @@ class MediaManager
         return $resp;
     }
 
-    public function relative_media_start_path()
-    {
-        static $path;
-        if ($path == false) {
-            $host = (parse_url(site_url()));
-            $host_dir = false;
-            if (isset($host['host'])) {
-                $host_dir = $host['host'];
-                $host_dir = str_ireplace('www.', '', $host_dir);
-                $host_dir = str_ireplace('.', '-', $host_dir);
-            }
-            $path = MW_MEDIA_FOLDER_NAME . '/' . $host_dir . '';
-        }
-
-        return $path;
-    }
+//    public function relative_media_start_path()
+//    {
+//        static $path;
+//        if ($path == false) {
+//            $host = (parse_url(site_url()));
+//            $host_dir = false;
+//            if (isset($host['host'])) {
+//                $host_dir = $host['host'];
+//                $host_dir = str_ireplace('www.', '', $host_dir);
+//                $host_dir = str_ireplace('.', '-', $host_dir);
+//            }
+//            $path = MW_MEDIA_FOLDER_NAME . '/' . $host_dir . '';
+//        }
+//
+//        return $path;
+//    }
 
     public function thumbnails_path()
     {

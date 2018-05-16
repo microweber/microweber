@@ -511,8 +511,9 @@ header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
 
 // Settings
-$target_path = media_base_path() . DS;
-$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
+//$target_path = media_base_path() . DS;
+//$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
+$target_path = media_uploads_path();
 $target_path = normalize_path($target_path, 0);
 
 $path_restirct = userfiles_path(); // the path the script should access
@@ -531,7 +532,8 @@ if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '' and trim($_REQUES
     $path = str_replace('..', '', $path);
     $path = str_replace($path_restirct, '', $path);
 
-    $target_path = userfiles_path() . DS . $path;
+    // $target_path = userfiles_path() . DS . $path;
+    $target_path = media_uploads_path() . DS . $path;
     $target_path = normalize_path($target_path, 1);
 }
 
@@ -563,10 +565,10 @@ $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 $fileName = preg_replace('/\s+\d+%|\)/', '', $fileName);
 $fileName = preg_replace("/[\/\&%#\$]/", "_", $fileName);
 $fileName = preg_replace("/[\"\']/", " ", $fileName);
- $fileName = str_replace(array('(',')',"'","!","`","*","#"), '_', $fileName);
- $fileName = str_replace(' ', '_', $fileName);
+$fileName = str_replace(array('(', ')', "'", "!", "`", "*", "#"), '_', $fileName);
+$fileName = str_replace(' ', '_', $fileName);
 
- $fileName = str_replace('..', '.', $fileName);
+$fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled

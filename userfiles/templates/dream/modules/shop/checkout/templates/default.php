@@ -38,7 +38,7 @@ description: Checkout
                                             </li>
                                             <li>
                                                 <span class="h5"><?php _e("Shipping price"); ?>:</span>
-                                                <span><module type="shop/shipping" view="cost" /></span>
+                                                <span><module type="shop/shipping" view="cost"/></span>
                                             </li>
                                             <?php if (function_exists('cart_get_tax') and get_option('enable_taxes', 'shop') == 1) : ?>
                                                 <li>
@@ -97,7 +97,7 @@ description: Checkout
                                 </div>
 
                                 <div class="col-xs-12 col-md-6">
-                                    <input name="phone"  type="text" value="<?php if (isset($user['phone'])) {
+                                    <input name="phone" type="text" value="<?php if (isset($user['phone'])) {
                                         print $user['phone'];
                                     } ?>" placeholder="<?php _e("Phone"); ?>"/>
                                 </div>
@@ -124,15 +124,13 @@ description: Checkout
                                     });
                                 </script>
 
-                                <div style="margin-top: 20px;">
-                                    <div class="mw-ui-row" id="i_agree_with_terms_row">
+                                <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
+                                    <div class="col-xs-12" id="i_agree_with_terms_row">
                                         <label class="mw-ui-check">
                                             <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
-                                            <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
-                                    <?php _e('I agree with'); ?>
-                                                <a href="<?php print site_url('tems') ?>" target="_blank"><?php _e('terms and conditions'); ?></a>
-
-                                </span>
+                                            <span><?php _e('I agree with'); ?>
+                                                <a href="<?php print site_url('terms') ?>" target="_blank"><?php _e('terms and conditions'); ?></a>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>

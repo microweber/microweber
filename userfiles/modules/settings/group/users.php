@@ -602,8 +602,35 @@
     <div id="mw-admin-user-tabs-other-settings" class="mw-user-fields-form-item"
          style="display:none;padding-top: 20px;">
 
-        <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
         <div class="mw-ui-box mw-ui-box-content">
+
+
+            <h2>
+                <?php _e("User privacy settings"); ?>
+            </h2>
+
+
+            <h4>
+                <?php _e("Users must agree to Terms and Conditions"); ?>
+            </h4>
+            <label class="mw-ui-check" style="margin-right: 15px;">
+                <input name="require_terms" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('require_terms', 'users') != 1): ?> checked="checked" <?php endif; ?> >
+                <span></span><span>
+    <?php _e("No"); ?>
+    </span></label>
+            <label class="mw-ui-check">
+                <input name="require_terms" class="mw_option_field" data-option-group="users" value="1" type="radio" <?php if (get_option('require_terms', 'users') == 1): ?> checked="checked" <?php endif; ?> >
+                <span></span><span>
+    <?php _e("Yes"); ?>
+    </span></label>
+
+
+
+
+
+            <hr>
+            <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
+
             <h2>
                 <?php _e("Register form settings"); ?>
             </h2>

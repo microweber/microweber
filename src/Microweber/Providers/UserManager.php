@@ -1,15 +1,5 @@
 <?php
 
-/*
- * This file is part of Microweber
- *
- * (c) Microweber LTD
- *
- * For full license information see
- * http://microweber.com/license/
- *
- */
-
 namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\DB;
@@ -17,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
+use Microweber\Providers\Users\TosManager;
 use User;
 
 if (!defined('MW_USER_IP')) {
@@ -58,6 +49,7 @@ class UserManager
         if (!isset($tables['log'])) {
             $tables['log'] = 'log';
         }
+
         $this->tables['users'] = $tables['users'];
         $this->tables['log'] = $tables['log'];
     }
@@ -584,13 +576,53 @@ class UserManager
         }
 
 
+        $user_require_terms = $this->app->option_manager->get('require_terms', 'users');
+        if ($user_require_terms) {
+            $user_id_or_email = $email;
+            if (!$user_id_or_email) {
+                return array(
+                    'error' => _e('You must provide email address', true),
+                    'form_data_required' => 'email'
+                );
+
+            } else {
+                $terms_and_conditions_name = 'terms_user';
+
+                $check_term = $this->terms_check($terms_and_conditions_name, $user_id_or_email);
+                if (!$check_term) {
+                    if (isset($data['terms']) and $data['terms']) {
+                        $this->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                    } else {
+                        return array(
+                            'error' => _e('You must agree to terms and conditions', true),
+                            'form_data_required' => 'terms',
+                            'form_data_module' => 'users/terms'
+                        );
+                    }
+                }
+            }
+        }
+
+
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
+                return array(
+                    'error' => _e('Please enter the captcha answer!', true),
+                    'form_data_required' => 'captcha'
+                );
+
             } else {
                 $validate_captcha = $this->app->captcha->validate($params['captcha']);
                 if (!$validate_captcha) {
-                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+
+                    return array(
+                        'error' => _e('Invalid captcha answer!', true),
+                        'captcha_error' => true,
+                        'form_data_required' => 'captcha',
+                        'form_data_module' => 'captcha'
+                    );
+
+
                 }
             }
         }
@@ -914,7 +946,6 @@ class UserManager
             $user = User::find($params['id']);
 
 
-
         } else {
             $user = new User();
         }
@@ -922,12 +953,20 @@ class UserManager
 
         $data_to_save = $this->app->format->clean_xss($data_to_save);
         if ($user->validateAndFill($data_to_save)) {
+
+            if (isset($data_to_save['id'])) {
+
+                $can_edit = $this->__check_id_has_ability_to_edit_user($data_to_save['id']);
+                if (!$can_edit) {
+                    return array('error' => 'You do not have permission to edit this user');
+                }
+            }
+
             $save = $user->save();
 
             if (isset($user->id)) {
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
-
 
 
             if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
@@ -944,13 +983,7 @@ class UserManager
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
             }
-            if (isset($data_to_save['id'])) {
 
-                $can_edit = $this->__check_id_has_ability_to_edit_user($data_to_save['id']);
-                if (!$can_edit) {
-                    return array('error' => 'You do not have permission to edit this user');
-                }
-            }
             if (isset($params['extended_save'])) {
                 if (isset($data_to_save['password'])) {
                     unset($data_to_save['password']);
@@ -1064,6 +1097,15 @@ class UserManager
         if (!isset($params['id']) or trim($params['id']) == '') {
             return array('error' => 'You must send id parameter');
         }
+
+        if (isset($params['id'])) {
+
+            $can_edit = $this->__check_id_has_ability_to_edit_user($params['id']);
+            if (!$can_edit) {
+                return array('error' => 'You do not have permission to edit this user');
+            }
+        }
+
 
         if (!isset($params['password_reset_hash']) or trim($params['password_reset_hash']) == '') {
             return array('error' => 'You must send password_reset_hash parameter');
@@ -1738,6 +1780,21 @@ class UserManager
                 return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
             });
         }
+    }
+
+    public function terms_accept($tos_name, $user_id_or_email = false)
+    {
+        $tos = new TosManager();
+        return $tos->terms_accept($tos_name, $user_id_or_email);
+
+    }
+
+    public function terms_check($tos_name = false, $user_id_or_email = false)
+    {
+
+        $tos = new TosManager();
+        return $tos->terms_check($tos_name, $user_id_or_email);
+
     }
 
 

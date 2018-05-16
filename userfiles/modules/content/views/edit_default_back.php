@@ -7,6 +7,12 @@ if (!isset($edit_page_info['title'])) {
     $edit_page_info['title'] = _e('Content title', true);
 }
 
+$quick_edit = false;
+
+if (isset($params['quick_edit']) and $params['quick_edit']) {
+    $quick_edit = true;
+}
+
 
 ?>
 
@@ -31,8 +37,13 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
 
 ?>
 
+
+<?php if(!$quick_edit){ ?>
 <div class="fade-window">
     <div class="window-holder">
+        <?php  } ?>
+
+
         <div class="top-bar">
             <div class="left-side">
                 <button class="btn-close"><i class="mw-icon-close"></i> Close</button>
@@ -1014,5 +1025,11 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
 
             </div>
         </div>
+
+
+        <?php if(!$quick_edit){ ?>
+
     </div>
 </div>
+
+<?php  } ?>

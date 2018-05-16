@@ -22,7 +22,7 @@ function mw_add_admin_menu_buttons($params = false)
     $btn['module'] = 'shop/settings';
     $btn['title'] =  _e("Shop", true);
 
-    mw()->modules->ui('admin.settings.menu', $btn);
+//    mw()->modules->ui('admin.settings.menu', $btn);
 
 
 }

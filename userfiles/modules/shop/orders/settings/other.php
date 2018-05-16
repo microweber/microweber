@@ -1,4 +1,19 @@
-<div class="section-header">
+<script  type="text/javascript">
+    $(document).ready(function(){
+
+        mw.options.form('.<?php print $config['module_class'] ?>', function(){
+            mw.notification.success("<?php _e("Saved"); ?>.");
+        });
+
+
+
+    });
+
+
+</script>
+
+
+    <div class="section-header">
     <h2 class="pull-left"><span class="mai-options"></span> <?php _e('Other shop settings'); ?></h2>
 </div>
 

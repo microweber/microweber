@@ -210,12 +210,13 @@
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
     border-radius: 30px;
-    width: 21px;
-    height: 21px;
+    width: 22px;
+    height: 22px;
     line-height: 20px;
     text-align: center;
     margin-right: 10px;
     font-size: 11px;
+    line-height: 20px;
 }
 
 .fade-window .window-holder .top-bar .btn-back:hover i {
@@ -468,7 +469,7 @@
     height: 129px;
 }
 
-.fade-window .window-holder .admin-thumbs-holder .admin-thumb-item .featured-image {
+ .admin-thumbs-holder .admin-thumb-item .featured-image {
     width: auto;
     height: auto;
     background-color: #0086db;
@@ -479,7 +480,7 @@
     display: none;
 }
 
-.fade-window .window-holder .admin-thumbs-holder .admin-thumb-item:nth-of-type(2) .featured-image {
+.admin-thumbs-holder .admin-thumb-item:nth-of-type(2) .featured-image {
     display: block !important;
 }
 

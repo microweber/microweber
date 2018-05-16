@@ -201,6 +201,10 @@ class DatabaseManager extends DbUtils
         $ttl = $this->table_cache_ttl;
 
 
+        if(!$query){
+            return;
+        }
+
         $cache_key_closures = '';
         foreach ($orig_params as $k => $v) {
             if (is_object($v) && $v instanceof \Closure) {

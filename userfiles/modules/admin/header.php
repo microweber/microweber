@@ -301,6 +301,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
             <div id="main-bar" class="scroll-height-exception-master">
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
+                <?php $load_module = url_param('load_module'); ?>
                 <a href="<?php print site_url(); ?>" id="main-bar-mw-icon" target="_blank"
                    class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {
                        print 'active';
@@ -435,7 +436,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             </a>
                         </li>
                     <?php endif; ?>
-                    <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
+                    <li <?php if ($view == 'settings' or ($load_module AND $load_module != 'users')): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:settings"> <span class="mai-setting"></span>
                             <strong>
                                 <?php _e("Settings"); ?>
@@ -444,23 +445,23 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
                         <ul class="mw-ui-sidenav">
-                            <li><a onclick="mw.url.windowHashParam('option_group', 'admin__modules');return false;" class="item-admin__modules" href="#option_group=admin__modules">
+                            <li <?php if ($load_module): ?> class="active" <?php endif; ?>><a xxonclick="mw.url.windowHashParam('option_group', 'admin__modules');return false;" class="item-admin__modules" href="<?php print admin_url(); ?>view:settings#option_group=admin__modules">
                                     <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
                                 </a>
                             </li>
-                            <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template">
+                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="<?php print admin_url(); ?>view:settings#option_group=template">
                                     <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                                 </a>
                             </li>
-                            <li><a onclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="#option_group=website">
+                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="<?php print admin_url(); ?>view:settings#option_group=website">
                                     <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                                 </a>
                             </li>
-                            <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users">
+                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="<?php print admin_url(); ?>view:settings#option_group=users">
                                     <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
                                 </a>
                             </li>
-                            <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=email">
+                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="<?php print admin_url(); ?>view:settings#option_group=email">
                                     <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                                 </a>
                             </li>
@@ -473,11 +474,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                     <?php if ($module != 'admin') { ?>
                                         <li>
-                                            <a
-                                                    onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;"
-                                                    class="<?php print $class ?>" href="#option_group=<?php print $module ?>">
-                                                <?php print isset($item['icon']) ? $item['icon'] : ''; ?>
-                                                <?php print $title ?>
+                                            <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="<?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                                <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
+                                                <strong><?php print $title ?></strong>
                                             </a>
                                         </li>
                                     <?php } ?>

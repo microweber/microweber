@@ -27,13 +27,13 @@ class Files
                     continue;
                 }
 
-                $PathDir = $source.DIRECTORY_SEPARATOR.$readdirectory;
+                $PathDir = $source . DIRECTORY_SEPARATOR . $readdirectory;
                 if (is_dir($PathDir)) {
-                    $this->copy_directory($PathDir, $destination.DIRECTORY_SEPARATOR.$readdirectory);
+                    $this->copy_directory($PathDir, $destination . DIRECTORY_SEPARATOR . $readdirectory);
                     continue;
                 }
-                $copies[] = $destination.DIRECTORY_SEPARATOR.$readdirectory;
-                copy($PathDir, $destination.DIRECTORY_SEPARATOR.$readdirectory);
+                $copies[] = $destination . DIRECTORY_SEPARATOR . $readdirectory;
+                copy($PathDir, $destination . DIRECTORY_SEPARATOR . $readdirectory);
             }
 
             $directory->close();
@@ -68,7 +68,7 @@ class Files
             $size /= $mod;
         }
 
-        return round($size, 2).' '.$units[$i];
+        return round($size, 2) . ' ' . $units[$i];
     }
 
 
@@ -80,13 +80,14 @@ class Files
         @rmdir($dirPath);
     }
 
-    public function dir_tree($path = '.', $params = false)
-    {
-        $params = parse_params($params);
-        $dir = $path;
+//    public function dir_tree($path = '.', $params = false)
+//    {
+//        $params = parse_params($params);
+//        $dir = $path;
+//
+//        return $this->directory_tree_build($dir, $params);
+//    }
 
-        return $this->directory_tree_build($dir, $params);
-    }
     public function md5_dir($path)
     {
         if (!file_exists($path)) {
@@ -99,8 +100,8 @@ class Files
             $filePath = $fileInfo->getPathname();
             if (!$fileInfo->isDot()) {
                 if ($fileInfo->isFile()) {
-                    $md  = md5_file($filePath);
-                    $filePath = normalize_path($filePath,false);
+                    $md = md5_file($filePath);
+                    $filePath = normalize_path($filePath, false);
                     $items [$md] = $filePath;
                 } else if ($fileInfo->isDir()) {
                     $more = $this->md5_dir($filePath);
@@ -127,7 +128,7 @@ class Files
      *
      * @return mixed Array with files
      *
-     * @param array  $params = array()     the params
+     * @param array $params = array()     the params
      * @param string $params ['directory']       The directory
      * @param string $params ['keyword']       If set it will seach the dir and subdirs
      */
@@ -143,18 +144,31 @@ class Files
         } else {
             $directory = $params['directory'];
         }
+
+        $restrict_path = false;
+
+        if (isset($params['restrict_path']) and is_string($params['restrict_path'])) {
+            $restrict_path = $params['restrict_path'];
+        }
+
+        if ($restrict_path) {
+            if (!strstr($directory, $restrict_path)) {
+                $directory = $restrict_path . $directory;
+            }
+        }
+
         $from_search = 0;
         $arrayItems = array();
         if (isset($params['search']) and strval($params['search']) != '') {
             $from_search = 1;
-            $arrayItems_search = $this->rglob($pattern = DS.'*'.$params['search'].'*', $flags = 0, $directory);
+            $arrayItems_search = $this->rglob($pattern = DS . '*' . $params['search'] . '*', $flags = 0, $directory);
         } else {
-            if (!is_dir($directory.DS)) {
+            if (!is_dir($directory . DS)) {
                 return false;
             }
 
             $arrayItems_search = array();
-            $myDirectory = opendir($directory.DS);
+            $myDirectory = opendir($directory . DS);
 
             while ($entryName = readdir($myDirectory)) {
                 if ($entryName != '..' and $entryName != '.') {
@@ -183,7 +197,7 @@ class Files
             $arrayItems_d = array();
             foreach ($arrayItems_search as $file) {
                 if ($from_search == 0) {
-                    $file = $directory.DS.$file;
+                    $file = $directory . DS . $file;
                 }
                 if (is_file($file)) {
                     $df = normalize_path($file, false);
@@ -213,9 +227,9 @@ class Files
      *
      * @param int|string $pattern
      *                            the pattern passed to glob()
-     * @param int        $flags
+     * @param int $flags
      *                            the flags passed to glob()
-     * @param string     $path
+     * @param string $path
      *                            the path to scan
      *
      * @return mixed
@@ -228,21 +242,21 @@ class Files
                 $dir = '';
             }
 
-            return $this->rglob(basename($pattern), $flags, $dir.DS);
+            return $this->rglob(basename($pattern), $flags, $dir . DS);
         }
 
         if (stristr($path, '_notes') or stristr($path, '.git') or stristr($path, '.svn')) {
             return false;
         }
 
-        $paths = glob($path.'*', GLOB_ONLYDIR | GLOB_NOSORT);
-        $files = glob($path.$pattern, $flags);
+        $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+        $files = glob($path . $pattern, $flags);
 
         if (is_array($paths)) {
             foreach ($paths as $p) {
                 $temp = array();
                 if (is_dir($p) and is_readable($p)) {
-                    $temp = $this->rglob($pattern, false, $p.DS);
+                    $temp = $this->rglob($pattern, false, $p . DS);
                 }
 
                 if (is_array($temp) and is_array($files)) {
@@ -295,7 +309,7 @@ class Files
         if ($max_depth > $level) {
             ++$level;
             $ffs = scandir($dir);
-            echo '<ul class="'.$class.' depth_'.$level.'">';
+            echo '<ul class="' . $class . ' depth_' . $level . '">';
             foreach ($ffs as $ff) {
                 $is_hidden = substr($ff, 0, 1);
                 if ($is_hidden == '_') {
@@ -317,17 +331,17 @@ class Files
                     $file1 = str_replace('_', ' ', $file1);
 
                     if ($ff != '.' && $ff != '..') {
-                        echo '<li class="'.$class.' depth_'.$level.'">';
-                        if (is_dir($dir.'/'.$ff)) {
-                            $is_index = $dir.DS.$ff.DS.'index.php';
+                        echo '<li class="' . $class . ' depth_' . $level . '">';
+                        if (is_dir($dir . '/' . $ff)) {
+                            $is_index = $dir . DS . $ff . DS . 'index.php';
                             $link_href = '';
 
                             if (is_file($is_index)) {
-                                $link = $dir.'/'.$ff.'/index.php';
+                                $link = $dir . '/' . $ff . '/index.php';
                                 if (trim($basedir) != '') {
                                     $link = normalize_path($link, false);
                                     $basedir = normalize_path($basedir, false);
-                                    $link = str_replace($basedir.DS, '', $link);
+                                    $link = str_replace($basedir . DS, '', $link);
                                     $link = str_replace('\\', '/', $link);
                                     $link = urlencode($link);
                                 }
@@ -340,19 +354,19 @@ class Files
                                 $file1 = "<a class='{$active_class}' href='{$url}?{$url_param}={$link}'>{$file1}</a>";
                             }
 
-                            $h_start = ($level == 1) ? '<h2 class="'.$title_class.'">' : '<h3 class="'.$title_class.'">';
+                            $h_start = ($level == 1) ? '<h2 class="' . $title_class . '">' : '<h3 class="' . $title_class . '">';
                             $h_close = ($level == 1) ? '</h2>' : '</h3>';
-                            echo $h_start.$file1.$h_close;
-                            $this->dir_tree_build($dir.'/'.$ff, $params);
+                            echo $h_start . $file1 . $h_close;
+                            $this->dir_tree_build($dir . '/' . $ff, $params);
                         } else {
                             $file1 = no_ext($file1);
 
-                            $link = $dir.'/'.$ff;
+                            $link = $dir . '/' . $ff;
 
                             if (trim($basedir) != '') {
                                 $link = normalize_path($link, false);
                                 $basedir = normalize_path($basedir, false);
-                                $link = str_replace($basedir.DS, '', $link);
+                                $link = str_replace($basedir . DS, '', $link);
                             }
 
                             $link = str_replace('\\', '/', $link);
@@ -395,8 +409,8 @@ class Files
                 header('Content-type: text/plain; charset=utf-8');
             }
             header('Content-Description: File Transfer');
-            header('Content-Disposition: attachment; filename='.$name);
-            header('Content-Length: '.filesize($filename));
+            header('Content-Disposition: attachment; filename=' . $name);
+            header('Content-Length: ' . filesize($filename));
             readfile($filename);
             exit;
 //            if (function_exists('mime_content_type')) {

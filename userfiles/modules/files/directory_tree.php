@@ -1,4 +1,7 @@
 <?php
+
+return "This file is deprecated ". __FILE__;
+
 $path = $base_path = TEMPLATE_DIR;
 $from_path = '';
 

@@ -137,6 +137,7 @@ class MicroweberServiceProvider extends ServiceProvider
             }
         }
 
+
         $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->singleton('lang_helper', function ($app) {
@@ -308,6 +309,12 @@ class MicroweberServiceProvider extends ServiceProvider
     public function boot(Request $request)
     {
         //parent::boot();
+
+//        $environment = App::environment();
+//        $path_storage_base = storage_path();
+//        $path_storage = $path_storage_base . DS . $environment;
+//       $this->app->useStoragePath($path_storage);
+
 
         // public = /
         App::instance('path.public', base_path());

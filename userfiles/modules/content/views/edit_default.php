@@ -14,6 +14,11 @@ if (!isset($edit_page_info['title'])) {
     $edit_page_info['title'] = _e('Content title', true);
 }
 
+$quick_edit = false;
+
+if (isset($params['quick_edit']) and $params['quick_edit']) {
+    $quick_edit = true;
+}
 
 ?>
 
@@ -65,7 +70,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 }
 ?>
 
-
+<?php if(!$quick_edit){ ?>
 <script>
     $(document).ready(function () {
         $('.fade-window .btn-fullscreen').on('click', function () {
@@ -88,6 +93,16 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
             });
         })
 
+    });
+</script>
+
+
+
+<?php  } ?>
+<script>
+    $(document).ready(function () {
+
+
         var all = $(window);
 
         all.push(document)
@@ -108,6 +123,9 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 <?php
 $wrapper_class = '';
 if (isset($params['live_edit'])) {
+    $wrapper_class = 'active';
+}
+if (isset($params['quick_edit'])) {
     $wrapper_class = 'active';
 }
 ?>

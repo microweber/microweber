@@ -306,7 +306,7 @@ class Backup
                 $back_log_action = 'Unzipping userfiles';
                 $this->log_action($back_log_action);
 
-                $exract_folder = md5($filename.filemtime($filename));
+                $exract_folder = md5($filename . filemtime($filename));
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = mw_cache_path() . 'backup_restore' . DS . $exract_folder . DS;
                 if (!is_dir($target_dir)) {
@@ -644,7 +644,7 @@ class Backup
                             }
                         } else if ($item == 'make_json_backup') {
                             $back_log_action = 'Exporting content to JSON';
-                            $json_file = $this->_export_to_json_file();
+                            $json_file = $this->export_to_json_file();
                             if (is_file($json_file)) {
                                 $back_log_action = 'Adding json restore to zip';
                                 $mw_backup_zip_obj->addFile($json_file, 'mw_content.json');
@@ -823,7 +823,7 @@ class Backup
 
                         $return = 'REPLACE INTO ' . $table_without_prefix . ' ' . $columns_q . ' VALUES(';
                         for ($j = 0; $j < $num_fields; ++$j) {
-                           // $row[$j] = str_replace("'", '&rsquo;', $row[$j]);
+                            // $row[$j] = str_replace("'", '&rsquo;', $row[$j]);
                             if (isset($row[$j])) {
                                 $return .= "'" . $row[$j] . "'";
                             } else {
@@ -884,7 +884,7 @@ class Backup
         }
     }
 
-    public function _export_to_json_file($tables = 'all')
+    public function export_to_json_file($tables = 'all', $db_get_params = false, $json_file_export_path = false)
     {
 
 
@@ -900,9 +900,14 @@ class Backup
         if (!is_dir($export_location)) {
             mkdir_recursive($export_location);
         }
-        $export_filename = 'content_export_' . date("Y-m-d-his") . '.json';
 
-        $export_path = $export_location . $export_filename;
+        if ($json_file_export_path) {
+            $export_path = $json_file_export_path;
+        } else {
+            $export_filename = 'content_export_' . date("Y-m-d-his") . '.json';
+            $export_path = $export_location . $export_filename;
+        }
+
 
         $all_tables = array();
 
@@ -924,7 +929,13 @@ class Backup
                 if (!in_array($table, $skip_tables)) {
                     $table_exists = mw()->database_manager->table_exists($table);
                     if ($table_exists) {
-                        $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
+                        $db_params = array();
+                        $db_params['no_limit'] = 1;
+                        $db_params['do_not_replace_site_url'] = true;
+                        if (is_array($db_get_params) and !empty($db_get_params)) {
+                            $db_params = array_merge($db_params, $db_get_params);
+                        }
+                        $table_conent = db_get($table, $db_params);
                         if ($table_conent) {
                             $exported_tables_data[$table] = $table_conent;
                         }
@@ -933,6 +944,16 @@ class Backup
                 }
             }
         }
+
+        return $this->write_array_to_json_file($exported_tables_data, $export_path);
+
+    }
+
+    public function write_array_to_json_file($array, $json_file_path)
+    {
+        $exported_tables_data = $array;
+        $export_path = $json_file_path;
+
         array_walk_recursive($exported_tables_data, function (&$item) {
             if (is_string($item)) {
                 $item = utf8_encode($item);
@@ -941,6 +962,12 @@ class Backup
             }
         });
         $save = json_encode($exported_tables_data);
+
+        $export_path_d = dirname($export_path);
+        if (!is_dir($export_path_d)) {
+            mkdir_recursive($export_path_d);
+        }
+
 
         if (file_put_contents($export_path, $save)) {
             return $export_path;
@@ -980,8 +1007,8 @@ class Backup
                 file_put_contents($hta, 'Deny from all');
             }
         }
-
-        $here = userfiles_path() . 'backup' . DS . get_table_prefix() . DS;
+        $environment = mw()->environment();
+        $here = userfiles_path() . 'backup' . DS . $environment . DS;
 
         $here2 = mw()->option_manager->get('backup_location', 'admin/backup');
         if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {

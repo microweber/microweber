@@ -21,9 +21,6 @@ if (!defined('MW_USER_IP')) {
 }
 
 
-
-
-
 function forgot_password_url()
 {
     return mw()->user_manager->forgot_password_url();
@@ -333,5 +330,37 @@ api_expose('users/verify_email_link', function ($params) {
             echo 'Exception: ', $e->getMessage(), "\n";
         }
     }
+
+});
+
+
+api_expose_user('users/export_my_data', function ($params) {
+    if (!is_logged()) {
+        return array('error' => 'You must be logged');
+    }
+    $user_id = user_id();
+    if (isset($params['user_id']) and $params['user_id'] and is_admin()) {
+        $user_id = $params['user_id'];
+    }
+
+
+    $email = user_email($user_id);
+
+    $sid = mw()->user_manager->session_id();
+    $backup_manager = new \Microweber\Utils\Backup();
+
+    $export_location = $backup_manager->get_bakup_location();
+
+
+    $export_path = $export_location . 'user_data_exports' . DS . $sid . '.json';
+    $export_path_zip = $export_location . 'user_data_exports' . DS . $sid . '.zip';
+    $db_params = array();
+    $db_params['created_by'] = $user_id;
+    $db_params['require_table_to_have_any_of_columns'] = array('created_by');
+
+    $export = $backup_manager->export_to_json_file('all', $db_params, $export_path);
+
+    return response()->download($export_path)->deleteFileAfterSend(true);
+
 
 });

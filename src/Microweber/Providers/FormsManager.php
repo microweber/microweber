@@ -143,6 +143,14 @@ class FormsManager
             return array('error' => 'Please provide for_id parameter with module id');
         }
 
+
+
+        //    $terms_and_conditions_name = 'terms_contact';
+
+
+
+
+
         $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id) == 'y';
 
         if ($dis_cap == false) {

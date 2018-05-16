@@ -68,6 +68,29 @@ trait QueryFilter
 
         }
 
+        if (isset($params['require_table_to_have_any_of_columns']) and $params['require_table_to_have_any_of_columns'] != false) {
+            $require_any_cols = array();
+            if (is_array($params['require_table_to_have_any_of_columns'])) {
+                $a_merge = $params['require_table_to_have_any_of_columns'];
+            } else {
+                $a_merge = explode(',', $params['require_table_to_have_any_of_columns']);
+
+            }
+            if($a_merge){
+            $require_any_cols = array_merge($require_any_cols, $a_merge);
+            }
+            if ($require_any_cols) {
+                $require_any_cols = array_flip($require_any_cols);
+                $are_fields_found = $this->map_array_to_table($table, $require_any_cols);
+
+                if (!$are_fields_found) {
+                    return;
+                }
+            }
+
+        }
+
+
         foreach ($params as $filter => $value) {
             $compare_sign = false;
             $compare_value = false;
