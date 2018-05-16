@@ -436,7 +436,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             </a>
                         </li>
                     <?php endif; ?>
-                    <li <?php if ($view == 'settings' or $load_module): ?> class="active" <?php endif; ?>>
+                    <li <?php if ($view == 'settings' or ($load_module AND $load_module != 'users')): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:settings"> <span class="mai-setting"></span>
                             <strong>
                                 <?php _e("Settings"); ?>
