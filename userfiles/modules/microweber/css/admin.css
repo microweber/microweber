@@ -4707,6 +4707,12 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     margin-bottom: 15px !important;
 }
 
+@media screen and (max-width: 767px) {
+    .section-header {
+        height: auto;
+    }
+}
+
 .section-header h2 {
     font-size: 13px;
     color: #0e80e5;
@@ -5034,6 +5040,7 @@ span.mw-icon-upload {
         display: block !important;
         width: 50px;
         float: right;
+        margin-top: 6px;
     }
 
     .layouts_box_holder > .mw-ui-row > .mw-ui-col > .mw-ui-col-container {
@@ -7213,4 +7220,25 @@ select.silver-field {
 .mw-custom-field-title {
     height: 30px;
     display: block;
+}
+
+@media screen and (max-width: 991px) {
+    #set-shipping-to-country .enable-shipping-label {
+        display: none;
+    }
+
+    .mw-set-payment-options .buttons-holder {
+        margin-top: 12px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .mw-set-payment-options .buttons-holder .pull-right,
+    .mw-set-payment-options .buttons-holder .pull-left {
+        float: none !important;
+    }
+}
+
+.otab {
+    padding: 0 !important;
 }

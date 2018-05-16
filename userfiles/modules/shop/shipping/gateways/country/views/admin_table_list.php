@@ -1,5 +1,5 @@
 <?php if (is_array($data) and !empty($data)): ?>
-    <div class=" m-t-20">
+    <div class="mw-ui-row m-t-20">
         <?php if ($active_or_disabled == 'active'): ?>
             <p class="disabled-and-enabled-label"><?php print _e('List of enabled countries'); ?></p>
         <?php else: ?>

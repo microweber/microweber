@@ -474,11 +474,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                     <?php if ($module != 'admin') { ?>
                                         <li>
-                                            <a
-                                                    onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;"
-                                                    class="<?php print $class ?>" href="#option_group=<?php print $module ?>">
-                                                <?php print isset($item['icon']) ? $item['icon'] : ''; ?>
-                                                <?php print $title ?>
+                                            <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="<?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                                <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
+                                                <strong><?php print $title ?></strong>
                                             </a>
                                         </li>
                                     <?php } ?>

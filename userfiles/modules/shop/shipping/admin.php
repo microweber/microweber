@@ -40,7 +40,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                 <div class="pull-left" id="set-shipping-to-country">
                         <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
-                    <span class="switcher-label-left"><?php _e("Enable shipping to countries"); ?></span>
+                    <span class="switcher-label-left enable-shipping-label"><?php _e("Enable shipping to countries"); ?></span>
 
                     <label class="mw-switch inline-switch pull-right">
                         <input
@@ -59,7 +59,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                     </label>
                 </div>
 
-                <div class="pull-right">
+                <div class="pull-right buttons-holder">
                     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline pull-right" onclick="mw.tools.open_global_module_settings_modal('shop/shipping/set_units', 'shipping');">
                         <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
                     </a>
