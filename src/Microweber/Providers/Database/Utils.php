@@ -53,7 +53,8 @@ class Utils
         }
     }
 
-    public function table_exists($table_name){
+    public function table_exists($table_name)
+    {
         $table_name = $this->assoc_table_name($table_name);
         if (Schema::hasTable($table_name)) {
             return true;
@@ -155,7 +156,7 @@ class Utils
         return $assoc_name;
     }
 
-    public function get_tables_list()
+    public function get_tables_list($only_cms_tables = false)
     {
         $tables = array();
         $engine = $this->get_sql_engine();
@@ -208,6 +209,24 @@ class Utils
                     }
                 }
             }
+        }
+
+        if ($only_cms_tables and $tables) {
+            $cms_tables = array();
+            $local_prefix = $this->get_prefix();
+            foreach ($tables as $k => $v) {
+                if ($local_prefix) {
+                    $starts_with = starts_with($local_prefix, $v);
+                    if ($starts_with) {
+                        $v = str_replace_first($local_prefix, '', $v);
+                        $cms_tables[] = $v;
+                    }
+                } else {
+                    $cms_tables[] = $v;
+                }
+
+            }
+            return $cms_tables;
         }
 
         return $tables;
