@@ -312,7 +312,7 @@ mw.html_editor.reset_content = function () {
     var value = $('#select_edit_field li.selected');
 
     if (value.length == 0) {
-        var value = $('#select_edit_field li li').eq(0);
+        value = $('#select_edit_field li li').eq(0);
     }
     if (value.length == 0) {
         return;
@@ -341,12 +341,24 @@ mw.html_editor.reset_content = function () {
         } else {
             var master_edit_field_holder = wroot.mw.tools.firstParentWithClass(el, 'edit');
 
+
+
+        }
+
+        mw.tools.foreachParents(el, function () {
+            if(mw.tools.hasClass(this, 'edit')){
+                mw.tools.addClass(this, 'edit')
+            }
+        });
+        var all = el.querySelectorAll('.edit'), i = 0;
+        for(var i =0;i<all.length;i++){
+            mw.tools.addClass(all[i], 'edit')
         }
 
 
 
         if (master_edit_field_holder) {
-            $(master_edit_field_holder).addClass("changed");
+
             wroot.mw.on.DOMChangePause = true;
             setTimeout(function () {
                 wroot.mw.drag.fix_placeholders(true);

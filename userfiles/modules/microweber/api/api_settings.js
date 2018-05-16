@@ -360,7 +360,8 @@ mw.msg = mw._lang = {
     switch_to_layouts: '<?php _e("Switch to Layouts"); ?>',
     loading: '<?php _e("Loading"); ?>',
     edit: '<?php _e("Edit"); ?>',
-    change: '<?php _e("Change"); ?>'
+    change: '<?php _e("Change"); ?>',
+    submit: '<?php _e("Submit"); ?>'
 }
 
 
