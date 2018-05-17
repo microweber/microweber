@@ -587,10 +587,10 @@ class UserManager
 
             } else {
                 $terms_and_conditions_name = 'terms_user';
-
+ ;
                 $check_term = $this->terms_check($terms_and_conditions_name, $user_id_or_email);
                 if (!$check_term) {
-                    if (isset($data['terms']) and $data['terms']) {
+                    if (isset($params['terms']) and $params['terms']) {
                         $this->terms_accept($terms_and_conditions_name, $user_id_or_email);
                     } else {
                         return array(

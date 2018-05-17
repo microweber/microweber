@@ -178,16 +178,28 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     }
 
     ?>
+    <?php
+
+    $comments_notif_html = false;
+    $new_comments_count  = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
+    if($new_comments_count){
+        $comments_notif_html = '<sup class="mw-notification-count">' . $new_comments_count . '</sup>';
+
+    }
+
+    ?>
 
 
 
     <?php
     $notif_html = '';
-    $notif_count =  1;
+
+    $notif_count = mw()->notifications_manager->get_unread_count();
 
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
+
     ?>
 
     <div id="mw-admin-mobile-header">
@@ -270,13 +282,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </a>
                     <?php endif; ?>
 
-                    <?php if ($notif_count != ''): ?>
-                        <a href="<?php print admin_url(); ?>" class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mai-comment"></span> &nbsp; <?php print $notif_html; ?>
+                    <?php if ($comments_notif_html != ''): ?>
+                        <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="mw-ui-btn mw-ui-btn-default notif-btn">
+                            <span class="mai-comment"></span> &nbsp; <?php print $comments_notif_html; ?>
                             <span class="notif-label">
-                                <?php if ($notif_count == 1): ?>
+                                <?php if ($new_comments_count == 1): ?>
                                     <?php _e("New comment"); ?>
-                                <?php elseif ($notif_count > 1): ?>
+                                <?php elseif ($new_comments_count > 1): ?>
                                     <?php _e("New comments"); ?>
                                 <?php endif; ?>
                             </span>
@@ -284,7 +296,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php endif; ?>
 
                     <?php if ($notif_count != ''): ?>
-                        <a href="<?php print admin_url(); ?>" class="mw-ui-btn mw-ui-btn-default notif-btn">
+                        <a href="<?php print admin_url(); ?>view:admin__notifications" class="mw-ui-btn mw-ui-btn-default notif-btn">
                             <span class="mai-notification"></span> &nbsp; <?php print $notif_html; ?>
                             <span class="notif-label">
                                 <?php if ($notif_count == 1): ?>

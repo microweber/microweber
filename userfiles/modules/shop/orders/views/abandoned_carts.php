@@ -135,7 +135,7 @@ if(!isset($orders) or !$orders){
                 }
 
             </style>
-            <?php event_trigger('mw_admin_quick_stats_by_session', $item['session_id']); ?>
+            <?php // event_trigger('mw_admin_quick_stats_by_session', $item['session_id']); ?>
             <hr>
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
                 <label class="mw-ui-label mw-ui-label-inline" style="width: 120px;"><?php _e("Recover URL"); ?> <span class="mw-icon-help-outline mwahi tip"

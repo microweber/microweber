@@ -46,7 +46,7 @@ class Ui
         $btn['class'] = 'mai-category';
         $this->module('content.create.menu', $btn);
 
-        $notif_count = mw()->notifications_manager->get('is_read=0&count=1');
+        $notif_count = mw()->notifications_manager->get_unread_count();
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
             $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';

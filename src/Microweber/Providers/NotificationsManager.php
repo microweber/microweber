@@ -85,6 +85,12 @@ class NotificationsManager
         }
     }
 
+
+    public function get_unread_count()
+    {
+        return $this->get('is_read=0&count=1');
+    }
+
     public function mark_all_as_read()
     {
         $is_admin = $this->app->user_manager->is_admin();
