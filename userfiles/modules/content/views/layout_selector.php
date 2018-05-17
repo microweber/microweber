@@ -525,9 +525,11 @@ if (!empty($recomended_layouts)) {
             <div class="mw-ui-row">
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
-                        <div class="admin-section-bar">
-                            <h2 class="inline-element"><span class="mai-templates" style="font-size: 19px;"></span><?php _e("Choose Page Layout"); ?></h2>
+                        <div class="section-header">
+                            <h2 class="pull-left"><span class="mw-icon-users"></span><?php _e("Choose Page Layout"); ?></h2>
                         </div>
+
+
                         <div class="layouts_box_container">
                             <select name="preview_layout_file" class="mw-ui-field mw-edit-page-layout-selector w100" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
                                 <?php if (!empty($layouts)): ?>
