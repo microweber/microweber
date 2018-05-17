@@ -10,3 +10,27 @@
 .cart-overview .cart-overview__items{
     overflow: auto;
 }
+
+@media (max-width:990px) {
+    nav .nav-bar {
+        text-align: center;
+    }
+
+    nav .nav-bar .menu-module{
+        text-align: center;
+    }
+
+    nav .nav-bar .cart-module,
+    nav .nav-bar .dream-profile-link,
+    nav .nav-bar .dream-search-link{
+        display: inline-block !important;
+        float: none;
+        border-left:none !important;
+        padding: 0 10px !important;
+
+    }
+
+
+}
+
+

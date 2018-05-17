@@ -60,6 +60,11 @@ class OrderManager
 
         return $item;
     }
+    public function get_count_of_new_orders()
+    {
+        return $this->get('count=1&order_status=new&is_completed=y');
+
+    }
 
     public function get_items($order_id = false)
     {

@@ -4347,6 +4347,12 @@ $(document).ready(function () {
                 return false;
             }
         }
+        else{
+            if (e.keyCode === 27) {
+                var modal = $(".mw_modal:last")[0];
+                if(modal) modal.modal.remove();
+            }
+        }
     });
     mw.$(".mw-pin").each(function () {
         var el = this,
@@ -5260,36 +5266,72 @@ String.prototype.hash = function () {
     }).join('');
 }
 
-mw.ajax = function (item, options) {
-    options = options || {}
-    if (typeof item === 'string' || item.__proto__ === $.fn || item.nodeType === 1) {
-        var form = mw.$(item);
-        options.data = mw.serializeFields(item);
-        if (!options.method) {
-            if (!!form.method) {
-                options.method = form.method
-            }
+mw.ajax = function (options) {
+    options._success = options.success;
+    delete options.success;
+    options.success = function(data,status,xhr){
+        console.log(44, data.form_data_required)
+        if(data.form_data_required){
+            mw.extradataForm(options, data);
         }
-    }
-    else if (item.constructor === options.constructor) {
-        options.data = item;
-    }
-    options.method = options.method || 'post';
+        else{
+            options._success.call(this, data, status, xhr);
+        }
+    };
     var xhr = $.ajax(options);
-
-    xhr.done(function (data) {
-        if (!!data && !!data.success) {
-            mw.notification.success(data.msg || data.success)
-        }
-        else if (!!data && !!data.error) {
-            mw.notification.error(data.msg || data.error)
-        }
-    })
-    xhr.fail(function (data) {
-        if (!!data && !!data.error) {
-            mw.notification.error(data.msg || data.error)
-        }
-    })
-
     return xhr;
+};
+
+jQuery.each( [ "xhrGet", "xhrPost" ], function( i, method ) {
+    mw[ method ] = function( url, data, callback, type ) {
+
+        if ( jQuery.isFunction( data ) ) {
+            type = type || callback;
+            callback = data;
+            data = undefined;
+        }
+
+        return mw.ajax( jQuery.extend( {
+            url: url,
+            type: i==0?'GET':'POST',
+            dataType: type,
+            data: data,
+            success: callback
+        }, jQuery.isPlainObject( url ) && url ) );
+    };
+} );
+
+mw.getExtradataFormData = function (data, call) {
+    if(data.form_data_module){
+        mw.loadModuleData(data.form_data_module, function(moduledata){
+            call.call(undefined, moduledata);
+        })
+    }
+    else{
+        call.call(undefined, data.form_data_required);
+    }
+
 }
+mw.extradataForm = function (options, data) {
+    mw.getExtradataFormData(data, function (extra_html) {
+        console.log(12, extra_html)
+        var form = document.createElement('form');
+        $(form).append(extra_html);
+        $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');
+
+        form.action = options.url;
+        form.method = options.type;
+
+        form.__modal = mw.modal({
+            content:form
+        });
+        $(form).on('submit', function (e) {
+            e.preventDefault();
+            var exdata = mw.serializeFields(this);
+            for(var i in exdata){
+                options.data[i] = exdata[i];
+            };
+            mw.ajax(options);
+        })
+    });
+};

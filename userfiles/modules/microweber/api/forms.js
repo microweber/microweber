@@ -69,7 +69,7 @@ mw.form = {
     if(is_form_valid){
 
         var obj = mw.form.serialize(selector, ignorenopost);
-      	var xhr = $.post(url_to_post, obj, function(data){
+      	var xhr = mw.xhrPost(url_to_post, obj, function(data){
       	    mw.session.checkPause = false;
 			if(typeof callback === 'function'){
 				callback.call(data, mw.$(selector)[0]);

@@ -188,7 +188,7 @@ if (isset($data[0]) == false) {
         </div>
         <input type="hidden" class="mw-ui-field" name="id" value="<?php print $data['id']; ?>">
         <div>
-            <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table mw-ui-table-basic mw-admin-user-tab-content" width="100%">
+            <table btos="0" cellpadding="0" cellspacing="0" class="mw-ui-table mw-ui-table-basic mw-admin-user-tab-content" width="100%">
                 <col width="150px"/>
                 <tr>
                     <td><label class="mw-ui-label">
@@ -352,7 +352,34 @@ if (isset($data[0]) == false) {
         </div>
     </div>
 
-    <div>
-        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>"><?php print _e('Export user data'); ?></a>
+    
+    <script>
+
+        function mw_admin_tos_popup(user_id) {
+
+            var modalTitle = '<?php _e('Terms agreement log'); ?>';
+
+
+
+            mw_admin_edit_tos_item_popup_modal_opened = mw.modal({
+                content: '<div id="mw_admin_edit_tos_item_module"></div>',
+                title: modalTitle,
+                id: 'mw_admin_edit_tos_item_popup_modal'
+            });
+
+            var params = {}
+            params.user_id = user_id;
+            mw.load_module('users/terms/log', '#mw_admin_edit_tos_item_module', null, params);
+        }
+        
+
+
+       
+        
+    </script>
+    
+    <div class="export-label">
+        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>"><?php print _e('Export user data'); ?></a> |
+        <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)"><?php print _e('Terms agreement log'); ?></a>
     </div>
 <?php endif; ?>
