@@ -37,7 +37,7 @@ function mw_print_admin_dashboard_orders_btn()
     $admin_dashboard_btn['view'] = 'shop/action:orders';
     $admin_dashboard_btn['icon_class'] = 'mai-shop';
     $notif_html = '';
-    $notif_count = get_orders('count=1&order_status=[null]&is_completed=y');
+    $notif_count = mw()->order_manager->get_count_of_new_orders();
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }

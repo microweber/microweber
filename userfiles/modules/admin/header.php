@@ -167,10 +167,22 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 </script>
 
 <?php if (is_admin()): ?>
+
+    <?php
+
+    $order_notif_html = false;
+    $new_orders_count =  mw()->order_manager->get_count_of_new_orders();
+    if($new_orders_count){
+        $order_notif_html = '<sup class="mw-notification-count">' . $new_orders_count . '</sup>';
+
+    }
+
+    ?>
+
+
+
     <?php
     $notif_html = '';
-    $notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
-
     $notif_count =  1;
 
     if ($notif_count > 0) {
@@ -245,14 +257,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </a>
                 </div>
                 <div class="mw-ui-col center">
-                    <?php $notif_count = 1; ?>
-                    <?php if ($notif_count != ''): ?>
+                    <?php if ($new_orders_count != ''): ?>
                         <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mai-shop"></span> &nbsp; <?php print $notif_html; ?>
+                            <span class="mai-shop"></span> &nbsp; <?php print $order_notif_html; ?>
                             <span class="notif-label">
-                                <?php if ($notif_count == 1): ?>
+                                <?php if ($order_notif_html == 1): ?>
                                     <?php _e("New order"); ?>
-                                <?php elseif ($notif_count > 1): ?>
+                                <?php elseif ($new_orders_count > 1): ?>
                                     <?php _e("New orders"); ?>
                                 <?php endif; ?>
                             </span>
@@ -365,10 +376,14 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </ul>
                     </li>
                     <?php if ($shop_disabled == false): ?>
+
+
+
+
                         <li <?php if ($view == 'shop' and $action == false): ?> class="active"
                         <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent" <?php endif; ?>>
                             <a href="<?php print admin_url(); ?>view:shop" title=""><span class="mai-market2"><?php if ($view != 'shop' and $notif_count > 0) {
-                                        print $notif_html;
+                                        print $order_notif_html;
                                     }; ?></span> <strong><?php _e("Shop"); ?></strong></a>
                             <ul>
                                 <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>>
@@ -376,7 +391,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                         <span class="mai-shop"></span>
                                         <span class="relative"><?php _e("Orders"); ?>
                                             <?php if ($view == 'shop') {
-                                                print $notif_html;
+                                                print $order_notif_html;
                                             } ?>
                     </span>
                                     </a>

@@ -26,7 +26,7 @@ only_admin_access();
     </div>
     <div class="dr-list">
         <div class="orders-holder" id="shop-orders">
-             <module type="shop/orders/admin" limit="5" hide-controlls="true" />
+             <module type="shop/orders/admin" limit="5" hide-controlls="true" intersect-new-orders="true"   />
         </div>
     </div>
 </div>
