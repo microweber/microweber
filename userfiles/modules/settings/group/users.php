@@ -81,7 +81,7 @@
     }
 
     .social-providers-list [class*='mw-icon-'] {
-        margin-right: 0;
+        margin: 0 !important;
         top: -2px;
     }
 
