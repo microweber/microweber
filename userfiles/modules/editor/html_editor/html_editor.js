@@ -5,7 +5,6 @@
 
 wroot = window.opener || top
 
-wroot.mw.require('https://html2canvas.hertzen.com/dist/html2canvas.min.js')
 mw.html_editor = {};
 mw.html_editor.map = {};
 mw.html_editor.init = function () {

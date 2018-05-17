@@ -5270,6 +5270,7 @@ mw.ajax = function (options) {
     options._success = options.success;
     delete options.success;
     options.success = function(data,status,xhr){
+        console.log(44, data.form_data_required)
         if(data.form_data_required){
             mw.extradataForm(options, data);
         }
@@ -5281,10 +5282,29 @@ mw.ajax = function (options) {
     return xhr;
 };
 
+jQuery.each( [ "xhrGet", "xhrPost" ], function( i, method ) {
+    mw[ method ] = function( url, data, callback, type ) {
+
+        if ( jQuery.isFunction( data ) ) {
+            type = type || callback;
+            callback = data;
+            data = undefined;
+        }
+
+        return mw.ajax( jQuery.extend( {
+            url: url,
+            type: i==0?'GET':'POST',
+            dataType: type,
+            data: data,
+            success: callback
+        }, jQuery.isPlainObject( url ) && url ) );
+    };
+} );
+
 mw.getExtradataFormData = function (data, call) {
     if(data.form_data_module){
-        mw.loadModuleData(data.form_data_module, function(a){
-            call.call(undefined, data);
+        mw.loadModuleData(data.form_data_module, function(moduledata){
+            call.call(undefined, moduledata);
         })
     }
     else{
@@ -5294,8 +5314,11 @@ mw.getExtradataFormData = function (data, call) {
 }
 mw.extradataForm = function (options, data) {
     mw.getExtradataFormData(data, function (extra_html) {
+        console.log(12, extra_html)
         var form = document.createElement('form');
-        form.innerHTML = extra_html + '<hr><button type="submit">'+mw.lang('Submit')+'</button>';
+        $(form).append(extra_html);
+        $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');
+
         form.action = options.url;
         form.method = options.type;
 
@@ -5306,11 +5329,8 @@ mw.extradataForm = function (options, data) {
             e.preventDefault();
             var exdata = mw.serializeFields(this);
             for(var i in exdata){
-                data[i] = exdata[i];
+                options.data[i] = exdata[i];
             };
-            var cdata = $.extend({}, options.data, data);
-            options.data = cdata;
-            $[this.method](this.action, data);
             mw.ajax(options);
         })
     });

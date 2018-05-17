@@ -19,9 +19,7 @@ if (typeof jQuery == 'undefined') {
 
 
 }
-$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-    jqXHR._mwdata = originalOptions.data;
-});
+
 
 $.ajaxSetup({
     cache: false,
@@ -32,11 +30,6 @@ $.ajaxSetup({
                 mw.tools.loading(false);
             }, 333);
         }
-    },
-
-    beforeSend: function(jqXHR, settings) {
-        jqXHR._success = jqXHR.success
-        //console.log(settings, jqXHR)
     }
 });
 
