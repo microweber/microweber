@@ -791,7 +791,11 @@ class Backup
                 $this->log_action($back_log_action);
                 $qs = 'SELECT * FROM ' . $table;
                 $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false);
-                $num_fields = count($result[0]);
+                $num_fields = 0;
+                if(isset($result[0]) and is_array($result[0])){
+                    $num_fields = count($result[0]);
+                }
+
                 $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), '', $table);
 
 
