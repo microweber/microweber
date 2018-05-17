@@ -123,7 +123,9 @@
         mw_admin_edit_order_item_popup_modal_opened = mw.modal({
             content: '<div id="mw_admin_edit_order_item_module"></div>',
             title: modalTitle,
-            id: 'mw_admin_edit_order_item_popup_modal'
+            id: 'mw_admin_edit_order_item_popup_modal',
+            width: 900,
+            height: 800
         });
 
         var params = {}
@@ -142,25 +144,24 @@
         <div class="mw-ui-row valign" style="margin-bottom: 20px;">
             <div class="mw-ui-col">
 
-                    <a class="ordersnum pull-left m-r-10" href="#orderstype=completed"><?php print $latest_orders; ?></a>
+                <a class="ordersnum pull-left m-r-10" href="#orderstype=completed"><?php print $latest_orders; ?></a>
 
-                    <h2 class="pull-left m-t-10">
-                        <span class="mai-shop"></span>
+                <h2 class="pull-left m-t-10">
+                    <span class="mai-shop"></span>
 
 
-                        <?php if ($latest_orders > 1) { ?>
-                            <?php _e("New orders"); ?>
-                        <?php }
-                        if ($latest_orders == 1) { ?>
-                            <?php _e("New order"); ?>
-                        <?php }
-                        if ($latest_orders == 0) { ?>
-                            <?php _e("No new orders"); ?>
-                        <?php } ?>
+                    <?php if ($latest_orders > 1) { ?>
+                        <?php _e("New orders"); ?>
+                    <?php }
+                    if ($latest_orders == 1) { ?>
+                        <?php _e("New order"); ?>
+                    <?php }
+                    if ($latest_orders == 0) { ?>
+                        <?php _e("No new orders"); ?>
+                    <?php } ?>
 
-                    </h2>
-                    <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info pull-left"><i class="mai-plus"></i></a>
-
+                </h2>
+                <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info pull-left"><i class="mai-plus"></i></a>
 
 
                 <div class="pull-right">

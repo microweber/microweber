@@ -444,10 +444,22 @@ class ContentManager
         } elseif (isset($params['curent_page'])) {
             $current_page_from_url = $params['curent_page'];
         }
+        $no_wrap = false;
+        if (isset($params['no_wrap'])) {
+            $no_wrap = true;
+        }
+
 
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
         if (is_array($data)) {
-            $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
+
+            if ($no_wrap) {
+                $to_print = "<ul class='{$class}'>";
+            } else {
+                $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
+            }
+
+
             $paging_items = array();
             $active_item = 1;
             foreach ($data as $key => $value) {
@@ -512,7 +524,13 @@ class ContentManager
                 }
             }
             $to_print .= implode("\n", $paging_items);
-            $to_print .= '</ul></div>';
+
+
+            if ($no_wrap) {
+                $to_print .= '</ul>';
+            } else {
+                $to_print .= '</ul></div>';
+            }
 
             return $to_print;
         }
@@ -1209,8 +1227,6 @@ class ContentManager
                             }
 
 
-
-
                             //$cat_params['for'] = 'content';
                             $cat_params['list_tag'] = $list_tag;
                             $cat_params['list_item_tag'] = $list_item_tag;
@@ -1218,7 +1234,7 @@ class ContentManager
                             $cat_params['rel_id'] = $item['id'];
 
                             $cat_params['include_first'] = 1;
-                            $cat_params['nest_level'] = $nest_level+1;
+                            $cat_params['nest_level'] = $nest_level + 1;
                             if ($max_level != false) {
                                 $cat_params['max_level'] = $max_level;
                             }
