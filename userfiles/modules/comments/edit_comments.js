@@ -59,29 +59,3 @@ save_comment_form = function (form_id) {
 }
 
 
-mw.adminComments = {
-    action:function(form, val){
-        var form_id = form;
-        var form = $(form);
-        var field = form.find('.comment_state');
-        field.val(val);
-        var id = form.attr('id');
-        var url = mw.settings.api_url + 'post_comment';
-
-        mw.form.post('#'+id,url);
-     },
-    edit:function(form){
-        var body = form.querySelector('.comment-body-edit');
-        var comment =  form.querySelector('.comment-body')
-        var arr = [body, comment];
-        $(body).find('textarea').css({
-            minHeight:$(comment).height(),
-            minWidth:$(comment).width()
-        });
-        mw.tools.el_switch(arr);
-    },
-    save:function(form){
-
-    }
-}
-

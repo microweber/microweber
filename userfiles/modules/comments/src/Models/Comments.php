@@ -1,8 +1,9 @@
 <?php
 
 
-namespace Microweber\Comments\Controllers;
+namespace Microweber\Comments\Models;
 
+use Microweber\Utils\MailSender;
 use Microweber\View;
 
 
@@ -27,7 +28,7 @@ class Comments
 
         }
 
-        $table = MODULE_DB_COMMENTS;
+        $table = $this->table;
         $params['table'] = $table;
 
         $comments = db_get($params);
@@ -179,7 +180,10 @@ class Comments
                 $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
                 $message .= "IP:" . MW_USER_IP . ' <br /> ';
                 $message .= mw('format')->array_to_ul($data3);
-                \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
+
+
+
+                MailSender::send($email_on_new_comment_value, $subject, $message, 1);
             }
 
 

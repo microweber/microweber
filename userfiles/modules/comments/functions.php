@@ -8,37 +8,23 @@ require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
 
 
 
-/**
- * mark_comments_as_old
-
- */
-api_expose_admin('mark_comments_as_old');
-
-function mark_comments_as_old($data) {
+api_expose_admin('mark_comment_as_spam', function($params){
 
 
-	if (isset($data['content_id'])){
-		$table = MODULE_DB_COMMENTS;
-		mw_var('FORCE_SAVE', $table);
-		$data['is_new'] = 1;
-		$get_comm       = get_comments($data);
-		if (!empty($get_comm)){
-			foreach ($get_comm as $get_com) {
-				$upd           = array();
-				$upd['is_new'] = 0;
 
-				$upd['id']       = $get_com['id'];
-				$upd['rel_type'] = 'content';
-				$upd['rel_id']   = mw()->database_manager->escape_string($data['content_id']);
-				mw()->database_manager->save($table, $upd);
-			}
-		}
+ 
+});
 
-		return $get_comm;
 
-	}
 
-}
+api_expose_admin('mark_comments_as_old', function($params){
+    $comments = new \Microweber\Comments\Models\Comments();
+    return $comments->mark_as_old($params);
+});
+
+
+
+
 
 /**
  * post_comment
