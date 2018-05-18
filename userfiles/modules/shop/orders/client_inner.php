@@ -161,7 +161,30 @@
             <div class="clearfix"></div>
 
             <div class="m-t-40">
-                <h4><?php _e("Orders from"); ?><?php print $client['first_name'] ?><?php print $client['last_name'] ?></h4>
+                <div>
+                    <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print $client['first_name'] ?><?php print $client['last_name'] ?></h4>
+                    <div class="pull-right">
+                        <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-small"><?php print _e('Open all'); ?></button>
+                        <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><?php print _e('Close all'); ?></button>
+                    </div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $('.open-all-orders').on('click', function () {
+                                $('.mw-ui-box.mw-ui-box-accordion.mw-accordion-active').each(function (index) {
+                                    $(this).find('.mw-accordion-content').css({'display': 'block'});
+                                });
+                            });
+                            $('.close-all-orders').on('click', function () {
+                                $('.mw-ui-box.mw-ui-box-accordion.mw-accordion-active').each(function (index) {
+                                    $(this).find('.mw-accordion-content').css({'display': 'none'});
+                                });
+                            });
+                        });
+                    </script>
+                    <div class="clearfix"></div>
+                </div>
+
                 <br/>
                 <?php if (is_array($orders)): ?>
                     <?php foreach ($orders as $item): ?>

@@ -23,6 +23,7 @@ if (!isset($tn[1])) {
 ?>
 
 <?php if (!empty($data)): ?>
+<?php $i=1; ?>
     <?php foreach ($data as $item): ?>
         <?php $categories = content_categories($item['id']); ?>
 
@@ -59,23 +60,38 @@ if (!isset($tn[1])) {
                             <h5 itemprop="name"><?php print $item['title'] ?></h5>
                         </div>
                     <?php endif; ?>
+                    <?php if (is_array($item['prices'])): ?>
+                    <?php foreach ($item['prices'] as $k => $v): ?>
+                    <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
+                        <?php
+
+                        $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
+                        if ($add_cart_text == false) {
+                            $add_cart_text = _e("Add to cart", true);
+                        }
+
+                        ?>
+                        <?php if (is_array($item['prices'])): ?>
+                            <hr>
+                            <button
+                                    class="btn btn-default pull-right"
+                                    type="button"
+                                    onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'] . $i ?>');event.stopPropagation();return false;">
+                                <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;
+                                <?php print $add_cart_text ?>
+                            </button>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <div class="mw-add-to-cart-<?php print $item['id'] . $i ?>"
+                    <input type="hidden" name="price" value="<?php print $v ?>"/>
+                    <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
+                </div>
+                <?php $i++; break; endforeach; ?>
+                <?php endif; ?>
                 </div>
             </a>
 
-            <?php if (is_array($item['prices'])): ?>
-                <?php foreach ($item['prices'] as $k => $v): ?>
-                    <input type="hidden" name="price" value="<?php print $v ?>"/>
-                    <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
-                    <?php break; endforeach; ?>
-            <?php endif; ?>
 
-        <?php if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
-            <?php if ($show_fields == false or ($show_fields != false and in_array('add_to_cart', $show_fields))): ?>
-                <a class="overal-cart-btn" href="javascript:;" onclick="mw.cart.add('.items .item-<?php print $item['id'] ?>');">
-                    <span class="btn__text"><?php $add_cart_text ? print $add_cart_text : print _e('Add To Cart', true) ?></span>
-                </a>
-            <?php endif; ?>
-        <?php endif; ?>
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
