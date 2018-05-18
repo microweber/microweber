@@ -39,6 +39,9 @@
             mr.notifications.showNotification(notification, 0);
             return false;
         });
+        mw.on('mw.cart.remove', function () {
+            mw.reload_module('shop/cart');
+        });
     </script>
 
     <?php $color_scheme = get_option('color-scheme', 'mw-template-dream'); ?>
