@@ -26,6 +26,7 @@ if (!isset($tn[1])) {
 <?php if (!empty($data)): ?>
     <div>
         <div class="masonry__container masonry--animate">
+            <?php $i=0; ?>
             <?php foreach ($data as $item): ?>
                 <?php $categories = content_categories($item['id']); ?>
 
@@ -39,7 +40,7 @@ if (!isset($tn[1])) {
                 ?>
 
                 <div class="col-md-3 col-sm-4 col-xs-6 masonry__item" data-masonry-filter="<?php print $itemCats; ?>" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-                    <div class="shop-item shop-item-1">
+                    <div class="shop-item shop-item-1 shop-item-skin-4">
                         <?php if ($show_fields == false or in_array('price', $show_fields)): ?>
                             <?php if (isset($item['prices']) and is_array($item['prices'])) { ?>
                                 <?php
@@ -68,13 +69,36 @@ if (!isset($tn[1])) {
                                 </a>
                             <?php endif; ?>
                         </div>
-                    </div>
-                    <?php if (is_array($item['prices'])): ?>
+                        <?php if (is_array($item['prices'])): ?>
                         <?php foreach ($item['prices'] as $k => $v): ?>
-                            <input type="hidden" name="price" value="<?php print $v ?>"/>
-                            <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
-                            <?php break; endforeach; ?>
+                        <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
+                            <?php
+
+                            $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
+                            if ($add_cart_text == false) {
+                                $add_cart_text = _e("Add to cart", true);
+                            }
+
+                            ?>
+                            <?php if (is_array($item['prices'])): ?>
+                                <hr>
+                                <button
+                                        class="btn btn-default pull-right"
+                                        type="button"
+                                        onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'] . $i ?>');">
+                                    <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;
+                                    <?php print $add_cart_text ?>
+                                </button>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <div class="mw-add-to-cart-<?php print $item['id'] . $i ?>"
+                        <input type="hidden" name="price" value="<?php print $v ?>"/>
+                        <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
+                    </div>
+                    <?php $i++; break; endforeach; ?>
                     <?php endif; ?>
+                    </div>
+
                 </div>
             <?php endforeach; ?>
         </div>
