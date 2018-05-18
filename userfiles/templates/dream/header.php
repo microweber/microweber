@@ -69,7 +69,7 @@
 
     <?php if ($stop_transparent_nav != 'true'): ?>
         <script>
-             checkFirstSectionForNav = function() {
+            checkFirstSectionForNav = function () {
                 var firstSectionHas = $('.main-container section').first().hasClass('imagebg');
 
                 var skip = $('.main-container section').first().hasClass('background-image-holder');
@@ -91,11 +91,11 @@
         </script>
     <?php endif; ?>
     <script>
-     $(window).on('load', function () {
-       if(mw.iconSelector){
-          mw.iconSelector.addCSS('link[href*="/iconsmind.css"]', '.icon-')
-       }
-     });
+        $(window).on('load', function () {
+            if (mw.iconSelector) {
+                mw.iconSelector.addCSS('link[href*="/iconsmind.css"]', '.icon-')
+            }
+        });
     </script>
 </head>
 <body>
@@ -134,8 +134,17 @@
             </div>
         <?php endif; ?>
 
-        <?php if ( $profile_link == 'true' or $is_live_edit ): ?>
-            <div class="nav-module right cart-module dream-profile-link" style="display: <?php print $profile_link == 'true' ? 'inline-block' : 'none' ; ?>;" >
+        <?php if ($profile_link == 'true' or $is_live_edit): ?>
+            <?php if (is_logged()): ?>
+                <div class="nav-module right cart-module dream-profile-link" style="display: <?php print $profile_link == 'true' ? 'inline-block' : 'none'; ?>;">
+                    <a href="<?php print logout_url(); ?>" class="nav-function">
+                        <i class="fa fa-lock"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            <?php endif; ?>
+
+            <div class="nav-module right cart-module dream-profile-link" style="display: <?php print $profile_link == 'true' ? 'inline-block' : 'none'; ?>;">
                 <a href="<?php print profile_url(); ?>" class="nav-function">
                     <i class="fa fa-user"></i>
                     <span>Profile</span>
@@ -143,8 +152,8 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($search_field == 'true' or $is_live_edit ): ?>
-            <div class="nav-module right search-module dream-search-link" style="display: <?php print $search_field == 'true' ? 'inline-block' : 'none' ; ?>;" >
+        <?php if ($search_field == 'true' or $is_live_edit): ?>
+            <div class="nav-module right search-module dream-search-link" style="display: <?php print $search_field == 'true' ? 'inline-block' : 'none'; ?>;">
                 <a href="#" class="nav-function modal-trigger" data-modal-id="search-form">
                     <i class="interface-search icon icon--sm"></i>
                     <span><?php _e("Search") ?></span>

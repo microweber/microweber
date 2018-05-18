@@ -55,9 +55,12 @@ description: Login default
                 </div>
             </div>
             <div class="row text-center">
+                <a href="<?php print register_url(); ?>"><?php _lang("Create an account", "templates/dream"); ?></a>
+            </div>
+            <div class="row text-center">
                 <p class="type--fine-print">
-                    <?php _e("Forgot Password ?"); ?>
-                    <a href="<?php print forgot_password_url(); ?>">Start password recovery</a>
+                    <?php _lang("Forgot Password ?", "templates/dream"); ?>
+                    <a href="<?php print forgot_password_url(); ?>"><?php _lang("Start password recovery", "templates/dream"); ?></a>
                 </p>
             </div>
         </form>
@@ -91,28 +94,28 @@ description: Login default
                         <span class="btn__text">
                         <i class="fa fa-facebook"></i> Sign in with Facebook</span>
                     </a>
-                    <br />
+                    <br/>
                 <?php endif; ?>
 
                 <?php if ($twitter): ?>
                     <a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="btn btn--primary m-t-10">
                         <span class="btn__text"><i class="fa fa-twitter"></i> Sign in with Twitter</span>
                     </a>
-                    <br />
+                    <br/>
                 <?php endif; ?>
 
                 <?php if ($google): ?>
                     <a href="<?php print api_link('user_social_login?provider=google') ?>" class="btn btn--primary m-t-10">
                         <span class="btn__text"><i class="fa fa-google"></i> Sign in with Google+</span>
                     </a>
-                    <br />
+                    <br/>
                 <?php endif; ?>
 
                 <?php if ($github): ?>
                     <a href="<?php print api_link('user_social_login?provider=github') ?>" class="btn btn--primary m-t-10">
                         <span class="btn__text"><i class="fa fa-github"></i> Sign in with Github</span>
                     </a>
-                    <br />
+                    <br/>
                 <?php endif; ?>
 
                 <?php if ($mw_login): ?>

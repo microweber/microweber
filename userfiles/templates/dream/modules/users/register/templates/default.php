@@ -104,6 +104,10 @@ description: Default register template
                 </div>
             </div>
         </form>
+
+        <div class="row text-center">
+            <a href="<?php print login_url(); ?>"><?php _lang("You already have an account ?", "templates/dream"); ?></a>
+        </div>
     </div>
 <?php else: ?>
     You Are Logged In
