@@ -1587,25 +1587,19 @@ class UserManager
 
         $template_dir = $this->app->template->dir();
         $file = $template_dir . 'logout.php';
-        $default_url = false;
-        if (is_file($file)) {
-            $default_url = 'logout';
-        } else {
-            $default_url = 'users/logout';
-        }
-
-        $logout_url = $this->app->option_manager->get('logout_url', 'users');
-        if ($logout_url != false and trim($logout_url) != '') {
-            $default_url = $logout_url;
-        }
-
+        $logout_url_settings = $this->app->option_manager->get('logout_url', 'users');
         $logout_url_sess = $this->session_get('logout_url');
 
-        if ($logout_url_sess == false) {
-            return $this->app->url_manager->site($default_url);
+        if($logout_url_sess){
+            return  $logout_url_sess;
+        } else if ($logout_url_settings) {
+            return $logout_url_settings;
+        } else if (is_file($file)) {
+            return site_url('logout');
         } else {
-            return $this->app->url_manager->site($logout_url_sess);
+            return api_url('logout');
         }
+
     }
 
     public function login_url()
