@@ -5229,7 +5229,17 @@ mw.responsive = {
                         + sel('tbody td') + '{ display: block;width:' + (100 / val) + '%;float:left; }'
                         + '}';
                 });
-                $(window).on('resize oientationchange', function () {
+                $('tr', el).each(function () {
+                    var max = 0;
+                    $('td', this).height('auto').each(function () {
+                        var h = $(this).outerHeight();
+                        if (h > max) {
+                            max = h
+                        }
+                    })
+                        .height(max)
+                });
+                $(window).on('resize orientationchange', function () {
                     $('tr', el).each(function () {
                         var max = 0;
                         $('td', this).height('auto').each(function () {
@@ -5239,7 +5249,7 @@ mw.responsive = {
                             }
                         })
                             .height(max)
-                    })
+                    });
                 })
                 css.innerHTML = html
             }
@@ -5267,17 +5277,19 @@ String.prototype.hash = function () {
 }
 
 mw.ajax = function (options) {
-    options._success = options.success;
-    delete options.success;
-    options.success = function(data,status,xhr){
-        console.log(44, data.form_data_required)
-        if(data.form_data_required){
-            mw.extradataForm(options, data);
-        }
-        else{
-            options._success.call(this, data, status, xhr);
-        }
-    };
+    if(!options._success ){
+        options._success = options.success;
+        delete options.success;
+        options.success = function(data,status,xhr){
+            console.log(44, data.form_data_required, options._success)
+            if(data.form_data_required){
+                mw.extradataForm(options, data);
+            }
+            else{
+                options._success.call(this, data, status, xhr);
+            }
+        };
+    }
     var xhr = $.ajax(options);
     return xhr;
 };
@@ -5314,7 +5326,6 @@ mw.getExtradataFormData = function (data, call) {
 }
 mw.extradataForm = function (options, data) {
     mw.getExtradataFormData(data, function (extra_html) {
-        console.log(12, extra_html)
         var form = document.createElement('form');
         $(form).append(extra_html);
         $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');
@@ -5332,6 +5343,7 @@ mw.extradataForm = function (options, data) {
                 options.data[i] = exdata[i];
             };
             mw.ajax(options);
+            form.__modal.remove();
         })
     });
 };
