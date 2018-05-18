@@ -7250,3 +7250,29 @@ select.silver-field {
 .otab {
     padding: 0 !important;
 }
+
+.layout-selector-footer .mw-ui-link {
+    padding: 10px;
+}
+
+@media screen and (max-width: 991px) {
+    .layout_selector_wrap {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .layout-selector-footer {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+}
+
+.table-style-2.mw-mobile-table {
+    border: 0;
+}
+
+.table-style-2.mw-mobile-table > tbody > tr:last-child > td:last-child,
+.table-style-2.mw-mobile-table > tfoot > tr:last-child > td:last-child {
+    border-right: 0 !important;
+}

@@ -460,7 +460,7 @@ if (!empty($recomended_layouts)) {
 
 <?php endif ?>
 
-<div class="layout_selector_wrap admin-side-content">
+<div class="layout_selector_wrap admin-side-content" style="padding-top:0;">
 
     <?php
     if (defined('ACTIVE_SITE_TEMPLATE')) {
@@ -580,7 +580,7 @@ if (!empty($recomended_layouts)) {
                     <div class="mw-ui-col js-template-selector" <?php if (isset($params['small'])): ?>style="display: none;"<?php endif; ?>>
                         <div class="mw-ui-col-container">
                             <div class="mw-template-selector">
-                                <div class="admin-section-bar">
+                                <div class="section-header">
                                     <h2 class="inline-element"><span class="mw-icon-template"></span><?php _e("Template"); ?></h2> &nbsp;
                                     <small>(This change will be affected only on the current page.)</small>
                                 </div>
