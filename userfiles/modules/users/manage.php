@@ -120,7 +120,7 @@ $self_id = user_id();
                         <?php if ($self_id != $item['id']): ?>
                             <span class="show-on-hover del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"></span>
                         <?php endif; ?>
-                        <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a>
+                        <a class="show-on-hover mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a>
                     </td>
                 </tr>
             <?php endforeach; ?>

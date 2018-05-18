@@ -1,6 +1,5 @@
 <div class="container" >
     <div class="row prev-next">
-dsa
         <div class="col-xs-6">
             <?php if (prev_content()): ?>
                 <a href="<?php print prev_content()['full_url']; ?>" class="arrow">

@@ -81,70 +81,110 @@
 
                     <button class="mw-ui-btn mw-ui-btn-info m-l-10 edit-client-save" style="display: none;" onclick="mw.client_edit.save();"><?php _e("Save"); ?></button>
                 </div>
+                <div>
+                    <script>
+                        responsivetableOrder = {
+                            768: 4,
+                            500: 2,
+                            400: 1
+                        }
+                        mw.require('forms.js', true);
 
-                <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 layout-auto table-clients mw-client-information nonactive " style="margin-bottom: 15px;">
-                    <thead>
-                    <tr>
-                        <th style="width: 100px;"></th>
-                        <th><?php _e("Names"); ?></th>
-                        <th><?php _e("Email"); ?></th>
-                        <th><?php _e("Phone"); ?></th>
-                        <th><?php _e("Country"); ?></th>
-                        <th><?php _e("City"); ?></th>
-                        <th><?php _e("State"); ?></th>
-                        <th><?php _e("Zip"); ?></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="last">
-                        <td>
-                            <?php if ($userImg): ?>
-                                <span class=" mw-user-thumb image" style="background-image: url('<?php print $userImg ?>');"></span>
-                            <?php else: ?>
-                                <span class="mw-user-thumb  mai-user3"></span>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <input type="hidden" name="id" value="<?php print $client['id'] ?>"/>
-                            <input class="mw-ui-field" type="text" name="first_name" value="<?php print $client['first_name'] ?>"/>
-                            <input class="mw-ui-field" type="text" name="last_name" value="<?php print $client['last_name'] ?>" style="margin-top: 15px;"/>
-                            <span class="val"><?php print $client['first_name'] ?></span> <span class="val"><?php print $client['last_name'] ?></span>
-                        </td>
-                        <td>
-                            <input type="text" class="mw-ui-field" name="email" value="<?php print $client['email'] ?>"/>
-                            <span class="val"><?php print $client['email'] ?></span></td>
-                        <td><input type="text" class="mw-ui-field" name="phone" value="<?php print $client['phone'] ?>"/>
-                            <span class="val"><?php print $client['phone'] ?></span></td>
-                        <td><input type="text" class="mw-ui-field" name="country" value="<?php print $client['country'] ?>"/>
-                            <span class="val"><?php print $client['country'] ?></span></td>
-                        <td><input type="text" class="mw-ui-field" name="city" value="<?php print $client['city'] ?>"/>
-                            <span class="val"><?php print $client['city'] ?></span></td>
-                        <td><input type="text" class="mw-ui-field" name="state" value="<?php print $client['state'] ?>"/>
-                            <span class="val"><?php print $client['state'] ?></span></td>
-                        <td><input type="text" class="mw-ui-field" name="zip" value="<?php print $client['zip'] ?>"/>
-                            <span class="val"><?php print $client['zip'] ?></span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 layout-auto table-clients mw-client-information nonactive" style="margin-bottom: 15px;">
-                    <thead>
-                    <tr>
-                        <th><?php _e("Address"); ?></th>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><textarea class="mw-ui-field w100" name="address"><?php print $client['address'] ?></textarea><span class="val"><?php print $client['address'] ?></span></td>
-                    </tr>
-                    </tbody>
-                </table>
+                        $(document).ready(function () {
+
+                            mw.responsive.table('.mw-client-information', {
+                                breakPoints: responsivetableOrder
+                            })
+                        });
+                    </script>
+                    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 layout-auto table-clients mw-client-information nonactive " style="margin-bottom: 15px;">
+                        <thead>
+                        <tr>
+                            <th style="width: 100px;"></th>
+                            <th><?php _e("Names"); ?></th>
+                            <th><?php _e("Email"); ?></th>
+                            <th><?php _e("Phone"); ?></th>
+                            <th><?php _e("Country"); ?></th>
+                            <th><?php _e("City"); ?></th>
+                            <th><?php _e("State"); ?></th>
+                            <th><?php _e("Zip"); ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="last">
+                            <td>
+                                <?php if ($userImg): ?>
+                                    <span class=" mw-user-thumb image" style="background-image: url('<?php print $userImg ?>');"></span>
+                                <?php else: ?>
+                                    <span class="mw-user-thumb  mai-user3"></span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <input type="hidden" name="id" value="<?php print $client['id'] ?>"/>
+                                <input class="mw-ui-field" type="text" name="first_name" value="<?php print $client['first_name'] ?>"/>
+                                <input class="mw-ui-field" type="text" name="last_name" value="<?php print $client['last_name'] ?>" style="margin-top: 15px;"/>
+                                <span class="val"><?php print $client['first_name'] ?></span> <span class="val"><?php print $client['last_name'] ?></span>
+                            </td>
+                            <td>
+                                <input type="text" class="mw-ui-field" name="email" value="<?php print $client['email'] ?>"/>
+                                <span class="val"><?php print $client['email'] ?></span></td>
+                            <td><input type="text" class="mw-ui-field" name="phone" value="<?php print $client['phone'] ?>"/>
+                                <span class="val"><?php print $client['phone'] ?></span></td>
+                            <td><input type="text" class="mw-ui-field" name="country" value="<?php print $client['country'] ?>"/>
+                                <span class="val"><?php print $client['country'] ?></span></td>
+                            <td><input type="text" class="mw-ui-field" name="city" value="<?php print $client['city'] ?>"/>
+                                <span class="val"><?php print $client['city'] ?></span></td>
+                            <td><input type="text" class="mw-ui-field" name="state" value="<?php print $client['state'] ?>"/>
+                                <span class="val"><?php print $client['state'] ?></span></td>
+                            <td><input type="text" class="mw-ui-field" name="zip" value="<?php print $client['zip'] ?>"/>
+                                <span class="val"><?php print $client['zip'] ?></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 layout-auto table-clients mw-client-information nonactive" style="margin-bottom: 15px;">
+                        <thead>
+                        <tr>
+                            <th><?php _e("Address"); ?></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><textarea class="mw-ui-field w100" name="address"><?php print $client['address'] ?></textarea><span class="val"><?php print $client['address'] ?></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="clearfix"></div>
 
             <div class="m-t-40">
-                <h4><?php _e("Orders from"); ?><?php print $client['first_name'] ?><?php print $client['last_name'] ?></h4>
+                <div>
+                    <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print $client['first_name'] ?><?php print $client['last_name'] ?></h4>
+                    <div class="pull-right">
+                        <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-small"><?php print _e('Open all'); ?></button>
+                        <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><?php print _e('Close all'); ?></button>
+                    </div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $('.open-all-orders').on('click', function () {
+                                $('.mw-ui-box.mw-ui-box-accordion.mw-accordion-active').each(function (index) {
+                                    $(this).find('.mw-accordion-content').css({'display': 'block'});
+                                });
+                            });
+                            $('.close-all-orders').on('click', function () {
+                                $('.mw-ui-box.mw-ui-box-accordion.mw-accordion-active').each(function (index) {
+                                    $(this).find('.mw-accordion-content').css({'display': 'none'});
+                                });
+                            });
+                        });
+                    </script>
+                    <div class="clearfix"></div>
+                </div>
+
                 <br/>
                 <?php if (is_array($orders)): ?>
                     <?php foreach ($orders as $item): ?>
