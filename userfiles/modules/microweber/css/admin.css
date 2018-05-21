@@ -5615,6 +5615,10 @@ span.mw-icon-upload {
     margin-top: 0px !important;
 }
 
+.m-t-5 {
+    margin-top: 5px !important;
+}
+
 .m-t-10 {
     margin-top: 10px !important;
 }
@@ -7310,4 +7314,73 @@ select.silver-field {
     .module-settings-group-advanced .mw-ui-btn-nav-tabs .mw-ui-btn {
         /*width: 20%;*/
     }
+}
+
+.shipping-country-row .new-close.mw-icon-close {
+    visibility: visible;
+}
+
+.mw-fields.mw-fields-upload-buttons input.mw-ui-field {
+    width: 66%;
+}
+
+.mw-fields input.mw-ui-field,
+.mw-fields textarea.mw-ui-field,
+.mw-fields select.mw-ui-field {
+    background: #f8f8f8;
+    color: #323232;
+    border-color: #c2c2c2;
+}
+
+.mw-fields textarea.mw-ui-field {
+    min-height: 70px;
+}
+
+.mw-fields input.mw-ui-field:focus,
+.mw-fields textarea.mw-ui-field:focus {
+    background: #fff;
+    border-color: #82c4ed;
+    -webkit-box-shadow: 0 0 10px #82c4ed;
+    box-shadow: 0 0 10px #82c4ed;
+}
+
+.mw-fields .mw-ui-field-holder .mw-ui-label {
+    font-weight: bold;
+}
+
+.mw-fields .mw-ui-btn {
+    margin: 0 10px;
+}
+
+#white_label_settings_holder .mw-ui-box-content {
+    padding: 25px 45px;
+}
+
+#white_label_settings_holder .mw-ui-field {
+    max-width: 90%;
+}
+
+#white_label_settings_holder .mw-iframe-editor {
+    min-height: 150px;
+    height: 100px !important;
+}
+
+.mw-help-tip {
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+    background: #999999;
+    color: #f5f5f5;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    text-align: center;
+    padding: 2px 0px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.mw-help-tip:hover {
+    background: #0086db;
+    color: #f5f5f5;
 }

@@ -149,23 +149,26 @@
         max-width: 100%;
     }
 
-    #editor-master{
+    #editor-master {
         height: 320px;
+
+        max-width: 90%;
     }
+
     #editor-area {
         padding: 10px;
         overflow-y: scroll;
         border: 1px solid #eee;
         height: auto;
         clear: both;
-        height: 240px;
+        height: 100px;
     }
 
     .editor_wrapper {
         border: 1px solid #eee;
         border-bottom: none;
         clear: both;
-        height:60px;
+        height: 38px;
     }
 
     #mw-admin-text-editor {
@@ -195,6 +198,8 @@
         color: #333;
         resize: none;
     }
+
+
 </style>
 <div id="editor-master">
     <div id="mw-admin-text-editor" class="mw_editor">
