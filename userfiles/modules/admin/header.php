@@ -171,8 +171,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     <?php
 
     $order_notif_html = false;
-    $new_orders_count =  mw()->order_manager->get_count_of_new_orders();
-    if($new_orders_count){
+    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
+    if ($new_orders_count) {
         $order_notif_html = '<sup class="mw-notification-count">' . $new_orders_count . '</sup>';
 
     }
@@ -181,14 +181,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     <?php
 
     $comments_notif_html = false;
-    $new_comments_count  = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
-    if($new_comments_count){
+    $new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
+    if ($new_comments_count) {
         $comments_notif_html = '<sup class="mw-notification-count">' . $new_comments_count . '</sup>';
 
     }
 
     ?>
-
 
 
     <?php
@@ -325,20 +324,16 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
                 <?php $load_module = url_param('load_module'); ?>
-                <a href="<?php print site_url(); ?>" id="main-bar-mw-icon" target="_blank"
-                   class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {
-                       print 'active';
-                   } ?>">
+                <a href="<?php print site_url(); ?>?editmode=n" id="main-bar-mw-icon" target="_blank" class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {print 'active';} ?>">
                     <?php if (mw()->ui->admin_logo != false) : ?>
-                        <img src="<?php print mw()->ui->admin_logo ?>" style="max-width:36px;"/>
+                        <img src="<?php print mw()->ui->admin_logo ?>" style="max-width: 100%; max-height: 36px;"/>
                     <?php else: ?>
-<!--                        <span class="mai-logo"></span>-->
-<!--                        <span class="mw-icon-microweber"></span>-->
-                        <img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Microweber" class="admin-logo"  />
+                        <!--                        <span class="mai-logo"></span>-->
+                        <!--                        <span class="mw-icon-microweber"></span>-->
+                        <img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Microweber" class="admin-logo"/>
                     <?php endif; ?>
-                    <strong>
-                        <?php //print str_replace(array('http://','https://'), '', site_url()); ?>
-                    </strong> </a>
+                    <strong><?php //print str_replace(array('http://','https://'), '', site_url()); ?></strong>
+                </a>
                 <ul id="mw-admin-main-menu">
                     <li <?php if (!$view): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>">
@@ -388,8 +383,6 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </ul>
                     </li>
                     <?php if ($shop_disabled == false): ?>
-
-
 
 
                         <li <?php if ($view == 'shop' and $action == false): ?> class="active"

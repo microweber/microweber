@@ -617,7 +617,7 @@ if (!empty($recomended_layouts)) {
 
                 <?php if (isset($params['small'])): ?>
                     <div class="mw-ui-col" style="width: 36px;">
-                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline js-show-template-selector tip" title="<?php _e('Change page template'); ?>" type="button" style="margin-top: 38px; text-align: center;"><i class="mw-icon-template m-0"></i></button>
+                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline js-show-template-selector tip" title="<?php _e('Change page template'); ?>" type="button" style="margin-top: 81px; text-align: center;"><i class="mw-icon-template m-0"></i></button>
                     </div>
 
                     <script>

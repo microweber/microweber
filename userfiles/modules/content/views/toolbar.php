@@ -155,7 +155,7 @@ if ($last_page_front != false) {
 
                 <div class="section-header">
                     <div class="mw-ui-row valign" style="margin-bottom: 20px;">
-                        <div class="mw-ui-col">
+                        <div class="mw-ui-col" style="width: 50%;">
 
                             <h2 class="pull-left">
                                 <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
@@ -193,6 +193,21 @@ if ($last_page_front != false) {
                                 <?php endif; ?>
                             </h2>
 
+                            <?php
+                            $url_param_action = url_param('action', true);
+                            if ($url_param_action == 'categories') {
+                                $url_param_type = 'category';
+                            } elseif ($url_param_action == 'posts') {
+                                $url_param_type = 'post';
+                            } else if ($url_param_action == 'products') {
+                                $url_param_type = 'product';
+                            } else {
+                                $url_param_type = 'page';
+                            }
+                            ?>
+
+                            <a href="<?php print admin_url('view:content#action=new:') . $url_param_type ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10" style="margin-top: 2px;"><?php print _e('Add new ' . $url_param_type); ?></a>
+
 
                             <div class="pull-right">
                                 <div class="mw-ui-btn-nav pull-right">
@@ -211,7 +226,8 @@ if ($last_page_front != false) {
                                                             <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                                                             <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
                                                             <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
-                                                            <span class="mw-ui-btn <?php print $class; ?>"><a href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>&amp;parent_page=<?php print $params['page-id'] ?>">  <?php print $title; ?> </a></span>
+                                                            <span class="mw-ui-btn <?php print $class; ?>"><a
+                                                                        href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>&amp;parent_page=<?php print $params['page-id'] ?>">  <?php print $title; ?> </a></span>
                                                         <?php endforeach; ?>
                                                     <?php endif; ?>
                                                 </div>
@@ -286,6 +302,8 @@ if ($last_page_front != false) {
 
                                 <?php mw()->event_manager->trigger('module.content.manager.toolbar.end', $page_info); ?>
                             </div>
+
+
                         </div>
                     </div>
                 </div>

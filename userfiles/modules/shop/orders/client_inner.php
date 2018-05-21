@@ -98,6 +98,9 @@
                             })
                         });
                     </script>
+
+                    <h4 class="pull-left m-t-10"><?php _e("Client information"); ?></h4>
+
                     <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 layout-auto table-clients mw-client-information nonactive " style="margin-bottom: 15px;">
                         <thead>
                         <tr>
@@ -162,7 +165,7 @@
 
             <div class="m-t-40">
                 <div>
-                    <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print $client['first_name'] ?><?php print $client['last_name'] ?></h4>
+                    <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print ' ' . $client['first_name'] ?><?php print $client['last_name'] ?></h4>
                     <div class="pull-right">
                         <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-small"><?php print _e('Open all'); ?></button>
                         <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><?php print _e('Close all'); ?></button>
@@ -180,6 +183,16 @@
                                     $(this).find('.mw-accordion-content').css({'display': 'none'});
                                 });
                             });
+
+                            $('body').find('.show-on-hover2').hide();
+
+                            $('.order-holder').on('mouseover', function () {
+                                $(this).find('.show-on-hover2').show();
+                            });
+
+                            $('.order-holder').on('mouseout', function () {
+                                $(this).find('.show-on-hover2').hide();
+                            });
                         });
                     </script>
                     <div class="clearfix"></div>
@@ -188,11 +201,11 @@
                 <br/>
                 <?php if (is_array($orders)): ?>
                     <?php foreach ($orders as $item): ?>
-                        <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active" style="margin-bottom: 15px;">
-                            <div class="mw-ui-box-header" onclick="previewOrder(event);"><span class="mw-icon-order"></span>
-
+                        <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active  order-holder" style="margin-bottom: 15px;">
+                            <div class="mw-ui-box-header" onclick="previewOrder(event);">
+                                <span class="mw-icon-order"></span>
                                 <h4 class="pull-left mw-blue"><?php _e("Order"); ?> #<?php print $item['id'] ?></h4>
-                                <div class="pull-right show-on-hover">
+                                <div class="pull-right show-on-hover2">
                                     <span class="mw-ui-btn mw-ui-btn-info unselectable" onmousedown="mw.tools.accordion(mw.tools.firstParentWithClass(this, 'mw-ui-box'));"><?php _e("Preview Order"); ?></span>
                                     <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline unselectable"><span class="mw-icon-cart"></span><?php _e("Go to order"); ?></a>
                                 </div>
