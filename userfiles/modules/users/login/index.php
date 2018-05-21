@@ -16,7 +16,6 @@ $(document).ready(function(){
         if(!subm.hasClass("disabled")){
              mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
              mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print api_link('user_login'); ?>', function(a, b){
-
            		// mw.response('#user_login_<?php print $params['id'] ?>',this);
       			 if(typeof this.success === 'string'){
       			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
@@ -44,18 +43,23 @@ $(document).ready(function(){
 					  		 return false;
 
 					   }
-					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
-					    if(c == '' ){
-                          window.location.reload();
-                        }
-                        else{
-                          if(typeof window[c] === 'function'){
-                              window[c]();
-                          }
-                          else{
-                            window.location.reload();
-                          }
-                        }
+					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]', function () {
+                            if(c == '' ){
+                                window.location.reload();
+                            }
+                            else{
+                                if(typeof window[c] === 'function'){
+                                    window[c]();
+                                }
+                                else{
+                                    window.location.reload();
+                                }
+                            }
+                        });
+
+
+
+
 						 <?php endif; ?>
                         return false;
       			 }

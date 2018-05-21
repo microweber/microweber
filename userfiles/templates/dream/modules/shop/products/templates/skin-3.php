@@ -69,6 +69,14 @@ if (!isset($tn[1])) {
                                 </a>
                             <?php endif; ?>
                         </div>
+                        <?php if (is_array($show_fields) and in_array('created_at', $show_fields)): ?>
+                            <div class="post-date circle-point">
+                                <span class="vertical-align">
+                                    <?php print date('d', strtotime($item['created_at'])); ?>
+                                    <i><?php print date('M', strtotime($item['created_at'])); ?></i>
+                                </span>
+                            </div>
+                        <?php endif; ?>
                         <?php if (is_array($item['prices'])): ?>
                         <?php foreach ($item['prices'] as $k => $v): ?>
                         <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>

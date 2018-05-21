@@ -24,7 +24,7 @@ if (typeof jQuery == 'undefined') {
 $.ajaxSetup({
     cache: false,
     error: function (xhr, e) {
-        if(xhr.status !== 200){
+        if(xhr.status !== 200 && xhr.status !== 0){
             mw.notification.error('Error ' + xhr.status + ' - ' + xhr.statusText + ' - \r\n' + xhr.responseText );
             setTimeout(function(){
                 mw.tools.loading(false);
