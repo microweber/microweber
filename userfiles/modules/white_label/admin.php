@@ -126,9 +126,13 @@
                 }
 
                 clearTimeout(wlFormTime);
+                var time = 800;
+                if(this.type == 'checkbox'){
+                    time = 10;
+                }
                 wlFormTime = setTimeout(function () {
                     form.submit()
-                }, 300)
+                }, time)
             })
 
             mw.$(".up").each(function () {
