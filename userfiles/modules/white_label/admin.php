@@ -177,7 +177,7 @@
                             </div>
 
                             <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label"><?php _e('Logo for Live-Edit toolbar'); ?></label>
+                                <label class="mw-ui-label"><?php _e('Logo for Live-Edit toolbar (recommended size: 50x50 px)'); ?></label>
                                 <input name="logo_live_edit" option-group="whitelabel" placeholder="<?php _e('Upload your logo'); ?>" class="mw-ui-field up" type="text" value="<?php print  $logo_live_edit; ?>"/>
                             </div>
 

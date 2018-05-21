@@ -76,8 +76,7 @@ if (is_array($data)) {
 
 ?>
 
-<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table">
-    <col width="20">
+<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table table-style-2">
     <thead>
     <tr>
         <th class="mw-ui-table-small"><?php _e("ID"); ?></th>
@@ -89,24 +88,13 @@ if (is_array($data)) {
         <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
     </tr>
     </thead>
-    <tfoot>
-    <tr>
-        <td class="mw-ui-table-small"><?php _e("ID & Date"); ?></td>
-        <?php if (is_array($custom_fields)): ?>
-            <?php foreach ($custom_fields as $k => $item): ?>
-                <td><?php print   mw()->format->no_dashes($k); ?></td>
-            <?php endforeach; ?>
-        <?php endif; ?>
-        <td width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></td>
-    </tr>
-    </tfoot>
+
     <tbody>
     <?php if (is_array($data)): ?>
         <?php foreach ($data as $item) : ?>
             <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
                 <td width="50" style="text-align: center"><?php print $item['id'] ?>
-                    <div class="mw-date"
-                         title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at']); ?></div>
+                    <div class="mw-date" title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at']); ?></div>
                 </td>
 
                 <?php
