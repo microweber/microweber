@@ -1255,8 +1255,8 @@ class Parser
 
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                                     $field_content = $this->_replace_editable_fields($field_content);
-                                    if($field_content){
-                                    pq($elem_clone)->html($field_content);
+                                    if ($field_content) {
+                                        pq($elem_clone)->html($field_content);
                                     }
                                 } else {
                                     pq($elem_clone)->html($field_content);
@@ -1895,6 +1895,17 @@ class Parser
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
 
+            //load scripts and css
+            $module_css = '';
+            $module_css_file = dirname($try_file1 ). DS . 'module.css';
+            if (is_file($module_css_file)) {
+                $module_css = @file_get_contents($module_css_file);
+
+                if ($module_css) {
+                    $module_css = str_replace('#module', '#' . url_title($attrs['id']), $module_css);
+                }
+            }
+
 
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
@@ -1957,6 +1968,18 @@ class Parser
                 $lic_l1e_file = $lic_l1->__toString();
                 unset($lic_l1);
                 $module_file = $lic_l1e_file . $module_file;
+            }
+
+            if ($module_css and $module_file and is_string($module_file)) {
+                $module_file .= "
+                <style>"
+
+                    . $module_css .
+
+
+                    "</style>
+
+                ";
             }
 
             // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
