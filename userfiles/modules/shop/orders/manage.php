@@ -161,16 +161,16 @@
                     <?php } ?>
 
                 </h2>
-                <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info pull-left"><i class="mai-plus"></i></a>
 
 
                 <div class="pull-right">
-
                     <div class="top-search">
                         <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>"/>
                         <span class="top-form-submit" onclick="mw.url.windowHashParam('search', $(this).prev().val());"><span class="mw-icon-search"></span></span>
                     </div>
                 </div>
+
+                <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline pull-right m-r-10"><?php print _e('Add new order'); ?> <i class="mai-plus"></i></a>
             </div>
         </div>
     </div>
