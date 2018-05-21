@@ -197,7 +197,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
             }
             if (isset($comment['comment_website'])) {
-                $comment['comment_website'] = mw('format')->prep_url($comment['comment_website']);
+                $comment['comment_website'] = mw()->format->prep_url($comment['comment_website']);
             }
 
             $comments_new[] = $comment;

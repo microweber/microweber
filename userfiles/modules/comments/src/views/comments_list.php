@@ -55,13 +55,7 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
             if (is_array($postComments)) {
                 foreach ($postComments as $comment) { ?>
 
-
             <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" >
-
-
-
-
-
 
 
                 <?php } ?>

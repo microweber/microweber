@@ -4,6 +4,7 @@
     mw.require('<?php print $config['url_to_module'] ?>comments_admin.js');
     mw.require('color.js', true);
 </script>
+
 <script type="text/javascript">
     mw.on.hashParam("search", function () {
         if (this !== '') {

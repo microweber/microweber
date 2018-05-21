@@ -3,18 +3,20 @@
 
 namespace Microweber\Comments\Models;
 
+use Microweber\Providers\Database\Crud;
+use Microweber\Utils\Http;
 use Microweber\Utils\MailSender;
 use Microweber\View;
 
 
-class Comments
+class Comments extends Crud
 {
 
     public $app;
-    protected $table = 'comments';
+    public $table = 'comments';
 
 
-    public function get($params)
+    public function get($params = false)
     {
         $params2 = array();
 
@@ -27,7 +29,10 @@ class Comments
             $params['rel_id'] = mw()->database_manager->escape_string($params['content_id']);
 
         }
-
+        $date_format = get_option('date_format', 'website');
+        if ($date_format == false) {
+            $date_format = "Y-m-d H:i:s";
+        }
         $table = $this->table;
         $params['table'] = $table;
 
@@ -36,9 +41,31 @@ class Comments
         if (is_array($comments)) {
             $i = 0;
             foreach ($comments as $item) {
+                if (isset($params['count'])) {
+                    if (isset($item['qty'])) {
+                        return $item['qty'];
+                    }
+                }
                 if (isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')) {
                     $comments[$i]['comment_name'] = user_name($item['created_by']);
                 }
+                if (isset($item['created_at']) and trim($item['created_at']) != '') {
+                    $comments[$i]['created_at'] = date($date_format, strtotime($item['created_at']));
+                }
+                if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
+                    $comments[$i]['updated_at'] = date($date_format, strtotime($item['updated_at']));
+                }
+                if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
+                    $surl = site_url();
+                    $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
+                    $comments[$i]['comment_body'] = mw()->format->autolink($item['comment_body']);
+                }
+
+                if (isset($params['single'])) {
+
+                    return $comments;
+                }
+
                 $i++;
             }
         }
@@ -62,6 +89,22 @@ class Comments
             }
         }
 
+        if (isset($data['reply_to_comment_id'])) {
+            $old_comment = $this->get_by_id($data['reply_to_comment_id']);
+            $data['id'] = 0;
+            if (!$old_comment) {
+                return array('error' => 'Error: invalid data');
+            }
+            if (isset($old_comment['rel_type'])) {
+                $data['rel_type'] = $old_comment['rel_type'];
+            }
+            if (isset($old_comment['rel_id'])) {
+                $data['rel_id'] = $old_comment['rel_type'];
+            }
+
+
+        }
+
         if (isset($data['action']) and isset($data['id'])) {
             if ($adm == false) {
                 mw_error('Error: Only admin can edit comments!');
@@ -79,6 +122,7 @@ class Comments
                         break;
                     case 'spam' :
                         $data['is_moderated'] = 0;
+                        $data['is_spam'] = 1;
 
                         break;
 
@@ -91,7 +135,6 @@ class Comments
                         break;
                 }
 
-                // d();
             }
         } else {
 
@@ -107,18 +150,25 @@ class Comments
             }
 
             if (!isset($data['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
-            } else {
-                $cap = mw()->user_manager->session_get('captcha');
+                return array(
+                    'error' => _e('Invalid captcha answer!', true),
+                    'captcha_error' => true,
+                    'form_data_required' => 'captcha',
+                    'form_data_module' => 'captcha'
+                );
 
-                if ($cap == false) {
-                    return array('error' => 'You must load a captcha first!');
-                }
-                if (intval($data['captcha']) != ($cap)) {
-                    //     d($cap);
-                    if ($adm == false) {
-                        return array('error' => 'Invalid captcha answer!');
-                    }
+             } else {
+                $validate_captcha = $this->app->captcha->validate($data['captcha']);
+                if (!$validate_captcha) {
+
+                    return array(
+                        'error' => _e('Invalid captcha answer!', true),
+                        'captcha_error' => true,
+                        'form_data_required' => 'captcha',
+                        'form_data_module' => 'captcha'
+                    );
+
+
                 }
             }
         }
@@ -141,7 +191,6 @@ class Comments
             }
         }
 
-        // d( $require_moderation);
 
         $saved_data = mw()->database_manager->save($table, $data);
 
@@ -182,7 +231,6 @@ class Comments
                 $message .= mw('format')->array_to_ul($data3);
 
 
-
                 MailSender::send($email_on_new_comment_value, $subject, $message, 1);
             }
 
@@ -193,6 +241,25 @@ class Comments
         return $saved_data;
     }
 
+    public function mark_as_spam($data)
+    {
+
+        only_admin_access();
+        if (isset($data['comment_id'])) {
+            $s = array();
+            $s['id'] = $data['comment_id'];
+            $s['is_moderated'] = 0;
+            $s['is_spam'] = 1;
+            $s = $this->save($data);
+            if ($s) {
+                $this->__report_for_spam($s);
+            }
+
+
+        }
+
+
+    }
 
     public function mark_as_old($data)
     {
@@ -221,5 +288,53 @@ class Comments
 
     }
 
+
+    private function __report_for_spam($comment_id)
+    {
+
+        $comment = $this->get_by_id($comment_id);
+        $report_url = 'https://spamchecker.microweberapi.com/';
+
+        if ($comment) {
+            $report = array();
+            $report['site_url'] = site_url();
+            $report['from_url'] = $comment['from_url'];
+            $report['is_spam'] = 1;
+            if (isset($comment['user_ip']) and $comment['user_ip']) {
+                $report['ip'] = trim($comment['user_ip']);
+            }
+            if (isset($comment['comment_email']) and $comment['comment_email']) {
+                $report['email'] = trim($comment['comment_email']);
+            }
+            if (isset($comment['created_by']) and $comment['created_by']) {
+                $report['is_logged'] = true;
+                $report['user_id'] = $comment['created_by'];
+            }
+            if (isset($comment['comment_name']) and $comment['comment_name']) {
+                $report['comment_name'] = $comment['comment_name'];
+            }
+            if (isset($comment['comment_body']) and $comment['comment_body']) {
+                $report['comment_body'] = $comment['comment_body'];
+            }
+            if (isset($comment['comment_website']) and $comment['comment_website']) {
+                $report['comment_website'] = $comment['comment_website'];
+            }
+            if (isset($comment['comment_subject']) and $comment['comment_subject']) {
+                $report['comment_subject'] = $comment['comment_subject'];
+            }
+
+            if (isset($comment['rel_type']) and $comment['rel_type']) {
+                $report['rel_type'] = $comment['rel_type'];
+            }
+            if (isset($comment['rel_id']) and $comment['rel_id']) {
+                $report['rel_id'] = $comment['rel_id'];
+            }
+            $http = new Http();
+            $http->url($report_url);
+            $http->set_timeout(10);
+            return $http->post($report);
+
+        }
+    }
 
 }

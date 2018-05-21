@@ -1,7 +1,17 @@
 <script type="text/javascript">
     mw.require('<?php print modules_url() ?>comments/edit_comments.js');
 </script>
+<script>
+    $(mwd).ready(function () {
 
+        mw.dropdown();
+        $(mwd.body).ajaxStop(function () {
+            setTimeout(function () {
+                mw.dropdown();
+            }, 1222);
+        });
+    });
+</script>
 
 <div class="comments-holder">
     <?php if (is_array($data) and !empty($data)): ?>

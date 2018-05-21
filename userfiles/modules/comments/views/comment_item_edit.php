@@ -1,4 +1,8 @@
 <?php
+return print('This file is deprecated ' . __FILE__);
+
+
+
 
 only_admin_access() ;
 
@@ -51,9 +55,9 @@ if(!$comment){
             </div>
 
             <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-edit-comment-btn" data-id="<?php print $comment['id'] ?>"><?php print _e('Edit'); ?></a>
-            <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-save-comment-btn" data-id="<?php print $comment['id'] ?>" style="display: none;" onclick="save_comment_form('#comment-form-<?php print $comment['id'] ?>');return false;"><?php print _e('Save'); ?></a>
+            <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-save-comment-btn" data-id="<?php print $comment['id'] ?>" style="display: none;" onclick="mw.edit_comments.save_form('#comment-form-<?php print $comment['id'] ?>');return false;"><?php print _e('Save'); ?></a>
             <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i class="mai-warn"></i> <?php print _e('Spam'); ?></a>
-            <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i class="mai-bin"></i> <?php print _e('Delete'); ?></a>
+            <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove" ><i class="mai-bin"></i> <?php print _e('Delete'); ?></a>
 
             <span class="date"><?php print mw()->format->ago($comment['created_at']); ?></span>
         </div>

@@ -608,7 +608,8 @@ class UserManager
             if (!isset($params['captcha'])) {
                 return array(
                     'error' => _e('Please enter the captcha answer!', true),
-                    'form_data_required' => 'captcha'
+                    'form_data_required' => 'captcha',
+                    'form_data_module' => 'captcha'
                 );
 
             } else {

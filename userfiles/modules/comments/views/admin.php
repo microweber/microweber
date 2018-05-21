@@ -1,4 +1,5 @@
 <?php
-d(__FILE__);
+
+return print('This file is deprecated ' . __FILE__);
 
 ?>

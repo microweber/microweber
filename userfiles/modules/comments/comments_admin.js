@@ -1,6 +1,6 @@
 
 
-alert(1111);
+alert('mw.adminComments is deprecated');
 
 mw.adminComments = {
     action: function (form, val) {
