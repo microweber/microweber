@@ -72,12 +72,14 @@ $pages_count = intval($pages);
     assign_selected_posts_to_category = function () {
 
         CategoryAssignModal = mw.modal({
-            content: '<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div><button onclick="assign_selected_posts_to_category_exec()">Move posts</button></div>'
+            content: '<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div></div>'
+            + '<button class="mw-ui-btn" onclick="assign_selected_posts_to_category_exec()">Move posts</button>'
         });
         mw.load_module('categories/selector', "#posts_bulk_assing_category_tree_resp", function () {
             mw.treeRenderer.appendUI('#posts_bulk_assing_category')
 
         });
+        $('#posts_bulk_assing_category').addClass('mw-tree').show();
         $('#posts_bulk_assing_category').show();
 
 

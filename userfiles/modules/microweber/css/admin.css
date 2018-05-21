@@ -879,17 +879,23 @@ html.mw_pages, html.mw_pages body {
 }
 
 label .mw_toggle_tree {
-    left: 50px;
-    top: 10px;
+    left: 55px;
+    top: 9px;
 }
 
-.mw-tree .mw-ui-check span span + span, .mw-tree .mw-ui-check label span + span {
-    margin-left: 24px;
+.mw-tree .mw-ui-check span span + span,
+.mw-tree .mw-ui-check label span + span {
+    margin-left: 30px;
     position: relative;
 }
 
+.mw-tree li li .mw-ui-check span span + span,
+.mw-tree li li .mw-ui-check label span + span {
+    margin-left: 17px;
+}
+
 .has-children > .mw-ui-check .pages_tree_link_text span + span {
-    margin-left: 42px;
+    margin-left: 47px;
 }
 
 .mw-tree .mw-ui-check input:checked + span + span {

@@ -333,8 +333,8 @@ if ($last_page_front != false) {
                                 <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"><?php _e("Bulk actions"); ?></span>
                                 <div class="mw-dropdown-content">
                                     <ul>
-                                        <li><a onmousedown="assign_selected_posts_to_category();"><?php _e("Move to category"); ?></a></li>
-                                        <li><a onmousedown="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
+                                        <li><a onclick="assign_selected_posts_to_category();"><?php _e("Move to category"); ?></a></li>
+                                        <li><a onclick="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
                                     </ul>
                                 </div>
                             </div>

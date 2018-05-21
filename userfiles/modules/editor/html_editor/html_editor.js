@@ -343,15 +343,15 @@ mw.html_editor.reset_content = function () {
 
 
         }
-
+        mw.tools.addClass(el, 'changed')
         mw.tools.foreachParents(el, function () {
             if(mw.tools.hasClass(this, 'edit')){
-                mw.tools.addClass(this, 'edit')
+                mw.tools.addClass(this, 'changed')
             }
         });
         var all = el.querySelectorAll('.edit'), i = 0;
         for(var i =0;i<all.length;i++){
-            mw.tools.addClass(all[i], 'edit')
+            mw.tools.addClass(all[i], 'changed')
         }
 
 
@@ -364,15 +364,18 @@ mw.html_editor.reset_content = function () {
                 wroot.mw.resizable_columns();
                 wroot.mw.on.DOMChangePause = false;
                 var saved = wroot.mw.drag.save();
-                saved.success(function (saved_data) {
+                if(saved){
+                    saved.success(function (saved_data) {
 
-                    if (typeof saved_data[0] == 'undefined') {
-                        return;
-                    }
-                    saved_data = saved_data[0];
+                        if (typeof saved_data[0] == 'undefined') {
+                            return;
+                        }
+                        saved_data = saved_data[0];
 
-                    wroot.window.location.reload();
-                })
+                        wroot.window.location.reload();
+                    })
+                }
+
 
             }, 200);
         }
