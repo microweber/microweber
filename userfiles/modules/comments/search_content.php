@@ -1,4 +1,9 @@
 <?php
+
+
+return print('This file is deprecated ' . __FILE__);
+
+
 only_admin_access();
 $comments_data = array();
 //$comments_data['in_table'] = 'comments';

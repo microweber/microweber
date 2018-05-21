@@ -328,7 +328,7 @@ class DefaultController extends Controller
                             if (defined('MW_API_RAW')) {
                                 $mod_class_api_called = true;
                             }
-                            return $this->_api_responce($res);
+                            return $this->_api_response($res);
                         }
                     }
                 }
@@ -345,7 +345,7 @@ class DefaultController extends Controller
                         $mod_class_api_called = true;
                     }
 
-                    return $this->_api_responce($res);
+                    return $this->_api_response($res);
                 }
                 break;
 
@@ -362,7 +362,7 @@ class DefaultController extends Controller
                         }
                     }
                     if ($res != false) {
-                        return $this->_api_responce($res);
+                        return $this->_api_response($res);
                     }
                 }
 
@@ -446,7 +446,7 @@ class DefaultController extends Controller
 
                                 $mod_class_api_called = true;
 
-                                return $this->_api_responce($res);
+                                return $this->_api_response($res);
                             }
                         } else {
                             mw_error('The api class ' . $try_class . '  does not exist');
@@ -577,7 +577,7 @@ class DefaultController extends Controller
         }
 
         if (isset($res)) {
-            return $this->_api_responce($res);
+            return $this->_api_response($res);
         }
 
         return;
@@ -2069,9 +2069,9 @@ class DefaultController extends Controller
         exit;
     }
 
-    private function _api_responce($res)
+    private function _api_response($res)
     {
-
+        $status_code = 200;
         if ($res instanceof Response) {
             return $res;
         }
@@ -2082,13 +2082,14 @@ class DefaultController extends Controller
 
         if (!defined('MW_API_HTML_OUTPUT')) {
             if (is_bool($res) or is_int($res)) {
-                return json_encode($res);
+                return \Response::make(json_encode($res), $status_code);
             } elseif ($res instanceof RedirectResponse) {
                 return $res;
             } elseif ($res instanceof Response) {
                 return $res;
             }
-            $response = \Response::make($res);
+
+            $response = \Response::make($res, $status_code);
             if (is_bool($res) or is_int($res) or is_array($res)) {
                 $response->header('Content-Type', 'application/json');
             }
@@ -2100,7 +2101,7 @@ class DefaultController extends Controller
             } else if (is_bool($res)) {
                 $res = 1;
             }
-            $response = \Response::make($res);
+            $response = \Response::make($res, $status_code);
             return $response;
         }
     }

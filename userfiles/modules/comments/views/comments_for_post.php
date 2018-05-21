@@ -1,4 +1,10 @@
-<?php only_admin_access() ;
+<?php
+
+return print('This file is deprecated ' . __FILE__);
+
+
+
+only_admin_access() ;
  $data = array(
         'content_id' => $params['content_id']
     );

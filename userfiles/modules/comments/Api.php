@@ -4,13 +4,30 @@
 namespace comments;
 
 
-if (!defined("MODULE_DB_COMMENTS")) {
-    define('MODULE_DB_COMMENTS', 'comments');
-}
+use Microweber\Providers\Database\Crud;
+use Microweber\Utils\MailSender;
 
-class Api {
 
-    static function get($params) {
+class Api extends Crud
+{
+
+
+
+
+    public $table = 'comments';
+
+    function __construct($app = null)
+    {
+       print('This file is deprecated ' . __FILE__);
+       exit;
+
+    }
+
+
+
+
+    function get($params)
+    {
         $params2 = array();
 
         if (is_string($params)) {
@@ -23,15 +40,15 @@ class Api {
 
         }
 
-        $table = MODULE_DB_COMMENTS;
+        $table = $this->table;
         $params['table'] = $table;
 
         $comments = db_get($params);
 
-        if(is_array($comments)){
+        if (is_array($comments)) {
             $i = 0;
             foreach ($comments as $item) {
-                if( isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')){
+                if (isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')) {
                     $comments[$i]['comment_name'] = user_name($item['created_by']);
                 }
                 $i++;
@@ -39,22 +56,16 @@ class Api {
         }
 
 
-
-
-
-
-
-
         return $comments;
     }
 
 
-
-   static function save($data) {
+    function save($data)
+    {
 
         $adm = is_admin();
 
-        $table = MODULE_DB_COMMENTS;
+        $table = $this->table;
         mw_var('FORCE_SAVE', $table);
 
         if (isset($data['id'])) {
@@ -92,7 +103,7 @@ class Api {
                         break;
                 }
 
-                // d();
+
             }
         } else {
 
@@ -116,7 +127,6 @@ class Api {
                     return array('error' => 'You must load a captcha first!');
                 }
                 if (intval($data['captcha']) != ($cap)) {
-                    //     d($cap);
                     if ($adm == false) {
                         return array('error' => 'Invalid captcha answer!');
                     }
@@ -142,11 +152,8 @@ class Api {
             }
         }
 
-        // d( $require_moderation);
 
         $saved_data = mw()->database_manager->save($table, $data);
-
-
 
 
         if (!isset($data['id']) and isset($data['comment_body'])) {
@@ -172,7 +179,7 @@ class Api {
                 $data3 = array();
                 foreach ($data2 as $key => $value) {
                     $key2 = str_ireplace('comment_', ' ', $key);
-                    if($key2 == 'body'){
+                    if ($key2 == 'body') {
                         $key2 = 'text';
                     }
 
@@ -182,23 +189,30 @@ class Api {
 
                 $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
                 $message .= "IP:" . MW_USER_IP . ' <br /> ';
-                $message .=mw('format')->array_to_ul($data3);
-                \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
+                $message .= mw('format')->array_to_ul($data3);
+                MailSender::send($email_on_new_comment_value, $subject, $message, 1);
             }
 
 
-
         }
-
-
 
 
         return $saved_data;
     }
 
 
+    function mark_comment_as_spam($comment_id)
+    {
 
-    static function mark_as_old($data) {
+        $comment = $this->get_by_id($comment_id);
+
+        d($comment);
+
+    }
+
+
+    function mark_as_old($data)
+    {
 
         only_admin_access();
 

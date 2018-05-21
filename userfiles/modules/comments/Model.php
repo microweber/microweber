@@ -27,7 +27,15 @@ class Model
         'user_ip' => 'text'
     );
 
-    public function __construct($app)
+    function __construct($app = null)
+    {
+        print('This file is deprecated ' . __FILE__);
+        exit;
+
+    }
+
+
+    public function xxx__construct($app)
     {
         if (!is_object($this->app)) {
             if (is_object($app)) {

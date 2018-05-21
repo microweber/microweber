@@ -1,5 +1,9 @@
 <?php
- 
+
+
+return print('This file is deprecated ' . __FILE__);
+
+
  if(is_admin() == false){
 	 mw_error('Must be admin');
  }
@@ -22,6 +26,15 @@
  $comments = get_comments($data);
 
 ?>
+
+<script type="text/javascript">
+
+    mw.require('<?php print $config['url_to_module'] ?>comments_admin.js');
+</script>
+
+
+
+
 <?php if (is_array($comments)): ?>
 <script type="text/javascript">
     mw.require("forms.js",true);

@@ -1,3 +1,10 @@
+<?php
+
+return print('This file is deprecated ' . __FILE__);
+
+
+?>
+
 <?php if(!empty($comments)): ?>
 
 <div class="new-comments">

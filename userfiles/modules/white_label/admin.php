@@ -1,4 +1,21 @@
 <?php only_admin_access(); ?>
+<style>
+
+    .pw-editor-holder.disabled:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width:100%;
+        height: 100%;
+        display: block;
+        background: rgba(255,255,255,.5);
+    }
+    .pw-editor-holder.disabled{
+        position: relative;
+    }
+
+</style>
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
         <img src="<?php print modules_url() ?>white_label/white_label.png" alt="" class="pull-left m-r-10"/>
@@ -80,13 +97,14 @@
     ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#white_label_settings_holder").submit(function () {
+            var form = $("#white_label_settings_holder");
+            form.submit(function () {
                 var url = "<?php print api_url() ?>save_white_label_config"; // the script where you handle the form input.
 
                 $.ajax({
                     type: "POST",
                     url: url,
-                    data: $("#white_label_settings_holder").serialize(), // serializes the form's elements.
+                    data: mw.serializeFields(this), // serializes the form's elements.
                     success: function (data) {
                         mw.notification.success("White label saved");
                     }
@@ -94,6 +112,24 @@
 
                 return false; // avoid to execute the actual submit of the form.
             });
+
+            wlFormTime = null;
+
+
+            form.find('input, textarea').on('input change', function (e) {
+                console.log(this.name )
+                if(this.name=='enable_service_links'){
+                    $("[name='custom_support_url']")[0].disabled = !this.checked
+                }
+                else if(this.name=='disable_powered_by_link'){
+                    $(mwd.querySelector('.pw-editor-holder'))[!this.checked?'addClass':'removeClass']('disabled')
+                }
+
+                clearTimeout(wlFormTime);
+                wlFormTime = setTimeout(function () {
+                    form.submit()
+                }, 300)
+            })
 
             mw.$(".up").each(function () {
                 var span = mwd.createElement('span');
@@ -110,8 +146,12 @@
 
                 $(uploader).bind("FileUploaded", function (obj, data) {
                     uploader.field.value = data.src;
+                    $(uploader.field).trigger('change')
                 });
             });
+
+
+
         });
     </script>
     <div class="module-live-edit-settings">
@@ -143,31 +183,29 @@
                                         <small data-help="" class="mw-help-tip">?</small>
 
                                         <div class="mw-switch pull-right inline-switch m-t-0 m-b-10" style="margin-right:10%;">
-                                            <input type="checkbox" name="enable_taxes" class="mw_option_field" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" checked=""><span class="mw-switch-off">OFF</span>
+                                            <input type="checkbox"
+                                                   name="enable_service_links"
+                                                   class="mw_option_field"
+
+                                                   data-value-checked="1"
+                                                   data-value-unchecked="0"
+                                                <?php if ($enable_service_links): ?> checked="" <?php endif; ?>>
+                                            <span class="mw-switch-off">OFF</span>
                                             <span class="mw-switch-on">ON</span>
                                             <span class="mw-switcher"></span>
                                         </div>
                                     </label>
-                                    <input name="custom_support_url" option-group="whitelabel" placeholder="<?php _e('Enter url of your contact page'); ?>" class="mw-ui-field w100" type="text" value="<?php print  $custom_support_url; ?>"/>
+                                    <input
+                                            name="custom_support_url"
+                                            option-group="whitelabel"
+                                            placeholder="<?php _e('Enter url of your contact page'); ?>"
+                                            class="mw-ui-field w100"
+                                            type="text"
+                                        <?php if (!$enable_service_links): ?> disabled <?php endif; ?>
+                                            value="<?php print  $custom_support_url; ?>"/>
                                 </div>
 
-                                <div class="mw-ui-field-holder">
-                                    <ul class="mw-ui-inline-list">
-                                        <li><span class="bold">Enable support links <small data-help="such as 'suggest a feature' and 'support'" class="mw-help-tip">?</small> </span></li>
-                                        <li>
-                                            <label class="mw-ui-check">
-                                                <input type="radio" <?php if ($enable_service_links): ?> checked="" <?php endif; ?> name="enable_service_links" value="1">
-                                                <span></span><span><?php _e('Yes'); ?></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label class="mw-ui-check">
-                                                <input type="radio" <?php if (!$enable_service_links): ?> checked="" <?php endif; ?> name="enable_service_links" value="0">
-                                                <span></span><span><?php _e('No'); ?></span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
+
                             </div>
                         </div>
                         <div class="mw-ui-col mw-fields  mw-fields-upload-buttons" style="width: 50%">
@@ -187,19 +225,23 @@
                             </div>
 
                             <div class="mw-ui-field-holder">
-                                ТУК ОСТАВАТ РАДИО БУТОНИ - ЗА САШО
+
                                 <ul class="mw-ui-inline-list">
                                     <li><span class="bold">Microweber Marketplace</span></li>
                                     <li>
-                                        <label class="mw-ui-check">
-                                            <input type="radio" <?php if (!$disable_marketplace): ?> checked="" <?php endif; ?> name="disable_marketplace" value="0">
-                                            <span></span><span><?php _e('Enabled'); ?></span> </label>
+
+                                        <label class="mw-switch">
+                                            <input type="checkbox"
+                                                   data-value-checked="1" data-value-unchecked="0"
+                                                   name="disable_marketplace"
+                                                   <?php if (!$disable_marketplace): ?> checked <?php endif; ?>>
+                                            <span class="mw-switch-off">Disabled</span>
+                                            <span class="mw-switch-on">Enabled</span>
+                                            <span class="mw-switcher"></span>
+                                        </label>
+
                                     </li>
-                                    <li>
-                                        <label class="mw-ui-check">
-                                            <input type="radio" <?php if ($disable_marketplace): ?> checked="" <?php endif; ?> name="disable_marketplace" value="1">
-                                            <span></span><span><?php _e('Disabled'); ?></span> </label>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -213,52 +255,40 @@
                                         mw.editor({
                                             element: '#powered_by_link_text',
                                             height: 'auto',
-                                            hideControls: ['fontfamily', 'fontsize', 'image', 'format', 'alignment', 'ol', 'ul']
+                                            hideControls: ['fontfamily', 'fontsize', 'image', 'format', 'alignment', 'ol', 'ul'],
+                                            ready:function () {
+                                                <?php if ($disable_powered_by_link): ?>
+                                                    $(mwd.querySelector('.pw-editor-holder')).addClass('disabled')
+                                                <?php endif; ?>
+                                            }
                                         });
+
                                     });
                                 </script>
-                                <label class="mw-ui-label bold">Enable "<?php _e('Powered By'); ?>"
+                                <label class="mw-ui-label bold"><?php _e('Enable'); ?> "<?php _e('Powered By'); ?>"
 
                                     <div class="mw-switch pull-right inline-switch m-t-0 m-b-10" style="margin-right:10%;">
-                                        <input type="checkbox" name="enable_taxes" class="mw_option_field" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" checked=""><span class="mw-switch-off">OFF</span>
+                                        <input
+                                                type="checkbox"
+                                                name="disable_powered_by_link"
+                                                data-value-checked="0"
+                                                data-value-unchecked="1"
+                                            <?php if (!$disable_powered_by_link): ?> checked="" <?php endif; ?>>
+                                        <span class="mw-switch-off">OFF</span>
                                         <span class="mw-switch-on">ON</span>
                                         <span class="mw-switcher"></span>
                                     </div>
                                 </label>
-                                <textarea name="powered_by_link" id="powered_by_link_text" option-group="whitelabel" placeholder="<?php _e('HTML code for template footer link'); ?>" class="mw-ui-field" type="text"><?php print $powered_by_link; ?></textarea>
+                                <div class="pw-editor-holder">
+                                    <textarea name="powered_by_link" id="powered_by_link_text" option-group="whitelabel" placeholder="<?php _e('HTML code for template footer link'); ?>" class="mw-ui-field" type="text"><?php print $powered_by_link; ?></textarea>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mw-ui-col mw-fields  mw-fields-upload-buttons" style="width: 50%"></div>
                     </div>
 
-                    <div class="mw-ui-row">
-                        <div class="mw-ui-col mw-fields  mw-fields-upload-buttons" style="width: 50%">
-                            <div class="mw-ui-field-holder">
-                                <ul class="mw-ui-inline-list">
-                                    <li><span class="bold">Enable "<?php _e('Powered By'); ?>"</span></li>
-                                    <li>
-                                        <label class="mw-ui-check">
-                                            <input type="radio" <?php if (!$disable_powered_by_link): ?> checked="" <?php endif; ?> name="disable_powered_by_link" value="0">
-                                            <span></span><span><?php _e('Enabled'); ?></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="mw-ui-check">
-                                            <input type="radio" <?php if ($disable_powered_by_link): ?> checked="" <?php endif; ?> name="disable_powered_by_link" value="1">
-                                            <span></span><span><?php _e('Disabled'); ?></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
-                        <div class="mw-ui-col mw-fields" style="width: 50%">
-                            <div class="mw-ui-field-holder">
-                                <input type="submit" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification" value="<?php _e('Save settings'); ?>"/>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>

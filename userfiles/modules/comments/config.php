@@ -10,7 +10,7 @@ $config['ui'] = true;
 
 $config['categories'] = "content";
 $config['position'] = 10;
-$config['version'] = 0.33;
+$config['version'] = 0.40;
 
 
 $config['tables'] = array();
@@ -26,13 +26,16 @@ $config['tables']['comments'] = array(
     'from_url' => 'text',
     'comment_subject' => 'text',
     'is_moderated' => "integer",
+    'is_spam' => "integer",
     'for_newsletter' => "integer",
     'is_new' => "integer",
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'created_by' => 'integer',
     'edited_by' => 'integer',
-    'user_ip' => 'text'
+    'user_ip' => 'text',
+    'reply_to_comment_id' => "integer"
+
 );
 
 

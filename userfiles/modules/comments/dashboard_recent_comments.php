@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+
 
 
 
@@ -8,7 +8,7 @@ only_admin_access();
 
 <?php
 
-$limit = 1000;
+$limit = 10;
 
 if(isset($params['limit'])){
     $limit = intval($params['limit']);
