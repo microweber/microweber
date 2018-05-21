@@ -77,34 +77,53 @@ if (!isset($tn[1])) {
                                 </span>
                             </div>
                         <?php endif; ?>
-                        <?php if (is_array($item['prices'])): ?>
-                        <?php foreach ($item['prices'] as $k => $v): ?>
-                        <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
-                            <?php
 
-                            $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
-                            if ($add_cart_text == false) {
-                                $add_cart_text = _e("Add to cart", true);
-                            }
+                        <div class="mw-ui-row">
+                            <div class="mw-ui-col">
+                                <?php if(isset($show_fields) and $show_fields != false and in_array('read_more', $show_fields)): ?>
+                                    <a href="<?php print $item['link'] ?>" class="read-more">
+                                        <u><?php $read_more_text ? print $read_more_text : print _e('Read more', true); ?></u>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="mw-ui-col">
+                                <?php if (is_array($item['prices'])): ?>
+                                <?php foreach ($item['prices'] as $k => $v): ?>
+                                <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
+                                    <?php
 
-                            ?>
-                            <?php if (is_array($item['prices'])): ?>
-                                <hr>
-                                <button
-                                        class="btn btn-default pull-right"
-                                        type="button"
-                                        onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'] . $i ?>');">
-                                    <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;
-                                    <?php print $add_cart_text ?>
-                                </button>
+                                    $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
+                                    if ($add_cart_text == false) {
+                                        $add_cart_text = _e("Add to cart", true);
+                                    }
+
+                                    ?>
+                                    <?php if (is_array($item['prices'])): ?>
+
+                                        <button
+                                                class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium pull-right"
+                                                type="button"
+                                                onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'] . $i ?>');">
+                                            <i class="mw-icon-cart"></i>&nbsp;
+                                            <?php print $add_cart_text ?>
+                                        </button>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <div class="mw-add-to-cart-<?php print $item['id'] . $i ?>"
+                                <input type="hidden" name="price" value="<?php print $v ?>"/>
+                                <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
+                            </div>
+                            <?php $i++; break; endforeach; ?>
                             <?php endif; ?>
-                        <?php endif; ?>
-                        <div class="mw-add-to-cart-<?php print $item['id'] . $i ?>"
-                        <input type="hidden" name="price" value="<?php print $v ?>"/>
-                        <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
-                    </div>
-                    <?php $i++; break; endforeach; ?>
-                    <?php endif; ?>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
                     </div>
 
                 </div>
