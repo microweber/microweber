@@ -15,16 +15,51 @@
             <?php endif; ?>
         </div>
 
+        <?php
+
+        ?>
+
         <div class="actions-holder">
             <div class="mw-dropdown mw-dropdown-default">
-                                                        <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val mw-ui-btn-info view-order-button">
-                                                            <i class="mai-idea"></i> <?php _e("Approved"); ?>
+
+
+
+                <?php
+
+                $status = 'Published';
+                $class = 'mw-ui-btn-info';
+
+
+                if(isset($comment['is_moderated'])){
+                    if(intval($comment['is_moderated']) == 1){
+                        $status = 'Published';
+                    } else {
+                        $status = 'Unpublished';
+                        $class = 'mw-ui-btn-warn';
+                    }
+                }
+                if(isset($comment['is_spam']) and intval($comment['is_spam']) == 1){
+                    $status = 'Marked as spam';
+                    $class = 'mw-ui-btn-warn';
+                }
+
+                ?>
+
+
+                                                        <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val <?php print($class); ?>  view-order-button">
+                                                            <i class="mai-idea"></i> <?php _e($status); ?>
                                                         </span>
+
+
+
+
                 <div class="mw-dropdown-content" style="display: none;">
                     <ul>
-                        <li value="1">Option 1</li>
-                        <li value="2">Option 2 !!!</li>
-                        <li value="3">Option 3</li>
+                        <li class="js-comment-approved-btn"  data-id="<?php print $comment['id'] ?>"><?php print _e('Published'); ?></li>
+                        <li class="js-comment-unpublished-btn"  data-id="<?php print $comment['id'] ?>"><?php print _e('Unpublish'); ?></li>
+                        <li class="js-mark-spam-comment-btn"  data-id="<?php print $comment['id'] ?>"><?php print _e('Spam'); ?></li>
+                        <li class="js-delete-comment-btn"  data-id="<?php print $comment['id'] ?>"><?php print _e('Delete'); ?></li>
+
                     </ul>
                 </div>
             </div>
@@ -50,10 +85,6 @@
 
     <div class="author-name">
 
-<?php
-
-d($comment);
-?>
 
 
         <span><?php print $comment['comment_website']; ?></span>
@@ -83,16 +114,16 @@ d($comment);
 
 
         <div class="js-comment-edit-details-toggle" style="display: none;">
-        comment_name:
-        <input type="text" name="comment_name" value="<?php print $comment['comment_name']; ?>" />
+        comment name:
+        <input type="text" name="comment_name" class="mw-ui-field" value="<?php print $comment['comment_name']; ?>" />
             <br>
 
-        comment_email:
-        <input type="text" name="comment_email" value="<?php print $comment['comment_email']; ?>" />
+        comment email:
+        <input type="text" name="comment_email" class="mw-ui-field"  value="<?php print $comment['comment_email']; ?>" />
             <br>
 
-            comment_website:
-        <input type="text" name="comment_website" value="<?php print $comment['comment_website']; ?>" />
+            comment website:
+        <input type="text" name="comment_website" class="mw-ui-field"  value="<?php print $comment['comment_website']; ?>" />
 
             <br>
 
