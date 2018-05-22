@@ -1,17 +1,18 @@
 <?php only_admin_access(); ?>
 <style>
 
-    .pw-editor-holder.disabled:after{
+    .pw-editor-holder.disabled:after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
-        width:100%;
+        width: 100%;
         height: 100%;
         display: block;
-        background: rgba(255,255,255,.5);
+        background: rgba(255, 255, 255, .5);
     }
-    .pw-editor-holder.disabled{
+
+    .pw-editor-holder.disabled {
         position: relative;
     }
 
@@ -117,17 +118,17 @@
 
 
             form.find('input, textarea').on('input change', function (e) {
-                console.log(this.name )
-                if(this.name=='enable_service_links'){
+                console.log(this.name)
+                if (this.name == 'enable_service_links') {
                     $("[name='custom_support_url']")[0].disabled = !this.checked
                 }
-                else if(this.name=='disable_powered_by_link'){
-                    $(mwd.querySelector('.pw-editor-holder'))[!this.checked?'addClass':'removeClass']('disabled')
+                else if (this.name == 'disable_powered_by_link') {
+                    $(mwd.querySelector('.pw-editor-holder'))[!this.checked ? 'addClass' : 'removeClass']('disabled')
                 }
 
                 clearTimeout(wlFormTime);
                 var time = 800;
-                if(this.type == 'checkbox'){
+                if (this.type == 'checkbox') {
                     time = 10;
                 }
                 wlFormTime = setTimeout(function () {
@@ -155,13 +156,12 @@
             });
 
 
-
         });
     </script>
     <div class="module-live-edit-settings">
         <form id="white_label_settings_holder">
             <h6 class="m-b-20 m-t-0">Please fill in the form below to take full advantage of your White Label.<br/>
-                For instructions use this short guide -> White Label Userguide</h6>
+                For instructions use this short guide <a href="https://microweber.com/how-to-activate-your-white-label-license-key" class="mw-ui-link mw-blue" target="_blank">White label user guide</a>.</h6>
             <div class="mw-ui-box">
                 <div class="mw-ui-box-content">
                     <div class="mw-ui-row">
@@ -169,14 +169,14 @@
                             <div class="mw-ui-col-container mw-fields">
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label"><?php _e('Brand Name'); ?>
-                                        <small data-help="" class="mw-help-tip">?</small>
+                                        <small data-help="Fill in your company or brand name." class="mw-help-tip">?</small>
                                     </label>
                                     <input name="brand_name" option-group="whitelabel" placeholder="<?php _e('Enter the name of your company'); ?>" class="mw-ui-field w100" type="text" value="<?php print  $brand_name; ?>"/>
                                 </div>
 
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label"><?php _e('Admin login - White Label URL'); ?>
-                                        <small data-help="" class="mw-help-tip">?</small>
+                                        <small data-help="Fill in company or brand website URL." class="mw-help-tip">?</small>
                                     </label>
                                     <input name="admin_logo_login_link" option-group="whitelabel" placeholder="<?php _e('Enter website url of your company'); ?>" class="mw-ui-field w100" type="text" value="<?php print  $admin_logo_login_link; ?>"/>
                                 </div>
@@ -184,34 +184,56 @@
 
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label"><?php _e('Enable support links'); ?>
-                                        <small data-help="" class="mw-help-tip">?</small>
-
+                                        <small data-help="Fill in your contact page URL." class="mw-help-tip">?</small>
                                         <div class="mw-switch pull-right inline-switch m-t-0 m-b-10" style="margin-right:10%;">
-                                            <input type="checkbox"
-                                                   name="enable_service_links"
-                                                   class="mw_option_field"
-
-                                                   data-value-checked="1"
-                                                   data-value-unchecked="0"
-                                                <?php if ($enable_service_links): ?> checked="" <?php endif; ?>>
+                                            <input type="checkbox" name="enable_service_links" class="mw_option_field" data-value-checked="1" data-value-unchecked="0" <?php if ($enable_service_links): ?> checked="" <?php endif; ?>>
                                             <span class="mw-switch-off">OFF</span>
                                             <span class="mw-switch-on">ON</span>
                                             <span class="mw-switcher"></span>
                                         </div>
                                     </label>
-                                    <input
-                                            name="custom_support_url"
-                                            option-group="whitelabel"
-                                            placeholder="<?php _e('Enter url of your contact page'); ?>"
-                                            class="mw-ui-field w100"
-                                            type="text"
-                                        <?php if (!$enable_service_links): ?> disabled <?php endif; ?>
-                                            value="<?php print  $custom_support_url; ?>"/>
+                                    <input name="custom_support_url" option-group="whitelabel" placeholder="<?php _e('Enter url of your contact page'); ?>" class="mw-ui-field w100" type="text" <?php if (!$enable_service_links): ?> disabled <?php endif; ?> value="<?php print$custom_support_url; ?>"/>
                                 </div>
 
+                                <div class="mw-ui-field-holder">
+                                    <script>
+                                        $(document).ready(function () {
+                                            mw.editor({
+                                                element: '#powered_by_link_text',
+                                                height: 'auto',
+                                                hideControls: ['fontfamily', 'fontsize', 'image', 'format', 'alignment', 'ol', 'ul'],
+                                                ready: function () {
+                                                    <?php if ($disable_powered_by_link): ?>
+                                                    $(mwd.querySelector('.pw-editor-holder')).addClass('disabled')
+                                                    <?php endif; ?>
+                                                }
+                                            });
 
+                                        });
+                                    </script>
+                                    <label class="mw-ui-label bold">
+                                        <?php _e('Enable'); ?> "<?php _e('Powered By'); ?>"
+                                        <small data-help='Enter the text you would like to see displayed in the footer of your website. Usually the text is "Powered by" followed by your company or brand name.' class="mw-help-tip">?</small>
+
+                                        <div class="mw-switch pull-right inline-switch m-t-0 m-b-10" style="margin-right:10%;">
+                                            <input
+                                                    type="checkbox"
+                                                    name="disable_powered_by_link"
+                                                    data-value-checked="0"
+                                                    data-value-unchecked="1"
+                                                <?php if (!$disable_powered_by_link): ?> checked="" <?php endif; ?>>
+                                            <span class="mw-switch-off">OFF</span>
+                                            <span class="mw-switch-on">ON</span>
+                                            <span class="mw-switcher"></span>
+                                        </div>
+                                    </label>
+                                    <div class="pw-editor-holder">
+                                        <textarea name="powered_by_link" id="powered_by_link_text" option-group="whitelabel" placeholder="<?php _e('HTML code for template footer link'); ?>" class="mw-ui-field" type="text"><?php print $powered_by_link; ?></textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="mw-ui-col mw-fields  mw-fields-upload-buttons" style="width: 50%">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e('Logo for Admin panel (recommended size: 180x35 px)'); ?></label>
@@ -229,71 +251,21 @@
                             </div>
 
                             <div class="mw-ui-field-holder">
-
                                 <ul class="mw-ui-inline-list">
                                     <li><span class="bold">Microweber Marketplace</span></li>
                                     <li>
-
                                         <label class="mw-switch">
-                                            <input type="checkbox"
-                                                   data-value-checked="1" data-value-unchecked="0"
-                                                   name="disable_marketplace"
-                                                   <?php if (!$disable_marketplace): ?> checked <?php endif; ?>>
+                                            <input type="checkbox" data-value-checked="1" data-value-unchecked="0" name="disable_marketplace" <?php if (!$disable_marketplace): ?> checked <?php endif; ?>>
                                             <span class="mw-switch-off">Disabled</span>
                                             <span class="mw-switch-on">Enabled</span>
                                             <span class="mw-switcher"></span>
                                         </label>
-
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
+
                     </div>
-
-                    <div class="mw-ui-row">
-                        <div class="mw-ui-col mw-fields  mw-fields-upload-buttons" style="width: 50%">
-                            <div class="mw-ui-field-holder">
-                                <script>
-                                    $(document).ready(function () {
-                                        mw.editor({
-                                            element: '#powered_by_link_text',
-                                            height: 'auto',
-                                            hideControls: ['fontfamily', 'fontsize', 'image', 'format', 'alignment', 'ol', 'ul'],
-                                            ready:function () {
-                                                <?php if ($disable_powered_by_link): ?>
-                                                    $(mwd.querySelector('.pw-editor-holder')).addClass('disabled')
-                                                <?php endif; ?>
-                                            }
-                                        });
-
-                                    });
-                                </script>
-                                <label class="mw-ui-label bold"><?php _e('Enable'); ?> "<?php _e('Powered By'); ?>"
-
-                                    <div class="mw-switch pull-right inline-switch m-t-0 m-b-10" style="margin-right:10%;">
-                                        <input
-                                                type="checkbox"
-                                                name="disable_powered_by_link"
-                                                data-value-checked="0"
-                                                data-value-unchecked="1"
-                                            <?php if (!$disable_powered_by_link): ?> checked="" <?php endif; ?>>
-                                        <span class="mw-switch-off">OFF</span>
-                                        <span class="mw-switch-on">ON</span>
-                                        <span class="mw-switcher"></span>
-                                    </div>
-                                </label>
-                                <div class="pw-editor-holder">
-                                    <textarea name="powered_by_link" id="powered_by_link_text" option-group="whitelabel" placeholder="<?php _e('HTML code for template footer link'); ?>" class="mw-ui-field" type="text"><?php print $powered_by_link; ?></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mw-ui-col mw-fields  mw-fields-upload-buttons" style="width: 50%"></div>
-                    </div>
-
-
-
                 </div>
             </div>
         </form>

@@ -97,9 +97,7 @@
                     <module type="contact_form/manager/list_toolbar" load_list="<?php print $load_list ?>"/>
                     <module type="contact_form/manager/list" load_list="<?php print $load_list ?>" for_module="<?php print $config["the_module"] ?>" id="forms_data_module"/>
                 <?php if (strtolower(trim($load_list)) != 'default'): ?>
-                    <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
-        <?php _e("Delete list"); ?>
-        </span>
+                    <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php if ($load_templates == true): ?>
