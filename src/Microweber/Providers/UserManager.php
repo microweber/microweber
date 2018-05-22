@@ -576,6 +576,8 @@ class UserManager
         }
 
 
+        $terms_accepted = false;
+        $terms_and_conditions_name = 'terms_user';
         $user_require_terms = $this->app->option_manager->get('require_terms', 'users');
         if ($user_require_terms) {
             $user_id_or_email = $email;
@@ -586,12 +588,11 @@ class UserManager
                 );
 
             } else {
-                $terms_and_conditions_name = 'terms_user';
- ;
+
                 $check_term = $this->terms_check($terms_and_conditions_name, $user_id_or_email);
                 if (!$check_term) {
                     if (isset($params['terms']) and $params['terms']) {
-                        $this->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                        $terms_accepted = true;
                     } else {
                         return array(
                             'error' => _e('You must agree to terms and conditions', true),
@@ -716,9 +717,20 @@ class UserManager
                     }
 
                     $next = $this->save($reg);
+
+
+                    if ($terms_accepted) {
+                        $this->terms_accept($terms_and_conditions_name, $next);
+                    }
+
+
                     $this->force_save = false;
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
+
+
+
+
 
                     $this->after_register($next);
 
@@ -1591,8 +1603,8 @@ class UserManager
         $logout_url_settings = $this->app->option_manager->get('logout_url', 'users');
         $logout_url_sess = $this->session_get('logout_url');
 
-        if($logout_url_sess){
-            return  $logout_url_sess;
+        if ($logout_url_sess) {
+            return $logout_url_sess;
         } else if ($logout_url_settings) {
             return $logout_url_settings;
         } else if (is_file($file)) {

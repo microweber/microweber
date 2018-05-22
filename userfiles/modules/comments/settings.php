@@ -182,7 +182,29 @@
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
                     <div class="comments-main-settings">
-                <div class="mw-ui-field-holder">
+
+
+
+
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-check">
+                                <input
+                                        type="checkbox"
+                                        parent-reload="true"
+                                        name="require_terms"
+
+                                        value="y"
+                                        class="mw_option_field"
+                                        option-group="comments"
+                                    <?php if(get_option('require_terms', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
+                                />
+                                <span></span><span><?php _e("Users must agree to Terms and Conditions"); ?></span> </label>
+                        </div>
+
+
+
+
+                        <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
                     <input
                           type="checkbox"

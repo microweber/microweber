@@ -162,9 +162,10 @@ class CheckoutManager
                             if (isset($data['terms']) and $data['terms']) {
                                 $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
                             } else {
-                                 return array(
-                                    'error' =>_e('You must agree to terms and conditions', true),
-                                    'form_data_required'=>'terms'
+                                return array(
+                                    'error' => _e('You must agree to terms and conditions', true),
+                                    'form_data_required' => 'terms',
+                                    'form_data_module' => 'users/terms'
                                 );
 
                             }

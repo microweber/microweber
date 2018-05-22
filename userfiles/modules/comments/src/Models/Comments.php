@@ -88,6 +88,9 @@ class Comments extends Crud
                 mw_error('Error: Only admin can edit comments!');
             }
         }
+        if (!isset($data['rel_type']) and isset($data['rel'])) {
+            $data['rel_type'] = $data['rel'];
+        }
 
         if (isset($data['reply_to_comment_id'])) {
             $old_comment = $this->get_by_id($data['reply_to_comment_id']);
@@ -139,28 +142,58 @@ class Comments extends Crud
         } else {
 
             if (!isset($data['rel_type'])) {
-                return array('error' => 'Error: invalid data');
+                return array('error' => 'Error: invalid data rel_type');
             }
             if (!isset($data['rel_id'])) {
-                return array('error' => 'Error: invalid data');
+                return array('error' => 'Error: invalid data rel_id');
             } else {
                 if (trim($data['rel_id']) == '') {
-                    return array('error' => 'Error: invalid data');
+                    return array('error' => 'Error: invalid data rel_id');
                 }
             }
 
-            if (!isset($data['captcha'])) {
-                return array(
-                    'error' => _e('Invalid captcha answer!', true),
-                    'captcha_error' => true,
-                    'form_data_required' => 'captcha',
-                    'form_data_module' => 'captcha'
-                );
+            if (!is_admin()) {
 
-             } else {
-                $validate_captcha = $this->app->captcha->validate($data['captcha']);
-                if (!$validate_captcha) {
 
+                $needs_terms = get_option('require_terms', 'comments')=='y';
+
+
+                 if ($needs_terms) {
+                    $user_id_or_email = $this->app->user_manager->id();
+                    if (!$user_id_or_email) {
+                        if (isset($data['comment_email'])) {
+                            $user_id_or_email = $data['comment_email'];
+                        }
+                    }
+
+                    if (!$user_id_or_email) {
+                        $checkout_errors['comments_needs_email'] = _e('You must provide email address', true);
+                    } else {
+                        $terms_and_conditions_name = 'terms_comments';
+
+                        $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+                        if (!$check_term) {
+                            if (isset($data['terms']) and $data['terms']) {
+                                $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                            } else {
+                                return array(
+                                    'error' => _e('You must agree to terms and conditions', true),
+                                    'form_data_required' => 'terms',
+                                    'form_data_module' => 'users/terms'
+                                );
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+
+                if (!isset($data['captcha'])) {
                     return array(
                         'error' => _e('Invalid captcha answer!', true),
                         'captcha_error' => true,
@@ -168,9 +201,24 @@ class Comments extends Crud
                         'form_data_module' => 'captcha'
                     );
 
+                } else {
+                    $validate_captcha = $this->app->captcha->validate($data['captcha']);
+                    if (!$validate_captcha) {
 
+                        return array(
+                            'error' => _e('Invalid captcha answer!', true),
+                            'captcha_error' => true,
+                            'form_data_required' => 'captcha',
+                            'form_data_module' => 'captcha'
+                        );
+
+
+                    }
                 }
+
             }
+
+
         }
         if (!isset($data['id']) and isset($data['comment_body'])) {
 
