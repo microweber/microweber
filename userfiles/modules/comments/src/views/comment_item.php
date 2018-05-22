@@ -35,11 +35,10 @@
             <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-edit-comment-btn"
                data-id="<?php print $comment['id'] ?>"><?php print _e('Edit'); ?></a>
             <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-save-comment-btn"
-               data-id="<?php print $comment['id'] ?>" style="display: none;"
-               onclick="mw.edit_comments.save_form('#comment-form-<?php print $comment['id'] ?>');return false;"><?php print _e('Save'); ?></a>
-            <a href="javascript:mw.edit_comments.mark_as_spam('<?php print $comment['id'] ?>')" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i
+               data-id="<?php print $comment['id'] ?>" style="display: none;"><?php print _e('Save'); ?></a>
+            <a  href="#" data-id="<?php print $comment['id'] ?>"  class="js-mark-spam-comment-btn  mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i
                         class="mai-warn"></i> <?php print _e('Spam'); ?></a>
-            <a href="javascript:mw.edit_comments.delete('<?php print $comment['id'] ?>')" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i
+            <a href="#" data-id="<?php print $comment['id'] ?>"  class="js-delete-comment-btn    mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i
                         class="mai-bin"></i> <?php print _e('Delete'); ?></a>
 
             <span class="date"><?php print mw()->format->ago($comment['created_at']); ?></span>
@@ -51,7 +50,10 @@
 
     <div class="author-name">
 
+<?php
 
+d($comment);
+?>
 
 
         <span><?php print $comment['comment_website']; ?></span>
@@ -89,7 +91,7 @@
         <input type="text" name="comment_email" value="<?php print $comment['comment_email']; ?>" />
             <br>
 
-        comment_email:
+            comment_website:
         <input type="text" name="comment_website" value="<?php print $comment['comment_website']; ?>" />
 
             <br>
@@ -101,22 +103,44 @@
 
         <div class="comment_body">
             <p class=" js-comment-edit-details-toggle"><?php print $comment['comment_body']; ?></p>
-            <textarea name="comment_body js-comment-edit-details-toggle" style="display: none;"><?php print $comment['comment_body']; ?></textarea>
+            <textarea   name="comment_body" style="display: none;"><?php print $comment['comment_body']; ?></textarea>
+
+
+
+            <a href="#" class="js-save-comment-btn mw-ui-btn"
+               data-id="<?php print $comment['id'] ?>"  style="display: none;"><?php print _e('Save'); ?></a>
+
+
         </div>
+
+
+
+
+
+
+
     </form>
 
+
+
+<?php if(isset($params['show-reply-form'])){ ?>
+
     <div class="reply-holder" >
-        <?php
-        $image = get_user_by_id($comment['created_by']);
-        if (!isset($image['thumbnail'])) {
-            $image = '';
 
-        } else {
-            $image = $image['thumbnail'];
-
-        }
-        ?>
         <div class="reply-form" >
+
+
+
+            <?php
+            $image = get_user_by_id($comment['created_by']);
+            if (!isset($image['thumbnail'])) {
+                $image = '';
+
+            } else {
+                $image = $image['thumbnail'];
+
+            }
+            ?>
             <div class="comment-image">
                 <?php if (isset($image) and $image != ''): ?>
                     <span class="comment-thumbnail-tooltip"
@@ -125,18 +149,22 @@
                     <span class="comment-thumbnail-tooltip mw-user-thumb mw-user-thumb-small mai-user3"></span>
                 <?php endif; ?>
             </div>
-            <form  id="comment-form-reply-<?php print $comment['id'] ?>" class="js-reply-comment">
+            <form  id="comment-form-reply-<?php print $comment['id'] ?>" class="js-reply-comment-form">
                 <input type="hidden" name="reply_to_comment_id" value="<?php print $comment['id'] ?>">
 
                 <textarea
                         placeholder="<?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right js-reply-comment-btn"
+                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right"
                         style="margin-top:6px;"><?php print _e('Send'); ?></button>
             </form>
         </div>
 
         <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small mw-reply-btn"><i
-                    class="mw-icon-reply"></i> <?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>
+                    class="mw-icon-reply"></i> <?php print _e('Reply'); ?>
         </button>
     </div>
+<?php } else { ?>
+
+
+    <?php } ?>
 </div>

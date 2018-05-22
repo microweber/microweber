@@ -1,6 +1,7 @@
 <?php only_admin_access() ;
  $data = array(
-        'content_id' => $params['content_id']
+        'content_id' => $params['content_id'],
+        'nolimit' => true,
     );
 
 if (isset($params['search-keyword']) and $params['search-keyword']) {
@@ -22,7 +23,96 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
 ?>
 
 
-<div class="comment-holder" id="comment-n-<?php print $content['id'] ?>" onclick="commentToggle(event);">
+
+<script type="text/javascript">
+
+
+
+
+    $(document).ready(function () {
+        $('.new-close', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+            $(item).removeClass('active')
+            $('.mw-accordion-content', item).stop().slideUp(function () {
+
+            });
+        });
+
+
+        $('.mw-reply-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            $(this).prev().show();
+            $(this).hide();
+        });
+
+        $('.js-edit-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var commentID = $(this).data('id');
+            $(this).hide();
+            $('#comment-' + commentID + ' .js-save-comment-btn').show();
+            //  $('#comment-' + commentID + ' .comment_body .js-comment').hide();
+            $('#comment-' + commentID + ' .comment_body textarea').show();
+            $('#comment-' + commentID + ' .js-comment-edit-details-toggle').toggle();
+        });
+
+        $('.js-save-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var commentID = $(this).data('id');
+            mw.edit_comments.save_form('#comment-form-'+commentID)
+            mw.reload_module('#<?php print $params['id'] ?>');
+        });
+
+
+
+        $('.js-mark-spam-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var commentID = $(this).data('id');
+            mw.edit_comments.mark_as_spam(commentID);
+            mw.reload_module('#<?php print $params['id'] ?>');
+        });
+
+
+        $('.js-delete-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var commentID = $(this).data('id');
+            mw.edit_comments.delete(commentID);
+            mw.reload_module('#<?php print $params['id'] ?>');
+        });
+
+
+
+
+
+
+        $('.js-reply-comment-form', '#<?php print $params['id'] ?>').on('submit', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var form = $(this);
+            if (form) {
+                mw.edit_comments.save_form(form);
+                mw.reload_module('#<?php print $params['id'] ?>');
+            }
+        });
+
+
+
+        $('.js-reply-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+        });
+    });
+
+</script>
+
+'#<?php print $params['id'] ?>'
+
+<div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>"  >
     <?php if (!isset($params['no_post_head'])): ?>
 
 
@@ -53,9 +143,16 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
             <hr/>
             <?php
             if (is_array($postComments)) {
-                foreach ($postComments as $comment) { ?>
+                foreach ($postComments as $i=>$comment) { ?>
 
-            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" >
+            <?php
+            $last_item_param = '';
+            if(!isset($postComments[$i+1])){
+                $last_item_param = ' show-reply-form=true ';
+
+            } ?>
+
+            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> >
 
 
                 <?php } ?>

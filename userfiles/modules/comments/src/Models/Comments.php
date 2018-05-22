@@ -102,7 +102,7 @@ class Comments extends Crud
                 $data['rel_type'] = $old_comment['rel_type'];
             }
             if (isset($old_comment['rel_id'])) {
-                $data['rel_id'] = $old_comment['rel_type'];
+                $data['rel_id'] = $old_comment['rel_id'];
             }
 
 
@@ -155,10 +155,10 @@ class Comments extends Crud
             if (!is_admin()) {
 
 
-                $needs_terms = get_option('require_terms', 'comments')=='y';
+                $needs_terms = get_option('require_terms', 'comments') == 'y';
 
 
-                 if ($needs_terms) {
+                if ($needs_terms) {
                     $user_id_or_email = $this->app->user_manager->id();
                     if (!$user_id_or_email) {
                         if (isset($data['comment_email'])) {
@@ -185,12 +185,6 @@ class Comments extends Crud
                         }
                     }
                 }
-
-
-
-
-
-
 
 
                 if (!isset($data['captcha'])) {
@@ -278,8 +272,8 @@ class Comments extends Crud
                 $message .= "IP:" . MW_USER_IP . ' <br /> ';
                 $message .= mw('format')->array_to_ul($data3);
 
-
-                MailSender::send($email_on_new_comment_value, $subject, $message, 1);
+                $sender = new MailSender();
+                $sender->send($email_on_new_comment_value, $subject, $message, 1);
             }
 
 

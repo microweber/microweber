@@ -1732,13 +1732,11 @@ class Parser
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
 
-        //$module_namei = str_ireplace($search, $replace, $subject)e
+        //$module_namei = str_ireplace($search, $replace, $subject)
 
-        $uninstall_lock = $this->app->modules->get('one=1&ui=any&module=' . $module_namei);
 
-        if (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1) {
-            return '';
-        }
+
+
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             $this->app->content_manager->define_constants();
@@ -1860,6 +1858,15 @@ class Parser
 
                 $template = false;
             }
+
+            $uninstall_lock = $this->app->modules->get('single=1&ui=any&module=' . $module_name_dir);
+
+            if (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1  ) {
+                return '';
+            }
+
+
+
 
             //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
             $lic = $this->app->modules->license($module_name);
