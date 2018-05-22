@@ -272,7 +272,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn mw-ui-btn-default notif-btn">
                             <span class="mai-shop"></span> &nbsp; <?php print $order_notif_html; ?>
                             <span class="notif-label">
-                                <?php if ($order_notif_html == 1): ?>
+                                <?php if ($new_orders_count == 1): ?>
                                     <?php _e("New order"); ?>
                                 <?php elseif ($new_orders_count > 1): ?>
                                     <?php _e("New orders"); ?>
@@ -366,7 +366,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <strong><?php _e("Posts"); ?></strong>
                                     <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><?php _e("Add"); ?></span>
                                 </a></li>
-                            <?php if ($shop_disabled == false): ?>
+                            <?php if ($shop_disabled == false AND is_module('shop') == true): ?>
                                 <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:content/action:products">
                                         <span class="mai-product"></span>
@@ -382,7 +382,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 </a></li>
                         </ul>
                     </li>
-                    <?php if ($shop_disabled == false): ?>
+                    <?php if ($shop_disabled == false AND is_module('shop') == true): ?>
 
 
                         <li <?php if ($view == 'shop' and $action == false): ?> class="active"

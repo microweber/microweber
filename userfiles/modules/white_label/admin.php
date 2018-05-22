@@ -252,7 +252,7 @@
 
                             <div class="mw-ui-field-holder">
                                 <ul class="mw-ui-inline-list">
-                                    <li><span class="bold">Microweber Marketplace</span></li>
+                                    <li><span class="bold">Microweber Marketplace</span></li><?php echo $disable_marketplace; ?>
                                     <li>
                                         <label class="mw-switch">
                                             <input type="checkbox" data-value-checked="1" data-value-unchecked="0" name="disable_marketplace" <?php if (!$disable_marketplace): ?> checked <?php endif; ?>>

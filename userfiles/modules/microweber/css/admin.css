@@ -3591,7 +3591,6 @@ body.grabbing, body.grabbing * {
 }
 
 .mw-modules-admin li.mw-admin-module-list-item > div {
-
     background: #FFFFFF;
     border-radius: 2px;
     margin: -1px;
@@ -3600,6 +3599,19 @@ body.grabbing, body.grabbing * {
     height: auto;
     cursor: pointer;
     padding: 20px;
+    /*padding: 5px;*/
+    margin: 15px 20px 10px 0;
+}
+
+.module-uninstall-btn.new-close.mw-icon-close {
+    right: -10px;
+    top: -10px;
+}
+
+.mw-modules-admin-holder {
+    padding: 0;
+    background: transparent;
+    border: 1px;
 }
 
 .module-uninstalled {
@@ -3632,6 +3644,7 @@ body.grabbing, body.grabbing * {
     width: 100%;
     background-position: center;
     background-size: auto;
+    /*background-size: contain;*/
 }
 
 .admin-modules-list-image img {
@@ -4998,6 +5011,9 @@ span.mw-icon-upload {
 
 .table-responsive table {
     table-layout: fixed;
+}
+
+.table-scroll-visible {
 }
 
 @media screen and (max-width: 991px) {
@@ -6493,6 +6509,10 @@ span.mw-icon-upload {
     border-color: #0086db;
 }
 
+.comments-holder .comment-holder.active .mw-accordion-content {
+    display: block !important;
+}
+
 .comments-holder .comment-holder.active:hover:before {
     border-left: 0;
 }
@@ -6989,7 +7009,7 @@ span.mw-icon-upload {
         margin: 0 auto;
         right: auto;
         left: auto;
-
+        margin-top: 10px;
     }
 }
 
@@ -7384,3 +7404,4 @@ select.silver-field {
     background: #0086db;
     color: #f5f5f5;
 }
+
