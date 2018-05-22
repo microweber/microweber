@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
                         <div class="blog-post__comments">
-                            
+
                             <div class="edit" rel="content" field="comments">
                                 <module type="comments" data-content-id="<?php print CONTENT_ID; ?>"/>
                             </div>

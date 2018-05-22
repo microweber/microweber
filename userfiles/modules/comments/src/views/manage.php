@@ -17,84 +17,9 @@
 
 
 
-    $(mwd).ready(function () {
-
-        mw.dropdown();
-        $(mwd.body).ajaxStop(function () {
-            setTimeout(function () {
-                mw.dropdown();
-            }, 1222);
-        });
-    });
-</script>
-
-
-
-
-<script type="text/javascript">
-/*
-
-
-
-    $(document).ready(function () {
-        $('.new-close').on('click', function (e) {
-            e.stopPropagation();
-            var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
-            $(item).removeClass('active')
-            $('.mw-accordion-content', item).stop().slideUp(function () {
-
-            });
-        });
-
-
-        $('.mw-reply-btn').on('click', function (e) {
-            $(this).prev().show();
-            $(this).hide();
-        });
-
-        $('.js-edit-comment-btn').on('click', function (e) {
-            e.preventDefault();
-            var commentID = $(this).data('id');
-            $(this).hide();
-            $('#comment-' + commentID + ' .js-save-comment-btn').show();
-            //  $('#comment-' + commentID + ' .comment_body .js-comment').hide();
-            $('#comment-' + commentID + ' .comment_body textarea').show();
-            $('#comment-' + commentID + ' .js-comment-edit-details-toggle').toggle();
-        });
-
-        $('.js-save-comment-btn').on('click', function (e) {
-            e.preventDefault();
-            var commentID = $(this).data('id');
-            $(this).hide();
-            $('#comment-' + commentID + ' .js-edit-comment-btn').show();
-            // $('#comment-' + commentID + ' .comment_body .js-comment').show();
-            $('#comment-' + commentID + ' .comment_body textarea').hide();
-            $('#comment-' + commentID + ' .js-comment-edit-details-toggle').toggle();
-
-            $('#comment-' + commentID + ' .comment_body .js-comment').text($('#comment-' + commentID + ' .comment_body textarea').val());
-
-        });
-
-
-        $('.js-reply-comment-form').on('submit', function(e){
-
-            e.preventDefault();
-            var form = $(this);
-            if (form) {
-                mw.edit_comments.save_form(form);
-            }
-        });
-
-
-
-        $('.js-reply-comment-btn').on('click', function (e) {
-            e.preventDefault();
-
-
-        });
-    });*/
 
 </script>
+
 
 
 <div class="comments-holder">

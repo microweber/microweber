@@ -36,6 +36,35 @@ mw.edit_comments = {
         }
     },
 
+
+    publish: function (comment_id) {
+        var url = mw.settings.api_url + 'post_comment';
+        var conf = true;
+        if (conf) {
+            var data = {};
+            data.id = comment_id;
+            data.action = 'publish';
+            $.post(url, data, function (data) {
+                mw.notification.success('Comment published')
+            });
+        }
+    },
+
+    unpublish: function (comment_id) {
+        var url = mw.settings.api_url + 'post_comment';
+        var conf = true;
+        if (conf) {
+            var data = {};
+            data.id = comment_id;
+            data.action = 'unpublish';
+            $.post(url, data, function (data) {
+                mw.notification.success('Comment unpublished')
+            });
+        }
+    },
+
+
+
 }
 
 

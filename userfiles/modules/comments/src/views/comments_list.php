@@ -30,6 +30,21 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
 
 
     $(document).ready(function () {
+
+
+
+
+
+            mw.dropdown();
+            $(mwd.body).ajaxStop(function () {
+                setTimeout(function () {
+                    mw.dropdown();
+                }, 1222);
+            });
+
+
+
+
         $('.new-close', '#<?php print $params['id'] ?>').on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -86,6 +101,29 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
 
 
 
+        $('.js-comment-approved-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var commentID = $(this).data('id');
+            mw.edit_comments.publish(commentID);
+            mw.reload_module('#<?php print $params['id'] ?>');
+        });
+
+
+
+        $('.js-comment-unpublished-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var commentID = $(this).data('id');
+            mw.edit_comments.unpublish(commentID);
+            mw.reload_module('#<?php print $params['id'] ?>');
+        });
+
+
+
+
+
+
 
 
 
@@ -110,7 +148,7 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
 
 </script>
 
-'#<?php print $params['id'] ?>'
+
 
 <div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>"  >
     <?php if (!isset($params['no_post_head'])): ?>
