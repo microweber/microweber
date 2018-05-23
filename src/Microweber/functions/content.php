@@ -228,22 +228,23 @@ function content_description($id = false)
 {
     return mw()->content_manager->description($id);
 }
+
 /**
  * @param bool $id
  * @return mixed
  */
 function content_date($id = false)
 {
-    if($id == false){
+    if ($id == false) {
         $id = CONTENT_ID;
     }
 
 
     $cont = mw()->content_manager->get_by_id($id);
-    if(isset($cont['created_at'])){
+    if (isset($cont['created_at'])) {
         return $cont['created_at'];
     }
- }
+}
 
 /**
  * Send content to trash or delete it forever.
@@ -283,7 +284,7 @@ function paging($params)
  * @since 0.1
  * @link  http://microweber.com/docs/functions/content_parents
  *
- * @param int  $id
+ * @param int $id
  * @param bool $without_main_parent If true, it will exclude the $id from the results
  *
  * @return array The parent content items
@@ -334,8 +335,8 @@ function save_edit($post_data)
 /**
  * Function to save content into the content_table.
  *
- * @param array|string $data             data to save
- * @param bool         $delete_the_cache
+ * @param array|string $data data to save
+ * @param bool $delete_the_cache
  *
  * @return string | the id saved
  *
@@ -406,4 +407,29 @@ function prev_content($content_id = false)
 function breadcrumb($params = false)
 {
     return mw()->content_manager->breadcrumb($params);
+}
+
+function helper_body_classes()
+{
+
+    $classes = array();
+    if (page_id()) {
+        $classes[] = 'page-id-' . page_id();
+    }
+    if (post_id()) {
+        $classes[] = 'post-id-' . post_id();
+    }
+    if (content_id()) {
+        $classes[] = 'content-id-' . content_id();
+    }
+    if (category_id()) {
+        $classes[] = 'category-id-' . category_id();
+    }
+    $seg = url_segment(0);
+    if ($seg) {
+        $classes[] = 'page-' . $seg;
+    }
+
+
+    return implode(' ', $classes);
 }

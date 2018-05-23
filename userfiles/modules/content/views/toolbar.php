@@ -195,11 +195,14 @@ if ($last_page_front != false) {
 
                             <?php
                             $url_param_action = url_param('action', true);
+                            $url_param_view = url_param('view', true);
                             if ($url_param_action == 'categories') {
                                 $url_param_type = 'category';
                             } elseif ($url_param_action == 'posts') {
                                 $url_param_type = 'post';
                             } else if ($url_param_action == 'products') {
+                                $url_param_type = 'product';
+                            } else if ($url_param_view == 'shop') {
                                 $url_param_type = 'product';
                             } else {
                                 $url_param_type = 'page';

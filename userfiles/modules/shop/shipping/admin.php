@@ -32,8 +32,7 @@ $here = dirname(__FILE__) . DS . 'gateways' . DS;
 $shipping_modules = get_modules("type=shipping_gateway");
 ?>
 
-<div class="section-header">
-    <h2 class="pull-left"><span class="mai-shipping"></span> <?php _e("Shipping"); ?></h2>
+<div>
     <?php if (is_array($shipping_modules)): ?>
         <?php foreach ($shipping_modules as $shipping_module): ?>
             <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
@@ -75,7 +74,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 </div>
 
 
-<div class="mw-set-shipping-options mw-admin-wrap admin-side-content">
+<div class="mw-set-shipping-options mw-admin-wrap">
     <div class="">
         <?php if (is_array($shipping_modules)): ?>
             <?php foreach ($shipping_modules as $shipping_module): ?>

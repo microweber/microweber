@@ -1,16 +1,10 @@
-<?php
-
-if (!is_admin()) {
+<?php if (!is_admin()) {
     return;
-}
-
-?>
+} ?>
 <script type="text/javascript">
     mw.require('options.js');
 </script>
 <script type="text/javascript">
-
-
     setActiveProvider = function (el) {
         if (el.checked == true) {
             if (el.value == 1) {
@@ -48,7 +42,6 @@ if (!is_admin()) {
 
 
     mw.on.hashParam('option', function () {
-
         $(".mw-set-payment-options .otab").hide();
         $("#db-" + this).show();
         $(".active-parent li.active").removeClass('active');
@@ -61,8 +54,6 @@ if (!is_admin()) {
 
 
     $(document).ready(function () {
-
-
         if (typeof thismodal !== 'undefined') {
             thismodal.main.width(1000);
             $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
@@ -98,25 +89,16 @@ if (!is_admin()) {
             stop: function () {
                 //  Alert("<?php _e("Saving"); ?> ... ");
             }
-
-
         })
-
-
     });
 
 
     mw.checkout_confirm_email_test = function () {
-
-
         var email_to = {}
         email_to.to = $('#test_email_to').val();
-        ;
         //email_to.subject = $('#test_email_subject').val();
-
         $.post("<?php print site_url('api_html/checkout_confirm_email_test'); ?>", email_to, function (msg) {
-//Alert("<pre>"+msg+"</pre>")
-
+            //Alert("<pre>"+msg+"</pre>")
             mw.tools.modal.init({
                 html: "<pre>" + msg + "</pre>",
                 title: "<?php _e('Email send results...'); ?>"
@@ -294,108 +276,95 @@ if (!is_admin()) {
         color: white;
     }
 </style>
+
 <?php
 $here = dirname(__FILE__) . DS . 'gateways' . DS;
-
-
 $payment_modules = get_modules('type=payment_gateway');
-
-
 ?>
 
 
 <div class="mw-ui-row">
     <div class="mw-ui-col">
         <div class="mw-ui-col-container">
-
             <div class="mw-set-payment-options">
-
                 <div class="otab" style="display: block" id="db-payment-methods">
-                    <div class="section-header">
-                            <h2><span class="mai-order"></span><?php _e("Payment methods"); ?></h2>
-                    </div>
-                    <div class="admin-side-content">
+                    <?php if (is_array($payment_modules)): ?>
+                    <div class="mw_simple_tabs mw_tabs_layout_stylish"
+                         id="available_providers">
+                        <?php foreach ($payment_modules as $payment_module): ?>
+                            <?php
+                            $module_info = ($payment_module);
+                            if (!isset($module_info['id']) or $module_info['id'] == false) {
+                                $module_info['id'] = 0;
+                            }
+                            ?>
+                            <div
+                                    class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
+                                    id="module-db-id-<?php print $module_info['id'] ?>">
+                                <div class="mw-ui-box-header"
+                                     onclick="paymentModal(this.parentNode);">
+                                    <div class="gateway-icon-title">
+                                        <div class="mw-ui-row">
+                                            <div class="mw-ui-col">
+                                                <span class="mw-icon-drag"></span>
+                                            </div>
 
-                        <?php if (is_array($payment_modules)): ?>
-                        <div class="mw_simple_tabs mw_tabs_layout_stylish"
-                             id="available_providers">
-                            <?php foreach ($payment_modules as $payment_module): ?>
-                                <?php
-                                $module_info = ($payment_module);
-                                if (!isset($module_info['id']) or $module_info['id'] == false) {
-                                    $module_info['id'] = 0;
-                                }
-                                ?>
-                                <div
-                                        class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
-                                        id="module-db-id-<?php print $module_info['id'] ?>">
-                                    <div class="mw-ui-box-header"
-                                         onclick="paymentModal(this.parentNode);">
-                                        <div class="gateway-icon-title">
-                                            <div class="mw-ui-row">
-                                                <div class="mw-ui-col">
-                                                    <span class="mw-icon-drag"></span>
-                                                </div>
+                                            <div class="mw-ui-col" style="width: 40px; font-size: 16px; color: green;">
+                                                <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>
+                                                    <i class="mw-icon-checkmark-circled"></i>
+                                                <?php endif; ?>
+                                            </div>
 
-                                                <div class="mw-ui-col" style="width: 40px; font-size: 16px; color: green;">
-                                                    <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>
-                                                        <i class="mw-icon-checkmark-circled"></i>
-                                                    <?php endif; ?>
-                                                </div>
-
-                                                <div class="mw-ui-col">
-                                                    <img src="<?php print $payment_module['icon']; ?>" alt=""/>
-                                                </div>
+                                            <div class="mw-ui-col">
+                                                <img src="<?php print $payment_module['icon']; ?>" alt=""/>
+                                            </div>
 
 
-                                                <div class="mw-ui-col">
+                                            <div class="mw-ui-col">
                                                     <span class="gateway-title"><?php print $payment_module['name'] ?>
                                                         <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>
                                                             <small class="mw-small">(disabled)</small>
                                                         <?php endif; ?>
                                                     </span>
-                                                </div>
-                                                <div class="mw-ui-col">
+                                            </div>
+                                            <div class="mw-ui-col">
                                                 <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline">
                                                     <span class="mai-setting2"></span>
                                                     <?php _e('Settings'); ?>
                                                 </span>
-                                                </div>
                                             </div>
                                         </div>
-                                        <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
-
                                     </div>
-                                    <div class="mw-ui-box-content mw-accordion-content">
-                                        <div class="mw-ui-row">
-                                            <div class="">
-                                                <p class="bold">Allow <?php print $payment_module['name'] ?> payment</p>
-                                            </div>
+                                    <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
 
-                                            <div class="">
-                                                <label class="mw-switch inline-switch m-0 m-t-10 m-b-10">
-                                                    <input onchange="setActiveProvider(this);" type="checkbox" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country" data-value-checked="1"
-                                                           data-value-unchecked="0"
-                                                           class="mw_option_field" <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?> checked="checked" <?php endif; ?>>
-                                                    <span class="mw-switch-off">OFF</span>
-                                                    <span class="mw-switch-on">ON</span>
-                                                    <span class="mw-switcher"></span>
-                                                </label>
-                                            </div>
+                                </div>
+                                <div class="mw-ui-box-content mw-accordion-content">
+                                    <div class="mw-ui-row">
+                                        <div class="">
+                                            <p class="bold">Allow <?php print $payment_module['name'] ?> payment</p>
                                         </div>
-                                        <p class="bold m-b-10 m-t-10"><?php _e('Enter your API settings'); ?></p>
-                                        <div class="mw-set-payment-gw-options">
-                                            <module type="<?php print $payment_module['module'] ?>" view="admin"/>
+
+                                        <div class="">
+                                            <label class="mw-switch inline-switch m-0 m-t-10 m-b-10">
+                                                <input onchange="setActiveProvider(this);" type="checkbox" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country" data-value-checked="1"
+                                                       data-value-unchecked="0"
+                                                       class="mw_option_field" <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?> checked="checked" <?php endif; ?>>
+                                                <span class="mw-switch-off">OFF</span>
+                                                <span class="mw-switch-on">ON</span>
+                                                <span class="mw-switcher"></span>
+                                            </label>
                                         </div>
+                                    </div>
+                                    <p class="bold m-b-10 m-t-10"><?php _e('Enter your API settings'); ?></p>
+                                    <div class="mw-set-payment-gw-options">
+                                        <module type="<?php print $payment_module['module'] ?>" view="admin"/>
                                     </div>
                                 </div>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                        <module type="shop/payments/currency" id="mw_curr_select"/>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
-
 
 
             </div>

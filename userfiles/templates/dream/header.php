@@ -101,7 +101,7 @@
         });
     </script>
 </head>
-<body>
+<body class="<?php print helper_body_classes(); ?>">
 <a id="top"></a>
 
 <?php $shopping_cart = get_option('shopping-cart', 'mw-template-dream'); ?>

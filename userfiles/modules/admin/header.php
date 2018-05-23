@@ -410,8 +410,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
 
                                     <a href="<?php print admin_url(); ?>view:shop/action:options/">
-                                        <span class="mai-options"></span>
-                                        <?php _e("Options"); ?>
+                                        <span class="mai-setting2"></span>
+                                        <?php _e("Shop settings"); ?>
                                     </a>
                                 </li>
                                 <?php
