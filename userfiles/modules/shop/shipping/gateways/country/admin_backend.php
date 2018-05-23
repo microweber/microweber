@@ -87,4 +87,20 @@ $view->assign('active_or_disabled', 'disabled');
 print $view->display();
 
 
+?>
 
+<script>
+    $(document).ready(function () {
+        $('.toggle-item', '.shipping-country-holder' ).on('click', function (e) {
+
+            if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
+                $(this).find('.hide-item').toggleClass('hidden');
+                $(this).closest('.toggle-item').toggleClass('closed-fields');
+            }
+            e.stopPropagation();
+            e.preventDefault();
+
+
+        });
+    });
+</script>

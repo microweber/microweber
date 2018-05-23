@@ -407,7 +407,15 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                         <?php _e("Clients"); ?>
                                     </a>
                                 </li>
-                                <li>
+                                <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
+
+                                    <a href="<?php print admin_url(); ?>view:shop/action:options/">
+                                        <span class="mai-options"></span>
+                                        <?php _e("Options"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                /*<li>
                                     <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=payment-methods">
                                         <span class="mai-order"></span>
                                         <?php _e("Payment methods"); ?>
@@ -439,7 +447,12 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                         <span class="mai-options"></span>
                                         <?php _e("Options"); ?>
                                     </a>
-                                </li>
+                                </li>*/
+
+
+                                ?>
+
+
                             </ul>
                         </li>
                     <?php endif; ?>

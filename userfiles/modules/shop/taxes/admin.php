@@ -42,7 +42,8 @@ only_admin_access();
 
     function mw_admin_after_changed_tax_item() {
         mw.notification.success("<?php _e('Taxes are updated'); ?>");
-        mw.reload_module('#mw_admin_shop_taxes_items_list');
+       // mw.reload_module('#mw_admin_shop_taxes_items_list');
+        mw.reload_module('shop/taxes');
     }
 
     $(document).ready(function () {
@@ -57,6 +58,21 @@ only_admin_access();
 
 
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        mw.options.form('.<?php print $config['module_class'] ?>', function () {
+            mw.notification.success("<?php _e("Saved"); ?>.");
+        });
+
+
+    });
+
+
+</script>
+
+
 
 <div class="section-header m-b-10">
     <h2><span class="mai-percent"></span><?php _e("Taxes"); ?></h2>

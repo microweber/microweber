@@ -132,20 +132,22 @@
                 if (window.parent != undefined && window.parent.mw != undefined) {
                     window.parent.mw.reload_module('shop/shipping/gateways/country');
                 }
+                mw.reload_module('shop/shipping');
+
             }
         );
     }
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('.toggle-item').on('click', function (e) {
-            if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
-                $(this).find('.hide-item').toggleClass('hidden');
-                $(this).closest('.toggle-item').toggleClass('closed-fields');
-            }
-        });
-    });
+//    $(document).ready(function () {
+//        $('.toggle-item').on('click', function (e) {
+//            if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
+//                $(this).find('.hide-item').toggleClass('hidden');
+//                $(this).closest('.toggle-item').toggleClass('closed-fields');
+//            }
+//        });
+//    });
 </script>
 
 
