@@ -97,7 +97,7 @@
             is_active: el.checked ? 1 : 0
         }
         SaveShippingData(data).always(function () {
-            mw.reload_module('#mw-shop-set-shipping-settings-shop-shipping-gateways-country', function () {
+            mw.reload_module('shop/shipping', function () {
                 mw.tools.loading(eroot, false);
             });
 
@@ -141,7 +141,9 @@
 
 <script>
 //    $(document).ready(function () {
-//        $('.toggle-item').on('click', function (e) {
+//
+//        $('.toggle-item', '#<?php //print $params['id'] ?>//').on('click', function (e) {
+//
 //            if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
 //                $(this).find('.hide-item').toggleClass('hidden');
 //                $(this).closest('.toggle-item').toggleClass('closed-fields');

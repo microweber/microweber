@@ -64,7 +64,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                         <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
                     </a>
 
-                    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show()">
+                    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show();$('.add-new-country').find('.hide-item').toggleClass('hidden');">
                         <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
                     </a>
                     <div class="clearfix"></div>

@@ -91,7 +91,10 @@ print $view->display();
 
 <script>
     $(document).ready(function () {
-        $('.toggle-item', '.shipping-country-holder' ).on('click', function (e) {
+
+
+
+        $('.toggle-item', '#<?php print $params['id'] ?>' ).on('click', function (e) {
 
             if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
                 $(this).find('.hide-item').toggleClass('hidden');

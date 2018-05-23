@@ -395,23 +395,7 @@ $payment_modules = get_modules('type=payment_gateway');
                         <module type="shop/payments/currency" id="mw_curr_select"/>
                     </div>
                 </div>
-                <div class="otab" id="db-taxes">
-                    <module type="shop/taxes/admin"
-                            id="mw_shop_set_tax_settings"/>
-                </div>
-                <div class="otab" id="db-shipping">
-                    <module type="shop/shipping" view="admin"
-                            id="mw_shop_set_shipping_settings"/>
-                </div>
-                <div class="otab" id="db-email">
-                    <module type="shop/orders/settings/setup_emails_on_order"
-                            id="setup_emails_on_order"/>
-                </div>
 
-                <div class="otab" id="db-other">
-                    <module type="shop/orders/settings/other"
-                            id="mw_shop_set_other_settings"/>
-                </div>
 
 
             </div>
