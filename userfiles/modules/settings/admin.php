@@ -57,7 +57,8 @@ mw.on.hashParam('option_group', function(){
 
 });
 if(!mw.url.windowHashParam('option_group') ){
-  mw.url.windowHashParam('option_group', 'admin__modules');
+  //mw.url.windowHashParam('option_group', 'admin__modules');
+  mw.url.windowHashParam('option_group', 'website');
 }
 
 

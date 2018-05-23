@@ -458,7 +458,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php endif; ?>
 
 
-
+                    <li <?php if (($load_module AND $load_module != 'users') or $view == 'modules' ): ?> class="active" <?php endif; ?>><a  class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
+                            <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
+                        </a>
+                    </li>
 
                     <?php if (mw()->ui->disable_marketplace != true): ?>
                         <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>>
@@ -469,7 +472,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             </a>
                         </li>
                     <?php endif; ?>
-                    <li <?php if ($view == 'settings' or ($load_module AND $load_module != 'users')): ?> class="active" <?php endif; ?>>
+                    <li <?php if ($view == 'settings' /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:settings"> <span class="mai-setting"></span>
                             <strong>
                                 <?php _e("Settings"); ?>
@@ -478,18 +481,15 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
                         <ul class="mw-ui-sidenav">
-                            <li <?php if ($load_module): ?> class="active" <?php endif; ?>><a xxonclick="mw.url.windowHashParam('option_group', 'admin__modules');return false;" class="item-admin__modules" href="<?php print admin_url(); ?>view:settings#option_group=admin__modules">
-                                    <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
+                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                                    <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                                 </a>
                             </li>
                             <li><a xxonclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="<?php print admin_url(); ?>view:settings#option_group=template">
                                     <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                                 </a>
                             </li>
-                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="<?php print admin_url(); ?>view:settings#option_group=website">
-                                    <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
-                                </a>
-                            </li>
+
                             <li><a xxonclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="<?php print admin_url(); ?>view:settings#option_group=users">
                                     <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
                                 </a>
