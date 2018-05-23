@@ -17,9 +17,14 @@
 
         if (mw.url.getHashParams(window.location.hash).installed === '0') {
             mw.$('.installed_switcher').addClass('mw-switcher-off');
+            mw.$('.js-btn-uninstalled').addClass('mw-ui-btn-info');
+            mw.$('.js-btn-installed').removeClass('mw-ui-btn-info');
+
 
         } else {
             mw.$('.installed_switcher').removeClass('mw-switcher-off');
+            mw.$('.js-btn-installed').addClass('mw-ui-btn-info');
+            mw.$('.js-btn-uninstalled').removeClass('mw-ui-btn-info');
 
         }
 
@@ -268,8 +273,8 @@
 
     <div class="admin-side-content">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a href="#installed=1" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 1);return false;"><?php _e("Installed"); ?></a>
-            <a href="#installed=0" class="mw-ui-btn" onclick="mw.url.windowHashParam('installed', 0);return false;"><?php _e("Uninstalled"); ?></a>
+            <a href="#installed=1" class="mw-ui-btn js-btn-installed" onclick="mw.url.windowHashParam('installed', 1);return false;"><?php _e("Installed"); ?></a>
+            <a href="#installed=0" class="mw-ui-btn js-btn-uninstalled" onclick="mw.url.windowHashParam('installed', 0);return false;"><?php _e("Uninstalled"); ?></a>
             <div class="mw-dropdown mw-dropdown-default  pull-left" id="modules-sort-types">
                 <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
                     <?php _e("Module types"); ?>
@@ -285,7 +290,7 @@
             <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon tip reload-module-btn" data-tip="<?php _e("Reload modules"); ?>"><span class="mw-icon-reload"></span></span>
 
         </div>
-        <div class="mw-ui-box mw-ui-box-content">
+        <div class="mw-ui-box mw-ui-box-content mw-modules-admin-holder">
             <div id="modules_admin_<?php print $params['id']; ?>"></div>
             <div id="modules_market_<?php print $params['id']; ?>"></div>
         </div>

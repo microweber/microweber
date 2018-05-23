@@ -2,13 +2,10 @@
     return array('error' => 'Not logged in as admin');
 } ?>
 <script type="text/javascript">
-
     mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
-
 </script>
+
 <script type="text/javascript">
-
-
     toggle_show_less = function (el) {
         var el = $(el);
         el.prev().toggleClass('semi_hidden');
@@ -17,8 +14,47 @@
         el.dataset("later", html);
     }
 
-
+    $(document).ready(function () {
+        $('.js-toggle-full').on('click', function () {
+            $(this).parent().toggleClass('more');
+            $(this).toggleClass('showed');
+        });
+    });
 </script>
+<style>
+    .js-limited {
+        min-width: 250px;
+        max-width:500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .js-limited.more {
+        white-space: inherit;
+    }
+
+    .js-toggle-full  {
+        margin-top:10px;
+    }
+
+    .js-toggle-full span:last-child {
+        display: none;
+    }
+
+    .js-toggle-full.showed span:first-child {
+        display: none;
+    }
+
+    .js-toggle-full.showed span:last-child {
+        display: block;
+    }
+
+    .entry-col{
+        min-width:150px;
+    }
+</style>
+
 <?php
 
 $data = array();
@@ -75,14 +111,15 @@ if (is_array($data)) {
 }
 
 ?>
-
-<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table table-style-2">
+<div class="table-responsive table-scroll-visible">
+<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table table-style-2 layout-auto">
     <thead>
     <tr>
         <th class="mw-ui-table-small"><?php _e("ID"); ?></th>
+        <th style="width: 150px; text-align: center;"><?php _e("Date"); ?></th>
         <?php if (is_array($custom_fields)): ?>
             <?php foreach ($custom_fields as $k => $item): ?>
-                <th><?php print   mw()->format->no_dashes($k); ?></th>
+                <th><?php print  mw()->format->no_dashes($k); ?></th>
             <?php endforeach; ?>
         <?php endif; ?>
         <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
@@ -93,8 +130,9 @@ if (is_array($data)) {
     <?php if (is_array($data)): ?>
         <?php foreach ($data as $item) : ?>
             <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
-                <td width="50" style="text-align: center"><?php print $item['id'] ?>
-                    <div class="mw-date" title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at']); ?></div>
+                <td><?php print $item['id'] ?></td>
+                <td style="text-align: center;" class="entry-col">
+                    <div class="mw-date" title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at'], 'd M Y H'); ?>h</div>
                 </td>
 
                 <?php
@@ -109,36 +147,44 @@ if (is_array($data)) {
 
                 <?php if (is_array($custom_fields)): ?>
                     <?php foreach ($custom_fields as $key => $value): ?>
-                        <td>
-                            <div style="word-break:break-all;">
-                                <?php
-                                $val_print = '';
-                                if (isset($item['custom_fields']) and isset($item['custom_fields'][$key])) {
-                                    $val_print = $item['custom_fields'][$key];
-                                }
-                                $values_plain = mw()->format->clean_html($val_print);
+                        <td class="entry-col">
+                            <?php
+                            $val_print = '';
+                            if (isset($item['custom_fields']) and isset($item['custom_fields'][$key])) {
+                                $val_print = $item['custom_fields'][$key];
+                            }
+                            $values_plain = mw()->format->clean_html($val_print);
 
-                                if (is_array($values_plain)) {
-                                    $values_plain = mw()->format->array_to_ul($val_print);
-                                }
+                            if (is_array($values_plain)) {
+                                $values_plain = mw()->format->array_to_ul($val_print);
+                            }
 
-                                print $values_plain;
-                                //var_dump($values_plain);
-                                //                                $max = 150;
-                                //                                if (strlen($values_plain) > $max) {
-                                //                                    $first = substr($values_plain, 0, $max);
-                                //                                    $rest = substr($values_plain, $max);
-                                //                                    print '<div>' . $first . '<span class="semi_hidden">' . $rest . '</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ' . _e('...more') . '</a></div>';
-                                //                                } else {
-                                //                                    print mw()->format->autolink($val_print);
-                                //                                }
-                                ?>
-                            </div>
+
+                            //var_dump($values_plain);
+                            //                                $max = 150;
+                            //                                if (strlen($values_plain) > $max) {
+                            //                                    $first = substr($values_plain, 0, $max);
+                            //                                    $rest = substr($values_plain, $max);
+                            //                                    print '<div>' . $first . '<span class="semi_hidden">' . $rest . '</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ' . _e('...more') . '</a></div>';
+                            //                                } else {
+                            //                                    print mw()->format->autolink($val_print);
+                            //                                }
+                            ?>
+
+                            <?php if (mb_strlen($values_plain) > 50): ?>
+                                <div class="js-limited">
+                                    <?php print $values_plain; ?>
+                                    <br/>
+                                    <button class="js-toggle-full mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline"><span>show more</span><span>show less</span></button>
+                                </div>
+                            <?php else: ?>
+                                <?php print $values_plain; ?>
+                            <?php endif; ?>
                         </td>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <td class="mw-ui-table-delete-item"><a class="show-on-hover mw-icon-close"
-                                                       href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a>
+                <td class="mw-ui-table-delete-item">
+                    <a class="show-on-hover mw-icon-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -149,6 +195,8 @@ if (is_array($data)) {
     <?php endif; ?>
     </tbody>
 </table>
+</div>
+
 <?php if (is_array($data)) : ?>
     <div class="mw-paging left"> <?php print paging("num=$data_paging"); ?> </div>
     <?php if (isset($params['export_to_excel'])) : ?>

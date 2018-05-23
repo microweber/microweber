@@ -150,7 +150,7 @@ if (isset($params['quick_edit'])) {
                 <?php endif; ?>
             </div>
             <div class="center-side">
-                <div class="window-title"><i class="mai-<?php print $type; ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
+                <div class="window-title"><i class="mai-<?php print strtolower($type); ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
             </div>
 
             <div class="right-side">

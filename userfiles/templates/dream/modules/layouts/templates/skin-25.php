@@ -33,7 +33,7 @@ position: 25
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
-                <module type="video"/>
+                <module type="video_dream"/>
             </div>
         </div>
     </div>

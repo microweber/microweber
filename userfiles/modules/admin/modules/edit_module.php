@@ -115,10 +115,8 @@ if ($id != false) {
             <input type="hidden" name="position" value="<?php print $data['position'] ?>"/>
         </div>
         <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-            <input
-                    class="mw-ui-btn mw-ui-btn-medium module-uninstall-btn tip"
-                    data-tip="<?php _e("Uninstall"); ?>"
-                    name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="đ"/>
+            <button class="module-uninstall-btn new-close mw-icon-close tip" data-tip="<?php _e("Uninstall"); ?>" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print
+                $data['id'] ?>" value="đ"></button>
 
             <!-- <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>-->
 

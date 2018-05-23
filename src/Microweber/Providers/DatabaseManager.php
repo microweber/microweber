@@ -236,7 +236,7 @@ class DatabaseManager extends DbUtils
                 });
             }
             if ($items_per_page != false) {
-                $query = intval(floor($query / $items_per_page));
+                $query = intval(ceil($query / $items_per_page));
             }
 
             return $query;

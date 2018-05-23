@@ -443,29 +443,7 @@ class Parser
                                         global $mw_mod_counter;
                                         ++$mw_mod_counter;
 
-                                        if (!defined('MW_1_0_4_COMPAT')) {
-                                            $mw_mod_counter1 = md5(serialize($attrs));
-                                        } else {
-                                            $mw_mod_counter1 = crc32(serialize($attrs));
-                                        }
 
-                                        $seg_clean = $this->app->url_manager->segment(0, url_current());
-
-                                        //
-                                        if (defined('IS_HOME')) {
-                                            $seg_clean = '';
-                                        }
-
-                                        $seg_clean = str_replace('.', '', $seg_clean);
-                                        $seg_clean = str_replace('%20', '-', $seg_clean);
-                                        // $mod_id = $module_class . '-' . crc32($seg_clean) . ($mw_mod_counter1);
-
-//                                    if (defined('CONTENT_ID') and CONTENT_ID != 0) {
-//                                        $mod_id = $module_class . '-' . ($mw_mod_counter1);
-//                                    }
-
-                                        //    $mod_id = $module_class . ($mw_mod_counter1).crc32($replace_key);
-                                        //  $mod_id = $module_class . ($mw_mod_counter1);
 
                                         $mod_id = '';
 
@@ -500,15 +478,6 @@ class Parser
                                         $mod_id = $this->_str_clean_mod_id($mod_id);
 
 
-                                        if (!$this->have_more) {
-                                            // $root_module_id = false;
-                                            // $mod_id = $mod_id . '-nomore-module-id-';
-
-                                        }
-                                        if ($root_module_id) {
-                                            // $mod_id = $mod_id . '-root-mod-' . $root_module_id;
-
-                                        }
 
 
                                         static $last_content_id = null;
@@ -786,7 +755,6 @@ class Parser
 
                                 $it_loop1++;
                                 $it_loop2++;
-                                //   $module_html = $it_loop1 . '---' . $it_loop2 . '---' . $other_html_tag_replace_inc++ . $module_html;
 
 
                                 $this->mw_replaced_modules_values[$replace_key] = $module_html;
@@ -1011,11 +979,7 @@ class Parser
                     $try_inherited = false;
 
 
-                    if (isset($this->_mw_edit_field_map[$parser_mem_crc])) {
-//                        d($field);
-//                        d($rel);
-//                        continue;
-                    }
+
 
 
                     if ($rel == 'content' or $rel == 'page' or $rel == 'post') {
@@ -1732,13 +1696,11 @@ class Parser
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
 
-        //$module_namei = str_ireplace($search, $replace, $subject)e
+        //$module_namei = str_ireplace($search, $replace, $subject)
 
-        $uninstall_lock = $this->app->modules->get('one=1&ui=any&module=' . $module_namei);
 
-        if (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1) {
-            return '';
-        }
+
+
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             $this->app->content_manager->define_constants();
@@ -1860,6 +1822,15 @@ class Parser
 
                 $template = false;
             }
+
+            $uninstall_lock = $this->app->modules->get('single=1&ui=any&module=' . $module_name_dir);
+
+            if (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1  ) {
+                return '';
+            }
+
+
+
 
             //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
             $lic = $this->app->modules->license($module_name);

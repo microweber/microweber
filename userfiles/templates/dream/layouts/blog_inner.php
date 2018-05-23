@@ -52,8 +52,6 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
                         <div class="blog-post__comments">
-                            <hr>
-                            <h6><?php print get_comments('count=1&content_id=' . content_id()) ?> <?php _lang("Comments", "templates/dream"); ?>:</h6>
 
                             <div class="edit" rel="content" field="comments">
                                 <module type="comments" data-content-id="<?php print CONTENT_ID; ?>"/>

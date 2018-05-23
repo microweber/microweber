@@ -252,7 +252,7 @@
 
                             <div class="mw-ui-field-holder">
                                 <ul class="mw-ui-inline-list">
-                                    <li><span class="bold">Microweber Marketplace</span></li>
+                                    <li><span class="bold">Microweber Marketplace</span></li><?php echo $disable_marketplace; ?>
                                     <li>
                                         <label class="mw-switch">
                                             <input

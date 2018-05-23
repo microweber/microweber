@@ -15,7 +15,7 @@
         }
 
     </style>
-    <div id="mw_index_contact_form" class="admin-side-content">
+    <div id="mw_index_contact_form" class="admin-side-content" style="max-width:100%;">
         <div>
             <?php
             $mw_notif = (url_param('mw_notif'));

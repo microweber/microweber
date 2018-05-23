@@ -102,12 +102,19 @@ class Comments extends Crud
                 $data['rel_type'] = $old_comment['rel_type'];
             }
             if (isset($old_comment['rel_id'])) {
-                $data['rel_id'] = $old_comment['rel_type'];
+                $data['rel_id'] = $old_comment['rel_id'];
             }
 
 
         }
-
+        if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
+            $data['is_moderated'] = 1;
+        } else {
+            $require_moderation = get_option('require_moderation', 'comments');
+            if ($require_moderation != 'y') {
+                $data['is_moderated'] = 1;
+            }
+        }
         if (isset($data['action']) and isset($data['id'])) {
             if ($adm == false) {
                 mw_error('Error: Only admin can edit comments!');
@@ -117,6 +124,8 @@ class Comments extends Crud
                 switch ($action) {
                     case 'publish' :
                         $data['is_moderated'] = 1;
+                        $data['is_spam'] = 0;
+
 
                         break;
                     case 'unpublish' :
@@ -155,10 +164,10 @@ class Comments extends Crud
             if (!is_admin()) {
 
 
-                $needs_terms = get_option('require_terms', 'comments')=='y';
+                $needs_terms = get_option('require_terms', 'comments') == 'y';
 
 
-                 if ($needs_terms) {
+                if ($needs_terms) {
                     $user_id_or_email = $this->app->user_manager->id();
                     if (!$user_id_or_email) {
                         if (isset($data['comment_email'])) {
@@ -185,12 +194,6 @@ class Comments extends Crud
                         }
                     }
                 }
-
-
-
-
-
-
 
 
                 if (!isset($data['captcha'])) {
@@ -230,14 +233,7 @@ class Comments extends Crud
 
         }
 
-        if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
-            $data['is_moderated'] = 1;
-        } else {
-            $require_moderation = get_option('require_moderation', 'comments');
-            if ($require_moderation != 'y') {
-                $data['is_moderated'] = 1;
-            }
-        }
+
 
 
         $saved_data = mw()->database_manager->save($table, $data);
@@ -278,8 +274,8 @@ class Comments extends Crud
                 $message .= "IP:" . MW_USER_IP . ' <br /> ';
                 $message .= mw('format')->array_to_ul($data3);
 
-
-                MailSender::send($email_on_new_comment_value, $subject, $message, 1);
+                $sender = new MailSender();
+                $sender->send($email_on_new_comment_value, $subject, $message, 1);
             }
 
 
@@ -298,7 +294,9 @@ class Comments extends Crud
             $s['id'] = $data['comment_id'];
             $s['is_moderated'] = 0;
             $s['is_spam'] = 1;
-            $s = $this->save($data);
+            $s['table'] =  $this->table;
+
+            $s = mw()->database_manager->save($s);
             if ($s) {
                 $this->__report_for_spam($s);
             }

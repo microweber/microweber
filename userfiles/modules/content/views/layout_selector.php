@@ -526,7 +526,7 @@ if (!empty($recomended_layouts)) {
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
                         <div class="section-header">
-                            <h2 class="pull-left"><span class="mw-icon-users"></span><?php _e("Choose Page Layout"); ?></h2>
+                            <h2 class="pull-left"><span class="mw-icon-page"></span><?php _e("Choose Page Layout"); ?></h2>
                         </div>
 
 
@@ -577,7 +577,7 @@ if (!empty($recomended_layouts)) {
                     });
                 </script>
                 <?php if ($template_selector_position == 'top'): ?>
-                    <div class="mw-ui-col js-template-selector" <?php if (isset($params['small'])): ?>style="display: none;"<?php endif; ?>>
+                    <div class="mw-ui-col js-template-selector" <?php if (isset($params['data-page-id']) AND $params['data-page-id'] !== false): ?>style="display: none;"<?php endif; ?>>
                         <div class="mw-ui-col-container">
                             <div class="mw-template-selector">
                                 <div class="section-header">
@@ -615,7 +615,7 @@ if (!empty($recomended_layouts)) {
                         </div>
                     </div>
 
-                <?php if (isset($params['small'])): ?>
+                <?php if (isset($params['data-page-id']) AND $params['data-page-id'] !== false): ?>
                     <div class="mw-ui-col" style="width: 36px;">
                         <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline js-show-template-selector tip" title="<?php _e('Change page template'); ?>" type="button" style="margin-top: 81px; text-align: center;"><i class="mw-icon-template m-0"></i></button>
                     </div>
