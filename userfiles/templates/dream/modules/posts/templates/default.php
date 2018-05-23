@@ -33,17 +33,34 @@ description: Default
                                             <?php endif; ?>
                                             <?php if ($key == 2): ?>...<?php endif; ?>
                                         <?php endforeach; endif; ?>
+
                                 </h6>
 
                                 <div class="card__title">
                                     <h5><?php print $item['title'] ?></h5>
+                                    <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+                                        <small class="date"><?php print $item['created_at'] ?></small>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
+                            <?php if (isset($show_fields) and is_array($show_fields) and  in_array('description', $show_fields)): ?>
+
+                                <p itemprop="description"><?php print character_limiter($item['description'], 150); ?></p>
+
+                            <?php endif; ?>
+
+
+
                             <hr>
-                            <div class="card__lower">
+                            <div class="card__lower pull-left">
                                 <span>by</span>
                                 <span class="h6"><?php print user_name($item['created_by']) ?></span>
                             </div>
+                            <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+                                <a href="<?php print $item['link'] ?>" class="mw-more pull-right"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
+                            <?php endif; ?>
                         </div>
                     </div>
                 </a>

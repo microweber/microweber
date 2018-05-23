@@ -20,9 +20,20 @@ description: Skin 2
                 </a>
             <?php endif; ?>
 
+
             <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                 <a href="<?php print $item['link'] ?>" itemprop="url"><h4><?php print $item['title'] ?></h4></a>
             <?php endif; ?>
+
+
+
+                <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+                    <small class="date"><?php print $item['created_at'] ?></small>
+                <?php endif; ?>
+
+
+
+
 
             <?php if ($item['created_by']): ?>
                 <div class="blog-item__author">
@@ -33,6 +44,11 @@ description: Skin 2
 
             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
                 <p itemprop="description"><?php print $item['description'] ?></p>
+            <?php endif; ?>
+            <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+                <a href="<?php print $item['link'] ?>" class="mw-more pull-right"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
             <?php endif; ?>
             <hr>
         </div>

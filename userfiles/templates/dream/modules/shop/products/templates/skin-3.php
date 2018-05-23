@@ -78,6 +78,10 @@ if (!isset($tn[1])) {
                             </div>
                         <?php endif; ?>
 
+                        <?php if ($show_fields == false or in_array('description', $show_fields)): ?>
+                            <p class="col-md-10"><?php print $item['description'] ?></p>
+                        <?php endif; ?>
+
                         <div class="mw-ui-row">
                             <div class="mw-ui-col">
                                 <?php if(isset($show_fields) and $show_fields != false and in_array('read_more', $show_fields)): ?>

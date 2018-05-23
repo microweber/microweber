@@ -73,20 +73,44 @@ if (!isset($tn[1])) {
                                         <h5 itemprop="name"><?php print $item['title'] ?></h5>
                                     </a>
                                 <?php endif; ?>
+                                <?php if ($show_fields != false and is_array($show_fields) and in_array('created_at', $show_fields)): ?>
+
+                                    <small class="date" itemprop="dateCreated"><?php print $item['created_at'] ?></small>
+
+                                <?php endif; ?>
+                                <?php if (isset($show_fields) and is_array($show_fields) and in_array('description', $show_fields)): ?>
+
+                                    <p itemprop="description"><?php print character_limiter($item['description'], 150); ?></p>
+
+                                <?php endif; ?>
                             </div>
+                           <?php
+                               if($show_fields != false and is_array($show_fields) and  in_array('read_more', $show_fields)){
+                                   print '<hr>';
+                               }
+                               else if(is_array($show_fields) and in_array('add_to_cart', $show_fields)){
+                                   print '<hr>';
+                               }
+                           ?>
+                            <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+                                <a href="<?php print $item['link'] ?>" class="mw-more pull-left"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
+                            <?php endif; ?>
 
                             <?php if ($show_fields == false or in_array('price', $show_fields)): ?>
                                 <?php if (isset($item['prices']) and is_array($item['prices'])) { ?>
                                     <?php
                                     $vals2 = array_values($item['prices']);
                                     $val1 = array_shift($vals2); ?>
-                                    <a href="<?php print $item['link'] ?>">
+                                    <a href="<?php print $item['link'] ?>" class="pull-right">
                                         <div class="card__price">
                                             <span><?php print currency_format($val1); ?></span>
                                         </div>
                                     </a>
                                 <?php } ?>
                             <?php endif; ?>
+
                             <?php if (is_array($item['prices'])): ?>
                             <?php foreach ($item['prices'] as $k => $v): ?>
                             <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
@@ -99,7 +123,7 @@ if (!isset($tn[1])) {
 
                                 ?>
                                 <?php if (is_array($item['prices'])): ?>
-                                <hr>
+
                                     <button
                                             class="btn btn-default pull-right"
                                             type="button"

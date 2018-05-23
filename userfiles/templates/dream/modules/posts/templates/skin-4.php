@@ -42,11 +42,20 @@ description: Skin 4
                                                         <?php endforeach; endif; ?>
                                                 </h6>
 
-                                                <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
+
                                                     <div class="card__title">
+                                                        <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                                                         <h4><?php print $item['title'] ?></h4>
+                                                        <?php endif; ?>
+
+                                                        <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+                                                            <small class="date"><?php print $item['created_at'] ?></small>
+                                                        <?php endif; ?>
+
+
                                                     </div>
-                                                <?php endif; ?>
+
+
 
                                                 <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
                                                     <p itemprop="description"><?php print $item['description'] ?></p>
@@ -56,6 +65,11 @@ description: Skin 4
                                                 <div class="card__lower">
                                                     <span>by</span>
                                                     <span class="h6"><?php print user_name($item['created_by']) ?></span>
+                                                    <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+                                                        <a href="<?php print $item['link'] ?>" class="mw-more pull-right"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>

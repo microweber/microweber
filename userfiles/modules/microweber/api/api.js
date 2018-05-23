@@ -704,6 +704,8 @@ mw.askusertostay = false;
         var ignorenopost = ignorenopost || false;
         var el = mw.$(id);
         var fields = "input[type='text'], input[type='email'], input[type='number'], input[type='tel'], "
+                    + "input[type='color'], input[type='url'], input[type='week'], input[type='search'], input[type='range'], "
+                    + "input[type='datetime-local'], input[type='month'], "
                     + "input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], "
                     +"input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked, "
                     +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
