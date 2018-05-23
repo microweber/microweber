@@ -61,6 +61,15 @@ if (isset($is_elements) and $is_elements == true) {
         if(!is_array($modules)){
             $modules = array();
         }
+        foreach ($modules as $module){
+            foreach ($modules_from_template as $k=>$module_from_template){
+                if(isset($module['name']) and isset($module_from_template['name'])){
+                    if($module['name']  == $module_from_template['name']){
+                        unset($modules_from_template[$k]);
+                    }
+                }
+            }
+        }
         $modules = array_merge($modules, $modules_from_template);
     }
 

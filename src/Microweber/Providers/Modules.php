@@ -1219,6 +1219,19 @@ class Modules
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
+
+                    if (isset($config['ui'])) {
+                        $config['ui'] = intval($config['ui']);
+                    } else {
+                        $config['ui'] = 0;
+                    }
+
+                    if( $config['ui'] == 0){
+                        continue;
+                    }
+
+
+
                     $configs[] = $config;
                 }
             }

@@ -17,11 +17,9 @@
     }
   ],
   "require": {
-
     "laravel/framework": "5.4.*",
     "illuminate/contracts": "5.4.*",
     "laravel/socialite": "3.0.2",
-
     "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
     "illuminate/support": "5.4.*",
@@ -64,7 +62,9 @@
   },
   "config": {
     "preferred-install": "dist",
-
+    "platform": {
+      "php": "5.6.4"
+    },
     "github-protocols": [
       "https",
       "http",
