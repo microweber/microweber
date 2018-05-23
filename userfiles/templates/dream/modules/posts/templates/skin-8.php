@@ -292,11 +292,29 @@ description: Dictionary
                                 <?php foreach ($list as $item): ?>
                                     <div class="glossary__results__item col-md-3 col-sm-6" data-item="<?php print $item['title'] ?>">
                                         <a class="card card__content" href="<?php print $item['link'] ?>">
+                                            <?php if (isset($show_fields) and $show_fields and in_array('thumbnail', $show_fields)): ?>
+                                                <div class="card__image" style="padding-bottom: 10px">
+                                                    <img alt="<?php print $item['title'] ?>" src="<?php print thumbnail($item['image'], 800, 533, true); ?>"/>
+                                                </div>
+                                            <?php endif; ?>
+
                                             <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                                                <h4 class="card__title"><?php print character_limiter($item['title'], 20) ?></h4>
+                                                <h4 class="zcard__title"><?php print $item['title'] ?></h4>
+                                            <?php endif; ?>
+                                            <?php if ($show_fields != false and in_array('created_at', $show_fields)): ?>
+
+                                                    <span class="date" itemprop="dateCreated"><?php print $item['created_at'] ?></span>
+
                                             <?php endif; ?>
                                             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
                                                 <p class="mb-0" itemprop="description"><?php print character_limiter($item['description'], 100) ?></p>
+                                            <?php endif; ?>
+                                            <?php if(isset($show_fields) and $show_fields and in_array('read_more', $show_fields)): ?>
+
+                                                <span class="mw-more">
+                                                    <u><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></u>
+                                                </span>
+
                                             <?php endif; ?>
                                         </a>
                                     </div>

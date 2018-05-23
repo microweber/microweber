@@ -68,6 +68,11 @@ if (!isset($tn[1])) {
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 </h6>
+                                <?php if ($show_fields != false and in_array('created_at', $show_fields)): ?>
+
+                                    <small class="date" itemprop="dateCreated"><?php print $item['created_at'] ?></small>
+
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
 
@@ -84,7 +89,14 @@ if (!isset($tn[1])) {
                             <?php } ?>
                         <?php endif; ?>
 
-                        <hr>
+                        <?php
+                        if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))){
+                            print '<hr>';
+                        }
+                        else if(is_array($show_fields) and in_array('add_to_cart', $show_fields)){
+                            print '<hr>';
+                        }
+                        ?>
 
                         <?php if ($show_fields == false or in_array('description', $show_fields)): ?>
                             <p class="col-md-10"><?php print $item['description'] ?></p>

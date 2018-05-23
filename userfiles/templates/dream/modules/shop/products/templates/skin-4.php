@@ -60,6 +60,33 @@ if (!isset($tn[1])) {
                             <h5 itemprop="name"><?php print $item['title'] ?></h5>
                         </div>
                     <?php endif; ?>
+                    <?php if ($show_fields != false and in_array('created_at', $show_fields)): ?>
+
+                        <small class="date" itemprop="dateCreated"><?php print $item['created_at'] ?></small>
+
+                    <?php endif; ?>
+                    <?php if ($show_fields == false or in_array('description', $show_fields)): ?>
+                        <p><?php print $item['description'] ?></p>
+                    <?php endif; ?>
+
+
+
+                    <?php
+
+                    if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))){
+                        print '<hr>';
+                    }
+                    else if(is_array($show_fields) and in_array('add_to_cart', $show_fields)){
+                        print '<hr>';
+                    }
+
+                    ?>
+                    <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+                        <a href="<?php print $item['link'] ?>" class="mw-more pull-left"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
+                    <?php endif; ?>
+
                     <?php if (is_array($item['prices'])): ?>
                     <?php foreach ($item['prices'] as $k => $v): ?>
                     <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>

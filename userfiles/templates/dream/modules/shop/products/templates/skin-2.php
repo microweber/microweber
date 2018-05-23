@@ -70,6 +70,16 @@ if (!isset($tn[1])) {
                                         <h5 itemprop="name"><?php print $item['title'] ?></h5>
                                     </a>
                                 <?php endif; ?>
+                                <?php if ($show_fields != false and in_array('created_at', $show_fields)): ?>
+
+                                        <small class="date" itemprop="dateCreated"><?php print $item['created_at'] ?></small>
+
+                                <?php endif; ?>
+                                <?php if (isset($show_fields) and is_array($show_fields) and in_array('description', $show_fields)): ?>
+
+                                        <p itemprop="description"><?php print character_limiter($item['description'], 150); ?></p>
+
+                                <?php endif; ?>
                             </div>
 
                             <?php if ($show_fields == false or in_array('price', $show_fields)): ?>
@@ -85,6 +95,20 @@ if (!isset($tn[1])) {
                                 <?php } ?>
                             <?php endif; ?>
 
+                            <?php
+                            if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))){
+                                print '<hr>';
+                            }
+                            else if(is_array($show_fields) and in_array('add_to_cart', $show_fields)){
+                                print '<hr>';
+                            }
+                            ?>
+
+                            <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+
+                                <a href="<?php print $item['link'] ?>" class="mw-more pull-left"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+
+                            <?php endif; ?>
 
 
 
@@ -100,7 +124,7 @@ if (!isset($tn[1])) {
 
                                 ?>
                                 <?php if (is_array($item['prices'])): ?>
-                                    <hr>
+
                                     <button
                                             class="btn btn-default pull-right"
                                             type="button"
