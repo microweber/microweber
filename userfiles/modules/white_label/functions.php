@@ -28,7 +28,7 @@ function get_white_label_config()
 {
     $file = MW_WHITE_LABEL_SETTINGS_FILE;
     $file_local = MW_WHITE_LABEL_SETTINGS_FILE_LOCAL;
-    if (is_file($file_local)) {
+    if (!is_file($file)) {
         $file = $file_local;
     }
     if (is_file($file)) {
@@ -46,6 +46,7 @@ function make_white_label()
 {
 
     $settings = get_white_label_config();
+
     if (isset($settings['logo_admin']) and trim($settings['logo_admin']) != '') {
         $logo_admin = $settings['logo_admin'];
         mw()->ui->admin_logo = $logo_admin;
@@ -84,10 +85,10 @@ function make_white_label()
     }
 
 
-    if (isset($settings['enable_service_links'])) {
+    if (isset($settings['enable_service_links']) and $settings['enable_service_links']) {
         mw()->ui->enable_service_links = $settings['enable_service_links'];
     }
-    if (isset($settings['disable_marketplace'])) {
+    if (isset($settings['disable_marketplace']) and $settings['disable_marketplace']) {
         mw()->ui->disable_marketplace = $settings['disable_marketplace'];
     }
 
