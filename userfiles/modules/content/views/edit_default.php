@@ -169,25 +169,25 @@ if (isset($params['quick_edit'])) {
                         <?php } ?>
                         <?php if ($is_live_edit == false) : ?>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-live-edit-top-bar-button tip" data-tip="<?php _e("Live Edit"); ?>" data-tipposition="bottom-center" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
                                     <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                             </li>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                             </li>
                         <?php else: ?>
                             <?php if ($data['id'] == 0): ?>
                                 <li>
-                                    <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button tip" data-tip="<?php _e("Live Edit"); ?>" data-tipposition="bottom-center" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
                                         <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                                 </li>
                             <?php else: ?>
                                 <li>
-                                    <button type="button" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
+                                    <button type="button" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button tip" data-tip="<?php _e("Live Edit"); ?>" data-tipposition="bottom-center" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                                 </li>
                             <?php endif; ?>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                             </li>
                         <?php endif; ?>
                     </ul>

@@ -3642,6 +3642,7 @@ body.grabbing, body.grabbing * {
     text-align: center;
     padding: 12px;
     width: 100%;
+    max-width: 50px;
     background-position: center;
     background-size: auto;
     /*background-size: contain;*/
@@ -4730,6 +4731,12 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     padding: 15px;
     height: 66px;
     margin-bottom: 15px !important;
+}
+
+.section-header [src*=".svg"] {
+    max-height: 24px;
+    max-width: 24px;
+    margin-top: 6px;
 }
 
 @media screen and (max-width: 767px) {
@@ -6736,6 +6743,17 @@ span.mw-icon-upload {
 }
 
 .comments-holder .comment-holder .comment_body textarea {
+    width: 100%;
+    max-width: 100%;
+    outline: 0;
+    background: rgba(0, 134, 219, 0.07);
+    padding: 10px;
+    border: 0;
+    min-height: 100px;
+    margin-bottom:10px;
+}
+
+.comments-holder .comment-holder input {
     width: 100%;
     max-width: 100%;
     outline: 0;
