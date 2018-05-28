@@ -85,15 +85,12 @@ class Admin
             'single' => true,
         );
 
-        $comment  =   get_comments($data);
+        $comment = get_comments($data);
 
 
-        if(!$comment){
+        if (!$comment) {
             return;
         }
-
-
-
 
 
         $view_file = $this->views_dir . 'comment_item.php';
@@ -125,18 +122,12 @@ class Admin
         }
 
 
-        $comments_data = array();
         if (isset($params['content_id'])) {
-
             $comments_data['content_id'] = $params['content_id'];
-
-
         } else {
-
             if (isset($params['rel_type'])) {
                 $comments_data['rel_type'] = $params['rel_type'];
             }
-
             if (isset($params['rel_id'])) {
                 $comments_data['rel_id'] = $params['rel_id'];
             }

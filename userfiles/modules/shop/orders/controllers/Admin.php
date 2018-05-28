@@ -68,14 +68,15 @@ class Admin
                 $limit = 'limit=' . $params['limit'];
 
             }
+
             if (isset($params['get_new_orders'])) {
 
                 $orders = get_orders($limit . '&order_completed=1&order_status=new&' . $ord . $kw);
 
             } else {
-                $orders = get_orders($limit . $cur_page . '&order_completed=1&' . $ord . $kw);
+                $orders = get_orders($limit . $cur_page . '&order_status=[neq]new&order_completed=1&' . $ord . $kw);
                 if (isset($params['page_count_only'])) {
-                    $orders = get_orders($limit . '&count_paging=1&order_completed=1&' . $ord . $kw);
+                    $orders = get_orders($limit . '&order_status=[neq]new&count_paging=1&order_completed=1&' . $ord . $kw);
 
                 }
 
@@ -122,7 +123,7 @@ class Admin
 
         if (!$current_page) {
             $params2['get_new_orders'] = true;
-            $new_orders = $this->_get_orders_from_params($params);
+            $new_orders = $this->_get_orders_from_params($params2);
             if ($new_orders) {
                 $has_new = true;
             }
