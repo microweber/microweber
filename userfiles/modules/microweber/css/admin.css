@@ -3638,14 +3638,12 @@ body.grabbing, body.grabbing * {
 
 .admin-modules-list-image {
     height: 60px;
-    vertical-align: middle;
     text-align: center;
     padding: 12px;
     width: 100%;
-    max-width: 50px;
+    max-width: 70px;
     background-position: center;
-    background-size: auto;
-    /*background-size: contain;*/
+    background-size: contain;
 }
 
 .admin-modules-list-image img {
@@ -6126,6 +6124,11 @@ span.mw-icon-upload {
     right: 20px;
     top: 20px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+div:not(.module-admin-modules-edit-module) .new-close.mw-icon-close:before {
+    content: "\0139";
 }
 
 .active .new-close.mw-icon-close {
@@ -6750,7 +6753,7 @@ span.mw-icon-upload {
     padding: 10px;
     border: 0;
     min-height: 100px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .comments-holder .comment-holder input {
