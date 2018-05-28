@@ -6127,7 +6127,13 @@ span.mw-icon-upload {
     font-weight: bold;
 }
 
-div:not(.module-admin-modules-edit-module) .new-close.mw-icon-close:before {
+.new-close.mw-icon-close:not(.module-uninstall-btn) {
+    padding: 4px 4px;
+    top: 21px;
+
+}
+
+.new-close.mw-icon-close:not(.module-uninstall-btn):before {
     content: "\0139";
 }
 

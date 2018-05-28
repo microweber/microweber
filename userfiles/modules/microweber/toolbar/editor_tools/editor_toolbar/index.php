@@ -152,16 +152,16 @@
     #editor-master {
         height: 320px;
 
-        max-width: 90%;
+        max-width: 100%;
     }
 
     #editor-area {
         padding: 10px;
         overflow-y: scroll;
         border: 1px solid #eee;
-        height: auto;
+        height: 100%;
         clear: both;
-        height: 100px;
+        min-height: 100px;
     }
 
     .editor_wrapper {
