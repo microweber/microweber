@@ -269,6 +269,7 @@
     font-size: 28px;
     font-weight: bold;
     font-weight: 500;
+    border-bottom: 2px solid;
 }
 
 .fade-window .window-holder #content-title-field-row #content-title-field::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

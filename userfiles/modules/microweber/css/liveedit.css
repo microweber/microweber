@@ -14,13 +14,14 @@ html, body {
     -ms-overflow-style: scrollbar;
 }
 
-.mw-drag-current-top,.mw-drag-current-bottom{
+
+.mw-drag-current-top.module-layouts,.mw-drag-current-bottom.module-layouts{
     transition: all .9s !important;
 }
-.mw-drag-current-top{
+.mw-drag-current-top.module-layouts{
     transform: translateY(10px);
 }
-.mw-drag-current-bottom{
+.mw-drag-current-bottom.module-layouts{
     transform: translateY(-10px);
 }
 

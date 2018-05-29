@@ -3,6 +3,14 @@
     bottom: 0;
 }
 
+.mw-live-edit .nav-bar{
+    pointer-events: none;
+}
+
+.mw-live-edit .nav-bar > *{
+    pointer-events: all;
+}
+
 .mw-live-edit .cart-overview {
     top: 53px;
 }
