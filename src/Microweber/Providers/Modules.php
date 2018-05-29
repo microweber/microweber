@@ -240,10 +240,19 @@ class Modules
                         $bname = basename($mod_name);
                         $t1 = modules_path() . $config['module'] . DS . $bname;
 
-                        $try_icon = $t1 . '.png';
+                        if (is_file($t1 . '.svg')) {
+                            $try_icon = $t1 . '.svg';
+                        } else {
+                            $try_icon = $t1 . '.png';
+                        }
                         $main_try_icon = modules_path() . $config['module'] . DS . 'icon.png';
                     } else {
-                        $try_icon = $mod_name . '.png';
+
+                        if (is_file($mod_name . '.svg')) {
+                            $try_icon = $mod_name . '.svg';
+                        } else {
+                            $try_icon = $mod_name . '.png';
+                        }
                     }
 
                     $try_icon = normalize_path($try_icon, false);
@@ -655,8 +664,6 @@ class Modules
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
 
-
-
         $template_config = mw()->template->get_config();
 
 
@@ -744,15 +751,14 @@ class Modules
 
                 $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
-               // ;
+                // ;
 
 
-                if($template_name == 'mw_default.php' and is_file($tf)){
+                if ($template_name == 'mw_default.php' and is_file($tf)) {
                     return $tf;
-                }else if($template_name == 'mw_default.php' and is_file($tf_mw_default)){
+                } else if ($template_name == 'mw_default.php' and is_file($tf_mw_default)) {
                     return $tf_mw_default;
-                }
-                 else if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
+                } else if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
                     return $tf_from_other_theme;
                 } elseif (is_file($tf_theme)) {
                     return $tf_theme;
@@ -1226,10 +1232,9 @@ class Modules
                         $config['ui'] = 0;
                     }
 
-                    if( $config['ui'] == 0){
+                    if ($config['ui'] == 0) {
                         continue;
                     }
-
 
 
                     $configs[] = $config;

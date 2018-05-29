@@ -9,8 +9,6 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
     $hide_ctrls = $params['hide-controlls'];
 }
 
-
-//d($current_page);
 ?>
 <div id="mw-order-table-holder">
     <?php if ($orders_type == 'completed' and isset($orders) and is_array($orders)) : ?>

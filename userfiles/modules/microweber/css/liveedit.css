@@ -2,7 +2,6 @@
 @import url("reset-css.css");
 @import url("fonts/mw-ui-icons-v2/css/mwi.css");
 
-
 /*********************************************
 
       Styles for Live-edit
@@ -14,14 +13,13 @@ html, body {
     -ms-overflow-style: scrollbar;
 }
 
-
-.mw-drag-current-top.module-layouts,.mw-drag-current-bottom.module-layouts{
+.mw-drag-current-top,.mw-drag-current-bottom{
     transition: all .9s !important;
 }
-.mw-drag-current-top.module-layouts{
+.mw-drag-current-top{
     transform: translateY(10px);
 }
-.mw-drag-current-bottom.module-layouts{
+.mw-drag-current-bottom{
     transform: translateY(-10px);
 }
 
@@ -258,12 +256,13 @@ li.module-item.ui-draggable-dragging {
     pointer-events: none;
     z-index: 1001;
     border-radius: 1px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
     background: white;
     padding: 15px 5px !important;
     opacity: .9;
 }
-li.module-item.ui-draggable-dragging img{
+
+li.module-item.ui-draggable-dragging img {
     width: auto;
     height: auto;
 }
@@ -398,6 +397,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     width: 5px;
     pointer-events: none;
 }
+
 /*
 .mw_dropable_arr:before,
 .mw_dropable_arr:after {
@@ -431,15 +431,15 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     display: none;
 }
 
-
 /* v2 dropable*/
 
-.mw_dropable{
+.mw_dropable {
     height: 5px;
     border-radius: 2px;
-    box-shadow: 0 0 12px rgba(0,0,0,.3);
+    box-shadow: 0 0 12px rgba(0, 0, 0, .3);
 }
-.mw_dropable_arr{
+
+.mw_dropable_arr {
     width: 20px;
     text-align: center;
     animation: mw_dropable_arr 2s linear infinite;
@@ -449,10 +449,10 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     transition: transform .2s;
     transform: rotate(180deg);
     top: 30px;
-    text-shadow: 0 0 12px rgba(0,0,0,.3);
+    text-shadow: 0 0 12px rgba(0, 0, 0, .3);
 }
 
-.mw_dropable_arr_up .mw_dropable_arr{
+.mw_dropable_arr_up .mw_dropable_arr {
     transform: rotate(0);
     top: -30px;
     animation: mw_dropable_arr_down 2s linear infinite;
@@ -480,7 +480,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     }
 }
 
-.mw_dropable_arr:before{
+.mw_dropable_arr:before {
     content: "\0121";
     display: inline-block;
     font-family: Microweber;
@@ -747,7 +747,7 @@ html.mw_pages #items_handle {
     color: #fff;
 }
 
-#backtoadminindropdown .mw-icon-back{
+#backtoadminindropdown .mw-icon-back {
     top: -1px;
 }
 
@@ -1813,6 +1813,11 @@ body.loaded #live_edit_toolbar {
     max-height: 30px;
 }
 
+.mw_module_image img[src*=".svg"] {
+    min-width: 40px;
+    min-height: 40px;
+}
+
 .mw_module_image_holder {
     display: inline-block;
     position: relative;
@@ -2593,7 +2598,7 @@ body.design_hover .element-current {
     right: 0px !important;
     top: 0px;
     border: 1px solid #f5f5f5 !important;
-    letter-spacing:0 !important;
+    letter-spacing: 0 !important;
 }
 
 #mw_handle_module .mw_edit_delete:hover {
@@ -3795,9 +3800,10 @@ body.isTyping .mw-cloneable-control-item {
     height: 53px;
 }
 
-.wysiwyg-cell-undo-redo .mw_editor_btn{
+.wysiwyg-cell-undo-redo .mw_editor_btn {
     margin-top: 12px;
 }
+
 .wysiwyg-cell-undo-redo {
     padding-left: 10px;
     height: 40px;
@@ -3832,19 +3838,19 @@ body.isTyping .mw-cloneable-control-item {
     border: 1px solid #e5e5e5;
 }
 
-
-#mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened){
+#mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) {
     border: 1px solid #0086db;
     color: #0086db;
 }
 
-#mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) i{
+#mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) i {
     color: #0086db;
 }
 
-body.dragStart .nodrop{
+body.dragStart .nodrop {
     pointer-events: none;
 }
-body.dragStart .allow-drop{
+
+body.dragStart .allow-drop {
     pointer-events: all;
 }

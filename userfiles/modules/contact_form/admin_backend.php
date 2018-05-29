@@ -1,3 +1,5 @@
+<?php  only_admin_access(); ?>
+
 <div class="mw-module-admin-wrap">
     <?php if (isset($params['backend'])): ?>
         <module type="admin/modules/info"/>
@@ -40,16 +42,18 @@
             }
             ?>
             <?php
-            $templates = '';
-            $load_templates = false;
-            if ((url_param('templates') != false)) {
-                $templates = url_param('templates');
-                if ($templates == 'browse' or $templates == 'add_new') {
+            $mod_action = '';
+            $load_mod_action = false;
+            if ((url_param('mod_action') != false)) {
+                $mod_action = url_param('mod_action');
+                if ($mod_action == 'browse' or $mod_action == 'add_new' or $mod_action == 'settings') {
                     $load_list = false;
-                    $load_templates = $templates;
+                    $load_mod_action = $mod_action;
                 }
             }
             ?>
+
+            <div >
             <div class="mw-ui-btn-nav m-b-10">
                 <a class="mw-ui-btn <?php if ($load_list == 'default') { ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default"><?php _e('Default list'); ?></a>
                 <?php $data = get_form_lists('module_name=contact_form'); ?>
@@ -59,9 +63,18 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
+
+
+            <div class="mw-ui-btn-nav  m-b-10 pull-right">
+                <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn"><?php _e("Settings"); ?></a>
+             </div>
+            </div>
+            
+            
+            
             <?php /*<div class="mw-ui-btn-nav">
-          <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn"><?php _e("My templates"); ?></a>
-          <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn" onclick="Alert(<?php _e("Coming soon"); ?>)"><?php _e("Get more templates"); ?></a>
+          <a href="<?php print $config['url']; ?>/mod_action:browse" class="<?php if($mod_action == 'browse'){ ?> active <?php }?> mw-ui-btn"><?php _e("My mod_action"); ?></a>
+          <a href="<?php print $config['url']; ?>/mod_action:add_new" class="<?php if($mod_action == 'add_new'){ ?> active <?php }?>mw-ui-btn" onclick="Alert(<?php _e("Coming soon"); ?>)"><?php _e("Get more mod_action"); ?></a>
         </div>*/ ?>
         </div>
         <div class="mw-content-container">
@@ -100,8 +113,13 @@
                     <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
                 <?php endif; ?>
                 <?php endif; ?>
-                <?php if ($load_templates == true): ?>
-                    <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"/>
+                <?php if ($load_mod_action == true): ?>
+
+                    <?php if ($load_mod_action == 'settings'): ?>
+                <module type="settings/list" for_module="contact_form" for_module_id="contact_form_default" >
+                    <module type="contact_form/settings"  for_module_id="contact_form_default"  />
+
+                    <?php endif; ?>
                 <?php else : ?>
                 <?php endif; ?>
             </div>

@@ -18,10 +18,17 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     $show_ord_id = $ord['order_id'];
 }
 ?>
+<script>
+    function del_this_order_and_return($ord) {
+        mw_delete_shop_order($ord, false);
+        window.location.href = '<?php print admin_url(); ?>view:shop/action:orders'
+    }
 
+   //
+</script>
 <div class="mw-ui-box mw-ui-box-order-info">
     <div class="mw-ui-box-header">
-        <a href="<?php admin_url(); ?>/action:clients#?clientorder=5"
+        <a href="javascript:del_this_order_and_return('<?php print $show_ord_id ?>')"
            class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"> <span class="mai-bin"></span>Delete</a>
         <span class=" bold"><?php _e("Order Information"); ?></span>
     </div>

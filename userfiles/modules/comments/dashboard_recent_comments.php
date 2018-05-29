@@ -2,36 +2,16 @@
 
 
 
-
-?>
-
-
-<?php
-
-$limit = 10;
-
-if(isset($params['limit'])){
-    $limit = intval($params['limit']);
-}
-
-
 $comments_data = array(
-    'order_by' => 'created_at desc',
+
     'rel_type' => 'content',
     'group_by' => 'rel_id',
-
-    'limit' => $limit,
+    'count' => true,
 );
-$comments_for_content = get_comments($comments_data);
-
-if (is_array($comments_for_content)) {
+$ccount = get_comments($comments_data);
 
 
-    $ccount = count($comments_for_content);
 
-} else {
-    $ccount = 0;
-}
 ?>
 
 <div class="dashboard-recent">

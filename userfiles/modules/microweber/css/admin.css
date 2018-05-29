@@ -3638,13 +3638,12 @@ body.grabbing, body.grabbing * {
 
 .admin-modules-list-image {
     height: 60px;
-    vertical-align: middle;
     text-align: center;
     padding: 12px;
     width: 100%;
+    max-width: 70px;
     background-position: center;
-    background-size: auto;
-    /*background-size: contain;*/
+    background-size: contain;
 }
 
 .admin-modules-list-image img {
@@ -4730,6 +4729,12 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     padding: 15px;
     height: 66px;
     margin-bottom: 15px !important;
+}
+
+.section-header [src*=".svg"] {
+    max-height: 24px;
+    max-width: 24px;
+    margin-top: 6px;
 }
 
 @media screen and (max-width: 767px) {
@@ -6119,6 +6124,17 @@ span.mw-icon-upload {
     right: 20px;
     top: 20px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+.new-close.mw-icon-close:not(.module-uninstall-btn) {
+    padding: 4px 4px;
+    top: 21px;
+
+}
+
+.new-close.mw-icon-close:not(.module-uninstall-btn):before {
+    content: "\0139";
 }
 
 .active .new-close.mw-icon-close {
@@ -6736,6 +6752,17 @@ span.mw-icon-upload {
 }
 
 .comments-holder .comment-holder .comment_body textarea {
+    width: 100%;
+    max-width: 100%;
+    outline: 0;
+    background: rgba(0, 134, 219, 0.07);
+    padding: 10px;
+    border: 0;
+    min-height: 100px;
+    margin-bottom: 10px;
+}
+
+.comments-holder .comment-holder input {
     width: 100%;
     max-width: 100%;
     outline: 0;

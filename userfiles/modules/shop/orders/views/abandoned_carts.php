@@ -3,6 +3,15 @@ if(!isset($orders) or !$orders){
     return;
 }
 ?>
+    <script>
+        function del_this_abandoned_cart($ord) {
+            mw_delete_shop_order($ord, true);
+          //  window.location.href = '<?php print admin_url(); ?>view:shop/action:orders'
+        }
+
+        //
+    </script>
+
     <script>mw.lib.require("morris");</script>
     <script>
         $(document).ready(function () {

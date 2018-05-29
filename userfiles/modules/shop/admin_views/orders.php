@@ -48,6 +48,7 @@ function mw_delete_shop_order(pid, iscart, e){
      mw.tools.confirm("<?php _e("Are you sure you want to delete this order"); ?>?", function(){
         $.post("<?php print api_url('delete_order') ?>", { id: pid,is_cart:iscart}, function(data) {
             mw.reload_module('shop/orders');
+            mw.reload_module('shop/orders/admin');
         });
      });
 }

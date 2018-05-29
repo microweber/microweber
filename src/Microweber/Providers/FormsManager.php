@@ -144,35 +144,121 @@ class FormsManager
         }
 
 
+        $terms_and_conditions_name = 'terms_contact';
 
-        //    $terms_and_conditions_name = 'terms_contact';
-
-
-
+        $default_mod_id = 'contact_form_default';
 
 
         $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id) == 'y';
+        if (!$dis_cap) {
+            $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 'y';
+        }
+
+
+        $email_to = $this->app->option_manager->get('email_to', $for_id);
+        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
+        if (!$email_to) {
+            $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
+        }
+        if (!$email_bcc) {
+            $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
+        }
+
+
+        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+        if (!$email_bcc) {
+            $email_autorespond = $this->app->option_manager->get('email_autorespond', $default_mod_id);
+        }
+
+        $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $for_id);
+        $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $for_id);
+
+        if (!$email_notification_subject) {
+            $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $default_mod_id);
+        }
+
+        if (!$email_autorespond_subject) {
+            $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $default_mod_id);
+        }
+
+
+        $user_id_or_email = false;
+        if (is_logged()) {
+            $user_id_or_email = user_id();
+        } else {
+            foreach ($params as $param_k => $param_v) {
+                if (is_string($param_v)) {
+                    if (filter_var($param_v, FILTER_VALIDATE_EMAIL)) {
+                        $user_id_or_email = $param_v;
+                    }
+                }
+            }
+        }
+
+
+        $terms_accepted = false;
+
+
+        $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
+        if (!$user_require_terms) {
+            $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
+        }
+
+
+        if ($user_id_or_email and $user_require_terms) {
+            if (!$user_id_or_email) {
+                return array(
+                    'error' => _e('You must provide email address', true),
+                    'form_data_required' => 'email'
+                );
+
+            } else {
+
+                $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+                if (!$check_term) {
+                    if (isset($params['terms']) and $params['terms']) {
+                        $terms_accepted = true;
+                    } else {
+                        return array(
+                            'error' => _e('You must agree to terms and conditions', true),
+                            'form_data_required' => 'terms',
+                            'form_data_module' => 'users/terms'
+                        );
+                    }
+                }
+            }
+        }
+
 
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
             } else {
-                if ($for_id != false) {
-                    $validate_captcha = mw()->captcha->validate($params['captcha'], $for_id);
-                    if (!$validate_captcha) {
-                        $validate_captcha = mw()->captcha->validate($params['captcha']);
-                    }
-                } else {
-                    $validate_captcha = mw()->captcha->validate($params['captcha']);
-                }
+//                if ($for_id != false) {
+//                    $validate_captcha = mw()->captcha->validate($params['captcha'], $for_id);
+//                    if (!$validate_captcha) {
+//                        $validate_captcha = mw()->captcha->validate($params['captcha']);
+//                    }
+//                } else {
+//                    $validate_captcha = mw()->captcha->validate($params['captcha']);
+//                }
 
+                $validate_captcha = $this->app->captcha->validate($params['captcha']);
                 if (!$validate_captcha) {
-                    if ($adm == false) {
-                        return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
-                    }
+
+                    return array(
+                        'error' => _e('Invalid captcha answer!', true),
+                        'captcha_error' => true,
+                        'form_data_required' => 'captcha',
+                        'form_data_module' => 'captcha'
+                    );
+
+
                 }
             }
         }
+
+
         if (isset($params['_token'])) {
             unset($params['_token']);
         }
@@ -190,12 +276,6 @@ class FormsManager
         // if ($for=='module'){
         $list_id = $this->app->option_manager->get('list_id', $for_id);
         //  }
-        $email_to = $this->app->option_manager->get('email_to', $for_id);
-        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
-        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
-
-        $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $for_id);
-        $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $for_id);
 
 
         if (isset($params['subject'])) {
@@ -286,15 +366,12 @@ class FormsManager
             }
 
 
-
             if (isset($pp_arr['message'])) {
                 $temp = $pp_arr['message'];
                 $temp = nl2br($temp);
                 unset($pp_arr['message']);
                 $pp_arr['message'] = $temp; // push to end of array
             }
-
-
 
 
             $notif = array();
@@ -366,7 +443,7 @@ class FormsManager
                             $subj = $notif['description'];
                             $from = $email_from;
 
-                            $sender->send($value, $subj, $msg, $from,false,false,false,false,$email_from);
+                            $sender->send($value, $subj, $msg, $from, false, false, false, false, $email_from);
                         } else {
                             $msg = $mail_autoresp;
                             $subj = $email_autorespond_subject ?: 'Thank you!';
