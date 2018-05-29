@@ -2,9 +2,6 @@
 
 autoload_add(__DIR__);
 
-template_head(modules_url().'rating/lib.js');
-template_head(modules_url().'rating/rating.js');
-template_head(modules_url().'rating/rating.js');
 /*
 template_head(function($page){
   $css = 'http://bootswatch.com/flatly/bootstrap.css';

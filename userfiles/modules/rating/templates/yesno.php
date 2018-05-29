@@ -18,6 +18,10 @@ if(isset($params['title'])){
 
 
 ?>
+<script type="text/javascript">
+    mw.require('lib.js');
+    mw.require('rating.js');
+</script>
 
 <select  autocomplete="off" class="mw-rating-controller" data-rel-type="<?php print $rel_type ?>"
          data-rel-id="<?php print $rel_id ?>">
