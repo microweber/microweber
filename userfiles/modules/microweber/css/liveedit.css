@@ -13,15 +13,17 @@ html, body {
     -ms-overflow-style: scrollbar;
 }
 
-.mw-drag-current-top,.mw-drag-current-bottom{
+/*.mw-drag-current-top, .mw-drag-current-bottom {
     transition: all .9s !important;
 }
-.mw-drag-current-top{
+
+.mw-drag-current-top {
     transform: translateY(10px);
 }
-.mw-drag-current-bottom{
+
+.mw-drag-current-bottom {
     transform: translateY(-10px);
-}
+} */
 
 #mwxcursor {
     position: absolute;
