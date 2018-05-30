@@ -261,6 +261,24 @@ mw.ElementAnalyzer = function(options){
             this.scope.fragment().removeChild(test);
             return this._isBlockCache[name];
         },
+        canAccept:function(target, what){
+            var accept = target.dataset('accept');
+            if(!accept) return true;
+            accept = accept.trim().split(',').map(Function.prototype.call, String.prototype.trim);
+            var wtype = 'all';
+            if(mw.tools.hasClass(what, 'module-layout')){
+                wtype = 'layout';
+            }
+            else if(mw.tools.hasClass(what, 'module')){
+                wtype = 'module';
+            }
+            else if(mw.tools.hasClass(what, 'element')){
+                wtype = 'element';
+            }
+            if(wtype=='all') return true
+
+            return accept.indexOf(wtype) !== -1;
+        },
         getBlockElements:function(selector, root){
             root = root || document.body;
             selector = selector || '*';
@@ -481,8 +499,6 @@ mw.ElementAnalyzer = function(options){
     this.init = function(){
         this.fragment();
         this.prepare();
-        //this.whenMove();
-        //this.whenUp();
     }
 
     this.init()
