@@ -24,6 +24,11 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
     <?php else : ?>
     <?php endif; ?>
   </label>
+  <input type="hidden"
+  		class="mw-ui-field"
+        name="<?php print $data["name"]; ?>"
+        value="<?php print $data["value"]; ?>"
+  		data-custom-field-id="<?php print $data["id"]; ?>" />
   <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
   <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
   <?php endif; ?>

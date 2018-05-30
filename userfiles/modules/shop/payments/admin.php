@@ -298,8 +298,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                 $module_info['id'] = 0;
                             }
                             ?>
-                            <div
-                                    class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
+                            <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
                                     id="module-db-id-<?php print $module_info['id'] ?>">
                                 <div class="mw-ui-box-header"
                                      onclick="paymentModal(this.parentNode);">

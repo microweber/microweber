@@ -132,7 +132,7 @@ if ($size == false or $size == '') {
                     <div style="padding-top: 15px; clear: both"></div>
                     <span class="mw-ui-btn" id="upload-image-inverse"><span
                                 class="mw-icon-upload"></span><?php _e('Upload Image'); ?></span><br/>
-                    <?php _e('or'); ?> <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
+                    <?php _e('or'); ?> <a href="javascript:mw_admin_logo_upload_browse_existing(true)" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
                     <hr/>
                     <label class="mw-ui-label" style="padding-top: 20px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
                     <div id="sizeslider" class="mw-slider"></div>
@@ -506,8 +506,7 @@ if ($size == false or $size == '') {
         mw.$(".the-image-inverse").show().attr('src', s);
     }
 
-    var mw_admin_logo_upload_browse_existing = function () {
-
+    var mw_admin_logo_upload_browse_existing = function (inverse = false) {
 
         var mw_admin_logo_upload_browse_existing_modal = window.top.mw.modalFrame({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
@@ -518,7 +517,11 @@ if ($size == false or $size == '') {
                 this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
                     mw_admin_logo_upload_browse_existing_modal.hide();
                     mw.notification.success('<?php _e('Logo image selected') ?>');
-                    setNewImage(this);
+                    if(inverse) {
+                    	setNewImageInv(this);
+                    } else {
+                    	setNewImage(this);
+                    }
                 })
                 this.iframe.contentWindow.document.body.style.padding = '15px';
             },
