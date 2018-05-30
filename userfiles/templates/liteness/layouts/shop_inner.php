@@ -1,6 +1,6 @@
 <?php include TEMPLATE_DIR . "header.php"; ?>
 <div class="edit" rel="content" field="liteness_content">
-    <section id="content" class="nodrop">
+    <section id="content">
         <div class="container">
             <div class="box-container">
                 <div>

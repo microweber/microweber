@@ -1,7 +1,7 @@
 <?php include TEMPLATE_DIR . "header.php"; ?>
 
 <div class="edit" rel="content" field="liteness_content">
-    <div class="container nodrop" id="blog-container">
+    <div class="container" id="blog-container">
         <div class="box-container">
             <div id="blog-content-<?php print CONTENT_ID; ?>">
                 <div class="row">

@@ -14,7 +14,7 @@
 ?>
 <?php include TEMPLATE_DIR . "header.php"; ?>
 <div class="edit" rel="content" field="liteness_content">
-    <div class="container nodrop">
+    <div class="container">
         <div class="box-container">
             <div class="row">
                 <div class="col-md-9">

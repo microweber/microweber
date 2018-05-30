@@ -17,6 +17,9 @@ if ($after == false) {
     mw.moduleJS('<?php print module_url(); ?>js/jquery.event.move.js');
     mw.moduleJS('<?php print module_url(); ?>js/jquery.twentytwenty.js');
 
+    $(window).on('load',function () {
+        mw.$("#mw-before-after-<?php print $rand; ?>").twentytwenty({default_offset_pct: 0.5});
+    })
     $(document).ready(function () {
         preload_image = function (src) {
             var elem = document.createElement("img");

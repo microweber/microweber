@@ -15,7 +15,7 @@
 <?php include TEMPLATE_DIR . "header.php"; ?>
 
 <div class="edit" rel="content" field="liteness_content">
-    <div class="container nodrop safe-mode">
+    <div class="container safe-mode">
         <div class="box-container">
             <div class="row">
                 <div class="col-md-9">
