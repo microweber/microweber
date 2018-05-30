@@ -138,7 +138,7 @@ if (isset($notif_params['quick'])) {
                         }
                         ?>
                         <td><?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                                <img src=" <?php print thumbnail($mod_info['icon'], 16, 16) ?>"/>
+                                <img src=" <?php print $mod_info['icon'] ?>" style="width: 18px; height: 18px;"/>
                             <?php endif; ?></td>
                         <td><?php if ($mod_info != false and isset($mod_info['name'])): ?>
                                 <a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>"

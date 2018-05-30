@@ -324,7 +324,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
                 <?php $load_module = url_param('load_module'); ?>
-                <a href="<?php print site_url(); ?>?editmode=n" id="main-bar-mw-icon" target="_blank" class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {print 'active';} ?>">
+                <a href="<?php print site_url(); ?>?editmode=n" id="main-bar-mw-icon" target="_blank" class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {
+                    print 'active';
+                } ?>">
                     <?php if (mw()->ui->admin_logo != false) : ?>
                         <img src="<?php print mw()->ui->admin_logo ?>" style="max-width: 100%; max-height: 36px;"/>
                     <?php else: ?>
@@ -410,7 +412,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
 
                                     <a href="<?php print admin_url(); ?>view:shop/action:options/">
-                                        <span class="mai-setting2"></span>
+                                        <span class="mw-icon-web-settings" style="margin-top: 16px;"></span>
                                         <?php _e("Shop settings"); ?>
                                     </a>
                                 </li>
@@ -458,7 +460,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php endif; ?>
 
 
-                    <li <?php if (($load_module AND $load_module != 'users') or $view == 'modules' ): ?> class="active" <?php endif; ?>><a  class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
+                    <li <?php if (($load_module AND $load_module != 'users') or $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
                             <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
                         </a>
                     </li>
