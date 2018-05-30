@@ -373,6 +373,7 @@ class Parser
                                 $z = 0;
                                 $mod_as_element = false;
                                 $mod_no_wrapper = false;
+                                $module_name = false;
 
                                 if (isset($attrs['data-module'])) {
                                     $attrs['data-type'] = $attrs['data-module'];
