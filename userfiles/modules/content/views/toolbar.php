@@ -169,7 +169,7 @@ if ($last_page_front != false) {
                                         $type = 'page';
                                     }
                                     ?>
-                                <span class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?>
+                                <span class="<?php if($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span><?php print ($page_info['title']) ?>
                                 <?php elseif (isset($params['category-id'])): ?>
                                     <?php $cat = get_category_by_id($params['category-id']); ?>
                                     <?php if (isset($cat['title'])): ?>
@@ -209,7 +209,9 @@ if ($last_page_front != false) {
                             }
                             ?>
 
-                            <a href="<?php print admin_url('view:content#action=new:') . $url_param_type ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10" style="margin-top: 2px;"><?php print _e('Add new ' . $url_param_type); ?></a>
+                            <a href="<?php print admin_url('view:content#action=new:') . $url_param_type ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10" style="margin-top: 2px;">
+                                <?php print _e('Add new ' . $url_param_type); ?>
+                            </a>
 
 
                             <div class="pull-right">
