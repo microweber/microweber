@@ -23,8 +23,25 @@ mw.fonts = {
 
             return el;
         },
-        remove:function(family, weight, el){
-
+        remove:function(el, family, weight){
+            if(!family){
+                $(el).removeAttr('href');
+                el._config = {};
+            }
+            else if(!weight){
+                if(el._config.family && el._config.family[family]){
+                    delete el._config.family[family];
+                }
+                this.config(el._config, el)
+            }
+            else if(weight && family){
+                weight = parseInt(weight, 10)
+                if(el._config.family && el._config.family[family]){
+                    for(var i=0; i<el._config.family[family].length; i++){
+                        el._config.family[family][i] = parseInt(el._config.family[n][i], 10);
+                    }
+                }
+            }
         },
         setUrl:function(options, el){
             var url = 'family=';
@@ -52,9 +69,13 @@ mw.fonts = {
             }
             */
 
+            for(var n in el._config.family){
+                for(var i=0; i<el._config.family[n].length; i++){
+                    el._config.family[n][i] = parseInt(el._config.family[n][i], 10);
+                }
+            }
 
-
-            else if(mode == 'add'){
+            if(mode == 'add'){
                 $.each(options.family, function(key,val){
                     if(el._config.family && el._config.family[key]){
                         options.family[key] = el._config.family[key].concat(options.family[key]);
@@ -97,7 +118,7 @@ mw.font = function(){
         this.options = options;
     }
     this.remove = function(family, weight){
-        mw.fonts[this.options.provider].remove(family, weight, this[options.provider]);
+        mw.fonts[this.options.provider].remove(this[options.provider], family, weight);
     }
 
     this.add = function(options){
