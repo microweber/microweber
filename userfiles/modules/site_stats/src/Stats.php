@@ -212,8 +212,10 @@ class Stats
                                         $related_item = $related_item->where('id', $related_data['referrer_path_id'])->first();
                                         if ($related_item and $related_item->referrer_path) {
                                             $item_array['referrer_paths'][$rel_key]['referrer_path'] = $related_item->referrer_path;
-                                        }
-                                    }
+                                        } else {
+                                            $item_array['referrer_paths'][$rel_key]['referrer_path'] = '';
+
+                                        }                                    }
                                 }
                             }
                         }

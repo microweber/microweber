@@ -27,7 +27,6 @@
     "vlucas/phpdotenv": "*",
     "rcrowe/twigbridge": "*",
     "graham-campbell/markdown": "*",
-    "composer/installers": "1.*",
     "keboola/csv": "1.1.*",
     "omnipay/omnipay": "2.*",
     "omnipay/stripe": "~2.0",
@@ -73,7 +72,7 @@
   },
   "minimum-stability": "dev",
   "homepage": "http://microweber.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "support": {
     "email": "support@microweber.com",
     "irc": "irc://irc.freenode.org/microweber"
