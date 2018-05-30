@@ -70,8 +70,24 @@
                 });
             });
             // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+            mw.require("fonts.js");
+
 
             $(window).load(function () {
+                test = new mw.font();
+                test.add({
+                    family:{
+                        'Roboto': [300,500],
+                        'Tajawal': [400,700]
+                    },
+                    subset:["cyrillic","cyrillic-ext","korean","latin-ext"]
+                });
+                test.add({
+                    family:{
+                        'Roboto': [900, 55],
+                        'Tajawal': [1,2],
+                    }
+                });
                 if ($(".bootstrap3ns").size() > 0) {
                     mw.lib.require("bootstrap3ns");
                 }

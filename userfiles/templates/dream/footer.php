@@ -37,7 +37,7 @@ $is_live =  mw()->user_manager->session_get('editmode') == true;
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6 text-center-xs">
-                        <span class="type--fine-print"><?php print powered_by_link(); ?> | <a href="<?php print admin_url() ?>"><?php _e("Admin") ?></a></span>
+                        <span class="type--fine-print"><?php print powered_by_link(); ?></span>
                     </div>
                     <div class="col-sm-6 text-right text-center-xs">
                         <a href="#top" class="inner-link top-link">
