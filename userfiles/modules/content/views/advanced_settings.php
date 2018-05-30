@@ -217,6 +217,13 @@ if (!empty($template_config)) {
                               placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>"><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
                 </div>
 
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label">
+                        <?php _e("OG Images"); ?>
+                        <small class="mw-help" data-help="Those images will be shown as a post image at facebook shares."> (?)</small>
+                    </label>
+                    <small>If you want to attach a og images, you must upload them to gallery from "Add images" tab.</small>
+                </div>
 
             </div>
         </div>
@@ -240,35 +247,47 @@ if (!empty($template_config)) {
                 <div class="mw-clear" style="height: 12px;"></div>
                 <?php if ($show_page_settings != false): ?>
                     <div class="mw-ui-check-selector">
-                        <div class="mw-ui-label">
-                            <?php _e("Is Home"); ?>
-                            <small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small>
+                        <div class="mw-ui-row">
+                            <div class="mw-ui-col">
+                                <div class="mw-ui-label">
+                                    <?php _e("Is Home"); ?>
+                                    <small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small>
+                                </div>
+                            </div>
+                            <div class="mw-ui-col">
+                                <label class="mw-switch mw-switch-action">
+                                    <input type="checkbox" name="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['is_home'])): ?>checked="1"<?php endif; ?>>
+                                    <span class="mw-switch-off"><?php _e("No"); ?></span>
+                                    <span class="mw-switch-on"><?php _e("Yes"); ?></span>
+                                    <span class="mw-switcher"></span>
+                                </label>
+                            </div>
                         </div>
-                        <label class="mw-switch mw-switch-action">
-                            <input type="checkbox" name="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['is_home'])): ?>checked="1"<?php endif; ?>>
-                            <span class="mw-switch-off"><?php _e("No"); ?></span>
-                            <span class="mw-switch-on"><?php _e("Yes"); ?></span>
-                            <span class="mw-switcher"></span>
-                        </label>
 
                     </div>
                     <div class="mw_clear vSpace"></div>
                     <div class="mw-ui-check-selector">
-                        <div class="mw-ui-label">
-                            <?php _e("Is Shop"); ?>
-                            <small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small>
-                        </div>
-                        <label class="mw-switch mw-switch-action">
-                            <input type="checkbox" name="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['is_shop'])): ?>checked="1"<?php endif; ?>>
-                            <span class="mw-switch-off"><?php _e("No"); ?></span>
-                            <span class="mw-switch-on"><?php _e("Yes"); ?></span>
-                            <span class="mw-switcher"></span>
-                        </label>
+                        <div class="mw-ui-row">
+                            <div class="mw-ui-col">
+                                <div class="mw-ui-label">
+                                    <?php _e("Is Shop"); ?>
+                                    <small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small>
+                                </div>
+                            </div>
+                            <div class="mw-ui-col">
+                                <label class="mw-switch mw-switch-action">
+                                    <input type="checkbox" name="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['is_shop'])): ?>checked="1"<?php endif; ?>>
+                                    <span class="mw-switch-off"><?php _e("No"); ?></span>
+                                    <span class="mw-switch-on"><?php _e("Yes"); ?></span>
+                                    <span class="mw-switcher"></span>
+                                </label>
 
+                            </div>
+                        </div>
                     </div>
                     <div class="mw_clear vSpace"></div>
                 <?php endif; ?>
-<!--
+                <!--
                 <div class="mw-ui-row">
                     <div class="mw-ui-col">
                         <div class="mw-ui-field-holder">
