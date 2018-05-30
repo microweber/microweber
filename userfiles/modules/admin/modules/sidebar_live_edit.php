@@ -1,14 +1,3 @@
-<script>
-    $( document ).ready(function() {
-        mw.load_module('admin/modules/list','#mw-sidebar-modules-list');
-        mw.load_module('admin/modules/list_layouts','#mw-sidebar-layouts-list');
-    });
-
-
-
-
-</script>
-
 <div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder mw-normalize-css">
     <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
        class="sidebar-toggler">
@@ -70,16 +59,11 @@
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
             <div class="mw-ui-box-content tabitem">
-
-                <div id="mw-sidebar-layouts-list"></div>
-
-
-
-
+                <module type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"/>
             </div>
 
             <div class="mw-ui-box-content tabitem" style="display: none">
-                <div id="mw-sidebar-modules-list"></div>
+                <module type="admin/modules/list" id="mw-sidebar-modules-list"/>
             </div>
 
             <div class="mw-ui-box-content tabitem iframe-holder" style="display: none;">

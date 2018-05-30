@@ -212,7 +212,7 @@ class OrderManager
             return;
         }
 
-        // dd($export);
+
         $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
         $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
         $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
@@ -263,12 +263,11 @@ class OrderManager
             if (!empty($cart_items)) {
             }
 
-            dd($cart_items);
 
             $csv_output .= "\n";
         }
 
-//dd($csv_output);
+
 
         $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
         $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
