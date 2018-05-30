@@ -1,16 +1,87 @@
 <?php
-$products = get_content('nolimit=1&content_type=product');
+$kw = '';
+
+
+$products_q = array();
+$products_q['limit'] = 10;
+$products_q['content_type'] = 'product';
+
+if (isset($params['kw']) and $params['kw']) {
+    $kw = $params['kw'];
+    $products_q['keyword'] = $kw;
+}
+
+$products = get_content($products_q);
 
 $data = $products;
 //d($products );
 
 ?>
+
 <script>
+    mw_admin_custom_checkout_callback = function () {
+        $('#mw_admin_edit_order_item_popup_modal').remove();
+
+        mw.reload_module('shop/orders/manage');
+        mw.reload_module('shop/checkout');
+        mw.reload_module('shop/cart');
+        mw.notification.success("Order completed", 5000);
+    }
+</script>
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+
+<script>
+
+
+
+
+
+
+
     mw_admin_custom_order_item_add = function ($form) {
         mw.cart.add($form);
-        mw.reload_module('shop/cart');
-        mw.notification.success("Item added to cart");
+
     }
+
+
+    $(function () {
+        add_order_tabs =  mw.tabs({
+            nav: '#mw-add-order .mw-ui-btn-nav-tabs a',
+            tabs: '#mw-add-order .mw-ui-box-content'
+        });
+
+        $( window ).on( "mw.cart.add", function() {
+            mw.reload_module('shop/cart');
+            mw.notification.success("Item added to cart");
+            add_order_tabs.set(1)
+        });
+
+
+
+
+
+        $('.js-search-product-for-custom-order').on('submit', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var $form = $(this);
+            var $kw = '';
+            $form.children('input[type="text"]').each(function () {
+                if ($(this).val().length != 0) {
+                    $kw = $(this).val();
+                }
+            });
+
+            $('#<?php print $params['id'] ?>').attr('kw', $kw);
+            mw.reload_module('#<?php print $params['id'] ?>')
+
+        });
+    });
+
+
 </script>
 
 <div class="demobox" id="mw-add-order">
@@ -18,6 +89,7 @@ $data = $products;
         <a href="javascript:;" class="mw-ui-btn active">Add to cart</a>
         <a href="javascript:;" class="mw-ui-btn">My cart's content</a>
         <a href="javascript:;" class="mw-ui-btn">Checkout</a>
+
     </div>
     <div class="mw-ui-box">
         <!-- Add to cart -->
@@ -34,22 +106,32 @@ $data = $products;
 
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">Price</label>
-                    <input type="text" name="price" class="mw-ui-field element-block" required="required" placeholder="Example: 10"/>
+                    <input type="text" name="price" class="mw-ui-field element-block" required="required"
+                           placeholder="Example: 10"/>
                 </div>
 
                 <div class="right">
-                    <button class="mw-ui-btn mw-ui-btn-info" onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i class="mai-plus"></i> add</button>
+                    <button class="mw-ui-btn mw-ui-btn-info"
+                            onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i
+                                class="mai-plus"></i> add
+                    </button>
                 </div>
             </div>
 
             <hr>
-            <?php if (is_array($data) and !empty($data)): ?>
+
                 <h2>Add existing prodct</h2>
 
                 <div class="mw-ui-field-holder">
-                    <input type="text" name="search" class="mw-ui-field element-block js-search-product-for-custom-order" placeholder="Search product in catalog" required="required">
+                    <form class="js-search-product-for-custom-order">
+                        <input type="text" name="search" class="mw-ui-field element-block "
+                               placeholder="Search product in catalog" required="required" value="<?php print $kw; ?>">
+                    </form>
                 </div>
 
+
+
+            <?php if (is_array($data) and !empty($data)): ?>
                 <div class="table-responsive">
                     <table class="mw-ui-table table-style-2 layout-auto" width="100%" cellspacing="0" cellpadding="0">
                         <tbody>
@@ -65,17 +147,23 @@ $data = $products;
                             <?php $pic = get_picture($item['id']); ?>
 
                             <tr>
-                                <td><a class="text-center"><span class="mw-user-thumb image" style="background-image: url('<?php print $pic ?>');"></span></a></td>
+                                <td><a class="text-center"><span class="mw-user-thumb image"
+                                                                 style="background-image: url('<?php print $pic ?>');"></span></a>
+                                </td>
                                 <td><?php print content_title($item['id']) ?><?php print $append; ?></td>
                                 <td>
-                                    <module type="shop/cart_add" template="mw_default" content-id="<?php print ($item['id']) ?>"/>
+                                    <module type="shop/cart_add" template="mw_default"
+                                            content-id="<?php print ($item['id']) ?>"/>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
+            <?php else: ?>
+            No products found
             <?php endif; ?>
+
         </div>
 
         <!-- My cart's content -->
@@ -85,34 +173,20 @@ $data = $products;
 
         <!-- Checkout -->
         <div class="mw-ui-box-content" style="display: none;">
-            <module type="shop/checkout" data-checkout-link-enabled="n" template="mw_default" id="mw-admin-custom-checkout-add-order"/>
+            <module type="shop/checkout" data-checkout-link-enabled="n" template="mw_default"
+                    id="mw-admin-custom-checkout-add-order"/>
         </div>
     </div>
 
 
-    <button class="mw-ui-btn mw-ui-btn-notification m-t-20 pull-right" onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);" type="button">
+    <button class="mw-ui-btn mw-ui-btn-notification m-t-20 pull-right"
+            onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);"
+            type="button">
         <?php _e("Complete order"); ?>
     </button>
 </div>
 
-<script>
-    mw_admin_custom_checkout_callback = function () {
-        $('#mw_admin_edit_order_item_popup_modal').remove();
 
-        mw.reload_module('shop/orders/manage');
-        mw.reload_module('shop/checkout');
-        mw.reload_module('shop/cart');
-        mw.notification.success("Order completed", 5000);
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        mw.tabs({
-            nav: '#mw-add-order .mw-ui-btn-nav-tabs a',
-            tabs: '#mw-add-order .mw-ui-box-content'
-        });
-    });
-</script>
 
 
 

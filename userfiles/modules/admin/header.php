@@ -180,6 +180,35 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
     })
+
+
+
+    function mw_admin_add_order_popup(ord_id) {
+
+        if (!!ord_id) {
+            var modalTitle = '<?php _e('Edit order'); ?>';
+        } else {
+            var modalTitle = '<?php _e('Add order'); ?>';
+        }
+
+
+        mw_admin_edit_order_item_popup_modal_opened = mw.modal({
+            content: '<div id="mw_admin_edit_order_item_module"></div>',
+            title: modalTitle,
+            id: 'mw_admin_edit_order_item_popup_modal',
+            width: 900,
+            height: 800
+        });
+
+        var params = {}
+        params.order_id = ord_id;
+        mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
+    }
+
+
+
+
+
 </script>
 
 <?php if (is_admin()): ?>
