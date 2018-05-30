@@ -730,13 +730,15 @@ class Parser
                                                 $mod_content = $this->_replace_editable_fields($mod_content,false,$layout);
 
                                             }
+                                            unset($pq_mod_inner);
 
                                         }
 
-
-                                        $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
-
-                                        if (strstr($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
+                                        $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
+                                        if ($proceed_with_parse == true) {
+                                            $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
+                                        }
+                                        if (strpos($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')!== false) {
 
                                             if(!isset($this->_mw_parser_passed_replaces_inner[$parse_key])){
                                                 $mod_content = $this->_replace_editable_fields($mod_content,false,$layout);
