@@ -1,8 +1,5 @@
 <?php
 
-
-
- 
 $prior = get_option('prior', $params['id']);
 
 $code = get_option('embed_url', $params['id']);
@@ -14,11 +11,18 @@ if ($code == false) {
 
 $upload = get_option('upload', $params['id']);
 
+$thumb = get_option('upload_thumb', $params['id']);
+
+$use_thumbnail = (!empty(trim($thumb))? true : false);
+
+$show_video_settings_btn = false;
+
+$autoplay = get_option('autoplay', $params['id']) == 'y';
 
 $w = get_option('width', $params['id']);
 
 $h = get_option('height', $params['id']);
-$autoplay = get_option('autoplay', $params['id']) == 'y';
+
 if ($w == false) {
     if (isset($params['width'])) {
         $w = intval($params['width']);
