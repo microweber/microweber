@@ -818,6 +818,13 @@ class FieldsManager
             $data['values'] = $data['field_values'];
         }
 
+
+        if (isset($data['value']) and is_array($data['value'])) {
+            $data['value'] = implode(',',$data['value']);
+        }
+
+
+
         $data['type'] = $field_type;
 
         if (isset($data['options']) and is_string($data['options'])) {
