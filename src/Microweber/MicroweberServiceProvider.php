@@ -175,7 +175,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('format', function ($app) {
             return new Utils\Format($app);
         });
-        $this->app->singleton('parser', function ($app) {
+        $this->app->bind('parser', function ($app) {
             return new Utils\Parser($app);
         });
 
