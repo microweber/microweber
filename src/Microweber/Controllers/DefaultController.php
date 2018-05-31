@@ -1939,13 +1939,35 @@ class DefaultController extends Controller
                 }
             }
 
-            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
-            $l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
-            $l = str_replace('{DEFAULT_TEMPLATE_URL}', DEFAULT_TEMPLATE_URL, $l);
 
-            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
-            $l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
-            $l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
+            $replaces = array(
+                '{TEMPLATE_URL}',
+                '{THIS_TEMPLATE_URL}',
+                '{DEFAULT_TEMPLATE_URL}',
+                '%7BTEMPLATE_URL%7D',
+                '%7BTHIS_TEMPLATE_URL%7D',
+                '%7BDEFAULT_TEMPLATE_URL%7D',
+            );
+
+
+            $replaces_vals = array(
+                TEMPLATE_URL,
+                THIS_TEMPLATE_URL,
+                DEFAULT_TEMPLATE_URL,
+                TEMPLATE_URL,
+                THIS_TEMPLATE_URL,
+                DEFAULT_TEMPLATE_URL
+            );
+
+            $l = str_replace($replaces, $replaces_vals, $l);
+
+//            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
+//            $l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
+//            $l = str_replace('{DEFAULT_TEMPLATE_URL}', DEFAULT_TEMPLATE_URL, $l);
+//
+//            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
+//            $l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
+//            $l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
 
 
             if ($page != false and empty($this->page)) {

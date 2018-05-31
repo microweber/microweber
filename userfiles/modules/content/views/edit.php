@@ -1,5 +1,5 @@
 <?php
- 
+
  $wrapper_class = 'mw-edit-content-item-admin'; 
  
   if(isset($params['live_edit'])){
