@@ -49,7 +49,7 @@
                     $status = 'Marked as spam';
                     $class = 'mw-ui-btn-important';
                 }
-                
+
 
                 ?>
 
