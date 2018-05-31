@@ -102,6 +102,7 @@ class Edit
             $data = $this->app->content_manager->get_by_id(intval($params["page-id"]));
 
         }
+
         if (isset($params['content-id'])) {
             $data = $this->app->content_manager->get_by_id(intval($params["content-id"]));
         }
@@ -316,9 +317,7 @@ class Edit
         $this->app->event_manager->trigger('module.content.edit.main', $data);
 
  
-        //d($params);
-        //d($data['content_type']);
-        //d($data);
+
 
         $view = new View($post_list_view);
         $view->assign('params', $params);
@@ -333,7 +332,6 @@ class Edit
         $view->assign('rand', rand());
         $view->assign('data', $data);
         $view->assign('is_quick', $is_quick);
-
 
         return $view->display();
     }
