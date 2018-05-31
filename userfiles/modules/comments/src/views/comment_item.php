@@ -80,22 +80,16 @@
 
 
     <div class="author-name">
-
-
-        <span><?php print $comment['comment_website']; ?></span>
-
+        <span><?php print $comment['comment_name']; ?> says:</span>
+        <br/>
 
         <?php if ($comment['comment_email']) { ?>
-
-            <span> | <a href="mailto:<?php print $comment['comment_email']; ?>">Email</a></span>
-
+            <span><a href="mailto:<?php print $comment['comment_email']; ?>"><?php print $comment['comment_email']; ?></a></span>
         <?php } ?>
 
         <?php if ($comment['comment_website']) { ?>
-            <span> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>">Website</a></span>
-
+            <span> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>" target="_blank">Website</a></span>
         <?php } ?>
-
 
     </div>
 
