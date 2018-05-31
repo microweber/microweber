@@ -1940,26 +1940,31 @@ class DefaultController extends Controller
             }
 
 
-            $replaces = array(
-                '{TEMPLATE_URL}',
-                '{THIS_TEMPLATE_URL}',
-                '{DEFAULT_TEMPLATE_URL}',
-                '%7BTEMPLATE_URL%7D',
-                '%7BTHIS_TEMPLATE_URL%7D',
-                '%7BDEFAULT_TEMPLATE_URL%7D',
-            );
+//
+//            $replaces = array(
+//                '{TEMPLATE_URL}',
+//                '{THIS_TEMPLATE_URL}',
+//                '{DEFAULT_TEMPLATE_URL}',
+//                '%7BTEMPLATE_URL%7D',
+//                '%7BTHIS_TEMPLATE_URL%7D',
+//                '%7BDEFAULT_TEMPLATE_URL%7D',
+//            );
+//
+//
+//            $replaces_vals = array(
+//                TEMPLATE_URL,
+//                THIS_TEMPLATE_URL,
+//                DEFAULT_TEMPLATE_URL,
+//                TEMPLATE_URL,
+//                THIS_TEMPLATE_URL,
+//                DEFAULT_TEMPLATE_URL
+//            );
+//
+//            $l = str_replace($replaces, $replaces_vals, $l);
+
+            $l =$this->app->parser->replace_url_placeholders($l);
 
 
-            $replaces_vals = array(
-                TEMPLATE_URL,
-                THIS_TEMPLATE_URL,
-                DEFAULT_TEMPLATE_URL,
-                TEMPLATE_URL,
-                THIS_TEMPLATE_URL,
-                DEFAULT_TEMPLATE_URL
-            );
-
-            $l = str_replace($replaces, $replaces_vals, $l);
 
 //            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
 //            $l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);

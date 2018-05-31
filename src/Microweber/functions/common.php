@@ -239,6 +239,7 @@ function character_limiter($str, $n = 500, $end_char = '&#8230;')
     }
 }
 
+
 function api_url($str = '')
 {
     $str = ltrim($str, '/');
@@ -513,4 +514,51 @@ if (!function_exists('collection_to_array')) {
         return $data;
 
     }
+}
+
+
+function str_replace_bulk($search, $replace, $subject, &$count = null)
+{
+    // Assumes $search and $replace are equal sized arrays
+    $lookup = array_combine($search, $replace);
+    $result = preg_replace_callback(
+        '/' .
+        implode('|', array_map(
+            function ($s) {
+                return preg_quote($s, '/');
+            },
+            $search
+        )) .
+        '/',
+        function ($matches) use ($lookup) {
+            return $lookup[$matches[0]];
+        },
+        $subject,
+        -1,
+        $count
+    );
+    if (
+        $result !== null ||
+        count($search) < 2 // avoid infinite recursion on error
+    ) {
+        return $result;
+    }
+    // With a large number of replacements (> ~2500?),
+    // PHP bails because the regular expression is too large.
+    // Split the search and replacements in half and process each separately.
+    // NOTE: replacements within replacements may now occur, indeterminately.
+    $split = (int)(count($search) / 2);
+    $result = str_replace_bulk(
+        array_slice($search, $split),
+        array_slice($replace, $split),
+        str_replace_bulk(
+            array_slice($search, 0, $split),
+            array_slice($replace, 0, $split),
+            $subject,
+            $count1
+        ),
+        $count2
+    );
+    $count = $count1 + $count2;
+    return $result;
 }

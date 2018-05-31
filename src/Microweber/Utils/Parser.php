@@ -815,17 +815,22 @@ class Parser
 
 
         if (!empty($this->mw_replaced_modules_values)) {
+
+            $search = array_keys($this->mw_replaced_modules_values);
+            $reps = array_values($this->mw_replaced_modules_values);
+            $layout = str_replace_bulk($search,$reps,$layout);
             $reps_arr = array();
             $reps_arr2 = array();
-            foreach ($this->mw_replaced_modules_values as $key => $value) {
-                if ($value != '') {
-                    $reps_arr[] = $key;
-                    $reps_arr2[] = $value;
-                    $layout = $this->_str_replace_first($key, $value, $layout);
-
-                    // $layout = str_replace($key, $value, $layout);
-                }
-            }
+//            foreach ($this->mw_replaced_modules_values as $key => $value) {
+//
+//                if ($value != '') {
+//                    $reps_arr[] = $key;
+//                    $reps_arr2[] = $value;
+//                    $layout = $this->_str_replace_first($key, $value, $layout);
+//
+//                    // $layout = str_replace($key, $value, $layout);
+//                }
+//            }
             //   $layout = str_replace($reps_arr, $reps_arr2, $layout);
         }
 
@@ -857,13 +862,16 @@ class Parser
                 }
             }
         }
+if(!$coming_from_parent){
 
+        $layout = $this->replace_url_placeholders($layout);
+}
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
-        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
+//        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
         return $layout;
     }
@@ -1298,12 +1306,11 @@ class Parser
                     $reps_arr2 = array();
 
                     foreach ($mw_replaced_edit_fields_vals_inner as $k => $v) {
-                        $repc = 1;
-                        if (isset($v['s'])) {
+                         if (isset($v['s'])) {
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
 
-                            $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
+                            $layout = $this->_str_replace_first($v['s'], $v['r'], $layout);
                             // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
 
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
@@ -1377,6 +1384,18 @@ class Parser
             }
         }
 
+
+
+      //  $layout = $this->replace_url_placeholders($layout);
+
+        $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
+        $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
+
+        return $layout;
+    }
+
+    public function replace_url_placeholders($layout)
+    {
         if (defined('TEMPLATE_URL')) {
             $replaces = array(
                 '{TEMPLATE_URL}',
@@ -1397,13 +1416,9 @@ class Parser
                 DEFAULT_TEMPLATE_URL
             );
 
-            $layout = str_replace($replaces, $replaces_vals, $layout);
+            //        $layout = str_replace($replaces, $replaces_vals, $layout);
+            $layout = str_replace_bulk($replaces, $replaces_vals, $layout);
         }
-
-
-        $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
-        $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
-
         return $layout;
     }
 
@@ -2139,6 +2154,7 @@ class Parser
             return $attrs;
         }
     }
+
 
     private function _str_clean_mod_id($mod_id)
     {
