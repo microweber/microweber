@@ -167,7 +167,7 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
         </div>
 
         <div class="post-name">
-            <a href="<?php print content_link($content['id']); ?>"><?php print content_title($content['id']); ?></a>
+            <a href="<?php print content_link($content['id']); ?>" target="_blank"><?php print content_title($content['id']); ?></a>
         </div>
 
         <div class="last-comment-date"><?php print mw()->format->ago($comments[0]['created_at']); ?></div>
