@@ -648,7 +648,7 @@ class ModuleController extends Controller
             $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
 
             // $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css?v='.MW_VERSION.'" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
