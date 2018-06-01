@@ -28,6 +28,7 @@ class Stats
         if (isset($params['period'])) {
             $period = $params['period'];
         }
+        $engine = mw()->database_manager->get_sql_engine();
 
         $site_url = site_url();
 
@@ -40,6 +41,7 @@ class Stats
 
 
             case 'content_list':
+
                 $return = array();
                 $log = new Log();
                 $log = $log->period($period, 'stats_visits_log');
@@ -48,14 +50,43 @@ class Stats
                     $sid = $params['only_for_session_id'];
                     $log = $log->join('stats_sessions', function ($join) use ($sid) {
                         $join->on('stats_sessions.id', '=', 'stats_visits_log.session_id_key');
+
+
+
+
+
+
                     });
 
                  $log = $log->where('stats_sessions.session_id', $sid);
 
                 }
 
-                $log = $log->join('stats_urls', function ($join) {
-                    $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
+//
+//                INNER JOIN
+//            (
+//                SELECT customer_id,
+//          SUM(payment.amount) AS SumPayment
+//   GROUP BY customer_id
+//   FROM payment
+// ) AS payment
+
+//                ->join(DB::raw('(SELECT user_id, COUNT(user_id) TotalCatch,
+//               DATEDIFF(NOW(), MIN(created_at)) Days,
+//               COUNT(user_id)/DATEDIFF(NOW(), MIN(created_at))
+//               CatchesPerDay FROM `catch-text` GROUP BY user_id)
+//               TotalCatches'),
+
+                $log = $log->join('stats_urls', function ($join)  use ($log) {
+
+                  $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
+
+                   // $log = $join->select('stats_visits_log.url_id as url_id')->where('url_id', '=', 'stats_urls.id');
+
+
+
+
+
                 });
 
                 $log = $log->select('stats_visits_log.*',
@@ -68,12 +99,24 @@ class Stats
 
 
                 );
+
                 //  $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
                 //  $log = $log->orderBy('view_count_sum', 'desc');
                 $log = $log->orderBy('sessions_count', 'desc');
 
                 $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
-                $log = $log->groupBy('url_id');
+
+
+
+
+
+                if($engine == 'pgsql'){
+
+                    $log = $log->groupBy('url_id','stats_visits_log.id','url','content_id','category_id');
+                } else {
+                    $log = $log->groupBy('url_id');
+
+                }
                 $data = $log->get();
 
                 if (!$data) {
@@ -137,7 +180,15 @@ class Stats
 
 
                 // $log = $log->groupBy('referrer_id');
-                $log = $log->groupBy('stats_sessions.referrer_domain_id');
+                if($engine == 'pgsql'){
+                    $log = $log->groupBy('stats_sessions.referrer_domain_id',
+                        'stats_sessions.id',
+                        'stats_referrers.is_internal');
+
+                } else {
+
+                    $log = $log->groupBy('stats_sessions.referrer_domain_id');
+                }
 
                 $log = $log->limit(500);
                 $log = $log->orderBy('sessions_count', 'desc');
@@ -244,6 +295,7 @@ class Stats
                 break;
             case 'locations_list':
             case 'languages_list':
+
                 $log = new Sessions();
                 $log = $log->period($period, 'stats_sessions');
 
@@ -261,6 +313,9 @@ class Stats
                     );
 
                     $log = $log->groupBy('geoip_id');
+                    if($engine == 'pgsql') {
+                        $log = $log->groupBy('geoip_id','country_code','country_name','stats_sessions.id');
+                    }
                 }
 
                 if ($orig_return == 'languages_list') {
@@ -271,7 +326,14 @@ class Stats
                     );
 
                     $log = $log->groupBy('language');
+                    if($engine == 'pgsql') {
+                        $log = $log->groupBy('language','stats_sessions.id');
+                    }
+
                 }
+
+
+
 
 
                 $log = $log->limit(500);
@@ -338,6 +400,12 @@ class Stats
                 $log = $log->limit(500);
                 $log = $log->orderBy('stats_sessions.updated_at', 'desc');
                 $log = $log->groupBy('session_id');
+
+                if($engine == 'pgsql') {
+                    $log = $log->groupBy('stats_sessions.id','country_code','country_name','browser_name','browser_os');
+                }
+
+
 
                 $data = $log->get();
 
