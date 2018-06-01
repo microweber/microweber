@@ -193,7 +193,10 @@ if (get_option('enable_comments', 'comments') == 'y') {
     if ($comments) {
         $comments_new = array();
         foreach ($comments as $comment) {
-            if (!$required_moderation or $comment['is_moderated'] == 1 or (!(mw()->user_manager->session_all() == false) and $comment['session_id'] == mw()->user_manager->session_id())) {
+            if (!$required_moderation or intval($comment['is_moderated'] )== 1
+                or (!(mw()->user_manager->session_all() == false)
+                    and $comment['session_id'] == mw()->user_manager->session_id())
+            ) {
 
             }
             if (isset($comment['comment_website'])) {

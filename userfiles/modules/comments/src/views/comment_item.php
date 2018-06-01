@@ -24,12 +24,21 @@
 
                 <?php
 
+                $required_moderation = get_option('require_moderation', 'comments') == 'y';
+
+
                 $status = 'Published';
                 $class = 'mw-ui-btn-info';
 
+                if ($required_moderation and (!isset($comment['is_moderated']) or intval($comment['is_moderated']) == 0)) {
+                    $comment['is_moderated'] = 2;
+                }
 
                 if (isset($comment['is_moderated'])) {
-                    if (intval($comment['is_moderated']) == 1) {
+                    if (intval($comment['is_moderated']) == 2) {
+                        $status = 'Awaiting approval';
+                        $class = 'mw-ui-btn-warn';
+                     } else if (intval($comment['is_moderated']) == 1) {
                         $status = 'Published';
                     } else {
                         $status = 'Unpublished';
@@ -38,8 +47,9 @@
                 }
                 if (isset($comment['is_spam']) and intval($comment['is_spam']) == 1) {
                     $status = 'Marked as spam';
-                    $class = 'mw-ui-btn-warn';
+                    $class = 'mw-ui-btn-important';
                 }
+
 
                 ?>
 
@@ -80,22 +90,16 @@
 
 
     <div class="author-name">
-
-
-        <span><?php print $comment['comment_website']; ?></span>
-
+        <span><?php print $comment['comment_name']; ?> says:</span>
+        <br/>
 
         <?php if ($comment['comment_email']) { ?>
-
-            <span> | <a href="mailto:<?php print $comment['comment_email']; ?>">Email</a></span>
-
+            <span><a href="mailto:<?php print $comment['comment_email']; ?>"><?php print $comment['comment_email']; ?></a></span>
         <?php } ?>
 
         <?php if ($comment['comment_website']) { ?>
-            <span> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>">Website</a></span>
-
+            <span> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>" target="_blank">Website</a></span>
         <?php } ?>
-
 
     </div>
 
@@ -136,8 +140,9 @@
             <textarea name="comment_body" style="display: none;"><?php print $comment['comment_body']; ?></textarea>
 
 
-            <a href="#" class="js-save-comment-btn mw-ui-btn"
-               data-id="<?php print $comment['id'] ?>" style="display: none;"><?php print _e('Save'); ?></a>
+            <a href="#" class="js-save-comment-btn mw-ui-btn mw-ui-btn-notification  mw-ui-btn-outline mw-ui-btn-small"
+               data-id="<?php print $comment['id'] ?>" style="display: none;"><i
+                        class="mw-icon-pen"></i><?php print _e('Save'); ?></a>
 
 
         </div>

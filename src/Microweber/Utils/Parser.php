@@ -66,8 +66,6 @@ class Parser
         }
 
 
-
-
         global $mw_replaced_edit_fields_vals;
         // global $mod_tag_replace_inc;
         global $other_html_tag_replace_inc;
@@ -116,7 +114,7 @@ class Parser
 
         if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
             //d($parser_mem_crc);
-          return $mw_replaced_edit_fields_vals[$parser_mem_crc];
+            return $mw_replaced_edit_fields_vals[$parser_mem_crc];
         }
 
 
@@ -259,7 +257,6 @@ class Parser
                     }
                 }
             }
-
 
 
 //d($local_mw_replaced_modules);
@@ -727,7 +724,7 @@ class Parser
                                             $pq_mod_inner = \phpQuery::newDocument($mod_content);
                                             $els_mod_inner = $pq_mod_inner['.edit'];
                                             if (count($els_mod_inner)) {
-                                                $mod_content = $this->_replace_editable_fields($mod_content,false,$layout);
+                                                $mod_content = $this->_replace_editable_fields($mod_content, false, $layout);
 
                                             }
                                             unset($pq_mod_inner);
@@ -738,17 +735,17 @@ class Parser
                                         if ($proceed_with_parse == true) {
                                             $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
                                         }
-                                        if (strpos($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')!== false) {
+                                        if (strpos($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>') !== false) {
 
-                                            if(!isset($this->_mw_parser_passed_replaces_inner[$parse_key])){
-                                                $mod_content = $this->_replace_editable_fields($mod_content,false,$layout);
+                                            if (!isset($this->_mw_parser_passed_replaces_inner[$parse_key])) {
+                                                $mod_content = $this->_replace_editable_fields($mod_content, false, $layout);
                                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
                                                 if ($proceed_with_parse == true) {
                                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
                                                 }
                                                 $this->_mw_parser_passed_replaces_inner[$parse_key] = $mod_content;
                                             } else {
-                                                $mod_content=   $this->_mw_parser_passed_replaces_inner[$parse_key];
+                                                $mod_content = $this->_mw_parser_passed_replaces_inner[$parse_key];
                                             }
 
                                         }
@@ -818,17 +815,22 @@ class Parser
 
 
         if (!empty($this->mw_replaced_modules_values)) {
+
+            $search = array_keys($this->mw_replaced_modules_values);
+            $reps = array_values($this->mw_replaced_modules_values);
+            $layout = str_replace_bulk($search,$reps,$layout);
             $reps_arr = array();
             $reps_arr2 = array();
-            foreach ($this->mw_replaced_modules_values as $key => $value) {
-                if ($value != '') {
-                    $reps_arr[] = $key;
-                    $reps_arr2[] = $value;
-                    $layout = $this->_str_replace_first($key, $value, $layout);
-
-                    // $layout = str_replace($key, $value, $layout);
-                }
-            }
+//            foreach ($this->mw_replaced_modules_values as $key => $value) {
+//
+//                if ($value != '') {
+//                    $reps_arr[] = $key;
+//                    $reps_arr2[] = $value;
+//                    $layout = $this->_str_replace_first($key, $value, $layout);
+//
+//                    // $layout = str_replace($key, $value, $layout);
+//                }
+//            }
             //   $layout = str_replace($reps_arr, $reps_arr2, $layout);
         }
 
@@ -860,13 +862,16 @@ class Parser
                 }
             }
         }
+if(!$coming_from_parent){
 
+        $layout = $this->replace_url_placeholders($layout);
+}
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
-        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
+//        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
         return $layout;
     }
@@ -878,14 +883,14 @@ class Parser
         $this->filter[] = $callback;
     }
 
-    private function _replace_editable_fields($layout, $no_cache = false,$from_parent=false)
+    private function _replace_editable_fields($layout, $no_cache = false, $from_parent = false)
     {
         global $mw_replaced_edit_fields_vals;
         global $mw_parser_nest_counter_level;
         global $mw_replaced_edit_fields_vals_inner;
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
-         //   $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
+            //   $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
         }
 
         if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc]) and !$no_cache) {
@@ -898,8 +903,8 @@ class Parser
 
             return $mw_replaced_edit_fields_vals[$parser_mem_crc];
         }
-        if($no_cache and $from_parent) {
-       //    dd($parser_mem_crc, $layout,$from_parent);
+        if ($no_cache and $from_parent) {
+            //    dd($parser_mem_crc, $layout,$from_parent);
         }
 //        if($from_parent){
 //            $pq = \phpQuery::newDocument($from_parent);
@@ -924,7 +929,6 @@ class Parser
             $mw_found_elems_arr = array();
             $mw_elements_array = array('orig', $layout);
             $cached = false;
-
 
 
             $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
@@ -1253,8 +1257,8 @@ class Parser
                                 //   $parser_mem_crc2_inner = 'parser_' . crc32($rep) . content_id();
 
                                 if (strstr($field_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
-                                   // $field_content = $this->_replace_editable_fields($field_content);
-                                    $field_content = $this->_replace_editable_fields($field_content,$no_cache = false,$from_parent=$layout);
+                                    // $field_content = $this->_replace_editable_fields($field_content);
+                                    $field_content = $this->_replace_editable_fields($field_content, $no_cache = false, $from_parent = $layout);
                                     if ($field_content) {
                                         pq($elem_clone)->html($field_content);
                                     }
@@ -1302,12 +1306,11 @@ class Parser
                     $reps_arr2 = array();
 
                     foreach ($mw_replaced_edit_fields_vals_inner as $k => $v) {
-                        $repc = 1;
-                        if (isset($v['s'])) {
+                         if (isset($v['s'])) {
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
 
-                            $layout = $this->_str_replace_first($v['s'], $v['r'], $layout, $repc);
+                            $layout = $this->_str_replace_first($v['s'], $v['r'], $layout);
                             // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
 
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
@@ -1344,8 +1347,8 @@ class Parser
                         if ($value != '') {
                             $val_rep = $value;
                             $have_more = $this->_do_we_have_more_edit_fields_for_parse($value);
-                            if($have_more){
-                                $val_rep = $this->_replace_editable_fields($val_rep, $no_cache = false,$from_parent=$layout);
+                            if ($have_more) {
+                                $val_rep = $this->_replace_editable_fields($val_rep, $no_cache = false, $from_parent = $layout);
                             }
 
 
@@ -1382,9 +1385,40 @@ class Parser
         }
 
 
+
+      //  $layout = $this->replace_url_placeholders($layout);
+
         $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
+        return $layout;
+    }
+
+    public function replace_url_placeholders($layout)
+    {
+        if (defined('TEMPLATE_URL')) {
+            $replaces = array(
+                '{TEMPLATE_URL}',
+                '{THIS_TEMPLATE_URL}',
+                '{DEFAULT_TEMPLATE_URL}',
+                '%7BTEMPLATE_URL%7D',
+                '%7BTHIS_TEMPLATE_URL%7D',
+                '%7BDEFAULT_TEMPLATE_URL%7D',
+            );
+
+
+            $replaces_vals = array(
+                TEMPLATE_URL,
+                THIS_TEMPLATE_URL,
+                DEFAULT_TEMPLATE_URL,
+                TEMPLATE_URL,
+                THIS_TEMPLATE_URL,
+                DEFAULT_TEMPLATE_URL
+            );
+
+            //        $layout = str_replace($replaces, $replaces_vals, $layout);
+            $layout = str_replace_bulk($replaces, $replaces_vals, $layout);
+        }
         return $layout;
     }
 
@@ -2120,6 +2154,7 @@ class Parser
             return $attrs;
         }
     }
+
 
     private function _str_clean_mod_id($mod_id)
     {

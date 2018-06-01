@@ -482,24 +482,39 @@ class Stats
             case 'visits_count_grouped_by_period':
                 $log = new Log();
                 //  $log = $log->period($period);
+                $engine = mw()->database_manager->get_sql_engine();
+
 
 
                 if ($period == 'weekly') {
-                    $date_period_q = "DATE(updated_at,'weekday 1','+7 days') as date_key";
+                    if ($engine == 'mysql') {
+                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 7 DAY) as date_key";
+                    } else {
+                        $date_period_q = "DATE(updated_at,'weekday 1','+7 days') as date_key";
+                    }
                 }
 
                 if ($period == 'monthly') {
-                    $date_period_q = "DATE(updated_at,'start of month','+1 month','-1 day') as date_key";
-
+                    if ($engine == 'mysql') {
+                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 MONTH) as date_key";
+                    } else {
+                        $date_period_q = "DATE(updated_at,'start of month','+1 month','-1 day') as date_key";
+                    }
                 }
                 if ($period == 'daily') {
-                    $date_period_q = "DATE(updated_at) as date_key";
-
+                    if ($engine == 'mysql') {
+                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 DAY) as date_key";
+                    } else {
+                        $date_period_q = "DATE(updated_at) as date_key";
+                    }
                 }
 
             if ($period == 'yearly') {
-                $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
-
+                if ($engine == 'mysql') {
+                    $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 YEAR) as date_key";
+                } else {
+                    $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
+                }
             }
                 if ($return == 'visits_count_grouped_by_period') {
 

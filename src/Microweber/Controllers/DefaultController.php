@@ -1772,7 +1772,7 @@ class DefaultController extends Controller
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v='.MW_VERSION.'" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
@@ -1940,26 +1940,31 @@ class DefaultController extends Controller
             }
 
 
-            $replaces = array(
-                '{TEMPLATE_URL}',
-                '{THIS_TEMPLATE_URL}',
-                '{DEFAULT_TEMPLATE_URL}',
-                '%7BTEMPLATE_URL%7D',
-                '%7BTHIS_TEMPLATE_URL%7D',
-                '%7BDEFAULT_TEMPLATE_URL%7D',
-            );
+//
+//            $replaces = array(
+//                '{TEMPLATE_URL}',
+//                '{THIS_TEMPLATE_URL}',
+//                '{DEFAULT_TEMPLATE_URL}',
+//                '%7BTEMPLATE_URL%7D',
+//                '%7BTHIS_TEMPLATE_URL%7D',
+//                '%7BDEFAULT_TEMPLATE_URL%7D',
+//            );
+//
+//
+//            $replaces_vals = array(
+//                TEMPLATE_URL,
+//                THIS_TEMPLATE_URL,
+//                DEFAULT_TEMPLATE_URL,
+//                TEMPLATE_URL,
+//                THIS_TEMPLATE_URL,
+//                DEFAULT_TEMPLATE_URL
+//            );
+//
+//            $l = str_replace($replaces, $replaces_vals, $l);
+
+            $l =$this->app->parser->replace_url_placeholders($l);
 
 
-            $replaces_vals = array(
-                TEMPLATE_URL,
-                THIS_TEMPLATE_URL,
-                DEFAULT_TEMPLATE_URL,
-                TEMPLATE_URL,
-                THIS_TEMPLATE_URL,
-                DEFAULT_TEMPLATE_URL
-            );
-
-            $l = str_replace($replaces, $replaces_vals, $l);
 
 //            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
 //            $l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
@@ -2465,7 +2470,7 @@ class DefaultController extends Controller
             $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
 
             // $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v='.MW_VERSION.'" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;

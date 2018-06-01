@@ -6133,6 +6133,11 @@ span.mw-icon-upload {
 
 }
 
+.comment-item-holder-inner .new-close.mw-icon-close {
+    padding: 4px 5px;
+
+}
+
 .new-close.mw-icon-close:not(.module-uninstall-btn):before {
     content: "\0139";
 }
@@ -6716,7 +6721,7 @@ span.mw-icon-upload {
 }
 
 .comments-holder .comment-holder .comment-wrapper {
-    margin: 0 -35px 0px -35px;
+    margin: 0 -35px 20px -35px;
     padding: 15px 35px 0 35px;
 }
 
@@ -6737,7 +6742,7 @@ span.mw-icon-upload {
 .comments-holder .comment-holder .reply-holder {
     border-top: 1px solid #eaeaea;
     border-bottom: 1px solid #eaeaea;
-    margin: 10px -35px 0 -35px;
+    margin: 30px -35px 0 -35px;
     padding: 10px 35px;
 }
 
@@ -7175,7 +7180,7 @@ select.silver-field {
 }
 
 .header-top-center-notifs .center {
-    width: 500px;
+    width: 510px;
 }
 
 .client-remove {
@@ -7435,6 +7440,6 @@ select.silver-field {
 @media screen and (max-width: 767px) {
     #edit-content-btn {
         margin-top: 10px;
-        margin-left:0 !important;
+        margin-left: 0 !important;
     }
 }

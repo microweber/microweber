@@ -150,6 +150,13 @@ class UserManager
             }
         }
 
+        if (!isset($params['username']) and isset($params['username_base64']) and $params['username_base64']) {
+            $params['username'] = @base64_decode($params['username_base64']);
+        }
+        if (!isset($params['password']) and isset($params['password_base64']) and $params['password_base64']) {
+            $params['password'] = @base64_decode($params['password_base64']);
+        }
+
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
 
@@ -727,9 +734,6 @@ class UserManager
                     $this->force_save = false;
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
-
-
-
 
 
                     $this->after_register($next);

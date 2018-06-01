@@ -127,7 +127,7 @@ class AdminController extends Controller
         $apijs_loaded = mw()->template->get_apijs_url();
         $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
 
-        $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css" type="text/css" />';
+        $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css?v='.MW_VERSION.'" type="text/css" />';
       //  if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
             $default_css = $default_css."\r\n".'<script src="'.$apijs_settings_loaded.'"></script>'."\r\n";
