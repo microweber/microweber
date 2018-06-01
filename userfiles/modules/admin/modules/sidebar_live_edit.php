@@ -8,15 +8,15 @@
     <a href="javascript:;" class="close-sidebar-button" title="<?php _e("Close"); ?>"
        data-id="mw-toolbar-show-sidebar-btn"><i class="mwi-close-thin"></i></a>
 
-    <h3 class="tab-title tab-title-0">Add Layout</h3>
-    <h3 class="tab-title tab-title-1" style="display: none;">Add Module</h3>
-    <h3 class="tab-title tab-title-2" style="display: none;">Settings</h3>
+    <h3 class="tab-title tab-title-0"><?php _e("Add Layout"); ?></h3>
+    <h3 class="tab-title tab-title-1" style="display: none;"><?php _e("Add Module"); ?></h3>
+    <h3 class="tab-title tab-title-2" style="display: none;"><?php _e("Settings"); ?></h3>
 
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> Layouts</a>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> Modules</a>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> Settings</a>
+            <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
         </div>
 
 
@@ -36,7 +36,7 @@
                        aria-hidden="true" style="display: none;"></a>
                 </div>
 
-                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;">No found results</p>
+                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
             </div>
 
             <div class="tab-title tab-title-1 modules" style="display: none;">
@@ -53,23 +53,23 @@
                        aria-hidden="true" style="display: none;"></a>
                 </div>
 
-                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;">No found results</p>
+                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
             </div>
         </div>
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
             <div class="mw-ui-box-content tabitem">
-                <module type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"/>
+                <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
             </div>
 
             <div class="mw-ui-box-content tabitem" style="display: none">
-                <module type="admin/modules/list" id="mw-sidebar-modules-list"/>
+                <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
             </div>
 
             <div class="mw-ui-box-content tabitem iframe-holder" style="display: none;">
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
                     <iframe class="settings-iframe"
-                            src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+                            data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
             </div>
         </div>
@@ -169,6 +169,7 @@
             })
         });
 
+
         $(window).on('resize load orientationchange', function () {
             var root = document.querySelector('#modules-and-layouts-sidebar');
             if (root !== null) {
@@ -179,5 +180,32 @@
               }
             }
         });
+
+        $(window).on("load", function(){
+            settingsLoaded = 0;
+            var all = mw.$("#modules-and-layouts-sidebar [data-xmodule], #modules-and-layouts-sidebar [data-src]")
+            all.each(function(){
+                var src = $(this).dataset("src");
+                if(src){
+                    $(this).on("load", function(){
+                        settingsLoaded++;
+                        if(settingsLoaded == all.length){
+                            mw.drag.init();
+                        }
+                    })
+                    this.src = src;
+                }
+                else{
+                    mw.tools.addClass(this, 'module')
+                    mw.reload_module(this, function(){
+                        settingsLoaded++;
+                        if(settingsLoaded == all.length){
+                            mw.drag.init();
+                        }
+                    })
+                }
+            })
+
+        })
     </script>
 </div>

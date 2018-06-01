@@ -4804,16 +4804,24 @@ body.bup.dragStart.state-element {
 
 .mw-control-box{
     position:fixed;
-    padding: 10px;
-    transition: all .5s;
+
     padding: 20px;
     opacity: 0;
     visibility: hidden;
 }
 
-.mw-control-box.active{
+.mw-control-box-default{
+  padding: 10px;
+  transition: all .5s;
+  transform: scale(0.9);
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
+}
+
+.mw-control-box-default.active{
     opacity: 1;
     visibility: visible;
+    transform: scale(1);
 }
 
 .mw-control-box-top{
@@ -4838,6 +4846,11 @@ body.bup.dragStart.state-element {
     top: 0;
     left: 0;
     height: 100%;
+}
+
+.mw-control-box{
+  position: fixed;
+  z-index: 12;
 }
 
 

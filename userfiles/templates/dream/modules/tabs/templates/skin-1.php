@@ -52,3 +52,11 @@ if (isset($json) == false or count($json) == 0) {
         </ul>
     </div>
 </div>
+
+<script>
+
+    $(document).ready(function(){
+        mw.tplDream.tabs($)
+    })
+
+</script>
