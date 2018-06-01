@@ -8,5 +8,5 @@ $config['author'] = "Peter Ivanov";
 $config['author_website'] = "https://microweber.com";
 $config['ui'] = true;
 $config['categories'] = "other";
-$config['position'] = "120";
+$config['position'] = 13;
 $config['version'] = 0.01;

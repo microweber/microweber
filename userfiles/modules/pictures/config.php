@@ -7,7 +7,7 @@ $config['no_cache'] = true;
 $config['ui'] = true;
 $config['categories'] = "media";
 $config['version'] = 1.11;
-$config['position'] = 6;
+$config['position'] = 4;
 $config['is_system'] = true;
 
 
