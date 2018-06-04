@@ -17,7 +17,10 @@ if (!defined('MW_USER_IP')) {
 
 
 event_bind('mw.admin.dashboard.content', function ($params = false) {
-    return mw_print_stats_on_dashboard($params);
+    print '<div type="site_stats/admin" class="mw-lazy-load-module" id="site_stats_admin"></div>';
+
+   // print '  <module type="site_stats/admin" id="site_stats_admin" />';
+
 });
 
 
@@ -30,18 +33,17 @@ function mw_print_quick_stats_by_session($sid = false)
     print '<module type="site_stats/admin" view="quick_stats_by_session" class="mw-site-stats-quick-view-table" data-subtype="quick" data-user-sid="' . $sid . '" />';
 }
 
-function mw_print_stats_on_dashboard()
-{
-
-
-    $active = url_param('view');
-    $cls = '';
-    if ($active == 'shop') {
-        //   $cls = ' class="active" ';
-    }
-    print '  <module type="site_stats/admin" id="site_stats_admin" />';
-    //print '<microweber module="site_stats" view="admin" />';
-}
+//function mw_print_stats_on_dashboard()
+//{
+//
+//
+//    $active = url_param('view');
+//    $cls = '';
+//    if ($active == 'shop') {
+//        //   $cls = ' class="active" ';
+//    }
+//    //print '<microweber module="site_stats" view="admin" />';
+//}
 
 //
 //event_bind('mw.pageviewffffff', function ($params = false) {

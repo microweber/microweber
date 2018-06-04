@@ -4,6 +4,11 @@
         <?php event_trigger('mw.admin.dashboard.content'); ?>
 
 
+        <?php event_trigger('mw.admin.dashboard.content.1'); ?>
+
+        <?php event_trigger('mw.admin.dashboard.content.2'); ?>
+
+        <?php event_trigger('mw.admin.dashboard.content.3'); ?>
 
 
         <div class="mw-ui-box quick-lists pull-left">

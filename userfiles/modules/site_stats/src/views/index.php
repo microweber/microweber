@@ -35,11 +35,8 @@ if(isset($params['period'])){
 <?php include __DIR__ . '/stats.php'; ?>
 
 <module type="site_stats/dashboard_graph" />
+
 <module type="site_stats/dashboard_recent_orders" />
-<module type="comments/dashboard_recent_comments" />
-
-
-<module type="contact_form/dashboard_recent_messages" />
 
 
 

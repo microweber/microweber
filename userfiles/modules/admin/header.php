@@ -55,6 +55,9 @@
     <?php if (!isset($_REQUEST['no_toolbar'])): ?>
         <script type="text/javascript">
             $(document).ready(function () {
+
+                $('.mw-lazy-load-module').reload_module();
+               
                 if (self === top) {
                     window.onhashchange = function () {
                         mw.cookie.set('back_to_admin', window.location.href);

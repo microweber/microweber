@@ -34,13 +34,15 @@ mw.require("css_parser.js");
 mw.datassetSupport = typeof mwd.documentElement.dataset !== 'undefined';
 $.fn.reload_module = function(c){
     return this.each(function(){
-        if($(this).hasClass("module")){
+     //   if($(this).hasClass("module")){
             (function(el){
                 mw.reload_module(el, function () {
+                    if(typeof(c) != 'undefined'){
                     c.call(el,el)
+                    }
                 })
             })(this)
-        }
+     //   }
     })
 }
 $.fn.dataset = function (dataset, val) {

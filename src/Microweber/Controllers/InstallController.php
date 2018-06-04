@@ -165,6 +165,14 @@ class InstallController extends Controller
             } else {
 
 
+                try {
+                    DB::connection($dbDriver)->getDatabaseName();
+                } catch (\Exception $e) {
+                    $this->log('Error in database connection');
+                    return 'Error: ' . $e->getMessage() . "\n";
+                }
+
+
                 $install_finished = false;
                 try {
                     DB::connection($dbDriver)->getDatabaseName();
