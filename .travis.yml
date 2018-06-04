@@ -12,6 +12,7 @@ env:
 
 before_install:
   - composer self-update
+  - composer dump-autoload
 
 # execute any number of scripts before the test run, custom env's are available as variables
 
