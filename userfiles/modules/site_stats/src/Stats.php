@@ -557,6 +557,8 @@ class Stats
                 if ($period == 'weekly') {
                     if ($engine == 'mysql') {
                         $date_period_q = "DATE_ADD(updated_at, INTERVAL 7 DAY) as date_key";
+                    } else if($engine == 'pgsql') {                        
+                        $date_period_q = "DATE(updated_at - INTERVAL '7 DAY') as date_key";
                     } else {
                         $date_period_q = "DATE(updated_at,'weekday 1','+7 days') as date_key";
                     }
@@ -565,6 +567,8 @@ class Stats
                 if ($period == 'monthly') {
                     if ($engine == 'mysql') {
                         $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 MONTH) as date_key";
+                    } else if($engine == 'pgsql') {                        
+                        $date_period_q = "DATE(updated_at - INTERVAL '7 MONTH') as date_key";
                     } else {
                         $date_period_q = "DATE(updated_at,'start of month','+1 month','-1 day') as date_key";
                     }
@@ -572,6 +576,8 @@ class Stats
                 if ($period == 'daily') {
                     if ($engine == 'mysql') {
                         $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 DAY) as date_key";
+                    } else if($engine == 'pgsql') {                        
+                        $date_period_q = "DATE(updated_at - INTERVAL '1 DAY') as date_key";
                     } else {
                         $date_period_q = "DATE(updated_at) as date_key";
                     }
@@ -580,6 +586,8 @@ class Stats
             if ($period == 'yearly') {
                 if ($engine == 'mysql') {
                     $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 YEAR) as date_key";
+                } else if($engine == 'pgsql') {                        
+                    $date_period_q = "DATE(updated_at - INTERVAL '1 YEAR') as date_key";
                 } else {
                     $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
                 }
