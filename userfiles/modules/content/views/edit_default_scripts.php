@@ -345,14 +345,15 @@
                 module.removeClass('loading');
                 if (typeof this.title !== 'undefined') {
                     mw.notification.error('<?php _e('Please enter title'); ?>');
-                    $('.mw-title-field').animate({
-                        paddingLeft: "+=5px",
-                        backgroundColor: "#efecec"
+
+                    $('#content-title-field-row').animate({
+                        backgroundColor: "red"
+                    }, function(){
+                        $('#content-title-field-row').animate({
+                            backgroundColor: "transparent"
+                        })
                     })
-                        .animate({
-                            paddingLeft: "-=5px",
-                            backgroundColor: "white"
-                        });
+
                 }
                 if (typeof this.content !== 'undefined') {
                     mw.notification.error('<?php _e('Please enter content'); ?>');

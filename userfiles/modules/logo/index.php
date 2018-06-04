@@ -68,7 +68,21 @@ if ($size == false or $size == '') {
 ?>
 <?php if ($font_family_safe != 'inherit') { ?>
 
-    <script>mw.require('//fonts.googleapis.com/css?family=<?php print $font_family; ?>&filetype=.css', true);</script>
+    <script>
+        mw.require("fonts.js");
+        
+        $(document).ready(function(){
+            mw.logoFont = mw.logoFont || new mw.font();
+
+            mw.logoFont.set({
+                family:{
+                    "<?php print $font_family; ?>":[400]
+                }
+            })
+        })
+    </script>
+
+
 
 <?php } ?>
 

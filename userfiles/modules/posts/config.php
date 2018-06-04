@@ -7,7 +7,7 @@ $config['no_cache'] = true;
 $config['ui'] = true;
 $config['categories'] = "content";
 $config['version'] = 0.1;
-$config['position'] = 11;
+$config['position'] = 20;
 $config['is_system'] = true;
 $config['options'] = array();
 $config['options']['zoom'] = array("type"=>"number", "default"=> 11);

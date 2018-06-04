@@ -4,13 +4,12 @@ $config = array();
 $config['name'] = "Registration";
 $config['author'] = "Microweber";
 $config['description'] = "Microweber";
-$config['website'] = "http://microweber.com/"; 
-$config['help'] = "http://microweber.info/modules/users/registration"; 
+$config['website'] = "http://microweber.com/";
+$config['help'] = "http://microweber.info/modules/users/registration";
 $config['version'] = 0.2;
-$config['ui'] = true; 
-   $config['position'] = 21;
-$config['categories'] = "users";    
-
+$config['ui'] = true;
+$config['position'] = 33;
+$config['categories'] = "users";
 
 
 $options = array();

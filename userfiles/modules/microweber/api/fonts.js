@@ -1,3 +1,40 @@
+
+/***********************
+
+
+    var myFont = new mw.font();
+
+
+    //create group of fonts
+
+    myFont.set({
+        family:{
+            Roboto:[300,400],
+            'Architects Daughter':[400, 700],
+        },
+        subset:["cyrillic","cyrillic-ext","korean","latin-ext"]
+    })
+
+    //add to group
+
+    myFont.add({
+        family:{
+            Roboto:[100]
+        }
+    })
+
+
+    myFont.remove('Roboto', 100) // removes weight 100
+
+    myFont.remove('Roboto')  // removes family
+
+
+
+*************************/
+
+
+
+
 mw.fonts = {
     _create:function(){
         var el = document.createElement('link');
@@ -54,7 +91,7 @@ mw.fonts = {
                 url += '&amp;subset=' + options.subset.join(',')
             }
             el._config = options;
-            el.href = el._rooturl + url;
+            el.href = el._rooturl + url.replace(/\s/g, '+');
         },
         config:function(options, el, mode){
 

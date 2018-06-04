@@ -8,7 +8,7 @@ $config['website'] = "http://microweber.com/";
 $config['help'] = "http://microweber.info/modules/search"; 
 $config['version'] = 0.2;
 $config['ui'] = true;
-$config['position'] = 20; 
+$config['position'] = 34;
 $config['categories'] = "content";
 
 

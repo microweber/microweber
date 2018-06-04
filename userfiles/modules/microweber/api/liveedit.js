@@ -1,4 +1,5 @@
 mw.require('wysiwyg.js');
+mw.require('control_box.js');
 mw.require('element_analyzer.js');
 mw.isDrag = false;
 mw.resizable_row_width = false;
@@ -792,7 +793,7 @@ mw.drag = {
         mw.drag.fix_placeholders(true);
         mw.drag.fixes()
 
-        mw.drag.init();
+
 
         mw.resizable_columns();
 
@@ -936,6 +937,10 @@ mw.drag = {
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop)
                 var marginTop =  17;
+                if(el[0].offsetHeight <100){
+                    topPos=o.top+el[0].offsetHeight;
+                    marginTop =  0;
+                }
             }
 
             $(mw.handle_module).css({
@@ -2882,6 +2887,7 @@ $.expr[':'].isVisible = function(obj, index, meta, stack) {
 };
 PagesFrameSRCSet = false;
 $(document).ready(function() {
+    mw.wysiwyg.init_editables();
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
     mw.ea = new mw.ElementAnalyzer();
@@ -2914,7 +2920,7 @@ $(document).ready(function() {
             $(this).addClass("hovered");
         }
     });
-    mw.wysiwyg.init_editables();
+
 
     setInterval(function(){
 
@@ -2923,7 +2929,7 @@ $(document).ready(function() {
         if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
           mw.tools.addClass(this, 'element')
         }
-      })
+      });
 
 
         mw.$(".edit").each(function(){

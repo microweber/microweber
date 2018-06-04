@@ -1,4 +1,9 @@
+mw.tplDreamExpose = function( name, func){
+    mw.tplDream[name] = func;
+}
+mw.tplDream = {
 
+}
 var mr = (function ($, window, document){
     "use strict";
 
@@ -1727,8 +1732,9 @@ mr = (function (mr, $, window, document){
     "use strict";
 
     var documentReady = function($){
-        $('.tabs').each(function(){
+        $('.tabs:not(".activated")').each(function(){
             var tabs = $(this);
+            tabs.addClass("activated")
             tabs.after('<ul class="tabs-content">');
             tabs.find('li').each(function(){
                 var currentTab = $(this);
@@ -1737,22 +1743,27 @@ mr = (function (mr, $, window, document){
                 tabContent.remove();
                 currentTab.closest('.tabs-container').find('.tabs-content').append(tabContentClone);
             });
+            tabs.find('li').on('click', function(){
+                var clickedTab = $(this);
+                var tabContainer = clickedTab.closest('.tabs-container');
+                var activeIndex = (clickedTab.index()*1)+(1);
+
+                tabContainer.find('> .tabs > li').removeClass('active');
+                tabContainer.find('> .tabs-content > li').removeClass('active');
+
+                clickedTab.addClass('active');
+                tabContainer.find('> .tabs-content > li:nth-of-type('+activeIndex+')').addClass('active');
+            });
+            tabs.find('li.active').trigger('click');
+
         });
 
-        $('.tabs li').on('click', function(){
-            var clickedTab = $(this);
-            var tabContainer = clickedTab.closest('.tabs-container');
-            var activeIndex = (clickedTab.index()*1)+(1);
 
-            tabContainer.find('> .tabs > li').removeClass('active');
-            tabContainer.find('> .tabs-content > li').removeClass('active');
 
-            clickedTab.addClass('active');
-            tabContainer.find('> .tabs-content > li:nth-of-type('+activeIndex+')').addClass('active');
-        });
 
-        $('.tabs li.active').trigger('click');
     };
+
+    mw.tplDreamExpose("tabs", documentReady);
 
     mr.tabs = {
         documentReady : documentReady
@@ -1920,3 +1931,4 @@ mr = (function (mr, $, window, document){
 	  return mr;
 
 }(mr, jQuery, window, document));
+

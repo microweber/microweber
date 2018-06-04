@@ -9,5 +9,5 @@ $config['author_website'] = "";
 $config['ui'] = true;
 $config['ui_admin'] = false;
 $config['categories'] = "other";
-$config['position'] = "100";
+$config['position'] = 11;
 $config['version'] = 0.01;

@@ -15,12 +15,14 @@
     <meta property="og:site_name" content="{og_site_name}"/>
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
     <script>
+        mw.require("fonts.js");
         mw.lib.require('bootstrap3');
         mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');
     </script>
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">-->
 
     <script>
+        mw.templateFont = mw.templateFont || new mw.font();
         mw.templateTopFixed = '.nav-bar.nav--fixed';
 
         AddToCartModalContent = window.AddToCartModalContent || function (title) {

@@ -226,6 +226,7 @@ if (!empty($recomended_layouts)) {
         },
         setHeight: function () {
             var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
+            if(!iframe) return;
             $(iframe).css({
                 height: 1 * ($(window).height() - 66)
             })

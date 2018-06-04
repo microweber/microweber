@@ -14,4 +14,4 @@ $config['ui'] = true;
 $config['ui_admin'] = false;
 
 
-$config['position'] = 13;
+$config['position'] = 17;
