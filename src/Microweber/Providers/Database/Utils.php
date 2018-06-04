@@ -75,12 +75,10 @@ class Utils
 
         }
         // });
-
-
         $class = $this;
         // DB::transaction(function () use ($table_name, $fields_to_add, $class) {
         if (is_array($fields_to_add)) {
-            Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name, $class) {
+            Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name, $class, $engine) {
                 foreach ($fields_to_add as $name => $meta) {
                     $is_index = substr($name, 0, 1) === '$';
                     $is_default = null;
@@ -119,8 +117,20 @@ class Utils
                             if ($is_nullable) {
                                 $fluent->nullable();
                             }
-
-
+                        } else {
+                            if($name == '$id') continue;
+                            $type = DB::getSchemaBuilder()->getColumnType($table_name, $name);
+                            if(!is_string($meta) && isset($meta['type'])) {
+                                $meta = $meta['type'];
+                            }
+                            if($engine == 'pgsql' && $meta == 'char') {
+                                $meta = 'string';
+                            }
+                            if(is_string($meta) && $type != $meta) {
+                                Schema::table($table_name, function ($table) use ($meta, $name) {
+                                    $table->{$meta}($name)->change();
+                                });
+                            }
                         }
                     }
                 }

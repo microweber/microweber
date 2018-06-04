@@ -46,7 +46,8 @@
     "knplabs/knp-menu": "^2.2",
     "jenssegers/agent": "~2.1",
     "geoip2/geoip2": "~2.0",
-    "dompdf/dompdf": "0.8.2"
+    "dompdf/dompdf": "0.8.2",
+    "doctrine/dbal": "2.5.x-dev"
   },
   "autoload": {
     "psr-4": {
