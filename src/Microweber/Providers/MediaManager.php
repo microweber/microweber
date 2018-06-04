@@ -1116,22 +1116,19 @@ class MediaManager
         return $resp;
     }
 
-//    public function relative_media_start_path()
-//    {
-//        static $path;
-//        if ($path == false) {
-//            $host = (parse_url(site_url()));
-//            $host_dir = false;
-//            if (isset($host['host'])) {
-//                $host_dir = $host['host'];
-//                $host_dir = str_ireplace('www.', '', $host_dir);
-//                $host_dir = str_ireplace('.', '-', $host_dir);
-//            }
-//            $path = MW_MEDIA_FOLDER_NAME . '/' . $host_dir . '';
-//        }
-//
-//        return $path;
-//    }
+    public function relative_media_start_path()
+    {
+
+
+        static $path;
+        if ($path == false) {
+            $environment = \App::environment();
+
+            $path = MW_MEDIA_FOLDER_NAME . '/' . $environment . '';
+        }
+
+        return $path;
+    }
 
     public function thumbnails_path()
     {
