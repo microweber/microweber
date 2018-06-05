@@ -78,14 +78,14 @@ if (!function_exists('site_url')) {
                 $pageURL = $pageURL_host . $d;
             }
             if (isset($_SERVER['QUERY_STRING'])) {
-                $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
+                //    $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
             }
 
             $uz = parse_url($pageURL);
-            if (isset($uz['query'])) {
-                $pageURL = str_replace($uz['query'], '', $pageURL);
-                $pageURL = rtrim($pageURL, '?');
-            }
+//            if (isset($uz['query'])) {
+//                $pageURL = str_replace($uz['query'], '', $pageURL);
+//                $pageURL = rtrim($pageURL, '?');
+//            }
 
             $url_segs = explode('/', $pageURL);
 
@@ -107,6 +107,7 @@ if (!function_exists('site_url')) {
         if (defined('MW_SITE_URL_PATH_PREFIX')) {
             $site_url .= MW_SITE_URL_PATH_PREFIX;
         }
+
         return $site_url . $add_string;
     }
 }

@@ -138,11 +138,11 @@ class MicroweberServiceProvider extends ServiceProvider
         }
 
 
+
+
+
         $this->app->instance('config', new ConfigSave($this->app));
 
-        $this->app->singleton('lang_helper', function ($app) {
-            return new \Microweber\Providers\Helpers\Lang($app);
-        });
 
 
         $this->app->singleton(
@@ -164,6 +164,9 @@ class MicroweberServiceProvider extends ServiceProvider
             'Microweber\App\Console\Kernel'
         );
 
+        $this->app->singleton('lang_helper', function ($app) {
+            return new Providers\Helpers\Lang($app);
+        });
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);

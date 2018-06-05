@@ -404,6 +404,7 @@ class Lang
         $k = $title;
         //$k1 = strip_tags($k);
         $k1 = url_title($k);
+        $environment = \App::environment();
 
 
         $lang_key = preg_replace("/[^[:alnum:][:space:]]/u", '', $k);
@@ -436,7 +437,9 @@ class Lang
                     define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
                     $scheduler = new \Microweber\Providers\Event();
                     // schedule a global scope function:
+                    if($environment != 'testing'){
                     $scheduler->registerShutdownEvent('__store_lang_file');
+                    }
                     // $scheduler->registerShutdownEvent('__store_lang_file');
                 }
             } else {
@@ -456,8 +459,9 @@ class Lang
                     if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                         define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
                         $scheduler = new \Microweber\Providers\Event();
-                        $scheduler->registerShutdownEvent('__store_lang_file_ns');
-
+                        if($environment != 'testing') {
+                            $scheduler->registerShutdownEvent('__store_lang_file_ns');
+                        }
                     }
                 }
 
