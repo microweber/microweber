@@ -15,8 +15,8 @@ class UpdateManager
 {
     public $app;
     public $skip_cache = false;
-    private $remote_api_url = 'http://api.microweber.com/service/update/';
-    private $remote_url = 'http://api.microweber.com/service/update/';
+    private $remote_api_url = 'http://update.microweberapi.com/';
+    private $remote_url = 'http://update.microweberapi.com/';
     private $temp_dir = false;
 
     public function __construct($app = null)
