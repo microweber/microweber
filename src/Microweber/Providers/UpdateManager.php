@@ -659,6 +659,7 @@ class UpdateManager
         scan_for_elements();
         mw()->layouts_manager->scan();
         mw()->template->clear_cached_custom_css();
+        mw()->template->clear_cached_apijs_assets();
         event_trigger('mw_db_init_default');
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');

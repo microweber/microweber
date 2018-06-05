@@ -61,7 +61,7 @@ class Template
     {
 
 
-        $url = $this->app->url_manager->site('apijs').'?mwv='.MW_VERSION;
+        $url = $this->app->url_manager->site('apijs') . '?mwv=' . MW_VERSION;
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
@@ -78,7 +78,7 @@ class Template
 
     public function get_apijs_settings_url()
     {
-        $url = $this->app->url_manager->site('apijs_settings').'?mwv='.MW_VERSION;;
+        $url = $this->app->url_manager->site('apijs_settings') . '?mwv=' . MW_VERSION;;
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
@@ -89,7 +89,7 @@ class Template
             }
 
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-            $fn = 'api_settings.' . md5(site_url() . template_dir().$mtime) . '.' . MW_VERSION . '.js';
+            $fn = 'api_settings.' . md5(site_url() . template_dir() . $mtime) . '.' . MW_VERSION . '.js';
             $userfiles_cache_filename = $userfiles_cache_dir . $fn;
             if (is_file($userfiles_cache_filename)) {
                 if (is_file($userfiles_cache_filename)) {
@@ -99,6 +99,23 @@ class Template
         }
 
         return $url;
+    }
+
+    public function clear_cached_apijs_assets()
+    {
+        $userfiles_dir = userfiles_path();
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
+        if (!is_dir($userfiles_cache_dir)) {
+            return;
+        }
+        $files = glob($userfiles_cache_dir . "*.js");
+        if ($files) {
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    @unlink($file);
+                }
+            }
+        }
     }
 
     public function meta($name, $value = false)
@@ -229,7 +246,7 @@ class Template
     public function get_custom_css_url()
     {
         $url = api_nosession_url('template/print_custom_css');
-        if(in_live_edit()){
+        if (in_live_edit()) {
             return $url;
         }
 
@@ -240,7 +257,7 @@ class Template
             $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
             if (is_file($userfiles_cache_filename)) {
                 $custom_live_editmtime = filemtime($userfiles_cache_filename);
-                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver='.$custom_live_editmtime;
+                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver=' . $custom_live_editmtime;
             }
         }
 
@@ -254,7 +271,9 @@ class Template
         $userfiles_dir = userfiles_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
         $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
-
+        if (!is_dir($userfiles_cache_dir)) {
+            return;
+        }
         $files = glob($userfiles_cache_dir . "custom_css*.css");
         if ($files) {
             foreach ($files as $file) {
