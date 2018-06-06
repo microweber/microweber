@@ -4,12 +4,14 @@
 $last_messages = mw()->forms_manager->get_entires('limit=5');
 if ($last_messages == null) {
     $last_messages = 0;
+}else{
+    $last_messages = count($last_messages);
 }
 ?>
 <div class="dashboard-recent">
     <div class="dr-head">
         <span class="drh-activity-name"><i class="mai-mail"></i> <?php _e("Recent Messages") ?></span>
-        <a href="<?php print admin_url('view:modules/load_module:contact_form'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print count($last_messages); ?></strong> <?php print _e('Go to Messages'); ?></a>
+        <a href="<?php print admin_url('view:modules/load_module:contact_form'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print $last_messages; ?></strong> <?php print _e('Go to Messages'); ?></a>
     </div>
     <div class="dr-list">
         <div class="messages-holder">
