@@ -72,7 +72,7 @@ class DbTest extends TestCase
         $content_count = db_get('content', 'count=true');
         $pages_count = db_get('content', 'limit=2&count_paging=1');
 
-        $must_be = intval(floor($content_count / 2));
+        $must_be = intval(ceil($content_count / 2));
         $this->assertEquals($pages_count, $must_be);
     }
 

@@ -15,8 +15,8 @@ class UpdateManager
 {
     public $app;
     public $skip_cache = false;
-    private $remote_api_url = 'http://api.microweber.com/service/update/';
-    private $remote_url = 'http://api.microweber.com/service/update/';
+    private $remote_api_url = 'http://update.microweberapi.com/';
+    private $remote_url = 'http://update.microweberapi.com/';
     private $temp_dir = false;
 
     public function __construct($app = null)
@@ -659,6 +659,7 @@ class UpdateManager
         scan_for_elements();
         mw()->layouts_manager->scan();
         mw()->template->clear_cached_custom_css();
+        mw()->template->clear_cached_apijs_assets();
         event_trigger('mw_db_init_default');
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');

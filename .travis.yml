@@ -17,6 +17,7 @@ before_install:
 # execute any number of scripts before the test run, custom env's are available as variables
 
 before_script:
+  - curl -sSfL -o ~/.phpenv/versions/hhvm/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar
   - travis_retry composer install
 
 #  - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi

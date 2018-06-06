@@ -52,13 +52,9 @@ class Stats
                         $join->on('stats_sessions.id', '=', 'stats_visits_log.session_id_key');
 
 
-
-
-
-
                     });
 
-                 $log = $log->where('stats_sessions.session_id', $sid);
+                    $log = $log->where('stats_sessions.session_id', $sid);
 
                 }
 
@@ -77,14 +73,11 @@ class Stats
 //               CatchesPerDay FROM `catch-text` GROUP BY user_id)
 //               TotalCatches'),
 
-                $log = $log->join('stats_urls', function ($join)  use ($log) {
+                $log = $log->join('stats_urls', function ($join) use ($log) {
 
-                  $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
+                    $join->on('stats_visits_log.url_id', '=', 'stats_urls.id');
 
-                   // $log = $join->select('stats_visits_log.url_id as url_id')->where('url_id', '=', 'stats_urls.id');
-
-
-
+                    // $log = $join->select('stats_visits_log.url_id as url_id')->where('url_id', '=', 'stats_urls.id');
 
 
                 });
@@ -107,12 +100,9 @@ class Stats
                 $log = $log->orderBy('stats_visits_log.updated_at', 'desc');
 
 
+                if ($engine == 'pgsql') {
 
-
-
-                if($engine == 'pgsql'){
-
-                    $log = $log->groupBy('url_id','stats_visits_log.id','url','content_id','category_id');
+                    $log = $log->groupBy('url_id', 'stats_visits_log.id', 'url', 'content_id', 'category_id');
                 } else {
                     $log = $log->groupBy('url_id');
 
@@ -180,7 +170,7 @@ class Stats
 
 
                 // $log = $log->groupBy('referrer_id');
-                if($engine == 'pgsql'){
+                if ($engine == 'pgsql') {
                     $log = $log->groupBy('stats_sessions.referrer_domain_id',
                         'stats_sessions.id',
                         'stats_referrers.is_internal');
@@ -266,7 +256,8 @@ class Stats
                                         } else {
                                             $item_array['referrer_paths'][$rel_key]['referrer_path'] = '';
 
-                                        }                                    }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -313,8 +304,8 @@ class Stats
                     );
 
                     $log = $log->groupBy('geoip_id');
-                    if($engine == 'pgsql') {
-                        $log = $log->groupBy('geoip_id','country_code','country_name','stats_sessions.id');
+                    if ($engine == 'pgsql') {
+                        $log = $log->groupBy('geoip_id', 'country_code', 'country_name', 'stats_sessions.id');
                     }
                 }
 
@@ -326,14 +317,11 @@ class Stats
                     );
 
                     $log = $log->groupBy('language');
-                    if($engine == 'pgsql') {
-                        $log = $log->groupBy('language','stats_sessions.id');
+                    if ($engine == 'pgsql') {
+                        $log = $log->groupBy('language', 'stats_sessions.id');
                     }
 
                 }
-
-
-
 
 
                 $log = $log->limit(500);
@@ -401,10 +389,9 @@ class Stats
                 $log = $log->orderBy('stats_sessions.updated_at', 'desc');
                 $log = $log->groupBy('session_id');
 
-                if($engine == 'pgsql') {
-                    $log = $log->groupBy('stats_sessions.id','country_code','country_name','browser_name','browser_os');
+                if ($engine == 'pgsql') {
+                    $log = $log->groupBy('stats_sessions.id', 'country_code', 'country_name', 'browser_name', 'browser_os');
                 }
-
 
 
                 $data = $log->get();
@@ -553,11 +540,20 @@ class Stats
                 $engine = mw()->database_manager->get_sql_engine();
 
 
-
+                $group_by_key = 'date_key';
                 if ($period == 'weekly') {
                     if ($engine == 'mysql') {
-                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 7 DAY) as date_key";
-                    } else if($engine == 'pgsql') {                        
+                        // DATE_SUB(DATE(updated_at), INTERVAL 7 DAY) as date_key
+                        $date_period_q = "DATE(updated_at) as date_key, WEEK(DATE(updated_at)) as date_week, YEAR(DATE(updated_at)) as date_year";
+                        $group_by_key = array('date_week','date_year');
+
+                        // $group_by_key = 'date_week';
+                        //  $date_period_q = "DATE_FORMAT(WEEK(DATE(updated_at)) as date_key";
+                        //  $date_period_q = "SUBDATE(updated_at, INTERVAL 1 WEEK) as date_key";
+                        //  $date_period_q = "DATE(updated_at - INTERVAL '7 DAY') as date_key";
+                        //   $date_period_q = "DATE_SUB(DATE(updated_at),'INTERVAL 1 WEEK') as date_key";
+
+                    } else if ($engine == 'pgsql') {
                         $date_period_q = "DATE(updated_at - INTERVAL '7 DAY') as date_key";
                     } else {
                         $date_period_q = "DATE(updated_at,'weekday 1','+7 days') as date_key";
@@ -566,32 +562,44 @@ class Stats
 
                 if ($period == 'monthly') {
                     if ($engine == 'mysql') {
-                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 MONTH) as date_key";
-                    } else if($engine == 'pgsql') {                        
-                        $date_period_q = "DATE(updated_at - INTERVAL '7 MONTH') as date_key";
+                        //  $date_period_q = "DATE_SUB(updated_at, INTERVAL 1 MONTH) as date_key";
+                        // $date_period_q = "DATE_SUB(DATE(updated_at), INTERVAL 1 MONTH) as date_key";
+
+                        $date_period_q = "DATE(updated_at) as date_key, MONTH(DATE(updated_at)) as date_month, YEAR(DATE(updated_at)) as date_year";
+                        $group_by_key = array('date_month','date_year');
+
+
+                    } else if ($engine == 'pgsql') {
+                        $date_period_q = "DATE(updated_at - INTERVAL '1 MONTH') as date_key";
                     } else {
                         $date_period_q = "DATE(updated_at,'start of month','+1 month','-1 day') as date_key";
                     }
                 }
                 if ($period == 'daily') {
                     if ($engine == 'mysql') {
-                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 DAY) as date_key";
-                    } else if($engine == 'pgsql') {                        
+                        $date_period_q = "DATE(updated_at) as date_key";
+                        //  $date_period_q = "DATE_SUB(updated_at, INTERVAL 1 DAY) as date_key";
+                    } else if ($engine == 'pgsql') {
                         $date_period_q = "DATE(updated_at - INTERVAL '1 DAY') as date_key";
                     } else {
                         $date_period_q = "DATE(updated_at) as date_key";
                     }
                 }
 
-            if ($period == 'yearly') {
-                if ($engine == 'mysql') {
-                    $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 YEAR) as date_key";
-                } else if($engine == 'pgsql') {                        
-                    $date_period_q = "DATE(updated_at - INTERVAL '1 YEAR') as date_key";
-                } else {
-                    $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
+                if ($period == 'yearly') {
+                    if ($engine == 'mysql') {
+                        $date_period_q = "DATE_ADD(updated_at, INTERVAL 1 YEAR) as date_key";
+
+                        $date_period_q = "DATE(updated_at) as date_key, YEAR(DATE(updated_at)) as date_year";
+                        $group_by_key = array('date_year');
+
+
+                    } else if ($engine == 'pgsql') {
+                        $date_period_q = "DATE(updated_at - INTERVAL '1 YEAR') as date_key";
+                    } else {
+                        $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
+                    }
                 }
-            }
                 if ($return == 'visits_count_grouped_by_period') {
 
 //                    $log = $log->select(DB::raw($date_period_q . ', count(session_id_key) as date_value'));
@@ -600,21 +608,21 @@ class Stats
 
                     $log = new Sessions();
                     $log = $log->select(DB::raw($date_period_q . ', count(session_id) as date_value'));
-                    $log = $log->groupBy('date_key');
+                    $log = $log->groupBy($group_by_key);
                 } else {
                     $log = $log->select(DB::raw($date_period_q . ', sum(view_count) as date_value'));
-                    $log = $log->groupBy('date_key');
+                    $log = $log->groupBy($group_by_key);
                 }
 
 
-              //  $log = $log->limit(14);
+                //  $log = $log->limit(14);
                 $return = $log->get();
 
                 $return = collection_to_array($return);
 
-                if($return){
+                if ($return) {
                     $return = array_reverse($return);
-                    $return = array_slice($return, 0,14);
+                    $return = array_slice($return, 0, 14);
                     $return = array_reverse($return);
 
                 }

@@ -18,7 +18,7 @@ function set_current_lang($lang = 'en')
  */
 function current_lang()
 {
-    return mw()->lang_helper->current_lang();
+    return app('lang_helper')->current_lang();
 
 }
 

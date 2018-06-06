@@ -119,17 +119,32 @@ class Utils
                             }
                         } else {
                             if($name == '$id') continue;
-                            $type = DB::getSchemaBuilder()->getColumnType($table_name, $name);
-                            if(!is_string($meta) && isset($meta['type'])) {
-                                $meta = $meta['type'];
-                            }
-                            if($engine == 'pgsql' && $meta == 'char') {
-                                $meta = 'string';
-                            }
-                            if(is_string($meta) && $type != $meta) {
-                                Schema::table($table_name, function ($table) use ($meta, $name) {
-                                    $table->{$meta}($name)->change();
-                                });
+
+
+
+                            try {
+
+                                if (!class_exists('\Doctrine\DBAL\Driver\PDOPgSql\Driver', true)) {
+                                    throw new \Exception('Doctrine DBAL is missing');
+                                }
+
+                                $type = DB::getSchemaBuilder()->getColumnType($table_name, $name);
+                                if(!is_string($meta) && isset($meta['type'])) {
+                                    $meta = $meta['type'];
+                                }
+                                if($engine == 'pgsql' && $meta == 'char') {
+                                    $meta = 'string';
+                                }
+                                if(is_string($meta) && $type != $meta) {
+                                    Schema::table($table_name, function ($table) use ($meta, $name) {
+                                        $table->{$meta}($name)->change();
+                                    });
+                                }
+
+                            } catch (\Exception $e) {
+
+
+
                             }
                         }
                     }
