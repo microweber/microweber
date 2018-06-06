@@ -138,9 +138,13 @@ class DatabaseManager extends DbUtils
             $do_not_replace_site_url = $params['do_not_replace_site_url'];
         }
 
+$limit =  $this->default_limit;
         if (!isset($params['limit'])) {
-            $params['limit'] = $this->default_limit;
+            $limit = $params['limit'] = $this->default_limit;
+        } else {
+            $limit = $params['limit'];
         }
+
         if (isset($params['nolimit'])) {
             $params['no_limit'] = $params['nolimit'];
             unset($params['nolimit']);
@@ -205,7 +209,7 @@ class DatabaseManager extends DbUtils
             return;
         }
 
-        $cache_key_closures = '';
+        $cache_key_closures = 'cache';
         foreach ($orig_params as $k => $v) {
             if (is_object($v) && $v instanceof \Closure) {
                 $serializable = new SerializableClosure($v);
@@ -215,7 +219,7 @@ class DatabaseManager extends DbUtils
         }
 
         if (!isset($params['no_limit'])) {
-            $cache_key = $table . crc32(json_encode($orig_params) . $this->default_limit . $cache_key_closures);
+            $cache_key = $table . crc32(json_encode($orig_params) .$limit. $this->default_limit . $cache_key_closures);
         } else {
             $cache_key = $table . crc32(json_encode($params) . $cache_key_closures);
         }
@@ -235,7 +239,8 @@ class DatabaseManager extends DbUtils
                     return $query->count();
                 });
             }
-            if ($items_per_page != false) {
+            if ($items_per_page != false and is_numeric($query)) {
+                // return the pages count
                 $query = intval(ceil($query / $items_per_page));
             }
 

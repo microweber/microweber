@@ -54,6 +54,7 @@ class DbInstaller
                     $table->integer('last_activity');
                 });
             } catch (QueryException $e) {
+
             }
         }
         $exec = $this->getSystemSchemas();
@@ -64,8 +65,13 @@ class DbInstaller
             // Creates the schema
 
             if (method_exists($data, 'up')) {
-                $this->log('Setting up schema ' . get_class($data));
-                $data->up();
+                try {
+                    $this->log('Setting up schema ' . get_class($data));
+                    $data->up();
+                } catch (QueryException $e) {
+
+
+                }
             }
 
             if (method_exists($data, 'get')) {
