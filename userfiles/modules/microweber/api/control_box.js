@@ -3,14 +3,17 @@ mw.controlBox = function(options){
     this.defaults = {
         position:'bottom',
         content:'',
-        skin:'default'
+        skin:'default',
+        id:this.options.id || 'mw-control-box-'+mw.random()
     };
+    this.id = this.options.id;
     this.settings = $.extend({}, this.defaults, this.options);
     this.active = false;
 
     this.build = function(){
         this.box = document.createElement('div');
         this.box.className = 'mw-control-box mw-control-box-' + this.settings.position + ' mw-control-box-' + this.settings.skin;
+        this.box.id = this.id;
         this.boxContent = document.createElement('div');
         this.boxContent.className = 'mw-control-boxcontent';
         this.box.appendChild(this.boxContent);
@@ -19,9 +22,9 @@ mw.controlBox = function(options){
         this.box.appendChild(this.closeButton);
         var scope = this;
         this.closeButton.onclick = function(){
-            scope.hide()
+            scope.hide();
         }
-        document.body.appendChild(this.box)
+        document.body.appendChild(this.box);
     }
 
     this.setContentByUrl = function(){

@@ -235,7 +235,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
 
-            var btn = "<a class='mw-ui-btn-small'  oxxxnclick='$(this).toggleClass(\"active\")'><span class='mw-icon-dropdown right'></span></a>";
+            var btn = "<a class='mw-ui-btn-small'><span class='mw-icon-dropdown right'></span></a>";
 
 
 			var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');

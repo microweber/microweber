@@ -170,42 +170,26 @@
         });
 
 
-        $(window).on('resize load orientationchange', function () {
+        var setScrollBoxes = function(){
             var root = document.querySelector('#modules-and-layouts-sidebar');
             if (root !== null) {
-              var el = root.querySelectorAll('.mw-ui-box');
-              for (var i = 0; i < el.length; i++) {
-                var h =  (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
-                el[i].style.height = h + 'px'
-              }
+                var el = root.querySelectorAll('.mw-ui-box');
+                for (var i = 0; i < el.length; i++) {
+                    var h =  (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
+                    el[i].style.height = h + 'px'
+                }
             }
+        }
+
+        mw.on('liveEditSettingsReady', function(){
+            setScrollBoxes()
+        })
+
+        $(window).on('resize orientationchange', function () {
+            setScrollBoxes()
         });
 
-        $(window).on("load", function(){
-            settingsLoaded = 0;
-            var all = mw.$("#modules-and-layouts-sidebar [data-xmodule], #modules-and-layouts-sidebar [data-src]")
-            all.each(function(){
-                var src = $(this).dataset("src");
-                if(src){
-                    $(this).on("load", function(){
-                        settingsLoaded++;
-                        if(settingsLoaded == all.length){
-                            mw.drag.init();
-                        }
-                    })
-                    this.src = src;
-                }
-                else{
-                    mw.tools.addClass(this, 'module')
-                    mw.reload_module(this, function(){
-                        settingsLoaded++;
-                        if(settingsLoaded == all.length){
-                            mw.drag.init();
-                        }
-                    })
-                }
-            })
 
-        })
+
     </script>
 </div>

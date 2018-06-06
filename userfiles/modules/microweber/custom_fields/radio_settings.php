@@ -34,7 +34,7 @@
      <?php if(is_array($data['values'])) : ?>
      <?php foreach($data['values'] as $v): ?>
       <div class="mw-custom-field-form-controls">
-        <input type="text" class="mw-ui-field" xxxonkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<?php print $rand; ?>');" name="value[]"  value="<?php print $v; ?>" />
+        <input type="text" class="mw-ui-field"  name="value[]"  value="<?php print $v; ?>" />
         <?php print $add_remove_controls; ?>
       </div>
   <?php endforeach; ?>

@@ -3200,7 +3200,7 @@ $(window).on("load", function() {
                         mw.smallEditor.css({
                             visibility: "visible",
                             opacity: 0.7,
-                            top: (top > 10 ? top : 10),
+                            top: (top > 55 ? top : 55),
                             left: e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width() - 5)
                         });
 

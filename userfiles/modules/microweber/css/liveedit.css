@@ -3189,7 +3189,7 @@ div[id*='SSDIVEL'] {
 }
 
 /* Sidebar in Live Edit */
-#live_edit_side_holder {
+/*#live_edit_side_holder {
     position: fixed;
     width: 300px;
     top: 50px;
@@ -3213,15 +3213,13 @@ div[id*='SSDIVEL'] {
 #live_edit_side_holder.sidebar_opened {
     transition: 0.6s;
     right: 0;
-}
+}*/
 
-#live_edit_side_holder.sidebar_opened .sidebar-toggler {
-    left: -23px;
-}
+
 
 #live_edit_side_holder .sidebar-toggler {
     position: absolute;
-    left: -19px;
+
     background: #0086db;
     height: 68px;
     width: 18px;
@@ -3229,8 +3227,13 @@ div[id*='SSDIVEL'] {
     border: 0;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
-    top: 45%;
+    top: 50%;
+    margin-top:-34px;
+
 }
+
+#live_edit_side_holder.mw-control-box-right .sidebar-toggler{left: -19px;}
+#live_edit_side_holder.mw-control-box-left .sidebar-toggler{right: -19px;}
 
 #live_edit_side_holder .sidebar-toggler .i-holder {
     -webkit-transform: rotate(90deg);
@@ -3239,7 +3242,7 @@ div[id*='SSDIVEL'] {
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
     transition: 0.6s;
-    margin-top: 31px;
+    margin-top: 26px;
 }
 
 /*#live_edit_side_holder.sidebar_opened .sidebar-toggler .i-holder {
@@ -3610,16 +3613,7 @@ div[id*='SSDIVEL'] {
     display: none !important;
 }
 
-a[data-id="mw-toolbar-show-sidebar-btn"].opened {
-    margin: 0 0 0 4px;
-    background-color: #0084d8;
-    border-color: #0084d8;
-    color: #fff;
-}
 
-a[data-id="mw-toolbar-show-sidebar-btn"].opened i {
-    color: #fff;
-}
 
 .close-sidebar-button {
     right: 15px;
@@ -3654,15 +3648,7 @@ body.mw-live-edit .mw-tooltip-content {
     overflow: hidden !important;
 }
 
-#sidebar-hidden-area {
-    width: 40px;
-    /*border: 1px solid red;*/
-    position: fixed;
-    right: 0;
-    z-index: 1100;
-    height: 130px;
-    top: 45%;
-}
+
 
 #mw_handle_module_up,
 #mw_handle_module_down {

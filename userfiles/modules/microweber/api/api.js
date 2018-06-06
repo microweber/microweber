@@ -5,8 +5,8 @@ if (typeof jQuery == 'undefined') {
 
     $haystack = load_web_component_file('jquery/jquery-3.3.1.min.js');
     $haystack .= "\n\n".load_web_component_file('jquery/jquery-migrate-3.0.0.js');
-	 
- 
+
+
 	$needle = '//@ sourceMappingURL=';
 	$replace = '//@ disabled_sourceMappingURL=';
 	$pos = strpos($haystack,$needle);
@@ -462,6 +462,7 @@ mw.askusertostay = false;
     var done = callback || false;
     if (typeof module != 'undefined') {
       if (typeof module == 'object') {
+
         mw._({
           selector: module,
           done:done
@@ -476,13 +477,23 @@ mw.askusertostay = false;
             var m = mw.$(".module[data-type='" + module + "']");
             if (m.length === 0) {
                 try { var m = $(module); }  catch(e) {};
-             }
-             m.each(function() {
-                mw._({
-                  selector: this,
-                  done:done
-                });
-            });
+            }
+
+              (function(callback){
+                  var count = 0;
+                  for (var i=0;i<m.length;i++){
+                      mw.reload_module(m[i], function(){
+                          count++;
+
+                          if(count == m.length){
+                              callback.call()
+                          }
+                      })
+                  }
+              })(callback)
+
+
+
           }
         }
       }
@@ -578,7 +589,7 @@ mw.askusertostay = false;
         mw.session.checkPause = false;
       }
       if(DONOTREPLACE){
-          obj.done.call($(selector)[0], data);
+
           mw.tools.removeClass(mwd.body, 'loading');
           mw.pauseSave = false;
           mw.on.DOMChangePause = false;
@@ -594,6 +605,10 @@ mw.askusertostay = false;
       }
       mw.$(selector).replaceWith($(docdata.body).html());
       setTimeout(function(){
+          if(typeof obj.done == 'function'){
+              obj.done.call($(selector)[0], data);
+          }
+
         mw.trigger('moduleLoaded');
       }, 33)
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
@@ -819,8 +834,8 @@ mw._response = {
     mw.$(holder).eq(0).show();
   }
 }
- 
- 
+
+
 mw._one = {};
 mw._ones = {};
 

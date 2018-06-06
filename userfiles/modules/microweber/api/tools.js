@@ -3227,13 +3227,14 @@ mw.tools = {
 
 
     show_live_edit_sidebar: function () {
-        if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
-            $('#live_edit_side_holder').removeClass('sidebar_opened');
+        if (mw.liveEditSettings.active) {
+
             $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
             mw.cookie.set("show-sidebar-layouts", '0');
             $('body').removeClass('has-opened-sidebar');
+            mw.liveEditSettings.hide();
         } else {
-            $('#live_edit_side_holder').addClass('sidebar_opened');
+            mw.liveEditSettings.show();
             $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
             mw.cookie.set("show-sidebar-layouts", '1');
             $('body').addClass('has-opened-sidebar');

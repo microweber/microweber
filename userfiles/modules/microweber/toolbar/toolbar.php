@@ -165,45 +165,10 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <script>
         $(document).ready(function () {
-            // move to livedit.js
-            mw.$("#live_edit_side_holder .module").removeClass("module");
 
-            $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
-                mw.tools.show_live_edit_sidebar();
-            });
-
-            if (mw.cookie.get('show-sidebar-layouts') == 1) {
-                $('#live_edit_side_holder').addClass('sidebar_opened');
-                $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-                $('body').addClass('has-opened-sidebar');
-            } else {
-                $('#live_edit_side_holder').removeClass('sidebar_opened');
-                $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
-                $('body').removeClass('has-opened-sidebar');
-            }
-
-            $('body').prepend('<div id="sidebar-hidden-area"></div>');
-
-
-            /*        var delay = 100, setTimeoutConst;
-             $("#sidebar-hidden-area").mouseover(function () {
-             alert('test');
-             setTimeoutConst = setTimeout(function () {
-             if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
-
-             } else {
-             $('#live_edit_side_holder').addClass('sidebar_opened');
-             $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-             mw.cookie.set("show-sidebar-layouts", '1');
-             }
-             }, delay);
-             }, function () {
-             clearTimeout(setTimeoutConst);
-
-             });*/
 
             function mw_live_edit_opensidebar() {
-                if (mw.$('#live_edit_side_holder').hasClass('sidebar_opened')) {
+                if (mw.liveEditSettings.active) {
                     $('body').removeClass('has-opened-sidebar');
                 } else {
                     $('#live_edit_side_holder').addClass('sidebar_opened');
@@ -213,14 +178,6 @@ if (isset($_COOKIE['mw_exp'])) {
                 }
             }
 
-            var $li_click = $("#sidebar-hidden-area").click(
-                function () {
-
-
-                    mw_live_edit_opensidebar();
-
-
-             });
             var $li = $("#sidebar-hidden-area").hover(
                 function () {
                     var self = this;
@@ -237,12 +194,92 @@ if (isset($_COOKIE['mw_exp'])) {
         });
 
     </script>
+    <script>
 
-    <div class="mw-defaults" id="live_edit_side_holder">
-        <div id="live_edit_sidebar_wrap">
-            <module type="admin/modules/sidebar_live_edit" class=""/>
-        </div>
-    </div>
+
+        mw.on('liveEditSettingsReady', function(){
+            mw.drag.init();
+            $('.module', mw.liveEditSettings.box).removeClass('module')
+
+
+            $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
+                mw.tools.show_live_edit_sidebar();
+            });
+
+            if (mw.cookie.get('show-sidebar-layouts') == 1) {
+                mw.liveEditSettings.show();
+                $('#live_edit_side_holder').addClass('sidebar_opened');
+                $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                $('body').addClass('has-opened-sidebar');
+            } else {
+                $('#live_edit_side_holder').removeClass('sidebar_opened');
+                $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
+                $('body').removeClass('has-opened-sidebar');
+            }
+
+            $('body').prepend('<div id="sidebar-hidden-area"></div>');
+        });
+
+        $(window).on("load", function(){
+            mw.liveEditSettings = new mw.controlBox({
+                content:'<div class="module" type="admin/modules/sidebar_live_edit"></div>',
+                position:'right',
+                id:'live_edit_side_holder'
+            });
+
+            mw.tools.loading(mw.liveEditSettings.box);
+
+
+
+
+
+
+            setTimeout(function(){
+
+                //$("[data-xmodule]").addClass("module");
+                mw.reload_module('#'+mw.liveEditSettings.id+' div[type]', function(){
+                    $("[data-xmodule]").addClass("module")
+                    setTimeout(function(){
+
+
+                        settingsLoaded = 0;
+                        var all = mw.$("#modules-and-layouts-sidebar [data-xmodule], #modules-and-layouts-sidebar [data-src]");
+
+                        all.each(function(){
+                            var src = $(this).dataset("src");
+                            if(src){
+                                $(this).on("load", function(){
+                                    settingsLoaded++;
+                                    if(settingsLoaded == all.length){
+
+
+                                        mw.trigger('liveEditSettingsReady')
+                                    }
+                                });
+                                this.src = src;
+                            }
+                            else{
+                                mw.tools.addClass(this, 'module');
+                                mw.reload_module(this, function(){
+                                    settingsLoaded++;
+                                    if(settingsLoaded == all.length){
+                                        mw.trigger('liveEditSettingsReady')
+
+                                    }
+                                })
+                            }
+                        })
+                    }, 10)
+                });
+            }, 10)
+
+
+
+
+
+
+        })
+    </script>
 
     <div class="mw-defaults" id="live_edit_toolbar_holder" <?php print lang_attributes(); ?>>
         <div id="live_edit_toolbar">
