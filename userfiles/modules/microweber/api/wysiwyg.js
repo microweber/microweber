@@ -474,13 +474,21 @@ mw.wysiwyg = {
       var html = clipboard.getData('text/html');
       return html.indexOf('ProgId content=Excel.Sheet') !== -1
     },
+    cleanUnwantedTags:function(body){
+        $('*', body).each(function(){
+            if(!mw.ea.helpers.isBlockLevel(this) && !this.className.trim()){
+                $(this).replaceWith(this.innerHTML);
+            }
+        });
+        return body.innerHTML;
+    },
     doLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
       var parser = mw.tools.parseHtml(html).body;
       mw.$('[id]', parser).each(function(){
         this.id = 'dlp-item-'+mw.random();
       });
-      mw.wysiwyg.insert_html(parser.innerHTML);
+      mw.wysiwyg.insert_html(this.cleanUnwantedTags(parser));
     },
     isLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
@@ -970,23 +978,30 @@ mw.wysiwyg = {
 
 
                             if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
+                                console.log(999)
                               event.preventDefault()
-
                                 return false;
                             }
 
 
                             if(nextnextchar == ''){
 
+
                                if(nextchar.replace(/\s/g,'') == '' && r.collapsed){
-                                if(nextel && nextel.nodeName != 'BR'){
+
+                                if(nextel && !mw.ea.helpers.isBlockLevel(nextel) && !nextel.className.trim()){
+                                    return true;
+                                }
+                                else if(nextel && nextel.nodeName != 'BR'){
                                   event.preventDefault()
                                   return false;
                                 }
 
                                }
                                else if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
-                                return false;
+                                   console.log(3)
+                                    return false;
+
                                }
                                else{
                                    

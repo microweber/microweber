@@ -576,6 +576,7 @@ mw.tools = {
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
             }
+            console.log(o)
             var modal = mw.tools.modal.source(name, template);
             $(mwd.body).append(modal.html);
             var _modal = mwd.getElementById(modal.id);
@@ -751,16 +752,8 @@ mw.tools = {
         frame: function (obj) {
             var obj = $.extend({}, mw.tools.modal.settings, obj);
             var frame = "<iframe name='frame-" + obj.name + "' id='frame-" + obj.name + "' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
-            var modal = mw.tools.modal.init({
-                html: frame,
-                width: obj.width,
-                height: obj.height,
-                title: obj.title,
-                name: obj.name,
-                overlay: obj.overlay,
-                draggable: obj.draggable,
-                template: obj.template
-            });
+            obj.html = frame;
+            var modal = mw.tools.modal.init(obj);
             $(modal.main).addClass("mw_modal_type_iframe");
             $(modal.container).css("overflow", "hidden");
             if (typeof modal.main == 'undefined') {
