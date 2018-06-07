@@ -223,6 +223,10 @@
     background-color: rgba(177, 177, 177, 0.13);
     display: block;
     height: 57px;
+    /*position: absolute;*/
+}
+
+.stats-view .contents .content .info-holder {
     position: absolute;
 }
 
