@@ -81,13 +81,45 @@ class Ui
         $admin_dashboard_btn['icon_class'] = 'mw-icon-market';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);*/
 
+
+
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'marketplace';
         $admin_dashboard_btn['text'] = _e('Go to Marketplace', true);
         $admin_dashboard_btn['icon_class'] = 'mai-market2';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);
 
+
+
         $notif_count = 0;
+        $notif_count_updates_data =  mw()->update->get_updates_notifications('limit=1');
+
+        if(isset($notif_count_updates_data[0])
+            and isset($notif_count_updates_data[0]['notification_data'])
+            and !empty($notif_count_updates_data[0]['notification_data'])){
+           $notif_data = $notif_count_updates_data[0]['notification_data'];
+
+            if(isset($notif_data['core_update'])){
+                $notif_count = $notif_count + 1;
+            }
+            $others_updates = array('modules','templates','elements');
+            foreach ($others_updates as $item){
+                if(isset($notif_data[$item]) and is_arr($notif_data[$item])){
+                    $notif_count = $notif_count + count($notif_data[$item]);
+                }
+            }
+            if(isset($notif_data['popup']) and $notif_data['popup']) {
+                event_bind(
+                    'mw.admin.dashboard.main', function () use ($notif_data) {
+                    print load_module('updates/updates_popup',$notif_data);
+
+                 }
+                );
+            }
+
+        }
+
+
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
             $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';

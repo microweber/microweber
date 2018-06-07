@@ -134,14 +134,23 @@ class UpdateManager
         return $data;
     }
 
-    public function get_templates()
+    public function get_updates_notifications($params=false)
     {
-        $data = $this->collect_local_data();
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        if(!is_array($params)){
+            $params = array();
+        }
+        $params['rel_type'] = 'update_check';
+        $params['rel_id'] = 'updates';
 
-        $result = $this->call('get_templates', $data);
-
-        return $result;
+        $new_version_notifications = mw()->notifications_manager->get($params);
+return $new_version_notifications;
     }
+
+
+
 
     public function marketplace_link($params = false)
     {
@@ -565,6 +574,9 @@ class UpdateManager
             $notif['rel_id'] = 'updates';
             $notif['title'] = 'New updates are available';
             $notif['description'] = "There are $count new updates are available";
+            $notif['notification_data'] =  @json_encode($result);
+
+
             $this->app->notifications_manager->save($notif);
         }
         if (is_array($result)) {
@@ -610,11 +622,11 @@ class UpdateManager
             $dl_file = $dir_c . $fname;
             if (!$on_step or $on_step == 1) {
 
-                if (!is_file($dl_file)) {
+               if (!is_file($dl_file)) {
                     $this->_log_msg('Downloading core update');
 
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
-                }
+                 }
             }
             if (!$on_step or $on_step > 1) {
 

@@ -93,7 +93,7 @@ if (!$data) {
             <div class=" mw-ui-col">
                 <ul class="page-dots">
                     <?php foreach ($item['views_data'] as $view): ?>
-                        <li class="page-circle" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" class="visitor-url" title="<?php print $view['url'] ?>"></a></li>
+                        <li class="page-circle" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" class="visitor-url" title="<?php print $view['url'] ?>" rel="noreferrer noopener"></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -101,12 +101,14 @@ if (!$data) {
 
         <div class="more-info" id="more-<?php print $item['id']; ?>">
             <?php foreach ($item['views_data'] as $view): ?>
-                <div class="page-visited">
-                    <div class="page-title"><?php print $view['title']; ?>
-                        <div class="pull-right"><?php print mw()->format->ago($view['updated_at']); ?></div>
+                <a href="<?php print $view['url']; ?>" target="_blank" rel="noreferrer noopener">
+                    <div class="page-visited">
+                        <div class="page-title"><?php print $view['title']; ?>
+                            <div class="pull-right"><?php print mw()->format->ago($view['updated_at']); ?></div>
+                        </div>
+                        <div class="page-url"><?php print $view['url']; ?></div>
                     </div>
-                    <div class="page-url"><a href="<?php print $view['url']; ?>" target="_blank"><?php print $view['url']; ?></a></div>
-                </div>
+                </a>
             <?php endforeach; ?>
         </div>
     </div>
