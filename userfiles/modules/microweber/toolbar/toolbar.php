@@ -199,9 +199,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
         mw.on('liveEditSettingsReady', function(){
             mw.drag.init();
-            $('.module', mw.liveEditSettings.box).removeClass('module')
-
-
+            $('.module', mw.liveEditSettings.box).removeClass('module');
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
                 mw.tools.show_live_edit_sidebar();
             });
@@ -211,12 +209,12 @@ if (isset($_COOKIE['mw_exp'])) {
                 $('#live_edit_side_holder').addClass('sidebar_opened');
                 $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
                 $('body').addClass('has-opened-sidebar');
-            } else {
+            }
+            else {
                 $('#live_edit_side_holder').removeClass('sidebar_opened');
                 $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
                 $('body').removeClass('has-opened-sidebar');
             }
-
             $('body').prepend('<div id="sidebar-hidden-area"></div>');
         });
 
@@ -229,30 +227,18 @@ if (isset($_COOKIE['mw_exp'])) {
 
             mw.tools.loading(mw.liveEditSettings.box);
 
-
-
-
-
-
             setTimeout(function(){
-
-                //$("[data-xmodule]").addClass("module");
                 mw.reload_module('#'+mw.liveEditSettings.id+' div[type]', function(){
                     $("[data-xmodule]").addClass("module")
                     setTimeout(function(){
-
-
                         settingsLoaded = 0;
                         var all = mw.$("#modules-and-layouts-sidebar [data-xmodule], #modules-and-layouts-sidebar [data-src]");
-
                         all.each(function(){
                             var src = $(this).dataset("src");
                             if(src){
                                 $(this).on("load", function(){
                                     settingsLoaded++;
                                     if(settingsLoaded == all.length){
-
-
                                         mw.trigger('liveEditSettingsReady')
                                     }
                                 });
@@ -263,8 +249,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 mw.reload_module(this, function(){
                                     settingsLoaded++;
                                     if(settingsLoaded == all.length){
-                                        mw.trigger('liveEditSettingsReady')
-
+                                        mw.trigger('liveEditSettingsReady');
                                     }
                                 })
                             }
@@ -272,12 +257,6 @@ if (isset($_COOKIE['mw_exp'])) {
                     }, 10)
                 });
             }, 10)
-
-
-
-
-
-
         })
     </script>
 

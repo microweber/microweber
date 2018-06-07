@@ -2179,7 +2179,7 @@ mw.drag = {
     collectData: function(edits) {
         $(edits).each(function(){
           $('meta', this).remove();
-        })
+        });
 
         edits = this.htmlAttrValidate(edits);
         var l = edits.length,
@@ -2208,7 +2208,7 @@ mw.drag = {
                     continue;
                 }
                 $(helper.item).removeClass('changed orig_changed');
-                var content = helper.item.innerHTML;
+                var content = mw.wysiwyg.cleanUnwantedTags(helper.item).innerHTML;
                 //var content = $(content).find('script').remove();
 
                 var attr_obj = {};

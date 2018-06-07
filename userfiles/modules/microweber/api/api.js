@@ -459,7 +459,7 @@ mw.askusertostay = false;
         }
         return false;
     }
-    var done = callback || false;
+    var done = callback || function(){};
     if (typeof module != 'undefined') {
       if (typeof module == 'object') {
 

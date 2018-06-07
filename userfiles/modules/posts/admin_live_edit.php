@@ -246,7 +246,6 @@ mw.on.hashParam("action", function () {
             nav:".post-settings-holder .mw-ui-btn-nav-tabs .mw-ui-btn",
             tabs:".mw-ui-box-content-tabs .tab",
             onclick : function(tab, event, index){
-
                 window.name = index;
             }
        });
