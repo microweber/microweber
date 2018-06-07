@@ -183,7 +183,7 @@ class NotificationsManager
         }
 
         if (isset($params['notification_data'])) {
-            $params['notification_data'] = @json_encode($params['notification_data']);
+            $params['notification_data'] = ($params['notification_data']);
         }
 
 
@@ -237,15 +237,24 @@ class NotificationsManager
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
             $return = $this->app->database_manager->get($params);
-            if ($return and is_array($return)) {
-                foreach ($return as $k => $v) {
-                    if (isset($v['notification_data']) and is_string($v['notification_data'])) {
-                        $v['notification_data'] = @json_decode($v['notification_data'], true);
-                        $return[$k] = $v;
-                    }
+
+        }
+
+
+        if ($return and is_array($return)) {
+            foreach ($return as $k => $v) {
+                if (isset($v['notification_data']) and is_string($v['notification_data'])) {
+                    $v['notification_data'] = @json_decode($v['notification_data'], true);
+                    $return[$k] = $v;
+
                 }
             }
         }
+
+
+
+
+
         return $return;
     }
 }
