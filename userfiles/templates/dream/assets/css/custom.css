@@ -523,3 +523,7 @@ section.blog-post .container .container {
     float: left;
     margin-top: 3px;
 }
+
+.module-bxslider .owl-item .imagebg .background-image-holder{
+    top: 0 !important;
+}

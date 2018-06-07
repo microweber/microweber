@@ -4270,10 +4270,16 @@ body.grabbing, body.grabbing * {
 }
 
 .quick-lists .mw-ui-navigation a span .mw-notification-count {
-    top: 10px;
-    left: 0;
-    right: auto;
-    margin-left: 5px;
+
+}
+
+.quick-lists .mw-ui-navigation a span .mw-notification-count {
+    top: 5px;
+    margin-left: 10px;
+    left: auto;
+    right:auto;
+    float: none;
+    display: inline-block;
 }
 
 .quick-lists .mw-ui-navigation a span {
@@ -7442,4 +7448,13 @@ select.silver-field {
         margin-top: 10px;
         margin-left: 0 !important;
     }
+}
+
+.module-updates .admin-section-bar h2{
+    display: inline-block;
+}
+
+.module-updates .admin-section-bar #number_of_updates {
+    top: 11px;
+    right: 0;
 }
