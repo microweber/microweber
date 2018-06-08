@@ -649,7 +649,7 @@
     border: 0 !important;
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1366px) {
     .fade-window .window-holder #content-title-field-buttons ul li a,
     .fade-window .window-holder #content-title-field-buttons ul li button {
         min-width: auto;

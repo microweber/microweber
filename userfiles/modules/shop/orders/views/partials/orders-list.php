@@ -1,9 +1,9 @@
 <script>
     window.orderToggle = window.orderToggle || function (e) {
-        var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['order-holder']);
+        var item = mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['order-holder']);
         var curr = $('.order-data-more', item);
 
-        if(!mw.tools.hasClass(item, 'active')){
+        if (!mw.tools.hasClass(item, 'active')) {
             var curr = $('.order-data-more', item);
             $('.order-data-more').not(curr).stop().slideUp();
             $('.order-holder').not(item).removeClass('active');
@@ -16,18 +16,18 @@
     <?php foreach ($orders as $item) : ?>
 
 
-    <div class="order-holder" id="order-n-<?php print $item['id'] ?>" onclick="orderToggle(event);">
-        <div class="order-data">
-            <div class="product-image">
-                <?php $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . ''); ?>
+        <div class="order-holder" id="order-n-<?php print $item['id'] ?>" onclick="orderToggle(event);">
+            <div class="order-data">
+                <div class="product-image">
+                    <?php $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . ''); ?>
 
 
 
-                <?php if (isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
-                    <?php $p = get_picture($cart_item[0]['rel_id'], $cart_item[0]['rel_type']); ?>
-                    <?php if ($p == false and isset($cart_item[0]['item_image']) and $cart_item[0]['item_image'] != false): ?>
-                        <?php $p = $cart_item[0]['item_image']; ?>
-                    <?php endif; ?>
+                    <?php if (isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
+                        <?php $p = get_picture($cart_item[0]['rel_id'], $cart_item[0]['rel_type']); ?>
+                        <?php if ($p == false and isset($cart_item[0]['item_image']) and $cart_item[0]['item_image'] != false): ?>
+                            <?php $p = $cart_item[0]['item_image']; ?>
+                        <?php endif; ?>
 
                         <?php if (isset($p) and $p != false): ?>
                             <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($p, 120, 120); ?>)"></span>
@@ -69,11 +69,13 @@
 
                 </div>
 
-                <div><?php print date('M d, Y', strtotime($item['created_at'])); ?></div>
+                <div class="center" style="padding-top:30px;"><?php print date('M d, Y', strtotime($item['created_at'])); ?> <br/>
+                    <small style="opacity: 0.6;"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
+                </div>
 
 
                 <div>
-                    <?php if ($item['order_status'] == false or $item['order_status']  == 'new'): ?>
+                    <?php if ($item['order_status'] == false or $item['order_status'] == 'new'): ?>
                         <?php _e("New"); ?>
                     <?php elseif ($item['order_status'] == 'completed'): ?>
                         <span class="mw-order-item-status-completed"><?php _e("Completed"); ?></span>
@@ -84,7 +86,8 @@
             </div>
 
             <div class="order-data-more mw-accordion-content">
-                <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $item['id']; ?>" href="<?php print admin_url('view:shop/action:orders#vieworder=' . $item['id']); ?>">
+                <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info view-order-button" id="vieorder-<?php print $item['id']; ?>"
+                   href="<?php print admin_url('view:shop/action:orders#vieworder=' . $item['id']); ?>">
                     <?php _e("View order"); ?>
                 </a>
 
@@ -95,7 +98,9 @@
                     <?php if (isset($item['first_name']) AND isset($item['last_name'])): ?>
                         <div class="box">
                             <p class="label"><?php print _e('Client Name:'); ?></p>
-                            <p class="content"><a href="<?php print admin_url() ?>view:shop/action:clients#?clientorder=<?php print $item['id'] ?>"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></a></p>
+                            <p class="content"><a
+                                        href="<?php print admin_url() ?>view:shop/action:clients#?clientorder=<?php print $item['id'] ?>"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></a>
+                            </p>
                         </div>
                     <?php endif; ?>
 

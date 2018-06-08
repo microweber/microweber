@@ -1680,6 +1680,8 @@ mr = (function (mr, $, window, document){
 
     mr.sliders.documentReady = documentReady;
 
+    mw.tplDreamExpose("slider", documentReady);
+
     mr.components.documentReadyDeferred.push(documentReady);
     return mr;
 
