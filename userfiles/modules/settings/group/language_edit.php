@@ -91,7 +91,7 @@ mw.notification.msg(this);
 <?php
 
 
-$cont  = get_language_file_content();
+$cont  = mw()->lang_helper->get_language_file_content();
 
 
 
