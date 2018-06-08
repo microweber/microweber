@@ -193,12 +193,37 @@ if (get_option('enable_comments', 'comments') == 'y') {
     if ($comments) {
         $comments_new = array();
         foreach ($comments as $comment) {
-            if (!$required_moderation or intval($comment['is_moderated'] )== 1
-                or (!(mw()->user_manager->session_all() == false)
-                    and $comment['session_id'] == mw()->user_manager->session_id())
-            ) {
+            $show_comment = false;
 
+
+
+            if ( $comment['session_id'] == mw()->user_manager->session_id()) {
+                $show_comment = true;
             }
+
+
+            if (!$show_comment and isset($comment['is_spam']) and intval($comment['is_spam']) == 1) {
+                continue;
+            }
+
+            if (!$show_comment and isset($comment['is_moderated']) and intval($comment['is_moderated']) == 0) {
+                continue;
+            }
+
+
+//            else {
+//
+//
+//
+//                 if (
+//                     !$required_moderation or intval($comment['is_moderated']) == 1
+//                     or (!(mw()->user_manager->session_all() == false) and $comment['session_id'] == mw()->user_manager->session_id())
+//                 ){}
+//
+//                     continue;
+//            }
+
+
             if (isset($comment['comment_website'])) {
                 $comment['comment_website'] = mw()->format->prep_url($comment['comment_website']);
             }
