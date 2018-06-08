@@ -39,7 +39,7 @@
     <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table table-style-2">
         <thead>
         <tr>
-            <th class="left"><?php _e('License'); ?></th>
+            <th><?php _e('License'); ?></th>
             <th class="left"><?php _e('Key'); ?></th>
             <th class="left"><?php _e('Status'); ?></th>
             <th class="center"><?php _e('View'); ?></th>
