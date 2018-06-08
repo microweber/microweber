@@ -48,7 +48,7 @@ mw.AfterDrop = function(){
                 })
             });
             mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
-            mw.$(".mw-empty").removeClass('mw-empty');
+            mw.$(".mw-empty").not(':empty').removeClass('mw-empty');
             scope.loadNewModules()
             mw.dropable.hide().removeClass('mw_dropable_onleaveedit');
 
@@ -116,7 +116,7 @@ mw.ElementAnalyzer = function(options){
         columns:['mw-col', 'mw-ui-col', 'col', 'column', 'columns'],
         columnMatches:'[class*="col-"]',
         rowMatches:'[class*="row-"]',
-    }                                   
+    };                                   
     this.settings = Object.assign(this.options, this.defaults);
 
     this.prepare = function(){
@@ -334,6 +334,9 @@ mw.ElementAnalyzer = function(options){
             is = mw.tools.hasAnyOfClasses(node, this.scope.settings.columns);
             if(is){
                 return is;
+            }
+            if(mw.tools.hasAnyOfClasses(node, ['mw-col-container', 'mw-ui-col-container'])){
+                return false;
             }
             return mw.tools.matches(node, this.scope.settings.columnMatches);
         },

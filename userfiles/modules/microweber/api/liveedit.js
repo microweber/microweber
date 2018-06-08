@@ -1229,6 +1229,22 @@ mw.drag = {
             mw.drag.toolbar_modules();
         }
         mw.drag.the_drop();
+
+        $("#mw_handle_module_up").on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+
+            var el =  $($(mw.handle_module).data('curr'));
+            mw.drag.replace(el, 'prev');
+            $(this).parent().hide()
+        });
+        $("#mw_handle_module_down").on('click', function(){
+            var el =  $($(mw.handle_module).data('curr'));
+            mw.drag.replace(el, 'next');
+            $(this).parent().hide()
+        })
+
+
     },
     properFocus: function(event) {
         if (mw.tools.hasClass(event.target, 'mw-row') || mw.tools.hasClass(event.target, 'mw-col')) {
@@ -1398,7 +1414,7 @@ mw.drag = {
                             mw.$("#modules-and-layouts").removeClass("hovered");
                         }
                     }
-                    if (mw.tools.hasClass(target, 'mw-empty')) {
+                    if (mw.tools.hasClass(target, 'mw-empty') && target.innerHTML.trim() != '') {
                         target.className = 'element';
                     }
                 }
@@ -2163,7 +2179,7 @@ mw.drag = {
     collectData: function(edits) {
         $(edits).each(function(){
           $('meta', this).remove();
-        })
+        });
 
         edits = this.htmlAttrValidate(edits);
         var l = edits.length,
@@ -2192,7 +2208,7 @@ mw.drag = {
                     continue;
                 }
                 $(helper.item).removeClass('changed orig_changed');
-                var content = helper.item.innerHTML;
+                var content = mw.wysiwyg.cleanUnwantedTags(helper.item).innerHTML;
                 //var content = $(content).find('script').remove();
 
                 var attr_obj = {};
@@ -2784,6 +2800,7 @@ mw.designTool = {
     }
 }
 $(window).on("load", function() {
+    setTimeout(function(){
     mw.$(".mw-dropdown_type_navigation a").each(function() {
         var el = $(this);
         var li = el.parent();
@@ -2849,18 +2866,11 @@ $(window).on("load", function() {
     }, function() {
         $(this).removeClass("toolbar_bnav_hover");
     });
-    $("#mw_handle_module_up").on('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
 
-      var el =  $($(mw.handle_module).data('curr'));
-      mw.drag.replace(el, 'prev')
-    });
-  $("#mw_handle_module_down").on('click', function(){
-     var el =  $($(mw.handle_module).data('curr'));
-      mw.drag.replace(el, 'next')
-  })
 
+
+
+    }, 100)
 });
 
 

@@ -444,7 +444,6 @@ mw.wysiwyg = {
         mw.$("#mw-text-editor").removeClass("editor_hover");
     },
     nceui: function () {  //remove defaults for browser's content editable tools
-
         if (mw.settings.liveEdit) {
             mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
             mw.wysiwyg.execCommand('2D-Position', false, false);
@@ -473,6 +472,35 @@ mw.wysiwyg = {
     pastedFromExcel:function(clipboard){
       var html = clipboard.getData('text/html');
       return html.indexOf('ProgId content=Excel.Sheet') !== -1
+    },
+    areSameLike:function(el1,el2){
+        if(!el1 || !el2) return false;
+        if(!!el1.className.trim() || !!el2.className.trim()){
+            return false;
+        }
+
+        var css1 = (el1.getAttribute('style') || '').replace(/\s/g,'');
+        var css2 = (el2.getAttribute('style') || '').replace(/\s/g,'');
+
+        if(css1===css2 && el1.nodeName === el2.nodeName){
+            return true;
+        }
+
+        return false;
+    },
+    cleanUnwantedTags:function(body){
+        var scope = this;
+        $('*', body).each(function(){
+            if(!mw.ea.helpers.isBlockLevel(this) && !this.className.trim()){
+                if(scope.areSameLike(this,this.nextElementSibling)){
+                    this.innerHTML =  this.innerHTML + this.nextElementSibling.innerHTML;
+                    this.nextElementSibling.innerHTML = '';
+                    this.nextElementSibling.className = 'mw-skip-and-remove';
+                }
+            }
+        });
+        $('.mw-skip-and-remove', body).remove()
+        return body;
     },
     doLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
@@ -970,23 +998,30 @@ mw.wysiwyg = {
 
 
                             if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
+                                console.log(999)
                               event.preventDefault()
-
                                 return false;
                             }
 
 
                             if(nextnextchar == ''){
 
+
                                if(nextchar.replace(/\s/g,'') == '' && r.collapsed){
-                                if(nextel && nextel.nodeName != 'BR'){
+
+                                if(nextel && !mw.ea.helpers.isBlockLevel(nextel) && !nextel.className.trim()){
+                                    return true;
+                                }
+                                else if(nextel && nextel.nodeName != 'BR'){
                                   event.preventDefault()
                                   return false;
                                 }
 
                                }
                                else if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
-                                return false;
+                                   console.log(3)
+                                    return false;
+
                                }
                                else{
                                    

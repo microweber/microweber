@@ -2950,8 +2950,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     float: right;
     margin-left: 8px;
     font-weight: bold;
-    line-height: 13px;
-
+    line-height: 16px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2960,6 +2959,8 @@ input#edit-content-url:focus, input#edit-content-url.active {
 .toolbar-live-edit span {
     font-size: 17px;
     vertical-align: middle;
+    line-height: 13px;
+    float: left;
 }
 
 .pages_tree {
@@ -4270,10 +4271,16 @@ body.grabbing, body.grabbing * {
 }
 
 .quick-lists .mw-ui-navigation a span .mw-notification-count {
-    top: 10px;
-    left: 0;
-    right: auto;
-    margin-left: 5px;
+
+}
+
+.quick-lists .mw-ui-navigation a span .mw-notification-count {
+    top: 5px;
+    margin-left: 10px;
+    left: auto;
+    right:auto;
+    float: none;
+    display: inline-block;
 }
 
 .quick-lists .mw-ui-navigation a span {
@@ -6114,7 +6121,7 @@ span.mw-icon-upload {
     visibility: hidden;
     color: #0086db;
     background: #fff;
-    padding: 4px 5px;
+    padding: 6px 5px;
     -webkit-border-radius: 52px;
     -moz-border-radius: 52px;
     border-radius: 52px;
@@ -6125,10 +6132,12 @@ span.mw-icon-upload {
     top: 20px;
     cursor: pointer;
     font-weight: bold;
+    width: 21px;
+    height: 21px;
 }
 
 .new-close.mw-icon-close:not(.module-uninstall-btn) {
-    padding: 4px 4px;
+    padding-top: 4px;
     top: 21px;
 
 }
@@ -6419,6 +6428,7 @@ span.mw-icon-upload {
     margin-top: 0;
     top: 15px;
     right: 15px;
+    text-align: center;
 }
 
 .orders-holder .order-holder .view-order-button {
@@ -7442,4 +7452,13 @@ select.silver-field {
         margin-top: 10px;
         margin-left: 0 !important;
     }
+}
+
+.module-updates .admin-section-bar h2{
+    display: inline-block;
+}
+
+.module-updates .admin-section-bar #number_of_updates {
+    top: 11px;
+    right: 0;
 }
