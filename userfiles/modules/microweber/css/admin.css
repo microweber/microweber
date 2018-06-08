@@ -6151,6 +6151,10 @@ span.mw-icon-upload {
     content: "\0139";
 }
 
+.admin-shipping-table .new-close.mw-icon-close:not(.module-uninstall-btn):before {
+    content: "\0111"  !important;
+}
+
 .active .new-close.mw-icon-close {
     visibility: visible;
 }
