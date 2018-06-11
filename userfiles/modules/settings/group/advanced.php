@@ -39,113 +39,39 @@
     </div>
 </div>
 
-
 <div class="admin-side-content">
-    <div class="<?php print $config['module_class'] ?>">
+    <div class="admin-side-content">
+        <div class="<?php print $config['module_class'] ?> mw-advanced-settings">
+            <div class="mw-ui-row">
+                <div class="mw-ui-col">
+                    <span class="box-title"><i class="mw-icon-web-search"></i><br />SEO</span>
+                    <ul>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('SEO <?php _e("settings"); ?>','settings/group/seo')">SEO <?php _e("settings"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e('Custom head tags'); ?>','settings/group/custom_head_tags')"><?php _e("Custom head tags"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Robots.txt <?php _e("file"); ?>','settings/group/custom_head_tags')">Robots.txt <?php _e("file"); ?></a></li>
+                    </ul>
+                </div>
 
+                <div class="mw-ui-col">
+                    <span class="box-title"><i class="mai-code"></i><br />Developmnet settings</span>
+                    <ul>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e('Developer tools'); ?>','admin/developer_tools')"><?php _e('Developer tools'); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:mw.clear_cache()"><?php _e("Clear cache"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);"><?php _e("Reload Database"); ?></a></li>
+                    </ul>
+                </div>
 
-        <hr>
-        Seo
-        <ul>
-
-
-            <li>
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('SEO <?php _e("settings"); ?>','settings/group/seo')">
-                    SEO <?php _e("settings"); ?>
-                </a>
-
-
-            </li>
-
-
-            <li>
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('<?php _e('Custom head tags'); ?>','settings/group/custom_head_tags')">
-                    <?php _e("Custom head tags"); ?>
-                </a>
-
-
-            </li>
-
-            <li>
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('Robots.txt <?php _e("file"); ?>','settings/group/custom_head_tags')">
-                    Robots.txt <?php _e("file"); ?>
-                </a>
-
-
-            </li>
-
-
-        </ul>
-
-
-        <hr>
-        System settings
-        <ul>
-
-
-            <li>
-                <a class="mw-ui-btn" href="javascript:mw.clear_cache()">
-                    <?php _e("Clear cache"); ?>
-                </a>
-            </li>
-            <li><a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);">
-                    <?php _e("Reload Database"); ?>
-                </a></li>
-
-        </ul>
-
-
-        <hr>
-        Other settings
-        <ul>
-
-
-            <li>
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('<?php _e("Internal settings"); ?>','settings/group/internal')">
-                    <?php _e("Internal settings"); ?>
-                </a>
-            </li>
-
-            <li>
-
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('<?php _e("Live Edit"); ?> <?php _e("settings"); ?>','settings/group/live_edit')">
-
-                    <?php _e("Live Edit"); ?><?php _e("settings"); ?>
-
-
-                </a>
-
-
-            </li>
-
-            <li>
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('<?php _e("Statistics settings"); ?>','site_stats/settings')">
-                    <?php print("Statistics settings"); ?>
-                </a>
-
-
-            </li>
-            <li>
-                <a class="mw-ui-btn"
-                   href="javascript:settings_load_module('<?php _e('Developer tools'); ?>','admin/developer_tools')">
-                    <?php _e('Developer tools'); ?>
-                </a>
-
-
-            </li>
-
-        </ul>
-
-
+                <div class="mw-ui-col">
+                    <span class="box-title"><i class="mai-setting2"></i><br />Other settings</span>
+                    <ul>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Internal settings"); ?>','settings/group/internal')"><?php _e("Internal settings"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Live Edit"); ?> <?php _e("settings"); ?>','settings/group/live_edit')"><?php _e("Live Edit"); ?><?php _e("settings"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Statistics settings"); ?>','site_stats/settings')"><?php print("Statistics settings"); ?></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-
-
 </div>
 
 

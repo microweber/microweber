@@ -7469,10 +7469,34 @@ select.silver-field {
 
 .mobile-live-edit-btn {
     padding: 3px 4px 3px 5px;
-    margin-top:10px;
-    margin-right:10px;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .mobile-live-edit-btn i {
     font-size: 16px;
+}
+
+.mw-advanced-settings {
+    text-align: center;
+}
+
+.mw-advanced-settings ul {
+    padding: 20px;
+}
+
+.mw-advanced-settings ul li {
+    list-style-type: none;
+    margin-top: 15px;
+}
+
+.mw-advanced-settings ul li a {
+    display: block;
+}
+
+.mw-advanced-settings .box-title i{
+    font-size: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    display: block;
 }

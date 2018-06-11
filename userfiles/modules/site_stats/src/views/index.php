@@ -4,7 +4,7 @@
 $module_id = $params['id'];
 $period = 'daily';
 
-if(isset($params['period'])){
+if (isset($params['period'])) {
     $period = $params['period'];
 
 }
@@ -17,26 +17,25 @@ if(isset($params['period'])){
             $('#<?php print $module_id ?>').attr('period', $period);
             mw.reload_module('#<?php print $module_id ?>');
         })
-     }
+    }
 
-    $( document ).ready(function() {
-        $( "[data-stat='<?php print $period ?>']" ).addClass( "active" );
+    $(document).ready(function () {
+        $("[data-stat='<?php print $period ?>']").addClass("active");
 
     });
 
 
-
 </script>
 
+<?php if (get_option('stats_disabled', 'site_stats') == 0): ?>
+    <module type="site_stats/admin" view="visits_graph" id="admin_dashboard_visits_graph" period="<?php print $period; ?>"/>
 
+    <?php include __DIR__ . '/stats.php'; ?>
+<?php endif; ?>
 
-<module type="site_stats/admin" view="visits_graph"  id="admin_dashboard_visits_graph" period="<?php print $period ; ?>" />
+<module type="site_stats/dashboard_graph"/>
 
-<?php include __DIR__ . '/stats.php'; ?>
-
-<module type="site_stats/dashboard_graph" />
-
-<module type="site_stats/dashboard_recent_orders" />
+<module type="site_stats/dashboard_recent_orders"/>
 
 
 
