@@ -100,7 +100,7 @@ if (isset($notif_params['quick'])) {
 
 
     ?>
-
+<div class="admin-side-content">
     <div class="mw-admin-notifications-holder mw-ui-box mw-ui-box-content" id="<?php print $wrapper_id ?>">
         <div class="table-responsive">
             <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
@@ -215,3 +215,4 @@ if (isset($notif_params['quick'])) {
         </div>
     <?php endif; ?>
 <?php endif; ?>
+</div>
