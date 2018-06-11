@@ -22,8 +22,7 @@
             <?php _e("You can put custom html in the site head-tags. Please put only valid meta tags or you can break your site."); ?>
         </div>
     </label>
-    <textarea name="website_head" class="mw_option_field mw-ui-field w100" type="text"
-              option-group="website"><?php print get_option('website_head', 'website'); ?></textarea>
+    <textarea name="website_head" class="mw_option_field mw-ui-field w100" type="text" option-group="website" style="min-height: 200px;"><?php print get_option('website_head', 'website'); ?></textarea>
 </div>
 
 
