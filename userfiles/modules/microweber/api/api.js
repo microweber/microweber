@@ -487,7 +487,7 @@ mw.askusertostay = false;
                       mw.reload_module(m[i], function(){
                           count++;
 
-                          if(count == m.length){
+                          if(count == m.length && typeof callback === 'function'){
                               callback.call()
                           }
                       })

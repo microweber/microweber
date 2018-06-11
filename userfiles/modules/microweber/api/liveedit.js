@@ -2115,6 +2115,13 @@ mw.drag = {
           this.html = mw.drag.grammarlyFix(this.html)
         });
         mw.drag.saving = true;
+
+        data = JSON.stringify(data);
+        data = btoa(encodeURIComponent(data).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        }));
+
         var xhr = $.ajax({
             type: 'POST',
             url: mw.settings.api_url + 'save_edit',
