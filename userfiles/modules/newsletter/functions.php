@@ -27,14 +27,69 @@ function newsletter_subscribe($params)
     ];
 
     $input = Input::only(
-        'email'
+        'email', 'terms', 'captcha'
     );
-    $messages = array( 'unique' => 'This email is already subscribed!' );
+    $messages = array('unique' => 'This email is already subscribed!');
 
-    $validator = Validator::make($input, $rules,$messages);
+    $validator = Validator::make($input, $rules, $messages);
     if ($validator->fails()) {
         return array('error' => $validator->messages());
     }
+
+
+    $needs_terms = get_option('require_terms', 'newsletter') == 'y';
+
+
+    if ($needs_terms) {
+        $user_id_or_email = mw()->user_manager->id();
+        if (!$user_id_or_email) {
+            if (isset($input['email'])) {
+                $user_id_or_email = $input['email'];
+            }
+        }
+
+        if (!$user_id_or_email) {
+            $checkout_errors['comments_needs_email'] = _e('You must provide email address', true);
+        } else {
+            $terms_and_conditions_name = 'terms_newsletter';
+
+            $check_term = mw()->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+            if (!$check_term) {
+                if (isset($input['terms']) and $input['terms']) {
+                    mw()->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                } else {
+                    return array(
+                        'error' => _e('You must agree to terms and conditions', true),
+                        'form_data_required' => 'terms',
+                        'form_data_module' => 'users/terms'
+                    );
+                }
+            }
+        }
+    }
+
+
+    if (!isset($input['captcha'])) {
+        return array(
+            'error' => _e('Invalid captcha answer!', true),
+            'captcha_error' => true,
+            'form_data_required' => 'captcha',
+            'form_data_module' => 'captcha'
+        );
+
+    } else {
+        $validate_captcha = mw()->captcha->validate($input['captcha']);
+        if (!$validate_captcha) {
+
+            return array(
+                'error' => _e('Invalid captcha answer!', true),
+                'captcha_error' => true,
+                'form_data_required' => 'captcha',
+                'form_data_module' => 'captcha'
+            );
+        }
+    }
+
 
     $confirmation_code = str_random(30);
 
@@ -104,3 +159,6 @@ function newsletter_send_campaign($params)
 }
 
 
+event_bind('website.privacy_settings', function () {
+    print '<h2>Newsletter settings</h2><module type="newsletter/privacy_settings" />';
+});

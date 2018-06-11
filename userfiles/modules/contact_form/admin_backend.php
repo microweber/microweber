@@ -69,9 +69,9 @@
                 <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn"><?php _e("Settings"); ?></a>
              </div>
             </div>
-            
-            
-            
+
+
+
             <?php /*<div class="mw-ui-btn-nav">
           <a href="<?php print $config['url']; ?>/mod_action:browse" class="<?php if($mod_action == 'browse'){ ?> active <?php }?> mw-ui-btn"><?php _e("My mod_action"); ?></a>
           <a href="<?php print $config['url']; ?>/mod_action:add_new" class="<?php if($mod_action == 'add_new'){ ?> active <?php }?>mw-ui-btn" onclick="Alert(<?php _e("Coming soon"); ?>)"><?php _e("Get more mod_action"); ?></a>

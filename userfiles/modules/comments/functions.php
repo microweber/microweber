@@ -109,5 +109,8 @@ event_bind(
     $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
 
     mw()->ui->module('admin.dashboard.menu', $admin_dashboard_btn);
-}
-);
+});
+
+event_bind('website.privacy_settings', function () {
+    print '<h2>Comments settings</h2><module type="comments/privacy_settings" />';
+});
