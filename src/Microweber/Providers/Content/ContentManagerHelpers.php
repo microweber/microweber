@@ -526,6 +526,9 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
+            if (isset($post_data['data_base64'])) {
+                $post_data['json_obj'] = @base64_decode($post_data['data_base64']) ;
+            }
             if (isset($post_data['json_obj'])) {
                 $obj = json_decode($post_data['json_obj'], true);
                 $post_data = $obj;
