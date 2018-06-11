@@ -251,13 +251,16 @@ mw.ElementAnalyzer = function(options){
         _isBlockCache:{},
         isBlockLevel:function(node){
             node = node || this.data.target;
+            if(node.nodeType === 3){
+                return false;
+            }
             var name = node.nodeName;
             if(this._isBlockCache[name]){
                 return this._isBlockCache[name];
             }
             var test = document.createElement(name);
             this.scope.fragment().appendChild(test);
-            this._isBlockCache[name] = getComputedStyle(test).display == 'block';
+            this._isBlockCache[name] = getComputedStyle(test).display === 'block';
             this.scope.fragment().removeChild(test);
             return this._isBlockCache[name];
         },

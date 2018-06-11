@@ -998,7 +998,6 @@ mw.wysiwyg = {
 
 
                             if((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar ){
-                                console.log(999)
                               event.preventDefault()
                                 return false;
                             }
@@ -1013,27 +1012,36 @@ mw.wysiwyg = {
                                     return true;
                                 }
                                 else if(nextel && nextel.nodeName != 'BR'){
+                                  if(sel.focusNode.nodeName === 'P'){
+                                      if(event.keyCode === 46){
+                                          if(sel.focusNode.nextElementSibling.nodeName === 'P'){
+                                              return true;
+                                          }
+                                      }
+                                      if(event.keyCode === 8){
+                                          if(sel.focusNode.previousElementSibling.nodeName === 'P'){
+                                              return true;
+                                          }
+                                      }
+                                  }
                                   event.preventDefault()
                                   return false;
                                 }
 
                                }
                                else if((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])){
-                                   console.log(3)
-                                    return false;
-
+                                   return false;
                                }
                                else{
                                    
                                }
                             }
                             if (nextchar == '' ) {
-                                 
+
 
                                     //continue check nodes
                                     if (event.keyCode == 46) {
                                         nextNode = mw.wysiwyg.merge.getNext(sel.focusNode);
-
                                     }
                                     if (event.keyCode == 8) {
                                         nextNode = mw.wysiwyg.merge.getPrev(sel.focusNode);
@@ -1041,8 +1049,6 @@ mw.wysiwyg = {
                                     if(mw.wysiwyg.merge.alwaysMergable(nextNode)){
                                       return true;
                                     }
-
-
 
                                     var nonbr = mw.wysiwyg.merge.isInNonbreakable(nextNode)
                                     if(nonbr){
@@ -1053,18 +1059,13 @@ mw.wysiwyg = {
                                     if(nextNode.nodeValue == ''){
 
                                     }
-
                                     if (nextNode !== null && mw.wysiwyg.merge.isMergeable(nextNode)) {
-
-                                    if (event.keyCode == 46) {
-
-                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'next', event)
-                                    }
-                                    else{
-
-                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
-
-                                    }
+                                        if (event.keyCode == 46) {
+                                            mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'next', event)
+                                        }
+                                        else{
+                                            mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
+                                        }
                                     }
                                     else {
                                         event.preventDefault()

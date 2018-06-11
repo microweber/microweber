@@ -4148,8 +4148,7 @@ mw.traverse = function (root, h) {
     });
 }
 mw.isDragItem = mw.isBlockLevel = function (obj) {
-    var items = /^(blockquote|center|dir|fieldset|form|h[1-6]|hr|menu|ul|ol|dl|p|pre|table|div)$/i;
-    return items.test(obj.nodeName);
+    return mw.ea.helpers.isBlockLevel(obj);
 }
 mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 _Prefixtest = false;
@@ -5324,6 +5323,7 @@ mw.getExtradataFormData = function (data, call) {
     if(data.form_data_module){
         mw.loadModuleData(data.form_data_module, function(moduledata){
             call.call(undefined, moduledata);
+            alert(1)
         })
     }
     else{
@@ -5332,7 +5332,9 @@ mw.getExtradataFormData = function (data, call) {
 
 }
 mw.extradataForm = function (options, data) {
+    alert(5)
     mw.getExtradataFormData(data, function (extra_html) {
+        alert(2)
         var form = document.createElement('form');
         $(form).append(extra_html);
         $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');

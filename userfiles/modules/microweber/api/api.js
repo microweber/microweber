@@ -346,11 +346,13 @@ mw.askusertostay = false;
     attributes.module = name;
     mw._({
       selector: update_element,
-      params: attributes,
-      done: function(data) {
-        callback.call(this, data);
-      }
-    }, false, true);
+      params: attributes
+    }, false, true)
+    .done(function(data){
+        setTimeout(function(){
+            callback.call(this, data);
+        }, 50)
+    });
   }
   mw.getModule = function(name, params, callback){
     if( typeof params == 'function'){
@@ -540,7 +542,7 @@ mw.askusertostay = false;
 
 
      // wait between many reloads
-      if(typeof(node.id) != 'undefined' && typeof(node.id) != 'null') {
+      if(node.id) {
           if ( mw.temp_reload_module_queue_holder.indexOf(node.id) == -1){
           mw.temp_reload_module_queue_holder.push(node.id);
               setTimeout(function() {
