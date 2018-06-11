@@ -67,6 +67,7 @@ $cache_adapters[] = array('title' => 'Memcached', 'adapter' => 'memcached');
 $system_cache_adapter = Config::get('microweber.cache_adapter');
 $compile_assets = Config::get('microweber.compile_assets');
 $force_https = Config::get('microweber.force_https');
+$update_channel = Config::get('microweber.update_channel');
 
 if ($system_cache_adapter == false) {
     $system_cache_adapter = 'file';
@@ -121,6 +122,15 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
             <option value="1" <?php if ($force_https == 1): ?> selected <?php endif; ?> > <?php _e('Yes'); ?></option>
         </select>
 
+    </div>
+    <div class="mw-ui-field-holder">
+
+        <label class="mw-ui-label"> Update Channel </label>
+        <select name="microweber[update_channel]" class="mw-ui-field">
+            <option value="stable" <?php if ($update_channel == 'stable'): ?> selected <?php endif; ?> > <?php _e('Stable'); ?></option>
+            <option value="beta" <?php if ($update_channel == 'beta'): ?> selected <?php endif; ?> > <?php _e('Beta'); ?></option>
+            <option value="disabled" <?php if ($update_channel == 'disabled'): ?> selected <?php endif; ?> > <?php _e('Disable'); ?></option>
+        </select>
 
         <?php event_trigger('mw_admin_internal_settings', $params); ?>
         <br/>
