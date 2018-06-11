@@ -138,24 +138,6 @@ class Parser
 
 
 
-        $script_pattern = "/<select[^>]*>(.*)<\/select>/Uis";
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
-        if (!empty($mw_script_matches)) {
-            foreach ($mw_script_matches [0] as $key => $value) {
-                if ($value != '') {
-                    $v1 = crc32($value);
-                    $v1 = '<tag-select>mw_replace_back_this_select_' . $v1 . '</tag-select>';
-                    $layout = str_replace($value, $v1, $layout);
-                    if (!isset($this->_replaced_input_tags[$v1])) {
-                        $this->_replaced_input_tags[$v1] = $value;
-                    }
-                }
-            }
-        }
-
-
-
-
         $script_pattern = "/<!--(?!<!)[^\[>].*?-->/";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
         if (!empty($mw_script_matches)) {
@@ -731,6 +713,25 @@ class Parser
                                             }
                                         }
                                     }
+
+
+                                    $script_pattern = "/<select[^>]*>(.*)<\/select>/Uis";
+                                    preg_match_all($script_pattern, $layout, $mw_script_matches);
+                                    if (!empty($mw_script_matches)) {
+                                        foreach ($mw_script_matches [0] as $key => $value) {
+                                            if ($value != '') {
+                                                $v1 = crc32($value);
+                                                $v1 = '<tag-select>mw_replace_back_this_select_' . $v1 . '</tag-select>';
+                                                $layout = str_replace($value, $v1, $layout);
+                                                if (!isset($this->_replaced_input_tags[$v1])) {
+                                                    $this->_replaced_input_tags[$v1] = $value;
+                                                    $mw_replaced_textarea_tag[$v1] = $value;
+                                                }
+                                            }
+                                        }
+                                    }
+
+
 
                                     $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
