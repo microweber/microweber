@@ -8,6 +8,26 @@
             mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
         });
     });
+
+
+    function settings_load_module(title, module) {
+
+        $("#mw_admin_edit_settings_load_module_popup").remove()
+
+        mw_admin_edit_settings_load_module = mw.modal({
+            content: '<div id="mw_admin_edit_settings_load_module"></div>',
+            title: title,
+            id: 'mw_admin_edit_settings_load_module_popup'
+        });
+
+        var params = {}
+
+        mw.load_module(module, '#mw_admin_edit_settings_load_module', null, params);
+
+
+    }
+
+
 </script>
 
 
@@ -18,87 +38,114 @@
         </h2>
     </div>
 </div>
+
+
 <div class="admin-side-content">
-<div class="<?php print $config['module_class'] ?>">
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a class="mw-ui-btn" href="javascript:mw.clear_cache()">
-            <?php _e("Clear cache"); ?>
-        </a>
-        <a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);">
-            <?php _e("Reload Database"); ?>
-        </a>
-        <a class="mw-ui-btn"
-                href="javascript:$('.mw_adm_dev_tools_change_holder').toggle(); void(0);"> <?php _e('Developer tools'); ?>
+    <div class="<?php print $config['module_class'] ?>">
 
-        </a>
-        <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);">
-            <?php _e("Custom head tags"); ?>
-        </a>
-        <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);">
-            robots.txt
-        </a>
-        <a class="mw-ui-btn"
-                               href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')">
-            <?php _e("Internal settings"); ?>
-        </a>
 
-        <a class="mw-ui-btn"
-           href="javascript:mw.load_module('settings/group/live_edit','#mw-advanced-settings-module-load-holder')">
-            <?php _e("Live Edit"); ?> <?php _e("settings"); ?>
-        </a>
-        <a class="mw-ui-btn"
-                href="javascript:mw.load_module('settings/group/seo','#mw-advanced-settings-module-load-holder')">
-            <?php print("SEO"); ?> <?php _e("settings"); ?>
-        </a>
-        <a class="mw-ui-btn"
-           href="javascript:mw.load_module('site_stats/settings','#mw-advanced-settings-module-load-holder')">
-            <?php print("Statistics"); ?> <?php _e("settings"); ?>
-        </a>
+        <hr>
+        Seo
+        <ul>
+
+
+            <li>
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('SEO <?php _e("settings"); ?>','settings/group/seo')">
+                    SEO <?php _e("settings"); ?>
+                </a>
+
+
+            </li>
+
+
+            <li>
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('<?php _e('Custom head tags'); ?>','settings/group/custom_head_tags')">
+                    <?php _e("Custom head tags"); ?>
+                </a>
+
+
+            </li>
+
+            <li>
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('Robots.txt <?php _e("file"); ?>','settings/group/custom_head_tags')">
+                    Robots.txt <?php _e("file"); ?>
+                </a>
+
+
+            </li>
+
+
+        </ul>
+
+
+        <hr>
+        System settings
+        <ul>
+
+
+            <li>
+                <a class="mw-ui-btn" href="javascript:mw.clear_cache()">
+                    <?php _e("Clear cache"); ?>
+                </a>
+            </li>
+            <li><a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);">
+                    <?php _e("Reload Database"); ?>
+                </a></li>
+
+        </ul>
+
+
+        <hr>
+        Other settings
+        <ul>
+
+
+            <li>
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('<?php _e("Internal settings"); ?>','settings/group/internal')">
+                    <?php _e("Internal settings"); ?>
+                </a>
+            </li>
+
+            <li>
+
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('<?php _e("Live Edit"); ?> <?php _e("settings"); ?>','settings/group/live_edit')">
+
+                    <?php _e("Live Edit"); ?><?php _e("settings"); ?>
+
+
+                </a>
+
+
+            </li>
+
+            <li>
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('<?php _e("Statistics settings"); ?>','site_stats/settings')">
+                    <?php print("Statistics settings"); ?>
+                </a>
+
+
+            </li>
+            <li>
+                <a class="mw-ui-btn"
+                   href="javascript:settings_load_module('<?php _e('Developer tools'); ?>','admin/developer_tools')">
+                    <?php _e('Developer tools'); ?>
+                </a>
+
+
+            </li>
+
+        </ul>
+
 
     </div>
-</div>
-<div class="mw_adm_cont_head_change_holder mw-ui-box mw-ui-box-content" style="display:none">
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">
-            <h3>
-                <?php _e("Custom head tags"); ?>
-            </h3>
-            <br>
-            <div class="mw-ui-box mw-ui-box-content mw-ui-box-warn">
-                <?php _e("Advanced functionality"); ?>
-                <?php _e("You can put custom html in the site head-tags. Please put only valid meta tags or you can break your site."); ?>
-            </div>
-        </label>
-        <textarea name="website_head" class="mw_option_field mw-ui-field w100" type="text"
-                  option-group="website"><?php print get_option('website_head', 'website'); ?></textarea>
-    </div>
-</div>
-<div class="mw_adm_robots_txt_change_holder mw-ui-box mw-ui-box-content" style="display:none">
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Robots.txt
-            <?php _e("file"); ?>
-        </label>
-        <textarea name="robots_txt" class="mw_option_field mw-ui-field w100" type="text"
-                  option-group="website"><?php print get_option('robots_txt', 'website'); ?></textarea>
-    </div>
-</div>
-<div class="mw_adm_dev_tools_change_holder mw-ui-box mw-ui-box-content" style="display:none">
-    <div class="mw-ui-field-holder"><a class="mw-ui-btn"
-                                       href="javascript:mw.load_module('admin/developer_tools/template_exporter','#mw-advanced-settings-dev-tools-output')"><?php _e('Template exporter'); ?></a>
-        <a class="mw-ui-btn"
-           href="javascript:mw.load_module('admin/developer_tools/media_cleanup','#mw-advanced-settings-dev-tools-output')"><?php _e('Media cleanup'); ?></a> <a class="mw-ui-btn"
-                           href="javascript:mw.load_module('admin/developer_tools/database_cleanup','#mw-advanced-settings-dev-tools-output')"><?php _e('Database cleanup'); ?></a> <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#mw-advanced-settings-dev-tools-output')">
-            <?php _e("Show system log"); ?>
-        </a> <a class="mw-ui-btn"
-                href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')">
-            <?php _e("Packages"); ?>
-        </a>
-        <div class="mw-clear" style="padding-bottom:10px;"></div>
-        <div id="mw-advanced-settings-dev-tools-output"></div>
-    </div>
+
+
 </div>
 
 
-    <hr />
-<div id="mw-advanced-settings-module-load-holder"></div>
-</div>
