@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="mw-ui-col">
-                    <span class="box-title"><i class="mai-code"></i><br/>Developmnet settings</span>
+                    <span class="box-title"><i class="mai-code"></i><br/>Development settings</span>
                     <ul>
                         <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e('Developer tools'); ?>','admin/developer_tools')"><?php _e('Developer tools'); ?></a></li>
                         <li><a class="mw-ui-btn" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a></li>
