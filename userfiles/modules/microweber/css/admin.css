@@ -4278,7 +4278,7 @@ body.grabbing, body.grabbing * {
     top: 5px;
     margin-left: 10px;
     left: auto;
-    right:auto;
+    right: auto;
     float: none;
     display: inline-block;
 }
@@ -6152,7 +6152,7 @@ span.mw-icon-upload {
 }
 
 .admin-shipping-table .new-close.mw-icon-close:not(.module-uninstall-btn):before {
-    content: "\0111"  !important;
+    content: "\0111" !important;
 }
 
 .active .new-close.mw-icon-close {
@@ -7458,11 +7458,45 @@ select.silver-field {
     }
 }
 
-.module-updates .admin-section-bar h2{
+.module-updates .admin-section-bar h2 {
     display: inline-block;
 }
 
 .module-updates .admin-section-bar #number_of_updates {
     top: 11px;
     right: 0;
+}
+
+.mobile-live-edit-btn {
+    padding: 3px 4px 3px 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.mobile-live-edit-btn i {
+    font-size: 16px;
+}
+
+.mw-advanced-settings {
+    text-align: center;
+}
+
+.mw-advanced-settings ul {
+    padding: 20px;
+}
+
+.mw-advanced-settings ul li {
+    list-style-type: none;
+    margin-top: 15px;
+}
+
+.mw-advanced-settings ul li a {
+    display: block;
+}
+
+.mw-advanced-settings .box-title i{
+    font-size: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    display: block;
 }

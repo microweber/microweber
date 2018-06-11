@@ -214,7 +214,8 @@
     height: 22px;
     line-height: 20px;
     text-align: center;
-    margin-right: 10px;
+    margin-right: 11px;
+    text-align:center;
     font-size: 11px;
     line-height: 20px;
 }

@@ -57,7 +57,7 @@
             $(document).ready(function () {
 
                 $('.mw-lazy-load-module').reload_module();
-               
+
                 if (self === top) {
                     window.onhashchange = function () {
                         mw.cookie.set('back_to_admin', window.location.href);
@@ -78,16 +78,16 @@
             $(window).load(function () {
                 test = new mw.font();
                 test.add({
-                    family:{
-                        'Roboto': [300,500],
-                        'Tajawal': [400,700]
+                    family: {
+                        'Roboto': [300, 500],
+                        'Tajawal': [400, 700]
                     },
-                    subset:["cyrillic","cyrillic-ext","korean","latin-ext"]
+                    subset: ["cyrillic", "cyrillic-ext", "korean", "latin-ext"]
                 });
                 test.add({
-                    family:{
+                    family: {
                         'Roboto': [900, 55],
-                        'Tajawal': [1,2],
+                        'Tajawal': [1, 2],
                     }
                 });
                 if ($(".bootstrap3ns").size() > 0) {
@@ -191,7 +191,6 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
     })
 
 
-
     function mw_admin_add_order_popup(ord_id) {
 
         if (!!ord_id) {
@@ -213,9 +212,6 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
         params.order_id = ord_id;
         mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
     }
-
-
-
 
 
 </script>
@@ -261,7 +257,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
             <a class="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus-circled"></span></a>
             <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span class="mai-shop"></span><?php print $notif_html; ?></a>
         </nav>
-        <div id="user-menu-top">
+        <div id="user-menu-top" class="pull-right">
             <?php $user_id = user_id();
             $user = get_user_by_id($user_id);
             if (!empty($user)) {
@@ -277,6 +273,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </a>
                 <?php }
             } ?>
+
             <div id="user-menu-top-links" style="display: none">
                 <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation">
                     <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
@@ -306,6 +303,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </a></div>
             </div>
         </div>
+
+        <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small pull-right toolbar-live-edit mobile-live-edit-btn"><i class="mai-eye"></i></a>
     </div>
 <?php endif; ?>
 

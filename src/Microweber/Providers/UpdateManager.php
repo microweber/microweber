@@ -678,6 +678,7 @@ return $new_version_notifications;
 
         if ($version != false) {
             Config::set('microweber.version', $version);
+            Config::set('microweber.updated_at', @date("Y-m-d H:i:s"));
             Config::save('microweber');
         }
 

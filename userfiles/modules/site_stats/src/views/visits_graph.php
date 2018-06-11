@@ -33,7 +33,6 @@ if ($params['period']) {
     };
 
 
-
 </script>
 
 
@@ -54,7 +53,6 @@ if ($params['period']) {
     $(document).ready(function () {
         $("[data-stat='<?php print $period ?>']").addClass("active");
     });
-
 
 
     mw.admin.stat = mw.admin.stat || function (options) {
@@ -123,22 +121,22 @@ if ($params['period']) {
                     html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + day + '</div>';
                 }
                 else if (type == 'weekly') {
-                //    var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];
-                 //   var day = this.weekDays[date.getWeekNumber()];
+                    //    var day = ((0 | date.getDate() / 7) + 1) + ' / ' + this.monthDays[date.getUTCMonth()];
+                    //   var day = this.weekDays[date.getWeekNumber()];
                     var day = this.weekDays[date.getUTCDay()];
 
-                //    html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
-                  //  html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + this.monthDays[date.getUTCMonth()] + '</div>';
+                    //    html += '<div class="mw-admin-stat-item-date">' + day + '</div>';
+                    //  html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + this.monthDays[date.getUTCMonth()] + '</div>';
 
                     //var day = date.getDate()
 
                     //get weekend date
-                   // day += (date.getDay() == 0 ? 0 : 7 - date.getDay());
+                    // day += (date.getDay() == 0 ? 0 : 7 - date.getDay());
 
-                   // day = Math.ceil(parseFloat(day) / 7);
-                   // html += '<div class="mw-admin-stat-item-date">' + day + ' week of ' + this.monthDays[date.getUTCMonth()] +  '</div>';
+                    // day = Math.ceil(parseFloat(day) / 7);
+                    // html += '<div class="mw-admin-stat-item-date">' + day + ' week of ' + this.monthDays[date.getUTCMonth()] +  '</div>';
 
-                     html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + this.monthDays[date.getUTCMonth()] + '</div>';
+                    html += '<div class="mw-admin-stat-item-date">' + date.getUTCDate() + ' ' + this.monthDays[date.getUTCMonth()] + '</div>';
                 }
                 else if (type == 'monthly') {
                     var day = this.monthDays[date.getUTCMonth()];
@@ -153,7 +151,7 @@ if ($params['period']) {
             this.draw = function () {
                 var final = [];
                 for (var i = this.merge().length - 1; i >= 0; i--) {
-                //for (var i = 0; i < this.merge().length; i++) {
+                    //for (var i = 0; i < this.merge().length; i++) {
                     final.push(this.drawSingle(i));
                 }
                 return final.join('')
@@ -202,9 +200,7 @@ if ($params['period']) {
 
 </script>
 
-
 <div id="stats">
-
     <div class="mw-ui-box">
         <div class="mw-ui-box-header">
             <span class="stats-title"><i class="mw-icon-connectmw-icon-bars"></i> <span><?php _e("Statistics") ?></span></span>

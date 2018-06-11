@@ -2116,13 +2116,16 @@ mw.drag = {
         });
         mw.drag.saving = true;
 
+        /************  START base64  ************/
         data = JSON.stringify(data);
         data = btoa(encodeURIComponent(data).replace(/%([0-9A-F]{2})/g,
         function toSolidBytes(match, p1) {
             return String.fromCharCode('0x' + p1);
         }));
+        data = {data_base64:data}
+        /************  END base64  ************/
 
-        var xhr = $.ajax({
+        var xhr = mw.ajax({
             type: 'POST',
             url: mw.settings.api_url + 'save_edit',
             data: data,
