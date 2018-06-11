@@ -49,6 +49,7 @@ if($hasmultiple):
 
       $val = false;
       if ($firstprice['value'] != false) {
+          $firstprice['value'] = floatval($firstprice['value']);
           $val = number_format($firstprice['value'],2);
       }
 
@@ -83,6 +84,7 @@ if($hasmultiple):
 <?php
       $val = false;
       if ($item['value'] != false) {
+          $item['value'] = floatval($item['value']);
           $val = number_format($item['value'],2);
       }
 ?>
