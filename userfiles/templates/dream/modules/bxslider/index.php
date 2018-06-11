@@ -160,5 +160,12 @@ if (isset($params['pager_custom'])) {
 }
 ?>
 
+    <script>
+
+        $(document).ready(function () {
+            mw.tplDream.slider($)
+        })
+
+    </script>
 
 <?php print lnotif("Click here to manage slides"); ?>

@@ -40,16 +40,16 @@
         <thead>
         <tr>
             <th><?php _e('License'); ?></th>
-            <th><?php _e('Key'); ?></th>
-            <th><?php _e('Status'); ?></th>
-            <th><?php _e('View'); ?></th>
+            <th class="left"><?php _e('Key'); ?></th>
+            <th class="left"><?php _e('Status'); ?></th>
+            <th class="center"><?php _e('View'); ?></th>
         </tr>
         </thead>
         <tbody>
         <?php foreach ($lic as $item): ?>
             <tr>
-                <td><?php print $item['rel_type']; ?></td>
-                <td><?php print $item['local_key']; ?>
+                <td class="left"><?php print $item['rel_type']; ?></td>
+                <td class="left"><?php print $item['local_key']; ?>
                     <?php if (isset($item['status']) and $item['status'] == 'active'): ?>
                         <small>
                             <ul>
@@ -71,8 +71,8 @@
                             </ul>
                         </small>
                     <?php endif; ?></td>
-                <td><?php print ucwords($item['status']); ?></td>
-                <td><a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium" href="javascript:mw.edit_licence('<?php print $item['id'] ?>');"><?php _e('Edit'); ?></a></td>
+                <td class="left"><?php print ucwords($item['status']); ?></td>
+                <td class="center"><a class="show-on-hover mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium" href="javascript:mw.edit_licence('<?php print $item['id'] ?>');"><?php _e('Edit'); ?></a></td>
             </tr>
         <?php endforeach; ?>
         <?php endif; ?>

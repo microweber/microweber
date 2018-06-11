@@ -3453,6 +3453,7 @@ div[id*='SSDIVEL'] {
     float: left;
     text-align: center;
     padding: 0px;
+    min-height: 145px;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
