@@ -16,8 +16,7 @@
 	
 ?>
 <script>
-mw.require('//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css');
-mw.require('//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js');
+    mw.lib.require('highlight');
 </script>
 <script>
 			
