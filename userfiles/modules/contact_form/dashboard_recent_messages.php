@@ -32,7 +32,6 @@ if ($last_messages == null) {
             if ($last_messages): ?>
                 <?php foreach ($last_messages as $message) : ?>
 
-
                     <div class="message-holder" id="message-n-<?php print $message['id'] ?>" onclick="messageToggle(event);">
                         <div class="message-data">
                             <div class="product-image">
@@ -40,7 +39,7 @@ if ($last_messages == null) {
                             </div>
 
                             <div class="message-number">
-                                <a class="mw-ord-id" href="javascript:;">#<?php print $message['id']; ?></a>
+                                <a class="mw-ord-id" href="<?php print admin_url(''); ?>view:modules/load_module:contact_form/load_list:<?php print $message['list_id']; ?>">#<?php print $message['id']; ?></a>
                             </div>
 
                             <div class="product-name">
