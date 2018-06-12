@@ -81,6 +81,11 @@ class DefaultController extends Controller
             foreach ($cont as $k => $item) {
                 $item['image_tag'] = '';
                 $item['image'] = '';
+                if(!isset($item['description']) or
+                    (isset($item['description'])) and trim($item['description']) == ''){
+                    $item['description'] = content_description($item['id']);
+                }
+
 
                 if ($embed_images) {
                     $item['image'] = get_picture($item['id']);

@@ -361,7 +361,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php endif; ?>
                 </div>
                 <div class="mw-ui-col">
-                    <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
+                    <a href="<?php print $past_page ?>?editmode=y" class="mw-admin-go-live-now-btn mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
                         <span class="mai-eye2"></span>
                         &nbsp;
                         <?php _e("Live Edit"); ?>
