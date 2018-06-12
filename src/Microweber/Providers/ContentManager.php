@@ -689,21 +689,21 @@ class ContentManager
         $nest_level_orig = $nest_level;
         //$params['no_cache'] = 1;
         if ($nest_level_orig == 0) {
-            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-            if (isset($params['no_cache'])) {
-                $cache_content = false;
-            }
-            // @todo: activate cache
-            $cache_content = false;
-            if (($cache_content) != false) {
-                if (isset($params['return_data'])) {
-                    return $cache_content;
-                } else {
-                    echo $cache_content;
-                }
-
-                return;
-            }
+//            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+//            if (isset($params['no_cache'])) {
+//                $cache_content = false;
+//            }
+//            // @todo: activate cache
+//            $cache_content = false;
+//            if (($cache_content) != false) {
+//                if (isset($params['return_data'])) {
+//                    return $cache_content;
+//                } else {
+//                    echo $cache_content;
+//                }
+//
+//                return;
+//            }
         }
 
         $nest_level = 0;
@@ -1181,7 +1181,7 @@ class ContentManager
                             $params['remove_ids'] = $remove_ids;
                             if ($skip_pages_from_tree == false) {
                                 if ($item['id'] != $item['parent']) {
-                                    $children = $this->pages_tree($params);
+                                     $children = $this->pages_tree($params);
                                 }
                             }
                         } else {
@@ -1281,7 +1281,7 @@ class ContentManager
                                 $cat_params['active_class'] = $params['active_class'];
                             }
 
-                            $this->app->category_manager->tree($cat_params);
+                             $this->app->category_manager->tree($cat_params);
                         }
                     }
                     echo "</{$list_item_tag}>";
@@ -1293,7 +1293,7 @@ class ContentManager
         }
         $content = ob_get_contents();
         if ($nest_level_orig == 0) {
-            $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
+       //     $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
         }
         ob_end_clean();
         if (isset($params['return_data'])) {

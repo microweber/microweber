@@ -64,18 +64,21 @@ if ($cur_template == false) {
         <label class="mw-ui-label">
             <?php _e("Current Skin / Template"); ?>
         </label>
-        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field"
-                option_group="<?php print $params['parent-module-id'] ?>"
-                data-refresh="<?php print $params['parent-module-id'] ?>">
+        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field"    option_group="<?php print $params['parent-module-id'] ?>"      data-refresh="<?php print $params['parent-module-id'] ?>">
             <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
                 <?php _e("Default"); ?>
             </option>
+
+
+
             <?php foreach ($templates as $item): ?>
                 <?php if ((strtolower($item['name']) != 'default')): ?>
                     <?php $default_item_names[] = $item['name']; ?>
-                    <option value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>" <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> > <?php print $item['name'] ?> </option>
+                    <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
                 <?php endif; ?>
             <?php endforeach; ?>
+
+
             <?php if (is_array($site_templates)): ?>
                 <?php foreach ($site_templates as $site_template): ?>
                     <?php if (isset($site_template['dir_name'])): ?>
@@ -117,23 +120,31 @@ if ($cur_template == false) {
                                                 <?php if ((strtolower($item['name']) != 'default')): ?>
                                                     <?php $opt_val = $site_template['dir_name'] . '/' . 'modules/' . $mod_name . $item['layout_file']; ?>
                                                     <?php if (!in_array($item['name'], $default_item_names)): ?>
-                                                        <option value="<?php print $opt_val; ?>" <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> >
-                                                            <?php print $item['name'] ?>
-                                                        </option>
+                                                        <option <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> value="<?php print $opt_val; ?>"><?php print $item['name'] ?></option>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         </optgroup>
                                     <?php endif; ?>
-
-
                                 <?php } ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
+
+
+
         </select>
+
+
+
+
+
+
+
+
+
         <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>"
                 parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
         <?php if (!isset($params['simple'])) { ?>
