@@ -87,8 +87,15 @@ $rand = uniqid(); ?>
             <?php
             $pt_opts = array();
             $pt_opts['link'] = "{title}";
+        //     $pt_opts['list_tag'] = "optgroup";
+       //   $pt_opts['list_tag'] = " ";
+       //   $pt_opts['list_item_tag'] = "option";
+
+
             $pt_opts['list_tag'] = " ";
             $pt_opts['list_item_tag'] = "option";
+
+
             //$pt_opts['include_categories'] = "option";
             $pt_opts['active_ids'] = $posts_parent_page;
             $pt_opts['remove_ids'] = $params['id'];
@@ -119,8 +126,14 @@ $rand = uniqid(); ?>
                 <?php
                 $pt_opts = array();
                 $pt_opts['link'] = " {title}";
+
                 $pt_opts['list_tag'] = " ";
                 $pt_opts['list_item_tag'] = "option";
+
+            //  $pt_opts['list_tag'] = " ";
+           //   $pt_opts['list_tag'] = "optgroup";
+
+              //  $pt_opts['list_item_tag'] = "option";
                 $pt_opts['active_ids'] = $posts_parent_category;
                 $pt_opts['active_code_tag'] = '   selected="selected"  ';
                 $pt_opts['rel_type'] = 'content';

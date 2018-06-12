@@ -4,6 +4,11 @@
 event_bind('mw_admin_settings_menu', 'mw_print_admin_updates_settings_link');
 
 function mw_print_admin_updates_settings_link() {
+	$update_channel = Config::get('microweber.update_channel');
+	if('disabled' == $update_channel) {
+		return;
+	}
+
 	$active = url_param('view');
 	$cls = '';
 	if ($active == 'comments') {

@@ -2787,6 +2787,9 @@ mw.tools = {
         $(o.element).after(frame);
         $(o.element).hide();
         $.get(mw.external_tool('editor_toolbar'), function (a) {
+            if(frame.contentWindow.document === null){
+                return;
+            }
             frame.contentWindow.document.open('text/html', 'replace');
             frame.contentWindow.document.write(a);
             frame.contentWindow.document.close();
@@ -2811,7 +2814,10 @@ mw.tools = {
                     o.ready.call(frame, frame.contentWindow.document);
                 }
                 setTimeout(function () {
-                    frame.contentWindow.pauseChange = false;
+                    if(frame.contentWindow){
+                        frame.contentWindow.pauseChange = false;
+                    }
+
                 }, frame.contentWindow.SetValueTime);
             }
         });

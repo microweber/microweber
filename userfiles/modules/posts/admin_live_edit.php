@@ -292,10 +292,14 @@ mw.on.hashParam("action", function () {
     </a> </div>
   <div class="mw-ui-box mw-ui-box-content mw-ui-box-content-tabs">
     <div class="tab" style="display: block">
+
+
       <module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
+
+
     </div>
     <div class="tab" style="display:none">
-      <?php include($posts_mod); ?>
+      <?php  include($posts_mod); ?>
     </div>
     <div class="tab"  style="display:none">
       <?php if (isset($params['global'])) : ?>
