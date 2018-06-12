@@ -69,7 +69,9 @@ class UpdateManager
         $data['php_version'] = phpversion();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url_manager->site();
-
+        $data['update_channel'] = \Config::get('microweber.update_channel');
+        $data['last_update'] = \Config::get('microweber.updated_at');
+        
         $t = site_templates();
         $data['templates'] = $t;
         $t = $this->app->modules->get('ui=any&no_limit=true');
@@ -494,6 +496,11 @@ return $new_version_notifications;
 
     public function check($skip_cache = false)
     {
+        $update_channel = Config::get('microweber.update_channel');
+        if('disabled' == $update_channel) {
+            return;
+        }
+
         $this->_set_time_limit();
         //   $skip_cache = true;
         $c_id = __FUNCTION__ . date('ymdh');
