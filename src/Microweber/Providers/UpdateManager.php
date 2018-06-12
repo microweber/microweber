@@ -496,6 +496,11 @@ return $new_version_notifications;
 
     public function check($skip_cache = false)
     {
+        $update_channel = Config::get('microweber.update_channel');
+        if('disabled' == $update_channel) {
+            return;
+        }
+
         $this->_set_time_limit();
         //   $skip_cache = true;
         $c_id = __FUNCTION__ . date('ymdh');
