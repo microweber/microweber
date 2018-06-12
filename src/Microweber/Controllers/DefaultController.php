@@ -1683,8 +1683,13 @@ class DefaultController extends Controller
             if ($show_404_to_non_admin) {
                 if (!is_admin()) {
                     $load_template_404 = template_dir() . '404.php';
+                    $load_template_404_2 = TEMPLATES_DIR . 'default/404.php';
                     if (is_file($load_template_404)) {
                         $render_file = $load_template_404;
+                    } else {
+                        if (is_file($load_template_404_2)) {
+                            $render_file = $load_template_404_2;
+                        }
                     }
                 }
             }
