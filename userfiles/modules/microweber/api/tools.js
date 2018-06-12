@@ -5290,12 +5290,14 @@ mw.ajax = function (options) {
         options._success = options.success;
         delete options.success;
         options.success = function(data,status,xhr){
-            console.log(44, data.form_data_required, options._success)
+            //console.log(44, data.form_data_required, options._success)
             if(data.form_data_required){
                 mw.extradataForm(options, data);
             }
             else{
+                if(typeof (options._success) != 'undefined'){
                 options._success.call(this, data, status, xhr);
+                }
             }
         };
     }
