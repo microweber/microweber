@@ -1281,7 +1281,7 @@ class ContentManager
                                 $cat_params['active_class'] = $params['active_class'];
                             }
 
-                             $this->app->category_manager->tree($cat_params);
+                              $this->app->category_manager->tree($cat_params);
                         }
                     }
                     echo "</{$list_item_tag}>";
@@ -1295,6 +1295,11 @@ class ContentManager
         if ($nest_level_orig == 0) {
        //     $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
         }
+
+        if(isset($list_item_tag) and $list_item_tag and $list_item_tag == 'option'){
+            $content = str_replace('</option></option>', '</option>', $content);
+        }
+
         ob_end_clean();
         if (isset($params['return_data'])) {
             return $content;
