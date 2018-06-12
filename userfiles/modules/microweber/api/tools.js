@@ -2814,7 +2814,10 @@ mw.tools = {
                     o.ready.call(frame, frame.contentWindow.document);
                 }
                 setTimeout(function () {
-                    frame.contentWindow.pauseChange = false;
+                    if(frame.contentWindow){
+                        frame.contentWindow.pauseChange = false;
+                    }
+
                 }, frame.contentWindow.SetValueTime);
             }
         });
