@@ -57,12 +57,12 @@
                     <ul>
                         <li><a class="mw-ui-btn" href="javascript:settings_load_module('SEO <?php _e("settings"); ?>','settings/group/seo')">SEO <?php _e("settings"); ?></a></li>
                         <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e('Custom head tags'); ?>','settings/group/custom_head_tags')"><?php _e("Custom head tags"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Robots.txt <?php _e("file"); ?>','settings/group/custom_head_tags')">Robots.txt <?php _e("file"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Robots.txt <?php _e("file"); ?>','settings/group/robots_txt')">Robots.txt <?php _e("file"); ?></a></li>
                     </ul>
                 </div>
 
                 <div class="mw-ui-col">
-                    <span class="box-title"><i class="mai-code"></i><br/>Developmnet settings</span>
+                    <span class="box-title"><i class="mai-code"></i><br/>Development settings</span>
                     <ul>
                         <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e('Developer tools'); ?>','admin/developer_tools')"><?php _e('Developer tools'); ?></a></li>
                         <li><a class="mw-ui-btn" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a></li>
@@ -74,7 +74,7 @@
                     <span class="box-title"><i class="mai-setting2"></i><br/>Other settings</span>
                     <ul>
                         <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Internal settings"); ?>','settings/group/internal')"><?php _e("Internal settings"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Live Edit"); ?> <?php _e("settings"); ?>','settings/group/live_edit')"><?php _e("Live Edit"); ?><?php _e("settings"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Live Edit settings"); ?>','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a></li>
                         <li><a class="mw-ui-btn" href="javascript:settings_load_module('<?php _e("Statistics settings"); ?>','site_stats/settings')"><?php print("Statistics settings"); ?></a></li>
                     </ul>
                 </div>

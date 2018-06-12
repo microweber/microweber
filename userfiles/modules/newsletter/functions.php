@@ -38,6 +38,7 @@ function newsletter_subscribe($params)
 
 
     $needs_terms = get_option('require_terms', 'newsletter') == 'y';
+    $enable_captcha = get_option('enable_captcha', 'newsletter') == 'y';
 
 
     if ($needs_terms) {
@@ -49,7 +50,9 @@ function newsletter_subscribe($params)
         }
 
         if (!$user_id_or_email) {
-            $checkout_errors['comments_needs_email'] = _e('You must provide email address', true);
+            return array(
+                'error' => _e('You must provide email address', true),
+            );
         } else {
             $terms_and_conditions_name = 'terms_newsletter';
 
@@ -68,28 +71,27 @@ function newsletter_subscribe($params)
         }
     }
 
-
-    if (!isset($input['captcha'])) {
-        return array(
-            'error' => _e('Invalid captcha answer!', true),
-            'captcha_error' => true,
-            'form_data_required' => 'captcha',
-            'form_data_module' => 'captcha'
-        );
-
-    } else {
-        $validate_captcha = mw()->captcha->validate($input['captcha']);
-        if (!$validate_captcha) {
-
+    if ($enable_captcha) {
+        if (!isset($input['captcha'])) {
             return array(
                 'error' => _e('Invalid captcha answer!', true),
                 'captcha_error' => true,
                 'form_data_required' => 'captcha',
                 'form_data_module' => 'captcha'
             );
+
+        } else {
+            $validate_captcha = mw()->captcha->validate($input['captcha']);
+            if (!$validate_captcha) {
+                return array(
+                    'error' => _e('Invalid captcha answer!', true),
+                    'captcha_error' => true,
+                    'form_data_required' => 'captcha',
+                    'form_data_module' => 'captcha'
+                );
+            }
         }
     }
-
 
     $confirmation_code = str_random(30);
 

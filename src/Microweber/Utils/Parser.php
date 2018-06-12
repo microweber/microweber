@@ -32,7 +32,7 @@ class Parser
     private $_replaced_modules_values = array();
     private $_replaced_modules = array();
     private $_replaced_codes = array();
-    private $_replaced_textarea_tag = array();
+    private $_replaced_input_tags = array();
     private $_existing_module_ids = array();
     private $_current_parser_rel = false;
     private $_current_parser_field = false;
@@ -123,19 +123,19 @@ class Parser
 
         $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
-
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
                     $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
                     $layout = str_replace($value, $v1, $layout);
-                    if (!isset($this->_replaced_textarea_tag[$v1])) {
-                        $this->_replaced_textarea_tag[$v1] = $value;
+                    if (!isset($this->_replaced_input_tags[$v1])) {
+                        $this->_replaced_input_tags[$v1] = $value;
                     }
                 }
             }
         }
+
 
 
         $script_pattern = "/<!--(?!<!)[^\[>].*?-->/";
@@ -706,13 +706,32 @@ class Parser
                                                 $v1 = crc32($value);
                                                 $v1 = '<tag-textarea>mw_replace_back_this_textarea_inner_' . $v1 . '</tag-textarea>';
                                                 $mod_content = str_replace($value, $v1, $mod_content);
-                                                if (!isset($this->_replaced_textarea_tag[$v1])) {
-                                                    $this->_replaced_textarea_tag[$v1] = $value;
+                                                if (!isset($this->_replaced_input_tags[$v1])) {
+                                                    $this->_replaced_input_tags[$v1] = $value;
                                                     $mw_replaced_textarea_tag[$v1] = $value;
                                                 }
                                             }
                                         }
                                     }
+
+
+                                    $script_pattern = "/<select[^>]*>(.*)<\/select>/Uis";
+                                    preg_match_all($script_pattern, $layout, $mw_script_matches);
+                                    if (!empty($mw_script_matches)) {
+                                        foreach ($mw_script_matches [0] as $key => $value) {
+                                            if ($value != '') {
+                                                $v1 = crc32($value);
+                                                $v1 = '<tag-select>mw_replace_back_this_select_' . $v1 . '</tag-select>';
+                                                $layout = str_replace($value, $v1, $layout);
+                                                if (!isset($this->_replaced_input_tags[$v1])) {
+                                                    $this->_replaced_input_tags[$v1] = $value;
+                                                    $mw_replaced_textarea_tag[$v1] = $value;
+                                                }
+                                            }
+                                        }
+                                    }
+
+
 
                                     $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
@@ -846,12 +865,12 @@ class Parser
         }
         //}
 
-        if (!empty($this->_replaced_textarea_tag)) {
-            foreach ($this->_replaced_textarea_tag as $key => $value) {
+        if (!empty($this->_replaced_input_tags)) {
+            foreach ($this->_replaced_input_tags as $key => $value) {
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-                unset($this->_replaced_textarea_tag[$key]);
+                unset($this->_replaced_input_tags[$key]);
             }
         }
 

@@ -570,6 +570,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <?php } ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
+
+                            <?php
+                            /*
                             <?php $got_lic = mw()->update->get_licenses('count=1') ?>
                             <?php if (($got_lic) >= 0): ?>
                                 <li>
@@ -579,6 +582,12 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     </a>
                                 </li>
                             <?php endif; ?>
+
+
+                            */
+
+                            ?>
+
                             <li>
                                 <a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced">
                                     <span class="mai-options"></span>

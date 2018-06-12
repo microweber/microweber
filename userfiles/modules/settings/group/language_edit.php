@@ -90,9 +90,14 @@ mw.notification.msg(this);
 </style>
 <?php
 
+$lang = get_option('language', 'website');
+
+if(!$lang){
+    $lang ='en';
+}
+set_current_lang($lang);
 
 $cont  = mw()->lang_helper->get_language_file_content();
-
 
 
 
@@ -112,8 +117,7 @@ $cont  = mw()->lang_helper->get_language_file_content();
       <tr>
         <td><?php print $k ?></td>
         <td><textarea name="<?php print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft"><?php print $item ?></textarea>
-          <?php /*    <input name="<?php print $k ?>" class="mw-ui-field" value="<?php print $item ?>" style="width: 400px;" type="text" onchange="save_lang_form()" /></td> */ ?>
-      </tr>
+       </tr>
     </tbody>
     <?php endforeach; ?>
   </table>

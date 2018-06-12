@@ -5332,9 +5332,9 @@ mw.getExtradataFormData = function (data, call) {
 
 }
 mw.extradataForm = function (options, data) {
-    alert(5)
+
     mw.getExtradataFormData(data, function (extra_html) {
-        alert(2)
+
         var form = document.createElement('form');
         $(form).append(extra_html);
         $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');

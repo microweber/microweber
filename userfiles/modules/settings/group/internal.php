@@ -3,25 +3,17 @@
     mw.require('forms.js', true);
 </script>
 <script type="text/javascript">
-
-
     function save_sysconf_form() {
-
-
         mw.form.post('#sysconfig-form-<?php print $params['id'] ?>', '<?php print api_link('mw_save_framework_config_file'); ?>',
             function (msg) {
                 mw.notification.msg(this);
                 return false;
             });
         return false;
-
     }
-
-
 </script>
 
-<?php _e('Internal settings'); ?>
-<div class="mw_clear"></div>
+
 <style>
     .send-your-sysconf {
         float: right;

@@ -21,8 +21,7 @@
             <?php _e("Advanced functionality"); ?>
          </div>
     </label>
-    <textarea name="robots_txt" class="mw_option_field mw-ui-field w100" type="text"
-              option-group="website"><?php print get_option('robots_txt', 'website'); ?></textarea>
+    <textarea name="robots_txt" class="mw_option_field mw-ui-field w100" type="text" option-group="website" style="min-height: 200px;"><?php print get_option('robots_txt', 'website'); ?></textarea>
 </div>
 
 

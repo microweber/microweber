@@ -22,7 +22,7 @@ only_admin_access();
     <h2><?php _e("Setup statistics"); ?></h2>
 
     <div class="mw-ui-box mw-ui-box-content">
-        <label class="mw-ui-label"><?php _e("Enable"); ?><?php _e("statistics"); ?></label>
+        <label class="mw-ui-label"><?php _e("Enable statistics"); ?></label>
 
         <div class="mw-ui-check-selector">
             <label class="mw-ui-check">
@@ -39,7 +39,7 @@ only_admin_access();
 
 
         <label class="mw-ui-label">
-            <?php _e("Tracking"); ?><?php _e("Settings"); ?>
+            <?php _e("Tracking settings"); ?>
         </label>
 
         <div class="mw-ui-check-selector">

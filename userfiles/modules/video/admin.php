@@ -23,6 +23,11 @@
       display: none;
     }
 
+    #thumb{
+        max-width: 100%;
+        padding-top: 20px;
+    }
+
 </style>
 <script>
 $(mwd).ready(function(){
@@ -77,8 +82,8 @@ $(mwd).ready(function(){
 				</div>
 				<div class="col-xs-6">
 					<img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 100, 100);?>" alt=""/>
-					<input id="autoplay"
-						   name="autoplay" class="mw-ui-field mw_option_field"
+					<input id="upload_thumb"
+						   name="upload_thumb" class="mw-ui-field mw_option_field"
 						   type="hidden" data-mod-name="<?php print $params['data-type'] ?>"
 						   value="" />
 				</div>
@@ -164,59 +169,86 @@ $(mwd).ready(function(){
 
     $(document).ready(function () {
 
-		var fileTypes = '';
-		var uploadFieldId = '';
-		var uploadStatusId = '';
-		var uploadBtnId = '';
-		if ($('#upload_thumb_field').closest( "div.tab" ).css("visibility") == "hidden") {
-			fileTypes = 'videos';
-			uploadFieldId = 'upload_field';
-			uploadStatusId = 'upload_status';
-			uploadBtnId = 'upload_btn';
-		} else {
-			fileTypes = 'images';
-			uploadFieldId = 'upload_thumb_field';
-			uploadStatusId = 'upload_thumb_status';
-			uploadBtnId = 'upload_thumb_btn';
-		}
 
-        var up = mw.files.uploader({
+        var upVideo = mw.files.uploader({
             multiple: false,
-            filetypes: fileTypes
+            filetypes: 'videos'
+        });
+        var upThumb = mw.files.uploader({
+            multiple: false,
+            filetypes: 'images'
         });
 
-        $(up).bind("error", function () {
+        var all = $();
+        all.push(upVideo);
+        all.push(upThumb);
+
+        all.on("error", function () {
             mw.notification.warning("<?php _e("Unsupported format"); ?>.")
         });
 
-        $(up).bind("FileUploaded", function (a, b) {
-            mw.notification.success("<?php _e("File Uploaded"); ?>");
+
+
+
+        $(upVideo).on("FileUploaded", function (a, b) {
+            uploadFieldId = 'upload_field';
+            uploadStatusId = 'upload_status';
+            uploadBtnId = 'upload_btn';
             mwd.getElementById(uploadFieldId).value = b.src;
             $(mwd.getElementById(uploadFieldId)).trigger("change");
-            if(uploadFieldId == 'upload_field') {
-            	setprior(2);
 
-            } else {
-                mwd.getElementById('autoplay').value = 'y';
-                $(mwd.getElementById('autoplay')).trigger("change");
-                mw.tools.refresh_image(mwd.getElementById('thumb'));
-                mw.tools.refresh(mwd.getElementById('chk_autoplay'));
-            }
+                setprior(2);
+
+
+        });
+
+        $(upThumb).on("FileUploaded", function (a, b) {
+
+            fileTypes = 'images';
+            uploadFieldId = 'upload_thumb_field';
+            uploadStatusId = 'upload_thumb_status';
+            uploadBtnId = 'upload_thumb_btn';
+
+            $("#thumb").attr("src", b.src);
+            $("#upload_thumb_field").val(b.src).trigger('change');
+
+
+            mw.tools.refresh_image(mwd.getElementById('thumb'));
+            mw.tools.refresh(mwd.getElementById('chk_autoplay'));
+
+        });
+
+
+
+        all.on("FileUploaded", function (a, b) {
+            mw.notification.success("<?php _e("File Uploaded"); ?>");
+
             $(status).hide();
         });
 
-        var status = mwd.getElementById(uploadStatusId);
 
-        $(up).bind("progress", function (a, b) {
-            $(status).show();
-            status.querySelector('.mw-ui-progress-bar').style.width = b.percent + '%';
-            status.querySelector('.mw-ui-progress-percent').innerHTML = b.percent + '%';
+        $(upThumb).on("progress", function (a, b) {
+            $("#upload_thumb_status").show();
+            $("#upload_thumb_status").find('.mw-ui-progress-bar').width(b.percent + '%');
+            $("#upload_thumb_status").find('.mw-ui-progress-percent').html(b.percent + '%');
         });
 
 
-        var btn = mwd.getElementById(uploadBtnId);
 
-        $(btn).append(up);
+        $(upVideo).on("progress", function (a, b) {
+            $("#upload_status").show();
+            $("#upload_status").find('.mw-ui-progress-bar').width(b.percent + '%');
+            $("#upload_status").find('.mw-ui-progress-percent').html(b.percent + '%');
+        });
+        $(upVideo).on("done", function (a, b) {
+            $("#upload_status").hide();
+
+        });
+
+
+
+        $('#upload_btn').append(upVideo);
+        $('#upload_thumb_btn').append(upThumb);
 
         mw.$("#emebed_video_field").focus();
     })

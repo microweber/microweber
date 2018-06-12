@@ -23,7 +23,7 @@ if ($prior != '2' or $prior == false) {
         } else {
             $autoplay = 'autoplay';
         }
-        $code = '<div class="mwembed "><video controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' src="' . $upload . '"></video></div>';
+        $code = '<div class="mwembed "><video controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' src="' . $upload . '" poster="'. $thumb .'"></video></div>';
     } else {
         $show_video_settings_btn = true;
     }
