@@ -27,7 +27,7 @@ if (!isset($tn[1])) {
     <div>
         <div class="masonry__container masonry--animate items">
             <?php foreach ($data as $item): ?>
-            <?php $i = 1; ?>
+                <?php $i = 1; ?>
                 <?php $categories = content_categories($item['id']); ?>
 
                 <?php
@@ -40,9 +40,9 @@ if (!isset($tn[1])) {
                 ?>
 
                 <div
-                     class="col-md-4 col-sm-6 masonry__item item-<?php print $item['id'] ?>"
-                     data-masonry-filter="<?php print $itemCats; ?>" itemscope
-                     itemtype="<?php print $schema_org_item_type_tag ?>">
+                        class="col-md-4 col-sm-6 masonry__item item-<?php print $item['id'] ?>"
+                        data-masonry-filter="<?php print $itemCats; ?>" itemscope
+                        itemtype="<?php print $schema_org_item_type_tag ?>">
                     <div class="card card-7">
                         <?php if ($show_fields == false or in_array('thumbnail', $show_fields)): ?>
                             <a href="<?php print $item['link'] ?>">
@@ -84,15 +84,14 @@ if (!isset($tn[1])) {
 
                                 <?php endif; ?>
                             </div>
-                           <?php
-                               if($show_fields != false and is_array($show_fields) and  in_array('read_more', $show_fields)){
-                                   print '<hr>';
-                               }
-                               else if(is_array($show_fields) and in_array('add_to_cart', $show_fields)){
-                                   print '<hr>';
-                               }
-                           ?>
-                            <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
+                            <?php
+                            if ($show_fields != false and is_array($show_fields) and in_array('read_more', $show_fields)) {
+                                print '<hr>';
+                            } else if (is_array($show_fields) and in_array('add_to_cart', $show_fields)) {
+                                print '<hr>';
+                            }
+                            ?>
+                            <?php if ($show_fields != false and ($show_fields != false and in_array('read_more', $show_fields))): ?>
 
                                 <a href="<?php print $item['link'] ?>" class="mw-more pull-left"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
 
@@ -112,33 +111,34 @@ if (!isset($tn[1])) {
                             <?php endif; ?>
 
                             <?php if (is_array($item['prices'])): ?>
-                            <?php foreach ($item['prices'] as $k => $v): ?>
-                            <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
-                                <?php
+                                <?php foreach ($item['prices'] as $k => $v): ?>
+                                    <?php if (is_array($show_fields) and in_array('add_to_cart', $show_fields)): ?>
+                                        <?php
 
-                                $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
-                                if ($add_cart_text == false) {
-                                    $add_cart_text = _e("Add to cart", true);
-                                }
+                                        $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
+                                        if ($add_cart_text == false) {
+                                            $add_cart_text = _e("Add to cart", true);
+                                        }
 
-                                ?>
-                                <?php if (is_array($item['prices'])): ?>
+                                        ?>
+                                        <?php if (is_array($item['prices'])): ?>
 
-                                    <button
-                                            class="btn btn-default pull-right"
-                                            type="button"
-                                            onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'] . $i ?>');">
-                                        <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;
-                                        <?php print $add_cart_text ?>
-                                    </button>
-                                <?php endif; ?>
+                                            <button
+                                                    class="btn btn-default pull-right"
+                                                    type="button"
+                                                    onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'] . $i ?>');">
+                                                <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;
+                                                <?php print $add_cart_text ?>
+                                            </button>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <div class="mw-add-to-cart-<?php print $item['id'] . $i ?>">
+                                        <input type="hidden" name="price" value="<?php print $v ?>"/>
+                                        <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
+                                    </div>
+                                    <?php $i++;
+                                    break; endforeach; ?>
                             <?php endif; ?>
-                            <div class="mw-add-to-cart-<?php print $item['id'] . $i ?>"
-                            <input type="hidden" name="price" value="<?php print $v ?>"/>
-                            <input type="hidden" name="content_id" value="<?php print $item['id'] ?>"/>
-                        </div>
-                    <?php $i++; break; endforeach; ?>
-                    <?php endif; ?>
 
 
                         </div>
