@@ -11,6 +11,10 @@
     padding: 0;
 }
 
+body{
+    font-feature-settings: 'liga';
+}
+
 .mw-defaults {
     line-height: normal;
     -webkit-box-sizing: border-box;

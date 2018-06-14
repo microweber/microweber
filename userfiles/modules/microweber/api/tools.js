@@ -3276,7 +3276,7 @@ mw.tools = {
         }
         var curr = a || $("#mw_handle_module").data("curr");
         var attributes = {};
-        if (typeof(curr.id) != 'undefined' && mw.$('#module-settings-' + curr.id).length > 0) {
+        if (curr && curr.id && mw.$('#module-settings-' + curr.id).length > 0) {
             var m = mw.$('#module-settings-' + curr.id)[0];
             m.scrollIntoView();
             mw.tools.highlight(m);
@@ -4106,13 +4106,13 @@ mw.notification = {
     }
 }
 $.fn.visible = function () {
-    return this.css("visibility", "visible");
+    return this.css("visibility", "visible").css("opacity", "1");
 };
 $.fn.visibilityDefault = function () {
-    return this.css("visibility", "");
+    return this.css("visibility", "").css("opacity", "");
 };
 $.fn.invisible = function () {
-    return this.css("visibility", "hidden");
+    return this.css("visibility", "hidden").css("opacity", "0");
 };
 mw.which = function (str, arr_obj, func) {
     if (arr_obj instanceof Array) {
