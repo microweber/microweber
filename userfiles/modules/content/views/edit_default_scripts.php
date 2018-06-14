@@ -393,6 +393,10 @@
 
 </script>
 <script>
+
+
+
+
     $(mwd).ready(function () {
 
 
@@ -401,6 +405,17 @@
                 e.preventDefault()
             }
         })
+        mw.$(".mw-admin-go-live-now-btn").off('click');
+
+        window.onbeforeunload = function() {
+            mw.$(".mw-admin-go-live-now-btn").off('click');
+        }
+
+        mw.$(".mw-admin-go-live-now-btn").on('click',function (e) {
+            mw.edit_content.handle_form_submit(true);
+            return false;
+        });
+
 
 
         mw.reload_module('#edit-post-gallery-main');
@@ -580,6 +595,6 @@
 
         });
 
-        $("")
+
     });
 </script>

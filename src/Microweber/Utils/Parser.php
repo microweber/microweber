@@ -504,7 +504,7 @@ class Parser
 
                                             }
                                             if ($coming_from_parent_id and !$coming_from_parent) {
-                                                $mod_id = $mod_id . '-ssss-' . $coming_from_parent_id;
+                                                $mod_id = $mod_id . '-should-not-get-here-' . $coming_from_parent_id;
 
                                             } else {
 
