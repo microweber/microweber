@@ -116,7 +116,7 @@ $cont  = mw()->lang_helper->get_language_file_content();
       <?php foreach($cont as $k => $item): ?>
       <tr>
         <td><?php print $k ?></td>
-        <td><textarea name="<?php print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft"><?php print $item ?></textarea>
+        <td><input name="<?php print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft" rows="1" value="<?php print $item ?>" />
        </tr>
     </tbody>
     <?php endforeach; ?>

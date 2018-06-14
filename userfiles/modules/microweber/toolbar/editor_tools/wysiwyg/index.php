@@ -229,6 +229,7 @@ $(window).load(function(){
 
 
     GalleriesRemote();
+    mw.drag.init()
 
 });
 

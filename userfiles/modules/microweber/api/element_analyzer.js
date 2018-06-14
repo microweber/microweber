@@ -44,7 +44,8 @@ mw.AfterDrop = function(){
 
             mw.$(".mw_drag_current").each(function(){
                 $(this).removeClass('mw_drag_current').css({
-                    visibility:'visible'
+                    visibility:'visible',
+                    opacity:''
                 })
             });
             mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
@@ -117,7 +118,7 @@ mw.ElementAnalyzer = function(options){
         columnMatches:'[class*="col-"]',
         rowMatches:'[class*="row-"]',
     };                                   
-    this.settings = Object.assign(this.options, this.defaults);
+    this.settings = $.extend({}, this.options, this.defaults);
 
     this.prepare = function(){
         this.cls = this.settings.classes;
@@ -509,3 +510,5 @@ mw.ElementAnalyzer = function(options){
 
     this.init()
 }
+
+mw.ea = new mw.ElementAnalyzer();

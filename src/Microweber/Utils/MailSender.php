@@ -148,7 +148,7 @@ class MailSender
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
            $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to);
             if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                $sender = $this->exec_send($cc, $subject, $message);
+                $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to);
             }
 
            // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);

@@ -68,6 +68,12 @@ mw.settings.libs = {
     jqueryui: ['jquery-ui.min.css', 'jquery-ui.min.js'],
     morris: ['morris.css', 'raphael.js', 'morris.js'],
     rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
+    highlight: [
+
+        'highlight.min.js',
+        'highlight.min.css'
+
+    ],
     bootstrap2: [
         function () {
             var v = mwd.querySelector('meta[name="viewport"]');
@@ -80,7 +86,8 @@ mw.settings.libs = {
         },
         'css/bootstrap.min.css',
         'css/bootstrap-responsive.min.css',
-        'js/bootstrap.min.js'],
+        'js/bootstrap.min.js'
+    ],
     bootstrap3: [
         function () {
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
@@ -100,7 +107,6 @@ mw.settings.libs = {
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0-beta2' + '/css/bootstrap.min.css');
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0-beta2' + '/js/bootstrap.min.js');
             mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
-
         }
     ],
     flag_icons: [

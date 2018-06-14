@@ -843,7 +843,7 @@ mw.drag = {
         });
 
         mw.on("ElementOver", function(a, element) {
-                                   
+
             if (!mw.ea.canDrop(element)) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
                 return false;
@@ -919,7 +919,8 @@ mw.drag = {
             var pleft = parseFloat(el.css("paddingLeft"));
             var prev_has_float_left = el.prev();
 
-            var minTop = document.querySelector("#live_edit_toolbar").offsetHeight;
+            var lebar =  document.querySelector("#live_edit_toolbar")
+            var minTop = lebar?lebar.offsetHeight:0;
             if(mw.templateTopFixed){
                 var ex = document.querySelector(mw.templateTopFixed);
                 if(ex && !ex.contains(el[0])){
@@ -1442,10 +1443,9 @@ mw.drag = {
 
                     setTimeout(function() {
 
-                       /* console.log(9,mw.ea.data.target , mw.ea.data.currentGrabbed)
-                        console.log(10,mw.ea.data.target,mw.ea.data.dropableAction,mw.ea.data.currentGrabbed)   */
+
                         if(mw.ea.data.target && mw.ea.data.currentGrabbed){
-                            //console.clear()
+
 
                             if(!!mw.ea.data.dropableAction && !!mw.ea.data.target && !!mw.ea.data.currentGrabbed){
                                 $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed)

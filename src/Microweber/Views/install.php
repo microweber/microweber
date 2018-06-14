@@ -110,8 +110,17 @@
                                 installprogressStop()
                             }
                             if (data == 'done') {
+
+                                setTimeout(function(){
+
+                                    window.location.href = "<?php print admin_url(); ?>";
+
+                                }, 2000);
+
+
+
                                 //location.reload();
-                                window.location.href = "<?php print admin_url(); ?>";
+
                             } else {
                                 $('#mw_log').html(data).show();
                                 $('.mw-install-holder').slideDown();

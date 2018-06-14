@@ -217,6 +217,13 @@ class Stats
 
                         $log = $log->where('referrer_domain_id', $item_array['referrer_domain_id']);
                         $log = $log->groupBy('stats_sessions.referrer_path_id');
+
+                        if ($engine == 'pgsql') {
+                            $log = $log->groupBy('stats_sessions.referrer_path_id','stats_sessions.referrer_domain_id','stats_sessions.referrer_id' );
+
+                        }
+
+
                         $log = $log->orderBy('path_sessions_count', 'desc');
 
 

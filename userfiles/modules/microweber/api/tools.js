@@ -2787,6 +2787,9 @@ mw.tools = {
         $(o.element).after(frame);
         $(o.element).hide();
         $.get(mw.external_tool('editor_toolbar'), function (a) {
+            if(frame.contentWindow.document === null){
+                return;
+            }
             frame.contentWindow.document.open('text/html', 'replace');
             frame.contentWindow.document.write(a);
             frame.contentWindow.document.close();
@@ -2811,7 +2814,10 @@ mw.tools = {
                     o.ready.call(frame, frame.contentWindow.document);
                 }
                 setTimeout(function () {
-                    frame.contentWindow.pauseChange = false;
+                    if(frame.contentWindow){
+                        frame.contentWindow.pauseChange = false;
+                    }
+
                 }, frame.contentWindow.SetValueTime);
             }
         });
@@ -3270,7 +3276,7 @@ mw.tools = {
         }
         var curr = a || $("#mw_handle_module").data("curr");
         var attributes = {};
-        if (typeof(curr.id) != 'undefined' && mw.$('#module-settings-' + curr.id).length > 0) {
+        if (curr && curr.id && mw.$('#module-settings-' + curr.id).length > 0) {
             var m = mw.$('#module-settings-' + curr.id)[0];
             m.scrollIntoView();
             mw.tools.highlight(m);
@@ -4100,13 +4106,13 @@ mw.notification = {
     }
 }
 $.fn.visible = function () {
-    return this.css("visibility", "visible");
+    return this.css("visibility", "visible").css("opacity", "1");
 };
 $.fn.visibilityDefault = function () {
-    return this.css("visibility", "");
+    return this.css("visibility", "").css("opacity", "");
 };
 $.fn.invisible = function () {
-    return this.css("visibility", "hidden");
+    return this.css("visibility", "hidden").css("opacity", "0");
 };
 mw.which = function (str, arr_obj, func) {
     if (arr_obj instanceof Array) {
@@ -4214,8 +4220,8 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             mww.addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
-                    var _new = JSON.parse(e.newValue);
-                    var _old = JSON.parse(e.oldValue);
+                    var _new = JSON.parse(e.newValue ||{});
+                    var _old = JSON.parse(e.oldValue ||{});
                     var diff = mw.tools.getDiff(_new, _old);
                     for (var t in diff) {
                         if (t in mw.storage._keys) {
@@ -4773,8 +4779,8 @@ mw.image = {
                 var image = $(this);
                 var w = image.width();
                 var h = image.height();
-                var contextWidth = w
-                var contextHeight = h
+                var contextWidth = w;
+                var contextHeight = h;
                 var x = 0;
                 var y = 0;
                 switch (angle) {
@@ -5287,12 +5293,13 @@ mw.ajax = function (options) {
         options._success = options.success;
         delete options.success;
         options.success = function(data,status,xhr){
-            console.log(44, data.form_data_required, options._success)
             if(data.form_data_required){
                 mw.extradataForm(options, data);
             }
             else{
-                options._success.call(this, data, status, xhr);
+                if(typeof options._success === 'function'){
+                    options._success.call(this, data, status, xhr);
+                }
             }
         };
     }
@@ -5302,13 +5309,11 @@ mw.ajax = function (options) {
 
 jQuery.each( [ "xhrGet", "xhrPost" ], function( i, method ) {
     mw[ method ] = function( url, data, callback, type ) {
-
         if ( jQuery.isFunction( data ) ) {
             type = type || callback;
             callback = data;
             data = undefined;
         }
-
         return mw.ajax( jQuery.extend( {
             url: url,
             type: i==0?'GET':'POST',
@@ -5323,25 +5328,19 @@ mw.getExtradataFormData = function (data, call) {
     if(data.form_data_module){
         mw.loadModuleData(data.form_data_module, function(moduledata){
             call.call(undefined, moduledata);
-            alert(1)
-        })
+        });
     }
     else{
         call.call(undefined, data.form_data_required);
     }
-
 }
 mw.extradataForm = function (options, data) {
-
     mw.getExtradataFormData(data, function (extra_html) {
-
         var form = document.createElement('form');
         $(form).append(extra_html);
         $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');
-
         form.action = options.url;
         form.method = options.type;
-
         form.__modal = mw.modal({
             content:form
         });

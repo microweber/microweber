@@ -176,8 +176,8 @@ $pages_count = intval($pages);
     <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
 
-<div class="manage-posts-holder" id="mw_admin_posts_sortable">
     <?php if (is_array($data) and !empty($data)): ?>
+        <div class="manage-posts-holder" id="mw_admin_posts_sortable">
 
     <div class="manage-posts-holder-inner">
         <?php if (is_array($data)): ?>

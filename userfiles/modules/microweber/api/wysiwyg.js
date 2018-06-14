@@ -499,7 +499,7 @@ mw.wysiwyg = {
                 }
             }
         });
-        $('.mw-skip-and-remove', body).remove()
+        $('.mw-skip-and-remove', body).remove();
         return body;
     },
     doLocalPaste:function(clipboard){

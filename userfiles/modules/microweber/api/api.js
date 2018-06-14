@@ -240,7 +240,7 @@ mw.askusertostay = false;
     visible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'visible';
     },
-    ie: (/*@cc_on!@*/false || !!window.MSStream),
+    ie: (/*@cc_on!@*/false || !!window.MSStream) && !navigator.userAgent.match(/Trident\/7\./) && false,
     firefox:navigator.userAgent.toLowerCase().contains('firefox')
   }
 
