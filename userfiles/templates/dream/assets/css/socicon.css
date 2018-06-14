@@ -2,7 +2,12 @@
 
 @font-face {
   font-family: "socicon";
-  src: url("../fonts/socicon.ttf") format("truetype");
+  src: url('../fonts/socicon.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/socicon.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/socicon.woff') format('woff'), /* Pretty Modern Browsers */
+  url('../fonts/socicon.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/socicon.svg#svgFontName') format('svg'); /* Legacy iOS */
+
   font-weight: normal;
   font-style: normal;
 
