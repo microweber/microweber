@@ -6318,6 +6318,7 @@ span.mw-icon-upload {
     display: block;
     left: 0;
     top: 0;
+    bottom: 0;
     border-left: 3px solid #0086db;
     content: '';
     min-height: 100px;
@@ -6504,6 +6505,7 @@ span.mw-icon-upload {
     display: block;
     left: 0;
     top: 0;
+    bottom: 0;
     border-left: 3px solid #0086db;
     content: '';
     min-height: 100px;
@@ -6827,6 +6829,7 @@ span.mw-icon-upload {
     display: block;
     left: 0;
     top: 0;
+    bottom: 0;
     border-left: 3px solid #0086db;
     content: '';
     min-height: 82px;
