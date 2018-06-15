@@ -3282,9 +3282,12 @@ mw.tools = {
             mw.tools.highlight(m);
             return false;
         }
-        $.each(curr.attributes, function (index, attr) {
-            attributes[attr.name] = attr.value;
-        });
+        if (curr && curr.attributes){
+            $.each(curr.attributes, function (index, attr) {
+                attributes[attr.name] = attr.value;
+            });
+        }
+
         var data1 = attributes;
         var module_type = null
         if (data1['data-type'] != undefined) {
