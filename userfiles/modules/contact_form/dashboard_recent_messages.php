@@ -4,7 +4,7 @@
 $last_messages = mw()->forms_manager->get_entires('limit=5');
 if ($last_messages == null) {
     $last_messages_count = 0;
-}else{
+} else {
     $last_messages_count = count($last_messages);
 }
 ?>
@@ -18,8 +18,8 @@ if ($last_messages == null) {
 
             <script>
                 window.messageToggle = window.messageToggle || function (e) {
-                        var item =  mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['message-holder']);
-                        if(!mw.tools.hasClass(item, 'active')){
+                        var item = mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['message-holder']);
+                        if (!mw.tools.hasClass(item, 'active')) {
                             var curr = $('.message-data-more', item);
                             $('.order-data-more').not(curr).stop().slideUp();
                             $('.message-holder').not(item).removeClass('active');
@@ -27,6 +27,18 @@ if ($last_messages == null) {
                             $(item).toggleClass('active');
                         }
                     }
+
+                $(document).ready(function () {
+                    $('.new-close').on('click', function (e) {
+                        e.stopPropagation();
+                        var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+                        $(item).removeClass('active')
+                        $('.mw-accordion-content', item).stop().slideUp(function () {
+
+                        });
+                    });
+                });
+
             </script>
             <?php
             if ($last_messages): ?>

@@ -65,6 +65,8 @@
                     <?php else: ?>
                         <?php $userImg = false; ?>
                     <?php endif; ?>
+                <?php else: ?>
+                    <?php $userImg = false; ?>
                 <?php endif; ?>
 
                 <input type="hidden" name="client_image" id="client_image"/>
