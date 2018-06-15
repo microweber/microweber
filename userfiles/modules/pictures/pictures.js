@@ -1,5 +1,8 @@
 mw.module_pictures = {
     after_upload: function (data) {
+
+
+
         $.post(mw.settings.api_url + 'save_media', data,
             function (data) {
 
@@ -30,6 +33,9 @@ mw.module_pictures = {
       data.image_options = image_options;
       $.post(mw.settings.api_url + 'save_media', data,
           function (data) {
+
+
+
 
               clearTimeout(mw.module_pictures.time)
               mw.module_pictures.time = setTimeout(function () {
@@ -104,5 +110,22 @@ mw.module_pictures = {
 
             }
         });
+    },
+
+
+    open_image_upload_settings_modal: function() {
+        image_upload_settings__modal_opened = mw.modal({
+            content: '<div id="image_upload_settings__modal_module"></div>',
+            title: 'Image upload settings',
+            id: 'image_upload_settings__modal'
+        });
+
+        var params = {}
+        params.show_description_text = 1;
+        mw.load_module('settings/group/image_upload', '#image_upload_settings__modal_module', null, params);
     }
+
+
+
+
 }

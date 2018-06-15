@@ -381,9 +381,27 @@ if (!isset($data["thumbnail"])) {
                 mw.$("#im-" + b.id + " .uimprogress").width(b.percent + "%").html(b.percent + "%");
             });
             $(uploader).bind("FileUploaded done", function (e, a) {
+
+
+
+                if(typeof(a.ask_user_to_enable_auto_resizing) != 'undefined'){
+
+                    mw.module_pictures.open_image_upload_settings_modal();
+
+                }
+                if(typeof(a.image_was_auto_resized_msg) != 'undefined'){
+
+
+                    window.top.mw.notification.warning(a.image_was_auto_resized_msg,5200);
+            }
+
+
                 setTimeout(function () {
                     after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 }, 1300);
+
+
+
             });
             $(".image-tag-view").remove();
             $(".image-tags").each(function () {

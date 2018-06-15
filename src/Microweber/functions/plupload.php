@@ -637,7 +637,7 @@ if (isset($_SERVER['CONTENT_TYPE'])) {
 }
 
 // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
-
+$is_image = false;
 if (isset($contentType)) {
     if (strpos($contentType, 'multipart') !== false) {
         if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
@@ -713,6 +713,10 @@ if (isset($contentType)) {
     }
 }
 
+
+$rerturn = array();
+
+
 // Check if file has been uploaded
 if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
@@ -725,10 +729,64 @@ if (!$chunks || $chunk == $chunks - 1) {
     rename("{$filePath}.part", $newfile);
     $filePath = $newfile;
 
+    $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
+
 
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
         try {
             $size = getimagesize($filePath);
+            $is_image = true;
+            $filesize = filesize($filePath);
+            $rerturn['file_size'] = $filesize;
+            $rerturn['file_size_human'] = mw()->format->human_filesize($filesize);
+            $rerturn['image_size'] = $size;
+
+
+            if ($is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
+                $rerturn['automatic_image_resize_is_enabled'] = $automatic_image_resize_on_upload;
+                if (!$automatic_image_resize_on_upload and $filesize > 100000) {
+                    // if image is big, ask to enable resizing
+                    $rerturn['ask_user_to_enable_auto_resizing'] = 1;
+
+                }
+                if ($automatic_image_resize_on_upload and $filesize > 100000) {
+                    $maxDim = 1980;
+                    @ini_set('memory_limit', '256M');
+
+                    list($width, $height, $type, $attr) = $size;
+                    if ($width > $maxDim || $height > $maxDim) {
+//                        $d1 = dirname($filePath);
+                        $d2 = basename($filePath);
+//                        $target_filename = $d1 . DS . 'auto_resized_' . $d2;
+                        $target_filename = $filePath;
+                        $fn = $filePath;
+                        $ratio = $size[0] / $size[1]; // width/height
+                        if ($ratio > 1) {
+                            $width = $maxDim;
+                            $height = $maxDim / $ratio;
+                        } else {
+                            $width = $maxDim * $ratio;
+                            $height = $maxDim;
+                        }
+                        $src = imagecreatefromstring(file_get_contents($fn));
+                        $dst = imagecreatetruecolor($width, $height);
+                        imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+                        imagedestroy($src);
+
+                        if ($is_ext == 'png') {
+                            imagepng($dst, $target_filename); // adjust format as needed
+
+                        } else if ($is_ext == 'jpg' || $is_ext == 'jpeg') {
+                            imagejpeg($dst, $target_filename); // adjust format as needed
+                        }
+
+                        $rerturn['image_was_auto_resized'] = 1;
+                        $rerturn['image_was_auto_resized_msg'] = "Image was automatically resized because it was ".$rerturn['file_size_human'];
+
+                        imagedestroy($dst);
+                    }
+                }
+            }
 
 
         } catch (Exception $e) {
@@ -745,7 +803,6 @@ if (!$chunks || $chunk == $chunks - 1) {
 }
 $f_name = explode(DS, $filePath);
 
-$rerturn = array();
 $rerturn['src'] = mw()->url_manager->link_to_file($filePath);
 $rerturn['name'] = end($f_name);
 

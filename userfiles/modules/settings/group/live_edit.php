@@ -30,6 +30,13 @@ $(document).ready(function(){
       </option>
     </select>
   </div>
+
+
+
+
+<module type="settings/group/image_upload"   />
+
+
   <?php
 
 $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
