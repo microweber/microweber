@@ -14,7 +14,7 @@ if(isset($params['show_description_text']) and $params['show_description_text'] 
 
 
     <h3><?php _e("Looks like you are trying to upload big images"); ?></h3>
-    <h4><?php _e("For best experience you may want to enable \"Automatic image resize\""); ?></h4>
+    <h4><?php _e("For best experience you may want to enable the Automatic image resize"); ?></h4>
 
 
 <?php
@@ -25,21 +25,27 @@ if(isset($params['show_description_text']) and $params['show_description_text'] 
 
 <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
-        <?php _e("Enable automatic image resize on upload"); ?>
+        <?php _e("Enable automatic image resize on upload?"); ?>
     </label>
     <?php
     $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload','website');
 
     ?>
-    <select name="automatic_image_resize_on_upload" class="mw-ui-field mw_option_field"   type="text" option-group="website">
-        <option value="y" <?php if($automatic_image_resize_on_upload == 'y'): ?> selected="selected" <?php endif; ?>>
-            <?php _e("Yes"); ?>
-        </option>
-        <option value="n" <?php if(!$automatic_image_resize_on_upload or $automatic_image_resize_on_upload == 'n'): ?> selected="selected" <?php endif; ?>>
-            <?php _e("No"); ?>
-        </option>
-        <option value="d" <?php if($automatic_image_resize_on_upload == 'd'): ?> selected="selected" <?php endif; ?>>
-            <?php _e("Disable"); ?>
-        </option>
-    </select>
+
+
+    <input  class="mw_option_field" type="radio" id="img_resize_choice1"
+           name="automatic_image_resize_on_upload" <?php if($automatic_image_resize_on_upload == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+    <label for="img_resize_choice1"><?php _e("Yes"); ?></label>
+
+    <input  class="mw_option_field" type="radio" id="img_resize_choice2"
+           name="automatic_image_resize_on_upload" <?php if(!$automatic_image_resize_on_upload or $automatic_image_resize_on_upload == 'n'): ?> checked <?php endif; ?> value="n" option-group="website">
+    <label for="img_resize_choice2"><?php _e("No"); ?></label>
+
+    <input  class="mw_option_field" type="radio" id="img_resize_choice3"
+           name="automatic_image_resize_on_upload" <?php if($automatic_image_resize_on_upload =='d'): ?> checked <?php endif; ?> value="d" option-group="website">
+    <label for="img_resize_choice3"><?php _e("Disable notification"); ?></label>
+
+
+
+
 </div>
