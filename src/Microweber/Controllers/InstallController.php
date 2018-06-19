@@ -136,22 +136,24 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured_input', null);
             }
 
-
-            if (Config::get('app.key') == 'YourSecretKey!!!') {
+            $secret_key = Config::get('app.key') == 'YourSecretKey!!!';
+            if (!$secret_key or $secret_key == 'YourSecretKey!!!') {
                 if (!is_cli()) {
                     $_SERVER['argv'] = array();
                 }
                 $this->log('Generating key');
-                if (!$this->_can_i_use_artisan_key_generate_command()) {
-                    $fallback_key = str_random(32);
-                    $fallback_key_str = 'base64:' . base64_encode($fallback_key);
-                    Config::set('app.key', $fallback_key_str);
-                    $allowed_configs[] = 'app';
-                } else {
-                    Artisan::call('key:generate', [
-                        '--force' => true,
-                    ]);
-                }
+                // if (!$this->_can_i_use_artisan_key_generate_command()) {
+                $fallback_key = str_random(32);
+                $fallback_key_str = 'base64:' . base64_encode($fallback_key);
+
+                Config::set('app.key', $fallback_key_str);
+                $allowed_configs[] = 'app';
+//                } else {
+//                 https://github.com/laravel/framework/issues/20719
+//                    Artisan::call('key:generate', [
+//                        '--force' => true,
+//                    ]);
+//                }
             }
 
             $this->log('Saving config');
@@ -373,9 +375,6 @@ class InstallController extends Controller
         if (!$this->_is_escapeshellarg_available()) {
             $yes_i_can = false;
         }
-
-
-
 
 
         if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {

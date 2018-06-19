@@ -104,9 +104,11 @@ class ConfigSave extends Repository
                 if (is_string($val)) {
                     $temp = str_replace('\\', '\\\\', storage_path());
                     $val = str_replace("'" . $temp . '\\\\', "storage_path().DIRECTORY_SEPARATOR.'", $val);
+                    $val = str_replace("'" . $temp . '/', "storage_path().DIRECTORY_SEPARATOR.'", $val);
                     $val = str_replace("'" . storage_path() . DIRECTORY_SEPARATOR, "storage_path().DIRECTORY_SEPARATOR.'", $val);
                     $val = str_replace("'" . $val, "storage_path().'", $val);
-
+                    $val = str_ireplace("'" .storage_path(), "storage_path().'", $val);
+    
                     $code = '<?php return ' . $val . ';';
                 } else {
                     $code = $val;
