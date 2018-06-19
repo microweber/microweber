@@ -19,7 +19,7 @@
     paymentModal = function (el) {
         var html = el.querySelector('.mw-ui-box-content').innerHTML
         var modal = mw.modal({
-            content: el.querySelector('.mw-ui-box-content').innerHTML,
+            content: '<form id="pm-'+mw.random()+'">' + el.querySelector('.mw-ui-box-content').innerHTML + '</form>',
             onremove: function (modal) {
                 el.querySelector('.mw-ui-box-content').innerHTML = modal.container.innerHTML;
                 $(mwd.body).removeClass('paymentSettingsModal')

@@ -822,11 +822,11 @@ $(mww).bind('load', function () {
     }
 
     $(window).bind('adminSaveStart', function () {
-        var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
+        var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.saving + '...';
     });
     $(window).bind('adminSaveEnd', function () {
-        var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
+        var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.save;
     });
 
