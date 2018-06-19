@@ -182,14 +182,7 @@
         </div>
         <hr>
         <div id="custom-fields-box">
-
-
-                   xdzxzzxczx  for="<?php print $for ?>" <?php if (isset($for_id)): ?> rel_id="<?php print $for_id; ?>"  <?php endif; ?>
-                    list-preview="true" id="mw_custom_fields_list_preview" zxc zxc zx
-
-
-
-            <hr>
+ 
 
             <module data-type="custom_fields/list"   for="<?php print $for ?>" <?php if (isset($for_id)): ?> rel_id='<?php print $for_id; ?>'  <?php endif; ?>  list-preview="true" id="mw_custom_fields_list_preview" />
         </div>
