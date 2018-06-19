@@ -703,7 +703,7 @@ class Parser
                                                 }
                                             }
 
-                                            if ($pass and $nv) {
+                                            if ($pass /*and $nv*/) {
                                                 $module_html .= " {$nn}='{$nv}'  ";
                                             }
                                         }
@@ -2218,7 +2218,7 @@ if(!$coming_from_parent){
                 $attrs[$a] = $b;
             }
         }
-
+//d($attrs);
         if ($attrs) {
             return $attrs;
         }

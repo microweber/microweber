@@ -14,6 +14,10 @@
 
 </script>
 <?php
+
+
+
+
 $for = 'module';
 if (isset($params['for'])) {
     $for = $params['for'];
@@ -36,7 +40,10 @@ if (isset($params['rel_id'])) {
         $params['for_module_id'] = $params['data-id'];
     }
 }
+if (isset($params['for_id'])) {
 
+    $params['for_module_id'] = $params['for_id'];
+}
 if (isset($params['list-preview']) and $params['list-preview'] != 'false') {
     $list_preview = true;
 }
@@ -54,6 +61,7 @@ $suggest_from_rel = false;
 if (isset($params['suggest-from-related']) and $params['suggest-from-related'] != 'false') {
     $suggest_from_rel = true;
 }
+
 
 
 ?>
