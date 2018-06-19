@@ -730,6 +730,7 @@ if (!$chunks || $chunk == $chunks - 1) {
     $filePath = $newfile;
 
     $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
+    $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
 
 
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
@@ -749,7 +750,7 @@ if (!$chunks || $chunk == $chunks - 1) {
                     $rerturn['ask_user_to_enable_auto_resizing'] = 1;
 
                 }
-                if ($automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
+                if (!$automatic_image_resize_on_upload_disabled and $automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
                     $maxDim = 1980;
                     @ini_set('memory_limit', '256M');
 
