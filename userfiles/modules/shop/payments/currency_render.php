@@ -8,6 +8,15 @@ $cur = get_option('currency', 'payments');
 //$num = rand(50,1000).'.'.rand(10,100);
 $num = 1.00;
 ?>
+<script  type="text/javascript">
+    $(document).ready(function(){
+
+        mw.options.form('.<?php print $config['module_class'] ?>', function(){
+            mw.notification.success("<?php _e("Currency settings are saved."); ?>");
+            mw.reload_module('shop/payments/currency_render')
+        });
+    });
+</script>
 <?php if (!in_array(strtoupper($cur), $curencies)): ?>
     <?php $payment_currency = get_option('payment_currency', 'payments'); ?>
     <?php $payment_currency_rate = get_option('payment_currency_rate', 'payments');
