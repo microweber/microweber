@@ -1634,6 +1634,7 @@ class DefaultController extends Controller
         if (!defined('IS_HOME')) {
             if (isset($content['is_home']) and $content['is_home'] == 1) {
                 define('IS_HOME', true);
+                $this->app->template->head('<link rel="canonical" href="'.site_url().'">');
             }
         }
 
