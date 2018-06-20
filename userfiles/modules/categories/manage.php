@@ -89,22 +89,9 @@
                     params['no-toolbar'] = true;
                     mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
 
-
-
-
-
-
-//                    mw.$("#mw_edit_category_admin_holder").attr("data-category-id", id);
-//                    mw.$("#mw_edit_category_admin_holder").attr("no-toolbar", 'true');
-//
-//                  //  mw.$(".mw-module-category-manager").hide();
-//                    mw.$("#mw-live-edit-cats-tab").removeClass('active');
-//                    mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
-//
-//                    });
                 }
 
-                mw.quick_cat_edit_create = function (id) {
+                mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
                   return  mw.quick_cat_edit(id);
                     <?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
                     //mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');

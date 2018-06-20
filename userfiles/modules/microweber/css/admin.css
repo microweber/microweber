@@ -7503,3 +7503,8 @@ select.silver-field {
     margin-bottom: 10px;
     display: block;
 }
+
+#mw-admin-edit-category-item-module-categories-selector .mw-ui-check:before{
+
+    display: none;
+}

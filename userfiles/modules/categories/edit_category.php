@@ -220,6 +220,32 @@ if (isset($params['live_edit'])) {
             <?php _e('category'); ?>
         </h2>
 
+        <script>
+
+            mw.quick_cat_edit_create = function (id) {
+
+                if (!!id) {
+                    var modalTitle = '<?php _e('Edit category'); ?>';
+                } else {
+                    var modalTitle = '<?php _e('Add category'); ?>';
+                }
+
+
+                mw_admin_edit_category_item_module_opened = mw.modal({
+                    content: '<div id="mw_admin_edit_category_item_module"></div>',
+                    title: modalTitle,
+                    id: 'mw_admin_edit_category_item_popup_modal'
+                });
+
+                var params = {}
+                params['data-category-id'] = id;
+                params['no-toolbar'] = true;
+                mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
+
+            }
+
+        </script>
+
         <div class="pull-right">
             <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
                 <span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?>
