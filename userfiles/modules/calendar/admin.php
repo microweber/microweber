@@ -138,7 +138,7 @@
                     var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
                     console.log('eventReceive start: ' + start);
                     $.ajax({
-                        url: '<?php print api_url('new_event');?>',
+                        url: '<?php print api_url('calendar_new_event');?>',
                         data: 'title=' + title + '&startdate=' + start + '&zone=' + zone,
                         type: 'POST',
                         dataType: 'json',
@@ -163,7 +163,7 @@
                     var start = event.start.format();
                     var end = (event.end == null) ? start : event.end.format();
                     $.ajax({
-                        url: '<?php print api_url('reset_date');?>',
+                        url: '<?php print api_url('calendar_reset_date');?>',
                         data: 'title=' + title + '&start=' + start + '&end=' + end + '&eventid=' + event.id,
                         type: 'POST',
                         dataType: 'json',
@@ -219,9 +219,9 @@
                                 event.start = moment(startDate + ' ' + $("#starttime").val()).format("YYYY-MM-DD[T]HH:mm:SS");
                                 event.end = moment((event.end != null ? endDate : startDate) + ' ' + $("#endtime").val()).format("YYYY-MM-DD[T]HH:mm:SS");
 
-                                console.log('function=change_title&title=' + event.title + '&description=' + event.description + '&eventid=' + event.id + '&start=' + event.start + '&end=' + event.end);
+                                console.log('function=calendar_change_title&title=' + event.title + '&description=' + event.description + '&eventid=' + event.id + '&start=' + event.start + '&end=' + event.end);
                                 $.ajax({
-                                    url: '<?php print api_url('change_title');?>',
+                                    url: '<?php print api_url('calendar_change_title');?>',
                                     data: 'title=' + event.title + '&description=' + event.description + '&eventid=' + event.id + '&start=' + event.start + '&end=' + event.end + '&zone=' + zone,
                                     type: 'POST',
                                     dataType: 'json',
@@ -255,7 +255,7 @@
                     var start = event.start.format();
                     //console.log('end: '+end);
                     $.ajax({
-                        url: '<?php print api_url('reset_date');?>',
+                        url: '<?php print api_url('calendar_reset_date');?>',
                         data: 'title=' + title + '&start=' + start + '&end=' + end + '&eventid=' + event.id + '&zone=' + zone,
                         type: 'POST',
                         dataType: 'json',
@@ -319,7 +319,7 @@
                 var con = confirm('<?php _e('Are you sure to delete this event permanently?'); ?>');
                 if (con == true) {
                     $.ajax({
-                        url: '<?php print api_url('remove_event');?>',
+                        url: '<?php print api_url('calendar_remove_event');?>',
                         data: 'eventid=' + event.id,
                         type: 'POST',
                         dataType: 'json',
@@ -348,7 +348,7 @@
                 var m = ("0" + (date.month() + 1)).slice(-2);
                 var yearmonth = y + '-' + m;
                 $.ajax({
-                    url: '<?php print api_url('get_events');?>',
+                    url: '<?php print api_url('calendar_get_events_api');?>',
                     type: 'POST', // Send post data
                     data: 'yearmonth=' + yearmonth,
                     async: false,
@@ -386,6 +386,77 @@
 
         }
     </script>
+
+
+
+
+    <script>
+
+      /*  is_searching = false;
+
+
+
+
+        mw.dd_autocomplete = function(id){
+            var el = $(id);
+
+            el.on("change keyup paste focus", function(event){
+                if(!is_searching){
+                    var val = el.val();
+                    if(event.type=='focus'){
+                        if(el.hasClass('inactive')){
+                            el.removeClass('inactive')
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    mw.tools.ajaxSearch({keyword:val, limit:4}, function(){
+                        var lis = "";
+                        var json = this;
+                        for(var item in json){
+                            var obj = json[item];
+                            if(typeof obj === 'object'){
+                                var title = obj.title;
+                                var url = obj.url;
+                                lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='setACValue(\""+url+"\")'><a href='javascript:;'>"+title+"</a></li>";
+                            }
+                        }
+                        var ul = el.parent().find("ul");
+                        ul.find("li:gt(0)").remove();
+                        ul.append(lis);
+                    });
+                }
+            });
+        }
+
+
+
+
+
+        setACValue = function(val,context){
+            RegisterChange(hash, val);
+            parent.mw.iframecallbacks[hash](val);
+            parent.mw.tools.modal.remove('mw_rte_link');
+        }*/
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <?php

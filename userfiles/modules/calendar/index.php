@@ -40,6 +40,7 @@ $template = $params['template'];
 
 $event_count = mw()->database_manager->get("table=calendar&count=true");
 
+
 if($event_count<1){
     return print lnotif(_e('Click here to edit Calendar', true));
 }
@@ -56,4 +57,4 @@ if ($template_file == false) {
 if($template_file != false and is_file($template_file)){
     include($template_file);
 }
-?>
+
