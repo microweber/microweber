@@ -81,8 +81,9 @@ class DefaultController extends Controller
             foreach ($cont as $k => $item) {
                 $item['image_tag'] = '';
                 $item['image'] = '';
-                if(!isset($item['description']) or
-                    (isset($item['description'])) and trim($item['description']) == ''){
+                if (!isset($item['description']) or
+                    (isset($item['description'])) and trim($item['description']) == ''
+                ) {
                     $item['description'] = content_description($item['id']);
                 }
 
@@ -1634,7 +1635,7 @@ class DefaultController extends Controller
         if (!defined('IS_HOME')) {
             if (isset($content['is_home']) and $content['is_home'] == 1) {
                 define('IS_HOME', true);
-                $this->app->template->head('<link rel="canonical" href="'.site_url().'">');
+                $this->app->template->head('<link rel="canonical" href="' . site_url() . '">');
             }
         }
 
@@ -1783,7 +1784,7 @@ class DefaultController extends Controller
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v='.MW_VERSION.'" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
@@ -1896,6 +1897,7 @@ class DefaultController extends Controller
                 $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 
+
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
                 if ($is_admin == true) {
                     $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
@@ -1948,6 +1950,12 @@ class DefaultController extends Controller
                         }
                     }
                 }
+            } else {
+                $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
+                if ($optimize_asset_loading == 'y') {
+                    $l = $this->app->parser->optimize_asset_loading_order($l);
+
+                }
             }
 
 
@@ -1973,8 +1981,7 @@ class DefaultController extends Controller
 //
 //            $l = str_replace($replaces, $replaces_vals, $l);
 
-            $l =$this->app->parser->replace_url_placeholders($l);
-
+            $l = $this->app->parser->replace_url_placeholders($l);
 
 
 //            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
@@ -2481,7 +2488,7 @@ class DefaultController extends Controller
             $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
 
             // $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v='.MW_VERSION.'" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
