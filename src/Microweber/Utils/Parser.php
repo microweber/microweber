@@ -2104,16 +2104,155 @@ class Parser
 
         $replaced = array();
         $pq = \phpQuery::newDocument($layout);
-        foreach ($pq ['script'] as $elem) {
-            $replaced[] = pq($elem)->htmlOuter();
-            pq($elem)->replaceWith('');
-        }
-        $layout = $pq->htmlOuter();
+        $srcs = array();
+        $srcs_css = array();
 
-        if($replaced){
-            $replaced = array_unique($replaced);
+        foreach ($pq ['script'] as $elem) {
+            $src = pq($elem)->attr('src');
+            // <script type="text/javascript/defer">
+
+            if ($src and !strstr($src, 'apijs')) {
+
+                //  pq($elem)->attr('type', 'text/javascript/defer');
+                //pq($elem)->attr('type', 'text/delayscript');
+                $srcs[] = $src;
+                pq($elem)->replaceWith('');
+            }
+            if ($src) {
+//                $replaced[] = pq($elem)->htmlOuter();
+//                pq($elem)->replaceWith('');
+            } else {
+
+                //     pq($elem)->attr('defer', 'defer');
+
+//                 $base = pq($elem)->html();
+//                $base = base64_encode($base);
+//                pq($elem)->attr('src', 'data:text/javascript;base64,'.$base);
+//                pq($elem)->html('');
+            }
+
+        }
+//        foreach ($pq ['link'] as $elem) {
+//            $src = pq($elem)->attr('href');
+//            if($src){
+//                $srcs_css[] = $src;
+//                pq($elem)->replaceWith('');
+//            }
+//        }
+
+
+        $layout = $pq->htmlOuter();
+        $load_deffered = "<script>
+   $( document ).ready(function() {
+
+
+	$('script[type=\"text/javascript/defer\"]').each(function(){
+		$(this).clone().attr('type', 'application/javascript').insertAfter(this);	
+		$(this).remove();
+	});
+});
+</script>";
+
+        $load_deffered = "<script>
+   $( document ).ready(function() {
+
+	var scripts = document.getElementsByTagName(\"script\")
+
+    for (var i = 0; i < scripts.length; i++) {
+        var type = scripts[i].getAttribute(\"type\");
+        if (type && type.toLowerCase() == 'text/delayscript') {
+            scripts[i].parentNode.replaceChild((function (delayscript) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.innerHTML = delayscript.innerHTML;
+
+                return script;
+            })(scripts[i]), scripts[i]);
+        }
+    }
+});
+</script>";
+
+
+        if($srcs){
+            $srsc_str = '';
+            foreach ($srcs as $src){
+                $srsc_str .= 'mw.require("'.$src.'")'."\n";
+            }
+            $srsc_str = "<script>
+$srsc_str
+            </script>";
+            $layout = str_ireplace('</body>', $srsc_str . '</body>', $layout, $c);
+
+        }
+
+//        if($srcs_css){
+//            $srsc_str = '';
+//            foreach ($srcs_css as $src){
+//                $srsc_str .= 'mw.moduleCSS("'.$src.'")'."\n";
+//            }
+//            $srsc_str = "<script>
+//$srsc_str
+//            </script>";
+//            $layout = str_ireplace('</body>', $srsc_str . '</body>', $layout, $c);
+//
+//        }
+
+        $layout = str_ireplace('</head>', $load_deffered . '</head>', $layout, $c);
+
+        // $replaced[] = $load_deffered;
+
+        if ($replaced) {
+            //$replaced = array_unique($replaced);
+
+
             $replaced_str = implode("\n", $replaced);
             $c = 1;
+            // $layout = str_ireplace('</head>', $replaced_str . '</head>', $layout, $c);
+
+
+            $layout = str_ireplace('</body>', $replaced_str . '</body>', $layout, $c);
+            // $layout = str_ireplace('</body>', $load_deffered . '</body>', $layout, $c);
+
+        }
+
+        return $layout;
+
+        $replaced = array();
+        $pq = \phpQuery::newDocument($layout);
+//        foreach ($pq ['script'] as $elem) {
+//               $src = pq($elem)->attr('src');
+//
+//            $replaced[] = pq($elem)->htmlOuter();
+//            pq($elem)->replaceWith('');
+//
+//
+//        }
+        foreach ($pq ['script'] as $elem) {
+            $src = pq($elem)->attr('src');
+            if ($src) {
+                $replaced[] = pq($elem)->htmlOuter();
+                pq($elem)->replaceWith('');
+            } else {
+
+                pq($elem)->attr('defer', 'defer');
+
+                $base = pq($elem)->html();
+                $base = base64_encode($base);
+                pq($elem)->attr('src', 'data:text/javascript;base64,' . $base);
+                pq($elem)->html('');
+            }
+
+        }
+
+
+        $layout = $pq->htmlOuter();
+
+        if ($replaced) {
+            //$replaced = array_unique($replaced);
+            $replaced_str = implode("\n", $replaced);
+            $c = 1;
+            // $layout = str_ireplace('</head>', $replaced_str . '</head>', $layout, $c);
             $layout = str_ireplace('</body>', $replaced_str . '</body>', $layout, $c);
 
         }
