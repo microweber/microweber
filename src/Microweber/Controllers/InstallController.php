@@ -372,22 +372,21 @@ class InstallController extends Controller
     private function _can_i_use_artisan_key_generate_command()
     {
         $env_path = base_path() . DIRECTORY_SEPARATOR . '.env';
-        $yes_i_can = true;
+
         if (!$this->_is_escapeshellarg_available()) {
-            $yes_i_can = false;
+            return false;
         }
 
-
         if (!file_exists($env_path)) {
-            $yes_i_can = false;
+            return false;
         }
         $basedir = @ini_get('open_basedir');
         if ($basedir) {
-            $yes_i_can = false;
+            return false;
         }
 
         if (!is_writable($env_path)) {
-            $yes_i_can = false;
+            return false;
         } else {
             $cont = @file_get_contents($env_path);
             if (!strstr($cont, 'APP_KEY=')) {
@@ -395,42 +394,39 @@ class InstallController extends Controller
                 $append = 'APP_KEY=YourSecretKey!!!';
                 if ($cont) {
                     $cont = rtrim($cont);
-                    $cont = $cont . "\n" . $append. "\n";
+                    $cont = $cont . "\n" . $append . "\n";
                 } else {
                     $cont = $append . "\n";
                 }
                 if (file_put_contents($env_path, $cont)) {
-                    $yes_i_can = true;
+                    return true;
                 } else {
-                    $yes_i_can = false;
+                    return false;
                 }
             }
         }
 
-        return $yes_i_can;
+        return true;
 
     }
 
     private function _is_escapeshellarg_available()
     {
-        static $available;
 
-        if (!isset($available)) {
-            $available = true;
-            if (ini_get('safe_mode')) {
-                $available = false;
-            } else {
-                $d = ini_get('disable_functions');
-                $s = ini_get('suhosin.executor.func.blacklist');
-                if ("$d$s") {
-                    $array = preg_split('/,\s*/', "$d,$s");
-                    if (in_array('escapeshellarg', $array)) {
-                        $available = false;
-                    }
+        $available = true;
+        if (ini_get('safe_mode')) {
+            $available = false;
+        } else {
+            $d = ini_get('disable_functions');
+            $s = ini_get('suhosin.executor.func.blacklist');
+            if ("$d$s") {
+                $array = preg_split('/,\s*/', "$d,$s");
+                if (in_array('escapeshellarg', $array)) {
+                    $available = false;
                 }
             }
         }
-
+        
         return $available;
     }
 }
