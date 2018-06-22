@@ -215,7 +215,7 @@
                         overlay:true
                     });*/
 
-                    var post = mw.tools.getPostById(1, function(data){
+                    mw.tools.getPostById(event.content_id, function(data){
                         data = data[0];
                         $("#postSearch").val(data.title);
                         content_id = data.id;

@@ -14,9 +14,7 @@
 </h2>
 
 
-
 <div class="mw-ui-field-holder">
-
 
 
     <label class="mw-ui-label">
@@ -34,7 +32,7 @@
     <label class="mw-ui-label">
 
 
-       Google Analytics ID
+        Google Analytics ID
         <br>
         <?php $key_name = 'google-analytics-id'; ?>
         <input name="<?php print $key_name ?>" class="mw_option_field mw-ui-field" type="text" option-group="website"
@@ -44,9 +42,8 @@
     </label>
 
 
-
-
-    <a href="javascript:$('.other-site-verification-codes-hidden-toggle').toggle();void(0)" class="mw-ui-btn"><?php _e('Other search engines'); ?></a>
+    <a href="javascript:$('.other-site-verification-codes-hidden-toggle').toggle();void(0)"
+       class="mw-ui-btn"><?php _e('Other search engines'); ?></a>
     <div class="other-site-verification-codes-hidden-toggle" style="display: none">
         <label class="mw-ui-label">
 
@@ -85,6 +82,38 @@
 
 
         </label>
+
+
+
+        <hr>
+
+        <div class="mw-ui-field-holder">
+            <label class="mw-ui-label">
+                <?php _e("Optimize assets loading"); ?>
+            </label>
+            <?php
+            $optimize_asset_loading = get_option('optimize_asset_loading','website');
+
+            ?>
+
+
+            <input  class="mw_option_field" type="radio" id="img_resize_choice1"
+                    name="optimize_asset_loading" <?php if($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <label for="img_resize_choice1"><?php _e("Yes"); ?></label>
+
+            <input  class="mw_option_field" type="radio" id="img_resize_choice2"
+                    name="optimize_asset_loading" <?php if(!$optimize_asset_loading or $optimize_asset_loading == 'n'): ?> checked <?php endif; ?> value="n" option-group="website">
+            <label for="img_resize_choice2"><?php _e("No"); ?></label>
+
+
+
+
+        </div>
+
+
+
+
+
 
 
     </div>

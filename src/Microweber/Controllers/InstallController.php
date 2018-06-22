@@ -142,18 +142,18 @@ class InstallController extends Controller
                     $_SERVER['argv'] = array();
                 }
                 $this->log('Generating key');
-                // if (!$this->_can_i_use_artisan_key_generate_command()) {
-                $fallback_key = str_random(32);
-                $fallback_key_str = 'base64:' . base64_encode($fallback_key);
+                if (!$this->_can_i_use_artisan_key_generate_command()) {
+                    $fallback_key = str_random(32);
+                    $fallback_key_str = 'base64:' . base64_encode($fallback_key);
 
-                Config::set('app.key', $fallback_key_str);
-                $allowed_configs[] = 'app';
-//                } else {
-//                 https://github.com/laravel/framework/issues/20719
-//                    Artisan::call('key:generate', [
-//                        '--force' => true,
-//                    ]);
-//                }
+                    Config::set('app.key', $fallback_key_str);
+                    $allowed_configs[] = 'app';
+                } else {
+                    // https://github.com/laravel/framework/issues/20719
+                    Artisan::call('key:generate', [
+                        '--force' => true,
+                    ]);
+                }
             }
 
             $this->log('Saving config');
@@ -371,48 +371,62 @@ class InstallController extends Controller
 
     private function _can_i_use_artisan_key_generate_command()
     {
-        $yes_i_can = true;
+        $env_path = base_path() . DIRECTORY_SEPARATOR . '.env';
+
         if (!$this->_is_escapeshellarg_available()) {
-            $yes_i_can = false;
+            return false;
         }
 
-
-        if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {
-            $yes_i_can = false;
+        if (!file_exists($env_path)) {
+            return false;
         }
         $basedir = @ini_get('open_basedir');
         if ($basedir) {
-            $yes_i_can = false;
+            return false;
         }
 
-        if (!is_writable(base_path() . DIRECTORY_SEPARATOR . '.env')) {
-            $yes_i_can = false;
+        if (!is_writable($env_path)) {
+            return false;
+        } else {
+            $cont = @file_get_contents($env_path);
+            if (!strstr($cont, 'APP_KEY=')) {
+                // https://github.com/laravel/framework/issues/20719
+                $append = 'APP_KEY=YourSecretKey!!!';
+                if ($cont) {
+                    $cont = rtrim($cont);
+                    $cont = $cont . "\n" . $append . "\n";
+                } else {
+                    $cont = $append . "\n";
+                }
+                if (file_put_contents($env_path, $cont)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
 
-        return $yes_i_can;
+        return true;
 
     }
 
     private function _is_escapeshellarg_available()
     {
-        static $available;
 
-        if (!isset($available)) {
-            $available = true;
-            if (ini_get('safe_mode')) {
-                $available = false;
-            } else {
-                $d = ini_get('disable_functions');
-                $s = ini_get('suhosin.executor.func.blacklist');
-                if ("$d$s") {
-                    $array = preg_split('/,\s*/', "$d,$s");
-                    if (in_array('escapeshellarg', $array)) {
-                        $available = false;
-                    }
+        $available = true;
+        if (ini_get('safe_mode')) {
+            $available = false;
+        } else {
+            $d = ini_get('disable_functions');
+            $s = ini_get('suhosin.executor.func.blacklist');
+            if ("$d$s") {
+                $array = preg_split('/,\s*/', "$d,$s");
+                if (in_array('escapeshellarg', $array)) {
+                    $available = false;
                 }
             }
         }
-
+        
         return $available;
     }
 }
