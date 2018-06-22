@@ -19,12 +19,10 @@
 
     <script>
 
+        mw.require('ui.css');
 
         mw.lib.require('jqueryui');
-    </script>
 
-    <script>
-        //mw.lib.require('jqueryui'); // hyphen removed due to mw bug
         mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.css");
         mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/lib/moment.min.js");
         mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.js");
@@ -82,6 +80,12 @@
     </style>
     <script>
         $(document).ready(function () {
+
+            content_id = 0;
+
+            $("#postSearch").on("postSelected", function(event, data){
+                content_id = data.id;
+            })
 
             var zone = '<?php echo date('P');?>';
 
@@ -155,7 +159,7 @@
                         }
                     });
                     $('#calendar').fullCalendar('updateEvent', event);
-                    console.log(event);
+
                 },
 
                 eventDrop: function (event, delta, revertFunc) {
@@ -164,7 +168,7 @@
                     var end = (event.end == null) ? start : event.end.format();
                     $.ajax({
                         url: '<?php print api_url('calendar_reset_date');?>',
-                        data: 'title=' + title + '&start=' + start + '&end=' + end + '&eventid=' + event.id,
+                        data: 'title=' + title + '&start=' + start + '&end=' + end + '&event_id=' + event.id,
                         type: 'POST',
                         dataType: 'json',
                         success: function (response) {
@@ -181,7 +185,6 @@
                 },
 
                 eventClick: function (event, jsEvent, view) {
-                    console.log(event.id);
                     //var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
                     $("#title").val(event.title);
                     $("#description").val(event.description);
@@ -204,6 +207,20 @@
                         $("#endtime").val(endTime);
                     }
 
+                    /*mw.modal({
+                        content:$("#eventContent").html(),
+                        width:320,
+                        title: event.title,
+                        template:'basic',
+                        overlay:true
+                    });*/
+
+                    var post = mw.tools.getPostById(1, function(data){
+                        data = data[0];
+                        $("#postSearch").val(data.title);
+                        content_id = data.id;
+                    });
+
                     $("#eventContent").dialog({
                         modal: true,
                         resizable: false,
@@ -219,10 +236,9 @@
                                 event.start = moment(startDate + ' ' + $("#starttime").val()).format("YYYY-MM-DD[T]HH:mm:SS");
                                 event.end = moment((event.end != null ? endDate : startDate) + ' ' + $("#endtime").val()).format("YYYY-MM-DD[T]HH:mm:SS");
 
-                                console.log('function=calendar_change_title&title=' + event.title + '&description=' + event.description + '&eventid=' + event.id + '&start=' + event.start + '&end=' + event.end);
                                 $.ajax({
                                     url: '<?php print api_url('calendar_change_title');?>',
-                                    data: 'title=' + event.title + '&description=' + event.description + '&eventid=' + event.id + '&start=' + event.start + '&end=' + event.end + '&zone=' + zone,
+                                    data: 'title=' + event.title + '&description=' + event.description + '&eventid=' + event.id + '&start=' + event.start + '&end=' + event.end + '&zone=' + zone + '&content_id=' + content_id,
                                     type: 'POST',
                                     dataType: 'json',
                                     success: function (response) {
@@ -390,71 +406,6 @@
 
 
 
-    <script>
-
-      /*  is_searching = false;
-
-
-
-
-        mw.dd_autocomplete = function(id){
-            var el = $(id);
-
-            el.on("change keyup paste focus", function(event){
-                if(!is_searching){
-                    var val = el.val();
-                    if(event.type=='focus'){
-                        if(el.hasClass('inactive')){
-                            el.removeClass('inactive')
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                    mw.tools.ajaxSearch({keyword:val, limit:4}, function(){
-                        var lis = "";
-                        var json = this;
-                        for(var item in json){
-                            var obj = json[item];
-                            if(typeof obj === 'object'){
-                                var title = obj.title;
-                                var url = obj.url;
-                                lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='setACValue(\""+url+"\")'><a href='javascript:;'>"+title+"</a></li>";
-                            }
-                        }
-                        var ul = el.parent().find("ul");
-                        ul.find("li:gt(0)").remove();
-                        ul.append(lis);
-                    });
-                }
-            });
-        }
-
-
-
-
-
-        setACValue = function(val,context){
-            RegisterChange(hash, val);
-            parent.mw.iframecallbacks[hash](val);
-            parent.mw.tools.modal.remove('mw_rte_link');
-        }*/
-
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -471,26 +422,30 @@
     }
     ?>
     <div id="eventContent" title="Event Details" style="display:none;">
-        <div class="row" style="margin-top:10px;">
+        <div class="mw-ui-field-holder" style="margin-top:10px;">
             <label for="title"><?php _e('Event Title:'); ?></label>
-            <div class="col"><input id="title" class="colElement" type="text"/></div>
+            <div class="col"><input class="mw-ui-field w100" id="title" class="colElement" type="text"/></div>
         </div>
-        <div class="row">
+        <div class="mw-ui-field-holder">
+            <label for="title" class="mw-ui-label"><?php _e('For'); ?></label>
+            <input id="postSearch" class="mw-ui-field colElement w100" type="text" id="postsearch" data-mwcomponent="postSearch" />
+        </div>
+        <div class="mw-ui-field-holder">
             <label for="description"><?php _e('Description:'); ?></label>
-            <div class="col"><textarea id="description" class="colElement" rows="4" cols="20"> </textarea></div>
+            <div class="col"><textarea id="description" class="mw-ui-field colElement w100" rows="4" cols="20"> </textarea></div>
         </div>
         <?php /*
 	<div class="row allDay">
 		<label for="allDay">All day:</label><input type="checkbox" id="allDay" name="allDay" value="1">
 	</div>
 	*/ ?>
-        <div class="row time">
-            <label for="starttime"><?php _e('Start Time:'); ?></label>
-            <div class="col"><select id="starttime"><?php print $time_options; ?></select></div>
+        <div class="row time mw-ui-field-holder">
+            <label for="starttime" class="mw-ui-label"><?php _e('Start Time:'); ?></label>
+            <div class="col"><select id="starttime" class="mw-ui-field"><?php print $time_options; ?></select></div>
         </div>
-        <div class="row time">
+        <div class="row time mw-ui-field-holder">
             <label for="endtime"><?php _e('End Time:'); ?></label>
-            <div class="col"><select id="endtime"><?php print $time_options; ?></select></div>
+            <div class="col"><select id="endtime" class="mw-ui-field"><?php print $time_options; ?></select></div>
         </div>
     </div>
 

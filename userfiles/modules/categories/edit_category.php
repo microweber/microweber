@@ -149,6 +149,13 @@ if (isset($params['live_edit'])) {
                     mw.reload_module('[data-type="pages"]', function () {
                         mw.treeRenderer.appendUI('[data-type="pages"]');
                         mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
+                        var action = mw.url.windowHashParam('action');
+                        if(action){
+                            var id = action.split(':')[1];
+                            if(id){
+                                $('[data-category-id="'+id+'"]').addClass("active-bg")
+                            }
+                        }
                     });
                     <?php if(intval($data['id']) == 0): ?>
                     mw.url.windowHashParam("new_content", "true");

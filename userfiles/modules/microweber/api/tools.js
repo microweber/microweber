@@ -1,5 +1,6 @@
 mw.require("files.js");
 mw.require("css_parser.js");
+mw.require("components.js");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 (function () {
     if (typeof jQuery.browser === 'undefined') {
@@ -1520,7 +1521,8 @@ mw.tools = {
             }
         },
         recall: function (tree) {
-            if (tree !== null) {
+            console.log(1212,tree);
+            if (tree) {
                 var ids = mw.cookie.ui("tree_" + tree.id);
                 if (typeof(ids) != 'undefined' && ids != false) {
                     var ids = ids.split(",");
@@ -2279,14 +2281,26 @@ mw.tools = {
     },
     ajaxSearch: function (o, callback) {
         if (!mw.tools.ajaxIsSearching) {
-            mw.tools.ajaxIsSearching = true;
             var obj = $.extend({}, mw.tools.ajaxSearcSetting, o);
-            $.post(mw.settings.site_url + "api/get_content_admin", obj, function (data) {
-                callback.call(data);
+            mw.tools.ajaxIsSearching = $.post(mw.settings.site_url + "api/get_content_admin", obj, function (data) {
+                if(typeof callback == 'function'){
+                    callback.call(data, data);
+                }
             }).always(function () {
                 mw.tools.ajaxIsSearching = false
             });
         }
+        return mw.tools.ajaxIsSearching;
+    },
+    getPostById:function(id, callback){
+        var config = {
+            limit: 10,
+            keyword: '',
+            order_by: 'updated_at desc',
+            search_in_fields: 'id',
+            id:id
+        };
+        return this.ajaxSearch(config, callback);
     },
     iframeLinksToParent: function (iframe) {
         $(iframe).contents().find('a').each(function () {

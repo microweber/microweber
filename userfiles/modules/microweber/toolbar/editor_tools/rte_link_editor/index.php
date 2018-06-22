@@ -63,11 +63,11 @@
 
 
 
-setACValue = function(val){
-   RegisterChange(hash, val);
-    parent.mw.iframecallbacks[hash](val);
-    parent.mw.tools.modal.remove('mw_rte_link');
-}
+        setACValue = function(val){
+           RegisterChange(hash, val);
+            parent.mw.iframecallbacks[hash](val);
+            parent.mw.tools.modal.remove('mw_rte_link');
+        };
 
 
 
@@ -327,12 +327,12 @@ setACValue = function(val){
                        available_elements_tab_show_hide_ctrl_counter++;
                       html.push({id:this.id, text:this.textContent});
                       mw.$('#available_elements').append('<a data-href="#'+this.id+'"><strong>'+this.nodeName+'</strong> - '+this.textContent+'</a>')
-                    })
+                    });
                     mw.$('#available_elements a').on('click', function(){
 
                       parent.mw.iframecallbacks[hash](top.location.href.split('#')[0] + $(this).dataset('href'));
                       parent.mw.tools.modal.remove('mw_rte_link');
-                    })
+                    });
                       if(available_elements_tab_show_hide_ctrl_counter == 0){
                           mw.$('.available_elements_tab_show_hide_ctrl').hide();
                       }

@@ -19,7 +19,7 @@ function calendar_get_events_api($params = array())
 
     $events = array();
 
-    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay')->where('startdate', 'like', $yearmonth . '%')->get()) {
+    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id')->where('startdate', 'like', $yearmonth . '%')->get()) {
         foreach ($data as $event) {
             if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
                 $e = array();
@@ -29,6 +29,7 @@ function calendar_get_events_api($params = array())
                 $e['start'] = $event->startdate;
                 $e['end'] = $event->enddate;
                 $e['allDay'] = ($event->allDay == 'true' ? true : false);
+                $e['content_id'] = ($event->content_id);
                 array_push($events, $e);
             } else {
                 // blank data
@@ -62,9 +63,9 @@ function calendar_new_event()
     $lastid = db_save($table, $data);
 
     if ($lastid)
-        echo json_encode(array('status' => 'success', 'eventid' => $lastid));
+        return (array('status' => 'success', 'eventid' => $lastid));
     else
-        echo json_encode(array('status' => 'failed'));
+        return (array('status' => 'failed'));
 }
 
 api_expose('calendar_change_title');

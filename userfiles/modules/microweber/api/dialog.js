@@ -10,7 +10,9 @@ mw.dialog = function(options){
 mw.dialogIframe = function(options){
     options.pauseInit = true;
     options.content = '<iframe src="'+options.url.trim()+'"><iframe>';
-    return new mw.Dialog(options);
+    
+    var dialog = new mw.Dialog(options);
+    return dialog;
 }
 
 mw.dialog.get = function (selector) {
