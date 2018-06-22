@@ -81,11 +81,11 @@
     <script>
         $(document).ready(function () {
 
-            content_id = 0;
-
-            $("#postSearch").on("postSelected", function(event, data){
-                content_id = data.id;
-            })
+//            content_id = 0;
+//
+//            $("#postSearch").on("postSelected", function(event, data){
+//                content_id = data.id;
+//            })
 
             var zone = '<?php echo date('P');?>';
 
@@ -185,9 +185,21 @@
                 },
 
                 eventClick: function (event, jsEvent, view) {
+
+                    if(typeof(event.id) != 'undefined'){
+                        var data = {};
+                        data.event_id = event.id;
+                        mw.tools.open_module_modal('calendar/edit_event',data)
+                    }
+
+                },
+
+                eventClick__OLD: function (event, jsEvent, view) {
                     //var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
                     $("#title").val(event.title);
                     $("#description").val(event.description);
+
+
 
                     /*
                      if(event.allDay == true) {
@@ -216,6 +228,12 @@
                     });*/
 
                     mw.tools.getPostById(event.content_id, function(data){
+                        if(!data){
+                            $("#postSearch").val('');
+
+                            content_id = null;
+                            return;
+                        }
                         data = data[0];
                         $("#postSearch").val(data.title);
                         content_id = data.id;
@@ -233,6 +251,7 @@
                             "Save": function () {
                                 event.title = $("#title").val();
                                 event.description = $("#description").val();
+                                event.content_id = $("#postSearch").val();
                                 event.start = moment(startDate + ' ' + $("#starttime").val()).format("YYYY-MM-DD[T]HH:mm:SS");
                                 event.end = moment((event.end != null ? endDate : startDate) + ' ' + $("#endtime").val()).format("YYYY-MM-DD[T]HH:mm:SS");
 
@@ -357,22 +376,7 @@
                 }
             }
 
-            function getData(yearmonth) {
-                // getData for selected year-month
-                var date = $("#calendar").fullCalendar('getDate');
-                var y = date.year();
-                var m = ("0" + (date.month() + 1)).slice(-2);
-                var yearmonth = y + '-' + m;
-                $.ajax({
-                    url: '<?php print api_url('calendar_get_events_api');?>',
-                    type: 'POST', // Send post data
-                    data: 'yearmonth=' + yearmonth,
-                    async: false,
-                    success: function (s) {
-                        json_events = s;
-                    }
-                });
-            }
+
 
             function isElemOverDiv() {
                 var trashEl = jQuery('#trash');
@@ -395,7 +399,22 @@
             $('#trash').tooltip();
 
         });
-
+        function getData(yearmonth) {
+            // getData for selected year-month
+            var date = $("#calendar").fullCalendar('getDate');
+            var y = date.year();
+            var m = ("0" + (date.month() + 1)).slice(-2);
+            var yearmonth = y + '-' + m;
+            $.ajax({
+                url: '<?php print api_url('calendar_get_events_api');?>',
+                type: 'POST', // Send post data
+                data: 'yearmonth=' + yearmonth,
+                async: false,
+                success: function (s) {
+                    json_events = s;
+                }
+            });
+        }
         function reload_calendar_after_save() {
             //mw.reload_module_parent('#<?php print $params['id'] ?>');
             window.parent.$(window.parent.document).trigger('calendar.update');
@@ -427,8 +446,8 @@
             <div class="col"><input class="mw-ui-field w100" id="title" class="colElement" type="text"/></div>
         </div>
         <div class="mw-ui-field-holder">
-            <label for="title" class="mw-ui-label"><?php _e('For'); ?></label>
-            <input id="postSearch" class="mw-ui-field colElement w100" type="text" id="postsearch" data-mwcomponent="postSearch" />
+            <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
+            <input id="postSearch" class="mw-ui-field colElement w100" type="text"   data-mwcomponent="postSearch" />
         </div>
         <div class="mw-ui-field-holder">
             <label for="description"><?php _e('Description:'); ?></label>

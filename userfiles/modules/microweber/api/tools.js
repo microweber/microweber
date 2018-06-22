@@ -3416,6 +3416,15 @@ mw.tools = {
             draggable: true
         });
     },
+    open_module_modal: function (module_type, params) {
+        mw_admin_open_module_modal_popup_modal_opened = mw.modal({
+            content: '<div id="mw_admin_open_module_modal_popup_modal_module"></div>',
+            id: 'mw_admin_open_module_modal_popup_modal'
+        });
+
+
+        mw.load_module(module_type, '#mw_admin_open_module_modal_popup_modal_module', null, params);
+    },
     fav: function (a) {
         var canvas = document.createElement("canvas");
         canvas.width = 16;

@@ -28,7 +28,7 @@ function calendar_get_events_api($params = array())
                 $e['description'] = $event->description;
                 $e['start'] = $event->startdate;
                 $e['end'] = $event->enddate;
-                $e['allDay'] = ($event->allDay == 'true' ? true : false);
+                $e['allDay'] = ((isset($event->allDay) and ($event->allDay)) == 1 ? true : false);
                 $e['content_id'] = ($event->content_id);
                 array_push($events, $e);
             } else {
@@ -36,7 +36,7 @@ function calendar_get_events_api($params = array())
             }
         }
 
-        return json_encode($events);
+        print json_encode($events);
 
     } else {
         // no event data
@@ -57,7 +57,7 @@ function calendar_new_event()
     $data = array('title' => $title,
         'startdate' => $startdate,
         'enddate' => $startdate,
-        'allDay' => 'false'
+        'allDay' => 0
     );
 
     $lastid = db_save($table, $data);
@@ -78,49 +78,69 @@ function calendar_change_title()
     if (!isset($_POST['zone'])) {
         $_POST['zone'] = '00:00';
     }
+    if (!isset($_POST['eventid']) and isset($_POST['id'])) {
+        $_POST['eventid'] = $_POST['id'];
+    }
 
     $table = "calendar";
     $eventid = $_POST['eventid'];
     $title = mw()->database_manager->escape_string(trim($_POST['title']));
     $description = mw()->database_manager->escape_string(trim($_POST['description']));
-    $startdate = mw()->database_manager->escape_string(trim($_POST['start'] . '+' . trim($_POST['zone'])));
-    $enddate = mw()->database_manager->escape_string(trim($_POST['end'] . '+' . trim($_POST['zone'])));
+
+    if (isset($_POST['startdate'])) {
+        $startdate = $_POST['startdate'];
+    } else {
+        $startdate = mw()->database_manager->escape_string(trim($_POST['start'] . '+' . trim($_POST['zone'])));
+
+    }
+    if (isset($_POST['enddate'])) {
+        $enddate = $_POST['enddate'];
+    } else{
+        $enddate = mw()->database_manager->escape_string(trim($_POST['end'] . '+' . trim($_POST['zone'])));
+
+    }
+
 
     $data = array('id' => $eventid, 'title' => $title, 'description' => $description, 'startdate' => $startdate, 'enddate' => $enddate);
 
     $update = db_save($table, $data);
 
     if ($update)
-        echo json_encode(array('status' => 'success'));
+        return array('status' => 'success');
     else
-        echo json_encode(array('status' => 'failed'));
+        return array('status' => 'failed');
 }
 
 api_expose('calendar_reset_date');
-function calendar_reset_date()
+function calendar_reset_date($params)
 {
 
     if (!is_admin()) return;
 
 // INTERNAL SERVER ERROR 500
-    if (!isset($_POST['zone'])) {
-        $_POST['zone'] = '00:00';
+    if (!isset($params['zone'])) {
+        $params['zone'] = '00:00';
     }
 
+    if (isset($params['event_id'])) {
+        $params['eventid'] = $params['event_id'];
+    }
+
+
     $table = "calendar";
-    $title = mw()->database_manager->escape_string(trim($_POST['title']));
-    $startdate = mw()->database_manager->escape_string(trim($_POST['start'] . '+' . trim($_POST['zone'])));
-    $enddate = mw()->database_manager->escape_string(trim($_POST['end'] . '+' . trim($_POST['zone'])));
-    $eventid = $_POST['eventid'];
+    $title = mw()->database_manager->escape_string(trim($params['title']));
+    $startdate = mw()->database_manager->escape_string(trim($params['start'] . '+' . trim($params['zone'])));
+    $enddate = mw()->database_manager->escape_string(trim($params['end'] . '+' . trim($params['zone'])));
+    $eventid = $params['eventid'];
 
     $data = array('id' => $eventid, 'title' => $title, 'startdate' => $startdate, 'enddate' => $enddate);
 
     $update = db_save($table, $data);
 
     if ($update)
-        echo json_encode(array('status' => 'success'));
+        return (array('status' => 'success'));
     else
-        echo json_encode(array('status' => 'failed'));
+        return (array('status' => 'failed'));
 }
 
 api_expose('calendar_remove_event');
@@ -135,7 +155,16 @@ function calendar_remove_event()
     $delete = db_delete($table, $eventid);
 
     if ($delete)
-        echo json_encode(array('status' => 'success'));
+        return (array('status' => 'success'));
     else
-        echo json_encode(array('status' => 'failed'));
+        return (array('status' => 'failed'));
+}
+
+
+function calendar_get_event_by_id($event_id)
+{
+    $data = array('id' => $event_id, 'single' => true);
+    $table = "calendar";
+
+    return db_get($table, $data);
 }
