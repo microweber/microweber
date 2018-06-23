@@ -1,7 +1,6 @@
 <?php
 
-//if($size != 'auto') $size = ' width:' . $size . 'px';
-$size = ($size == 'auto' ? '' : ' width:' . $size . 'px');
+$size = ($size == 'auto' ? '' : ' max-width:' . $size . 'px');
 
 $style = ($size == '' ? '' : ' style="' . $size . '"');
 ?>

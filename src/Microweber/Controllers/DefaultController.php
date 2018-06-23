@@ -1850,41 +1850,44 @@ class DefaultController extends Controller
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
                 $content['active_site_template'] = $the_active_site_template;
             }
-            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
-                if (!defined('CONTENT_TEMPLATE')) {
-                    define('CONTENT_TEMPLATE', $content['active_site_template']);
-                }
 
-                $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
-                $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
-                $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
-                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
-            } else {
-                if (!defined('CONTENT_TEMPLATE')) {
-                    define('CONTENT_TEMPLATE', $the_active_site_template);
-                }
+            if ($is_editmode == true) {
+	            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
+	                if (!defined('CONTENT_TEMPLATE')) {
+	                    define('CONTENT_TEMPLATE', $content['active_site_template']);
+	                }
 
-                //                if ($the_active_site_template == 'mw_default') {
-                //                    $the_active_site_template = 'default';
-                //                }
-                $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
+	                $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
+	                $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
+	                $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
+	                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
+	            } else {
+	                if (!defined('CONTENT_TEMPLATE')) {
+	                    define('CONTENT_TEMPLATE', $the_active_site_template);
+	                }
 
-                $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-                $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
-                $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
-            }
-            $custom_live_edit = normalize_path($custom_live_edit, false);
+	                //                if ($the_active_site_template == 'mw_default') {
+	                //                    $the_active_site_template = 'default';
+	                //                }
+	                $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
 
-            if (is_file($custom_live_edit)) {
-                $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-            }
+	                $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
+	                $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
+	                $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
+	            }
+	            $custom_live_edit = normalize_path($custom_live_edit, false);
 
-            $liv_ed_css = $this->app->template->get_custom_css_url();
-            if ($liv_ed_css != false) {
-                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+	            if (is_file($custom_live_edit)) {
+	                $custom_live_editmtime = filemtime($custom_live_edit);
+	                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+	                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+	            }
+
+	            $liv_ed_css = $this->app->template->get_custom_css_url();
+	            if ($liv_ed_css != false) {
+	                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
+	                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+		}
             }
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
