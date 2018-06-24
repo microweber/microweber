@@ -426,7 +426,7 @@ class InstallController extends Controller
                 }
             }
         }
-        
+
         return $available;
     }
 }

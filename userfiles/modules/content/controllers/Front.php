@@ -113,27 +113,26 @@ class Front
             $tags_val = $params['data-tags'];
         }
 
-        if(!$tags_val){
+        if (!$tags_val) {
             $current_tags_from_url = url_param($tag_param);
             if ($current_tags_from_url != false) {
                 $tags_val = $current_tags_from_url;
             }
 
         }
-        if(!$tags_val){
+        if (!$tags_val) {
             $tags_val = get_option('data-tags', $params['id']);
         }
 
 
-
-        if($tags_val and is_string($tags_val)){
-            $tags_val = explode(',',$tags_val);
+        if ($tags_val and is_string($tags_val)) {
+            $tags_val = explode(',', $tags_val);
             $tags_val = array_trim($tags_val);
             $tags_val = array_filter($tags_val);
             $tags_val = array_unique($tags_val);
-            $tags_val = implode(',',$tags_val);
+            $tags_val = implode(',', $tags_val);
         }
-        if($tags_val){
+        if ($tags_val) {
             $post_params['tags'] = $tags_val;
         }
 
@@ -144,10 +143,6 @@ class Front
         if (isset($post_params['show'])) {
             $show_fields = $post_params['show'];
         }
-
-
-
-
 
 
         $set_content_type_from_opt = get_option('data-content-type', $params['id']);
@@ -522,8 +517,8 @@ class Front
         }
 
         if (isset($params['search_in_fields']) and $params['search_in_fields'] != false) {
-        $post_params['search_in_fields'] = $params['search_in_fields'];
-    }
+            $post_params['search_in_fields'] = $params['search_in_fields'];
+        }
 
 
         if (isset($params['strict_categories']) and $params['strict_categories'] != false) {
@@ -595,9 +590,7 @@ class Front
                 $item['link'] = content_link($item['id']);
 
 
-
                 $item['description'] = content_description($item['id']);
-
 
 
                 $item['full_description'] = '';
@@ -627,9 +620,18 @@ class Front
                 }
 
                 if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
-                  $price_fields = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
-                    if(is_array($price_fields) and !empty($price_fields)){
-                        $item['prices'] = array_pop($price_fields);
+                    $price_fields = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
+                    if (is_array($price_fields) and !empty($price_fields)) {
+                       $prices = array();
+
+                        foreach ($price_fields as $price_field_k => $price_field) {
+                            if (is_array($price_field)) {
+                                $prices[$price_field_k] =  array_pop($price_field);;
+                            } else {
+                                $prices[$price_field_k] = $price_field;
+                            }
+                        }
+                        $item['prices'] =$prices;
                     } else {
                         $item['prices'] = false;
                     }
