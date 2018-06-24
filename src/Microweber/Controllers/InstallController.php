@@ -204,6 +204,7 @@ class InstallController extends Controller
                 if (!$install_step or $install_step == 3) {
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
+                    $installer->logger = $this;
                     $installer->run();
                 }
                 if (!$install_step or $install_step == 4) {
