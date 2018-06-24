@@ -627,15 +627,20 @@ class Front
                 }
 
                 if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
-                    $item['prices'] = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
-
+                  $price_fields = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
+                    if(is_array($price_fields) and !empty($price_fields)){
+                        $item['prices'] = array_pop($price_fields);
+                    } else {
+                        $item['prices'] = false;
+                    }
                 } else {
                     $item['prices'] = false;
                 }
                 if (isset($item['prices']) and is_array($item['prices']) and !empty($item['prices'])) {
                     $vals2 = array_values($item['prices']);
-                    $val1 = array_shift($vals2);
+                    $val1 = reset($vals2);
                     $item['price'] = $val1;
+
                 } else {
                     $item['price'] = false;
 
