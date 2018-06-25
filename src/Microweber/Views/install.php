@@ -208,7 +208,7 @@
     <div class="mw-ui-box">
         <div class="mw-ui-box-header">
             <?php if ($pre_configured): ?>
-                <h2>Select template for your website</h2>
+                <h2>Setup your website</h2>
 
 
             <?php else: ?>
@@ -542,7 +542,18 @@
                                                             $('#theImg').remove();
 
                                                             if (typeof(scrshot) != 'undefined') {
-                                                                $('#screenshot_preview').prepend('<img id="theImg" width="100%" src="' + scrshot + '" />');
+                                                                //$('#screenshot_preview').prepend('<img id="theImg" width="100%" src="' + scrshot + '" />');
+                                                               // $('#screenshot_preview').prepend('<img id="theImg" width="100%" src="' + scrshot + '" />');
+                                                                $('#screenshot_preview').append('<div id="theImg"></div>');
+
+                                                                $('#theImg').css('background-image', 'url(' + scrshot + ')');
+                                                                $('#theImg').css('height', '300px');
+                                                                $('#theImg').css('width', '100%');
+                                                                $('#theImg').css('display', 'table');
+                                                                $('#theImg').css('background-size', 'cover');
+                                                                $('#theImg').css('background-repeat', 'no-repeat');
+                                                                $('#theImg').css('margin-top', '50px');
+                                                                $('#theImg').css('margin-bottom', '50px');
 
 
                                                             } else {
@@ -562,19 +573,20 @@
                                             </div>
                                         </div>
                                         <div
-                                                id="admin-user" <?php if ($pre_configured == true): ?> style="display:none;" <?php endif; ?>>
+                                                id="admin-user" <?php if ($pre_configured == true): ?> style="display:table; width: 100%; clear: both" <?php endif; ?>>
 
                                             <div class="mw-ui-col-container">
 
 
                                                 <div class="admin-setup">
-
-                                                    <h2>
+                                <?php if ($pre_configured != true): ?>
+                                    <h2>
                                                         <?php _e('Create Admin user'); ?>
                                                     </h2>
-
+                                    <div class="hr"></div>
+                                <?php endif; ?>
                                                     <div>
-                                                        <div class="hr"></div>
+
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Admin username'); ?>
