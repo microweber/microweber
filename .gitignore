@@ -33,9 +33,10 @@ dwsync.xml
 /mw2015
 /
 /userfiles/install_item_log.txt
-/node_modules
+node_modules/
 /userfiles/templates/theone
 /userfiles/templates/rentitbg
 /userfiles/templates/rir
 /config/database.php
 /userfiles/mw_content.json
+package-lock.json

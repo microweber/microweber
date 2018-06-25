@@ -418,6 +418,11 @@
         function reload_calendar_after_save() {
             //mw.reload_module_parent('#<?php print $params['id'] ?>');
             window.parent.$(window.parent.document).trigger('calendar.update');
+            if(window.mw_admin_open_module_modal_popup_modal_opened){
+                mw_admin_open_module_modal_popup_modal_opened.remove();
+            }
+
+            mw.reload_module('calendar/admin');
 
         }
     </script>
@@ -440,33 +445,7 @@
         $time_options .= '<option value="' . date("H:i", $time) . '">' . date("h:i a", $time) . "</option>\n";
     }
     ?>
-    <div id="eventContent" title="Event Details" style="display:none;">
-        <div class="mw-ui-field-holder" style="margin-top:10px;">
-            <label for="title"><?php _e('Event Title:'); ?></label>
-            <div class="col"><input class="mw-ui-field w100" id="title" class="colElement" type="text"/></div>
-        </div>
-        <div class="mw-ui-field-holder">
-            <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
-            <input id="postSearch" class="mw-ui-field colElement w100" type="text"   data-mwcomponent="postSearch" />
-        </div>
-        <div class="mw-ui-field-holder">
-            <label for="description"><?php _e('Description:'); ?></label>
-            <div class="col"><textarea id="description" class="mw-ui-field colElement w100" rows="4" cols="20"> </textarea></div>
-        </div>
-        <?php /*
-	<div class="row allDay">
-		<label for="allDay">All day:</label><input type="checkbox" id="allDay" name="allDay" value="1">
-	</div>
-	*/ ?>
-        <div class="row time mw-ui-field-holder">
-            <label for="starttime" class="mw-ui-label"><?php _e('Start Time:'); ?></label>
-            <div class="col"><select id="starttime" class="mw-ui-field"><?php print $time_options; ?></select></div>
-        </div>
-        <div class="row time mw-ui-field-holder">
-            <label for="endtime"><?php _e('End Time:'); ?></label>
-            <div class="col"><select id="endtime" class="mw-ui-field"><?php print $time_options; ?></select></div>
-        </div>
-    </div>
+
 
     <div id="external-events">
         <p id="trash"><img data-toggle="tooltip" data-placement="auto" title="<?php _e('Remove event by dragging to dustbin'); ?>"

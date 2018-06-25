@@ -53,16 +53,10 @@ $is_live =  mw()->user_manager->session_get('editmode') == true;
 <?php endif; ?>
 
 </div>
-<script src="{TEMPLATE_URL}assets/js/isotope.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/ytplayer.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/easypiechart.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/owl.carousel.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/lightbox.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/twitterfetcher.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/smooth-scroll.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/scrollreveal.min.js"></script>
-<script src="{TEMPLATE_URL}assets/js/parallax.js"></script>
-<script src="{TEMPLATE_URL}assets/js/scripts.js"></script>
+
+
+
+<script src="{TEMPLATE_URL}assets/dist/main.min.js"></script>
 
 </body>
 </html>

@@ -213,6 +213,14 @@ mw.settings.libs = {
         },
         'css/bootstrap.min.css',
         'js/bootstrap.min.js'
+    ],
+    datepicker:[
+        'datepicker.min.js',
+        'datepicker.min.css'
+    ],
+    datetimepicker:[
+        'jquery.datetimepicker.full.min.js',
+        'jquery.datetimepicker.min.css'
     ]
 }
 

@@ -3417,6 +3417,8 @@ mw.tools = {
         });
     },
     open_module_modal: function (module_type, params) {
+
+        var id = mw.random();
         mw_admin_open_module_modal_popup_modal_opened = mw.modal({
             content: '<div id="mw_admin_open_module_modal_popup_modal_module"></div>',
             id: 'mw_admin_open_module_modal_popup_modal'

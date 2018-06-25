@@ -19,8 +19,6 @@
         mw.lib.require('bootstrap3');
         mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');
     </script>
-    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">-->
-
     <script>
         mw.templateFont = mw.templateFont || new mw.font();
         mw.templateTopFixed = '.nav-bar.nav--fixed';
@@ -61,13 +59,10 @@
     }
     ?>
 
-    <link href="{TEMPLATE_URL}assets/css/socicon.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="{TEMPLATE_URL}assets/css/iconsmind.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="{TEMPLATE_URL}assets/css/interface-icons.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="{TEMPLATE_URL}assets/css/owl.carousel.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="{TEMPLATE_URL}assets/css/lightbox.min.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="{TEMPLATE_URL}assets/css/theme.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{TEMPLATE_URL}assets/dist/main.min.css" rel="stylesheet" type="text/css" media="all"/>
+
     <link href="{TEMPLATE_URL}assets/css/theme<?php print $color_scheme; ?>.css" id="theme-color" rel="stylesheet" type="text/css" media="all"/>
+
     <link href="{TEMPLATE_URL}assets/css/custom.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="{TEMPLATE_URL}assets/css/mw-dream.css" rel="stylesheet" type="text/css" media="all"/>
     <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
