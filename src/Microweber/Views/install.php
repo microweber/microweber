@@ -104,19 +104,17 @@
                             make_install_on_steps(install_step_orig_data);
                         }
 
-                        else
-                        {
+                        else {
                             if (data.indexOf('Warning') !== -1) {
                                 installprogressStop()
                             }
                             if (data == 'done') {
 
-                                setTimeout(function(){
+                                setTimeout(function () {
 
                                     window.location.href = "<?php print admin_url(); ?>";
 
                                 }, 2000);
-
 
 
                                 //location.reload();
@@ -133,13 +131,13 @@
                     if (!install_step || install_step == 'finalize') {
                         $('#installprogressbar').slideUp();
                     }
-                })  .fail(function() {
-                    install_step_num_fails++;
-                    if(install_step_num_fails < 10){
+                }).fail(function () {
+                install_step_num_fails++;
+                if (install_step_num_fails < 10) {
                     make_install_on_steps(install_step_orig_data);
-                    }
+                }
 
-                });
+            });
         };
 
 
@@ -163,7 +161,7 @@
                 holder.fadeIn();
             }
 
-            <?php $log_file_url = userfiles_url().'install_log.txt'; ?>
+            <?php $log_file_url = userfiles_url() . 'install_log.txt'; ?>
             $.get('<?php print $log_file_url ?>', function (data) {
                 var data = data.replace(/\r/g, '');
                 var arr = data.split('\n'),
@@ -210,7 +208,7 @@
     <div class="mw-ui-box">
         <div class="mw-ui-box-header">
             <?php if ($pre_configured): ?>
-                <h2>Select template for your website</h2>
+                <h2>Setup your website</h2>
 
 
             <?php else: ?>
@@ -359,7 +357,7 @@
                                         <div class="mw-ui-col">
                                             <div class="mw-ui-col-container">
                                                 <div
-                                                    id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
+                                                        id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
 
                                                     <?php if (!$hide_db_setup): ?>
                                                         <h2>
@@ -377,7 +375,7 @@
                                                         <label class="mw-ui-label">
                                                             Database Engine
                                                             <span data-help="Choose the database type"><span
-                                                                    class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
 
                                                         <select class="mw-ui-field" name="db_driver"
                                                                 onchange="showForm(this)" autocomplete="off">
@@ -396,8 +394,8 @@
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Hostname'); ?>
                                                                 <span
-                                                                    data-help="<?php _e('The address of your database server'); ?>"><span
-                                                                        class="mw-icon-help-outline mwahi"></span></span></label>
+                                                                        data-help="<?php _e('The address of your database server'); ?>"><span
+                                                                            class="mw-icon-help-outline mwahi"></span></span></label>
                                                             <input type="text" class="mw-ui-field" autofocus
                                                                    name="db_host"
                                                                    value="<?php if (isset($config['host'])) {
@@ -408,8 +406,8 @@
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Username'); ?>
                                                                 <span
-                                                                    data-help="<?php _e('The username of your database.'); ?>"><span
-                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                                        data-help="<?php _e('The username of your database.'); ?>"><span
+                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                             <input type="text" class="mw-ui-field"
                                                                    name="db_user"
                                                                    value="<?php if (isset($config['username'])) {
@@ -430,8 +428,8 @@
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Database'); ?>
                                                                 <span
-                                                                    data-help="<?php _e('The name of your database.'); ?>"><span
-                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                                        data-help="<?php _e('The name of your database.'); ?>"><span
+                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                             <input type="text" class="mw-ui-field"
                                                                    name="db_name" id="db_name_value"
                                                                    value="<?php if (isset($config['database'])) {
@@ -444,7 +442,7 @@
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Database file'); ?>
                                                                 <span
-                                                                    data-help="<?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?>">
+                                                                        data-help="<?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?>">
                                             <span class="mw-icon-help-outline mwahi tip"></span>
                                         </span>
                                                             </label>
@@ -459,8 +457,8 @@
                                                         <label class="mw-ui-label">
                                                             <?php _e('Table Prefix'); ?>
                                                             <span
-                                                                data-help="<?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?>"><span
-                                                                    class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                                    data-help="<?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?>"><span
+                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                         <input type="text" class="mw-ui-field"
                                                                name="table_prefix"
                                                                value="<?php if (isset($config['prefix'])) {
@@ -476,10 +474,8 @@
                                                     <?php
 
                                                     $templates_opts = array(
-                                                          'remove_hidden_from_install_screen' => true
+                                                        'remove_hidden_from_install_screen' => true
                                                     );
-
-
 
 
                                                     $templates = site_templates($templates_opts);
@@ -492,15 +488,16 @@
                                                             <label class="mw-ui-label">
                                                                 <?php print 'Template'; ?>
                                                                 <span
-                                                                    data-help="<?php print 'Choose default site template'; ?>"><span
-                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                                        data-help="<?php print 'Choose default site template'; ?>"><span
+                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
 
 
-                                                            <select class="mw-ui-field" name="default_template">
+                                                            <select class="mw-ui-field" name="default_template"
+                                                                    id="default_template">
                                                                 <?php foreach ($templates as $template): ?>
                                                                     <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
                                                                         <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
-                                                                            value="<?php print $template['dir_name']; ?>"><?php print $template['name']; ?></option>
+                                                                                value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
                                                                     <?php endif; ?>
                                                                 <?php endforeach; ?>
                                                             </select>
@@ -518,29 +515,80 @@
                                                             <span></span>&nbsp;
                                                             <?php _e('Install default content'); ?>
                                                             <span
-                                                                data-help="<?php _e('If checked, some default content will be added.'); ?>"><span
-                                                                    class="mw-icon-help-outline mwahi tip"></span></span>
+                                                                    data-help="<?php _e('If checked, some default content will be added.'); ?>"><span
+                                                                        class="mw-icon-help-outline mwahi tip"></span></span>
                                                         </label>
                                                     </div>
+
+
                                                 </div>
+
+
+                                                <?php if ($pre_configured): ?>
+
+                                                    <script>
+
+
+                                                        $(document).ready(function () {
+                                                            setscreenshot()
+                                                            $('#default_template').change(function () {
+                                                                setscreenshot()
+                                                            });
+
+                                                        });
+
+
+                                                        function setscreenshot() {
+                                                            var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
+
+                                                            $('#theImg').remove();
+
+                                                            if (typeof(scrshot) != 'undefined') {
+                                                                //$('#screenshot_preview').prepend('<img id="theImg" width="100%" src="' + scrshot + '" />');
+                                                               // $('#screenshot_preview').prepend('<img id="theImg" width="100%" src="' + scrshot + '" />');
+                                                                $('#screenshot_preview').append('<div id="theImg"></div>');
+
+                                                                $('#theImg').css('background-image', 'url(' + scrshot + ')');
+                                                                $('#theImg').css('height', '300px');
+                                                                $('#theImg').css('width', '100%');
+                                                                $('#theImg').css('display', 'table');
+                                                                $('#theImg').css('background-size', 'cover');
+                                                                $('#theImg').css('background-repeat', 'no-repeat');
+                                                                $('#theImg').css('margin-top', '50px');
+                                                                $('#theImg').css('margin-bottom', '50px');
+
+
+                                                            } else {
+
+                                                            }
+                                                        }
+
+                                                    </script>
+
+                                                    <div id="screenshot_preview">
+
+
+                                                    </div>
+                                                <?php endif; ?>
 
 
                                             </div>
                                         </div>
                                         <div
-                                            id="admin-user" <?php if ($pre_configured == true): ?> style="display:none;" <?php endif; ?>>
+                                                id="admin-user" <?php if ($pre_configured == true): ?> style="display:table; width: 100%; clear: both" <?php endif; ?>>
 
                                             <div class="mw-ui-col-container">
 
 
                                                 <div class="admin-setup">
-
-                                                    <h2>
+                                <?php if ($pre_configured != true): ?>
+                                    <h2>
                                                         <?php _e('Create Admin user'); ?>
                                                     </h2>
-
+                                    <div class="hr"></div>
+                                <?php endif; ?>
                                                     <div>
-                                                        <div class="hr"></div>
+
                                                         <div class="mw-ui-field-holder">
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Admin username'); ?>
@@ -570,6 +618,21 @@
                                                                    name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                         </div>
                                                         <a name="create-admin"></a>
+
+
+                                                        <div class="mw-ui-field-holder pull-left">
+                                                            <label class="mw-ui-check">
+                                                                <input name="subscribe_for_update_notification" type="checkbox"
+                                                                       checked="checked" value="1">
+                                                                <span></span>&nbsp;
+                                                                <?php _e('Update nofitication'); ?>
+                                                                <span
+                                                                        data-help="<?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?>"><span
+                                                                            class="mw-icon-help-outline mwahi tip"></span></span>
+                                                            </label>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
 

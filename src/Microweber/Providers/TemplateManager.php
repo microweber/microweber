@@ -148,10 +148,16 @@ class TemplateManager
                     if (!empty($config)) {
                         $c = $config;
                         $c['dir_name'] = $dir;
-                        $screensshot_file = $fn2 . '/screenshot.png';
+                        $screensshot_file = $fn2 . '/screenshot.jpg';
                         $screensshot_file = normalize_path($screensshot_file, false);
+
+                        $screensshot_file_png = $fn2 . '/screenshot.png';
+                        $screensshot_file_png = normalize_path($screensshot_file_png, false);
+
                         if (is_file($screensshot_file)) {
                             $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file);
+                        } elseif (is_file($screensshot_file_png)) {
+                            $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file_png);
                         }
 
                         if ($remove_hidden_from_install_screen) {

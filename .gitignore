@@ -40,3 +40,6 @@ node_modules/
 /config/database.php
 /userfiles/mw_content.json
 package-lock.json
+/userfiles/templates/utouch
+/cloudsigma
+/q-theme

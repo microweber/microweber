@@ -8,8 +8,12 @@ use Option;
 
 class TemplateInstaller
 {
+    public $logger = null;
+
     public function run()
     {
+        $this->log('Performing template install');
+
         $selected_template = Config::get('microweber.install_default_template');
         $default_content = Config::get('microweber.install_default_template_content');
         $this->setDefaultTemplate($selected_template);
@@ -30,6 +34,8 @@ class TemplateInstaller
 
     private function setDefaultTemplate($template_name)
     {
+        $this->log('Setting default template: ' . $template_name);
+
         $existing = DB::table('options')->where('option_key', 'current_template')
             ->where('option_group', 'template')->first();
 
@@ -47,6 +53,9 @@ class TemplateInstaller
 
     private function installTemplateContent($template_name)
     {
+
+        $this->log('Installing default content for template: ' . $template_name);
+
         $default_content_folder = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR;
         $default_content_file = $default_content_folder . 'mw_default_content.zip';
 
@@ -134,4 +143,12 @@ class TemplateInstaller
         }
 
     }
+
+    public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
+    }
+
 }

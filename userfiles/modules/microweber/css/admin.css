@@ -2824,7 +2824,8 @@ input#edit-content-url:focus, input#edit-content-url.active {
     text-overflow: ellipsis;
     min-width: 20px;
     min-height: 11px;
-    top: 1px;
+    top: -4px;
+
     position: relative;
 
 }
