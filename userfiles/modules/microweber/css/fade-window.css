@@ -287,12 +287,12 @@
 }
 
 .fade-window .window-holder #slug-field-holder {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     /*margin-bottom: 20px;*/
 }
 
 .fade-window .window-holder .edit-post-url #slug-base-url-column {
-    padding-top: 5px;
+    /*padding-top: 5px;*/
 }
 
 .fade-window .window-holder .edit-post-url #slug-url-column {
