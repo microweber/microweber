@@ -441,10 +441,14 @@ mw.askusertostay = false;
         }
       }
   };
-  mw.reload_module_everywhere = function(module) {
+  mw.reload_module_everywhere = function(module, eachCallback) {
     mw.tools.eachWindow(function () {
         if(this.mw && this.mw.reload_module){
-            this.mw.reload_module(module)
+            this.mw.reload_module(module, function(){
+                if(typeof eachCallback === 'function'){
+                    eachCallback.call();
+                }
+            })
         }
     })
   }

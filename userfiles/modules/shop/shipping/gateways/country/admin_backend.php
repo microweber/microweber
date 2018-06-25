@@ -99,9 +99,10 @@ print $view->display();
             if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
                 $(this).find('.hide-item').toggleClass('hidden');
                 $(this).closest('.toggle-item').toggleClass('closed-fields');
+                e.stopPropagation();
+                e.preventDefault();
             }
-            e.stopPropagation();
-            e.preventDefault();
+
 
 
         });

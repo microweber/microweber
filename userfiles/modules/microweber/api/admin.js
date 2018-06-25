@@ -821,12 +821,12 @@ $(mww).bind('load', function () {
         mw.$('#pin-sidebar').addClass('active');
     }
 
-    $(window).bind('adminSaveStart', function () {
-        var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
+    $(window).on('adminSaveStart', function () {
+        var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.saving + '...';
     });
-    $(window).bind('adminSaveEnd', function () {
-        var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
+    $(window).on('adminSaveEnd', function () {
+        var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.save;
     });
 

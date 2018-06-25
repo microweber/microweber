@@ -149,6 +149,13 @@ if (isset($params['live_edit'])) {
                     mw.reload_module('[data-type="pages"]', function () {
                         mw.treeRenderer.appendUI('[data-type="pages"]');
                         mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
+                        var action = mw.url.windowHashParam('action');
+                        if(action){
+                            var id = action.split(':')[1];
+                            if(id){
+                                $('[data-category-id="'+id+'"]').addClass("active-bg")
+                            }
+                        }
                     });
                     <?php if(intval($data['id']) == 0): ?>
                     mw.url.windowHashParam("new_content", "true");
@@ -219,6 +226,32 @@ if (isset($params['live_edit'])) {
             <?php endif; ?>
             <?php _e('category'); ?>
         </h2>
+
+        <script>
+
+            mw.quick_cat_edit_create = function (id) {
+
+                if (!!id) {
+                    var modalTitle = '<?php _e('Edit category'); ?>';
+                } else {
+                    var modalTitle = '<?php _e('Add category'); ?>';
+                }
+
+
+                mw_admin_edit_category_item_module_opened = mw.modal({
+                    content: '<div id="mw_admin_edit_category_item_module"></div>',
+                    title: modalTitle,
+                    id: 'mw_admin_edit_category_item_popup_modal'
+                });
+
+                var params = {}
+                params['data-category-id'] = id;
+                params['no-toolbar'] = true;
+                mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
+
+            }
+
+        </script>
 
         <div class="pull-right">
             <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">

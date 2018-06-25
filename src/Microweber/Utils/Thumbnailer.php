@@ -20,7 +20,7 @@ class Thumbnailer
         }
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-            @ini_set('memory_limit', '128M');
+            @ini_set('memory_limit', '256M');
             @ini_set('set_time_limit', 90);
         }
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {

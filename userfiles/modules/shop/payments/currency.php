@@ -6,6 +6,16 @@ $cur_pos = get_option('currency_symbol_position', 'payments');
 
 
 ?>
+<script  type="text/javascript">
+    $(document).ready(function(){
+
+        mw.options.form('.<?php print $config['module_class'] ?>', function(){
+            mw.notification.success("<?php _e("Currency settings are saved."); ?>");
+            mw.reload_module('shop/payments/currency_render')
+        });
+    });
+</script>
+
 
 <div id="general-shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue active m-t-20">
     <div class="mw-ui-box-header" onclick="mw.accordion('#general-shop-settings-accordion');">

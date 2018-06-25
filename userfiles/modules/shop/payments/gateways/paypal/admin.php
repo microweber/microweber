@@ -10,14 +10,14 @@
 
         <li>
             <label class="mw-ui-check">
-                <input name="paypalexpress_testmode" class="mw_option_field" data-option-group="payments" value="y" type="radio" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
+                <input name="paypalexpress_testmode" class="mw_option_field" data-option-group="payments" value="y" type="radio" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked <?php endif; ?> >
                 <span></span><span><?php _e("Yes"); ?></span>
             </label>
         </li>
 
         <li>
             <label class="mw-ui-check">
-                <input name="paypalexpress_testmode" class="mw_option_field" data-option-group="payments" value="n" type="radio" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
+                <input name="paypalexpress_testmode" class="mw_option_field" data-option-group="payments" value="n" type="radio" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked <?php endif; ?> >
                 <span></span><span><?php _e("No"); ?></span>
             </label>
         </li>

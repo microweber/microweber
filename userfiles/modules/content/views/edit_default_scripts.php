@@ -134,7 +134,17 @@
                 if (mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0) {
                     mw.$("#pages_tree_toolbar").removeClass("activated");
                     mw.treeRenderer.appendUI('#pages_tree_toolbar');
-                    mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+                    mw.tools.tree.recall( mwd.querySelector('#pages_tree_toolbar').parentNode );
+                    var action = mw.url.windowHashParam('action');
+                    if(action){
+                        var id = action.split(':')[1];
+                        if(id){
+                            $('[data-page-id="'+id+'"]').addClass("active-bg")
+                        }
+                    }
+
+
+
                 }
                 mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
             });

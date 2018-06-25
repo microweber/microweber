@@ -730,6 +730,7 @@ if (!$chunks || $chunk == $chunks - 1) {
     $filePath = $newfile;
 
     $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
+    $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
 
 
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
@@ -740,16 +741,16 @@ if (!$chunks || $chunk == $chunks - 1) {
             $rerturn['file_size'] = $filesize;
             $rerturn['file_size_human'] = mw()->format->human_filesize($filesize);
             $rerturn['image_size'] = $size;
-
+            $auto_resize_treshold = 10000; // 10MB
 
             if ($is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
                 $rerturn['automatic_image_resize_is_enabled'] = $automatic_image_resize_on_upload;
-                if (!$automatic_image_resize_on_upload and $filesize > 100000) {
+                if (!$automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
                     // if image is big, ask to enable resizing
                     $rerturn['ask_user_to_enable_auto_resizing'] = 1;
 
                 }
-                if ($automatic_image_resize_on_upload and $filesize > 100000) {
+                if (!$automatic_image_resize_on_upload_disabled and $automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
                     $maxDim = 1980;
                     @ini_set('memory_limit', '256M');
 
@@ -770,6 +771,13 @@ if (!$chunks || $chunk == $chunks - 1) {
                         }
                         $src = imagecreatefromstring(file_get_contents($fn));
                         $dst = imagecreatetruecolor($width, $height);
+
+                        if ($is_ext == 'png') {
+                            // save transparency in alpha channel
+                            imagealphablending($dst, false);
+                            imagesavealpha($dst, true);
+
+                        }
                         imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
                         imagedestroy($src);
 
@@ -781,7 +789,7 @@ if (!$chunks || $chunk == $chunks - 1) {
                         }
 
                         $rerturn['image_was_auto_resized'] = 1;
-                        $rerturn['image_was_auto_resized_msg'] = "Image was automatically resized because it was ".$rerturn['file_size_human'];
+                        $rerturn['image_was_auto_resized_msg'] = "Image was automatically resized because it was " . $rerturn['file_size_human'];
 
                         imagedestroy($dst);
                     }

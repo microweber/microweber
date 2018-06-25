@@ -106,7 +106,7 @@ description: Calendar Default
 			var m = ("0" + (date.month() + 1)).slice(-2);
 			var yearmonth = y+'-'+m;
 			$.ajax({
-				url: '<?php print api_url('get_events'); ?>',
+				url: '<?php print api_url('calendar_get_events_api'); ?>',
 				type: 'POST', // Send post data
 				data: 'yearmonth='+yearmonth,
 				async: false,
