@@ -519,6 +519,8 @@
                                                                         class="mw-icon-help-outline mwahi tip"></span></span>
                                                         </label>
                                                     </div>
+
+
                                                 </div>
 
 
@@ -616,6 +618,21 @@
                                                                    name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                         </div>
                                                         <a name="create-admin"></a>
+
+
+                                                        <div class="mw-ui-field-holder pull-left">
+                                                            <label class="mw-ui-check">
+                                                                <input name="subscribe_for_update_notification" type="checkbox"
+                                                                       checked="checked" value="1">
+                                                                <span></span>&nbsp;
+                                                                <?php _e('Update nofitication'); ?>
+                                                                <span
+                                                                        data-help="<?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?>"><span
+                                                                            class="mw-icon-help-outline mwahi tip"></span></span>
+                                                            </label>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
 
