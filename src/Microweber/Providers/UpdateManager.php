@@ -63,7 +63,7 @@ class UpdateManager
         return new \Microweber\Utils\Http();
     }
 
-    private function collect_local_data()
+    public function collect_local_data()
     {
         $data = array();
         $data['php_version'] = phpversion();
