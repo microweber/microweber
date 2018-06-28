@@ -79,6 +79,9 @@
         }
     </style>
     <script>
+
+        var editModal;
+
         $(document).ready(function () {
 
 //            content_id = 0;
@@ -140,7 +143,6 @@
                 eventReceive: function (event) {
                     var title = event.title;
                     var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
-                    console.log('eventReceive start: ' + start);
                     $.ajax({
                         url: '<?php print api_url('calendar_new_event');?>',
                         data: 'title=' + title + '&startdate=' + start + '&zone=' + zone,
@@ -189,7 +191,7 @@
                     if(typeof(event.id) != 'undefined'){
                         var data = {};
                         data.event_id = event.id;
-                        mw.tools.open_module_modal('calendar/edit_event',data)
+                        editModal = mw.tools.open_module_modal('calendar/edit_event',data, {overlay:true, skin:'simple'})
                     }
 
                 },
@@ -315,7 +317,7 @@
                     // getData for selected year-month
                     getData();
                     $('#calendar').fullCalendar('removeEvents');
-                    $('#calendar').fullCalendar('addEventSource', JSON.parse(json_events));
+                    $('#calendar').fullCalendar('addEventSource', json_events);
                 },
 
                 eventMouseover: function (event, element) {
@@ -364,7 +366,7 @@
                                 $('#calendar').fullCalendar('removeEvents', event.id);  // not reliable
                                 getData();
                                 $('#calendar').fullCalendar('removeEvents');
-                                $('#calendar').fullCalendar('addEventSource', JSON.parse(json_events));
+                                $('#calendar').fullCalendar('addEventSource', json_events);
                                 //getFreshEvents();
                                 reload_calendar_after_save();
                             }
@@ -418,11 +420,11 @@
         function reload_calendar_after_save() {
             //mw.reload_module_parent('#<?php print $params['id'] ?>');
             window.parent.$(window.parent.document).trigger('calendar.update');
-            if(window.mw_admin_open_module_modal_popup_modal_opened){
-                mw_admin_open_module_modal_popup_modal_opened.remove();
+            if(editModal.modal){
+                editModal.modal.remove();
             }
 
-            mw.reload_module('calendar/admin');
+
 
         }
     </script>

@@ -36,7 +36,7 @@ function calendar_get_events_api($params = array())
             }
         }
 
-        print json_encode($events);
+        return $events;
 
     } else {
         // no event data
@@ -100,8 +100,19 @@ function calendar_change_title()
 
     }
 
+    if (isset($_POST['content_id'])) {
+        $content_id = $_POST['content_id'];
+    } else{
+        $content_id = null;
 
-    $data = array('id' => $eventid, 'title' => $title, 'description' => $description, 'startdate' => $startdate, 'enddate' => $enddate);
+    }
+
+
+
+
+
+
+    $data = array('id' => $eventid, 'title' => $title, 'description' => $description, 'startdate' => $startdate, 'enddate' => $enddate, 'content_id' => $content_id);
 
     $update = db_save($table, $data);
 
