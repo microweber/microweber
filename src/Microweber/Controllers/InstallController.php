@@ -136,8 +136,8 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured_input', null);
             }
 
-            $secret_key = Config::get('app.key') == 'YourSecretKey!!!';
-            if (!$secret_key or $secret_key == 'YourSecretKey!!!') {
+
+            if (Config::get('app.key') == 'YourSecretKey!!!') {
                 if (!is_cli()) {
                     $_SERVER['argv'] = array();
                 }
@@ -145,11 +145,9 @@ class InstallController extends Controller
                 if (!$this->_can_i_use_artisan_key_generate_command()) {
                     $fallback_key = str_random(32);
                     $fallback_key_str = 'base64:' . base64_encode($fallback_key);
-
                     Config::set('app.key', $fallback_key_str);
                     $allowed_configs[] = 'app';
                 } else {
-                    // https://github.com/laravel/framework/issues/20719
                     Artisan::call('key:generate', [
                         '--force' => true,
                     ]);
@@ -194,13 +192,13 @@ class InstallController extends Controller
                     $installer->logger = $this;
                     $installer->run();
                 }
-
-
+                
+                
                 if (!$install_step or $install_step == 2) {
                     $installer = new Install\WebserverInstaller();
                     $installer->run();
                 }
-
+                
                 if (!$install_step or $install_step == 3) {
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
@@ -224,6 +222,8 @@ class InstallController extends Controller
                         if ($install_step == 5) {
                             $install_step_return['finalize'] = true;
                             $install_step_return['install_step'] = 'finalize';
+                            
+                            $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                         }
                         return $install_step_return;
                     }
@@ -337,15 +337,26 @@ class InstallController extends Controller
             }
         }
         $layout->set($viewData);
-
+        
         $is_installed = mw_is_installed();
         if ($is_installed) {
             App::abort(403, 'Unauthorized action. Microweber is already installed.');
         }
+        
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
         Cache::flush();
         return $layout;
+    }
+
+    private function reportInstall($email, $sendMail) {
+        $um = new \Microweber\Providers\UpdateManager(app());
+        $data = $um->collect_local_data();
+        $data['email'] = $email;
+        $postData = array();
+        $postData['postdata'] = base64_encode(json_encode($data));
+        $http = new \Microweber\Utils\Http(app());
+        $http->url('http://installreport.services.microweberapi.com')->post($postData);
     }
 
     public function log($text)
@@ -372,58 +383,47 @@ class InstallController extends Controller
 
     private function _can_i_use_artisan_key_generate_command()
     {
-        $env_path = base_path() . DIRECTORY_SEPARATOR . '.env';
-
+        $yes_i_can = true;
         if (!$this->_is_escapeshellarg_available()) {
-            return false;
+            $yes_i_can = false;
         }
 
-        if (!file_exists($env_path)) {
-            return false;
+
+
+
+
+        if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {
+            $yes_i_can = false;
         }
         $basedir = @ini_get('open_basedir');
         if ($basedir) {
-            return false;
+            $yes_i_can = false;
         }
 
-        if (!is_writable($env_path)) {
-            return false;
-        } else {
-            $cont = @file_get_contents($env_path);
-            if (!strstr($cont, 'APP_KEY=')) {
-                // https://github.com/laravel/framework/issues/20719
-                $append = 'APP_KEY=YourSecretKey!!!';
-                if ($cont) {
-                    $cont = rtrim($cont);
-                    $cont = $cont . "\n" . $append . "\n";
-                } else {
-                    $cont = $append . "\n";
-                }
-                if (file_put_contents($env_path, $cont)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        if (!is_writable(base_path() . DIRECTORY_SEPARATOR . '.env')) {
+            $yes_i_can = false;
         }
 
-        return true;
+        return $yes_i_can;
 
     }
 
     private function _is_escapeshellarg_available()
     {
+        static $available;
 
-        $available = true;
-        if (ini_get('safe_mode')) {
-            $available = false;
-        } else {
-            $d = ini_get('disable_functions');
-            $s = ini_get('suhosin.executor.func.blacklist');
-            if ("$d$s") {
-                $array = preg_split('/,\s*/', "$d,$s");
-                if (in_array('escapeshellarg', $array)) {
-                    $available = false;
+        if (!isset($available)) {
+            $available = true;
+            if (ini_get('safe_mode')) {
+                $available = false;
+            } else {
+                $d = ini_get('disable_functions');
+                $s = ini_get('suhosin.executor.func.blacklist');
+                if ("$d$s") {
+                    $array = preg_split('/,\s*/', "$d,$s");
+                    if (in_array('escapeshellarg', $array)) {
+                        $available = false;
+                    }
                 }
             }
         }

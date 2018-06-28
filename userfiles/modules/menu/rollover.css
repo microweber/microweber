@@ -1,0 +1,48 @@
+/* Container needed to position the overlay. Adjust the width as needed */
+.mw-rollover {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+/* Make image responsive */
+.mw-rollover-default-image {
+    max-width: 100%;
+}
+
+/* The overlay effect (full height and width) - lays on top of the container and over the image */
+.mw-rollover-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+    text-align: center;
+}
+
+.mw-rollover-overlay:hover {
+    cursor: pointer;
+}
+
+/* fade in the overlay on mouse over */
+.mw-rollover:hover .mw-rollover-overlay {
+    opacity: 1;
+}
+
+li.mw-rollover.active > div > div.mw-rollover-overlay {
+    opacity: 1;
+}
+
+.mw-rollover-images {
+   background-color: transparent;
+   text-align:center;
+}
+
+.module-navigation-default a:hover, .module-navigation-default a:focus, .module-navigation-default li:hover > a { 
+   background-color: transparent!important; 
+}
