@@ -38,7 +38,7 @@ description: Calendar Default
 		$(document).bind('calendar.update', function(){
 		  getData();
 			$('.calendar').fullCalendar('removeEvents');
-			$('.calendar').fullCalendar('addEventSource',JSON.parse(json_events));
+			$('.calendar').fullCalendar('addEventSource',json_events);
 		});
 
 
@@ -95,8 +95,9 @@ description: Calendar Default
 			viewRender: function (view, element) {
 				// getData for selected year-month
 				getData();
+
 				$('.calendar').fullCalendar('removeEvents');
-				$('.calendar').fullCalendar('addEventSource',JSON.parse(json_events));
+				$('.calendar').fullCalendar('addEventSource',json_events);
  			},
 		});
 

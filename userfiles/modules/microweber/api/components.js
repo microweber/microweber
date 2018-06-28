@@ -51,9 +51,9 @@ mw.components = {
                             li.innerHTML = obj.title;
                             $(li).on("mousedown touchstart", function(){
                                 el.val(this._value.title);
-                                console.log(991, el[0]._value)
+
                                 el[0]._value = li._value;
-                                console.log(991, el[0]._value) 
+
                                 el.trigger('postSelected', [li._value]);
                                 $(this.parentNode).hide()
                             })

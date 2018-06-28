@@ -325,7 +325,7 @@ mw.askusertostay = false;
   mw.load_module = function(name, selector, callback, attributes) {
      var attributes = attributes || {};
      attributes.module = name;
-      mw._({
+     return mw._({
         selector: selector,
         params: attributes,
         done: function() {

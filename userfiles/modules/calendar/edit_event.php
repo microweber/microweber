@@ -10,9 +10,6 @@ if (!$data) {
 }
 
 
-d($data);
-
-
 ?>
 
 
@@ -30,16 +27,16 @@ d($data);
 
 
         $("#postSearch").on("postSelected", function(event, data){
-
+            content_id = data.id;
         });
 
-
-
-        mw.tools.getPostById(content_id, function(posts){
-            var post = posts[0];
-        });
-
-
+        if(content_id){
+            mw.tools.getPostById(content_id, function(posts){
+                var post = posts[0];
+                $("#postSearch")[0].value = post.title;
+                $("#postSearch")[0]._value = post;
+            });
+        }
 
 
         //option A
@@ -48,9 +45,7 @@ d($data);
             e.preventDefault(e);
             var form_data = '?'+$(this).serialize();
 
-            form_data = mw.url.set_param('content_id', 1, form_data ).replace('?','');
-            console.log(form_data)
-
+            form_data = mw.url.set_param('content_id', content_id, form_data ).replace('?','');
             $.ajax({
                 url: '<?php print api_url('calendar_change_title');?>',
                 data: form_data,
@@ -60,8 +55,8 @@ d($data);
                     if (response.status == 'success'){
                         getData();
                         $('#calendar').fullCalendar('removeEvents');
-                        $('#calendar').fullCalendar('addEventSource', JSON.parse(json_events));
-                        reload_calendar_after_save()
+                        $('#calendar').fullCalendar('addEventSource', json_events);
+                        reload_calendar_after_save();
                     }
 
                 },
@@ -135,8 +130,7 @@ d($data);
 
     <?php if (isset($data['content_id']) and $data['content_id'] == 1) { ?>
     <?php $post = get_content_by_id($data['content_id']) ?>
-        <?php print content_title($data['content_id']) ?>
-        <?php print content_picture($data['content_id']) ?>
+
 
     <?php }  ?>
 
@@ -149,9 +143,11 @@ d($data);
 
 
 <hr>
-    <button class="mw-ui-btn mw-ui-btn-invert pull-right" onclick='$("#editEventForm").submit();'>Save</button>
-    <span class="mw-ui-btn pull-right" onclick="mw_admin_open_module_modal_popup_modal_opened.remove()">Cancel</span>
+    <div class="mw-ui-btn-nav pull-right">
 
+        <span class="mw-ui-btn " onclick="editModal.modal.remove()">Cancel</span>
+        <button class="mw-ui-btn mw-ui-btn-invert " onclick='$("#editEventForm").submit();'>Save</button>
+    </div>
 
 
 </form>

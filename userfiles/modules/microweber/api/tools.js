@@ -3416,16 +3416,25 @@ mw.tools = {
             draggable: true
         });
     },
-    open_module_modal: function (module_type, params) {
+    open_module_modal: function (module_type, params, modalOptions) {
 
-        var id = mw.random();
-        mw_admin_open_module_modal_popup_modal_opened = mw.modal({
-            content: '<div id="mw_admin_open_module_modal_popup_modal_module"></div>',
-            id: 'mw_admin_open_module_modal_popup_modal'
-        });
+        var id = 'module-modal-' + mw.random();
+        var id_content = id + '-content';
+        modalOptions = modalOptions || {};
 
+        var settings = $.extend({}, {
+            content: '<div class="module-modal-content" id="'+id_content+'"></div>',
+            id: id
+        }, modalOptions);
 
-        mw.load_module(module_type, '#mw_admin_open_module_modal_popup_modal_module', null, params);
+        var modal = mw.modal(settings);
+
+        var xhr = mw.load_module(module_type, '#'+id_content, null, params);
+
+        return {
+            xhr:xhr,
+            modal:modal,
+        }
     },
     fav: function (a) {
         var canvas = document.createElement("canvas");
