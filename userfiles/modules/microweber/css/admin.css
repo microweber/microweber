@@ -7498,14 +7498,14 @@ select.silver-field {
     display: block;
 }
 
-.mw-advanced-settings .box-title i{
+.mw-advanced-settings .box-title i {
     font-size: 24px;
     height: 24px;
     margin-bottom: 10px;
     display: block;
 }
 
-#mw-admin-edit-category-item-module-categories-selector .mw-ui-check:before{
+#mw-admin-edit-category-item-module-categories-selector .mw-ui-check:before {
 
     display: none;
 }

@@ -1,4 +1,12 @@
 <?php only_admin_access(); ?>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        mw.options.form('.<?php print $config['module_class'] ?>', function () {
+            mw.notification.success("<?php _e("All changes are saved"); ?>.");
+        });
+    });
+</script>
 
 <?php /* Options:
 
@@ -30,7 +38,9 @@ code:			'123456'
 
 */
 
-$settings = get_option('settings', $params['id']);
+$mod_id = 'init_scwCookiedefault';
+
+$settings = get_option('settings',$mod_id);
 
 /*
 if ($settings == false) {
@@ -68,8 +78,11 @@ if (isset($json) == false or count($json) == 0) {
 $settings = $json;
 ?>
 
+
+
+
 <div class="module-live-edit-settings">
-  <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
+  <input type="hidden" class="mw_option_field" name="settings" id="settingsfield" option-group="<?php print $mod_id; ?>"/>
 
   <div class="mw-ui-box">
     <div class="mw-ui-box-content">
