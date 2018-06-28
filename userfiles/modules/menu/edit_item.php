@@ -132,7 +132,7 @@ if( $id != 0){
         if(!isset($data['rollover_image'] )){
             $data['rollover_image']  = '';
         }
-        
+
         if(!isset($data['size'] )){
             $data['size']  = '';
         }

@@ -400,6 +400,11 @@ class MenuManager
         if (isset($params['max_depth']) != false) {
             $params['maxdepth'] = $params['max_depth'];
         }
+
+        if (isset($params['show_images']) != false) {
+            $show_images = $params['show_images'];
+        }
+
         if (isset($params['maxdepth']) != false) {
             $maxdepth = $params['maxdepth'];
         }
