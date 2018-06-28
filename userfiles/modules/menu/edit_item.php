@@ -40,7 +40,11 @@ if($id == 0){
 if( $id != 0){
 //$data = menu_tree( $id);
 }
- 
+
+
+
+
+
 ?>
 <?php if($data != false): ?>
 <?php //$rand = uniqid(); ?>
@@ -118,8 +122,26 @@ if( $id != 0){
     <?php endif; ?>
 
     <?php if($data['id'] != 0): ?>
+
+        <?php
+
+        if(!isset($data['default_image'] )){
+            $data['default_image']  = '';
+        }
+
+        if(!isset($data['rollover_image'] )){
+            $data['rollover_image']  = '';
+        }
+        
+        if(!isset($data['size'] )){
+            $data['size']  = '';
+        }
+
+        ?>
+
+
     <div id="menu-selector-<?php  print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="top: 3px;height:420px">
-      <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php  print $data['size'] ?>" default-image="<?php  print $data['default-image'] ?>" rollover-image="<?php  print $data['rollover-image'] ?>" for="content" />
+      <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php  print $data['size'] ?>" default_image="<?php  print $data['default_image'] ?>" rollover_image="<?php  print $data['rollover_image'] ?>" for="content" />
     </div>
     <?php endif; ?>
 

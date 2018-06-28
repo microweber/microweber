@@ -593,15 +593,15 @@ class MenuManager
 
                 //d($ext_classes);
 
-				if($show_images == true && $depth == 0 && isset($item['default-image'])){
+				if($show_images == true && $depth == 0 && isset($item['default_image'])){
 					$style = ($item['size'] == 'auto' ? '' : ' style="width:' . $item['size'] . 'px"');
-					$image_html = '<div class="mw-rollover-images">';
-					$image_html .= '<a href="' . $item['url'] . '"><img class="mw-rollover-default-image" src="' . $item['default-image'] . '" alt="' . $item['title'] . '"' . $style . '/></a>';
-					if(isset($item['rollover-image'])){
-					  $image_html .= '<div class="mw-rollover-overlay"><a href="' . $item['url'] . '"><img src="' . $item['rollover-image'] . '" alt=""' . $style . '/></a></div>';
+					$image_html = '<div class="mw-rollover_images">';
+					$image_html .= '<a href="' . $item['url'] . '"><img class="mw-rollover-default_image" src="' . $item['default_image'] . '" alt="' . $item['title'] . '"' . $style . '/></a>';
+					if(isset($item['rollover_image'])){
+					  $image_html .= '<div class="mw-rollover-overlay"><a href="' . $item['url'] . '"><img src="' . $item['rollover_image'] . '" alt=""' . $style . '/></a></div>';
 					}
 					$image_html .= '</div>';
-					if(isset($item['rollover-image'])){
+					if(isset($item['rollover_image'])){
 						if(!strstr($li_class,'mw-rollover')) $li_class .= " mw-rollover";
 					} else {
 						$li_class = str_replace(' mw-rollover','',$li_class);

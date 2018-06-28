@@ -1,6 +1,6 @@
 <?php
-$default_image = get_option('default-image', $params['id']);
-$rollover_image = get_option('rollover-image', $params['id']);
+$default_image = get_option('default_image', $params['id']);
+$rollover_image = get_option('rollover_image', $params['id']);
 $text = get_option('text', $params['id']);
 $href_url = get_option('href-url', $params['id']);
 

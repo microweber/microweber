@@ -176,8 +176,8 @@ class Content
                 'description' => 'text',
                 'url' => 'longText',
                 'size' => 'text',
-                'default-image' => 'longText',
-                'rollover-image' => 'longText',
+                'default_image' => 'longText',
+                'rollover_image' => 'longText',
             ],
 
             'categories' => [

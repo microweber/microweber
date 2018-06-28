@@ -7,7 +7,7 @@
 }
 
 /* Make image responsive */
-.mw-rollover-default-image {
+.mw-rollover-default_image {
     max-width: 100%;
 }
 
@@ -38,7 +38,7 @@ li.mw-rollover.active > div > div.mw-rollover-overlay {
     opacity: 1;
 }
 
-.mw-rollover-images {
+.mw-rollover_images {
    background-color: transparent;
    text-align:center;
 }

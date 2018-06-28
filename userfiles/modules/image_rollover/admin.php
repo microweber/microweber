@@ -51,12 +51,12 @@
 
 <?php // image params can be set when module used in menu
 if (isset($params['menu_rollover'])) {
-	$default_image = isset($params['default-image'])? $params['default-image']:'';
-	$rollover_image = isset($params['rollover-image'])? $params['rollover-image']:'';
+	$default_image = isset($params['default_image'])? $params['default_image']:'';
+	$rollover_image = isset($params['rollover_image'])? $params['rollover_image']:'';
 	$size = isset($params['size'])? $params['size']:'';
 } else {
-	$default_image = get_option('default-image', $params['id']);
-	$rollover_image = get_option('rollover-image', $params['id']);
+	$default_image = get_option('default_image', $params['id']);
+	$rollover_image = get_option('rollover_image', $params['id']);
 	$text = get_option('text', $params['id']);
 	$size = get_option('size', $params['id']);
 }
@@ -194,8 +194,8 @@ if ($size == false or $size == '') {
 
         </div>
     </div>
-    <input type="hidden" class="mw_option_field" name="default-image" id="default-image" value="<?php print $default_image;?>"/>
-    <input type="hidden" class="mw_option_field" name="rollover-image" id="rollover-image" value="<?php print $rollover_image;?>"/>
+    <input type="hidden" class="mw_option_field" name="default_image" id="default_image" value="<?php print $default_image;?>"/>
+    <input type="hidden" class="mw_option_field" name="rollover_image" id="rollover_image" value="<?php print $rollover_image;?>"/>
 </div>
 
 
@@ -227,12 +227,12 @@ if ($size == false or $size == '') {
     });
 
     function setNewImage(s) {
-        mw.$("#default-image").val(s).trigger('change');
+        mw.$("#default_image").val(s).trigger('change');
         mw.$(".the-image").show().attr('src', s);
     }
 
     function setNewImageRollover(s) {
-        mw.$("#rollover-image").val(s).trigger('change');
+        mw.$("#rollover_image").val(s).trigger('change');
         mw.$(".the-image-rollover").show().attr('src', s);
     }
 
