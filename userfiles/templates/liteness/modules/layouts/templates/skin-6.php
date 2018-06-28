@@ -43,7 +43,7 @@ position: 5
                                 </p>
                                 <p>
                                     <span class="symbol">&#xe086;</span>
-                                    <a href="https://facebook.com/Microweber">https://twitter.com/Microweber</a>
+                                    <a href="https://twitter.com/Microweber">https://twitter.com/Microweber</a>
                                 </p>
                                 <p>
                                     <span class="symbol">&#xe039;</span>

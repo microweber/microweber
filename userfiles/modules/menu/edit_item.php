@@ -106,6 +106,10 @@ if( $id != 0){
     <?php _e("Select page from your site"); ?>
     </button>
 
+    <button class="mw-ui-btn" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>b').toggle();">
+    <?php _e("Select images"); ?>
+    </button>
+
     <?php if($data['id'] != 0): ?>
     <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="top: 3px;">
       <microweber module="categories/selector" active_ids="<?php  print $data['content_id'] ?>" categories_active_ids="<?php  print $data['categories_id'] ?>"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio"  input-name-categories="tree_cat_id" input-name="tree_content_id"  />
@@ -113,6 +117,11 @@ if( $id != 0){
     <script>mw.treeRenderer.appendUI('#menu-selector-<?php  print $data['id'] ?>');</script>
     <?php endif; ?>
 
+    <?php if($data['id'] != 0): ?>
+    <div id="menu-selector-<?php  print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="top: 3px;height:420px">
+      <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php  print $data['size'] ?>" default-image="<?php  print $data['default-image'] ?>" rollover-image="<?php  print $data['rollover-image'] ?>" for="content" />
+    </div>
+    <?php endif; ?>
 
     <hr>
 

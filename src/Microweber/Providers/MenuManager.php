@@ -206,7 +206,7 @@ class MenuManager
         }
     }
 
-    public function menu_tree($menu_id, $maxdepth = false)
+    public function menu_tree($menu_id, $maxdepth = false, $show_images = false)
     {
         static $passed_ids;
         static $passed_actives;
@@ -592,6 +592,22 @@ class MenuManager
 
 
                 //d($ext_classes);
+
+				if($show_images == true && $depth == 0 && isset($item['default-image'])){
+					$style = ($item['size'] == 'auto' ? '' : ' style="width:' . $item['size'] . 'px"');
+					$image_html = '<div class="mw-rollover-images">';
+					$image_html .= '<a href="' . $item['url'] . '"><img class="mw-rollover-default-image" src="' . $item['default-image'] . '" alt="' . $item['title'] . '"' . $style . '/></a>';
+					if(isset($item['rollover-image'])){
+					  $image_html .= '<div class="mw-rollover-overlay"><a href="' . $item['url'] . '"><img src="' . $item['rollover-image'] . '" alt=""' . $style . '/></a></div>';
+					}
+					$image_html .= '</div>';
+					if(isset($item['rollover-image'])){
+						if(!strstr($li_class,'mw-rollover')) $li_class .= " mw-rollover";
+					} else {
+						$li_class = str_replace(' mw-rollover','',$li_class);
+					}
+					$to_print .= $image_html;
+				}
 
                 $ext_classes = trim($ext_classes);
                 if (is_callable($link)) {

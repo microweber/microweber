@@ -62,9 +62,9 @@ function reorder_menu_items($data)
     return mw()->menu_manager->menu_items_reorder($data);
 }
 
-function menu_tree($menu_id = false, $maxdepth = false)
+function menu_tree($menu_id = false, $maxdepth = false, $show_images = false)
 {
-    return mw()->menu_manager->menu_tree($menu_id, $maxdepth);
+    return mw()->menu_manager->menu_tree($menu_id, $maxdepth, $show_images);
 }
 
 function is_in_menu($menu_id = false, $content_id = false)
