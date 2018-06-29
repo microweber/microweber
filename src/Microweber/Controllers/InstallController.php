@@ -192,13 +192,13 @@ class InstallController extends Controller
                     $installer->logger = $this;
                     $installer->run();
                 }
-                
-                
+
+
                 if (!$install_step or $install_step == 2) {
                     $installer = new Install\WebserverInstaller();
                     $installer->run();
                 }
-                
+
                 if (!$install_step or $install_step == 3) {
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
@@ -222,7 +222,7 @@ class InstallController extends Controller
                         if ($install_step == 5) {
                             $install_step_return['finalize'] = true;
                             $install_step_return['install_step'] = 'finalize';
-                            
+
                             $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                         }
                         return $install_step_return;
@@ -337,26 +337,35 @@ class InstallController extends Controller
             }
         }
         $layout->set($viewData);
-        
+
         $is_installed = mw_is_installed();
         if ($is_installed) {
             App::abort(403, 'Unauthorized action. Microweber is already installed.');
         }
-        
+
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
         Cache::flush();
         return $layout;
     }
 
-    private function reportInstall($email, $sendMail) {
+    private function reportInstall($email, $sendMail = false)
+    {
         $um = new \Microweber\Providers\UpdateManager(app());
         $data = $um->collect_local_data();
-        $data['email'] = $email;
+        if ($sendMail) {
+            $data['email'] = $email;
+        }
         $postData = array();
         $postData['postdata'] = base64_encode(json_encode($data));
         $http = new \Microweber\Utils\Http(app());
-        $http->url('http://installreport.services.microweberapi.com')->post($postData);
+        try {
+            $http->url('http://installreport.services.microweberapi.com')->post($postData);
+        } catch (\Exception $e) {
+            //maybe internet connection problem
+        }
+
+
     }
 
     public function log($text)
@@ -387,9 +396,6 @@ class InstallController extends Controller
         if (!$this->_is_escapeshellarg_available()) {
             $yes_i_can = false;
         }
-
-
-
 
 
         if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {
