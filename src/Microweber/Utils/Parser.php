@@ -2132,7 +2132,7 @@ class Parser
                     ) {
                         $mod_name = $v;
                         $found_mods[] = $mod_name;
-                     }
+                    }
                 }
                 foreach ($non_cached as $mod) {
                     if (isset($mod['module'])
@@ -2166,7 +2166,7 @@ class Parser
 
                     }
 
-                    if($has_changes){
+                    if ($has_changes) {
                         $module_html .= '><!-- Loading module ' . $mod_name . ' --><' . $tag . '/>';
 
                         pq($elem)->replaceWith($module_html);
@@ -2179,7 +2179,7 @@ class Parser
 
 
         }
-         if ($has_changes) {
+        if ($has_changes) {
             $layout = $pq->htmlOuter();
         }
 
@@ -2190,7 +2190,7 @@ class Parser
     public function optimize_asset_loading_order($layout)
     {
 
-
+        return $layout;
         $replaced = array();
         $pq = \phpQuery::newDocument($layout);
         $srcs = array();
