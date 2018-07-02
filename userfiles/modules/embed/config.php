@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Embed Code";
 $config['author'] = "Microweber";
-$config['no_cache'] = true;
+$config['no_cache'] = false;
 $config['ui'] = true;
 $config['categories'] = "other, content";
 $config['position'] = 38;

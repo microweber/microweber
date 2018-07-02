@@ -1219,6 +1219,9 @@ class DefaultController extends Controller
             $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
         }
 
+        $output_cache_timeout = false;
+
+
         if ($is_quick_edit or $is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
                 $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
@@ -1272,8 +1275,31 @@ class DefaultController extends Controller
                 }
                 template_var('new_page', $page);
             }
+        } else {
+
+            $enable_full_page_cache = get_option('enable_full_page_cache', 'website') == 'y';
+
+            if ($is_editmode == false
+                and !$is_preview_template
+                and !$is_preview_module
+                and $this->isolate_by_html_id == false
+                and !isset($_REQUEST['isolate_content_field'])
+                and !isset($_REQUEST['embed_id'])
+                and !is_cli()
+                and !defined('MW_API_CALL')
+            ) {
+                $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
+
+                if (!$back_to_editmode and !$is_editmode and empty($_GET)) {
+                    if ($enable_full_page_cache) {
+                        $output_cache_timeout = 60;
+                    }
+                }
+
+            }
         }
-        $output_cache_timeout = false;
+
+
         if (isset($is_preview_template) and $is_preview_template != false) {
             if (!defined('MW_NO_SESSION')) {
                 define('MW_NO_SESSION', true);
@@ -1286,7 +1312,7 @@ class DefaultController extends Controller
 
         if ($output_cache_timeout != false) {
             $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
-            $output_cache_group = 'content/preview';
+            $output_cache_group = 'global/full_page_cache';
             $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
             if ($output_cache_content != false) {
                 echo $output_cache_content;
@@ -1401,7 +1427,6 @@ class DefaultController extends Controller
                     $tf1 = $td . DS . $fname1;
                     $tf2 = $td . DS . $fname2;
                     $tf3 = $td . DS . $fname3;
-
 
 
                     if ($directly_to_file == false and is_dir($td)) {
@@ -1850,42 +1875,42 @@ class DefaultController extends Controller
             }
 
             if ($is_editmode == true) {
-	            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
-	                if (!defined('CONTENT_TEMPLATE')) {
-	                    define('CONTENT_TEMPLATE', $content['active_site_template']);
-	                }
+                if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
+                    if (!defined('CONTENT_TEMPLATE')) {
+                        define('CONTENT_TEMPLATE', $content['active_site_template']);
+                    }
 
-	                $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
-	                $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
-	                $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
-	                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
-	            } else {
-	                if (!defined('CONTENT_TEMPLATE')) {
-	                    define('CONTENT_TEMPLATE', $the_active_site_template);
-	                }
+                    $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
+                    $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
+                    $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
+                    $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
+                } else {
+                    if (!defined('CONTENT_TEMPLATE')) {
+                        define('CONTENT_TEMPLATE', $the_active_site_template);
+                    }
 
-	                //                if ($the_active_site_template == 'mw_default') {
-	                //                    $the_active_site_template = 'default';
-	                //                }
-	                $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
+                    //                if ($the_active_site_template == 'mw_default') {
+                    //                    $the_active_site_template = 'default';
+                    //                }
+                    $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
 
-	                $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-	                $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
-	                $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
-	            }
-	            $custom_live_edit = normalize_path($custom_live_edit, false);
+                    $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
+                    $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
+                    $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
+                }
+                $custom_live_edit = normalize_path($custom_live_edit, false);
 
-	            if (is_file($custom_live_edit)) {
-	                $custom_live_editmtime = filemtime($custom_live_edit);
-	                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
-	                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-	            }
+                if (is_file($custom_live_edit)) {
+                    $custom_live_editmtime = filemtime($custom_live_edit);
+                    $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+                    $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+                }
 
-	            $liv_ed_css = $this->app->template->get_custom_css_url();
-	            if ($liv_ed_css != false) {
-	                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
-	                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-		}
+                $liv_ed_css = $this->app->template->get_custom_css_url();
+                if ($liv_ed_css != false) {
+                    $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
+                    $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+                }
             }
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
@@ -2021,7 +2046,10 @@ class DefaultController extends Controller
             }
 
             if ($output_cache_timeout != false) {
-                $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group);
+
+
+                $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
+                $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group,$output_cache_timeout);
             }
 
             if (isset($_REQUEST['debug'])) {
@@ -2641,6 +2669,7 @@ class DefaultController extends Controller
         }
 
         $layout = mw()->template->process_meta($layout);
+
 
         $layout = $this->app->parser->process($layout, $options = false);
 

@@ -3,7 +3,6 @@
 $config = array();
 $config['name'] = "Content";
 $config['description'] = "Shows dynamic content";
-
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['categories'] = "content";

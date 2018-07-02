@@ -2098,6 +2098,95 @@ class Parser
         }
     }
 
+    public function replace_non_cached_modules_with_placeholders($layout)
+    {
+        //   $non_cached
+        $non_cached = $this->app->modules->get('allow_caching=0&ui=any');
+        $has_changes = false;
+//dd($non_cached);
+        if (!$non_cached or $layout == '') {
+            return $layout;
+        }
+        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+
+        $pq = \phpQuery::newDocument($layout);
+
+
+        $remove_clases = ['changed', 'inaccessibleModule', 'module-over', 'currentDragMouseOver', 'mw-webkit-drag-hover-binded'];
+        $found_mods = array();
+        $found_mods_non_cached = array();
+        foreach ($pq ['.module'] as $elem) {
+            $attrs = $elem->attributes;
+            $tag = $elem->tagName;
+
+
+            $module_html = '<' . $tag . ' ';
+            if (!empty($attrs)) {
+                $mod_name = false;
+                $mod_name_is_cached = true;
+                foreach ($attrs as $attribute_name => $attribute_node) {
+                    $v = $attribute_node->nodeValue;
+                    if ($attribute_name == 'type'
+                        or $attribute_name == 'data-type'
+                        or $attribute_name == 'type'
+                    ) {
+                        $mod_name = $v;
+                        $found_mods[] = $mod_name;
+                     }
+                }
+                foreach ($non_cached as $mod) {
+                    if (isset($mod['module'])
+                        and $mod_name
+                        and $mod_name == $mod['module']
+                    ) {
+                        $has_changes = true;
+                        $mod_name_is_cached = false;
+
+                        $found_mods_non_cached[] = $mod_name;
+                    }
+                }
+
+
+                if (!$mod_name_is_cached and $mod_name and $has_changes) {
+
+
+                    foreach ($attrs as $attribute_name => $attribute_node) {
+
+                        $v = $attribute_node->nodeValue;
+
+
+                        if ($attribute_name == 'class') {
+                            $v = str_replace('module ', 'mw-lazy-load-module module ', $v);
+                        }
+
+
+                        $module_html .= " {$attribute_name}='{$v}'  ";
+                        $has_changes = true;
+
+
+                    }
+
+                    if($has_changes){
+                        $module_html .= '><!-- Loading module ' . $mod_name . ' --><' . $tag . '/>';
+
+                        pq($elem)->replaceWith($module_html);
+                    }
+
+
+                }
+
+            }
+
+
+        }
+         if ($has_changes) {
+            $layout = $pq->htmlOuter();
+        }
+
+        return $layout;
+
+    }
+
     public function optimize_asset_loading_order($layout)
     {
 
@@ -2174,10 +2263,10 @@ class Parser
 </script>";
 
 
-        if($srcs){
+        if ($srcs) {
             $srsc_str = '';
-            foreach ($srcs as $src){
-                $srsc_str .= 'mw.require("'.$src.'")'."\n";
+            foreach ($srcs as $src) {
+                $srsc_str .= 'mw.require("' . $src . '")' . "\n";
             }
             $srsc_str = "<script>
 $srsc_str

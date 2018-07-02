@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Categories";
 $config['author'] = "Microweber";
-$config['no_cache'] = true;
+$config['no_cache'] = false;
 $config['ui'] = true;
 $config['position'] = 29;
 $config['categories'] = "navigation";

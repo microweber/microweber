@@ -283,6 +283,13 @@ class Modules
                         $config['ui_admin'] = 0;
                     }
 
+
+                    if (isset($config['no_cache']) and $config['no_cache'] == true) {
+                        $config['allow_caching'] = 0;
+                    } else {
+                        $config['allow_caching'] = 1;
+                    }
+
                     if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
                         if (trim($config['module']) != '') {
                             if ($list_as_element == true) {

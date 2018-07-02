@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Picture Gallery";
 $config['author'] = "Microweber";
-$config['no_cache'] = true;
+$config['no_cache'] = false;
 $config['ui'] = true;
 $config['categories'] = "media";
 $config['version'] = 1.11;

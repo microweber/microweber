@@ -26,6 +26,7 @@ class Base
             'ui' => 'integer',
             'position' => 'integer',
             'as_element' => 'integer',
+            'allow_caching' => 'integer',
             'ui_admin' => 'integer',
             'ui_admin_iframe' => 'integer',
             'is_system' => 'integer',

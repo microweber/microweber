@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    $('.mw-lazy-load-module').reload_module();
+});
+
+
+$(document).ready(function(){
 
     mw.common['data-mw-close']();
     $(mwd.body)

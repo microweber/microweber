@@ -9,3 +9,4 @@ $config['ui_admin'] = false; //if set to true, module will be visible in the adm
 $config['categories'] = "other";
 $config['position'] = 99;
 $config['version'] = 0.1;
+$config['no_cache'] = true;
