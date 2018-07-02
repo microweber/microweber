@@ -63,7 +63,7 @@ const liveEditJS = (prod)=>{
 const liveEditCSS = ()=>{
     return gulp.src(cssFiles)
     .pipe(cssmin())
-    .pipe(concat(  'main.css', {newLine: ';\r\n'}))
+    .pipe(concat(  'liveedit.css', {newLine: ';\r\n'}))
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(vars.dist));
 }
