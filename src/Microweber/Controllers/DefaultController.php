@@ -1287,12 +1287,14 @@ class DefaultController extends Controller
                 and !isset($_REQUEST['embed_id'])
                 and !is_cli()
                 and !defined('MW_API_CALL')
+                and !defined('MW_NO_SESSION') 
             ) {
+
                 $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
 
                 if (!$back_to_editmode and !$is_editmode and empty($_GET)) {
                     if ($enable_full_page_cache) {
-                        $output_cache_timeout = 60;
+                        $output_cache_timeout = 120;
                     }
                 }
 
