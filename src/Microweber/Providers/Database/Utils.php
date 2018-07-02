@@ -482,6 +482,8 @@ class Utils
         }
         $cache_group = $this->assoc_table_name($table);
         $this->app->cache_manager->delete($cache_group);
+        $this->app->cache_manager->delete('global/full_page_cache');
+
     }
 
     public function copy_row_by_id($table, $id = 0, $field_name = 'id')

@@ -741,13 +741,14 @@ if (!$chunks || $chunk == $chunks - 1) {
             $rerturn['file_size'] = $filesize;
             $rerturn['file_size_human'] = mw()->format->human_filesize($filesize);
             $rerturn['image_size'] = $size;
-            $auto_resize_treshold = 10000; // 10MB
+            $auto_resize_treshold = 100000; // 10MiB
 
             if ($is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
                 $rerturn['automatic_image_resize_is_enabled'] = $automatic_image_resize_on_upload;
                 if (!$automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
                     // if image is big, ask to enable resizing
                     $rerturn['ask_user_to_enable_auto_resizing'] = 1;
+                    $rerturn['ask_user_to_enable_auto_resizing_filesize'] = $filesize;
 
                 }
                 if (!$automatic_image_resize_on_upload_disabled and $automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
