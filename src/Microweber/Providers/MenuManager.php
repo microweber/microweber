@@ -361,7 +361,6 @@ class MenuManager
         }
 
 
-
         if (isset($ul_class_deep)) {
             if ($depth > 0) {
                 $ul_class = $ul_class_deep;
@@ -420,6 +419,11 @@ class MenuManager
         if (isset($params_o['maxdepth']) != false) {
             $maxdepth = $params_o['maxdepth'];
         }
+        $li_submenu_a_link = false;
+        if (isset($params_o['li_submenu_a_link']) != false) {
+            $li_submenu_a_link = $params_o['li_submenu_a_link'];
+
+        }
 
 //        if (isset($params_o['li_submenu_a_class']) != false) {
 //            $li_submenu_a_class = $params_o['li_submenu_a_class'];
@@ -432,12 +436,12 @@ class MenuManager
         $id_attr_str = '';
         if (isset($ul_id)) {
             if ($depth == 0) {
-                $id_attr_str = ' id="'.$ul_id.'" ';
+                $id_attr_str = ' id="' . $ul_id . '" ';
             }
         }
 
 
-        $to_print = '<' . $ul_tag . ' role="menu" '.$id_attr_str.' class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
+        $to_print = '<' . $ul_tag . ' role="menu" ' . $id_attr_str . ' class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
         $cur_depth = 0;
         $res_count = 0;
@@ -561,7 +565,7 @@ class MenuManager
                 $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
                 if ($sub_menu_q) {
                     $has_childs = true;
-                  //  $has_childs_class = 'have-submenu';
+                    //  $has_childs_class = 'have-submenu';
                     $has_childs_class = $li_submenu_class;
                 }
 
@@ -570,8 +574,6 @@ class MenuManager
 
 
                 $ext_classes = '';
-
-
 
 
                 if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -585,10 +587,9 @@ class MenuManager
                 $class_for_li_submenu_a = '';
                 if ($has_childs) {
                     $ext_classes .= ' ' . $has_childs_class;
-                    if(isset($li_submenu_a_class) and $li_submenu_a_class){
-                        $class_for_li_submenu_a =  $li_submenu_a_class;
+                    if (isset($li_submenu_a_class) and $li_submenu_a_class) {
+                        $class_for_li_submenu_a = $li_submenu_a_class;
                     }
-
 
 
                 }
@@ -598,21 +599,21 @@ class MenuManager
 
                 //d($ext_classes);
 
-				if($show_images == true && $depth == 0 && isset($item['default_image'])){
-					$style = ($item['size'] == 'auto' ? '' : ' style="width:' . $item['size'] . 'px"');
-					$image_html = '<div class="mw-rollover_images">';
-					$image_html .= '<a href="' . $item['url'] . '"><img class="mw-rollover-default_image" src="' . $item['default_image'] . '" alt="' . $item['title'] . '"' . $style . '/></a>';
-					if(isset($item['rollover_image'])){
-					  $image_html .= '<div class="mw-rollover-overlay"><a href="' . $item['url'] . '"><img src="' . $item['rollover_image'] . '" alt=""' . $style . '/></a></div>';
-					}
-					$image_html .= '</div>';
-					if(isset($item['rollover_image'])){
-						if(!strstr($li_class,'mw-rollover')) $li_class .= " mw-rollover";
-					} else {
-						$li_class = str_replace(' mw-rollover','',$li_class);
-					}
-					$to_print .= $image_html;
-				}
+                if ($show_images == true && $depth == 0 && isset($item['default_image'])) {
+                    $style = ($item['size'] == 'auto' ? '' : ' style="width:' . $item['size'] . 'px"');
+                    $image_html = '<div class="mw-rollover_images">';
+                    $image_html .= '<a href="' . $item['url'] . '"><img class="mw-rollover-default_image" src="' . $item['default_image'] . '" alt="' . $item['title'] . '"' . $style . '/></a>';
+                    if (isset($item['rollover_image'])) {
+                        $image_html .= '<div class="mw-rollover-overlay"><a href="' . $item['url'] . '"><img src="' . $item['rollover_image'] . '" alt=""' . $style . '/></a></div>';
+                    }
+                    $image_html .= '</div>';
+                    if (isset($item['rollover_image'])) {
+                        if (!strstr($li_class, 'mw-rollover')) $li_class .= " mw-rollover";
+                    } else {
+                        $li_class = str_replace(' mw-rollover', '', $li_class);
+                    }
+                    $to_print .= $image_html;
+                }
 
                 $ext_classes = trim($ext_classes);
                 if (is_callable($link)) {
@@ -620,12 +621,19 @@ class MenuManager
                 } else {
                     $menu_link = $link;
                 }
+
+
+                if ($has_childs and isset($li_submenu_a_link) and $li_submenu_a_link   /*and $depth == 0*/) {
+                    $menu_link = $li_submenu_a_link;
+                }
+
                 foreach ($item as $key => $value) {
                     $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
                 }
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
                 $menu_link = str_replace('{a_class}', $a_class, $menu_link);
                 $menu_link = str_replace('{a_submenu_class}', $class_for_li_submenu_a, $menu_link);
+                $menu_link = str_replace('{li_submenu_a_class}', $class_for_li_submenu_a, $menu_link);
                 $to_print .= $menu_link;
 
                 $ext_classes = '';
@@ -678,6 +686,7 @@ class MenuManager
 //
 //                            } else {
 
+
                             $menu_params['menu_id'] = $item['id'];
                             $menu_params['link'] = $link;
                             if (isset($menu_params['item_parent'])) {
@@ -697,6 +706,12 @@ class MenuManager
                                 $menu_params['maxdepth'] = $maxdepth;
                             }
 
+
+                            if (isset($li_submenu_a_link) and $li_submenu_a_link) {
+                                $menu_params['li_submenu_a_link'] = $li_submenu_a_link;
+
+                            }
+                            //  dd($menu_params);
                             if (isset($li_tag)) {
                                 $menu_params['li_tag'] = $li_tag;
                             }
@@ -718,6 +733,7 @@ class MenuManager
 
                                 $menu_params['li_submenu_a_class'] = $li_submenu_a_class;
 
+
                             }
 
                             if (isset($depth)) {
@@ -728,6 +744,7 @@ class MenuManager
 
                             //   }
                         } else {
+
                             $test1 = $this->menu_tree($item['id']);
                         }
                     } else {
