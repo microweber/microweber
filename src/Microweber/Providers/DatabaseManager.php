@@ -714,6 +714,7 @@ $limit =  $this->default_limit;
         }
 
         Cache::tags($table)->flush();
+        $this->app->cache_manager->delete('global/full_page_cache');
 
         return $c_id;
     }
