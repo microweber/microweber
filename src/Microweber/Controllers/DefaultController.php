@@ -1403,6 +1403,7 @@ class DefaultController extends Controller
                     $tf3 = $td . DS . $fname3;
 
 
+
                     if ($directly_to_file == false and is_dir($td)) {
                         if (is_file($tf1)) {
                             $simply_a_file = $tf1;
@@ -1439,7 +1440,7 @@ class DefaultController extends Controller
                             //  $page['active_site_template'] = $page_url_segment_1;
                             $page['simply_a_file'] = 'clean.php';
                             $page['layout_file'] = 'clean.php';
-
+                            $show_404_to_non_admin = true;
                             if ($all_url_segments) {
                                 $page_url_segments_str_for_file = implode('/', $page_url_segment_3);
                                 $file1 = $page_url_segments_str_for_file . '.php';
@@ -1476,10 +1477,11 @@ class DefaultController extends Controller
                                     template_var('content', $page['content']);
 
                                     template_var('new_page', $page);
+                                    $show_404_to_non_admin = false;
                                 }
                             }
 
-                            $show_404_to_non_admin = true;
+
                         } elseif (is_array($page_url_segment_3)) {
                             foreach ($page_url_segment_3 as $mvalue) {
                                 if ($found_mod == false and $this->app->modules->is_installed($mvalue)) {
@@ -1503,7 +1505,6 @@ class DefaultController extends Controller
                         if (!is_array($page)) {
                             $page = array();
                         }
-
                         $page['id'] = 0;
 
                         if (isset($page_data) and isset($page_data['id'])) {
@@ -1522,6 +1523,8 @@ class DefaultController extends Controller
 
                         template_var('new_page', $page);
                         template_var('simply_a_file', $simply_a_file);
+                        $show_404_to_non_admin = false;
+
                     }
                 }
                 // }
