@@ -2,15 +2,13 @@ const gulp = require('gulp')/*(require('gulp'), process.argv)*/;
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const cssmin = require('gulp-cssmin');
-const watch = require('gulp-watch');
-const gulpCopy = require('gulp-copy');
 const uglify = require('gulp-uglify');
 const inject = require('gulp-inject-string');
+const watch = require('gulp-watch');
 
+const vars = require('../vars');
+let mwpath = vars.mwpath;
 let count = 0;
-const mwpath = '.';
-const dest = './dist';
-
 const cssFiles = [
     mwpath + '/css/ui.css',
     mwpath + '/css/wysiwyg.css',
@@ -47,7 +45,7 @@ const jsFiles = [
     mwpath+'/api/plupload.html4.js',
 ];
 
-liveEditJS = (prod)=>{
+const liveEditJS = (prod)=>{
     let mwRequire = [];
     jsFiles.forEach((item)=>{
         mwRequire.push(`mw.require('${item}');`);
@@ -59,28 +57,29 @@ liveEditJS = (prod)=>{
     if(prod){
         final.pipe(uglify({mangle: false}))
     }
-    return final.pipe(gulp.dest(dest));
+    return final.pipe(gulp.dest(vars.dist));
 }
 
-liveEditCSS = ()=>{
+const liveEditCSS = ()=>{
     return gulp.src(cssFiles)
     .pipe(cssmin())
     .pipe(concat(  'main.css', {newLine: ';\r\n'}))
     .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(vars.dist));
 }
 
-gulp.task('live-edit',  () => {
-    watch( mwpath+'/js/*.js',  { ignoreInitial: false }, (files) => {
+
+module.exports.css = liveEditCSS;
+module.exports.js = liveEditJS;
+module.exports.task = () => {
+    watch( vars.mwpath+'/api/*.js',  { ignoreInitial: false }, (files) => {
         liveEditJS();
         count++;
         console.log(count + ' - js');
     });
-    watch( mwpath+'/css/*.css',  { ignoreInitial: false }, (files) => {
+    watch( vars.mwpath+'/css/*.css',  { ignoreInitial: false }, (files) => {
         liveEditCSS();
         count++;
         console.log(count + ' - css');
     });
-});
-
-gulp.task('default', ['live-edit']);
+};
