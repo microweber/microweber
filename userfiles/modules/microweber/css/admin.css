@@ -2818,6 +2818,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     padding-top: 0;
 }
 
+
 .view-post-slug.active {
     display: inline-block;
     overflow: hidden;
@@ -2825,14 +2826,8 @@ input#edit-content-url:focus, input#edit-content-url.active {
     min-width: 20px;
     min-height: 11px;
     top: -4px;
-
     position: relative;
-
-}
-
-.edit-post-url, .edit-post-url .mw-ui-invisible-field {
-    font-size: 11px;
-    color: #CCCCCC;
+    line-height:12px;
 }
 
 #edit-content-url {
@@ -2840,10 +2835,14 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 .edit-post-url .mw-ui-invisible-field {
+    font-size: 12px;
+    line-height:12px;
+    color: #CCCCCC;
     top: 0;
     left: -1px;
-    height: 14px;
+    height: 16px;
     padding: 0px;
+    top: -6px ;
 }
 
 .edit-post-url,
@@ -2855,7 +2854,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
 .edit-post-url {
     clear: both;
     padding-top: 0;
-    top: 0;
+    top: 3px;
     position: relative;
 }
 

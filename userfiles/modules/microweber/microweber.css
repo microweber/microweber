@@ -695,3 +695,6 @@ span.mw-powered-by {
     height:auto;
 }
 
+.gateway-selector img{
+    max-width: 100px;
+}
