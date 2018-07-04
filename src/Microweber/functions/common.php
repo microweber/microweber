@@ -403,6 +403,16 @@ function clearcache()
 {
     mw()->cache_manager->clear();
     mw()->template->clear_cache();
+    $empty_folder = userfiles_path() . 'cache' . DS;
+
+    if (is_dir($empty_folder)) {
+        rmdir_recursive($empty_folder, true);
+    }
+
+    if (!is_dir($empty_folder)) {
+        mkdir_recursive($empty_folder);
+    }
+
 
     return true;
 }

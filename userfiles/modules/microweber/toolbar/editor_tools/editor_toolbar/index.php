@@ -197,6 +197,7 @@
         font-size: 11px;
         color: #333;
         resize: none;
+        height: 100%;
     }
 
 
@@ -294,7 +295,7 @@
 
             <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
 
-            <span class="mw_editor_btn mw_editor_html_editor" id="editor-html-edit-btn" title="HTML Editor"><span class="ed-ico"></span></span>
+            <span class="mw_editor_btn mw_editor_html_editor" id="editor-html-edit-btn" title="HTML Editor"><span class="ed-ico">code</span></span>
         </div>
     </div>
     <div id="editor-area" contenteditable="true"></div>
