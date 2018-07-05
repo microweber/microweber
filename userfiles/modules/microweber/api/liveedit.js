@@ -877,7 +877,7 @@ mw.drag = {
         mw.on("moduleOver", function(a, element) {
         mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
-        if(element.getAttribute('data-type') == 'layouts'){
+        if(typeof(element) != 'undefined' && element.getAttribute('data-type') == 'layouts'){
           var $el = $(element);
           var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
 
