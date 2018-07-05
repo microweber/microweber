@@ -275,16 +275,23 @@ if (!empty($recomended_layouts)) {
             if (form != undefined && form != false) {
                 if (is_shop != undefined) {
                     if (is_shop != undefined && is_shop == 'y') {
-                        if (form != undefined && form.querySelector('input[name="is_shop"][value="1"]') != null) {
-                            form.querySelector('input[name="is_shop"][value="1"]').checked = true;
+                        //if (form != undefined && form.querySelector('input[name="is_shop"][value="1"]') != null) {
+                        if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
+                         //   form.querySelector('input[name="is_shop"][value="1"]').checked = true;
+
+
+                            form.querySelector('input[name="is_shop"]').checked = true;
                         }
                     }
                     else {
                         if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
-                            form.querySelector('input[name="is_shop"]').value = '0'
+                            form.querySelector('input[name="is_shop"]').checked = false;
+
+                            //     form.querySelector('input[name="is_shop"]').value = '0'
+                       //     $(form.querySelector('input[name="is_shop"]')).attr() = '0'
                         }
                         if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
-                            form.querySelector('input[name="is_shop"][value="0"]').checked = true;
+                         //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                         }
                     }
                 }
@@ -293,10 +300,12 @@ if (!empty($recomended_layouts)) {
 
 
                     if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
-                        form.querySelector('input[name="is_shop"]').value = '0'
+                        //form.querySelector('input[name="is_shop"]').value = '0'
+                        form.querySelector('input[name="is_shop"]').checked = false;
+
                     }
                     if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
-                        form.querySelector('input[name="is_shop"][value="0"]').checked = true;
+                      //  form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                     }
                     <?php endif; ?>
 
