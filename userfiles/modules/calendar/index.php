@@ -33,15 +33,18 @@ Add functionality to set all day events
 */
 
 $template = get_option('data-template', $params['id']);
-if($template == false and isset($params['template'])){
-$template = $params['template'];
+if ($template == false and isset($params['template'])) {
+    $template = $params['template'];
 }
 
-
+$calendar_group_id = get_option('calendar_group_id', $params['id']);
+if(!$calendar_group_id){
+    $calendar_group_id = 0;
+}
 $event_count = mw()->database_manager->get("table=calendar&count=true");
 
 
-if($event_count<1){
+if ($event_count < 1) {
     return print lnotif(_e('Click here to edit Calendar', true));
 }
 
@@ -54,7 +57,7 @@ if ($template != false and strtolower($template) != 'none') {
 if ($template_file == false) {
     $template_file = module_templates($config['module'], 'default');
 }
-if($template_file != false and is_file($template_file)){
+if ($template_file != false and is_file($template_file)) {
     include($template_file);
 }
 

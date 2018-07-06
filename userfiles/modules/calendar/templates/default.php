@@ -109,7 +109,7 @@ description: Calendar Default
 			$.ajax({
 				url: '<?php print api_url('calendar_get_events_api'); ?>',
 				type: 'POST', // Send post data
-				data: 'yearmonth='+yearmonth,
+				data: 'yearmonth='+yearmonth+'&calendar_group_id=<?php print $calendar_group_id ?>',
 				async: false,
 				success: function(s){
 					json_events = s;

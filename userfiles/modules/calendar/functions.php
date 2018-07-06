@@ -5,7 +5,10 @@ function calendar_get_events_api($params = array())
     if (is_string($params)) {
         $params = parse_params($params);
     }
-
+    $calendar_group_id = 0;
+    if (isset($params['calendar_group_id'])) {
+        $calendar_group_id = intval($params['calendar_group_id']);
+    }
     if (isset($params['yearmonth'])) {
         $yearmonth = $params['yearmonth'];
     } elseif (isset($_POST['yearmonth'])) {
@@ -19,7 +22,11 @@ function calendar_get_events_api($params = array())
 
     $events = array();
 
-    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id')->where('startdate', 'like', $yearmonth . '%')->get()) {
+    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id')
+        ->where('startdate', 'like', $yearmonth . '%')
+        ->where('calendar_group_id', $calendar_group_id)
+        ->get()) {
+
         foreach ($data as $event) {
             if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
                 $e = array();
@@ -53,10 +60,14 @@ function calendar_new_event()
     $table = "calendar";
     $startdate = mw()->database_manager->escape_string(trim($_POST['startdate']) . '+' . trim($_POST['zone']));
     $title = mw()->database_manager->escape_string(trim($_POST['title']));
-
+    $calendar_group_id = 0;
+    if (isset($_POST['calendar_group_id'])) {
+        $calendar_group_id =intval( $_POST['calendar_group_id']);
+    }
     $data = array('title' => $title,
         'startdate' => $startdate,
         'enddate' => $startdate,
+        'calendar_group_id' => $calendar_group_id,
         'allDay' => 0
     );
 
@@ -74,16 +85,26 @@ function calendar_change_title()
 
     if (!is_admin()) return;
 
-
+    $eventid = false;
     if (!isset($_POST['zone'])) {
         $_POST['zone'] = '00:00';
     }
+    if (isset($_POST['eventid'])) {
+        $eventid = $_POST['eventid'];
+    }
     if (!isset($_POST['eventid']) and isset($_POST['id'])) {
-        $_POST['eventid'] = $_POST['id'];
+        $eventid = $_POST['id'];
+    }
+
+
+
+
+
+    if (!$eventid) {
+        return false;
     }
 
     $table = "calendar";
-    $eventid = $_POST['eventid'];
     $title = mw()->database_manager->escape_string(trim($_POST['title']));
     $description = mw()->database_manager->escape_string(trim($_POST['description']));
 
@@ -95,24 +116,29 @@ function calendar_change_title()
     }
     if (isset($_POST['enddate'])) {
         $enddate = $_POST['enddate'];
-    } else{
+    } else {
         $enddate = mw()->database_manager->escape_string(trim($_POST['end'] . '+' . trim($_POST['zone'])));
 
     }
 
     if (isset($_POST['content_id'])) {
         $content_id = $_POST['content_id'];
-    } else{
+    } else {
         $content_id = null;
 
     }
 
 
-
-
+    $startdate = date('Y-m-d H:i:s', strtotime($startdate));
+    $enddate = date('Y-m-d H:i:s', strtotime($enddate));
 
 
     $data = array('id' => $eventid, 'title' => $title, 'description' => $description, 'startdate' => $startdate, 'enddate' => $enddate, 'content_id' => $content_id);
+
+    if (isset($_POST['calendar_group_id'])) {
+        $data['calendar_group_id']  =intval( $_POST['calendar_group_id']);
+    }
+
 
     $update = db_save($table, $data);
 
@@ -178,4 +204,49 @@ function calendar_get_event_by_id($event_id)
     $table = "calendar";
 
     return db_get($table, $data);
+}
+
+
+api_expose_admin('calendar_save_group');
+
+function calendar_save_group($params)
+{
+
+    $save = array();
+    if (isset($params['id'])) {
+        $save['id'] = $params['id'];
+    }
+
+    if (isset($params['title'])) {
+        $save['title'] = $params['title'];
+    }
+
+    if (!$save) {
+        return;
+    }
+
+    $table = "calendar_groups";
+
+    return db_save($table, $save);
+}
+
+
+function calendar_get_groups($params = false)
+{
+    $table = "calendar_groups";
+
+    return db_get($table, $params);
+}
+
+api_expose_admin('calendar_delete_group');
+function calendar_delete_group($params = false)
+{
+    if(!isset($params['id'])){
+        return 'Error';
+    }
+
+    $id = intval($params['id']);
+    $table = "calendar_groups";
+
+    return db_delete($table, $id);
 }

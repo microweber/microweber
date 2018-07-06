@@ -16,6 +16,12 @@ $config['tables'] = array(
 		'startdate' => "date",
 		'enddate' => "date",
 		'description' => "text",
-		'allDay' => "integer"
+		'allDay' => "integer",
+        "calendar_group_id" => "integer"
+    ),
+    "calendar_groups" => array(
+        '$id' => "integer",
+        'title' => "string",
+        'settings' => "text"
     )
 );
