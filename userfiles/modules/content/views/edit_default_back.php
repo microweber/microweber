@@ -663,6 +663,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
 
                                 var selected = $('#mw-category-selector-' + id).find('.mw-ui-check-input-sel:checked');
                                 var active_bg_set = false
+
                                 if (selected != null) {
                                     var last = selected.last().val();
                                     $.each(selected, function (i, value) {
@@ -670,9 +671,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                         if (cat_open != null) {
                                             var tree_selected = tree_sidebar.querySelector('.category_element.item_' + cat_open + ' > a.pages_tree_link');
                                             if (tree_selected != null) {
-
                                                 mw.tools.tree.open(tree_selected, true);
-
                                             }
 
                                         }
