@@ -1,4 +1,91 @@
 <?php
+
+function calendar_get_events_by_group($params = array()) {
+    if (is_string($params)) {
+        $params = parse_params($params);
+    }
+    $calendar_group_id = 0;
+    if (isset($params['calendar_group_id'])) {
+        $calendar_group_id = intval($params['calendar_group_id']);
+    }
+    if (isset($params['date'])) {
+        $date = $params['date'];
+    } elseif (isset($_POST['date'])) {
+        $date = $_POST['date'];
+    } else {
+        $date = date("Y-m-d");
+    }
+
+    $params['table'] = "calendar";
+    $params ['no_cache'] = true; // disable cache whilst testing
+
+    $events = array();
+
+    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id')
+        ->where('startdate', '>', $date . ' 00:00:00')
+        ->where('startdate', '<', $date . ' 23:59:59')
+        ->where('calendar_group_id', $calendar_group_id)
+        ->orderBy('startdate')
+        ->get()) {
+
+        foreach ($data as $event) {
+            if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
+                $e = array();
+                $e['id'] = $event->id;
+                $e['title'] = $event->title;
+                $e['description'] = $event->description;
+                $e['start'] = $event->startdate;
+                $e['end'] = $event->enddate;
+                $e['allDay'] = ((isset($event->allDay) and ($event->allDay)) == 1 ? true : false);
+                $e['content_id'] = ($event->content_id);
+                array_push($events, $e);
+            } else {
+                // blank data
+            }
+        }
+
+        return $events;
+
+    } else {
+        // no event data
+        return print lnotif(_e('Click here to edit Calendar', true));
+    }
+}
+
+api_expose('calendar_get_events_groups_api');
+function calendar_get_events_groups_api($params = array())
+{
+    if (is_string($params)) {
+        $params = parse_params($params);
+    }
+    if (isset($params['yearmonth'])) {
+        $yearmonth = $params['yearmonth'];
+    } elseif (isset($_POST['yearmonth'])) {
+        $yearmonth = $_POST['yearmonth'];
+    } else {
+        $yearmonth = date("Y-m");
+    }
+
+    $params['table'] = "calendar";
+    $params ['no_cache'] = true; // disable cache whilst testing
+
+    $groups = array();
+
+    if ($data = DB::table($params['table'])->select('id', 'startdate')
+        ->where('startdate', 'like', $yearmonth . '%')
+        ->groupBy(DB::raw('DATE(startdate)'))
+        ->get()) {
+        foreach ($data as $group) {
+            $start = $group->startdate;
+            $groups[] = date('Y-m-d', strtotime($start));
+        }
+        return $groups;
+    } else {
+        // no event data
+        return print lnotif(_e('Click here to edit Calendar', true));
+    }
+}
+
 api_expose('calendar_get_events_api');
 function calendar_get_events_api($params = array())
 {

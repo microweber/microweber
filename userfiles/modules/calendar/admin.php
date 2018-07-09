@@ -337,7 +337,7 @@
         function reload_calendar_after_save() {
             //mw.reload_module_parent('#<?php print $params['id'] ?>');
             window.parent.$(window.parent.document).trigger('calendar.update');
-            if(typeof(editModal) != 'undefined' && editModal.modal){
+            if(typeof(editModal) != 'undefinedttt' && editModal.modal){
                 editModal.modal.remove();
             }
 

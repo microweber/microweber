@@ -12,8 +12,14 @@ description: Calendar Default
 
 ?>
 
+
+<?php
+$mod_id = $params['id'];
+$mod_suffix = md5($params['id']);
+?>
+
 <script>
-	 	mw.lib.require('jqueryui');
+     mw.lib.require('jqueryui');
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.css");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/lib/moment.min.js");
      mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.js");
@@ -36,8 +42,8 @@ description: Calendar Default
 	$(document).ready(function() {
 
 		$(document).bind('calendar.update', function(){
-		  getData();
-			$('.calendar').fullCalendar('removeEvents');
+		  getData<?php print $mod_suffix ?>();
+			$('.calendar', '#<?php print $mod_id ?>').fullCalendar('removeEvents');
 			$('.calendar').fullCalendar('addEventSource',json_events);
 		});
 
@@ -94,14 +100,14 @@ description: Calendar Default
 
 			viewRender: function (view, element) {
 				// getData for selected year-month
-				getData();
+				getData<?php print $mod_suffix ?>();
 
 				$('.calendar').fullCalendar('removeEvents');
 				$('.calendar').fullCalendar('addEventSource',json_events);
  			},
 		});
 
-		function getData(){
+		function getData<?php print $mod_suffix ?>(){
 			var date = $(".calendar").fullCalendar('getDate');
 			var y = date.year();
 			var m = ("0" + (date.month() + 1)).slice(-2);
