@@ -315,6 +315,8 @@ class ContentManager
         $get = array();
         $get['parent'] = $id;
 
+        $cats = get_categories_for_content($id);
+
         if (isset($without_main_parrent) and $without_main_parrent == true) {
             $get['parent'] = '[neq]0';
         }
@@ -324,6 +326,22 @@ class ContentManager
 
         $taxonomies = $this->get($get);
         // $taxonomies = $taxonomies->get()->toArray();
+        if ($cats) {
+            foreach ($cats as $cat) {
+                if (isset($cat['id'])) {
+                    $posts_in_cats = get_category_items($cat['id']);
+                    if ($posts_in_cats) {
+                        foreach ($posts_in_cats as $posts_in_cat) {
+                            if (isset($posts_in_cat['rel_type']) and $posts_in_cat['rel_type'] == 'content') {
+                                if (intval($posts_in_cat['rel_id']) != 0) {
+                                    $ids[] = $posts_in_cat['rel_id'];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -1181,7 +1199,7 @@ class ContentManager
                             $params['remove_ids'] = $remove_ids;
                             if ($skip_pages_from_tree == false) {
                                 if ($item['id'] != $item['parent']) {
-                                     $children = $this->pages_tree($params);
+                                    $children = $this->pages_tree($params);
                                 }
                             }
                         } else {
@@ -1281,7 +1299,7 @@ class ContentManager
                                 $cat_params['active_class'] = $params['active_class'];
                             }
 
-                              $this->app->category_manager->tree($cat_params);
+                            $this->app->category_manager->tree($cat_params);
                         }
                     }
                     echo "</{$list_item_tag}>";
@@ -1293,10 +1311,10 @@ class ContentManager
         }
         $content = ob_get_contents();
         if ($nest_level_orig == 0) {
-       //     $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
+            //     $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
         }
 
-        if(isset($list_item_tag) and $list_item_tag and $list_item_tag == 'option'){
+        if (isset($list_item_tag) and $list_item_tag and $list_item_tag == 'option') {
             $content = str_replace('</option></option>', '</option>', $content);
         }
 

@@ -521,6 +521,7 @@ class Front
         }
 
 
+
         if (isset($params['strict_categories']) and $params['strict_categories'] != false) {
             $post_params['strict_categories'] = $params['strict_categories'];
         }
@@ -622,16 +623,16 @@ class Front
                 if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
                     $price_fields = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
                     if (is_array($price_fields) and !empty($price_fields)) {
-                       $prices = array();
+                        $prices = array();
 
                         foreach ($price_fields as $price_field_k => $price_field) {
                             if (is_array($price_field)) {
-                                $prices[$price_field_k] =  array_pop($price_field);;
+                                $prices[$price_field_k] = array_pop($price_field);;
                             } else {
                                 $prices[$price_field_k] = $price_field;
                             }
                         }
-                        $item['prices'] =$prices;
+                        $item['prices'] = $prices;
                     } else {
                         $item['prices'] = false;
                     }

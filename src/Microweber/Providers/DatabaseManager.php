@@ -197,6 +197,7 @@ $limit =  $this->default_limit;
         } else {
             $use_cache = $this->use_cache;
         }
+
         // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
@@ -230,6 +231,9 @@ $limit =  $this->default_limit;
                 $query = $query->where($table . '.' . $k, '=', $v);
             }
         }
+
+
+
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
             if ($use_cache == false) {
