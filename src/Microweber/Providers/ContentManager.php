@@ -1988,12 +1988,14 @@ class ContentManager
         }
 
         $link = $this->get_by_id($id);
+        $site_url = $this->app->url_manager->site();
 
         if (!isset($link['url']) or strval($link['url']) == '') {
             $link = $this->get_by_url($id);
         }
-
-        $site_url = $this->app->url_manager->site();
+        if (isset($link['is_home']) and intval($link['is_home']) == '1') {
+            return $site_url;
+        }
         if (!stristr($link['url'], $site_url)) {
             $link = site_url($link['url']);
         } else {
