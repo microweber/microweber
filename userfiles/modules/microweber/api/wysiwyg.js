@@ -1008,7 +1008,7 @@ mw.wysiwyg = {
 
                                if(nextchar.replace(/\s/g,'') == '' && r.collapsed){
 
-                                if(nextel && !mw.ea.helpers.isBlockLevel(nextel) && !nextel.className.trim()){
+                                if(nextel && !mw.ea.helpers.isBlockLevel(nextel) && ( typeof(nextel.className) == 'undefined' || !nextel.className.trim())){
                                     return true;
                                 }
                                 else if(nextel && nextel.nodeName != 'BR'){
