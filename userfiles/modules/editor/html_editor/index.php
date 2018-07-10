@@ -112,6 +112,40 @@
 </script>
 <script>
 
+   function format_code() {
+       html_code_area_editor.setSelection({
+               'line':html_code_area_editor.firstLine(),
+               'ch':0,
+               'sticky':null
+           },{
+               'line':html_code_area_editor.lastLine(),
+               'ch':0,
+               'sticky':null
+           },
+           {scroll: false});
+       //auto indent the selection
+       html_code_area_editor.indentSelection("smart");
+
+       html_code_area_editor.setSelection({
+               'line':html_code_area_editor.firstLine(),
+               'ch':0,
+               'sticky':null
+           },{
+               'line':html_code_area_editor.firstLine(),
+               'ch':0,
+               'sticky':null
+           },
+           {scroll: false});
+
+
+
+       //I tried to fire a mousdown event on the code to unselect everything but it does not work.
+       //$('.CodeMirror-code', $codemirror).trigger('mousedown');
+   }
+
+</script>
+<script>
+
 
 
 
@@ -150,6 +184,7 @@
 
 <div class="mw-ui-btn-nav pull-right" id="save">
 
+  <span onclick="format_code();" class="mw-ui-btn" ><?php _e('Format code'); ?></span>
   <span onclick="mw.html_editor.apply();" class="mw-ui-btn" ><?php _e('Update'); ?></span>
   <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
 </div>
