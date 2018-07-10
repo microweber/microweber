@@ -482,29 +482,29 @@
                                                         </div>
                                                     <?php endif; ?>
                                                 </div>
-
-                                                <?php if ($pre_configured): ?>
-                                                    <script>
-                                                        $(document).ready(function () {
+                                                <script>
+                                                    $(document).ready(function () {
+                                                        setscreenshot()
+                                                        $('#default_template').change(function () {
                                                             setscreenshot()
-                                                            $('#default_template').change(function () {
-                                                                setscreenshot()
-                                                            });
                                                         });
+                                                    });
 
-                                                        function setscreenshot() {
-                                                            var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
-                                                            $('#theImg').remove();
+                                                    function setscreenshot() {
+                                                        var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
+                                                        $('#theImg').remove();
 
-                                                            if (typeof(scrshot) != 'undefined') {
-                                                                $('#screenshot_preview').append('<div id="theImg"></div>');
-                                                                $('#theImg').css('background-image', 'url(' + scrshot + ')');
-                                                                $('#theImg').attr('data-src', scrshot);
-                                                            }
+                                                        if (typeof(scrshot) != 'undefined') {
+                                                            $('#screenshot_preview').append('<div id="theImg"></div>');
+                                                            $('#theImg').css('background-image', 'url(' + scrshot + ')');
+                                                            $('#theImg').attr('data-src', scrshot);
                                                         }
-                                                    </script>
+                                                    }
+                                                </script>
 
-                                                    <div id="screenshot_preview" style="margin:10px 0;"></div>
+                                                <div id="screenshot_preview" style="margin:10px 0;"></div>
+                                                <?php if ($pre_configured): ?>
+
                                                 <?php endif; ?>
 
                                                 <div class="mw-ui-field-holder pull-left">
