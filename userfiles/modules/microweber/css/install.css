@@ -16,10 +16,6 @@ body{
   padding-right: 15px;
 }
 
-.admin-setup{
-  padding-left: 15px;
-}
-
 
 .installholder .mw-ui-box{
   background-color: white;
@@ -70,4 +66,30 @@ body{
 
 .installholder input[type="submit"]{
   line-height: 22px;
+}
+
+
+#theImg {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  transition: all 5s;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center top;
+  box-shadow: 0 0 40px rgba(0, 0, 0, .2);
+}
+
+#theImg:hover {
+  background-position: center bottom;
+}
+
+.change-templ-btn {
+
+}
+
+.change-templ-btn i {
+  margin: 0 !important;
 }
