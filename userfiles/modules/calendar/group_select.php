@@ -5,7 +5,11 @@
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _e("All changes are saved"); ?>.");
             mw.reload_module_parent('calendar')
-            mw.reload_module('calendar/admin')
+
+             getData()
+            reload_calendar_after_save()
+           // window.parent.$(window.parent.document).trigger('calendar.update');
+            // mw.reload_module('calendar')
         });
     });
 </script>

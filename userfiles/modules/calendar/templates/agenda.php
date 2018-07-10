@@ -58,6 +58,7 @@ $groups = calendar_get_groups();
 
                 <div class="events">
                     <ul>
+                        <?php if($groups): ?>
                         <?php foreach($groups as $group): ?>
                             <li class="events-group">
                                 <div class="top-info"><span><?php echo $group['title']; ?></span></div>
@@ -74,6 +75,7 @@ $groups = calendar_get_groups();
                                 </ul>
                             </li>
                         <?php endforeach; ?>
+                        <?php endif; ?>
                     </ul>
                 </div>
 
