@@ -741,7 +741,7 @@ if (!$chunks || $chunk == $chunks - 1) {
             $rerturn['file_size'] = $filesize;
             $rerturn['file_size_human'] = mw()->format->human_filesize($filesize);
             $rerturn['image_size'] = $size;
-            $auto_resize_treshold = 100000; // 10MiB
+            $auto_resize_treshold = 1000000; // 10MiB
 
             if ($is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
                 $rerturn['automatic_image_resize_is_enabled'] = $automatic_image_resize_on_upload;

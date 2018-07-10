@@ -545,7 +545,7 @@ $limit =  $this->default_limit;
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
             $this->app->cache_manager->delete($cache_group . '/global');
-            $this->app->cache_manager->delete('global/full_page_cache');
+            $this->app->cache_manager->delete('content/global/full_page_cache');
             $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
             if (isset($criteria['parent_id'])) {
                 $this->app->cache_manager->delete($cache_group . '/' . intval($criteria['parent_id']));
@@ -718,7 +718,7 @@ $limit =  $this->default_limit;
         }
 
         Cache::tags($table)->flush();
-        $this->app->cache_manager->delete('global/full_page_cache');
+        $this->app->cache_manager->delete('content/global/full_page_cache');
 
         return $c_id;
     }
