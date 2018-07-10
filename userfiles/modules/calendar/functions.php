@@ -21,7 +21,7 @@ function calendar_get_events_by_group($params = array()) {
 
     $events = array();
 
-    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id')
+    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id', 'calendar_group_id', 'image_url', 'link_url')
         ->where('startdate', '>', $date . ' 00:00:00')
         ->where('startdate', '<', $date . ' 23:59:59')
         ->where('calendar_group_id', $calendar_group_id)
@@ -38,6 +38,8 @@ function calendar_get_events_by_group($params = array()) {
                 $e['end'] = $event->enddate;
                 $e['allDay'] = ((isset($event->allDay) and ($event->allDay)) == 1 ? true : false);
                 $e['content_id'] = ($event->content_id);
+                $e['image_url'] = ($event->image_url);
+                $e['link_url'] = ($event->link_url);
                 array_push($events, $e);
             } else {
                 // blank data
@@ -109,7 +111,7 @@ function calendar_get_events_api($params = array())
 
     $events = array();
 
-    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id')
+    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id', 'calendar_group_id', 'image_url', 'link_url')
         ->where('startdate', 'like', $yearmonth . '%')
         ->where('calendar_group_id', $calendar_group_id)
         ->get()) {
@@ -124,6 +126,9 @@ function calendar_get_events_api($params = array())
                 $e['end'] = $event->enddate;
                 $e['allDay'] = ((isset($event->allDay) and ($event->allDay)) == 1 ? true : false);
                 $e['content_id'] = ($event->content_id);
+                $e['calendar_group_id'] = ($event->calendar_group_id);
+                $e['image_url'] = ($event->image_url);
+                $e['link_url'] = ($event->link_url);
                 array_push($events, $e);
             } else {
                 // blank data
@@ -146,16 +151,23 @@ function calendar_new_event()
 
     $table = "calendar";
     $startdate = mw()->database_manager->escape_string(trim($_POST['startdate']) . '+' . trim($_POST['zone']));
+    if(isset($_POST['enddate'])) {
+        $enddate = mw()->database_manager->escape_string(trim($_POST['enddate']) . '+' . trim($_POST['zone']));
+    }
     $title = mw()->database_manager->escape_string(trim($_POST['title']));
+    $imageUrl = isset($_POST['image_url']) ? $_POST['image_url'] : '';
+    $linkUrl = isset($_POST['link_url']) ? $_POST['link_url'] : '';
     $calendar_group_id = 0;
     if (isset($_POST['calendar_group_id'])) {
         $calendar_group_id =intval( $_POST['calendar_group_id']);
     }
     $data = array('title' => $title,
         'startdate' => $startdate,
-        'enddate' => $startdate,
+        'enddate' => $enddate ? $enddate : $startdate,
         'calendar_group_id' => $calendar_group_id,
-        'allDay' => 0
+        'allDay' => 0,
+        'image_url' => $imageUrl,
+        'link_url' => $linkUrl
     );
 
     $lastid = db_save($table, $data);
@@ -169,7 +181,6 @@ function calendar_new_event()
 api_expose('calendar_change_title');
 function calendar_change_title()
 {
-
     if (!is_admin()) return;
 
     $eventid = false;
@@ -182,10 +193,6 @@ function calendar_change_title()
     if (!isset($_POST['eventid']) and isset($_POST['id'])) {
         $eventid = $_POST['id'];
     }
-
-
-
-
 
     if (!$eventid) {
         return false;
@@ -215,17 +222,21 @@ function calendar_change_title()
 
     }
 
-
     $startdate = date('Y-m-d H:i:s', strtotime($startdate));
     $enddate = date('Y-m-d H:i:s', strtotime($enddate));
 
+    if (isset($_POST['image_url'])) {
+        $imageUrl = $_POST['image_url'];
+    }
+    if (isset($_POST['link_url'])) {
+        $linkUrl = $_POST['link_url'];
+    }
 
-    $data = array('id' => $eventid, 'title' => $title, 'description' => $description, 'startdate' => $startdate, 'enddate' => $enddate, 'content_id' => $content_id);
+    $data = array('id' => $eventid, 'title' => $title, 'description' => $description, 'startdate' => $startdate, 'enddate' => $enddate, 'content_id' => $content_id, 'image_url' => $imageUrl, 'link_url' => $linkUrl);
 
     if (isset($_POST['calendar_group_id'])) {
         $data['calendar_group_id']  =intval( $_POST['calendar_group_id']);
     }
-
 
     $update = db_save($table, $data);
 

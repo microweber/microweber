@@ -39,8 +39,8 @@ $(function () {
 
 <form id="add_event_group" class="edit_event_groups">
     <label>New group:</label>
-    <input class="mw-ui-field" name="title" type="text">
-    <button class="mw-ui-btn" type="submit">Create</button>
+    <input name="title" type="text">
+    <button type="submit">Create</button>
 </form>
 
 <?php $groups = calendar_get_groups(); ?>
@@ -50,7 +50,7 @@ $(function () {
         <form class="edit_event_groups">
             <input name="id" type="hidden" value="<?php print $group['id']; ?>">
             <input name="title" type="text" class="mw-ui-field" value="<?php print $group['title']; ?>">
-            <button class="mw-ui-btn" type="submit">Save</button>
+            <button type="submit">Save</button>
             <a class="mw-ui-btn" href="javascript:delete_event_group('<?php print $group['id']; ?>')">X</a>
         </form>
     <?php } ?>

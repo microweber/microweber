@@ -128,7 +128,7 @@
             /* initialize the calendar
              -----------------------------------------------------------------*/
 
-            $('#calendar').fullCalendar({
+            calendar = $('#calendar').fullCalendar({
                 //events for selected month are loaded in viewRender event
                 //events: JSON.parse(json_events),
                 // test event
@@ -145,23 +145,20 @@
 
                 eventReceive: function (event) {
                     var title = event.title;
-                    var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
+                    var start = event.start.format("YYYY-MM-DD 12:00");
+                    var end = event.start.format("YYYY-MM-DD 13:00");
                     $.ajax({
                         url: '<?php print api_url('calendar_new_event');?>',
-                        data: 'title=' + title + '&startdate=' + start + '&zone=' + zone+'&calendar_group_id=<?php print $calendar_group_id ?>',
+                        data: 'title=' + title + '&startdate=' + start + '&enddate=' + end + '&zone=' + zone+'&calendar_group_id=<?php print $calendar_group_id ?>',
                         type: 'POST',
                         dataType: 'json',
                         success: function (response) {
-
-                             event.id = response.eventid;
+                            event.id = response.eventid;
                             $('#calendar').fullCalendar('updateEvent', event);
-
                             reload_calendar_after_save();
-
                         },
                         error: function (e) {
                             console.log(e.responseText);
-
                         }
                     });
                     $('#calendar').fullCalendar('updateEvent', event);
@@ -191,16 +188,12 @@
                 },
 
                 eventClick: function (event, jsEvent, view) {
-
                     if(typeof(event.id) != 'undefined'){
                         var data = {};
                         data.event_id = event.id;
                         editModal = mw.tools.open_module_modal('calendar/edit_event',data, {overlay:true, skin:'simple'})
                     }
-
                 },
-
-
 
                 eventResize: function (event, delta, revertFunc) {
                     //console.log(event);
@@ -294,64 +287,54 @@
                     });
                 }
             }
-
-
-
             function isElemOverDiv() {
                 var trashEl = jQuery('#trash');
-
                 var ofs = trashEl.offset();
-
                 var x1 = ofs.left;
                 var x2 = ofs.left + trashEl.outerWidth(true);
                 var y1 = ofs.top;
                 var y2 = ofs.top + trashEl.outerHeight(true);
-
                 if (currentMousePos.x >= x1 && currentMousePos.x <= x2 &&
                     currentMousePos.y >= y1 && currentMousePos.y <= y2) {
                     return true;
                 }
                 return false;
             }
-
             $('#newevent').tooltip();
             $('#trash').tooltip();
-
         });
         function getData(yearmonth) {
             // getData for selected year-month
             var date = $("#calendar").fullCalendar('getDate');
+
+            var selected_group = $('select[name="calendar_group_id"] option:selected').val();
+
             var y = date.year();
             var m = ("0" + (date.month() + 1)).slice(-2);
             var yearmonth = y + '-' + m;
             $.ajax({
                 url: '<?php print api_url('calendar_get_events_api');?>',
                 type: 'POST', // Send post data
-                data: 'yearmonth=' + yearmonth+'&calendar_group_id=<?php print $calendar_group_id ?>',
+                data: 'yearmonth=' + yearmonth+'&calendar_group_id='+selected_group,
                 async: false,
                 success: function (s) {
                     json_events = s;
+
                 }
             });
         }
         function reload_calendar_after_save() {
             //mw.reload_module_parent('#<?php print $params['id'] ?>');
             window.parent.$(window.parent.document).trigger('calendar.update');
-            if(typeof(editModal) != 'undefinedttt' && editModal.modal){
+            if(typeof(editModal) != 'undefined' && editModal.modal){
                 editModal.modal.remove();
             }
-
-
-
+            getData();
+        //    $("#calendar").fullCalendar( 'updateEvents', json_events )
+             calendar.fullCalendar( 'refetchEvents' )
+             calendar.fullCalendar( 'rerenderEvents' )
         }
     </script>
-
-
-
-
-
-
-
 
     <div id="tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
@@ -399,16 +382,4 @@
             });
         });
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
