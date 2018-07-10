@@ -25,7 +25,13 @@ $groups = calendar_get_groups();
 <div id="calendar-<?php echo $mod_suffix; ?>-tabsnav">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <?php foreach($dayGroups as $g => $dayGroup): ?>
-        <a href="javascript:;" class="mw-ui-btn tabnav <?php echo $g==0 ? 'active' : ''; ?>"><?php echo $dayGroup; ?></a>
+        <a href="javascript:;" class="mw-ui-btn tabnav <?php echo $g==0 ? 'active' : ''; ?>">
+            <?php
+            $tabDate = strtotime($dayGroup);
+            $tabFormat = 'd F' . (date('Y') == date('Y', $tabDate) ? '' : ' Y');
+            echo date($tabFormat, $tabDate);
+            ?>
+        </a>
         <?php endforeach; ?>
     </div>
     <div class="mw-ui-box">
