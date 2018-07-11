@@ -110,10 +110,8 @@ $groups = calendar_get_groups();
     </div>
 </div>
 
-<script src="<?php print $config['url_to_module'] ?>js/modernizr.js"></script>
-<script src="<?php print $config['url_to_module'] ?>js/main.js"></script>
-<script>mw.lib.require('bootstrap3ns');</script>
-<script>
+ <script src="<?php print $config['url_to_module'] ?>js/main.js"></script>
+ <script>
 $(document).ready(function(){
     mw.tabs({
         nav: '#calendar-<?php echo $mod_suffix; ?>-tabsnav .tabnav',

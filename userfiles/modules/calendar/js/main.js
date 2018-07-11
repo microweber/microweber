@@ -40,7 +40,7 @@ jQuery(document).ready(function($){
 
 	SchedulePlan.prototype.scheduleReset = function() {
 		var mq = this.mq();
-		if( mq == 'desktop' && !this.element.hasClass('js-full') ) {
+		if( (mq == 'none' || mq == 'desktop') && !this.element.hasClass('js-full') ) {
 			//in this case you are on a desktop version (first load or resize from mobile)
 			this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
 			this.element.addClass('js-full');
@@ -87,15 +87,13 @@ jQuery(document).ready(function($){
 	};
 
 	SchedulePlan.prototype.placeEvents = function() {
-		var self = this;
-		this.singleEvents.each(function(){
-			//place each event in the grid -> need to set top position and height
+        var self = this;
+        this.singleEvents.each(function(){
+            //place each event in the grid -> need to set top position and height
 			var start = getScheduleTimestamp($(this).attr('data-start')),
 				duration = getScheduleTimestamp($(this).attr('data-end')) - start;
-
 			var eventTop = self.eventSlotHeight*(start - self.timelineStart)/self.timelineUnitDuration,
 				eventHeight = self.eventSlotHeight*duration/self.timelineUnitDuration;
-			
 			$(this).css({
 				top: (eventTop -1) +'px',
 				height: (eventHeight+1)+'px'
