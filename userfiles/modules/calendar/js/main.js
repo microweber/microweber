@@ -116,7 +116,7 @@ jQuery(document).ready(function($){
 		//update event content
         this.modalBody.find('.event-info').text(event.prev().text());
         this.modalBody.find('.cd-image > img').attr("src", event.parent().attr("data-image"));
-		console.log(event.prev().text());
+	 
 
 		this.element.addClass('modal-is-open');
 

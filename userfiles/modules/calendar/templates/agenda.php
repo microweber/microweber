@@ -14,7 +14,7 @@ description: Calendar Agenda
 $mod_id = $params['id'];
 $mod_suffix = md5($params['id']);
 
-$dayGroups = calendar_get_events_groups_api();
+$dayGroups = calendar_get_events_groups_api('yearmonth=0');
 
 $groups = calendar_get_groups();
 ?>
