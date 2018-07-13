@@ -72,8 +72,9 @@ $groups = calendar_get_groups();
                                 <ul>
                                     <?php $events = calendar_get_events_by_group(array('date' => $dayGroup, 'calendar_group_id' => $group['id'])); ?>
                                     <?php foreach($events as $e => $event): ?>
-                                        <li class="single-event" data-start="<?php echo date('H:i', strtotime($event['start'])); ?>" data-end="<?php echo date('H:i', strtotime($event['end'])); ?>" data-content="event-abs-circuit" data-event="event-<?php echo 1 + ($e % 4); ?>">
-                                            <a href="#0">
+                                        <li class="single-event" data-start="<?php echo date('H:i', strtotime($event['start'])); ?>" data-end="<?php echo date('H:i', strtotime($event['end'])); ?>" data-content="event-abs-circuit" data-event="event-<?php echo 1 + ($e % 4); ?>" data-image="<?php echo $event['image_url']; ?>">
+                                            <div style="display: none;" class="event-description"><?php echo $event['description']; ?></div>
+                                            <a href="#">
                                                 <em class="event-name"><?php echo $event['title']; ?></em>
                                             </a>
                                         </li>
@@ -96,6 +97,7 @@ $groups = calendar_get_groups();
                     </header>
 
                     <div class="cd-body">
+                        <div class="cd-image"><img src=""></div>
                         <div class="event-info"></div>
                         <div class="body-bg"></div>
                     </div>

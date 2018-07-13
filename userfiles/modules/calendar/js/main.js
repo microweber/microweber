@@ -21,9 +21,9 @@ jQuery(document).ready(function($){
 		this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
 
 		this.modal = this.element.find('.event-modal');
-		this.modalHeader = this.modal.find('.header');
+		this.modalHeader = this.modal.find('.cd-header');
 		this.modalHeaderBg = this.modal.find('.header-bg');
-		this.modalBody = this.modal.find('.body'); 
+		this.modalBody = this.modal.find('.cd-body');
 		this.modalBodyBg = this.modal.find('.body-bg'); 
 		this.modalMaxWidth = 800;
 		this.modalMaxHeight = 480;
@@ -114,10 +114,9 @@ jQuery(document).ready(function($){
 		this.modal.attr('data-event', event.parent().attr('data-event'));
 
 		//update event content
-		this.modalBody.find('.event-info').load(event.parent().attr('data-content')+'.html .event-info > *', function(data){
-			//once the event content has been loaded
-			self.element.addClass('content-loaded');
-		});
+        this.modalBody.find('.event-info').text(event.prev().text());
+        this.modalBody.find('.cd-image > img').attr("src", event.parent().attr("data-image"));
+		console.log(event.prev().text());
 
 		this.element.addClass('modal-is-open');
 
