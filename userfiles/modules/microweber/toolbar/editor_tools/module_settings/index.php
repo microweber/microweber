@@ -170,7 +170,7 @@ if (typeof thismodal.main[0] != 'undefined') {
             var dd = mwd.createElement('div');
             dd.id = 'module-modal-settings-menu-holder';
             dd.className = 'mw-dropdown mw-dropdown-default mw-dropdown-click';
-
+            $(toolbar).append(dd);
            /*******************************************************
             Do not delete !!! Module template: list and 'Crete Module Template'
 
@@ -247,7 +247,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 					is_module_tml_holder.append(holder);
 
-				   // parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+				     parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
 					mw.dropdown(toolbar);
 			}
 
