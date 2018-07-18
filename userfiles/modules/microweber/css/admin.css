@@ -7314,7 +7314,7 @@ select.silver-field {
 }
 
 @media screen and (max-width: 991px) {
-    #set-shipping-to-country .enable-shipping-label {
+    #set-shipping-to-country .enable-shipping-label, .set-shipping-to-country .enable-shipping-label {
         display: none;
     }
 
