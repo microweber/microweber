@@ -474,9 +474,16 @@ class FormsManager
         static $data = array();
 
         if (empty($data)) {
+            $countries_file_userfiles = normalize_path(userfiles_path().'country.csv', false);
             $countries_file = normalize_path(MW_PATH . 'Utils/lib/country.csv', false);
+
+            if (is_file($countries_file_userfiles)) {
+                $countries_file = $countries_file_userfiles;
+            }
+
             if (is_file($countries_file)) {
                 $data = array_map('str_getcsv', file($countries_file));
+
                 if (isset($data[0])) {
                     unset($data[0]);
                 }

@@ -400,6 +400,12 @@ class Parser
                                 }
 
 
+//                                if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
+//                                    $attrs['id'] = $attrs['module-id'];
+//                                }
+
+
+
 //                            if ($coming_from_parent == true) {
 //                                $attrs['parent-module'] = $coming_from_parent;
 //                            }
