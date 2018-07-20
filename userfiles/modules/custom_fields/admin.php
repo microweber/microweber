@@ -52,9 +52,12 @@
     } elseif (isset($params['rel_id'])) {
         $for_id = $module_id = $params['rel_id'];
 
+    }elseif (isset($params['data-id'])) {
+        $for_id = $module_id = $params['data-id'];
+
     }
 
-
+ 
 
    // $module_id = $for_id;
     //$rand = rand();
