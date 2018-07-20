@@ -178,7 +178,13 @@
         }
         ?>
 
-        <button form="quickform-edit-content" type="submit" class="mw_editor_btn save-scrolled" title="<?php _e("Save"); ?>"><i class="fa fa-save"></i> <span class="label"><?php _e("Save"); ?></span></button>
+
+
+      <?php
+      /*  <button form="quickform-edit-content" type="submit" class="mw_editor_btn save-scrolled" title="<?php _e("Save"); ?>">
+            <i class="fa fa-save"></i> <span class="label"><?php _e("Save"); ?></span></button>*/
+
+      ?>
 
     </div>
 

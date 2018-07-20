@@ -1,4 +1,8 @@
 <?php
+
+return 'This file is deprecated. ' . __FILE__;
+
+
 only_admin_access();
 
 $edit_page_info = $data;
@@ -204,6 +208,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
 
                                     <script>
                                         $(document).ready(function () {
+
                                             setTimeout(function(){ $('#content-title-field').focus(); }, 100);
 
                                         });

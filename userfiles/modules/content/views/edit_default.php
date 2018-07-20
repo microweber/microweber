@@ -305,9 +305,14 @@ if (isset($params['quick_edit'])) {
                                            onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
                                 </div>
                             </div>
-                            <div class="m-t-20" id="settings-btn-column">
+
+                            <?php
+                            /* <div class="m-t-20" id="settings-btn-column">
                                 <button type="button" class="btn-settings mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><span class="mai-setting2"></span> Settings</button>
-                            </div>
+                            </div>*/
+
+                            ?>
+
                         </div>
                         <script>
                             slugEdited = false;

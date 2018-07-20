@@ -6,7 +6,7 @@
 $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 ?>
-<div id="settings-tabs" class="hidden">
+<div id="settings-tabs" xxxclass="hidden">
     <!-- TABS BUTTONS -->
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Add to categories'); ?></a>
