@@ -4,13 +4,13 @@ api_expose('api_index', function ($data = false) {
     $fns = explode(' ', api_expose(true));
     $fns = array_filter($fns);
 
-    if (is_admin()){
+    if (is_admin()) {
         $fns2 = explode(' ', api_expose_admin(true));
         $fns2 = array_filter($fns2);
         $fns = array_merge($fns, $fns2);
     }
 
-    if (isset($data['debug'])){
+    if (isset($data['debug'])) {
         dd($fns);
     }
 
@@ -67,6 +67,112 @@ api_expose('template/print_custom_css', function ($data) {
 
 });
 
+api_expose_admin('content/get_admin_js_tree_json', function ($data) {
+//    json
+//
+//id: 5
+//type: page
+//parent_type: page
+//parent_id: 3
+//title: my page
+//
+//
+//id: 1115
+//type: category
+//parent_type: page
+//parent_id: 5
+//title: category title
+//
+//
+//id: 1116
+//type: category
+//parent_type: category
+//parent_id: 1115
+//title: sub category title
+
+
+    $json = array();
+    $pages = get_pages('no_limit=1');
+    if ($pages) {
+        foreach ($pages as $page) {
+            $item = array();
+            $item['id'] = $page['id'];
+            $item['type'] = 'page';
+            $item['parent_id'] = intval($page['parent']);
+            $item['parent_type'] = 'page';
+            $item['title'] = $page['title'];
+            // $item['has_children'] = 0;
+
+            $item['subtype'] = $page['subtype'];
+
+            if ($page['is_shop']) {
+                $item['subtype'] = 'shop';
+            }
+
+            if ($page['is_home']) {
+                $item['subtype'] = 'home';
+            }
+
+            $pages_cats = get_categories('parent_page=' . $page['id']);
+            if ($pages_cats) {
+                //  $item['has_children'] = 1;
+            } else {
+                // $pages = get_pages('no_limit=1');
+
+            }
+
+            $json[] = $item;
+            if ($pages_cats) {
+                foreach ($pages_cats as $cat) {
+                    $item = array();
+                    $item['id'] = $cat['id'];
+                    $item['type'] = 'category';
+
+                    $item['parent_id'] = intval($page['parent']);
+
+                    $item['parent_type'] = 'page';
+                    $item['title'] = $cat['title'];
+
+                    $item['subtype'] = 'category';
+
+
+                    $cats_sub = get_category_children($cat['id']);
+                    if ($cats_sub) {
+                        //         $item['has_children'] = 1;
+                    }
+                    $json[] = $item;
+
+                    if ($cats_sub) {
+                        foreach ($cats_sub as $cat_sub_id) {
+                            $cat_sub = get_category_by_id($cat_sub_id);
+                            if ($cat_sub) {
+                                $item = array();
+                                $item['id'] = $cat_sub['id'];
+                                $item['type'] = 'category';
+                                 $item['parent_id'] = intval($cat['id']);
+
+                                $item['parent_type'] = 'category';
+                                $item['title'] = $cat_sub['title'];
+                                //  $item['has_children'] = 0;
+                                $item['subtype'] = 'sub_category';
+
+//                                $cats_sub1 = get_category_children($cat_sub['id']);
+//                                if ($cats_sub1) {
+//                                    $item['has_children'] = 1;
+//                                }
+                                //   $item['content_subtype'] = 'sub_category';
+                                $json[] = $item;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $json;
+});
+
 api_expose_admin('content/set_published', function ($data) {
     return mw()->content_manager->set_published($data);
 });
@@ -90,16 +196,15 @@ api_expose_admin('content/copy', function ($data) {
 
 api_expose_admin('content/redirect_to_content', function ($data) {
 
-    if(isset($data['id'])){
+    if (isset($data['id'])) {
         $id = intval($data['id']);
         $url = content_link($id);
-        if(!$url){
+        if (!$url) {
             $url = site_url();
         }
         return redirect($url);
     }
 });
-
 
 
 api_expose_admin('current_template_save_custom_css', function ($data) {
@@ -169,11 +274,11 @@ api_expose('queue_dispatch', function () {
 });
 api_expose('queue_dispatch1', function () {
 
- //   $job = \Queue::push('App\Jobs\CheckTopic', ['url' => $url]);
+    //   $job = \Queue::push('App\Jobs\CheckTopic', ['url' => $url]);
 
     $job = Queue::push('\Microweber\Utils\Import', ['export' => '']);
     //dispatch($job)->onQueue('high');
-dd($job);
+    dd($job);
 
     // \Illuminate\Queue\Worker;
 
