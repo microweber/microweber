@@ -61,10 +61,10 @@ class FieldsManager
         $args = func_get_args();
 
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'fields_'.__FUNCTION__.crc32($function_cache_id);
+        $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
 
         //$is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
 
@@ -74,14 +74,14 @@ class FieldsManager
         $make_field['rel_id'] = $rel_id;
         $is_made = $this->get_all($make_field);
 
-        if (isset($_mw_made_default_fields_register[ $function_cache_id ])) {
+        if (isset($_mw_made_default_fields_register[$function_cache_id])) {
             return;
         }
 
         if (is_array($is_made) and !empty($is_made)) {
             return;
         }
-        $_mw_made_default_fields_register[ $function_cache_id ] = true;
+        $_mw_made_default_fields_register[$function_cache_id] = true;
 
         $table_custom_field = $this->table;
 
@@ -264,9 +264,9 @@ class FieldsManager
                     $i = 0;
                     foreach ($values_to_save as $value_to_save) {
                         $save_value = array();
-                        if (isset($check_old[ $i ]) and isset($check_old[ $i ]['id'])) {
-                            $save_value['id'] = $check_old[ $i ]['id'];
-                            unset($check_old[ $i ]);
+                        if (isset($check_old[$i]) and isset($check_old[$i]['id'])) {
+                            $save_value['id'] = $check_old[$i]['id'];
+                            unset($check_old[$i]);
                         }
                         $save_value['custom_field_id'] = $custom_field_id;
                         $save_value['value'] = $value_to_save;
@@ -290,7 +290,7 @@ class FieldsManager
                 }
             }
 
-            $this->app->cache_manager->delete('custom_fields/'.$save);
+            $this->app->cache_manager->delete('custom_fields/' . $save);
             $this->app->cache_manager->delete('custom_fields');
 
             return $save;
@@ -307,7 +307,7 @@ class FieldsManager
         $params = array();
         $params['table'] = $table;
         $params['limit'] = 99999;
-        $params['custom_field_id'] = '[in]'.$id;
+        $params['custom_field_id'] = '[in]' . $id;
         $data = $this->app->database_manager->get($params);
 
         return $data;
@@ -320,7 +320,7 @@ class FieldsManager
         foreach ($data as $item) {
             if (isset($item['name']) and
                 ((strtolower($item['name']) == strtolower($field_name))
-                 or (strtolower($item['type']) == strtolower($item['type'])))
+                    or (strtolower($item['type']) == strtolower($item['type'])))
             ) {
                 $val = $item['value'];
             }
@@ -482,16 +482,24 @@ class FieldsManager
                     }
                 }
                 if (!empty($default_values['value'])) {
-                    $default_values['value_plain'] = implode(',', $default_values['value']);
 
-                    if (count($default_values['value']) == 1) {
+//                    if (count($default_values['value']) == 1) {
+//                        $default_values['value'] = reset($default_values['value']);
+//                    }
+                    
+                    $default_values['value_plain'] =$default_values['value'];
+                    $default_values['value_plain'] =$default_values['value'];
+                    if (is_array($default_values['value'])) {
                         $default_values['value'] = reset($default_values['value']);
+                        $default_values['value_plain'] =  $default_values['value'] ;
+
                     }
+
                 } else {
                     $default_values['value'] = false;
                 }
 
-                $fields[ $k ] = $default_values;
+                $fields[$k] = $default_values;
             }
 
             $q = $fields;
@@ -511,7 +519,7 @@ class FieldsManager
                     //  $it['type'] = $it['type'];
                     $it['position'] = $i;
                     if (isset($it['options']) and is_string($it['options'])) {
-                       // $it['options'] = $this->_decode_options($it['options']);
+                        // $it['options'] = $this->_decode_options($it['options']);
                     }
 
                     $it['title'] = $it['name'];
@@ -547,9 +555,9 @@ class FieldsManager
                         if ($return_full == false) {
                             $the_name = strtolower($the_name);
 
-                            $the_data_with_custom_field__stuff[ $the_name ] = $the_val;
+                            $the_data_with_custom_field__stuff[$the_name] = $the_val;
                         } else {
-                            $the_data_with_custom_field__stuff[ $the_name ] = $q2;
+                            $the_data_with_custom_field__stuff[$the_name] = $q2;
                         }
                     }
                 }
@@ -669,7 +677,7 @@ class FieldsManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            $this->app->error('Error: not logged in as admin.'.__FILE__.__LINE__);
+            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = $this->table;
@@ -679,7 +687,7 @@ class FieldsManager
                 $indx = array();
                 $i = 0;
                 foreach ($value as $value2) {
-                    $indx[ $i ] = $value2;
+                    $indx[$i] = $value2;
                     ++$i;
                 }
 
@@ -694,7 +702,7 @@ class FieldsManager
     {
         $uid = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $uid == false) {
-            exit('Error: not logged in as admin.'.__FILE__.__LINE__);
+            exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         if (is_array($id)) {
             extract($id);
@@ -752,7 +760,7 @@ class FieldsManager
      *
      * @param string $field_type
      * @param string $field_id
-     * @param array  $settings
+     * @param array $settings
      */
     public function make($field_id = 0, $field_type = 'text', $settings = false)
     {
@@ -820,9 +828,8 @@ class FieldsManager
 
 
         if (isset($data['value']) and is_array($data['value'])) {
-            $data['value'] = implode(',',$data['value']);
+            $data['value'] = implode(',', $data['value']);
         }
-
 
 
         $data['type'] = $field_type;
@@ -834,16 +841,16 @@ class FieldsManager
         $data = $this->app->url_manager->replace_site_url_back($data);
 
         $dir = mw_includes_path();
-        $dir = $dir.DS.'custom_fields'.DS;
+        $dir = $dir . DS . 'custom_fields' . DS;
         $field_type = str_replace('..', '', $field_type);
         $load_from_theme = false;
         if (defined('ACTIVE_TEMPLATE_DIR')) {
-            $custom_fields_from_theme = ACTIVE_TEMPLATE_DIR.'modules'.DS.'custom_fields'.DS;
+            $custom_fields_from_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS;
             if (is_dir($custom_fields_from_theme)) {
                 if ($settings == true or isset($data['settings'])) {
-                    $file = $custom_fields_from_theme.$field_type.'_settings.php';
+                    $file = $custom_fields_from_theme . $field_type . '_settings.php';
                 } else {
-                    $file = $custom_fields_from_theme.$field_type.'.php';
+                    $file = $custom_fields_from_theme . $field_type . '.php';
                 }
                 if (is_file($file)) {
                     $load_from_theme = true;
@@ -853,17 +860,17 @@ class FieldsManager
 
         if ($load_from_theme == false) {
             if ($settings == true or isset($data['settings'])) {
-                $file = $dir.$field_type.'_settings.php';
+                $file = $dir . $field_type . '_settings.php';
             } else {
-                $file = $dir.$field_type.'.php';
+                $file = $dir . $field_type . '.php';
             }
         }
         if (!is_file($file)) {
             $field_type = 'text';
             if ($settings == true or isset($data['settings'])) {
-                $file = $dir.$field_type.'_settings.php';
+                $file = $dir . $field_type . '_settings.php';
             } else {
-                $file = $dir.$field_type.'.php';
+                $file = $dir . $field_type . '.php';
             }
         }
         $file = normalize_path($file, false);
@@ -920,7 +927,7 @@ class FieldsManager
         $q = "SELECT *, count(id) AS qty FROM $table WHERE   type IS NOT NULL AND rel_type='{$table1}' AND name!='' GROUP BY name, type ORDER BY qty DESC LIMIT 100";
         $crc = (crc32($q));
 
-        $cache_id = __FUNCTION__.'_'.$crc;
+        $cache_id = __FUNCTION__ . '_' . $crc;
 
         $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields/global');
 
@@ -929,10 +936,13 @@ class FieldsManager
         }
     }
 
-    private function _encode_options($data){
+    private function _encode_options($data)
+    {
         return json_encode($data);
     }
-    private function _decode_options($data){
-        return @json_decode($data,true);
+
+    private function _decode_options($data)
+    {
+        return @json_decode($data, true);
     }
 }
