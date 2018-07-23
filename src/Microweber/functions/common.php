@@ -476,6 +476,14 @@ if (!function_exists('is_cli')) {
         if ($is !== null) {
             return $is;
         }
+        if (function_exists('php_sapi_name') and
+            php_sapi_name() === 'apache2handler'
+        ) {
+            $is = false;
+            return false;
+        }
+
+
         if (
             defined('STDIN')
             or php_sapi_name() === 'cli'
