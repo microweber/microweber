@@ -4,6 +4,8 @@
     <script type="text/javascript">
         mw.require("custom_fields.js", true);
         mw.require("options.js", true);
+        mw.require("admin.js", true);
+        mw.require("admin_custom_fields.js", true);
     </script>
     <?php
     $for = 'module';
@@ -50,9 +52,12 @@
     } elseif (isset($params['rel_id'])) {
         $for_id = $module_id = $params['rel_id'];
 
+    }elseif (isset($params['data-id'])) {
+        $for_id = $module_id = $params['data-id'];
+
     }
 
-
+ 
 
    // $module_id = $for_id;
     //$rand = rand();
@@ -89,6 +94,7 @@
 
             mw.tools.loading('#quick-add-post-options-items-holder-container');
             mw.reload_module('#mw_custom_fields_list_preview', function () {
+
                 mw.admin.custom_fields.initValues();
                 mw.tools.loading('#quick-add-post-options-items-holder-container', false);
             });
