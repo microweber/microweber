@@ -180,6 +180,8 @@ if (typeof thismodal.main[0] != 'undefined') {
 
         }
 
+     //   window.top.module_settings_modal_reference = thismodal;
+
 
         <?php if(is_array( $module_info)): ?>
 
@@ -211,7 +213,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 			window.parent.modal_preset_manager_html_placeholder_for_reload = function(){
 			var modal_preset_manager_html_placeholder_for_reload = ""
-                + "<div id='module-modal-settings-menu-items' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
+                + "<div id='module-modal-settings-menu-items-presets-holder' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
                 + "</div>"
 
 
@@ -221,16 +223,43 @@ if (typeof thismodal.main[0] != 'undefined') {
 					id:        'modal_preset_manager_html_placeholder_for_reload_pop'
 				});
 
+                var presetsthismodalid  = thismodal.main[0].id;
+
+                window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+
+//                var src = mw.settings.site_url + 'api/module?id=<?php //print $params['id'] ?>//&live_edit=true&module_settings=true&&type=editor/module_presets&autosize=true&module_id=<?php //print $params['id'] ?>//&module_name=<?php //print urlencode($params['module'])  ?>//';
+//                var modal = window.parent.mw.tools.modal.frame({
+//                    url: src,
+//                    // width: 500,
+//                    //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+//                    name: 'mw-module-presets-editor-front',
+//                    title: 'Module presets',
+//                    template: 'default',
+//                    center: false,
+//                    resize: true,
+//                    draggable: true
+//                });
+
+              //  $('#module-modal-settings-menu-holder-open-presets').html('');
 
 
 
-				 window.parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+                // HERE FOR DROPDOWN
+                // window.parent.$('#module-modal-settings-menu-holder-open-presets').html(modal_preset_manager_html_placeholder_for_reload);
+
+
+                window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder');
+
+
+
+
 
 
 				}
 				var html = ""
 
-                + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='javascript:modal_preset_manager_html_placeholder_for_reload();'>Presets</a></div>"
+                + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='javascript:modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a></div>"
+                + "<div id='module-modal-settings-menu-holder-open-presets' onclick='void();'></div>"
 
 
 
@@ -247,7 +276,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 					is_module_tml_holder.append(holder);
 
-				     parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+				     //parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items');
 					mw.dropdown(toolbar);
 			}
 

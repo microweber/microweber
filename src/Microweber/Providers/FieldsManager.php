@@ -486,7 +486,7 @@ class FieldsManager
 //                    if (count($default_values['value']) == 1) {
 //                        $default_values['value'] = reset($default_values['value']);
 //                    }
-                    
+
                     $default_values['value_plain'] =$default_values['value'];
                     $default_values['value_plain'] =$default_values['value'];
                     if (is_array($default_values['value'])) {

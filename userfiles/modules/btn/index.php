@@ -23,7 +23,7 @@ if ($text == false and isset($params['text'])) {
 }
 if($icon){
     $text = $icon . '&nbsp;' . $text;
-}  
+}
 
 
 

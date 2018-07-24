@@ -1,17 +1,14 @@
-<?php
+<?php only_admin_access();
 
-// DEPRECATED
-// file moved in userfiles/modules/editor/module_presets/index.php
-return;
 
 ?>
-
-<?php only_admin_access(); ?>
 <?php if (isset($params['module_name']) and isset($params['module_id'])): ?>
     <?php
 
 
-    $module_name = $params['module_name'];
+    $module_name = urldecode($params['module_name']);
+    $module_name_opener = urldecode($params['module_name']);
+    $module_name = str_replace('/admin', '', $module_name);
     $module_id = $params['module_id'];
 
     ?>
@@ -22,11 +19,12 @@ return;
 
 
         mod_id_for_presets = '<?php print $module_id ?>';
+        mod_type_for_presets = '<?php print $module_name ?>';
+        mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
 
         mw.module_preset_apply_actions_after_id_change = function (id) {
             var parent_el = window.parent.document.getElementById(mod_id_for_presets);
 
-            //d(window.parent.mw.$('#'+id))
             window.parent.mw.reload_module("#" + id);
             window.parent.mw.reload_module_parent("#" + id);
 
@@ -38,6 +36,16 @@ return;
                     window.parent.mw.$(ed_field).addClass('changed');
                 }
             }
+            mw.reload_module("#<?php print $params['id'] ?>")
+            mw.reload_module("#" + id);
+            mw.reload_module("#" + mod_id_for_presets);
+
+            if (typeof(window.parent.module_settings_modal_reference_preset_editor_modal_id) != 'undefined' && window.parent.module_settings_modal_reference_preset_editor_modal_id) {
+                window.parent.$("#" + window.parent.module_settings_modal_reference_preset_editor_modal_id).remove();
+                window.parent.mw.tools.open_global_module_settings_modal(mod_type_opener_for_presets, mod_id_for_presets);
+            }
+
+
         }
         mw.module_preset_set_release = function (id) {
 
@@ -59,6 +67,7 @@ return;
                 window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                 window.parent.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
                 window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
+
                 mod_id_for_presets = orig_id;
                 mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
 
@@ -99,7 +108,7 @@ return;
 
 
         $(document).ready(function () {
-            //   window.parent.mw.$('body').css("background", 'red');
+
 
             mw.$('.module-presets-action-btn').click(function () {
                 var is_del = $(this).attr('delete');
@@ -128,39 +137,12 @@ return;
                 if (is_release != undefined) {
 
                     mw.module_preset_set_release();
-                    /*     var orig_id = window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("data-module-original-id");
 
-                     if (orig_id) {
-
-                     window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("id", orig_id);
-                     mw.module_preset_apply_actions_after_id_change(orig_id);
-                     }
-                     //*/
                 } else if (is_use != undefined) {
 
                     var use_attrs = JSON.parse(saved_module_attrs_json);
                     mw.module_preset_set_use(is_use, use_attrs);
-                    /*  if (mw.reload_module != undefined) {
-                     if (!window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("data-module-original-id")) {
-                     window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("data-module-original-id", is_use);
-                     }
 
-                     window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("module-id", is_use);
-                     //  	window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("id",is_use);
-                     //  window.parent.mw.$('#
-                    <?php print $module_id ?>').attr("id", is_use);
-                     //window.parent.mw.reload_module("#"+is_use);
-                     mw.module_preset_apply_actions_after_id_change('
-                    <?php print $module_id ?>');
-
-                     }
-                     */
 
                 } else {
 
@@ -171,12 +153,11 @@ return;
 
                     }
 
-
-                    //
-//                    module_attrs
                     //save
                     window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
+                        // window.parent.mw.reload_module("#<?php print $params['id'] ?>");
                         window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+                        mw.reload_module("#<?php print $params['id'] ?>")
                     });
 
                 }
@@ -198,6 +179,14 @@ return;
         <?php if (is_array($saved_modules)): ?>
             <ul>
                 <?php foreach ($saved_modules as $item): ?>
+
+                    <?php
+
+                    if (!isset($item['module_attrs'])) {
+                        $item['module_attrs'] = '';
+                    }
+
+                    ?>
                     <li>
                         <div class="module-presets-add-new-holder">
                             <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
