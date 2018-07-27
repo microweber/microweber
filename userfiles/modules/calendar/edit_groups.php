@@ -36,6 +36,9 @@ $(function () {
     });
 });
 </script>
+Select group for calendar
+<module type="calendar/group_select" calendar-group-module-id="<?php print $params['id'] ?>"  />
+<hr>
 
 <form id="add_event_group" class="edit_event_groups">
     <label>New group:</label>

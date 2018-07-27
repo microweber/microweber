@@ -1,5 +1,142 @@
 <?php
 
+require_once(__DIR__ . '/src/CalendarManager.php');
+
+function calendar_get_events($params = array())
+{
+    $data = new CalendarManager();
+    $data = $data->get_events($params);
+    return $data;
+}
+
+api_expose_admin('calendar_save_event');
+function calendar_save_event($params = array())
+{
+    $data = new CalendarManager();
+    $data = $data->save_event($params);
+    return $data;
+}
+
+
+api_expose_admin('calendar_export_to_csv_file', function ($params) {
+
+    $data = calendar_get_events('no_limit=true');
+    if (!$data) {
+        return array('error' => 'You do not have any events');
+    }
+    $allowed = array(
+        'id', 'created_at', 'created_at', 'content_id', 'title', 'shipping', 'startdate', 'enddate',
+        'description', 'allDay', 'calendar_group_id', 'calendar_group_name', 'image_url', 'link_url', 'allDay',
+
+    );
+
+
+    $export = array();
+    foreach ($data as $item) {
+        foreach ($item as $key => $value) {
+            if (!in_array($key, $allowed)) {
+                unset($item[$key]);
+            }
+        }
+        $export[] = $item;
+    }
+    if (empty($export)) {
+        return;
+    }
+
+
+    $filename = 'events' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
+    $filename_path = userfiles_path() . 'export' . DS . 'events' . DS;
+    $filename_path_index = userfiles_path() . 'export' . DS . 'events' . DS . 'index.php';
+    if (!is_dir($filename_path)) {
+        mkdir_recursive($filename_path);
+    }
+    if (!is_file($filename_path_index)) {
+        @touch($filename_path_index);
+    }
+    $filename_path_full = $filename_path . $filename;
+
+    // $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+    $csv = \League\Csv\Writer::createFromPath($filename_path_full, 'w'); //to work make sure you have the write permission
+    $csv->setEncodingFrom('UTF-8'); // this probably is not needed?
+
+    $csv->setOutputBOM(\League\Csv\Writer::BOM_UTF8); //adding the BOM sequence on output
+
+    //we insert the CSV header
+    $csv->insertOne(array_keys(reset($export)));
+
+    $csv->insertAll($export);
+    return response()->download($filename_path_full)->deleteFileAfterSend(true);
+
+//    $download = mw()->url_manager->link_to_file($filename_path_full);
+//    return response()->download($filePath, $fileName, $headers)->deleteFileAfterSend(true);
+//
+//    return redirect($download);
+});
+
+api_expose_admin('calendar_import_by_csv', function ($params) {
+
+    if (Input::hasFile('csv_file')) {
+
+        $file = Input::file('csv_file');
+        $name = time() . '-' . $file->getClientOriginalName();
+
+        $path = $file->getRealPath();
+
+
+        $data = array_map('str_getcsv', file($path));
+        $csv_data = $data;
+
+        if (!$csv_data) {
+            return (array('error' => 'Cannot parse the CSV file'));
+        }
+        $save_count = 0;
+        $collect = array();
+        if ($csv_data) {
+            $header = array();
+            foreach ($csv_data as $event) {
+                if (isset($event[0]) and strtolower($event[0]) == 'id') {
+                    $header = $event;
+                    continue;
+                }
+                if (!$header) {
+                    return (array('error' => 'Cannot parse column names.'));
+                }
+
+                $save = array();
+                foreach ($header as $i => $col) {
+                    if (isset($event[$i])) {
+                        $save[$col] = $event[$i];
+                    }
+
+                }
+                if ($save) {
+                    $collect[] = $save;
+                }
+
+
+            }
+        }
+
+//dd($csv_data);
+
+        if ($collect) {
+            foreach ($collect as $save) {
+                calendar_save_event($save);
+                $save_count++;
+            }
+        }
+
+        if (is_file($path)) {
+            @unlink($path);
+        }
+        return (array('success' => $save_count . ' items were imported'));
+
+    }
+
+});
+
+
 function calendar_get_events_by_group($params = array())
 {
     if (is_string($params)) {
@@ -52,7 +189,9 @@ function calendar_get_events_by_group($params = array())
 
     } else {
         // no event data
-        return print lnotif(_e('Click here to edit Calendar', true));
+        if (is_ajax()) {
+            return print lnotif(_e('Click here to edit Calendar', true));
+        }
     }
 }
 
@@ -75,8 +214,8 @@ function calendar_get_events_groups_api($params = array())
 
     $groups = array();
     $data = DB::table($params['table'])->select('id', 'startdate');
-    if($yearmonth){
-    $data = $data->where('startdate', 'like', $yearmonth . '%');
+    if ($yearmonth) {
+        $data = $data->where('startdate', 'like', $yearmonth . '%');
     }
     $data = $data->groupBy(DB::raw('DATE(startdate)'))
         ->get();
@@ -87,9 +226,17 @@ function calendar_get_events_groups_api($params = array())
         }
         return $groups;
     } else {
-        // no event data
-        return print lnotif(_e('Click here to edit Calendar', true));
+        if (is_ajax()) {
+            // no event data
+            return print lnotif(_e('Click here to edit Calendar', true));
+        }
     }
+}
+
+function calendar_get_events_days($params = array())
+{
+    $events = calendar_get_events_api();
+
 }
 
 api_expose('calendar_get_events_api');
@@ -143,8 +290,10 @@ function calendar_get_events_api($params = array())
         return $events;
 
     } else {
-        // no event data
-        return print lnotif(_e('Click here to edit Calendar', true));
+        if (is_ajax()) {
+            // no event data
+            return print lnotif(_e('Click here to edit Calendar', true));
+        }
     }
 }
 
@@ -152,8 +301,11 @@ api_expose('calendar_new_event');
 function calendar_new_event()
 {
 
+
     if (!is_admin()) return;
 
+
+    $enddate = false;
     $table = "calendar";
     $startdate = mw()->database_manager->escape_string(trim($_POST['startdate']) . '+' . trim($_POST['zone']));
     if (isset($_POST['enddate'])) {

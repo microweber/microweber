@@ -43,7 +43,16 @@ if(!$calendar_group_id){
 }
 $event_count = mw()->database_manager->get("table=calendar&count=true");
 
+$dayGroups = $all_days = calendar_get_events_groups_api('yearmonth=0');
 
+$save_groups = calendar_get_groups();
+
+$groups = array(
+    array('id'=>'0','title'=>'Main event'  )
+);
+if($save_groups){
+    $groups = array_merge($groups,$save_groups);
+}
 if ($event_count < 1) {
     return print lnotif(_e('Click here to edit Calendar', true));
 }
