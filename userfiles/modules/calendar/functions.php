@@ -356,19 +356,19 @@ function calendar_change_title()
     }
 
     $table = "calendar";
-    $title = mw()->database_manager->escape_string(trim($_POST['title']));
-    $description = mw()->database_manager->escape_string(trim($_POST['description']));
+    $title =  (trim($_POST['title']));
+    $description =  (trim($_POST['description']));
 
     if (isset($_POST['startdate'])) {
         $startdate = $_POST['startdate'];
     } else {
-        $startdate = mw()->database_manager->escape_string(trim($_POST['start'] . '+' . trim($_POST['zone'])));
+        $startdate =  (trim($_POST['start'] . '+' . trim($_POST['zone'])));
 
     }
     if (isset($_POST['enddate'])) {
         $enddate = $_POST['enddate'];
     } else {
-        $enddate = mw()->database_manager->escape_string(trim($_POST['end'] . '+' . trim($_POST['zone'])));
+        $enddate =  (trim($_POST['end'] . '+' . trim($_POST['zone'])));
 
     }
 
@@ -420,9 +420,9 @@ function calendar_reset_date($params)
 
 
     $table = "calendar";
-    $title = mw()->database_manager->escape_string(trim($params['title']));
-    $startdate = mw()->database_manager->escape_string(trim($params['start'] . '+' . trim($params['zone'])));
-    $enddate = mw()->database_manager->escape_string(trim($params['end'] . '+' . trim($params['zone'])));
+    $title =  trim($params['title']);
+    $startdate =  trim($params['start'] . '+' . trim($params['zone']));
+    $enddate =  trim($params['end'] . '+' . trim($params['zone']));
     $eventid = $params['eventid'];
 
     $data = array('id' => $eventid, 'title' => $title, 'startdate' => $startdate, 'enddate' => $enddate);

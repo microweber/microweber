@@ -18,13 +18,13 @@ jQuery(document).ready(function($){
 		this.eventsWrapper = this.element.find('.events');
 		this.eventsGroup = this.eventsWrapper.find('.events-group');
 		this.singleEvents = this.eventsGroup.find('.single-event');
-		this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
+		this.eventSlotHeight = 150//this.eventsGroup.eq(0).children('.top-info').outerHeight();
 
 		this.modal = this.element.find('.event-modal');
 		this.modalHeader = this.modal.find('.cd-header');
 		this.modalHeaderBg = this.modal.find('.header-bg');
 		this.modalBody = this.modal.find('.cd-body');
-		this.modalBodyBg = this.modal.find('.body-bg'); 
+		this.modalBodyBg = this.modal.find('.body-bg');
 		this.modalMaxWidth = 800;
 		this.modalMaxHeight = 480;
 
@@ -42,7 +42,7 @@ jQuery(document).ready(function($){
 		var mq = this.mq();
 		if( (mq == 'none' || mq == 'desktop') && !this.element.hasClass('js-full') ) {
 			//in this case you are on a desktop version (first load or resize from mobile)
-			this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
+			this.eventSlotHeight = 150//this.eventsGroup.eq(0).children('.top-info').outerHeight();
 			this.element.addClass('js-full');
 			this.placeEvents();
 			this.element.hasClass('modal-is-open') && this.checkEventModal();
@@ -95,6 +95,8 @@ jQuery(document).ready(function($){
 			var eventTop = self.eventSlotHeight*(start - self.timelineStart)/self.timelineUnitDuration,
 				eventHeight = self.eventSlotHeight*duration/self.timelineUnitDuration;
 
+
+
 			if(eventHeight < 10){
                 eventHeight = 80;
 			}
@@ -105,6 +107,17 @@ jQuery(document).ready(function($){
 		});
 
 		this.element.removeClass('loading');
+
+       $(".events-group  > ul").each(function(){
+                var off = $(this).offset().top;
+                $(this).height(($(".single-event:last", this).outerHeight()+$(".single-event:last", this).offset().top)-off);
+            })
+        setTimeout(function(){
+            $(".events-group  > ul").each(function(){
+                var off = $(this).offset().top;
+                $(this).height(($(".single-event:last", this).outerHeight()+$(".single-event:last", this).offset().top)-off);
+            })
+        }, 1300)
 	};
 
 	SchedulePlan.prototype.openModal = function(event) {
@@ -379,4 +392,13 @@ jQuery(document).ready(function($){
 			'transform': value
 		});
 	}
+    
+
+
+            setInterval(function(){
+            $(".events-group  > ul").each(function(){
+                var off = $(this).offset().top;
+                $(this).height(($(".single-event:last", this).outerHeight()+$(".single-event:last", this).offset().top)-off);
+            })
+        }, 300)
 });

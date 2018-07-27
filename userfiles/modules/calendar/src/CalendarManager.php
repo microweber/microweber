@@ -57,7 +57,7 @@ class CalendarManager
             $data = $data->where('calendar_group_id', $calendar_group_id);
         }
         if ($group_by_date) {
-          //  $data = $data->groupBy(DB::raw('DATE(startdate)'));
+            //  $data = $data->groupBy(DB::raw('DATE(startdate)'));
         }
         $data = $data->get();
 
@@ -132,7 +132,12 @@ class CalendarManager
         if (!isset($params['eventid']) and isset($params['id'])) {
             $eventid = $params['id'];
         }
-
+        if ($eventid) {
+            $check = calendar_get_event_by_id($eventid);
+            if (!$check) {
+                $eventid = false;
+            }
+        }
         if (!$eventid) {
             //    return false;
         }
@@ -143,7 +148,7 @@ class CalendarManager
         $imageUrl = false;
         $linkUrl = false;
         if (isset($params['title'])) {
-            $title =  (trim($params['title']));
+            $title = (trim($params['title']));
         }
 
         if (isset($params['description'])) {
@@ -161,13 +166,13 @@ class CalendarManager
         if (isset($params['startdate'])) {
             $startdate = $params['startdate'];
         } else {
-          //  $startdate = mw()->database_manager->escape_string(trim($params['start'] . '+' . trim($params['zone'])));
+            //  $startdate = mw()->database_manager->escape_string(trim($params['start'] . '+' . trim($params['zone'])));
 
         }
         if (isset($params['enddate'])) {
             $enddate = $params['enddate'];
         } else {
-         //   $enddate = mw()->database_manager->escape_string(trim($params['end'] . '+' . trim($params['zone'])));
+            //   $enddate = mw()->database_manager->escape_string(trim($params['end'] . '+' . trim($params['zone'])));
 
         }
 
@@ -180,7 +185,6 @@ class CalendarManager
 
         $startdate = date('Y-m-d H:i:s', strtotime($startdate));
         $enddate = date('Y-m-d H:i:s', strtotime($enddate));
-
 
 
         $data = array(
