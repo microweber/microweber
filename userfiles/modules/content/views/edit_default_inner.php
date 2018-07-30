@@ -88,7 +88,6 @@ if(isset($data['content-id'])){
     }
 </script>
 
-
 <script>
     $(mwd).ready(function () {
 
