@@ -90,7 +90,7 @@ class Parser
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
             if ($previous_attrs) {
-                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id() . crc32(serialize($previous_attrs));
+                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id() . crc32(json_encode($previous_attrs));
 
             } else {
                 $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();

@@ -226,6 +226,7 @@ if (typeof thismodal.main[0] != 'undefined') {
                 var presetsthismodalid  = thismodal.main[0].id;
 
                 window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                window.parent.module_settings_modal_reference_window = window;
 
 //                var src = mw.settings.site_url + 'api/module?id=<?php //print $params['id'] ?>//&live_edit=true&module_settings=true&&type=editor/module_presets&autosize=true&module_id=<?php //print $params['id'] ?>//&module_name=<?php //print urlencode($params['module'])  ?>//';
 //                var modal = window.parent.mw.tools.modal.frame({

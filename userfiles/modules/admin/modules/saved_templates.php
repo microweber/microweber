@@ -2,6 +2,23 @@
 
 // DEPRECATED
 // file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
+// file moved in userfiles/modules/editor/module_presets/index.php
 return;
 
 ?>
@@ -195,11 +212,15 @@ return;
         <h5><?php _e("Module"); ?><?php print $module_name ?></h5>
         <input type="button" value="release" release="<?php print  $module_id ?>" class="module-presets-action-btn"/>
         <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
+
+
         <?php if (is_array($saved_modules)): ?>
             <ul>
                 <?php foreach ($saved_modules as $item): ?>
                     <li>
                         <div class="module-presets-add-new-holder">
+
+
                             <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
 
                             <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
