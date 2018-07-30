@@ -1686,7 +1686,7 @@ mw.wysiwyg = {
         var common = range.commonAncestorContainer;
         var parent = mw.tools.firstParentWithTag(common, [tag]);
         if (!!parent) {
-            return parent
+            return parent;
         }
         if (typeof common.querySelectorAll !== 'undefined') {
             var items = common.querySelectorAll(tag), l = items.length, i = 0, arr = [];
@@ -1736,8 +1736,8 @@ mw.wysiwyg = {
                 mw.wysiwyg.save_selection();
                 mw.wysiwyg.request_media(hash);
                 $(".mw_overlay").on('mousedown touchstart', function(e){
-                  e.preventDefault()
-                  e.stopPropagation()
+                  e.preventDefault();
+                  e.stopPropagation();
                 })
             }
         }

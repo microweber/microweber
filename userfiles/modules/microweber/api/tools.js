@@ -5058,14 +5058,37 @@ mw.uploader = function (o) {
         el.appendChild(uploader);
     }
     return uploader;
-}
+};
 mw.dropdown = mw.tools.dropdown;
 mw.confirm = mw.tools.confirm;
 mw.tabs = mw.tools.tabGroup;
 mw.inlineModal = mw.tools.inlineModal;
 mw.progress = mw.tools.progress;
 mw.external = function (o) {
-    return mw.tools._external(o)
+    return mw.tools._external(o);
+};
+mw.fileWindow = function(config){
+    config = config || {};
+    var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
+    var url = mw.settings.site_url + 'editor_tools/' + url;
+    var modal = mw.tools.modal.frame({
+        url: url,
+        name: "mw_rte_image",
+        width: 430,
+        height: 230,
+        //template: 'mw_modal_basic',
+        overlay: true
+    });
+    var frameWindow = $('iframe', modal.container)[0].contentWindow;
+    frameWindow.onload = function(){
+        frameWindow.$('body').on('change', function(e, url, m){
+            if(config.change){
+                config.change.call(undefined, url);
+                modal.remove()
+            }
+        });
+    }
+    modal.overlay.style.backgroundColor = 'white';
 };
 /***********************************************
  mw.modal({

@@ -1,6 +1,6 @@
 mw.iframecallbacks = {
     insert_link: function (url, target, link_content) {
-        var url = url.trim();
+        url = url.trim();
         var contains = false;
         var arr = ['mailto:', 'tel:', 'skype:', 'sms:', 'geopoint:', 'whatsapp:'],
             i = 0;
@@ -9,8 +9,8 @@ mw.iframecallbacks = {
                 contains = true;
             }
         }
-        if (!contains) {
-            var url = url.indexOf("http") === 0 ? url : (location.protocol + "//" + url);
+        if (!contains && !!url) {
+            url = url.indexOf("http") === 0 ? url : (location.protocol + "//" + url);
         }
         var target = target || '_self';
 

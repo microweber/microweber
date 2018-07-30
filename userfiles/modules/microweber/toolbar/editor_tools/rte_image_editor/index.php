@@ -56,7 +56,10 @@ else{
             return false;
         }
 
-
+        if(hash=='fileWindow'){
+            $('body').trigger('change', [url]);
+            return false;
+        }
         if (!todo) {
             if (hash !== '') {
                 if (hash == 'editimage') {
@@ -93,21 +96,19 @@ else{
         } else {
             if (todo == 'video') {
                 parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" wmode="transparent" windowlessVideo="true" loop="false" autoplay="false" width="560" height="315" src="' + url + '"></embed></div>');
-
-            } else if (todo == 'files') {
-
+            }
+            else if (todo == 'files') {
                 var name = mw.tools.get_filename(url);
                 var extension = url.split(".").pop();
                 var html = "<a class='mw-uploaded-file mw-filetype-" + extension + "' href='" + url + "'><span></span>" + name + "." + extension + "</a>";
                 parent.mw.wysiwyg.insert_html(html);
             }
         }
-    }
+    };
 
 
 
     GlobalEmbed = false;
-
 
 
     $(document).ready(function() {
@@ -120,6 +121,10 @@ else{
 
         mw.on.hashParam('select-file', function() {
 
+            if(hash=='fileWindow'){
+                $('body').trigger('change', [this]);
+                return false;
+            }
 
             var type = mw.url.type(this);
             GlobalEmbed = mw.embed.generate(type, this);
@@ -254,17 +259,24 @@ else{
                 mw.on.stopWriting(urlSearcher[0], function() {
                     var val = urlSearcher.val();
                     var type = mw.url.type(val);
-                    status[0].className = type;
-                    if (type != 'image') {
-                        status.empty();
-                    } else {
-                        status.html('<img class="image_status_preview_image" src="' + val + '" />');
+                    if(status[0]){
+                        status[0].className = type;
+                        if (type != 'image') {
+                            status.empty();
+                        } else {
+                            status.html('<img class="image_status_preview_image" src="' + val + '" />');
+                        }
                     }
+
                     GlobalEmbed = mw.embed.generate(type, val);
                 });
             } else {
                 setTimeout(function() {
                     var val = urlSearcher.val();
+                    if(hash=='fileWindow'){
+                        $('body').trigger('change', [val]);
+                        return false;
+                    }
                     var type = mw.url.type(val);
                     GlobalEmbed = mw.embed.generate(type, val);
                     if (type != 'link') {
@@ -290,6 +302,10 @@ else{
 
 
             var val = urlSearcher.val();
+            if(hash=='fileWindow'){
+                $('body').trigger('change', [val]);
+                return false;
+            }
             var type = mw.url.type(val);
             if (type != 'link') {
                 if (typeof parent.mw.iframecallbacks[hash] === 'function') {
@@ -535,11 +551,12 @@ else{
 
 
     <div id="media-search-holder" style="margin-top: 35px;">
-    <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()" />
-    <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
+        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()" />
+
+        <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
 
 
-   </div>
+    </div>
 
   </div>
   <div class="tab" id="tabfilebrowser">
