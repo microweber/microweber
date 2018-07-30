@@ -11,12 +11,14 @@
     <h3 class="tab-title tab-title-0"><?php _e("Add Layout"); ?></h3>
     <h3 class="tab-title tab-title-1" style="display: none;"><?php _e("Add Module"); ?></h3>
     <h3 class="tab-title tab-title-2" style="display: none;"><?php _e("Settings"); ?></h3>
+    <h3 class="tab-title tab-title-3" style="display: none;"><?php echo("UI Editor"); ?></h3>
 
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php echo("UI Editor"); ?></a>
         </div>
 
 
@@ -28,12 +30,18 @@
                         <i class="mw-icon-search" aria-hidden="true"></i>
                     </label>
 
-                    <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" class="form-control input-lg" placeholder="Search for Layouts"
-                           autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                           data-id="mw-sidebar-search-input-for-modules-and-layouts">
+                    <input
+                        onkeyup="mwSidebarSearchItems(this.value, 'layouts')"
+                        class="form-control input-lg"
+                        placeholder="Search for Layouts"
+                        autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                        data-id="mw-sidebar-search-input-for-modules-and-layouts">
 
-                    <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close"
-                       aria-hidden="true" style="display: none;"></a>
+                    <a
+                        href="javascript:mwSidebarSearchClear('layouts');"
+                        class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                        aria-hidden="true"
+                        style="display: none;"></a>
                 </div>
 
                 <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
@@ -72,10 +80,16 @@
                             data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
             </div>
+            <div class="mw-ui-box-content tabitem css-editor-holder">
+                <div id="mw-css-editor"></div>
+            </div>
         </div>
     </div>
 
     <script>
+
+        mw.require('prop_editor.js');
+        mw.require('color.js');
 
         function mwSidebarSearchClear(what) {
             $('[data-id="mw-sidebar-search-input-for-modules-and-layouts"]').val('');
@@ -166,7 +180,104 @@
 
             $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
                 $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
-            })
+            });
+
+
+            CSSEditorSchema = [
+                {
+                    interface:'quatro',
+                    label:['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
+                    id:'margin'
+                },
+                {
+                    interface:'quatro',
+                    label:['Padding top', 'Padding right', 'Padding bottom', 'Padding left'],
+                    id:'padding'
+                },
+                {
+                    interface:'size',
+                    label:'Font size',
+                    id:'fontSize'
+                },
+                {
+                    interface:'color',
+                    label:'Font color',
+                    id:'color'
+                },
+                {
+                    interface:'color',
+                    label:'Background color',
+                    id:'backgroundColor'
+                },
+                {
+                    interface:'select',
+                    label:'Font weight',
+                    id:'fontWeight',
+                    options:['inherit', 'normal', 'bold', 'bolder', 'lighter', 100,200,300,400,500,600,700,800,900]
+                },
+                {
+                    interface:'select',
+                    label:'Font style',
+                    id:'fontStyle',
+                    options:['italic', 'normal']
+                },
+                {
+                    interface:'select',
+                    label:'Text transform',
+                    id:'textTransform',
+                    options:['none', 'uppercase', 'lowercase', 'capitalize']
+                },
+                {
+                    interface:'block',
+                    content:'Border radius'
+                },
+                {
+                    interface:'quatro',
+                    id:'borderRadius',
+                    label:['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
+                },
+                {
+                    interface:'file',
+                    id:'backgroundImage',
+                    label:'Background Image',
+                    types:'images'
+                }
+            ];
+
+            mw.elementCSSEditor = new mw.propEditor.schema({
+                schema: CSSEditorSchema,
+                element:'#mw-css-editor'
+            });
+
+            mw.elementCSSEditor.time = null;
+
+            $(mw.elementCSSEditor).on('change', function(event, property, value){
+                mw.$(mw.elementCSSEditor.currentElement).css(property, value);
+                /*clearTimeout(mw.elementCSSEditor.time);
+                mw.elementCSSEditor.time = setTimeout(function(){
+                    vmw.$(mw.elementCSSEditor.currentElement).css(property, value);
+                }, 78);*/
+            });
+
+            mw.on("ElementClick", function(event, el){
+                mw.elementCSSEditor.currentElement = el;
+
+                var css = getComputedStyle(el);
+                var val = {
+                    margin:(css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
+                    padding:(css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
+                    fontSize:css.fontSize,
+                    fontWeight:css.fontWeight,
+                    fontStyle:css.fontStyle,
+                    textTransform:css.textTransform,
+                    color:mw.color.rgbToHex(css.color),
+                    backgroundColor:mw.color.rgbToHex(css.backgroundColor),
+                    backgroundImage:css.backgroundImage,
+                    borderRadius:(css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
+                };
+                mw.elementCSSEditor.setValue(val);
+            });
+
         });
 
 
