@@ -222,7 +222,7 @@ class Format
             $date = $time;
             $ago = new \DateTime("@" .$time);
         } else {
-            $date = strtotime($time);
+           // $date = strtotime($time);
             $ago = new \DateTime($time);
         }
 

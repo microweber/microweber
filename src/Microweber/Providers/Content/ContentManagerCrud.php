@@ -168,9 +168,9 @@ class ContentManagerCrud extends Crud
             ) {
 
                 $params['keyword'] = $category['category_subtype_settings']['filter_content_by_keywords'];
-
             }
         }
+
 
 
         if (isset($params['keyword']) and !isset($params['search_in_fields'])) {

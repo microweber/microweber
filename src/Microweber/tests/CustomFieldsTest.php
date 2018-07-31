@@ -65,7 +65,9 @@ class CustomFieldsTest extends TestCase
 
         $this->assertEquals($field['name'], 'Color');
         $this->assertEquals($field['type'], 'dropdown');
-        $this->assertEquals($field['value'], $vals);
+
+        $this->assertEquals($field['value'], 'Red');
+        $this->assertEquals($field['values'], $vals);
         $this->assertEquals(intval($delete) > 0, true);
     }
 

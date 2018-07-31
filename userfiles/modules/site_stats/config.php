@@ -87,7 +87,7 @@ $fields_to_add['updated_at'] = 'dateTime';
 $config['tables']['stats_referrers'] = $fields_to_add;
 
 $fields_to_add = array();
-$fields_to_add['referrer_domain'] = 'string';
+$fields_to_add['referrer_domain'] = 'text';
 $fields_to_add['updated_at'] = 'dateTime';
 $config['tables']['stats_referrers_domains'] = $fields_to_add;
 

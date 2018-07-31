@@ -10,7 +10,7 @@ if (is_array($ord)) {
         $cart_items = mw()->shop_manager->order_items($ord['id']);
     }
 } else {
-    mw_error("Invalid order id");
+ //   mw_error("Invalid order id");
 }
 
 $show_ord_id = $ord['id'];
@@ -33,7 +33,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
         <span class=" bold"><?php _e("Order Information"); ?></span>
     </div>
     <div class="mw-ui-box-content p-0">
-        <?php if (is_array($cart_items)) : ?>
+        <?php if ($cart_items and is_array($cart_items)) : ?>
             <div class="mw-order-images" style="display: none;">
                 <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
                     <?php if (isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
@@ -188,9 +188,45 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 </table>
             </div>
         <?php else: ?>
-            <h2>
-                <?php _e("The cart is empty"); ?>
-            </h2>
+            <div class="table-responsive">
+
+            <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
+
+
+                <tr class="mw-ui-table-footer" style="background: #fafafa; font-weight: bold;">
+                    <td colspan="2">&nbsp;</td>
+                    <td colspan="4"><?php print _e('TOTAL AMOUNT'); ?></td>
+                </tr>
+
+
+
+                <tr class="mw-ui-table-footer">
+                    <td colspan="2">&nbsp;</td>
+                    <td colspan="2"><?php _e("Shipping price"); ?></td>
+                    <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
+                </tr>
+
+                <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
+                    <tr class="mw-ui-table-footer">
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2"><?php _e("Tax"); ?></td>
+                        <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
+                    </tr>
+                <?php endif ?>
+
+                <tr class="mw-ui-table-footer last">
+                    <td colspan="2">&nbsp;</td>
+                    <td colspan="2" class="mw-ui-table-green"><strong><?php _e("Total:"); ?></strong></td>
+                    <td class="mw-ui-table-green" colspan="2"><strong><?php print  currency_format($ord['amount'], $ord['currency']); ?></strong></td>
+                </tr>
+                <tr class="mw-ui-table-footer last">
+                    <td colspan="2">&nbsp;</td>
+                    <td colspan="2" class="mw-ui-table-green"><strong><?php _e("Paid:"); ?></strong></td>
+                    <td class="mw-ui-table-green" colspan="2"><strong><?php print currency_format($ord['payment_amount'], $ord['payment_currency']); ?></strong></td>
+                </tr>
+
+        </table>
+    </div>
         <?php endif; ?>
 
     </div>

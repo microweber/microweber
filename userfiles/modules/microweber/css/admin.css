@@ -2818,7 +2818,6 @@ input#edit-content-url:focus, input#edit-content-url.active {
     padding-top: 0;
 }
 
-
 .view-post-slug.active {
     display: inline-block;
     overflow: hidden;
@@ -2827,7 +2826,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     min-height: 11px;
     top: -4px;
     position: relative;
-    line-height:12px;
+    line-height: 12px;
 }
 
 #edit-content-url {
@@ -2836,13 +2835,13 @@ input#edit-content-url:focus, input#edit-content-url.active {
 
 .edit-post-url .mw-ui-invisible-field {
     font-size: 12px;
-    line-height:12px;
+    line-height: 12px;
     color: #CCCCCC;
     top: 0;
     left: -1px;
     height: 16px;
     padding: 0px;
-    top: -6px ;
+    top: -5px;
 }
 
 .edit-post-url,
@@ -7315,7 +7314,7 @@ select.silver-field {
 }
 
 @media screen and (max-width: 991px) {
-    #set-shipping-to-country .enable-shipping-label {
+    #set-shipping-to-country .enable-shipping-label, .set-shipping-to-country .enable-shipping-label {
         display: none;
     }
 
@@ -7507,4 +7506,9 @@ select.silver-field {
 #mw-admin-edit-category-item-module-categories-selector .mw-ui-check:before {
 
     display: none;
+}
+
+
+.layouts_box_holder_small .section-header{
+    padding:0;
 }

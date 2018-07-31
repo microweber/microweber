@@ -21,8 +21,9 @@ if ($text == false and isset($params['text'])) {
 } elseif ($text == '') {
     $text = lang('Button', 'templates/dream/modules/btn');
 }
-
-$text = $icon . '&nbsp;' . $text;
+if($icon){
+    $text = $icon . '&nbsp;' . $text;
+}
 
 
 

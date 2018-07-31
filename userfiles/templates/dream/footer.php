@@ -18,7 +18,7 @@ $is_live =  mw()->user_manager->session_get('editmode') == true;
 
                 <div class="col-md-4 col-sm-8 allow-drop">
                     <h6>Recent News</h6>
-                    <module type="posts" template="skin-5" id="recent-news-<?php print content_id(); ?>" limit="3" hide-paging="true"/>
+                    <module type="posts" template="skin-5" id="recent-news-<?php print content_id(); ?>" data-show="title" limit="3" hide-paging="true"/>
                 </div>
 
                 <div class="col-md-4 col-md-offset-1 col-sm-12 allow-drop">

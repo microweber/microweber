@@ -246,13 +246,17 @@ if (!isset($data["thumbnail"])) {
                                 $curr = isset($item['image_options']) ? $item['image_options'] : array();
 
 
-                                foreach ($init_image_options as $name) { ?>
+                                foreach ($init_image_options as $name) {
+
+
+                                    $ok  = url_title(strtolower($name));
+                                    ?>
 
 
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php print $name ?></label>
-                                        <input type="text" class="mw-ui-field w100" name="<?php print $name ?>"
-                                               value="<?php print isset($curr[$name]) ? $curr[$name] : ''; ?>"/>
+                                        <input type="text" class="mw-ui-field w100" name="<?php print $ok; ?>"
+                                               value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
                                     </div>
                                 <?php } ?>
 

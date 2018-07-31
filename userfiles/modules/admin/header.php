@@ -361,15 +361,17 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php endif; ?>
                 </div>
                 <div class="mw-ui-col">
+
                     <a href="<?php print $past_page ?>?editmode=y" class="mw-admin-go-live-now-btn mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
-                        <span class="mai-eye2"></span>
-                        &nbsp;
-                        <?php _e("Live Edit"); ?>
+                        <span class="mai-eye2"></span> <?php _e("Live Edit"); ?>
                     </a>
+
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip pull-right js-top-save" style="display: !none;" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">

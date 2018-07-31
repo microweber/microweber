@@ -34,6 +34,7 @@ class Parser
     private $_replaced_codes = array();
     private $_replaced_input_tags = array();
     private $_existing_module_ids = array();
+    private $_existing_module_ids_grouped = array();
     private $_current_parser_rel = false;
     private $_current_parser_field = false;
     private $_current_parser_module_of_type = array();
@@ -89,7 +90,7 @@ class Parser
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
             if ($previous_attrs) {
-                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id() . crc32(serialize($previous_attrs));
+                $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id() . crc32(json_encode($previous_attrs));
 
             } else {
                 $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id();
@@ -400,6 +401,12 @@ class Parser
                                 }
 
 
+//                                if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
+//                                    $attrs['id'] = $attrs['module-id'];
+//                                }
+
+
+
 //                            if ($coming_from_parent == true) {
 //                                $attrs['parent-module'] = $coming_from_parent;
 //                            }
@@ -536,7 +543,20 @@ class Parser
 
                                         $it++;
 
-                                        if (isset($this->_existing_module_ids[$mod_id])) {
+//
+//                                        $skip= 0;
+//
+//                                        if(!isset($this->_existing_module_ids_grouped[$coming_from_parent_id])){
+//                                            $this->_existing_module_ids_grouped[$coming_from_parent_id] = array();
+//                                        }
+//                                        if(isset($this->_existing_module_ids_grouped[$coming_from_parent_id]) and isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])){
+//                                            $skip= 1;
+//                                        }
+//                                         $skip= 0;
+
+
+                                        if ( isset($this->_existing_module_ids[$mod_id])) {
+                                    //    if ( !$skip) {
                                             ++$it_loop;
                                             $inc_mod_num = 0;
 
@@ -548,12 +568,20 @@ class Parser
                                             if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
                                                 if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
                                                     $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
+//                                                                                                d('<hr>');
+//                                            d('aaaaaaaaaaaaaaaa==================');
+//                                            d($par_id_mod_count);
+//                                            d($module_name);
+//                                            d($inc_mod_num);
+//                                            d('aaaaaaaaaaaaaaaaa==================');
                                                 }
 
                                             } else {
-                                                //   $inc_mod_num = $it_loop;
+                                               // $inc_mod_num = 1;
+                                                //    $inc_mod_num = $it_loop;
 
                                             }
+
                                             if ($coming_from_parent_id) {
                                                 //$mod_id =  $mod_id . '-' .$coming_from_parent_id;
                                             }
@@ -563,7 +591,12 @@ class Parser
                                                 $mod_id = $mod_id . '--' . $inc_mod_num;
                                             }
                                             // $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
+                                          //  if (isset($this->_existing_module_ids[$mod_id])) {
+                                            if(!isset($this->_existing_module_ids_grouped[$coming_from_parent_id])){
+                                                $this->_existing_module_ids_grouped[$coming_from_parent_id] = array();
+                                            }
                                             if (isset($this->_existing_module_ids[$mod_id])) {
+                                           // if (isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
 
 
                                                 $mod_id_probe = false;
@@ -576,18 +609,32 @@ class Parser
                                                     $mod_id = $mod_id . '-' . $last_content_id;
                                                 }
 
-                                                if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
+                                                //if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
+                                                if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
                                                     $mod_id = $mod_id_probe;
                                                 } else {
+                                                  //  $mod_id = $mod_id . '--' .$it_loop;
+                                                  //  $mod_id = $mod_id . '-' . $last_content_id;
 
-                                                    $mod_id = $mod_id . '-random-fixme-id-' . uniqid();
+                                                    if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
+                                                        $mod_id = $mod_id_probe;
+                                                    } else {
+                                                        $mod_id = $mod_id . '-random-fixme-id-' . uniqid();
+
+                                                    }
 
                                                 }
 
 
                                             }
+                                        } else {
+                                            if(!$it_loop and $coming_from_parent_id){
+                                              //  $mod_id = $mod_id . '-1asdds';
+                                            }
                                         }
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
+
+                                        $this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id] = $mod_id;
 
 
                                         $attrs['id'] = $mod_id;

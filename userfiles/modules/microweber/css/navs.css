@@ -56,6 +56,7 @@
     float: right;
     position: relative;
     max-height: 100%;
+    display: none;
 }
 
 #main-bar-user-menu-link-top,

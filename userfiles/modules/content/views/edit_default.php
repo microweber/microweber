@@ -175,7 +175,7 @@ if (isset($params['quick_edit'])) {
                                     <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                             </li>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                             </li>
                         <?php else: ?>
                             <?php if ($data['id'] == 0): ?>
@@ -191,7 +191,7 @@ if (isset($params['quick_edit'])) {
                                 </li>
                             <?php endif; ?>
                             <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                                <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -305,9 +305,14 @@ if (isset($params['quick_edit'])) {
                                            onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
                                 </div>
                             </div>
-                            <div class="m-t-20" id="settings-btn-column">
+
+                            <?php
+                            /* <div class="m-t-20" id="settings-btn-column">
                                 <button type="button" class="btn-settings mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><span class="mai-setting2"></span> Settings</button>
-                            </div>
+                            </div>*/
+
+                            ?>
+
                         </div>
                         <script>
                             slugEdited = false;
