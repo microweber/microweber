@@ -36,6 +36,7 @@ dreamJS = ()=>{
 dreamCSS = ()=>{
     const files = [
         assets + '/css/socicon.css',
+        assets + '/css/iconsmind.css',
         assets + '/css/interface-icons.css',
         assets + '/css/owl.carousel.css',
         assets + '/css/lightbox.min.css',
@@ -43,7 +44,7 @@ dreamCSS = ()=>{
     ];
     return gulp.src(files)
         .pipe(cssmin())
-        .pipe(concat(  'main.css', {newLine: ';\r\n'}))
+        .pipe(concat(  'main.css', {newLine: '\r\n\r\n'}))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(dist));
 }

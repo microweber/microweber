@@ -3848,3 +3848,84 @@ body.dragStart .nodrop {
 body.dragStart .allow-drop {
     pointer-events: all;
 }
+
+.mw-module-quick-options{
+    width: 160px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -80px;
+}
+
+.mw-module-quick-options-menu:after{
+   content: "\0136";
+   font-family: Microweber;
+    display: inline-block;
+
+}
+
+.mw-module-quick-options-menu{
+    border-radius:  20px;
+    background: #fff;
+    display: inline-block;
+    line-height: 30px;
+    text-align: center;
+    color: #2b2b2b;
+    font-size: 16px;
+    padding: 0 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
+
+}
+
+.mw-module-quick-options-content{
+    background: black;
+    color: white;
+    padding: 10px;
+    box-shadow: 0 10px 10px rgba(0,0,0,.3);
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-radius: 10px;
+}
+.mw-module-quick-options-content label{
+    float: left;
+    width: 120px;
+    font-size: 12px;
+    clear: both;
+    margin-bottom: 10px;
+}
+
+.mw-module-quick-options:hover .mw-module-quick-options-content{
+
+    display: block;
+}
+
+.prop-ui-field-quatro .prop-ui-field-holder{
+    float: left;
+    width: 48%;
+}
+
+.prop-ui-field-quatro .prop-ui-field-holder:nth-child(even){float: right;}
+.prop-ui-field-quatro .prop-ui-field-holder:nth-child(odd){clear: both;}
+
+.prop-ui-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    display: block;
+    padding-top: 7px;
+}
+
+.prop-ui-field-quatro{
+    padding: 5px;
+    background: #efecec;
+    border-radius: 3px;
+    margin: 10px 0;
+    overflow: hidden;
+    letter-spacing: 0px;
+}
+
+.prop-ui-field[type='text'],
+.prop-ui-field[type='number']{
+    width: 100%;
+}
