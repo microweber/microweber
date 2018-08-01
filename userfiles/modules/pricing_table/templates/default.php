@@ -35,9 +35,9 @@ description: Default
 
                 <div class="<?php print $class; ?> float-shadow">
                     <?php if ($feature == $i): ?>
-                        <div class="recommended"><strong class="edit" rel="module-<?php print $params['id']; ?>" field="label-content-<?php print $i; ?>"><span class="fa fa-refresh"
+                        <div class="recommended"><div class="edit" rel="module-<?php print $params['id']; ?>" field="label-content-<?php print $i; ?>"><span class="fa fa-refresh"
                                                                                                                                                                 aria-hidden="true"></span>
-                                RECOMMENDED</strong></div>
+                                RECOMMENDED</div></div>
                     <?php endif; ?>
 
                     <div class="price_table_container">

@@ -2233,7 +2233,17 @@ mw.drag = {
                     continue;
                 }
                 $(helper.item).removeClass('changed orig_changed');
-                var content = mw.wysiwyg.cleanUnwantedTags(helper.item).innerHTML;
+                $(helper.item).removeClass('module-over');
+
+                $('.module-over', helper.item).each(function(){
+                    $(this).removeClass('module-over');
+                });
+                $('[class]', helper.item).each(function(){
+                    if(!this.className.trim()){
+                        this.removeAttribute("class");
+                    }
+                });
+                 var content = mw.wysiwyg.cleanUnwantedTags(helper.item).innerHTML;
                 //var content = $(content).find('script').remove();
 
                 var attr_obj = {};
