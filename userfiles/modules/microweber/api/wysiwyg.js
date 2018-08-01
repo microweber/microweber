@@ -491,7 +491,7 @@ mw.wysiwyg = {
     cleanUnwantedTags:function(body){
         var scope = this;
         $('*', body).each(function(){
-            if(!mw.ea.helpers.isBlockLevel(this) && !this.className.trim()){
+            if(mw.ea.helpers.isInlineLevel(this) && !this.className.trim()){
                 if(scope.areSameLike(this,this.nextElementSibling)){
                     this.innerHTML =  this.innerHTML + this.nextElementSibling.innerHTML;
                     this.nextElementSibling.innerHTML = '';

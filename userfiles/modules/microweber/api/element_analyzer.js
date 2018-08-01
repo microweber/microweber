@@ -265,6 +265,22 @@ mw.ElementAnalyzer = function(options){
             this.scope.fragment().removeChild(test);
             return this._isBlockCache[name];
         },
+        _isInlineCache:{},
+        isInlineLevel:function(node){
+            node = node || this.data.target;
+            if(node.nodeType === 3){
+                return false;
+            }
+            var name = node.nodeName;
+            if(this._isInlineCache[name]){
+                return this._isInlineCache[name];
+            }
+            var test = document.createElement(name);
+            this.scope.fragment().appendChild(test);
+            this._isInlineCache[name] = getComputedStyle(test).display === 'inline';
+            this.scope.fragment().removeChild(test);
+            return this._isInlineCache[name];
+        },
         canAccept:function(target, what){
             var accept = target.dataset('accept');
             if(!accept) return true;
