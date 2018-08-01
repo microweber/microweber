@@ -366,7 +366,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         <span class="mai-eye2"></span> <?php _e("Live Edit"); ?>
                     </a>
 
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip pull-right js-top-save" style="display: !none;" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip pull-right js-top-save" style="display: none;" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                 </div>
             </div>
         </div>
