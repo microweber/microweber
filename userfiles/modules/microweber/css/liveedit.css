@@ -1,5 +1,6 @@
 @import url("sass/style.css");
 @import url("reset-css.css");
+@import url("mai.css");
 @import url("fonts/mw-ui-icons-v2/css/mwi.css");
 
 /*********************************************
@@ -1551,6 +1552,7 @@ body.loaded #live_edit_toolbar {
     float: right;
     margin-right: 27px;
     margin-top: -3px;
+    position: relative;
 }
 
 #module-modal-settings-menu-holder .mw-dropdown-content {
@@ -3928,4 +3930,61 @@ body.dragStart .allow-drop {
 .prop-ui-field[type='text'],
 .prop-ui-field[type='number']{
     width: 100%;
+}
+
+.mw-module-presets-opener{
+    float: right;
+    display: block;
+    height: 20px;
+    transition: color .3s;
+    margin: 5px 20px 0 0;
+    cursor: pointer;
+}
+.mw-module-presets-opener{
+    color: white;
+}
+
+.mw-module-presets-opener:before{
+    content: '\002d';
+    font-family: 'admin';
+}
+.mw-module-presets-opener:after{
+    content: "\0118";
+    font-family: Microweber!important;
+    margin-left: 5px;
+    font-size: 12px;
+    position: relative;
+    top: -4px;
+}
+
+.mw-module-presets-opener:hover{
+    color: rgba(14, 128, 229, 1);
+}
+
+.mw-presets-dropdown{
+
+}
+
+.mw-module-presets-content{
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
+    border-radius: 3px;
+}
+.mw-presets-dropdown.active .mw-module-presets-content{
+    display: block;
+}
+
+
+.module-modal-settings-menu-holder > a{
+    display: block;
+    padding: 10px;
+    background:#fff
+}
+
+.module-modal-settings-menu-holder > a +a{
+    border-top: 1px solid #e5e5e5
 }

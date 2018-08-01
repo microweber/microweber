@@ -69,11 +69,7 @@
 
                     var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
                     window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
-                    // alert(id);
-                    //d(window.parent.module_settings_modal_reference_window);
-                    // window.parent.$("#" + window.parent.module_settings_modal_reference_preset_editor_modal_id).remove();
 
-                    // window.parent.mw.tools.open_global_module_settings_modal(mod_type_opener_for_presets, id);
                 }
 
 

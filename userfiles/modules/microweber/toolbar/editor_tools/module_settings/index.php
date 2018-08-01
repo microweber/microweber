@@ -188,7 +188,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
         var dd = mwd.createElement('div');
         dd.id = 'module-modal-settings-menu-holder';
-        dd.className = 'mw-dropdown mw-dropdown-default mw-dropdown-click mw-normalize-css';
+        dd.className = 'mw-presets-dropdown';
         $(toolbar).append(dd);
         /*******************************************************
          Do not delete !!! Module template: list and 'Crete Module Template'
@@ -208,12 +208,12 @@ if (typeof thismodal.main[0] != 'undefined') {
         if (is_module_preset_tml_holder.length == 0) {
             var linked_dd =  window.parent.mwd.createElement('div');
             linked_dd.id = 'module-modal-preset-linked-icon';
-            linked_dd.className = 'mw-dropdown mw-dropdown-default mw-dropdown-click mw-normalize-css ';
-            linked_dd.innerHTML = ' ';
+            linked_dd.className = 'mw-normalize-css ';
+            linked_dd.innerHTML = ' 1 ';
 
             $(toolbar).prepend(linked_dd);
 
-        }
+        };
         is_module_preset_tml_holder = window.parent.$("#module-modal-preset-linked-icon");
         <?php if($is_linked_mod){  ?>
         $("#module-modal-preset-linked-icon",toolbar).html('linked ');
@@ -225,16 +225,6 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
     $( document ).ready(function() {
-
-
-
-
-
-
-
-
-
-
 
 
     //   window.top.module_settings_modal_reference = thismodal;
@@ -256,14 +246,15 @@ if (typeof thismodal.main[0] != 'undefined') {
             is_module_tml_holder.empty();
 
             var holder = mwd.createElement('div');
-            holder.className = 'mw-dropdown-content mw-dropdown-content-module-settings-dd-menu';
+            holder.className = 'mw-module-presets-content';
 
 
             var html = ""
                 + "<div id='module-modal-settings-menu-items' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
                 + "</div>"
                 + "<hr>"
-                + "<div id='module-modal-settings-menu-holder-2'><a class='mw-ui-btn mw-ui-btn-small' href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>"
+                + "<div id='module-modal-settings-menu-holder-2'>"
+                + "<a href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>";
 
 
 
@@ -318,29 +309,25 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
 
-				}
+				};
 				var html = ""
 
-                + "<div id='module-modal-settings-menu-holder'><a class='mw-ui-btn mw-ui-btn-small' href='javascript:modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a></div>"
+                + "<div id='module-modal-settings-menu-holder'><a  href='javascript:modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a></div>"
                 + "<div id='module-modal-settings-menu-holder-open-presets' onclick='void();'></div>"
 
-
-
-
-            var btn = "<a class='mw-ui-btn-small'><span class='mw-icon-dropdown right'></span></a>";
-
+            var btn = document.createElement('a');
+				btn.className = 'mw-module-presets-opener';
+                $(btn).on('click', function(){
+                    $(this).parent().toggleClass('active');
+                });
 
 			var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
 
 			if(typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0],'edit')){
-				      $(holder).append(html);
+                $(holder).append(html);
+                $(dd).prepend(btn);
 
-					$(dd).prepend(btn);
-
-					is_module_tml_holder.append(holder);
-
-				    //parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items');
-					mw.dropdown(toolbar);
+                is_module_tml_holder.append(holder);
 			}
 
 
@@ -350,10 +337,11 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
         mw.module_preset_linked_dd_menu_show_icon();
+        <?php endif; ?>
     });
 
 
-        <?php endif; ?>
+
 }
 
         $(window).load(function () {

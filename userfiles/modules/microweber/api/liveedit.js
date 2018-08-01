@@ -2212,7 +2212,7 @@ mw.drag = {
             helper = {},
             master = {};
         if (l > 0) {
-            for (; i < l; i++) {
+            for (; i < l; i++) {    
                 helper.item = edits[i];
                 var rel = mw.tools.mwattr(helper.item, 'rel');
                 if (!rel) {
