@@ -91,15 +91,34 @@ class NotificationsManager
         return $this->get('is_read=0&count=1');
     }
 
-    public function mark_all_as_read()
+    public function mark_all_as_read($params = false)
     {
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
         }
 
-        $this->app->database_manager->table($this->table)->where('is_read', '=', 0)->update(['is_read' => 1]);
-        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        $upd = $this->app->database_manager->table($this->table)
+            ->where('is_read', '=', 0);
+
+        if (isset($params['rel_type'])) {
+            $upd = $upd->where('rel_type', $params['rel_type']);
+        }
+        if (isset($params['rel_id'])) {
+            $upd = $upd->where('rel_id', $params['rel_id']);
+        }
+
+        $upd = $upd->update(['is_read' => 1]);
+      //  $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('notifications');
 
         return true;
     }
@@ -250,9 +269,6 @@ class NotificationsManager
                 }
             }
         }
-
-
-
 
 
         return $return;

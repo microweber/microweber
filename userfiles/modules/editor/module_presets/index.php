@@ -67,9 +67,10 @@
 //alert(orig_attrs_str);
                     }
 
+                    window.parent.$('#module-modal-settings-menu-holder').remove();
+
                     var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
                     window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
-
                 }
 
 
@@ -212,10 +213,19 @@
 
 
 
-
             <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
             <?php if (is_array($saved_modules)): ?>
                 <ul class="mw-presets-list">
+
+                    <?php if (($fffound)!= false): ?>
+                    <li>
+
+
+                            <input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
+                                   class="module-presets-action-btn"/>
+
+                    </li>
+                    <?php endif; ?>
                     <?php foreach ($saved_modules as $item): ?>
 
                         <?php
