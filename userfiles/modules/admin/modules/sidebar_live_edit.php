@@ -11,14 +11,15 @@
     <h3 class="tab-title tab-title-0"><?php _e("Add Layout"); ?></h3>
     <h3 class="tab-title tab-title-1" style="display: none;"><?php _e("Add Module"); ?></h3>
     <h3 class="tab-title tab-title-2" style="display: none;"><?php _e("Settings"); ?></h3>
-    <h3 class="tab-title tab-title-3" style="display: none;"><?php echo("UI Editor"); ?></h3>
+    <?php /*
+    <h3 class="tab-title tab-title-3" style="display: none;"><?php echo("UI Editor"); ?></h3> */ ?>
 
     <div id="mw-modules-layouts-tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php echo("UI Editor"); ?></a>
+            <?php /*<a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php echo("UI Editor"); ?></a>*/ ?>
         </div>
 
 

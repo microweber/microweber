@@ -1552,6 +1552,7 @@ body.loaded #live_edit_toolbar {
     position: absolute;
     right: 40px;
     top: 0px;
+    min-height: 30px;
 }
 
 #module-modal-settings-menu-holder a{
@@ -4087,6 +4088,26 @@ body.dragStart .allow-drop {
 
 .module-presets-add-new-holder{
     padding: 5px;
+}
+
+#module-modal-preset-linked-icon:before{
+    content: "\0101";
+    font-family: Microweber!important;
+        position: relative;
+    top: 1px;
+}
+
+/*#module-modal-preset-linked-icon:after{
+    content: '\002d';
+    font-family: 'admin';
+    position: relative;
+    top: 1px;
+}*/
+#module-modal-preset-linked-icon{
+    position: absolute;
+    right: 85px;
+    top: 4px;
+    color: white;
 }
 
 

@@ -208,17 +208,14 @@ if (typeof thismodal.main[0] != 'undefined') {
         if (is_module_preset_tml_holder.length == 0) {
             var linked_dd =  window.parent.mwd.createElement('div');
             linked_dd.id = 'module-modal-preset-linked-icon';
-            linked_dd.className = 'mw-normalize-css ';
-            linked_dd.innerHTML = ' 1 ';
-
             $(toolbar).prepend(linked_dd);
 
         };
         is_module_preset_tml_holder = window.parent.$("#module-modal-preset-linked-icon");
         <?php if($is_linked_mod){  ?>
-        $("#module-modal-preset-linked-icon",toolbar).html('linked ');
+        $("#module-modal-preset-linked-icon",toolbar).addClass('is-linked');
         <?php  }else { ?>
-        $("#module-modal-preset-linked-icon",toolbar).html('  ');
+        $("#module-modal-preset-linked-icon",toolbar).removeClass('is-linked');
 
         <?php  } ?>
     }

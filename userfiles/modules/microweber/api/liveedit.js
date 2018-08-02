@@ -1064,8 +1064,8 @@ mw.drag = {
                 +  '<label>Top and bottom</label>'
                 +  '<input type="range">'
                 +  '</div></div>';
-
-            $("#mw_handle_module").append(pd);
+            //todo
+            //$("#mw_handle_module").append(pd);
 
             $(mw.handle_element).mouseenter(function() {
                 var curr = $(this).data("curr");
