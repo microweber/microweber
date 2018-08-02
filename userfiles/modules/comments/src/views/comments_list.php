@@ -1,8 +1,19 @@
-<?php only_admin_access() ;
- $data = array(
+<?php only_admin_access();
+
+if (isset($params['content_id'])) {
+    $data = array(
         'content_id' => $params['content_id'],
         'nolimit' => true,
     );
+
+} elseif (isset($params['rel_id']) and isset($params['rel_type'])) {
+    $data = array(
+        'rel_id' => $params['rel_id'],
+        'rel_type' => $params['rel_type'],
+        'nolimit' => true,
+    );
+}
+
 
 if (isset($params['search-keyword']) and $params['search-keyword']) {
     $kw = $data['keyword'] = $params['search-keyword'];
@@ -10,39 +21,35 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
 }
 
 
+$content = false;
+$content_id = false;
 
-    $comments  = $postComments = get_comments($data);
-
-	$content = get_content_by_id($params['content_id']);
-
-    $content_id =  $params['content_id'];
+$comments = $postComments = get_comments($data);
 
 
-    $moderation_is_required =  get_option('require_moderation', 'comments')=='y';
+if (isset($params['content_id'])) {
+    $content = get_content_by_id($params['content_id']);
+
+    $content_id = $params['content_id'];
+}
+
+$moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 
 ?>
-
 
 
 <script type="text/javascript">
 
 
-
-
     $(document).ready(function () {
 
 
-
-
-
-            mw.dropdown();
-            $(mwd.body).ajaxStop(function () {
-                setTimeout(function () {
-                    mw.dropdown();
-                }, 1222);
-            });
-
-
+        mw.dropdown();
+        $(mwd.body).ajaxStop(function () {
+            setTimeout(function () {
+                mw.dropdown();
+            }, 1222);
+        });
 
 
         $('.new-close', '#<?php print $params['id'] ?>').on('click', function (e) {
@@ -76,10 +83,9 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
             e.preventDefault();
             e.stopPropagation();
             var commentID = $(this).data('id');
-            mw.edit_comments.save_form('#comment-form-'+commentID)
+            mw.edit_comments.save_form('#comment-form-' + commentID)
             mw.reload_module('#<?php print $params['id'] ?>');
         });
-
 
 
         $('.js-mark-spam-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
@@ -100,7 +106,6 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
         });
 
 
-
         $('.js-comment-approved-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -108,7 +113,6 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
             mw.edit_comments.publish(commentID);
             mw.reload_module('#<?php print $params['id'] ?>');
         });
-
 
 
         $('.js-comment-unpublished-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
@@ -120,14 +124,7 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
         });
 
 
-
-
-
-
-
-
-
-        $('.js-reply-comment-form', '#<?php print $params['id'] ?>').on('submit', function(e){
+        $('.js-reply-comment-form', '#<?php print $params['id'] ?>').on('submit', function (e) {
             e.preventDefault();
             e.stopPropagation();
             var form = $(this);
@@ -136,7 +133,6 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
                 mw.reload_module('#<?php print $params['id'] ?>');
             }
         });
-
 
 
         $('.js-reply-comment-btn', '#<?php print $params['id'] ?>').on('click', function (e) {
@@ -149,29 +145,31 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
 </script>
 
 
-
-<div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>"  >
+<div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>">
     <?php if (!isset($params['no_post_head'])): ?>
 
 
-    <div class="order-data">
+        <div class="order-data">
 
-        <div class="article-image">
-            <?php $image = get_picture($content['id']); ?>
+            <div class="article-image">
+                <?php $image = get_picture($content['id']); ?>
 
-            <?php if (isset($image) and $image != ''): ?>
-                <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
-            <?php else: ?>
-                <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
-            <?php endif; ?>
+                <?php if (isset($image) and $image != ''): ?>
+                    <span class="comment-thumbnail-tooltip"
+                          style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
+                <?php else: ?>
+                    <span class="comment-thumbnail-tooltip"
+                          style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
+                <?php endif; ?>
+            </div>
+
+            <div class="post-name">
+                <a href="<?php print content_link($content['id']); ?>"
+                   target="_blank"><?php print content_title($content['id']); ?></a>
+            </div>
+
+            <div class="last-comment-date"><?php print mw()->format->ago($comments[0]['created_at']); ?></div>
         </div>
-
-        <div class="post-name">
-            <a href="<?php print content_link($content['id']); ?>" target="_blank"><?php print content_title($content['id']); ?></a>
-        </div>
-
-        <div class="last-comment-date"><?php print mw()->format->ago($comments[0]['created_at']); ?></div>
-    </div>
 
     <?php endif; ?>
 
@@ -181,20 +179,22 @@ if (isset($params['search-keyword']) and $params['search-keyword']) {
             <hr/>
             <?php
             if (is_array($postComments)) {
-                foreach ($postComments as $i=>$comment) { ?>
+            foreach ($postComments as $i => $comment) { ?>
 
             <?php
             $last_item_param = '';
-            if(!isset($postComments[$i+1])){
+            if (!isset($postComments[$i + 1])) {
                 $last_item_param = ' show-reply-form=true ';
 
-            } ?>
+            }
+            ?>
 
-            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> >
+            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>"
+                    comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> >
 
 
                 <?php } ?>
-            <?php } ?>
+                <?php } ?>
         </div>
 
 

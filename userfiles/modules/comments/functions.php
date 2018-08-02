@@ -19,6 +19,22 @@ api_expose_admin('mark_comments_as_old', function ($params) {
     return $comments->mark_as_old($params);
 });
 
+api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
+
+    if (isset($params['comment_id'])) {
+        $comm = get_content_by_id($params['comment_id']);
+        if ($comm and isset($comm['rel_type']) and isset($comm['rel_id'])) {
+            $data = array();
+            $data['rel_type'] = $comm['rel_type'];
+            $data['rel_id'] = $comm['rel_id'];
+            $data['module'] = 'comments';
+
+            return mw()->notifications_manager->mark_all_as_read($data);
+        }
+
+
+    }
+});
 
 /**
  * post_comment
@@ -71,7 +87,7 @@ event_bind(
 
 event_bind(
     'mw.admin.dashboard.content.2', function ($item) {
-    print '<div type="comments/dashboard_recent_comments" class="mw-lazy-load-module" id="admin-dashboard-recent-comments"></div>';
+    print '<div type="comments/dashboard_recent_comments" class="mw-lazy-load-module" id="admin-dashboard-recent-comments" no_paging="true"></div>';
 }
 );
 

@@ -184,6 +184,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.admin.CategoryTreeWidth(this);
 
+        mw.$(".js-top-save").hide();
+
+
         //  mw.tools.loading(mwd.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
@@ -222,7 +225,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             //active_item.addClass('active-bg');
             //active_item.parents("li").addClass('active');
             if (arr[0] === 'editpage') {
+
                 mw_select_page_for_editing(arr[1])
+
+
             }
 
 
@@ -239,7 +245,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                 mw_select_category_for_editing(arr[1])
             }
             else if (arr[0] === 'editpost') {
+
                 mw_select_post_for_editing(arr[1]);
+
+
             } else if (arr[0] === 'addsubcategory') {
                 mw_select_add_sub_category(arr[1]);
             }

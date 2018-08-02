@@ -296,7 +296,12 @@
 }
 
 .fade-window .window-holder .edit-post-url #slug-url-column {
-    padding-top: 5px;
+    padding-top: 7px;
+}
+
+.fade-window .window-holder  .edit-post-url .mw-ui-invisible-field {
+
+    top: -6px;
 }
 
 .fade-window .window-holder #slug-base-url {

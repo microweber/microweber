@@ -100,7 +100,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="submit" class="mw-ui-btn mw-ui-btn-notification"
+                                                        <button type="submit" class="mw-ui-btn mw-ui-btn-notification js-edit-content-the-main-save-btn"
                                                                 form="quickform-edit-content">
                                                             <?php _e("Save"); ?>
                                                         </button>
@@ -126,7 +126,7 @@ if (isset($data['content_type']) and $data['content_type'] == 'page') {
                                                         </li>
                                                     <?php endif; ?>
                                                     <li>
-                                                        <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
+                                                        <button type="submit" class="mw-ui-btn mw-ui-btn-invert js-edit-content-the-main-save-btn"
                                                                 form="quickform-edit-content">
                                                             <?php _e("Save"); ?>
                                                         </button>
