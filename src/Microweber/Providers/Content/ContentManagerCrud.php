@@ -266,10 +266,14 @@ class ContentManagerCrud extends Crud
             return self::$precached_links[$link_hash];
         }
 
-        $get = array();
-        $get['url'] = $url;
-        $get['single'] = true;
-        $content = $this->get($get);
+        if($url == ''){
+            $content=$this->app->content_manager->homepage();
+        } else {
+            $get = array();
+            $get['url'] = $url;
+            $get['single'] = true;
+            $content = $this->get($get);
+        }
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;
 

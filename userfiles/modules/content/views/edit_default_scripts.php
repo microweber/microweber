@@ -625,7 +625,21 @@
 
         });
 
-        //mw.$(".js-top-save").show();
+
+
+//        $('.admin-manage-toolbar-scrolled').on('scroll',function() {
+//
+//            if($("#content-title-field-buttons").is(':visible') === $("#content-title-field-buttons").is(':not(:hidden)')){
+//
+//
+//            }
+//
+//
+//            if(!$("#content-title-field-buttons").is(':visible')){
+//
+//                mw.$(".js-top-save").show();
+//            }
+//        });
 
 
     });
