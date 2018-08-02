@@ -515,6 +515,9 @@ class Lang
                 }
             }
         }
+        if($ns){
+            $ns = array_unique($ns);
+        }
         return $ns;
     }
 

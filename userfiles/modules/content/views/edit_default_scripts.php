@@ -623,7 +623,7 @@
                 $('#settings-tabs').toggleClass('hidden');
             }
 
-        });
+    });
 
 
 
@@ -642,5 +642,70 @@
 //        });
 
 
+
+
+
     });
+
+
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    function toolbar_show_the_save_btn_sticky_init() {
+//
+//        var self=this;
+//
+//        var elA = document.getElementsByClassName('.js-edit-content-the-main-save-btn')[0];
+//        var elB = document.getElementsByClassName('.js-top-save')[0];
+//
+//        if(!elA && !elB){
+//            return;
+//        }
+//
+//
+//// Defining a function to get top, left, right and bottom coordinates
+//        function pos(el) {
+//            return el.getBoundingClientRect();
+//        }
+//
+//// Function to check el1 is covered by el2
+//        function checkElements(el1, el2) {
+//            var eleA = self.pos(el1);
+//            var eleB = self.pos(el2);
+//
+//            if((eleB.top >= eleA.top && eleB.top <= eleA.bottom) || (eleB.bottom >= eleA.top && eleB.bottom <= eleA.bottom)) {
+//                if((eleB.left >= eleA.left && eleB.left <= eleA.right) || (eleB.right >= eleA.left && eleB.right <= eleA.right)) {
+//                    el1.innerHTML = '<p>covered</p>';
+//                }
+//                else {
+//                    el1.innerHTML = '<p>not covered</p>';
+//                }
+//            }
+//            else {
+//                el1.innerHTML = '<p>not covered</p>';
+//            }
+//        }
+//        self.checkElements(elA, elB); // pass two elements to check
+//    }
 </script>
