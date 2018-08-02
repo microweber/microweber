@@ -304,15 +304,13 @@ if (typeof thismodal.main[0] != 'undefined') {
 
                  window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder');
 
-
-
-
-
-
 				};
 				var html = ""
 
-                + "<div id='module-modal-settings-menu-holder'><a  href='javascript:modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a></div>"
+                + "<div id='module-modal-settings-menu-content'>" +
+                    "<a  href='javascript:modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a>" +
+                    "<a  href='javascript:void(0);'>Reset</a>" +
+                "</div>"
                 + "<div id='module-modal-settings-menu-holder-open-presets' onclick='void();'></div>"
 
             var btn = document.createElement('a');

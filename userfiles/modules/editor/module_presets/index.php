@@ -206,25 +206,16 @@
         </script>
     <?php $fffound = false; ?>
         <div id="module-saved-presets">
-            <h5><?php _e("Preset"); ?><?php print $module_id ?></h5>
-            <h5><?php _e("Module"); ?><?php print $module_name ?></h5>
-            <input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
-                   class="module-presets-action-btn"/>
+            <?php /*<input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
+                   class="module-presets-action-btn"/>*/ ?>
 
 
-            <table>
-                <tr>
-                    <td>
 
-                        Presets list
-                    </td>
-                </tr>
-            </table>
 
 
             <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
             <?php if (is_array($saved_modules)): ?>
-                <table class="mw-ui-table">
+                <ul class="mw-presets-list">
                     <?php foreach ($saved_modules as $item): ?>
 
                         <?php
@@ -234,14 +225,16 @@
                         }
 
                         ?>
-                        <tr>
-                            <td>
+                        <li>
+
                                 <div class="module-presets-add-new-holder">
+                                    <span js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn module-presets-action-btn-use"></span>
+
                                     <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
 
                                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
 
-                                    <input type="text" class="" name="name" value="<?php print  $item['name'] ?>">
+                                    <input type="text" class="module-presets-name-field " name="name" value="<?php print  $item['name'] ?>">
 
                                     <textarea name="module_attrs"
                                               style="display: none"><?php print  $item['module_attrs'] ?></textarea>
@@ -257,32 +250,22 @@
 
                                     }
 
-
                                     ?>
-
-                                    <span delete="1" js-mod-id="<?php print  $item['module_id'] ?>"
-                                          class="mw-close module-presets-action-btn">x</span>
-
-                                    <span js-mod-id="<?php print  $item['module_id'] ?>"
-                                          use="<?php print  $item['module_id'] ?>"
-                                          class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue module-presets-action-btn right">Use</span>
-
-
+                                    <span delete="1" js-mod-id="<?php print  $item['module_id'] ?>" class="mw-icon-trash-b module-presets-action-btn module-presets-action-btn-delete"></span>
                                 </div>
-                            </td>
-                        </tr>
+                        </li>
                     <?php endforeach; ?>
-                </table>
+                </ul>
             <?php endif; ?>
         </div>
     <?php if (($fffound) == false): ?>
         <div class="module-presets-add-new-holder">
             <input type="hidden" name="module" value="<?php print $module_name ?>">
-            <input type="text" name="name" value="" class="mw-ui-field" xonfocus="setVisible(event);"
+            <input type="text" name="name" value="" class="mw-ui-field mw-ui-field-medium" xonfocus="setVisible(event);"
                    xonblur="setVisible(event);">
             <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-            <input type="button" js-mod-id="<?php print  $module_id ?>" value="Save template"
-                   class="mw-ui-btn module-presets-action-btn"/>
+            <input type="button" js-mod-id="<?php print  $module_id ?>" value="Save"
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn"/>
         </div>
     <?php endif; ?>
     <?php else : ?>

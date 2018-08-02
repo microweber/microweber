@@ -1549,10 +1549,13 @@ body.loaded #live_edit_toolbar {
 }
 
 #module-modal-settings-menu-holder {
-    float: right;
-    margin-right: 27px;
-    margin-top: -3px;
-    position: relative;
+    position: absolute;
+    right: 40px;
+    top: 0px;
+}
+
+#module-modal-settings-menu-holder a{
+    text-decoration: underline;
 }
 
 #module-modal-settings-menu-holder .mw-dropdown-content {
@@ -3899,7 +3902,6 @@ body.dragStart .allow-drop {
 }
 
 .mw-module-quick-options:hover .mw-module-quick-options-content{
-
     display: block;
 }
 
@@ -3908,8 +3910,8 @@ body.dragStart .allow-drop {
     width: 48%;
 }
 
-.prop-ui-field-quatro .prop-ui-field-holder:nth-child(even){float: right;}
-.prop-ui-field-quatro .prop-ui-field-holder:nth-child(odd){clear: both;}
+.prop-ui-field-quatro .prop-ui-field-holder:nth-child(even){ float: right; }
+.prop-ui-field-quatro .prop-ui-field-holder:nth-child(odd){ clear: both; }
 
 .prop-ui-label{
     font-size: 10px;
@@ -3935,9 +3937,7 @@ body.dragStart .allow-drop {
 .mw-module-presets-opener{
     float: right;
     display: block;
-    height: 20px;
     transition: color .3s;
-    margin: 5px 20px 0 0;
     cursor: pointer;
 }
 .mw-module-presets-opener{
@@ -3947,22 +3947,21 @@ body.dragStart .allow-drop {
 .mw-module-presets-opener:before{
     content: '\002d';
     font-family: 'admin';
+    position: relative;
+    top: 1px;
 }
+
 .mw-module-presets-opener:after{
     content: "\0118";
     font-family: Microweber!important;
     margin-left: 5px;
     font-size: 12px;
     position: relative;
-    top: -4px;
+    top: -2px;
 }
 
 .mw-module-presets-opener:hover{
     color: rgba(14, 128, 229, 1);
-}
-
-.mw-presets-dropdown{
-
 }
 
 .mw-module-presets-content{
@@ -3973,18 +3972,123 @@ body.dragStart .allow-drop {
     border: 1px solid #e5e5e5;
     overflow: hidden;
     border-radius: 3px;
+    cursor: default;
+    background: white;
+    padding-bottom: 6px;
+    box-shadow: 0 1px 15px rgba(0,0,0,.2);
 }
+
 .mw-presets-dropdown.active .mw-module-presets-content{
     display: block;
 }
 
-
-.module-modal-settings-menu-holder > a{
+#module-modal-settings-menu-content a{
+    color: rgba(77, 77, 77, 1);
+    background: white;
     display: block;
-    padding: 10px;
     background:#fff
 }
 
-.module-modal-settings-menu-holder > a +a{
-    border-top: 1px solid #e5e5e5
+#module-modal-settings-menu-content > a + a{
+    border-top: 1px solid #e5e5e5;
 }
+
+#module-modal-settings-menu-holder-open-presets{
+    background: white;
+}
+
+#module-modal-settings-menu-holder a{
+    display: block;
+   padding: 5px 10px;
+    text-decoration: none;
+
+}
+
+.module-presets-action-btn-use{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border:1px solid rgba(0, 132, 216, 1);
+    position: relative;
+    border-radius: 2px;
+    float: left;
+}
+
+.module-presets-action-btn-use:after{
+    content: "\0101";
+    font-family: Microweber!important;
+    opacity: 0;
+    visibility: hidden;
+    color: white;
+    transition: all .3s;
+    transform: scale(.5);
+    font-size: 20px;
+}
+
+.module-presets-action-btn-use:hover{
+    background:rgba(0, 132, 216, 1)
+}
+
+.module-presets-action-btn-use:hover:after{
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+.module-presets-name-field{
+    width: 145px;
+    height: 25px;
+    border: 1px solid #eee;
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    float: left;
+    padding: 0 10px;
+}
+
+.mw-module-presets-content{
+
+    overflow: hidden;
+    width: 190px;
+}
+
+.mw-presets-list li {
+}
+
+.mw-presets-list li + li{
+    padding-top: 5px;
+}
+
+.module-presets-action-btn-delete{
+    cursor: pointer;
+    display: inline-block;
+    padding: 3px 3px;
+    color: rgba(199, 199, 199, 1);
+    width: 28px;
+    text-align: center;
+}
+
+.module-presets-action-btn-delete:hover{
+    color: rgba(255, 0, 0, 1);
+}
+
+.module-presets-add-new-holder{
+    clear: both;
+
+}
+
+.module-presets-add-new-holder .mw-ui-btn{
+    float: right;
+}
+
+.module-presets-add-new-holder input[type='text']{
+    float: left;
+    width: 110px;
+}
+
+.module-presets-add-new-holder{
+    padding: 5px;
+}
+
+
+
+
