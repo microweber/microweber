@@ -110,7 +110,7 @@ set_current_lang($lang);
 $cont = mw()->lang_helper->get_language_file_content();
 $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
 
- 
+
 ?>
 <?php if (!empty($cont)): ?>
     <div id="accordion-<?php print $params['id'] ?>" class="mw-ui-box mw-ui-box-silver-blue active">

@@ -44,10 +44,23 @@ class Admin
     function comments_list($params)
     {
 
+        if (!isset($params['content_id'])) {
 
-        $data = array(
-            'content_id' => $params['content_id']
-        );
+            if (isset($params['rel_id']) and isset($params['rel_type'])) {
+                $data = array(
+                    'rel_id' => $params['rel_id'],
+                    'rel_type' => $params['rel_type'],
+
+                );
+            }
+
+
+        } else {
+            $data = array(
+                'content_id' => $params['content_id']
+            );
+        }
+
 
         if (isset($params['search-keyword']) and $params['search-keyword']) {
             $kw = $data['keyword'] = $params['search-keyword'];
@@ -56,10 +69,13 @@ class Admin
 
 
         $comments = $postComments = get_comments($data);
-
-        $content = get_content_by_id($params['content_id']);
-
-        $content_id = $params['content_id'];
+        if (isset($params['content_id'])) {
+            $content = get_content_by_id($params['content_id']);
+            $content_id = $params['content_id'];
+        } else {
+            $content = false;
+            $content_id = false;
+        }
 
 
         $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
@@ -108,6 +124,9 @@ class Admin
     {
 
         $keyword = false;
+        $paging_param = 'comments_page';
+        $current_page_from_url = $this->app->url_manager->param($paging_param);
+
         $comments_data = array();
         $comments_data['cache_group'] = 'comments/global';
         if (isset($params['search-keyword'])) {
@@ -144,10 +163,21 @@ class Admin
             $keyword = strip_tags($keyword);
             $keyword = addslashes($keyword);
         }
+
+
+        if (!$keyword and $current_page_from_url) {
+            $comments_data['current_page'] = $current_page_from_url;
+
+        }
+
+
         $comments_data['group_by'] = 'rel_id,rel_type';
-        $comments_data['order_by'] = 'created_at desc';
+        $comments_data['order_by'] = 'updated_at desc';
 
         $data = get_comments($comments_data);
+        $comments_data['page_count'] = true;
+
+        $page_count = get_comments($comments_data);
 
 
         $view_file = $this->views_dir . 'manage.php';
@@ -157,6 +187,8 @@ class Admin
         $view->assign('params', $params);
         $view->assign('kw', $keyword);
         $view->assign('data', $data);
+        $view->assign('page_count', $page_count);
+        $view->assign('paging_param', $paging_param);
 
         return $view->display();
     }

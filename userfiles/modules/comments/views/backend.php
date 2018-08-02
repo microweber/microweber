@@ -129,7 +129,7 @@ mw()->notifications_manager->mark_as_read('comments');
                                 type="search"
                                 class="mw-ui-searchfield"
                                 placeholder="<?php _e("Search comments"); ?>"
-                                onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+                                onkeyup="$(this).addClass('active'); mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
                         />
                     </div>
                     <module type="comments/manage" id="mw_admin_posts_with_comments"/>
