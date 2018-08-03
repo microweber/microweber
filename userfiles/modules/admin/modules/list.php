@@ -228,7 +228,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <?php if ($mod_obj_str == 'elements'): ?>
             <li>
                 <hr>
-                <h4 style="font-weight: bold; font-size: 18px; margin-top: 10px; margin-bottom: 10px;"><?php _e('Default static layouts'); ?></h4>
+                <h4 onclick="$('.default-layouts').toggle()" style="font-weight: bold; font-size: 18px; margin-top: 10px; margin-bottom: 10px; cursor: pointer;"><?php _e('Default static layouts'); ?> </h4>
                 <hr>
             </li>
         <?php endif; ?>
@@ -270,7 +270,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
                 <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                         data-module-name="<?php print $module_item['module'] ?>"
-
+                        <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
                         data-filter="<?php print $module_item['name'] ?>"
                         ondrop="true"
                         data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
