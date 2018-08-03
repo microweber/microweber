@@ -3946,10 +3946,10 @@ body.dragStart .allow-drop {
 }
 
 .mw-module-presets-opener:before{
-    content: '\002d';
+  /*  content: '\002d';
     font-family: 'admin';
     position: relative;
-    top: 1px;
+    top: 1px;*/
 }
 
 .mw-module-presets-opener:after{

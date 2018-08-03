@@ -208,14 +208,16 @@ if (typeof thismodal.main[0] != 'undefined') {
         if (is_module_preset_tml_holder.length == 0) {
             var linked_dd =  window.parent.mwd.createElement('div');
             linked_dd.id = 'module-modal-preset-linked-icon';
+             linked_dd.style.display = "none";
+
             $(toolbar).prepend(linked_dd);
 
         };
         is_module_preset_tml_holder = window.parent.$("#module-modal-preset-linked-icon");
         <?php if($is_linked_mod){  ?>
-        $("#module-modal-preset-linked-icon",toolbar).addClass('is-linked');
+        $("#module-modal-preset-linked-icon",toolbar).addClass('is-linked').show();
         <?php  }else { ?>
-        $("#module-modal-preset-linked-icon",toolbar).removeClass('is-linked');
+        $("#module-modal-preset-linked-icon",toolbar).removeClass('is-linked').hide();
 
         <?php  } ?>
     }
@@ -323,6 +325,7 @@ if (typeof thismodal.main[0] != 'undefined') {
                 $(dd).prepend(btn);
 
                 is_module_tml_holder.append(holder);
+
 			}
 
 
@@ -330,7 +333,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
         }
 
-
+        window.parent.modal_preset_manager_html_placeholder_for_reload();
         mw.module_preset_linked_dd_menu_show_icon();
         <?php endif; ?>
     });

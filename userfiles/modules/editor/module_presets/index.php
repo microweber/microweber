@@ -217,15 +217,7 @@
             <?php if (is_array($saved_modules)): ?>
                 <ul class="mw-presets-list">
 
-                    <?php if (($fffound)!= false): ?>
-                    <li>
 
-
-                            <input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
-                                   class="module-presets-action-btn"/>
-
-                    </li>
-                    <?php endif; ?>
                     <?php foreach ($saved_modules as $item): ?>
 
                         <?php
@@ -265,9 +257,42 @@
                                 </div>
                         </li>
                     <?php endforeach; ?>
+
+                    <?php if (($fffound)!= false): ?>
+                        <li>
+
+
+                            <input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
+                                   class="module-presets-action-btn"/>
+
+                        </li>
+                    <?php endif; ?>
+
+
                 </ul>
             <?php endif; ?>
         </div>
+
+
+    <?php if (($fffound)!= false): ?>
+       <script>
+           $(document).ready(function () {
+               $("#module-modal-preset-linked-icon").addClass('is-linked').show();
+
+           });
+       </script>
+    <?php else : ?>
+        <script>
+            $(document).ready(function () {
+                $("#module-modal-preset-linked-icon").removeClass('is-linked').hide();
+
+            });
+        </script>
+    <?php endif; ?>
+
+
+
+
     <?php if (($fffound) == false): ?>
         <div class="module-presets-add-new-holder">
             <input type="hidden" name="module" value="<?php print $module_name ?>">

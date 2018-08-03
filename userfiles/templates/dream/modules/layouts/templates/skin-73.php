@@ -6,7 +6,7 @@ type: layout
 
 name: Cover Media With Video
 
-position: 1
+position: 100
 
 */
 
