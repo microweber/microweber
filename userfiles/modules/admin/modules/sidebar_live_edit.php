@@ -82,7 +82,9 @@
                 <?php } ?>
             </div>
             <div class="mw-ui-box-content tabitem css-editor-holder">
-                <div id="mw-css-editor"></div>
+
+                
+                <div id="mw-css-editor_____TEMP_REMOVE"></div>
             </div>
         </div>
     </div>
