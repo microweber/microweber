@@ -669,7 +669,11 @@ function mw_option_save_rebind_form_fields(){
 
 
 
+$( frame ).on('unload',function() {
+    alert(1)
+    window.parent.$('#module-modal-settings-menu-holder').remove();
 
+});
     $(document).ready(function () {
 
 

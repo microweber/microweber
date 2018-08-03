@@ -67,7 +67,7 @@
 //alert(orig_attrs_str);
                     }
 
-                    window.parent.$('#module-modal-settings-menu-holder').remove();
+                   // window.parent.$('#module-modal-settings-menu-holder').remove();
 
                     var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
                     window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
@@ -99,7 +99,7 @@
                     window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                     window.parent.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
                     window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
-                    alert(orig_id);
+
                     window.parent.mw.reload_module("#" + orig_id);
                     mod_id_for_presets = orig_id;
                     mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
@@ -260,11 +260,11 @@
 
                     <?php if (($fffound)!= false): ?>
                         <li>
-
+                            <div class="module-presets-add-new-holder">
 
                             <input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
                                    class="module-presets-action-btn"/>
-
+                            </div>
                         </li>
                     <?php endif; ?>
 
