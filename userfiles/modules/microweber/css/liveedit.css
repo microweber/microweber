@@ -1927,6 +1927,10 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     outline-offset: -1px;
 }
 
+.mw_modal .module-over:hover{
+    outline: none
+}
+
 .mw-row:hover .mw-sorthandle-row:first-child {
     visibility: visible;
 }
@@ -4079,11 +4083,26 @@ body.dragStart .allow-drop {
 
 .module-presets-add-new-holder .mw-ui-btn{
     float: right;
+    line-height: 12px !important;
+    height: 25px;
+    min-height: 0px;
 }
 
-.module-presets-add-new-holder input[type='text']{
+.module-presets-add-new-holder input[type='text'] {
     float: left;
     width: 110px;
+    border-radius: 0;
+    box-shadow: none;
+    height: 25px;
+    -webkit-appearance: initial;
+    border: 1px solid #ccc;
+    min-height: 21px;
+    padding: 0px 6px;
+    font-size: 14px;
+}
+
+.module-presets-add-new-holder input.module-presets-name-field{
+    border-left: 0;
 }
 
 .module-presets-add-new-holder{
@@ -4108,6 +4127,14 @@ body.dragStart .allow-drop {
     right: 85px;
     top: 4px;
     color: white;
+}
+
+#js-release-btn{
+    display: inline-block;
+    padding: 4px;
+    border: 1px solid #eee;
+    border-radius: 2px;
+    background: #fff;
 }
 
 

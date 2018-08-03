@@ -185,6 +185,7 @@
                 $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
             });
 
+            /*
 
             CSSEditorSchema = [
                 {
@@ -252,14 +253,8 @@
                 element:'#mw-css-editor'
             });
 
-            mw.elementCSSEditor.time = null;
-
             $(mw.elementCSSEditor).on('change', function(event, property, value){
                 mw.$(mw.elementCSSEditor.currentElement).css(property, value);
-                /*clearTimeout(mw.elementCSSEditor.time);
-                mw.elementCSSEditor.time = setTimeout(function(){
-                    vmw.$(mw.elementCSSEditor.currentElement).css(property, value);
-                }, 78);*/
             });
 
             mw.on("ElementClick", function(event, el){
@@ -280,6 +275,8 @@
                 };
                 mw.elementCSSEditor.setValue(val);
             });
+
+            */
 
         });
 

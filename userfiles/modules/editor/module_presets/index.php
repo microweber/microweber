@@ -299,8 +299,8 @@
             <input type="text" name="name" value="" class="mw-ui-field mw-ui-field-medium" xonfocus="setVisible(event);"
                    xonblur="setVisible(event);">
             <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-            <input type="button" js-mod-id="<?php print  $module_id ?>" value="Save"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn"/>
+            <span type="button" js-mod-id="<?php print  $module_id ?>" value="Save"
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
         </div>
     <?php endif; ?>
     <?php else : ?>
