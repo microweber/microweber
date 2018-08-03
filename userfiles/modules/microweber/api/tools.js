@@ -1521,7 +1521,6 @@ mw.tools = {
             }
         },
         recall: function (tree) {
-            console.log(1212,tree);
             if (tree) {
                 var ids = mw.cookie.ui("tree_" + tree.id);
                 if (typeof(ids) != 'undefined' && ids != false) {
@@ -2380,16 +2379,16 @@ mw.tools = {
         var t = obj.nodeName.toLowerCase();
         if (t == 'input' || t == 'textarea' || t == 'select') {
             return true
-        }
-        ;
+        };
         return false;
     },
     getAttrs: function (el) {
         var attrs = el.attributes;
         var obj = {}
         for (var x in attrs) {
-            var dis = attrs[x];
-            obj[dis.nodeName] = dis.nodeValue
+            if(attrs[x].nodeName){
+                obj[attrs[x].nodeName] = attrs[x].nodeValue;
+            }
         }
         return obj;
     },
