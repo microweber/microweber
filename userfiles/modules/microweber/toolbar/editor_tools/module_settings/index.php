@@ -259,7 +259,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
 			window.parent.modal_preset_manager_html_placeholder_for_reload = function(){
-			var modal_preset_manager_html_placeholder_for_reload = ""
+			var modal_preset_manager_html_placeholder_for_reload_content = ""
                 + "<div id='module-modal-settings-menu-items-presets-holder' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
                 + "</div>"
 
@@ -270,7 +270,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 		here for popup
 		mw_admin_edit_tax_item_popup_modal_opened = window.parent.mw.modal({
-					content:   modal_preset_manager_html_placeholder_for_reload,
+					content:   modal_preset_manager_html_placeholder_for_reload_content,
 					title:     'Edit module presets',
 					id:        'modal_preset_manager_html_placeholder_for_reload_pop'
 				});
@@ -298,7 +298,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 
 
                 // HERE FOR DROPDOWN
-                  window.parent.$('#module-modal-settings-menu-holder-open-presets').html(modal_preset_manager_html_placeholder_for_reload);
+                  window.parent.$('#module-modal-settings-menu-holder-open-presets').html(modal_preset_manager_html_placeholder_for_reload_content);
 
 
                  window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder');
@@ -307,7 +307,7 @@ if (typeof thismodal.main[0] != 'undefined') {
 				var html = ""
 
                 + "<div id='module-modal-settings-menu-content'>" +
-                    "<a  href='javascript:modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a>" +
+                    "<a  href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a>" +
 
                 "</div>"
                 + "<div id='module-modal-settings-menu-holder-open-presets' onclick='void();'></div>"
@@ -336,6 +336,8 @@ if (typeof thismodal.main[0] != 'undefined') {
         window.parent.modal_preset_manager_html_placeholder_for_reload();
         mw.module_preset_linked_dd_menu_show_icon();
         <?php endif; ?>
+
+
     });
 
 
