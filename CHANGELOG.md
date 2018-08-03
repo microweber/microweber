@@ -3,6 +3,29 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.1.1] - 2018-08-05
+- Added: presets for modules 
+- Added: gulp support
+- Added: events calendar module
+- Fix: bugs in the live edit
+- Fix: some bugs in the modules parser  
+- [and many more changes....](https://github.com/microweber/microweber/compare/1.0.11...1.1.1 "")
+
+ 
+
+## [1.1.0] - 2018-07-05
+- Added: Changed the whole UI of admin panel
+- Added: You can now drop full layouts
+- Added: CSS editor
+- Added: HTML editor
+- Added: Site statistics
+- Added: SEO features 
+- Fix: Huge Live Edit impovements
+- Fix: Parser bugs
+- Changed: to MIT license 
+- [and many more changes....](https://github.com/microweber/microweber/compare/1.0.8...1.0.10 "")
+ 
+
 ## [1.0.8] - 2017-04-26
 
 - Added: testimonials module
