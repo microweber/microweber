@@ -50,10 +50,10 @@ class Comments extends Crud
                     $comments[$i]['comment_name'] = user_name($item['created_by']);
                 }
                 if (isset($item['created_at']) and trim($item['created_at']) != '') {
-                    $comments[$i]['created_at'] = date($date_format, strtotime($item['created_at']));
+                    $comments[$i]['created_at_display'] = date($date_format, strtotime($item['created_at']));
                 }
                 if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
-                    $comments[$i]['updated_at'] = date($date_format, strtotime($item['updated_at']));
+                    $comments[$i]['updated_at_display'] = date($date_format, strtotime($item['updated_at']));
                 }
                 if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
                     $surl = site_url();
