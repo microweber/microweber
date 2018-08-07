@@ -70,7 +70,7 @@ $defaults = array(
         'code' => '')
 );
 
-$json = json_decode($settings, true);
+$json = array_wrap(json_decode($settings, true));
 $json = array_merge($defaults, $json);
 if (isset($json) == false or count($json) == 0) {
     $json = $defaults;
