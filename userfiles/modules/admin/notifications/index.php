@@ -79,27 +79,27 @@ if (isset($notif_params['quick'])) {
 
 </script>
 <?php if (is_array($data)): ?>
-    <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
-    <?php $periods_printed = array(); ?>
-    <?php
-    /*		foreach($periods as $period){
-                if(!in_array($period ,$periods_printed )){
-                    $time1 = strtotime($item['created_at']);
+<?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
+<?php $periods_printed = array(); ?>
+<?php
+/*		foreach($periods as $period){
+            if(!in_array($period ,$periods_printed )){
+                $time1 = strtotime($item['created_at']);
 
 
-                    $time2 = strtotime($period);
+                $time2 = strtotime($period);
 
-                    if($time1 < $time2){
-                     print 	$period;
-                     $periods_printed[] = $period;
-                    }
-
+                if($time1 < $time2){
+                 print 	$period;
+                 $periods_printed[] = $period;
                 }
 
-            }*/
+            }
+
+        }*/
 
 
-    ?>
+?>
 <div class="admin-side-content">
     <div class="mw-admin-notifications-holder mw-ui-box mw-ui-box-content" id="<?php print $wrapper_id ?>">
         <div class="table-responsive">
@@ -110,6 +110,7 @@ if (isset($notif_params['quick'])) {
                         <col width="40">
                         <col width="200">
                         <col width="auto">
+                        <col width="120">
                         <col width="40">
                     </colgroup>
                     <thead>
@@ -170,6 +171,19 @@ if (isset($notif_params['quick'])) {
                             </td>
                         <?php endif; ?>
 
+                        <td>
+                            <div class="mw-dropdown mw-dropdown-default">
+                                <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-dropdown-val"><i class="mai-idea"></i> Published</span>
+                                <div class="mw-dropdown-content" style="display: none;">
+                                    <ul>
+                                        <li value="1">Published</li>
+                                        <li value="2">Unpublished</li>
+                                        <li value="3">Span</li>
+                                        <li value="3">Delete</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
 
                         <?php if ($is_quick == false): ?>
                             <td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="show-on-hover mw-icon-close"></a></td>
@@ -191,28 +205,28 @@ if (isset($notif_params['quick'])) {
             </a>
         <?php endif; ?>
     </div>
-<?php else : ?>
-    <?php if ($is_quick == false): ?>
-        <div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
-            <div class="mw-ui-box-header">
-                <h2>
-                    <?php _e("No new notifications available"); ?>
-                    !</h2>
+    <?php else : ?>
+        <?php if ($is_quick == false): ?>
+            <div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
+                <div class="mw-ui-box-header">
+                    <h2>
+                        <?php _e("No new notifications available"); ?>
+                        !</h2>
+                </div>
+                <div class="mw-ui-box-content">
+                    <p>
+                        <?php _e("Choose your Action"); ?>
+                    </p>
+                    <br>
+                    <p><a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">
+                            <?php _e("Back to Dashboard"); ?>
+                        </a> <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green">
+                            <?php _e("Manage your Content"); ?>
+                        </a></p>
+                    <br>
+                    <?php //print notif('No new notifications available!'); ?>
+                </div>
             </div>
-            <div class="mw-ui-box-content">
-                <p>
-                    <?php _e("Choose your Action"); ?>
-                </p>
-                <br>
-                <p><a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">
-                        <?php _e("Back to Dashboard"); ?>
-                    </a> <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green">
-                        <?php _e("Manage your Content"); ?>
-                    </a></p>
-                <br>
-                <?php //print notif('No new notifications available!'); ?>
-            </div>
-        </div>
+        <?php endif; ?>
     <?php endif; ?>
-<?php endif; ?>
 </div>
