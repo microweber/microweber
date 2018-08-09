@@ -137,6 +137,8 @@ if (isset($notif_params['quick'])) {
                         if (isset($item['module']) and $item['module'] != '') {
                             $mod_info = module_info($item['module']);
                         }
+
+                        //$view_more_link =
                         ?>
                         <td><?php if ($mod_info != false and isset($mod_info['name'])): ?>
                                 <img src=" <?php print $mod_info['icon'] ?>" style="width: 18px; height: 18px;"/>
@@ -172,7 +174,21 @@ if (isset($notif_params['quick'])) {
                         <?php endif; ?>
 
                         <td>
-                            <div class="mw-dropdown mw-dropdown-default">
+
+
+
+
+
+
+                            <?php
+
+
+                            if (isset($item['module']) and $item['module'] == 'comments'): ?>
+
+
+                           <?php
+
+                                /*       <div class="mw-dropdown mw-dropdown-default">
                                 <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-dropdown-val"><i class="mai-idea"></i> Published</span>
                                 <div class="mw-dropdown-content" style="display: none;">
                                     <ul>
@@ -182,7 +198,15 @@ if (isset($notif_params['quick'])) {
                                         <li value="3">Delete</li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>   */
+                                ?>
+                            <?php endif; ?>
+
+
+
+
+
+
                         </td>
 
                         <?php if ($is_quick == false): ?>
