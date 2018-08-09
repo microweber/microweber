@@ -170,7 +170,7 @@
 
 
 <div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee;width: 300px;" id="adminapis">
-    <h2><?php _e('Admin apis'); ?></h2>
+    <h2><?php _e('Admin APIs'); ?></h2>
 
     <h3><?php _e('Tooltip'); ?></h3>
     <h4>Data - tip text</h4>

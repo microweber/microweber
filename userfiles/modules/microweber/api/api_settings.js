@@ -221,6 +221,9 @@ mw.settings.libs = {
     datetimepicker:[
         'jquery.datetimepicker.full.min.js',
         'jquery.datetimepicker.min.css'
+    ],
+    nestedSortable:[
+        'jquery.mjs.nestedSortable.js'
     ]
 }
 
