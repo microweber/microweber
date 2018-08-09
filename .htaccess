@@ -8,22 +8,20 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
   SecFilterEngine Off
   SecFilterScanPOST Off
   SecFilterCheckURLEncoding Off
-
 </IfModule>
 
 <IfModule mod_rewrite.c>
+
     <IfModule mod_negotiation.c>
     Options -MultiViews
     </IfModule>
-    RewriteEngine On
 
+    RewriteEngine On
     RewriteCond %{REQUEST_URI} !=/favicon.ico
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^.*\.(gif|jpe?g|png)$ - [L]
     RewriteRule ^(.*)$ index.php [NC,L]
-    RewriteRule ^(userfiles)($|/) - [L]
-
     RedirectMatch 404 /\\.git(/|$)
     RedirectMatch 404 /\\.env(/|$)
+
 </IfModule>
