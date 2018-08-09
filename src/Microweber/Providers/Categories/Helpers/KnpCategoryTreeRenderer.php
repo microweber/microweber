@@ -197,6 +197,7 @@ class KnpCategoryTreeRenderer
             //   'linkAttributes' => ['target' => '_blank'],
         );
 
+
         $menu_attrs = array();
 
 
@@ -276,6 +277,12 @@ class KnpCategoryTreeRenderer
                 // $level++;
             }
 
+            if (isset($params['max_level'])) {
+
+                if ($level > 0 and (intval($params['max_level']) >= $level)) {
+                    return;
+                }
+            }
 
             $url = $this->app->category_manager->link($data['id']);
 
@@ -468,7 +475,7 @@ class KnpCategoryTreeRenderer
                         if (isset($extra_attributes['set_active_class'])) {
                             $classes[] = $extra_attributes['set_active_class'];
                         } else {
-                            $extra_attributes['active_class']  = '';
+                            $extra_attributes['active_class'] = '';
                         }
                         if (isset($extra_attributes['set_active_parent_class'])) {
                             $classes[] = $extra_attributes['active_parent_class'] = $extra_attributes['set_active_parent_class'];
