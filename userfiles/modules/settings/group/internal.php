@@ -77,7 +77,12 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
 
 <div id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();" autocomplete="off">
-    <div class="mw-ui-field-holder">
+
+
+    <?php
+
+
+    /*   <div class="mw-ui-field-holder">
         <label class="mw-ui-label"> <?php _e('Cache settings'); ?> </label>
         <?php if (!empty($cache_adapters)): ?>
         <select name="microweber[cache_adapter]" class="mw-ui-field">
@@ -93,12 +98,21 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
+        <?php endif; ?>
+    </div>*/
 
-    </div>
+    ?>
+
+
+
+
+
+
+
     <div class="mw-ui-field-holder">
 
 
-        <?php endif; ?>
+
         <label class="mw-ui-label"> <?php _e('Compile'); ?> api.js </label>
         <select name="microweber[compile_assets]" class="mw-ui-field">
             <option value="0" <?php if ($compile_assets == 0): ?> selected <?php endif; ?> > <?php _e('No'); ?></option>
@@ -121,6 +135,7 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
         <select name="microweber[update_channel]" class="mw-ui-field">
             <option value="stable" <?php if ($update_channel == 'stable'): ?> selected <?php endif; ?> > <?php _e('Stable'); ?></option>
             <option value="beta" <?php if ($update_channel == 'beta'): ?> selected <?php endif; ?> > <?php _e('Beta'); ?></option>
+            <option value="dev" <?php if ($update_channel == 'dev'): ?> selected <?php endif; ?> > Dev</option>
             <option value="disabled" <?php if ($update_channel == 'disabled'): ?> selected <?php endif; ?> > <?php _e('Disable'); ?></option>
         </select>
 
