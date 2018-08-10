@@ -665,7 +665,22 @@ if ($action == 'posts') {
                                         $('li.selected', pagesTree.list).each(function(){
                                             pagesTree.unselect(this)
                                         });
-                                        pagesTree.select(this.parentNode.parentNode);
+                                        var li = this.parentNode.parentNode,
+                                            data = li._data,
+                                            action;
+                                        pagesTree.select(li);
+
+                                        if(data.type == 'page'){
+                                            action = 'editpage';
+                                        }
+                                        if(data.subtype == 'dynamic'){
+                                            action = 'showposts';
+                                        }
+                                        if(data.type == 'category'){
+                                            action = 'showpostscat';
+                                        }
+                                        mw.url.windowHashParam("action", action+":"+data.id);
+
                                     });
 
                                 })
