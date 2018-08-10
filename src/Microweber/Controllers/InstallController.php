@@ -361,7 +361,7 @@ class InstallController extends Controller
         $postData['postdata'] = base64_encode(json_encode($data));
         $http = new \Microweber\Utils\Http(app());
         try {
-            $http->url('http://installreport.services.microweberapi.com')->post($postData);
+            $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
         } catch (\Exception $e) {
             //maybe internet connection problem
         }
