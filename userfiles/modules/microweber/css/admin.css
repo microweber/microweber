@@ -532,6 +532,66 @@ h3 > [class*="mw-icon-"]:first-child {
     visibility: visible;
 }
 
+.mw-tree .module a:hover,
+.mw-tree li > a.active-bg {
+    background-color: white;
+    border-top-color: #EDEDED;
+    border-bottom-color: #EDEDED;
+    color: #0e80e5;
+    font-weight: bold;
+}
+
+.mw-tree a.depth-1 {
+    padding-left: 58px;
+}
+
+.mw-tree ul.depth-2 {
+    margin-left: 42px;
+}
+
+.mw-tree ul.depth-2 ul {
+    margin-left: 14px;
+}
+
+.mw-tree ul.depth-2 li {
+    padding-left: 10px;
+}
+
+.mw-tree li li {
+    background: url(../img/treelisub.gif) no-repeat 0 -3px, url(../img/treelisub_single.gif) repeat-y;
+}
+
+.mw-tree li > ul:last-child > li:last-child {
+    background: url(../img/treelisub_last.gif) no-repeat 0 -3px;
+}
+
+.mw-tree ul.depth-2 li.depth-2 a {
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    background-position: 5px 10px;
+}
+
+.mw-tree ul.depth-2 li.depth-2 a:before {
+    left: 5px;
+}
+
+.mw-tree ul.depth-2 li.depth-2 label:before {
+    left: 23px;
+}
+
+.mw-tree ul.depth-2 li.depth-2 > a {
+    padding-left: 26px;
+}
+
+.mw-tree ul.depth-2 li.depth-3 a {
+    padding-left: 24px;
+}
+
+.mw-tree ul.depth-2 li.depth-2 a:hover,
+.mw-tree ul.depth-2 li a.active-bg {
+    border-left-color: #EDEDED;
+    border-right-color: #EDEDED;
+}
 
 html.mw_pages, html.mw_pages body {
     overflow: hidden;

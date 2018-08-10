@@ -38,9 +38,7 @@ mw.lib.require('nestedSortable');
             this.list.id = this.options.id;
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
             this.list._id = 0;
-            console.log(this.options.data)
             this.options.data.forEach(function(item){
-                console.log(item)
                 var list = scope.getParent(item);
                 if(list){
                     list.appendChild(scope.createItem(item));
@@ -260,6 +258,7 @@ mw.lib.require('nestedSortable');
                 listType:'ul',
                 handle:'.mw-tree-item-title',
                 update:function(e, ui){
+
                     var old = $.extend({},ui.item[0]._data);
                     var obj = ui.item[0]._data;
                     var objParent = ui.item[0].parentNode.parentNode._data;
@@ -267,8 +266,9 @@ mw.lib.require('nestedSortable');
                     console.log(ui.item[0].parentNode.parentNode)
                     obj.parent_id = objParent.id
                     obj.parent_type = objParent.type;
+
                     var newdata = [];
-                    $('li', scope.list).each(function(){
+                    $('li', this.list).each(function(){
                        newdata.push(this._data)
                     });
                     scope.options.data = newdata;
@@ -309,7 +309,7 @@ mw.lib.require('nestedSortable');
                 var el = $(this.options.element);
                 if(el.length!==0){
                     el.empty().append(this.list);
-
+                    $(this).trigger('ready');
                 }
             }
         }
@@ -364,16 +364,11 @@ mw.lib.require('nestedSortable');
             }
         }
 
-
         this.init = function(){
-
             this.json2ul();
             this.addButtons();
             this.rend();
             this.restoreState();
-            setTimeout(function(){
-                $(scope).trigger('ready');
-            }, 66)
         };
 
         this.init();
