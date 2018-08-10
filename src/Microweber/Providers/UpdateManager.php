@@ -980,7 +980,7 @@ return $new_version_notifications;
                         if (isset($license['rel_type']) and $license['rel_type'] == $k) {
                             if (is_array($v) and isset($v['status'])) {
                                 $license['status'] = $v['status'];
-                                foreach ($license as $license_k => $license_v) {``
+                                foreach ($license as $license_k => $license_v) {
                                     if (isset($v[$license_k])) {
                                         $license[$license_k] = $v[$license_k];
                                     }
