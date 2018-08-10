@@ -43,6 +43,7 @@
         mw.require("session.js");
         mw.require("content.js");
         mw.require("upgrades.js");
+        mw.require("tree.js");
 
         mw.lib.require('font_awesome');
 
