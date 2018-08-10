@@ -33,22 +33,18 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 <script type="text/javascript">
 
 
-    <?php   include_once(mw_includes_path() . 'api/treerenderer.php');
-    ?>
+
 
 
     $(document).ready(function () {
-        mw.treeRenderer.appendUI();
-        mw.treeRenderer.appendUI('.page_posts_list_tree');
+
         mw.on.hashParam("page-posts", function () {
             mw_set_edit_posts(this);
         });
         mw.on.moduleReload("pages_tree_toolbar", function (e) {
-            mw.treeRenderer.appendUI();
-            mw_make_pages_tree_sortable()
+
         });
         mw.on.moduleReload("pages_edit_container", function () {
-            mw.treeRenderer.appendUI("#pages_edit_container .page_posts_list_tree");
         });
         $(mwd.body).ajaxStop(function () {
             $(this).removeClass("loading");
@@ -634,6 +630,51 @@ if ($action == 'posts') {
 
 
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
+
+                        <script>
+
+                            var pagesTree;
+
+                            $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+                                pagesTree = new mw.tree({
+                                    data:data,
+                                    element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                    sortable:true,
+                                    selectable:false,
+                                    id:'admin-main-tree',
+                                    contextMenu:[
+                                        {
+                                            title:'Edit',
+                                            icon:'mw-icon-pen',
+                                            action:function(element, data, menuitem){
+                                                mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                            }
+                                        },
+                                        {
+                                            title:'Move to trash',
+                                            icon:'mw-icon-bin',
+                                            action:function(element, data, menuitem){
+                                                mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                            }
+                                        }
+                                    ]
+                                });
+                                $(pagesTree).on("ready", function(){
+
+                                    $('.mw-tree-item-title', pagesTree.list).on('click', function(){
+                                        $('li.selected', pagesTree.list).each(function(){
+                                            pagesTree.unselect(this)
+                                        });
+                                        pagesTree.select(this.parentNode.parentNode);
+                                    });
+
+                                })
+
+                            });
+
+                        </script>
+
+                        <?php /*
                         <?php if ($action == 'pages'): ?>
                             <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
                                     active_class="active-bg" id="pages_tree_toolbar" view="admin_tree" home_first="true"/>
@@ -650,6 +691,8 @@ if ($action == 'posts') {
                                     id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
                                     home_first="true"/>
                         <?php endif ?>
+
+                         */ ?>
                         <?php event_trigger('admin_content_after_website_tree', $params); ?>
 
 
