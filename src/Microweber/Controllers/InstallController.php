@@ -223,9 +223,10 @@ class InstallController extends Controller
                             if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
                                 $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                             }
+                            $install_step_return['finalize'] = true;
+                            $install_step_return['install_step'] = 'finalize';
                         }
-                        $install_step_return['finalize'] = true;
-                        $install_step_return['install_step'] = 'finalize';
+
                         return $install_step_return;
                     }
                 }
