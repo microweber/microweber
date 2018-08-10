@@ -205,14 +205,16 @@
             $("#next").click(function () {
                 var nextElement = $('select[name="default_template"] > option:selected').next('option');
                 if (nextElement.length > 0) {
-                    $('select[name="default_template"] > option:selected').removeAttr('selected').next('option').attr('selected', 'selected').trigger('change');
+                    $('select[name="default_template"]').val(nextElement.val())
+                    setscreenshot()
                 }
             });
 
             $("#prev").click(function () {
                 var nextElement = $('select[name="default_template"] > option:selected').prev('option');
                 if (nextElement.length > 0) {
-                    $('select[name="default_template"] > option:selected').removeAttr('selected').prev('option').attr('selected', 'selected').trigger('change');
+                    $('select[name="default_template"]').val(nextElement.val())
+                    setscreenshot()
                 }
             });
 
@@ -485,9 +487,7 @@
                                                 <script>
                                                     $(document).ready(function () {
                                                         setscreenshot()
-                                                        $('#default_template').change(function () {
-                                                            setscreenshot()
-                                                        });
+
                                                     });
 
                                                     function setscreenshot() {
