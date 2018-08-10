@@ -190,7 +190,7 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
             ?>
 
             <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>"
-                    comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> >
+                    comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
 
 
                 <?php } ?>
