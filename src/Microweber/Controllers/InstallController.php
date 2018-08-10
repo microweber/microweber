@@ -221,11 +221,11 @@ class InstallController extends Controller
                         $install_step_return = array('install_step' => $install_step + 1);
                         if ($install_step == 5) {
                             if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
-                                $install_step_return['finalize'] = true;
-                                $install_step_return['install_step'] = 'finalize';
                                 $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                             }
                         }
+                        $install_step_return['finalize'] = true;
+                        $install_step_return['install_step'] = 'finalize';
                         return $install_step_return;
                     }
                 }
@@ -361,7 +361,7 @@ class InstallController extends Controller
         $postData['postdata'] = base64_encode(json_encode($data));
         $http = new \Microweber\Utils\Http(app());
         try {
-            $http->url('http://installreport.services.microweberapi.com')->post($postData);
+            $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
         } catch (\Exception $e) {
             //maybe internet connection problem
         }
