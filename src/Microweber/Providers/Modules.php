@@ -764,15 +764,15 @@ class Modules
                 if ($template_name == 'mw_default.php' and is_file($tf)) {
                     return $tf;
                 } else if ($template_name == 'mw_default.php' and is_file($tf_mw_default)) {
-                    return $tf_mw_default;
+                    return  normalize_path($tf_mw_default,false);
                 } else if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
-                    return $tf_from_other_theme;
+                    return normalize_path($tf_from_other_theme,false);
                 } elseif (is_file($tf_theme)) {
-                    return $tf_theme;
+                    return normalize_path($tf_theme,false);
                 } elseif (is_file($tf)) {
-                    return $tf;
+                    return normalize_path($tf,false);
                 } elseif (strtolower($template_name_orig) != 'default' and is_file($tf_other_module)) {
-                    return $tf_other_module;
+                    return normalize_path($tf_other_module,false);
                 } else {
                     return false;
                 }
