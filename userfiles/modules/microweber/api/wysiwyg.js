@@ -493,6 +493,9 @@ mw.wysiwyg = {
         $('*', body).each(function(){
             if(mw.ea.helpers.isInlineLevel(this) && !this.className.trim()){
                 if(scope.areSameLike(this,this.nextElementSibling)){
+                    if(this.nextSibling !== this.nextElementSibling){
+                        this.appendChild(this.nextSibling);
+                    }
                     this.innerHTML =  this.innerHTML + this.nextElementSibling.innerHTML;
                     this.nextElementSibling.innerHTML = '';
                     this.nextElementSibling.className = 'mw-skip-and-remove';
