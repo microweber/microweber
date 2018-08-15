@@ -102,6 +102,8 @@ class FieldsManager
             if (is_array($fields_csv_str)) {
                 foreach ($fields_csv_str as $field_type) {
                     $ex = array();
+
+
                     $ex['type'] = $field_type;
                     $ex['rel_type'] = $rel;
                     $ex['rel_id'] = $rel_id;
@@ -114,7 +116,12 @@ class FieldsManager
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_type);
                         $make_field['value'] = '';
+
+                        if ($field_type == 'message') {
+                            $field_type = 'textarea';
+                        }
                         $make_field['type'] = $field_type;
+
                         $this->save($make_field);
                         ++$pos;
                     }
@@ -487,11 +494,11 @@ class FieldsManager
 //                        $default_values['value'] = reset($default_values['value']);
 //                    }
 
-                    $default_values['value_plain'] =$default_values['value'];
-                    $default_values['value_plain'] =$default_values['value'];
+                    $default_values['value_plain'] = $default_values['value'];
+                    $default_values['value_plain'] = $default_values['value'];
                     if (is_array($default_values['value'])) {
                         $default_values['value'] = reset($default_values['value']);
-                        $default_values['value_plain'] =  $default_values['value'] ;
+                        $default_values['value_plain'] = $default_values['value'];
 
                     }
 
