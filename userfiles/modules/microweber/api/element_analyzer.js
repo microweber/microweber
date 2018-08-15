@@ -315,8 +315,11 @@ mw.ElementAnalyzer = function(options){
             selector = selector || '*';
             var all = root.querySelectorAll(selector), i = 0; final = [];
             for( ; i<all.length; i++){
-                if(!this.scope.helpers.isColLike(all[i]) && !this.scope.helpers.isRowLike(all[i]) && this.scope.helpers.isBlockLevel(all[i])){
-                    final.push(all[i])
+                if(!this.scope.helpers.isColLike(all[i]) &&
+                    !this.scope.helpers.isRowLike(all[i]) &&
+                    !this.scope.helpers.isEdit(all[i]) &&
+                    this.scope.helpers.isBlockLevel(all[i])){
+                    final.push(all[i]);
                 }
             }
             return final;

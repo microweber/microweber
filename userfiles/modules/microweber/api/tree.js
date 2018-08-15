@@ -235,7 +235,7 @@ mw.lib.require('nestedSortable');
             var selected = [];
             var all = this.list.querySelectorAll('input:checked');
             $(all).each(function(){
-                selected.push(this._data)
+                if(this._data) selected.push(this._data);
             });
             this.selectedData = selected;
             return selected;
@@ -246,7 +246,7 @@ mw.lib.require('nestedSortable');
                 $(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             }
 
-                element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
+            element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
 
             if(this.options.sortable){
                 this.sortable()
@@ -269,11 +269,11 @@ mw.lib.require('nestedSortable');
                     obj.parent_type = objParent.type;
                     var newdata = [];
                     $('li', scope.list).each(function(){
-                       newdata.push(this._data)
+                        if(this._data) newdata.push(this._data)
                     });
                     scope.options.data = newdata;
-                    $(scope.list).remove()
-                    scope.init()
+                    $(scope.list).remove();
+                    scope.init();
                     $(scope).trigger('orderChange', [obj, scope.options.data, old])
                 }
             })
@@ -309,7 +309,6 @@ mw.lib.require('nestedSortable');
                 var el = $(this.options.element);
                 if(el.length!==0){
                     el.empty().append(this.list);
-
                 }
             }
         }
@@ -328,7 +327,7 @@ mw.lib.require('nestedSortable');
             li.appendChild(container);
             container.onclick = function(){
                 if(scope.options.selectable) scope.toggleSelect(li)
-            }
+            };
             this.decorate(li);
             return li;
         }
@@ -362,14 +361,62 @@ mw.lib.require('nestedSortable');
                 this.list.appendChild(nlistwrap);
                 return false;
             }
-        }
+        };
 
+        this.additional = function (obj) {
+            var li = document.createElement('li');
+            li.className = 'mw-tree-additional-item';
+            var container = document.createElement('span');
+            var containerTitle = document.createElement('span');
+            container.className = "mw-tree-item-content";
+            containerTitle.className = "mw-tree-item-title";
+            container.appendChild(containerTitle)
+            li.appendChild(container);
+            if(obj.icon){
+                if(obj.icon.indexOf('</') == -1){
+                    var icon = document.createElement('span');
+                    icon.className = obj.icon;
+                    containerTitle.appendChild(icon)
+                }
+                else{
+                    $(containerTitle).append(obj.icon)
+                }
+
+            }
+            var title = document.createElement('span');
+            title.innerHTML = obj.title;
+            containerTitle.appendChild(title);
+            li.onclick = function (ev) {
+                if(obj.action){
+                    obj.action.call(this, obj)
+                }
+            }
+            return li;
+        };
+
+        this.append = function(){
+            if(this.options.append){
+                $.each(this.options.append, function(){
+                    scope.list.appendChild(scope.additional(this))
+                })
+            }
+        };
+
+        this.prepend = function(){
+            if(this.options.append){
+                $.each(this.options.append, function(){
+                    $(scope.list).prepend(scope.additional(this))
+                })
+            }
+        };
 
         this.init = function(){
 
             this.json2ul();
             this.addButtons();
             this.rend();
+            this.append();
+            this.prepend();
             this.restoreState();
             setTimeout(function(){
                 $(scope).trigger('ready');

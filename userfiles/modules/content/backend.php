@@ -635,57 +635,79 @@ if ($action == 'posts') {
 
                             var pagesTree;
 
-                            $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
-                                pagesTree = new mw.tree({
-                                    data:data,
-                                    element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
-                                    sortable:true,
-                                    selectable:false,
-                                    id:'admin-main-tree',
-                                    contextMenu:[
+                            var pagesTreeRefresh = function(){
+                                $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+                                    var treeTail = [
                                         {
-                                            title:'Edit',
-                                            icon:'mw-icon-pen',
-                                            action:function(element, data, menuitem){
-                                                mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
-                                            }
-                                        },
-                                        {
-                                            title:'Move to trash',
-                                            icon:'mw-icon-bin',
-                                            action:function(element, data, menuitem){
-                                                mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                            title: '<?php _lang("Trash") ?>',
+                                            icon:'mai-bin',
+                                            action:function(){
+                                                mw.url.windowHashParam('action', 'trash');
                                             }
                                         }
-                                    ]
-                                });
-                                $(pagesTree).on("ready", function(){
-
-                                    $('.mw-tree-item-title', pagesTree.list).on('click', function(){
-                                        $('li.selected', pagesTree.list).each(function(){
-                                            pagesTree.unselect(this)
-                                        });
-                                        var li = this.parentNode.parentNode,
-                                            data = li._data,
-                                            action;
-                                        pagesTree.select(li);
-
-                                        if(data.type == 'page'){
-                                            action = 'editpage';
-                                        }
-                                        if(data.subtype == 'dynamic'){
-                                            action = 'showposts';
-                                        }
-                                        if(data.type == 'category'){
-                                            action = 'showpostscat';
-                                        }
-                                        mw.url.windowHashParam("action", action+":"+data.id);
-
+                                    ];
+                                    pagesTree = new mw.tree({
+                                        data:data,
+                                        element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                        sortable:true,
+                                        selectable:false,
+                                        id:'admin-main-tree',
+                                        append:treeTail,
+                                        contextMenu:[
+                                            {
+                                                title:'Edit',
+                                                icon:'mw-icon-pen',
+                                                action:function(element, data, menuitem){
+                                                    mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                                }
+                                            },
+                                            {
+                                                title:'Move to trash',
+                                                icon:'mw-icon-bin',
+                                                action:function(element, data, menuitem){
+                                                    if( data.type == 'category' ){
+                                                        mw.tools.tree.del_category(data.id);
+                                                    }
+                                                    else{
+                                                        mw.tools.tree.del(data.id);
+                                                    }
+                                                }
+                                            }
+                                        ]
                                     });
 
-                                })
+                                    $(pagesTree).on("ready", function(){
 
-                            });
+                                        $('.mw-tree-item-title', pagesTree.list).on('click', function(){
+                                            $('li.selected', pagesTree.list).each(function(){
+                                                pagesTree.unselect(this)
+                                            });
+                                            var li = this.parentNode.parentNode,
+                                                data = li._data,
+                                                action;
+                                            pagesTree.select(li);
+                                            if(!$(li).hasClass('mw-tree-additional-item')){
+                                                if(data.type == 'page'){
+                                                    action = 'editpage';
+                                                }
+                                                if(data.subtype == 'dynamic'){
+                                                    action = 'showposts';
+                                                }
+                                                if(data.type == 'category'){
+                                                    action = 'showpostscat';
+                                                }
+                                                mw.url.windowHashParam("action", action+":"+data.id);
+                                            }
+
+
+                                        });
+
+                                    })
+
+                                });
+                            };
+
+                            pagesTreeRefresh()
 
                         </script>
 
