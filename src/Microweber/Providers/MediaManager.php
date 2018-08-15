@@ -27,7 +27,7 @@ class MediaManager
 
     public function get_picture($content_id, $for = 'content', $full = false)
     {
-        $arr = array();
+
         if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
             $for = 'content';
         } elseif ($for == 'category' or $for == 'categories') {
@@ -61,7 +61,6 @@ class MediaManager
                         $surl = $this->app->url_manager->site();
 
                         $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
-
                         $media_url = media_base_url();
                         if (stristr($img, $surl)) {
                             return $img;
@@ -91,6 +90,7 @@ class MediaManager
 
     public function get_by_id($id)
     {
+
         $table = $this->tables['media'];
         $id = intval($id);
         if ($id == 0) {
@@ -187,6 +187,8 @@ class MediaManager
 
         if ((!isset($_FILES) or empty($_FILES)) and isset($data['file'])) {
             if (isset($data['name'])) {
+                $data['name'] = mw()->url_manager->clean_url_wrappers($data['name']);
+
                 $f = $target_path . $data['name'];
                 if (is_file($f)) {
                     $f = $target_path . date('YmdHis') . $data['name'];
@@ -212,6 +214,7 @@ class MediaManager
 
             //$upl = $this->app->cache_manager->save($_FILES, $cache_id, $cache_group);
             foreach ($_FILES as $item) {
+                $item['name'] = mw()->url_manager->clean_url_wrappers($item['name']);
                 $extension = end(explode('.', $item['name']));
                 if (in_array($extension, $allowedExts)) {
                     if ($item['error'] > 0) {
@@ -673,6 +676,8 @@ class MediaManager
             $src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
         } else {
+            $src = $this->app->url_manager->clean_url_wrappers($src);
+
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
 
@@ -734,6 +739,8 @@ class MediaManager
                 }
             }
         } else {
+            $src = $this->app->url_manager->clean_url_wrappers($src);
+
             if (file_exists($src)) {
                 if (($ext) == 'svg') {
                     $res1 = file_get_contents($src);
