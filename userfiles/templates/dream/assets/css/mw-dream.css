@@ -47,3 +47,11 @@
 .module-video-small video {
     max-width: 100%;
 }
+
+.mw-live-edit .hover-element .hover-element__reveal .boxed h5,
+.mw-live-edit .hover-element .hover-element__reveal .boxed span{
+    pointer-events: all;
+}
+.mw-live-edit .hover-element .hover-element__reveal{
+    pointer-events: none;
+}
