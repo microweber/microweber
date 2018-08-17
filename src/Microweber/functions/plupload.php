@@ -570,6 +570,8 @@ $fileName = str_replace(' ', '_', $fileName);
 
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
+$fileName = mw()->url_manager->clean_url_wrappers($fileName);
+
 $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled
 if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
@@ -811,9 +813,12 @@ if (!$chunks || $chunk == $chunks - 1) {
     mw()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
 }
 $f_name = explode(DS, $filePath);
+$f_name = end($f_name);
 
-$rerturn['src'] = mw()->url_manager->link_to_file($filePath);
-$rerturn['name'] = end($f_name);
+$filePath = mw()->url_manager->link_to_file($filePath);
+
+ $rerturn['src'] = $filePath;
+$rerturn['name'] = $f_name;
 
 
 if (isset($upl_size_log) and $upl_size_log > 0) {
