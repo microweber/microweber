@@ -162,16 +162,10 @@
 
         color_holder.appendChild(f);
 
-
-
-
-
-
         $(document.body).mouseenter(function () {
             if(!!parent.mw.wysiwyg){
                parent.mw.wysiwyg.save_selected_element();
             }
-
         });
         $(document.body).mouseleave(function () {
           if(_prompt_is_open == false && !!parent.mw.wysiwyg){
@@ -179,11 +173,9 @@
           }
         });
 
-
         $(document.body).mousedown(function (e) {
             e.preventDefault()
         })
-
 
         var input = mwd.getElementById('colorpicker');
 

@@ -1252,12 +1252,12 @@ mw.drag = {
 
             var el =  $($(mw.handle_module).data('curr'));
             mw.drag.replace(el, 'prev');
-            $(this).parent().hide()
+            //$(this).parent().hide()
         });
         $("#mw_handle_module_down").on('click', function(){
             var el =  $($(mw.handle_module).data('curr'));
             mw.drag.replace(el, 'next');
-            $(this).parent().hide()
+            //$(this).parent().hide()
         })
 
 

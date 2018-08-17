@@ -28,6 +28,7 @@ mw.lib.require('nestedSortable');
         this.options.multiPageSelect =  this.options.multiPageSelect === undefined ? true : this.options.multiPageSelect;
         this.options.saveState = this.options.saveState === undefined ? true : this.options.saveState;
         this.options.sortable = this.options.sortable === undefined ? false : this.options.sortable;
+        this.options.singleSelect = this.options.singleSelect === undefined ? false : this.options.singleSelect;
 
 
         this.selectedData = [];
@@ -195,7 +196,10 @@ mw.lib.require('nestedSortable');
 
         this.checkBox = function(element){
             var itype = 'radio';
-            if(this.options.multiPageSelect || element._data.type != 'page'){
+            if(this.options.singleSelect){
+
+            }
+            else if(this.options.multiPageSelect || element._data.type !== 'page'){
                 itype = 'checkbox';
             }
             var label = document.createElement('x-label');
@@ -323,7 +327,7 @@ mw.lib.require('nestedSortable');
             container.className = "mw-tree-item-content";
             container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
             li._data = item;
-            li.id = item.type+'-'+item.id;
+            li.id = scope.options.id + '-' + item.type+'-'+item.id;
             li.appendChild(container);
             container.onclick = function(){
                 if(scope.options.selectable) scope.toggleSelect(li)

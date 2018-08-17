@@ -225,6 +225,10 @@ mw.settings.libs = {
     nestedSortable:[
         'jquery.mjs.nestedSortable.js'
     ]
+    ,
+    acolorpicker:[
+        'acolorpicker.js'
+    ]
 }
 
 mw.lib = {

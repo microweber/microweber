@@ -1,6 +1,7 @@
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
+mw.lib.require("acolorpicker");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 (function () {
     if (typeof jQuery.browser === 'undefined') {
@@ -5157,27 +5158,46 @@ mw._colorPicker = function (options) {
     }
     this.settings = settings;
     $el[0].mwToolTipBinded = true;
-    var frame = document.createElement('iframe');
-    frame.src = mw.external_tool('color_picker');
-    frame.frameborder = 0;
-    frame.className = 'mw-picker-frame';
-    frame.frameBorder = 0;
-    frame.scrolling = "no";
-    $(frame).bind("colorChange", function (e, val) {
-        options.onchange('#' + val);
-        if ($el[0].nodeName == 'INPUT') {
-            var val = val == 'transparent' ? val : '#' + val;
-            $el.val(val);
-        }
-    });
+
+
+    var frame;
     if (settings.method == 'inline') {
-        $el.empty().append(frame);
-        return false;
+        frame = AColorPicker.createPicker({
+            showAlpha:true,
+            attachTo:$el[0],
+            onchange:function(a,val,c){
+                console.log(a,val,c);
+                if(options.onchange){
+                    options.onchange('#' + val);
+                }
+
+                if ($el[0].nodeName == 'INPUT') {
+                    var val = val == 'transparent' ? val : '#' + val;
+                    $el.val(val);
+                }
+            }
+        });
+
     }
     else {
+
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
         this.tip = tip;
-        mw.$('.mw-tooltip-content', tip).empty().append(frame);
+        var frame = AColorPicker.createPicker({
+            showAlpha:true,
+            attachTo:mw.$('.mw-tooltip-content', tip)[0],
+            onchange:function(a,val,c){
+                console.log(a,val,c);
+                if(options.onchange){
+                    options.onchange('#' + val);
+                }
+
+                if ($el[0].nodeName == 'INPUT') {
+                    var val = val == 'transparent' ? val : '#' + val;
+                    $el.val(val);
+                }
+            }
+        });
         if ($el[0].nodeName == 'INPUT') {
             $el.bind('focus', function (e) {
                 $(tip).show();
@@ -5201,13 +5221,16 @@ mw._colorPicker = function (options) {
             });
         }
     }
-    this.show = function(){
-        $(this.tip).show();
-        mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
+    if(this.tip){
+        this.show = function(){
+            $(this.tip).show();
+            mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
+        }
+        this.hide = function(){
+            $(this.tip).hide()
+        }
     }
-    this.hide = function(){
-        $(this.tip).hide()
-    }
+
 }
 mw.colorPicker = mw.colourPicker = function (o) {
     return new mw._colorPicker(o);

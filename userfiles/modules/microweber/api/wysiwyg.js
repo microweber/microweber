@@ -585,6 +585,11 @@ mw.wysiwyg = {
 
                   html = mw.wysiwyg.pasteManager(html);
                   mw.wysiwyg.insert_html(html);
+                  if(e.target.querySelector){
+                      $(e.target.querySelectorAll('[style*="outline"]')).css({
+                          outline:'none'
+                      })
+                  }
                   e.preventDefault();
 
               }
