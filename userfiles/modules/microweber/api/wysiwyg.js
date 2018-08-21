@@ -475,6 +475,7 @@ mw.wysiwyg = {
     },
     areSameLike:function(el1,el2){
         if(!el1 || !el2) return false;
+        if(el1.nodeType !== el2.nodeType) return false;
         if(!!el1.className.trim() || !!el2.className.trim()){
             return false;
         }
@@ -1327,11 +1328,6 @@ mw.wysiwyg = {
       setTimeout(function () {
           mw.wysiwyg._fontcolorpicker.show();
       },20);
-
-      return false;
-        var el = "#mw_editor_font_color";
-        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontColor");
-        $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontbgcolorpicker: function () {
 

@@ -1858,15 +1858,16 @@ mw.tools = {
                 return true;
             }
         }
+        var isEventOnElements = false;
         mw.tools.foreachParents(event.target, function () {
             var l = array.length, i = 0;
             for (; i < l; i++) {
                 if (event.target === array[i]) {
-                    return true;
+                    isEventOnElements = true;
                 }
             }
         });
-        return false;
+        return isEventOnElements;
     },
     isEventOnClass: function (event, cls) {
         if (mw.tools.hasClass(event.target, cls) || mw.tools.hasParentsWithClass(event.target, cls)) {
@@ -5135,6 +5136,21 @@ mw._colorPickerDefaults = {
     onchange: false
 }
 mw._colorPicker = function (options) {
+    if(!mw.tools.colorPickerColors){
+        mw.tools.colorPickerColors = [];
+        mw.$("body *").each(function () {
+            var css = parent.getComputedStyle(this, null);
+            if(css !== null){
+                if(mw.tools.colorPickerColors.indexOf(css.color) === -1){
+                     mw.tools.colorPickerColors.push(css.color)
+                }
+                if(mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1){
+                     mw.tools.colorPickerColors.push(css.backgroundColor)
+                }
+            }
+        });
+    }
+    var proto = this;
     if (!options) {
         return false;
     }
@@ -5165,39 +5181,48 @@ mw._colorPicker = function (options) {
         frame = AColorPicker.createPicker({
             showAlpha:true,
             attachTo:$el[0],
-            onchange:function(a,val,c){
-                console.log(a,val,c);
-                if(options.onchange){
-                    options.onchange('#' + val);
-                }
-
-                if ($el[0].nodeName == 'INPUT') {
-                    var val = val == 'transparent' ? val : '#' + val;
-                    $el.val(val);
-                }
-            }
+            palette:mw.tools.colorPickerColors
         });
+        frame.onchange = function(data){
+            console.log(a,val,c);
+            if(proto.settings.onchange){
+                proto.settings.onchange(data.color);
+            }
+
+            if ($el[0].nodeName == 'INPUT') {
+                var val = val == 'transparent' ? val : '#' + val;
+                $el.val(val);
+            }
+        }
 
     }
     else {
 
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
         this.tip = tip;
+         $(this.tip).on('click mousedown touchstart touchend mouseup', function(e){
+            event.preventDefault();
+        });
+        mw.$('.mw-tooltip-content', tip).empty()
         var frame = AColorPicker.createPicker({
             showAlpha:true,
+            palette:mw.tools.colorPickerColors,
             attachTo:mw.$('.mw-tooltip-content', tip)[0],
-            onchange:function(a,val,c){
-                console.log(a,val,c);
-                if(options.onchange){
-                    options.onchange('#' + val);
-                }
 
-                if ($el[0].nodeName == 'INPUT') {
-                    var val = val == 'transparent' ? val : '#' + val;
-                    $el.val(val);
-                }
-            }
         });
+
+        frame.onchange = function(data){
+
+            if(proto.settings.onchange){
+                proto.settings.onchange(data.color);
+            }
+
+            if ($el[0].nodeName == 'INPUT') {
+                var val = val == 'transparent' ? val : '#' + val;
+                $el.val(val);
+            }
+        }
+
         if ($el[0].nodeName == 'INPUT') {
             $el.bind('focus', function (e) {
                 $(tip).show();
@@ -5210,8 +5235,9 @@ mw._colorPicker = function (options) {
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
-        $(document.body).bind('click', function (e) {
-            if (!mw.tools.isEventOnElements(e, [$el[0], tip])) {
+        $(document.body).on('click', function (e) {
+
+            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip')) {
                 $(tip).hide();
             }
         });

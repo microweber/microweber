@@ -277,7 +277,7 @@ mw.ElementAnalyzer = function(options){
             }
             var test = document.createElement(name);
             this.scope.fragment().appendChild(test);
-            this._isInlineCache[name] = getComputedStyle(test).display === 'inline';
+            this._isInlineCache[name] = getComputedStyle(test).display === 'inline' && node.nodeName !== 'BR';
             this.scope.fragment().removeChild(test);
             return this._isInlineCache[name];
         },

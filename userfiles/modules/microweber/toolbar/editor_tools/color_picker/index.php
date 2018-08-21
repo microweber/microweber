@@ -128,7 +128,6 @@
                 !document_colors[css.color] ? document_colors[css.color] = css.color : '';
                 !document_colors[css.backgroundColor] ? document_colors[css.backgroundColor] = css.backgroundColor : '';
             }
-
         });
 
         var f = mwd.createDocumentFragment();
