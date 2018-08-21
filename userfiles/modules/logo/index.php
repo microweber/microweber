@@ -70,18 +70,17 @@ if ($size == false or $size == '') {
 
     <script>
         mw.require("fonts.js");
-        
-        $(document).ready(function(){
+
+        $(document).ready(function () {
             mw.logoFont = mw.logoFont || new mw.font();
 
             mw.logoFont.set({
-                family:{
-                    "<?php print $font_family; ?>":[400]
+                family: {
+                    "<?php print $font_family; ?>": [400]
                 }
             })
-        })
+        });
     </script>
-
 
 
 <?php } ?>

@@ -61,7 +61,7 @@ class Captcha
         $answ = $text1;
 
         $x = 100;
-        $y = 20;
+        $y = 80;
 
         if (isset($params['w'])) {
             $x = intval($params['w']);
