@@ -7295,14 +7295,18 @@ select.silver-field {
     font-size: 12px;
 }
 
-.mw-ui-btn-nav-tabs-new {
+.mw-ui-btn-nav-tabs-new,
+.mw-ui-btn-nav-tabs {
     border-bottom: 1px solid #0086db;
     width: 100%;
     display: block;
+    margin-bottom: 10px;
 }
 
 .mw-ui-btn-nav-tabs-new .mw-ui-btn,
-.mw-ui-btn-nav-tabs-new .mw-ui-btn.active {
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
+.mw-ui-btn-nav-tabs .mw-ui-btn,
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
     margin-left: 7px;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -7311,11 +7315,21 @@ select.silver-field {
     border-bottom: 0;
 }
 
-.mw-ui-btn-nav-tabs-new .mw-ui-btn:hover {
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #0086db;
+    color: white;
+    font-weight: bold;
+    border-color: #0086db;
+}
+
+.mw-ui-btn-nav-tabs-new .mw-ui-btn:hover,
+.mw-ui-btn-nav-tabs .mw-ui-btn:hover {
     border-color: #e5e5e5;
 }
 
-.mw-ui-btn-nav-tabs-new .mw-ui-btn.active {
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
     background: #0086db;
     color: #fff;
 }

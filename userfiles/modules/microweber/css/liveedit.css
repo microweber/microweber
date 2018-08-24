@@ -14,7 +14,7 @@ html, body {
     -ms-overflow-style: scrollbar;
 }
 
- .mw-drag-current-top.modules-layouts, .mw-drag-current-bottom.modules-layouts {
+.mw-drag-current-top.modules-layouts, .mw-drag-current-bottom.modules-layouts {
     transition: all .9s !important;
 }
 
@@ -1555,7 +1555,7 @@ body.loaded #live_edit_toolbar {
     min-height: 30px;
 }
 
-#module-modal-settings-menu-holder a{
+#module-modal-settings-menu-holder a {
     text-decoration: underline;
 }
 
@@ -1649,7 +1649,6 @@ body.loaded #live_edit_toolbar {
 }
 
 .liveeditcreatecontentmenu
-
 .create-content-dropdown-list .mw-icon-back {
     top: -2px;
 }
@@ -1927,7 +1926,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     outline-offset: -1px;
 }
 
-.mw_modal .module-over:hover{
+.mw_modal .module-over:hover {
     outline: none
 }
 
@@ -3230,8 +3229,6 @@ div[id*='SSDIVEL'] {
     right: 0;
 }*/
 
-
-
 #live_edit_side_holder .sidebar-toggler {
     position: absolute;
 
@@ -3243,12 +3240,17 @@ div[id*='SSDIVEL'] {
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
     top: 50%;
-    margin-top:-34px;
+    margin-top: -34px;
 
 }
 
-#live_edit_side_holder.mw-control-box-right .sidebar-toggler{left: -19px;}
-#live_edit_side_holder.mw-control-box-left .sidebar-toggler{right: -19px;}
+#live_edit_side_holder.mw-control-box-right .sidebar-toggler {
+    left: -19px;
+}
+
+#live_edit_side_holder.mw-control-box-left .sidebar-toggler {
+    right: -19px;
+}
 
 #live_edit_side_holder .sidebar-toggler .i-holder {
     -webkit-transform: rotate(90deg);
@@ -3629,8 +3631,6 @@ div[id*='SSDIVEL'] {
     display: none !important;
 }
 
-
-
 .close-sidebar-button {
     right: 15px;
     top: 15px;
@@ -3663,8 +3663,6 @@ body.mw-live-edit .mw-tooltip-content {
 #modules-and-layouts-sidebar .settings-iframe body {
     overflow: hidden !important;
 }
-
-
 
 #mw_handle_module_up,
 #mw_handle_module_down {
@@ -3859,7 +3857,7 @@ body.dragStart .allow-drop {
     pointer-events: all;
 }
 
-.mw-module-quick-options{
+.mw-module-quick-options {
     width: 160px;
     position: absolute;
     left: 50%;
@@ -3867,15 +3865,15 @@ body.dragStart .allow-drop {
     margin-left: -80px;
 }
 
-.mw-module-quick-options-menu:after{
-   content: "\0136";
-   font-family: Microweber;
+.mw-module-quick-options-menu:after {
+    content: "\0136";
+    font-family: Microweber;
     display: inline-block;
 
 }
 
-.mw-module-quick-options-menu{
-    border-radius:  20px;
+.mw-module-quick-options-menu {
+    border-radius: 20px;
     background: #fff;
     display: inline-block;
     line-height: 30px;
@@ -3883,22 +3881,23 @@ body.dragStart .allow-drop {
     color: #2b2b2b;
     font-size: 16px;
     padding: 0 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 
 }
 
-.mw-module-quick-options-content{
+.mw-module-quick-options-content {
     background: black;
     color: white;
     padding: 10px;
-    box-shadow: 0 10px 10px rgba(0,0,0,.3);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .3);
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     border-radius: 10px;
 }
-.mw-module-quick-options-content label{
+
+.mw-module-quick-options-content label {
     float: left;
     width: 120px;
     font-size: 12px;
@@ -3906,26 +3905,31 @@ body.dragStart .allow-drop {
     margin-bottom: 10px;
 }
 
-.mw-module-quick-options:hover .mw-module-quick-options-content{
+.mw-module-quick-options:hover .mw-module-quick-options-content {
     display: block;
 }
 
-.prop-ui-field-quatro .prop-ui-field-holder{
+.prop-ui-field-quatro .prop-ui-field-holder {
     float: left;
     width: 48%;
 }
 
-.prop-ui-field-quatro .prop-ui-field-holder:nth-child(even){ float: right; }
-.prop-ui-field-quatro .prop-ui-field-holder:nth-child(odd){ clear: both; }
+.prop-ui-field-quatro .prop-ui-field-holder:nth-child(even) {
+    float: right;
+}
 
-.prop-ui-label{
+.prop-ui-field-quatro .prop-ui-field-holder:nth-child(odd) {
+    clear: both;
+}
+
+.prop-ui-label {
     font-size: 10px;
     text-transform: uppercase;
     display: block;
     padding-top: 7px;
 }
 
-.prop-ui-field-quatro{
+.prop-ui-field-quatro {
     padding: 5px;
     background: #efecec;
     border-radius: 3px;
@@ -3935,41 +3939,42 @@ body.dragStart .allow-drop {
 }
 
 .prop-ui-field[type='text'],
-.prop-ui-field[type='number']{
+.prop-ui-field[type='number'] {
     width: 100%;
 }
 
-.mw-module-presets-opener{
+.mw-module-presets-opener {
     float: right;
     display: block;
     transition: color .3s;
     cursor: pointer;
 }
-.mw-module-presets-opener{
-    color: white;
+
+.mw-module-presets-opener {
+    color: #bababa;
 }
 
-.mw-module-presets-opener:before{
-  /*  content: '\002d';
-    font-family: 'admin';
-    position: relative;
-    top: 1px;*/
+.mw-module-presets-opener:before {
+    /*  content: '\002d';
+      font-family: 'admin';
+      position: relative;
+      top: 1px;*/
 }
 
-.mw-module-presets-opener:after{
+.mw-module-presets-opener:after {
     content: "\0118";
-    font-family: Microweber!important;
+    font-family: Microweber !important;
     margin-left: 5px;
-    font-size: 12px;
+    font-size: 20px;
     position: relative;
     top: -2px;
 }
 
-.mw-module-presets-opener:hover{
+.mw-module-presets-opener:hover {
     color: rgba(14, 128, 229, 1);
 }
 
-.mw-module-presets-content{
+.mw-module-presets-content {
     display: none;
     position: absolute;
     top: 100%;
@@ -3980,48 +3985,48 @@ body.dragStart .allow-drop {
     cursor: default;
     background: white;
     padding-bottom: 6px;
-    box-shadow: 0 1px 15px rgba(0,0,0,.2);
+    box-shadow: 0 1px 15px rgba(0, 0, 0, .2);
 }
 
-.mw-presets-dropdown.active .mw-module-presets-content{
+.mw-presets-dropdown.active .mw-module-presets-content {
     display: block;
 }
 
-#module-modal-settings-menu-content a{
+#module-modal-settings-menu-content a {
     color: rgba(77, 77, 77, 1);
     background: white;
     display: block;
-    background:#fff
+    background: #fff
 }
 
-#module-modal-settings-menu-content > a + a{
+#module-modal-settings-menu-content > a + a {
     border-top: 1px solid #e5e5e5;
 }
 
-#module-modal-settings-menu-holder-open-presets{
+#module-modal-settings-menu-holder-open-presets {
     background: white;
 }
 
-#module-modal-settings-menu-holder a{
+#module-modal-settings-menu-holder a {
     display: block;
-   padding: 5px 10px;
+    padding: 9px 9px;
     text-decoration: none;
 
 }
 
-.module-presets-action-btn-use{
+.module-presets-action-btn-use {
     display: inline-block;
     width: 25px;
     height: 25px;
-    border:1px solid rgba(0, 132, 216, 1);
+    border: 1px solid rgba(0, 132, 216, 1);
     position: relative;
     border-radius: 2px;
     float: left;
 }
 
-.module-presets-action-btn-use:after{
+.module-presets-action-btn-use:after {
     content: "\0101";
-    font-family: Microweber!important;
+    font-family: Microweber !important;
     opacity: 0;
     visibility: hidden;
     color: white;
@@ -4030,17 +4035,17 @@ body.dragStart .allow-drop {
     font-size: 20px;
 }
 
-.module-presets-action-btn-use:hover{
-    background:rgba(0, 132, 216, 1)
+.module-presets-action-btn-use:hover {
+    background: rgba(0, 132, 216, 1)
 }
 
-.module-presets-action-btn-use:hover:after{
+.module-presets-action-btn-use:hover:after {
     transform: scale(1);
     opacity: 1;
     visibility: visible;
 }
 
-.module-presets-name-field{
+.module-presets-name-field {
     width: 145px;
     height: 25px;
     border: 1px solid #eee;
@@ -4050,7 +4055,7 @@ body.dragStart .allow-drop {
     padding: 0 10px;
 }
 
-.mw-module-presets-content{
+.mw-module-presets-content {
 
     overflow: hidden;
     width: 190px;
@@ -4059,11 +4064,11 @@ body.dragStart .allow-drop {
 .mw-presets-list li {
 }
 
-.mw-presets-list li + li{
+.mw-presets-list li + li {
     padding-top: 5px;
 }
 
-.module-presets-action-btn-delete{
+.module-presets-action-btn-delete {
     cursor: pointer;
     display: inline-block;
     padding: 3px 3px;
@@ -4072,16 +4077,16 @@ body.dragStart .allow-drop {
     text-align: center;
 }
 
-.module-presets-action-btn-delete:hover{
+.module-presets-action-btn-delete:hover {
     color: rgba(255, 0, 0, 1);
 }
 
-.module-presets-add-new-holder{
+.module-presets-add-new-holder {
     clear: both;
 
 }
 
-.module-presets-add-new-holder .mw-ui-btn{
+.module-presets-add-new-holder .mw-ui-btn {
     float: right;
     line-height: 12px !important;
     height: 25px;
@@ -4101,18 +4106,18 @@ body.dragStart .allow-drop {
     font-size: 14px;
 }
 
-.module-presets-add-new-holder input.module-presets-name-field{
+.module-presets-add-new-holder input.module-presets-name-field {
     border-left: 0;
 }
 
-.module-presets-add-new-holder{
+.module-presets-add-new-holder {
     padding: 5px;
 }
 
-#module-modal-preset-linked-icon:before{
+#module-modal-preset-linked-icon:before {
     content: "\0101";
-    font-family: Microweber!important;
-        position: relative;
+    font-family: Microweber !important;
+    position: relative;
     top: 1px;
 }
 
@@ -4122,14 +4127,14 @@ body.dragStart .allow-drop {
     position: relative;
     top: 1px;
 }*/
-#module-modal-preset-linked-icon{
+#module-modal-preset-linked-icon {
     position: absolute;
     right: 85px;
     top: 4px;
     color: white;
 }
 
-#js-release-btn{
+#js-release-btn {
     display: inline-block;
     padding: 4px;
     border: 1px solid #eee;

@@ -102,7 +102,7 @@ if ($id != 0) {
                     <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100" autocomplete="off" name="url" value="<?php print $data['url'] ?>" xxname="x-url" onchange="this.name='custom_link'"/>
                 </div>
 
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>').toggle();">
+                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>').toggle();">
                     <?php _e("Select page from your site"); ?>
                 </button>
 

@@ -15,7 +15,7 @@ body {
     overflow-y: auto;
 }
 
-.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+/*.mw-ui-btn-nav-tabs .mw-ui-btn.active {
     background: #262626;
     color: white;
     font-weight: bold;
@@ -27,7 +27,7 @@ body {
     color: white;
     font-weight: bold;
     border-color: #0086db;
-}
+}*/
 
 .mw-popup-footer {
 
