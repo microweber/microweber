@@ -1,31 +1,40 @@
-*{
-  margin: 0;
-  padding: 0;
-}
-a, input, textarea, select{
-  outline: none;
-}
-html, body{
-  height: 100%;
-}
-body{
-  overflow-y: auto;
+* {
+    margin: 0;
+    padding: 0;
 }
 
+a, input, textarea, select {
+    outline: none;
+}
 
+html, body {
+    height: 100%;
+}
 
-.mw-ui-btn-nav-tabs .mw-ui-btn.active{
-     background: #262626;
+body {
+    overflow-y: auto;
+}
+
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #262626;
     color: white;
     font-weight: bold;
     border-color: black;
 }
 
-.mw-popup-footer{
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active {
+    background: #0086db;
+    color: white;
+    font-weight: bold;
+    border-color: #0086db;
+}
+
+.mw-popup-footer {
 
     height: 60px;
 }
-.mw-popup-footer-content{
+
+.mw-popup-footer-content {
     position: fixed;
     bottom: 0;
     left: 0;

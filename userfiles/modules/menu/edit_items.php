@@ -28,8 +28,13 @@ if(isset($params['menu-name'])){
 if( $id != 0){
     $menu_params = array();
     $menu_params['menu_id'] =  $id;
-    $menu_params['link'] = '<div id="menu-item-{id}" data-item-id="{id}"  class="module_item"><span class="mw-ui-btn mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_item_delete({id});">'. _e('Delete', true) .'</span><span class="mw-ui-btn mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_items_set_edit({id}, this);">'. _e('Edit', true) .'</span>
-	<span class="mw-icon-drag mw_admin_modules_sortable_handle"></span><span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_items_set_edit({id}, this);">{title}</span> </div>';
+    $menu_params['link'] = '
+    <div id="menu-item-{id}" data-item-id="{id}"  class="module_item">
+    <span class="mw-ui-btn mw-ui-link mw-ui-btn-rounded mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_item_delete({id});"><i class="mw-icon-app-trash"></i></span>
+    <span class="mw-ui-btn mw-ui-link mw-ui-btn-rounded mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_items_set_edit({id}, this);">'. _e('Edit', true) .'</span>
+	<span class="mw-icon-drag mw_admin_modules_sortable_handle"></span>
+	<span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_items_set_edit({id}, this);">{title}</span> 
+	</div>';
 
     $data = menu_tree( $menu_params);
 }
@@ -41,20 +46,13 @@ if( $id != 0){
     mw.require('forms.js', true);
 </script>
 <script  type="text/javascript">
-
     mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
 </script>
 <script  type="text/javascript">
-
     mw.menu_curenlty_editing_item_id = false;
 
-
     mw.menu_save_new_item = function(selector){
-
-
         var data = mw.form.serialize(selector)
-
-
 
         $.post( "<?php print api_link('content/menu_item_save'); ?>",data, function( msg ) {
             if(mw.notification != undefined){
@@ -63,8 +61,6 @@ if( $id != 0){
 
             mw.menu_item_after_save();
         });
-
-
 
         /*  	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
 
@@ -76,21 +72,14 @@ if( $id != 0){
          });*/
     }
 
-
     mw.menu_item_after_save = function(){
         mw.reload_module_parent('menu')
-
 
         if(mw.menu_curenlty_editing_item_id == false){
             mw.reload_module('menu/edit_items');
         }
 
-
-
         if(mw.menu_curenlty_editing_item_id != false){
-
-
-
             if(mw.$("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id).length>0){
                 //	mw.reload_module_parent("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id)
 
@@ -110,10 +99,6 @@ if( $id != 0){
 
 
     mw.menu_items_set_edit = function($item_id, node){
-
-
-
-
         if(typeof node === 'object'){
             var li = mw.tools.firstParentWithTag(node, 'li');
             var id = $(li).dataset('item-id');
@@ -121,9 +106,11 @@ if( $id != 0){
 
             var master = mw.tools.firstParentWithClass(node, 'mw-modules-admin');
 
-            mw.$('li .active', master).removeClass('active');
+             mw.$('li .active', master).removeClass('active');
+             mw.$('ul .active', master).removeClass('active');
 
             $(node.parentNode).addClass('active');
+            $(node.parentNode).parent().addClass('opened');
             mw.menu_curenlty_editing_item_id = id;
             if(mw.$("#edit-menu_item_edit_wrap-"+id).length>0){
                 return false;
@@ -149,10 +136,6 @@ if( $id != 0){
         });
         $('#ed_menu_holder').hide();
     }
-
-
-
-
 
     mw.menu_items_sort_<?php print $rand; ?> = function(){
         if(!mw.$("#mw_admin_menu_items_sort_<?php print $rand; ?>").hasClass("ui-sortable")){
@@ -229,25 +212,9 @@ if( $id != 0){
         $(document).ready(function(){
             $(".add-custom-link-parent-id").val('<?php print $id ?>');
             $("#add-custom-link-parent-id").val('<?php print $id ?>');
-
-
-
-
         });
-
     </script>
     <div>
         <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
     </div>
-    <?php
-    if(isset($params['menu-name'])): ?>
-        <?php
-        $menu = get_menus('one=1&limit=1&title='.$params['menu-name']);
-        if(isset($menu['id'])) :
-            ?>
-            <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important pull-right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">
-                <?php _e("Delete"); ?>
-                <strong><?php print $menu['title']; ?></strong></a>
-        <?php endif ?>
-    <?php endif ?>
 </div>
