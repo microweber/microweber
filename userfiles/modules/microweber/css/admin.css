@@ -9,7 +9,6 @@
     font-style: normal;
 }
 
-
 [class*='mai-'] {
     position: relative;
     margin-right: 3px;
@@ -531,7 +530,6 @@ h3 > [class*="mw-icon-"]:first-child {
 .post-un-publish:hover .publish-btn {
     visibility: visible;
 }
-
 
 html.mw_pages, html.mw_pages body {
     overflow: hidden;
@@ -2656,6 +2654,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     vertical-align: middle;
     line-height: 13px;
     float: left;
+    margin-right: 10px;
 }
 
 .pages_tree {
@@ -3299,6 +3298,18 @@ body.grabbing, body.grabbing * {
     margin: 15px 20px 10px 0;
 }
 
+@media screen and (min-width: 441px) {
+    .mw-modules-admin li.mw-admin-module-list-item:nth-child(4n) > div {
+        margin: 15px 0px 10px 0;
+    }
+}
+
+@media screen and (max-width: 440px) {
+    .mw-modules-admin li.mw-admin-module-list-item:nth-child(2n) > div {
+        margin: 15px 0px 10px 0;
+    }
+}
+
 .module-uninstall-btn.new-close.mw-icon-close {
     right: -10px;
     top: -10px;
@@ -3511,6 +3522,9 @@ body.grabbing, body.grabbing * {
     display: block;
     position: relative;
     background: white;
+    -webkit-box-shadow: 0 -2px 7px rgba(0, 134, 219, 0.5);
+    -moz-box-shadow: 0 -2px 7px rgba(0, 134, 219, 0.5);
+    box-shadow: 0 -2px 7px rgba(0, 134, 219, 0.5);
 }
 
 .manage-menus li > div.module_item.active + div.module:after {
@@ -3526,6 +3540,8 @@ body.grabbing, body.grabbing * {
     border-radius: 3px 3px 0 0;
     margin-bottom: 0;
     border-bottom: 0;
+    z-index: 9;
+    margin-top: 0;
 }
 
 .manage-menus ul {
@@ -3537,6 +3553,48 @@ body.grabbing, body.grabbing * {
 
 .manage-menus li ul li {
     margin-left: 25px;
+}
+
+.manage-menus .mw-ui-link {
+    color: #999999;
+    font-size: 14px;
+}
+
+.manage-menus .mw-ui-link:hover {
+    color: #0086db;
+}
+
+.manage-menus .mw-ui-link i {
+    margin: 0 !important;
+}
+
+.manage-menus li.opened {
+    /*border: 1px solid #cfcfcf;*/
+    /*-webkit-box-shadow: 0 0 7px rgba(0, 134, 219, 0.5);*/
+    /*-moz-box-shadow: 0 0 7px rgba(0, 134, 219, 0.5);*/
+    /*box-shadow: 0 0 7px rgba(0, 134, 219, 0.5);*/
+}
+
+.manage-menus li > div.module_item.active {
+    border: 1px solid #0086db;
+    background-color: #fff;
+    -webkit-box-shadow: 0 -2px 7px rgba(0, 134, 219, 0.5);
+    -moz-box-shadow: 0 -2px 7px rgba(0, 134, 219, 0.5);
+    box-shadow: 0 -2px 7px rgba(0, 134, 219, 0.5);
+
+}
+
+.manage-menus li > div.module_item .menu_element_link {
+    font-size: 15px;
+}
+
+.manage-menus li.depth-0 > div.module_item .menu_element_link {
+    font-weight: bold;
+}
+
+.manage-menus li > div.module_item.active .menu_element_link {
+    color: #0086db;
+    font-weight: bold;
 }
 
 .mw_admin_modules_sortable_handle {
@@ -6836,6 +6894,14 @@ select.silver-field {
     color: #0086db;
 }
 
+.mw-ui-link.mw-blue {
+    text-decoration: none;
+}
+
+.mw-ui-link.mw-blue:hover {
+    text-decoration: underline;
+}
+
 .mw-switch {
     line-height: 26px;
 }
@@ -7204,7 +7270,66 @@ select.silver-field {
     display: none;
 }
 
+.layouts_box_holder_small .section-header {
+    padding: 0;
+}
 
-.layouts_box_holder_small .section-header{
-    padding:0;
+#settings-container {
+    padding: 10px 10px;
+}
+
+#settings-container .mw-ui-box.mw-ui-box-content {
+    border: 0;
+    padding: 0;
+}
+
+.logo-module-types .mw-ui-row-nodrop {
+    margin-bottom: 20px;
+}
+
+.logo-module-types .mw-ui-row-nodrop .type-title {
+    font-size: 18px;
+}
+
+.logo-module-types .mw-ui-row-nodrop .type-title small {
+    font-size: 12px;
+}
+
+.mw-ui-btn-nav-tabs-new,
+.mw-ui-btn-nav-tabs {
+    border-bottom: 1px solid #0086db;
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.mw-ui-btn-nav-tabs-new .mw-ui-btn,
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
+.mw-ui-btn-nav-tabs .mw-ui-btn,
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    margin-left: 7px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 1px solid transparent;
+    border-bottom: 0;
+}
+
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #0086db;
+    color: white;
+    font-weight: bold;
+    border-color: #0086db;
+}
+
+.mw-ui-btn-nav-tabs-new .mw-ui-btn:hover,
+.mw-ui-btn-nav-tabs .mw-ui-btn:hover {
+    border-color: #e5e5e5;
+}
+
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #0086db;
+    color: #fff;
 }

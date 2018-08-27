@@ -305,7 +305,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
             </div>
         </div>
 
-        <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small pull-right toolbar-live-edit mobile-live-edit-btn"><i class="mai-eye"></i></a>
+        <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small pull-right toolbar-live-edit mobile-live-edit-btn"><i class="mai-eye2"></i></a>
     </div>
 <?php endif; ?>
 

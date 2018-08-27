@@ -2,9 +2,9 @@
 .mw-ui-category-selector {
     position: relative;
     padding: 0;
-    background: #FFFFFF;
-    border: 1px solid #DCDCDC;
-    border-top-color: #BDBDBD;
+    background: #f9f9f9;
+    /*border: 1px solid #DCDCDC;*/
+    /*border-top-color: #BDBDBD;*/
     overflow: hidden;
     border-radius: 2px;
     overflow: auto;
