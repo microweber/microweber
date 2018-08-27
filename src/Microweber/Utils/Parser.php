@@ -931,7 +931,7 @@ class Parser
 
             $search = array_keys($this->mw_replaced_modules_values);
             $reps = array_values($this->mw_replaced_modules_values);
-            $layout = str_replace_bulk($search, $reps, $layout);
+            $layout = str_replace($search, $reps, $layout);
             $reps_arr = array();
             $reps_arr2 = array();
 //            foreach ($this->mw_replaced_modules_values as $key => $value) {
