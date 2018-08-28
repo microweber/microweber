@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 if (!isset($params['parent-module']) and isset($params['root-module'])) {
     $params['parent-module'] = $params['root-module'];
 }
@@ -33,6 +31,7 @@ if (!isset($params['parent-module-id'])) {
 
 $site_templates = site_templates();
 
+$module_templates = module_templates($params['parent-module']);
 $templates = module_templates($params['parent-module']);
 
 $mod_name = $params['parent-module'];
@@ -40,6 +39,10 @@ $mod_name = str_replace('admin', '', $mod_name);
 $mod_name = rtrim($mod_name, DS);
 $mod_name = rtrim($mod_name, '/');
 
+$screenshots = false;
+if (isset($params['data-screenshots'])) {
+    $screenshots = $params['data-screenshots'];
+}
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
 if ($cur_template == false) {
@@ -64,12 +67,11 @@ if ($cur_template == false) {
         <label class="mw-ui-label">
             <?php _e("Current Skin / Template"); ?>
         </label>
-        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field"    option_group="<?php print $params['parent-module-id'] ?>"      data-refresh="<?php print $params['parent-module-id'] ?>">
+
+        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field  w100" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
             <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
                 <?php _e("Default"); ?>
             </option>
-
-
 
             <?php foreach ($templates as $item): ?>
                 <?php if ((strtolower($item['name']) != 'default')): ?>
@@ -89,30 +91,23 @@ if ($cur_template == false) {
                         ?>
                         <?php if (is_dir($possible_dir)): ?>
                             <?php
-
                             $options = array();
 
                             $options['for_modules'] = 1;
                             $options['path'] = $possible_dir;
                             $templates = mw()->layouts_manager->get_all($options);
-
                             ?>
+
                             <?php if (is_array($templates)): ?>
                                 <?php if ($site_template['dir_name'] == template_name()) { ?>
-
-
                                     <?php
-
                                     $has_items = false;
 
                                     foreach ($templates as $item) {
                                         if (!in_array($item['name'], $default_item_names)) {
                                             $has_items = true;
                                         }
-
                                     }
-
-
                                     ?>
                                     <?php if (is_array($has_items)): ?>
                                         <optgroup label="<?php print $site_template['name']; ?>">
@@ -136,12 +131,27 @@ if ($cur_template == false) {
 
         </select>
 
+        <?php if ($screenshots): ?>
+            <div class="module-layouts-viewer">
+                <?php foreach ($module_templates as $item): ?>
+                    <?php if ((strtolower($item['name']) != 'default')): ?>
+                        <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
+                            <?php
+                            $item_screenshot = thumbnail('');
+                            if (isset($item['screenshot'])) {
+                                $item_screenshot = $item['screenshot'];
+                            }
+                            ?>
 
-
-
-
-
-
+                            <div class="holder">
+                                <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                <div class="title"><?php print $item['name']; ?></div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
 
         <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>"

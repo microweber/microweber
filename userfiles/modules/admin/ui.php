@@ -96,7 +96,7 @@
 
 <script>
 
-    docopy = function(value) {
+    docopy = function (value) {
         var tempInput = document.createElement("input");
         tempInput.style = "position: absolute; left: -1000px; top: -1000px";
         tempInput.value = value;
@@ -138,14 +138,14 @@
         });
 
 
-        ctip =  mw.tooltip({element:document.body}), $ctip = $(ctip).hide();
+        ctip = mw.tooltip({element: document.body}), $ctip = $(ctip).hide();
 
-        $(".demobox .mw-ui-box, #dabuttons a.mw-ui-btn, .mw-ui-table, .demobox .mw-switch").on('mouseenter', function(){
+        $(".demobox .mw-ui-box, #dabuttons a.mw-ui-btn, .mw-ui-table, .demobox .mw-switch").on('mouseenter', function () {
             var copier = document.createElement('button');
-            copier.className ='mw-ui-btn mw-ui-btn-small'
+            copier.className = 'mw-ui-btn mw-ui-btn-small'
             copier.innerHTML = '<span class="mw-icon-app-copy-outline"></span>&nbsp;Copy snippet';
             var el = this;
-            copier.onclick = function(){
+            copier.onclick = function () {
                 docopy(el.outerHTML);
                 mw.notification.success('Snippet copied')
             }
@@ -156,8 +156,8 @@
 
     });
     mw.on.hashParam('uisection', function () {
-        var el = mw.$("#ui-info-table h2")[this] ;
-        if(!!window.ctip) $ctip.hide()
+        var el = mw.$("#ui-info-table h2")[this];
+        if (!!window.ctip) $ctip.hide()
         if (this) {
             mw.tools.scrollTo(el);
             mw.$("#ui-info-table tbody > tr:visible:first").hide();
@@ -253,6 +253,12 @@
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-important">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-important">Big</a>
+
+            <h3>Rounded</h3>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-rounded">Small</a>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-rounded">Medium</a>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-rounded">Normal</a>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-rounded">Big</a>
 
             <h3>Notification</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification">Small</a>
@@ -656,6 +662,15 @@
                 <label class="mw-ui-label">Textarea</label>
                 <textarea class="mw-ui-field"></textarea>
             </div>
+
+            <div class="demobox">
+                <label class="mw-ui-label">Range slider</label>
+
+                <div class="range-slider">
+                    <input name="" class="mw-ui-field-range mw_option_field" max="21" min="0" type="range"/>
+                </div>
+            </div>
+
             <h3>Field sizes and fields with buttons</h3>
             <div class="demof1">
                 <div class="demobox">

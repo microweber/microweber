@@ -6783,6 +6783,10 @@ span.mw-icon-upload {
         margin: 0 auto;
         padding-top: 0;
     }
+
+    .manage-posts-holder {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -7332,4 +7336,31 @@ select.silver-field {
 .mw-ui-btn-nav-tabs .mw-ui-btn.active {
     background: #0086db;
     color: #fff;
+}
+
+.module-layouts-viewer {
+    column-count: 2;
+    column-gap: 1em;
+}
+
+.module-layouts-viewer .screenshot {
+    display: inline-block;
+    margin: 0 0 1em;
+    width: 100%;
+}
+
+.module-layouts-viewer .screenshot .holder {
+
+}
+
+.module-layouts-viewer .screenshot .holder .title {
+    background: #2a2a2a;
+    color: #fff;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+.module-layouts-viewer .screenshot img {
+    max-width: 100%;
+    width: 100%;
 }
