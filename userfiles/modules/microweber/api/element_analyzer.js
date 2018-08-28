@@ -256,7 +256,7 @@ mw.ElementAnalyzer = function(options){
                 return false;
             }
             var name = node.nodeName;
-            if(this._isBlockCache[name]){
+            if(typeof this._isBlockCache[name] !== 'undefined'){
                 return this._isBlockCache[name];
             }
             var test = document.createElement(name);
@@ -272,7 +272,7 @@ mw.ElementAnalyzer = function(options){
                 return false;
             }
             var name = node.nodeName;
-            if(this._isInlineCache[name]){
+            if(typeof this._isInlineCache[name] !== 'undefined'){
                 return this._isInlineCache[name];
             }
             var test = document.createElement(name);

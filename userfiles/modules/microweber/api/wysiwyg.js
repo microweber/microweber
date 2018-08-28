@@ -1408,7 +1408,8 @@ mw.wysiwyg = {
         mw.wysiwyg.change('.element-current');
     },
     fontFamily: function (font_name) {
-        mw.wysiwyg.execCommand('fontname', null, font_name);
+        document.execCommand("styleWithCSS", null, true);
+        mw.wysiwyg.execCommand('fontName', null, font_name);
     },
     nestingFixes: function (root) {  /*
      var root = root || mwd.body;
