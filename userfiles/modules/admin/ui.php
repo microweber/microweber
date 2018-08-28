@@ -858,10 +858,10 @@
             Note: the editor must NOT be inside a hidden (display:'none') element.
             <pre>
     mw.editor({
-        element:''
+        element:'',
         height:320,
         width:'100%',
-        addControls: false
+        addControls: false,
         hideControls:false,
         ready: function(){
 
@@ -1104,6 +1104,21 @@
                 </li>
                 <li>
                     <label class="mw-ui-check">
+                        <input type="radio" value="completed" name="order_status">
+                        <span></span><span>Option 2</span>
+                    </label>
+                </li>
+            </ul>
+            <ul class="mw-ui-inline-list">
+                <li><span>Choose</span></li>
+                <li>
+                    <label class="mw-ui-check mw-ui-check-lg">
+                        <input type="radio" value="pending" name="order_status" checked="checked">
+                        <span></span><span>Option 1</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="mw-ui-check mw-ui-check-lg">
                         <input type="radio" value="completed" name="order_status">
                         <span></span><span>Option 2</span>
                     </label>
