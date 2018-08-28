@@ -172,11 +172,6 @@ function load_font_css_async(t){
     </thead>
     <tbody>
 
-      <?php
-        usort($fonts['items'], function($a,$b){
-            return strcmp($a['family'], $b['family']);
-        });
-      ?>
       <?php  $i=0;?>
       <?php foreach($fonts['items'] as $font): ?>
       <?php if(isset($font['family']) and $font['family']  != ''): ?>

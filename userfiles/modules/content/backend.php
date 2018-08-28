@@ -676,6 +676,12 @@ if ($action == 'posts') {
                                         ]
                                     });
 
+                                    $(pagesTree).on("orderChange", function(e, item, data, old, local){
+                                        var obj = {ids: local};
+                                        $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
+                                            mw.reload_module('#mw_page_layout_preview');
+                                        });
+                                    });
                                     $(pagesTree).on("ready", function(){
 
                                         $('.mw-tree-item-title', pagesTree.list).on('click', function(){

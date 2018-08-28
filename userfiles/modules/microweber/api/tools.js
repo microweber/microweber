@@ -595,7 +595,7 @@ mw.tools = {
             mw.tools.modal.center(_modal);
             var draggable = typeof draggable !== 'undefined' ? draggable : true;
             if (typeof $.fn.draggable === 'function' && draggable) {
-                modal_object.addClass("mw-modal-draggable")
+                modal_object.addClass("mw-modal-draggable");
                 modal_object.draggable({
                     handle: '.mw_modal_toolbar',
                     containment: 'window',
@@ -2378,8 +2378,11 @@ mw.tools = {
         if (obj === null || typeof obj === 'undefined' || obj.nodeType === 3) {
             return false;
         }
+        if(!obj.nodeName){
+            return false;
+        }
         var t = obj.nodeName.toLowerCase();
-        if (t == 'input' || t == 'textarea' || t == 'select') {
+        if (t === 'input' || t === 'textarea' || t === 'select'){
             return true
         };
         return false;
@@ -4679,7 +4682,17 @@ mw.image = {
                 resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-image-frame"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-edit"></span></span></div>';
                 document.body.appendChild(resizer);
                 mw.image_resizer = resizer;
-                mw.image_resizer = resizer;
+                mw.image_resizer_time = null;
+                mw.image_resizer._show = function(){
+                    clearTimeout(mw.image_resizer_time)
+                    $(mw.image_resizer).addClass('active')
+                };
+                mw.image_resizer._hide = function(){
+                    mw.image_resizer_time = setTimeout(function(){
+                        $(mw.image_resizer).removeClass('active')
+                    },3000)
+                };
+
                 $(resizer).on("click", function (e) {
                     mw.wysiwyg.select_element(mw.image.currentResizing[0])
                 });
