@@ -34,6 +34,7 @@ $site_templates = site_templates();
 $module_templates = module_templates($params['parent-module']);
 $templates = module_templates($params['parent-module']);
 
+
 $mod_name = $params['parent-module'];
 $mod_name = str_replace('admin', '', $mod_name);
 $mod_name = rtrim($mod_name, DS);
@@ -45,6 +46,8 @@ if (isset($params['data-screenshots'])) {
 }
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
+
+
 if ($cur_template == false) {
 
     if (isset($_GET['data-template'])) {
@@ -58,6 +61,16 @@ if ($cur_template == false) {
     }
 }
 
+if ($screenshots) {
+    foreach ($module_templates as $temp) {
+        if ($temp['layout_file'] == $cur_template) {
+            if (!isset($temp['screenshot'])) {
+                $temp['screenshot'] = '';
+            }
+            $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot']);
+        }
+    }
+}
 
 ?>
 <?php if (is_array($templates)): ?>
@@ -76,6 +89,7 @@ if ($cur_template == false) {
             <?php foreach ($templates as $item): ?>
                 <?php if ((strtolower($item['name']) != 'default')): ?>
                     <?php $default_item_names[] = $item['name']; ?>
+
                     <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
                 <?php endif; ?>
             <?php endforeach; ?>
@@ -131,23 +145,55 @@ if ($cur_template == false) {
 
         </select>
 
+        <!-- Current template - Start -->
+        <div class="mw-ui-row-nodrop">
+            <div class="mw-ui-col current-template" style="width: 50%;">
+                <span class="title">Current layout</span>
+                <div class="screenshot">
+                    <div class="holder">
+                        <img src="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                        <div class="title"><?php print $current_template['name']; ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mw-ui-col current-template-modules" style="width: 50%;">
+                <span class="title">This layout contains modules</span>
+            </div>
+        </div>
+
+        <hr/>
+        <!-- Current template - End -->
+
         <?php if ($screenshots): ?>
+            <script>
+                $(document).ready(function () {
+                    $('.module-layouts-viewer .js-apply-template').on('click', function () {
+                        var option = $(this).data('file');
+                        $('.module-layouts-viewer .js-apply-template .screenshot').removeClass('active');
+                        $(this).find('.screenshot').addClass('active');
+                        $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected').trigger('change');
+                    });
+                });
+            </script>
+
             <div class="module-layouts-viewer">
                 <?php foreach ($module_templates as $item): ?>
                     <?php if ((strtolower($item['name']) != 'default')): ?>
-                        <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
-                            <?php
-                            $item_screenshot = thumbnail('');
-                            if (isset($item['screenshot'])) {
-                                $item_screenshot = $item['screenshot'];
-                            }
-                            ?>
+                        <a href="javascript:;" class="js-apply-template" data-file="<?php print $item['layout_file'] ?>">
+                            <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
+                                <?php
+                                $item_screenshot = thumbnail('');
+                                if (isset($item['screenshot'])) {
+                                    $item_screenshot = $item['screenshot'];
+                                }
+                                ?>
 
-                            <div class="holder">
-                                <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
-                                <div class="title"><?php print $item['name']; ?></div>
+                                <div class="holder">
+                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                    <div class="title"><?php print $item['name']; ?></div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
