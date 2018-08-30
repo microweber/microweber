@@ -7386,3 +7386,7 @@ select.silver-field {
     display: block;
     margin: 20px 0 10px 0;
 }
+
+.current-template-modules{
+    padding: 0 10px
+}
