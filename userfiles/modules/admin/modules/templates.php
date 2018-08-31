@@ -145,21 +145,23 @@ if ($screenshots) {
 
         </select>
 
-        <!-- Current template - Start -->
-        <div class="mw-ui-row-nodrop">
-            <div class="mw-ui-col current-template" style="width: 50%;">
-                <span class="title">Current layout</span>
-                <div class="screenshot">
-                    <div class="holder">
-                        <img src="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
-                        <div class="title"><?php print $current_template['name']; ?></div>
+        <?php if (isset($current_template)): ?>
+            <!-- Current template - Start -->
+            <div class="mw-ui-row-nodrop">
+                <div class="mw-ui-col current-template" style="width: 50%;">
+                    <span class="title">Current layout</span>
+                    <div class="screenshot">
+                        <div class="holder">
+                            <img src="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                            <div class="title"><?php print $current_template['name']; ?></div>
+                        </div>
                     </div>
                 </div>
+                <div class="mw-ui-col current-template-modules" style="width: 50%;">
+                    <span class="title">This layout contains modules</span>
+                </div>
             </div>
-            <div class="mw-ui-col current-template-modules" style="width: 50%;">
-                <span class="title">This layout contains modules</span>
-            </div>
-        </div>
+        <?php endif; ?>
 
         <hr/>
         <!-- Current template - End -->

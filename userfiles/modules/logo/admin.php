@@ -39,7 +39,7 @@
         width: 100%;
     }
 
-    .the-image-holder #upload-image {
+    .the-image-holder .upload-image {
         width: 33px;
         height: 33px;
         -webkit-border-radius: 100%;
@@ -48,6 +48,11 @@
         padding: 7px;
         margin-top: -65px;
         margin-left: 5px;
+    }
+
+    .the-image,
+    .the-image-inverse {
+        display: block;
     }
 
     .the-image,
@@ -91,6 +96,11 @@ $size = get_option('size', $params['id']);
 if ($size == false or $size == '') {
     $size = 60;
 }
+
+$alt_logo = false;
+if (isset($params['data-alt-logo'])) {
+    $alt_logo = $params['data-alt-logo'];
+}
 ?>
 
 <script>
@@ -114,9 +124,9 @@ if ($size == false or $size == '') {
 
 
         mw.editor({
-            element:'#text',
-            height:320,
-            width:'100%',
+            element: '#text',
+            height: 320,
+            width: '100%',
             hideControls: ['format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting']
         })
     });
@@ -170,35 +180,48 @@ if ($size == false or $size == '') {
                     <div class="mw-ui-col">
                         <div class="the-image-holder">
                             <img src="<?php if ($logoimage) {
-                                echo $logoimage;
+                                echo thumbnail($logoimage, 200);
                             } else {
-                                echo '';
+                                echo thumbnail('', 200);
                             } ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                            <span class="mw-ui-btn mw-ui-btn-info" id="upload-image"><span class="mw-icon-web-add"></span></span>
+                            <span class="mw-ui-btn mw-ui-btn-info upload-image" id="upload-image"><span class="mw-icon-web-add"></span></span>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-col p-l-10">
+                        <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded"><?php _e('Browse Uploaded'); ?></a>
+                    </div>
+                </div>
+
+                <div style="clear: both;"></div>
+
+                <?php if ($alt_logo == 'true'): ?>
+                    <div class="mw-ui-row-nodrop image-row">
+                        <div class="mw-ui-col">
+                            <div class="the-image-holder">
+                                <img src="<?php if ($logoimage_inverse) {
+                                    echo thumbnail($logoimage_inverse, 200);
+                                } else {
+                                    echo thumbnail('', 200);
+                                } ?>" class="the-image-inverse" alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                                <span class="mw-ui-btn mw-ui-btn-info upload-image" id="upload-image-inverse"><span class="mw-icon-web-add"></span></span>
+                            </div>
                         </div>
 
+                        <div class="mw-ui-col p-l-10">
+                            <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded"><?php _e('Browse Uploaded'); ?></a>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
-                        <div style="padding-top: 15px; clear: both"></div>
-
-                        <h3>Inverse</h3>
-                        <img src="<?php print $logoimage_inverse; ?>" class="pull-left the-image-inverse" alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                        <br>
-                        <div style="padding-top: 15px; clear: both"></div>
-                        <span class="mw-ui-btn" id="upload-image-inverse"><span class="mw-icon-upload"></span><?php _e('Upload Image'); ?></span><br/>
-                        <?php _e('Upload second image for Inverse logo if the current template support'); ?><br/>
-                        <a href="javascript:mw_admin_logo_upload_browse_existing(true)" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
-                        <hr/>
+                <div class="mw-ui-row-nodrop">
+                    <div class="mw-ui-col">
                         <label class="mw-ui-label" style="padding-top: 20px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
                         <div id="sizeslider" class="mw-slider"></div>
                         <br>
                         <label class="mw-ui-check"><input type="checkbox" checked="" id="order_status1" value="pending"><span></span><span><?php _e('Auto'); ?></span></label>
-                    </div>
 
-                    <div class="mw-ui-col p-l-10">
-                        <small><?php _e('Upload second image for Inverse logo if the current template support'); ?></small>
-                        <br/>
-                        <br/>
-                        <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded"><?php _e('Browse Uploaded'); ?></a>
+                        <hr/>
                     </div>
                 </div>
             </div>
@@ -435,7 +458,7 @@ if ($size == false or $size == '') {
                                 <option value="Zeyada">Zeyada</option>
                             </select>
 
-                                                        <module type="admin/modules/templates" simple=true/>
+                            <module type="admin/modules/templates" simple=true/>
                         </div>
                     </div>
                 </div>
@@ -471,7 +494,6 @@ if ($size == false or $size == '') {
                             $('#size').val('auto').trigger('change');
                             $("#imagesizeval").html('auto');
                         };
-
 
 
                     });
