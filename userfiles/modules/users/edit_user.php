@@ -186,7 +186,8 @@ if (isset($data[0]) == false) {
     </span>
             <?php endif; ?>
         </div>
-        <input type="hidden" class="mw-ui-field" name="id" value="<?php print $data['id']; ?>">
+        <input type="hidden"   name="id" value="<?php print $data['id']; ?>">
+        <input type="hidden"   name="token" value="<?php print csrf_token() ?>"  autocomplete="off">
         <div>
             <table btos="0" cellpadding="0" cellspacing="0" class="mw-ui-table mw-ui-table-basic mw-admin-user-tab-content" width="100%">
                 <col width="150px"/>
