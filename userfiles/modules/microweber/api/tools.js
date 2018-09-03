@@ -1,6 +1,7 @@
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
+mw.require("color.js");
 mw.lib.require("acolorpicker");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 (function () {
@@ -579,7 +580,7 @@ mw.tools = {
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
             }
-            console.log(o)
+
             var modal = mw.tools.modal.source(name, template);
             $(mwd.body).append(modal.html);
             var _modal = mwd.getElementById(modal.id);
@@ -1473,31 +1474,27 @@ mw.tools = {
                 }
             });
         },
-        del: function (id) {
+        del: function (id,callback) {
             mw.tools.confirm(mw.msg.del, function () {
                 if (mw.notification != undefined) {
                     mw.notification.success('Content deleted');
                 }
                 $.post(mw.settings.site_url + "api/content/delete", {id: id}, function (data) {
-                    var todelete = mw.$(".item_" + id);
-                    todelete.fadeOut(function () {
-                        todelete.remove();
-                        mw.reload_module('content/trash');
-                    });
+                    if(callback){
+
+                        callback.call(data,data)
+                    }
                 });
             })
         },
-        del_category: function (id) {
+        del_category: function (id,callback) {
             mw.tools.confirm('Are you sure you want to delete this?', function () {
                 $.post(mw.settings.site_url + "api/category/delete", {id: id}, function (data) {
-                    var todelete = mw.$(".item_" + id);
-                    todelete.fadeOut(function () {
-                        if (mw.notification != undefined) {
-                            mw.notification.success('Category deleted');
-                        }
-                        todelete.remove();
-                        'mw.admin.treeboxwidth'._exec();
-                    });
+                    mw.notification.success('Category deleted');
+                    if(callback){
+
+                        callback.call(data,data)
+                    }
                 });
             })
         },
@@ -3126,7 +3123,7 @@ mw.tools = {
         }
         else if (n.permission == 'default') {
             n.requestPermission(function (result) {
-                console.log(result)
+
                 if (result == 'granted') {
                     return mw.tools.notification(body, tag, icon)
                 }
@@ -5158,10 +5155,10 @@ mw._colorPicker = function (options) {
             var css = parent.getComputedStyle(this, null);
             if (css !== null) {
                 if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-                    mw.tools.colorPickerColors.push(css.color)
+                    mw.tools.colorPickerColors.push(mw.color.rgbToHex( css.color))
                 }
                 if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-                    mw.tools.colorPickerColors.push(css.backgroundColor)
+                    mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor))
                 }
             }
         });
@@ -5194,13 +5191,17 @@ mw._colorPicker = function (options) {
 
     var frame;
     if (settings.method == 'inline') {
+
         frame = AColorPicker.createPicker({
             showAlpha: true,
+            showHSL:false,
+            showRGB:false,
+            showHEX:false,
             attachTo: $el[0],
             palette: mw.tools.colorPickerColors
         });
         frame.onchange = function (data) {
-            console.log(a, val, c);
+
             if (proto.settings.onchange) {
                 proto.settings.onchange(data.color);
             }
@@ -5217,12 +5218,16 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
         this.tip = tip;
         $(this.tip).on('click mousedown touchstart touchend mouseup', function (e) {
-            event.preventDefault();
+            //event.preventDefault();
         });
         mw.$('.mw-tooltip-content', tip).empty()
+
         var frame = AColorPicker.createPicker({
             showAlpha: true,
             palette: mw.tools.colorPickerColors,
+            showHSL:false,
+            showRGB:false,
+            showHEX:false,
             attachTo: mw.$('.mw-tooltip-content', tip)[0],
 
         });

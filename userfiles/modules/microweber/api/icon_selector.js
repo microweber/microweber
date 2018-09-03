@@ -254,6 +254,7 @@ mw.iconSelector = mw.iconSelector || {
             mw.tools.removeClass(mw.iconSelector._activeElement, mw.iconSelector.iconFontClasses);
             mw.wysiwyg.elementRemoveFontIconClasses(mw.iconSelector._activeElement);
             mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'mw-icon-');
+            mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'material-');
             mw.tools.classNamespaceDelete({
               element:mw.iconSelector._activeElement,
               namespace:'fa-',
@@ -265,7 +266,7 @@ mw.iconSelector = mw.iconSelector || {
               mw.$(mw.iconSelector._activeElement).html(is)
             }
             else{
-              mw.$(mw.iconSelector._activeElement).empty()
+              mw.$(mw.iconSelector._activeElement).empty().removeClass('material-icons')
             }
 
             if(typeof(mw.iconSelector._activeElement) != 'undefined' && typeof(mw.iconSelector._activeElement.nodeName) != 'undefined'){

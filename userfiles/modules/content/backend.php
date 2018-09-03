@@ -33,6 +33,31 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 <script type="text/javascript">
 
 
+    var mainTreeSetActiveItems = function(){
+        if(mw.adminPagesTree){
+            mw.adminPagesTree.unselectAll();
+            var hp = mw.url.getHashParams(location.hash);
+            if(hp.action){
+                var arr = hp.action.split(':')
+                var activeTreeItemIsPage = arr[0] == 'editpage' || arr[0] == 'showposts';
+                var activeTreeItemIsCategory = arr[0] == 'editcategory' || arr[0] == 'showpostscat';
+
+                if(activeTreeItemIsPage){
+                    mw.adminPagesTree.select({
+                        id:arr[1],
+                        type:'page'
+                    })
+                }
+                if(activeTreeItemIsCategory){
+                    mw.adminPagesTree.select({
+                        id:arr[1],
+                        type:'category'
+                    })
+                }
+            }
+        }
+
+    }
 
 
 
@@ -51,7 +76,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         });
 
 
-        mw_make_pages_tree_sortable();
+
 
 
     });
@@ -168,8 +193,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     });
 
 
-    mw.on.hashParam("action", function () {
 
+    mw.on.hashParam("action", function () {
+        mainTreeSetActiveItems()
 
         if (this == false) {
             mw.$('#pages_edit_container').removeAttr('page-id');
@@ -207,7 +233,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.contentAction.create(arr[1]);
         }
         else {
-
 
             mw.$(".active-bg").removeClass('active-bg');
             mw.$(".mw_action_nav").removeClass("not-active");
@@ -550,48 +575,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw_select_post_for_editing(0, 'product')
     }
 
-    function mw_make_pages_tree_sortable() {
-        $("#pages_tree_toolbar .pages_tree").sortable({
-            axis: 'y',
-            items: '>.pages_tree_item',
-            distance: 35,
-            containment: "parent",
-            update: function () {
-                var obj = {ids: []}
-                $(this).find('.pages_tree_item').each(function () {
-                    var id = this.attributes['data-page-id'].nodeValue;
-                    obj.ids.push(id);
-                });
-                $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
-                    mw.reload_module('#mw_page_layout_preview');
-                });
-            },
-            start: function (a, ui) {
-
-            },
-            scroll: false
-        });
-
-        $("#pages_tree_toolbar .pages_tree .have_category").sortable({
-            axis: 'y',
-            items: '.category_element',
-            distance: 35,
-            update: function () {
-                var obj = {ids: []}
-                mw.$('.category_element', this).each(function () {
-                    var id = this.attributes['data-category-id'].nodeValue;
-                    obj.ids.push(id);
-                });
-                $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
-                    mw.reload_module('#mw_page_layout_preview');
-                });
-            },
-            start: function (a, ui) {
-
-            },
-            scroll: false
-        });
-    }
 
 
 </script>
@@ -665,16 +648,28 @@ if ($action == 'posts') {
                                                 title:'Move to trash',
                                                 icon:'mw-icon-bin',
                                                 action:function(element, data, menuitem){
-                                                    if( data.type == 'category' ){
-                                                        mw.tools.tree.del_category(data.id);
+                                                    if(data.type  == 'category' ){
+                                                        mw.tools.tree.del_category(data.id, function(){
+
+                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
+                                                                pagesTreeRefresh()
+                                                            })
+                                                        });
                                                     }
                                                     else{
-                                                        mw.tools.tree.del(data.id);
+                                                        mw.tools.tree.del(data.id, function(){
+                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function(){
+                                                                pagesTreeRefresh()
+                                                            })
+                                                        });
                                                     }
+
+
                                                 }
                                             }
                                         ]
                                     });
+                                    mw.adminPagesTree = pagesTree;
 
                                     $(pagesTree).on("orderChange", function(e, item, data, old, local){
                                         var obj = {ids: local};
@@ -691,7 +686,7 @@ if ($action == 'posts') {
                                             var li = this.parentNode.parentNode,
                                                 data = li._data,
                                                 action;
-                                            pagesTree.select(li);
+                                            //pagesTree.select(li);
                                             if(!$(li).hasClass('mw-tree-additional-item')){
                                                 if(data.type == 'page'){
                                                     action = 'editpage';
@@ -707,6 +702,9 @@ if ($action == 'posts') {
 
 
                                         });
+                                        mainTreeSetActiveItems()
+
+
 
                                     })
 

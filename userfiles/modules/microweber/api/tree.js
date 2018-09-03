@@ -16,24 +16,48 @@ mw.lib.require('nestedsortable');
 
 (function(){
     var mwtree = function(options){
+
         var scope = this;
 
-        window.mwtree = (typeof window.mwtree === 'undefined' ? 0 : window.mwtree)+1;
+        this.config = function(options){
 
-        options.data = options.data || [];
-        this.options = options;
-        this.options.openedClass = this.options.openedClass || 'opened';
-        this.options.selectedClass = this.options.selectedClass || 'selected';
-        this.options.skin = this.options.skin || 'default';
-        this.options.multiPageSelect =  this.options.multiPageSelect === undefined ? true : this.options.multiPageSelect;
-        this.options.saveState = this.options.saveState === undefined ? true : this.options.saveState;
-        this.options.sortable = this.options.sortable === undefined ? false : this.options.sortable;
-        this.options.nestedSortable = this.options.nestedSortable === undefined ? false : this.options.nestedSortable;
-        this.options.singleSelect = this.options.singleSelect === undefined ? false : this.options.singleSelect;
+            window.mwtree = (typeof window.mwtree === 'undefined' ? 0 : window.mwtree)+1;
+            if(!options.id && typeof options.saveState === undefined){
+                options.saveState = false;
+            }
 
-
-        this.selectedData = [];
-
+            options.element = $(options.element)[0];
+            options.data = options.data || [];
+            this.options = options;
+            this.options.openedClass = this.options.openedClass || 'opened';
+            this.options.selectedClass = this.options.selectedClass || 'selected';
+            this.options.skin = this.options.skin || 'default';
+            this.options.multiPageSelect =  this.options.multiPageSelect === undefined ? true : this.options.multiPageSelect;
+            this.options.saveState = this.options.saveState === undefined ? true : this.options.saveState;
+            this.options.sortable = this.options.sortable === undefined ? false : this.options.sortable;
+            this.options.nestedSortable = this.options.nestedSortable === undefined ? false : this.options.nestedSortable;
+            this.options.singleSelect = this.options.singleSelect === undefined ? false : this.options.singleSelect;
+            if(this.options.selectedData){
+                this.selectedData = this.options.selectedData;
+            }
+            else{
+                this.selectedData = [];
+            }
+        }
+        this.skip = function(itemData){
+            if(this.options.skip && this.options.skip.length>0){
+                loopSKIP:
+                for( var n=0; n<scope.options.skip.length; n++ ){
+                    var item = scope.options.skip[n];
+                    var case1 = (item.id == itemData.id && item.type == itemData.type);
+                    var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
+                    if(case1 ||case2){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
         this.json2ul = function(){
             this.list = document.createElement( 'ul' );
             this.options.id = this.options.id || ( 'mw-tree-' + window.mwtree );
@@ -86,28 +110,70 @@ mw.lib.require('nestedsortable');
             });
         }
 
+        this.analizeLi = function(li){
+            if(typeof li === 'string'){
+                if(/^\d+$/.test(li)){
+                    li = parseInt(li, 10);
+                }
+                else{
+                    return mw.$(li);
+                }
+            }
+            return li;
+        };
+
         this.select = function(li, type){
+            li = this.analizeLi(li);
+            if(typeof li === 'object' && !li.className){
+                if(Array.isArray(li)){
+                    $.each(li, function(){
+                        scope.select(this);
+                    });
+                    return;
+                }
+                else{
+                    this.select(li.id, li.type);
+                    return;
+                }
+            }
             if(typeof li === 'number'){
                 if(!type) return;
                 li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
+
             li.classList.add(this.options.selectedClass);
             var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
             if(input) input.checked = true;
-            this.manageUnselected()
+            this.manageUnselected();
             this.getSelected();
-        }
+            $(scope).trigger('selectionChange', [scope.selectedData]);
+        };
 
         this.unselect = function(li, type){
+            li = this.analizeLi(li);
+            if(typeof li === 'object' && !li.className){
+                if(Array.isArray(li)){
+                    $.each(li, function(){
+                        scope.unselect(this);
+                    });
+                    return;
+                }
+                else{
+                    this.unselect(li.id, li.type);
+                    return;
+                }
+            }
             if(typeof li === 'number'){
                 if(!type) return;
                 li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
+            console.log(li)
             li.classList.remove(this.options.selectedClass);
             var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
             if(input) input.checked = false;
             this.manageUnselected()
             this.getSelected();
+            $(scope).trigger('selectionChange', [scope.selectedData]);
         }
 
         this.isSelected = function(li, type){
@@ -127,7 +193,24 @@ mw.lib.require('nestedsortable');
             }
         }
 
+        this.unselectAll = function(){
+            console.log(this.selectedData)
+            return this.unselect(this.selectedData);
+        };
+
         this.open = function(li, type, _skipsave){
+            if(typeof li === 'object' && !li.className){
+                if(Array.isArray(li)){
+                    $.each(li, function(){
+                        scope.open(this);
+                    });
+                    return;
+                }
+                else{
+                    this.open(li.id, li.type);
+                    return;
+                }
+            }
             if(typeof li === 'number'){
                 if(!type) return;
                 li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
@@ -139,6 +222,18 @@ mw.lib.require('nestedsortable');
         }
 
         this.close = function(li,type, _skipsave){
+            if(typeof li === 'object' && !li.className){
+                if(Array.isArray(li)){
+                    $.each(li, function(){
+                        scope.close(this);
+                    });
+                    return;
+                }
+                else{
+                    this.close(li.id, li.type);
+                    return;
+                }
+            }
             if(typeof li === 'number'){
                 if(!type) return;
                 li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
@@ -210,13 +305,15 @@ mw.lib.require('nestedsortable');
             label.className = 'mw-ui-check'
             label.appendChild(input)
             label.appendChild(span);
-            input.onchange = function(){
+
+            /*input.onchange = function(){
                 var li = scope.parentLi(this);
                 $(li)[this.checked?'addClass':'removeClass'](scope.options.selectedClass)
                 var data = scope.getSelected();
                 scope.manageUnselected()
+                console.log(data,00919)
                 $(scope).trigger('change', [data]);
-            }
+            }*/
             return label;
         }
 
@@ -235,13 +332,14 @@ mw.lib.require('nestedsortable');
 
         this.getSelected = function(){
             var selected = [];
-            var all = this.list.querySelectorAll('input:checked');
+            var all = this.list.querySelectorAll('li.selected');
             $(all).each(function(){
                 if(this._data) selected.push(this._data);
             });
             this.selectedData = selected;
+            this.options.selectedData = selected;
             return selected;
-        }
+        };
 
         this.decorate = function(element){
             if(this.options.selectable){
@@ -354,17 +452,22 @@ mw.lib.require('nestedsortable');
             li.dataset.type = item.type;
             li.dataset.id = item.id;
             li.dataset.parent_id = item.parent_id;
-            li.className = 'type-' + item.type + ' subtype-'+ item.subtype;
+            var skip = this.skip(item);
+            li.className = 'type-' + item.type + ' subtype-'+ item.subtype + ' skip-' + skip;
             var container = document.createElement('span');
             container.className = "mw-tree-item-content";
             container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
             li._data = item;
             li.id = scope.options.id + '-' + item.type+'-'+item.id;
             li.appendChild(container);
-            container.onclick = function(){
-                if(scope.options.selectable) scope.toggleSelect(li)
-            };
-            this.decorate(li);
+            if(!skip){
+                container.onclick = function(){
+                    if(scope.options.selectable) scope.toggleSelect(li)
+                };
+                this.decorate(li);
+            }
+
+
             return li;
         }
 
@@ -446,7 +549,13 @@ mw.lib.require('nestedsortable');
             }
         };
 
+        this.loadSelected = function(){
+            if(this.selectedData){
+                scope.select(this.selectedData);
+            }
+        }
         this.init = function(){
+
 
             this.json2ul();
             this.addButtons();
@@ -454,11 +563,13 @@ mw.lib.require('nestedsortable');
             this.append();
             this.prepend();
             this.restoreState();
+            this.loadSelected();
             setTimeout(function(){
                 $(scope).trigger('ready');
             }, 66)
         };
 
+        this.config(options);
         this.init();
     };
     mw.tree = mwtree;

@@ -112,7 +112,11 @@ mw.askusertostay = false;
       callback.call(this);
     }
   }
-
+    if (!Array.isArray) {
+        Array.isArray = function(arg) {
+            return Object.prototype.toString.call(arg) === '[object Array]';
+        };
+    }
   if (Array.prototype.indexOf === undefined) {
     Array.prototype.indexOf = function(obj) {
       var i=0, l=this.length;

@@ -399,6 +399,7 @@ mw.wysiwyg = {
       return true
     },
     execCommand: function (a, b, c) {
+        document.execCommand('styleWithCss', 'false', false);
         var fnode = window.getSelection().focusNode;
 
         if ((fnode !== null) && (mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text') || mw.tools.hasParentsWithClass(fnode.parentNode, 'plain-text'))) {
@@ -1335,10 +1336,7 @@ mw.wysiwyg = {
             mw.wysiwyg._bgfontcolorpicker.show();
         },20);
 
-        return false;
-        var el = ".mw_editor_font_background_color";
-        mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontbg");
-        $(mw.wysiwyg.external).find("iframe").width(280).height(320);
+
     },
     fontColor: function (color) {
         if (/^[0-9A-F]{3,6}$/i.test(color) && !color.contains("#")) {
@@ -1347,16 +1345,19 @@ mw.wysiwyg = {
         if (color == 'none') {
             mw.wysiwyg.execCommand('removeFormat', false, "foreColor");
         } else {
+            document.execCommand("styleWithCSS", null, true);
             mw.wysiwyg.execCommand('forecolor', null, color);
         }
     },
     fontbg: function (color) {
+
         if (/^[0-9A-F]{3,6}$/i.test(color) && !color.contains("#")) {
             color = "#" + color;
         }
         if (color == 'none') {
             mw.wysiwyg.execCommand('removeFormat', false, "backcolor");
         } else {
+            document.execCommand("styleWithCSS", null, true);
             mw.wysiwyg.execCommand('backcolor', null, color);
         }
     },
@@ -2574,14 +2575,17 @@ $('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition',
                 if (!isPlain) {
                     var code = e.keyCode;
                     if (code === 66) {
+
                         mw.wysiwyg.execCommand('bold');
                         e.preventDefault();
                     }
                     else if (code == 73) {
+
                         mw.wysiwyg.execCommand('italic');
                         e.preventDefault();
                     }
                     else if (code == 85) {
+
                         mw.wysiwyg.execCommand('underline');
                         e.preventDefault();
                     }

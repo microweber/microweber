@@ -757,7 +757,9 @@ mw.drag = {
                         }
                         else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
 
-                            mw.image_resizer._show();
+                            if(mw.image_resizer){
+                                mw.image_resizer._show();
+                            }
                             mw.image.resize.resizerSet(event.target, false);
                         }
                         else if (!!bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
@@ -773,7 +775,10 @@ mw.drag = {
                         }
                         else {
                             if (!event.target.mwImageResizerComponent) {
-                                mw.image_resizer._hide();
+                                if(mw.image_resizer){
+                                    mw.image_resizer._hide();
+                                }
+
 
                             }
                         }
