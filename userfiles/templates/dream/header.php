@@ -119,7 +119,7 @@
 <nav class="<?php if ($preloader != '' AND $preloader == 'true'): ?>transition--fade<?php endif; ?>">
     <div class="nav-bar" data-fixed-at="200">
         <div class="nav-module logo-module left">
-            <module type="logo" id="logo" template="default" default-text="Dream"/>
+            <module type="logo" id="logo" template="default" default-text="Dream" data-alt-logo="true"/>
         </div>
 
         <module type="menu" name="header_menu" class="nav-module menu-module left" template="header"/>

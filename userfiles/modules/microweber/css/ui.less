@@ -3408,6 +3408,7 @@ div.mw-ui-field:after {
   vertical-align: middle;
   margin-right: 8px;
   font-weight: normal;
+
 }
 
 .mw-ui-check input + span:before {
@@ -3421,7 +3422,7 @@ div.mw-ui-field:after {
   font-size: 32px;
 }
 
-.mw-ui-check input[type='checkbox'] + span:before {
+/*.mw-ui-check input[type='checkbox'] + span:before {
   content: "\0113";
   text-transform: none !important;
 }
@@ -3429,7 +3430,7 @@ div.mw-ui-field:after {
 .mw-ui-check input[type='checkbox']:checked + span:before {
   content: "\0114";
   text-transform: none !important;
-}
+}*/
 
 .mw-ui-check input[type='radio'] + span:before {
   content: "\0115";
@@ -3444,6 +3445,76 @@ div.mw-ui-field:after {
   color: @info;
   -webkit-box-shadow: 0 0 10px #82c4ed;
   border-radius: 100%;
+}
+
+/* Checkboxes */
+.mw-ui-check {
+  display: block;
+  position: relative;
+  //padding-left: 25px;
+  cursor: pointer;
+  //font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 16px;
+}
+
+.mw-ui-check > input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mw-ui-check > input[type='checkbox'] + span:first-of-type {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  background-color: #fff;
+  border: 1px solid #cfcfcf;
+
+}
+
+.mw-ui-check >  span:nth-of-type(2) {
+  padding-left: 25px;
+}
+
+.mw-ui-check   span:nth-of-type(2)  + input[type="radio"]{
+  padding-left: 0px;
+}
+
+.mw-ui-check:hover > input[type="checkbox"] ~ span:first-of-type {
+  background-color: #fff;
+  border: 1px solid #cfcfcf;
+}
+
+.mw-ui-check > input[type="checkbox"]:checked ~ span:first-of-type {
+  background-color: #fff;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, .25), 0 1px 1px rgba(0, 0, 0, .22);
+
+}
+
+.mw-ui-check > span:first-of-type:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.mw-ui-check > input[type="checkbox"]:checked ~ span:first-of-type:after {
+  display: block;
+}
+
+.mw-ui-check > span:first-of-type:after {
+  left: 0px;
+  top: -5px;
+  color: @info;
+  content: "\0101";
+  font-family: Microweber !important;
+  text-transform: none !important;
+  font-size: 20px;
 }
 
 .mw-disabled,
@@ -5334,3 +5405,105 @@ body.mw-live-edit .mw-control-box-left {
 .mw-notif-box.mw-notif-box-info span {
   color: @info;
 }
+
+.range-slider input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.range-slider input[type=range]:focus {
+  outline: none;
+}
+
+.range-slider input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  background: @info;
+  border-radius: 0px;
+  border: 0px solid #000101;
+}
+
+.range-slider input[type=range]::-webkit-slider-thumb {
+  border: 1px solid #e1e1e1;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -10px;
+}
+
+.range-slider input[type=range]:focus::-webkit-slider-runnable-track {
+  background: @info;
+}
+
+.range-slider input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 12.8px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  background: @info;
+  border-radius: 25px;
+  border: 0px solid #000101;
+}
+
+.range-slider input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  border: 0px solid #000000;
+  height: 20px;
+  width: 39px;
+  border-radius: 7px;
+  background: #65001c;
+  cursor: pointer;
+}
+
+.range-slider input[type=range]::-ms-track {
+  width: 100%;
+  height: 12.8px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 39px 0;
+  color: transparent;
+}
+
+.range-slider input[type=range]::-ms-fill-lower {
+  background: @info;
+  border: 0px solid #000101;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+.range-slider input[type=range]::-ms-fill-upper {
+  background: @info;
+  border: 0px solid #000101;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+
+.range-slider input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+  border: 0px solid #000000;
+  height: 20px;
+  width: 39px;
+  border-radius: 7px;
+  background: #65001c;
+  cursor: pointer;
+}
+
+.range-slider input[type=range]:focus::-ms-fill-lower {
+  background: @info;
+}
+
+.range-slider input[type=range]:focus::-ms-fill-upper {
+  background: @info;
+}
+
+
