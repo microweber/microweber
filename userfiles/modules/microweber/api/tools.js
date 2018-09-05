@@ -540,22 +540,22 @@ mw.tools = {
             height: 500,
             draggable: true
         },
-        source: function (id, template) {
-            var template = template || 'mw_modal_primary';
-            if (template == 'basic') {
-                var template = 'mw_modal_basic';
+        source: function (id, template,icon) {
+            template = template || 'mw_modal_primary';
+            if (template === 'basic') {
+                template = 'mw_modal_basic';
             }
-            if (template == 'default') {
-                var template = 'mw_modal_primary';
+            if (template === 'default') {
+                template = 'mw_modal_primary';
             }
-            if (template == 'simple') {
-                var template = 'mw_modal_simple';
+            if (template === 'simple') {
+                template = 'mw_modal_simple';
             }
-            var id = id || "modal_" + mw.random();
+            id = id || "modal_" + mw.random();
             var html = ''
                 + '<div class=" mw_modal mw_modal_maximized ' + template + '" id="' + id + '">'
                 + '<div class="mw_modal_toolbar">'
-                + '<span class="mw_modal_icon"><i class="mw-icon-app-trash"></i></span>'
+                + (icon?'<span class="mw_modal_icon">'+icon+'</span>':'')
                 + '<span class="mw_modal_title"></span>'
                 + '<span class="mw-modal-close"  title="' + mw.msg.close + '"></span>'
                 + '</div>'
@@ -576,12 +576,13 @@ mw.tools = {
                 overlay = o.overlay,
                 draggable = o.draggable,
                 onremove = o.onremove,
+                icon = o.icon,
                 onopen = o.onopen;
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
             }
 
-            var modal = mw.tools.modal.source(name, template);
+            var modal = mw.tools.modal.source(name, template, icon);
             $(mwd.body).append(modal.html);
             var _modal = mwd.getElementById(modal.id);
             if (!_modal.remove) {
@@ -595,7 +596,7 @@ mw.tools = {
             mw.$(".mw-tooltip").hide();
             modal_object.show();
             mw.tools.modal.center(_modal);
-            var draggable = typeof draggable !== 'undefined' ? draggable : true;
+            draggable = typeof draggable !== 'undefined' ? draggable : true;
             if (typeof $.fn.draggable === 'function' && draggable) {
                 modal_object.addClass("mw-modal-draggable");
                 modal_object.draggable({
@@ -603,7 +604,6 @@ mw.tools = {
                     containment: 'window',
                     iframeFix: false,
                     distance: 10,
-                    containment: "window",
                     drag: function (e, ui) {
                         if (ui.position.top < 0) ui.position.top = 0;
                     },
@@ -3289,6 +3289,7 @@ mw.tools = {
                 name: 'module-settings-' + a.replace(/\//g, '_'),
                 title: '',
                 callback: function () {
+                    console.log(999112)
                 }
             });
         }

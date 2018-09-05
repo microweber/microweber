@@ -20,6 +20,37 @@ if (typeof jQuery == 'undefined') {
 
 }
 
+var _jqxhr = jQuery.ajax;
+
+jQuery.ajax = $.ajax = function(url, options){
+    options = options || {};
+    settings = {};
+    if(typeof url === 'object'){
+        $.extend(settings, url);
+    }
+    else{
+        settings.url = url;
+    }
+
+    $.extend(settings,options);
+    if(typeof settings.success === 'function'){
+        settings._success = settings.success;
+        delete settings.success;
+        settings.success = function (data, status, xhr) {
+            if (data.form_data_required) {
+                mw.extradataForm(settings, data);
+            }
+            else {
+                if (typeof settings._success === 'function') {
+                    settings._success.call(this, data, status, xhr);
+                }
+            }
+        };
+    }
+
+    var xhr = _jqxhr(settings);
+    return xhr;
+};
 
 $.ajaxSetup({
     cache: false,
@@ -32,7 +63,6 @@ $.ajaxSetup({
         }
     }
 });
-
 
 
 

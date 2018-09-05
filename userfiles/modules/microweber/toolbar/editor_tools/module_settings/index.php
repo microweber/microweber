@@ -86,14 +86,22 @@ if($mod_id != $mod_orig_id){
 
 ?>
 <script type="text/javascript">
-
+    addIcon = function () {
+        if(window.thismodal && thismodal.main){
+            var holder = $(".mw_modal_toolbar", thismodal.main);
+            if($('.mw_modal_icon', holder).length === 0){
+                holder.prepend('<span class="mw_modal_icon"><img src="<?php print $module_info['icon']; ?>"></span>')
+            }
+        }
+    };
+    addIcon();
 
     autoSize = <?php print $autoSize; ?>;
     settingsType = '<?php print $type; ?>';
 
     window.onbeforeunload = function () {
         $(mwd.body).addClass("mw-external-loading")
-    }
+    };
 
 
     mw_module_settings_info = "";
@@ -390,15 +398,13 @@ if (typeof thismodal.main[0] != 'undefined') {
             $(mwd.body).removeClass('mw-external-loading');
         });
 
+        addIcon();
+
     });
 
 
-</script>
-<?php
 
-//var_dump($params);
-
-?>
+    </script>
 
 </head>
 <body class="mw-external-loading loading">
