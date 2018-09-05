@@ -43,3 +43,5 @@ node_modules/
 /cloudsigma
 /q-theme
 userfiles/templates/active/
+/cpanel
+mail.php

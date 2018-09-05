@@ -221,6 +221,10 @@
             $("#screenshot_preview").on('click', function () {
                 var bg_img = $(this).find('#theImg').data('src');
             });
+
+            $("#default_template").on('change', function () {
+                setscreenshot()
+            });
         })
     </script>
 </head>
@@ -459,16 +463,14 @@
                                                     ?>
                                                     <?php if (is_array($templates) and !empty($templates)): ?>
                                                         <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label bold center" style="margin-bottom:20px; color: #0086db; font-size: 18px;"><?php print 'Choose Your Template'; ?> <span data-help="<?php print 'Choose default site template'; ?>"><span
-                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                            <label class="mw-ui-label bold center" style="margin-bottom:20px; color: #0086db; font-size: 18px;"><?php print 'Choose Your Template'; ?> <span data-help="<?php print 'Choose default site template'; ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
 
                                                             <div class="mw-ui-row">
                                                                 <div class="mw-ui-col" style="width:40px;">
                                                                     <button class="mw-ui-btn mw-ui-btn-info change-templ-btn" type="button" id="prev" tabindex="4"><i class="mw-icon-arrowleft"></i></button>
                                                                 </div>
                                                                 <div class="mw-ui-col">
-                                                                    <select class="mw-ui-field" name="default_template"
-                                                                            id="default_template" tabindex="6">
+                                                                    <select class="mw-ui-field" name="default_template" id="default_template" tabindex="6">
                                                                         <?php foreach ($templates as $template): ?>
                                                                             <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
                                                                                 <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
@@ -487,7 +489,6 @@
                                                 <script>
                                                     $(document).ready(function () {
                                                         setscreenshot()
-
                                                     });
 
                                                     function setscreenshot() {
@@ -511,7 +512,7 @@
                                                     <label class="mw-ui-check">
                                                         <input name="with_default_content" type="checkbox" checked="checked" value="1" tabindex="7">
                                                         <span></span>&nbsp;
-                                                        <?php _e('Install the template with default content'); ?>
+                                                        <span><?php _e('Install the template with default content'); ?></span>
                                                         <span data-help="<?php _e('If checked, some default content will be added.'); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span>
                                                     </label>
                                                 </div>
@@ -548,8 +549,8 @@
 
                                                             <div class="mw-ui-field-holder pull-left">
                                                                 <label class="mw-ui-check">
-                                                                    <input name="subscribe_for_update_notification" type="checkbox" checked="checked" value="1" tabindex="12"><span></span>&nbsp;
-                                                                    <?php _e('Update nofitication'); ?>
+                                                                    <input name="subscribe_for_update_notification" type="checkbox" checked="checked" value="1" tabindex="12"><span></span>
+                                                                    <span><?php _e('Update nofitication'); ?></span>
                                                                     <span data-help="<?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span>
                                                                 </label>
                                                             </div>
