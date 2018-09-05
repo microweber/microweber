@@ -321,7 +321,7 @@ if (isset($params['live_edit'])) {
                     </div>
                 </div>
                 <script type="text/javascript">
-
+                    mw.require('tree.js')
                     var parent_page = <?php print intval( $data['rel_id']);  ?>;
                     var parent_category = <?php print (intval($data['parent_id']));  ?>;
                     var current_category = <?php print isset($data['id']) ? $data['id'] : 'false'; ?>;

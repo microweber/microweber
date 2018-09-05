@@ -5419,7 +5419,7 @@ String.prototype.hash = function () {
 }
 
 mw.ajax = function (options) {
-    if (!options._success) {
+   /* if (!options._success) {
         options._success = options.success;
         delete options.success;
         options.success = function (data, status, xhr) {
@@ -5432,10 +5432,12 @@ mw.ajax = function (options) {
                 }
             }
         };
-    }
+    }*/
     var xhr = $.ajax(options);
     return xhr;
 };
+
+mw.ajax = $.ajax;
 
 jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
     mw[method] = function (url, data, callback, type) {
