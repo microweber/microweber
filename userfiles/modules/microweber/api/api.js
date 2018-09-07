@@ -31,7 +31,6 @@ jQuery.ajax = $.ajax = function(url, options){
     else{
         settings.url = url;
     }
-
     $.extend(settings,options);
     if(typeof settings.success === 'function'){
         settings._success = settings.success;
@@ -41,13 +40,12 @@ jQuery.ajax = $.ajax = function(url, options){
                 mw.extradataForm(settings, data);
             }
             else {
-                if (typeof settings._success === 'function') {
-                    settings._success.call(this, data, status, xhr);
+                if (typeof this._success === 'function') {
+                    this._success.call(this, data, status, xhr);
                 }
             }
         };
     }
-
     var xhr = _jqxhr(settings);
     return xhr;
 };
