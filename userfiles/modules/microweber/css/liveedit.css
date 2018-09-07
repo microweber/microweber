@@ -1604,6 +1604,16 @@ body.loaded #live_edit_toolbar {
     color: #595959;
 }
 
+
+.toolbar-sections-tabs .mw-dropdown-list li a [class*='mai-']{
+    font-family: 'admin' !important;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-transform: none;
+    margin-right: 14px;
+}
+
 .toolbar-sections-tabs a {
     font-size: 12px;
 }
@@ -1663,6 +1673,11 @@ body.loaded #live_edit_toolbar {
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a {
     padding-left: 21px;
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a:hover {
+    color: #fff;
+    background: #0086db;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a {
@@ -2241,7 +2256,7 @@ body.dragStart .empty-element {
 }
 
 .tst-logo .mw-icon-dropdown {
-    top: 8px;
+    top: 0px;
     color: #333333;
     font-style: normal;
     font-weight: 400;
