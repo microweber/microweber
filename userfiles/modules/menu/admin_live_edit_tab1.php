@@ -1,4 +1,5 @@
 <script type="text/javascript">
+    mw.require('tree.js', true);
     mw.require('forms.js', true);
     mw.require('url.js', true);
 </script>
@@ -139,7 +140,7 @@
             }
 
 
-            data.content_id = content_id.val();
+            data.content_id = pagesMenuTreeSelector.selectedData[0].id;
             data.categories_id = categories_id.val();
 
 
@@ -148,14 +149,6 @@
             content_id.val('');
             categories_id.val('');
 
-//        if(mw.tools.hasParentsWithClass(el, 'category_element')){
-//           categories_id.val(el.value);
-//        }
-//        else if(mw.tools.hasParentsWithClass(el, 'pages_tree_item')){
-//            content_id.val(el.value);
-//        }
-//
-//
 
 
             $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
@@ -207,13 +200,23 @@
     $(document).ready(function () {
 
         menuSelectorInit();
+        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(tdata){
+            console.log(tdata)
+            pagesMenuTreeSelector = new mw.tree({
+                element:'#tree-selector',
+                data:tdata,
+                selectable:true,
+                singleSelect:true,
+                //filter:{type:'page'}
+            });
 
+            $(pagesMenuTreeSelector).on("selectionChange", function(e, data){
+                console.log(data)
+            })
+        });
 
     });
 
-
-</script>
-<script type="text/javascript">
     if (typeof mw.menu_save_new_item !== 'function') {
         mw.menu_save_new_item = function (selector, no_reload) {
 
@@ -324,10 +327,12 @@ if ($menu_id == false) {
 
     ?>
     <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
-        <div id="custom_link_inline_controller_edit_0">
-            <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php print $menu_id; ?>"/>
+        <div id="tree-selector">
 
-            <microweber module="categories/selector" for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="category_id" input-name="content_id"/>
+        </div>
+        <div id="custom_link_inline_controller_edit_0">
+
+            <input type="text" name="parent_id" id="add-custom-link-parent-id" value="<?php print $menu_id; ?>"/>
 
         </div>
     </div>

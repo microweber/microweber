@@ -15,35 +15,50 @@ var myTree = new mw.tree({
 mw.lib.require('nestedsortable');
 
 (function(){
-    var mwtree = function(options){
+    var mwtree = function(config){
 
         var scope = this;
 
-        this.config = function(options){
+        this.config = function(config){
 
             window.mwtree = (typeof window.mwtree === 'undefined' ? 0 : window.mwtree)+1;
-            if(!options.id && typeof options.saveState === undefined){
-                options.saveState = false;
+
+            if(!config.id && typeof config.saveState === undefined){
+                config.saveState = false;
             }
 
+            var defaults = {
+                data:[],
+                openedClass:'opened',
+                selectedClass:'selected',
+                skin:'default',
+                multiPageSelect:true,
+                saveState:true,
+                sortable:false,
+                nestedSortable:false,
+                singleSelect:false,
+                selectedData:[],
+                skip:[],
+                contextMenu:false,
+                append:false,
+                prepend:false,
+                selectable:false,
+                filter:false
+            };
+
+            var options = $.extend({}, defaults, config);
+
             options.element = $(options.element)[0];
-            options.data = options.data || [];
+
             this.options = options;
-            this.options.openedClass = this.options.openedClass || 'opened';
-            this.options.selectedClass = this.options.selectedClass || 'selected';
-            this.options.skin = this.options.skin || 'default';
-            this.options.multiPageSelect =  this.options.multiPageSelect === undefined ? true : this.options.multiPageSelect;
-            this.options.saveState = this.options.saveState === undefined ? true : this.options.saveState;
-            this.options.sortable = this.options.sortable === undefined ? false : this.options.sortable;
-            this.options.nestedSortable = this.options.nestedSortable === undefined ? false : this.options.nestedSortable;
-            this.options.singleSelect = this.options.singleSelect === undefined ? false : this.options.singleSelect;
+
             if(this.options.selectedData){
                 this.selectedData = this.options.selectedData;
             }
             else{
                 this.selectedData = [];
             }
-        }
+        };
         this.skip = function(itemData){
             if(this.options.skip && this.options.skip.length>0){
                 loopSKIP:
@@ -58,6 +73,20 @@ mw.lib.require('nestedsortable');
                 return false;
             }
         };
+        this.prepareData = function(){
+            if(typeof this.options.filter === 'object'){
+                var final = [], scope = this;
+                for( var i in this.options.filter){
+                    $.each(this.options.data, function(){
+                        if(this[i] && this[i] == scope.options.filter[i]){
+                            final.push(this);
+                        }
+                    });
+                }
+                this.options.data = final;
+            }
+        };
+
         this.json2ul = function(){
             this.list = document.createElement( 'ul' );
             this.options.id = this.options.id || ( 'mw-tree-' + window.mwtree );
@@ -70,13 +99,13 @@ mw.lib.require('nestedsortable');
                     list.appendChild(scope.createItem(item));
                 }
             });
-        }
+        };
 
         this.setData = function(newData){
             this.options.data = newData;
             $(this.list).remove();
             this.init();
-        }
+        };
 
         this.saveState = function(){
             if(!this.options.saveState) return;
@@ -85,8 +114,8 @@ mw.lib.require('nestedsortable');
                 data.push({type:this._data.type, id:this._data.id})
             });
 
-            mw.storage.set(this.options.id, data)
-        }
+            mw.storage.set(this.options.id, data);
+        };
 
         this.restoreState = function(){
             if(!this.options.saveState) return;
@@ -101,14 +130,14 @@ mw.lib.require('nestedsortable');
                 });
             }
             catch(e){ }
-        }
+        };
 
         this.manageUnselected = function(){
             $('input:not(:checked)', this.list).each(function(){
                 var li = scope.parentLi(this);
                 $(li).removeClass(scope.options.selectedClass)
             });
-        }
+        };
 
         this.analizeLi = function(li){
             if(typeof li === 'string'){
@@ -167,14 +196,13 @@ mw.lib.require('nestedsortable');
                 if(!type) return;
                 li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
-            console.log(li)
             li.classList.remove(this.options.selectedClass);
             var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
             if(input) input.checked = false;
-            this.manageUnselected()
+            this.manageUnselected();
             this.getSelected();
             $(scope).trigger('selectionChange', [scope.selectedData]);
-        }
+        };
 
         this.isSelected = function(li, type){
             if(typeof li === 'number'){
@@ -183,7 +211,7 @@ mw.lib.require('nestedsortable');
             }
             var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
             return input.checked === true;
-        }
+        };
         this.toggleSelect = function(li, type){
             if(this.isSelected(li, type)){
                this.unselect(li, type)
@@ -191,10 +219,9 @@ mw.lib.require('nestedsortable');
             else{
                this.select(li, type)
             }
-        }
+        };
 
         this.unselectAll = function(){
-            console.log(this.selectedData)
             return this.unselect(this.selectedData);
         };
 
@@ -219,7 +246,7 @@ mw.lib.require('nestedsortable');
             $(li.children).filter('button').addClass(this.options.openedClass);
             if(!_skipsave) this.saveState()
 
-        }
+        };
 
         this.close = function(li,type, _skipsave){
             if(typeof li === 'object' && !li.className){
@@ -241,7 +268,7 @@ mw.lib.require('nestedsortable');
             li.classList.remove(this.options.openedClass);
             $(li.children).filter('button').removeClass(this.options.openedClass);
             if(!_skipsave) this.saveState()
-        }
+        };
 
         this.toggle = function(li, type){
             if(typeof li === 'number'){
@@ -251,7 +278,7 @@ mw.lib.require('nestedsortable');
             li.classList.toggle(this.options.openedClass);
             $(li.children).filter('button').toggleClass(this.options.openedClass);
             this.saveState()
-        }
+        };
 
         this.openAll = function(){
             var all = this.list.querySelectorAll('li');
@@ -259,7 +286,7 @@ mw.lib.require('nestedsortable');
                 scope.open(this, undefined, true);
             });
             this.saveState()
-        }
+        };
 
         this.closeAll = function(){
             var all = this.list.querySelectorAll('li.'+this.options.openedClass);
@@ -267,14 +294,14 @@ mw.lib.require('nestedsortable');
                 scope.close(this, undefined, true);
             });
             this.saveState()
-        }
+        };
 
         this.button = function(){
             var btn = document.createElement('button');
             btn.className = 'mw-tree-toggler';
             btn.onclick = function(){
                 scope.toggle(this.parentNode);
-            }
+            };
             return btn;
         };
 
@@ -285,7 +312,7 @@ mw.lib.require('nestedsortable');
                 ul.classList.remove('pre-init');
                 $(ul).parent().prepend(this.button());
             }
-        }
+        };
 
         this.checkBox = function(element){
             var itype = 'radio';
@@ -315,7 +342,7 @@ mw.lib.require('nestedsortable');
                 $(scope).trigger('change', [data]);
             }*/
             return label;
-        }
+        };
 
         this.parentLi = function(scope){
             if(!scope) return;
@@ -328,7 +355,7 @@ mw.lib.require('nestedsortable');
                     return scope;
                 }
             }
-        }
+        };
 
         this.getSelected = function(){
             var selected = [];
@@ -355,7 +382,7 @@ mw.lib.require('nestedsortable');
                 this.nestedSortable()
             }
 
-        }
+        };
 
         this.sortable = function(element){
             $('ul', this.list).sortable({
@@ -370,7 +397,7 @@ mw.lib.require('nestedsortable');
                         var objParent = ui.item[0].parentNode.parentNode._data;
                         ui.item[0].dataset.parent_id = objParent.id
 
-                        obj.parent_id = objParent.id
+                        obj.parent_id = objParent.id;
                         obj.parent_type = objParent.type;
                         var newdata = [];
                         $('li', scope.list).each(function(){
@@ -387,7 +414,7 @@ mw.lib.require('nestedsortable');
                     }, 10);
 
                 }
-            })
+            });
         };
         this.nestedSortable = function(element){
             $('ul', this.list).nestedSortable({
@@ -398,8 +425,8 @@ mw.lib.require('nestedsortable');
                     var old = $.extend({},ui.item[0]._data);
                     var obj = ui.item[0]._data;
                     var objParent = ui.item[0].parentNode.parentNode._data;
-                    ui.item[0].dataset.parent_id = objParent.id
-                    obj.parent_id = objParent.id
+                    ui.item[0].dataset.parent_id = objParent.id;
+                    obj.parent_id = objParent.id;
                     obj.parent_type = objParent.type;
                     var newdata = [];
                     $('li', scope.list).each(function(){
@@ -436,7 +463,7 @@ mw.lib.require('nestedsortable');
             }
             return menu
 
-        }
+        };
 
         this.rend = function(){
             if(this.options.element){
@@ -445,7 +472,7 @@ mw.lib.require('nestedsortable');
                     el.empty().append(this.list);
                 }
             }
-        }
+        };
 
         this.createItem = function(item){
             var li = document.createElement('li');
@@ -469,7 +496,7 @@ mw.lib.require('nestedsortable');
 
 
             return li;
-        }
+        };
 
         this.createList = function(item){
             var nlist = document.createElement('ul');
@@ -477,7 +504,7 @@ mw.lib.require('nestedsortable');
             nlist.dataset.id = item.parent_id;
             nlist.className = 'pre-init';
             return nlist;
-        }
+        };
 
         this.getParent = function(item){
             if(!item.parent_id) return this.list;
@@ -509,10 +536,10 @@ mw.lib.require('nestedsortable');
             var containerTitle = document.createElement('span');
             container.className = "mw-tree-item-content";
             containerTitle.className = "mw-tree-item-title";
-            container.appendChild(containerTitle)
+            container.appendChild(containerTitle);
             li.appendChild(container);
             if(obj.icon){
-                if(obj.icon.indexOf('</') == -1){
+                if(obj.icon.indexOf('</') === -1){
                     var icon = document.createElement('span');
                     icon.className = obj.icon;
                     containerTitle.appendChild(icon)
@@ -529,7 +556,7 @@ mw.lib.require('nestedsortable');
                 if(obj.action){
                     obj.action.call(this, obj)
                 }
-            }
+            };
             return li;
         };
 
@@ -553,10 +580,10 @@ mw.lib.require('nestedsortable');
             if(this.selectedData){
                 scope.select(this.selectedData);
             }
-        }
+        };
         this.init = function(){
 
-
+            this.prepareData();
             this.json2ul();
             this.addButtons();
             this.rend();
@@ -569,7 +596,7 @@ mw.lib.require('nestedsortable');
             }, 66)
         };
 
-        this.config(options);
+        this.config(config);
         this.init();
     };
     mw.tree = mwtree;
