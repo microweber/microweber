@@ -2,24 +2,24 @@
 
 namespace Microweber;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Http\Request;
-use Cache;
 use App;
-use Microweber\Utils\Adapters\Config\ConfigSave as ConfigSave;
+use Cache;
 use Microweber\Utils\ClassLoader;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\ServiceProvider;
+use Microweber\Utils\Adapters\Config\ConfigSave;
 
-if (!defined('MW_VERSION')) {
+if (! defined('MW_VERSION')) {
     include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
 class MicroweberServiceProvider extends ServiceProvider
 {
-
+    protected $aliasInstance;
+    
     /*
-	* Application Service Providers...
-	*/
+    * Application Service Providers...
+    */
     public $laravel_providers = [
         'Microweber\App\Providers\Illuminate\ArtisanServiceProvider',
         'Microweber\App\Providers\Illuminate\AuthServiceProvider',
@@ -39,19 +39,19 @@ class MicroweberServiceProvider extends ServiceProvider
         'Microweber\App\Providers\Illuminate\SessionServiceProvider',
         'Microweber\App\Providers\Illuminate\TranslationServiceProvider',
         'Microweber\App\Providers\Illuminate\ValidationServiceProvider',
-        'Microweber\App\Providers\Illuminate\ViewServiceProvider'
+        'Microweber\App\Providers\Illuminate\ViewServiceProvider',
     ];
 
     /*
-	|--------------------------------------------------------------------------
-	| Class Aliases
-	|--------------------------------------------------------------------------
-	|
-	| This array of class aliases will be registered when this application
-	| is started. However, feel free to register as many as you wish as
-	| the aliases are "lazy" loaded so they don't hinder performance.
-	|
-	*/
+    |--------------------------------------------------------------------------
+    | Class Aliases
+    |--------------------------------------------------------------------------
+    |
+    | This array of class aliases will be registered when this application
+    | is started. However, feel free to register as many as you wish as
+    | the aliases are "lazy" loaded so they don't hinder performance.
+    |
+    */
 
     public $laravel_aliases = [
         'App' => 'Microweber\App\Providers\Illuminate\Support\Facades\App',
@@ -87,101 +87,106 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function __construct($app)
     {
-        ClassLoader::addDirectories(array(
+        ClassLoader::addDirectories([
             base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
             __DIR__,
-        ));
+        ]);
 
         ClassLoader::register();
-        spl_autoload_register(array($this, 'autoloadModules'));
+
+        spl_autoload_register([$this, 'autoloadModules']);
+
+        $this->aliasInstance = AliasLoader::getInstance();
 
         parent::__construct($app);
     }
 
     public function register()
     {
+        $this->registerLaravelProviders();
 
+        $this->registerLaravelAliases();
+
+        $this->setEnvironmentDetection();
+
+        $this->registerUtils();
+
+        $this->registerSingletonProviders();
+
+        $this->registerHtmlCollective();
+
+        $this->registerMarkdown();
+
+        $this->app->instance('config', new ConfigSave($this->app));
+
+        $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
+
+        $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
+    }
+
+    protected function registerLaravelProviders()
+    {
         foreach ($this->laravel_providers as $provider) {
             $this->app->register($provider);
         }
 
-        foreach ($this->laravel_aliases as $alias => $provider) {
-            AliasLoader::getInstance()->alias($alias, $provider);
-        }
+        $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
 
-
-        // Set environment
-        if (!is_cli()) {
-            $domain = $_SERVER['HTTP_HOST'];
-            $this->app->detectEnvironment(function () use ($domain) {
-                if (getenv('APP_ENV')) {
-                    return getenv('APP_ENV');
-                }
-                $port = explode(':', $_SERVER['HTTP_HOST']);
-                $domain = str_ireplace('www.', '', $domain);
-                if (isset($port[1])) {
-                    $domain = str_ireplace(':' . $port[1], '', $domain);
-                }
-                $domain = strtolower($domain);
-                return $domain;
-            });
-        } else {
-            if (defined('MW_UNIT_TEST')) {
-                $this->app->detectEnvironment(function () {
-                    if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
-                        return 'testing';
-                    } else {
-                        return MW_UNIT_TEST_ENV_FROM_TEST;
-                    }
-                });
-            }
-        }
-
-
-
-
-
-        $this->app->instance('config', new ConfigSave($this->app));
-
-
+        $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
             'Utils\Adapters\Cache\CacheStore'
         );
 
-        $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
-        $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
-        // $this->app->register('Illuminate\Auth\AuthServiceProvider');
-
-//        $this->app->singleton(
-//            'Illuminate\Contracts\Debug\ExceptionHandler',
-//            'Microweber\App\Exceptions\Handler'
-//        );
-
         $this->app->singleton(
             'Illuminate\Contracts\Console\Kernel',
             'Microweber\App\Console\Kernel'
         );
+    }
 
-        $this->app->singleton('lang_helper', function ($app) {
-            return new Providers\Helpers\Lang($app);
-        });
+    protected function registerLaravelAliases()
+    {
+        foreach ($this->laravel_aliases as $alias => $provider) {
+            $this->aliasInstance->alias($alias, $provider);
+        }
+    }
 
-        $this->app->singleton('event_manager', function ($app) {
-            return new Providers\Event($app);
-        });
-        $this->app->singleton('database_manager', function ($app) {
-            return new Providers\DatabaseManager($app);
-        });
+    protected function setEnvironmentDetection()
+    {
+        if (! is_cli()) {
+            $domain = $_SERVER['HTTP_HOST'];
 
-        $this->app->singleton('format', function ($app) {
-            return new Utils\Format($app);
-        });
-        $this->app->singleton('parser', function ($app) {
-            return new Utils\Parser($app);
-        });
+            return $this->app->detectEnvironment(function () use ($domain) {
+                if (getenv('APP_ENV')) {
+                    return getenv('APP_ENV');
+                }
 
+                $port = explode(':', $_SERVER['HTTP_HOST']);
+
+                $domain = str_ireplace('www.', '', $domain);
+
+                if (isset($port[1])) {
+                    $domain = str_ireplace(':' . $port[1], '', $domain);
+                }
+
+                return strtolower($domain);
+            });
+        }
+
+        if (defined('MW_UNIT_TEST')) {
+            $this->app->detectEnvironment(function () {
+                if (! defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
+                    return 'testing';
+                }
+
+                return MW_UNIT_TEST_ENV_FROM_TEST;
+            });
+        }
+    }
+
+    protected function registerUtils()
+    {
         $this->app->bind('http', function ($app) {
             return new Utils\Http($app);
         });
@@ -190,187 +195,125 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Utils\Captcha($app);
         });
 
-        $this->app->singleton('url_manager', function ($app) {
-            return new Providers\UrlManager($app);
-        });
-        $this->app->singleton('ui', function ($app) {
-            return new Providers\Ui($app);
-        });
-        $this->app->singleton('content_manager', function ($app) {
-            return new Providers\ContentManager($app);
-        });
-        $this->app->singleton('update', function ($app) {
-            return new Providers\UpdateManager($app);
-        });
-        $this->app->singleton('cache_manager', function ($app) {
-            return new Providers\CacheManager($app);
-        });
-        $this->app->singleton('config_manager', function ($app) {
-            return new Providers\ConfigurationManager($app);
-        });
-        $this->app->singleton('media_manager', function ($app) {
-            return new Providers\MediaManager($app);
-        });
-        $this->app->singleton('fields_manager', function ($app) {
-            return new Providers\FieldsManager($app);
+        $this->app->singleton('format', function ($app) {
+            return new Utils\Format($app);
         });
 
-        $this->app->singleton('data_fields_manager', function ($app) {
-            return new Providers\Content\DataFieldsManager($app);
+        $this->app->singleton('parser', function ($app) {
+            return new Utils\Parser($app);
         });
-
-
-        $this->app->singleton('tags_manager', function ($app) {
-            return new Providers\Content\TagsManager($app);
-        });
-
-        $this->app->singleton('attributes_manager', function ($app) {
-            return new Providers\Content\AttributesManager($app);
-        });
-        $this->app->singleton('forms_manager', function ($app) {
-            return new Providers\FormsManager($app);
-        });
-
-
-        $this->app->singleton('notifications_manager', function ($app) {
-            return new Providers\NotificationsManager($app);
-        });
-        $this->app->singleton('log_manager', function ($app) {
-            return new Providers\LogManager($app);
-        });
-        $this->app->singleton('option_manager', function ($app) {
-            return new Providers\OptionManager($app);
-        });
-
-        $this->app->singleton('template', function ($app) {
-            return new Providers\Template($app);
-        });
-        $this->app->singleton('modules', function ($app) {
-            return new Providers\Modules($app);
-        });
-        $this->app->singleton('category_manager', function ($app) {
-            return new Providers\CategoryManager($app);
-        });
-
-        $this->app->singleton('menu_manager', function ($app) {
-            return new Providers\MenuManager($app);
-        });
-        $this->app->singleton('user_manager', function ($app) {
-            return new Providers\UserManager($app);
-        });
-
-        // Shop
-
-        $this->app->singleton('shop_manager', function ($app) {
-            return new Providers\ShopManager($app);
-        });
-
-        $this->app->singleton('cart_manager', function ($app) {
-            return new Providers\Shop\CartManager($app);
-        });
-
-        $this->app->singleton('order_manager', function ($app) {
-            return new Providers\Shop\OrderManager($app);
-        });
-
-        $this->app->singleton('tax_manager', function ($app) {
-            return new Providers\Shop\TaxManager($app);
-        });
-
-        $this->app->singleton('checkout_manager', function ($app) {
-            return new Providers\Shop\CheckoutManager($app);
-        });
-
-
-        // Other
-
-        $this->app->singleton('layouts_manager', function ($app) {
-            return new Providers\LayoutsManager($app);
-        });
-
-        $this->app->singleton('template_manager', function ($app) {
-            return new Providers\TemplateManager($app);
-        });
-
-
-        $this->app->register('Collective\Html\HtmlServiceProvider');
-
-        AliasLoader::getInstance()->alias('Form', 'Collective\Html\FormFacade');
-        AliasLoader::getInstance()->alias('HTML', 'Collective\Html\HtmlFacade');
-
-        $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
-        AliasLoader::getInstance()->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
-        AliasLoader::getInstance()->alias('Carbon', 'Carbon\Carbon');
-
-
-        $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
-
-
-        // $this->app->register('SocialiteProviders\Manager\ServiceProvider');
     }
 
-    public function boot(Request $request)
+    protected function registerSingletonProviders()
     {
-        //parent::boot();
+        $providers = [
+            'lang_helper' => 'Helpers\Lang',
+            'event_manager' => 'Event',
+            'database_manager' => 'DatabaseManager',
+            'url_manager' => 'UrlManager',
+            'ui' => 'Ui',
+            'content_manager' => 'ContentManager',
+            'update' => 'UpdateManager',
+            'cache_manager' => 'CacheManager',
+            'config_manager' => 'ConfigurationManager',
+            'media_manager' => 'MediaManager',
+            'fields_manager' => 'FieldsManager',
+            'data_fields_manager' => 'Content\DataFieldsManager',
+            'tags_manager' => 'Content\TagsManager',
+            'attributes_manager' => 'Content\AttributesManager',
+            'forms_manager' => 'FormsManager',
+            'notifications_manager' => 'NotificationsManager',
+            'log_manager' => 'LogManager',
+            'option_manager' => 'OptionManager',
+            'template' => 'Template',
+            'modules' => 'Modules',
+            'category_manager' => 'CategoryManager',
+            'menu_manager' => 'MenuManager',
+            'user_manager' => 'UserManager',
+            'shop_manager' => 'ShopManager',
+            'cart_manager' => 'Shop\CartManager',
+            'order_manager' => 'Shop\OrderManager',
+            'tax_manager' => 'Shop\TaxManager',
+            'checkout_manager' => 'Shop\CheckoutManager',
+            'layouts_manager' => 'LayoutsManager',
+            'template_manager' => 'TemplateManager',
+        ];
 
-//        $environment = App::environment();
-//        $path_storage_base = storage_path();
-//        $path_storage = $path_storage_base . DS . $environment;
-//       $this->app->useStoragePath($path_storage);
+        foreach ($providers as $alias => $class) {
+            $this->app->singleton($alias, function ($app) use ($class) {
+                $class = 'Microweber\\Providers\\' . $class;
 
+                return new $class($app);
+            });
+        }
+    }
 
-        // public = /
+    protected function registerHtmlCollective()
+    {
+        $this->app->register('Collective\Html\HtmlServiceProvider');
+
+        $this->aliasInstance->alias('Form', 'Collective\Html\FormFacade');
+
+        $this->aliasInstance->alias('HTML', 'Collective\Html\HtmlFacade');
+    }
+
+    protected function registerMarkdown()
+    {
+        $this->app->register('GrahamCampbell\Markdown\MarkdownServiceProvider');
+
+        $this->aliasInstance->alias('Markdown', 'GrahamCampbell\Markdown\Facades\Markdown');
+    }
+
+    public function boot()
+    {
         App::instance('path.public', base_path());
 
-        Cache::extend('file', function ($app) {
+        Cache::extend('file', function () {
             return new Utils\Adapters\Cache\CacheStore();
         });
 
         // If installed load module functions and set locale
         if (mw_is_installed()) {
-            $modules = load_all_functions_files_for_modules();
+            load_all_functions_files_for_modules();
+
             $this->commands('Microweber\Commands\OptionCommand');
 
             $language = get_option('language', 'website');
+
             if ($language != false) {
                 set_current_lang($language);
             }
+
             if (is_cli()) {
                 $this->commands('Microweber\Commands\UpdateCommand');
             }
-
         } else {
             // Otherwise register the install command
             $this->commands('Microweber\Commands\InstallCommand');
         }
 
-        // Register routes
-        $this->registerRoutes();
+        $this->loadRoutes();
+
         $this->app->event_manager->trigger('mw.after.boot', $this);
     }
 
-
-    private function registerRoutes()
+    private function loadRoutes()
     {
         $routesFile = __DIR__ . '/routes.php';
+
         if (file_exists($routesFile)) {
             include $routesFile;
-
-            return true;
         }
-
-        return false;
     }
 
     public function autoloadModules($className)
     {
         $filename = modules_path() . $className . '.php';
+
         $filename = normalize_path($filename, false);
 
-        if (!class_exists($className, false)) {
-            if (is_file($filename)) {
-                require_once $filename;
-            }
+        if (! class_exists($className, false) && is_file($filename)) {
+            require_once $filename;
         }
     }
 }
