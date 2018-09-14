@@ -12,7 +12,6 @@ description: Calendar Default
 
 ?>
 
-
 <?php
 $mod_id = $params['id'];
 $mod_suffix = md5($params['id']);

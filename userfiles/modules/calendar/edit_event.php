@@ -1,14 +1,17 @@
 <?php only_admin_access(); ?>
+
 <?php
 $data = false;
+
 if (isset($params['event_id'])) {
     $data = calendar_get_event_by_id($params['event_id']);
 }
+
 $add_new = false;
 
-if (!$data) {
+if (! $data) {
     $add_new = true;
-    $data = array(
+    $data = [
         'id' => "0",
         'content_id' => "",
         'title' => "",
@@ -18,10 +21,8 @@ if (!$data) {
         'allDay' => "",
         "calendar_group_id" => "",
         "image_url" => "",
-        "link_url" => ""
-    );
-
-
+        "link_url" => "",
+    ];
 }
 ?>
 
@@ -31,7 +32,7 @@ if (!$data) {
     }
 </style>
 <script type='text/javascript'>
-    var content_id = <?php print !!$data['content_id'] ? $data['content_id'] : 'false'; ?>;
+    var content_id = <?php print ! ! $data['content_id'] ? $data['content_id'] : 'false'; ?>;
     mw.lib.require('datetimepicker');
     $(document).ready(function () {
         $("#postSearch").on("postSelected", function (event, data) {
@@ -55,22 +56,12 @@ if (!$data) {
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
-                   // if (response.status == 'success') {
-
-                        <?php if ($add_new) { ?>
-
-                    //    editModal.modal.remove()
-
-                        <?php } ?>
-
 
                         if (typeof(reload_calendar_after_save) != 'undefined') {
                             reload_calendar_after_save();
                         }
 
                         editModal.modal.remove()
-
-                   // }
                 },
                 error: function (e) {
                     alert('Error processing your request: ' + e.responseText);
@@ -131,22 +122,28 @@ if (!$data) {
 
         <label class="mw-ui-check">
             <input type="radio" name="allDay"
-                   value="1" <?php if (isset($data['allDay']) and $data['allDay'] == 1) { ?> checked <?php } ?> />
+                   value="1" <?php if (isset($data['allDay']) and $data['allDay'] == 1) {
+    ?> checked <?php
+} ?> />
             <span></span><span>Yes</span>
         </label>
 
         <label class="mw-ui-check">
             <input type="radio" name="allDay"
-                   value="" <?php if (!isset($data['allDay']) or !$data['allDay']) { ?> checked <?php } ?> />
+                   value="" <?php if (! isset($data['allDay']) or ! $data['allDay']) {
+        ?> checked <?php
+    } ?> />
             <span></span><span>No</span>
         </label>
     </div>
     <div class="mw-ui-field-holder">
     <module type="calendar/group_select" calendar-event-id="<?php print $data['id'] ?>"  />
     </div>
-    <?php if (isset($data['content_id']) and $data['content_id'] == 1) { ?>
+    <?php if (isset($data['content_id']) and $data['content_id'] == 1) {
+        ?>
         <?php $post = get_content_by_id($data['content_id']) ?>
-    <?php } ?>
+    <?php
+    } ?>
 
     <div class="mw-ui-field-holder">
         <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
@@ -159,11 +156,13 @@ if (!$data) {
         <button class="mw-ui-btn mw-ui-btn-invert " xxxonclick='$("#editEventForm").submit();'>Save</button>
     </div>
     <div class="mw-ui-btn-nav pull-left">
-        <?php if (!$add_new) { ?>
+        <?php if (! $add_new) {
+        ?>
 
             <a class="mw-ui-btn" href="javascript:deleteEvent('<?php print $data['id'] ?>')">Delete</a>
 
-        <?php } ?>
+        <?php
+    } ?>
     </div>
 </form>
 
