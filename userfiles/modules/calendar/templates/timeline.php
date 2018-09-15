@@ -341,30 +341,18 @@ var callendarTimeline = {
 
  ?>
 
-
-
-
-
-
-
-
-
-
   <section class="cd-timeline js-cd-timeline">
         <div class="cd-timeline__container">
-            <?php foreach($data as $event){
+            <?php foreach ($data as $event) {
+     if (! ! $event['content_id']) {
+         $event_post = get_content_by_id($event['content_id']);
+     }
 
-            if(!!$event['content_id']){
-                $event_post = get_content_by_id($event['content_id']);
-            }
-
-                $count++;
-                $step++;
-                if($step == 6){
-                    $step = 1;
-                }
-
-            ?>
+     $count++;
+     $step++;
+     if ($step == 6) {
+         $step = 1;
+     } ?>
             <div class="cd-timeline__block js-cd-block">
                 <div class="cd-timeline__img cd-timeline__img--picture">
 
@@ -373,30 +361,23 @@ var callendarTimeline = {
 
                 <div class="cd-timeline__content js-cd-content">
                     <h2><?php print $event['title']; ?></h2>
-                    <img src="<?php print pixum(350,100); ?>" alt="">
+                    <img src="<?php print pixum(350, 100); ?>" alt="">
                     <p><?php print $event['description']; ?></p>
-                    <?php if(!!$event['content_id']){  ?>
+
+                    <?php if (! ! $event['content_id']) {
+         ?>
                         <a href="<?php print $event_post['full_url'] ?>" class="cd-timeline__read-more">Read more</a>
-                    <?php } ?>
+                    <?php
+     } ?>
                     <span class="cd-timeline__date">
                         <?php print date('M, d h:i', strtotime($event['start'])); ?><br><?php print date('M, d h:i', strtotime($event['end'])); ?>
                     </span>
                 </div>
             </div>
 
-                <?php } ?>
+                <?php
+ } ?>
 
 
         </div>
     </section>
-
-
-
-
-
-
-
-
-
-
-

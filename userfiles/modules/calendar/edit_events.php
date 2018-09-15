@@ -1,18 +1,7 @@
 <?php
-
-
-//$all_days = calendar_get_events('yearmonth=0');
-//
-//$groups = calendar_get_groups();
-//
-
 $all_days = calendar_get_events('group_by_date=1');
-
-
-
-
-
 ?>
+
 <table class="table-style-1 mw-ui-table">
 
     <thead>
@@ -63,7 +52,7 @@ $all_days = calendar_get_events('group_by_date=1');
 
 
 
-                            <?php // d($event) ?>
+                            <?php // d($event)?>
 
 
 
@@ -75,13 +64,10 @@ $all_days = calendar_get_events('group_by_date=1');
 
                     <?php
                 }
-
-            }
-            ?>
+            } ?>
 
             <?php
         }
-
     }
     ?>
 
