@@ -10,7 +10,7 @@
         <div class="mw-ui-box-content">
             <form action="<?php echo admin_url('mw_install_create_user') ?>" method="post" class="mw_install_create_user">
 
-                <div style="text-align: center"><img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Logo" align="center"></div>
+                <div style="text-align: center"><img width="100%" src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Logo" align="center"></div>
                 <h2 class="center"><?php _e('Create Admin Account'); ?></h2>
                 <div class="hr"></div>
 
