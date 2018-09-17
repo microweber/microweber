@@ -646,6 +646,7 @@ class UserManager
         }
 
         if (defined('MW_API_CALL')) {
+
             if (isset($params['is_admin']) and $this->is_admin() == false) {
                 unset($params['is_admin']);
             }
@@ -901,6 +902,21 @@ class UserManager
             }
         }
         if ($force == false) {
+
+            if (isset($params['id'])) {
+                $validate_token = mw()->user_manager->csrf_validate($params);
+
+                if ($validate_token == false) {
+
+                    return array(
+                        'error' => _e('Confirm edit of profile', true),
+                        'form_data_required' => 'token',
+                        'form_data_module' => 'users/profile/confirm_edit'
+                    );
+
+                }
+            }
+
             if (isset($params['id']) and $params['id'] != 0) {
                 $adm = $this->is_admin();
                 if ($adm == false) {
@@ -923,6 +939,9 @@ class UserManager
                             return array('error' => 'You must be logged save your settings');
                         }
                     } else {
+
+
+
                         if (!isset($params['id'])) {
                             $params['id'] = $this->id();
                         }
