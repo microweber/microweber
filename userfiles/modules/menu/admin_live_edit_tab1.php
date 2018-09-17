@@ -345,7 +345,7 @@ if ($menu_id == false) {
         </div>
         <div id="custom_link_inline_controller_edit_0">
 
-            <input type="text" name="parent_id" id="add-custom-link-parent-id" value="<?php print $menu_id; ?>"/>
+            <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php print $menu_id; ?>"/>
 
         </div>
     </div>
