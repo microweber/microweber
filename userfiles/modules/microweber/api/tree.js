@@ -48,6 +48,8 @@ mw.lib.require('nestedsortable');
 
             var options = $.extend({}, defaults, config);
 
+
+
             options.element = $(options.element)[0];
 
             this.options = options;
@@ -152,63 +154,68 @@ mw.lib.require('nestedsortable');
         };
 
         this.select = function(li, type){
-            li = this.analizeLi(li);
-            if(typeof li === 'object' && !li.className){
-                if(Array.isArray(li)){
-                    $.each(li, function(){
-                        scope.select(this);
-                    });
-                    return;
-                }
-                else{
-                    this.select(li.id, li.type);
-                    return;
-                }
+            if(Array.isArray(li)){
+                $.each(li, function(){
+                    scope.select(this);
+                });
+                return;
             }
-            if(typeof li === 'number'){
-                if(!type) return;
-                li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
+            li = this.get(li, type);
+            if(li){
+                li.classList.add(this.options.selectedClass);
+                var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
+                if(input) input.checked = true;
             }
 
-            li.classList.add(this.options.selectedClass);
-            var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
-            if(input) input.checked = true;
             this.manageUnselected();
             this.getSelected();
             $(scope).trigger('selectionChange', [scope.selectedData]);
         };
 
         this.unselect = function(li, type){
-            li = this.analizeLi(li);
-            if(typeof li === 'object' && !li.className){
-                if(Array.isArray(li)){
-                    $.each(li, function(){
-                        scope.unselect(this);
-                    });
-                    return;
-                }
-                else{
-                    this.unselect(li.id, li.type);
-                    return;
-                }
+            if(Array.isArray(li)){
+                $.each(li, function(){
+                    scope.unselect(this);
+                });
+                return;
             }
-            if(typeof li === 'number'){
-                if(!type) return;
-                li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
+            li = this.get(li, type);
+            if(li){
+                li.classList.remove(this.options.selectedClass);
+                var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
+                if(input) input.checked = false;
             }
-            li.classList.remove(this.options.selectedClass);
-            var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
-            if(input) input.checked = false;
             this.manageUnselected();
             this.getSelected();
             $(scope).trigger('selectionChange', [scope.selectedData]);
         };
 
-        this.isSelected = function(li, type){
+        this.get = function(li, type){
+            if(typeof li === 'undefined') return false;
+            if(li === null) return false;
+            if(li.nodeType) return li;
+            li = this.analizeLi(li);
+            if(typeof li === 'object' && typeof li.id !== 'undefined'){
+                return this.get(li.id, li.type);
+            }
+            if(typeof li === 'object' && li.constructor === Number){
+                li = parseInt(li);
+            }
             if(typeof li === 'number'){
                 if(!type) return;
-                li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
+                return this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
             }
+            if(typeof li === 'string' && /^\d+$/.test(li)){
+                if(!type) return;
+                return this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
+            }
+            //if(!li) {console.warn('List item not defined:', li, type)}
+            return li;
+        }
+
+        this.isSelected = function(li, type){
+            li = this.get(li, type);
+            if(!li) return;
             var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
             return input.checked === true;
         };
@@ -226,57 +233,39 @@ mw.lib.require('nestedsortable');
         };
 
         this.open = function(li, type, _skipsave){
-            if(typeof li === 'object' && !li.className){
-                if(Array.isArray(li)){
-                    $.each(li, function(){
-                        scope.open(this);
-                    });
-                    return;
-                }
-                else{
-                    this.open(li.id, li.type);
-                    return;
-                }
+            if(Array.isArray(li)){
+                $.each(li, function(){
+                    scope.open(this);
+                });
+                return;
             }
-            if(typeof li === 'number'){
-                if(!type) return;
-                li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
-            }
+            li = this.get(li, type);
+            if(!li) return;
             li.classList.add(this.options.openedClass);
-            $(li.children).filter('button').addClass(this.options.openedClass);
+            $(li.children).filter('mwbutton').addClass(this.options.openedClass);
             if(!_skipsave) this.saveState()
 
         };
 
         this.close = function(li,type, _skipsave){
-            if(typeof li === 'object' && !li.className){
-                if(Array.isArray(li)){
-                    $.each(li, function(){
-                        scope.close(this);
-                    });
-                    return;
-                }
-                else{
-                    this.close(li.id, li.type);
-                    return;
-                }
+            if(Array.isArray(li)){
+                $.each(li, function(){
+                    scope.close(this);
+                });
+                return;
             }
-            if(typeof li === 'number'){
-                if(!type) return;
-                li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
-            }
+            li = this.get(li, type);
+            if(!li) return;
             li.classList.remove(this.options.openedClass);
-            $(li.children).filter('button').removeClass(this.options.openedClass);
+            $(li.children).filter('mwbutton').removeClass(this.options.openedClass);
             if(!_skipsave) this.saveState()
         };
 
         this.toggle = function(li, type){
-            if(typeof li === 'number'){
-                if(!type) return;
-                li = this.list.querySelector('li[data-type="'+type+'"][data-id="'+li+'"]');
-            }
+            li = this.get(li, type);
+            if(!li) return;
             li.classList.toggle(this.options.openedClass);
-            $(li.children).filter('button').toggleClass(this.options.openedClass);
+            $(li.children).filter('mwbutton').toggleClass(this.options.openedClass);
             this.saveState()
         };
 
@@ -297,7 +286,7 @@ mw.lib.require('nestedsortable');
         };
 
         this.button = function(){
-            var btn = document.createElement('button');
+            var btn = document.createElement('mwbutton');
             btn.className = 'mw-tree-toggler';
             btn.onclick = function(){
                 scope.toggle(this.parentNode);
@@ -593,7 +582,7 @@ mw.lib.require('nestedsortable');
             this.loadSelected();
             setTimeout(function(){
                 $(scope).trigger('ready');
-            }, 66)
+            }, 78)
         };
 
         this.config(config);
