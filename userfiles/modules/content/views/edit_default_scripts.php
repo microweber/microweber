@@ -280,6 +280,20 @@
         var data = mw.serializeFields(el);
         data.id = mw.$('#mw-content-id-value').val();
 
+        var categories = [];
+
+        $.each(categorySelector.tree.selectedData, function(){
+            if(this.type == 'category'){
+                categories.push(this.id);
+            }
+            if(this.type == 'page'){
+                data.parent = this.id;
+            }
+        });
+        
+        if(categories.length){
+            data.categories = categories.join(',')
+        }
 
         module.addClass('loading');
         mw.content.save(data, {

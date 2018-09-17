@@ -1938,8 +1938,7 @@ mw.tools = {
         mw.tools.loop[loop] = false;
     },
     foreachParents: function (el, callback) {
-        if (typeof el === 'undefined') return false;
-        if (el === null) return false;
+        if (!el) return false;
         var index = mw.random();
         mw.tools.loop[index] = true;
         var _curr = el.parentNode;
@@ -1958,8 +1957,7 @@ mw.tools = {
         }
     },
     foreachChildren: function (el, callback) {
-        if (typeof el === 'undefined') return false;
-        if (el === null) return false;
+        if (!el) return false;
         var index = mw.random();
         mw.tools.loop[index] = true;
         var _curr = el.firstChild;
@@ -2223,7 +2221,7 @@ mw.tools = {
     sidebar: function () {
     },
     highlight: function (el, color, speed1, speed2) {
-        if (typeof el === 'undefined') return false;
+        if (!el) return false;
         $(el).stop();
         var color = color || '#48AD79';
         var speed1 = speed1 || 777;
@@ -3677,7 +3675,7 @@ mw.tools = {
             $(mw.tools._titleTip).removeClass('mw-tooltip-circle');
         }
         $(mw.tools._titleTip).show();
-    },
+    }
 }
 mw.tools.matches('init');
 Alert = mw.tools.alert;

@@ -140,7 +140,7 @@
             }
 
 
-            data.content_id = pagesMenuTreeSelector.selectedData[0].id;
+            data.content_id = content_id.val();
             data.categories_id = categories_id.val();
 
 
@@ -201,17 +201,30 @@
 
         menuSelectorInit();
         $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(tdata){
-            console.log(tdata)
             pagesMenuTreeSelector = new mw.tree({
                 element:'#tree-selector',
                 data:tdata,
                 selectable:true,
-                singleSelect:true,
+                singleSelect:true
                 //filter:{type:'page'}
             });
+            $(pagesMenuTreeSelector).on('selectionChange', function(e,selectedData){
+                var item = selectedData[0];
+                var data = {};
+                if(item.type == 'page'){
+                    data.content_id = item.id;
+                }
+                if(item.type == 'category'){
+                    data.categories_id = item.id;
+                }
 
-            $(pagesMenuTreeSelector).on("selectionChange", function(e, data){
-                console.log(data)
+                data.parent_id = $("#add-custom-link-parent-id").val();
+                requestLink()
+
+                    $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
+                    parent.mw.reload_module('menu');
+                    mw.reload_module('menu/edit_items');
+                });
             })
         });
 
