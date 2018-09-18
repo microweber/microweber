@@ -176,8 +176,8 @@ h3 > [class*="mw-icon-"]:first-child {
 
 .fixed-side-column {
     min-width: 210px;
-    max-width: 230px;
-    width: 230px;
+    max-width: 300px;
+    width: 300px;
 }
 
 .admin-section-container:after {

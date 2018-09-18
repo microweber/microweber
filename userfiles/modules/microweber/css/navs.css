@@ -115,7 +115,8 @@
     -moz-transition: width 0.2s;
     -o-transition: width 0.2s;
     transition: width 0.2s;
-    width: 230px;
+    /*width: 230px;*/
+    width: 300px;
 }
 
 .mobile-tree-menu {

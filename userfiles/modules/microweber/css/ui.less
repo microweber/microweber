@@ -3413,7 +3413,7 @@ div.mw-ui-field:after {
 
 .mw-ui-check input + span:before {
   font-family: Microweber;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 0.9;
   text-transform: none !important;
 }
@@ -3478,11 +3478,11 @@ div.mw-ui-field:after {
 
 }
 
-.mw-ui-check >  span:nth-of-type(2) {
+.mw-ui-check > span:nth-of-type(2) {
   padding-left: 25px;
 }
 
-.mw-ui-check   span:nth-of-type(2)  + input[type="radio"]{
+.mw-ui-check span:nth-of-type(2) + input[type="radio"] {
   padding-left: 0px;
 }
 
@@ -5163,7 +5163,8 @@ body.mw-live-edit .mw-control-box-left {
 .mw-tree-nav-skin-default ul {
   display: none;
 }
-.mw-tree-nav li.skip-true{
+
+.mw-tree-nav li.skip-true {
   opacity: .6;
   pointer-events: none;
   cursor: no-drop;
@@ -5185,7 +5186,7 @@ body.mw-live-edit .mw-control-box-left {
 
 .mw-tree {
   .mw-tree-nav-skin-default {
-    padding: 20px;
+    padding: 20px 0 20px 20px;
   }
   * {
     vertical-align: middle;
@@ -5203,11 +5204,17 @@ body.mw-live-edit .mw-control-box-left {
   border: 1px solid transparent;
   transition: all .3s;
   white-space: nowrap;
-  max-width: 75%;
+  //max-width: 75%;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: ~"-webkit-calc(100% - 30px)";
-  max-width: ~"calc(100% - 30px)";
+  //max-width: ~"-webkit-calc(100% - 30px)";
+  //max-width: ~"calc(100% - 30px)";
+
+  //width: ~"-webkit-calc(100% - 30px)";
+  //width: ~"calc(100% - 30px)";
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 42px;
 }
 
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content .mw-tree-item-title {
@@ -5298,16 +5305,23 @@ body.mw-live-edit .mw-control-box-left {
   outline: none;
   background-repeat: no-repeat;
   line-height: 27px;
-  width: 85%;
-  width: ~"-webkit-calc(100% - 25px)";
-  width: ~"calc(100% - 25px)";
+  //width: 85%;
+  //width: ~"-webkit-calc(100% - 25px)";
+  //width: ~"calc(100% - 25px)";
+  width: 100%;
+}
+
+.mw-tree-nav-skin-default .has-children > .mw-tree-item-content {
+  width: ~"-webkit-calc(100% - 21px)";
+  width: ~"calc(100% - 21px)";
+  //width: calc(100% - 25px);
 }
 
 .mw-tree-nav-skin-default .mw-tree-context-menu {
   display: inline-block;
   position: absolute;
   top: 3px;
-  right: 0;
+  right: 5px;
 }
 
 .mw-tree-nav-skin-default .mw-tree-nav ul {
