@@ -114,6 +114,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     function mw_select_page_for_editing($p_id) {
 
+
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
@@ -222,13 +223,13 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var arr = this.split(":");
         $(mwd.body).removeClass("action-Array");
-        var cat_id = mw.url.windowHashParam("data-category-id");
-        if (typeof cat_id != 'undefined') {
-            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
-        }
-        else {
-            mw.$('#pages_edit_container').removeAttr('data-active-item');
-        }
+//        var cat_id = mw.url.windowHashParam("category_id");
+//        if (typeof cat_id != 'undefined') {
+//            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
+//        }
+//        else {
+//            mw.$('#pages_edit_container').removeAttr('data-active-item');
+//        }
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
         }
@@ -369,8 +370,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('category-id');
 
 
+
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
+
 
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
@@ -383,6 +386,13 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             var active_item = mw.$(".category-item-" + in_page);
             active_item.addClass('active-bg');
         }
+
+        var cat_id = mw.url.windowHashParam("category_id");
+        if (cat_id) {
+            cont.attr('data-category-id', cat_id);
+        }
+
+
 
         mw.load_module('content/manager', '#pages_edit_container');
     }

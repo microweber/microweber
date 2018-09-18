@@ -73,6 +73,76 @@ if ($screenshots) {
 }
 
 ?>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('.mw-mod-template-settings-holder', function () {
+            if (mw.notification != undefined) {
+                mw.notification.success('<?php _e("Module template is changed"); ?>');
+            }
+
+            <?php if ($screenshots): ?>
+
+            setTimeout(function () {
+                mw_admin_layouts_list_inner_modules_btns();
+            }, 999);
+
+
+
+
+            <?php endif; ?>
+
+        });
+    });
+</script>
+
+<script>
+
+    function mw_admin_layouts_list_inner_modules_btns() {
+
+        var mod_in_mods_html_btn = '';
+
+        var mods_in_mod = window.parent.$('#<?php print $params['parent-module-id'] ?>').find('.module', '#<?php print $params['parent-module-id'] ?>');
+        if (mods_in_mod) {
+
+
+            $(mods_in_mod).each(function () {
+
+                var inner_mod_type = $(this).attr("type");
+                var inner_mod_id = $(this).attr("id");
+                if (!inner_mod_type) {
+                    var inner_mod_type = $(this).attr("data-type");
+                }
+                var inner_mod_title = $(this).attr("data-mw-title");
+                if (!inner_mod_title) {
+                    inner_mod_title = inner_mod_type;
+                }
+
+                if (inner_mod_type) {
+                    var inner_mod_type_admin = inner_mod_type + '/admin'
+                    mod_in_mods_html_btn += '<a class="mw-ui-btn" href=\'javascript:window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+
+                }
+            });
+
+        }
+
+        if (mod_in_mods_html_btn) {
+            $('.current-template-modules-list-wrap').show();
+            $('.current-template-modules-list').html(mod_in_mods_html_btn);
+        } else {
+            $('.current-template-modules-list-wrap').hide();
+
+        }
+
+
+    }
+
+
+</script>
+
+
 <?php if (is_array($templates)): ?>
 
     <div class="mw-mod-template-settings-holder">
@@ -81,7 +151,9 @@ if ($screenshots) {
             <?php _e("Current Skin / Template"); ?>
         </label>
 
-        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field  w100" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
+        <select data-also-reload="#mw-module-skin-settings-module" name="data-template"
+                class="mw-ui-field mw_option_field  w100" option_group="<?php print $params['parent-module-id'] ?>"
+                data-refresh="<?php print $params['parent-module-id'] ?>">
             <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
                 <?php _e("Default"); ?>
             </option>
@@ -90,7 +162,9 @@ if ($screenshots) {
                 <?php if ((strtolower($item['name']) != 'default')): ?>
                     <?php $default_item_names[] = $item['name']; ?>
 
-                    <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+                    <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?>
+                            value="<?php print $item['layout_file'] ?>"
+                            title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
                 <?php endif; ?>
             <?php endforeach; ?>
 
@@ -129,7 +203,8 @@ if ($screenshots) {
                                                 <?php if ((strtolower($item['name']) != 'default')): ?>
                                                     <?php $opt_val = $site_template['dir_name'] . '/' . 'modules/' . $mod_name . $item['layout_file']; ?>
                                                     <?php if (!in_array($item['name'], $default_item_names)): ?>
-                                                        <option <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> value="<?php print $opt_val; ?>"><?php print $item['name'] ?></option>
+                                                        <option <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?>
+                                                                value="<?php print $opt_val; ?>"><?php print $item['name'] ?></option>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
@@ -152,28 +227,54 @@ if ($screenshots) {
                     <span class="title">Current layout</span>
                     <div class="screenshot">
                         <div class="holder">
-                            <img src="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                            <img src="<?php echo $current_template['screenshot']; ?>"
+                                 alt="<?php print $current_template['name']; ?>" style="max-width:100%;"
+                                 title="<?php print $current_template['name']; ?>"/>
                             <div class="title"><?php print $current_template['name']; ?></div>
                         </div>
                     </div>
                 </div>
                 <div class="mw-ui-col current-template-modules" style="width: 50%;">
-                    <span class="title">This layout contains modules</span>
+                    <div class="current-template-modules-list-wrap">
+                        <span class="title">This layout contains modules</span>
+
+                        <div class="current-template-modules-list">
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
 
-        <hr/>
+
         <!-- Current template - End -->
 
+
         <?php if ($screenshots): ?>
+            <hr/>
+
+            <script>
+
+                $(document).ready(function () {
+
+                    mw_admin_layouts_list_inner_modules_btns();
+
+                });
+
+
+            </script>
+
+
             <script>
                 $(document).ready(function () {
                     $('.module-layouts-viewer .js-apply-template').on('click', function () {
                         var option = $(this).data('file');
                         $('.module-layouts-viewer .js-apply-template .screenshot').removeClass('active');
                         $(this).find('.screenshot').addClass('active');
+                        $('select[name="data-template"] option:selected').removeAttr('selected');
                         $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected').trigger('change');
+
                     });
                 });
             </script>
@@ -181,7 +282,8 @@ if ($screenshots) {
             <div class="module-layouts-viewer">
                 <?php foreach ($module_templates as $item): ?>
                     <?php if ((strtolower($item['name']) != 'default')): ?>
-                        <a href="javascript:;" class="js-apply-template" data-file="<?php print $item['layout_file'] ?>">
+                        <a href="javascript:;" class="js-apply-template"
+                           data-file="<?php print $item['layout_file'] ?>">
                             <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
                                 <?php
                                 $item_screenshot = thumbnail('');
@@ -191,7 +293,8 @@ if ($screenshots) {
                                 ?>
 
                                 <div class="holder">
-                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>"
+                                         style="max-width:100%;" title="<?php print $item['name']; ?>"/>
                                     <div class="title"><?php print $item['name']; ?></div>
                                 </div>
                             </div>
@@ -202,7 +305,8 @@ if ($screenshots) {
         <?php endif; ?>
 
 
-        <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>"
+        <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module"
+                parent-module-id="<?php print $params['parent-module-id'] ?>"
                 parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
         <?php if (!isset($params['simple'])) { ?>
             <label class="mw-ui-label">
