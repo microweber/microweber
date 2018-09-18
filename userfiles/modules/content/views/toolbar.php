@@ -225,10 +225,10 @@ if ($last_page_front != false) {
                             $add_new_btn_url =  admin_url('view:content#action=new:') . $url_param_type;
 
                             if (isset($params['category-id']) and $params['category-id']) {
-                                $add_new_btn_url = $add_new_btn_url . "&amp;category_id=" . $params['category-id'];
+                              //  $add_new_btn_url = $add_new_btn_url . "&amp;category_id=" . $params['category-id'];
                             }
                             if (isset($page_info['id']) and $page_info['id']) {
-                                $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
+                              //  $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
 
                             }
 
