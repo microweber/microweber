@@ -589,12 +589,12 @@ function mw_option_save_rebind_form_fields(){
                                     var mod_element = window.parent.document.getElementById('<?php print $params['id'] ?>');
                                     if(mod_element){
                                      // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
-                                      var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
-                                    if(module_parent_edit_field){
-                                        window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
-                                        window.parent.mw.askusertostay = true;
+                                         var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                                        if(module_parent_edit_field){
+                                            window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
+                                            window.parent.mw.askusertostay = true;
 
-                                    }
+                                        }
                                     }
 
                                     mw.reload_module_parent('#<?php print $params['id'] ?>');
@@ -676,8 +676,7 @@ function mw_option_save_rebind_form_fields(){
 
 
 $( frame ).on('unload',function() {
-    alert(1)
-    window.parent.$('#module-modal-settings-menu-holder').remove();
+     window.parent.$('#module-modal-settings-menu-holder').remove();
 
 });
     $(document).ready(function () {
