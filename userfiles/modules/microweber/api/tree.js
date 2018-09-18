@@ -565,6 +565,18 @@ mw.lib.require('nestedsortable');
             }
         };
 
+        this.addHelperClasses = function(root, level){
+            level = (level || 0) + 1;
+            root = root || this.list;
+           $( root.children ).addClass('level-'+level).each(function(){
+               var ch = this.querySelector('ul');
+                if(ch){
+                    $(this).addClass('has-children')
+                    scope.addHelperClasses(ch, level);
+                }
+           })
+        }
+
         this.loadSelected = function(){
             if(this.selectedData){
                 scope.select(this.selectedData);
@@ -578,6 +590,7 @@ mw.lib.require('nestedsortable');
             this.rend();
             this.append();
             this.prepend();
+            this.addHelperClasses();
             this.restoreState();
             this.loadSelected();
             setTimeout(function(){

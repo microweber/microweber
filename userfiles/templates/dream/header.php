@@ -14,6 +14,8 @@
     <meta property="og:description" content="{og_description}"/>
     <meta property="og:site_name" content="{og_site_name}"/>
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
+    <link rel="stylesheet" href="<?php print modules_url() ?>microweber/css/fonts/mw-icons-mind/line/style.css">
+    <link rel="stylesheet" href="<?php print modules_url() ?>microweber/css/fonts/mw-icons-mind/solid/style.css">
     <script>
         mw.require("fonts.js");
         mw.lib.require('bootstrap3');

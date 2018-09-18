@@ -6,7 +6,7 @@ mw.coreIcons = {
     home:'mw-icon-home',
     shop:'mai-market2',
     post:'mai-post'
-}
+};
 
 
 mw.tags = function(options){
@@ -63,6 +63,7 @@ mw.tags = function(options){
         this.refresh();
         $(scope).trigger('tagRemoved', [item]);
      }
+
      this.tag = function (options) {
 
             var config = {
@@ -105,7 +106,7 @@ mw.tags = function(options){
             tag_holder.appendChild(tag_close);
             return tag_holder;
         }
-        this.rend()
+        this.rend();
 }
 
 mw.treeTags = function(options){
@@ -118,7 +119,7 @@ mw.treeTags = function(options){
     var treeSettings = $.extend({}, this.options, {element:treeHolder})
     var tagsSettings = $.extend({}, this.options, {element:tagsHolder, data:this.options.selectedData || []});
 
-    this.tree = new mw.tree(treeSettings)
+    this.tree = new mw.tree(treeSettings);
 
     this.tags = new mw.tags(tagsSettings);
 
@@ -127,9 +128,9 @@ mw.treeTags = function(options){
 
      $(this.tags).on('tagRemoved', function(event, item){
          scope.tree.unselect(item);
-     })
+     });
      $(this.tree).on('selectionChange', function(event, selectedData){
         scope.tags.setData(selectedData)
     });
 
-}
+};

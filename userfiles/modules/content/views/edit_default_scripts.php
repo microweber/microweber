@@ -282,14 +282,17 @@
 
         var categories = [];
 
-        $.each(categorySelector.tree.selectedData, function(){
-            if(this.type == 'category'){
-                categories.push(this.id);
-            }
-            if(this.type == 'page'){
-                data.parent = this.id;
-            }
-        });
+        if(window.categorySelector){
+            $.each(categorySelector.tree.selectedData, function(){
+                if(this.type == 'category'){
+                    categories.push(this.id);
+                }
+                if(this.type == 'page'){
+                    data.parent = this.id;
+                }
+            });
+        }
+
         
         if(categories.length){
             data.categories = categories.join(',')
@@ -298,6 +301,7 @@
         module.addClass('loading');
         mw.content.save(data, {
             onSuccess: function (a) {
+                pagesTreeRefresh();
                 mw.$('.mw-admin-go-live-now-btn').attr('content-id', this);
                 mw.askusertostay = false;
 
