@@ -515,8 +515,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </li>
                     <?php endif; ?>
 
-
-                    <li <?php if (($load_module AND $load_module != 'users') or $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
+                    <li <?php if (($load_module AND $load_module != 'users') AND $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
                             <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
                         </a>
                     </li>
