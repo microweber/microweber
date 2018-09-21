@@ -17,18 +17,6 @@ mw.drag.plus = {
         }
         mw.$(holder).bind('mousemove', function (e) {
 
-            //var mwmousmoveplusstarted;
-            //
-            //var mwmousmovedelayplus;
-            //clearTimeout(mwmousmovedelayplus);
-            //mwmousmovedelayplus = setTimeout(function(){
-            //    mw.drag.plus.mouse_moved = true;
-            //}, 300);
-            //var mwmousmovedelayplusa;
-            //clearTimeout(mwmousmovedelayplusa);
-            //mwmousmovedelayplusa = setTimeout(function(){
-            //    mw.drag.plus.mouse_moved = false;
-            //}, 1300);
 
             if (mw.drag.plus.locked === false && mw.isDrag === false) {
                 if (e.pageY % 2 === 0 && mw.tools.isEditable(e)) {

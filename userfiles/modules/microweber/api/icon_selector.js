@@ -80,13 +80,6 @@ mw.iconSelector = mw.iconSelector || {
 
             }
 
-
-
-
-
-
-
-
             //check semantic ui
             var faicons = mwd.querySelector('link[href*="/semantic.min.css"]');
             if (faicons !== null) {
@@ -140,7 +133,13 @@ mw.iconSelector = mw.iconSelector || {
     },
 
 
+    mindIconsTab:function(){
+        if(this.mindIcons){
+
+        }
+    },
     mindIconsInit:function(){
+        this.mindIcons = true;
         var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
         if (faicons != null && faicons.length == 0) {
             var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
@@ -164,7 +163,6 @@ mw.iconSelector = mw.iconSelector || {
     },
     popup: function (refresh) {
 
-    console.log(this.defaultIcons)
 
 
         if (mw.iconSelector.iconFontClasses.length == 0 && this.defaultIcons) {
