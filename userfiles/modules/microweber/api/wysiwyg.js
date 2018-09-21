@@ -322,7 +322,7 @@ mw.wysiwyg = {
                         }
                     }
                 }
-            } 
+            }
             }
             else{
               var firstBlock = target;
@@ -528,7 +528,7 @@ mw.wysiwyg = {
         else{
           var clipboard = e.clipboardData || mww.clipboardData;
         }
-        
+
         if(mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])){
           if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
             var text = clipboard.getData('text');
@@ -951,7 +951,7 @@ mw.wysiwyg = {
 
                     var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
                     if(!isList){
-                      event.preventDefault(); 
+                      event.preventDefault();
                       if(event.shiftKey){
                         mw.wysiwyg.insert_html('<br>');
                       }
@@ -1029,6 +1029,7 @@ mw.wysiwyg = {
                                           }
                                       }
                                       if(event.keyCode === 8){
+
                                           if(sel.focusNode.previousElementSibling.nodeName === 'P'){
                                               return true;
                                           }
@@ -1043,7 +1044,7 @@ mw.wysiwyg = {
                                    return false;
                                }
                                else{
-                                   
+
                                }
                             }
                             if (nextchar == '' ) {
@@ -1162,7 +1163,7 @@ mw.wysiwyg = {
                     }
                     var newNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
                     if(newNode.id){
-                        newNode.id = mw.wysiwyg.createElementId(); 
+                        newNode.id = mw.wysiwyg.createElementId();
                     }
                 }
             }
@@ -1409,8 +1410,19 @@ mw.wysiwyg = {
         mw.wysiwyg.change('.element-current');
     },
     fontFamily: function (font_name) {
+        var range = getSelection().getRangeAt(0);
         document.execCommand("styleWithCSS", null, true);
-        mw.wysiwyg.execCommand('fontName', null, font_name);
+        if(range.collapsed){
+            var el =  mw.wysiwyg.validateCommonAncestorContainer( range.commonAncestorContainer );
+            mw.wysiwyg.select_all(el);
+            document.execCommand('fontName', null, font_name);
+            range.collapse()
+        }
+        else{
+            document.execCommand('fontName', null, font_name);
+        }
+
+
     },
     nestingFixes: function (root) {  /*
      var root = root || mwd.body;
@@ -1656,9 +1668,14 @@ mw.wysiwyg = {
 
         if (!!link) {
             modal.main.find("iframe").load(function () {
+
                 $(this).contents().find("#customweburl").val(link);
                 if (typeof(node_id) != 'undefined') {
-                    var link_text_value = $('#' + node_id).text();
+                    var node = $('#' + node_id);
+                    if(node[0] && node[0].target == '_blank'){
+                        $(this).contents().find("#url_target")[0].checked = true;
+                    }
+                    var link_text_value = node.text();
                     link_text_value = $.trim(link_text_value);
                     if (link_text_value != '') {
                         $(this).contents().find("#customweburl_text").val(link_text_value);
@@ -2543,7 +2560,9 @@ $('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition',
                 if (new_insert_html != null) {
                     var div = mw.wysiwyg.applier('i');
                     div.innerHTML = new_insert_html;
-                    div.className = "mw-icon mw-icon-mw"
+                    div.className = "mw-icon mw-icon-noop";
+                    mw.iconSelector._activeElement = div;
+                    mw.iconSelector.popup();
                 }
             }
             else if (val === 'table') {

@@ -5238,8 +5238,7 @@ mw._colorPicker = function (options) {
             }
 
             if ($el[0].nodeName == 'INPUT') {
-                var val = val == 'transparent' ? val : '#' + val;
-                $el.val(val);
+                $el.val(data.color);
             }
         }
 
@@ -5257,13 +5256,13 @@ mw._colorPicker = function (options) {
         }
         $(document.body).on('click', function (e) {
 
-            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip')) {
+            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target  !== $el[0]) {
                 $(tip).hide();
             }
         });
         if ($el[0].nodeName == 'INPUT') {
             $el.bind('blur', function () {
-                $(tip).hide();
+                //$(tip).hide();
             });
         }
     }
