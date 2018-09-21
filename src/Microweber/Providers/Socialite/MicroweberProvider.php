@@ -75,7 +75,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritdoc} 
      */
     protected function mapUserToObject(array $user)
     {
@@ -221,4 +221,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
              'email' => isset($user['email']) ? $user['email'] : null,
          ]);
      }*/
+
+
+
 }
