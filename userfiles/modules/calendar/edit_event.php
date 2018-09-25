@@ -17,6 +17,7 @@ if (! $data) {
         'title' => "",
         'startdate' => "",
         'enddate' => "",
+        'short_description' => "",
         'description' => "",
         'allDay' => "",
         "calendar_group_id" => "",
@@ -97,6 +98,10 @@ if (! $data) {
                value="<?php print $data['enddate'] ?>"/>
     </div>
 
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Short Description</label>
+        <textarea name="short_description" class="mw-ui-field"><?php print $data['short_description'] ?></textarea>
+    </div>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea name="description" class="mw-ui-field"><?php print $data['description'] ?></textarea>

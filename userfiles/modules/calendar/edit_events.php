@@ -1,5 +1,6 @@
 <?php
 $all_days = calendar_get_events('group_by_date=1');
+
 ?>
 
 <table class="table-style-1 mw-ui-table">

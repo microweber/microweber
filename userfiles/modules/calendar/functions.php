@@ -16,20 +16,20 @@ function calendar_save_event($params = [])
 api_expose_admin('calendar_export_to_csv_file', function ($params) {
     $data = calendar_get_events('no_limit=true');
 
-    if (! $data) {
+    if (!$data) {
         return ['error' => 'You do not have any events'];
     }
 
     $allowed = [
         'id', 'created_at', 'created_at', 'content_id', 'title', 'shipping', 'startdate', 'enddate',
-        'description', 'allDay', 'calendar_group_id', 'calendar_group_name', 'image_url', 'link_url', 'allDay',
+        'description', 'short_description', 'allDay', 'calendar_group_id', 'calendar_group_name', 'image_url', 'link_url', 'allDay',
     ];
 
     $export = [];
 
     foreach ($data as $item) {
         foreach ($item as $key => $value) {
-            if (! in_array($key, $allowed)) {
+            if (!in_array($key, $allowed)) {
                 unset($item[$key]);
             }
         }
@@ -44,11 +44,11 @@ api_expose_admin('calendar_export_to_csv_file', function ($params) {
     $filename_path = userfiles_path() . 'export' . DS . 'events' . DS;
     $filename_path_index = userfiles_path() . 'export' . DS . 'events' . DS . 'index.php';
 
-    if (! is_dir($filename_path)) {
+    if (!is_dir($filename_path)) {
         mkdir_recursive($filename_path);
     }
 
-    if (! is_file($filename_path_index)) {
+    if (!is_file($filename_path_index)) {
         @touch($filename_path_index);
     }
 
@@ -67,19 +67,78 @@ api_expose_admin('calendar_export_to_csv_file', function ($params) {
     return response()->download($filename_path_full)->deleteFileAfterSend(true);
 });
 
+
+
 api_expose_admin('calendar_import_by_csv', function ($params) {
     if (Input::hasFile('csv_file')) {
         $file = Input::file('csv_file');
 
         $path = $file->getRealPath();
 
-        $data = array_map('str_getcsv', file($path));
+       // $data = file_get_contents($path);
 
-        $csv_data = $data;
 
-        if (! $csv_data) {
+
+
+        $file = fopen($path, 'r') or die('Unable to open file!');
+
+        $returnVal = array();
+        $header = null;
+
+        while(($row =fgetcsv($file, 1000,  ",", '"')) !== false){
+            if($header === null){
+                $header = $row;
+                continue;
+            }
+
+            $newRow = array();
+            for($i = 0; $i<count($row); $i++){
+                $newRow[$header[$i]] = $row[$i];
+            }
+
+            $returnVal[] = $newRow;
+        }
+
+        fclose($file);
+
+        $csv_data = $returnVal;
+
+
+
+//        $data = [];
+//        $row = 0;
+//        $handle = fopen($path, "r");
+//        while (($data = fgetcsv($handle, 1000,  ",", '"')) !== FALSE) {
+//            $num = count($data);
+//            $item_d = array();
+//            $row++;
+//            for ($c=0; $c < $num; $c++) {
+//                $item_d[] =  $data[$c];
+//            }
+//        }
+//        fclose($handle);
+
+
+
+     //   $data = str_getcsv($data,  ",", '"');
+
+//        $csv_data = array_map(function($value) {
+//          //  return "\"$value\"";
+//        }, str_getcsv($data, ","));
+//print_r($csv_data);
+
+
+
+//        $data = array_map('str_getcsv', file($path));
+//        $data = array_map('str_getcsv', file($path));
+
+     //   $csv_data = $data;
+
+        if (!$csv_data) {
             return (['error' => 'Cannot parse the CSV file']);
         }
+
+       
 
         $save_count = 0;
         $collect = [];
@@ -87,30 +146,48 @@ api_expose_admin('calendar_import_by_csv', function ($params) {
         if ($csv_data) {
             $header = [];
             foreach ($csv_data as $event) {
-                if (isset($event[0]) and strtolower($event[0]) == 'id') {
-                    $header = $event;
-                    continue;
-                }
+//                if (isset($event[0]) and strtolower($event[0]) == 'id') {
+//                    $header = $event;
+//                    continue;
+//                }
+//
+//                if (!$header) {
+//                    return (['error' => 'Cannot parse column names.']);
+//                }
 
-                if (! $header) {
-                    return (['error' => 'Cannot parse column names.']);
-                }
-
-                $save = [];
-                foreach ($header as $i => $col) {
-                    if (isset($event[$i])) {
-                        $save[$col] = $event[$i];
-                    }
-                }
+              //  $save = [];
+                $save = $event;
+//                foreach ($header as $i => $col) {
+//                    if (isset($event[$i])) {
+//                        $save[$col] = $event[$i];
+//                    }
+//                }
 
                 if ($save) {
-                    $collect[] = $save;
+                    if (isset($save['startdate']) and isset($save['enddate'])) {
+
+                        $save['startdate'] = str_replace('/', '-', $save['startdate']);
+                        $save['enddate'] = str_replace('/', '-', $save['enddate']);
+
+
+                        //$d2 = DateTime::createFromFormat('Y-m-d H:i:s', $date);
+
+
+                        $collect[] = $save;
+                    }
                 }
             }
         }
 
+//        print_r($collect);
+//        exit;
+
         if ($collect) {
+            \DB::table('calendar')->truncate();
+
+
             foreach ($collect as $save) {
+                $save['id'] = 0;
                 calendar_save_event($save);
                 $save_count++;
             }
@@ -150,7 +227,7 @@ function calendar_get_events_by_group($params = [])
 
     $events = [];
 
-    if ($data = DB::table($params['table'])->select('id', 'title', 'description', 'startdate', 'enddate', 'allDay', 'content_id', 'calendar_group_id', 'image_url', 'link_url')
+    if ($data = DB::table($params['table'])->select('*')
         ->where('startdate', '>', $date . ' 00:00:00')
         ->where('startdate', '<', $date . ' 23:59:59')
         ->where('calendar_group_id', $calendar_group_id)
@@ -158,11 +235,12 @@ function calendar_get_events_by_group($params = [])
         ->get()
     ) {
         foreach ($data as $event) {
-            if (! empty($event->id) && ! empty($event->title) && ! empty($event->startdate)) {
+            if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
                 $e = [];
                 $e['id'] = $event->id;
                 $e['title'] = $event->title;
                 $e['description'] = $event->description;
+                $e['short_description'] = $event->short_description;
                 $e['start'] = $event->startdate;
                 $e['end'] = $event->enddate;
                 $e['allDay'] = ((isset($event->allDay) and ($event->allDay)) == 1 ? true : false);
@@ -261,7 +339,7 @@ function calendar_get_events_api($params = [])
         ->get()
     ) {
         foreach ($data as $event) {
-            if (! empty($event->id) && ! empty($event->title) && ! empty($event->startdate)) {
+            if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
                 $e = [];
                 $e['id'] = $event->id;
                 $e['title'] = $event->title;
@@ -273,6 +351,8 @@ function calendar_get_events_api($params = [])
                 $e['calendar_group_id'] = ($event->calendar_group_id);
                 $e['image_url'] = ($event->image_url);
                 $e['link_url'] = ($event->link_url);
+                $e['short_description'] = $event->short_description;
+
                 array_push($events, $e);
             }
         }
@@ -289,7 +369,7 @@ function calendar_get_events_api($params = [])
 api_expose('calendar_new_event');
 function calendar_new_event()
 {
-    if (! is_admin()) {
+    if (!is_admin()) {
         return;
     }
 
@@ -334,13 +414,13 @@ function calendar_new_event()
 api_expose('calendar_change_title');
 function calendar_change_title()
 {
-    if (! is_admin()) {
+    if (!is_admin()) {
         return;
     }
 
     $eventid = false;
 
-    if (! isset($_POST['zone'])) {
+    if (!isset($_POST['zone'])) {
         $_POST['zone'] = '00:00';
     }
 
@@ -348,28 +428,28 @@ function calendar_change_title()
         $eventid = $_POST['eventid'];
     }
 
-    if (! isset($_POST['eventid']) and isset($_POST['id'])) {
+    if (!isset($_POST['eventid']) and isset($_POST['id'])) {
         $eventid = $_POST['id'];
     }
 
-    if (! $eventid) {
+    if (!$eventid) {
         return false;
     }
 
     $table = "calendar";
-    $title =  (trim($_POST['title']));
-    $description =  (trim($_POST['description']));
+    $title = (trim($_POST['title']));
+    $description = (trim($_POST['description']));
 
     if (isset($_POST['startdate'])) {
         $startdate = $_POST['startdate'];
     } else {
-        $startdate =  (trim($_POST['start'] . '+' . trim($_POST['zone'])));
+        $startdate = (trim($_POST['start'] . '+' . trim($_POST['zone'])));
     }
 
     if (isset($_POST['enddate'])) {
         $enddate = $_POST['enddate'];
     } else {
-        $enddate =  (trim($_POST['end'] . '+' . trim($_POST['zone'])));
+        $enddate = (trim($_POST['end'] . '+' . trim($_POST['zone'])));
     }
 
     if (isset($_POST['content_id'])) {
@@ -406,12 +486,12 @@ function calendar_change_title()
 api_expose('calendar_reset_date');
 function calendar_reset_date($params)
 {
-    if (! is_admin()) {
+    if (!is_admin()) {
         return;
     }
 
     // INTERNAL SERVER ERROR 500
-    if (! isset($params['zone'])) {
+    if (!isset($params['zone'])) {
         $params['zone'] = '00:00';
     }
 
@@ -420,9 +500,9 @@ function calendar_reset_date($params)
     }
 
     $table = "calendar";
-    $title =  trim($params['title']);
-    $startdate =  trim($params['start'] . '+' . trim($params['zone']));
-    $enddate =  trim($params['end'] . '+' . trim($params['zone']));
+    $title = trim($params['title']);
+    $startdate = trim($params['start'] . '+' . trim($params['zone']));
+    $enddate = trim($params['end'] . '+' . trim($params['zone']));
     $eventid = $params['eventid'];
 
     $data = ['id' => $eventid, 'title' => $title, 'startdate' => $startdate, 'enddate' => $enddate];
@@ -439,7 +519,7 @@ function calendar_reset_date($params)
 api_expose('calendar_remove_event');
 function calendar_remove_event()
 {
-    if (! is_admin()) {
+    if (!is_admin()) {
         return;
     }
 
@@ -476,7 +556,7 @@ function calendar_save_group($params)
         $save['title'] = $params['title'];
     }
 
-    if (! $save) {
+    if (!$save) {
         return;
     }
 
@@ -491,7 +571,7 @@ function calendar_get_groups($params = false)
 api_expose_admin('calendar_delete_group');
 function calendar_delete_group($params = false)
 {
-    if (! isset($params['id'])) {
+    if (!isset($params['id'])) {
         return 'Error';
     }
 

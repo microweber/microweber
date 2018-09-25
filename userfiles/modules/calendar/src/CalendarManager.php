@@ -30,14 +30,17 @@ class CalendarManager
             $data = $data->where('calendar_group_id', $calendar_group_id);
         }
 
+        $data = $data->orderBy('startdate', 'asc');
+
         $data = $data->get();
 
         if ($data) {
             foreach ($data as $event) {
-                if (! empty($event->id) && ! empty($event->title) && ! empty($event->startdate)) {
+                if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
                     $e = [];
                     $e['id'] = $event->id;
                     $e['title'] = $event->title;
+                    $e['short_description'] = $event->short_description;
                     $e['description'] = $event->description;
                     $e['startdate'] = $event->startdate;
                     $e['enddate'] = $event->enddate;
@@ -66,7 +69,7 @@ class CalendarManager
                     $groups = [];
                     foreach ($events as $group) {
                         $grp_date = $group['date_day'];
-                        if (! isset($groups[$grp_date])) {
+                        if (!isset($groups[$grp_date])) {
                             $groups[$grp_date] = [];
                         }
                         $groups[$grp_date][] = $group;
@@ -89,10 +92,14 @@ class CalendarManager
         $table = "calendar";
         $title = false;
         $description = false;
+        $short_description = false;
         $imageUrl = false;
         $linkUrl = false;
+        $startdate = false;
+        $enddate = false;
+        $linkUrl = false;
 
-        if (! isset($params['zone'])) {
+        if (!isset($params['zone'])) {
             $params['zone'] = '00:00';
         }
 
@@ -100,13 +107,13 @@ class CalendarManager
             $eventid = $params['eventid'];
         }
 
-        if (! isset($params['eventid']) and isset($params['id'])) {
+        if (!isset($params['eventid']) and isset($params['id'])) {
             $eventid = $params['id'];
         }
 
         if ($eventid) {
             $check = calendar_get_event_by_id($eventid);
-            if (! $check) {
+            if (!$check) {
                 $eventid = false;
             }
         }
@@ -117,6 +124,10 @@ class CalendarManager
 
         if (isset($params['description'])) {
             $description = (trim($params['description']));
+        }
+
+        if (isset($params['short_description'])) {
+            $short_description = (trim($params['short_description']));
         }
 
         if (isset($params['image_url'])) {
@@ -141,9 +152,13 @@ class CalendarManager
             $content_id = null;
         }
 
+
         $startdate = date('Y-m-d H:i:s', strtotime($startdate));
 
         $enddate = date('Y-m-d H:i:s', strtotime($enddate));
+
+
+
 
         $data = [
             'startdate' => $startdate,
@@ -164,10 +179,19 @@ class CalendarManager
         if ($description) {
             $data['description'] = $description;
         }
+        if ($short_description) {
+            $data['short_description'] = $short_description;
+        }
 
         if (isset($params['calendar_group_id'])) {
             $data['calendar_group_id'] = intval($params['calendar_group_id']);
         }
+
+
+
+
+
+
 
         return db_save($table, $data);
     }

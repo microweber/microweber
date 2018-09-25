@@ -13,6 +13,7 @@ $config['tables'] = array(
         '$id' => "integer",
         'content_id' => "integer",
         'title' => "string",
+        'short_description' => "text",
 		'startdate' => "date",
 		'enddate' => "date",
 		'description' => "text",
