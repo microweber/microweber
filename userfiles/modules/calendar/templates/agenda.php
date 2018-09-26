@@ -13,15 +13,14 @@ description: Calendar Agenda
 <?php
 $mod_id = $params['id'];
 $mod_suffix = md5($params['id']);
-
 ?>
 
-<!--<link rel="stylesheet" type="text/css" href="--><?php //print $config['url_to_module'] ?><!--css/reset.css"/>-->
+<!--<link rel="stylesheet" type="text/css" href="--><?php //print $config['url_to_module']?><!--css/reset.css"/>-->
 <link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/style.css"/>
 
 <div id="calendar-<?php echo $mod_suffix; ?>-tabsnav">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <?php foreach($dayGroups as $g => $dayGroup): ?>
+        <?php foreach ($dayGroups as $g => $dayGroup): ?>
         <a href="javascript:;" class="mw-ui-btn tabnav <?php echo $g==0 ? 'active' : ''; ?>">
             <?php
             $tabDate = strtotime($dayGroup);
@@ -32,7 +31,7 @@ $mod_suffix = md5($params['id']);
         <?php endforeach; ?>
     </div>
     <div class="mw-ui-box">
-        <?php foreach($dayGroups as $g => $dayGroup): ?>
+        <?php foreach ($dayGroups as $g => $dayGroup): ?>
         <div class="mw-ui-box-content tabitem" <?php echo $g==0 ? '' : 'style="display: none"'; ?>>
             <div class="cd-schedule loading">
                 <div class="timeline">
@@ -61,14 +60,14 @@ $mod_suffix = md5($params['id']);
 
                 <div class="events">
                     <ul>
-                        <?php if($groups): ?>
-                        <?php foreach($groups as $group): ?>
+                        <?php if ($groups): ?>
+                        <?php foreach ($groups as $group): ?>
                             <li class="events-group">
                                 <div class="top-info"><span><?php echo $group['title']; ?></span></div>
 
                                 <ul>
-                                    <?php $events = calendar_get_events_by_group(array('date' => $dayGroup, 'calendar_group_id' => $group['id'])); ?>
-                                    <?php foreach($events as $e => $event): ?>
+                                    <?php $events = calendar_get_events_by_group(['date' => $dayGroup, 'calendar_group_id' => $group['id']]); ?>
+                                    <?php foreach ($events as $e => $event): ?>
                                         <li class="single-event" data-start="<?php echo date('H:i', strtotime($event['start'])); ?>" data-end="<?php echo date('H:i', strtotime($event['end'])); ?>" data-content="event-abs-circuit" data-event="event-<?php echo 1 + ($e % 4); ?>" data-image="<?php echo $event['image_url']; ?>">
                                             <div style="display: none;" class="event-description"><?php echo $event['description']; ?></div>
                                             <a href="#">
