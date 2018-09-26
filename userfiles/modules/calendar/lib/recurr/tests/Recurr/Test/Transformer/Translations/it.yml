@@ -1,0 +1,58 @@
+# base tests
+"yearly on March 16 for 1 time": "ogni anno il 16 marzo per una volta"
+"yearly on March 16 for 3 times": "ogni anno il 16 marzo per 3 volte"
+"yearly on March 16 until July 4, 2014": "ogni anno il 16 marzo fino al 4 luglio, 2014"
+"yearly on March 16 (~ approximate)": "ogni anno il 16 marzo (~ approssimato)"
+"monthly (~ approximate)": "ogni mese (~ approssimato)"
+
+# monthly tests
+"monthly": "ogni mese"
+"every 10 months": "ogni 10 mesi"
+"every January, May and August": "ogni gennaio, maggio e agosto"
+"every 2 months in January, May and August": "ogni 2 mesi in gennaio, maggio e agosto"
+"monthly on the 1st, 5th and 21st": "ogni mese il 1, 5 e 21"
+"monthly on Tuesday or Friday the 1st, 5th or 21st": "ogni mese il martedì o venerdì il 1, 5 o 21"
+"monthly on the 21st day and on the last day": "ogni mese il 21 giorno e il ultimo giorno"
+"monthly on Tuesday or Friday the 1st day or 2nd to the last day": "ogni mese il martedì o venerdì il 1 giorno o penultimo giorno"
+"monthly on Tuesday, Wednesday and Friday": "ogni mese il martedì, mercoledì e venerdì"
+"monthly on the 4th Monday": "ogni mese il il 4 lunedì"
+"monthly on the 4th Monday and 2nd Tuesday": "ogni mese il il 4 lunedì e 2 martedì"
+"monthly on the 4th Monday, 2nd Tuesday and 3rd Wednesday": "ogni mese il il 4 lunedì, 2 martedì e 3 mercoledì"
+"monthly on the 1st Monday, 1st Tuesday, 2nd Wednesday, 3rd Wednesday, 4th Wednesday, last Thursday, 2nd to the last Friday, 3rd to the last Saturday and 4th to the last Sunday":
+    "ogni mese il il 1 lunedì, 1 martedì, 2 mercoledì, 3 mercoledì, 4 mercoledì, ultimo giovedì, penultimo venerdì, terzultimo sabato e quarto ultimo domenica"
+
+# daily tests
+"daily": "ogni giorno"
+"every 10 days": "ogni 10 giorni"
+"daily in January, May and August": "ogni giorno in gennaio, maggio e agosto"
+"every 2 days in January, May and August": "ogni 2 giorni in gennaio, maggio e agosto"
+"daily on the 1st, 5th and 21st of the month": "ogni giorno il 1, 5 e 21 del mese"
+"daily on Tuesday or Friday the 1st, 5th or 21st of the month": "ogni giorno il martedì o venerdì il 1, 5 o 21 del mese"
+"daily on Tuesday, Wednesday and Friday": "ogni giorno il martedì, mercoledì e venerdì"
+
+# yearly tests
+"yearly on March 16": "ogni anno il 16 marzo"
+"every 10 years on March 16": "ogni 10 anni il 16 marzo"
+"every January, May and August": "ogni gennaio, maggio e agosto"
+"every 2 years in January, May and August": "ogni 2 anni in gennaio, maggio e agosto"
+"every 4 years in November on Tuesday the 2nd, 3rd, 4th, 5th, 6th, 7th or 8th of the month": "ogni 4 anni in novembre il martedì il 2, 3, 4, 5, 6, 7 o 8 del mese"
+"yearly on the 1st, 5th and 21st of the month": "ogni anno il 1, 5 e 21 del mese"
+"yearly on Tuesday or Friday the 1st, 5th or 21st of the month": "ogni anno il martedì o venerdì il 1, 5 o 21 del mese"
+"yearly on Tuesday, Wednesday and Friday": "ogni anno il martedì, mercoledì e venerdì"
+"yearly on the 1st and 200th day": "ogni anno il 1 e 200 giorno"
+"yearly in week 3 on Sunday": "ogni anno in settimana 3 il domenica"
+"yearly in weeks 3, 20 and 30 on Sunday": "ogni anno in settimane 3, 20 e 30 il domenica"
+
+# weekly tests
+"weekly on Sunday": "ogni settimana il domenica"
+"every 10 weeks on Sunday": "ogni 10 settimane il domenica"
+"weekly on Sunday in January, May and August": "ogni settimana il domenica in gennaio, maggio e agosto"
+"every 2 weeks on Sunday in January, May and August": "ogni 2 settimane il domenica in gennaio, maggio e agosto"
+"weekly on the 1st, 5th and 21st of the month": "ogni settimana il 1, 5 e 21 del mese"
+"weekly on Tuesday or Friday the 1st, 5th or 21st of the month": "ogni settimana il martedì o venerdì il 1, 5 o 21 del mese"
+"weekly on Tuesday, Wednesday and Friday": "ogni settimana il martedì, mercoledì e venerdì"
+
+# start date tests
+"every 2 years on March 16": "ogni 2 anni il 16 marzo"
+"yearly on March 16 for 5 times": "ogni anno il 16 marzo per 5 volte"
+"yearly on March 16 until December 31, 2012": "ogni anno il 16 marzo fino al 31 dicembre, 2012"

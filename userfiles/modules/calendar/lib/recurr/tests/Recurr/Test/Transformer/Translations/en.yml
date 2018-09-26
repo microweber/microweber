@@ -1,0 +1,58 @@
+# base tests
+"yearly on March 16 for 1 time": "yearly on March 16 once"
+"yearly on March 16 for 3 times": "yearly on March 16 for 3 times"
+"yearly on March 16 until July 4, 2014": "yearly on March 16 until July 4, 2014"
+"yearly on March 16 (~ approximate)": "yearly on March 16 (~ approximate)"
+"monthly (~ approximate)": "monthly (~ approximate)"
+
+# monthly tests
+"monthly": "monthly"
+"every 10 months": "every 10 months"
+"every January, May and August": "every January, May and August"
+"every 2 months in January, May and August": "every 2 months in January, May and August"
+"monthly on the 1st, 5th and 21st": "monthly on the 1st, 5th and 21st"
+"monthly on Tuesday or Friday the 1st, 5th or 21st": "monthly on Tuesday or Friday the 1st, 5th or 21st"
+"monthly on the 21st day and on the last day": "monthly on the 21st day and on the last day"
+"monthly on Tuesday or Friday the 1st day or 2nd to the last day": "monthly on Tuesday or Friday the 1st day or 2nd to the last day"
+"monthly on Tuesday, Wednesday and Friday": "monthly on Tuesday, Wednesday and Friday"
+"monthly on the 4th Monday": "monthly on the 4th Monday"
+"monthly on the 4th Monday and 2nd Tuesday": "monthly on the 4th Monday and 2nd Tuesday"
+"monthly on the 4th Monday, 2nd Tuesday and 3rd Wednesday": "monthly on the 4th Monday, 2nd Tuesday and 3rd Wednesday"
+"monthly on the 1st Monday, 1st Tuesday, 2nd Wednesday, 3rd Wednesday, 4th Wednesday, last Thursday, 2nd to the last Friday, 3rd to the last Saturday and 4th to the last Sunday":
+    "monthly on the 1st Monday, 1st Tuesday, 2nd Wednesday, 3rd Wednesday, 4th Wednesday, last Thursday, 2nd to the last Friday, 3rd to the last Saturday and 4th to the last Sunday"
+
+# daily tests
+"daily": "daily"
+"every 10 days": "every 10 days"
+"daily in January, May and August": "daily in January, May and August"
+"every 2 days in January, May and August": "every 2 days in January, May and August"
+"daily on the 1st, 5th and 21st of the month": "daily on the 1st, 5th and 21st of the month"
+"daily on Tuesday or Friday the 1st, 5th or 21st of the month": "daily on Tuesday or Friday the 1st, 5th or 21st of the month"
+"daily on Tuesday, Wednesday and Friday": "daily on Tuesday, Wednesday and Friday"
+
+# yearly tests
+"yearly on March 16": "yearly on March 16"
+"every 10 years on March 16": "every 10 years on March 16"
+"every January, May and August": "every January, May and August"
+"every 2 years in January, May and August": "every 2 years in January, May and August"
+"every 4 years in November on Tuesday the 2nd, 3rd, 4th, 5th, 6th, 7th or 8th of the month": "every 4 years in November on Tuesday the 2nd, 3rd, 4th, 5th, 6th, 7th or 8th of the month"
+"yearly on the 1st, 5th and 21st of the month": "yearly on the 1st, 5th and 21st of the month"
+"yearly on Tuesday or Friday the 1st, 5th or 21st of the month": "yearly on Tuesday or Friday the 1st, 5th or 21st of the month"
+"yearly on Tuesday, Wednesday and Friday": "yearly on Tuesday, Wednesday and Friday"
+"yearly on the 1st and 200th day": "yearly on the 1st and 200th day"
+"yearly in week 3 on Sunday": "yearly in week 3 on Sunday"
+"yearly in weeks 3, 20 and 30 on Sunday": "yearly in weeks 3, 20 and 30 on Sunday"
+
+# weekly tests
+"weekly on Sunday": "weekly on Sunday"
+"every 10 weeks on Sunday": "every 10 weeks on Sunday"
+"weekly on Sunday in January, May and August": "weekly on Sunday in January, May and August"
+"every 2 weeks on Sunday in January, May and August": "every 2 weeks on Sunday in January, May and August"
+"weekly on the 1st, 5th and 21st of the month": "weekly on the 1st, 5th and 21st of the month"
+"weekly on Tuesday or Friday the 1st, 5th or 21st of the month": "weekly on Tuesday or Friday the 1st, 5th or 21st of the month"
+"weekly on Tuesday, Wednesday and Friday": "weekly on Tuesday, Wednesday and Friday"
+
+# start date tests
+"every 2 years on March 16": "every 2 years on March 16"
+"yearly on March 16 for 5 times": "yearly on March 16 for 5 times"
+"yearly on March 16 until December 31, 2012": "yearly on March 16 until December 31, 2012"

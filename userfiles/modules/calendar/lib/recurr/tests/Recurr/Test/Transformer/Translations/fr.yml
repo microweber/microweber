@@ -1,0 +1,58 @@
+# base tests
+"yearly on March 16 for 1 time": "chaque année le 16 mars une fois"
+"yearly on March 16 for 3 times": "chaque année le 16 mars 3 fois"
+"yearly on March 16 until July 4, 2014": "chaque année le 16 mars jusqu'au 4 juillet, 2014"
+"yearly on March 16 (~ approximate)": "chaque année le 16 mars (~ approximation)"
+"monthly (~ approximate)": "chaque mois (~ approximation)"
+
+# monthly tests
+"monthly": "chaque mois"
+"every 10 months": "tous les 10 mois"
+"every January, May and August": "chaque janvier, mai et août"
+"every 2 months in January, May and August": "tous les 2 mois en janvier, mai et août"
+"monthly on the 1st, 5th and 21st": "chaque mois le 1, 5 et 21"
+"monthly on Tuesday or Friday the 1st, 5th or 21st": "chaque mois le mardi ou vendredi le 1, 5 ou 21"
+"monthly on the 21st day and on the last day": "chaque mois le 21 jour et le dernier jour"
+"monthly on Tuesday or Friday the 1st day or 2nd to the last day": "chaque mois le mardi ou vendredi le 1 jour ou avant dernier jour"
+"monthly on Tuesday, Wednesday and Friday": "chaque mois le mardi, mercredi et vendredi"
+"monthly on the 4th Monday": "chaque mois le 4ème lundi"
+"monthly on the 4th Monday and 2nd Tuesday": "chaque mois le 4ème lundi et 2ème mardi"
+"monthly on the 4th Monday, 2nd Tuesday and 3rd Wednesday": "chaque mois le 4ème lundi, 2ème mardi et 3ème mercredi"
+"monthly on the 1st Monday, 1st Tuesday, 2nd Wednesday, 3rd Wednesday, 4th Wednesday, last Thursday, 2nd to the last Friday, 3rd to the last Saturday and 4th to the last Sunday":
+    "chaque mois le 1er lundi, 1er mardi, 2ème mercredi, 3ème mercredi, 4ème mercredi, dernier jeudi, avant dernier vendredi, 3ème au dernier samedi et 4ème au dernier dimanche"
+
+# daily tests
+"daily": "chaque jour"
+"every 10 days": "tous les 10 jours"
+"daily in January, May and August": "chaque jour en janvier, mai et août"
+"every 2 days in January, May and August": "tous les 2 jours en janvier, mai et août"
+"daily on the 1st, 5th and 21st of the month": "chaque jour le 1, 5 et 21 du mois"
+"daily on Tuesday or Friday the 1st, 5th or 21st of the month": "chaque jour le mardi ou vendredi le 1, 5 ou 21 du mois"
+"daily on Tuesday, Wednesday and Friday": "chaque jour le mardi, mercredi et vendredi"
+
+# yearly tests
+"yearly on March 16": "chaque année le 16 mars"
+"every 10 years on March 16": "tous les 10 ans le 16 mars"
+"every January, May and August": "chaque janvier, mai et août"
+"every 2 years in January, May and August": "tous les 2 ans en janvier, mai et août"
+"every 4 years in November on Tuesday the 2nd, 3rd, 4th, 5th, 6th, 7th or 8th of the month": "tous les 4 ans en novembre le mardi le 2, 3, 4, 5, 6, 7 ou 8 du mois"
+"yearly on the 1st, 5th and 21st of the month": "chaque année le 1, 5 et 21 du mois"
+"yearly on Tuesday or Friday the 1st, 5th or 21st of the month": "chaque année le mardi ou vendredi le 1, 5 ou 21 du mois"
+"yearly on Tuesday, Wednesday and Friday": "chaque année le mardi, mercredi et vendredi"
+"yearly on the 1st and 200th day": "chaque année le 1er et 200ème jour"
+"yearly in week 3 on Sunday": "chaque année en semaine 3 le dimanche"
+"yearly in weeks 3, 20 and 30 on Sunday": "chaque année en semaines 3, 20 et 30 le dimanche"
+
+# weekly tests
+"weekly on Sunday": "chaque semaine le dimanche"
+"every 10 weeks on Sunday": "toutes les 10 semaines le dimanche"
+"weekly on Sunday in January, May and August": "chaque semaine le dimanche en janvier, mai et août"
+"every 2 weeks on Sunday in January, May and August": "toutes les 2 semaines le dimanche en janvier, mai et août"
+"weekly on the 1st, 5th and 21st of the month": "chaque semaine le 1, 5 et 21 du mois"
+"weekly on Tuesday or Friday the 1st, 5th or 21st of the month": "chaque semaine le mardi ou vendredi le 1, 5 ou 21 du mois"
+"weekly on Tuesday, Wednesday and Friday": "chaque semaine le mardi, mercredi et vendredi"
+
+# start date tests
+"every 2 years on March 16": "tous les 2 ans le 16 mars"
+"yearly on March 16 for 5 times": "chaque année le 16 mars 5 fois"
+"yearly on March 16 until December 31, 2012": "chaque année le 16 mars jusqu'au 31 décembre, 2012"

@@ -1,0 +1,33 @@
+{
+	"name": "simshaun/recurr",
+	"description": "PHP library for working with recurrence rules",
+	"keywords": ["rrule", "recurrence", "recurring", "events", "dates"],
+	"homepage": "https://github.com/simshaun/recurr",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Shaun Simmons",
+			"email": "shaun@envysphere.com",
+			"homepage": "http://envysphere.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5.0" 
+		
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"Recurr\\": "src/Recurr/",
+			"Recurr\\Test\\": "tests/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "0.x-dev"
+		}
+	}
+}

@@ -1,0 +1,58 @@
+# base tests
+"yearly on March 16 for 1 time": "jährlich am 16. März einmal"
+"yearly on March 16 for 3 times": "jährlich am 16. März 3 Mal"
+"yearly on March 16 until July 4, 2014": "jährlich am 16. März bis 4. Juli, 2014"
+"yearly on March 16 (~ approximate)": "jährlich am 16. März (~ ungefähr)"
+"monthly (~ approximate)": "monatlich (~ ungefähr)"
+
+# monthly tests
+"monthly": "monatlich"
+"every 10 months": "alle 10 Monate"
+"every January, May and August": "jeden Januar, Mai und August"
+"every 2 months in January, May and August": "alle 2 Monate im Januar, Mai und August"
+"monthly on the 1st, 5th and 21st": "monatlich am 1., 5. und 21."
+"monthly on Tuesday or Friday the 1st, 5th or 21st": "monatlich am Dienstag oder Freitag dem 1., 5. oder 21."
+"monthly on the 21st day and on the last day": "monatlich am 21. und am letzten Tag"
+"monthly on Tuesday or Friday the 1st day or 2nd to the last day": "monatlich am Dienstag oder Freitag dem 1. oder vorletzten Tag"
+"monthly on Tuesday, Wednesday and Friday": "monatlich am Dienstag, Mittwoch und Freitag"
+"monthly on the 4th Monday": "monatlich am 4. Montag"
+"monthly on the 4th Monday and 2nd Tuesday": "monatlich am 4. Montag und 2. Dienstag"
+"monthly on the 4th Monday, 2nd Tuesday and 3rd Wednesday": "monatlich am 4. Montag, 2. Dienstag und 3. Mittwoch"
+"monthly on the 1st Monday, 1st Tuesday, 2nd Wednesday, 3rd Wednesday, 4th Wednesday, last Thursday, 2nd to the last Friday, 3rd to the last Saturday and 4th to the last Sunday":
+    "monatlich am 1. Montag, 1. Dienstag, 2. Mittwoch, 3. Mittwoch, 4. Mittwoch, letzten Donnerstag, vorletzten Freitag, drittletzten Samstag und viertletzten Sonntag"
+
+# daily tests
+"daily": "täglich"
+"every 10 days": "alle 10 Tage"
+"daily in January, May and August": "täglich im Januar, Mai und August"
+"every 2 days in January, May and August": "alle 2 Tage im Januar, Mai und August"
+"daily on the 1st, 5th and 21st of the month": "täglich am 1., 5. und 21. des Monats"
+"daily on Tuesday or Friday the 1st, 5th or 21st of the month": "täglich am Dienstag oder Freitag dem 1., 5. oder 21. des Monats"
+"daily on Tuesday, Wednesday and Friday": "täglich am Dienstag, Mittwoch und Freitag"
+
+# yearly tests
+"yearly on March 16": "jährlich am 16. März"
+"every 10 years on March 16": "alle 10 Jahre am 16. März"
+"every January, May and August": "jeden Januar, Mai und August"
+"every 2 years in January, May and August": "alle 2 Jahre im Januar, Mai und August"
+"every 4 years in November on Tuesday the 2nd, 3rd, 4th, 5th, 6th, 7th or 8th of the month": "alle 4 Jahre im November am Dienstag dem 2., 3., 4., 5., 6., 7. oder 8. des Monats"
+"yearly on the 1st, 5th and 21st of the month": "jährlich am 1., 5. und 21. des Monats"
+"yearly on Tuesday or Friday the 1st, 5th or 21st of the month": "jährlich am Dienstag oder Freitag dem 1., 5. oder 21. des Monats"
+"yearly on Tuesday, Wednesday and Friday": "jährlich am Dienstag, Mittwoch und Freitag"
+"yearly on the 1st and 200th day": "jährlich am 1. und 200. Tag"
+"yearly in week 3 on Sunday": "jährlich in Woche 3 am Sonntag"
+"yearly in weeks 3, 20 and 30 on Sunday": "jährlich in Wochen 3, 20 und 30 am Sonntag"
+
+# weekly tests
+"weekly on Sunday": "wöchentlich am Sonntag"
+"every 10 weeks on Sunday": "alle 10 Wochen am Sonntag"
+"weekly on Sunday in January, May and August": "wöchentlich am Sonntag im Januar, Mai und August"
+"every 2 weeks on Sunday in January, May and August": "alle 2 Wochen am Sonntag im Januar, Mai und August"
+"weekly on the 1st, 5th and 21st of the month": "wöchentlich am 1., 5. und 21. des Monats"
+"weekly on Tuesday or Friday the 1st, 5th or 21st of the month": "wöchentlich am Dienstag oder Freitag dem 1., 5. oder 21. des Monats"
+"weekly on Tuesday, Wednesday and Friday": "wöchentlich am Dienstag, Mittwoch und Freitag"
+
+# start date tests
+"every 2 years on March 16": "alle 2 Jahre am 16. März"
+"yearly on March 16 for 5 times": "jährlich am 16. März 5 Mal"
+"yearly on March 16 until December 31, 2012": "jährlich am 16. März bis 31. Dezember, 2012"

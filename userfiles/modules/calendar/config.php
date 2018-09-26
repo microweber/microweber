@@ -37,6 +37,7 @@ $config['tables'] = array(
 );
 
 $config['recurrence_type'] = array(
+    "dosent_repeat" => "Does not repeat",
     "daily" => "Daily Event",
     "weekly_on_the_day_name" => "Weekly on the day name",
     "weekly_on_the_days_names" => "Weekly on the days names",

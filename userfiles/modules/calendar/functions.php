@@ -2,6 +2,7 @@
 require_once (__DIR__ . '/src/CalendarManager.php');
 require_once (__DIR__ . '/calendar_groups_api.php');
 require_once (__DIR__ . '/calendar_dates_helper.php');
+require_once (__DIR__ . '/lib/recurr/vendor/autoload.php');
 
 function get_config() {
 	return require_once (__DIR__ . '/config.php');
