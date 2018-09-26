@@ -10,6 +10,7 @@ storage/cache/*
 old_mw/
 phpinfo.php
 .idea
+.settings
 .env
 /stats2
 dwsync.xml
