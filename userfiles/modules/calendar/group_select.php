@@ -45,8 +45,7 @@ if (isset($params['calendar-event-id'])) {
     </script>
 <?php
 } ?>
-<?php if ($groups) {
-        ?>
+<?php if ($groups) {?>
     <label  >
         Group:
         <select name="calendar_group_id" class="mw-ui-field js-calendar-group-selector mw_option_field"
@@ -64,5 +63,6 @@ if (isset($params['calendar-event-id'])) {
         } ?>
         </select>
     </label>
-<?php
-    } ?>
+<?php } else {  ?>
+    <input type="hidden" name="calendar_group_id" value="0" />
+<?php } ?>
