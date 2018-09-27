@@ -356,19 +356,27 @@ function calendar_get_events_api($params = [])
 							}
 						}
 					} else if ($event->recurrence_repeat_type == "day") {
-						$selectedStartDateAndTime = $year . '-'.$month.'-01 ';
+						
+						$selectedStartDateAndTime = $year . '-'.$month.'-01';
+						if ($event->all_day !== 1) {
+							$selectedStartDateAndTime .= $startTime;
+						}
+						
 						$datesOfTheMonth = getDatesOfMonthWithInterval($timeZone, $selectedStartDateAndTime, $event->recurrence_repeat_every);
 						
 						foreach($datesOfTheMonth as $dateOfTheMonth) {
 							
-							$startDate = $dateOfTheMonth->getStart()->format('Y-m-d');
+							$startDateReady = $dateOfTheMonth->getStart()->format('Y-m-d');
+							if (date("Y-m-d", strtotime($startDate)) > $startDateReady) {
+								continue;
+							}
 							
 							if ($event->all_day == 1) {
-								$eventReady['start'] = $startDate;
-								$eventReady['end'] = $startDate;
+								$eventReady['start'] = $startDateReady;
+								$eventReady['end'] = $startDateReady;
 							} else {
-								$eventReady['start'] = $startDate . " ". $startTime;
-								$eventReady['end'] = $startDate . " ". $endTime;
+								$eventReady['start'] = $startDateReady . " ". $startTime;
+								$eventReady['end'] = $startDateReady . " ". $endTime;
 							}
 							
 							$events[] = $eventReady;
