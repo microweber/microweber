@@ -122,6 +122,12 @@ class CalendarManager
 			$eventData = parse_params($eventData);
 		}
 		
+		if (!isset($eventData['active'])) {
+			$eventData['active'] = 0;
+		} else {
+			$eventData['active'] = intval($eventData['active']);
+		}
+		
 		$eventData['content_id'] = intval($eventData['content_id']);
 		$eventData['calendar_group_id'] = intval($eventData['calendar_group_id']);
 

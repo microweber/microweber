@@ -266,6 +266,7 @@ function calendar_get_events_api($params = [])
 	$findEvents = DB::table($params['table'])
 	// ->whereRaw('DATE_FORMAT(start_date,"%m") = ?', $month)
 	->where('calendar_group_id', $calendar_group_id)
+	->where('active', 1)
 	->get();
 	
 	if ($findEvents) {
@@ -460,6 +461,6 @@ function calendar_get_event_by_id($event_id)
 {
 	$data = ['id' => $event_id,'single' => true];
 	$table = "calendar";
-
+	
 	return db_get($table, $data);
 }

@@ -6,6 +6,10 @@ $all_days = calendar_get_events('group_by_type=1&group_by_date=1');
     <?php
     if ($all_days) {
     	foreach ($all_days as $recurrence_type => $event_dates) {
+    		
+    		if (!isset($config['recurrence_type'][$recurrence_type])) {
+    			continue;
+    		}
             ?>
             <table class="table-style-1 mw-ui-table">
              <thead>

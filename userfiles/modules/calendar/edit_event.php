@@ -2,17 +2,17 @@
 
 <?php
 $data = false;
-
-if (isset($params['event_id'])) {
-    $data = calendar_get_event_by_id($params['event_id']);
-}
-
 $add_new = false;
 
-if (! $data) {
+if (isset($params['event_id'])) {
+	$data = calendar_get_event_by_id($params['event_id']);
+}
+
+if (empty($data)) {
     $add_new = true;
     $data = array(
         'id' => "0",
+    	'active' => 1,
         'content_id' => "",
         'title' => "",
     	'start_date' => date("m/d/Y"),
@@ -26,6 +26,7 @@ if (! $data) {
         "link_url" => "",
     );
 }
+
 ?>
 
 <style type="text/css">
@@ -211,6 +212,16 @@ if (! $data) {
         <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text"
                value="<?php echo $data['content_id'] ?>" name="content_id" data-mwcomponent="postSearch"/>
     </div>
+    
+    <div class="mw-ui-col">	
+        <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">
+            <input type="checkbox" name="active" class="js-active" value="1" <?php if($data['active'] == "1"): ?>checked="checked"<?php endif;?> />
+    		Active
+    	</label>
+    	</div>
+	</div>
+    
     <hr>
     <div class="mw-ui-btn-nav pull-right">
         <span class="mw-ui-btn " onclick="editModal.modal.remove()">Cancel</span>
