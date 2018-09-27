@@ -2,7 +2,29 @@ $(document).ready(function() {
 
 	if (typeof event_data.recurrence_type !== 'undefined') {
 		$(".js-select-recurrence").val(event_data.recurrence_type).change();
+		
+		if (event_data.recurrence_type == 'custom') {
+			$('.js-custom-recurrence-wrapper').show();
+		}
+		if (typeof event_data.recurrence_repeat_type !== 'undefined') {
+			$(".js-recurrence-repeat-type").val(event_data.recurrence_repeat_type).change();
+			
+			if (event_data.recurrence_repeat_type == 'week') {
+				$('.js-recurrence-repeat-on').show();
+				
+				var recurrence_repeat_on = $.parseJSON(event_data.recurrence_repeat_on);
+				$.each(recurrence_repeat_on, function(key, value){
+					if (value == 1) { // its on
+						$("input[name*='recurrence_repeat_on["+ key.toLowerCase() +"]']").prop("checked", true);
+					}
+				});
+			}
+			if (event_data.recurrence_repeat_type == 'month') {
+				$('.js-recurrence-monthly-on').show();
+			}
+		}
 	}
+	
 	if (typeof event_data.all_day !== 'undefined') {
 		if (event_data.all_day == 1) {
 			$('.js-all-day').click();

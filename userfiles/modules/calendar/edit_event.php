@@ -39,7 +39,6 @@ if (! $data) {
 	var calendar_api_save_event = "<?php echo api_url('calendar_save_event'); ?>";
 
 	mw.lib.require('datepicker');
-	mw.require("<?php echo $config['url_to_module'];?>js/image-upload.js");
 	mw.require("<?php echo $config['url_to_module'];?>js/javascript-helper.js");
 	mw.require("<?php echo $config['url_to_module'];?>js/date-helper.js");
 	mw.require("<?php echo $config['url_to_module'];?>js/jquery.timepicker.min.css");
@@ -61,7 +60,7 @@ if (! $data) {
         }
     });
 </script>
-
+<script src="<?php echo $config['url_to_module'];?>js/image-upload.js" type='text/javascript' />
 <script src="<?php echo $config['url_to_module'];?>js/edit-event-ajax.js" type='text/javascript' />
 <script src="<?php echo $config['url_to_module'];?>js/edit-event.js" type='text/javascript' />
 
@@ -188,6 +187,8 @@ if (! $data) {
             <span id="upload_info"></span>
             </span>
         </span>
+        <br />
+        <img src="<?php echo $data['image_url'] ?>" style="margin-top:15px;width:250px;" />
     </div>
 
     <div class="mw-ui-field-holder">
