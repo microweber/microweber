@@ -42,15 +42,15 @@ $(document).ready(function() {
 	});
 	
 	$('.js-all-day').click(function() {
-		if (this.checked) {
+		if ($(this).prop("checked")) {
+			$('.js-start-time-wrapper').hide();
+			$('.js-end-time-wrapper').hide();
+		} else {
 			$('.js-start-time-wrapper').show();
 			$('.js-end-time-wrapper').show();
 		}
-		if (this.checked == false) {
-			$('.js-start-time-wrapper').hide();
-			$('.js-end-time-wrapper').hide();
-		}
 	});
+	
 	$('.js-select-recurrence').change(function() {
 		
 		// Enable click on recurrence repeat type
