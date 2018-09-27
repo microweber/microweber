@@ -312,23 +312,11 @@ function calendar_get_events_api($params = [])
 				
 				if ($event->recurrence_type == "weekly_on_the_day_name") {
 					
-					foreach ($recurrenceRepeatOn as $repeatOnDayName=>$repeatOndayNameEnabled) {
-						
-						$selectedStartDateAndTime = $year . '-'.$month.'-01 ';
-						$datesOfTheMonth = getDatesOfMonthByDayName($timeZone, $selectedStartDateAndTime, ucfirst($repeatOnDayName));
-						
-						foreach($datesOfTheMonth as $dateOfTheMonth) {
-							
-							$startDate = $dateOfTheMonth->getStart()->format('Y-m-d');
-							
-							if ($event->all_day == 1) {
-								$eventReady['start'] = $startDate;
-								$eventReady['end'] = $startDate;
-							} else {
-								$eventReady['start'] = $startDate . " ". $startTime;
-								$eventReady['end'] = $startDate . " ". $endTime;
-							}
-							
+					if (!empty($recurrenceRepeatOn)) {
+						$eventRecurrences = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+						foreach ($eventRecurrences as $eventRecurrence) {
+							$eventReady['start'] = $eventRecurrence['start'];
+							$eventReady['end'] = $eventRecurrence['end'];
 							$events[] = $eventReady;
 						}
 					}
@@ -358,22 +346,33 @@ function calendar_get_events_api($params = [])
 				
 				if ($event->recurrence_type == "custom") {
 					
-					$selectedStartDateAndTime = $year . '-'.$month.'-01 ';
-					$datesOfTheMonth = getDatesOfMonthWithInterval($timeZone, $selectedStartDateAndTime, $event->recurrence_repeat_every);
-					
-					foreach($datesOfTheMonth as $dateOfTheMonth) {
-						
-						$startDate = $dateOfTheMonth->getStart()->format('Y-m-d');
-						
-						if ($event->all_day == 1) {
-							$eventReady['start'] = $startDate;
-							$eventReady['end'] = $startDate;
-						} else {
-							$eventReady['start'] = $startDate . " ". $startTime;
-							$eventReady['end'] = $startDate . " ". $endTime;
+					if ($event->recurrence_repeat_type == "week") {
+						if (!empty($recurrenceRepeatOn)) {
+							$eventRecurrences = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+							foreach ($eventRecurrences as $eventRecurrence) {
+								$eventReady['start'] = $eventRecurrence['start'];
+								$eventReady['end'] = $eventRecurrence['end'];
+								$events[] = $eventReady;
+							}
 						}
+					} else if ($event->recurrence_repeat_type == "day") {
+						$selectedStartDateAndTime = $year . '-'.$month.'-01 ';
+						$datesOfTheMonth = getDatesOfMonthWithInterval($timeZone, $selectedStartDateAndTime, $event->recurrence_repeat_every);
 						
-						$events[] = $eventReady;
+						foreach($datesOfTheMonth as $dateOfTheMonth) {
+							
+							$startDate = $dateOfTheMonth->getStart()->format('Y-m-d');
+							
+							if ($event->all_day == 1) {
+								$eventReady['start'] = $startDate;
+								$eventReady['end'] = $startDate;
+							} else {
+								$eventReady['start'] = $startDate . " ". $startTime;
+								$eventReady['end'] = $startDate . " ". $endTime;
+							}
+							
+							$events[] = $eventReady;
+						}
 					}
 				}
 				
@@ -388,6 +387,46 @@ function calendar_get_events_api($params = [])
 			return print lnotif(_e('Click here to edit Calendar', true));
 		}
 	}
+}
+
+function generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month) {
+	
+	$startDate = $event->start_date;
+	$endDate = $event->end_date;
+	
+	$startTime = $event->start_time;
+	$endTime = $event->end_time;
+	
+	$events = array();
+	
+	foreach ($recurrenceRepeatOn as $repeatOnDayName=>$repeatOndayNameEnabled) {
+		
+		$selectedStartDateAndTime = $year . '-'.$month.'-01';
+		$datesOfTheMonth = getDatesOfMonthByDayName($timeZone, $selectedStartDateAndTime, ucfirst($repeatOnDayName));
+		
+		foreach($datesOfTheMonth as $dateOfTheMonth) {
+			
+			$startDateReady = $dateOfTheMonth->getStart()->format('Y-m-d');
+			
+			if (date("Y-m-d", strtotime($startDate)) > $startDateReady) {
+				continue;
+			}
+			
+			$eventReady = array();
+			
+			if ($event->all_day == 1) {
+				$eventReady['start'] = $startDateReady;
+				$eventReady['end'] = $startDateReady;
+			} else {
+				$eventReady['start'] = $startDateReady . " ". $startTime;
+				$eventReady['end'] = $startDateReady . " ". $endTime;
+			}
+			
+			$events[] = $eventReady;
+		}
+	}
+	
+	return $events;
 }
 
 api_expose('calendar_remove_event');

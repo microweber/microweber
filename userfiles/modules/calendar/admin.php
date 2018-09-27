@@ -1,6 +1,5 @@
 <?php only_admin_access(); ?>
 
-
 <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
 
 <div class="module-live-edit-settings">
