@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	// Edit event fill the form and select the options
 	if (typeof event_data.recurrence_type !== 'undefined') {
 		$(".js-select-recurrence").val(event_data.recurrence_type).change();
 		
@@ -33,10 +34,10 @@ $(document).ready(function() {
 		}
 	}
 	
-	// GLOBAL VARIABLES
+	// Global Variables
 	var selectedWeekdays = new Array();
 	
-	// FORM SCRIPTING
+	// Form scripting
 	$('[name="start_date"], [name="end_date"]').datepicker({
 		zIndex: 1105
 	});
