@@ -295,6 +295,10 @@ function calendar_get_events_api($params = [])
 				$endTime = $event->end_time;
 				$recurrenceRepeatOn = json_decode($event->recurrence_repeat_on, TRUE);
 				
+				if ($event->recurrence_type == "weekly_on_all_days") {
+					$event->recurrence_type = "custom";
+				}
+				
 				if ($event->recurrence_type == "doesnt_repeat") {
 					
 					if ($event->all_day == 1) {

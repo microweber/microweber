@@ -16,3 +16,8 @@ Adding - ok
 Backend - ok
 Frontend - ok
 
+4.Weekly on all days
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
