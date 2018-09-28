@@ -116,7 +116,7 @@ if (isset($params['live_edit'])) {
                         parent.mw.reload_module('categories');
                     }
                     mw.reload_module('[data-type="categories/manage"]');
-                    pagesTreeRefresh();
+                    if(window.pagesTreeRefresh){pagesTreeRefresh()};
                     /*mw.$('[data-type="pages"]').removeClass("activated");
                     mw.reload_module('[data-type="pages"]', function () {
                         mw.treeRenderer.appendUI('[data-type="pages"]');
