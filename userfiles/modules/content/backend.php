@@ -662,14 +662,14 @@ if ($action == 'posts') {
                                                         mw.tools.tree.del_category(data.id, function(){
 
                                                             $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
-                                                                pagesTreeRefresh()
+                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
                                                             })
                                                         });
                                                     }
                                                     else{
                                                         mw.tools.tree.del(data.id, function(){
                                                             $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function(){
-                                                                pagesTreeRefresh()
+                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
                                                             })
                                                         });
                                                     }
@@ -721,7 +721,7 @@ if ($action == 'posts') {
                                 });
                             };
 
-                            pagesTreeRefresh()
+                            if(window.pagesTreeRefresh){pagesTreeRefresh()};
 
                         </script>
 

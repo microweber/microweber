@@ -301,7 +301,7 @@
         module.addClass('loading');
         mw.content.save(data, {
             onSuccess: function (a) {
-                pagesTreeRefresh();
+                if(window.pagesTreeRefresh){pagesTreeRefresh()};
                 mw.$('.mw-admin-go-live-now-btn').attr('content-id', this);
                 mw.askusertostay = false;
 
