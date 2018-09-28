@@ -128,6 +128,12 @@ class CalendarManager
 			$eventData['active'] = intval($eventData['active']);
 		}
 		
+		if (!isset($eventData['all_day'])) {
+			$eventData['all_day'] = 0;
+		} else {
+			$eventData['all_day'] = intval($eventData['all_day']);
+		}
+		
 		$eventData['content_id'] = intval($eventData['content_id']);
 		$eventData['calendar_group_id'] = intval($eventData['calendar_group_id']);
 

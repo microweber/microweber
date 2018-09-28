@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `localhost_calendar` (
   `id` int(10) UNSIGNED NOT NULL,
-  `recurrence_type` enum('daily','weekly_on_the_day_name','weekly_on_the_days_names','weekly_on_all_days','every_weekday','monthly_on_the_day_number','monthly_on_the_week_number_day_name','annually_on_the_month_name_day_number','custom','dosent_repeat') COLLATE utf8_unicode_ci DEFAULT 'custom',
+  `recurrence_type` enum('daily','weekly_on_the_day_name','weekly_on_the_days_names','weekly_on_all_days','every_weekday','monthly_on_the_day_number','monthly_on_the_week_number_day_name','annually_on_the_month_name_day_number','custom','doesnt_repeat') COLLATE utf8_unicode_ci DEFAULT 'custom',
   `recurrence_repeat_type` enum('day','week','month','year') COLLATE utf8_unicode_ci DEFAULT NULL,
   `recurrence_repeat_every` int(11) DEFAULT NULL,
   `recurrence_repeat_on` text COLLATE utf8_unicode_ci NOT NULL,

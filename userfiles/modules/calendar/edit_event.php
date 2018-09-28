@@ -6,6 +6,12 @@ $add_new = false;
 
 if (isset($params['event_id'])) {
 	$data = calendar_get_event_by_id($params['event_id']);
+	if (!empty($data)) {
+		$data['start_date'] = date("m/d/Y", strtotime($data['start_date']));
+		$data['end_date'] = date("m/d/Y", strtotime($data['end_date']));
+		$data['start_time'] = date("H:i", strtotime($data['start_time']));
+		$data['end_time'] = date("H:i", strtotime($data['end_time']));
+	}
 }
 
 if (empty($data)) {
@@ -114,7 +120,7 @@ if (empty($data)) {
 	<div class="mw-ui-col">	
         <div class="mw-ui-field-holder">
         <select name="recurrence_type" class="mw-ui-field js-select-recurrence">
-	        <option value="dosent_repeat">Doesn't repeat</option>
+	        <option value="doesnt_repeat">Doesn't repeat</option>
 	        <option value="daily">Daily</option>
 	        <option value="weekly_on_the_day_name">Weekly on the day_name</option>
 	        <option value="weekly_on_the_days_names" hidden>Weekly on the days_names</option>

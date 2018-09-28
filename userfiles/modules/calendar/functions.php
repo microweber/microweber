@@ -288,12 +288,25 @@ function calendar_get_events_api($params = [])
 				$eventReady['image_url'] = ($event->image_url);
 				$eventReady['link_url'] = ($event->link_url);
 				
-				// Example event dats
+				// Example event dates
 				$startDate = $event->start_date;
 				$endDate = $event->end_date;
 				$startTime = $event->start_time;
 				$endTime = $event->end_time;
 				$recurrenceRepeatOn = json_decode($event->recurrence_repeat_on, TRUE);
+				
+				if ($event->recurrence_type == "doesnt_repeat") {
+					
+					if ($event->all_day == 1) {
+						$eventReady['start'] = $startDate;
+						$eventReady['end'] = $endDate;
+					} else {
+						$eventReady['start'] = $startDate . " ". $startTime;
+						$eventReady['end'] = $endDate . " ". $endTime;
+					}
+					
+					$events[] = $eventReady;
+				}
 				
 				if ($event->recurrence_type == "annually_on_the_month_name_day_number") {
 					
