@@ -291,12 +291,23 @@ function calendar_get_events_api($params = [])
 				// Example event dates
 				$startDate = $event->start_date;
 				$endDate = $event->end_date;
+				
 				$startTime = $event->start_time;
 				$endTime = $event->end_time;
+				
 				$recurrenceRepeatOn = json_decode($event->recurrence_repeat_on, TRUE);
 				
-				if ($event->recurrence_type == "weekly_on_all_days") {
+				if ($event->recurrence_type == "weekly_on_all_days" || $event->recurrence_type == "every_weekday") {
 					$event->recurrence_type = "custom";
+				}
+				
+				if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "year") {
+					$event->recurrence_type = 'annually_on_the_month_name_day_number';
+				}
+				
+				if ($event->recurrence_type == "weekly_on_the_day_name") {
+					$event->recurrence_type = "custom";
+					$event->recurrence_repeat_type = "week";
 				}
 				
 				if ($event->recurrence_type == "doesnt_repeat") {
@@ -326,18 +337,6 @@ function calendar_get_events_api($params = [])
 					$eventReady['start'] = $startDate;
 					$eventReady['end'] = $endDate;
 					$events[] = $eventReady;
-				}
-				
-				if ($event->recurrence_type == "weekly_on_the_day_name") {
-					
-					if (!empty($recurrenceRepeatOn)) {
-						$eventRecurrences = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
-						foreach ($eventRecurrences as $eventRecurrence) {
-							$eventReady['start'] = $eventRecurrence['start'];
-							$eventReady['end'] = $eventRecurrence['end'];
-							$events[] = $eventReady;
-						}
-					}
 				}
 				
 				if ($event->recurrence_type == "daily") {

@@ -30,6 +30,7 @@ if (empty($data)) {
         "calendar_group_id" => "",
         "image_url" => "",
         "link_url" => "",
+    	"recurrence_repeat_every" => 1
     );
 }
 
@@ -139,7 +140,7 @@ if (empty($data)) {
 		<br />
 		<br />
 		<div style="width:100px;float:left;">Repeat every </div> 
-		<input type="number" name="recurrence_repeat_every" value="1" class="mw-ui-field" style="width:100px;float:left;">
+		<input type="number" name="recurrence_repeat_every" value="<?php echo $data['recurrence_repeat_every']; ?>" class="mw-ui-field" style="width:100px;float:left;">
 		
 		<select name="recurrence_repeat_type" class="mw-ui-field js-recurrence-repeat-type" style="width:100px;float:left;">
 			<option value="day">Day</option>

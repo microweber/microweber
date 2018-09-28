@@ -136,7 +136,8 @@ class CalendarManager
 		
 		$eventData['content_id'] = intval($eventData['content_id']);
 		$eventData['calendar_group_id'] = intval($eventData['calendar_group_id']);
-
+		$eventData['recurrence_repeat_every'] = intval($eventData['recurrence_repeat_every']);
+		
 		$eventData['title'] = trim($eventData['title']);
 		$eventData['description'] = trim($eventData['description']);
 		$eventData['image_url'] = trim($eventData['image_url']);
