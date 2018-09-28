@@ -2,197 +2,157 @@
 
 class CalendarManager
 {
-    public $table = 'calendar';
 
-    public $table_groups = 'calendar_groups';
+	public $table = 'calendar';
+	public $table_groups = 'calendar_groups';
 
-    public function get_events($params = [])
-    {
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
+	public function get_events($params = [])
+	{
+		if (is_string($params)) {
+			$params = parse_params($params);
+		}
 
-        $yearmonth = false;
-        $calendar_group_id = false;
-        $group_by_date = false;
-        $events = [];
+		$yearmonth = false;
+		$calendar_group_id = false;
+		$group_by_date = false;
+		$events = [];
 
-        $data = DB::table($this->table)->select('*');
+		$data = DB::table($this->table);
 
-        if (isset($params['group_by_date'])) {
-            $group_by_date = $params['group_by_date'];
-        }
+		if (isset($params['group_by_date'])) {
+			$group_by_date = $params['group_by_date'];
+		}
+		
+		if (isset($params['group_by_type'])) {
+			$group_by_type = $params['group_by_type'];
+		}
 
-        if ($yearmonth) {
-            $data = $data->where('startdate', 'like', $yearmonth . '%');
-        }
-        if ($calendar_group_id) {
-            $data = $data->where('calendar_group_id', $calendar_group_id);
-        }
+		if ($yearmonth) {
+			$data = $data->where('start_date', 'like', $yearmonth . '%');
+		}
+		if ($calendar_group_id) {
+			$data = $data->where('calendar_group_id', $calendar_group_id);
+		}
 
-        $data = $data->orderBy('startdate', 'asc');
+		$data = $data->get();
 
-        $data = $data->get();
+		if ($data) {
+			foreach ($data as $event) {
+				if (! empty($event->id) && ! empty($event->title) && ! empty($event->start_date)) {
 
-        if ($data) {
-            foreach ($data as $event) {
-                if (!empty($event->id) && !empty($event->title) && !empty($event->startdate)) {
-                    $e = [];
-                    $e['id'] = $event->id;
-                    $e['title'] = $event->title;
-                    $e['short_description'] = $event->short_description;
-                    $e['description'] = $event->description;
-                    $e['startdate'] = $event->startdate;
-                    $e['enddate'] = $event->enddate;
+					$eventReady = [];
+					$eventReady['id'] = $event->id;
+					$eventReady['title'] = $event->title;
+					$eventReady['description'] = $event->description;
+					$eventReady['start_date'] = $event->start_date;
+					$eventReady['end_date'] = $event->end_date;
+					
+					$eventReady['recurrence_type'] = $event->recurrence_type;
+					$eventReady['recurrence_repeat_type'] = $event->recurrence_repeat_type;
+					$eventReady['recurrence_repeat_every'] = $event->recurrence_repeat_every;
+					$eventReady['recurrence_repeat_on'] = $event->recurrence_repeat_on;
 
-                    $e['calendar_group_id'] = ($event->calendar_group_id);
-                    $e['calendar_group_name'] = 'Default';
+					$eventReady['calendar_group_id'] = ($event->calendar_group_id);
+					$eventReady['calendar_group_name'] = 'Default';
 
-                    if ($event->calendar_group_id) {
-                        $calendar_group_name = DB::table($this->table_groups)->select('title')->where('id', $event->calendar_group_id)->first();
-                        if ($calendar_group_name and $calendar_group_name->title) {
-                            $e['calendar_group_name'] = $calendar_group_name->title;
-                        }
-                    }
+					if ($event->calendar_group_id) {
+						$calendar_group_name = DB::table($this->table_groups)->select('title')
+							->where('id', $event->calendar_group_id)
+							->first();
+						if ($calendar_group_name and $calendar_group_name->title) {
+							$eventReady['calendar_group_name'] = $calendar_group_name->title;
+						}
+					}
 
-                    $e['image_url'] = ($event->image_url);
-                    $e['link_url'] = ($event->link_url);
-                    $e['date_day'] = date('Y-m-d', @strtotime($event->startdate));
-                    $e['allDay'] = ((isset($event->allDay) and ($event->allDay)) == 1 ? true : false);
-                    $e['content_id'] = ($event->content_id);
-                    array_push($events, $e);
-                }
-            }
+					$eventReady['image_url'] = ($event->image_url);
+					$eventReady['link_url'] = ($event->link_url);
+					$eventReady['date_day'] = date('Y-m-d', @strtotime($event->start_date));
+					$eventReady['all_day'] = ((isset($event->all_day) and ($event->all_day)) == 1 ? true : false);
+					$eventReady['content_id'] = ($event->content_id);
+					$events[] = $eventReady;
+				}
+			}
+			
+			if ($events) {
+				if ($group_by_date && $group_by_type == false) {
+					$groups = [];
+					foreach ($events as $group) {
+						$grp_date = $group['date_day'];
+						if (! isset($groups[$grp_date])) {
+							$groups[$grp_date] = [];
+						}
+						$groups[$grp_date][] = $group;
+					}
+					return $groups;
+				}
+				
+				if ($group_by_type && $group_by_date) {
+					$groups = [];
+					foreach ($events as $group) {
+						$grp_date = $group['date_day'];
+						$recurrence_type = $group['recurrence_type'];
+						if (! isset($groups[$recurrence_type])) {
+							$groups[$recurrence_type] = [];
+						}
+						$groups[$recurrence_type][$grp_date][] = $group;
+					}
+					return $groups;
+				}
+				
+				if ($group_by_type) {
+					$groups = [];
+					foreach ($events as $group) {
+						$recurrence_type = $group['recurrence_type'];
+						if (! isset($groups[$recurrence_type])) {
+							$groups[$recurrence_type] = [];
+						}
+						$groups[$recurrence_type][] = $group;
+					}
+					return $groups;
+				}
+			}
 
-            if ($events) {
-                if ($group_by_date) {
-                    $groups = [];
-                    foreach ($events as $group) {
-                        $grp_date = $group['date_day'];
-                        if (!isset($groups[$grp_date])) {
-                            $groups[$grp_date] = [];
-                        }
-                        $groups[$grp_date][] = $group;
-                    }
-                    return $groups;
-                }
-            }
+			return $events;
+		}
+	}
 
-            return $events;
-        }
-    }
-
-    public function save_event($params)
-    {
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
-
-        $eventid = 0;
-        $table = "calendar";
-        $title = false;
-        $description = false;
-        $short_description = false;
-        $imageUrl = false;
-        $linkUrl = false;
-        $startdate = false;
-        $enddate = false;
-        $linkUrl = false;
-
-        if (!isset($params['zone'])) {
-            $params['zone'] = '00:00';
-        }
-
-        if (isset($params['eventid'])) {
-            $eventid = $params['eventid'];
-        }
-
-        if (!isset($params['eventid']) and isset($params['id'])) {
-            $eventid = $params['id'];
-        }
-
-        if ($eventid) {
-            $check = calendar_get_event_by_id($eventid);
-            if (!$check) {
-                $eventid = false;
-            }
-        }
-
-        if (isset($params['title'])) {
-            $title = (trim($params['title']));
-        }
-
-        if (isset($params['description'])) {
-            $description = (trim($params['description']));
-        }
-
-        if (isset($params['short_description'])) {
-            $short_description = (trim($params['short_description']));
-        }
-
-        if (isset($params['image_url'])) {
-            $imageUrl = $params['image_url'];
-        }
-
-        if (isset($params['link_url'])) {
-            $linkUrl = $params['link_url'];
-        }
-
-        if (isset($params['startdate'])) {
-            $startdate = $params['startdate'];
-        }
-
-        if (isset($params['enddate'])) {
-            $enddate = $params['enddate'];
-        }
-
-        if (isset($params['content_id'])) {
-            $content_id = $params['content_id'];
-        } else {
-            $content_id = null;
-        }
-
-
-        $startdate = date('Y-m-d H:i:s', strtotime($startdate));
-
-        $enddate = date('Y-m-d H:i:s', strtotime($enddate));
-
-
-
-
-        $data = [
-            'startdate' => $startdate,
-            'enddate' => $enddate,
-            'content_id' => $content_id,
-            'image_url' => $imageUrl,
-            'link_url' => $linkUrl,
-        ];
-
-        if ($eventid) {
-            $data['id'] = $eventid;
-        }
-
-        if ($title) {
-            $data['title'] = $title;
-        }
-
-        if ($description) {
-            $data['description'] = $description;
-        }
-        if ($short_description) {
-            $data['short_description'] = $short_description;
-        }
-
-        if (isset($params['calendar_group_id'])) {
-            $data['calendar_group_id'] = intval($params['calendar_group_id']);
-        }
-
-
-
-
-
-
-
-        return db_save($table, $data);
-    }
+	public function save_event($eventData)
+	{
+		if (is_string($eventData)) {
+			$eventData = parse_params($eventData);
+		}
+		
+		if (!isset($eventData['active'])) {
+			$eventData['active'] = 0;
+		} else {
+			$eventData['active'] = intval($eventData['active']);
+		}
+		
+		if (!isset($eventData['all_day'])) {
+			$eventData['all_day'] = 0;
+		} else {
+			$eventData['all_day'] = intval($eventData['all_day']);
+		}
+		
+		$eventData['content_id'] = intval($eventData['content_id']);
+		$eventData['calendar_group_id'] = intval($eventData['calendar_group_id']);
+		$eventData['recurrence_repeat_every'] = intval($eventData['recurrence_repeat_every']);
+		
+		$eventData['title'] = trim($eventData['title']);
+		$eventData['description'] = trim($eventData['description']);
+		$eventData['image_url'] = trim($eventData['image_url']);
+		$eventData['link_url'] = trim($eventData['link_url']);
+		$eventData['recurrence_type'] = trim($eventData['recurrence_type']);
+		
+		$eventData['start_date'] = date('Y-m-d', strtotime($eventData['start_date']));
+		$eventData['end_date'] = date('Y-m-d', strtotime($eventData['end_date']));
+		$eventData['start_time'] = date('H:i:s', strtotime($eventData['start_time']));
+		$eventData['end_time'] = date('H:i:s', strtotime($eventData['end_time']));
+		
+		if (isset($eventData['recurrence_repeat_on'])) {
+			$eventData['recurrence_repeat_on'] = json_encode($eventData['recurrence_repeat_on']);
+		}
+		
+		return db_save($this->table, $eventData);
+	}
 }

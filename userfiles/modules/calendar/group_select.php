@@ -38,15 +38,14 @@ if (isset($params['calendar-event-id'])) {
 
                 getData()
                 reload_calendar_after_save()
-                // window.parent.$(window.parent.document).trigger('calendar.update');
-                // mw.reload_module('calendar')
+                /window.parent.$(window.parent.document).trigger('calendar.update');
+                mw.reload_module('calendar')
             });
         });
     </script>
 <?php
 } ?>
-<?php if ($groups) {
-        ?>
+<?php if ($groups) {?>
     <label  >
         Group:
         <select name="calendar_group_id" class="mw-ui-field js-calendar-group-selector mw_option_field"
@@ -64,5 +63,6 @@ if (isset($params['calendar-event-id'])) {
         } ?>
         </select>
     </label>
-<?php
-    } ?>
+<?php } else {  ?>
+    <input type="hidden" name="calendar_group_id" value="0" />
+<?php } ?>
