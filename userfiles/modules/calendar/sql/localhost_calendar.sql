@@ -44,7 +44,8 @@ CREATE TABLE `localhost_calendar` (
   `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `image_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `link_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8_unicode_ci
+  `description` text COLLATE utf8_unicode_ci,
+  `active` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
