@@ -1,4 +1,10 @@
-1.doesnt_repeat
+1.Doesn't repeat
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
+
+2.Daily
 Edit - ok
 Adding - ok
 Backend - ok

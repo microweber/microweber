@@ -343,14 +343,18 @@ function calendar_get_events_api($params = [])
 					
 					foreach($datesOfTheMonth as $dateOfTheMonth) {
 						
-						$startDate = $dateOfTheMonth->getStart()->format('Y-m-d');
+						$startDateReady = $dateOfTheMonth->getStart()->format('Y-m-d');
+						
+						if (date("Y-m-d", strtotime($startDate)) > $startDateReady) {
+							continue;
+						}
 						
 						if ($event->all_day == 1) {
-							$eventReady['start'] = $startDate;
-							$eventReady['end'] = $startDate;
+							$eventReady['start'] = $startDateReady;
+							$eventReady['end'] = $startDateReady;
 						} else {
-							$eventReady['start'] = $startDate . " ". $startTime;
-							$eventReady['end'] = $startDate . " ". $endTime;
+							$eventReady['start'] = $startDateReady . " ". $startTime;
+							$eventReady['end'] = $startDateReady . " ". $endTime;
 						}
 						
 						$events[] = $eventReady;
