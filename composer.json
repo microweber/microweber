@@ -48,7 +48,8 @@
     "geoip2/geoip2": "~2.0",
     "dompdf/dompdf": "0.8.2",
     "nikic/php-parser": "3.1.5",
-    "doctrine/dbal": "2.5.3"
+    "doctrine/dbal": "2.5.3",
+    "selfworks/recurr": "dev-master"
   },
   "autoload": {
     "psr-4": {

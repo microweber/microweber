@@ -1,87 +1,18 @@
 <?php only_admin_access(); ?>
 
-
 <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
 
 <div class="module-live-edit-settings">
 
-    <style>
-        .mw-mod-template-settings-holder {
-            float: right
-        }
-
-        .mw-mod-template-settings-holder label, .mw-mod-template-settings-holder select {
-            float: left
-        }
-
-        .mw-mod-template-settings-holder label {
-            margin-top: 11px;
-            margin-right: 10px
-        }
-    </style>
-
     <script>
-
         mw.require('ui.css');
-
+        mw.require("<?php print $config['url_to_module'];?>css/admin.css");
         mw.lib.require('jqueryui');
 
-        //        mw.require("<?php //print $config['url_to_module'];?>//fullcalendar-3.1.0/fullcalendar.min.css");
-        //        mw.require("<?php //print $config['url_to_module'];?>//fullcalendar-3.1.0/lib/moment.min.js");
-        //        mw.require("<?php //print $config['url_to_module'];?>//fullcalendar-3.1.0/fullcalendar.min.js");
+        mw.require("<?php print $config['url_to_module'];?>/lib/fullcalendar/fullcalendar.min.css");
+        mw.require("<?php print $config['url_to_module'];?>/lib/fullcalendar/lib/moment.min.js");
+        mw.require("<?php print $config['url_to_module'];?>/lib/fullcalendar/fullcalendar.min.js");
     </script>
-
-    <style>
-        #newevent {
-            cursor: move;
-            width: 80px;
-            text-align: center;
-            margin-top: 10px
-        }
-
-        #external-events {
-            margin-bottom: 10px
-        }
-
-        #trash {
-            float: left;
-            width: 80px;
-            text-align: center
-        }
-
-        #eventContent {
-            display: table;
-            width: 100% !important;
-        }
-
-        #eventContent .row {
-            width: 100%;
-            clear: both;
-            padding-bottom: 10px;
-        }
-
-        #eventContent .row label {
-            width: 80px;
-            vertical-align: top;
-            float: left;
-            display: table-column;
-        }
-
-        #eventContent .row col {
-            width: auto;
-            float: left;
-            display: table-column;
-        }
-
-        #eventContent .row .colElement {
-            width: 220px;
-        }
-
-        .ui-dialog-buttonpane .leftButton {
-            float: left
-        }
-    </style>
-
 
     <div id="tabsnav">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
@@ -121,7 +52,7 @@
         });
     </script>
     <div>
-        <small>  <a href="javascript:openEventsImportModal()">import/export</a></small>
+        <small>  <a href="javascript:openEventsImportModal()">Import / Export</a></small>
 
     </div>
 </div>
@@ -130,12 +61,11 @@
 <script>
 
     function editEventId(event_id) {
-
         var data = {};
         data.event_id = event_id;
         editModal = mw.tools.open_module_modal('calendar/edit_event', data, {overlay: true, skin: 'simple'})
-
     }
+    
     function deleteEvent(event_id) {
         var con = confirm('<?php _e('Are you sure to delete this event permanently?'); ?>');
         if (con == true) {
