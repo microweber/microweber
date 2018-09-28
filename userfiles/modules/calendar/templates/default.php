@@ -19,9 +19,9 @@ $mod_suffix = md5($params['id']);
 
 <script>
      mw.lib.require('jqueryui');
-     mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.css");
-     mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/lib/moment.min.js");
-     mw.require("<?php print $config['url_to_module'];?>fullcalendar-3.1.0/fullcalendar.min.js");
+     mw.require("<?php print $config['url_to_module'];?>lib/fullcalendar/fullcalendar.min.css");
+     mw.require("<?php print $config['url_to_module'];?>lib/fullcalendar/lib/moment.min.js");
+     mw.require("<?php print $config['url_to_module'];?>lib/fullcalendar/fullcalendar.min.js");
 </script>
 
 <style type="text/css">
@@ -107,14 +107,15 @@ $mod_suffix = md5($params['id']);
 		});
 
 		function getData<?php print $mod_suffix ?>(){
+			
 			var date = $(".calendar").fullCalendar('getDate');
-			var y = date.year();
-			var m = ("0" + (date.month() + 1)).slice(-2);
-			var yearmonth = y+'-'+m;
+			var year = date.year();
+			var month = ("0" + (date.month() + 1)).slice(-2);
+			
 			$.ajax({
 				url: '<?php print api_url('calendar_get_events_api'); ?>',
-				type: 'POST', // Send post data
-				data: 'yearmonth='+yearmonth+'&calendar_group_id=<?php print $calendar_group_id ?>',
+				type: 'POST',
+				data: 'year='+year+'&month='+month+'&calendar_group_id=<?php print $calendar_group_id ?>',
 				async: false,
 				success: function(s){
 					json_events = s;

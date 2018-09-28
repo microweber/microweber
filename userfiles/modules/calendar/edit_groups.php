@@ -42,10 +42,11 @@ Select group for calendar
 
 <form id="add_event_group" class="edit_event_groups">
     <label>New group:</label>
-    <input name="title" type="text">
-    <button type="submit">Create</button>
+    <input name="title"  class="mw-ui-field"  type="text">
+    <button type="submit" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small">Create</button>
 </form>
-
+<br />
+<br />
 <?php $groups = calendar_get_groups(); ?>
 
 <?php if ($groups) { ?>
@@ -53,8 +54,9 @@ Select group for calendar
         <form class="edit_event_groups">
             <input name="id" type="hidden" value="<?php print $group['id']; ?>">
             <input name="title" type="text" class="mw-ui-field" value="<?php print $group['title']; ?>">
-            <button type="submit">Save</button>
-            <a class="mw-ui-btn" href="javascript:delete_event_group('<?php print $group['id']; ?>')">X</a>
+            <button type="submit" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small">Save</button>
+            <a class="mw-ui-btn mw-ui-btn-default mw-ui-btn-small" href="javascript:delete_event_group('<?php print $group['id']; ?>')">X</a>
         </form>
+        <br />
     <?php } ?>
 <?php } ?>
