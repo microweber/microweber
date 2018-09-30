@@ -90,9 +90,37 @@ version: 0.9
             <div class="mw-cart-action-holder">
                 <hr/>
                 <?php $shop_page = get_content('is_shop=0'); ?>
+
+                    <?php if ($terms): ?>
+                        <script>
+                            $(document).ready(function () {
+                                $('#i_agree_with_terms_row').click(function () {
+                                    var el = $('#i_agree_with_terms');
+                                    if (el.is(':checked')) {
+                                        $('#complete_order_button').removeAttr('disabled');
+                                    } else {
+                                        $('#complete_order_button').attr('disabled', 'disabled');
+
+                                    }
+                                });
+                            });
+                        </script>
+
+                        <div class="mw-ui-row" id="i_agree_with_terms_row">
+                            <label class="mw-ui-check">
+                                <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
+                                <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
+                                    <?php _e('I agree with the'); ?>
+                                    <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank"><?php _e('Terms and Conditions'); ?></a>
+                                </span>
+                            </label>
+                        </div>
+                    <?php endif; ?>
+
                 <button class="btn btn-warning pull-right mw-checkout-btn"
                         onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
-                        type="button"><?php _e("Complete order"); ?></button>
+                        type="button"
+                        id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>><?php _e("Complete order"); ?></button>
                 <?php if (is_array($shop_page)): ?>
                     <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
                        type="button"><?php _e("Continue Shopping"); ?></a>

@@ -120,7 +120,7 @@ $data = $products;
 
             <hr>
 
-                <h2>Add existing prodct</h2>
+                <h2>Add existing product</h2>
 
                 <div class="mw-ui-field-holder">
                     <form class="js-search-product-for-custom-order">

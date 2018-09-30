@@ -32,14 +32,12 @@ description: Default cart template
             <div class="mw-cart-action-holder">
                 <hr/>
 
-                <?php $tems = get_option('shop_require_terms', 'website') == 1;?>
+                <?php $terms = get_option('shop_require_terms', 'website') == 1;?>
 
-                <?php if ($tems): ?>
+                <?php if ($terms): ?>
                     <script>
 
-
                         $(document).ready(function () {
-
 
                             $('#i_agree_with_terms_row').click(function () {
                                 var el = $('#i_agree_with_terms');
@@ -51,38 +49,30 @@ description: Default cart template
                                 }
                             });
 
-
                         });
 
-
                     </script>
-
 
                     <div class="mw-ui-row" id="i_agree_with_terms_row">
                         <label class="mw-ui-check">
                             <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
                             <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
-      <?php _e('I agree with'); ?>
-                                <a href="<?php print site_url('tems') ?>" target="_blank">
-      <?php _e('terms and conditions'); ?>
+      <?php _e('I agree with the'); ?>
+                                <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank">
+      <?php _e('Terms and Conditions'); ?>
       </a>
-      
+
       </span>
                         </label>
                     </div>
                     <br>
                 <?php endif; ?>
 
-
-
-
-
-
                 <?php $shop_page = get_content('is_shop=1'); ?>
                 <button class="btn btn-warning pull-right mw-checkout-btn"
                         onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
                         type="button"
-                        id="complete_order_button" <?php if ($tems): ?> disabled="disabled"   <?php endif; ?>>
+                        id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
                     <?php _e("Complete order"); ?>
                 </button>
                 <?php if (is_array($shop_page)): ?>

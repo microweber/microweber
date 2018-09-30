@@ -31,8 +31,7 @@ description: Product Gallery Multiline
             <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""
                  onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)"/>
         </span>
-                    <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i
-                            class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>
+                    <?php if ($item['title'] != '') { ?><i class="mw-rotator-description mw-rotator-description-content"><?php print $item['title']; ?></i><?php } ?>
                 </div>
             <?php endforeach; ?>
         </div>
