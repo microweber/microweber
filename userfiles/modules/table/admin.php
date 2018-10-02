@@ -218,6 +218,7 @@ function addColumnHeaders(elTable,jdata) {
 
 $(document).ready(function () {
 
+	<?php if(!empty($json)) { ?>
 	try {
 	  var json = <?php print $json;?>;
 	  var jdata = json.tabledata;
@@ -227,6 +228,7 @@ $(document).ready(function () {
 	} catch (e) {
 	  // No data found so default table will load
 	}
+	<?php } ?>
 
 	$(document).on('click','#saveData',function(event){
 		var myRows = [];

@@ -48,6 +48,8 @@ description: Default with horizontal scrolling
 mw.moduleJS('<?php print module_url(); ?>js/table.js');
 
 $(document).ready(function () {
+	var foundData = false;
+	<?php if(!empty($json)) { ?>
 	try {
 	  var json = <?php print htmlspecialchars_decode($json);?>;
 	  var jdata = json.tabledata;
@@ -55,8 +57,13 @@ $(document).ready(function () {
 	  $("#"+tableId+" thead").children().remove();
 	  $("#"+tableId+" tbody").children().remove();
 	  buildTable(tableId,jdata);
+	  foundData = true;
 	} catch (e) {
 	  console.log('No json data found');
+	}
+	<?php } ?>
+	if(foundData==false){
+		$('.r1c1').text('Data not found');
 	}
 });
 </script>
@@ -71,7 +78,7 @@ $(document).ready(function () {
 	</thead>
 	<tbody>
 		<tr>
-			<td class="col r1c1" classname="col r1c1">Data not found</td>
+			<td class="col r1c1" classname="col r1c1">Loading data ...</td>
 		</tr>
 	</tbody>
   </table>
