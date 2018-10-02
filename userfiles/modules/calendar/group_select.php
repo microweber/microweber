@@ -38,7 +38,7 @@ if (isset($params['calendar-event-id'])) {
 
                 getData()
                 reload_calendar_after_save()
-                /window.parent.$(window.parent.document).trigger('calendar.update');
+                //window.parent.$(window.parent.document).trigger('calendar.update');
                 mw.reload_module('calendar')
             });
         });

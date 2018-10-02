@@ -66,7 +66,7 @@ $fields_to_add['is_mobile'] = 'integer';
 $fields_to_add['is_phone'] = 'integer';
 $fields_to_add['is_tablet'] = 'integer';
 
-$fields_to_add['robot_name'] = 'integer';
+$fields_to_add['robot_name'] = 'text';
 $fields_to_add['is_robot'] = 'string';
 $fields_to_add['language'] = 'string';
 
