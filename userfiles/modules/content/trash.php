@@ -338,7 +338,7 @@ $paging_links = false;
         if (isset($paging_links) and is_array($paging_links)): ?>
             <?php $i = 1;
             foreach ($paging_links as $item): ?>
-                <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                <a class="mw-ui-btn page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
                 <?php $i++; endforeach; ?>
         <?php endif; ?>
 

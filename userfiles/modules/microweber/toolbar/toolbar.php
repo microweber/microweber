@@ -443,11 +443,11 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
                         <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium mw-sidebar-open-btn">
-                            <i class="mw-v2 m-r mwi-hamb"></i> <?php _e("Menu"); ?>
+                            <i class="m-r mwi-hamb"></i> <?php _e("Menu"); ?>
                         </a>
 
                         <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium">
-                            <i class="mw-v2 m-r mw-icon-arrow-left-c"></i>
+                            <i class="m-r mw-icon-arrow-left-c"></i>
                             <?php _e("Admin"); ?>
                         </a>
 

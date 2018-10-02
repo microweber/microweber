@@ -14,6 +14,12 @@ html, body {
     -ms-overflow-style: scrollbar;
 }
 
+body.mw-live-edit .mw-control-box-top,
+body.mw-live-edit .mw-control-box-right,
+body.mw-live-edit .mw-control-box-left {
+    top: 55px;
+}
+
 .mw-drag-current-top.modules-layouts, .mw-drag-current-bottom.modules-layouts {
     transition: all .9s !important;
 }
@@ -3104,9 +3110,6 @@ div[id*='SSDIVEL'] {
 /*top: -2px;*/
 /*}*/
 
-#mw-text-editor .mw-ui-btn-medium {
-    line-height: 160%;
-}
 
 #mw-text-editor #main-save-btn {
     color: #fff;
@@ -3333,27 +3336,19 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn {
     border: 1px solid transparent;
     border-bottom: 1px solid #eaeaea;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
     color: #999999;
     font-size: 11px;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-top-right-radius: 2px;
     border-top-right-radius: 2px;
-    -webkit-border-top-left-radius: 2px;
-    -moz-border-top-left-radius: 2px;
     border-top-left-radius: 2px;
-    padding: 5px 8px;
-    line-height: 21px !important;
     text-decoration: none;
     letter-spacing: 0 !important;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn i {
     font-size: 22px;
-    line-height: 27px !important;
-    float: left;
     margin-right: 6px;
     color: #999999;
 }
@@ -3537,12 +3532,13 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper label {
     position: absolute;
     left: 10px;
-    top: 4px;
+    top: 0px;
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
     font-size: 22px;
     margin-left: 0px;
+    line-height: 31px;
 }
 
 #modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper label i {
@@ -3576,15 +3572,7 @@ div[id*='SSDIVEL'] {
     color: #999999;
 }
 
-.mw-v2 {
-    font-size: 18px;
-    line-height: 18px;
-    float: left;
-}
 
-.mw-v2.m-r {
-    margin-right: 7px;
-}
 
 .mw-toolbar-right-content .mw-ui-btn i {
     color: #919191;
@@ -3592,8 +3580,6 @@ div[id*='SSDIVEL'] {
 
 .mw-toolbar-right-content .mw-ui-btn i.mw-icon-web-earth {
     font-size: 19px;
-    margin: 0;
-    top: 5px;
 }
 
 .toolbar-sections-tabs i.mw-icon-plus {
@@ -3610,11 +3596,10 @@ div[id*='SSDIVEL'] {
 }
 
 .view-website-button {
-    height: 33px;
-    margin-top: -1px;
+
     border-left: 0;
     margin-left: -2px;
-    padding: 1px 9px;
+    padding: 0px 9px;
     font-size: 18px;
     float: right;
 }

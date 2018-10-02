@@ -39,9 +39,7 @@ html,body{
 .mw-ui-navigation-horizontal > ul > li {
   float: right;
 }
-.mw-paging > * {
-  float: right;
-}
+
 
 .mw-ui-box-header > [class*='mw-icon-'] {
   float: right;

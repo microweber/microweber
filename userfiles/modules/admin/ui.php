@@ -1306,7 +1306,7 @@
 
 
                     <div class="mw-paging mw-paging-<?php print $type2; ?> mw-paging-<?php print $type; ?>">
-                        <a href="javascript:;">1</a>
+                        <a href="javascript:;" clas>1</a>
                         <a href="javascript:;" class="active">2</a>
                         <a href="javascript:;">3</a>
 

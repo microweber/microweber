@@ -542,18 +542,17 @@
 
 .dashboard-recent .dr-head .mw-ui-btn strong {
     font-size: 12px;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
     border-radius: 30px;
     color: #0086db;
     background-color: #fff;
     width: 20px;
     height: 20px;
-    display: block;
-    float: left;
+    line-height: 20px;
+    display: inline-block;
     text-align: center;
     padding: 0;
-    margin-right: 8px;
+    margin-right: 5px;
+    vertical-align: middle;
 }
 
 .mw-ui-box.quick-lists {

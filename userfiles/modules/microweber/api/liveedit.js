@@ -435,7 +435,9 @@ document.body.appendChild(mw.inaccessibleModules);
 
 
         if (e.type == 'mousedown') {
-            if (typeof(mw.iconSelectorToolTip) != "undefined" && !mw.wysiwyg.elementHasFontIconClass(e.target) && !mw.tools.hasParentsWithClass(e.target, 'tooltip-icon-picker')) {
+            if (typeof(mw.iconSelectorToolTip) != "undefined"
+                && !mw.wysiwyg.elementHasFontIconClass(e.target)
+                && !mw.wysiwyg.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
                 $(mw.iconSelectorToolTip).hide();
                 mw.iconSelector.hide();
             }
