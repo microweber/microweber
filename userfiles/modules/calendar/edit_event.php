@@ -80,6 +80,45 @@ if (empty($data)) {
         <input type="text" name="title" class="mw-ui-field" value="<?php echo $data['title'] ?>"/>
     </div>
 
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Description</label>
+        <textarea name="description" class="mw-ui-field"><?php echo $data['description'] ?></textarea>
+    </div>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Image</label>
+        <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>"/>
+        <span id="mw_uploader" class="mw-ui-btn">
+            <span class="ico iupload"></span>
+            <span>
+            Upload file
+            <span id="upload_info"></span>
+            </span>
+        </span>
+        <br/>
+        <img src="<?php echo $data['image_url'] ?>" style="margin-top:15px;width:250px;"/>
+    </div>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Link</label>
+        <input type="text" name="link_url" autocomplete="off" class="mw-ui-field"
+               value="<?php echo $data['link_url'] ?>"/>
+    </div>
+
+    <?php if (isset($data['content_id']) and $data['content_id'] == 1) {
+        ?>
+        <?php $post = get_content_by_id($data['content_id']) ?>
+        <?php
+    } ?>
+
+    <div class="mw-ui-field-holder">
+        <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
+        <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text"
+               value="<?php echo $data['content_id'] ?>" name="content_id" data-mwcomponent="postSearch"/>
+    </div>
+
+    <hr>
+
     <div class="mw-ui-row">
         <div class="mw-ui-col">
             <div class="mw-ui-field-holder">
@@ -96,6 +135,13 @@ if (empty($data)) {
             </div>
         </div>
         <div class="mw-ui-col">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">End Date</label>
+                <input type="text" name="end_date" autocomplete="off" class="mw-ui-field"
+                       value="<?php echo $data['end_date'] ?>"/>
+            </div>
+        </div>
+        <div class="mw-ui-col">
             <div class="mw-ui-field-holder js-end-time-wrapper">
                 <label class="mw-ui-label">End Time</label>
                 <input type="text" name="end_time" autocomplete="off" class="mw-ui-field"
@@ -104,21 +150,23 @@ if (empty($data)) {
         </div>
         <div class="mw-ui-col">
             <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">End Date</label>
-                <input type="text" name="end_date" autocomplete="off" class="mw-ui-field"
-                       value="<?php echo $data['end_date'] ?>"/>
+
+
+
+                <label class="mw-ui-check">
+                    <input type="checkbox" name="all_day" class="js-all-day" value="1"/><span></span><span>All day</span>
+                </label>
+
+
+
+
+
+
             </div>
         </div>
     </div>
 
-    <div class="mw-ui-col">
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">
-                <input type="checkbox" name="all_day" class="js-all-day" value="1"/>
-                All day
-            </label>
-        </div>
-    </div>
+
 
     <div class="mw-ui-col">
         <div class="mw-ui-field-holder">
@@ -193,45 +241,12 @@ if (empty($data)) {
         </div>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Description</label>
-        <textarea name="description" class="mw-ui-field"><?php echo $data['description'] ?></textarea>
-    </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Image</label>
-        <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>"/>
-        <span id="mw_uploader" class="mw-ui-btn">
-            <span class="ico iupload"></span>
-            <span>
-            Upload file 
-            <span id="upload_info"></span>
-            </span>
-        </span>
-        <br/>
-        <img src="<?php echo $data['image_url'] ?>" style="margin-top:15px;width:250px;"/>
-    </div>
-
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Link</label>
-        <input type="text" name="link_url" autocomplete="off" class="mw-ui-field"
-               value="<?php echo $data['link_url'] ?>"/>
-    </div>
 
     <div class="mw-ui-field-holder">
         <module type="calendar/group_select" calendar-event-id="<?php echo $data['id'] ?>"/>
     </div>
-    <?php if (isset($data['content_id']) and $data['content_id'] == 1) {
-        ?>
-        <?php $post = get_content_by_id($data['content_id']) ?>
-        <?php
-    } ?>
 
-    <div class="mw-ui-field-holder">
-        <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
-        <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text"
-               value="<?php echo $data['content_id'] ?>" name="content_id" data-mwcomponent="postSearch"/>
-    </div>
 
     <div class="mw-ui-col">
         <div class="mw-ui-field-holder">

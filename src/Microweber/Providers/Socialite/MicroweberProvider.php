@@ -82,7 +82,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
         return (new User)->setRaw($user)->map([
             //    'id' => $user['id'],
             'email' => $user['email'],
-            'name' => $user['name'],
+           // 'name' => $user['name'],
             'oauth_uid' => $user['id'],
             'oauth_provider' => 'microweber',
         ]);
