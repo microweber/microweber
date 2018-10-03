@@ -38,10 +38,13 @@
        Main Styles
 **************************/
 
+html{
+    font-size: 12px;
+}
+
 html, body {
     min-height: 100%;
     height: 100%;
-    font-size: 14px;
 }
 
 body.is_admin {
@@ -7272,9 +7275,6 @@ select.silver-field {
     padding: 0;
 }
 
-#settings-container {
-    padding: 10px 10px;
-}
 
 #settings-container .mw-ui-box.mw-ui-box-content {
     border: 0;

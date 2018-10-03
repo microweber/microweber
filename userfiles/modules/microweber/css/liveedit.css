@@ -9,6 +9,10 @@
 
 *********************************************/
 
+html{
+    font-size: 13px;
+}
+
 html, body {
     min-height: 100%;
     -ms-overflow-style: scrollbar;

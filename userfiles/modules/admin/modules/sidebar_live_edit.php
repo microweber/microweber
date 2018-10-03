@@ -176,6 +176,9 @@
                 onclick: function (currentTab, event, index) {
                     $('.tab-title').hide();
                     $('.tab-title-' + index).show();
+
+                    $("#search-modules-and-layouts")[index == 2?'hide':'show']()
+
                 }
             });
 
