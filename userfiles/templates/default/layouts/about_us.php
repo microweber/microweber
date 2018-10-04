@@ -101,7 +101,7 @@ position: 6
 						<hr class="visible-desktop element">
 						<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 						<br>
-						<span class="social-icons ement"> <a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="http://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="http://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
+						<span class="social-icons ement"> <a target="_blank" href="https://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="https://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="https://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="https://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
 						</span> </div>
 				</div>
 			</div>
@@ -113,7 +113,7 @@ position: 6
 						<hr class="visible-desktop element">
 						<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 						<br>
-						<span class="social-icons ement"> <a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="http://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="http://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
+						<span class="social-icons ement"> <a target="_blank" href="https://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="https://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="https://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="https://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
 						</span> </div>
 				</div>
 			</div>
@@ -125,7 +125,7 @@ position: 6
 						<hr class="visible-desktop element">
 						<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 						<br>
-						<span class="social-icons ement"> <a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="http://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="http://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
+						<span class="social-icons ement"> <a target="_blank" href="https://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="https://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="https://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="https://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
 						</span> </div>
 				</div>
 			</div>
@@ -137,7 +137,7 @@ position: 6
 						<hr class="visible-desktop element">
 						<p class="element" align="justify">The following text is ready for edit. Click here and describe your company team members briefly.</p>
 						<br>
-						<span class="social-icons ement"> <a target="_blank" href="http://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="http://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="http://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="http://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
+						<span class="social-icons ement"> <a target="_blank" href="https://www.facebook.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.fb.png"; ?>" /></a> <a target="_blank" href="https://www.twitter.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.tw.png"; ?>" /></a> <a target="_blank" href="https://plus.google.com"><img src="<?php print TEMPLATE_URL."img/mw.soc.googplus.png"; ?>" /></a> <a target="_blank" href="https://youtube.com/microweber"><img src="<?php print TEMPLATE_URL."img/mw.soc.yt.png"; ?>" /></a><br>
 						</span> </div>
 				</div>
 			</div>

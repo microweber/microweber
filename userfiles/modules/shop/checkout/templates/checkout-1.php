@@ -97,7 +97,7 @@ description: Checkout 1 cart template
                         <?php endif; ?>
                     </div>
 
-                    <?php if ($tems): ?>
+                    <?php if ($terms): ?>
                         <script>
                             $(document).ready(function () {
                                 $('#i_agree_with_terms_row').click(function () {
@@ -112,14 +112,12 @@ description: Checkout 1 cart template
                             });
                         </script>
 
-
                         <div class="mw-ui-row" id="i_agree_with_terms_row">
                             <label class="mw-ui-check">
                                 <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
                                 <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
-                                    <?php _e('I agree with'); ?>
-                                    <a href="<?php print site_url('tems') ?>" target="_blank"><?php _e('terms and conditions'); ?></a>
-
+                                    <?php _e('I agree with the'); ?>
+                                    <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank"><?php _e('Terms and Conditions'); ?></a>
                                 </span>
                             </label>
                         </div>
@@ -130,7 +128,7 @@ description: Checkout 1 cart template
                     </a>
 
                     <button class="btn btn-default pull-right" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button"
-                            id="complete_order_button" <?php if ($tems): ?> disabled="disabled"   <?php endif; ?>>
+                            id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
                         <?php _e("Complete order"); ?>
                     </button>
                 </div>

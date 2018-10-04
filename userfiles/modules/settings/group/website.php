@@ -36,6 +36,45 @@
 
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label">
+                <?php _e("Website Keywords"); ?>
+                <br>
+                <small>
+                    <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
+                </small>
+            </label>
+            <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
+        </div>
+
+        <div class="mw-ui-field-holder">
+        	<label class="mw-ui-label">
+        		<?php _e("Shop Enable/Disable"); ?>
+        	</label>
+
+			<div class="mw-ui-check-selector">
+				<label class="mw-ui-check" style="margin-right: 15px;">
+					<input name="shop_disabled" class="mw_option_field" onchange="" data-option-group="website" value="n" type="radio" <?php if (get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
+					<span></span><span><?php _e("Enable"); ?></span>
+				</label>
+				<label class="mw-ui-check">
+					<input name="shop_disabled" class="mw_option_field" onchange="" data-option-group="website" value="y" type="radio" <?php if (get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
+					<span></span> <span><?php _e("Disable"); ?></span>
+				</label>
+			</div>
+        </div>
+
+        <div class="mw-ui-field-holder">
+             <label class="mw-ui-label">
+                 <?php _e("Website Keywords"); ?>
+                 <br>
+                 <small>
+                     <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
+                 </small>
+             </label>
+             <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
+        </div>
+
+        <div class="mw-ui-field-holder">
+            <label class="mw-ui-label">
                 <?php _e("Posts per Page"); ?><br>
                 <small><?php _e("Select how many posts or products you want to be shown per page"); ?>?</small>
             </label>
@@ -58,16 +97,7 @@
                 ?>
             </select>
         </div>
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">
-                <?php _e("Website Keywords"); ?>
-                <br>
-                <small>
-                    <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
-                </small>
-            </label>
-            <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
-        </div>
+
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label">
                 <?php _e("Date Format"); ?>
@@ -82,6 +112,7 @@
                 <?php endif; ?>
             </select>
         </div>
+
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label">
                 <?php _e("Time Zone"); ?>
