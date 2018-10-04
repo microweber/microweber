@@ -26,10 +26,10 @@ $(document).ready(function(){
 					  <?php $params['return'] = $_REQUEST['return']; ?>
 					  <?php endif; ?>
 					  <?php if(isset($params['return'])): ?>
-					  <?php
+					  <?php 
     					  $goto =  urldecode($params['return']);
 						  $goto = mw()->format->clean_xss($goto);
-
+						  
     					  if(stristr($goto, "http://") == false and stristr($goto, "https://") == false ){
     						$goto = site_url($goto);
     					  }
@@ -41,23 +41,27 @@ $(document).ready(function(){
 					   if(typeof this.return === 'string'){
 						    window.location.href = this.return;
 					  		 return false;
-					   }
 
+					   }
 					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]', function () {
-			                            if(c == '' ){
-		                         		window.location.reload(); // avoids returning to home page when in checkout and logging in
-			                                //window.location.href ='<?php print site_url(); ?>';
-			                            }
-			                            else{
-			                                if(typeof window[c] === 'function'){
-			                                    window[c]();
-			                                }
-			                                else{
-			                                    window.location.href ='<?php print site_url(); ?>';
-			                                    //window.location.reload();
-			                                }
-			                            }
-			                        });
+                            if(c == '' ){
+                         //       window.location.reload();
+                                window.location.href ='<?php print site_url(); ?>';
+                            }
+                            else{
+                                if(typeof window[c] === 'function'){
+                                    window[c]();
+                                }
+                                else{
+                                    window.location.href ='<?php print site_url(); ?>';
+
+                                    // window.location.reload();
+                                }
+                            }
+                        });
+
+
+
 
 						 <?php endif; ?>
                         return false;
