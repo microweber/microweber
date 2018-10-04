@@ -1,0 +1,48 @@
+<div class="mw__example" data-tags="table" >
+        <div class="mw-ui-box mw-ui-box-content" data-view >
+<table class="mw-ui-table mw-full-width mw-ui-table-basic">
+    <thead>
+        <tr>
+            <th>Table</th>
+            <th>Head</th>
+            <th>Client</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Orders</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>Table</td>
+            <td>Footer</td>
+            <td>Client</td>
+            <td>Country</td>
+            <td>City</td>
+            <td>Orders</td>
+            <td>View</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr>
+            <td>Lorem</td>
+            <td>Ipsum</td>
+            <td>Sit</td>
+            <td>Amet</td>
+            <td>Dolor</td>
+            <td>987987</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Lorem</td>
+            <td>Ipsum</td>
+            <td>Sit</td>
+            <td>Amet</td>
+            <td>Dolor</td>
+            <td>987987</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+        </div>
+    </div>

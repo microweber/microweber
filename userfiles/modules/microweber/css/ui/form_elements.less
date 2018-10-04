@@ -251,11 +251,6 @@ div.mw-ui-field:after {
 
 /* Checkboxes and radio buttons */
 
-.mw-ui-check {
-  cursor: pointer;
-  vertical-align: middle;
-}
-
 .mw-ui-check,
 .mw-ui-check > *,
 .mw-ui-check > *:before {
@@ -267,12 +262,9 @@ div.mw-ui-field:after {
   user-select: none;
 }
 
-.mw-ui-check input {
-  position: absolute;
-  opacity: 0;
-}
-
 .mw-ui-check {
+  cursor: pointer;
+  vertical-align: middle;
   @shadow: 0 1px 3px lighten(@info, 40%);
   &:hover{
     input + span{
@@ -283,6 +275,8 @@ div.mw-ui-field:after {
     box-shadow: @shadow;
   }
   input{
+    position: absolute;
+    opacity: 0;
     &+span {
       display: inline-block;
       position: relative;
