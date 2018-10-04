@@ -58,15 +58,27 @@ if (empty($data)) {
     $(document).ready(function () {
         $("#postSearch").on("postSelected", function (event, data) {
             content_id = data.id;
+            onSelectedPost(content_id);
+
         });
+
+        onSelectedPost(content_id);
+    });
+
+
+    function onSelectedPost(content_id) {
+         
         if (content_id) {
             mw.tools.getPostById(content_id, function (posts) {
                 var post = posts[0];
                 $("#postSearch")[0].value = post.title;
+                $("#content_id_from_search").val(post.id);
                 $("#postSearch")[0]._value = post;
             });
         }
-    });
+    }
+
+
 </script>
 <script src="<?php echo $config['url_to_module']; ?>js/image-upload.js" type='text/javascript'/>
 <script src="<?php echo $config['url_to_module']; ?>js/edit-event-ajax.js" type='text/javascript'/>
@@ -77,17 +89,17 @@ if (empty($data)) {
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Title</label>
-        <input type="text" name="title" class="mw-ui-field" value="<?php echo $data['title'] ?>"/>
+        <input type="text" name="title" class="mw-ui-field" value="<?php echo $data['title'] ?>" id="event-title"/>
     </div>
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
-        <textarea name="description" class="mw-ui-field"><?php echo $data['description'] ?></textarea>
+        <textarea name="description" class="mw-ui-field" id="event-desc"><?php echo $data['description'] ?></textarea>
     </div>
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Image</label>
-        <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>"/>
+        <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>" id="event-img"/>
         <span id="mw_uploader" class="mw-ui-btn">
             <span class="ico iupload"></span>
             <span>
@@ -99,23 +111,43 @@ if (empty($data)) {
         <img src="<?php echo $data['image_url'] ?>" style="margin-top:15px;width:250px;"/>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Link</label>
-        <input type="text" name="link_url" autocomplete="off" class="mw-ui-field"
-               value="<?php echo $data['link_url'] ?>"/>
+
+    <div class="mw-ui-row">
+        <div class="mw-ui-col">
+
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Link</label>
+                <input type="text" name="link_url" autocomplete="off" class="mw-ui-field"
+                       value="<?php echo $data['link_url'] ?>"/>
+            </div>
+
+        </div>
+        <div class="mw-ui-col">
+
+            <?php
+            $post_title = '';
+            if (isset($data['content_id']) and $data['content_id'] == 1) {
+                $post = get_content_by_id($data['content_id'])  ;
+
+                if(isset($post['title'])){
+                    $post_title = $post['title'];
+                }
+            }
+
+            ?>
+
+            <div class="mw-ui-field-holder">
+                <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
+                <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text"
+                       value="<?php echo $post_title ?>" name="" data-mwcomponent="postSearch"/>
+
+                <input type="text" name="content_id" id='content_id_from_search' value="<?php echo $data['content_id'] ?>"/>
+
+
+            </div>
+        </div>
     </div>
 
-    <?php if (isset($data['content_id']) and $data['content_id'] == 1) {
-        ?>
-        <?php $post = get_content_by_id($data['content_id']) ?>
-        <?php
-    } ?>
-
-    <div class="mw-ui-field-holder">
-        <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
-        <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text"
-               value="<?php echo $data['content_id'] ?>" name="content_id" data-mwcomponent="postSearch"/>
-    </div>
 
     <hr>
 
@@ -152,20 +184,15 @@ if (empty($data)) {
             <div class="mw-ui-field-holder">
 
 
-
                 <label class="mw-ui-check">
-                    <input type="checkbox" name="all_day" class="js-all-day" value="1"/><span></span><span>All day</span>
+                    <input type="checkbox" name="all_day" class="js-all-day"
+                           value="1"/><span></span><span>All day</span>
                 </label>
-
-
-
-
 
 
             </div>
         </div>
     </div>
-
 
 
     <div class="mw-ui-col">
@@ -240,7 +267,6 @@ if (empty($data)) {
             </select>
         </div>
     </div>
-
 
 
     <div class="mw-ui-field-holder">
