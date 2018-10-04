@@ -68,7 +68,7 @@ mw.tags = function(options){
 
             var config = {
                 close:true,
-                tagBtnClass:'mw-ui-btn mw-ui-btn-small',
+                tagBtnClass:'mw-ui-btn mw-ui-btn-medium',
             }
 
             $.extend(config, options)

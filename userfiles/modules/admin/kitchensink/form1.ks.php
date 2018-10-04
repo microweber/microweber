@@ -40,9 +40,72 @@
                 </div>
             </div>
             <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Gender</label>
+                <ul class="mw-ui-inline-list">
+
+                    <li>
+                        <label class="mw-ui-check">
+                            <input type="radio" value="pending" name="order_status" checked="">
+                            <span></span><span>Male</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="mw-ui-check">
+                            <input type="radio" value="completed" name="order_status">
+                            <span></span><span>Female</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Interests</label>
+                <div class="mw-ui-box mw-ui-box-content">
+                    <ul class="mw-ui-inline-list">
+                        <li>
+                            <label class="mw-ui-check">
+                                <input type="checkbox" value="1" checked="">
+                                <span></span><span>Design</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="mw-ui-check">
+                                <input type="checkbox" value="completed" >
+                                <span></span><span>Development</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="mw-ui-check">
+                                <input type="checkbox" value="3" >
+                                <span></span><span>UI/UX</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="mw-ui-check">
+                                <input type="checkbox" value="4" >
+                                <span></span><span>QA</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="mw-ui-check">
+                                <input type="checkbox" value="5" >
+                                <span></span><span>Management</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Message</label>
                 <textarea class="mw-ui-field mw-full-width"></textarea>
             </div>
+            <ul class="mw-ui-inline-list">
+                <li>
+                    <label class="mw-ui-check">
+                        <input type="checkbox" value="1" checked="">
+                        <span></span><span>Design</span>
+                    </label>
+                </li>
+            </ul>
             <button type="submit" class="mw-ui-btn pull-right">Submit</button>
         </div>
     </div>

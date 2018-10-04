@@ -525,19 +525,18 @@
     background: none;
 }
 
-.fade-window .window-holder .mw-tag-selector .mw-ui-btn.mw-ui-btn-small {
+.fade-window .window-holder .mw-tag-selector .mw-ui-btn {
     border-color: #0086db;
     color: #0086db;
 }
 
-.fade-window .window-holder .mw-tag-selector .mw-ui-btn.mw-ui-btn-small:hover {
+.fade-window .window-holder .mw-tag-selector .mw-ui-btn:hover {
     border-color: #fff;
     color: #fff;
 }
 
 .fade-window .window-holder .mw-tag-selector .mw-ui-btn .mw-icon-close {
     top: 0px;
-    padding-top: 6px;
     width: 19px;
 }
 
