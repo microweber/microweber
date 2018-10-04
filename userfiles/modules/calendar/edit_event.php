@@ -26,6 +26,7 @@ if (empty($data)) {
         'end_date' => date("m/d/Y"),
         'end_time' => date("H:i"),
         'description' => "",
+        'short_description' => "",
         'all_day' => "",
         "calendar_group_id" => "",
         "image_url" => "",
