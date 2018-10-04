@@ -23,7 +23,7 @@ if (isset($_GET['step'])) {
 
 $user = get_user();
 
-$terms = get_option('shop_require_terms', 'website') == 1;
+$tems = get_option('shop_require_terms', 'website') == 1;
 $shop_page = get_content('is_shop=1');
 
 $requires_registration = get_option('shop_require_registration', 'website') == '1';
