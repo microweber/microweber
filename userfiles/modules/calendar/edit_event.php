@@ -95,6 +95,11 @@ if (empty($data)) {
     </div>
 
     <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Short Description</label>
+        <input type="text" name="short_description" class="mw-ui-field" value="<?php echo $data['short_description'] ?>" id="event-short_description"/>
+    </div>
+
+    <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Description</label>
         <textarea name="description" class="mw-ui-field" id="event-desc"><?php echo $data['description'] ?></textarea>
     </div>
