@@ -1,9 +1,9 @@
 <?php
-require_once(__DIR__ . '/src/CalendarManager.php');
-require_once(__DIR__ . '/calendar_groups_api.php');
-require_once(__DIR__ . '/calendar_dates_helper.php');
 
-function get_config()
+require_once(__DIR__ . '/src/CalendarManager.php');
+require_once(__DIR__ . '/src/CalendarDatesHelper.php');
+
+function calendar_module_get_config()
 {
     return require_once(__DIR__ . '/config.php');
 }
@@ -264,6 +264,7 @@ function calendar_get_events_api($params = [])
     if (is_string($params)) {
         $params = parse_params($params);
     }
+    $dates_helper = new CalendarDatesHelper();
 
     $calendar_group_id = 0;
 
@@ -297,6 +298,7 @@ function calendar_get_events_api($params = [])
         ->where('calendar_group_id', $calendar_group_id)
         ->where('active', 1)
         ->get();
+
 
     if ($findEvents) {
 
@@ -371,7 +373,7 @@ function calendar_get_events_api($params = [])
                 if ($event->recurrence_type == "daily") {
 
                     $selectedStartDateAndTime = $year . '-' . $month . '-01 ';
-                    $datesOfTheMonth = getDatesOfMonth($timeZone, $selectedStartDateAndTime);
+                    $datesOfTheMonth = $dates_helper->getDatesOfMonth($timeZone, $selectedStartDateAndTime);
 
                     foreach ($datesOfTheMonth as $dateOfTheMonth) {
 
@@ -412,7 +414,7 @@ function calendar_get_events_api($params = [])
                             $selectedStartDateAndTime .= $startTime;
                         }
 
-                        $datesOfTheMonth = getDatesOfMonthWithInterval($timeZone, $selectedStartDateAndTime, $event->recurrence_repeat_every);
+                        $datesOfTheMonth = $dates_helper->getDatesOfMonthWithInterval($timeZone, $selectedStartDateAndTime, $event->recurrence_repeat_every);
 
                         foreach ($datesOfTheMonth as $dateOfTheMonth) {
 
@@ -449,6 +451,7 @@ function calendar_get_events_api($params = [])
 
 function generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month)
 {
+    $dates_helper = new CalendarDatesHelper();
 
     $startDate = $event->start_date;
     $endDate = $event->end_date;
@@ -461,7 +464,7 @@ function generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $yea
     foreach ($recurrenceRepeatOn as $repeatOnDayName => $repeatOndayNameEnabled) {
 
         $selectedStartDateAndTime = $year . '-' . $month . '-01';
-        $datesOfTheMonth = getDatesOfMonthByDayName($timeZone, $selectedStartDateAndTime, ucfirst($repeatOnDayName));
+        $datesOfTheMonth = $dates_helper->getDatesOfMonthByDayName($timeZone, $selectedStartDateAndTime, ucfirst($repeatOnDayName));
 
         foreach ($datesOfTheMonth as $dateOfTheMonth) {
 
