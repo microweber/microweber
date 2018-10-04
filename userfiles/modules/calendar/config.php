@@ -18,6 +18,7 @@ $config['tables'] = array(
         'start_time' => "time",
         'end_time' => "time",
         'description' => "text",
+        'short_description' => "text",
         'all_day' => "integer",
         'recurrence_type' => "string",
         'recurrence_repeat_type' => "string",

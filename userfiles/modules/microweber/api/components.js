@@ -1,18 +1,18 @@
 mw.components = {
 
-    postSearch:function(el){
-        var defaults = { keyword:el.value, limit:4 };
+    postSearch: function (el) {
+        var defaults = {keyword: el.value, limit: 4};
 
-        el._setValue = function(id){
-            mw.tools.ajaxSearch(this._settings, function(){
-                
+        el._setValue = function (id) {
+            mw.tools.ajaxSearch(this._settings, function () {
+
             })
         }
 
         var el = $(el);
 
 
-        var options =  JSON.parse(el.attr("data-options") || '{}');
+        var options = JSON.parse(el.attr("data-options") || '{}');
 
         settings = $.extend({}, defaults, options);
 
@@ -21,16 +21,16 @@ mw.components = {
         el.wrap("<div class='mw-component-post-search'></div>");
         el.after("<ul></ul>");
 
-        el.on("input focus blur", function(event){
+        el.on("input focus blur", function (event) {
 
-            if(!el[0].is_searching){
+            if (!el[0].is_searching) {
                 var val = el.val();
-                if(event.type=='blur'){
+                if (event.type == 'blur') {
                     $(this).next('ul').hide();
                     return false;
                 }
-                if(event.type=='focus'){
-                    if($(this).next('ul').html()){
+                if (event.type == 'focus') {
+                    if ($(this).next('ul').html()) {
                         $(this).next('ul').show()
                     }
                     return false;
@@ -40,21 +40,21 @@ mw.components = {
                 this._settings.keyword = this.value;
                 $('ul', el).empty("")
                 el.parent().addClass("loading");
-                mw.tools.ajaxSearch(this._settings, function(){
+                mw.tools.ajaxSearch(this._settings, function () {
                     var lis = [];
                     var json = this;
-                    for(var item in json){
+                    for (var item in json) {
                         var obj = json[item];
-                        if(typeof obj === 'object'){
+                        if (typeof obj === 'object') {
                             var li = document.createElement("li");
                             li._value = obj;
                             li.innerHTML = obj.title;
-                            $(li).on("mousedown touchstart", function(){
+                            $(li).on("mousedown touchstart", function () {
                                 el.val(this._value.title);
 
-                                el[0]._value = li._value;
+                                el[0]._value = this._value;
 
-                                el.trigger('postSelected', [li._value]);
+                                el.trigger('postSelected', [this._value]);
                                 $(this.parentNode).hide()
                             })
 
@@ -70,10 +70,10 @@ mw.components = {
         });
         el.trigger("postSearchReady")
     },
-    init:function(){
-        mw.$('[data-mwcomponent]').each(function(){
+    init: function () {
+        mw.$('[data-mwcomponent]').each(function () {
             var component = $(this).attr("data-mwcomponent");
-            if(mw.components[component]){
+            if (mw.components[component]) {
                 mw.components[component](this);
                 $(this).removeAttr('data-mwcomponent')
             }
@@ -81,16 +81,16 @@ mw.components = {
     }
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     mw.components.init();
 });
 
-$(window).on('load', function(){
+$(window).on('load', function () {
     mw.components.init();
 });
 
-$(window).on('ajaxStop', function(){
-    setTimeout(function(){
+$(window).on('ajaxStop', function () {
+    setTimeout(function () {
         mw.components.init();
     }, 100);
 });
