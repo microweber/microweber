@@ -22,7 +22,7 @@ description: Product Gallery
     <div class=" mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>"> <span class=" mw-slider-zoomholder"> <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/> <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""
                  onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)"/> </span>
       <?php if ($item['title'] != '') { ?>
-      <i class="mw-rotator-description"><i class="mw-rotator-description-content"><?php print $item['title']; ?></i></i>
+      <i class="mw-rotator-description mw-rotator-description-content"><?php print $item['title']; ?></i>
       <?php } ?>
     </div>
     <?php endforeach; ?>

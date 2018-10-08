@@ -16,7 +16,7 @@ position: 7
 
 <div id="content">
 	<div class="container">
-		
+
 		<h2 class="element section-title">
 			<div class="mw-row">
 				<div class="mw-col" style="width:40%">
@@ -66,7 +66,7 @@ position: 7
     					</div>
                     <h3>Follow Us</h3>
 					<hr>
-    				<div class="social-icons"> <a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a> <a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a> <a href="http://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a> <a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
+    				<div class="social-icons"> <a href="https://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a> <a href="https://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a> <a href="https://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a> <a href="https://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
     				</div>
                 </div>
               </div>
