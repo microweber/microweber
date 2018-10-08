@@ -26,7 +26,7 @@ description: Simple Pictures List Template
                          onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)">
                             <span class="pic-valign">
                               <span class="pic-valign-cell">
-                                  <img src="<?php print thumbnail($item['filename'], 300); ?>" alt="<?php print $item['title']; ?>"/>
+                                  <img src="<?php print thumbnail($item['filename'], 300); ?>" alt="<?php print addslashes($item['title']); ?>"/>
                               </span>
                             </span>
                     </div>

@@ -23,11 +23,10 @@ if (isset($_GET['step'])) {
 
 $user = get_user();
 
-$terms = get_option('shop_require_terms', 'website') == 1;
+$requires_terms = $terms = $tems = get_option('shop_require_terms', 'website') == 1;
 $shop_page = get_content('is_shop=1');
 
 $requires_registration = get_option('shop_require_registration', 'website') == '1';
-$requires_terms = get_option('shop_require_terms', 'website') == '1';
 
 $template = get_option('data-template', $params['id']);
 $template_file = false;
