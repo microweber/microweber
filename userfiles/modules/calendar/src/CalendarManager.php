@@ -15,6 +15,7 @@ class CalendarManager
         $yearmonth = false;
         $calendar_group_id = false;
         $group_by_date = false;
+        $group_by_type = false;
         $events = [];
 
         $data = DB::table($this->table);
@@ -22,7 +23,9 @@ class CalendarManager
         if (isset($params['group_by_date'])) {
             $group_by_date = $params['group_by_date'];
         }
-
+        if (isset($params['yearmonth'])) {
+            $yearmonth = $params['yearmonth'];
+        }
         if (isset($params['group_by_type'])) {
             $group_by_type = $params['group_by_type'];
         }
@@ -44,8 +47,12 @@ class CalendarManager
                     $eventReady['id'] = $event->id;
                     $eventReady['title'] = $event->title;
                     $eventReady['description'] = $event->description;
+                    $eventReady['short_description'] = $event->short_description;
                     $eventReady['start_date'] = $event->start_date;
                     $eventReady['end_date'] = $event->end_date;
+
+                    $eventReady['start_time'] = $event->start_time;
+                    $eventReady['end_time'] = $event->end_time;
 
                     $eventReady['recurrence_type'] = $event->recurrence_type;
                     $eventReady['recurrence_repeat_type'] = $event->recurrence_repeat_type;

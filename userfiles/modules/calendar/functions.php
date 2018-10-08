@@ -253,7 +253,7 @@ function calendar_get_events_groups_api($params = [])
 
 function calendar_get_events_days($params = [])
 {
-    calendar_get_events_api();
+    calendar_get_events_api($params);
 }
 
 api_expose('calendar_get_events_api');

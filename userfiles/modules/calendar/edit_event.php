@@ -26,6 +26,7 @@ if (empty($data)) {
         'end_date' => date("m/d/Y"),
         'end_time' => date("H:i"),
         'description' => "",
+        'short_description' => "",
         'all_day' => "",
         "calendar_group_id" => "",
         "image_url" => "",
@@ -42,11 +43,13 @@ if (empty($data)) {
     }
 </style>
 <script type='text/javascript'>
+    mw.lib.require('datepicker');
+</script>
+<script type='text/javascript'>
 
     var event_data = <?php echo json_encode($data); ?>;
     var calendar_api_save_event = "<?php echo api_url('calendar_save_event'); ?>";
 
-    mw.lib.require('datepicker');
     mw.require("<?php echo $config['url_to_module'];?>js/javascript-helper.js");
     mw.require("<?php echo $config['url_to_module'];?>js/date-helper.js");
     mw.require("<?php echo $config['url_to_module'];?>js/jquery.timepicker.min.css");
@@ -67,7 +70,7 @@ if (empty($data)) {
 
 
     function onSelectedPost(content_id) {
-         
+
         if (content_id) {
             mw.tools.getPostById(content_id, function (posts) {
                 var post = posts[0];
@@ -89,7 +92,12 @@ if (empty($data)) {
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Title</label>
-        <input type="text" name="title" class="mw-ui-field" value="<?php echo $data['title'] ?>" id="event-title"/>
+        <input type="text" name="title" class="mw-ui-field" value="<?php echo $data['title'] ?>" id="event-title" required/>
+    </div>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">Short Description</label>
+        <input type="text" name="short_description" class="mw-ui-field" value="<?php echo $data['short_description'] ?>" id="event-short_description"/>
     </div>
 
     <div class="mw-ui-field-holder">
@@ -122,17 +130,20 @@ if (empty($data)) {
             </div>
 
         </div>
+
         <div class="mw-ui-col">
 
             <?php
+
             $post_title = '';
             if (isset($data['content_id']) and $data['content_id'] == 1) {
-                $post = get_content_by_id($data['content_id'])  ;
+                $post = get_content_by_id($data['content_id']);
 
-                if(isset($post['title'])){
+                if (isset($post['title'])) {
                     $post_title = $post['title'];
                 }
             }
+
 
             ?>
 
@@ -141,7 +152,8 @@ if (empty($data)) {
                 <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text"
                        value="<?php echo $post_title ?>" name="" data-mwcomponent="postSearch"/>
 
-                <input type="text" name="content_id" id='content_id_from_search' value="<?php echo $data['content_id'] ?>"/>
+                <input type="hidden" name="content_id" id='content_id_from_search'
+                       value="<?php echo $data['content_id'] ?>"/>
 
 
             </div>
