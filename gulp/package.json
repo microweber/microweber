@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "gulp-copy": "^1.1.0",
-    "gulp-param": "^1.0.3"
+    "gulp-param": "^1.0.3",
+    "lodash": "^4.17.11"
   }
 }
