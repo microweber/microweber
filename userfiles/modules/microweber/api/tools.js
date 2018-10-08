@@ -1,6 +1,8 @@
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
+mw.require("color.js");
+mw.lib.require("acolorpicker");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 (function () {
     if (typeof jQuery.browser === 'undefined') {
@@ -33,17 +35,17 @@ mw.require("components.js");
     }
 })();
 mw.datassetSupport = typeof mwd.documentElement.dataset !== 'undefined';
-$.fn.reload_module = function(c){
-    return this.each(function(){
-     //   if($(this).hasClass("module")){
-            (function(el){
-                mw.reload_module(el, function () {
-                    if(typeof(c) != 'undefined'){
-                    c.call(el,el)
-                    }
-                })
-            })(this)
-     //   }
+$.fn.reload_module = function (c) {
+    return this.each(function () {
+        //   if($(this).hasClass("module")){
+        (function (el) {
+            mw.reload_module(el, function () {
+                if (typeof(c) != 'undefined') {
+                    c.call(el, el)
+                }
+            })
+        })(this)
+        //   }
     })
 }
 $.fn.dataset = function (dataset, val) {
@@ -120,7 +122,7 @@ mw.tools = {
             $(this).css('backgroundImage', 'url(' + img.src + ')')
         })
     },
-    isRtl:function(el){
+    isRtl: function (el) {
         //todo
         el = el || document.documentElement;
         return document.documentElement.dir == 'rtl'
@@ -145,52 +147,52 @@ mw.tools = {
             }
         }
     },
-    eachIframe:function (callback, root, ignore) {
+    eachIframe: function (callback, root, ignore) {
         root = root || document, scope = this, ignore = ignore || [];
         var all = root.querySelectorAll('iframe'), i = 0;
-        for( ; i < all.length ; i++){
-            if(mw.tools.canAccessIFrame(all[i]) && ignore.indexOf(all[i]) === -1){
+        for (; i < all.length; i++) {
+            if (mw.tools.canAccessIFrame(all[i]) && ignore.indexOf(all[i]) === -1) {
                 callback.call(all[i].contentWindow, all[i].contentWindow);
                 scope.eachIframe(callback, all[i].contentWindow.document)
             }
         }
     },
-    eachWindow:function (callback, options) {
+    eachWindow: function (callback, options) {
         options = options || {};
         var curr = window;
         callback.call(curr, curr);
-        while( curr !== top ){
-            this.eachIframe(function(iframeWindow){
+        while (curr !== top) {
+            this.eachIframe(function (iframeWindow) {
                 callback.call(iframeWindow, iframeWindow);
             }, curr.parent.document, [curr]);
             curr = curr.parent;
             callback.call(curr, curr);
         }
-        this.eachIframe(function(iframeWindow){
+        this.eachIframe(function (iframeWindow) {
             callback.call(iframeWindow, iframeWindow);
         })
-        if(window.opener !== null && mw.tools.canAccessWindow(opener)){
+        if (window.opener !== null && mw.tools.canAccessWindow(opener)) {
             callback.call(window.opener, window.opener);
-            this.eachIframe(function(iframeWindow){
+            this.eachIframe(function (iframeWindow) {
                 callback.call(iframeWindow, iframeWindow);
             }, window.opener.document);
         }
     },
-    canAccessWindow:function(winObject) {
+    canAccessWindow: function (winObject) {
         var can = false;
         try {
             var doc = winObject.document;
             can = !!doc.body;
-        } catch(err){
+        } catch (err) {
         }
         return can;
     },
-    canAccessIFrame:function(iframe) {
+    canAccessIFrame: function (iframe) {
         var can = false;
         try {
             var doc = iframe.contentDocument || iframe.contentWindow.document;
             can = !!doc.body;
-        } catch(err){
+        } catch (err) {
         }
         return can;
     },
@@ -538,21 +540,22 @@ mw.tools = {
             height: 500,
             draggable: true
         },
-        source: function (id, template) {
-            var template = template || 'mw_modal_default';
-            if (template == 'basic') {
-                var template = 'mw_modal_basic';
+        source: function (id, template,icon) {
+            template = template || 'mw_modal_primary';
+            if (template === 'basic') {
+                template = 'mw_modal_basic';
             }
-            if (template == 'default') {
-                var template = 'mw_modal_default';
+            if (template === 'default') {
+                template = 'mw_modal_primary';
             }
-            if (template == 'simple') {
-                var template = 'mw_modal_simple';
+            if (template === 'simple') {
+                template = 'mw_modal_simple';
             }
-            var id = id || "modal_" + mw.random();
+            id = id || "modal_" + mw.random();
             var html = ''
                 + '<div class=" mw_modal mw_modal_maximized ' + template + '" id="' + id + '">'
                 + '<div class="mw_modal_toolbar">'
+                + (icon?'<span class="mw_modal_icon">'+icon+'</span>':'')
                 + '<span class="mw_modal_title"></span>'
                 + '<span class="mw-modal-close"  title="' + mw.msg.close + '"></span>'
                 + '</div>'
@@ -573,12 +576,13 @@ mw.tools = {
                 overlay = o.overlay,
                 draggable = o.draggable,
                 onremove = o.onremove,
+                icon = o.icon,
                 onopen = o.onopen;
             if (typeof name === 'string' && mw.$("#" + name).length > 0) {
                 return false;
             }
-            console.log(o)
-            var modal = mw.tools.modal.source(name, template);
+
+            var modal = mw.tools.modal.source(name, template, icon);
             $(mwd.body).append(modal.html);
             var _modal = mwd.getElementById(modal.id);
             if (!_modal.remove) {
@@ -592,17 +596,16 @@ mw.tools = {
             mw.$(".mw-tooltip").hide();
             modal_object.show();
             mw.tools.modal.center(_modal);
-            var draggable = typeof draggable !== 'undefined' ? draggable : true;
+            draggable = typeof draggable !== 'undefined' ? draggable : true;
             if (typeof $.fn.draggable === 'function' && draggable) {
-                modal_object.addClass("mw-modal-draggable")
+                modal_object.addClass("mw-modal-draggable");
                 modal_object.draggable({
                     handle: '.mw_modal_toolbar',
                     containment: 'window',
                     iframeFix: false,
                     distance: 10,
-                    containment: "window",
-                    drag : function(e,ui){
-                        if(ui.position.top < 0) ui.position.top = 0;
+                    drag: function (e, ui) {
+                        if (ui.position.top < 0) ui.position.top = 0;
                     },
                     start: function () {
                         $(this).find(".iframe_fix").show();
@@ -635,7 +638,7 @@ mw.tools = {
             modal_return.onremove = typeof onremove === 'function' ? onremove : false;
             if (overlay == true) {
                 var ol = mw.tools.modal.overlay(modal_object);
-                if(o.overlayRemovesModal){
+                if (o.overlayRemovesModal) {
                     ol.onclick = function () {
                         modal_return.remove();
                     }
@@ -676,7 +679,7 @@ mw.tools = {
                 $(modal_return).trigger('modal.resize');
                 return modal_return;
             }
-            if(onopen){
+            if (onopen) {
                 onopen.call(window, modal_return)
             }
             return modal_return;
@@ -699,7 +702,7 @@ mw.tools = {
             if (child_cont.length !== 0) {
                 return child_cont.parent()[0].modal;
             }
-            else if(parent_cont.length !== 0){
+            else if (parent_cont.length !== 0) {
                 return parent_cont.parent()[0].modal;
             }
             else {
@@ -834,13 +837,13 @@ mw.tools = {
             }
             if (!!h) {
                 var toolbar_height = $('.mw_modal_toolbar', modal).outerHeight();
-                if(typeof h == 'string'){
-                    if(h.indexOf('px') !== -1){
+                if (typeof h == 'string') {
+                    if (h.indexOf('px') !== -1) {
                         h = parseInt(h, 10);
                         h = h + toolbar_height
                     }
                 }
-                else{
+                else {
                     h = h + toolbar_height
                 }
                 if (typeof h === 'number') {
@@ -982,7 +985,7 @@ mw.tools = {
         playing: false,
         playingInt: null,
         play: function (modal, interval) {
-            
+
             if (!modal) {
                 clearInterval(mw.tools.gallery.playingInt);
                 mw.tools.gallery.playing = false;
@@ -1398,40 +1401,40 @@ mw.tools = {
     copy: function (what) {
     },
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
-        if(el_obj.element && el_obj.namespace){
-          el = el_obj.element
-          namespace = el_obj.namespace
-          parent = el_obj.parent
-          namespacePosition = el_obj.namespacePosition
-          exceptions = el_obj.exceptions || []
+        if (el_obj.element && el_obj.namespace) {
+            el = el_obj.element
+            namespace = el_obj.namespace
+            parent = el_obj.parent
+            namespacePosition = el_obj.namespacePosition
+            exceptions = el_obj.exceptions || []
         }
-        else{
-          el = el_obj, exceptions = []
+        else {
+            el = el_obj, exceptions = []
         }
         var namespacePosition = namespacePosition || 'contains';
         var parent = parent || mwd;
         if (el === 'all') {
-          var all = parent.querySelectorAll('.edit *'), i = 0, l = all.length;
-          for (; i < l; i++) {
-            mw.tools.classNamespaceDelete(all[i], namespace, parent, namespacePosition)
-          }
-          return;
+            var all = parent.querySelectorAll('.edit *'), i = 0, l = all.length;
+            for (; i < l; i++) {
+                mw.tools.classNamespaceDelete(all[i], namespace, parent, namespacePosition)
+            }
+            return;
         }
         if (!!el.className && el.className != '' && el.className != null && typeof(el.className.split) == 'function') {
-          var cls = el.className.split(" "), l = cls.length, i = 0, final = [];
-          for (; i < l; i++) {
-            if (namespacePosition == 'contains') {
-              if (!cls[i].contains(namespace) || exceptions.indexOf(cls[i]) !== -1) {
-                  final.push(cls[i]);
-              }
+            var cls = el.className.split(" "), l = cls.length, i = 0, final = [];
+            for (; i < l; i++) {
+                if (namespacePosition == 'contains') {
+                    if (!cls[i].contains(namespace) || exceptions.indexOf(cls[i]) !== -1) {
+                        final.push(cls[i]);
+                    }
+                }
+                else if (namespacePosition == 'starts') {
+                    if (cls[i].indexOf(namespace) !== 0) {
+                        final.push(cls[i]);
+                    }
+                }
             }
-            else if (namespacePosition == 'starts') {
-              if (cls[i].indexOf(namespace) !== 0) {
-                  final.push(cls[i]);
-              }
-            }
-          }
-          el.className = final.join(" ");
+            el.className = final.join(" ");
         }
     },
     jQueryFields: function (root) {
@@ -1471,31 +1474,27 @@ mw.tools = {
                 }
             });
         },
-        del: function (id) {
+        del: function (id,callback) {
             mw.tools.confirm(mw.msg.del, function () {
                 if (mw.notification != undefined) {
                     mw.notification.success('Content deleted');
                 }
                 $.post(mw.settings.site_url + "api/content/delete", {id: id}, function (data) {
-                    var todelete = mw.$(".item_" + id);
-                    todelete.fadeOut(function () {
-                        todelete.remove();
-                        mw.reload_module('content/trash');
-                    });
+                    if(callback){
+
+                        callback.call(data,data)
+                    }
                 });
             })
         },
-        del_category: function (id) {
+        del_category: function (id,callback) {
             mw.tools.confirm('Are you sure you want to delete this?', function () {
                 $.post(mw.settings.site_url + "api/category/delete", {id: id}, function (data) {
-                    var todelete = mw.$(".item_" + id);
-                    todelete.fadeOut(function () {
-                        if (mw.notification != undefined) {
-                            mw.notification.success('Category deleted');
-                        }
-                        todelete.remove();
-                        'mw.admin.treeboxwidth'._exec();
-                    });
+                    mw.notification.success('Category deleted');
+                    if(callback){
+
+                        callback.call(data,data)
+                    }
                 });
             })
         },
@@ -1626,11 +1625,11 @@ mw.tools = {
         }
     },
     hasAllClasses: function (node, arr) {
-        if(!node) return;
+        if (!node) return;
         var has = true;
-        var i =0, nodec = node.className.trim().split(' ');
-        for(; i<arr.length;i++){
-            if(nodec.indexOf(arr[i]) === -1){
+        var i = 0, nodec = node.className.trim().split(' ');
+        for (; i < arr.length; i++) {
+            if (nodec.indexOf(arr[i]) === -1) {
                 return false;
             }
         }
@@ -1686,26 +1685,26 @@ mw.tools = {
     },
     parentsOrCurrentOrderMatch: function (node, arr) {
         var curr = node,
-            match = {a:0,b:0},
+            match = {a: 0, b: 0},
             count = 1;
         while (curr !== document.body) {
             count++;
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
-                if(match.a > 0){
+                if (match.a > 0) {
                     return true;
                 }
                 return false;
             }
             else {
                 if (h1) {
-                    match.a=count;
+                    match.a = count;
                 }
                 else if (h2) {
-                    match.b=count;
+                    match.b = count;
                 }
-                if(match.b > match.a){
+                if (match.b > match.a) {
                     return true;
                 }
             }
@@ -1756,10 +1755,10 @@ mw.tools = {
     },
     firstMatchesOnNodeOrParent: function (node, arr) {
         var i = 0;
-        for( ; i<arr.length ; i++){
-          if (mw.tools.matches(node, arr[i])) {
-              return node;
-          }
+        for (; i < arr.length; i++) {
+            if (mw.tools.matches(node, arr[i])) {
+                return node;
+            }
         }
         var has = false;
         mw.tools.foreachParents(node, function (loop) {
@@ -1857,15 +1856,16 @@ mw.tools = {
                 return true;
             }
         }
+        var isEventOnElements = false;
         mw.tools.foreachParents(event.target, function () {
             var l = array.length, i = 0;
             for (; i < l; i++) {
                 if (event.target === array[i]) {
-                    return true;
+                    isEventOnElements = true;
                 }
             }
         });
-        return false;
+        return isEventOnElements;
     },
     isEventOnClass: function (event, cls) {
         if (mw.tools.hasClass(event.target, cls) || mw.tools.hasParentsWithClass(event.target, cls)) {
@@ -1938,8 +1938,7 @@ mw.tools = {
         mw.tools.loop[loop] = false;
     },
     foreachParents: function (el, callback) {
-        if (typeof el === 'undefined') return false;
-        if (el === null) return false;
+        if (!el) return false;
         var index = mw.random();
         mw.tools.loop[index] = true;
         var _curr = el.parentNode;
@@ -1958,8 +1957,7 @@ mw.tools = {
         }
     },
     foreachChildren: function (el, callback) {
-        if (typeof el === 'undefined') return false;
-        if (el === null) return false;
+        if (!el) return false;
         var index = mw.random();
         mw.tools.loop[index] = true;
         var _curr = el.firstChild;
@@ -2223,7 +2221,7 @@ mw.tools = {
     sidebar: function () {
     },
     highlight: function (el, color, speed1, speed2) {
-        if (typeof el === 'undefined') return false;
+        if (!el) return false;
         $(el).stop();
         var color = color || '#48AD79';
         var speed1 = speed1 || 777;
@@ -2282,7 +2280,7 @@ mw.tools = {
         if (!mw.tools.ajaxIsSearching) {
             var obj = $.extend({}, mw.tools.ajaxSearcSetting, o);
             mw.tools.ajaxIsSearching = $.post(mw.settings.site_url + "api/get_content_admin", obj, function (data) {
-                if(typeof callback == 'function'){
+                if (typeof callback == 'function') {
                     callback.call(data, data);
                 }
             }).always(function () {
@@ -2291,13 +2289,13 @@ mw.tools = {
         }
         return mw.tools.ajaxIsSearching;
     },
-    getPostById:function(id, callback){
+    getPostById: function (id, callback) {
         var config = {
             limit: 10,
             keyword: '',
             order_by: 'updated_at desc',
             search_in_fields: 'id',
-            id:id
+            id: id
         };
         return this.ajaxSearch(config, callback);
     },
@@ -2376,17 +2374,21 @@ mw.tools = {
         if (obj === null || typeof obj === 'undefined' || obj.nodeType === 3) {
             return false;
         }
+        if(!obj.nodeName){
+            return false;
+        }
         var t = obj.nodeName.toLowerCase();
-        if (t == 'input' || t == 'textarea' || t == 'select') {
+        if (t === 'input' || t === 'textarea' || t === 'select'){
             return true
-        };
+        }
+        ;
         return false;
     },
     getAttrs: function (el) {
         var attrs = el.attributes;
         var obj = {}
         for (var x in attrs) {
-            if(attrs[x].nodeName){
+            if (attrs[x].nodeName) {
                 obj[attrs[x].nodeName] = attrs[x].nodeValue;
             }
         }
@@ -2800,7 +2802,7 @@ mw.tools = {
         $(o.element).after(frame);
         $(o.element).hide();
         $.get(mw.external_tool('editor_toolbar'), function (a) {
-            if(frame.contentWindow.document === null){
+            if (frame.contentWindow.document === null) {
                 return;
             }
             frame.contentWindow.document.open('text/html', 'replace');
@@ -2827,7 +2829,7 @@ mw.tools = {
                     o.ready.call(frame, frame.contentWindow.document);
                 }
                 setTimeout(function () {
-                    if(frame.contentWindow){
+                    if (frame.contentWindow) {
                         frame.contentWindow.pauseChange = false;
                     }
 
@@ -2888,12 +2890,12 @@ mw.tools = {
         return el;
     },
     loading: function (el, state) {
-        if(el === false){
+        if (el === false) {
             this.loading('.mw-loading', false);
             this.loading('.mw-loading-defaults', false);
             return;
         }
-        if(typeof el === 'boolean'){
+        if (typeof el === 'boolean') {
             state = !!el;
             el = mwd.body;
         }
@@ -2915,77 +2917,78 @@ mw.tools = {
             $(el).removeClass("mw-loading mw-loading-defaults");
         }
     },
-    loading:function (element, progress, speed ) {
+    loading: function (element, progress, speed) {
         /*
 
-            progress:number 0 - 100,
-            speed:string, -> 'slow', 'normal, 'fast'
+         progress:number 0 - 100,
+         speed:string, -> 'slow', 'normal, 'fast'
 
-            mw.tools.loading(true) -> slowly animates to 95% on body
-            mw.tools.loading(false) -> fast animates to 100% on body
+         mw.tools.loading(true) -> slowly animates to 95% on body
+         mw.tools.loading(false) -> fast animates to 100% on body
 
-        */
-        function set(el, progress, speed){
+         */
+        function set(el, progress, speed) {
             speed = speed || 'normal';
             mw.tools.removeClass(el, 'mw-progress-slow');
             mw.tools.removeClass(el, 'mw-progress-normal');
             mw.tools.removeClass(el, 'mw-progress-fast');
             mw.tools.addClass(el, 'mw-progress-' + speed);
-            element.__loadingTime = setTimeout(function(){
+            element.__loadingTime = setTimeout(function () {
                 el.querySelector('.mw-progress-index').style.width = progress + '%';
             }, 10)
 
         }
-        if(typeof element === 'boolean'){
+
+        if (typeof element === 'boolean') {
             progress = !!element;
             element = mwd.body;
         }
-        if(typeof element === 'number'){
+        if (typeof element === 'number') {
             progress = element;
             element = mwd.body;
         }
-        if(element === document || element === mwd.documentElement){
+        if (element === document || element === mwd.documentElement) {
             element = mwd.body;
         }
         element = $(element)[0]
         if (element === null || !element) return false;
-        if(element.__loadingTime){
+        if (element.__loadingTime) {
             clearTimeout(element.__loadingTime)
         }
         var isLoading = mw.tools.hasClass(element, 'mw-loading');
         var el = element.querySelector('.mw-progress');
-        if(!el){
+        if (!el) {
             el = document.createElement('div');
             el.className = 'mw-progress';
             el.innerHTML = '<div class="mw-progress-index"></div>';
-            if(element === mwd.body) el.style.position = 'fixed';
+            if (element === mwd.body) el.style.position = 'fixed';
             element.appendChild(el);
         }
         var pos = mw.CSSParser(element).get.position();
-        if(pos == 'static'){
+        if (pos == 'static') {
             element.style.position = 'relative';
         }
-        if(progress){
-            if(progress === true){
-                set(el, 95, speed||'slow')
+        if (progress) {
+            if (progress === true) {
+                set(el, 95, speed || 'slow')
             }
-            else if(typeof progress === 'number'){
+            else if (typeof progress === 'number') {
                 progress = progress <= 100 ? progress : 100;
                 progress = progress >= 0 ? progress : 0;
                 set(el, progress, speed)
             }
         }
-        else{
-            if(el){
-               set(el, 100, speed||'fast')
+        else {
+            if (el) {
+                set(el, 100, speed || 'fast')
             }
-            element.__loadingTime = setTimeout(function(){
-                    $(element).removeClass('mw-loading-defaults mw-loading');
-                    $(el).remove()
+            element.__loadingTime = setTimeout(function () {
+                $(element).removeClass('mw-loading-defaults mw-loading');
+                $(el).remove()
             }, 700)
         }
     },
-    prependClass:function(el,cls){
+    prependClass: function (el, cls) {
         el.className = (cls + ' ' + el.className).trim()
     },
     inview: function (el) {
@@ -3104,7 +3107,7 @@ mw.tools = {
         return a;
     },
     notification: function (body, tag, icon) {
-        if(!body) return;
+        if (!body) return;
         var n = window.Notification || window.webkitNotification || window.mozNotification;
         if (typeof n == 'undefined') {
             return false;
@@ -3118,14 +3121,14 @@ mw.tools = {
         }
         else if (n.permission == 'default') {
             n.requestPermission(function (result) {
-                console.log(result)
-                if(result == 'granted'){
+
+                if (result == 'granted') {
                     return mw.tools.notification(body, tag, icon)
                 }
-                else if(result == 'denied'){
+                else if (result == 'denied') {
                     mw.notification.error('Notifications are blocked')
                 }
-                else if(result == 'default'){
+                else if (result == 'default') {
                     mw.notification.warn('Notifications are canceled')
 
                 }
@@ -3284,6 +3287,7 @@ mw.tools = {
                 name: 'module-settings-' + a.replace(/\//g, '_'),
                 title: '',
                 callback: function () {
+                    console.log(999112)
                 }
             });
         }
@@ -3295,7 +3299,7 @@ mw.tools = {
             mw.tools.highlight(m);
             return false;
         }
-        if (curr && curr.attributes){
+        if (curr && curr.attributes) {
             $.each(curr.attributes, function (index, attr) {
                 attributes[attr.name] = attr.value;
             });
@@ -3372,7 +3376,7 @@ mw.tools = {
     open_custom_html_editor: function () {
         var src = mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/code_editor&autosize=true';
 
-        window.open(src,"Code editor","toolbar=no, menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=yes");
+        window.open(src, "Code editor", "toolbar=no, menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=yes");
 
 
         //var modal = mw.tools.modal.frame({
@@ -3422,17 +3426,17 @@ mw.tools = {
         modalOptions = modalOptions || {};
 
         var settings = $.extend({}, {
-            content: '<div class="module-modal-content" id="'+id_content+'"></div>',
+            content: '<div class="module-modal-content" id="' + id_content + '"></div>',
             id: id
         }, modalOptions);
 
         var modal = mw.modal(settings);
 
-        var xhr = mw.load_module(module_type, '#'+id_content, null, params);
+        var xhr = mw.load_module(module_type, '#' + id_content, null, params);
 
         return {
-            xhr:xhr,
-            modal:modal,
+            xhr: xhr,
+            modal: modal,
         }
     },
     fav: function (a) {
@@ -3671,7 +3675,7 @@ mw.tools = {
             $(mw.tools._titleTip).removeClass('mw-tooltip-circle');
         }
         $(mw.tools._titleTip).show();
-    },
+    }
 }
 mw.tools.matches('init');
 Alert = mw.tools.alert;
@@ -3694,7 +3698,7 @@ mw.wait('jQuery', function () {
             el.dataset("value", val);
             triggerChange ? el.trigger("change") : '';
             var valel = mw.$(".mw-dropdown-val", el);
-            var method = valel[0].type ? 'val':'html';
+            var method = valel[0].type ? 'val' : 'html';
             if (!!customValueToDisplay) {
                 valel[method](customValueToDisplay);
             }
@@ -3995,12 +3999,12 @@ mw.check = {
             this.checked = false;
         });
     },
-    toggle:function (selector) {
+    toggle: function (selector) {
         var els = $(selector).find("input[type='checkbox']"), checked = els.filter(':checked');
-        if(els.length === checked.length){
+        if (els.length === checked.length) {
             mw.check.none(selector)
         }
-        else{
+        else {
             mw.check.all(selector);
         }
     },
@@ -4256,8 +4260,8 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             mww.addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
-                    var _new = JSON.parse(e.newValue ||{});
-                    var _old = JSON.parse(e.oldValue ||{});
+                    var _new = JSON.parse(e.newValue || {});
+                    var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);
                     for (var t in diff) {
                         if (t in mw.storage._keys) {
@@ -4395,10 +4399,10 @@ $(document).ready(function () {
                 return false;
             }
         }
-        else{
+        else {
             if (e.keyCode === 27) {
                 var modal = $(".mw_modal:last")[0];
-                if(modal) modal.modal.remove();
+                if (modal) modal.modal.remove();
             }
         }
     });
@@ -4677,7 +4681,17 @@ mw.image = {
                 resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mw-icon-image-frame"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mw-icon-edit"></span></span></div>';
                 document.body.appendChild(resizer);
                 mw.image_resizer = resizer;
-                mw.image_resizer = resizer;
+                mw.image_resizer_time = null;
+                mw.image_resizer._show = function(){
+                    clearTimeout(mw.image_resizer_time)
+                    $(mw.image_resizer).addClass('active')
+                };
+                mw.image_resizer._hide = function(){
+                    mw.image_resizer_time = setTimeout(function(){
+                        $(mw.image_resizer).removeClass('active')
+                    },3000)
+                };
+
                 $(resizer).on("click", function (e) {
                     mw.wysiwyg.select_element(mw.image.currentResizing[0])
                 });
@@ -4717,7 +4731,7 @@ mw.image = {
              if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
 
 
-            $('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG'?'show':'hide']()
+            $('.ui-resizable-handle', mw.image_resizer)[el.nodeName == 'IMG' ? 'show' : 'hide']()
 
             var el = $(el);
             var offset = el.offset();
@@ -5066,7 +5080,7 @@ mw.progress = mw.tools.progress;
 mw.external = function (o) {
     return mw.tools._external(o);
 };
-mw.fileWindow = function(config){
+mw.fileWindow = function (config) {
     config = config || {};
     var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
     var url = mw.settings.site_url + 'editor_tools/' + url;
@@ -5079,9 +5093,9 @@ mw.fileWindow = function(config){
         overlay: true
     });
     var frameWindow = $('iframe', modal.container)[0].contentWindow;
-    frameWindow.onload = function(){
-        frameWindow.$('body').on('change', function(e, url, m){
-            if(config.change){
+    frameWindow.onload = function () {
+        frameWindow.$('body').on('change', function (e, url, m) {
+            if (config.change) {
                 config.change.call(undefined, url);
                 modal.remove()
             }
@@ -5134,6 +5148,21 @@ mw._colorPickerDefaults = {
     onchange: false
 }
 mw._colorPicker = function (options) {
+    if (!mw.tools.colorPickerColors) {
+        mw.tools.colorPickerColors = [];
+        mw.$("body *").each(function () {
+            var css = parent.getComputedStyle(this, null);
+            if (css !== null) {
+                if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                    mw.tools.colorPickerColors.push(mw.color.rgbToHex( css.color))
+                }
+                if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                    mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor))
+                }
+            }
+        });
+    }
+    var proto = this;
     if (!options) {
         return false;
     }
@@ -5157,27 +5186,62 @@ mw._colorPicker = function (options) {
     }
     this.settings = settings;
     $el[0].mwToolTipBinded = true;
-    var frame = document.createElement('iframe');
-    frame.src = mw.external_tool('color_picker');
-    frame.frameborder = 0;
-    frame.className = 'mw-picker-frame';
-    frame.frameBorder = 0;
-    frame.scrolling = "no";
-    $(frame).bind("colorChange", function (e, val) {
-        options.onchange('#' + val);
-        if ($el[0].nodeName == 'INPUT') {
-            var val = val == 'transparent' ? val : '#' + val;
-            $el.val(val);
-        }
-    });
+
+
+    var frame;
     if (settings.method == 'inline') {
-        $el.empty().append(frame);
-        return false;
+
+        frame = AColorPicker.createPicker({
+            showAlpha: true,
+            showHSL:false,
+            showRGB:false,
+            showHEX:false,
+            attachTo: $el[0],
+            palette: mw.tools.colorPickerColors
+        });
+        frame.onchange = function (data) {
+
+            if (proto.settings.onchange) {
+                proto.settings.onchange(data.color);
+            }
+
+            if ($el[0].nodeName == 'INPUT') {
+                var val = val == 'transparent' ? val : '#' + val;
+                $el.val(val);
+            }
+        }
+
     }
     else {
+
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
         this.tip = tip;
-        mw.$('.mw-tooltip-content', tip).empty().append(frame);
+        $(this.tip).on('click mousedown touchstart touchend mouseup', function (e) {
+            //event.preventDefault();
+        });
+        mw.$('.mw-tooltip-content', tip).empty()
+
+        var frame = AColorPicker.createPicker({
+            showAlpha: true,
+            palette: mw.tools.colorPickerColors,
+            showHSL:false,
+            showRGB:false,
+            showHEX:false,
+            attachTo: mw.$('.mw-tooltip-content', tip)[0],
+
+        });
+
+        frame.onchange = function (data) {
+
+            if (proto.settings.onchange) {
+                proto.settings.onchange(data.color);
+            }
+
+            if ($el[0].nodeName == 'INPUT') {
+                $el.val(data.color);
+            }
+        }
+
         if ($el[0].nodeName == 'INPUT') {
             $el.bind('focus', function (e) {
                 $(tip).show();
@@ -5190,24 +5254,28 @@ mw._colorPicker = function (options) {
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
-        $(document.body).bind('click', function (e) {
-            if (!mw.tools.isEventOnElements(e, [$el[0], tip])) {
+        $(document.body).on('click', function (e) {
+
+            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target  !== $el[0]) {
                 $(tip).hide();
             }
         });
         if ($el[0].nodeName == 'INPUT') {
             $el.bind('blur', function () {
-                $(tip).hide();
+                //$(tip).hide();
             });
         }
     }
-    this.show = function(){
-        $(this.tip).show();
-        mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
+    if (this.tip) {
+        this.show = function () {
+            $(this.tip).show();
+            mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
+        }
+        this.hide = function () {
+            $(this.tip).hide()
+        }
     }
-    this.hide = function(){
-        $(this.tip).hide()
-    }
+
 }
 mw.colorPicker = mw.colourPicker = function (o) {
     return new mw._colorPicker(o);
@@ -5348,48 +5416,50 @@ String.prototype.hash = function () {
 }
 
 mw.ajax = function (options) {
-    if(!options._success ){
+   /* if (!options._success) {
         options._success = options.success;
         delete options.success;
-        options.success = function(data,status,xhr){
-            if(data.form_data_required){
+        options.success = function (data, status, xhr) {
+            if (data.form_data_required) {
                 mw.extradataForm(options, data);
             }
-            else{
-                if(typeof options._success === 'function'){
+            else {
+                if (typeof options._success === 'function') {
                     options._success.call(this, data, status, xhr);
                 }
             }
         };
-    }
+    }*/
     var xhr = $.ajax(options);
     return xhr;
 };
 
-jQuery.each( [ "xhrGet", "xhrPost" ], function( i, method ) {
-    mw[ method ] = function( url, data, callback, type ) {
-        if ( jQuery.isFunction( data ) ) {
+mw.ajax = $.ajax;
+
+jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
+    mw[method] = function (url, data, callback, type) {
+        if (jQuery.isFunction(data)) {
             type = type || callback;
             callback = data;
             data = undefined;
         }
-        return mw.ajax( jQuery.extend( {
+        return mw.ajax(jQuery.extend({
             url: url,
-            type: i==0?'GET':'POST',
+            type: i == 0 ? 'GET' : 'POST',
             dataType: type,
             data: data,
             success: callback
-        }, jQuery.isPlainObject( url ) && url ) );
+        }, jQuery.isPlainObject(url) && url));
     };
-} );
+});
 
 mw.getExtradataFormData = function (data, call) {
-    if(data.form_data_module){
-        mw.loadModuleData(data.form_data_module, function(moduledata){
+    if (data.form_data_module) {
+        mw.loadModuleData(data.form_data_module, function (moduledata) {
             call.call(undefined, moduledata);
         });
     }
-    else{
+    else {
         call.call(undefined, data.form_data_required);
     }
 }
@@ -5397,18 +5467,19 @@ mw.extradataForm = function (options, data) {
     mw.getExtradataFormData(data, function (extra_html) {
         var form = document.createElement('form');
         $(form).append(extra_html);
-        $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">'+mw.lang('Submit')+'</button>');
+        $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">' + mw.lang('Submit') + '</button>');
         form.action = options.url;
         form.method = options.type;
         form.__modal = mw.modal({
-            content:form
+            content: form
         });
         $(form).on('submit', function (e) {
             e.preventDefault();
             var exdata = mw.serializeFields(this);
-            for(var i in exdata){
+            for (var i in exdata) {
                 options.data[i] = exdata[i];
-            };
+            }
+            ;
             mw.ajax(options);
             form.__modal.remove();
         })

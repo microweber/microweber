@@ -84,7 +84,7 @@ if (is_file($template_file) != false) {
                 name: 'frame<?php print $btn_id; ?>',
                 html: $(mwd.getElementById('area<?php print $btn_id; ?>')).html(),
                 template: 'basic',
-                title: "<?php print $text; ?>"
+                title: "<?php print addslashes ($text); ?>"
             });
         }
     </script>

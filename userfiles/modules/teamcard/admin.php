@@ -82,11 +82,11 @@ if (isset($json) == false or count($json) == 0) {
                         </div>
                     </div>
                     <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e('File'); ?></label>
+                        <label class="mw-ui-label"><?php _e('Member Image'); ?></label>
                         <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print array_get($slide, 'file'); ?>">
                         <span class="mw-ui-btn teamcard-file-up">
                         <span class="ico iupload"></span>
-                        <span><?php _e('Upload file'); ?></span>
+                        <span><?php _e('Upload image'); ?></span>
                         </span>
                     </div>
                 </div>

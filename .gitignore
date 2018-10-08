@@ -10,6 +10,7 @@ storage/cache/*
 old_mw/
 phpinfo.php
 .idea
+.settings
 .env
 /stats2
 dwsync.xml
@@ -42,3 +43,6 @@ node_modules/
 /userfiles/templates/utouch
 /cloudsigma
 /q-theme
+userfiles/templates/active/
+/cpanel
+mail.php

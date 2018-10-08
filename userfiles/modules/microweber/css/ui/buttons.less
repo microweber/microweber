@@ -1,0 +1,383 @@
+
+@import "var";
+/****************************
+ Buttons & button navigation
+*****************************/
+
+.mw-ui-link {
+  text-decoration: underline;
+  color: @linkColor;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.mw-ui-link-nav > *:after {
+  display: inline;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  color: @linkColor;
+  font-size: 80%;
+  content: "/";
+  margin: 3px 5px;
+  text-decoration: none !important;
+  pointer-events: none;
+}
+
+.mw-ui-link-nav > *:last-child:after {
+  display: none;
+}
+
+.mw-ui-link-nav > * {
+  position: relative;
+  margin-right: 11px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mw-ui-link:hover,
+.mw-ui-link:focus {
+  text-decoration: none;
+}
+
+.mw-ui-link:active {
+  opacity: 0.80;
+}
+
+.mw-ui-btn {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 1.308rem;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  font-size: 1.154rem;
+  line-height: @normalHeight;
+  line-height: ~"-webkit-calc("@normalHeight~" - 2px)";
+  line-height: ~"calc("@normalHeight~" - 2px)";
+  height: @normalHeight;
+  border-radius: @radius;
+  color: @defaultTextColor;
+  background-color: @default;
+  border: 1px solid @defaultBorderColor;
+  outline: none;
+  transition: .3s;
+}
+
+.mw-ui-link {
+  border: 0 !important;
+  background: none;
+}
+
+input.mw-ui-btn {
+  -webkit-appearance: none;
+}
+
+.mw-ui-btn-hover {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+/* Colors */
+.mw-ui-btn-invert {
+  color: @invertTextColor;
+  background-color: @invert;
+  border-color: @invertBorderColor;
+
+}
+
+.mw-ui-btn-outline.mw-ui-btn-invert {
+  color: @invert;
+}
+
+.mw-ui-btn {
+   .material-icons{
+       vertical-align: top;
+       line-height: inherit;
+   }
+
+}
+
+.mw-ui-btn-important {
+  color: @importantTextColor;
+  background-color: @important;
+  border-color: @importantBorderColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-important {
+  color: @important;
+}
+
+.mw-ui-btn-info {
+  color: @infoTextColor;
+  background-color: @info;
+  border-color: @infoBorderColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-info {
+  color: @info;
+}
+
+.mw-ui-btn-notification {
+  color: @notificationTextColor;
+  background-color: @notification;
+  border-color: @notificationBorderColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-notification {
+  color: @notification;
+}
+
+.mw-ui-btn-warn {
+  color: @warnTextColor;
+  background-color: @warn;
+  border-color: @warnBorderColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-warn {
+  color: @warn;
+}
+
+.mw-ui-btn-outline {
+  background-color: transparent;
+}
+
+/* Hovers */
+.mw-ui-btn.mw-ui-btn-outline.active:not(.mw-ui-btn-invert):not(.mw-ui-btn-important):not(.mw-ui-btn-info):not(.mw-ui-btn-warn):not(.mw-ui-btn-notification),
+.mw-ui-btn.mw-ui-btn-outline:not(.mw-ui-btn-invert):not(.mw-ui-btn-important):not(.mw-ui-btn-info):not(.mw-ui-btn-warn):not(.mw-ui-btn-notification):hover,
+.mw-ui-btn.mw-ui-btn-outline:not(.mw-ui-btn-invert):not(.mw-ui-btn-important):not(.mw-ui-btn-info):not(.mw-ui-btn-warn):not(.mw-ui-btn-notification):focus {
+  background-color: @default;
+
+}
+
+.mw-ui-btn.mw-ui-btn-outline.active,
+.mw-ui-btn.mw-ui-btn-outline:hover,
+.mw-ui-btn.mw-ui-btn-outline:focus {
+  color: @defaultTextColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-invert.active,
+.mw-ui-btn-outline.mw-ui-btn-invert:hover,
+.mw-ui-btn-outline.mw-ui-btn-invert:focus {
+  color: @invertTextColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-important.active,
+.mw-ui-btn-outline.mw-ui-btn-important:hover,
+.mw-ui-btn-outline.mw-ui-btn-important:focus {
+  color: @importantTextColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-info.active,
+.mw-ui-btn-outline.mw-ui-btn-info:hover,
+.mw-ui-btn-outline.mw-ui-btn-info:focus {
+  color: @infoTextColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-warn.active,
+.mw-ui-btn-outline.mw-ui-btn-warn:hover,
+.mw-ui-btn-outline.mw-ui-btn-warn:focus {
+  color: @warnTextColor;
+}
+
+.mw-ui-btn-outline.mw-ui-btn-notification.active,
+.mw-ui-btn-outline.mw-ui-btn-notification:hover,
+.mw-ui-btn-outline.mw-ui-btn-notification:focus {
+  color: @notificationTextColor;
+}
+
+/* Sizes */
+.mw-ui-btn-large,
+.mw-ui-btn-big {
+  font-size: 1.385rem;
+  height: @largeHeight;
+  padding: 0 1.538rem;
+  line-height: @largeHeight;
+}
+
+.mw-ui-btn-medium {
+  font-size: 1rem;
+  height: @mediumHeight;
+  padding: 0px 1rem;
+  line-height: @mediumHeight;
+  line-height: ~"-webkit-calc("@mediumHeight~" - 2px)";
+  line-height: ~"calc("@mediumHeight~" - 2px)";
+}
+
+.mw-ui-btn-small,
+.mw-ui-btn-mini,
+.mw-ui-btn-tiny {
+  font-size: 0.8462rem;
+  height: @smallHeight;
+  padding: 0 0.7692rem;
+  line-height: @smallHeight;
+  line-height: ~"-webkit-calc("@smallHeight~" - 2px)";
+  line-height: ~"calc("@smallHeight~" - 2px)";
+
+}
+
+/* States */
+.mw-ui-btn:hover,
+.mw-ui-btn:focus {
+  background-color: lighten(@default, 20%);
+  //border-color: lighten(@defaultBorderColor, 20%);
+  outline: none;
+  text-decoration: none;
+}
+
+.mw-ui-btn-invert:hover,
+.mw-ui-btn-invert:focus {
+  background-color: lighten(@invert, 20%);
+  border-color: lighten(@invertBorderColor, 20%);
+}
+
+.mw-ui-btn-important:hover,
+.mw-ui-btn-important:focus {
+  background-color: lighten(@important, 20%);
+  border-color: lighten(@importantBorderColor, 20%);
+}
+
+.mw-ui-btn-info:hover,
+.mw-ui-btn-info:focus {
+  background-color: lighten(@info, 20%);
+  border-color: lighten(@infoBorderColor, 20%);
+}
+
+.mw-ui-btn-notification:hover,
+.mw-ui-btn-notification:focus {
+  background-color: lighten(@notification, 20%);
+  border-color: lighten(@notificationBorderColor, 20%);
+}
+
+.mw-ui-btn-warn:hover,
+.mw-ui-btn-warn:focus {
+  background-color: lighten(@warn, 20%);
+  border-color: lighten(@warnBorderColor, 20%);
+}
+
+.mw-ui-btn:active,
+.mw-ui-btn.active,
+.mw-ui-btn.active:hover,
+.mw-ui-btn.active:focus {
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Rounded buttons */
+.mw-ui-btn-rounded {
+  -webkit-border-radius: @defaultRoundedRadius;
+  -moz-border-radius: @defaultRoundedRadius;
+  border-radius: @defaultRoundedRadius;
+}
+
+/*  Button with icon  */
+.mw-ui-btn > [class*='mw-icon-'],
+.mw-ui-btn > [class*='mai-'],
+.mw-ui-btn > [class*='mw-micon-'] {
+  font-size: 1.4em;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  top: -1px;
+}
+
+.mw-ui-btn > .mw-icon-dropdown {
+  font-size: 12px;
+  margin-top: -7px;
+  margin-right: 0;
+  margin-left: 7px;
+}
+
+.mw-ui-btn > .mw-icon-right {
+  margin: -2px 0 0 7px;
+}
+
+.mw-ui-btn.active > [class*='mw-icon-'],
+.mw-ui-btn:hover > [class*='mw-icon-'],
+.mw-ui-btn:focus > [class*='mw-icon-'] {
+  opacity: 1;
+}
+
+/* Navigations */
+.mw-ui-btn-nav,
+.mw-ui-btn-vertical-nav {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.mw-ui-btn-nav:not(.mw-ui-btn-nav-fluid):after,
+.mw-ui-btn-vertical-nav:not(.mw-ui-btn-nav-fluid):after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.mw-ui-btn-nav li {
+  list-style: none;
+  float: left;
+}
+
+.mw-ui-btn-vertical-nav li {
+  float: none;
+  list-style: none;
+}
+
+.mw-ui-btn-nav > .mw-ui-btn,
+.mw-ui-btn-nav > li > .mw-ui-btn {
+  border-width: 1px 1px 1px 0;
+  float: left;
+  border-radius: 0px;
+}
+
+.mw-ui-btn-nav > .mw-ui-btn:first-child,
+.mw-ui-btn-nav > li:first-child > .mw-ui-btn {
+  border-left-width: 1px;
+  border-top-left-radius: @radius;
+  border-bottom-left-radius: @radius;
+}
+
+.mw-ui-btn-nav > .mw-ui-btn:last-child,
+.mw-ui-btn-nav > li:last-child > .mw-ui-btn {
+  border-top-right-radius: @radius;
+  border-bottom-right-radius: @radius;
+}
+
+.mw-ui-btn-nav-fluid {
+  display: table;
+  width: 100%;
+  vertical-align: top;
+}
+
+.mw-ui-btn-nav-fluid > li {
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.mw-ui-btn-nav-fluid > li > .mw-ui-btn {
+  float: none;
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.mw-ui-btn-vertical-nav .mw-ui-btn {
+  border-width: 1px 1px 0px 1px;
+  border-radius: 0px;
+  display: block;
+  text-align: left;
+}
+
+.mw-ui-btn-vertical-nav > .mw-ui-btn:last-child,
+.mw-ui-btn-vertical-nav > li:last-child > .mw-ui-btn {
+  border-radius: 0 0 @radius @radius;
+  border-bottom-width: 1px;
+}

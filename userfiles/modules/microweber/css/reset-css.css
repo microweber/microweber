@@ -14,11 +14,9 @@
     font-family: Verdana, Geneva, sans-serif !important;
     font-weight: normal !important;
     letter-spacing: 1px !important;
-    line-height: 1.15 !important;
 }
 
-.mw-normalize-css html {
-    line-height: 1.15; /* 1 */
+.mw-normalize-css  {
     -ms-text-size-adjust: 100%; /* 2 */
     -webkit-text-size-adjust: 100%; /* 2 */
 }

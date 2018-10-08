@@ -205,19 +205,25 @@
             $("#next").click(function () {
                 var nextElement = $('select[name="default_template"] > option:selected').next('option');
                 if (nextElement.length > 0) {
-                    $('select[name="default_template"] > option:selected').removeAttr('selected').next('option').attr('selected', 'selected').trigger('change');
+                    $('select[name="default_template"]').val(nextElement.val())
+                    setscreenshot()
                 }
             });
 
             $("#prev").click(function () {
                 var nextElement = $('select[name="default_template"] > option:selected').prev('option');
                 if (nextElement.length > 0) {
-                    $('select[name="default_template"] > option:selected').removeAttr('selected').prev('option').attr('selected', 'selected').trigger('change');
+                    $('select[name="default_template"]').val(nextElement.val())
+                    setscreenshot()
                 }
             });
 
             $("#screenshot_preview").on('click', function () {
                 var bg_img = $(this).find('#theImg').data('src');
+            });
+
+            $("#default_template").on('change', function () {
+                setscreenshot()
             });
         })
     </script>
@@ -377,7 +383,7 @@
                                                             Database Engine
                                                             <span data-help="Choose the database type"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
 
-                                                        <select class="mw-ui-field" name="db_driver" onchange="showForm(this)" autocomplete="off">
+                                                        <select class="mw-ui-field" name="db_driver" onchange="showForm(this)" autocomplete="off" tabindex="1">
                                                             <?php foreach ($dbEngines as $engine): ?>
                                                                 <option value="<?php print $engine; ?>"
                                                                     <?php if ($dbDefaultEngine == $engine) {
@@ -393,7 +399,7 @@
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Hostname'); ?>
                                                                 <span data-help="<?php _e('The address of your database server'); ?>"><span class="mw-icon-help-outline mwahi"></span></span></label>
-                                                            <input type="text" class="mw-ui-field" autofocus name="db_host" value="<?php if (isset($config['host'])) {
+                                                            <input type="text" class="mw-ui-field" autofocus name="db_host" tabindex="2" value="<?php if (isset($config['host'])) {
                                                                 print $config['host'];
                                                             } ?>"/>
                                                         </div>
@@ -401,7 +407,7 @@
                                                             <label class="mw-ui-label">
                                                                 <?php _e('Username'); ?>
                                                                 <span data-help="<?php _e('The username of your database.'); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                                            <input type="text" class="mw-ui-field" name="db_user" value="<?php if (isset($config['username'])) {
+                                                            <input type="text" class="mw-ui-field" name="db_user" tabindex="2" value="<?php if (isset($config['username'])) {
                                                                 print $config['username'];
                                                             } ?>"/>
                                                         </div>
@@ -410,7 +416,7 @@
                                                                 <?php _e('Password'); ?>
                                                             </label>
                                                             <input type="password" class="mw-ui-field"
-                                                                   name="db_pass"
+                                                                   name="db_pass" tabindex="2"
                                                                    value="<?php if (isset($config['password'])) {
                                                                        print $config['password'];
                                                                    } ?>"/>
@@ -422,7 +428,7 @@
                                                                         data-help="<?php _e('The name of your database.'); ?>"><span
                                                                             class="mw-icon-help-outline mwahi tip"></span></span></label>
                                                             <input type="text" class="mw-ui-field"
-                                                                   name="db_name" id="db_name_value"
+                                                                   name="db_name" id="db_name_value" tabindex="2"
                                                                    value="<?php if (isset($config['database'])) {
                                                                        print $config['database'];
                                                                    } ?>"/>
@@ -436,7 +442,7 @@
                                                                     <span class="mw-icon-help-outline mwahi tip"></span>
                                                                 </span>
                                                             </label>
-                                                            <input type="text" class="mw-ui-field" autofocus name="db_name_sqlite" value="<?php if (isset($config['db_name_sqlite'])) {
+                                                            <input type="text" class="mw-ui-field" autofocus name="db_name_sqlite" tabindex="2" value="<?php if (isset($config['db_name_sqlite'])) {
                                                                 print $config['db_name_sqlite'];
                                                             } ?>"/>
                                                         </div>
@@ -444,7 +450,7 @@
                                                     <div class="mw-ui-field-holder">
                                                         <label class="mw-ui-label"><?php _e('Table Prefix'); ?><span data-help="<?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?>"><span
                                                                         class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                                        <input type="text" class="mw-ui-field" name="table_prefix" value="<?php if (isset($config['prefix'])) {
+                                                        <input type="text" class="mw-ui-field" name="table_prefix" tabindex="3" value="<?php if (isset($config['prefix'])) {
                                                             print $config['prefix'];
                                                         } ?>" onblur="prefix_add(this)"/>
                                                     </div>
@@ -457,16 +463,14 @@
                                                     ?>
                                                     <?php if (is_array($templates) and !empty($templates)): ?>
                                                         <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label bold center" style="margin-bottom:20px; color: #0086db; font-size: 18px;"><?php print 'Choose Your Template'; ?> <span data-help="<?php print 'Choose default site template'; ?>"><span
-                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                            <label class="mw-ui-label bold center" style="margin-bottom:20px; color: #0086db; font-size: 18px;"><?php print 'Choose Your Template'; ?> <span data-help="<?php print 'Choose default site template'; ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
 
                                                             <div class="mw-ui-row">
                                                                 <div class="mw-ui-col" style="width:40px;">
-                                                                    <button class="mw-ui-btn mw-ui-btn-info change-templ-btn" type="button" id="prev"><i class="mw-icon-arrowleft"></i></button>
+                                                                    <button class="mw-ui-btn mw-ui-btn-info change-templ-btn" type="button" id="prev" tabindex="4"><i class="mw-icon-arrowleft"></i></button>
                                                                 </div>
                                                                 <div class="mw-ui-col">
-                                                                    <select class="mw-ui-field" name="default_template"
-                                                                            id="default_template">
+                                                                    <select class="mw-ui-field" name="default_template" id="default_template" tabindex="6">
                                                                         <?php foreach ($templates as $template): ?>
                                                                             <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
                                                                                 <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
@@ -476,7 +480,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="mw-ui-col" style="width:40px; text-align: right;">
-                                                                    <button class="mw-ui-btn mw-ui-btn-info change-templ-btn" type="button" id="next"><i class="mw-icon-arrowright"></i></button>
+                                                                    <button class="mw-ui-btn mw-ui-btn-info change-templ-btn" type="button" id="next" tabindex="5"><i class="mw-icon-arrowright"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -485,9 +489,6 @@
                                                 <script>
                                                     $(document).ready(function () {
                                                         setscreenshot()
-                                                        $('#default_template').change(function () {
-                                                            setscreenshot()
-                                                        });
                                                     });
 
                                                     function setscreenshot() {
@@ -509,9 +510,9 @@
 
                                                 <div class="mw-ui-field-holder pull-left">
                                                     <label class="mw-ui-check">
-                                                        <input name="with_default_content" type="checkbox" checked="checked" value="1">
+                                                        <input name="with_default_content" type="checkbox" checked="checked" value="1" tabindex="7">
                                                         <span></span>&nbsp;
-                                                        <?php _e('Install the template with default content'); ?>
+                                                        <span><?php _e('Install the template with default content'); ?></span>
                                                         <span data-help="<?php _e('If checked, some default content will be added.'); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span>
                                                     </label>
                                                 </div>
@@ -535,21 +536,21 @@
                                                                 <label class="mw-ui-label">
                                                                     <?php _e('Admin username'); ?>
                                                                 </label>
-                                                                <input type="text" class="mw-ui-field" tabindex="2"
+                                                                <input type="text" class="mw-ui-field" tabindex="8"
                                                                        name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
                                                             </div>
                                                             <div class="mw-ui-field-holder">
                                                                 <label class="mw-ui-label">
                                                                     <?php _e('Admin password'); ?>
                                                                 </label>
-                                                                <input type="password" class="mw-ui-field" tabindex="4"
+                                                                <input type="password" class="mw-ui-field" tabindex="10"
                                                                        name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
 
                                                             <div class="mw-ui-field-holder pull-left">
                                                                 <label class="mw-ui-check">
-                                                                    <input name="subscribe_for_update_notification" type="checkbox" checked="checked" value="1"><span></span>&nbsp;
-                                                                    <?php _e('Update nofitication'); ?>
+                                                                    <input name="subscribe_for_update_notification" type="checkbox" checked="checked" value="1" tabindex="12"><span></span>
+                                                                    <span><?php _e('Update nofitication'); ?></span>
                                                                     <span data-help="<?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span>
                                                                 </label>
                                                             </div>
@@ -560,14 +561,14 @@
                                                                 <label class="mw-ui-label">
                                                                     <?php _e('Admin email'); ?>
                                                                 </label>
-                                                                <input type="text" class="mw-ui-field" tabindex="3"
+                                                                <input type="text" class="mw-ui-field" tabindex="9"
                                                                        name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
                                                             </div>
                                                             <div class="mw-ui-field-holder">
                                                                 <label class="mw-ui-label">
                                                                     <?php _e('Repeat password'); ?>
                                                                 </label>
-                                                                <input type="password" class="mw-ui-field" tabindex="5"
+                                                                <input type="password" class="mw-ui-field" tabindex="11"
                                                                        name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
                                                             <a name="create-admin"></a>
@@ -590,7 +591,7 @@
                                     <input type="hidden" value="UTC" name="default_timezone"/>
                                     <input type="submit" name="submit"
                                            class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right"
-                                           value="<?php _e('Install'); ?>">
+                                           value="<?php _e('Install'); ?>" tabindex="13">
 
 
                                 </form>

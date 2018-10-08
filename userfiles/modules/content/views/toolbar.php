@@ -42,6 +42,7 @@ if ($last_page_front != false) {
 }
 
 
+
 ?>
 <?php if (isset($past_page) and $past_page != false): ?>
     <script>
@@ -152,6 +153,20 @@ if ($last_page_front != false) {
             <?php if (!isset($edit_page_info)): ?>
                 <?php mw()->event_manager->trigger('module.content.manager.toolbar.start', $page_info) ?>
 
+                <?php
+
+
+                if ($page_info['is_shop'] == 1) {
+                    $type = 'shop';
+                } elseif ($page_info['subtype'] == 'dynamic') {
+                    $type = 'dynamicpage';
+                } else if (isset($page_info ['layout_file']) and stristr($page_info ['layout_file'], 'blog')) {
+                    $type .= 'blog';
+                } else {
+                    $type = 'page';
+                }
+
+                ?>
 
                 <div class="section-header">
                     <div class="mw-ui-row valign" style="margin-bottom: 20px;">
@@ -159,16 +174,7 @@ if ($last_page_front != false) {
 
                             <h2 class="pull-left">
                                 <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
-                                    <?php if ($page_info['is_shop'] == 1) {
-                                        $type = 'shop';
-                                    } elseif ($page_info['subtype'] == 'dynamic') {
-                                        $type = 'dynamicpage';
-                                    } else if (isset($page_info ['layout_file']) and stristr($page_info ['layout_file'], 'blog')) {
-                                        $type .= 'blog';
-                                    } else {
-                                        $type = 'page';
-                                    }
-                                    ?>
+
                                 <span class="<?php if($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span><?php print ($page_info['title']) ?>
                                 <?php elseif (isset($params['category-id'])): ?>
                                     <?php $cat = get_category_by_id($params['category-id']); ?>
@@ -194,22 +200,56 @@ if ($last_page_front != false) {
                             </h2>
 
                             <?php
+
                             $url_param_action = url_param('action', true);
                             $url_param_view = url_param('view', true);
-                            if ($url_param_action == 'categories') {
-                                $url_param_type = 'category';
-                            } elseif ($url_param_action == 'posts') {
-                                $url_param_type = 'post';
-                            } else if ($url_param_action == 'products') {
+
+                            $url_param_type = 'page';
+
+
+                            if($type == 'shop' or $url_param_view == 'shop'  or $url_param_action == 'products' ){
                                 $url_param_type = 'product';
-                            } else if ($url_param_view == 'shop') {
-                                $url_param_type = 'product';
-                            } else {
-                                $url_param_type = 'page';
                             }
+
+
+                            if($url_param_action == 'categories' or $url_param_view == 'category'   ){
+                                $url_param_type = 'category';
+                            }
+
+                            if($url_param_action == 'showposts' or $type == 'dynamicpage'   ){
+                                $url_param_type = 'post';
+                            }
+
+
+
+                            $add_new_btn_url =  admin_url('view:content#action=new:') . $url_param_type;
+
+                            if (isset($params['category-id']) and $params['category-id']) {
+                              //  $add_new_btn_url = $add_new_btn_url . "&amp;category_id=" . $params['category-id'];
+                            }
+                            if (isset($page_info['id']) and $page_info['id']) {
+                              //  $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
+
+                            }
+
+
+//                            elseif (isset($post_params['category'])) {
+//                                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+//                            } else if (isset($post_params['parent'])) {
+//                                $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
+//                            } else {
+//                                $url = "#action=new:product";
+//                            }
+
+
+
+// d($type);
+//d($url_param_type);
+//d($page_info);
+
                             ?>
 
-                            <a href="<?php print admin_url('view:content#action=new:') . $url_param_type ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10" style="margin-top: 2px;">
+                            <a href="<?php print $add_new_btn_url ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10" style="margin-top: 2px;">
                                 <?php print _e('Add new ' . $url_param_type); ?>
                             </a>
 

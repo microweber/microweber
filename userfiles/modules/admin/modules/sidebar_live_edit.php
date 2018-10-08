@@ -75,9 +75,9 @@
                 <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
             </div>
 
-            <div class="mw-ui-box-content tabitem iframe-holder" style="display: none;">
+            <div class="mw-ui-box-content tabitem mw-live-edit-sidebar-iframe-holder" style="display: none;">
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-                    <iframe class="settings-iframe"
+                    <iframe class="mw-live-edit-sidebar-settings-iframe"
                             data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
             </div>
@@ -176,6 +176,9 @@
                 onclick: function (currentTab, event, index) {
                     $('.tab-title').hide();
                     $('.tab-title-' + index).show();
+
+                    $("#search-modules-and-layouts")[index == 2?'hide':'show']()
+
                 }
             });
 

@@ -1466,9 +1466,11 @@ class UserManager
         $auth_provider = $_REQUEST['provider'];
         $this->socialite_config($auth_provider);
 
+      
         try {
-            $this->socialite_config($auth_provider);
+           // $this->socialite_config($auth_provider);
             $user = $this->socialite->driver($auth_provider)->user();
+
             $email = $user->getEmail();
 
             $username = $user->getNickname();

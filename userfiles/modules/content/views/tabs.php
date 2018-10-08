@@ -6,7 +6,7 @@
 $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 ?>
-<div id="settings-tabs" xxxclass="hidden">
+<div id="settings-tabs">
     <!-- TABS BUTTONS -->
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Add to categories'); ?></a>
@@ -45,17 +45,24 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
         <div class="mw-ui-box-content mw-settings-tabs-content categories" style="">
             <?php if (isset($data['url']) and $data['id'] > 0): ?>
                 <script>
-                    $(function () {
+                    $(document).ready(function () {
                         $('.go-live-edit-href-set').attr('href', '<?php print content_link($data['id']); ?>');
                     });
                 </script>
             <?php endif; ?>
             <?php if ($data['content_type'] == 'page') { ?>
+
                 <div class="mw-admin-edit-page-primary-settings parent-selector ">
                     <div class="mw-ui-field-holder">
                         <div class="quick-parent-selector">
-                            <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>"
-                                    recommended-id="<?php print $recommended_parent; ?>"/>
+                            <module
+                                type="content/views/selector"
+                                no-parent-title="<?php _e('No parent page'); ?>"
+                                field-name="parent_id_selector"
+                                change-field="parent"
+                                selected-id="<?php print $data['parent']; ?>"
+                                remove_ids="<?php print $data['id']; ?>"
+                                recommended-id="<?php print $recommended_parent; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -65,13 +72,64 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                 <div class="mw-admin-edit-page-primary-settings content-category-selector">
                     <div class="mw-ui-field-holder" style="padding-top: 0">
                         <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-                            <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field"/>
-                            <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats"><i class="mai-plus"></i> Add to categories</button>
+                            <div class="post-category-tags"></div>
+                            <span
+                                    onclick="$('.mw-ui-category-selector').toggle()"
+                                    class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats">
+                                <i class="mai-plus"></i> Add to categories
+                            </span>
                         </div>
                         <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector"
                              id="mw-category-selector-<?php print $rand; ?>">
+
                             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-                                <module type="categories/selector" for="content" active_ids="<?php print $data['parent']; ?>" subtype="<?php print $data['subtype']; ?>" categories_active_ids="<?php print $categories_active_ids; ?>" for-id="<?php print $data['id']; ?>"/>
+                                <script>
+                                    $(document).ready(function(){
+                                        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(tdata){
+
+                                            var selectedPages = [ <?php print $data['parent']; ?>];
+                                            var selectedCategories =[ <?php print $categories_active_ids; ?>];
+
+                                            window.categorySelector = new mw.treeTags({
+                                                data:tdata,
+                                                selectable:true,
+                                                multiPageSelect:false,
+                                                tagsHolder:'.post-category-tags',
+                                                treeHolder:'#quick-parent-selector-tree'
+                                            });
+
+                                            $(categorySelector.tree).on('ready', function(){
+                                                $.each(selectedPages, function(){
+                                                    categorySelector.tree.select(this, 'page')
+                                                });
+                                                $.each(selectedCategories, function(){
+                                                    categorySelector.tree.select(this, 'category')
+                                                });
+
+                                            });
+
+                                            $(categorySelector.tags).on("tagClick", function(e, data){
+                                                console.log(data)
+                                                $(".mw-tree-selector").show();
+                                                mw.tools.highlight(categorySelector.tree.get(data))
+
+                                            });
+
+                                        });
+                                    })
+                                </script>
+
+
+                                <div id="quick-parent-selector-tree">
+
+                                </div>
+                                <!-- <module
+                                        type="categories/selector"
+                                        for="content"
+                                        active_ids="<?php print $data['parent']; ?>"
+                                        subtype="<?php print $data['subtype']; ?>"
+                                        categories_active_ids="<?php print $categories_active_ids; ?>"
+                                        for-id="<?php print $data['id']; ?>"/> -->
 
                                 <?php include(__DIR__ . '/edit_default_scripts_two.php'); ?>
                                 <div id="category-tree-not-found-message">

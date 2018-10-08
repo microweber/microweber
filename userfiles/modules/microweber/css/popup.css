@@ -1,31 +1,40 @@
-*{
-  margin: 0;
-  padding: 0;
-}
-a, input, textarea, select{
-  outline: none;
-}
-html, body{
-  height: 100%;
-}
-body{
-  overflow-y: auto;
+* {
+    margin: 0;
+    padding: 0;
 }
 
+a, input, textarea, select {
+    outline: none;
+}
 
+html, body {
+    height: 100%;
+}
 
-.mw-ui-btn-nav-tabs .mw-ui-btn.active{
-     background: #262626;
+body {
+    overflow-y: auto;
+}
+
+/*.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    background: #262626;
     color: white;
     font-weight: bold;
     border-color: black;
 }
 
-.mw-popup-footer{
+.mw-ui-btn-nav-tabs-new .mw-ui-btn.active {
+    background: #0086db;
+    color: white;
+    font-weight: bold;
+    border-color: #0086db;
+}*/
+
+.mw-popup-footer {
 
     height: 60px;
 }
-.mw-popup-footer-content{
+
+.mw-popup-footer-content {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -36,4 +45,22 @@ body{
     z-index: 9;
     background: white;
     height: 60px;
+}
+
+.mw-ui-btn-nav-tabs .mw-ui-btn {
+    font-size: 15px;
+    font-weight: normal;
+    height: 48px;
+    padding: 15px 10px;
+}
+
+.mw-ui-btn-nav-tabs .mw-ui-btn.active {
+    font-weight: normal;
+}
+
+select.mw-ui-field:hover {
+    /*border-color: #82c4ed;*/
+    /*border-color: #cdcdcd;*/
+    -webkit-box-shadow: 0 0 4px #82c4ed;
+    box-shadow: 0 0 4px #82c4ed;
 }

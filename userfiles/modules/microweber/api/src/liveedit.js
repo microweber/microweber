@@ -3423,6 +3423,7 @@ $(document).ready(function() {
 
     setInterval(function(){
 
+
         mw.$(".background-image-holder, .edit[style*='background-image']").each(function(){
             var po = mw.tools.parentsOrder(this, ['edit', 'module']);
             if(po.module === -1 || (po.edit<po.module && po.edit != -1)){

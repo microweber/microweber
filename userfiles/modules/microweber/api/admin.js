@@ -1,3 +1,7 @@
+mw.require('tree.js');
+mw.require('tags.js');
+
+
 mw.admin = {
     scrollBoxSettings: {
         height: 'auto',
@@ -372,15 +376,14 @@ mw.admin = {
                 rotator.ongoes = [];
                 rotator.ongo = function (c) {
                     if (typeof c === 'function') {
-                        rotator.ongoes.push(c)
-                    };
-                }
+                        rotator.ongoes.push(c);
+                    }
+                };
             }
         }
         return rotator;
     },
     tag: function (obj) {
-
 
         var o = {};
         var itemsWrapper = obj.itemsWrapper;

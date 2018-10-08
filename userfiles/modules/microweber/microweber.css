@@ -126,18 +126,11 @@ img[src*=pixum_img] {
     zoom: 1;
 }
 
-/*.mw-row:after{
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}*/
 
-.mw-col, .mw-row, .element {
+
+/*.mw-col, .mw-row, .element {
     position: relative;
-}
+}*/
 
 body.state-element .mw-row .element {
     z-index: 91;
@@ -203,7 +196,7 @@ img[align='middle'] {
 }
 
 .edit, .mw-col {
-    position: relative;
+    /*position: relative;*/
     vertical-align: top;
 }
 

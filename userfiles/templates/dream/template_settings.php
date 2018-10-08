@@ -1,5 +1,5 @@
 <div id="settings-holder">
-    <div class="col-xs-12">
+    <div>
         <h5 style="font-weight: bold;"><?php _lang("Website Settings", "templates/dream"); ?></h5>
     </div>
 

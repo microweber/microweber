@@ -96,7 +96,7 @@
 
 <script>
 
-    docopy = function(value) {
+    docopy = function (value) {
         var tempInput = document.createElement("input");
         tempInput.style = "position: absolute; left: -1000px; top: -1000px";
         tempInput.value = value;
@@ -138,14 +138,14 @@
         });
 
 
-        ctip =  mw.tooltip({element:document.body}), $ctip = $(ctip).hide();
+        ctip = mw.tooltip({element: document.body}), $ctip = $(ctip).hide();
 
-        $(".demobox .mw-ui-box, #dabuttons a.mw-ui-btn, .mw-ui-table, .demobox .mw-switch").on('mouseenter', function(){
+        $(".demobox .mw-ui-box, #dabuttons a.mw-ui-btn, .mw-ui-table, .demobox .mw-switch").on('mouseenter', function () {
             var copier = document.createElement('button');
-            copier.className ='mw-ui-btn mw-ui-btn-small'
+            copier.className = 'mw-ui-btn mw-ui-btn-small'
             copier.innerHTML = '<span class="mw-icon-app-copy-outline"></span>&nbsp;Copy snippet';
             var el = this;
-            copier.onclick = function(){
+            copier.onclick = function () {
                 docopy(el.outerHTML);
                 mw.notification.success('Snippet copied')
             }
@@ -156,8 +156,8 @@
 
     });
     mw.on.hashParam('uisection', function () {
-        var el = mw.$("#ui-info-table h2")[this] ;
-        if(!!window.ctip) $ctip.hide()
+        var el = mw.$("#ui-info-table h2")[this];
+        if (!!window.ctip) $ctip.hide()
         if (this) {
             mw.tools.scrollTo(el);
             mw.$("#ui-info-table tbody > tr:visible:first").hide();
@@ -253,6 +253,12 @@
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-important">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-important">Big</a>
+
+            <h3>Rounded</h3>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-rounded">Small</a>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-rounded">Medium</a>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-rounded">Normal</a>
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-rounded">Big</a>
 
             <h3>Notification</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification">Small</a>
@@ -656,6 +662,15 @@
                 <label class="mw-ui-label">Textarea</label>
                 <textarea class="mw-ui-field"></textarea>
             </div>
+
+            <div class="demobox">
+                <label class="mw-ui-label">Range slider</label>
+
+                <div class="range-slider">
+                    <input name="" class="mw-ui-field-range mw_option_field" max="21" min="0" type="range"/>
+                </div>
+            </div>
+
             <h3>Field sizes and fields with buttons</h3>
             <div class="demof1">
                 <div class="demobox">
@@ -858,10 +873,10 @@
             Note: the editor must NOT be inside a hidden (display:'none') element.
             <pre>
     mw.editor({
-        element:''
+        element:'',
         height:320,
         width:'100%',
-        addControls: false
+        addControls: false,
         hideControls:false,
         ready: function(){
 
@@ -1109,6 +1124,21 @@
                     </label>
                 </li>
             </ul>
+            <ul class="mw-ui-inline-list">
+                <li><span>Choose</span></li>
+                <li>
+                    <label class="mw-ui-check mw-ui-check-lg">
+                        <input type="radio" value="pending" name="order_status" checked="checked">
+                        <span></span><span>Option 1</span>
+                    </label>
+                </li>
+                <li>
+                    <label class="mw-ui-check mw-ui-check-lg">
+                        <input type="radio" value="completed" name="order_status">
+                        <span></span><span>Option 2</span>
+                    </label>
+                </li>
+            </ul>
             <hr>
             <ul class="mw-ui-inline-list">
                 <li><span>Choose</span></li>
@@ -1276,7 +1306,7 @@
 
 
                     <div class="mw-paging mw-paging-<?php print $type2; ?> mw-paging-<?php print $type; ?>">
-                        <a href="javascript:;">1</a>
+                        <a href="javascript:;" clas>1</a>
                         <a href="javascript:;" class="active">2</a>
                         <a href="javascript:;">3</a>
 
