@@ -98,14 +98,13 @@
                 <label class="mw-ui-label">Message</label>
                 <textarea class="mw-ui-field mw-full-width"></textarea>
             </div>
-            <ul class="mw-ui-inline-list">
-                <li>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" value="1" checked="">
-                        <span></span><span>Design</span>
-                    </label>
-                </li>
-            </ul>
-            <button type="submit" class="mw-ui-btn pull-right">Submit</button>
+            <div class="text-right">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="1" checked="">
+                    <span></span><span>Subscribe</span>
+                </label>
+                &nbsp;
+                <button type="submit" class="mw-ui-btn">Submit</button>
+            </div>
         </div>
     </div>

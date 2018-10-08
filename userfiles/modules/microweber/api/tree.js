@@ -51,6 +51,7 @@ mw.lib.require('nestedsortable');
 
 
             options.element = $(options.element)[0];
+            options.data = options.data || [];
 
             this.options = options;
 

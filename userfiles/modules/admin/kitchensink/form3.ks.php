@@ -16,12 +16,12 @@
                         </div>
                     </div>
                     <div class="mw-flex-col-md-6">
-                        <div class="mw-text">
+                        <div class="mw-text mw-ui-box-content">
                             <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
                             <p>
                                  Pellentesque commodo justo iaculis aliquet venenatis. Nunc at turpis a nisl molestie condimentum ac nec lacus. Sed ut leo turpis.
                                  Aliquam scelerisque fermentum lacus. Sed eleifend, orci nec egestas rutrum, risus metus varius dui, sit amet maximus elit nulla sit amet massa.
-                                 Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent non pretium dui.
+                                 Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
                             </p>
                         </div>
 

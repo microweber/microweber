@@ -118,22 +118,25 @@
             var tabsnav =   $(".mw-ui-btn-nav-tabs a", parent);
             var i = tabsnav.index(el);
             tabsnav.removeClass('active').eq(i).addClass('active');
-            parent.children(".mw-ui-box").hide().eq(i).show()
+            parent.children('[data-view],[data-source]').hide().eq(i).show()
         },
         tags:function(){
-            var alltags = ['all'];
+
+            var alltags = {
+                all:0
+            };
             $(".mw__example").each(function(){
                 var ctags = this.dataset.tags.split(',');
                 $.each(ctags, function(){
-                    var item = this.toLowerCase()
-                    if(alltags.indexOf(item) === -1){
-                        alltags.push(item);
-                    }
+                    alltags.all++;
+                    var item = this.toLowerCase();
+                    alltags[item] = alltags[item] || 0;
+                    alltags[item]++;
                 })
             });
-            alltags.sort()
-            $.each(alltags, function(){
-                $(".menu").append('<li><a href="#'+this+'" class="mw-ui-btn">'+this.toUpperCase()+'</a></li>')
+            //alltags.sort()
+            $.each(alltags, function(key,val){
+                $(".menu").append('<li><a href="#'+key+'">'+key.toUpperCase()+' <span class="mw-color-warn">('+val+')</span></a></li>')
             })
 
         },
@@ -146,8 +149,8 @@
                     cp.dataset.tip = 'Copy snippet';
                     cp.innerHTML = '<span class="mw-icon-app-copy-outline"></span>';
 
-                    var htmlo = $(this).children('.mw-ui-box').html();
-                    var html = htmlo.replace(/\</g, '&lt;');
+                    var htmlo = $(this).html();
+                    var html = htmlo.replace(/\</g, '&lt;').replace(/ data-view=\"\"/g, '');
                     var div = $('<div class="mw-ui-box mw-ui-box-content" data-source style="display:none;"><pre>'+html+'</pre></div>');
                     $(this).append(div);
                     $(this).prepend('<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs"><a onclick="KS.demo(this)" class="mw-ui-btn active">Preview</a><a href="javascript:;" onclick="KS.demo(this)" class="mw-ui-btn">Source</a></div>');

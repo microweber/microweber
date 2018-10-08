@@ -260,11 +260,13 @@ div.mw-ui-field:after {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  vertical-align: middle;
 }
 
 .mw-ui-check {
   cursor: pointer;
   vertical-align: middle;
+  display: inline-block;
   @shadow: 0 1px 3px lighten(@info, 40%);
   &:hover{
     input + span{
@@ -487,5 +489,47 @@ div.mw-ui-field:after {
 .range-slider input[type=range]:focus::-ms-fill-upper {
   background: @info;
 }
+
+.mw-ui-field-group-check{
+    *{
+        vertical-align: bottom;
+    }
+
+    &>*+*{
+        margin-left: 12px;
+    }
+
+    .mw-ui-field-holder{
+        display: inline-block;
+        padding: 0;
+    }
+    .mw-ui-check{
+        transform: translateY(50%);
+        position: relative;
+        bottom: @normalHeight/2;
+    }
+    &.mw-ui-field-group-check-medium{
+        .mw-ui-check{
+            bottom: @mediumHeight/2;
+        }
+    }
+    &.mw-ui-field-group-check-small{
+        .mw-ui-check{
+            bottom: @smallHeight/2;
+        }
+    }
+    &.mw-ui-field-group-check-big{
+        .mw-ui-check{
+            bottom: @largeHeight/2;
+        }
+    }
+
+}
+
+
+
+
+
+
 
 
