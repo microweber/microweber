@@ -1,4 +1,9 @@
+
 $(document).ready(function () {
+	
+	$(".js-generate-new-promo-code").click(function(){
+		$('.js-coupon-code').val(uniqueId());
+	});
 	
 	$(".js-validation").change(function() {
 		runFieldsValidation(this);

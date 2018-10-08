@@ -1,9 +1,9 @@
 <?php
-include 'src/CouponClass.php';
+//include 'src/CouponClass.php';
 
-$coupon_code = 'da2d1e15';
-$total_amount = 10.00;
-$customer_id = 1;
+//$coupon_code = 'da2d1e15';
+//$total_amount = 10.00;
+//$customer_id = 1;
 
 //$newPrice = CouponClass::calculate_new_price($coupon_code, $total_amount, $customer_id);
 
@@ -14,7 +14,6 @@ $customer_id = 1;
 $allCoupons = coupon_get_all();
 ?>
 <table class="table-style-1 mw-ui-table">
-
 	<thead>
 		<tr>
 			<th>#</th>
@@ -25,7 +24,6 @@ $allCoupons = coupon_get_all();
 			<th style="width:150px;">Action</th>
 		</tr>
 	</thead>
-	
 	<?php
 	if ($allCoupons):
 	    foreach ($allCoupons as $coupon):

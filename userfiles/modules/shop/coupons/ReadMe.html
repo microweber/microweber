@@ -2,13 +2,12 @@
 2.Create tables
  - cart_coupons
  - cart_coupon_logs
- 
+
 3.Add new columns on cart_orders table
   `coupon_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `discount_type` enum('precentage','fixed_amount') COLLATE utf8_unicode_ci NOT NULL,
   `discount_value` decimal(10,2) NOT NULL
   
-
   
 4.order_cart.php
 After Sub Total

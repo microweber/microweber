@@ -1,7 +1,7 @@
 <?php only_admin_access(); ?>
 
 <?php
-if (isset($params['coupon_id'])) {
+if ($params['coupon_id'] !== 'false') {
 	$addNew = false;
 	$data = coupon_get_by_id($params['coupon_id']);
 } else {
@@ -46,7 +46,7 @@ var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill all fields correct.');?>";
         <div class="js-field-message"></div>
         <br />
         <br />
-    	<a href="#" class="mw-ui-btn js-generate-new-promo-code">Generate New Promo Code</a>
+    	<button type="button" class="mw-ui-btn js-generate-new-promo-code">Generate New Promo Code</button>
     </div>
     
      	<div class="mw-ui-field-holder">
@@ -102,16 +102,13 @@ var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill all fields correct.');?>";
 
 <script src="<?php print $config['url_to_module'];?>js/edit-coupon.js" />
 
-<script>
-$(document).ready(function () {
+<script type='text/javascript'>
 
+$(document).ready(function () {
+	
 	<?php if($addNew): ?>
 	$('.js-coupon-code').val(uniqueId());
 	<?php endif; ?>
-	
-	$(".js-generate-new-promo-code").click(function(){
-		$('.js-coupon-code').val(uniqueId());
-	});
 
 	<?php if (isset($data['discount_type'])): ?>
 	$(".js-discount-type").val("<?php echo $data['discount_type']; ?>").change();

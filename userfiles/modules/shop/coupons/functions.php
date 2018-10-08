@@ -1,7 +1,5 @@
 <?php
 
-use Microweber\Providers\Shop\CheckoutManager;
-
 api_expose('coupon_apply');
 function coupon_apply($params = array()) {
 	
@@ -17,7 +15,7 @@ function coupon_apply($params = array()) {
 		$ok = false;
 	}
 	
-	$checkoutManager = new CheckoutManager();
+	$checkoutManager = new Microweber\Providers\Shop\CheckoutManager();
 	
 	$sid = $checkoutManager->app->user_manager->session_id();
 	$cart = array();

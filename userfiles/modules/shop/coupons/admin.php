@@ -79,7 +79,7 @@
         });
         
         $(".js-add-new-coupon").click(function(){
-        	editCoupon();
+        	editCoupon(false);
     	});
     });
 </script>
