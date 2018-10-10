@@ -1,6 +1,6 @@
 <?php return array (
   'fetch' => 8,
-  'default' => 'mysql',
+  'default' => 'sqlite',
   'connections' => 
   array (
     'sqlite' => 
@@ -16,7 +16,7 @@
     array (
       'driver' => 'mysql',
       'host' => 'localhost',
-      'database' => 'microweber',
+      'database' => 'mw1',
       'username' => 'root',
       'password' => '',
       'charset' => 'utf8',
