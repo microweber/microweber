@@ -232,8 +232,14 @@ class FormsManager
 
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
-            } else {
+                return array(
+                    'error' => _e('Please enter the captcha answer!', true),
+                    'form_data_required' => 'captcha',
+                    'form_data_module' => 'captcha'
+                );
+
+
+             } else {
 //                if ($for_id != false) {
 //                    $validate_captcha = mw()->captcha->validate($params['captcha'], $for_id);
 //                    if (!$validate_captcha) {
@@ -457,7 +463,10 @@ class FormsManager
             }
         }
 
-        return $save;
+
+        return array('success' =>_( 'Your message has been sent' ));
+
+      //  return $save;
     }
 
     public function get_lists($params)

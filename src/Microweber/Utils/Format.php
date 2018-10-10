@@ -23,7 +23,7 @@ class Format
         $retStr = '<' . $ul_tag . '>';
         if (is_array($arr)) {
             foreach ($arr as $key => $val) {
-                if (!is_array($key) and $key and $val) {
+                if (!is_array($key) and  $val) {
                     $key = str_replace('_', ' ', $key);
                     $key = ucwords($key);
 
@@ -41,8 +41,14 @@ class Format
                     } else {
                         if (is_string($val) != false and trim($val) != '') {
                             $has_items = true;
+                            $print_key = $key;
+                            if (is_numeric($key)) {
+                                $retStr .= '<' . $li_tag . '><span></span> ' . $val . '</' . $li_tag . '>';
+                            } else {
+                                $retStr .= '<' . $li_tag . '><span>' . $print_key . ':</span> ' . $val . '</' . $li_tag . '>';
 
-                            $retStr .= '<' . $li_tag . '><span>' . $key . ':</span> ' . $val . '</' . $li_tag . '>';
+                            }
+
                         }
                     }
                 } else {

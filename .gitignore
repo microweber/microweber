@@ -46,3 +46,5 @@ node_modules/
 userfiles/templates/active/
 /cpanel
 mail.php
+/.settings
+/.project

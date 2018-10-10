@@ -75,6 +75,8 @@ class Admin
 
             } else {
                 $orders = get_orders($limit . $cur_page . '&order_status=[neq]new&order_completed=1&' . $ord . $kw);
+              //  $orders = get_orders($limit . $cur_page . '&order_completed=1&' . $ord . $kw);
+
                 if (isset($params['page_count_only'])) {
                     $orders = get_orders($limit . '&order_status=[neq]new&count_paging=1&order_completed=1&' . $ord . $kw);
 
