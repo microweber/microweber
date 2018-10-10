@@ -701,12 +701,14 @@ if ($action == 'posts') {
                                                 if(data.type == 'page'){
                                                     action = 'editpage';
                                                 }
-                                                if(data.subtype == 'dynamic'){
+                                                if(data.subtype == 'dynamic' || data.subtype == 'shop'){
                                                     action = 'showposts';
                                                 }
                                                 if(data.type == 'category'){
                                                     action = 'showpostscat';
                                                 }
+
+                                                
                                                 mw.url.windowHashParam("action", action+":"+data.id);
                                             }
 
