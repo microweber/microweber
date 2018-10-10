@@ -41,6 +41,7 @@ jQuery.ajax = $.ajax = function(url, options){
             }
             else {
                 if (typeof this._success === 'function') {
+                    console.log(this._success)
                     this._success.call(this, data, status, xhr);
                 }
             }
@@ -929,6 +930,19 @@ mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
 
 
 
+$(window).on('load', function(){
+    if(typeof $().emulateTransitionEnd === 'function'){
+        $(".modal").each(function(){
+            var selector = 'form[action*="/api/"], form.mw-checkout-form';
+            var hasMWForm = $(selector, this).length;
+            if(hasMWForm){
+                $(this).on('shown.bs.modal', function() {
+                    $(document).off('focusin.modal');
+                });
+            }
+        })
+    }
+})
 
 
 <?php  //include "upgrades.js"; ?>

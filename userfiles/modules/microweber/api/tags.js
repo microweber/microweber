@@ -9,40 +9,49 @@ mw.coreIcons = {
 };
 
 
-mw.tags = function(options){
+mw.tags = mw.chips = function(options){
+
+    "use strict";
 
     options.element = $(options.element)[0];
+    options.size = options.size || 'medium';
 
     this.options = options;
     var scope = this;
     /*
         data: [
             {title:'Some tag', icon:'<i class="icon"></i>'},
-            {title:'Some tag', icon:'icon'}
+            {title:'Some tag', icon:'icon', image:'http://some-image/jpg.png'},
+            {title:'Some tag', color:'warn'},
         ]
     */
 
     this.refresh = function(){
         $(scope.options.element).empty();
         this.rend();
-    }
+    };
 
     this.setData = function(data){
         this.options.data = data;
-        this.refresh()
-    }
+        this.refresh();
+    };
     this.rend = function(){
         $.each(this.options.data, function(i){
             var data = $.extend({index:i}, this);
             scope.options.element.appendChild(scope.tag(data))
-        })
-    }
+        });
+    };
 
+     this.createImage = function (config) {
+        if(config.image){
+
+        }
+     };
      this.createIcon = function (config) {
         var ic = config.icon;
 
         if(!ic && config.type){
-            ic = mw.coreIcons[config.type]
+            ic = mw.coreIcons[config.type];
 
         }
         var icon;
@@ -55,23 +64,28 @@ mw.tags = function(options){
         }
 
         return $(icon)[0];
-     }
+     };
 
      this.removeTag = function (index) {
         var item = this.options.data[index];
         this.options.data.splice(index,1);
         this.refresh();
         $(scope).trigger('tagRemoved', [item]);
-     }
+     };
 
      this.tag = function (options) {
 
             var config = {
                 close:true,
-                tagBtnClass:'mw-ui-btn mw-ui-btn-medium',
-            }
+                tagBtnClass:'mw-ui-btn mw-ui-btn-' + this.options.size
+            };
 
-            $.extend(config, options)
+            $.extend(config, options);
+
+             if(options.color){
+                 config.tagBtnClass +=  ' mw-ui-btn-' + options.color;
+             }
+
 
             var tag_holder = mwd.createElement('span');
             var tag_close = mwd.createElement('span');
@@ -83,33 +97,44 @@ mw.tags = function(options){
 
             tag_holder.className = config.tagBtnClass;
 
+             if(options.image){
+
+             }
+
             tag_holder.innerHTML = '<span class="tag-label-content">' + config.title + '</span>';
 
-            var icon = this.createIcon(config)
 
-            if(icon){
-                $(tag_holder).prepend(icon);
-            }
+            var icon = this.createIcon(config);
+
+            var image = this.createImage(config);
+
+             if(image){
+                 $(tag_holder).prepend(image);
+             }
+             if(icon){
+                 $(tag_holder).prepend(icon);
+             }
+
 
             tag_holder.onclick = function (e) {
                 if(e.target !== tag_close){
                     $(scope).trigger('tagClick', [this._config, this._index, this])
                 }
-            }
+            };
 
             tag_close.className = 'mw-icon-close';
             if(config.close){
                 tag_close.onclick = function () {
                     scope.removeTag(this._index);
-                }
+                };
             }
             tag_holder.appendChild(tag_close);
             return tag_holder;
-        }
+        };
         this.rend();
-}
+};
 
-mw.treeTags = function(options){
+mw.treeTags = mw.treeChips = function(options){
     this.options = options;
     var scope = this;
 

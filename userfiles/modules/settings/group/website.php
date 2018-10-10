@@ -134,8 +134,40 @@
         </div>
     </div>
 
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label">
+            <?php _e("Fonts"); ?>
+        </label>
+        <div class="mw-ui-box mw-ui-box-content">
 
-    <script>
+
+        <?php
+            $fonts = get_option('fonts', 'website');
+
+            if(!$fonts){
+                ?>
+                <p class="muted">No fonts</p>
+                <?php
+            }
+            else{
+                $fonts = json_encode($fonts);
+                ?>
+                <table class="mw-ui-table">
+                    <?php foreach ($fonts as $font){ ?>
+                        <tr>
+                            <td><?php print $font['name']; ?></td>
+                            <td><?php print $font['status']; ?></td>
+                            <td></td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            <?php }
+        ?>
+        </div>
+    </div>
+
+
+        <script>
         $(document).ready(function () {
             favUP = mw.uploader({
                 element: mwd.getElementById('upload-icoimage'),
