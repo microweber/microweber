@@ -37,7 +37,7 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("upgrades.js");
 
         <?php if(_lang_is_rtl()){ ?>
-            mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
+        mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
         <?php } ?>
 
     </script>
@@ -197,7 +197,7 @@ if (isset($_COOKIE['mw_exp'])) {
     <script>
 
 
-        mw.on('liveEditSettingsReady', function(){
+        mw.on('liveEditSettingsReady', function () {
             mw.drag.init();
             $('.module', mw.liveEditSettings.box).removeClass('module');
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
@@ -218,37 +218,37 @@ if (isset($_COOKIE['mw_exp'])) {
             $('body').prepend('<div id="sidebar-hidden-area"></div>');
         });
 
-        $(window).on("load", function(){
+        $(window).on("load", function () {
             mw.liveEditSettings = new mw.controlBox({
-                content:'<div class="module" type="admin/modules/sidebar_live_edit"></div>',
-                position:'right',
-                id:'live_edit_side_holder'
+                content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
+                position: 'right',
+                id: 'live_edit_side_holder'
             });
 
             mw.tools.loading(mw.liveEditSettings.box);
 
-            setTimeout(function(){
-                mw.reload_module('#'+mw.liveEditSettings.id+' div[type]', function(){
+            setTimeout(function () {
+                mw.reload_module('#' + mw.liveEditSettings.id + ' div[type]', function () {
                     $("[data-xmodule]").addClass("module")
-                    setTimeout(function(){
+                    setTimeout(function () {
                         settingsLoaded = 0;
                         var all = mw.$("#modules-and-layouts-sidebar [data-xmodule], #modules-and-layouts-sidebar [data-src]");
-                        all.each(function(){
+                        all.each(function () {
                             var src = $(this).dataset("src");
-                            if(src){
-                                $(this).on("load", function(){
+                            if (src) {
+                                $(this).on("load", function () {
                                     settingsLoaded++;
-                                    if(settingsLoaded == all.length){
+                                    if (settingsLoaded == all.length) {
                                         mw.trigger('liveEditSettingsReady')
                                     }
                                 });
                                 this.src = src;
                             }
-                            else{
+                            else {
                                 mw.tools.addClass(this, 'module');
-                                mw.reload_module(this, function(){
+                                mw.reload_module(this, function () {
                                     settingsLoaded++;
-                                    if(settingsLoaded == all.length){
+                                    if (settingsLoaded == all.length) {
                                         mw.trigger('liveEditSettingsReady');
                                     }
                                 })
@@ -303,17 +303,18 @@ if (isset($_COOKIE['mw_exp'])) {
                         <li class="create-content-dropdown mw-toolbar-btn-menu">
 
 
-                            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl" title="Create or manage your content"
-                               style=""><i class="mw-icon-plus"></i><span> <?php _e("Add New"); ?> </span></a>
-                            <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
-                                style="width: 200px; text-transform:uppercase;top: 51px;">
+                            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl" title="Create or manage your content">
+                                <i class="mw-icon-plus"></i><span> <?php _e("Add New"); ?> </span>
+                            </a>
+                            <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 200px; text-transform:uppercase;top: 51px;">
                                 <?php event_trigger('live_edit_quick_add_menu_start'); ?>
                                 <li>
-                                    <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-pen"></span><span>
-                    <?php _e("Edit current"); ?>
-                </span>
+                                    <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);">
+                                        <span class="mw-icon-pen"></span>
+                                        <span><?php _e("Edit current"); ?></span>
                                     </a>
                                 </li>
+
                                 <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
                                 <?php if (!empty($create_content_menu)): ?>
                                     <?php foreach ($create_content_menu as $type => $item): ?>
@@ -323,9 +324,11 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
                                         <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
                                         <li>
-                                            <a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>', '<?php print MAIN_PAGE_ID; ?>', '<?php print CATEGORY_ID; ?>'); return false;"
-                                               href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span
-                                                        class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
+                                            <a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>', '<?php print MAIN_PAGE_ID; ?>', '<?php print CATEGORY_ID; ?>'); return false;" href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>">
+                                                <span class="<?php print $class; ?>"></span>
+                                                <strong><?php print $title; ?></strong>
+                                            </a>
+                                        </li>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
 
@@ -343,7 +346,6 @@ if (isset($_COOKIE['mw_exp'])) {
                             class="mw-icon-template"></span><span><?php /*_e("Layouts"); */ ?></span></a>
             </span>-->
                         </li>
-
 
 
                         <?php event_trigger('live_edit_toolbar_menu_end'); ?>
@@ -441,11 +443,11 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
                         <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium mw-sidebar-open-btn">
-                            <i class="mw-v2 m-r mwi-hamb"></i> <?php _e("Menu"); ?>
+                            <i class="m-r mwi-hamb"></i> <?php _e("Menu"); ?>
                         </a>
 
                         <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium">
-                            <i class="mw-v2 m-r mw-icon-arrow-left-c"></i>
+                            <i class="m-r mw-icon-arrow-left-c"></i>
                             <?php _e("Admin"); ?>
                         </a>
 
@@ -710,7 +712,6 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.drag.plus.init('.edit');
         mw.drag.columns.init();
     });
-
 
 
 </script>

@@ -20,6 +20,35 @@ if (typeof jQuery == 'undefined') {
 
 }
 
+var _jqxhr = jQuery.ajax;
+
+jQuery.ajax = $.ajax = function(url, options){
+    options = options || {};
+    settings = {};
+    if(typeof url === 'object'){
+        $.extend(settings, url);
+    }
+    else{
+        settings.url = url;
+    }
+    $.extend(settings,options);
+    if(typeof settings.success === 'function'){
+        settings._success = settings.success;
+        delete settings.success;
+        settings.success = function (data, status, xhr) {
+            if (data.form_data_required) {
+                mw.extradataForm(settings, data);
+            }
+            else {
+                if (typeof this._success === 'function') {
+                    this._success.call(this, data, status, xhr);
+                }
+            }
+        };
+    }
+    var xhr = _jqxhr(settings);
+    return xhr;
+};
 
 $.ajaxSetup({
     cache: false,
@@ -32,7 +61,6 @@ $.ajaxSetup({
         }
     }
 });
-
 
 
 
@@ -112,7 +140,11 @@ mw.askusertostay = false;
       callback.call(this);
     }
   }
-
+    if (!Array.isArray) {
+        Array.isArray = function(arg) {
+            return Object.prototype.toString.call(arg) === '[object Array]';
+        };
+    }
   if (Array.prototype.indexOf === undefined) {
     Array.prototype.indexOf = function(obj) {
       var i=0, l=this.length;

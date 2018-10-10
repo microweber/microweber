@@ -9,12 +9,16 @@
     font-weight: normal;
     font-style: normal;
 }
+[class*='mwi-']{
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
 [class*='mwi-']:before{
 	display: inline-block;
    font-family: 'mwi';
    font-style: normal;
    font-weight: normal;
-   line-height: 1;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale
 }

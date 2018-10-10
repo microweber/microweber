@@ -20,9 +20,9 @@
 
 .fade-window.active {
     opacity: 1;
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    transform: scale(1);
+    -webkit-transform: none;
+    -moz-transform: none;
+    transform: none;
     visibility: visible;
 }
 
@@ -49,10 +49,36 @@
     padding: 0 20px;
 }
 
+.fade-window .window-holder .top-bar-wrapper{
+    height: 60px;
+}
+
 .fade-window .window-holder .top-bar {
     height: 60px;
     width: 100%;
     border-bottom: 1px solid #138fde;
+    position: static;
+}
+
+
+.fade-window .window-holder .top-bar.fix-in-header{
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #2b2b2b;
+    z-index: 101;
+    height: 67px;
+    margin-left: 1px;
+    width: auto;
+    transform: translateY(-70px);
+    opacity: 0;
+}
+
+.fade-window .window-holder .top-bar.after-fix-in-header{
+    transition: all .3s;
+    transform: translateY(0);
+    opacity: 1;
+
 }
 
 .fade-window .window-holder .top-bar .left-side,
@@ -369,20 +395,16 @@
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs {
     float: none;
-
+    margin-bottom: 0;
 }
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn {
     border: 1px solid transparent;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    font-size: 12px;
     color: #4d4d4d;
-    padding: 15px 24px;
     margin: 0;
-    height: auto;
     border-bottom: 0;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -408,16 +430,12 @@
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn i {
     font-size: 20px;
-    margin-right: 10px;
-    float: left;
-    height: 10px;
+    margin-right: 5px;
     color: #999999;
 }
 
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn:hover,
 .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn:focus {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
     background: #f5f5f5;
     border-color: #eaeaea;
@@ -428,8 +446,6 @@
     border: 1px solid #0086db;
     color: #0086db;
     border-bottom: 1px solid #fff;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
 }
 
@@ -497,9 +513,7 @@
     border-radius: 30px;
 }
 
-.fade-window .window-holder .btn-rounded.mw-ui-btn-small {
-    padding: 1px 10px;
-}
+
 
 .fade-window .window-holder .module-pictures-admin .mw-ui-link {
     color: #0086db;
@@ -511,19 +525,18 @@
     background: none;
 }
 
-.fade-window .window-holder .mw-tag-selector .mw-ui-btn.mw-ui-btn-small {
+.fade-window .window-holder .mw-tag-selector .mw-ui-btn {
     border-color: #0086db;
     color: #0086db;
 }
 
-.fade-window .window-holder .mw-tag-selector .mw-ui-btn.mw-ui-btn-small:hover {
+.fade-window .window-holder .mw-tag-selector .mw-ui-btn:hover {
     border-color: #fff;
     color: #fff;
 }
 
 .fade-window .window-holder .mw-tag-selector .mw-ui-btn .mw-icon-close {
     top: 0px;
-    padding-top: 6px;
     width: 19px;
 }
 
@@ -556,10 +569,6 @@
 
 .fade-window .window-holder .mw-tag-selector .add-to-cats i {
     color: #0086db;
-    font-size: 15px;
-    margin-right: 6px;
-    float: left;
-    line-height: 10px;
 }
 
 .fade-window .window-holder .mw-tag-selector .add-to-cats:hover i {
@@ -736,8 +745,6 @@
     .fade-window .window-holder #settings-tabs .mw-ui-btn-nav-tabs .mw-ui-btn.active:focus {
         color: #fff;
         background-color: #0086db;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
         border-radius: 0;
     }
 

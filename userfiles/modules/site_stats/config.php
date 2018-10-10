@@ -52,7 +52,7 @@ $config['tables']['stats_visits_log'] = $fields_to_add;
 
 
 $fields_to_add = array();
-$fields_to_add['browser_agent'] = 'string';
+$fields_to_add['browser_agent'] = 'text';
 $fields_to_add['browser_agent_hash'] = 'string';
 
 $fields_to_add['platform'] = 'string';
@@ -66,7 +66,7 @@ $fields_to_add['is_mobile'] = 'integer';
 $fields_to_add['is_phone'] = 'integer';
 $fields_to_add['is_tablet'] = 'integer';
 
-$fields_to_add['robot_name'] = 'integer';
+$fields_to_add['robot_name'] = 'text';
 $fields_to_add['is_robot'] = 'string';
 $fields_to_add['language'] = 'string';
 
@@ -77,7 +77,7 @@ $config['tables']['stats_browser_agents'] = $fields_to_add;
 
 
 $fields_to_add = array();
-$fields_to_add['referrer'] = 'string';
+$fields_to_add['referrer'] = 'text';
 $fields_to_add['referrer_hash'] = 'string';
 $fields_to_add['referrer_domain_id'] = 'integer';
 $fields_to_add['referrer_path_id'] = 'integer';

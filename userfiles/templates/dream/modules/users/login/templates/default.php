@@ -119,7 +119,7 @@ description: Login default
                 <?php endif; ?>
 
                 <?php if ($mw_login): ?>
-                    <a href="<?php print api_link('user_social_login?provider=github') ?>" class="btn btn--primary m-t-10">
+                    <a href="<?php print api_link('user_social_login?provider=microweber') ?>" class="btn btn--primary m-t-10">
                         <span class="btn__text"><i class="mw-icon-mw"></i> Sign in with Microweber</span>
                     </a>
                 <?php endif; ?>

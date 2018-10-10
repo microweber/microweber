@@ -256,7 +256,7 @@ mw.ElementAnalyzer = function(options){
                 return false;
             }
             var name = node.nodeName;
-            if(this._isBlockCache[name]){
+            if(typeof this._isBlockCache[name] !== 'undefined'){
                 return this._isBlockCache[name];
             }
             var test = document.createElement(name);
@@ -272,12 +272,12 @@ mw.ElementAnalyzer = function(options){
                 return false;
             }
             var name = node.nodeName;
-            if(this._isInlineCache[name]){
+            if(typeof this._isInlineCache[name] !== 'undefined'){
                 return this._isInlineCache[name];
             }
             var test = document.createElement(name);
             this.scope.fragment().appendChild(test);
-            this._isInlineCache[name] = getComputedStyle(test).display === 'inline';
+            this._isInlineCache[name] = getComputedStyle(test).display === 'inline' && node.nodeName !== 'BR';
             this.scope.fragment().removeChild(test);
             return this._isInlineCache[name];
         },
@@ -315,8 +315,11 @@ mw.ElementAnalyzer = function(options){
             selector = selector || '*';
             var all = root.querySelectorAll(selector), i = 0; final = [];
             for( ; i<all.length; i++){
-                if(!this.scope.helpers.isColLike(all[i]) && !this.scope.helpers.isRowLike(all[i]) && this.scope.helpers.isBlockLevel(all[i])){
-                    final.push(all[i])
+                if(!this.scope.helpers.isColLike(all[i]) &&
+                    !this.scope.helpers.isRowLike(all[i]) &&
+                    !this.scope.helpers.isEdit(all[i]) &&
+                    this.scope.helpers.isBlockLevel(all[i])){
+                    final.push(all[i]);
                 }
             }
             return final;

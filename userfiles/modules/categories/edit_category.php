@@ -40,38 +40,9 @@ if (isset($params['live_edit'])) {
         mw.require('forms.js');
     </script>
     <script type="text/javascript">
-        function set_category_parent() {
-            var sel = mw.$('#edit_category_set_par input:checked').parents('li').first(),
-                is_cat = sel.attr("data-category-id"),
-                is_page = sel.attr("data-page-id");
 
-            if (typeof is_cat !== "undefined") {
-                mw.$('#rel_id').val(0);
-                mw.$('#parent_id').val(is_cat);
-            }
-            if (typeof is_page !== "undefined") {
-                mw.$('#rel_id').val(is_page);
-                mw.$('#parent_id').val(0);
-            }
 
-        }
-        function onload_set_parent() {
-            var tti = mw.$('#rel_id').val();
-            var par_cat = mw.$('#parent_id').val();
-            if (par_cat != undefined && parseFloat(par_cat) > 0) {
-                var tree = mwd.getElementById('edit_category_set_par');
-                var li = tree.querySelector('li[data-category-id="' + par_cat + '"]');
-                var radio = li.querySelector('input[type="radio"]');
-                radio.checked = true;
 
-            }
-            else if (tti != undefined && parseFloat(tti) > 0) {
-                var tree = mwd.getElementById('edit_category_set_par');
-                var li = tree.querySelector('li[data-page-id="' + tti + '"]');
-                var radio = li.querySelector('input[type="radio"]');
-                radio.checked = true;
-            }
-        }
 
         function save_cat(el) {
             if (mwd.querySelector('.mw-ui-category-selector input:checked') !== null) {
@@ -115,7 +86,7 @@ if (isset($params['live_edit'])) {
             mw.$('label', h).click(function () {
                 set_category_parent();
             });
-            onload_set_parent()
+
             mw.$('#admin_edit_category_form').submit(function () {
                 var form = this;
                 if (mw.category_is_saving) {
@@ -145,7 +116,8 @@ if (isset($params['live_edit'])) {
                         parent.mw.reload_module('categories');
                     }
                     mw.reload_module('[data-type="categories/manage"]');
-                    mw.$('[data-type="pages"]').removeClass("activated");
+                    if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                    /*mw.$('[data-type="pages"]').removeClass("activated");
                     mw.reload_module('[data-type="pages"]', function () {
                         mw.treeRenderer.appendUI('[data-type="pages"]');
                         mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
@@ -156,7 +128,7 @@ if (isset($params['live_edit'])) {
                                 $('[data-category-id="'+id+'"]').addClass("active-bg")
                             }
                         }
-                    });
+                    });*/
                     <?php if(intval($data['id']) == 0): ?>
                     mw.url.windowHashParam("new_content", "true");
 
@@ -335,6 +307,7 @@ if (isset($params['live_edit'])) {
                     <?php $is_shop = ''; ?>
                     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none"
                          id="edit_category_set_par">
+<?php /*
                         <module type="categories/selector" include_inactive="true"
                                 categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
                                 active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
@@ -342,12 +315,74 @@ if (isset($params['live_edit'])) {
                                 input-name-categories='temp' input-type-categories="radio"
                                 categories_removed_ids="<?php print (intval($data['id'])) ?>"
                                 show_edit_categories_admin_link="true"/>
+ */ ?>
+
+
+                        <div class="category-parent-selector"></div>
                     </div>
                 </div>
                 <script type="text/javascript">
+                    mw.require('tree.js')
+                    var parent_page = <?php print intval( $data['rel_id']);  ?>;
+                    var parent_category = <?php print (intval($data['parent_id']));  ?>;
+                    var current_category = <?php print isset($data['id']) ? $data['id'] : 'false'; ?>;
+                    var skip = [];
+                    if(current_category){
+                        skip.push({
+                            id:current_category,
+                            type:'category'
+                        })
+                    }
+                    var selectedData = [];
+                    if(parent_page){
+                        selectedData.push({
+                            id:parent_page,
+                            type:'page'
+                        })
+                    }
+                    if(parent_category){
+                        selectedData.push({
+                            id:parent_category,
+                            type:'category'
+                        })
+                    }
                     $(mwd).ready(function () {
+
+                        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+                            var categoryParentSelector = new mw.tree({
+                                id:'category-parent-selector',
+                                element:'.category-parent-selector',
+                                selectable:true,
+                                data:data,
+                                singleSelect:true,
+                                selectedData:selectedData,
+                                skip:skip
+                            });
+                            $(categoryParentSelector).on("selectionChange", function(e, selected){
+                                var parent = selected[0];
+                                if(!parent){
+                                    mw.$('#rel_id').val(0);
+                                    mw.$('#parent_id').val(0);
+                                    $("#category-dropdown-holder").html( ' ' );
+                                }
+                                else{
+                                    $("#category-dropdown-holder").html(parent.title);
+                                    if (parent.type === 'category') {
+                                        mw.$('#rel_id').val(0);
+                                        mw.$('#parent_id').val(parent.id);
+                                    }
+                                    if (parent.type === 'page') {
+                                        mw.$('#rel_id').val(parent.id);
+                                        mw.$('#parent_id').val(0);
+                                    }
+                                }
+                            })
+                        });
+/*
                         mw.treeRenderer.appendUI('#edit_category_set_par');
                         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par'));
+*/
+
 
                         var _parent = mwd.querySelector('#edit_category_set_par input:checked');
 
@@ -464,6 +499,7 @@ if (isset($params['live_edit'])) {
 
                                         $('.edit-category-choose-subtype-dd').on('change', function () {
                                             var val = $(this).getDropdownValue();
+                                            console.log(val )
                                             $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
 
                                             $('#admin_edit_category_subtype_settings').attr('category_subtype', val);

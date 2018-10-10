@@ -26,7 +26,7 @@
           <div class="tab" style="display: block">
               <label class="mw-ui-label"><?php _e("Search in page"); ?></label>
 
-                  <select name="data-content-id" class="mw-ui-field mw_option_field">
+                  <select name="data-content-id" class="mw-ui-field w100 mw_option_field">
                       <option
                           value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                           title="<?php _e("None"); ?>"><?php _e("All pages"); ?>

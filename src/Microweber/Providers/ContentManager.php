@@ -492,7 +492,7 @@ class ContentManager
 
                 $item_to_print = '';
                 $item_to_print .= "<li class=\"{$li_class} {$act_class}\" data-page-number=\"$key\">";
-                $item_to_print .= "<a class=\"{$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
+                $item_to_print .= "<a class=\"mw-ui-btn {$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
                 $item_to_print .= '</li>';
                 $paging_items[$key] = $item_to_print;
             }

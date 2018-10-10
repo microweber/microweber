@@ -4,6 +4,7 @@
 mw.iconSelector = mw.iconSelector || {
     _string: '',
     _activeElement: null,
+    defaultIcons: false,
 
     iconFontClasses: [],
 
@@ -79,13 +80,6 @@ mw.iconSelector = mw.iconSelector || {
 
             }
 
-
-
-
-
-
-
-
             //check semantic ui
             var faicons = mwd.querySelector('link[href*="/semantic.min.css"]');
             if (faicons !== null) {
@@ -138,17 +132,53 @@ mw.iconSelector = mw.iconSelector || {
 
     },
 
+
+    mindIconsTab:function(){
+        if(this.mindIcons){
+
+        }
+    },
+    mindIconsInit:function(){
+        this.mindIcons = true;
+        var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
+        if (faicons != null && faicons.length == 0) {
+            var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
+        }
+        if (faicons != null && faicons.length != 0 && typeof(faicons.sheet) != 'undefined' && typeof(faicons.sheet) != 'null') {
+            try {
+                var icons = faicons.sheet.cssRules;
+                var l = icons.length, i = 0, html = '';
+                for (; i < l; i++) {
+                    var sel = icons[i].selectorText;
+                    if (!!sel && sel.indexOf('.mw-micon-') === 0) {
+                        var cls = sel.replace(".", '').split(':')[0];
+                        if (mw.iconSelector.iconFontClasses.indexOf('mw-micon- ' + cls) === -1) {
+                            mw.iconSelector.iconFontClasses.push('mw-micon- ' + cls);
+                        }
+                    }
+                }
+            } catch (e) {
+            }
+        }
+    },
     popup: function (refresh) {
 
 
-        if (mw.iconSelector.iconFontClasses.length == 0) {
+
+        if (mw.iconSelector.iconFontClasses.length == 0 && this.defaultIcons) {
             mw.iconSelector.init();
         }
 
-        if (mw.iconSelector.iconFontClasses.length == 0) {
+        if (mw.iconSelector.iconFontClasses.length == 0 && !this.defaultIcons) {
+            mw.iconSelector.mindIconsInit();
+        }
+
+        if (mw.iconSelector.iconFontClasses.length == 0 ) {
             // if no icon sets, disable the icon editor
             return;
         }
+
+
 
 
         if (mw.iconSelector._string == '' || refresh) {
@@ -254,6 +284,7 @@ mw.iconSelector = mw.iconSelector || {
             mw.tools.removeClass(mw.iconSelector._activeElement, mw.iconSelector.iconFontClasses);
             mw.wysiwyg.elementRemoveFontIconClasses(mw.iconSelector._activeElement);
             mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'mw-icon-');
+            mw.tools.classNamespaceDelete(mw.iconSelector._activeElement, 'material-');
             mw.tools.classNamespaceDelete({
               element:mw.iconSelector._activeElement,
               namespace:'fa-',
@@ -265,7 +296,7 @@ mw.iconSelector = mw.iconSelector || {
               mw.$(mw.iconSelector._activeElement).html(is)
             }
             else{
-              mw.$(mw.iconSelector._activeElement).empty()
+              mw.$(mw.iconSelector._activeElement).empty().removeClass('material-icons')
             }
 
             if(typeof(mw.iconSelector._activeElement) != 'undefined' && typeof(mw.iconSelector._activeElement.nodeName) != 'undefined'){

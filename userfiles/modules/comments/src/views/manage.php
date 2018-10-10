@@ -65,7 +65,7 @@
             <?php }; ?>
         </div>
     <?php else: ?>
-        <h5><?php _e('There are not comments here.'); ?></h5>
+        <h5><?php _e('You don\'t have any comments yet.'); ?></h5>
         <br/>
         <a href="#content_id=0" class="mw-ui-btn">
             <?php _e("See all comments"); ?>

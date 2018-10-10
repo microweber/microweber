@@ -86,14 +86,22 @@ if($mod_id != $mod_orig_id){
 
 ?>
 <script type="text/javascript">
-
+    addIcon = function () {
+        if(window.thismodal && thismodal.main){
+            var holder = $(".mw_modal_toolbar", thismodal.main);
+            if($('.mw_modal_icon', holder).length === 0){
+                holder.prepend('<span class="mw_modal_icon"><img src="<?php print $module_info['icon']; ?>"></span>')
+            }
+        }
+    };
+    addIcon();
 
     autoSize = <?php print $autoSize; ?>;
     settingsType = '<?php print $type; ?>';
 
     window.onbeforeunload = function () {
         $(mwd.body).addClass("mw-external-loading")
-    }
+    };
 
 
     mw_module_settings_info = "";
@@ -390,15 +398,13 @@ if (typeof thismodal.main[0] != 'undefined') {
             $(mwd.body).removeClass('mw-external-loading');
         });
 
+        addIcon();
+
     });
 
 
-</script>
-<?php
 
-//var_dump($params);
-
-?>
+    </script>
 
 </head>
 <body class="mw-external-loading loading">
@@ -441,225 +447,214 @@ if (typeof thismodal.main[0] != 'undefined') {
 </script>
 <script type="text/javascript">
 
+    window.slowDownEventTime = null;
+function slowDownEvent(e, el, call){
+    clearTimeout(slowDownEventTime);
+    slowDownEventTime = setTimeout(function () {
+        call.call(el, e);
+    },333)
+}
 
 function mw_option_save_rebind_form_fields(){
 
+      mw.$(".mw_option_field").not('.mw-options-form-binded-custom').not('.mw-options-form-binded').on("change input", function (e) {
+
+          slowDownEvent(e, this, function(){
+              if($(this).hasClass('mw-options-form-binded-custom')){
+                  return;
+              }
+
+              $(this).addClass('mw-options-form-binded');
 
 
+              if (mw.notification != undefined) {
+                  mw.notification.success('<?php _e('Settings are saved') ?>');
+              }
 
 
+              if (typeof liveEditSettings === 'boolean') {
+                  if (liveEditSettings) {
+                      $(mwd.body).addClass('loading');
+                  }
+              }
 
 
-      mw.$(".mw_option_field").not('.mw-options-form-binded-custom').not('.mw-options-form-binded').bind("change", function (e) {
+              var reaload_in_parent = $(this).attr('parent-reload');
+              var refresh_modules11 = $(this).attr('data-refresh');
 
-			if($(this).hasClass('mw-options-form-binded-custom')){
-			    return;
-			}
+              if (refresh_modules11 == undefined) {
+                  var refresh_modules11 = $(this).attr('data-reload');
+              }
 
-     	$(this).addClass('mw-options-form-binded');
-
-
-            if (mw.notification != undefined) {
-                mw.notification.success('<?php _e('Settings are saved') ?>');
-            }
+              if (refresh_modules11 == undefined) {
+                  var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
+                  var refresh_modules11 = '#' + refresh_modules11;
 
 
-            if (typeof liveEditSettings === 'boolean') {
-                if (liveEditSettings) {
-                    $(mwd.body).addClass('loading');
-                }
-            }
+              }
 
-
-            var reaload_in_parent = $(this).attr('parent-reload');
-            var refresh_modules11 = $(this).attr('data-refresh');
-
-            if (refresh_modules11 == undefined) {
-                var refresh_modules11 = $(this).attr('data-reload');
-            }
-
-            if (refresh_modules11 == undefined) {
-                var refresh_modules11 = $(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
-                var refresh_modules11 = '#' + refresh_modules11;
-
-
-            }
-
-            var also_reload = $(this).attr('data-also-reload');
-            if (og == also_reload || also_reload == null) {
-                var also_reload = $(this).attr('data-reload');
-            }
-		    var og = $(this).attr('data-option-group');
-            if (og == undefined || og == null) {
+              var also_reload = $(this).attr('data-also-reload');
+              if (og == also_reload || also_reload == null) {
+                  var also_reload = $(this).attr('data-reload');
+              }
+              var og = $(this).attr('data-option-group');
+              if (og == undefined || og == null) {
                   var og = $(this).attr('option-group');
-            }
-            if (og == undefined || og == null) {
-                var og = '<?php print $params['id'] ?>';
-            }
-            if (this.type === 'checkbox') {
-                var val = '';
-                var items = mw.$('input[name="' + this.name + '"]');
-                for (var i = 0; i < items.length; i++) {
-                    var _val = items[i].value;
-                    var val = items[i].checked == true ? (val === '' ? _val : val + ", " + _val) : val;
-                }
-            }
-            else {
-                val = this.value
-            }
+              }
+              if (og == undefined || og == null) {
+                  var og = '<?php print $params['id'] ?>';
+              }
+              if (this.type === 'checkbox') {
+                  var val = '';
+                  var items = mw.$('input[name="' + this.name + '"]');
+                  for (var i = 0; i < items.length; i++) {
+                      var _val = items[i].value;
+                      var val = items[i].checked == true ? (val === '' ? _val : val + ", " + _val) : val;
+                  }
+              }
+              else {
+                  val = this.value
+              }
 
 
-            var o_data = {
-                option_key: $(this).attr('name'),
-                option_group: og,
-                option_value: val
-                // chkboxes:checkboxes_obj
-            }
-            <?php if(isset( $params['module'])): ?>
-            o_data.module = '<?php print $params['module'] ?>';
-            <?php endif; ?>
+              var o_data = {
+                  option_key: $(this).attr('name'),
+                  option_group: og,
+                  option_value: val
+                  // chkboxes:checkboxes_obj
+              }
+              <?php if(isset( $params['module'])): ?>
+              o_data.module = '<?php print $params['module'] ?>';
+              <?php endif; ?>
 
 
-          if (window.parent.mw.drag != undefined) {
+              if (window.parent.mw.drag != undefined) {
 
-              var mod_body = window.parent.document.getElementById('<?php print $params['id'] ?>');
-                if(mod_body){
-
-
-                    var body = window.parent.mw.drag.parseContent(mod_body).body;
-                    var edits = body.querySelectorAll('.edit.changed');
-                    var mod_edits = window.parent.mw.drag.collectData(edits);
-                    if (!mw.tools.isEmptyObject(mod_edits)){
-
-                    var mod_edits_save = window.parent.mw.drag.save(mod_edits);
-                        window.parent.mw.drag.save(mod_edits_save)
-                     }
-                }
+                  var mod_body = window.parent.document.getElementById('<?php print $params['id'] ?>');
+                  if(mod_body){
 
 
+                      var body = window.parent.mw.drag.parseContent(mod_body).body;
+                      var edits = body.querySelectorAll('.edit.changed');
+                      var mod_edits = window.parent.mw.drag.collectData(edits);
+                      if (!mw.tools.isEmptyObject(mod_edits)){
 
-//              var body = mw.drag.parseContent().body,
-//                  edits = body.querySelectorAll('.edit.changed'),
-//                  data = mw.drag.collectData(edits);
-//
-//              if (mw.tools.isEmptyObject(data)) return false;
-//
-//              mw.trigger('saveStart', data);
-//
-//
-//
-//              var xhr = mw.drag.coreSave(data);
-//
+                          var mod_edits_save = window.parent.mw.drag.save(mod_edits);
+                          window.parent.mw.drag.save(mod_edits_save)
+                      }
+                  }
 
-
-           //   window.parent.mw.drag.save();
-          }
+              }
 
 
               $.ajax({
-                type: "POST",
-                url: mw.settings.site_url + "api/save_option",
-                data: o_data,
-                success: function () {
+                  type: "POST",
+                  url: mw.settings.site_url + "api/save_option",
+                  data: o_data,
+                  success: function () {
 
 
 
-                    if (refresh_modules11 != undefined && refresh_modules11 != '') {
-                        refresh_modules11 = refresh_modules11.toString();
-						 if(!!mw.admin){
-						 if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
-                             setTimeout(function(){
+                      if (refresh_modules11 != undefined && refresh_modules11 != '') {
+                          refresh_modules11 = refresh_modules11.toString();
+                          if(!!mw.admin){
+                              if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
+                                  setTimeout(function(){
 
-							  top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
-                             }, 777);
-							}
+                                      top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
+                                  }, 777);
+                              }
 
-						 }
-                        if (window.parent.mw != undefined) {
+                          }
+                          if (window.parent.mw != undefined) {
 
-							if(self !== top){
-                                setTimeout(function(){
+                              if(self !== top){
+                                  setTimeout(function(){
 
-                                    var mod_element = window.parent.document.getElementById('<?php print $params['id'] ?>');
-                                    if(mod_element){
-                                     // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
-                                      var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
-                                    if(module_parent_edit_field){
-                                        window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
-                                        window.parent.mw.askusertostay = true;
+                                      var mod_element = window.parent.document.getElementById('<?php print $params['id'] ?>');
+                                      if(mod_element){
+                                          // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
+                                          var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                                          if(module_parent_edit_field){
+                                              window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
+                                              window.parent.mw.askusertostay = true;
 
-                                    }
-                                    }
+                                          }
+                                      }
 
-                                    mw.reload_module_parent('#<?php print $params['id'] ?>');
-                                }, 777);
-							}
+                                      mw.reload_module_parent('#<?php print $params['id'] ?>');
+                                  }, 777);
+                              }
 
-                            if (window.parent.mw.reload_module != undefined) {
-                                if(!!mw.admin){
-                                    setTimeout(function(){
-                                  window.parent.mw.reload_module('#<?php print $params['id'] ?>');
-                                    }, 777);
-                                }
-                                else{
-                                    if (window.parent.mweditor != undefined) {
-                                      window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
-                                        setTimeout(function(){
-                                           window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                        }, 777);
-                                      });
-                                    }
-                                    if (window.parent.mw != undefined) {
-                                        window.parent.mw.reload_module('#<?php print $params['id'] ?>', function(){
-                                            setTimeout(function(){
-                                                window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                            }, 777);
-                                        });
-                                    }
-                                }
+                              if (window.parent.mw.reload_module != undefined) {
+                                  if(!!mw.admin){
+                                      setTimeout(function(){
+                                          window.parent.mw.reload_module('#<?php print $params['id'] ?>');
+                                      }, 777);
+                                  }
+                                  else{
+                                      if (window.parent.mweditor != undefined) {
+                                          window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
+                                              setTimeout(function(){
+                                                  window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                              }, 777);
+                                          });
+                                      }
+                                      if (window.parent.mw != undefined) {
+                                          window.parent.mw.reload_module('#<?php print $params['id'] ?>', function(){
+                                              setTimeout(function(){
+                                                  window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                              }, 777);
+                                          });
+                                      }
+                                  }
 
-                            }
-                        }
-                        if (also_reload != undefined) {
+                              }
+                          }
+                          if (also_reload != undefined) {
 
-                            var curm = "";
+                              var curm = "";
 
-                            <?php if(isset( $params['module'])): ?>
-                            var curm = "<?php print $params['module'] ?>";
-                            <?php endif; ?>
-
-
-                            if (curm == also_reload) {
-
-								// window.mw.reload_module(also_reload);
-								 window.location.href = window.location.href;
-                                //$('#mw_reload_this_module_popup_form').submit();
-
-                            } else {
-                                if (window.mw.reload_module != undefined) {
-                                    setTimeout(function(){
-
-                                        window.mw.reload_module(also_reload, function(){
-
-                                             mw_option_save_rebind_form_fields()
-                                        });
+                              <?php if(isset( $params['module'])): ?>
+                              var curm = "<?php print $params['module'] ?>";
+                              <?php endif; ?>
 
 
-                                        if(self !== top){
-                                            mw.reload_module_parent(also_reload);
-                                        }
-                                    }, 777);
-                                }
-                            }
-                        }
-                    }
-                    if (typeof liveEditSettings === 'boolean') {
-                        if (liveEditSettings) {
-                            $(mwd.body).removeClass('loading');
-                        }
-                    }
-                }
-            });
+                              if (curm == also_reload) {
+
+                                  // window.mw.reload_module(also_reload);
+                                  window.location.href = window.location.href;
+                                  //$('#mw_reload_this_module_popup_form').submit();
+
+                              } else {
+                                  if (window.mw.reload_module != undefined) {
+                                      setTimeout(function(){
+
+                                          window.mw.reload_module(also_reload, function(){
+
+                                              mw_option_save_rebind_form_fields()
+                                          });
+
+
+                                          if(self !== top){
+                                              mw.reload_module_parent(also_reload);
+                                          }
+                                      }, 777);
+                                  }
+                              }
+                          }
+                      }
+                      if (typeof liveEditSettings === 'boolean') {
+                          if (liveEditSettings) {
+                              $(mwd.body).removeClass('loading');
+                          }
+                      }
+                  }
+              });
+
+          });
+
+
 
         });
 
@@ -670,8 +665,7 @@ function mw_option_save_rebind_form_fields(){
 
 
 $( frame ).on('unload',function() {
-    alert(1)
-    window.parent.$('#module-modal-settings-menu-holder').remove();
+     window.parent.$('#module-modal-settings-menu-holder').remove();
 
 });
     $(document).ready(function () {

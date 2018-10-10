@@ -7,6 +7,8 @@ if (isset($params['content-id'])) {
 }
 
 
+
+
 $available_content_types = false;
 $available_content_subtypes = false;
 /* FILLING UP EMPTY CONTENT WITH DATA */
@@ -40,6 +42,18 @@ if (!empty($template_config)) {
         }
     }
 }
+
+
+
+$post_author_id =  user_id();
+$all_users  = get_users('nolimit=1');
+
+
+if(isset($data['created_by']) and $data['created_by']){
+
+    $post_author_id = $data['created_by'];
+}
+
 
 ?>
 
@@ -371,6 +385,38 @@ if (!empty($template_config)) {
 
                 <?php if (isset($data['position'])): ?>
                     <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
+                <?php endif; ?>
+
+                <?php if($all_users) : ?>
+                    <div class="mw-ui-row">
+                    <div class="mw-ui-col">
+
+
+
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label">
+                                <?php _e("Author"); ?>
+                             </label>
+
+
+                            <select name="created_by">
+                                <?php foreach($all_users as $author) : ?>
+
+
+                                    <option    <?php if($post_author_id == $author['id']) : ?>  selected   <?php endif; ?> value="<?php print ($author['id']) ?>"><?php print user_name($author['id']) ?></option>
+
+
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+
+
+
+
+
+                    </div>
+                    </div>
                 <?php endif; ?>
 
                 <?php /* PAGES ONLY  */ ?>

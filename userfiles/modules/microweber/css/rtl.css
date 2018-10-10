@@ -39,9 +39,7 @@ html,body{
 .mw-ui-navigation-horizontal > ul > li {
   float: right;
 }
-.mw-paging > * {
-  float: right;
-}
+
 
 .mw-ui-box-header > [class*='mw-icon-'] {
   float: right;
@@ -208,14 +206,7 @@ a.depth-1 .mw_toggle_tree{
     float: right;
 }
 
-.mw-tree li li {
-    background: url(../img/treelisub_rtl.gif) no-repeat right -3px, url(../img/treelisub_single.gif) repeat-y right 0;
-    background-position: calc(100% - 15px) 0;
-}
-.mw-tree li > ul:last-child > li:last-child {
-    background: url(../img/treelisub_last_rtl.gif) no-repeat right -3px;
-    background-position: calc(100% - 15px) 0;
-}
+
 
 
 .mw_modal_default .mw-modal-close{

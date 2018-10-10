@@ -372,7 +372,15 @@ mw.html_editor.reset_content = function () {
                         }
                         saved_data = saved_data[0];
 
-                        wroot.window.location.reload();
+
+
+
+
+                        setTimeout(function(){
+                            wroot.window.location.reload()
+
+                        }, 1000);
+
                     })
                 }
 

@@ -43,6 +43,7 @@
         mw.require("session.js");
         mw.require("content.js");
         mw.require("upgrades.js");
+        mw.require("tree.js");
 
         mw.lib.require('font_awesome');
 
@@ -304,7 +305,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
             </div>
         </div>
 
-        <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small pull-right toolbar-live-edit mobile-live-edit-btn"><i class="mai-eye"></i></a>
+        <a href="<?php print $past_page ?>?editmode=y" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small pull-right toolbar-live-edit mobile-live-edit-btn"><i class="mai-eye2"></i></a>
     </div>
 <?php endif; ?>
 
@@ -514,8 +515,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </li>
                     <?php endif; ?>
 
-
-                    <li <?php if (($load_module AND $load_module != 'users') or $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
+                    <li <?php if (($load_module AND $load_module != 'users') AND $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
                             <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
                         </a>
                     </li>

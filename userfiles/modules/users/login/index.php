@@ -45,17 +45,17 @@ $(document).ready(function(){
 					   }
 					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]', function () {
                             if(c == '' ){
-                         //       window.location.reload();
-                                window.location.href ='<?php print site_url(); ?>';
+                                 window.location.reload();
+                               // window.location.href ='<?php print site_url(); ?>';
                             }
                             else{
                                 if(typeof window[c] === 'function'){
                                     window[c]();
                                 }
                                 else{
-                                    window.location.href ='<?php print site_url(); ?>';
+                                    //window.location.href ='<?php print site_url(); ?>';
 
-                                    // window.location.reload();
+                                      window.location.reload();
                                 }
                             }
                         });

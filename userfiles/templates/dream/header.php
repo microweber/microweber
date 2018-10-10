@@ -14,6 +14,8 @@
     <meta property="og:description" content="{og_description}"/>
     <meta property="og:site_name" content="{og_site_name}"/>
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0"/>
+    <link rel="stylesheet" href="<?php print modules_url() ?>microweber/css/fonts/mw-icons-mind/line/style.css">
+    <link rel="stylesheet" href="<?php print modules_url() ?>microweber/css/fonts/mw-icons-mind/solid/style.css">
     <script>
         mw.require("fonts.js");
         mw.lib.require('bootstrap3');
@@ -119,7 +121,7 @@
 <nav class="<?php if ($preloader != '' AND $preloader == 'true'): ?>transition--fade<?php endif; ?>">
     <div class="nav-bar" data-fixed-at="200">
         <div class="nav-module logo-module left">
-            <module type="logo" id="logo" template="default" default-text="Dream"/>
+            <module type="logo" id="logo" template="default" default-text="Dream" data-alt-logo="true"/>
         </div>
 
         <module type="menu" name="header_menu" class="nav-module menu-module left" template="header"/>

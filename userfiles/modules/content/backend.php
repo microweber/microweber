@@ -33,29 +33,50 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 <script type="text/javascript">
 
 
-    <?php   include_once(mw_includes_path() . 'api/treerenderer.php');
-    ?>
+    var mainTreeSetActiveItems = function(){
+        if(mw.adminPagesTree){
+            mw.adminPagesTree.unselectAll();
+            var hp = mw.url.getHashParams(location.hash);
+            if(hp.action){
+                var arr = hp.action.split(':')
+                var activeTreeItemIsPage = arr[0] == 'editpage' || arr[0] == 'showposts';
+                var activeTreeItemIsCategory = arr[0] == 'editcategory' || arr[0] == 'showpostscat';
+
+                if(activeTreeItemIsPage){
+                    mw.adminPagesTree.select({
+                        id:arr[1],
+                        type:'page'
+                    })
+                }
+                if(activeTreeItemIsCategory){
+                    mw.adminPagesTree.select({
+                        id:arr[1],
+                        type:'category'
+                    })
+                }
+            }
+        }
+
+    }
+
 
 
     $(document).ready(function () {
-        mw.treeRenderer.appendUI();
-        mw.treeRenderer.appendUI('.page_posts_list_tree');
+
         mw.on.hashParam("page-posts", function () {
             mw_set_edit_posts(this);
         });
         mw.on.moduleReload("pages_tree_toolbar", function (e) {
-            mw.treeRenderer.appendUI();
-            mw_make_pages_tree_sortable()
+
         });
         mw.on.moduleReload("pages_edit_container", function () {
-            mw.treeRenderer.appendUI("#pages_edit_container .page_posts_list_tree");
         });
         $(mwd.body).ajaxStop(function () {
             $(this).removeClass("loading");
         });
 
 
-        mw_make_pages_tree_sortable();
+
 
 
     });
@@ -92,6 +113,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     }
 
     function mw_select_page_for_editing($p_id) {
+
 
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
@@ -172,8 +194,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     });
 
 
-    mw.on.hashParam("action", function () {
 
+    mw.on.hashParam("action", function () {
+        mainTreeSetActiveItems()
 
         if (this == false) {
             mw.$('#pages_edit_container').removeAttr('page-id');
@@ -200,18 +223,17 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var arr = this.split(":");
         $(mwd.body).removeClass("action-Array");
-        var cat_id = mw.url.windowHashParam("data-category-id");
-        if (typeof cat_id != 'undefined') {
-            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
-        }
-        else {
-            mw.$('#pages_edit_container').removeAttr('data-active-item');
-        }
+//        var cat_id = mw.url.windowHashParam("category_id");
+//        if (typeof cat_id != 'undefined') {
+//            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
+//        }
+//        else {
+//            mw.$('#pages_edit_container').removeAttr('data-active-item');
+//        }
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
         }
         else {
-
 
             mw.$(".active-bg").removeClass('active-bg');
             mw.$(".mw_action_nav").removeClass("not-active");
@@ -348,8 +370,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('category-id');
 
 
+
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
+
 
         if (in_page != undefined && is_cat == undefined) {
             cont.attr('data-page-id', in_page);
@@ -362,6 +386,13 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             var active_item = mw.$(".category-item-" + in_page);
             active_item.addClass('active-bg');
         }
+
+        var cat_id = mw.url.windowHashParam("category_id");
+        if (cat_id) {
+            cont.attr('data-category-id', cat_id);
+        }
+
+
 
         mw.load_module('content/manager', '#pages_edit_container');
     }
@@ -554,48 +585,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw_select_post_for_editing(0, 'product')
     }
 
-    function mw_make_pages_tree_sortable() {
-        $("#pages_tree_toolbar .pages_tree").sortable({
-            axis: 'y',
-            items: '>.pages_tree_item',
-            distance: 35,
-            containment: "parent",
-            update: function () {
-                var obj = {ids: []}
-                $(this).find('.pages_tree_item').each(function () {
-                    var id = this.attributes['data-page-id'].nodeValue;
-                    obj.ids.push(id);
-                });
-                $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
-                    mw.reload_module('#mw_page_layout_preview');
-                });
-            },
-            start: function (a, ui) {
-
-            },
-            scroll: false
-        });
-
-        $("#pages_tree_toolbar .pages_tree .have_category").sortable({
-            axis: 'y',
-            items: '.category_element',
-            distance: 35,
-            update: function () {
-                var obj = {ids: []}
-                mw.$('.category_element', this).each(function () {
-                    var id = this.attributes['data-category-id'].nodeValue;
-                    obj.ids.push(id);
-                });
-                $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
-                    mw.reload_module('#mw_page_layout_preview');
-                });
-            },
-            start: function (a, ui) {
-
-            },
-            scroll: false
-        });
-    }
 
 
 </script>
@@ -634,6 +623,109 @@ if ($action == 'posts') {
 
 
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
+
+                        <script>
+
+                            var pagesTree;
+
+                            var pagesTreeRefresh = function(){
+                                $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+                                    var treeTail = [
+                                        {
+                                            title: '<?php _lang("Trash") ?>',
+                                            icon:'mai-bin',
+                                            action:function(){
+                                                mw.url.windowHashParam('action', 'trash');
+                                            }
+                                        }
+                                    ];
+                                    pagesTree = new mw.tree({
+                                        data:data,
+                                        element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                        sortable:true,
+                                        selectable:false,
+                                        id:'admin-main-tree',
+                                        append:treeTail,
+                                        contextMenu:[
+                                            {
+                                                title:'Edit',
+                                                icon:'mw-icon-pen',
+                                                action:function(element, data, menuitem){
+                                                    mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                                }
+                                            },
+                                            {
+                                                title:'Move to trash',
+                                                icon:'mw-icon-bin',
+                                                action:function(element, data, menuitem){
+                                                    if(data.type  == 'category' ){
+                                                        mw.tools.tree.del_category(data.id, function(){
+
+                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
+                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                                                            })
+                                                        });
+                                                    }
+                                                    else{
+                                                        mw.tools.tree.del(data.id, function(){
+                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function(){
+                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                                                            })
+                                                        });
+                                                    }
+
+
+                                                }
+                                            }
+                                        ]
+                                    });
+                                    mw.adminPagesTree = pagesTree;
+
+                                    $(pagesTree).on("orderChange", function(e, item, data, old, local){
+                                        var obj = {ids: local};
+                                        $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
+                                            mw.reload_module('#mw_page_layout_preview');
+                                        });
+                                    });
+                                    $(pagesTree).on("ready", function(){
+
+                                        $('.mw-tree-item-title', pagesTree.list).on('click', function(){
+                                            $('li.selected', pagesTree.list).each(function(){
+                                                pagesTree.unselect(this)
+                                            });
+                                            var li = this.parentNode.parentNode,
+                                                data = li._data,
+                                                action;
+                                            //pagesTree.select(li);
+                                            if(!$(li).hasClass('mw-tree-additional-item')){
+                                                if(data.type == 'page'){
+                                                    action = 'editpage';
+                                                }
+                                                if(data.subtype == 'dynamic'){
+                                                    action = 'showposts';
+                                                }
+                                                if(data.type == 'category'){
+                                                    action = 'showpostscat';
+                                                }
+                                                mw.url.windowHashParam("action", action+":"+data.id);
+                                            }
+
+
+                                        });
+                                        mainTreeSetActiveItems()
+
+
+
+                                    })
+
+                                });
+                            };
+
+                            if(window.pagesTreeRefresh){pagesTreeRefresh()};
+
+                        </script>
+
+                        <?php /*
                         <?php if ($action == 'pages'): ?>
                             <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
                                     active_class="active-bg" id="pages_tree_toolbar" view="admin_tree" home_first="true"/>
@@ -650,6 +742,8 @@ if ($action == 'posts') {
                                     id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
                                     home_first="true"/>
                         <?php endif ?>
+
+                         */ ?>
                         <?php event_trigger('admin_content_after_website_tree', $params); ?>
 
 

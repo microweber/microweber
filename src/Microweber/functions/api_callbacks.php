@@ -125,7 +125,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
             if ($pages_cats) {
                 foreach ($pages_cats as $cat) {
                     $item = array();
-                    $item['id'] = $cat['id'];
+                    $item['id'] = intval($cat['id']);
                     $item['type'] = 'category';
 
                     $item['parent_id'] = intval($page['id']);

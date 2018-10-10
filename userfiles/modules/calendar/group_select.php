@@ -6,8 +6,6 @@ $calendar_group_id = false;
 
 ?>
 
-
-
 <?php $groups = calendar_get_groups(); ?>
 <?php
 $mod_id = $params['id'];
@@ -29,7 +27,8 @@ if (isset($params['calendar-event-id'])) {
 
 
 ?>
-<?php if (!$use_only_as_input) { ?>
+<?php if (! $use_only_as_input) {
+    ?>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -39,24 +38,31 @@ if (isset($params['calendar-event-id'])) {
 
                 getData()
                 reload_calendar_after_save()
-                // window.parent.$(window.parent.document).trigger('calendar.update');
-                // mw.reload_module('calendar')
+                //window.parent.$(window.parent.document).trigger('calendar.update');
+                mw.reload_module('calendar')
             });
         });
     </script>
-<?php } ?>
-<?php if ($groups) { ?>
+<?php
+} ?>
+<?php if ($groups) {?>
     <label  >
         Group:
         <select name="calendar_group_id" class="mw-ui-field js-calendar-group-selector mw_option_field"
                 option-group="<?php print $mod_id; ?>">
             <option value="0">Default</option>
-            <?php foreach ($groups as $group) { ?>
+            <?php foreach ($groups as $group) {
+            ?>
                 <option
-                    value="<?php print $group['id']; ?>" <?php if ($calendar_group_id == $group['id']) { ?>  selected <?php } ?> >
+                    value="<?php print $group['id']; ?>" <?php if ($calendar_group_id == $group['id']) {
+                ?>  selected <?php
+            } ?> >
                     <?php print $group['title']; ?>
                 </option>
-            <?php } ?>
+            <?php
+        } ?>
         </select>
     </label>
+<?php } else {  ?>
+    <input type="hidden" name="calendar_group_id" value="0" />
 <?php } ?>

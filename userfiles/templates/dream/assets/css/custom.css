@@ -527,3 +527,7 @@ section.blog-post .container .container {
 .module-bxslider .owl-item .imagebg .background-image-holder{
     top: 0 !important;
 }
+
+.contact-form-template-dream textarea[name="Message"]{
+    min-height:180px;
+}

@@ -2,9 +2,9 @@
 .mw-ui-category-selector {
     position: relative;
     padding: 0;
-    background: #FFFFFF;
-    border: 1px solid #DCDCDC;
-    border-top-color: #BDBDBD;
+    background: #f9f9f9;
+    /*border: 1px solid #DCDCDC;*/
+    /*border-top-color: #BDBDBD;*/
     overflow: hidden;
     border-radius: 2px;
     overflow: auto;
@@ -20,7 +20,7 @@
     min-width: 100%;
     width: auto;
     left: 0;
-    top: 46px;
+    top: 0;
     max-height: 300px;
     box-shadow: 0 4px 10px -6px #999;
 }
@@ -146,14 +146,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-tag-selector .mw-ui-btn {
     float: left;
     margin-right: 5px;
-    margin-bottom: 5px;
     padding-right: 16px;
-    height: 24px;
-    line-height: 16px;
     background-color: #fff;
     border-color: #eaeaea;
 }
-
+.mw-tag-selector .mw-ui-btn>[class*=mai-],
+.mw-tag-selector .mw-ui-btn>[class*=mw-micon-],
+.mw-tag-selector .mw-ui-btn>[class*=mw-icon-] {
+    margin-right: 5px;
+}
 .mw-tag-selector .mw-ui-btn:hover {
     background: #0086db;
     color: #fff;

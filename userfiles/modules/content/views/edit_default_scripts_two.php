@@ -1,13 +1,10 @@
 <script>
+
     var thetree = mwd.querySelector(".mw-ui-category-selector-abs .module")
 
-    $(mwd).ready(function () {    /*
-     mw.admin.treeRadioSelector('#parent-category-selector-holder', function(){
-     CreateCategoryForPost(3)
-     }); */
-    });
 
     CreateCategoryForPost = function (step) {
+        
         mw.$("#category-not-found-name").html(mw.$('#quick-tag-field').val());
         if (step === 0) {
             mw.$("#category-tree-not-found-message").hide();
@@ -52,7 +49,6 @@
 
                 })
 
-                // CreateCategoryForPost(0);
             });
         }
     }
