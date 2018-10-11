@@ -116,6 +116,14 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    cloneObject:function(object){
+        if(window.Object && window.Object.assign){
+            return Object.assign({}, object);
+        }
+        else{
+            return jQuery.extend(true, {}, object);
+        }
+    },
     constructions: function () {
         $(".mw-image-holder").each(function () {
             var img = this.querySelector('img');
@@ -5464,6 +5472,10 @@ mw.getExtradataFormData = function (data, call) {
     }
 }
 mw.extradataForm = function (options, data) {
+    if(options._success){
+        options.success = options._success;
+        delete options._success;
+    }
     mw.getExtradataFormData(data, function (extra_html) {
         var form = document.createElement('form');
         $(form).append(extra_html);
@@ -5479,7 +5491,9 @@ mw.extradataForm = function (options, data) {
             for (var i in exdata) {
                 options.data[i] = exdata[i];
             }
-            ;
+
+
+
             mw.ajax(options);
             form.__modal.remove();
         })

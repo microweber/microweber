@@ -22,6 +22,8 @@ if (typeof jQuery == 'undefined') {
 
 var _jqxhr = jQuery.ajax;
 
+
+
 jQuery.ajax = $.ajax = function(url, options){
     options = options || {};
     settings = {};
@@ -41,14 +43,29 @@ jQuery.ajax = $.ajax = function(url, options){
             }
             else {
                 if (typeof this._success === 'function') {
-                    console.log(this._success)
-                    this._success.call(this, data, status, xhr);
+                    var scope = this;
+                    scope._success.call(scope, data, status, xhr);
+
                 }
             }
         };
     }
     var xhr = _jqxhr(settings);
     return xhr;
+};
+
+mw.safeCallCache = {};
+
+mw.safeCall = function(hash, call){
+    if(!mw.safeCallCache[hash]){
+        mw.safeCallCache[hash] = true;
+        call.call();
+        (function(hash){
+            setTimeout(function(){
+                delete mw.safeCallCache[hash];
+            });
+        })(hash);
+    }
 };
 
 $.ajaxSetup({
@@ -559,8 +576,8 @@ mw.askusertostay = false;
     if(mw.on != undefined){
         mw.on.DOMChangePause = true;
     }
-    var DONOTREPLACE = DONOTREPLACE || false;
-    var sendSpecific = sendSpecific || false;
+    DONOTREPLACE = DONOTREPLACE || false;
+    sendSpecific = sendSpecific || false;
     var url = typeof obj.url !== 'undefined' ? obj.url : mw.settings.site_url+'module/';
     var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
