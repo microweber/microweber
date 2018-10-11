@@ -42,7 +42,6 @@ if ($last_page_front != false) {
 }
 
 
-
 ?>
 <?php if (isset($past_page) and $past_page != false): ?>
     <script>
@@ -175,7 +174,7 @@ if ($last_page_front != false) {
                             <h2 class="pull-left">
                                 <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
 
-                                <span class="<?php if($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span><?php print ($page_info['title']) ?>
+                                <span class="<?php if ($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span><?php print ($page_info['title']) ?>
                                 <?php elseif (isset($params['category-id'])): ?>
                                     <?php $cat = get_category_by_id($params['category-id']); ?>
                                     <?php if (isset($cat['title'])): ?>
@@ -200,6 +199,12 @@ if ($last_page_front != false) {
                             </h2>
 
                             <?php
+                            $cat_page = false;
+                            if (isset($params['category-id']) and $params['category-id']) {
+                                $cat_page = get_page_for_category($params['category-id']);
+
+                                //  $add_new_btn_url = $add_new_btn_url . "&amp;category_id=" . $params['category-id'];
+                            }
 
                             $url_param_action = url_param('action', true);
                             $url_param_view = url_param('view', true);
@@ -207,49 +212,49 @@ if ($last_page_front != false) {
                             $url_param_type = 'page';
 
 
-                            if($type == 'shop' or $url_param_view == 'shop'  or $url_param_action == 'products' ){
+                            if ($type == 'shop' or $url_param_view == 'shop' or $url_param_action == 'products') {
+                                $url_param_type = 'product';
+                            } else if ($cat_page and isset($cat_page['is_shop']) and intval($cat_page['is_shop']) != 0) {
+                                $url_param_type = 'product';
+                            } else if ($url_param_action == 'categories' or $url_param_view == 'category') {
+                                $url_param_type = 'category';
+                            } else if ($url_param_action == 'showposts' or $url_param_action == 'posts' or $type == 'dynamicpage') {
+                                $url_param_type = 'post';
+                            } else if ($cat_page and isset($cat_page['subtype']) and ($cat_page['subtype'])  == 'dynamic') {
                                 $url_param_type = 'product';
                             }
 
 
-                            if($url_param_action == 'categories' or $url_param_view == 'category'   ){
-                                $url_param_type = 'category';
-                            }
-
-                            if($url_param_action == 'showposts' or $type == 'dynamicpage'   ){
-                                $url_param_type = 'post';
-                            }
 
 
 
-                            $add_new_btn_url =  admin_url('view:content#action=new:') . $url_param_type;
+                             $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
 
-                            if (isset($params['category-id']) and $params['category-id']) {
-                              //  $add_new_btn_url = $add_new_btn_url . "&amp;category_id=" . $params['category-id'];
-                            }
+
                             if (isset($page_info['id']) and $page_info['id']) {
-                              //  $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
+                               //   $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
 
                             }
 
 
-//                            elseif (isset($post_params['category'])) {
-//                                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
-//                            } else if (isset($post_params['parent'])) {
-//                                $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
-//                            } else {
-//                                $url = "#action=new:product";
-//                            }
+                            //                            elseif (isset($post_params['category'])) {
+                            //                                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+                            //                            } else if (isset($post_params['parent'])) {
+                            //                                $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
+                            //                            } else {
+                            //                                $url = "#action=new:product";
+                            //                            }
 
 
-
-// d($type);
-//d($url_param_type);
-//d($page_info);
+                            // d($type);
+                            //d($url_param_type);
+                            //d($page_info);
 
                             ?>
 
-                            <a href="<?php print $add_new_btn_url ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10" style="margin-top: 2px;">
+                            <a href="<?php print $add_new_btn_url ?>"
+                               class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10"
+                               style="margin-top: 2px;">
                                 <?php print _e('Add new ' . $url_param_type); ?>
                             </a>
 
@@ -290,14 +295,18 @@ if ($last_page_front != false) {
 
                                     <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
                                         <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                                        <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-l-10" id="edit-content-btn" data-tip="bottom-left">
+                                        <a href="<?php print $edit_link; ?>"
+                                           class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-l-10"
+                                           id="edit-content-btn" data-tip="bottom-left">
                                             <span class="mai-edit"></span> <span><?php _e("Edit page"); ?></span>
                                         </a>
                                     <?php endif; ?>
 
                                     <?php if (isset($params['category-id'])): ?>
                                         <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
-                                        <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" id="edit-category-btn" data-tip="bottom-left">
+                                        <a href="<?php print $edit_link; ?>"
+                                           class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" id="edit-category-btn"
+                                           data-tip="bottom-left">
                                             <span><?php _e("Edit category"); ?></span>
                                         </a>
                                     <?php endif; ?>
@@ -306,7 +315,8 @@ if ($last_page_front != false) {
                                 <?php if (isset($content_types) and !empty($content_types)): ?>
                                     <div class="pull-right" style="margin-right:5px;">
 
-                                        <select id="content_type_filter_by_select" class="mw-ui-field" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>
+                                        <select id="content_type_filter_by_select"
+                                                class="mw-ui-field" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>
                                             <option value=""><?php _e('All'); ?></option>
                                             <?php foreach ($content_types as $k => $items): ?>
                                                 <optgroup label="<?php print ucfirst($k); ?>">
@@ -320,7 +330,8 @@ if ($last_page_front != false) {
                                             <?php endforeach; ?>
                                         </select>
                                         <?php if (!$selected): ?>
-                                            <span class="mw-ui-btn mw-icon-menu" onclick="$('#content_type_filter_by_select').toggle(); $(this).hide();"></span>
+                                            <span class="mw-ui-btn mw-icon-menu"
+                                                  onclick="$('#content_type_filter_by_select').toggle(); $(this).hide();"></span>
                                         <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
@@ -330,8 +341,11 @@ if ($last_page_front != false) {
                                         <input value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
                                             <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> autofocus="autofocus"
                                             <?php endif; ?>
-                                               placeholder="<?php _e("Search"); ?>" type="text" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
-                                        <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
+                                               placeholder="<?php _e("Search"); ?>" type="text"
+                                               onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
+                                        <span class="top-form-submit"
+                                              onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
+                                                    class="mw-icon-search"></span></span>
                                     </div>
                                     <script>
                                         $(document).ready(function () {
@@ -366,7 +380,9 @@ if ($last_page_front != false) {
                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                             <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                             <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                            <a class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span> </a>
+                            <a class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span
+                                        class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span>
+                            </a>
                         <?php endforeach; ?>
                     </div>
                     <div class="mw-ui-box">
@@ -396,7 +412,9 @@ if ($last_page_front != false) {
                                 <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"><?php _e("Bulk actions"); ?></span>
                                 <div class="mw-dropdown-content">
                                     <ul>
-                                        <li><a onclick="assign_selected_posts_to_category();"><?php _e("Move to category"); ?></a></li>
+                                        <li>
+                                            <a onclick="assign_selected_posts_to_category();"><?php _e("Move to category"); ?></a>
+                                        </li>
                                         <li><a onclick="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
                                     </ul>
                                 </div>
