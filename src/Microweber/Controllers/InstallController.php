@@ -361,6 +361,7 @@ class InstallController extends Controller
         $postData = array();
         $postData['postdata'] = base64_encode(json_encode($data));
         $http = new \Microweber\Utils\Http(app());
+
         try {
             $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
         } catch (\Exception $e) {
@@ -400,6 +401,16 @@ class InstallController extends Controller
         }
 
 
+        if (!$this->_is_putenv_available()) {
+            $yes_i_can = false;
+        }
+
+
+        if (!$this->_is_shell_exec_available()) {
+            $yes_i_can = false;
+        }
+
+
         if (!file_exists(base_path() . DIRECTORY_SEPARATOR . '.env')) {
             $yes_i_can = false;
         }
@@ -418,20 +429,65 @@ class InstallController extends Controller
 
     private function _is_escapeshellarg_available()
     {
-        static $available;
+        $available = true;
+        if (ini_get('safe_mode')) {
+            $available = false;
+        } else {
+            $d = ini_get('disable_functions');
+            $s = ini_get('suhosin.executor.func.blacklist');
+            if ("$d$s") {
+                $array = preg_split('/,\s*/', "$d,$s");
+                if (in_array('escapeshellarg', $array)) {
+                    $available = false;
+                }
+            }
+        }
 
-        if (!isset($available)) {
-            $available = true;
-            if (ini_get('safe_mode')) {
-                $available = false;
-            } else {
-                $d = ini_get('disable_functions');
-                $s = ini_get('suhosin.executor.func.blacklist');
-                if ("$d$s") {
-                    $array = preg_split('/,\s*/', "$d,$s");
-                    if (in_array('escapeshellarg', $array)) {
-                        $available = false;
-                    }
+        return $available;
+    }
+    private function _is_putenv_available()
+    {
+
+        $available = true;
+        if (ini_get('safe_mode')) {
+            $available = false;
+        } else {
+            $d = ini_get('disable_functions');
+            $s = ini_get('suhosin.executor.func.blacklist');
+
+
+
+            if ("$d$s") {
+                $array = preg_split('/,\s*/', "$d,$s");
+                if (in_array('putenv', $array)) {
+                    $available = false;
+                }
+            }
+        }
+
+        return $available;
+    }
+
+
+    private function _is_shell_exec_available()
+    {
+
+        $available = true;
+        if (ini_get('safe_mode')) {
+            $available = false;
+        } else {
+            $d = ini_get('disable_functions');
+            $s = ini_get('suhosin.executor.func.blacklist');
+
+
+
+            if ("$d$s") {
+                $array = preg_split('/,\s*/', "$d,$s");
+                if (in_array('shell_exec', $array)) {
+                    $available = false;
+                }
+                if (in_array('exec', $array)) {
+                    $available = false;
                 }
             }
         }
