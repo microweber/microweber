@@ -4,7 +4,6 @@ namespace Microweber\Providers\Shop;
 
 use Microweber\Utils\Crud;
 
-
 class CartManager extends Crud
 {
     /** @var \Microweber\Application */
@@ -76,7 +75,19 @@ class CartManager extends Crud
                 $total = $total + $tax;
             }
         }
+        
+        // Coupon code discount
+        $discount_value = floatval($this->app->user_manager->session_get('discount_value'));
+        $discount_type = $this->app->user_manager->session_get('discount_type');
 
+        if ($discount_type == 'precentage') {
+        	// Discount with precentage
+        	$total = $total - ($total * ($discount_value / 100));
+        } else if ($discount_type == 'fixed_amount') {
+        	// Discount with amount
+        	$total = $total - $discount_value;
+        }
+        
         return $total;
     }
 
