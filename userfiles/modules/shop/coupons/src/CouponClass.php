@@ -1,4 +1,13 @@
 <?php
+/**
+ * Microweber Coupon Module
+ * Developed by: Bozhidar Slaveykov
+ *
+ * @category   Modules
+ * @package    CouponClass
+ * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
+ * @copyright  2018 Microweber
+ */
 
 class CouponClass {
 	

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Microweber Coupon Module
+ * Developed by: Bozhidar Slaveykov
+ *
+ * @category   Modules
+ * @package    Functions
+ * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
+ * @copyright  2018 Microweber
+ */
 
 api_expose('coupon_apply');
 function coupon_apply($params = array()) {
@@ -20,12 +29,10 @@ function coupon_apply($params = array()) {
 	$sid = $checkoutManager->app->user_manager->session_id();
 	$cart = array();
 	$cart['session_id'] = $sid;
-	$cart['order_completed'] = 0;
-	$cart['limit'] = 1;
 	$checkCart = $checkoutManager->app->shop_manager->get_cart($cart);
 	
 	if (!is_array($checkCart)) {
-		$errorMessage .= 'The coupon cant be applied. The cart is empty.';
+		$errorMessage .= 'The coupon can\'t be applied. The shopping cart is empty.';
 	}
 	
 	if (empty($errorMessage)) {
