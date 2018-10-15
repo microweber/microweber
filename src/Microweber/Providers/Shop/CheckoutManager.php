@@ -192,6 +192,8 @@ class CheckoutManager
             $shipping_cost_max = false;
             $shipping_cost = false;
             $shipping_cost_above = false;
+            $discount_value = false;
+            $discount_type = false;
 
             if (($this->app->user_manager->session_get('shipping_country'))) {
                 $shipping_country = $this->app->user_manager->session_get('shipping_country');
@@ -204,6 +206,12 @@ class CheckoutManager
             }
             if (($this->app->user_manager->session_get('shipping_cost_above'))) {
                 $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
+            }
+            if (($this->app->user_manager->session_get('discount_value'))) {
+            	$discount_value = $this->app->user_manager->session_get('discount_value');
+            }
+            if (($this->app->user_manager->session_get('discount_type'))) {
+            	$discount_type = $this->app->user_manager->session_get('discount_type');
             }
 
             //post any of those on the form
@@ -365,7 +373,11 @@ class CheckoutManager
                     $place_order['is_paid'] = 0;
                     $place_order['success'] = 'Your order has been placed successfully!';
                 }
+                
+                $place_order['discount_type'] = $discount_type;
+                $place_order['discount_value'] = $discount_value;
                 $place_order['order_status'] = 'new';
+                
                 if (!empty($checkout_errors)) {
                     return array('error' => $checkout_errors);
                 }
@@ -373,7 +385,7 @@ class CheckoutManager
                 if (isset($place_order['error'])) {
                     return array('error' => $place_order['error']);
                 }
-
+				
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
             }
