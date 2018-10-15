@@ -143,6 +143,16 @@ description: Full width cart template
                         </tr>
 
                     <?php } ?>
+                    
+                     <?php if (function_exists('cart_get_discount_text')) { ?>
+                        <tr>
+                            <td></td>
+                            <td><label><?php _e("Discount"); ?>:</label></td>
+                            <td class="cell-shipping-price">
+                             - <?php print cart_get_discount_text(); ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
 
 
                     <tr>

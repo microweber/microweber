@@ -77,8 +77,8 @@ class CartManager extends Crud
         }
         
         // Coupon code discount
-        $discount_value = floatval($this->app->user_manager->session_get('discount_value'));
-        $discount_type = $this->app->user_manager->session_get('discount_type');
+        $discount_value = $this->get_discount_value();
+        $discount_type = $this->get_discount_type();
 
         if ($discount_type == 'precentage') {
         	// Discount with precentage
@@ -97,6 +97,30 @@ class CartManager extends Crud
         $tax = $this->app->tax_manager->calculate($sum);
 
         return $tax;
+    }
+    
+    public function get_discount()
+    {
+    	return get_discount_value();
+    }
+    
+    public function get_discount_type()
+    {
+    	return $this->app->user_manager->session_get('discount_type');
+    }
+    
+    public function get_discount_value()
+    {
+    	return floatval($this->app->user_manager->session_get('discount_value'));
+    }
+    
+    public function get_discount_text()
+    {
+	    if ($this->get_discount_type() == "precentage") {
+	    	return $this->get_discount_value() . "%";
+	    } else {
+	    	return currency_format($this->get_discount_value());
+	    }
     }
 
     public function get($params = false)
