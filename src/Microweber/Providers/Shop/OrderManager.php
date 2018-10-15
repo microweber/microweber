@@ -132,6 +132,10 @@ class OrderManager
 
                 $this->app->cache_manager->delete('cart');
                 $this->app->cache_manager->delete('cart_orders');
+                
+                $this->app->user_manager->session_del('discount_value');
+                $this->app->user_manager->session_del('discount_type');
+                
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     $this->app->shop_manager->update_quantities($ord);
                 }

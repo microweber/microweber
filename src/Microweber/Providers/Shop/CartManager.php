@@ -101,7 +101,7 @@ class CartManager extends Crud
     
     public function get_discount()
     {
-    	return get_discount_value();
+    	return $this->get_discount_value();
     }
     
     public function get_discount_type()

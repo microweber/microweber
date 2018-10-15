@@ -85,7 +85,7 @@
                         </tr>
                     <?php } ?>
                     
-                     <?php if (function_exists('cart_get_discount_text')) { ?>
+                     <?php if (function_exists('cart_get_discount_text') && cart_get_discount() > 0) { ?>
                         <tr>
                             <td></td>
                             <td><label><?php _e("Discount"); ?>:</label></td>
