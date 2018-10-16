@@ -179,7 +179,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         </tr>
                     <?php endif ?>
 					
-					<tr class="mw-ui-table-footer">
+							<?php if($ord['discount_value'] > 0): ?>
+							<tr class="mw-ui-table-footer">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2"><?php _e("Discount"); ?></td>
                         <td class="mw-ui-table-green" colspan="2">- 
@@ -192,7 +193,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         ?>
                         </td>
                     </tr>
-                    
+                     <?php endif ?>
+                     
                     <tr class="mw-ui-table-footer last">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2" class="mw-ui-table-green"><strong><?php _e("Total:"); ?></strong></td>
@@ -228,6 +230,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                     </tr>
                 <?php endif ?>
                 
+                <?php if($ord['discount_value'] > 0): ?>
                 <tr class="mw-ui-table-footer">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2"><?php _e("Discount"); ?></td>
@@ -241,6 +244,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         ?>
                       </td>
                  </tr>
+                 <?php endif ?>
 
                 <tr class="mw-ui-table-footer last">
                     <td colspan="2">&nbsp;</td>
