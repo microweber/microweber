@@ -116,11 +116,11 @@ if (!window.escape) {
     };
 }
 mw.tools = {
-    cloneObject:function(object){
-        if(window.Object && window.Object.assign){
+    cloneObject: function (object) {
+        if (window.Object && window.Object.assign) {
             return Object.assign({}, object);
         }
-        else{
+        else {
             return jQuery.extend(true, {}, object);
         }
     },
@@ -548,7 +548,7 @@ mw.tools = {
             height: 500,
             draggable: true
         },
-        source: function (id, template,icon) {
+        source: function (id, template, icon) {
             template = template || 'mw_modal_primary';
             if (template === 'basic') {
                 template = 'mw_modal_basic';
@@ -563,7 +563,7 @@ mw.tools = {
             var html = ''
                 + '<div class=" mw_modal mw_modal_maximized ' + template + '" id="' + id + '">'
                 + '<div class="mw_modal_toolbar">'
-                + (icon?'<span class="mw_modal_icon">'+icon+'</span>':'')
+                + (icon ? '<span class="mw_modal_icon">' + icon + '</span>' : '')
                 + '<span class="mw_modal_title"></span>'
                 + '<span class="mw-modal-close"  title="' + mw.msg.close + '"></span>'
                 + '</div>'
@@ -1482,26 +1482,26 @@ mw.tools = {
                 }
             });
         },
-        del: function (id,callback) {
+        del: function (id, callback) {
             mw.tools.confirm(mw.msg.del, function () {
                 if (mw.notification != undefined) {
                     mw.notification.success('Content deleted');
                 }
                 $.post(mw.settings.site_url + "api/content/delete", {id: id}, function (data) {
-                    if(callback){
+                    if (callback) {
 
-                        callback.call(data,data)
+                        callback.call(data, data)
                     }
                 });
             })
         },
-        del_category: function (id,callback) {
+        del_category: function (id, callback) {
             mw.tools.confirm('Are you sure you want to delete this?', function () {
                 $.post(mw.settings.site_url + "api/category/delete", {id: id}, function (data) {
                     mw.notification.success('Category deleted');
-                    if(callback){
+                    if (callback) {
 
-                        callback.call(data,data)
+                        callback.call(data, data)
                     }
                 });
             })
@@ -2382,11 +2382,11 @@ mw.tools = {
         if (obj === null || typeof obj === 'undefined' || obj.nodeType === 3) {
             return false;
         }
-        if(!obj.nodeName){
+        if (!obj.nodeName) {
             return false;
         }
         var t = obj.nodeName.toLowerCase();
-        if (t === 'input' || t === 'textarea' || t === 'select'){
+        if (t === 'input' || t === 'textarea' || t === 'select') {
             return true
         }
         ;
@@ -3371,7 +3371,23 @@ mw.tools = {
             });
             return modal;
         } else {
-            $("#side-module-settings-holder").html('<iframe src="'+src+'" style="width:100%;height: 90vh;position: absolute" frameborder="0">')
+
+
+            var iframe_id = 'js-iframe-module-settings-' + curr.id;
+
+            var mod_settings_iframe_html = '<iframe src="' + src + '" class="js-module-settings-edit-item-group" id="' + iframe_id + '"  style="width:100%;height: 90vh;position: absolute" frameborder="0">';
+
+            if (!$("#" + iframe_id).length) {
+                $("#side-module-settings-holder").append(mod_settings_iframe_html);
+            }
+
+            if ($("#" + iframe_id).length) {
+                $('.js-module-settings-edit-item-group').hide();
+
+                $("#" + iframe_id).show();
+
+            }
+
         }
     },
     open_custom_css_editor: function () {
@@ -4697,14 +4713,14 @@ mw.image = {
                 document.body.appendChild(resizer);
                 mw.image_resizer = resizer;
                 mw.image_resizer_time = null;
-                mw.image_resizer._show = function(){
+                mw.image_resizer._show = function () {
                     clearTimeout(mw.image_resizer_time)
                     $(mw.image_resizer).addClass('active')
                 };
-                mw.image_resizer._hide = function(){
-                    mw.image_resizer_time = setTimeout(function(){
+                mw.image_resizer._hide = function () {
+                    mw.image_resizer_time = setTimeout(function () {
                         $(mw.image_resizer).removeClass('active')
-                    },3000)
+                    }, 3000)
                 };
 
                 $(resizer).on("click", function (e) {
@@ -5169,7 +5185,7 @@ mw._colorPicker = function (options) {
             var css = parent.getComputedStyle(this, null);
             if (css !== null) {
                 if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-                    mw.tools.colorPickerColors.push(mw.color.rgbToHex( css.color))
+                    mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color))
                 }
                 if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
                     mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor))
@@ -5208,9 +5224,9 @@ mw._colorPicker = function (options) {
 
         frame = AColorPicker.createPicker({
             showAlpha: true,
-            showHSL:false,
-            showRGB:false,
-            showHEX:false,
+            showHSL: false,
+            showRGB: false,
+            showHEX: false,
             attachTo: $el[0],
             palette: mw.tools.colorPickerColors
         });
@@ -5239,9 +5255,9 @@ mw._colorPicker = function (options) {
         var frame = AColorPicker.createPicker({
             showAlpha: true,
             palette: mw.tools.colorPickerColors,
-            showHSL:false,
-            showRGB:false,
-            showHEX:false,
+            showHSL: false,
+            showRGB: false,
+            showHEX: false,
             attachTo: mw.$('.mw-tooltip-content', tip)[0],
 
         });
@@ -5271,7 +5287,7 @@ mw._colorPicker = function (options) {
         }
         $(document.body).on('click', function (e) {
 
-            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target  !== $el[0]) {
+            if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
                 $(tip).hide();
             }
         });
@@ -5431,20 +5447,20 @@ String.prototype.hash = function () {
 }
 
 mw.ajax = function (options) {
-   /* if (!options._success) {
-        options._success = options.success;
-        delete options.success;
-        options.success = function (data, status, xhr) {
-            if (data.form_data_required) {
-                mw.extradataForm(options, data);
-            }
-            else {
-                if (typeof options._success === 'function') {
-                    options._success.call(this, data, status, xhr);
-                }
-            }
-        };
-    }*/
+    /* if (!options._success) {
+     options._success = options.success;
+     delete options.success;
+     options.success = function (data, status, xhr) {
+     if (data.form_data_required) {
+     mw.extradataForm(options, data);
+     }
+     else {
+     if (typeof options._success === 'function') {
+     options._success.call(this, data, status, xhr);
+     }
+     }
+     };
+     }*/
     var xhr = $.ajax(options);
     return xhr;
 };
@@ -5479,7 +5495,7 @@ mw.getExtradataFormData = function (data, call) {
     }
 }
 mw.extradataForm = function (options, data) {
-    if(options._success){
+    if (options._success) {
         options.success = options._success;
         delete options._success;
     }
@@ -5498,7 +5514,6 @@ mw.extradataForm = function (options, data) {
             for (var i in exdata) {
                 options.data[i] = exdata[i];
             }
-
 
 
             mw.ajax(options);
