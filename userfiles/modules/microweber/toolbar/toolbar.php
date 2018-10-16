@@ -463,7 +463,7 @@ if (isset($_COOKIE['mw_exp'])) {
                         </div>
                     </div>
                 </div>
-                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
+                <?php //include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
             </div>
             <?php event_trigger('live_edit_toolbar_controls'); ?>
             <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">

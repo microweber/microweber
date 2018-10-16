@@ -385,6 +385,7 @@ document.body.appendChild(mw.inaccessibleModules);
     mw.on("ModuleClick", function(e, el, c) {
         // open module settings on click
         mw.drag.module_settings();
+        
     });
     mw.on("ElementClick", function(e, el, c) {
 

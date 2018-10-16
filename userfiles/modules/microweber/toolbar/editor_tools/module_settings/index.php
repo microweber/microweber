@@ -34,6 +34,7 @@ if (isset($params['module'])): ?>
     mw.require("liveadmin.js");
     mw.require("forms.js");
     mw.require('wysiwyg.js');
+    mw.require("wysiwyg.css")
     mw.require('options.js');
     mw.lib.require('font_awesome');
 

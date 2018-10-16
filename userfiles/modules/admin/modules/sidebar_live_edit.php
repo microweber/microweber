@@ -1,4 +1,4 @@
-<div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder mw-normalize-css">
+<div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder">
     <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
        class="sidebar-toggler">
         <div class="i-holder">
@@ -15,8 +15,9 @@
     <h3 class="tab-title tab-title-3" style="display: none;"><?php echo("UI Editor"); ?></h3> */ ?>
 
     <div id="mw-modules-layouts-tabsnav">
-        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
+        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs  mw-normalize-css">
+            <a href="javascript:;" class="mw-ui-btn tabnav active"><i
+                        class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> Module <?php _e("Settings"); ?></a>
@@ -33,20 +34,21 @@
                     </label>
 
                     <input
-                        onkeyup="mwSidebarSearchItems(this.value, 'layouts')"
-                        class="form-control input-lg"
-                        placeholder="Search for Layouts"
-                        autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                        data-id="mw-sidebar-search-input-for-modules-and-layouts">
+                            onkeyup="mwSidebarSearchItems(this.value, 'layouts')"
+                            class="form-control input-lg"
+                            placeholder="Search for Layouts"
+                            autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                            data-id="mw-sidebar-search-input-for-modules-and-layouts">
 
                     <a
-                        href="javascript:mwSidebarSearchClear('layouts');"
-                        class="mw-sidebar-search-clear-x-btn mw-icon-close"
-                        aria-hidden="true"
-                        style="display: none;"></a>
+                            href="javascript:mwSidebarSearchClear('layouts');"
+                            class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                            aria-hidden="true"
+                            style="display: none;"></a>
                 </div>
 
-                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
+                <p class="mw-search-no-results"
+                   style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
             </div>
 
             <div class="tab-title tab-title-1 modules" style="display: none;">
@@ -55,28 +57,31 @@
                         <i class="mw-icon-search" aria-hidden="true"></i>
                     </label>
 
-                    <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg" placeholder="Search for Modules"
+                    <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg"
+                           placeholder="Search for Modules"
                            autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
                            data-id="mw-sidebar-search-input-for-modules-and-layouts">
 
-                    <a href="javascript:mwSidebarSearchClear('modules');" class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                    <a href="javascript:mwSidebarSearchClear('modules');"
+                       class="mw-sidebar-search-clear-x-btn mw-icon-close"
                        aria-hidden="true" style="display: none;"></a>
                 </div>
 
-                <p class="mw-search-no-results" style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
+                <p class="mw-search-no-results"
+                   style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
             </div>
         </div>
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
-            <div class="mw-ui-box-content tabitem">
+            <div class="mw-ui-box-content tabitem mw-normalize-css">
                 <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
             </div>
 
-            <div class="mw-ui-box-content tabitem" style="display: none">
+            <div class="mw-ui-box-content tabitem mw-normalize-css" style="display: none">
                 <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
             </div>
 
-            <div class="mw-ui-box-content tabitem mw-live-edit-sidebar-iframe-holder" style="display: none;">
+            <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder" style="display: none;">
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
                     <iframe class="mw-live-edit-sidebar-settings-iframe"
                             data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
@@ -84,10 +89,23 @@
             </div>
             <div class="mw-ui-box-content tabitem module-settings-holder" id="side-module-settings-holder">
 
+
+                <div id="side-wyswyg-editor-holder" class="mw-defaults" <?php print lang_attributes(); ?>>
+
+                    <div   class="mw-defaults mw_editor">
+
+
+                        <div>
+                            <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="mw-ui-box-content tabitem css-editor-holder">
 
-                
+
                 <div id="mw-css-editor_____TEMP_REMOVE"></div>
             </div>
         </div>
@@ -181,7 +199,7 @@
                     $('.tab-title').hide();
                     $('.tab-title-' + index).show();
 
-                    $("#search-modules-and-layouts")[index == 2?'hide':'show']()
+                    $("#search-modules-and-layouts")[index == 2 ? 'hide' : 'show']()
 
                 }
             });
@@ -194,119 +212,118 @@
 
             /*
 
-            CSSEditorSchema = [
-                {
-                    interface:'quatro',
-                    label:['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
-                    id:'margin'
-                },
-                {
-                    interface:'quatro',
-                    label:['Padding top', 'Padding right', 'Padding bottom', 'Padding left'],
-                    id:'padding'
-                },
-                {
-                    interface:'size',
-                    label:'Font size',
-                    id:'fontSize'
-                },
-                {
-                    interface:'color',
-                    label:'Font color',
-                    id:'color'
-                },
-                {
-                    interface:'color',
-                    label:'Background color',
-                    id:'backgroundColor'
-                },
-                {
-                    interface:'select',
-                    label:'Font weight',
-                    id:'fontWeight',
-                    options:['inherit', 'normal', 'bold', 'bolder', 'lighter', 100,200,300,400,500,600,700,800,900]
-                },
-                {
-                    interface:'select',
-                    label:'Font style',
-                    id:'fontStyle',
-                    options:['italic', 'normal']
-                },
-                {
-                    interface:'select',
-                    label:'Text transform',
-                    id:'textTransform',
-                    options:['none', 'uppercase', 'lowercase', 'capitalize']
-                },
-                {
-                    interface:'block',
-                    content:'Border radius'
-                },
-                {
-                    interface:'quatro',
-                    id:'borderRadius',
-                    label:['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
-                },
-                {
-                    interface:'file',
-                    id:'backgroundImage',
-                    label:'Background Image',
-                    types:'images'
-                }
-            ];
+             CSSEditorSchema = [
+             {
+             interface:'quatro',
+             label:['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
+             id:'margin'
+             },
+             {
+             interface:'quatro',
+             label:['Padding top', 'Padding right', 'Padding bottom', 'Padding left'],
+             id:'padding'
+             },
+             {
+             interface:'size',
+             label:'Font size',
+             id:'fontSize'
+             },
+             {
+             interface:'color',
+             label:'Font color',
+             id:'color'
+             },
+             {
+             interface:'color',
+             label:'Background color',
+             id:'backgroundColor'
+             },
+             {
+             interface:'select',
+             label:'Font weight',
+             id:'fontWeight',
+             options:['inherit', 'normal', 'bold', 'bolder', 'lighter', 100,200,300,400,500,600,700,800,900]
+             },
+             {
+             interface:'select',
+             label:'Font style',
+             id:'fontStyle',
+             options:['italic', 'normal']
+             },
+             {
+             interface:'select',
+             label:'Text transform',
+             id:'textTransform',
+             options:['none', 'uppercase', 'lowercase', 'capitalize']
+             },
+             {
+             interface:'block',
+             content:'Border radius'
+             },
+             {
+             interface:'quatro',
+             id:'borderRadius',
+             label:['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
+             },
+             {
+             interface:'file',
+             id:'backgroundImage',
+             label:'Background Image',
+             types:'images'
+             }
+             ];
 
-            mw.elementCSSEditor = new mw.propEditor.schema({
-                schema: CSSEditorSchema,
-                element:'#mw-css-editor'
-            });
+             mw.elementCSSEditor = new mw.propEditor.schema({
+             schema: CSSEditorSchema,
+             element:'#mw-css-editor'
+             });
 
-            $(mw.elementCSSEditor).on('change', function(event, property, value){
-                mw.$(mw.elementCSSEditor.currentElement).css(property, value);
-            });
+             $(mw.elementCSSEditor).on('change', function(event, property, value){
+             mw.$(mw.elementCSSEditor.currentElement).css(property, value);
+             });
 
-            mw.on("ElementClick", function(event, el){
-                mw.elementCSSEditor.currentElement = el;
+             mw.on("ElementClick", function(event, el){
+             mw.elementCSSEditor.currentElement = el;
 
-                var css = getComputedStyle(el);
-                var val = {
-                    margin:(css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
-                    padding:(css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
-                    fontSize:css.fontSize,
-                    fontWeight:css.fontWeight,
-                    fontStyle:css.fontStyle,
-                    textTransform:css.textTransform,
-                    color:mw.color.rgbToHex(css.color),
-                    backgroundColor:mw.color.rgbToHex(css.backgroundColor),
-                    backgroundImage:css.backgroundImage,
-                    borderRadius:(css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
-                };
-                mw.elementCSSEditor.setValue(val);
-            });
+             var css = getComputedStyle(el);
+             var val = {
+             margin:(css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
+             padding:(css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
+             fontSize:css.fontSize,
+             fontWeight:css.fontWeight,
+             fontStyle:css.fontStyle,
+             textTransform:css.textTransform,
+             color:mw.color.rgbToHex(css.color),
+             backgroundColor:mw.color.rgbToHex(css.backgroundColor),
+             backgroundImage:css.backgroundImage,
+             borderRadius:(css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
+             };
+             mw.elementCSSEditor.setValue(val);
+             });
 
-            */
+             */
 
         });
 
 
-        var setScrollBoxes = function(){
+        var setScrollBoxes = function () {
             var root = document.querySelector('#modules-and-layouts-sidebar');
             if (root !== null) {
                 var el = root.querySelectorAll('.mw-ui-box');
                 for (var i = 0; i < el.length; i++) {
-                    var h =  (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
+                    var h = (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
                     el[i].style.height = h + 'px'
                 }
             }
         }
 
-        mw.on('liveEditSettingsReady', function(){
+        mw.on('liveEditSettingsReady', function () {
             setScrollBoxes()
         })
 
         $(window).on('resize orientationchange', function () {
             setScrollBoxes()
         });
-
 
 
     </script>
