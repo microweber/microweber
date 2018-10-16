@@ -3357,19 +3357,22 @@ mw.tools = {
             //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
         }
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
-        /*var modal = top.mw.tools.modal.frame({
-            url: src,
-            width: 532,
-            height: 150,
-            name: modal_name,
-            title: '',
-            callback: function () {
-                $(this.container).attr('data-settings-for-module', curr.id);
-            }
-        });
-        return modal;*/
 
-        $("#side-module-settings-holder").html('<iframe src="'+src+'" style="width:100%;height: 90vh;position: absolute" frameborder="0">')
+        if (self != top) {
+            var modal = top.mw.tools.modal.frame({
+                url: src,
+                width: 532,
+                height: 150,
+                name: modal_name,
+                title: '',
+                callback: function () {
+                    $(this.container).attr('data-settings-for-module', curr.id);
+                }
+            });
+            return modal;
+        } else {
+            $("#side-module-settings-holder").html('<iframe src="'+src+'" style="width:100%;height: 90vh;position: absolute" frameborder="0">')
+        }
     },
     open_custom_css_editor: function () {
         var src = mw.settings.site_url + 'api/module?id=mw_global_css_editor&live_edit=true&module_settings=true&type=editor/css_editor&autosize=true';

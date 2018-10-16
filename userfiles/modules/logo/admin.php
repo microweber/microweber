@@ -201,6 +201,7 @@ if (isset($params['data-alt-logo'])) {
                 <div style="clear: both;"></div>
 
                 <?php if ($alt_logo == 'true'): ?>
+                    <h2>Alt logo</h2>
                     <div class="mw-ui-row-nodrop image-row">
                         <div class="mw-ui-col">
                             <div class="the-image-holder">
@@ -597,20 +598,27 @@ if (isset($params['data-alt-logo'])) {
 
     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
 
+        if(inverse){
+            var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>_inverse'
+        } else {
+            var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>'
+        }
+
         var mw_admin_logo_upload_browse_existing_modal = window.top.mw.modalFrame({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
             title: "Browse pictures",
-            id: 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>',
+            id: modal_id,
             onload: function () {
 
                 this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
-                    mw_admin_logo_upload_browse_existing_modal.hide();
                     mw.notification.success('<?php _e('Logo image selected') ?>');
                     if (inverse) {
                         setNewImageInv(this);
                     } else {
                         setNewImage(this);
                     }
+                    mw_admin_logo_upload_browse_existing_modal.remove();
+
                 })
                 this.iframe.contentWindow.document.body.style.padding = '15px';
             },

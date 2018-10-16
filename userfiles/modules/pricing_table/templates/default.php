@@ -41,10 +41,10 @@ description: Default
                     <?php endif; ?>
 
                     <div class="price_table_container">
-                        <div class="price_table_heading edit" rel="module-<?php print $params['id']; ?>" field="title-content-<?php print $i; ?>">Basic</div>
+                        <div class="price_table_heading edit" rel="module-<?php print $params['id']; ?>" field="title-content-<?php print $i; ?>">Basic <?php print $i; ?></div>
                         <div class="price_table_body">
                             <div class="price_table_row cost <?php print $styleColor; ?> edit" rel="module-<?php print $params['id']; ?>" field="price-content-<?php print $i; ?>"><strong>$
-                                    29</strong><span>/MONTH</span>
+                                    2<?php print $i; ?></strong><span>/MONTH</span>
                             </div>
                             <div class="edit" rel="module-<?php print $params['id']; ?>" field="table-content-<?php print $i; ?>">
                                 <div class="price_table_row">10 Websites</div>
