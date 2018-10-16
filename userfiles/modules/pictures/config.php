@@ -10,6 +10,14 @@ $config['version'] = 1.11;
 $config['position'] = 4;
 $config['is_system'] = true;
 
+//$config['settings'] = array();
+//
+//$config['settings'][]  = array(
+//    'type'=>'live_edit_button',
+//    'title'=>'Add',
+//    'view'=>'quick_add_live_edit',
+//);
+
 
 
 $options = array();

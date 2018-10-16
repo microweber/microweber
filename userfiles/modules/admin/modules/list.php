@@ -233,8 +233,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             </li>
         <?php endif; ?>
 
-
+        <?php $i = 0; ?>
         <?php foreach ($modules as $module_item): ?>
+            <?php $i++; ?>
             <?php if (isset($module_item['module'])): ?>
                 <?php
 
@@ -267,7 +268,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 }
 
                 ?>
-                <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
+                <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
                 <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                         data-module-name="<?php print $module_item['module'] ?>"
                         <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
@@ -280,11 +281,21 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                       
                     
   <?php if (!isset($params['clean'])): ?>
+
+      <?php
+      $t = $module_item["name"];
+      $t2 = _e($module_item["name"], true);
+      if($t2 and $t != $t2){
+          $t = $t.' / '.$t2;
+      }
+
+      ?>
       <script type="text/javascript">
-          Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
+          Modules_List_<?php print $mod_obj_str ?>['<?php print $module_item["module"] ?>'] = {
               id: '<?php print($module_id); ?>',
               name: '<?php print $module_item["module"] ?>',
-              title: '<?php print $module_item["name"] ?> / <?php _e($module_item["name"]); ?>',
+              title: '<?php print addslashes($t); ?>',
+              icon: '<?php isset($module_item['icon']) ? print ($module_item['icon']) : ''; ?>',
               description: '<?php print addslashes($module_item["description"]) ?>'
           }
 
