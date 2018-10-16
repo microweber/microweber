@@ -104,7 +104,7 @@ class OrderManager
         if ($sid == false) {
             return $sid;
         }
-
+        
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
 
@@ -129,12 +129,13 @@ class OrderManager
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     DB::table($this->table)->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
                 }
-
+	
                 $this->app->cache_manager->delete('cart');
                 $this->app->cache_manager->delete('cart_orders');
                 
-                $this->app->user_manager->session_del('discount_value');
-                $this->app->user_manager->session_del('discount_type');
+                if (!empty($place_order['promo_code'])) {
+                	\CouponClass::log($place_order['promo_code'], $place_order['email']);
+                }
                 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     $this->app->shop_manager->update_quantities($ord);

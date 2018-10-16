@@ -192,8 +192,12 @@ class CheckoutManager
             $shipping_cost_max = false;
             $shipping_cost = false;
             $shipping_cost_above = false;
+            
             $discount_value = false;
             $discount_type = false;
+            
+            $coupon_id = false;
+            $coupon_code = false;
 
             if (($this->app->user_manager->session_get('shipping_country'))) {
                 $shipping_country = $this->app->user_manager->session_get('shipping_country');
@@ -212,6 +216,12 @@ class CheckoutManager
             }
             if (($this->app->user_manager->session_get('discount_type'))) {
             	$discount_type = $this->app->user_manager->session_get('discount_type');
+            }
+            if (($this->app->user_manager->session_get('coupon_id'))) {
+            	$coupon_id = $this->app->user_manager->session_get('coupon_id');
+            }
+            if (($this->app->user_manager->session_get('coupon_code'))) {
+            	$coupon_code = $this->app->user_manager->session_get('coupon_code');
             }
 
             //post any of those on the form
@@ -374,8 +384,12 @@ class CheckoutManager
                     $place_order['success'] = 'Your order has been placed successfully!';
                 }
                 
+                // Discount details save
+                $place_order['promo_code'] = $coupon_code;
+                $place_order['coupon_id'] = $coupon_id;
                 $place_order['discount_type'] = $discount_type;
                 $place_order['discount_value'] = $discount_value;
+                
                 $place_order['order_status'] = 'new';
                 
                 if (!empty($checkout_errors)) {

@@ -8,8 +8,9 @@
  * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
  * @copyright  2018 Microweber
  */
-api_expose('coupon_apply');
+include 'src/CouponClass.php';
 
+api_expose('coupon_apply');
 function coupon_apply($params = array())
 {
 	$json = array();
@@ -20,25 +21,40 @@ function coupon_apply($params = array())
 	
 	$coupon = coupon_get_by_code($coupon_code);
 	if (empty($coupon)) {
-		$errorMessage .= 'The coupon code is not valid.<br />';
-		$ok = false;
+		$json['error_message'] = 'The coupon code is not valid.<br />';
+		return $json;
 	}
 	
-	$checkoutManager = new Microweber\Providers\Shop\CheckoutManager();
+	$customer_ip = $_SERVER['SERVER_ADDR'];
 	
-	$sid = $checkoutManager->app->user_manager->session_id();
-	$cart = array();
-	$cart['session_id'] = $sid;
-	$checkCart = $checkoutManager->app->shop_manager->get_cart($cart);
+	$checkout = new Microweber\Providers\Shop\CheckoutManager();
+	$getCart = $checkout->app->shop_manager->get_cart(array(
+		'session_id' => $checkout->app->user_manager->session_id()
+	));
 	
 	$coupon['total_amount'] = intval($coupon['total_amount']);
 	$cartTotal = intval(cart_total());
 	
-	if ($cartTotal < $coupon['total_amount']) {
-		$errorMessage .= 'The coupon can\'t be applied because the minimum total amount is ' . currency_format($coupon['total_amount']);
+	// Check rules
+	$getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
+	
+	if ($getLog['uses_count'] !== false && $coupon['uses_per_customer'] > 0) {
+		if ($getLog['uses_count'] >= $coupon['uses_per_customer']) {
+			$errorMessage .= 'The coupon can\'t be applied cause maximum uses is ' . $coupon['uses_per_customer'] . "<br />";
+		}
 	}
 	
-	if (! is_array($checkCart)) {
+	if ($getLog['uses_count'] !== false && $coupon['uses_per_coupon'] > 0) {
+		if (!empty($getLog)) {
+			$errorMessage .= 'The coupon code is expired.<br />';
+		}
+	}
+	
+	if ($cartTotal < $coupon['total_amount']) {
+		$errorMessage .= 'The coupon can\'t be applied because the minimum total amount is ' . currency_format($coupon['total_amount']) . "<br />";
+	}
+	
+	if (! is_array($getCart)) {
 		$errorMessage .= 'The coupon can\'t be applied. The shopping cart is empty.';
 	}
 	
@@ -48,6 +64,8 @@ function coupon_apply($params = array())
 	
 	if ($ok) {
 		
+		mw()->user_manager->session_set('coupon_code', $coupon['coupon_code']);
+		mw()->user_manager->session_set('coupon_id', $coupon['id']);
 		mw()->user_manager->session_set('discount_value', $coupon['discount_value']);
 		mw()->user_manager->session_set('discount_type', $coupon['discount_type']);
 		
@@ -55,8 +73,7 @@ function coupon_apply($params = array())
 		$json['success_apply'] = true;
 	} else {
 		
-		mw()->user_manager->session_set('discount_value', false);
-		mw()->user_manager->session_set('discount_type', false);
+		coupons_delete_session();
 		
 		$json['error_message'] = $errorMessage;
 	}
@@ -65,7 +82,6 @@ function coupon_apply($params = array())
 }
 
 api_expose_admin('coupons_save_coupon');
-
 function coupons_save_coupon($couponData = array())
 {
 	$json = array();
@@ -113,11 +129,14 @@ function coupons_save_coupon($couponData = array())
 }
 
 api_expose_admin('coupon_log_customer');
-
-function coupon_log_customer($coupon_code, $customer_id)
+function coupon_log_customer($coupon_code, $customer_email, $customer_ip)
 {
 	$coupon = coupon_get_by_code($coupon_code);
-	$checkLog = coupon_log_get_by_code_and_customer_id($coupon_code, $customer_id);
+	if (empty($coupon)) {
+		return false;
+	}
+	
+	$checkLog = coupon_log_get_by_code_and_customer_email_and_ip($coupon_code, $customer_email, $customer_ip);
 	
 	$couponLogData = array();
 	$table = 'cart_coupon_logs';
@@ -130,28 +149,42 @@ function coupon_log_customer($coupon_code, $customer_id)
 	}
 	
 	$couponLogData['coupon_id'] = $coupon['id'];
-	$couponLogData['customer_id'] = $customer_id;
 	$couponLogData['coupon_code'] = $coupon_code;
+	$couponLogData['customer_email'] = $customer_email;
+	$couponLogData['customer_ip'] = $customer_ip;
 	$couponLogData['use_date'] = date("Y-m-d H:i:s");
 	
 	$couponLogId = db_save($table, $couponLogData);
 }
 
-api_expose_admin('coupon_log_get_by_code_and_customer_id');
-
-function coupon_log_get_by_code_and_customer_id($coupon_code, $customer_id)
+api_expose_admin('coupon_log_get_by_code_and_customer_email_and_ip');
+function coupon_log_get_by_code_and_customer_email_and_ip($coupon_code, $customer_email, $customer_ip)
 {
 	$table = "cart_coupon_logs";
 	
 	return db_get($table, array(
 		'coupon_code' => $coupon_code,
-		'customer_id' => $customer_id,
-		'single' => true
+		'customer_email' => $customer_email,
+		'customer_ip' => $customer_ip,
+		'single' => true,
+		'no_cache' => true
+	));
+}
+
+api_expose_admin('coupon_log_get_by_code_and_customer_ip');
+function coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip)
+{
+	$table = "cart_coupon_logs";
+	
+	return db_get($table, array(
+			'coupon_code' => $coupon_code,
+			'customer_ip' => $customer_ip,
+			'single' => true,
+			'no_cache' => true
 	));
 }
 
 api_expose_admin('coupon_get_all');
-
 function coupon_get_all()
 {
 	$table = 'cart_coupons';
@@ -168,31 +201,31 @@ function coupon_get_all()
 }
 
 api_expose_admin('coupon_get_by_id');
-
 function coupon_get_by_id($coupon_id)
 {
 	$table = "cart_coupons";
 	
 	return db_get($table, array(
 		'id' => $coupon_id,
-		'single' => true
+		'single' => true,
+		'no_cache' => true
 	));
 }
 
 api_expose_admin('coupon_get_by_code');
-
 function coupon_get_by_code($coupon_code)
 {
 	$table = "cart_coupons";
 	
 	return db_get($table, array(
+		'is_active' => 1,
 		'coupon_code' => $coupon_code,
-		'single' => true
+		'single' => true,
+		'no_cache' => true
 	));
 }
 
 api_expose('coupon_delete');
-
 function coupon_delete()
 {
 	if (! is_admin())
@@ -212,4 +245,13 @@ function coupon_delete()
 			'status' => 'failed'
 		);
 	}
+}
+
+api_expose_admin('coupons_delete_session');
+function coupons_delete_session()
+{
+	mw()->user_manager->session_del('coupon_code');
+	mw()->user_manager->session_del('coupon_id');
+	mw()->user_manager->session_del('discount_value');
+	mw()->user_manager->session_del('discount_type');
 }

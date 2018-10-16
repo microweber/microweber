@@ -38,7 +38,8 @@ $config['tables'] = array(
 		'id' => 'integer',
 		'coupon_id' => 'integer',
 		'coupon_code' => 'string',
-		'customer_id' => 'integer',
+		'customer_email' => 'string',
+		'customer_ip' => 'string',
 		'uses_count' => 'integer',
 		'use_date' => 'dateTime'
 	)

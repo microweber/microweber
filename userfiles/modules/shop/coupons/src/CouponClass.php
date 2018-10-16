@@ -27,6 +27,16 @@ class CouponClass
 			$this->app = mw();
 		}
 	}
+	
+	public static function log($coupon_code, $customer_email) {
+		
+		$customer_ip = $_SERVER['SERVER_ADDR'];
+		
+		coupon_log_customer($coupon_code, $customer_email, $customer_ip);
+		
+		coupons_delete_session();
+		
+	}
 
 	/**
 	 * Calculate new price of total
