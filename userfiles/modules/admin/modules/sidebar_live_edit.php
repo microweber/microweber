@@ -19,6 +19,7 @@
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> Module <?php _e("Settings"); ?></a>
             <?php /*<a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php echo("UI Editor"); ?></a>*/ ?>
         </div>
 
@@ -80,6 +81,9 @@
                     <iframe class="mw-live-edit-sidebar-settings-iframe"
                             data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
+            </div>
+            <div class="mw-ui-box-content tabitem module-settings-holder" id="side-module-settings-holder">
+
             </div>
             <div class="mw-ui-box-content tabitem css-editor-holder">
 

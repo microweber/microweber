@@ -17,6 +17,8 @@ mw.tags = mw.chips = function(options){
     options.size = options.size || 'medium';
 
     this.options = options;
+    this.options.map = this.options.map || { title: 'title', value: 'id', image: 'image', icon: 'icon' };
+    this.map = this.options.map;
     var scope = this;
     /*
         data: [
@@ -42,13 +44,48 @@ mw.tags = mw.chips = function(options){
         });
     };
 
-     this.createImage = function (config) {
-        if(config.image){
+    this.dataValue = function(data){
+        if(typeof data === 'string'){
+            return data;
+        }
+        else{
+            return data[this.map.value]
+        }
+    }
+    this.dataImage = function(data){
+        if(data[this.map.image]){
+            var img = document.createElement('img');
+            img.src = data.image;
+            return img;
+        }
+    }
+    this.dataTitle = function(data){
+        if(typeof data === 'string'){
+            return data;
+        }
+        else{
+            return data[this.map.title]
+        }
+    }
+    this.dataIcon = function(data){
+        if(typeof data === 'string'){
+            return;
+        }
+        else{
+            return data[this.map.icon]
+        }
+    }
 
+
+
+     this.createImage = function (config) {
+         var img = this.dataImage(config)
+        if(img){
+            return img;
         }
      };
      this.createIcon = function (config) {
-        var ic = config.icon;
+        var ic = this.dataIcon(config);
 
         if(!ic && config.type){
             ic = mw.coreIcons[config.type];
@@ -101,7 +138,7 @@ mw.tags = mw.chips = function(options){
 
              }
 
-            tag_holder.innerHTML = '<span class="tag-label-content">' + config.title + '</span>';
+            tag_holder.innerHTML = '<span class="tag-label-content">' + this.dataTitle(config) + '</span>';
 
 
             var icon = this.createIcon(config);

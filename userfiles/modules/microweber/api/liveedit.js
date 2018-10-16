@@ -674,12 +674,13 @@ mw.drag = {
                         else if(mw.tools.hasParentsWithClass(mw.mm_target, 'mw-layout-root')){
                             mw.trigger("LayoutOver", mw.tools.lastParentWithClass(mw.mm_target, 'mw-layout-root'));
                         }
-                        if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module']))
+                        if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module")
+                            && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module']))
                                 && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) || !mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')))) {
-
                             mw.trigger("ElementOver", mw.mm_target);
                         } else if (mw.$mm_target.parents(".element").length > 0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
-                            mw.trigger("ElementOver", mw.$mm_target.parents(".element:first")[0]);
+                            mw.trigger("ElementOver", mw.mm_target);
+                            //mw.trigger("ElementOver", mw.$mm_target.parents(".element:first")[0]);
                         } else if (mw.mm_target.id != 'mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length == 0) {
                             mw.trigger("ElementLeave", mw.mm_target);
                         }
@@ -857,15 +858,15 @@ mw.drag = {
         mw.on("ElementOver", function(a, element) {
 
             if (!mw.ea.canDrop(element)) {
-                mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
+                mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
                 return false;
             } else {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             }
             var el = $(element);
-            if (element.textContent.length < 2 && element.nodeName !== 'IMG') {
+            /*if (element.textContent.length < 2 && element.nodeName !== 'IMG') {
                 return false;
-            }
+            }*/
             var o = el.offset();
             var width = el.width();
 
@@ -887,22 +888,22 @@ mw.drag = {
 
         });
         mw.on("moduleOver", function(a, element) {
-        mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
+            mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
-        if(typeof(element) != 'undefined' && element.getAttribute('data-type') == 'layouts'){
-          var $el = $(element);
-          var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
+            if(typeof(element) != 'undefined' && element.getAttribute('data-type') == 'layouts'){
+              var $el = $(element);
+              var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
 
-          if(hasedit){
-              if($el.prev('[data-type="layouts"]').length !== 0){
-                mw.$('#mw_handle_module_up').show();
+              if(hasedit){
+                  if($el.prev('[data-type="layouts"]').length !== 0){
+                    mw.$('#mw_handle_module_up').show();
+                  }
+                  if($el.next('[data-type="layouts"]').length !== 0){
+                    mw.$('#mw_handle_module_down').show();
+                  }
               }
-              if($el.next('[data-type="layouts"]').length !== 0){
-                mw.$('#mw_handle_module_down').show();
-              }
-          }
 
-        }
+            }
             var order = mw.tools.parentsOrder(element, ['edit', 'module'])
             if (
               !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])
@@ -2945,6 +2946,7 @@ $(document).ready(function() {
     }, 300);
 
     mw.on('ElementOver moduleOver', function(e, target){
+        console.log(9991)
       mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over')
       mw.tools.addClass(target, e.type=='onElementOver' ? 'element-over':'module-over')
     })

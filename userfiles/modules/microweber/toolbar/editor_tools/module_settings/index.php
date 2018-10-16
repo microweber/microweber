@@ -457,7 +457,10 @@ function slowDownEvent(e, el, call){
 
 function mw_option_save_rebind_form_fields(){
 
-      mw.$(".mw_option_field").not('.mw-options-form-binded-custom').not('.mw-options-form-binded').on("change input", function (e) {
+      mw.$(".mw_option_field")
+          .not('.mw-options-form-binded-custom')
+          .not('.mw-options-form-binded')
+          .on("change input", function (e) {
 
           slowDownEvent(e, this, function(){
               if($(this).hasClass('mw-options-form-binded-custom')){

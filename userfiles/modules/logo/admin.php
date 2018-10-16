@@ -45,9 +45,10 @@
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
         border-radius: 100%;
-        padding: 7px;
+        padding: 0;
         margin-top: -65px;
         margin-left: 5px;
+        text-align: center;
     }
 
     .the-image,
@@ -92,6 +93,11 @@ if ($font_size == false) {
     $font_size = 30;
 }
 $logotype = get_option('logotype', $params['id']);
+
+if(!$logotype){
+    $logotype = 'image';
+}
+
 $size = get_option('size', $params['id']);
 if ($size == false or $size == '') {
     $size = 60;
@@ -174,7 +180,6 @@ if (isset($params['data-alt-logo'])) {
 
 
     <div class="mw-ui-field-holder">
-        <div class="mw-ui-box mw-ui-box-content">
             <div class="js-logo-image-holder">
                 <div class="mw-ui-row-nodrop image-row">
                     <div class="mw-ui-col">
@@ -216,12 +221,26 @@ if (isset($params['data-alt-logo'])) {
 
                 <div class="mw-ui-row-nodrop">
                     <div class="mw-ui-col">
-                        <label class="mw-ui-label" style="padding-top: 20px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
-                        <div id="sizeslider" class="mw-slider"></div>
+                        <label class="mw-ui-label"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
+                        <div class="range-slider">
+                            <input
+                                    name="size-slider"
+                                    id="size-slider"
+                                    class="mw-ui-field-range"
+                                    max="200"
+                                    min="20"
+                                    type="range"
+                                    value="<?php print $size; ?>">
+                        </div>
+                        <input
+                                name="size"
+                                id="size"
+                                type="hidden"
+                                class="mw_option_field"
+                                value="<?php print $size; ?>">
                         <br>
                         <label class="mw-ui-check"><input type="checkbox" checked="" id="order_status1" value="pending"><span></span><span><?php _e('Auto'); ?></span></label>
 
-                        <hr/>
                     </div>
                 </div>
             </div>
@@ -464,42 +483,55 @@ if (isset($params['data-alt-logo'])) {
                 </div>
 
 
-                <input type="hidden" class="mw_option_field" name="size" id="size"/>
+
                 <script>
-                    $(function () {
+                    $(document).ready(function () {
+
+                        var $size = $("#size"),
+                            $size_slider = $("#size-slider"),
+                            $imagesizeval = $("#imagesizeval");
 
 
                         if ("<?php print $size; ?>" == 'auto') {
-                            $("#imagesizeval").html('auto');
+                            $imagesizeval.html('auto');
                             $("#order_status1").attr("checked", true);
                         }
                         else {
-                            $("#imagesizeval").html("<?php print $size; ?>px");
+                            $imagesizeval.html($size_slider.val());
                             $("#order_status1").attr("checked", false);
                         }
 
 
-                        $("#order_status1").bind('change', function () {
-                            if (this.checked === true) {
-                                setAuto()
+
+
+                        $size_slider.on('input change', function () {
+                            $size.val(this.value)
+                            $("#order_status1")[0].checked = false;
+                            $imagesizeval.html(this.value + 'px');
+                            $size.trigger('change')
+                        });
+
+                        $("#order_status1").on('change', function () {
+                            if (this.checked) {
+                                setAuto();
                             }
                             else {
-                                var val1 = $('#sizeslider').slider("option", "value");
-                                $('#size').val(val1).trigger('change');
-                                $("#imagesizeval").html(val1 + 'px');
+                                var val1 = $size_slider.val();
+                                $size.val(val1).trigger('change');
+                                $imagesizeval.html(val1 + 'px');
                             }
                         });
 
                         setAuto = function () {
-                            $('#size').val('auto').trigger('change');
-                            $("#imagesizeval").html('auto');
+                            $imagesizeval.html('auto');
+                            $size.val('auto');
+                            $size.trigger('change');
                         };
 
 
                     });
                 </script>
             </div>
-        </div>
     </div>
 </div>
 <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage"/>
@@ -548,13 +580,19 @@ if (isset($params['data-alt-logo'])) {
     });
 
     function setNewImage(s) {
-        mw.$("#logoimage").val(s).trigger('change');
+        mw.$("#logoimage").val(s);
         mw.$(".the-image").show().attr('src', s);
+        setTimeout(function () {
+            mw.$("#logoimage").trigger('change');
+        }, 78)
     }
 
     function setNewImageInv(s) {
-        mw.$("#logoimage_inverse").val(s).trigger('change');
+        mw.$("#logoimage_inverse").val(s);
         mw.$(".the-image-inverse").show().attr('src', s);
+        setTimeout(function () {
+            mw.$("#logoimage_inverse").trigger('change');
+        }, 78)
     }
 
     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
