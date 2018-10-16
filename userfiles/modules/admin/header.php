@@ -440,11 +440,14 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 </a></li>
                         </ul>
                     </li>
+                    
                     <?php if ($shop_disabled == false AND is_module('shop') == true): ?>
 
-
-                        <li <?php if ($view == 'shop' and $action == false): ?> class="active"
-                        <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent" <?php endif; ?>>
+                        <li
+                        <?php if ($view == 'shop' and $action == false): ?> class="active"
+                        <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent"
+                        <?php elseif ($view == 'modules' and $load_module == 'shop__coupons'): ?> class="active" 
+                        <?php endif; ?> >
                             <a href="<?php print admin_url(); ?>view:shop" title=""><span class="mai-market2"><?php if ($view != 'shop' and $notif_count > 0) {
                                         print $order_notif_html;
                                     }; ?></span> <strong><?php _e("Shop"); ?></strong></a>
@@ -463,6 +466,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <a href="<?php print admin_url(); ?>view:shop/action:clients">
                                         <span class="mai-user"></span>
                                         <?php _e("Clients"); ?>
+                                    </a>
+                                </li>
+                                
+                                 <li <?php if ($load_module == 'shop__coupons'): ?> class="active" <?php endif; ?>>
+                                    <a href="<?php print admin_url(); ?>view:modules/load_module:shop__coupons">
+                                        <span class="mai-percent"></span>
+                                        <?php _e("Coupons"); ?>
                                     </a>
                                 </li>
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
@@ -515,7 +525,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </li>
                     <?php endif; ?>
 
-                    <li <?php if (($load_module AND $load_module != 'users') AND $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
+                    <li <?php if (($load_module AND $load_module != 'users' AND $load_module != 'shop__coupons') AND $view == 'modules'): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
                             <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
                         </a>
                     </li>
