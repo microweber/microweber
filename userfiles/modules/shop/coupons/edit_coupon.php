@@ -83,7 +83,7 @@ var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill all fields correct.');?>";
     
      <div class="mw-ui-field-holder">
         <label class="mw-ui-label">
-        <input type="checkbox" name="is_active" value="1" <?php if($data['is_active'] == 1): ?> hecked="checked"<?php endif; ?> /> Active
+        <input type="checkbox" name="is_active" value="1" <?php if($data['is_active'] == 1): ?> checked="checked"<?php endif; ?> /> Active
         </label>
     </div>
     
