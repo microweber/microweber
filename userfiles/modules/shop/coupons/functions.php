@@ -41,12 +41,16 @@ function coupon_apply($params = array())
 	
 	if ($ok) {
 		
-		$discount_value = $checkoutManager->app->user_manager->session_set('discount_value', $coupon['discount_value']);
-		$discount_type = $checkoutManager->app->user_manager->session_set('discount_type', $coupon['discount_type']);
+		mw()->user_manager->session_set('discount_value', $coupon['discount_value']);
+		mw()->user_manager->session_set('discount_type', $coupon['discount_type']);
 		
 		$json['success_message'] = 'The coupon code applied success.';
 		$json['success_apply'] = true;
 	} else {
+		
+		mw()->user_manager->session_set('discount_value', false);
+		mw()->user_manager->session_set('discount_type', false);
+		
 		$json['error_message'] = $errorMessage;
 	}
 	

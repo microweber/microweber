@@ -111,7 +111,13 @@ class CartManager extends Crud
     
     public function get_discount_value()
     {
-    	return floatval($this->app->user_manager->session_get('discount_value'));
+    	$discount_value = $this->app->user_manager->session_get('discount_value');
+    	
+    	if (empty($discount_value)) {
+    		return false;
+    	}
+    	
+    	return floatval($discount_value);
     }
     
     public function get_discount_text()

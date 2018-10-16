@@ -51,17 +51,20 @@ $(document).ready(function () {
              type: 'POST',
              dataType: 'json',
              success: function (data) {
+                 
             	if (typeof(data.error_message) !== "undefined") {
 						$('.js-coupon-code-messages').html('<div class="js-red-text">'+data.error_message+'</div>');
-					}
+				}
+				
             	if (typeof(data.success_apply) !== "undefined") {
 						$('.js-coupon-code-messages').html('<div class="js-green-text">'+data.success_message+'</div>');
-					}
+				}
+				
             	$('.js-apply-coupon-code').removeAttr('disabled');
-                 // console.log(data);
-                // mw.reload_module('shop/checkout');
+
+            	mw.reload_module('shop/checkout');
              }
-     });
+    	});
 	});
 });
 </script>

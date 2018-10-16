@@ -86,6 +86,8 @@ class Shop
                 'other_info' => 'longText',
                 'promo_code' => 'longText',
                 'skip_promo_code' => 'integer',
+            	'discount_type' => 'string',
+            	'discount_value' => 'float',
                 'taxes_amount' => 'float',
                 '$index' => ['session_id'],
             ],
