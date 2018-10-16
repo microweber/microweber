@@ -31,6 +31,13 @@ function coupon_apply($params = array())
 	$cart['session_id'] = $sid;
 	$checkCart = $checkoutManager->app->shop_manager->get_cart($cart);
 	
+	$coupon['total_amount'] = intval($coupon['total_amount']);
+	$cartTotal = intval(cart_total());
+	
+	if ($cartTotal < $coupon['total_amount']) {
+		$errorMessage .= 'The coupon can\'t be applied because the minimum total amount is ' . currency_format($coupon['total_amount']);
+	}
+	
 	if (! is_array($checkCart)) {
 		$errorMessage .= 'The coupon can\'t be applied. The shopping cart is empty.';
 	}
