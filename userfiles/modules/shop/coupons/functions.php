@@ -36,16 +36,18 @@ function coupon_apply($params = array())
 	$cartTotal = intval(cart_total());
 	
 	// Check rules
-	$getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
-	
-	if ($getLog['uses_count'] !== false && $coupon['uses_per_customer'] > 0) {
-		if ($getLog['uses_count'] >= $coupon['uses_per_customer']) {
+	if ($coupon['uses_per_customer'] > 0) {
+		$getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
+		
+		if ($getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
 			$errorMessage .= 'The coupon can\'t be applied cause maximum uses is ' . $coupon['uses_per_customer'] . "<br />";
 		}
 	}
 	
-	if ($getLog['uses_count'] !== false && $coupon['uses_per_coupon'] > 0) {
-		if (!empty($getLog)) {
+	if ($coupon['uses_per_coupon'] > 0) {
+		$getLogs = coupon_logs_get_by_code($coupon_code);
+		
+		if (count($getLogs) >= $coupon['uses_per_coupon']) {
 			$errorMessage .= 'The coupon code is expired.<br />';
 		}
 	}
@@ -182,6 +184,17 @@ function coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip)
 			'single' => true,
 			'no_cache' => true
 	));
+}
+
+api_expose_admin('coupon_logs_get_by_code');
+function coupon_logs_get_by_code($coupon_code)
+{
+	$table = "cart_coupon_logs";
+	
+	return DB::table($table)->select('*')
+		->where('coupon_code', $coupon_code)
+		->get()
+		->toArray();
 }
 
 api_expose_admin('coupon_get_all');
