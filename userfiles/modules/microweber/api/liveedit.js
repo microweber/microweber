@@ -382,6 +382,10 @@ document.body.appendChild(mw.inaccessibleModules);
         mw.iconSelector._activeElement = el;
         mw.iconSelector.popup();
     });
+    mw.on("ModuleClick", function(e, el, c) {
+        // open module settings on click
+        mw.drag.module_settings();
+    });
     mw.on("ElementClick", function(e, el, c) {
 
       $(".element-current").not(el).removeClass('element-current')
