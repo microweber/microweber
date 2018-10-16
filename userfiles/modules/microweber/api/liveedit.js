@@ -1410,6 +1410,14 @@ mw.drag = {
                         mw.trigger("ElementClick", $(target).parents(".element")[0]);
                     }
 
+                    if ($(target).hasClass("module")) {
+                        mw.trigger("ModuleClick", target);
+                    }
+                    else if (mw.tools.hasParentsWithClass(target, 'module')) {
+
+                        mw.trigger("ModuleClick", $(target).parents(".module")[0]);
+                    }
+
                     if ($(target).hasClass("mw_item")) {
                         mw.trigger("ItemClick", target);
                     } else if (mw.tools.hasParentsWithClass(target, 'mw_item')) {
@@ -2946,7 +2954,6 @@ $(document).ready(function() {
     }, 300);
 
     mw.on('ElementOver moduleOver', function(e, target){
-        console.log(9991)
       mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over')
       mw.tools.addClass(target, e.type=='onElementOver' ? 'element-over':'module-over')
     })
