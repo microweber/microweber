@@ -3378,7 +3378,7 @@ mw.tools = {
             var mod_settings_iframe_html = '<iframe src="' + src + '" class="js-module-settings-edit-item-group" id="' + iframe_id + '"  style="width:100%;height: 90vh;position: absolute" frameborder="0">';
 
             if (!$("#" + iframe_id).length) {
-                $("#side-module-settings-holder").append(mod_settings_iframe_html);
+                $("#js-live-edit-module-settings-items").append(mod_settings_iframe_html);
             }
 
             if ($("#" + iframe_id).length) {

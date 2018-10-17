@@ -19,8 +19,9 @@
             <a href="javascript:;" class="mw-ui-btn tabnav active"><i
                         class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> Module <?php _e("Settings"); ?></a>
+<?php /*            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
+*/ ?>
+            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i>  <?php _e("Settings"); ?></a>
             <?php /*<a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php echo("UI Editor"); ?></a>*/ ?>
         </div>
 
@@ -81,26 +82,36 @@
                 <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
             </div>
 
-            <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder" style="display: none;">
+        <?php
+
+        /*    <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
+                 style="display: none;">
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
                     <iframe class="mw-live-edit-sidebar-settings-iframe"
                             data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                 <?php } ?>
-            </div>
-            <div class="mw-ui-box-content tabitem module-settings-holder" id="side-module-settings-holder">
+            </div>*/
+
+        ?>
+            <div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
 
 
-                <div id="side-wyswyg-editor-holder" class="mw-defaults" <?php print lang_attributes(); ?>>
+                <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults" <?php print lang_attributes(); ?>>
 
-                    <div   class="mw-defaults mw_editor">
+                    <div class="mw-defaults mw_editor">
 
 
-                        <div>
-                            <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
+                        <div class="mw-ui-row">
+                            <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_sidebar.php'; ?>
 
                         </div>
                     </div>
                 </div>
+
+                <div id="js-live-edit-module-settings-holder" class="mw-defaults" <?php print lang_attributes(); ?>>
+                    <div id="js-live-edit-module-settings-items"></div>
+                </div>
+
 
             </div>
             <div class="mw-ui-box-content tabitem css-editor-holder">

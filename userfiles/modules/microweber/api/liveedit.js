@@ -384,17 +384,21 @@ document.body.appendChild(mw.inaccessibleModules);
     });
     mw.on("ModuleClick", function(e, el, c) {
         // open module settings on click
+        __mw_live_edit_show_module_edit_buttons(el)
+
         mw.drag.module_settings();
-        
+
     });
     mw.on("ElementClick", function(e, el, c) {
+
 
       $(".element-current").not(el).removeClass('element-current')
       $(el).addClass('element-current');
 
      if(mw.drag.target.canBeEditable(el)){
       $(el).attr('contenteditable', true);
-      }
+       __mw_live_edit_show_text_edit_buttons(el);
+     }
 
       mw.$('.module').each(function(){
       this.contentEditable = false;
@@ -405,6 +409,8 @@ document.body.appendChild(mw.inaccessibleModules);
         mw.$('.module').each(function(){
             this.contentEditable = false;
         });
+        __mw_live_edit_show_text_edit_buttons(el);
+
     });
     mw.on("TableClick", function(e, el) {
         if (typeof(mw.inline) != 'undefined') {
@@ -467,6 +473,21 @@ document.body.appendChild(mw.inaccessibleModules);
     });
 
 });
+
+
+__mw_live_edit_show_text_edit_buttons = function(el) {
+      $('#js-live-edit-module-settings-holder').hide();
+    $('#js-live-edit-side-wysiwyg-editor-holder').show();
+
+}
+
+__mw_live_edit_show_module_edit_buttons = function(el) {
+    $('#js-live-edit-side-wysiwyg-editor-holder').hide();
+
+    $('#js-live-edit-module-settings-holder').show();
+}
+
+
 hasAbilityToDropElementsInside = function(target) {
     var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
     if (typeof target === 'string') {
