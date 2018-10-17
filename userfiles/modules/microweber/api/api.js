@@ -932,17 +932,36 @@ mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/components/live_edit/modules.js");
+
+
 
 
 <?php  // include "jquery.js";  ?>
-<?php  include "tools.js"; ?>
-<?php  include "css_parser.js"; ?>
-<?php  include "files.js"; ?>
-<?php  include "forms.js"; ?>
-<?php  include "url.js"; ?>
-<?php  include "events.js"; ?>
-<?php  include "shop.js"; ?>
-<?php  include "common.js"; ?>
+<?php  include __DIR__.DS."tools.js"; ?>
+
+<?php  include  __DIR__.DS."css_parser.js"; ?>
+
+<?php  include  __DIR__.DS."files.js"; ?>
+
+<?php  include  __DIR__.DS."forms.js"; ?>
+
+<?php  include  __DIR__.DS."url.js"; ?>
+
+<?php  include  __DIR__.DS."events.js"; ?>
+
+<?php  include  __DIR__.DS."shop.js"; ?>
+
+<?php  include  __DIR__.DS."common.js"; ?>
+
+<?php  include  __DIR__.DS."components.js"; ?>
+
+
+
+
+
+
 
 
 
@@ -964,4 +983,6 @@ $(window).on('load', function(){
 
 <?php  //include "upgrades.js"; ?>
 
-<?php  include "session.js"; ?>
+<?php  include  __DIR__.DS."session.js"; ?>
+
+<?php  include  __DIR__.DS."components".DS."live_edit".DS."modules.js"; ?>
