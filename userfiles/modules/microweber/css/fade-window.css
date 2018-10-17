@@ -556,15 +556,7 @@
 }
 
 .fade-window .window-holder .mw-tag-selector .add-to-cats {
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    border-radius: 30px;
-    border: 1px solid #0086db;
-    width: auto;
-    font-size: 12px;
-    padding: 5px 10px 5px 10px;
-    height: auto;
-    outline: none;
+    top:-3px;
 }
 
 .fade-window .window-holder .mw-tag-selector .add-to-cats i {

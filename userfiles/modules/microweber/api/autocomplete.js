@@ -30,6 +30,7 @@ mw.autoComplete = function(options){
     this.createListHolder = function(){
         this.listHolder = document.createElement('ul');
         this.listHolder.className = 'mw-ui-box mw-ui-navigation mw-autocomplete-list';
+        this.listHolder.style.display = 'none';
         return this.listHolder;
     }
 
@@ -42,6 +43,9 @@ mw.autoComplete = function(options){
     this.createField = function(){
         this.inputField = document.createElement('input');
         this.inputField.className = 'mw-ui-invisible-field mw-autocomplete-field mw-ui-field-' + this.options.size;
+        if(this.options.placeholder){
+            this.inputField.placeholder = this.options.placeholder;
+        }
         $(this.inputField).on('input', function(){
             scope.search(this.value);
         });
@@ -72,6 +76,18 @@ mw.autoComplete = function(options){
         return li;
     }
 
+    this.uniqueValue = function(){
+        var uniqueIds = [], final = [];
+        this.selected.forEach(function(item){
+            var val = scope.dataValue(item);
+            if(uniqueIds.indexOf(val) === -1){
+                uniqueIds.push(val);
+                final.push(item);
+            }
+        });
+        this.selected = final;
+    }
+
     this.select = function(item){
         if(this.options.multiple){
             this.selected.push(item)
@@ -79,7 +95,10 @@ mw.autoComplete = function(options){
         else{
             this.selected = [item];
         }
-        this.rendSelected()
+        this.rendSelected();
+        if(!this.options.multiple){
+            this.listHolder.style.display = 'none';
+        }
         $(this).trigger('change', [this.selected]);
     }
 
@@ -92,15 +111,16 @@ mw.autoComplete = function(options){
 
     this.rendSelected = function(){
         if(this.options.multiple){
+            this.uniqueValue();
             this.chips.setData(this.selected)
         }
         else{
-            this.rendSingle()
+            this.rendSingle();
         }
     }
 
     this.rendResults = function(){
-        $(this.listHolder).empty();
+        $(this.listHolder).empty().show();
         $.each(this.results, function(){
             scope.listHolder.appendChild(scope.createListItem(this));
         })
@@ -211,9 +231,16 @@ mw.autoComplete = function(options){
             })
         }
         this.rendSelected();
+        this.handleEvents();
     }
 
-
+    this.handleEvents = function(){
+        $(document.body).on('click', function(e){
+            if(!mw.tools.hasParentsWithClass(e.target, 'mw-autocomplete')){
+                scope.listHolder.style.display = 'none';
+            }
+        })
+    }
 
 
     this.init();

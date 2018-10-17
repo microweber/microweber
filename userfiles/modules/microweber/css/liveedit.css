@@ -2291,10 +2291,6 @@ body.dragStart .empty-element {
     color: #fff;
 }
 
-.mw-autocomplete {
-    padding: 10px;
-}
-
 .mw-autocomplete-cats {
     position: absolute;
     display: none;
@@ -3093,10 +3089,6 @@ div[id*='SSDIVEL'] {
     border-radius: 30px !important;
 }
 
-.mwInaccessibleModulesMenu .mw-ui-btn [class*=mw-icon-] {
-    top: 8px;
-}
-
 #back-to-admin-toolbar {
     margin: 0px 8px;
     color: #333333;
@@ -3317,7 +3309,7 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .mw-ui-box {
     background: #f5f5f5;
     padding: 0 15px 25px 20px;
-    width: 300px;
+    width: 100%;
     overflow: auto;
     top: -3px;
     border: 0;
@@ -4144,6 +4136,10 @@ body.dragStart .allow-drop {
     border: 1px solid #eee;
     border-radius: 2px;
     background: #fff;
+}
+
+#mw-modules-layouts-tabsnav{
+    width: 400px;
 }
 
 

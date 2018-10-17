@@ -49,42 +49,6 @@
 
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?> <?php print helper_body_classes(); ?>">
-
-
-<div id="a1"></div>
-<br><br><br><br>
-<div id="a2"></div>
-<br><br><br><br>
-<script>
-
-mw.require('autocomplete.js');
-mw.require('tags.js');
-    $(document).ready(function(){
-        new mw.autoComplete({
-            element:'#a1',
-            map:{title:'title', value:'id'},
-            data:[
-                {title:"lorem", image:'https://picsum.photos/100/100', id:1} ,
-                {title:"ipsum", image:'https://picsum.photos/100/100', id:2} ,
-                {title:"sit amet", image:'https://picsum.photos/100/100', id:3} ,
-            ],
-            selected:[{title:"asdas ddsasaasd", image:'https://picsum.photos/100/100', id:2}]
-        })
-         new mw.autoComplete({
-            element:'#a2',
-            map:{title:'title', value:'id'},
-            multiple:true,
-            data:[
-                {title:"lorem", image:'https://picsum.photos/100/100', id:1} ,
-                {title:"ipsum", image:'https://picsum.photos/100/100', id:2} ,
-                {title:"sit amet", image:'https://picsum.photos/100/100', id:3} ,
-            ],
-            selected:[{title:"asdas ddsasaasd", image:'https://picsum.photos/100/100', id:2}]
-        })
-    })
-
-</script>
-
 <div id="main-container">
     <div id="header">
         <div class="container edit" field="liteness-header" rel="global">

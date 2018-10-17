@@ -11,7 +11,6 @@
 
 [class*='mai-'] {
     position: relative;
-    margin-right: 3px;
 }
 
 
@@ -7300,38 +7299,8 @@ select.silver-field {
 
 .mw-ui-btn-nav-tabs-new,
 .mw-ui-btn-nav-tabs {
-    border-bottom: 1px solid #0086db;
-    width: 100%;
+    clear: both;
     display: block;
-    margin-bottom: 10px;
-}
-
-.mw-ui-btn-nav-tabs-new .mw-ui-btn,
-.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
-.mw-ui-btn-nav-tabs .mw-ui-btn,
-.mw-ui-btn-nav-tabs .mw-ui-btn.active {
-    margin-left: 7px;
-    border-radius: 0;
-    border: 1px solid transparent;
-    border-bottom: 0;
-}
-
-.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
-.mw-ui-btn-nav-tabs .mw-ui-btn.active {
-    background: #0086db;
-    color: white;
-    border-color: #0086db;
-}
-
-.mw-ui-btn-nav-tabs-new .mw-ui-btn:hover,
-.mw-ui-btn-nav-tabs .mw-ui-btn:hover {
-    border-color: #e5e5e5;
-}
-
-.mw-ui-btn-nav-tabs-new .mw-ui-btn.active,
-.mw-ui-btn-nav-tabs .mw-ui-btn.active {
-    background: #0086db;
-    color: #fff;
 }
 
 .module-layouts-viewer {

@@ -2,6 +2,14 @@
     position: relative;
     z-index:10;
     display:flex;
+    padding: 5px;
+    .mw-ui-btn{
+        margin: 5px;
+        .mw-icon-close{
+            font-size: 15px;
+            right: -5px;
+        }
+    }
     .mw-autocomplete-list{
         position: absolute;
         top: 100%;
@@ -17,8 +25,11 @@
         background-size: cover;
         border-radius: 3px;
         vertical-align: middle;
+        margin-right: 7px;
     }
-
+    .mw-autocomplete-value{
+        display: inline-block;
+    }
 }
 
 

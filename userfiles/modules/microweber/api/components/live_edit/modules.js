@@ -84,14 +84,9 @@ mw.components.live_edit.modules.showHandle = function (element) {
 mw.components.live_edit.modules.showSettings = function (a, opts) {
 
 
-    if (typeof opts.liveedit !== 'undefined') {
-        var liveedit = opts.liveedit;
-    }
+    var liveedit = opts.liveedit = opts.liveedit || false;
 
-    var view = 'admin';
-    if (typeof opts.view !== 'undefined') {
-        var view = opts.view;
-    }
+    var view = opts.view || 'admin';
 
 
     if (typeof a === 'string') {
@@ -120,7 +115,7 @@ mw.components.live_edit.modules.showSettings = function (a, opts) {
             name: 'module-settings-' + a.replace(/\//g, '_'),
             title: '',
             callback: function () {
-                console.log(999112)
+
             }
         });
     }

@@ -203,15 +203,13 @@
         });
 
         $(document).ready(function () {
-            mw.tabs({
+            mw.sidebarSettingsTabs = mw.tabs({
                 nav: '#mw-modules-layouts-tabsnav  .tabnav',
                 tabs: '#mw-modules-layouts-tabsnav .tabitem',
                 onclick: function (currentTab, event, index) {
                     $('.tab-title').hide();
                     $('.tab-title-' + index).show();
-
                     $("#search-modules-and-layouts")[index == 2 ? 'hide' : 'show']()
-
                 }
             });
 
@@ -220,6 +218,18 @@
             $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
                 $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
             });
+
+
+
+
+            $("#mw-sidebar-modules-and-layouts-holder").on("mousedown touchstart", function(e){
+                if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
+                    e.preventDefault();
+                }
+            });
+
+            mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
+
 
             /*
 

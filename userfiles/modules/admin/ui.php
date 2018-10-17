@@ -284,6 +284,30 @@
 
             </div>
 
+            <h3>Button with image</h3>
+            <div class="demobox">
+
+
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Small</a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Medium</a>
+                <a href="javascript:;" class="mw-ui-btn"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Normal</a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Big</a>
+
+
+            </div>
+
+            <h3>Button with image</h3>
+            <div class="demobox">
+
+
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Small</a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Medium</a>
+                <a href="javascript:;" class="mw-ui-btn"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Normal</a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Big</a>
+
+
+            </div>
+
 
             <h3>Button Navigations</h3>
             <div class="demobox">

@@ -1,4 +1,5 @@
 mw.require('wysiwyg.js');
+
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
 mw.isDrag = false;
@@ -19,6 +20,8 @@ mw.SmallEditorIsDragging = false;
 
 mw.states = {}
 mw.live_edit_module_settings_array = [];
+
+
 
 /**
  * Makes Droppable area
@@ -155,20 +158,17 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
-$(document).on('mousedown touchstart', function(e){
-  if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'edit', 'element'])){
-    $(".element-current").removeClass("element-current");
-  }
 
+    $(document).on('mousedown touchstart', function(e){
+      if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'edit', 'element'])){
+        $(".element-current").removeClass("element-current");
+      }
+    });
 
-
-
-});
-
-mw.$("span.edit:not('.nodrop')").each(function(){
-  mw.tools.setTag(this, 'div');
-})
-document.body.appendChild(mw.inaccessibleModules);
+    mw.$("span.edit:not('.nodrop')").each(function(){
+      mw.tools.setTag(this, 'div');
+    })
+    document.body.appendChild(mw.inaccessibleModules);
 
     mw.$("#toolbar-template-settings").click(function() {
         mw.tools.toggle_template_settings();
@@ -255,7 +255,7 @@ document.body.appendChild(mw.inaccessibleModules);
         }
     })
 
-    mw.edits = mw.$('.edit');
+     mw.edits = mw.$('.edit');
      mw.edits.on('keydown', function(e){
         var istab = (e.which || e.keyCode) == 9,
             isShiftTab = istab && e.shiftKey,
@@ -383,33 +383,29 @@ document.body.appendChild(mw.inaccessibleModules);
         mw.iconSelector.popup();
     });
     mw.on("ModuleClick", function(e, el, c) {
-        // open module settings on click
-        __mw_live_edit_show_module_edit_buttons(el)
 
-        mw.drag.module_settings();
+        mw.liveNodeSettings.set('module', el);
 
     });
     mw.on("ElementClick", function(e, el, c) {
 
+        $(".element-current").not(el).removeClass('element-current')
+        $(el).addClass('element-current');
 
-      $(".element-current").not(el).removeClass('element-current')
-      $(el).addClass('element-current');
+        if(mw.drag.target.canBeEditable(el)){
+            $(el).attr('contenteditable', true);
+        }
+        mw.liveNodeSettings.set('element', el);
 
-     if(mw.drag.target.canBeEditable(el)){
-      $(el).attr('contenteditable', true);
-       __mw_live_edit_show_text_edit_buttons(el);
-     }
-
-      mw.$('.module').each(function(){
-      this.contentEditable = false;
-      });
+        mw.$('.module').each(function(){
+            this.contentEditable = false;
+        });
     });
     mw.on("PlainTextClick", function(e, el) {
         $(el).attr('contenteditable', true);
         mw.$('.module').each(function(){
             this.contentEditable = false;
         });
-        __mw_live_edit_show_text_edit_buttons(el);
 
     });
     mw.on("TableClick", function(e, el) {
@@ -475,16 +471,35 @@ document.body.appendChild(mw.inaccessibleModules);
 });
 
 
-__mw_live_edit_show_text_edit_buttons = function(el) {
-      $('#js-live-edit-module-settings-holder').hide();
-    $('#js-live-edit-side-wysiwyg-editor-holder').show();
 
-}
+var nodeSettingsPause = false;
 
-__mw_live_edit_show_module_edit_buttons = function(el) {
-    $('#js-live-edit-side-wysiwyg-editor-holder').hide();
-
-    $('#js-live-edit-module-settings-holder').show();
+mw.liveNodeSettings = {
+    _working: false,
+    set: function(type, el){
+        if(this[type]){
+            if(this._working) return;
+            this._working = true;
+            var scope = this;
+            setTimeout(function(){
+                scope._working = false;
+            }, 78);
+            mw.sidebarSettingsTabs.set(2);
+            return this[type](el);
+        }
+        else{
+            console.warn(type + ' not specified.')
+        }
+    },
+    element:function(el){
+        $('#js-live-edit-module-settings-holder').hide();
+        $('#js-live-edit-side-wysiwyg-editor-holder').show();
+    },
+    module:function(el){
+        $('#js-live-edit-side-wysiwyg-editor-holder').hide();
+        $('#js-live-edit-module-settings-holder').show();
+        mw.drag.module_settings();
+    }
 }
 
 
@@ -831,10 +846,6 @@ mw.drag = {
 
         mw.drag.fix_placeholders(true);
         mw.drag.fixes()
-
-
-
-        mw.resizable_columns();
 
         $(mwd.body).mouseup(function(event) {
 
@@ -1521,7 +1532,6 @@ mw.drag = {
                             mw.drag.fix_placeholders();
                             mw.ea.afterAction()
                         }, 40)
-                        mw.resizable_columns();
                         mw.dropable.hide();
 
 
@@ -1550,7 +1560,6 @@ mw.drag = {
     },
 
     make_module_settings_handle: function(element) {
-
       return mw.components.live_edit.modules.showHandle(element);
     },
      /**
@@ -1928,95 +1937,6 @@ mw.drag = {
         });
     },
 
-    /**
-     * Creates columns of given row id
-     *
-     * @method mw.edit.create_columns(selector, $numcols)
-     * @param selector - the id of the row element
-     * @param $numcols - number of columns required
-     */
-
-    create_columns: function(selector, $numcols) {
-
-        if (!$(selector).hasClass("active")) {
-
-            var id = $(mw.handle_row).data("curr").id;
-            $(mw.handle_row).children(".mw-col").removeClass("temp_column");
-            $(mw.handle_row).find("a").removeClass("active");
-            $(selector).addClass("active")
-            var $el_id = id != '' ? id : mw.settings.mw - row_id;
-
-            mw.settings.sortables_created = false;
-            var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").length;
-
-            if ($numcols == 0) {
-                var $numcols = 1;
-            }
-            var $numcols = parseInt($numcols);
-            if ($exisintg_num == 0) {
-                $exisintg_num = 1;
-            }
-            if ($numcols != $exisintg_num) {
-                if ($numcols > $exisintg_num) { //more columns
-                    var i = $exisintg_num;
-                    for (; i < $numcols; i++) {
-                        var new_col = mwd.createElement('div');
-                        new_col.className = 'mw-col';
-                        new_col.innerHTML = '<div class="mw-col-container"></div>';
-                        mw.$('#' + $el_id).append(new_col);
-                        mw.drag.fix_placeholders(true, '#' + $el_id);
-                    }
-                    mw.resizable_columns();
-                } else { //less columns
-                    var $cols_to_remove = $exisintg_num - $numcols;
-                    if ($cols_to_remove > 0) {
-
-                        var fragment = document.createDocumentFragment(),
-                            last_after_remove;
-
-                        mw.$('#' + $el_id).children(".mw-col").each(function(i) {
-                            if (i == ($numcols - 1)) {
-                                last_after_remove = $(this);
-
-                            } else {
-                                if (i > ($numcols - 1)) {
-                                    if (this.querySelector('.mw-col-container') !== null) {
-                                        mw.tools.foreachChildren(this, function() {
-                                            if (mw.tools.hasClass(this.className, 'mw-col-container')) {
-                                                fragment.appendChild(this);
-                                            }
-                                        });
-                                    }
-                                    $(this).remove();
-                                }
-                            }
-                        });
-                        var last_container = last_after_remove.find(".mw-col-container");
-
-                        var nodes = fragment.childNodes,
-                            i = 0,
-                            l = nodes.length;
-
-                        for (; i < l; i++) {
-                            var node = nodes[i];
-                            mw.$('.empty-element, .ui-resizable-handle', node).remove();
-                            last_container.append(node.innerHTML);
-                        }
-
-                        //last_after_remove.resizable("destroy");
-                        mw.$('#' + $el_id).children(".empty-element").remove();
-                        mw.drag.fix_placeholders(true, '#' + $el_id);
-
-                    }
-                }
-
-                var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").size();
-                var $eq_w = 100 / $exisintg_num;
-                var $eq_w1 = $eq_w;
-                mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
-            }
-        }
-    },
     grammarlyFix:function(html){
       var data = mw.tools.parseHtml(html).body;
 
@@ -2239,11 +2159,8 @@ mw.drag = {
                     });
 
                 });
-
-
-
             }
-        })
+        });
         xhr.success(function(sdata) {
             mw.$('.edit.changed').removeClass('changed');
             mw.$('.orig_changed').removeClass('orig_changed');
@@ -2350,143 +2267,8 @@ mw.delete_column = function(which) {
         }
     }
 }
-/**
- * Makes resizable columns
- *
- * @example mw.resizable_columns()
- */
-mw.resizable_columns = function() {
 
-    return false;
 
-    if ($(window).width() < 768) {
-        return false;
-    }
-    $(".mw-row").each(function() {
-        mw.px2pc(this);
-    });
-    mw.$('.mw-col').each(function() {
-        if (!mw.tools.hasClass(this.className, 'ui-resizable')) {
-
-            $el_id_column = $(this).attr('id');
-            if ($el_id_column == undefined || $el_id_column == 'undefined') {
-                $el_id_column = 'mw-column-' + mw.random();
-                $(this).attr('id', $el_id_column);
-            }
-
-            $is_done = $(this).hasClass('ui-resizable')
-            $ds = mw.settings.drag_started;
-            $is_done = false;
-            if ($is_done == false) {
-
-                $inner_column = $(this).children(".mw-col:first");
-                $prow = $(this).parent('.mw-row').attr('id');
-                $no_next = false;
-                $also = $(this).next(".mw-col");
-                $also_check_exist = $also.size();
-                if ($also_check_exist == 0) {
-                    $no_next = true;
-                    $also = $(this).prev(".mw-col");
-                }
-
-                $also_el_id_column = $also.attr('id');
-                if ($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '') {
-                    $also_el_id_column = 'mw-column-' + mw.random();
-                    $also.attr('id', $also_el_id_column);
-                }
-                $also_reverse_id = $also_el_id_column;
-
-                $also_inner_items = $inner_column.attr('id');
-                if ($no_next == false) {
-                    $handles = 'e'
-                } else {
-                    $handles = 'none'
-                }
-                if ($no_next == false) {
-
-                    $last_c_w = $(this).parent('.mw-row').children('.mw-col').last().width();
-                    $row_max_w = $(this).parent('.mw-row').width();
-                    $(this).attr("data-also-rezise-item", $also_reverse_id);
-                    mw.global_resizes = {
-                        next: '',
-                        sum: 0
-                    }
-                    $(this).resizable({
-                        handles: $handles,
-                        ghost: false,
-                        containment: "parent",
-                        greedy: true,
-                        cancel: ".mw-sorthandle",
-                        minWidth: 33,
-
-                        resize: function(event, ui) {
-
-                            mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum - ui.size.width - 10));
-                            if (mw.global_resizes.next.width() < 33) {
-                                $(this).resizable("option", "maxWidth", ui.size.width);
-                            }
-                            mw.settings.resize_started = true;
-                            var w = $(this).width();
-                            $(this).find("img").each(function() {
-
-                                $(this).width() <= w ? this.style.height = 'auto' : '';
-                            });
-                            var nw = mw.global_resizes.next.width();
-                            mw.global_resizes.next.find("img").each(function() {
-                                $(this).width() <= w ? this.style.height = 'auto' : '';
-                            });
-                        },
-                        create: function(event, ui) {
-                            var el = $(this);
-                            el.find(".ui-resizable-e:first").append('<span class="resize_arrows"></span>');
-                            el.mousemove(function(event) {
-                                el.children(".ui-resizable-e").find(".resize_arrows:first").css({
-                                    "top": (event.pageY - el.offset().top) + "px"
-                                });
-                            });
-
-                            mw.px2pc(mw.tools.firstParentWithClass(this, 'mw-row'));
-                        },
-                        start: function(event, ui) {
-                            $(mwd.body).addClass('Resizing');
-                            $(this).resizable("option", "maxWidth", 9999);
-                            $(".mw-col", '.edit').each(function() {
-                                $(this).removeClass('selected');
-                            });
-
-                            mw.global_resizes.next = $(this).next().length > 0 ? $(this).next() : $(this).prev();
-
-                            mw.global_resizes.sum = ui.size.width + mw.global_resizes.next.width();
-
-                            $r = $(this).parent('.mw-row');
-
-                            $row_w = $r.width();
-                            mw.resizable_row_width = $row_w;
-                            ui.element.addClass('selected');
-                            mw.settings.resize_started = true;
-                            $(this).parent().addClass('mw_resizing');
-                            mw.image_resizer._hide();
-
-                        },
-                        stop: function(event, ui) {
-                            $(this).parent().removeClass('mw_resizing');
-                            mw.settings.resize_started = false;
-                            mw.drag.fixes();
-                            mw.drag.fix_placeholders();
-
-                            mw.px2pc($(this).parents(".mw-row")[0]);
-                            mw.wysiwyg.change(this)
-
-                            $(mwd.body).removeClass('Resizing');
-                            //mw.scale_cols();
-                        }
-                    });
-                }
-            }
-        }
-
-    });
-}
 mw.drop_regions = {
     enabled: mw.settings.regions,
     ContainsDisabledSideClass: function(el) {
@@ -2638,7 +2420,6 @@ mw.history = {
                     mw.$(".edit.changed").removeClass("changed");
                     setTimeout(function() {
                         mw.drag.fix_placeholders(true);
-                        mw.resizable_columns();
                         mw.on.DOMChangePause = false;
                     }, 200);
                     mw.$(".hasdraft").remove();
@@ -2670,7 +2451,6 @@ __createRow = function(hovered, mw_drag_current, pos) {
     }
     setTimeout(function() {
         mw.drag.fix_placeholders(true);
-        mw.resizable_columns();
     }, 200);
 }
 dropInside = function(el) {
@@ -3273,6 +3053,7 @@ mw.quick = {
         });
         $(modal.main).addClass('mw-add-content-modal');
         modal.overlay.style.backgroundColor = "white";
+        alert(this.w)
     },
     category: function() {
         var modal = mw.tools.modal.frame({

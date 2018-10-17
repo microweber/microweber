@@ -54,8 +54,9 @@ mw.tags = mw.chips = function(options){
     }
     this.dataImage = function(data){
         if(data[this.map.image]){
-            var img = document.createElement('img');
-            img.src = data.image;
+            var img = document.createElement('span');
+            img.className = 'mw-ui-btn-img';
+            img.style.backgroundImage = 'url('+data.image+')';
             return img;
         }
     }
