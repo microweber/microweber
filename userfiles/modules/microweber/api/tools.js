@@ -3268,127 +3268,21 @@ mw.tools = {
     module_settings: function (a, view, liveedit) {
 
 
+        var opts = {};
         if (typeof liveedit === 'undefined') {
-            var liveedit = true;
+            opts.liveedit = true;
         }
-        if (typeof a === 'string') {
-            var module_type = a;
-            var module_id = a;
-            var mod_sel = mw.$(a + ':first');
-            if (mod_sel.length > 0) {
-                var attr = $(mod_sel).attr('id');
-                if (typeof attr !== typeof undefined && attr !== false) {
-                    var attr = !attr.contains("#") ? attr : attr.replace("#", '');
-                    module_id = attr;
-                }
-                var attr2 = $(mod_sel).attr('type');
-                var attr = $(mod_sel).attr('data-type');
-                if (typeof attr !== typeof undefined && attr !== false) {
-                    module_type = attr;
-                } else if (typeof attr2 !== typeof undefined && attr2 !== false) {
-                    module_type = attr2;
-                }
-            }
-            var src = mw.settings.site_url + "api/module?id=" + module_id + "&live_edit=" + liveedit + "&module_settings=true&type=" + module_type;
-            return mw.tools.modal.frame({
-                url: src,
-                width: 532,
-                height: 250,
-                name: 'module-settings-' + a.replace(/\//g, '_'),
-                title: '',
-                callback: function () {
-                    console.log(999112)
-                }
-            });
-        }
-        var curr = a || $("#mw_handle_module").data("curr");
-        var attributes = {};
-        if (curr && curr.id && mw.$('#module-settings-' + curr.id).length > 0) {
-            var m = mw.$('#module-settings-' + curr.id)[0];
-            m.scrollIntoView();
-            mw.tools.highlight(m);
-            return false;
-        }
-        if (curr && curr.attributes) {
-            $.each(curr.attributes, function (index, attr) {
-                attributes[attr.name] = attr.value;
-            });
-        }
-
-        var data1 = attributes;
-        var module_type = null
-        if (data1['data-type'] != undefined) {
-            module_type = data1['data-type'];
-            data1['data-type'] = data1['data-type'] + '/admin';
-        }
-        if (data1['data-module-name'] != undefined) {
-            delete(data1['data-module-name']);
-        }
-        if (data1['type'] != undefined) {
-            module_type = data1['type'];
-            data1['type'] = data1['type'] + '/admin';
-        }
-        if (module_type != null && view != undefined) {
-            data1['data-type'] = data1['type'] = module_type + '/' + view;
-        }
-        if (typeof data1['class'] != 'undefined') {
-            delete(data1['class']);
-        }
-        if (typeof data1['style'] != 'undefined') {
-            delete(data1['style']);
-        }
-        if (typeof data1.contenteditable != 'undefined') {
-            delete(data1.contenteditable);
-        }
-        data1.live_edit = liveedit;
-        data1.module_settings = 'true';
         if (view != undefined) {
-            data1.view = view;
+            opts.view = view;
         }
         else {
-            data1.view = 'admin';
+            opts.view = 'admin';
         }
-        if (data1.from_url == undefined) {
-            //data1.from_url = window.top.location;
-            data1.from_url = window.parent.location;
-        }
-        var modal_name = 'module-settings-' + curr.id;
-        if (typeof(data1.view.hash) == 'function') {
-            //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
-        }
-        var src = mw.settings.site_url + "api/module?" + json2url(data1);
-
-        if (self != top) {
-            var modal = top.mw.tools.modal.frame({
-                url: src,
-                width: 532,
-                height: 150,
-                name: modal_name,
-                title: '',
-                callback: function () {
-                    $(this.container).attr('data-settings-for-module', curr.id);
-                }
-            });
-            return modal;
-        } else {
 
 
-            var iframe_id = 'js-iframe-module-settings-' + curr.id;
+        return mw.components.live_edit.modules.showSettings(a,opts)
 
-            var mod_settings_iframe_html = '<iframe src="' + src + '" class="js-module-settings-edit-item-group" id="' + iframe_id + '"  style="width:100%;height: 90vh;position: absolute" frameborder="0">';
 
-            if (!$("#" + iframe_id).length) {
-                $("#js-live-edit-module-settings-items").append(mod_settings_iframe_html);
-            }
-
-            if ($("#" + iframe_id).length) {
-                $('.js-module-settings-edit-item-group').hide();
-
-                $("#" + iframe_id).show();
-
-            }
-
-        }
     },
     open_custom_css_editor: function () {
         var src = mw.settings.site_url + 'api/module?id=mw_global_css_editor&live_edit=true&module_settings=true&type=editor/css_editor&autosize=true';
