@@ -18,8 +18,8 @@ mw.components.live_edit.modules.showHandle = function (element) {
     var mod_icon = mw.components.live_edit.modules.getModuleIcon(module_type);
 
     if (title != '') {
-        if(mod_icon){
-            title = '<span class="mw-module-options-icon"><img src="'+mod_icon+'"></span>' + title;
+        if (mod_icon) {
+            title = '<span class="mw-module-options-icon"><img src="' + mod_icon + '"></span>' + title;
         }
 
         //mw_master_handle
@@ -30,10 +30,7 @@ mw.components.live_edit.modules.showHandle = function (element) {
     }
 
 
-
     var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-' + id;
-
-
 
 
     mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not("#" + mw_edit_settings_multiple_holder_id).hide();
@@ -98,13 +95,13 @@ mw.components.live_edit.modules.showHandle = function (element) {
     }
 
 
-    if(mod_icon){
-        var sorthandle_main =  mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
-        if(sorthandle_main){
+    if (mod_icon) {
+        var sorthandle_main = mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
+        if (sorthandle_main) {
             mw.$(sorthandle_main).addClass('mw-element-name-handle-no-fallback-icon');
 
         }
-     }
+    }
 
 }
 
@@ -146,7 +143,12 @@ mw.components.live_edit.modules.showSettings = function (a, opts) {
             }
         });
     }
+
     var curr = a || $("#mw_handle_module").data("curr");
+    if (typeof(curr) == 'undefined') {
+        return;
+    }
+
     var attributes = {};
     if (curr && curr.id && mw.$('#module-settings-' + curr.id).length > 0) {
         var m = mw.$('#module-settings-' + curr.id)[0];
@@ -216,6 +218,12 @@ mw.components.live_edit.modules.showSettings = function (a, opts) {
         });
         return modal;
     } else {
+
+
+        data1.live_edit_sidebar = true;
+
+        var src = mw.settings.site_url + "api/module?" + json2url(data1);
+
 
         var iframe_id = 'js-iframe-module-settings-' + curr.id;
 
