@@ -139,7 +139,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <script type="text/javascript">
 
         Modules_List_<?php print $mod_obj_str ?> = {}
-        mw.components.live_edit.modules.registry = mw.components.live_edit.modules.registry || {}
+        mw.live_edit.registry = mw.live_edit.registry || {}
 
     </script>
 
@@ -308,7 +308,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
               description: '<?php print addslashes($module_item["description"]) ?>'
           }
 
-          mw.components.live_edit.modules.registry['<?php print $module_item["module"] ?>'] = Modules_List_<?php print $mod_obj_str ?>['<?php print $module_item["module"] ?>'];
+          mw.live_edit.registry['<?php print $module_item["module"] ?>'] = Modules_List_<?php print $mod_obj_str ?>['<?php print $module_item["module"] ?>'];
 
 
           <?php if (isset($module_item['settings']) and is_array($module_item['settings']) and !empty($module_item['settings'])): ?>

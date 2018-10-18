@@ -3280,7 +3280,7 @@ mw.tools = {
         }
 
 
-        return mw.components.live_edit.modules.showSettings(a,opts)
+        return mw.live_edit.showSettings(a,opts)
 
 
     },

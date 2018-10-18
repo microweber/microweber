@@ -1560,7 +1560,7 @@ mw.drag = {
     },
 
     make_module_settings_handle: function(element) {
-      return mw.components.live_edit.modules.showHandle(element);
+      return mw.live_edit.showHandle(element);
     },
      /**
      * Various fixes

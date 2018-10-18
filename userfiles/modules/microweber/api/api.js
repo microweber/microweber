@@ -933,7 +933,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
-mw.required.push("<?php print mw_includes_url(); ?>api/components/live_edit/modules.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/live_edit.js");
 
 
 
@@ -985,4 +985,4 @@ $(window).on('load', function(){
 
 <?php  include  __DIR__.DS."session.js"; ?>
 
-<?php  include  __DIR__.DS."components".DS."live_edit".DS."modules.js"; ?>
+<?php  include  __DIR__.DS."live_edit.js"; ?>
