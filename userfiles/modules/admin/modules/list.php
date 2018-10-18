@@ -58,13 +58,13 @@ if (isset($is_elements) and $is_elements == true) {
 
     $modules_from_template = mw()->modules->get_modules_from_current_site_template();
     if (!empty($modules_from_template)) {
-        if(!is_array($modules)){
+        if (!is_array($modules)) {
             $modules = array();
         }
-        foreach ($modules as $module){
-            foreach ($modules_from_template as $k=>$module_from_template){
-                if(isset($module['name']) and isset($module_from_template['name'])){
-                    if($module['name']  == $module_from_template['name']){
+        foreach ($modules as $module) {
+            foreach ($modules_from_template as $k => $module_from_template) {
+                if (isset($module['name']) and isset($module_from_template['name'])) {
+                    if ($module['name'] == $module_from_template['name']) {
                         unset($modules_from_template[$k]);
                     }
                 }
@@ -139,6 +139,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <script type="text/javascript">
 
         Modules_List_<?php print $mod_obj_str ?> = {}
+        mw.components.live_edit.modules.registry = mw.components.live_edit.modules.registry || {}
 
     </script>
 
@@ -194,7 +195,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
         <?php foreach ($module_layouts_skins as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['layout_file'])): ?>
-                <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item"
+                <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
+                    data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item"
                     unselectable="on">
                     <span class="mw_module_hold">
                         <?php if (!isset($dynamic_layout['screenshot'])): ?>
@@ -209,7 +211,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-                                        src="" data-src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
+                                        src=""
+                                        data-src="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>"
                                 />
                             </span>
                         </span>
@@ -228,7 +231,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <?php if ($mod_obj_str == 'elements'): ?>
             <li>
                 <hr>
-                <h4 onclick="$('.default-layouts').toggle()" style="font-weight: bold; font-size: 18px; margin-top: 10px; margin-bottom: 10px; cursor: pointer;"><?php _e('Default static layouts'); ?> </h4>
+                <h4 onclick="$('.default-layouts').toggle()"
+                    style="font-weight: bold; font-size: 18px; margin-top: 10px; margin-bottom: 10px; cursor: pointer;"><?php _e('Default static layouts'); ?> </h4>
                 <hr>
             </li>
         <?php endif; ?>
@@ -271,12 +275,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                 <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
                 <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                         data-module-name="<?php print $module_item['module'] ?>"
-                        <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
+                    <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
                         data-filter="<?php print $module_item['name'] ?>"
                         ondrop="true"
                         data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
                         class="module-item <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
-                    <span unselectable="on" class="mw_module_hold" title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
+                    <span unselectable="on" class="mw_module_hold"
+                          title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
                     
                       
                     
@@ -285,8 +290,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
       <?php
       $t = $module_item["name"];
       $t2 = _e($module_item["name"], true);
-      if($t2 and $t != $t2){
-          $t = $t.' / '.$t2;
+      if ($t2 and $t != $t2) {
+          $t = $t . ' / ' . $t2;
       }
 
       ?>
@@ -296,8 +301,14 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
               name: '<?php print $module_item["module"] ?>',
               title: '<?php print addslashes($t); ?>',
               icon: '<?php isset($module_item['icon']) ? print ($module_item['icon']) : ''; ?>',
+              <?php if (isset($module_item['settings']) and is_array($module_item['settings']) and !empty($module_item['settings'])): ?>
+              settings: <?php print json_encode($module_item['settings']) ?>,
+
+              <?php endif; ?>
               description: '<?php print addslashes($module_item["description"]) ?>'
           }
+
+          mw.components.live_edit.modules.registry['<?php print $module_item["module"] ?>'] = Modules_List_<?php print $mod_obj_str ?>['<?php print $module_item["module"] ?>'];
 
 
           <?php if (isset($module_item['settings']) and is_array($module_item['settings']) and !empty($module_item['settings'])): ?>

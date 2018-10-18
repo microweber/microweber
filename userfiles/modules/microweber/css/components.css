@@ -828,3 +828,11 @@ body.mw-external-loading:after {
 
 
 
+.mw-module-options-icon img{
+    max-width:25px;
+    max-height:25px;
+}
+
+.mw-element-name-handle-no-fallback-icon:before{
+    display: none !important;
+}
