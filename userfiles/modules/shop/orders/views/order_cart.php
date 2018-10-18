@@ -178,7 +178,23 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                         </tr>
                     <?php endif ?>
-
+					
+							<?php if($ord['discount_value'] > 0): ?>
+							<tr class="mw-ui-table-footer">
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2"><?php _e("Discount"); ?></td>
+                        <td class="mw-ui-table-green" colspan="2">- 
+                        <?php 
+                        if ($ord['discount_type'] == "fixed_amount") {
+                        	print currency_format($ord['discount_value'], $ord['currency']);
+                        } else {
+                        	print $ord['discount_value'] . "%";
+                        }
+                        ?>
+                        </td>
+                    </tr>
+                     <?php endif ?>
+                     
                     <tr class="mw-ui-table-footer last">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2" class="mw-ui-table-green"><strong><?php _e("Total:"); ?></strong></td>
@@ -213,6 +229,22 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                     </tr>
                 <?php endif ?>
+                
+                <?php if($ord['discount_value'] > 0): ?>
+                <tr class="mw-ui-table-footer">
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2"><?php _e("Discount"); ?></td>
+                        <td class="mw-ui-table-green" colspan="2">- 
+                        <?php 
+                        if ($ord['discount_type'] == "fixed_amount") {
+                        	print currency_format($ord['discount_value'], $ord['currency']);
+                        } else {
+                        	print $ord['discount_value'] . "%";
+                        }
+                        ?>
+                      </td>
+                 </tr>
+                 <?php endif ?>
 
                 <tr class="mw-ui-table-footer last">
                     <td colspan="2">&nbsp;</td>

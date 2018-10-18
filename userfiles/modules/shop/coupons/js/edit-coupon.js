@@ -1,11 +1,10 @@
-
 $(document).ready(function () {
 	
-	$(".js-generate-new-promo-code").click(function(){
+	$(document).on("click", ".js-generate-new-promo-code", function() {
 		$('.js-coupon-code').val(uniqueId());
 	});
 	
-	$(".js-validation").change(function() {
+	$(document).on("change", ".js-validation", function() {
 		runFieldsValidation(this);
 	});
 	
@@ -57,22 +56,20 @@ $(document).ready(function () {
 	function runFieldsValidation(instance) {
 	
 		var ok = true;
-	
+		
 		$(instance).removeAttr("style");
 		$(instance).parent().find(".js-field-message").html('');
 	
 		if ($(instance).val() == "") {
 			$(instance).css("border", "1px solid #b93636");
-			$(instance).parent().find('.js-field-message').html(
-				errorText(TEXT_FIELD_CANNOT_BE_EMPTY));
+			$(instance).parent().find('.js-field-message').html(errorText(TEXT_FIELD_CANNOT_BE_EMPTY));
 			ok = false;
 		}
 		
 		if ($(instance).hasClass('js-validation-number')) {
 			if (isInteger(parseFloat($(instance).val())) == false) {
 				$(instance).css("border", "1px solid #b93636");
-				$(instance).parent().find('.js-field-message').html(
-					errorText(TEXT_FIELD_MUST_BE_NUMBER));
+				$(instance).parent().find('.js-field-message').html(errorText(TEXT_FIELD_MUST_BE_NUMBER));
 				ok = false;
 			}
 		}
@@ -80,8 +77,7 @@ $(document).ready(function () {
 		if ($(instance).hasClass('js-validation-float-number')) {
 			if (isFloatOrInteger(parseFloat($(instance).val())) == false) {
 				$(instance).css("border", "1px solid #b93636");
-				$(instance).parent().find('.js-field-message').html(
-					errorText(TEXT_FIELD_MUST_BE_FLOAT_NUMBER));
+				$(instance).parent().find('.js-field-message').html(errorText(TEXT_FIELD_MUST_BE_FLOAT_NUMBER));
 				ok = false;
 			}
 		}

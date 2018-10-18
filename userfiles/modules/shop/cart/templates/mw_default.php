@@ -84,6 +84,16 @@
                             <td class="cell-shipping-price"><?php print currency_format(cart_get_tax()); ?></td>
                         </tr>
                     <?php } ?>
+                    
+                     <?php if (function_exists('cart_get_discount') && cart_get_discount() > 0) { ?>
+                        <tr>
+                            <td></td>
+                            <td><label><?php _e("Discount"); ?>:</label></td>
+                            <td class="cell-shipping-price">
+                             - <?php print cart_get_discount_text(); ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
 
                     <tr>
                         <td></td>

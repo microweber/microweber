@@ -46,6 +46,16 @@ function cart_get_tax()
     return mw()->cart_manager->get_tax();
 }
 
+function cart_get_discount()
+{
+	return mw()->cart_manager->get_discount();
+}
+
+function cart_get_discount_text()
+{
+	return mw()->cart_manager->get_discount_text();
+}
+
 function checkout_ipn($data)
 {
     return mw()->shop_manager->checkout_ipn($data);
