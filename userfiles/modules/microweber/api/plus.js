@@ -197,7 +197,6 @@ InsertModule = function (module, cls) {
         setTimeout(function () {
             mw.drag.fix_placeholders();
         }, 40);
-        mw.resizable_columns();
         mw.dropable.hide();
     }, cls);
     mw.$('.mw-tooltip').hide();

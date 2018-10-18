@@ -227,7 +227,7 @@
                     e.preventDefault();
                 }
             });
-
+            mw.dropdown();
             mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
 
 

@@ -669,7 +669,7 @@ mw.askusertostay = false;
       }, 33)
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
 
-      typeof mw.resizable_columns === 'function' ? mw.resizable_columns() : '';
+
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
       var m = mwd.getElementById(id);
       typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
