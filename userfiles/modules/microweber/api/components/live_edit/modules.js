@@ -1,6 +1,8 @@
 mw.components.live_edit = mw.components.live_edit || {}
 mw.components.live_edit.modules = mw.components.live_edit.modules || {}
 
+mw.components.live_edit.modules.registry = mw.components.live_edit.modules.registry || {}
+
 
 mw.components.live_edit.modules.showHandle = function (element) {
 
@@ -12,13 +14,27 @@ mw.components.live_edit.modules.showHandle = function (element) {
         var module_type = el.attr("type");
     }
 
+
+    var mod_icon = mw.components.live_edit.modules.getModuleIcon(module_type);
+
     if (title != '') {
+        if(mod_icon){
+            title = '<span class="mw-module-options-icon"><img src="'+mod_icon+'"></span>' + title;
+        }
+
+        //mw_master_handle
+
         mw.$(".mw-element-name-handle", mw.handle_module).html(title);
     } else {
         mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
     }
 
+
+
     var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-' + id;
+
+
+
 
     mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not("#" + mw_edit_settings_multiple_holder_id).hide();
     if (typeof(mw.live_edit_module_settings_array) != 'undefined' &&
@@ -41,6 +57,7 @@ mw.components.live_edit.modules.showHandle = function (element) {
 
             // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
             var settings = mw.live_edit_module_settings_array[module_type];
+
 
             mw.$(settings).each(function () {
                 if (typeof(this.view) != 'undefined' && typeof(this.title) != 'undefined') {
@@ -79,6 +96,16 @@ mw.components.live_edit.modules.showHandle = function (element) {
         mw.$(".mw_edit_settings", mw.handle_module).show();
 
     }
+
+
+    if(mod_icon){
+        var sorthandle_main =  mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
+        if(sorthandle_main){
+            mw.$(sorthandle_main).addClass('mw-element-name-handle-no-fallback-icon');
+
+        }
+     }
+
 }
 
 mw.components.live_edit.modules.showSettings = function (a, opts) {
@@ -203,6 +230,23 @@ mw.components.live_edit.modules.showSettings = function (a, opts) {
 
             $("#" + iframe_id).show();
         }
+    }
+
+}
+
+
+mw.components.live_edit.modules.getModuleIcon = function (module_type) {
+
+    if (typeof(mw.components.live_edit.modules.registry) != 'undefined' &&
+        typeof(mw.components.live_edit.modules.registry[module_type]) != 'undefined' &&
+        typeof(mw.components.live_edit.modules.registry[module_type]) == 'object'
+    ) {
+
+        if (typeof(mw.components.live_edit.modules.registry[module_type].icon) != 'undefined') {
+            return mw.components.live_edit.modules.registry[module_type].icon;
+        }
+
+
     }
 
 }
