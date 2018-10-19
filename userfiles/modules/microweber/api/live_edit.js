@@ -94,9 +94,14 @@ mw.live_edit.showHandle = function (element) {
         }
     }
 
-}
+};
+
+
+
+
 
 mw.live_edit.showSettings = function (a, opts) {
+
 
 
     var liveedit = opts.liveedit = opts.liveedit || false;
@@ -193,7 +198,7 @@ mw.live_edit.showSettings = function (a, opts) {
     }
     var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
-    if (self != top) {
+    if (self != top || !mw.liveEditSettings.active || opts.mode === 'modal') {
         var modal = top.mw.tools.modal.frame({
             url: src,
             width: 532,
@@ -232,7 +237,5 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 mw.live_edit.getModuleIcon = function (module_type) {
-   if(mw.live_edit.registry[module_type]){
-       return mw.live_edit.registry[module_type].icon;
-   }
+   
 }

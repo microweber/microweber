@@ -292,7 +292,6 @@ mw.html_editor.apply = function () {
             $(master_edit_field_holder).addClass("changed");
             setTimeout(function () {
                 wroot.mw.drag.fix_placeholders(true);
-                wroot.mw.resizable_columns();
                 wroot.mw.on.DOMChangePause = false;
 
 
@@ -361,7 +360,6 @@ mw.html_editor.reset_content = function () {
             wroot.mw.on.DOMChangePause = true;
             setTimeout(function () {
                 wroot.mw.drag.fix_placeholders(true);
-                wroot.mw.resizable_columns();
                 wroot.mw.on.DOMChangePause = false;
                 var saved = wroot.mw.drag.save();
                 if(saved){

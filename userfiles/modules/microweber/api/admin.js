@@ -689,7 +689,6 @@ mw.admin = {
                 setTimeout(function () {
                     framewindow.mw.drag.fix_placeholders();
                 }, 40);
-                framewindow.mw.resizable_columns();
                 framewindow.mw.dropable.hide();
             }
 
