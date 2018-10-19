@@ -96,7 +96,7 @@
             <div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
 
 
-                <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults" <?php print lang_attributes(); ?>>
+                <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
 
                     <div class="mw-defaults mw_editor">
 
@@ -108,7 +108,10 @@
                     </div>
                 </div>
 
-                <div id="js-live-edit-module-settings-holder" class="mw-defaults" <?php print lang_attributes(); ?>>
+                <div id="js-live-edit-image-settings-holder" class="mw-defaults mw-live-edit-component-options">
+
+                </div>
+                <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
                     <div id="js-live-edit-module-settings-items"></div>
                 </div>
 

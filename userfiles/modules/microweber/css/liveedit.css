@@ -4132,6 +4132,10 @@ body.dragStart .allow-drop {
     width: 400px;
 }
 
+.mw-live-edit-component-options{
+    display: none;
+}
+
 
 
 

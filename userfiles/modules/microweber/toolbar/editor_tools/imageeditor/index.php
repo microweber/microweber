@@ -28,9 +28,6 @@
             -webkit-box-shadow: 0 0 4px -1px #000;
         }
 
-        #editmenu .mw-ui-btn {
-            line-height: 15px;
-        }
 
     </style>
 

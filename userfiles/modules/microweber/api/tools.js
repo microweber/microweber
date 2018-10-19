@@ -4752,8 +4752,8 @@ mw.image = {
                 }
                 var angle = angle || 90;
                 var image = $(this);
-                var w = image.width();
-                var h = image.height();
+                var w = this.naturalWidth;
+                var h = this.naturalHeight;
                 var contextWidth = w;
                 var contextHeight = h;
                 var x = 0;
@@ -4797,8 +4797,8 @@ mw.image = {
         mw.image.preload(node.src, function () {
             var canvas = mwd.createElement('canvas');
             var ctx = canvas.getContext('2d');
-            canvas.width = $(this).width();
-            canvas.height = $(this).height();
+            canvas.width = this.naturalWidth;
+            canvas.height = this.naturalHeight;
             ctx.drawImage(node, 0, 0);
             var imgPixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
             for (var y = 0; y < imgPixels.height; y++) {

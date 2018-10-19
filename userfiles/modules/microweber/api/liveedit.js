@@ -382,11 +382,17 @@ $(document).ready(function() {
         mw.iconSelector._activeElement = el;
         mw.iconSelector.popup();
     });
-    mw.on("ModuleClick", function(e, el, c) {
 
-        mw.liveNodeSettings.set('module', el);
-
+    mw.on("ImageClick", function(e, el, c) {
+        mw.liveNodeSettings.set('image', el);
     });
+    mw.on("ModuleClick", function(e, el, c) {
+        mw.liveNodeSettings.set('module', el);
+    });
+    mw.on("SafeElementClick", function(e, el, c) {
+        mw.liveNodeSettings.set('element', el);
+    });
+
     mw.on("ElementClick", function(e, el, c) {
 
         $(".element-current").not(el).removeClass('element-current')
@@ -395,7 +401,13 @@ $(document).ready(function() {
         if(mw.drag.target.canBeEditable(el)){
             $(el).attr('contenteditable', true);
         }
-        mw.liveNodeSettings.set('element', el);
+        if(el.nodeName === 'IMG'){
+             mw.liveNodeSettings.set('image', el);
+        }
+        else{
+            mw.liveNodeSettings.set('element', el);
+
+        }
 
         mw.$('.module').each(function(){
             this.contentEditable = false;
@@ -444,7 +456,7 @@ $(document).ready(function() {
         if (e.type == 'mousedown') {
             if (typeof(mw.iconSelectorToolTip) != "undefined"
                 && !mw.wysiwyg.elementHasFontIconClass(e.target)
-                && !mw.wysiwyg.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
+                && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
                 $(mw.iconSelectorToolTip).hide();
                 mw.iconSelector.hide();
             }
@@ -492,15 +504,41 @@ mw.liveNodeSettings = {
         }
     },
     element:function(el){
-        $('#js-live-edit-module-settings-holder').hide();
-        $('#js-live-edit-side-wysiwyg-editor-holder').show();
+        $('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-side-wysiwyg-editor-holder')
+            .show();
     },
     module:function(el){
-        $('#js-live-edit-side-wysiwyg-editor-holder').hide();
-        $('#js-live-edit-module-settings-holder').show();
+        $('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-module-settings-holder')
+            .show();
         mw.drag.module_settings();
+    },
+    image:function(el){
+
+        mw.$("#mw-live-edit-sidebar-image-frame")
+            .contents()
+            .find("#mwimagecurrent")
+            .attr("src", el.src)
+        $('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-image-settings-holder')
+            .show()
+    },
+    initImage: function(){
+        var url = mw.external_tool('imageeditor');
+        $("#js-live-edit-image-settings-holder").append('<iframe src="'+url+'" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
     }
 }
+
+$(document).ready(function(){
+    mw.on('liveEditSettingsReady', function(){
+        mw.liveNodeSettings.initImage();
+    });
+
+})
 
 
 hasAbilityToDropElementsInside = function(target) {
@@ -1445,6 +1483,14 @@ mw.drag = {
                     else if (mw.tools.hasParentsWithClass(target, 'element')) {
 
                         mw.trigger("ElementClick", $(target).parents(".element")[0]);
+                    }
+
+                    if ($(target).hasClass("safe-element")) {
+                        mw.trigger("SafeElementClick", target);
+                    }
+                    else if (mw.tools.hasParentsWithClass(target, 'safe-element')) {
+
+                        mw.trigger("SafeElementClick", $(target).parents(".safe-element")[0]);
                     }
 
                     if ($(target).hasClass("module")) {
@@ -3053,7 +3099,6 @@ mw.quick = {
         });
         $(modal.main).addClass('mw-add-content-modal');
         modal.overlay.style.backgroundColor = "white";
-        alert(this.w)
     },
     category: function() {
         var modal = mw.tools.modal.frame({
