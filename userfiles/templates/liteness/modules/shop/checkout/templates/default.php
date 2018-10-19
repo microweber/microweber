@@ -166,6 +166,11 @@ $( document ).ready(function() {
     </button>
 
         </div>
+        <?php if(is_module('shop/coupons')): ?>
+
+            <a href="javascript:mw.tools.open_module_modal('shop/coupons')"><?php _e("Discounts"); ?></a>
+
+        <?php endif; ?>
     </form>
     <div class="mw-checkout-responce"></div>
 <?php else: ?>
