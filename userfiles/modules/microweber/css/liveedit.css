@@ -594,16 +594,12 @@ a.mw-make-cols {
     user-select: none;
 }
 
-#mw_handle_module .mw_edit_settings,
-#mw_handle_module .mw_edit_settings_multiple {
-    border-radius: 2px;
-}
 
 .mw_edit_settings_multiple {
     margin-right: 3px;
 }
 
-#mw_handle_module .mw_edit_settings,
+
 #mw_handle_module .mw_edit_settings_multiple {
     /*color: #111;
     background: #E1E1E1;*/
@@ -625,8 +621,13 @@ a.mw-make-cols {
 
 .mw_edit_settings {
     opacity: 0;
+    color: #fff !important;
     transition: opacity 0.3s, transform 0.3s;
     transform: scale(.5) translateY(10px);
+}
+
+.mw_edit_settings [class*="mw-icon-"]{
+    font-size: 19px;
 }
 
 .mw-active-item .mw_edit_settings {
@@ -634,18 +635,7 @@ a.mw-make-cols {
     transform: scale(1) translateY(0);
 }
 
-#mw_handle_module .mw_edit_settings {
-    padding-left: 30px;
-}
 
-#mw_handle_module .mw_edit_settings:before {
-    font-family: Microweber;
-    content: "\f195";
-    position: absolute;
-    font-size: 18px;
-    top: 0;
-    left: 10px;
-}
 
 a.mw-make-cols {
     position: absolute;
@@ -664,8 +654,7 @@ a.mw-make-cols.active {
 }
 
 #mw_handle_module .mw_edit_settings:hover, #mw_handle_module .mw_edit_settings:hover span {
-    color: white;
-    background: black;
+    background-color: black;
 }
 
 #mw_handle_row a.mw-make-cols:hover {

@@ -822,17 +822,6 @@ body.mw-external-loading:after {
     opacity: 1;
 }
 
-
-
-
-
-
-
-.mw-module-options-icon img{
-    max-width:25px;
-    max-height:25px;
-}
-
 .mw-element-name-handle-no-fallback-icon:before{
     display: none !important;
 }
