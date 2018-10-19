@@ -58,7 +58,7 @@ $(mwd).ready(function(){
 	<div class="tab">
 		<div class="mw-ui-field-holder">
 			<label class="mw-ui-label"><?php _e("Upload Video from your computer"); ?></label>
-			<input onchange="setprior(2);" name="upload" id="upload_field" class="mw-ui-field mw_option_field semi_hidden"
+			<input  name="upload" id="upload_field" class="mw-ui-field mw_option_field semi_hidden"
 				   type="text" data-mod-name="<?php print $params['data-type'] ?>"
 				   value="<?php print get_option('upload', $params['id']) ?>" />
 			<span class="mw-ui-btn" id="upload_btn"><span class="mw-icon-upload"></span><?php _e("Browse"); ?></span>
@@ -194,10 +194,11 @@ $(mwd).ready(function(){
             uploadFieldId = 'upload_field';
             uploadStatusId = 'upload_status';
             uploadBtnId = 'upload_btn';
+            setprior(2);
             mwd.getElementById(uploadFieldId).value = b.src;
             $(mwd.getElementById(uploadFieldId)).trigger("change");
 
-                setprior(2);
+
 
 
         });
