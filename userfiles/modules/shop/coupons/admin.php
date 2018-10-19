@@ -1,5 +1,17 @@
 <?php only_admin_access(); ?>
 
+
+
+<?php
+
+$from_live_edit = false;
+if(isset($params["live_edit"]) and $params["live_edit"] ){
+    $from_live_edit = $params["live_edit"];
+
+}
+
+?>
+
 <div class="module-live-edit-settings">
 
     <script>
@@ -11,7 +23,12 @@
 	<div id="tabsnav">
 		<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
 			<a href="javascript:;" class="mw-ui-btn active tabnav">Coupons</a>
+
+            <?php if($from_live_edit) : ?>
 			<a href="javascript:;" class="mw-ui-btn tabnav">Skin/Template</a>
+
+
+            <?php endif; ?>
 		</div>
 		<div class="mw-ui-box">
 			<div class="mw-ui-box-content tabitem">
@@ -28,10 +45,12 @@
 				</div>
 				
 			</div>
+            <?php if($from_live_edit) : ?>
 
 			<div class="mw-ui-box-content tabitem" style="display: none">
 				<module type="admin/modules/templates" />
 			</div>
+            <?php endif; ?>
 
 		</div>
 	</div>
@@ -42,7 +61,7 @@
 	function editCoupon(coupon_id = false) {
 	    var data = {};
 	    data.coupon_id = coupon_id;
-	    editModal = mw.tools.open_module_modal('shop__coupons/edit_coupon', data, {overlay: true, skin: 'simple'})
+	    editModal = mw.tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple'})
 	}
 
     function deleteCoupon(coupon_id) {

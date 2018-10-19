@@ -55,27 +55,50 @@
                 <div class="mw-ui-col">
                     <span class="box-title"><i class="mw-icon-web-search"></i><br/>SEO</span>
                     <ul>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('SEO settings','settings/group/seo')">SEO <?php _e("settings"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Custom head tags','settings/group/custom_head_tags')"><?php _e("Custom head tags"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Robots.txt file','settings/group/robots_txt')">Robots.txt <?php _e("file"); ?></a></li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('SEO settings','settings/group/seo')">SEO <?php _e("settings"); ?></a>
+                        </li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Custom head tags','settings/group/custom_head_tags')"><?php _e("Custom head tags"); ?></a>
+                        </li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Robots.txt file','settings/group/robots_txt')">Robots.txt <?php _e("file"); ?></a>
+                        </li>
                     </ul>
                 </div>
 
                 <div class="mw-ui-col">
                     <span class="box-title"><i class="mai-code"></i><br/>Development settings</span>
                     <ul>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Developer tools','admin/developer_tools')"><?php _e('Developer tools'); ?></a></li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Developer tools','admin/developer_tools')"><?php _e('Developer tools'); ?></a>
+                        </li>
                         <li><a class="mw-ui-btn" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a></li>
+                        <li><a class="mw-ui-btn" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
+                        </li>
                     </ul>
                 </div>
 
                 <div class="mw-ui-col">
                     <span class="box-title"><i class="mai-setting2"></i><br/>Other settings</span>
                     <ul>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a></li>
-                        <li><a class="mw-ui-btn" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php print("Statistics settings"); ?></a></li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
+                        </li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
+                        </li>
+                        <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php print("Statistics settings"); ?></a>
+                        </li>
+                        <?php if (is_module('shop') and get_option('shop_disabled', 'website') == "y") { ?>
+
+                            <li><a class="mw-ui-btn"
+                                   href="javascript:settings_load_module('Shop settings','shop/orders/settings/enable_disable_shop')"><?php print("Shop settings"); ?></a>
+                            </li>
+
+                        <?php } ?>
+
                     </ul>
                 </div>
             </div>
