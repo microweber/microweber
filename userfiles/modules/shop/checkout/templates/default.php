@@ -81,7 +81,16 @@ description: Default cart template
                         <?php _e("Continue Shopping"); ?>
                     </a>
                 <?php endif; ?>
+
                 <div class="clear"></div>
+
+
+
+                <?php if(is_module('shop/coupons')): ?>
+
+                    <a href="javascript:mw.tools.open_module_modal('shop/coupons')">Discounts </a>
+
+                <?php endif; ?>
             </div>
         </form>
         <div class="mw-checkout-responce"></div>

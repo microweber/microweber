@@ -173,7 +173,7 @@ description: Full width cart template
                 </table>
             </div>
         <?php endif; ?>
-        <?php
+         <?php
         if (!isset($params['checkout-link-enabled'])) {
             $checkout_link_enanbled = get_option('data-checkout-link-enabled', $params['id']);
         } else {
