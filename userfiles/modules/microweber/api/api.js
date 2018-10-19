@@ -922,18 +922,27 @@ mw.user = {
 
 
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/url.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
+
 //mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/shop.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
+
 mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
-mw.required.push("<?php print mw_includes_url(); ?>api/live_edit.js");
 
 
 
@@ -941,19 +950,27 @@ mw.required.push("<?php print mw_includes_url(); ?>api/live_edit.js");
 <?php  // include "jquery.js";  ?>
 <?php  include __DIR__.DS."tools.js"; ?>
 
+
 <?php  include  __DIR__.DS."css_parser.js"; ?>
+
 
 <?php  include  __DIR__.DS."files.js"; ?>
 
+
 <?php  include  __DIR__.DS."forms.js"; ?>
+
 
 <?php  include  __DIR__.DS."url.js"; ?>
 
+
 <?php  include  __DIR__.DS."events.js"; ?>
+
 
 <?php  include  __DIR__.DS."shop.js"; ?>
 
+
 <?php  include  __DIR__.DS."common.js"; ?>
+
 
 <?php  include  __DIR__.DS."components.js"; ?>
 

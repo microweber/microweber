@@ -136,6 +136,12 @@
                       $("#mwimagecurrentoverlay").css('backgroundColor', final)
                   }
                   $(document).ready(function(){
+
+//                      if(typeof(parent.mw.image.currentResizing) == 'null' ) {
+//                          return;
+//                      }
+
+
                     if(parent.mw.image.currentResizing[0].nodeName != 'IMG'){
                       $(".imeditor-image-description,.imeditor-image-link").remove()
                     }
