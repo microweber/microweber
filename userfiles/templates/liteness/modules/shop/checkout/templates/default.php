@@ -168,7 +168,17 @@ $( document ).ready(function() {
         </div>
         <?php if(is_module('shop/coupons')): ?>
 
-            <a href="javascript:mw.tools.open_module_modal('shop/coupons')"><?php _e("Discounts"); ?></a>
+<?php
+
+           /* <ahref="javascript:mw.tools.open_module_modal('shop/coupons')"><?php _e("Discounts"); ?></a>*/
+
+
+            ?>
+
+            <a href="javascript:$('#mw-checkout-discounts-holder').toggle();"><?php _e("Discounts"); ?></a>
+            <div id="mw-checkout-discounts-holder" style="display: none">
+                <module type="shop/coupons" id="discounts-<?php print $params['id'] ?>" />
+            </div>
 
         <?php endif; ?>
     </form>

@@ -45,7 +45,10 @@
             <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
         </div>
 
-        <div class="mw-ui-field-holder">
+<?php
+
+
+/*        <div class="mw-ui-field-holder">
         	<label class="mw-ui-label">
         		<?php _e("Shop Enable/Disable"); ?>
         	</label>
@@ -60,7 +63,10 @@
 					<span></span> <span><?php _e("Disable"); ?></span>
 				</label>
 			</div>
-        </div>
+        </div>*/
+
+
+?>
 
         <div class="mw-ui-field-holder">
              <label class="mw-ui-label">

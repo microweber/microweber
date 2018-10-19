@@ -469,12 +469,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     </a>
                                 </li>
                                 
-                                 <li <?php if ($load_module == 'shop__coupons'): ?> class="active" <?php endif; ?>>
-                                    <a href="<?php print admin_url(); ?>view:modules/load_module:shop__coupons">
-                                        <span class="mai-percent"></span>
-                                        <?php _e("Coupons"); ?>
-                                    </a>
-                                </li>
+
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
 
                                     <a href="<?php print admin_url(); ?>view:shop/action:options/">
