@@ -624,6 +624,7 @@ a.mw-make-cols {
     color: #fff !important;
     transition: opacity 0.3s, transform 0.3s;
     transform: scale(.5) translateY(10px);
+    z-index: 2;
 }
 
 .mw_edit_settings [class*="mw-icon-"]{
