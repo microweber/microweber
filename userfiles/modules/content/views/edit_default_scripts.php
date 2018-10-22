@@ -453,16 +453,23 @@
                 e.preventDefault()
             }
         })
-        mw.$(".mw-admin-go-live-now-btn").off('click');
-
-        window.onbeforeunload = function() {
+        $( window ).on( 'hashchange beforeunload', function( e ) {
             mw.$(".mw-admin-go-live-now-btn").off('click');
-        }
+        } );
 
+
+        mw.$(".mw-admin-go-live-now-btn").off('click');
+        // window.onbeforeunload = function() {
+        //     mw.$(".mw-admin-go-live-now-btn").off('click');
+        // }
         mw.$(".mw-admin-go-live-now-btn").on('click',function (e) {
             mw.edit_content.handle_form_submit(true);
             return false;
         });
+
+
+
+
 
 
 
