@@ -33,10 +33,19 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 <script type="text/javascript">
 
 
+
+
+
     var mainTreeSetActiveItems = function(){
         if(mw.adminPagesTree){
             mw.adminPagesTree.unselectAll();
             var hp = mw.url.getHashParams(location.hash);
+
+
+
+
+
+
             if(hp.action){
                 var arr = hp.action.split(':')
                 var activeTreeItemIsPage = arr[0] == 'editpage' || arr[0] == 'showposts';
@@ -76,6 +85,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         });
 
 
+        mw.$(".mw-admin-go-live-now-btn").off('click');
 
 
 
@@ -84,6 +94,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     mw.contentAction = {
         manage: function (type, id) {
+
+
+         //   add_to_parent_page
 
             var id = id || 0;
             if (type === 'page') {
@@ -102,6 +115,11 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             }
             mw.$(".mw_action_nav").addClass("not-active");
             mw.$(".mw_action_" + type).removeClass("not-active");
+
+
+
+
+
         },
         create: function (a) {
             return mw.contentAction.manage(a, 0);
@@ -186,12 +204,12 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         edit_load('content/edit');
     }
 
-    mw.on.hashParam("parent-page", function () {
-        var act = mw.url.windowHashParam("action");
-        if (act == 'new:page') {
-            mw.contentAction.create('page');
-        }
-    });
+//    mw.on.hashParam("parent-page", function () {
+//        var act = mw.url.windowHashParam("action");
+//        if (act == 'new:page') {
+//            mw.contentAction.create('page');
+//        }
+//    });
 
 
 
@@ -275,6 +293,11 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                 mw_select_add_sub_category(arr[1]);
             }
         }
+
+
+
+//        mw.url.windowDeleteHashParam('add_to_parent_page')
+//        mw.url.windowDeleteHashParam('add_to_category_id')
 
     });
 
