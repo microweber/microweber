@@ -116,7 +116,7 @@
 
 
                   CurrSRC = function(b){
-                    var curr = parent.mw.image.currentResizing[0];
+                    var curr = parent.mw.image.currentResizing ? parent.mw.image.currentResizing[0] : new Image();
                     if(curr.nodeName == 'IMG'){
                       if(!b){
                         return curr.src;
@@ -168,7 +168,11 @@
 //                          return;
 //                      }
 
-
+                      window.top.mw.on('imageSrcChanged', function(e, node, url){
+                        if(url != $('#mwimagecurrent')[0].src){
+                            $('#mwimagecurrent')[0].src = url;
+                        }
+                      });
 
 
                   if (self !== parent && parent.mw.image.currentResizing) {
@@ -211,7 +215,10 @@
 
                     $(".mw-ui-btn-change-image").on('click', function(){
                       top.mw.wysiwyg.media('#editimage');
-                      thismodal.remove()
+                      if(window.thismodal){
+                          thismodal.remove()
+                      }
+
 
                     })
                   })
@@ -256,6 +263,7 @@
 
 
   isImageHolder = function(){
+      if(!parent.mw.image.currentResizing) return false;
     return mw.tools.hasClass(parent.mw.image.currentResizing[0].parentNode, 'mw-image-holder')
   }
 
