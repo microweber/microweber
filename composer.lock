@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "460595ab3c0e0a9f1f10c8ccdf1affb4",
+    "content-hash": "53554d29f5f001b84cc92d8c4d568e14",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -1524,12 +1524,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "7fa8852adec06dabfbde1b028c4c9d9087558256"
+                "reference": "4b981cdeb8c13d22a6c193554f8c686f53d5c958"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/7fa8852adec06dabfbde1b028c4c9d9087558256",
-                "reference": "7fa8852adec06dabfbde1b028c4c9d9087558256",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4b981cdeb8c13d22a6c193554f8c686f53d5c958",
+                "reference": "4b981cdeb8c13d22a6c193554f8c686f53d5c958",
                 "shasum": ""
             },
             "require": {
@@ -1541,7 +1541,7 @@
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
             },
             "type": "library",
             "extra": {
@@ -1582,7 +1582,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-05-27T22:46:05+00:00"
+            "time": "2018-07-29T08:09:46+00:00"
         },
         {
             "name": "intervention/image",
@@ -2938,12 +2938,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/omnipay-authorizenet.git",
-                "reference": "c2ed2361fc9b6dbd571b9e2d8ed00c731aa2ae2d"
+                "reference": "f199e182cc1b0a70ccae115824e130682d93a58d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay-authorizenet/zipball/c2ed2361fc9b6dbd571b9e2d8ed00c731aa2ae2d",
-                "reference": "c2ed2361fc9b6dbd571b9e2d8ed00c731aa2ae2d",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-authorizenet/zipball/f199e182cc1b0a70ccae115824e130682d93a58d",
+                "reference": "f199e182cc1b0a70ccae115824e130682d93a58d",
                 "shasum": ""
             },
             "require": {
@@ -2989,7 +2989,7 @@
                 "pay",
                 "payment"
             ],
-            "time": "2018-01-13T18:47:39+00:00"
+            "time": "2018-05-18T11:01:21+00:00"
         },
         {
             "name": "omnipay/buckaroo",
@@ -4287,12 +4287,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/omnipay-sagepay.git",
-                "reference": "db4be62cdd5c3a6431d761150a2022c18e49191b"
+                "reference": "3f47213f3227cbabb183348f387b7a0a938b6f09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay-sagepay/zipball/db4be62cdd5c3a6431d761150a2022c18e49191b",
-                "reference": "db4be62cdd5c3a6431d761150a2022c18e49191b",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-sagepay/zipball/3f47213f3227cbabb183348f387b7a0a938b6f09",
+                "reference": "3f47213f3227cbabb183348f387b7a0a938b6f09",
                 "shasum": ""
             },
             "require": {
@@ -4334,7 +4334,7 @@
                 "sage pay",
                 "sagepay"
             ],
-            "time": "2018-05-08T22:08:54+00:00"
+            "time": "2018-09-17T21:45:59+00:00"
         },
         {
             "name": "omnipay/securepay",
@@ -4563,6 +4563,68 @@
                 "worldpay"
             ],
             "time": "2017-10-23T08:31:50+00:00"
+        },
+        {
+            "name": "oyejorge/less.php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oyejorge/less.php.git",
+                "reference": "42925c5a01a07d67ca7e82dfc8fb31814d557bc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oyejorge/less.php/zipball/42925c5a01a07d67ca7e82dfc8fb31814d557bc9",
+                "reference": "42925c5a01a07d67ca7e82dfc8fb31814d557bc9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8.24"
+            },
+            "bin": [
+                "bin/lessc"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Less": "lib/"
+                },
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Agar",
+                    "homepage": "https://github.com/agar"
+                },
+                {
+                    "name": "Martin Jantošovič",
+                    "homepage": "https://github.com/Mordred"
+                },
+                {
+                    "name": "Josh Schmidt",
+                    "homepage": "https://github.com/oyejorge"
+                }
+            ],
+            "description": "PHP port of the Javascript version of LESS http://lesscss.org (Originally maintained by Josh Schmidt)",
+            "homepage": "http://lessphp.gpeasy.com",
+            "keywords": [
+                "css",
+                "less",
+                "less.js",
+                "lesscss",
+                "php",
+                "stylesheet"
+            ],
+            "time": "2017-03-28T22:19:25+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -5224,6 +5286,60 @@
                 "phra"
             ],
             "time": "2015-10-13T18:44:15+00:00"
+        },
+        {
+            "name": "selfworks/recurr",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/selfworks/recurr.git",
+                "reference": "971af786bfb89511c3f815bdd9ebad6c3259e1fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/selfworks/recurr/zipball/971af786bfb89511c3f815bdd9ebad6c3259e1fc",
+                "reference": "971af786bfb89511c3f815bdd9ebad6c3259e1fc",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/collections": "*",
+                "php": ">=5.6.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Recurr\\": "src/Recurr/",
+                    "Recurr\\Test\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shaun Simmons",
+                    "email": "shaun@envysphere.com",
+                    "homepage": "http://envysphere.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "selfworksbg@gmail.com"
+                }
+            ],
+            "description": "PHP library for working with recurrence rules",
+            "homepage": "https://github.com/selfworks/recurr",
+            "keywords": [
+                "dates",
+                "events",
+                "recurrence",
+                "recurring",
+                "rrule"
+            ],
+            "time": "2018-09-27T19:16:00+00:00"
         },
         {
             "name": "socialiteproviders/linkedin",
@@ -6684,7 +6800,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "rtconner/laravel-tagging": 20
+        "rtconner/laravel-tagging": 20,
+        "selfworks/recurr": 20,
+        "oyejorge/less.php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
