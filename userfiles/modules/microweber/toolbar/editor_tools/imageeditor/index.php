@@ -8,7 +8,7 @@
             position: relative;
             text-align: center;
             max-width: 100%;
-            height: 300px;
+            max-height: 300px;
         }
 
         #mwimagecurrentoverlay{
@@ -23,9 +23,36 @@
 
         #the-image-holder img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 300px;
             box-shadow: 0 0 4px -2px #000;
             -webkit-box-shadow: 0 0 4px -1px #000;
+        }
+        .nav-actions{
+            float: right;
+        }
+        
+        @media (max-width:550px){
+            .nav-actions{
+                clear: both;
+                float: none;
+                padding-top: 20px;
+                display: block;
+            }
+            .imeditor-image-description,
+            .imeditor-image-description > div.mw-ui-col{
+                display: block;
+                padding-top: 10px;
+
+            }
+            .imeditor-image-description > div.mw-ui-col > div{
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
+        
+        #mwimagecurrent{
+            display: block;
+            margin: auto;
         }
 
 
@@ -35,7 +62,7 @@
 
 
         <div id="the-image-holder"><!-- Image will be placed here --></div>
-        <div class="mw-ui-box-content">
+        <div>
             <div style="text-align:center;padding-bottom: 12px;">
                 <div id="cropmenu" class="mw-ui-btn-nav" style="display: none;">
                     <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info" onclick="DoCrop()"><?php _e("Crop"); ?></span>
@@ -65,7 +92,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="mw-ui-btn-nav pull-right">
+                <div class="mw-ui-btn-nav nav-actions">
 
                     <span class='mw-ui-btn mw-ui-btn-change-image'><?php _e("Change"); ?></span>
 
@@ -130,7 +157,7 @@
                       alpha = (alpha/100);
                       var final = mw.color.hexToRgbaCSS(color, alpha);
                       if(save){
-                        $(".mw-image-holder-overlay", theImage.parentNode).css('backgroundColor', final);
+                        $(".mw-image-holder-overlay", SelectedImage.parentNode).css('backgroundColor', final);
                       }
 
                       $("#mwimagecurrentoverlay").css('backgroundColor', final)
@@ -142,18 +169,28 @@
 //                      }
 
 
-                    if(parent.mw.image.currentResizing[0].nodeName != 'IMG'){
-                      $(".imeditor-image-description,.imeditor-image-link").remove()
-                    }
 
-                   if (self !== parent && !!parent.mw.image.currentResizing) {
-                        theImage = parent.mw.image.currentResizing[0];
-                    }
+
+                  if (self !== parent && parent.mw.image.currentResizing) {
+                      SelectedImage = parent.mw.image.currentResizing[0];
+                  }
+                  else if (self !== parent && parent.mw.image.currentResizing) {
+
+                      SelectedImage = parent.mw.$('.element-current')[0];
+                  }
+
+                  if(!window.SelectedImage){
+                      SelectedImage = new Image();
+                  };
+
+                      if(SelectedImage.nodeName != 'IMG'){
+                          $(".imeditor-image-description,.imeditor-image-link").remove()
+                      }
 
 
                     if(isImageHolder()){
                       $("#overlayholder, #alphaholder").show();
-                      currentOverlay = $('.mw-image-holder-overlay',  theImage.parentNode);
+                      currentOverlay = $('.mw-image-holder-overlay',  SelectedImage.parentNode);
                       var currentOverlayColor = mw.CSSParser(currentOverlay[0]).css.backgroundColor || 'rgba(0,0,0,0)';
                       currentOverlayColorParse = mw.color.colorParse(currentOverlayColor);
 
@@ -198,8 +235,15 @@
                 </div>
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
-                        <label class="mw-ui-label"><?php _e("Image Alternative Text"); ?> <span class="mw-icon-help-outline mwahi tip" data-tipposition="bottom-right"
-                                                                                                data-tip="<?php _e("Text that appears if image fails to load. (Important for Search Engines)"); ?>"></span></label>
+                        <label class="mw-ui-label">
+                            <?php _e("Image Alternative Text"); ?>
+                            <span
+                                    class="mw-icon-help-outline mwahi tip"
+                                    data-tipposition="top-center"
+                                    data-tip="<?php _e("Text that appears if image fails to load. (Important for Search Engines)"); ?>">
+
+                            </span>
+                        </label>
                         <textarea class="mw-ui-field w100" placeholder='<?php _e("Enter Description"); ?>' id="image-alt"></textarea>
                     </div>
                 </div>
@@ -266,18 +310,18 @@
 
 
 
-        if (mw.tools.hasParentsWithTag(theImage, 'a')) {
+        if (mw.tools.hasParentsWithTag(SelectedImage, 'a')) {
 
 
-            $("#link").val($(mw.tools.firstParentWithTag(theImage, 'a')).attr("href"));
+            $("#link").val($(mw.tools.firstParentWithTag(SelectedImage, 'a')).attr("href"));
         }
 
 
         mw.image.current_need_resize = false;
 
         var src = CurrSRC(),
-            title = theImage.title,
-            alt = theImage.alt;
+            title = SelectedImage.title,
+            alt = SelectedImage.alt;
         mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
          if(!!window.previewbg){
@@ -297,43 +341,51 @@
 
             CurrSRC(mw.image.current.src)
             if(!!mw.image.current_align){
-                theImage.align = mw.image.current_align;
+                SelectedImage.align = mw.image.current_align;
             }
-            if(!!theImage.title){
-                theImage.title = mw.$("#image-title").val();
+            if(!!SelectedImage.title){
+                SelectedImage.title = mw.$("#image-title").val();
             }
-            if(!!theImage.alt){
-                theImage.alt = mw.$("#image-alt").val();
+            if(!!SelectedImage.alt){
+                SelectedImage.alt = mw.$("#image-alt").val();
             }
 
-            if (mw.image.current_need_resize && theImage.nodeName == 'IMG') {
+            if (mw.image.current_need_resize && SelectedImage.nodeName == 'IMG') {
                 mw.image.preload(mw.image.current.src, function (w, h) {
-                    theImage.style.width = w + 'px';
-                    theImage.style.height = 'auto';
+                    SelectedImage.style.width = w + 'px';
+                    SelectedImage.style.height = 'auto';
                     // parent.mw.wysiwyg.normalizeBase64Image(theImage);
-                    parent.mwd.getElementById('mw-image-settings-modal').modal.remove();
+                    var modal = parent.mwd.getElementById('mw-image-settings-modal');
+                    if(modal){
+                        modal.modal.remove();
+                    }
+
                 });
             }
 
-            parent.mw.wysiwyg.normalizeBase64Image(theImage);
+            parent.mw.wysiwyg.normalizeBase64Image(SelectedImage);
 
             var link_url = $("#link").val()
             if (!!link_url ) {
                 link_url = link_url.trim();
-                if (mw.tools.hasParentsWithTag(theImage, 'a')) {
-                    $(mw.tools.firstParentWithTag(theImage, 'a')).attr("href", link_url);
+                if (mw.tools.hasParentsWithTag(SelectedImage, 'a')) {
+                    $(mw.tools.firstParentWithTag(SelectedImage, 'a')).attr("href", link_url);
                 }
                 else {
-                    $(theImage).wrap('<a href="' + link_url + '"></a>');
+                    $(SelectedImage).wrap('<a href="' + link_url + '"></a>');
                 }
             }
 
             setColor(true);
-            parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(theImage, 'edit'));
+            parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(SelectedImage, 'edit'));
 
-            window.top.$(window.top).trigger('imageSrcChanged', [theImage, CurrSRC()])
+            window.top.$(window.top).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
 
-            parent.document.getElementById('mw-image-settings-modal').modal.remove();
+            var modal =  parent.document.getElementById('mw-image-settings-modal');
+            if(modal){
+                modal.modal.remove();
+            }
+
 
         });
 
