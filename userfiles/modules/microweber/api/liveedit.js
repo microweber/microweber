@@ -384,14 +384,18 @@ $(document).ready(function() {
         mw.iconSelector.popup();
     });
 
-    mw.on("ImageClick", function(e, el, c) {
-        mw.liveNodeSettings.set('image', el);
-    });
-    mw.on("ModuleClick", function(e, el, c) {
-        mw.liveNodeSettings.set('module', el);
-    });
-    mw.on("SafeElementClick", function(e, el, c) {
-        mw.liveNodeSettings.set('element', el);
+
+
+    mw.on("ComponentClick", function(e, node, type){
+        var uitype = type;
+        if(type === 'safe-element'){
+            uitype = 'element' ;
+        }
+        if(node.nodeName === 'IMG'){
+            uitype = 'image' ;
+        }
+        console.log(uitype)
+        mw.liveNodeSettings.set(uitype, node);
     });
 
     mw.on("ElementClick", function(e, el, c) {
@@ -402,13 +406,7 @@ $(document).ready(function() {
         if(mw.drag.target.canBeEditable(el)){
             $(el).attr('contenteditable', true);
         }
-        if(el.nodeName === 'IMG'){
-             mw.liveNodeSettings.set('image', el);
-        }
-        else{
-            mw.liveNodeSettings.set('element', el);
 
-        }
 
         mw.$('.module').each(function(){
             this.contentEditable = false;
@@ -428,7 +426,7 @@ $(document).ready(function() {
 
     });
     mw.on("TableTdClick", function(e, el) {
-        if (typeof(mw.inline) != 'undefined') {
+        if (typeof(mw.inline) !== 'undefined') {
             mw.inline.setActiveCell(el, e);
             var td_parent_table = mw.tools.firstParentWithTag(el, 'table');
             if (td_parent_table) {
@@ -454,7 +452,7 @@ $(document).ready(function() {
     $(mwd.body).on("mousedown mouseup", function(e) {
 
 
-        if (e.type == 'mousedown') {
+        if (e.type === 'mousedown') {
             if (typeof(mw.iconSelectorToolTip) != "undefined"
                 && !mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
@@ -1445,7 +1443,7 @@ mw.drag = {
         if (!$(mwd.body).hasClass("bup")) {
             $(mwd.body).addClass("bup");
 
-            $(mwd.body).on("mouseup", function(event) {
+            $(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;
                 mw.image._dragparent = null;
                 var sliders = mwd.getElementsByClassName("canvas-slider"),
@@ -1455,7 +1453,34 @@ mw.drag = {
                     sliders[i].isDrag = false;
                 }
                 if (!mw.isDrag) {
+
+
+
                     var target = event.target;
+                    var componentsClasses = [
+                        'element',
+                        'safe-element',
+                        'module',
+                        'plain-text'
+                    ];
+                    var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
+
+                    if (currentComponent) {
+                        var isSafeMode = false;
+                        var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
+                        if(mw.wysiwyg.isSelectionEditable() &&  !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']){
+                            mw.trigger("ComponentClick", [target, 'element']);
+                        }
+                        else{
+                            var ctype;
+                            var has = componentsClasses.filter(function(item){
+                                return currentComponent.classList.contains(item)
+                            });
+                            mw.trigger("ComponentClick", [currentComponent, has[0]]);
+                        }
+
+                    }
+
                     if ($(target).hasClass("plain-text")) {
                         mw.trigger("PlainTextClick", target);
                     }
