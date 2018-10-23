@@ -41,22 +41,20 @@
 
     <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
         <div class="wysiwyg-table">
-
-
             <div class="wysiwyg-cell">
-                <span class="mw_editor_btn mw_editor_bold" onclick="mw.wysiwyg.format('h1')">
-                    <strong>H1</strong>
+                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h1')">
+                    <span class="ed-ico"><strong>H1</strong></span>
                 </span>
-                <span class="mw_editor_btn mw_editor_bold" onclick="mw.wysiwyg.format('h2')">
+                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h2')">
                     <strong>H2</strong>
                 </span>
-                <span class="mw_editor_btn mw_editor_bold" onclick="mw.wysiwyg.format('h3')">
+                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h3')">
                     <strong>H3</strong>
                 </span>
-                <span class="mw_editor_btn mw_editor_bold" onclick="mw.wysiwyg.format('h4')">
+                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h4')">
                     <strong>H4</strong>
                 </span>
-                <span class="mw_editor_btn mw_editor_bold" onclick="mw.wysiwyg.format('h5')">
+                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h5')">
                     <strong>H5</strong>
                 </span>
             </div>

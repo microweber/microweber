@@ -99,17 +99,23 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                             });
 
                                             $(categorySelector.tree).on('ready', function(){
-                                                $.each(selectedPages, function(){
-                                                    categorySelector.tree.select(this, 'page')
-                                                });
-                                                $.each(selectedCategories, function(){
-                                                    categorySelector.tree.select(this, 'category')
-                                                });
+                                                if(pagesTree.selectedData.length){
+                                                    $.each(pagesTree.selectedData, function(){
+                                                        categorySelector.tree.select(this)
+                                                    })
+                                                }
+                                                else{
+                                                    $.each(selectedPages, function(){
+                                                        categorySelector.tree.select(this, 'page')
+                                                    });
+                                                    $.each(selectedCategories, function(){
+                                                        categorySelector.tree.select(this, 'category')
+                                                    });
+                                                }
 
                                             });
 
                                             $(categorySelector.tags).on("tagClick", function(e, data){
-                                                console.log(data)
                                                 $(".mw-tree-selector").show();
                                                 mw.tools.highlight(categorySelector.tree.get(data))
 

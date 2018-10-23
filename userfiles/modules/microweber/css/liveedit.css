@@ -3298,7 +3298,7 @@ div[id*='SSDIVEL'] {
 
 #modules-and-layouts-sidebar .mw-ui-box {
     background: #f5f5f5;
-    padding: 0 15px 25px 20px;
+    padding: 0;
     width: 100%;
     overflow: auto;
     top: -3px;
@@ -3367,6 +3367,7 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item {
     cursor: pointer;
     margin-bottom: 25px;
+    transition: .3s;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts:hover .module-item {
@@ -3461,17 +3462,15 @@ div[id*='SSDIVEL'] {
     float: left;
     text-align: center;
     padding: 0px;
-    min-height: 145px;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
     background: transparent;
-    padding: 25px 10px;
+    padding: 10px;
     display: block;
     border: 1px solid transparent;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
     border-radius: 2px;
+    transition: .3s;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item:hover .mw_module_hold {
@@ -3482,7 +3481,7 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .module_name {
     color: #999999;
     font-size: 11px;
-    margin-top: 10px;
+    margin-top: 5px;
     display: block;
     height: 22px;
     line-height: 16px !important;

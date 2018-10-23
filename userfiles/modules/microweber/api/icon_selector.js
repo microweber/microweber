@@ -19,7 +19,7 @@ mw.iconSelector = mw.iconSelector || {
               mw.iconSelector.iconFontClasses.push(cls.split('.')[1])
           }
        }
-       mw.iconSelector.popup(true);
+       mw.iconSelector.settingsUI(true);
     },
 
     init: function () {
@@ -97,10 +97,7 @@ mw.iconSelector = mw.iconSelector || {
                         var sel = icons[i].selectorText;
                         if (!!sel && sel.indexOf('i.icon') === 0) {
                             var cls = sel.replace("i.", '').split(':')[0];
-
                             cls = cls.split('.').join(' ');
-
-
                             if (mw.iconSelector.iconFontClasses.indexOf(cls) === -1) {
                                 mw.iconSelector.iconFontClasses.push(cls);
                             }
@@ -161,7 +158,82 @@ mw.iconSelector = mw.iconSelector || {
             }
         }
     },
-    popup: function (refresh) {
+    uiHTML: function (refresh) {
+        var uicss = mw.iconSelector.iconFontClasses;
+        var l = uicss.length, i = 0, html = '';
+        for (; i < l; i++) {
+            var sel = uicss[i];
+            html += '<li onclick="mw.iconSelector.select(\'' + sel + '\')" title="' + sel + '"><i class="' + sel + '"></i></li>';
+
+        }
+
+
+
+        var theOptions = ''
+            + '<div id="icon-color-pick"></div>'
+            + '<br><br>'
+            + '<span class="mw-ui-label">Icon Size</span>'
+            + '<input class="mw-ui-field mw-icon-selector-set-icon-size" type="number" name="mw-icon-selector-set-icon-size"  min="10" max="120" oninput="mw.iconSelector.set_icon_size(this.value)"  />';
+
+
+
+
+        mw.iconSelector.getMaterialIconsPopup(function(){
+            mw.iconSelector._string = html + this;
+            mw.iconSelector._string = '<ul class="mw-icon-selector">' + mw.iconSelector._string + '</ul>';
+
+            mw.iconSelector._string =
+                '<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs live-edit-icon-pick-menu"><span class="mw-ui-btn">Icons</span><span class="mw-ui-btn">Options</span></div>'
+                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab">' + mw.iconSelector._string + '</div>'
+                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab">' + theOptions + '</div>'
+            ;
+            if(!mw.iconSelectorGUI){
+
+                /*mw.iconSelectorGUI = mw.tooltip({
+                    content: mw.iconSelector._string,
+                    element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
+                    position: 'bottom-center',
+                });*/
+
+                mw.$("#js-live-edit-icon-settings-holder").empty().append(mw.iconSelector._string)
+
+                mw.iconSelectorGUI = mw.$("#js-live-edit-icon-settings-holder");
+
+
+                if(refresh){
+                    $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                    $(mw.iconSelectorGUI).hide()
+                }
+            }
+            else if(refresh){
+                $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                $(mw.iconSelectorGUI).hide()
+            }
+
+            $(mw.iconSelectorGUI).addClass('tooltip-icon-picker')
+
+
+            $('.mw-icon-selector', mw.iconSelectorGUI).show();
+            var tabs = mw.tabs({
+                nav:'.live-edit-icon-pick-menu .mw-ui-btn',
+                tabs:'.live-edit-icon-pick-tab'
+            });
+
+            tabs.set(0)
+
+            mw.colorPicker({
+                element:'#icon-color-pick',
+                position:'bottom-center',
+                method:'inline',
+                onchange:function(color){
+                    $(mw.iconSelector._activeElement).css("color", color);
+                }
+            });
+            mw.iconSelector.searchInit();
+
+        })
+    },
+    settingsUI: function (refresh) {
 
 
 
@@ -183,85 +255,20 @@ mw.iconSelector = mw.iconSelector || {
 
         if (mw.iconSelector._string == '' || refresh) {
 
+            this.uiHTML()
 
-            var uicss = mw.iconSelector.iconFontClasses;
-            var l = uicss.length, i = 0, html = '';
-            for (; i < l; i++) {
-                var sel = uicss[i];
-                html += '<li onclick="mw.iconSelector.select(\'' + sel + '\')" title="' + sel + '"><i class="' + sel + '"></i></li>';
-
-            }
-
-
-
-            var theOptions = ''
-                + '<span class="mw-ui-btn" id="icon-color-pick">Icon Color</span>'
-                + '<br><br>'
-                + '<span class="mw-ui-label">Icon Size</span>'
-                + '<input class="mw-ui-field mw-icon-selector-set-icon-size" type="number" name="mw-icon-selector-set-icon-size"  min="10" max="120" oninput="mw.iconSelector.set_icon_size(this.value)"  />';
-
-
-
-
-             mw.iconSelector.getMaterialIconsPopup(function(){
-             mw.iconSelector._string = html + this;
-             mw.iconSelector._string = '<ul class="mw-icon-selector">' + mw.iconSelector._string + '</ul>';
-
-               mw.iconSelector._string =
-                '<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs live-edit-icon-pick-menu"><span class="mw-ui-btn">Icons</span><span class="mw-ui-btn">Options</span></div>'
-                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:355px">' + mw.iconSelector._string + '</div>'
-                + '<div class="mw-ui-box mw-ui-box-content live-edit-icon-pick-tab" style="width:355px">' + theOptions + '</div>'
-                ;
-                if(!mw.iconSelectorToolTip){
-
-                  mw.iconSelectorToolTip = mw.tooltip({
-                      content: mw.iconSelector._string,
-                      element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
-                      position: 'bottom-center',
-                  });
-                  if(refresh){
-                    $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
-                    $(mw.iconSelectorToolTip).hide()
-                  }
-                }
-               else if(refresh){
-                  $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
-                  $(mw.iconSelectorToolTip).hide()
-                }
-
-              $(mw.iconSelectorToolTip).addClass('tooltip-icon-picker')
-
-
-              $('.mw-icon-selector', mw.iconSelectorToolTip).show();
-              var tabs = mw.tabs({
-                  nav:'.live-edit-icon-pick-menu .mw-ui-btn',
-                  tabs:'.live-edit-icon-pick-tab'
-              })
-
-              tabs.set(0)
-
-              mw.colorPicker({
-                  element:'#icon-color-pick',
-                  position:'bottom-center',
-                  onchange:function(color){
-                      $(mw.iconSelector._activeElement).css("color", color);
-                  }
-              });
-              mw.iconSelector.searchInit();
-
-            })
         }
         else {
           if(mw.iconSelector._activeElement !== null && !refresh){
 
-            $(mw.iconSelectorToolTip).show();
-            $('.mw-icon-selector', mw.iconSelectorToolTip).show();
+            $(mw.iconSelectorGUI).show();
+            $('.mw-icon-selector', mw.iconSelectorGUI).show();
 
 
-            mw.tools.tooltip.setPosition(mw.iconSelectorToolTip, mw.iconSelector._activeElement, 'bottom-center');
+            //mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
           }
           else{
-            $(mw.iconSelectorToolTip).hide();
+            $(mw.iconSelectorGUI).hide();
           }
 
         }
@@ -273,7 +280,7 @@ mw.iconSelector = mw.iconSelector || {
         }
 
        if(mw.iconSelector._activeElement === null || refresh){
-         $(mw.iconSelectorToolTip).hide();
+         $(mw.iconSelectorGUI).hide();
 
        }
 
@@ -307,14 +314,14 @@ mw.iconSelector = mw.iconSelector || {
 
         }
         $(mw.tools.firstParentWithClass(mw.iconSelector._activeElement, 'edit')).addClass('changed');
-        mw.iconSelector._activeElement = null;
+        //mw.iconSelector._activeElement = null;
 
 
-        $(mw.iconSelectorToolTip).hide();
+        //$(mw.iconSelectorGUI).hide();
     },
     hide: function () {
         if (mw.iconSelector._string != '') {
-            $(mw.iconSelectorToolTip).hide();
+            $(mw.iconSelectorGUI).hide();
         }
     },
     search:function(val){
@@ -337,7 +344,7 @@ mw.iconSelector = mw.iconSelector || {
       mw.iconSelector.searchelement = document.createElement('input');
       mw.iconSelector.searchelement.className = 'mw-ui-searchfield icon-picker-search';
       mw.iconSelector.searchelement.__time = null;
-      mw.$('.' + mw.iconSelector._exceptions.join(', .'), mw.iconSelectorToolTip).remove()
+      mw.$('.' + mw.iconSelector._exceptions.join(', .'), mw.iconSelectorGUI).remove()
       $(mw.iconSelector.searchelement).on('input keyup paste', function(){
         clearTimeout(mw.iconSelector.searchelement.__time);
         mw.iconSelector.searchelement.__time = setTimeout(function(){

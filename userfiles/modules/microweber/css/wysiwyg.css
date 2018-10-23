@@ -145,13 +145,16 @@
     height: 61px;
 }
 
+.mw_editor_btn .ed-ico:before{
+    font-size: 19px;
+    line-height: 24px;
+}
 .mw_editor_btn .ed-ico {
     height: 25px;
     width: 25px;
     display: inline-block;
     font-family: 'Material Icons';
-    font-size: 19px;
-    line-height: 24px;
+
     color: #777;
     transition: color .3s;
     text-align:center;

@@ -381,7 +381,7 @@ $(document).ready(function() {
     });
     mw.on("IconElementClick", function(e, el) {
         mw.iconSelector._activeElement = el;
-        mw.iconSelector.popup();
+        mw.iconSelector.settingsUI();
     });
 
 
@@ -453,10 +453,10 @@ $(document).ready(function() {
 
 
         if (e.type === 'mousedown') {
-            if (typeof(mw.iconSelectorToolTip) != "undefined"
+            if (typeof(mw.iconSelectorGUI) != "undefined"
                 && !mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
-                $(mw.iconSelectorToolTip).hide();
+                $(mw.iconSelectorGUI).hide();
                 mw.iconSelector.hide();
             }
             if (!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')) {
@@ -529,6 +529,12 @@ mw.liveNodeSettings = {
     initImage: function(){
         var url = mw.external_tool('imageeditor');
         $("#js-live-edit-image-settings-holder").append('<iframe src="'+url+'" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
+    },
+    icon:function () {
+        $('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-icon-settings-holder')
+            .show();
     }
 }
 
@@ -1464,8 +1470,9 @@ mw.drag = {
                         'plain-text'
                     ];
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
+                    var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
 
-                    if (currentComponent) {
+                    if (currentComponent && !fonttarget) {
                         var isSafeMode = false;
                         var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
                         if(mw.wysiwyg.isSelectionEditable() &&  !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']){
@@ -1485,16 +1492,18 @@ mw.drag = {
                         mw.trigger("PlainTextClick", target);
                     }
 
-                    var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
+
                     if(!!fonttarget){
 
                           if ((fonttarget.tagName == 'I' || fonttarget.tagName == 'SPAN') &&  mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown') ) {
                               if(!mw.tools.hasParentsWithClass(fonttarget, 'module')){
                                 mw.trigger("IconElementClick", fonttarget);
+                                mw.trigger("ComponentClick", [fonttarget, 'icon']);
                               }
                               else{
                                 if(mw.wysiwyg.editInsideModule(fonttarget)){
                                     mw.trigger("IconElementClick", fonttarget);
+                                    mw.trigger("ComponentClick", [fonttarget, 'icon']);
                                 }
                               }
                           }

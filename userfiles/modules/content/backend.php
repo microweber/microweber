@@ -38,18 +38,17 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     var mainTreeSetActiveItems = function(){
         if(mw.adminPagesTree){
-            mw.adminPagesTree.unselectAll();
+
             var hp = mw.url.getHashParams(location.hash);
 
-
-
-
-
-
             if(hp.action){
-                var arr = hp.action.split(':')
-                var activeTreeItemIsPage = arr[0] == 'editpage' || arr[0] == 'showposts';
-                var activeTreeItemIsCategory = arr[0] == 'editcategory' || arr[0] == 'showpostscat';
+
+                var arr = hp.action.split(':');
+                if(arr[0] !== 'new'){
+                    mw.adminPagesTree.unselectAll();
+                }
+                var activeTreeItemIsPage = arr[0] === 'editpage' || arr[0] === 'showposts';
+                var activeTreeItemIsCategory = arr[0] === 'editcategory' || arr[0] === 'showpostscat';
 
                 if(activeTreeItemIsPage){
                     mw.adminPagesTree.select({
@@ -64,9 +63,11 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                     })
                 }
             }
+            else{
+                mw.adminPagesTree.unselectAll();
+            }
         }
-
-    }
+    };
 
 
 

@@ -68,7 +68,7 @@ if (isset($json) == false or count($json) == 0) {
             $('.accordion-icon').on("click", function (e, el) {
                 el = $(this)[0];
                 mw.iconSelector._activeElement = el;
-                mw.iconSelector.popup(true);
+                mw.iconSelector.settingsUI(true);
             });
 
 

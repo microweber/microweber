@@ -2413,14 +2413,28 @@ mw.wysiwyg = {
 }
 mw.disable_selection = function (element) {
     var el = element || ".module";
-    var el = $(el, ".edit").not(".unselectable");
+    el = $(el, ".edit").not(".unselectable");
     el.attr("unselectable", "on");
     el.addClass("unselectable");
     el.on("selectstart", function (event) {
         event.preventDefault();
         return false;
     });
-}
+};
+
+mw.wysiwyg.dropdowns = function () {
+    mw.$(".mw_dropdown_action_font_size").not('.ready').change(function () {
+        $(this).addClass('ready');
+        var val = $(this).getDropdownValue();
+        mw.wysiwyg.fontSize(val);
+        mw.$('.mw-dropdown-val', this).append('px');
+    });
+    mw.$(".mw_dropdown_action_format").not('.ready').change(function () {
+        $(this).addClass('ready');
+        var val = $(this).getDropdownValue();
+        mw.wysiwyg.format(val);
+    });
+};
 $(mwd).ready(function () {
     //$(".mw_dropdown_action_font_family").on('change', function(){
     //    var val = $(this).getDropdownValue();
@@ -2428,6 +2442,8 @@ $(mwd).ready(function () {
     //});
 
     mw.wysiwyg.initClassApplier();
+
+    mw.wysiwyg.dropdowns();
 
     if(!mw.wysiwyg._fontcolorpicker){
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
@@ -2454,15 +2470,7 @@ $(mwd).ready(function () {
 
     })
 
-    mw.$(".mw_dropdown_action_font_size").change(function () {
-        var val = $(this).getDropdownValue();
-        mw.wysiwyg.fontSize(val);
-        mw.$('.mw-dropdown-val', this).append('px');
-    });
-    mw.$(".mw_dropdown_action_format").change(function () {
-        var val = $(this).getDropdownValue();
-        mw.wysiwyg.format(val);
-    });
+
     mw.wysiwyg.nceui();
     mw.smallEditor = mw.$("#mw_small_editor");
     mw.smallEditorCanceled = true;
@@ -2562,7 +2570,7 @@ $('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition',
                     div.innerHTML = new_insert_html;
                     div.className = "mw-icon mw-icon-noop";
                     mw.iconSelector._activeElement = div;
-                    mw.iconSelector.popup();
+                    mw.iconSelector.settingsUI();
                 }
             }
             else if (val === 'table') {

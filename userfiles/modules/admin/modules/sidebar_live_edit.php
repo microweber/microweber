@@ -111,8 +111,14 @@
                 <div id="js-live-edit-image-settings-holder" class="mw-defaults mw-live-edit-component-options">
 
                 </div>
-                <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
+                <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options">
                     <div id="js-live-edit-module-settings-items"></div>
+                </div>
+
+                <div
+                        id="js-live-edit-icon-settings-holder"
+                        class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
+                    icon
                 </div>
 
 
@@ -232,6 +238,9 @@
             });
             mw.dropdown();
             mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
+            mw.wysiwyg.dropdowns();
+
+
 
 
             /*
