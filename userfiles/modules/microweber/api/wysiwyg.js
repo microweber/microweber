@@ -586,6 +586,7 @@ mw.wysiwyg = {
                   }
 
                   html = mw.wysiwyg.pasteManager(html);
+                  console.log(html)
                   mw.wysiwyg.insert_html(html);
                   if(e.target.querySelector){
                       $(e.target.querySelectorAll('[style*="outline"]')).css({
@@ -920,17 +921,15 @@ mw.wysiwyg = {
         }, function () {
             $(this).removeClass("mw_editor_btn_hover");
         });
+        if(mw.wysiwyg.ready) return;
+        mw.wysiwyg.ready = true;
         $(mwd.body).on('mouseup', function (event) {
             if (event.target.isContentEditable) {
                 mw.wysiwyg.check_selection(event.target);
             }
         });
-        $(mwd.body).on('noop keydown', function (event) {
+        $(mwd.body).on('keydown', function (event) {
 
-            //var textnodes = ['br', 'p', 'b', 'span', 'i', 'em', 'small', 'del', 'ins', 'sub', 'sup','font'];
-            //var blocknodes = ['section', 'div', 'table'];
-
-            //var display_blocks = ['block', 'table', 'flexbox'];
 
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
@@ -951,6 +950,7 @@ mw.wysiwyg = {
 
                     var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
                     if(!isList){
+                        console.log(12)
                       event.preventDefault();
                       if(event.shiftKey){
                         mw.wysiwyg.insert_html('<br>');
@@ -1893,14 +1893,12 @@ mw.wysiwyg = {
       }
       else{
         if (!window.MSStream) {
-            console.log(mw.wysiwyg.isSafeMode())
             if(mw.wysiwyg.isSafeMode()){
                 var tag =  command == 'code_text' ? 'code':command;
                 mw.wysiwyg.select_element(el);
                 console.log(command, el)
                 el.parentNode.contentEditable = true
                 mw.wysiwyg.execCommand("insertHTML", false, "<"+command+">" + el.innerHTML + "</"+command+">");
-                //el.parentNode.contentEditable = 'inherit'
             }
             else{
                 if (command == 'code_text') {
@@ -2423,23 +2421,83 @@ mw.disable_selection = function (element) {
 };
 
 mw.wysiwyg.dropdowns = function () {
-    mw.$(".mw_dropdown_action_font_size").not('.ready').change(function () {
-        $(this).addClass('ready');
+    mw.$(".mw_dropdown_action_font_size").not('.ready').addClass('ready').change(function () {
         var val = $(this).getDropdownValue();
         mw.wysiwyg.fontSize(val);
         mw.$('.mw-dropdown-val', this).append('px');
     });
-    mw.$(".mw_dropdown_action_format").not('.ready').change(function () {
-        $(this).addClass('ready');
+    mw.$(".mw_dropdown_action_format").not('.ready').addClass('ready').change(function () {
+
         var val = $(this).getDropdownValue();
         mw.wysiwyg.format(val);
     });
+    mw.wysiwyg.initFontSelectorBox();
+    mw.$("#wysiwyg_insert").not('.ready').addClass('ready').on("change", function () {
+        var fnode = window.getSelection().focusNode;
+        var isPlain = mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text')
+        if (mw.wysiwyg.isSelectionEditable()) {
+            var val = $(this).getDropdownValue();
+
+            var isTextlike = val == 'icon';
+            if (!isTextlike && isPlain) {
+                return false;
+            }
+
+            if (val == 'hr') {
+                mw.wysiwyg._do('InsertHorizontalRule');
+            }
+            else if (val == 'box') {
+
+                var div = mw.wysiwyg.applier('div', 'mw-ui-box mw-ui-box-content element');
+                if (mw.wysiwyg.selection_length() <= 2) {
+                    $(div).append("<p>&nbsp;</p>");
+                }
+            }
+            else if (val == 'pre') {
+                var div = mw.wysiwyg.applier('pre', '');
+                if (mw.wysiwyg.selection_length() <= 2) {
+                    $(div).append("&nbsp;");
+                }
+            } else if (val == 'code') {
+                // var div = mw.wysiwyg.applier('code', '');
+                var new_insert_html = prompt("Paste your code");
+                if (new_insert_html != null) {
+                    var div = mw.wysiwyg.applier('code');
+                    div.innerHTML = new_insert_html;
+                }
+            } else if (val == 'insert_html') {
+                var new_insert_html = prompt("Paste your html code in the box");
+                if (new_insert_html != null) {
+                    var div = mw.wysiwyg.applier('div');
+                    div.innerHTML = new_insert_html;
+                }
+            } else if (val == 'icon') {
+                var new_insert_html = '';
+                if (new_insert_html != null) {
+                    var div = mw.wysiwyg.applier('i');
+                    div.innerHTML = new_insert_html;
+                    div.className = "mw-icon mw-icon-noop";
+                    mw.iconSelector._activeElement = div;
+                    mw.iconSelector.settingsUI();
+                }
+            }
+            else if (val === 'table') {
+                var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});
+                //el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr></tbody></table>';
+                el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td>Lorem Ipsum</td><td  >Lorem Ipsum</td></tr><tr><td  >Lorem Ipsum</td><td  >Lorem Ipsum</td></tr></tbody></table>';
+
+                //   el.querySelector('table').setAttribute('onclick', 'mw.inline.tableController(this, event);');
+            }
+            else if (val === 'quote') {
+                var div = mw.wysiwyg.applier('blockquote', 'element');
+                $(div).append("<cite>By Lorem Ipsum</cite>");
+            }
+            //  $(this).setDropdownValue("Insert", true, true, "Insert");
+        }
+    })
 };
 $(mwd).ready(function () {
-    //$(".mw_dropdown_action_font_family").on('change', function(){
-    //    var val = $(this).getDropdownValue();
-    //    mw.wysiwyg.fontFamily(val);
-    //});
+
 
     mw.wysiwyg.initClassApplier();
 
@@ -2506,7 +2564,7 @@ $(mwd).ready(function () {
 });
 $(window).on('load', function () {
 
-mw.wysiwyg.initFontSelectorBox();
+//mw.wysiwyg.initFontSelectorBox();
 
 /*$("#live_edit_toolbar .editor_wrapper_tabled [title], #the_admin_editor #mw-admin-text-editor [title], #mw_small_editor [title]").each(function () {
     var ttitle = this.title;
@@ -2522,69 +2580,6 @@ $('#the_admin_editor #mw-admin-text-editor .tip:first').attr('data-tipposition',
         if ($(el).parent().hasClass('mw-image-holder')) {
             var url = mw.files.safeFilename(url)
             $(el).parent().css('backgroundImage', 'url(' + url + ')')
-        }
-    })
-    mw.$("#wysiwyg_insert").on("change", function () {
-        var fnode = window.getSelection().focusNode;
-        var isPlain = mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text')
-        if (mw.wysiwyg.isSelectionEditable()) {
-            var val = $(this).getDropdownValue();
-
-            var isTextlike = val == 'icon';
-            if (!isTextlike && isPlain) {
-                return false;
-            }
-
-            if (val == 'hr') {
-                mw.wysiwyg._do('InsertHorizontalRule');
-            }
-            else if (val == 'box') {
-
-                var div = mw.wysiwyg.applier('div', 'mw-ui-box mw-ui-box-content element');
-                if (mw.wysiwyg.selection_length() <= 2) {
-                    $(div).append("<p>&nbsp;</p>");
-                }
-            }
-            else if (val == 'pre') {
-                var div = mw.wysiwyg.applier('pre', '');
-                if (mw.wysiwyg.selection_length() <= 2) {
-                    $(div).append("&nbsp;");
-                }
-            } else if (val == 'code') {
-                // var div = mw.wysiwyg.applier('code', '');
-                var new_insert_html = prompt("Paste your code");
-                if (new_insert_html != null) {
-                    var div = mw.wysiwyg.applier('code');
-                    div.innerHTML = new_insert_html;
-                }
-            } else if (val == 'insert_html') {
-                var new_insert_html = prompt("Paste your html code in the box");
-                if (new_insert_html != null) {
-                    var div = mw.wysiwyg.applier('div');
-                    div.innerHTML = new_insert_html;
-                }
-            } else if (val == 'icon') {
-                var new_insert_html = '';
-                if (new_insert_html != null) {
-                    var div = mw.wysiwyg.applier('i');
-                    div.innerHTML = new_insert_html;
-                    div.className = "mw-icon mw-icon-noop";
-                    mw.iconSelector._activeElement = div;
-                    mw.iconSelector.settingsUI();
-                }
-            }
-            else if (val === 'table') {
-                var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});
-                //el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr></tbody></table>';
-                el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td>Lorem Ipsum</td><td  >Lorem Ipsum</td></tr><tr><td  >Lorem Ipsum</td><td  >Lorem Ipsum</td></tr></tbody></table>';
-
-             //   el.querySelector('table').setAttribute('onclick', 'mw.inline.tableController(this, event);');
-            }
-            else if (val === 'quote') {
-                var div = mw.wysiwyg.applier('blockquote', 'element');
-                $(div).append("<cite>By Lorem Ipsum</cite>");
-            }
-            //  $(this).setDropdownValue("Insert", true, true, "Insert");
         }
     });
 

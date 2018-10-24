@@ -240,6 +240,8 @@
             mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
             mw.wysiwyg.dropdowns();
 
+            $("#mw-sidebar-modules-list").removeClass("module")
+
 
 
 

@@ -1275,7 +1275,8 @@ mw.tools = {
                     }
                 }
             });
-            mw.$(el).hover(function () {
+            mw.$(el)
+            .hover(function () {
                 $(this).add(this);
                 if (mw.tools.hasClass(cls, 'other-action')) {
                     $(this).addClass('other-action');
@@ -1283,9 +1284,12 @@ mw.tools = {
             }, function () {
                 $(this).removeClass("hover");
                 $(this).removeClass('other-action');
-            });
-            mw.$(el).on('mousedown touchstart', 'li[value]', function (event) {
+            })
+            .on('mousedown touchstart', 'li[value]', function (event) {
                 $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
+                return false;
+            })
+            .on('click', 'a[href="#"]', function (event) {
                 return false;
             });
         }
