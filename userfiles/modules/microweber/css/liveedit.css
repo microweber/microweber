@@ -4129,7 +4129,10 @@ body.dragStart .allow-drop {
 
 .js-module-settings-edit-item-group,
 .js-module-settings-edit-item-group-frame {
-    max-width: 330px;
+    /*max-width: 330px;*/
+    padding: 0;
+    left: 0;
+    right: 0;
 }
 
 .mw_module_settings_sidebar_title_wrapper {
@@ -4166,3 +4169,7 @@ body.dragStart .allow-drop {
     font-size: 22px;
 }
 
+#mw-sidebar-quick-edit-items {
+    padding-left: 0;
+    padding-right: 0;
+}

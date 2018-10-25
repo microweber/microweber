@@ -14,12 +14,8 @@ if ($after == false) {
 ?>
 
 <style>
-    .module-before-after-settings {
-
-    img {
+    .module-before-after-settings img {
         max-width: 100%;
-    }
-
     }
 </style>
 
