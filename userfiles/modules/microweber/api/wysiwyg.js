@@ -510,6 +510,7 @@ mw.wysiwyg = {
     doLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
       var parser = mw.tools.parseHtml(html).body;
+
       mw.$('[id]', parser).each(function(){
         this.id = 'dlp-item-'+mw.random();
       });
@@ -528,6 +529,7 @@ mw.wysiwyg = {
         else{
           var clipboard = e.clipboardData || mww.clipboardData;
         }
+
 
         if(mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])){
           if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
@@ -570,8 +572,19 @@ mw.wysiwyg = {
        else{
           if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
               if (!mw.is.ie) {
-                  //var html = clipboard.getData('text/plain');
-                  var html =  clipboard.getData('text/html');
+                  var html = clipboard.getData('text/html');
+                  var text = clipboard.getData('text');
+                  var isPlainText = false;
+                  if(!html && text){
+                      isPlainText = true;
+                      if(/\r\n/.test(text)){
+                          var wrapper = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+                          wrapper = mw.tools.firstMatchesOnNodeOrParent(wrapper, ['.element', 'p', 'div', '.edit'])
+                          var tag = wrapper.nodeName.toLowerCase();
+                          html = '<'+tag+' id="element_'+mw.random()+'">'+text.replace(/\r\n/g,"<br>") + '</'+tag+'>';
+                      }
+
+                  }
               }
               else {
                   var html = clipboard.getData('text');

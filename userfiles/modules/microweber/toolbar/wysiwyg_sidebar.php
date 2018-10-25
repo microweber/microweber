@@ -1,10 +1,10 @@
 <div id="mw_small_editor_sidebar" class="mw-defaults mw_editor mw_small_editor">
     <style scoped>
         .wysiwyg-table{
-            display: inline-block;
+            display: block;
         }
         .wysiwyg-table > .wysiwyg-cell{
-            display: inline-block;
+            display: block;
             white-space: normal;
             padding: 10px 0;
         }
@@ -15,6 +15,10 @@
         .editor_wrapper_tabled{
             position: static;
 
+        }
+
+        .wysiwyg-table > .wysiwyg-cell{
+            background-image: none;
         }
 
     </style>
@@ -40,29 +44,78 @@
     <?php endif; ?>
 
     <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
+
         <div class="wysiwyg-table">
             <div class="wysiwyg-cell">
-                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h1')">
-                    <span class="ed-ico"><strong>H1</strong></span>
-                </span>
-                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h2')">
-                    <strong>H2</strong>
-                </span>
-                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h3')">
-                    <strong>H3</strong>
-                </span>
-                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h4')">
-                    <strong>H4</strong>
-                </span>
-                <span class="mw_editor_btn" onclick="mw.wysiwyg.format('h5')">
-                    <strong>H5</strong>
-                </span>
+                <div class="mw-ui-row">
+                    <div class="mw-ui-col" style="width: 50%">
+                        <div class="mw-ui-col-container">
+                            <module type="editor/fonts" id="font_family_selector_main" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>" style="width: 100%;">
+                                <span class="mw-dropdown-value">
+                                    <span class="mw-dropdown-arrow"></span>
+                                    <span class="mw-dropdown-val" ><?php _e('Size'); ?></span>
+                                </span>
+                                <div class="mw-dropdown-content">
+                                    <ul>
+                                        <li value="10"><a href="javascript:;">10</a></li>
+                                        <li value="11"><a href="javascript:;">11</a></li>
+                                        <li value="12"><a href="javascript:;">12</a></li>
+                                        <li value="14"><a href="javascript:;">14</a></li>
+                                        <li value="16"><a href="javascript:;">16</a></li>
+                                        <li value="18"><a href="javascript:;">18</a></li>
+                                        <li value="20"><a href="javascript:;">20</a></li>
+                                        <li value="20"><a href="javascript:;">22</a></li>
+                                        <li value="24"><a href="javascript:;">24</a></li>
+                                        <li value="36"><a href="javascript:;">36</a></li>
+                                        <li value="48"><a href="javascript:;">48</a></li>
+                                        <li value="72"><a href="javascript:;">72</a></li>
+                                        <li onclick="mw.wysiwyg.fontSizePrompt()">
+                                            <a href="javascript:;" style=" z-index: 1; background-color: #f5f5f5; text-align: center; padding-top: 0px; padding-bottom: 3px;">
+                                                <small style="text-transform: lowercase; color: black;"><?php _e('more'); ?></small>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
             </div>
             <div class="wysiwyg-cell">
 
+                    <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>">
+                        <span class="ed-ico"></span>
+                    </span>
+                    <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>">
+                        <span class="ed-ico"></span>
+                    </span>
+                    <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>">
+                        <span class="ed-ico"></span>
+                    </span>
+                    <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>">
+                        <span class="ed-ico"></span>
+                    </span>
+
+            </div>
+
+            <div class="wysiwyg-cell">
+
                 <div class="relative">
-                    <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
-                    <span class="mw_editor_btn mw_editor_t wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1000"> <span class="mw-dropdown-arrow"></span> <span class="ed-ico"></span> </span>
+                    <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>">
+                        <span class="ed-ico"></span>
+                    </span>
+
                     <div class="wysiwyg-convertible wysiwyg-convertible-1000">
                         <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>">
                             <span class="ed-ico"></span>
@@ -79,7 +132,7 @@
                         <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
                             <span class="mw-dropdown-value">
                                 <span class="mw-dropdown-arrow"></span>
-                                <span class="mw-dropdown-val" style="width: 65px;">
+                                <span class="mw-dropdown-val" style="width: 165px;">
                                     <?php _e("Format"); ?>
                                 </span>
                             </span>
@@ -159,62 +212,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <?php /*<div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
-                        <span class="mw-dropdown-value">
-                            <span class="mw-dropdown-arrow"></span>
-                            <span class="mw-dropdown-val">Font FX</span>
-                        </span>
-                      <div class="mw-dropdown-content">
-                        <ul>
-                          <li value="mw-textfx-3d"><a href="#">3D</a></li>
-                          <li value="mw-textfx-neon"><a href="#">Neon</a></li>
-                        </ul>
-                      </div>
-                    </div>*/ ?>
 
 
 
-                        <?php
-
-                        /*
-                         <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">Arial</span> </span>
-                             <div class="mw-dropdown-content">
-                               <ul>
-                                 <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
-                                 <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
-                                 <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
-                                 <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
-                                 <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
-                               </ul>
-                             </div>
-                           </div>
-                       */
-
-                        ?>
-                        <module type="editor/fonts" id="font_family_selector_main" />
 
 
-                        <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw-dropdown-value">
-            <?php /*<input type="text" class="mw-dropdown-field"  />         */ ?>
-                                <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val" ><?php _e('Size'); ?></span> </span>
-                            <div class="mw-dropdown-content">
-                                <ul>
-                                    <li value="10"><a href="javascript:;">10</a></li>
-                                    <li value="11"><a href="javascript:;">11</a></li>
-                                    <li value="12"><a href="javascript:;">12</a></li>
-                                    <li value="14"><a href="javascript:;">14</a></li>
-                                    <li value="16"><a href="javascript:;">16</a></li>
-                                    <li value="18"><a href="javascript:;">18</a></li>
-                                    <li value="20"><a href="javascript:;">20</a></li>
-                                    <li value="20"><a href="javascript:;">22</a></li>
-                                    <li value="24"><a href="javascript:;">24</a></li>
-                                    <li value="36"><a href="javascript:;">36</a></li>
-                                    <li value="48"><a href="javascript:;">48</a></li>
-                                    <li value="72"><a href="javascript:;">72</a></li>
-                                    <li onclick="mw.wysiwyg.fontSizePrompt()"><a href="javascript:;" style=" z-index: 1; background-color: #f5f5f5; text-align: center; padding-top: 0px; padding-bottom: 3px;"><small style="text-transform: lowercase; color: black;"><?php _e('more'); ?></small></a></li>
-                                </ul>
-                            </div>
-                        </div>
                         <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">
             <?php _e("Insert"); ?>
             </span> </span>
@@ -264,12 +266,9 @@
                     </div>
                 </div>
             </div>
-            <div class="wysiwyg-cell">
-                <div class="relative"> <span class="mw_editor_btn mw_editor_justifyleft wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1440"> <span class="mw-dropdown-arrow"></span> <span class="ed-ico"></span> </span>
-                    <div class="wysiwyg-convertible wysiwyg-convertible-1440"> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span> </div>
-                </div>
-            </div>
-            <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <?php /*<span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>*/ ?> </div>
+
+            <div class="wysiwyg-cell visible-1440">
+                <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <?php /*<span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>*/ ?> </div>
             <div class="wysiwyg-cell"><span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word"><span class="ed-ico"></span></span></div>
             <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
 

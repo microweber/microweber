@@ -344,7 +344,7 @@
         var setScrollBoxes = function () {
             var root = document.querySelector('#modules-and-layouts-sidebar');
             if (root !== null) {
-                var el = root.querySelectorAll('.mw-ui-box');
+                var el = root.querySelectorAll('.mw-scroll-box');
                 for (var i = 0; i < el.length; i++) {
                     var h = (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
                     el[i].style.height = h + 'px'
