@@ -25,19 +25,32 @@ $youtube_url = get_option('youtube_url', $option_group);
 $linkedin_url = get_option('linkedin_url', $option_group);
 ?>
 
-    <div class="module-live-edit-settings">
+    <style scoped="scoped">
+        .module-social-links-settings [class*='mw-icon-'],
+        .module-social-links-settings [class*='fa-'] {
+            font-size: 18px;
+            display: inline-block;
+            margin: 0;
+            width: 14px;
+            text-align: center;
+        }
+    </style>
+
+    <script>mw.lib.require('font_awesome5');</script>
+
+    <div class="module-live-edit-settings module-social-links-settings">
         <table class="mw-ui-table mw-full-width mw-ui-table-fixed mw-ui-table-basic">
             <colgroup>
                 <col width="30"/>
                 <col width="18"/>
-                <col width="105"/>
+                <col width="110"/>
             </colgroup>
 
             <tr>
                 <td>
                     <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" option-group="<?php print $option_group; ?>" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span></label>
                 </td>
-                <td><span class="mw-icon-facebook"></span></td>
+                <td><i class="fab fa-facebook"></i></td>
                 <td>
                     <label class="mw-ui-inline-label">facebook.com/</label>
                 </td>
@@ -53,7 +66,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" name="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span></label>
                 </td>
 
-                <td><span class="mw-icon-twitter"></span></td>
+                <td><i class="fab fa-twitter"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">twitter.com/</label>
@@ -72,8 +85,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><span class="mw-icon-social-pinterest"></span></td>
-
+                <td><i class="fab fa-pinterest"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">pinterest.com/</label>
@@ -92,7 +104,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><span class="mw-icon-social-youtube"></span></td>
+                <td><i class="fab fa-youtube"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">youtube.com/</label>
@@ -111,7 +123,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><span class="mw-icon-social-linkedin"></span></td>
+                <td><i class="fab fa-linkedin"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">linkedin.com/</label>
@@ -130,7 +142,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><span class="mw-icon-social-instagram"></span></td>
+                <td><i class="fab fa-instagram"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">instagram.com/</label>

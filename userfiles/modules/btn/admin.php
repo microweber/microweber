@@ -90,7 +90,7 @@ $icon = get_option('icon', $params['id']);
     });
 </script>
 
-<div class="module-live-edit-settings">
+<div class="module-live-edit-settings module-btn-settings">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Text"); ?></label>
         <input type="text" name="text" class="mw_option_field mw-ui-field w100" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>

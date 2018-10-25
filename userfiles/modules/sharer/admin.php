@@ -10,102 +10,76 @@ $whatsapp_enabled = get_option('whatsapp_enabled', $params['id']) == 'y';
 $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
 ?>
 
-<div class="module-live-edit-settings">
+<style scoped="scoped">
+    .module-social-links-settings [class*='mw-icon-'],
+    .module-social-links-settings [class*='fa-'] {
+        font-size: 20px;
+        display: inline-block;
+        /* float: left; */
+        margin: 0 10px 0 5px;
+        width: 14px;
+        text-align: center;
+    }
+</style>
 
-    <style scoped="scoped">
-        .module-social-links-settings-table .mw-ui-inline-label {
-            margin-right: 0;
-            padding-right: 3px;
-            width: 130px;
-            text-align: right;
-        }
+<script>mw.lib.require('font_awesome5');</script>
 
-        .module-social-links-settings-table [class*='mw-icon-'] {
-            font-size: 27px;
-        }
-    </style>
-
-    <script>mw.lib.require('font_awesome');</script>
-
-
-    <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic module-social-links-settings-table">
-        <thead>
+<div class="module-live-edit-settings module-social-links-settings">
+    <table class="mw-ui-table mw-full-width mw-ui-table-fixed mw-ui-table-basic">
         <tr>
-            <th>Icon</th>
-            <th>Enabled</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr>
-            <td><span class="mw-icon-facebook"></span></td>
             <td>
                 <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span>
-                </label>
-            </td>
-
-        </tr>
-
-        <tr>
-            <td><span class="mw-icon-twitter"></span></td>
-
-            <td>
-                <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="twitter_enabled" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span>
+                    <input type="checkbox" class="mw_option_field" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-facebook"></i> Facebook</span>
                 </label>
             </td>
         </tr>
 
         <tr>
-            <td><span class="mw-icon-googleplus"></span></td>
-
             <td>
                 <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="googleplus_enabled" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>><span></span>
+                    <input type="checkbox" class="mw_option_field" name="twitter_enabled" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-twitter"></i> Twitter</span>
                 </label>
             </td>
         </tr>
 
         <tr>
-            <td><span class="mw-icon-social-pinterest"></span></td>
-
             <td>
                 <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="pinterest_enabled" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>><span></span>
+                    <input type="checkbox" class="mw_option_field" name="googleplus_enabled" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-google-plus-g"></i> Google+</span>
                 </label>
             </td>
         </tr>
 
         <tr>
-            <td><span class="fa fa-viber"></span></td>
-
             <td>
                 <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="viber_enabled" value="y" <?php if ($viber_enabled) print 'checked="checked"'; ?>><span></span>
+                    <input type="checkbox" class="mw_option_field" name="pinterest_enabled" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-pinterest"></i> Pinterest</span>
                 </label>
             </td>
         </tr>
 
         <tr>
-            <td><span class="fa fa-whatsapp"></span></td>
-
             <td>
                 <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="whatsapp_enabled" value="y" <?php if ($whatsapp_enabled) print 'checked="checked"'; ?>><span></span>
+                    <input type="checkbox" class="mw_option_field" name="viber_enabled" value="y" <?php if ($viber_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-viber"></i> Viber</span>
                 </label>
             </td>
         </tr>
 
         <tr>
-            <td><span class="fa fa-linkedin"></span></td>
-
             <td>
                 <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" name="linkedin_enabled" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
+                    <input type="checkbox" class="mw_option_field" name="whatsapp_enabled" value="y" <?php if ($whatsapp_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-whatsapp"></i> WhatsApp</span>
                 </label>
             </td>
         </tr>
-        </tbody>
+
+        <tr>
+            <td>
+                <label class="mw-ui-check">
+                    <input type="checkbox" class="mw_option_field" name="linkedin_enabled" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-linkedin"></i> LinkedIn</span>
+                </label>
+            </td>
+        </tr>
     </table>
 </div>
