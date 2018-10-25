@@ -2920,7 +2920,7 @@ body.grabbing, body.grabbing * {
 }
 
 .module-live-edit-settings {
-    padding: 15px;
+    /*padding: 15px;*/
 }
 
 .module-live-edit-settings:after {

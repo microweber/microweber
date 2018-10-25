@@ -43,6 +43,7 @@ node_modules/
 /userfiles/templates/utouch
 /cloudsigma
 /q-theme
+/active
 userfiles/templates/active/
 /cpanel
 mail.php
