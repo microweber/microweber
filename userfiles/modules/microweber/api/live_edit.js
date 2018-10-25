@@ -1,5 +1,6 @@
-mw.live_edit = {}
-mw.live_edit.registry = {}
+mw.live_edit = mw.live_edit || {}
+
+mw.live_edit.registry = mw.live_edit.registry || {}
 
 
 mw.live_edit.showHandle = function (element) {
@@ -87,11 +88,7 @@ mw.live_edit.showHandle = function (element) {
 };
 
 
-
-
-
 mw.live_edit.showSettings = function (a, opts) {
-
 
 
     var liveedit = opts.liveedit = opts.liveedit || false;
@@ -210,7 +207,39 @@ mw.live_edit.showSettings = function (a, opts) {
 
         var iframe_id = 'js-iframe-module-settings-' + curr.id;
 
-        var mod_settings_iframe_html = '<iframe src="' + src + '" class="js-module-settings-edit-item-group" id="' + iframe_id + '"  style="width:100%;height: 90vh;position: absolute" frameborder="0">';
+
+        var mod_icon = mw.live_edit.getModuleIcon(module_type);
+        var mod_title = mw.live_edit.getModuleTitle(module_type);
+        var mod_descr = mw.live_edit.getModuleDescription(module_type);
+
+
+        var mod_settings_iframe_html_fr = '<iframe src="' + src + '" class="js-module-settings-edit-item-group-frame" id="fr-' + iframe_id + '"  style="width:100%;height: 90vh;position: absolute" frameborder="0">';
+
+
+        var sidebar_title_box = "<div class='mw_module_settings_sidebar_title_wrapper' >" + mod_icon ;
+        var sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_title'>" + mod_title + "</div>";
+
+        if(mod_title != mod_descr){
+          //  var sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_description'>" + mod_descr + "</div>";
+        }
+
+
+        var sidebar_title_box = sidebar_title_box + "</div>";
+
+
+        var mod_settings_iframe_html = '<div  id="' + iframe_id + '" class="js-module-settings-edit-item-group">'
+            + sidebar_title_box
+            + mod_settings_iframe_html_fr
+            + '</div>';
+
+
+
+
+      //  mod_settings_iframe_html =  sidebar_title_box + mod_settings_iframe_html ;
+
+
+
+
 
         if (!$("#" + iframe_id).length) {
             $("#js-live-edit-module-settings-items").append(mod_settings_iframe_html);
@@ -227,10 +256,28 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 mw.live_edit.getModuleIcon = function (module_type) {
-  if(mw.live_edit.registry[module_type]){
-      return  '<span class="mw-ui-btn-img" style="background-image: url('+mw.live_edit.registry[module_type].icon+')"></span>';
-  }
-  else{
-      return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;'
-  }
+    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].icon) != 'undefined' ) {
+        return '<span class="mw-ui-btn-img" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
+    }
+    else {
+        return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;'
+    }
+};
+mw.live_edit.getModuleTitle = function (module_type) {
+    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].title) != 'undefined' ) {
+        return mw.live_edit.registry[module_type].title
+    }
+    else {
+        return ''
+    }
+};
+mw.live_edit.getModuleDescription = function (module_type) {
+
+
+    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].description) != 'undefined' ) {
+        return mw.live_edit.registry[module_type].description
+    }
+    else {
+        return ''
+    }
 };
