@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Fluid 1
+name: Full Width with Text
 
 description: Full width background
 

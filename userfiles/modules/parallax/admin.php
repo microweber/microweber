@@ -7,74 +7,38 @@ $height = get_option('height', $params['id']);
 $alpha = get_option('alpha', $params['id']);
 ?>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.lib.require('bootstrap3ns');
-    });
+<script>
+    mw.lib.require('font_awesome5');
 </script>
 
-<div class="module-live-edit-settings">
-    <div class="bootstrap3ns">
+<div class="module-live-edit-settings module-parallax-settings">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <label class="mw-ui-label"><?php _e('Upload image'); ?></label>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="mw-ui-field-holder">
-                            <span class="mw-ui-btn" id="parallax"><span class="mw-icon-upload"></span><?php _e('Choose parallax image'); ?></span>
-                        </div>
-                    </div>
-                    <input type="hidden" class="mw_option_field" name="parallax" id="parallaxval" value="<?php print $parallax; ?>"/>
-
-                    <div class="col-xs-6">
-                        <div class="mw-ui-field-holder">
-                            <span class="mw-ui-btn" id="info-image"><span class="mw-icon-upload"></span><?php _e('Choose Info image'); ?></span>
-                        </div>
-                    </div>
-                    <input type="hidden" class="mw_option_field" name="info-image" id="infoimageval" value="<?php print $infoImage; ?>"/>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label" for="height"><?php _e('Full width parallax height'); ?></label>
-                            <input name="height" data-refresh="parallax" class="form-control mw_option_field" type="number" value="<?php print get_option('height', $params['id']) ?>" id="height">
-                        </div>
-                    </div>
-
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label" for="alpha"><?php _e('Alpha: 0-1'); ?></label>
-                            <input name="alpha" data-refresh="parallax" class="form-control mw_option_field" type="range" value="<?php print get_option('alpha', $params['id']) ?>" id="alpha" min="0" max="1" step=".01"/>
-                        </div>
-                    </div>
-                </div>
-
-                <!--                <div class="form-group">-->
-                <!--                    <label class="control-label" for="text">--><?php //_e('Text'); ?><!--</label>-->
-                <!--                    <textarea name="text" data-refresh="parallax" class="form-control mw_option_field" id="text" rows="10" style="height: 100px;">-->
-                <?php //print get_option('text', $params['id']) ?><!--</textarea>-->
-                <!--                </div>-->
-                <!---->
-
-                <!---->
-                <!--                <div class="form-group">-->
-                <!--                    <label class="control-label" for="button-url">--><?php //_e('Button URL'); ?><!--</label>-->
-                <!--                    <input name="button-url" data-refresh="parallax" class="form-control mw_option_field" type="text" value="-->
-                <?php //print get_option('button-url', $params['id']) ?><!--" id="button-url">-->
-                <!--                </div>-->
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        <module type="admin/modules/templates"/>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+    <div class="mw-ui-field-holder">
+        <div class="mw-ui-label"><?php _e('Upload Parallax image'); ?></div>
+        <span class="mw-ui-btn w100" id="parallax"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose image'); ?></span>
+        <input type="hidden" class="mw_option_field" name="parallax" id="parallaxval" value="<?php print $parallax; ?>"/>
     </div>
+
+    <div class="mw-ui-field-holder">
+        <div class="mw-ui-label"><?php _e('Upload Info image'); ?></div>
+        <span class="mw-ui-btn w100" id="info-image"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Info image'); ?></span>
+        <input type="hidden" class="mw_option_field" name="info-image" id="infoimageval" value="<?php print $infoImage; ?>"/>
+    </div>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label" for="height"><?php _e('Full width parallax height'); ?></label>
+        <input name="height" data-refresh="parallax" class="mw-ui-field mw_option_field mw-full-width" type="number" value="<?php print get_option('height', $params['id']) ?>" id="height">
+    </div>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label" for="alpha"><?php _e('Alpha: 0-10'); ?></label>
+        <div class="range-slider">
+            <input name="alpha" data-refresh="parallax" class="mw-ui-field-range mw_option_field mw-full-width" max="1" min="0" step=".01" type="range" id="alpha" value="<?php print get_option('alpha', $params['id']) ?>"/>
+        </div>
+    </div>
+
+    <module type="admin/modules/templates"/>
+
 </div>
 
 <script>
@@ -99,6 +63,4 @@ $alpha = get_option('alpha', $params['id']);
             mw.$("#infoimageval").val(b.src).trigger('change');
         });
     });
-
-
 </script>

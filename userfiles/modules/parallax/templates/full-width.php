@@ -14,6 +14,7 @@ description: Full width background
 <style>
     .parallax {
         background-image: url("<?php print $parallax; ?>");
+        opacity: <?php print $alpha; ?>;
     }
 </style>
 

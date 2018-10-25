@@ -15,6 +15,10 @@ description: Default
     .parallax {
         background-image: url("<?php print $parallax; ?>");
     }
+
+    .parallax {
+        opacity: <?php print $alpha; ?>;
+    }
 </style>
 
 <div class="row module-parallax">
@@ -33,7 +37,7 @@ description: Default
                         <div class="edit" field="parallax_text" rel="<?php print $params['id']; ?>">
                             <p><?php print $infoBox; ?></p>
 
-                            <module type="btn" id="parallax-btn-<?php print $params['id']; ?>" template="bootstrap" />
+                            <module type="btn" id="parallax-btn-<?php print $params['id']; ?>" template="bootstrap"/>
                         </div>
                     </div>
                 </div>
