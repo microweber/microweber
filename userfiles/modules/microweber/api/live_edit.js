@@ -266,6 +266,8 @@ mw.live_edit.getModuleIcon = function (module_type) {
 mw.live_edit.getModuleTitle = function (module_type) {
     if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].title) != 'undefined' ) {
         return mw.live_edit.registry[module_type].title
+    } else  if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].name) != 'undefined' ) {
+        return mw.live_edit.registry[module_type].name
     }
     else {
         return ''
