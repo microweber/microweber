@@ -257,7 +257,7 @@ mw.live_edit.showSettings = function (a, opts) {
 
 mw.live_edit.getModuleIcon = function (module_type) {
     if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].icon) != 'undefined' ) {
-        return '<span class="mw-ui-btn-img" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
+        return '<span class="mw_module_settings_sidebar_icon" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
     }
     else {
         return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;'

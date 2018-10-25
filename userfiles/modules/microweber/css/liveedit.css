@@ -4128,6 +4128,41 @@ body.dragStart .allow-drop {
 }
 
 .js-module-settings-edit-item-group,
-js-module-settings-edit-item-group-frame {
+.js-module-settings-edit-item-group-frame {
     max-width: 330px;
 }
+
+.mw_module_settings_sidebar_title_wrapper {
+    background-color: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.mw_module_settings_sidebar_title_wrapper:after {
+    content: '';
+    display: block;
+    width: 100%;
+    clear: both;
+}
+
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title,
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_icon {
+    float: left;
+    display: block;
+}
+
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_icon {
+    width: 30px;
+    height: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 0 10px;
+    position: relative;
+}
+
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title {
+    font-size: 22px;
+}
+
