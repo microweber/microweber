@@ -2918,9 +2918,12 @@ body.grabbing, body.grabbing * {
 .ol li:last-child {
     padding-bottom: 0;
 }
-
-.module-live-edit-settings {
+.module-live-edit-settings{
     padding: 15px;
+}
+
+.accordion .module-live-edit-settings{
+    padding: 0px;
 }
 
 .module-live-edit-settings:after {

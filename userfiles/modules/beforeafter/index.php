@@ -37,6 +37,6 @@ if ($after == false) {
             min-height: 100px !important;
         }
     </style>
-    <img src="<?php print $before; ?>" alt="<?php _e('before image'); ?>"/>
-    <img src="<?php print $after; ?>" alt="<?php _e('after image'); ?>"/>
+    <img src="<?php print $before; ?>" alt="<?php _e('Before image'); ?>"/>
+    <img src="<?php print $after; ?>" alt="<?php _e('After image'); ?>"/>
 </div>

@@ -119,7 +119,13 @@ mw.settings.libs = {
     ],
     font_awesome: [
         function () {
-            mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
+            mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
+
+        }
+    ],
+    font_awesome5: [
+        function () {
+            mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
 
         }
     ],
@@ -197,8 +203,8 @@ mw.settings.libs = {
         function () {
             mw.require(mw.settings.libs_url + 'fitty' + '/dist/fitty.min.js');
             /*$(document).ready(function () {
-                fitty('.fitty-element');
-            });*/
+             fitty('.fitty-element');
+             });*/
         }
     ],
 
@@ -216,19 +222,19 @@ mw.settings.libs = {
         'css/bootstrap.min.css',
         'js/bootstrap.min.js'
     ],
-    datepicker:[
+    datepicker: [
         'datepicker.min.js',
         'datepicker.min.css'
     ],
-    datetimepicker:[
+    datetimepicker: [
         'jquery.datetimepicker.full.min.js',
         'jquery.datetimepicker.min.css'
     ],
-    nestedSortable:[
+    nestedSortable: [
         'jquery.mjs.nestedSortable.js'
     ]
     ,
-    acolorpicker:[
+    acolorpicker: [
         'acolorpicker.js'
     ]
 }
@@ -290,23 +296,23 @@ mw.lib = {
 }
 
 mw.lang = function (key) {
-    var camel = key.trim().replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+    var camel = key.trim().replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
         return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
     }).replace(/\s+/g, '');
-    if(mw._lang[camel]){
+    if (mw._lang[camel]) {
         return mw._lang[camel];
     }
-    else{
+    else {
         console.warn('"' + key + '" is not present.');
         return key;
     }
 }
 mw.msg = mw._lang = {
-    uniqueVisitors:'<?php _e("Unique visitors"); ?>',
-    allViews:'<?php _e("All views"); ?>',
-    date:'<?php _e("Date"); ?>',
-    weekDays:{
-        regular:[
+    uniqueVisitors: '<?php _e("Unique visitors"); ?>',
+    allViews: '<?php _e("All views"); ?>',
+    date: '<?php _e("Date"); ?>',
+    weekDays: {
+        regular: [
             '<?php _e("Sunday"); ?>',
             '<?php _e("Monday"); ?>',
             '<?php _e("Tuesday"); ?>',
@@ -315,7 +321,7 @@ mw.msg = mw._lang = {
             '<?php _e("Friday"); ?>',
             '<?php _e("Saturday"); ?>'
         ],
-        short:[
+        short: [
             '<?php _e("Sun"); ?>',
             '<?php _e("Mon"); ?>',
             '<?php _e("Tue"); ?>',
@@ -325,8 +331,8 @@ mw.msg = mw._lang = {
             '<?php _e("Sat"); ?>'
         ]
     },
-    months:{
-        regular:[
+    months: {
+        regular: [
             '<?php _e("January") ?>',
             '<?php _e("February") ?>',
             '<?php _e("March") ?>',
@@ -340,7 +346,7 @@ mw.msg = mw._lang = {
             '<?php _e("November") ?>',
             '<?php _e("December") ?>'
         ],
-        short:[
+        short: [
             '<?php _e("Jan") ?>',
             '<?php _e("Feb") ?>',
             '<?php _e("Mar") ?>',

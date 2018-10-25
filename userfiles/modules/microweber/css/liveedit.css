@@ -9,7 +9,7 @@
 
 *********************************************/
 
-html{
+html {
     font-size: 13px;
 }
 
@@ -590,11 +590,9 @@ a.mw-make-cols {
     user-select: none;
 }
 
-
 .mw_edit_settings_multiple {
     margin-right: 3px;
 }
-
 
 #mw_handle_module .mw_edit_settings_multiple {
     /*color: #111;
@@ -623,7 +621,7 @@ a.mw-make-cols {
     z-index: 2;
 }
 
-.mw_edit_settings [class*="mw-icon-"]{
+.mw_edit_settings [class*="mw-icon-"] {
     font-size: 19px;
 }
 
@@ -631,8 +629,6 @@ a.mw-make-cols {
     opacity: 1;
     transform: scale(1) translateY(0);
 }
-
-
 
 a.mw-make-cols {
     position: absolute;
@@ -1608,8 +1604,7 @@ body.loaded #live_edit_toolbar {
     color: #595959;
 }
 
-
-.toolbar-sections-tabs .mw-dropdown-list li a [class*='mai-']{
+.toolbar-sections-tabs .mw-dropdown-list li a [class*='mai-'] {
     font-family: 'admin' !important;
     font-style: normal;
     font-weight: normal;
@@ -3100,7 +3095,6 @@ div[id*='SSDIVEL'] {
 /*top: -2px;*/
 /*}*/
 
-
 #mw-text-editor #main-save-btn {
     color: #fff;
 }
@@ -3560,8 +3554,6 @@ div[id*='SSDIVEL'] {
     top: 13px;
     color: #999999;
 }
-
-
 
 .mw-toolbar-right-content .mw-ui-btn i {
     color: #919191;
@@ -4131,14 +4123,57 @@ body.dragStart .allow-drop {
     background: #fff;
 }
 
-#mw-modules-layouts-tabsnav{
-    width: 320px;
+#mw-modules-layouts-tabsnav {
+    width: 360px;
 }
 
-.mw-live-edit-component-options{
+.mw-live-edit-component-options {
     display: none;
 }
 
+.js-module-settings-edit-item-group,
+.js-module-settings-edit-item-group-frame {
+    /*max-width: 330px;*/
+    padding: 0;
+    left: 0;
+    right: 0;
+}
 
+.mw_module_settings_sidebar_title_wrapper {
+    background-color: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px 5px;
+}
 
+.mw_module_settings_sidebar_title_wrapper:after {
+    content: '';
+    display: block;
+    width: 100%;
+    clear: both;
+}
 
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title,
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_icon {
+    float: left;
+    display: block;
+}
+
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_icon {
+    width: 30px;
+    height: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 0 10px;
+    position: relative;
+}
+
+.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title {
+    font-size: 22px;
+}
+
+#mw-sidebar-quick-edit-items {
+    padding-left: 0;
+    padding-right: 0;
+}
