@@ -1002,4 +1002,3 @@ $(window).on('load', function(){
 
 <?php  include  __DIR__.DS."session.js"; ?>
 
-<?php  include  __DIR__.DS."live_edit.js"; ?>

@@ -8,7 +8,7 @@ if (isset($params['is_shop'])) {
 
 $dir_name = normalize_path(modules_path());
 
-$posts_mod = $dir_name . 'posts' . DS . 'admin_live_edit_tab1.php';
+$posts_mod = $dir_name . 'content' . DS . 'admin_live_edit_tab1.php';
 ?>
 <?php
 $set_content_type_mod = 'page';
@@ -177,6 +177,10 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
     mw.add_new_content_live_edit = function ($cont_type) {
 
+
+
+
+
         Tabs.set(3);
 
         $('#mw_posts_create_live_edit').removeAttr('data-content-id');
@@ -204,6 +208,9 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
             resizeModal();
         });
+
+
+
     }
     mw.manage_live_edit_content = function ($id) {
         Tabs.set(3);
