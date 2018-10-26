@@ -1,11 +1,11 @@
 <?php
-
 only_admin_access();
 
 $set_content_type = 'post';
 if (isset($params['global']) and $params['global'] != false) {
     $set_content_type = get_option('data-content-type', $params['id']);
 }
+
 $rand = uniqid(); ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -31,8 +31,6 @@ $rand = uniqid(); ?>
             }, 1000)
 
         });
-
-
     }
 </script>
 
@@ -42,16 +40,16 @@ $rand = uniqid(); ?>
 <?php else: ?>
     <?php $pages = get_content('content_type=page&is_shop=0&limit=1000'); ?>
 <?php endif; ?>
+
 <?php $posts_parent_page = get_option('data-page-id', $params['id']); ?>
+
 <?php if (isset($params['global']) and $params['global'] != false) : ?>
     <?php if ($set_content_type == 'product'): ?>
         <?php $is_shop = 1;
         $pages = get_content('content_type=page&is_shop=0&limit=1000'); ?>
     <?php endif; ?>
 
-    <label class="mw-ui-label">
-        <?php _e("Content type"); ?>
-    </label>
+    <label class="mw-ui-label"><?php _e("Content type"); ?></label>
     <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"
             class="mw-ui-field w100 mw_option_field" onchange="mw_reload_content_mod_window(1)">
         <option value="" <?php if (('' == trim($set_content_type))): ?>  selected="selected"  <?php endif; ?>>
