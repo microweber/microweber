@@ -1,0 +1,31 @@
+@import "var";
+.mw-accordion-item{
+    transition: .4s;
+    &.active{
+        box-shadow: 0 0 4px rgba(0,0,0,.2);
+    }
+
+}
+
+.mw-ui-box-header.mw-accordion-title{
+    cursor: pointer;
+    position: relative;
+    &:after{
+        position: absolute;
+        content: "\0118";
+        display: inline-block;
+        font-family: Microweber !important;
+        text-transform: none !important;
+        transition: .4s;
+        z-index: 1;
+        color: @info;
+        transform: rotate(-90deg);
+        top: 12px;
+        right: 12px;
+        font-size: 15px;
+    }
+    &.active:after{
+       transform: rotate(0deg);
+    }
+
+}

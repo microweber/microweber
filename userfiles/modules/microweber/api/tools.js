@@ -4361,7 +4361,9 @@ $(document).ready(function () {
         if ($(".mw-image-holder-overlay", this).length === 0) {
             $('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
         }
-    })
+    });
+
+
 });
 mw.ui = mw.tools;
 mw.ui.btn = {
@@ -5419,3 +5421,122 @@ mw.extradataForm = function (options, data) {
         })
     });
 };
+
+mw.uiAccordion = function(options){
+    if(!options) return;
+    options.element = options.element || '.mw-accordion';
+
+    var scope = this;
+
+    this.prepare = function(options){
+        var defaults = {
+            multiple: false,
+            titleSelector: ".mw-accordion-title",
+            contentSelector: ".mw-accordion-content",
+            openFirst: true,
+            toggle: true
+        };
+        this.options = $.extend({}, defaults, options);
+
+        this.root = mw.$(this.options.element).not('.mw-accordion-ready').eq(0);
+        if(!this.root.length) return;
+        this.root.addClass('mw-accordion-ready');
+        this.titles = $(this.options.titleSelector, this.root);
+        this.contents = $(this.options.contentSelector, this.root);
+    };
+
+    this.getItem = function(q){
+        console.log(q)
+        var item;
+       if(typeof q  === 'number'){
+            item =  this.contents.eq(q)
+       }
+       else{
+           item = $(q);
+       }
+       return item;
+    }
+    this.set = function(index){
+        var item = this.getItem(index);
+        if(!this.options.multiple){
+            this.contents.not(item)
+                .slideUp()
+                .removeClass('active')
+                .prev()
+                .removeClass('active')
+                .parents('.mw-accordion-item')
+                .removeClass('active');
+        }
+        item.stop()
+            .slideDown()
+            .addClass('active')
+            .prev()
+            .addClass('active')
+            .parents('.mw-accordion-item')
+            .addClass('active');
+        $(this).trigger('accordionSet', [item]);
+    }
+    this.unset = function(index){
+        if(typeof index === 'undefined') return;
+        var item = this.getItem(index);
+        item.stop()
+            .slideUp()
+            .removeClass('active')
+            .prev()
+            .removeClass('active')
+            .parents('.mw-accordion-item')
+            .removeClass('active');;
+        $(this).trigger('accordionUnset', [item]);
+    }
+
+    this.toggle = function(index){
+        var item = this.getItem(index);
+        if(item.hasClass('active')){
+            if(this.options.toggle){
+                this.unset(item)
+            }
+        }
+        else{
+            this.set(item)
+        }
+    }
+
+    this.init = function(options){
+        this.prepare(options);
+        this.contents.hide()
+        if(this.options.openFirst){
+            this.contents.eq(0).show().addClass('active')
+        }
+        $(this.root).on('click', this.options.titleSelector, function(){
+            scope.toggle(scope.titles.index(this));
+        });
+    }
+
+    this.init(options);
+
+};
+
+$(document).ready(function(){
+    $('.mw-accordion').not('.mw-accordion-ready').each(function () {
+        new mw.uiAccordion({
+            element:this
+        });
+    });
+    $(document).ajaxStop(function(){
+        setTimeout(function(){
+            $('.mw-accordion').not('.mw-accordion-ready').each(function () {
+                new mw.uiAccordion({
+                    element:this
+                });
+            });
+        }, 700)
+    })
+});
+
+$(window).on('load', function(){
+    $('.mw-accordion').not('.mw-accordion-ready').each(function () {
+        new mw.uiAccordion({
+            element:this
+        });
+    });
+});

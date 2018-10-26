@@ -25,6 +25,7 @@
             <?php include "ui/navigations.php"; ?>
             
             <?php include "ui/grid.php"; ?>
+            <?php include "ui/accordion.php"; ?>
 
 
 

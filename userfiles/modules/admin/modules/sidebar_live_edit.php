@@ -241,6 +241,7 @@
             mw.wysiwyg.dropdowns();
 
             $("#mw-sidebar-modules-list").removeClass("module")
+            $("#mw-sidebar-modules-list").removeClass("module")
 
 
 
