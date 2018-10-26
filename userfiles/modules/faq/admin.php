@@ -116,16 +116,18 @@ if (isset($json) == false or count($json) == 0) {
         clear: both;
     }
 
-    .add-new {
-        float: right;
-        margin-bottom: 20px;
-        width: 100px;
+    .add-new-button {
+        text-align: right;
     }
 
     .mw-ui-box-header {
         cursor: -moz-grab;
         cursor: -webkit-grab;
         cursor: grab;
+    }
+
+    .remove-question{
+        color: #f12b1c;
     }
 </style>
 
@@ -134,7 +136,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-settings"></i> Settings
+                <i class="mw-icon-navicon-round"></i> List
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -142,29 +144,31 @@ if (isset($json) == false or count($json) == 0) {
             <div class="module-live-edit-settings module-faq-settings">
                 <input type="hidden" class="mw_option_field" name="settings" option-group="faq" id="settingsfield"/>
 
-                <div class="mw-ui-field-holder js-add-new-button">
-                    <a class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small add-new" href="javascript:faqs.create()"><i class="mw-icon-app-plus-empty"></i> &nbsp; <?php _e('Add new'); ?></a>
+                <div class="mw-ui-field-holder add-new-button">
+                    <a class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small" href="javascript:faqs.create()"><i class="mw-icon-app-plus-empty"></i> &nbsp; <?php _e('Add new'); ?></a>
                 </div>
 
                 <div id="faq-settings">
                     <?php $count = 0; ?>
-                    <?php foreach ($json as $slide): ?>
-                        <?php $count++; ?>
-                        <div class="mw-ui-box  faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
-                            <div class="mw-ui-box-header"><a class="pull-right" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');">x</a></div>
-                            <div class="mw-ui-box-content mw-accordion-content">
-                                <div class="mw-ui-field-holder">
-                                    <label class="mw-ui-label"><?php _e('Question'); ?></label>
-                                    <input type="text" class="mw-ui-field faq-name w100 " value="<?php print $slide['question']; ?>">
-                                </div>
+                    <?php if ($json and is_array($json)): ?>
+                        <?php foreach ($json as $slide): ?>
+                            <?php $count++; ?>
+                            <div class="mw-ui-box  faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
+                                <div class="mw-ui-box-header"><a class="pull-right remove-question tip" data-tipposition="left-center" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mw-icon-close"></i></a></div>
+                                <div class="mw-ui-box-content">
+                                    <div class="mw-ui-field-holder">
+                                        <label class="mw-ui-label"><?php _e('Question'); ?></label>
+                                        <input type="text" class="mw-ui-field faq-name w100 " value="<?php print $slide['question']; ?>">
+                                    </div>
 
-                                <div class="mw-ui-field-holder">
-                                    <label class="mw-ui-label"><?php _e('Answer'); ?></label>
-                                    <textarea class="mw-ui-field faq-role w100" id="textarea<?php print $count; ?>"><?php print $slide['answer']; ?></textarea>
+                                    <div class="mw-ui-field-holder">
+                                        <label class="mw-ui-label"><?php _e('Answer'); ?></label>
+                                        <textarea class="mw-ui-field faq-role w100" id="textarea<?php print $count; ?>"><?php print $slide['answer']; ?></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach ?>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </div>
             </div>
             <!-- Settings Content - End -->
