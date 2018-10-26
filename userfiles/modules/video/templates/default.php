@@ -1,4 +1,17 @@
 <?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: Default
+
+*/
+?>
+
+<?php
 if ($prior != '2' or $prior == false) {
     if ($code != '') {
         $code = trim($code);

@@ -1,17 +1,17 @@
-    <style>
-    #live .group-logins .mw-title-field{
+<style>
+    #live .group-logins .mw-title-field {
         width: 330px;
     }
 
-    #live .group-logins .mw-ui-label-inline{
+    #live .group-logins .mw-ui-label-inline {
         float: none;
         top: 0;
         padding-bottom: 3px;
 
     }
 
-    </style>
+</style>
 
 <div class="module-live-edit-settings" id="live">
-    <module type="settings/group/users" />
+    <module type="settings/group/users"/>
 </div>
