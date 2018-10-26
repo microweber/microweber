@@ -15,18 +15,18 @@ description: Default
         <script>
             //Skill
             $(document).ready(function () {
-              $(window).on('load scroll resize', function () {
-                  $('.skillbar').each(function () {
-                      if(mw.tools.inview(this)){
-                        $(this).find('.count-bar').animate({
-                            width: $(this).attr('data-percent')
-                        }, 3000);
-                      }
+                $(window).on('load scroll resize', function () {
+                    $('.skillbar').each(function () {
+                        if (mw.tools.inview(this)) {
+                            $(this).find('.count-bar').animate({
+                                width: $(this).attr('data-percent')
+                            }, 3000);
+                        }
                         var percent = $(this).attr('data-percent');
                         $(this).find('.count').html('<span>' + percent + '</span>');
 
-                  });
-              });
+                    });
+                });
             });
         </script>
 
@@ -39,7 +39,7 @@ description: Default
 
             foreach ($skills as $skill) { ?>
 
-                <div class="skillbar style-<?php $skill['style'] ?>" data-percent="<?php print isset($skill['percent'])?$skill['percent']:50; ?>%">
+                <div class="skillbar style-<?php $skill['style'] ?>" data-percent="<?php print isset($skill['percent']) ? $skill['percent'] : 50; ?>%">
                     <div class="title head-sm">
                         <?php print $skill['skill']; ?>
                     </div>

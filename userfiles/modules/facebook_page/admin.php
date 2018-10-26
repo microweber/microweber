@@ -43,63 +43,51 @@ if (get_option('timeline', $params['id'])) {
 
 ?>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.lib.require('bootstrap3ns');
-    });
-</script>
+<div class="module-live-edit-settings module-facebook-page-settings">
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label" for="fb-page"><?php _e('Facebook page URL'); ?></label>
+        <input name="fb-page" data-refresh="facebook_page" class="mw_option_field mw-ui-field mw-full-width" type="text" value="<?php print $fbPage; ?>" id="fb-page" placeholder="Example: https://www.facebook.com/Microweber/"/>
+    </div>
 
-<div class="module-live-edit-settings">
-    <div class="bootstrap3ns">
-
-        <div class="row">
-            <div class="col-xs-12">
-
-                <div class="form-group">
-                    <label class="control-label" for="fb-page"><?php _e('Facebook page URL'); ?></label>
-                    <input name="fb-page" data-refresh="facebook_page" class="form-control mw_option_field" type="text" value="<?php print $fbPage; ?>" id="fb-page"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label" for="width"><?php _e('Box width (px)'); ?>
-                        <small>min: 180px - max: 500px</small>
-                    </label>
-                    <input name="width" data-refresh="facebook_page" class="form-control mw_option_field" type="text" value="<?php print $width; ?>" id="width"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label" for="height"><?php _e('Box height (px)'); ?>
-                        <small>min: 70px</small>
-                    </label>
-                    <input name="height" data-refresh="facebook_page" class="form-control mw_option_field" type="text" value="<?php print $height; ?>" id="height"/>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="friends" data-refresh="facebook_page" class="mw_option_field" value="true" id="friends" <?php if ($friends == 'true') {
-                                    echo 'checked';
-                                } ?> /> <?php _e('Show friends faces'); ?>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="timeline" data-refresh="facebook_page" class="mw_option_field" value="true" id="timeline" <?php if ($timeline == 'true') {
-                                    echo 'checked';
-                                } ?> /> <?php _e('Show timeline'); ?>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
+    <div class="mw-flex-row">
+        <div class="mw-flex-col-xs-6">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label" for="width"><?php _e('Box width (px)'); ?><br/></label>
+                <input name="width" data-refresh="facebook_page" class="mw_option_field mw-ui-field mw-full-width" type="text" value="<?php print $width; ?>" id="width"/>
+                <small>Min: 180px - Max: 500px</small>
             </div>
         </div>
 
+        <div class="mw-flex-col-xs-6">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label" for="height"><?php _e('Box height (px)'); ?><br/></label>
+                <input name="height" data-refresh="facebook_page" class="mw_option_field mw-ui-field mw-full-width" type="text" value="<?php print $height; ?>" id="height"/>
+                <small>Min: 70px</small>
+            </div>
+        </div>
     </div>
+
+    <div class="mw-flex-row">
+        <div class="mw-flex-col-xs-6">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-check">
+                    <input type="checkbox" name="friends" data-refresh="facebook_page" class="mw_option_field" value="true" id="friends" <?php if ($friends == 'true') {
+                        echo 'checked';
+                    } ?> />
+                    <span></span><span><?php _e('Show friends faces'); ?></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="mw-flex-col-xs-6">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-check">
+                    <input type="checkbox" name="timeline" data-refresh="facebook_page" class="mw_option_field" value="true" id="timeline" <?php if ($timeline == 'true') {
+                        echo 'checked';
+                    } ?> /><span></span><span><?php _e('Show timeline'); ?></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
 </div>

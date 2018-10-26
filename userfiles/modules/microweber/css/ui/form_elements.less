@@ -1,7 +1,8 @@
 /*********************************************
          Form elements and cotrolls
 *********************************************/
- @import "var";
+@import "var";
+
 .mw-ui-label {
   display: block;
   padding-bottom: 10px;
@@ -9,7 +10,7 @@
 
 .mw-ui-label,
 .mw-ui-inline-label {
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .mw-ui-label small,
@@ -59,7 +60,7 @@ select.mw-ui-invisible-field {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  box-shadow: inset 0 0 3px rgba(0,0,0,.2);
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, .2);
   transition: border-color .3s, box-shadow, .3s;
 }
 
@@ -112,15 +113,14 @@ select.mw-ui-field {
 
 .mw-ui-field:focus,
 .mw-ui-field:hover {
-  border-color: rgba(0,134,219,1);
-  box-shadow: 0 0 3px rgba(0,134,219,.4);
+  border-color: rgba(0, 134, 219, 1);
+  box-shadow: 0 0 3px rgba(0, 134, 219, .4);
 }
 
 .mw-ui-field:focus {
-  box-shadow: inset 0 0 3px rgba(0,134,219,.4);
-  -webkit-box-shadow: inset 0 0 3px rgba(0,134,219,.4);
+  box-shadow: inset 0 0 3px rgba(0, 134, 219, .4);
+  -webkit-box-shadow: inset 0 0 3px rgba(0, 134, 219, .4);
 }
-
 
 input.mw-ui-field {
   -webkit-appearance: textfield;
@@ -271,18 +271,18 @@ div.mw-ui-field:after {
   vertical-align: middle;
   display: inline-block;
   @shadow: 0 1px 3px lighten(@info, 40%);
-  &:hover{
-    input + span{
+  &:hover {
+    input + span {
       box-shadow: @shadow;
     }
   }
-  input:checked + span{
+  input:checked + span {
     box-shadow: @shadow;
   }
-  input{
+  input {
     position: absolute;
     opacity: 0;
-    &+span {
+    & + span {
       display: inline-block;
       position: relative;
       -webkit-box-sizing: border-box;
@@ -299,7 +299,7 @@ div.mw-ui-field:after {
       transition: all .3s;
       border: 1px solid @fieldBorderColor;
       background-color: white;
-      &:after{
+      &:after {
         position: absolute;
         transition: all .3s;
         visibility: hidden;
@@ -308,9 +308,9 @@ div.mw-ui-field:after {
         content: '';
       }
     }
-    &:checked+span {
+    &:checked + span {
       border-color: @info;
-      &:after{
+      &:after {
         visibility: visible;
         opacity: 1;
         transform: scale(1);
@@ -318,10 +318,10 @@ div.mw-ui-field:after {
     }
 
   }
-  input[type="radio"]{
-    &+span:first-of-type{
+  input[type="radio"] {
+    & + span:first-of-type {
       border-radius: 30px;
-      &:after{
+      &:after {
         background-color: @info;
         top: 20%;
         left: 20%;
@@ -332,10 +332,10 @@ div.mw-ui-field:after {
     }
 
   }
-  input[type="checkbox"]{
-    &+span{
+  input[type="checkbox"] {
+    & + span {
       border-radius: 2px;
-      &:after{
+      &:after {
         display: inline-block;
         font-family: Microweber;
         text-transform: none;
@@ -350,11 +350,6 @@ div.mw-ui-field:after {
     }
   }
 }
-
-
-
-
-
 
 .mw-disabled,
 .mw-ui-field:disabled,
@@ -391,7 +386,6 @@ div.mw-ui-field:after {
   max-width: -webkit-calc(100% - 36px);
   max-width: calc(100% - 36px);
 }
-
 
 .range-slider input[type=range] {
   -webkit-appearance: none;
@@ -493,39 +487,39 @@ div.mw-ui-field:after {
   background: @info;
 }
 
-.mw-ui-field-group-check{
-    *{
-        vertical-align: bottom;
-    }
+.mw-ui-field-group-check {
+  * {
+    vertical-align: bottom;
+  }
 
-    &>*+*{
-        margin-left: 12px;
-    }
+  & > * + * {
+    margin-left: 12px;
+  }
 
-    .mw-ui-field-holder{
-        display: inline-block;
-        padding: 0;
+  .mw-ui-field-holder {
+    display: inline-block;
+    padding: 0;
+  }
+  .mw-ui-check {
+    transform: translateY(50%);
+    position: relative;
+    bottom: @normalHeight/2;
+  }
+  &.mw-ui-field-group-check-medium {
+    .mw-ui-check {
+      bottom: @mediumHeight/2;
     }
-    .mw-ui-check{
-        transform: translateY(50%);
-        position: relative;
-        bottom: @normalHeight/2;
+  }
+  &.mw-ui-field-group-check-small {
+    .mw-ui-check {
+      bottom: @smallHeight/2;
     }
-    &.mw-ui-field-group-check-medium{
-        .mw-ui-check{
-            bottom: @mediumHeight/2;
-        }
+  }
+  &.mw-ui-field-group-check-big {
+    .mw-ui-check {
+      bottom: @largeHeight/2;
     }
-    &.mw-ui-field-group-check-small{
-        .mw-ui-check{
-            bottom: @smallHeight/2;
-        }
-    }
-    &.mw-ui-field-group-check-big{
-        .mw-ui-check{
-            bottom: @largeHeight/2;
-        }
-    }
+  }
 
 }
 
