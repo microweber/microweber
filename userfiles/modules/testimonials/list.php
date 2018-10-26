@@ -1,4 +1,5 @@
 <?php only_admin_access(); ?>
+
 <script>
     function delete_testimonial(id) {
         var are_you_sure = confirm('<?php _e('Are you sure?'); ?>');
@@ -16,19 +17,16 @@
     }
 
     add_testimonial = function () {
-        $('a.saveButton').hide();
-        $('a.addNewButton').show();
+        $('.js-add-new-button').hide();
         $("#edit-testimonials").attr("edit-id", "0");
         mw.reload_module("#edit-testimonials");
-        window.TTABS.set(1);
     }
 
     edit_testimonial = function (id) {
-        $('a.saveButton').show();
-        $('a.addNewButton').hide();
+        $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
         mw.reload_module("#edit-testimonials");
-        window.TTABS.set(1);
+        $('.js-add-new-testimonials .mw-accordion-title').trigger('click');
     }
 
     $(document).ready(function () {
@@ -63,9 +61,9 @@
         });
     });
 </script>
+
 <?php $data = get_testimonials(); ?>
 <?php if ($data): ?>
-
     <div class="table-responsive">
         <table width="100%" class="mw-ui-table mw-ui-table-basic" id="testimonials-list" style="table-layout: auto">
             <thead>
@@ -79,12 +77,12 @@
             <?php foreach ($data as $item): ?>
                 <tr data-id="<?php print $item['id'] ?>">
                     <td style="width:60%">
-                      <?php if ($item['client_picture'] != false): ?>
-                        <img src="<?php print $item['client_picture'] ?>" alt="" class="testimonial-client-image" />
-                      <?php endif; ?>
-                      <br>
-                      <h4><?php print $item['name'] ?> </h4>
-                      <p><?php print substr($item['content'], 0, 100); ?>...</p>
+                        <?php if ($item['client_picture'] != false): ?>
+                            <img src="<?php print $item['client_picture'] ?>" alt="" class="testimonial-client-image"/>
+                        <?php endif; ?>
+                        <br>
+                        <h4><?php print $item['name'] ?> </h4>
+                        <p><?php print substr($item['content'], 0, 100); ?>...</p>
                     </td>
                     <td style="text-align:center;width:20%;vertical-align: text-top">
                         <a class="mw-icon-pen tip show-on-hover" data-tip="Edit Item" data-tipposition="top-center"
@@ -92,7 +90,7 @@
                     </td>
                     <td style="text-align:center;width:20%;vertical-align: text-top;">
                         <a style="color: rgba(204, 0, 0, 1)" class="mw-icon-bin tip show-on-hover" data-tip="Delete Item" data-tipposition="top-center"
-                           href="javascript:delete_testimonial('<?php print $item['id'] ?>');" ></a>
+                           href="javascript:delete_testimonial('<?php print $item['id'] ?>');"></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -100,9 +98,6 @@
         </table>
     </div>
 <?php else: ?>
-
     <h2 class="text-center"><?php _e('You have no testimonials'); ?></h2>
-    <div class="text-center"><a href="javascript:;" onclick="window.TTABS.set(1)"
-                                class="mw-ui-btn"><?php _e('Create new'); ?></a></div>
-
+    <div class="text-center"><a href="javascript:;" onclick="window.TTABS.set(1)" class="mw-ui-btn"><?php _e('Create new'); ?></a></div>
 <?php endif; ?>

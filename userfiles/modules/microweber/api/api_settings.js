@@ -92,7 +92,7 @@ mw.settings.libs = {
     ],
     bootstrap3: [
         function () {
-            mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
+            mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
             var v = mwd.querySelector('meta[name="viewport"]');
             if (v === null) {
                 var v = mwd.createElement('meta');
@@ -108,7 +108,7 @@ mw.settings.libs = {
         function () {
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0-beta2' + '/css/bootstrap.min.css');
             mw.require(mw.settings.libs_url + 'bootstrap-4.0.0-beta2' + '/js/bootstrap.min.js');
-            mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
+            mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
         }
     ],
     flag_icons: [
@@ -162,7 +162,7 @@ mw.settings.libs = {
             if (bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
-                mw.require(mw.settings.libs_url + 'font-awesome-4.7.0' + '/css/font-awesome.min.css');
+                mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
             }
         }
     ],
