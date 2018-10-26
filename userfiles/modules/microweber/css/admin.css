@@ -13,7 +13,6 @@
     position: relative;
 }
 
-
 * {
     margin: 0;
     padding: 0;
@@ -37,7 +36,7 @@
        Main Styles
 **************************/
 
-html{
+html {
     font-size: 12px;
 }
 
@@ -2059,12 +2058,12 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
     border-radius: 0 2px 2px 0;
 }
 
-.mw-tag-selector .mw-ui-btn .mw-icon-close:before{
+.mw-tag-selector .mw-ui-btn .mw-icon-close:before {
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .mw-tag-selector .mw-ui-btn:hover .mw-icon-close {
@@ -2918,11 +2917,12 @@ body.grabbing, body.grabbing * {
 .ol li:last-child {
     padding-bottom: 0;
 }
-.module-live-edit-settings{
+
+.module-live-edit-settings {
     padding: 15px;
 }
 
-.accordion .module-live-edit-settings{
+.mw-accordion .mw-accordion-content .module-live-edit-settings {
     padding: 0px;
 }
 
@@ -4741,7 +4741,6 @@ body.is_admin .mw-admin-container {
 .module-admin-backup .mw-ui-btn .mw-icon-upload {
     float: left;
 }
-
 
 .top-form-submit {
     line-height: 24px;
@@ -7282,11 +7281,10 @@ select.silver-field {
     padding: 0;
 }
 
-
-#settings-container .mw-ui-box.mw-ui-box-content {
+/*#settings-container .mw-ui-box.mw-ui-box-content {
     border: 0;
     padding: 0;
-}
+}*/
 
 .logo-module-types .mw-ui-row-nodrop {
     margin-bottom: 20px;
@@ -7324,7 +7322,7 @@ select.silver-field {
     border: 1px solid #0086db;
 }
 
-.module-layouts-viewer .screenshot .holder img ,
+.module-layouts-viewer .screenshot .holder img,
 .current-template-modules .screenshot .holder img {
     display: block;
 }
@@ -7355,10 +7353,39 @@ select.silver-field {
     margin: 20px 0 10px 0;
 }
 
-.current-template-modules{
+.current-template-modules {
     padding: 0 10px
 }
 
-.mw-menu-selector-list li+li{
+.mw-menu-selector-list li + li {
     padding-top: 5px;
 }
+
+.mw-module-live-edit-settings .mw-accordion-item .mw-ui-box-header.mw-accordion-title {
+    padding: 12px;
+    font-size:14px;
+    font-weight:600;
+    padding: 12px 12px 12px 22px;
+}
+
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title {
+    background: #0086db;
+    color: #fff;
+}
+
+.mw-module-live-edit-settings .mw-accordion-item .mw-ui-box-header.mw-accordion-title i {
+    font-size: 20px;
+    margin-right: 14px;
+}
+
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title i {
+    color: #fff;
+}
+
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title:after {
+    color: #fff;
+}
+
+/*.mw-module-live-edit-settings .mw-accordion-item .mw-accordion-content {*/
+    /*background: transparent;*/
+/*}*/

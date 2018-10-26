@@ -26,14 +26,14 @@ if (!$time_delay) {
     });
 </script>
 
-<div class="mw-accordion mw-accordion-ready">
+<div class="mw-accordion">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mai-setting2"></i> Settings
+                <i class="mw-icon-settings"></i> Settings
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="display: none;">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <div class="module-live-edit-settings module-popup-settings">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Show Pop-Up event"); ?></label>
@@ -70,14 +70,13 @@ if (!$time_delay) {
             </div>
         </div>
     </div>
-
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mai-setting2"></i> Templates
+                <i class="mw-icon-beaker"></i> Templates
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="display: none;">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <module type="admin/modules/templates" simple="true"/>
         </div>
     </div>
