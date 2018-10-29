@@ -446,11 +446,20 @@
 
 
      //   mw_option_save_rebind_form_fields()
-        mw.options.form('#settings-container');
+        mw.options.form('#settings-container', function(){
+            if (mw.notification != undefined) {
+                mw.notification.success('<?php _e('Settings are saved') ?>');
+            }
+        });
     });
 
 
     function mw_option_save_rebind_form_fields() {
+
+
+        // DEPRECATED
+        // DEPRECATED
+        return;
 
         mw.$(".mw_option_field")
             .not('.mw-options-form-binded-custom')

@@ -59,7 +59,6 @@ mw.options = {
             return;
         }
 
-        var also_reload = el.attr('data-also-reload');
         var opt_id = el.attr('data-id');
         var refresh_modules11 = el.attr('data-refresh');
 
@@ -85,7 +84,7 @@ mw.options = {
         var also_reload = el.attr('data-reload');
 
 
-        if (also_reload == undefined) {
+        if (also_reload == undefined || !also_reload) {
             var also_reload = el.attr('data-also-reload');
         }
 
@@ -206,7 +205,7 @@ mw.options = {
                 if (typeof(refresh_modules11) == 'undefined') {
                     refresh_modules11 = og;
                 }
-                mw.log(refresh_modules11);
+           //     mw.log(refresh_modules11);
 
               //  alert(refresh_modules11);
                 if (!!mw.admin) {
@@ -237,7 +236,7 @@ mw.options = {
                             mw.reload_module_parent("#" + refresh_modules11);
 
 
-                            //alert(2323213);
+
 
 
                         }, 777);
@@ -318,26 +317,26 @@ mw.options = {
                     //mw.log(refresh_modules11);
 
 
-                    if (window.mw != undefined) {
-
-
-                        if (reaload_in_parent !== true) {
-
-                            if (refresh_modules11 == refresh_modules12) {
-                                mw.reload_module(refresh_modules11);
-                            }
-
-
-                            if (window.mw.reload_module !== undefined) {
-
-                                mw.reload_module_parent(refresh_modules11);
-                                mw.reload_module_parent("#" + refresh_modules11);
-
-                            }
-
-                        }
-
-                    }
+                    //if (window.mw != undefined) {
+                    //
+                    //
+                    //    if (reaload_in_parent !== true) {
+                    //
+                    //        if (refresh_modules11 == refresh_modules12) {
+                    //            mw.reload_module(refresh_modules11);
+                    //        }
+                    //
+                    //
+                    //        if (window.mw.reload_module !== undefined) {
+                    //
+                    //            mw.reload_module_parent(refresh_modules11);
+                    //            mw.reload_module_parent("#" + refresh_modules11);
+                    //
+                    //        }
+                    //
+                    //    }
+                    //
+                    //}
 
 
                 }
@@ -365,7 +364,7 @@ mw.options.form = function ($selector, callback, beforepost) {
             && !item.__mwOptionField) {
 
 
-            var ev = item[0].nodeName === 'SELECT' ? 'change' : 'input';
+             var ev = item[0].nodeName === 'SELECT' ? 'change' : 'input';
 
 
 
@@ -375,17 +374,38 @@ mw.options.form = function ($selector, callback, beforepost) {
             //   item.addClass('mw-options-form-binded-custom');
 
            // item.off("change input");
-            item.off(ev);
+        //    item.off(ev);
             // item.on(" input change", function (e) {
             //     var that = this;
             //     mw.options.___handleSaveEvent(e, that,callback, beforepost);
             // });
 
-            item.on(ev, function (e) {
+            //item.on(ev, function (e) {
+            //    var that = this;
+            //    mw.options.___handleSaveEvent(e, that,callback, beforepost);
+            //});
+
+            item.off("change");
+            item.on("change", function (e) {
                 var that = this;
                 mw.options.___handleSaveEvent(e, that,callback, beforepost);
             });
 
+
+            item.off("input");
+            item.on("input", function (e) {
+                var that = this;
+
+                if(item === null || typeof item === 'undefined'){ return false; }
+                if(!item.onstopWriting){
+                    item.onstopWriting = null;
+                }
+                clearTimeout(item.onstopWriting);
+                item.onstopWriting = setTimeout(function(){
+                    mw.options.___handleSaveEvent(e, that,callback, beforepost);
+
+                }, 444);
+            });
         }
     });
 }
@@ -397,12 +417,6 @@ mw.options.___handleSaveEvent = function (e,that,callback, beforepost) {
         mw.options.___handleSaveEventisWorking = true;
 
 
-        if ($(this).hasClass('mw-options-form-binded-custom')) {
-            return;
-        }
-      //  var that = this;
-        //   d(that);
-        //  mw.options.___handleSaveEvent(e, that,callback, beforepost);
 
         //  $(this).addClass('mw-options-form-binded');
 
@@ -411,7 +425,10 @@ mw.options.___handleSaveEvent = function (e,that,callback, beforepost) {
                 beforepost.call(this);
             }
             mw.options.save(this, callback);
-            mw.options.___handleSaveEventisWorking = false;
+            setTimeout(function () {
+                mw.options.___handleSaveEventisWorking = false;
+            }, 150)
+
         });
 
     }
@@ -425,52 +442,10 @@ mw.options.___slowDownEvent = function (e, el, call) {
     mw.options.___slowDownEventTimeOut = setTimeout(function () {
 
         call.call(el, e);
-    }, 333)
+    }, 100)
 }
 
 
 
 
 
-
-
-// mw.options.___handleSaveEvent = function (e, that,callback, beforepost) {
-//     if (!mw.options.___handleSaveEventisWorking) {
-//         mw.options.___handleSaveEventisWorking = true;
-//         mw.options.___slowDownEvent(e, that,callback, beforepost, function () {
-//             if (typeof beforepost === 'function') {
-//                 beforepost.call(that);
-//             }
-//
-//             mw.options.save(that, callback);
-//             mw.options.___handleSaveEventisWorking = false;
-//         });
-//     }
-// };
-
-
-
-
-/*if (!mw.options.___handleSaveEventisWorking) {
-                    mw.options.___handleSaveEventisWorking = true;
-
-
-                    if ($(this).hasClass('mw-options-form-binded-custom')) {
-                        return;
-                    }
-                 //   var that = this;
-                    //   d(that);
-                    //
-
-                    //  $(this).addClass('mw-options-form-binded');
-
-                    mw.options.___slowDownEvent(e, this, function () {
-                        if (typeof beforepost === 'function') {
-                            beforepost.call(this);
-                        }
-                        mw.options.save(this, callback);
-                        mw.options.___handleSaveEventisWorking = false;
-                    });
-
-
-                }*/
