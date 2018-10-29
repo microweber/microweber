@@ -4124,20 +4124,28 @@ body.dragStart .allow-drop {
     left: 0;
     right: 0;
 }
-.js-module-settings-edit-item-group-frame,
-.js-module-settings-edit-item-group-frame iframe{
+.js-module-settings-edit-item-group-frame{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
+.js-module-settings-edit-item-group-frame iframe{
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    height: -webkit-calc(100% - 50px);
+    height: calc(100% - 50px);
+}
 
 .mw_module_settings_sidebar_title_wrapper {
-    background-color: #fff;
     display: block;
     width: 100%;
-    padding: 10px 5px;
+    padding: 0px 5px 6px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
 .mw_module_settings_sidebar_title_wrapper:after {
@@ -4164,7 +4172,8 @@ body.dragStart .allow-drop {
 }
 
 .mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title {
-    font-size: 22px;
+    font-size: 17px;
+    line-height: 27px;
 }
 
 #mw-sidebar-quick-edit-items {

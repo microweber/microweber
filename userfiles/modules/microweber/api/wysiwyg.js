@@ -2491,6 +2491,7 @@ mw.wysiwyg.dropdowns = function () {
                     div.innerHTML = new_insert_html;
                     div.className = "mw-icon mw-icon-noop";
                     mw.iconSelector._activeElement = div;
+                    $(".mw-live-edit-component-options").hide();
                     mw.iconSelector.settingsUI();
                 }
             }
