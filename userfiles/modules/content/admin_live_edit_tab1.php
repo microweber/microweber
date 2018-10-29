@@ -152,7 +152,7 @@ $rand = uniqid(); ?>
 
             <div class="form-group">
                 <label class="control-label" for="tags"><?php _e("Show content with tags"); ?></label>
-                <input type="text" name="data-tags" class="form-control mw_option_field " value="<?php print $tags_val ?>" data-role="tagsinput" id="tags"/>
+                <input type="text" name="data-tags" class="form-control mw-full-width mw_option_field " value="<?php print $tags_val ?>" data-role="tagsinput" id="tags"/>
             </div>
 
             <script>
