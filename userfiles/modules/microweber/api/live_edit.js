@@ -214,8 +214,8 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
         var mod_settings_iframe_html_fr = '' +
-            '<div class="js-module-settings-edit-item-group-frame" id="fr-' + iframe_id + '">' +
-                '<iframe src="' + src + '" frameborder="0">' +
+            '<div class="js-module-settings-edit-item-group-frame loading" id="fr-' + iframe_id + '">' +
+                '<iframe src="' + src + '" frameborder="0" onload="this.parentNode.classList.remove(\'loading\')">' +
             '</div>';
 
 
