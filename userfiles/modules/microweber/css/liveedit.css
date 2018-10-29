@@ -358,7 +358,6 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     opacity: 1;
 }
 
-
 .dragStart .mw-sorthandle-moveit, body.dragStart *, body.dragStart .column_separator_title {
     cursor: -webkit-grabbing;
     cursor: -moz-grabbing;
@@ -705,7 +704,8 @@ a.mw-make-cols.active {
 #mw_handle_element {
     z-index: 1100;
 }
-#mw_handle_element .mw-sorthandle-moveit{
+
+#mw_handle_element .mw-sorthandle-moveit {
     width: 60%;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -3294,7 +3294,7 @@ div[id*='SSDIVEL'] {
     letter-spacing: 1px !important;
 }
 
-#modules-and-layouts-sidebar .mw-scroll-box{
+#modules-and-layouts-sidebar .mw-scroll-box {
     background: #f5f5f5;
     padding: 0;
     width: 100%;
@@ -3363,7 +3363,6 @@ div[id*='SSDIVEL'] {
     padding: 0 0 0 15px;
 }*/
 
-
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item {
     cursor: pointer;
     margin-bottom: 25px;
@@ -3406,11 +3405,6 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {
     box-shadow: 7px 5px 10px -5px rgba(0, 0, 0, 0.5), -7px -5px 10px -7px rgba(0, 0, 0, 0.5);
 }
-
-
-
-
-
 
 /* Default Layouts */
 /*#modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts {
@@ -3607,8 +3601,6 @@ div[id*='SSDIVEL'] {
 .mw-toolbar-add-new-content-ctrl:after {
     display: none !important;
 }
-
-
 
 body.mw-live-edit .mw-tooltip-content {
     font-size: 11px;
@@ -4124,14 +4116,16 @@ body.dragStart .allow-drop {
     left: 0;
     right: 0;
 }
-.js-module-settings-edit-item-group-frame{
+
+.js-module-settings-edit-item-group-frame {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-.js-module-settings-edit-item-group-frame iframe{
+
+.js-module-settings-edit-item-group-frame iframe {
     position: absolute;
     top: 50px;
     left: 0;
@@ -4144,8 +4138,8 @@ body.dragStart .allow-drop {
 .mw_module_settings_sidebar_title_wrapper {
     display: block;
     width: 100%;
-    padding: 0px 5px 6px;
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding: 9px 5px 9px 9px;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
 .mw_module_settings_sidebar_title_wrapper:after {
@@ -4172,53 +4166,57 @@ body.dragStart .allow-drop {
 }
 
 .mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title {
-    font-size: 17px;
+    font-size: 14px;
     line-height: 27px;
+    font-weight: bold;
 }
 
 #mw-sidebar-quick-edit-items {
     padding-left: 0;
     padding-right: 0;
     position: static;
+    padding: 0;
 }
 
-#mw-live-edit-sidebar-image-frame{
+#mw-live-edit-sidebar-image-frame {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
-.mw-liveedit-sidebar-search-wrapper{
+
+.mw-liveedit-sidebar-search-wrapper {
     margin: 12px;
 
 }
 
-.mw-live-edit-sidebar-tabs{
+.mw-live-edit-sidebar-tabs {
     width: 100%;
     margin: auto;
     display: flex;
 }
 
-
-.mw-live-edit-sidebar-tabs a{
+.mw-live-edit-sidebar-tabs a {
     display: block;
     text-align: center;
     flex: 1;
     padding: 10px;
-    color: rgba(36,134,216,1);
+    color: rgba(36, 134, 216, 1);
     transition: .3s;
     font-size: 12px;
     letter-spacing: 0;
     text-decoration: none;
+    border-bottom: 1px solid #0086db;
 }
 
-.mw-live-edit-sidebar-tabs a i{
+.mw-live-edit-sidebar-tabs a i {
     display: block;
     font-size: 19px;
     padding-bottom: 2px;
 }
-.mw-live-edit-sidebar-tabs a.active{
-    background-color: rgba(36,134,216,1);
+
+.mw-live-edit-sidebar-tabs a.active {
+    background-color: rgba(36, 134, 216, 1);
     color: #fff;
 }

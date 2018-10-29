@@ -1,3 +1,5 @@
+<script>mw.lib.require('font_awesome5');</script>
+
 <?php
 $defaults = array(
     'images' => '',
@@ -245,7 +247,7 @@ $count = 0;
             <div class="module-live-edit-settings module-slickslider-settings">
 
                 <div class="mw-ui-field-holder text-right">
-                    <span class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small" onclick="slickslider.create();"><i class="mw-icon-app-plus-empty"></i> &nbsp; Add new</span>
+                    <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="slickslider.create();"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></span>
                 </div>
 
                 <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
