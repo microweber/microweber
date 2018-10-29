@@ -1,9 +1,4 @@
-if (typeof mw === 'undefined') {
-    mw = {}
-}
-if (typeof mw.settings === 'undefined') {
-    mw.settings = {}
-}
+window.mw = {};
 
 
 mw.settings = {
