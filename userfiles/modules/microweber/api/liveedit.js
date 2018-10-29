@@ -2,7 +2,8 @@ mw.require('wysiwyg.js');
 
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
-mw.require('');
+
+mw.require('live_edit.js');
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;

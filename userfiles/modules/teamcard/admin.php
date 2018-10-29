@@ -15,85 +15,8 @@ $json = json_decode($settings, true);
 if (isset($json) == false or count($json) == 0) {
     $json = array(0 => $defaults);
 }
-
 ?>
-<div class="module-live-edit-settings">
-    <style scoped="scoped">
-        #teamcard-settings {
-            clear: both;
-        }
 
-        #teamcard-settings > div {
-            margin-top: 15px;
-            clear: both;
-        }
-
-        .add-new {
-            float: right;
-            margin-bottom: 20px;
-            width: 100px;
-        }
-
-        .mw-ui-box-header {
-            cursor: -moz-grab;
-            cursor: -webkit-grab;
-            cursor: grab;
-        }
-
-    </style>
-    <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
-    <a class="mw-ui-btn mw-ui-btn-invert pull-right add-new" href="javascript:teamcards.create()">+ <?php _e('Add new'); ?></a>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <module type="admin/modules/templates"/>
-        </div>
-    </div>
-
-    <div id="teamcard-settings">
-        <?php
-        $count = 0;
-        foreach ($json as $slide) {
-            $count++;
-            ?>
-            <div class="mw-ui-box  teamcard-setting-item" id="teamcard-setting-item-<?php print $count; ?>">
-                <div class="mw-ui-box-header"><a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');">x</a></div>
-                <div class="mw-ui-box-content mw-accordion-content">
-                    <div class="mw-ui-row-nodrop">
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <label class="mw-ui-label"><?php _e('Name'); ?></label>
-                                <input type="text" class="mw-ui-field teamcard-name w100 " value="<?php print array_get($slide, 'name'); ?>">
-                            </div>
-                        </div>
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <label class="mw-ui-label"><?php _e('Position'); ?></label>
-                                <input type="text" class="mw-ui-field teamcard-role w100" value="<?php print array_get($slide, 'role'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mw-ui-row-nodrop">
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <label class="mw-ui-label"><?php _e('Biography'); ?></label>
-                                <textarea class="mw-ui-field teamcard-bio w100"><?php print array_get($slide, 'bio'); ?></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e('Member Image'); ?></label>
-                        <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print array_get($slide, 'file'); ?>">
-                        <span class="mw-ui-btn teamcard-file-up">
-                        <span class="ico iupload"></span>
-                        <span><?php _e('Upload image'); ?></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
-    </div>
-</div>
 <script>
 
     teamcards = {
@@ -181,3 +104,104 @@ if (isset($json) == false or count($json) == 0) {
     });
 
 </script>
+
+
+<style scoped="scoped">
+    #teamcard-settings {
+        clear: both;
+    }
+
+    #teamcard-settings > div {
+        margin-top: 15px;
+        clear: both;
+    }
+    .add-new-button {
+        text-align: right;
+    }
+
+    .mw-ui-box-header {
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+        cursor: grab;
+    }
+
+    .remove-question{
+        color: #f12b1c;
+    }
+</style>
+
+<div class="mw-accordion">
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-navicon-round"></i> List
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <!-- Settings Content -->
+            <div class="module-live-edit-settings module-teamcard-settings">
+                <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
+
+                <div class="mw-ui-field-holder add-new-button">
+                    <a class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small" href="javascript:teamcards.create()"><i class="mw-icon-app-plus-empty"></i> &nbsp; <?php _e('Add new'); ?></a>
+                </div>
+
+                <div id="teamcard-settings">
+                    <?php
+                    $count = 0;
+                    foreach ($json as $slide) {
+                        $count++;
+                        ?>
+                        <div class="mw-ui-box  teamcard-setting-item" id="teamcard-setting-item-<?php print $count; ?>">
+                            <div class="mw-ui-box-header"><a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');">x</a></div>
+                            <div class="mw-ui-box-content mw-accordion-content">
+                                <div class="mw-ui-row-nodrop">
+                                    <div class="mw-ui-col">
+                                        <div class="mw-ui-col-container">
+                                            <label class="mw-ui-label"><?php _e('Name'); ?></label>
+                                            <input type="text" class="mw-ui-field teamcard-name w100 " value="<?php print array_get($slide, 'name'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="mw-ui-col">
+                                        <div class="mw-ui-col-container">
+                                            <label class="mw-ui-label"><?php _e('Position'); ?></label>
+                                            <input type="text" class="mw-ui-field teamcard-role w100" value="<?php print array_get($slide, 'role'); ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mw-ui-row-nodrop">
+                                    <div class="mw-ui-col">
+                                        <div class="mw-ui-col-container">
+                                            <label class="mw-ui-label"><?php _e('Biography'); ?></label>
+                                            <textarea class="mw-ui-field teamcard-bio w100"><?php print array_get($slide, 'bio'); ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label"><?php _e('Member Image'); ?></label>
+                                    <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print array_get($slide, 'file'); ?>">
+                                    <span class="mw-ui-btn teamcard-file-up">
+                        <span class="ico iupload"></span>
+                        <span><?php _e('Upload image'); ?></span>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+            <!-- Settings Content - End -->
+        </div>
+    </div>
+
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-beaker"></i> Templates
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <module type="admin/modules/templates"/>
+        </div>
+    </div>
+</div>

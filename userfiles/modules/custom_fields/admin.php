@@ -127,9 +127,7 @@
                 </div>
             </div>
         </div>
-        <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price"
-             data-default="<?php _e("Add New Field"); ?>"><span
-                    class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
+        <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
     <?php _e("Add New Field"); ?>
     </span>
             <?php //$exiisting_fields = get_custom_fields('fields=name&rel=content&rel_id=>0&group_by=type,name&return_full=1',true);

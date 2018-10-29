@@ -53,44 +53,64 @@ if (get_option('style_color', $params['id']) == 'bg-primary') {
 }
 ?>
 
-
-<div class="module-live-edit-settings module-pricing-table-settings">
-    <div class="mw-flex-row">
-        <div class="mw-flex-col-xs-6">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label" for="columns"><?php _e('Columns count'); ?></label>
-                <select name="columns" data-refresh="pricing_table" class="mw-ui-field mw-full-width mw_option_field" id="columns">
-                    <option value="1" <?php print $column_1; ?>>1</option>
-                    <option value="2" <?php print $column_2; ?>>2</option>
-                    <option value="3" <?php print $column_3; ?>>3</option>
-                    <option value="4" <?php print $column_4; ?>>4</option>
-                </select>
+<div class="mw-accordion">
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-settings"></i> Settings
             </div>
         </div>
-        <div class="mw-flex-col-xs-6">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label" for="feature"><?php _e('Feature element'); ?></label>
-                <select name="feature" data-refresh="pricing_table" class="mw-ui-field mw-full-width mw_option_field" id="feature">
-                    <option value="1" <?php print $feature_1; ?>>1</option>
-                    <option value="2" <?php print $feature_2; ?>>2</option>
-                    <option value="3" <?php print $feature_3; ?>>3</option>
-                    <option value="4" <?php print $feature_4; ?>>4</option>
-                </select>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <!-- Settings Content -->
+            <div class="module-live-edit-settings module-pricing-table-settings">
+                <div class="mw-flex-row">
+                    <div class="mw-flex-col-xs-6">
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label" for="columns"><?php _e('Columns count'); ?></label>
+                            <select name="columns" data-refresh="pricing_table" class="mw-ui-field mw-full-width mw_option_field" id="columns">
+                                <option value="1" <?php print $column_1; ?>>1</option>
+                                <option value="2" <?php print $column_2; ?>>2</option>
+                                <option value="3" <?php print $column_3; ?>>3</option>
+                                <option value="4" <?php print $column_4; ?>>4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mw-flex-col-xs-6">
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label" for="feature"><?php _e('Feature element'); ?></label>
+                            <select name="feature" data-refresh="pricing_table" class="mw-ui-field mw-full-width mw_option_field" id="feature">
+                                <option value="1" <?php print $feature_1; ?>>1</option>
+                                <option value="2" <?php print $feature_2; ?>>2</option>
+                                <option value="3" <?php print $feature_3; ?>>3</option>
+                                <option value="4" <?php print $feature_4; ?>>4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label" for="style_color"><?php _e('Style color'); ?></label>
+                    <select name="style_color" data-refresh="pricing_table" class="mw-ui-field mw-full-width mw_option_field" id="style_color">
+                        <option value="bg-primary" <?php print $style_1; ?>>Primary</option>
+                        <option value="bg-success" <?php print $style_2; ?>>Success</option>
+                        <option value="bg-info" <?php print $style_3; ?>>Info</option>
+                        <option value="bg-warning" <?php print $style_4; ?>>Warning</option>
+                        <option value="bg-danger" <?php print $style_5; ?>>Danger</option>
+                    </select>
+                </div>
             </div>
+            <!-- Settings Content - End -->
         </div>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label" for="style_color"><?php _e('Style color'); ?></label>
-        <select name="style_color" data-refresh="pricing_table" class="mw-ui-field mw-full-width mw_option_field" id="style_color">
-            <option value="bg-primary" <?php print $style_1; ?>>Primary</option>
-            <option value="bg-success" <?php print $style_2; ?>>Success</option>
-            <option value="bg-info" <?php print $style_3; ?>>Info</option>
-            <option value="bg-warning" <?php print $style_4; ?>>Warning</option>
-            <option value="bg-danger" <?php print $style_5; ?>>Danger</option>
-        </select>
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-beaker"></i> Templates
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <module type="admin/modules/templates"/>
+        </div>
     </div>
-
-
-    <module type="admin/modules/templates" simple="true"/>
 </div>
