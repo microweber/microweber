@@ -178,6 +178,7 @@ mw.askusertostay = false;
 
   mw.required = typeof mw.required === 'undefined'?[]:mw.required;
   mw.require = function(url, inHead, key) {
+    if(!url) return;
     if(typeof inHead === 'boolean' || typeof inHead === 'undefined'){
         inHead = inHead || false;
     }

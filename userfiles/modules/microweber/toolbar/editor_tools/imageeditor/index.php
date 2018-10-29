@@ -62,7 +62,7 @@
 
 
         <div id="the-image-holder"><!-- Image will be placed here --></div>
-        <div>
+        <div class="mw-ui-box-content">
             <div style="text-align:center;padding-bottom: 12px;">
                 <div id="cropmenu" class="mw-ui-btn-nav" style="display: none;">
                     <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info" onclick="DoCrop()"><?php _e("Crop"); ?></span>
@@ -92,15 +92,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="mw-ui-btn-nav nav-actions">
 
-                    <span class='mw-ui-btn mw-ui-btn-change-image'><?php _e("Change"); ?></span>
-
-                    <span class="mw-ui-btn mw-ui-btn-warn disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
-
-
-                    <span class='mw-ui-btn mw-ui-btn-info mw-ui-btn-savetheimage'><?php _e("Update"); ?></span>
-                </div>
 
             </div>
 
@@ -254,6 +246,15 @@
                         <textarea class="mw-ui-field w100" placeholder='<?php _e("Enter Description"); ?>' id="image-alt"></textarea>
                     </div>
                 </div>
+            </div>
+            <div class="mw-ui-btn-nav nav-actions">
+
+                <span class='mw-ui-btn mw-ui-btn-change-image'><?php _e("Change"); ?></span>
+
+                <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
+
+
+                <span class='mw-ui-btn mw-ui-btn-info mw-ui-btn-savetheimage'><?php _e("Update"); ?></span>
             </div>
         </div>
     </div>
@@ -409,3 +410,4 @@
     });
 
 </script>
+

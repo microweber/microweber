@@ -5441,6 +5441,7 @@ mw.uiAccordion = function(options){
         this.root = mw.$(this.options.element).not('.mw-accordion-ready').eq(0);
         if(!this.root.length) return;
         this.root.addClass('mw-accordion-ready');
+        this.root[0].uiAccordion = this;
         this.titles = $(this.options.titleSelector, this.root);
         this.contents = $(this.options.contentSelector, this.root);
     };
@@ -5515,6 +5516,8 @@ mw.uiAccordion = function(options){
     this.init(options);
 
 };
+
+
 
 $(document).ready(function(){
     $('.mw-accordion').not('.mw-accordion-ready').each(function () {

@@ -892,7 +892,8 @@
 /* Icons */
 
 .mw-icon-selector {
-    max-height: 375px;
+    max-height: -webkit-calc(100vh - 205px);
+    max-height: calc(100vh - 205px);
     background-color: white;
     overflow-x: hidden;
     overflow-y: auto;
@@ -978,3 +979,8 @@
 }
 
 /* /Icons */
+
+
+#font_size_selector_main{
+    width: 65px;
+}

@@ -222,7 +222,8 @@ if (isset($_COOKIE['mw_exp'])) {
             mw.liveEditSettings = new mw.controlBox({
                 content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
                 position: 'right',
-                id: 'live_edit_side_holder'
+                id: 'live_edit_side_holder',
+                closeButton:false
             });
 
             mw.tools.loading(mw.liveEditSettings.box);

@@ -213,7 +213,10 @@ mw.live_edit.showSettings = function (a, opts) {
         var mod_descr = mw.live_edit.getModuleDescription(module_type);
 
 
-        var mod_settings_iframe_html_fr = '<iframe src="' + src + '" class="js-module-settings-edit-item-group-frame" id="fr-' + iframe_id + '"  style="width:100%;height: 90vh;position: absolute" frameborder="0">';
+        var mod_settings_iframe_html_fr = '' +
+            '<div class="js-module-settings-edit-item-group-frame" id="fr-' + iframe_id + '">' +
+                '<iframe src="' + src + '" frameborder="0">' +
+            '</div>';
 
 
         var sidebar_title_box = "<div class='mw_module_settings_sidebar_title_wrapper' >" + mod_icon ;

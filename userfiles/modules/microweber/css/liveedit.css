@@ -3299,7 +3299,7 @@ div[id*='SSDIVEL'] {
     padding: 0;
     width: 100%;
     overflow: auto;
-    top: -3px;
+    top: 0px;
     border: 0;
     position: relative;
 }
@@ -3316,6 +3316,8 @@ div[id*='SSDIVEL'] {
     color-stop(.5, rgba(255, 255, 255, .2)),
     color-stop(.5, transparent), to(transparent));
 }
+
+/*
 
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs .mw-ui-btn {
     border: 1px solid transparent;
@@ -3359,9 +3361,9 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .mw-ui-btn-nav-tabs {
     z-index: 999;
     padding: 0 0 0 15px;
-}
+}*/
 
-/* Layouts */
+
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item {
     cursor: pointer;
     margin-bottom: 25px;
@@ -3404,6 +3406,11 @@ div[id*='SSDIVEL'] {
 #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item:hover {
     box-shadow: 7px 5px 10px -5px rgba(0, 0, 0, 0.5), -7px -5px 10px -7px rgba(0, 0, 0, 0.5);
 }
+
+
+
+
+
 
 /* Default Layouts */
 /*#modules-and-layouts-sidebar .module-admin-modules-list-layouts .default-layouts {
@@ -3489,17 +3496,6 @@ div[id*='SSDIVEL'] {
     color: #3a3434;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts {
-    position: relative;
-    font-size: 11px;
-    background: #f5f5f5;
-    clear: both;
-    padding: 25px;
-    z-index: 2;
-    border-top: 1px solid #eaeaea;
-    top: -1px;
-}
-
 #modules-and-layouts-sidebar #search-modules-and-layouts.scroll-box-not-top {
     border-bottom: 1px solid #eaeaea;
     -webkit-box-shadow: 0 8px 6px -6px #eaeaea;
@@ -3507,12 +3503,12 @@ div[id*='SSDIVEL'] {
     box-shadow: 0 8px 6px -6px #eaeaea;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper {
+.mw-liveedit-sidebar-search-wrapper {
     position: relative;
     font-size: 11px;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper label {
+.mw-liveedit-sidebar-search-wrapper label {
     position: absolute;
     left: 10px;
     top: 0px;
@@ -3524,11 +3520,11 @@ div[id*='SSDIVEL'] {
     line-height: 31px;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper label i {
+.mw-liveedit-sidebar-search-wrapper label i {
     color: #999999;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper input {
+.mw-liveedit-sidebar-search-wrapper input {
     padding-left: 43px;
     height: 36px;
     padding: 10px 15px 10px 35px;
@@ -3547,7 +3543,7 @@ div[id*='SSDIVEL'] {
     box-shadow: none;
 }
 
-#modules-and-layouts-sidebar #search-modules-and-layouts .search-wrapper .mw-sidebar-search-clear-x-btn {
+.mw-liveedit-sidebar-search-wrapper .mw-sidebar-search-clear-x-btn {
     text-decoration: none;
     position: absolute;
     right: 12px;
@@ -3612,17 +3608,7 @@ div[id*='SSDIVEL'] {
     display: none !important;
 }
 
-.close-sidebar-button {
-    right: 15px;
-    top: 15px;
-    position: absolute;
-    font-size: 10px;
-}
 
-.close-sidebar-button i {
-    color: #3a3434 !important;
-    background: #fff !important;
-}
 
 body.mw-live-edit .mw-tooltip-content {
     font-size: 11px;
@@ -4138,6 +4124,14 @@ body.dragStart .allow-drop {
     left: 0;
     right: 0;
 }
+.js-module-settings-edit-item-group-frame,
+.js-module-settings-edit-item-group-frame iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
 .mw_module_settings_sidebar_title_wrapper {
     background-color: #fff;
@@ -4176,4 +4170,45 @@ body.dragStart .allow-drop {
 #mw-sidebar-quick-edit-items {
     padding-left: 0;
     padding-right: 0;
+    position: static;
+}
+
+#mw-live-edit-sidebar-image-frame{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.mw-liveedit-sidebar-search-wrapper{
+    margin: 12px;
+
+}
+
+.mw-live-edit-sidebar-tabs{
+    width: 100%;
+    margin: auto;
+    display: flex;
+}
+
+
+.mw-live-edit-sidebar-tabs a{
+    display: block;
+    text-align: center;
+    flex: 1;
+    padding: 10px;
+    color: rgba(36,134,216,1);
+    transition: .3s;
+    font-size: 12px;
+    letter-spacing: 0;
+}
+
+.mw-live-edit-sidebar-tabs a i{
+    display: block;
+    font-size: 19px;
+    padding-bottom: 2px;
+}
+.mw-live-edit-sidebar-tabs a.active{
+    background-color: rgba(36,134,216,1);
+    color: #fff;
 }

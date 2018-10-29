@@ -5,81 +5,71 @@
             <i class="mwi-hamb"></i>
         </div>
     </a>
-    <a href="javascript:;" class="close-sidebar-button" title="<?php _e("Close"); ?>"
-       data-id="mw-toolbar-show-sidebar-btn"><i class="mwi-close-thin"></i></a>
 
-    <h3 class="tab-title tab-title-0"><?php _e("Add Layout"); ?></h3>
-    <h3 class="tab-title tab-title-1" style="display: none;"><?php _e("Add Module"); ?></h3>
-    <h3 class="tab-title tab-title-2" style="display: none;"><?php _e("Settings"); ?></h3>
-    <?php /*
-    <h3 class="tab-title tab-title-3" style="display: none;"><?php echo("UI Editor"); ?></h3> */ ?>
 
     <div id="mw-modules-layouts-tabsnav">
-        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs  mw-normalize-css">
-            <a href="javascript:;" class="mw-ui-btn tabnav active"><i
-                        class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
-<?php /*            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
-*/ ?>
-            <a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i>  <?php _e("Settings"); ?></a>
-            <?php /*<a href="javascript:;" class="mw-ui-btn tabnav"><i class="mwi-cog"></i> <?php echo("UI Editor"); ?></a>*/ ?>
+        <div class="mw-live-edit-sidebar-tabs mw-normalize-css">
+            <a href="javascript:;" class="tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
+            <a href="javascript:;" class="tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
+            <a href="javascript:;" class="tabnav"><i class="mwi-cog"></i>  <?php _e("Settings"); ?></a>
         </div>
 
 
-        <div id="search-modules-and-layouts" class="">
 
-            <div class="tab-title tab-title-0 layouts">
-                <div class="search-wrapper">
-                    <label for="search-input">
-                        <i class="mw-icon-search" aria-hidden="true"></i>
-                    </label>
-
-                    <input
-                            onkeyup="mwSidebarSearchItems(this.value, 'layouts')"
-                            class="form-control input-lg"
-                            placeholder="Search for Layouts"
-                            autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                            data-id="mw-sidebar-search-input-for-modules-and-layouts">
-
-                    <a
-                            href="javascript:mwSidebarSearchClear('layouts');"
-                            class="mw-sidebar-search-clear-x-btn mw-icon-close"
-                            aria-hidden="true"
-                            style="display: none;"></a>
-                </div>
-
-                <p class="mw-search-no-results"
-                   style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
-            </div>
-
-            <div class="tab-title tab-title-1 modules" style="display: none;">
-                <div class="search-wrapper">
-                    <label for="search-input">
-                        <i class="mw-icon-search" aria-hidden="true"></i>
-                    </label>
-
-                    <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg"
-                           placeholder="Search for Modules"
-                           autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
-                           data-id="mw-sidebar-search-input-for-modules-and-layouts">
-
-                    <a href="javascript:mwSidebarSearchClear('modules');"
-                       class="mw-sidebar-search-clear-x-btn mw-icon-close"
-                       aria-hidden="true" style="display: none;"></a>
-                </div>
-
-                <p class="mw-search-no-results"
-                   style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
-            </div>
-        </div>
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
-            <div class="mw-ui-box-content tabitem mw-normalize-css">
+            <div class="tabitem mw-normalize-css">
+                <div class="mw-live-edit-tab-title layouts">
+                    <div class="mw-liveedit-sidebar-search-wrapper">
+                        <label for="search-input">
+                            <i class="mw-icon-search" aria-hidden="true"></i>
+                        </label>
+
+                        <input
+                                onkeyup="mwSidebarSearchItems(this.value, 'layouts')"
+                                class="form-control input-lg"
+                                placeholder="Search for Layouts"
+                                autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                                data-id="mw-sidebar-search-input-for-modules-and-layouts">
+
+                        <a
+                                href="javascript:mwSidebarSearchClear('layouts');"
+                                class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                                aria-hidden="true"
+                                style="display: none;"></a>
+                    </div>
+
+                    <p class="mw-search-no-results"
+                       style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
+                </div>
+                <div class="mw-ui-box-content">
                 <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
             </div>
+            </div>
 
-            <div class="mw-ui-box-content tabitem mw-normalize-css" style="display: none">
-                <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
+            <div class="tabitem mw-normalize-css" style="display: none">
+                <div class="mw-live-edit-tab-title modules">
+                    <div class="mw-liveedit-sidebar-search-wrapper">
+                        <label for="search-input">
+                            <i class="mw-icon-search" aria-hidden="true"></i>
+                        </label>
+
+                        <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg"
+                               placeholder="Search for Modules"
+                               autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
+                               data-id="mw-sidebar-search-input-for-modules-and-layouts">
+
+                        <a href="javascript:mwSidebarSearchClear('modules');"
+                           class="mw-sidebar-search-clear-x-btn mw-icon-close"
+                           aria-hidden="true" style="display: none;"></a>
+                    </div>
+
+                    <p class="mw-search-no-results"
+                       style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
+                </div>
+                <div class="mw-ui-box-content">
+                    <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
+                </div>
             </div>
 
         <?php
@@ -94,7 +84,6 @@
 
         ?>
             <div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
-
 
                 <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
 
@@ -124,8 +113,7 @@
 
             </div>
             <div class="mw-ui-box-content tabitem css-editor-holder">
-
-
+                <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
                 <div id="mw-css-editor_____TEMP_REMOVE"></div>
             </div>
         </div>
@@ -197,32 +185,14 @@
 
         }
 
-        function mwCheckScrollBoxPosition() {
-            var scrollBox = $(".mw-scroll-box").scrollTop();
 
-            if (scrollBox == 0) {
-                $('#search-modules-and-layouts').removeClass('scroll-box-not-top');
-            } else {
-                $('#search-modules-and-layouts').addClass('scroll-box-not-top');
-            }
-        }
-
-        $(".mw-scroll-box").on('scroll', function () {
-            mwCheckScrollBoxPosition();
-        });
 
         $(document).ready(function () {
             mw.sidebarSettingsTabs = mw.tabs({
                 nav: '#mw-modules-layouts-tabsnav  .tabnav',
-                tabs: '#mw-modules-layouts-tabsnav .tabitem',
-                onclick: function (currentTab, event, index) {
-                    $('.tab-title').hide();
-                    $('.tab-title-' + index).show();
-                    $("#search-modules-and-layouts")[index == 2 ? 'hide' : 'show']()
-                }
+                tabs: '#mw-modules-layouts-tabsnav .tabitem'
             });
 
-            mwCheckScrollBoxPosition();
 
             $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
                 $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
@@ -240,8 +210,7 @@
             mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
             mw.wysiwyg.dropdowns();
 
-            $("#mw-sidebar-modules-list").removeClass("module")
-            $("#mw-sidebar-modules-list").removeClass("module")
+
 
 
 
@@ -355,6 +324,11 @@
 
         mw.on('liveEditSettingsReady', function () {
             setScrollBoxes()
+            setTimeout(function(){
+                $("#mw-sidebar-layouts-list").removeClass("module")
+                $("#mw-sidebar-modules-list").removeClass("module")
+            }, 333)
+
         })
 
         $(window).on('resize orientationchange', function () {
