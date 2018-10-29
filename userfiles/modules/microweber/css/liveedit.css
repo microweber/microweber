@@ -4201,6 +4201,7 @@ body.dragStart .allow-drop {
     transition: .3s;
     font-size: 12px;
     letter-spacing: 0;
+    text-decoration: none;
 }
 
 .mw-live-edit-sidebar-tabs a i{
