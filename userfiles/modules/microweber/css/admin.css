@@ -7389,3 +7389,12 @@ select.silver-field {
 /*.mw-module-live-edit-settings .mw-accordion-item .mw-accordion-content {*/
     /*background: transparent;*/
 /*}*/
+
+.mw-live-edit-module-manage-and-list-top {
+    padding: 20px;
+    text-align: center;
+}
+
+.mw-live-edit-module-manage-and-list-top .mw-ui-btn {
+    margin: 0 5px;
+}

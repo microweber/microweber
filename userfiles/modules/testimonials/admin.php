@@ -1,5 +1,7 @@
 <?php only_admin_access(); ?>
 
+<script>mw.lib.require('font_awesome5');</script>
+
 <style type="text/css">
     #testimonials-list tbody tr {
         cursor: move;
@@ -122,23 +124,6 @@ $closequote = get_option('closequote', $params['id']);
 
 
 <div class="mw-accordion">
-    <div class="mw-accordion-item js-add-new-testimonials">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-plus-round"></i> Add New / Edit
-            </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <div class="mw-ui-field-holder js-add-new-button">
-                <a class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small" href="javascript:;" onclick="add_testimonial()" id="add-testimonial"><i class="mw-icon-app-plus-empty"></i> &nbsp; <?php _e('Add new'); ?></a>
-            </div>
-
-            <div class="">
-                <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
-            </div>
-        </div>
-    </div>
-
     <div class="mw-accordion-item js-list-testimonials">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
@@ -147,6 +132,23 @@ $closequote = get_option('closequote', $params['id']);
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <module type="testimonials/list" id="list-testimonials"/>
+        </div>
+    </div>
+
+    <div class="mw-accordion-item js-add-new-testimonials">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-plus-round"></i> Add New / Edit
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-ui-field-holder js-add-new-button">
+                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" href="javascript:;" onclick="add_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+            </div>
+
+            <div class="">
+                <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
+            </div>
         </div>
     </div>
 

@@ -1,5 +1,8 @@
 <?php only_admin_access() ?>
 
+
+<script>mw.lib.require('font_awesome5');</script>
+
 <?php
 $settings = get_option('settings', 'faq');
 
@@ -145,7 +148,7 @@ if (isset($json) == false or count($json) == 0) {
                 <input type="hidden" class="mw_option_field" name="settings" option-group="faq" id="settingsfield"/>
 
                 <div class="mw-ui-field-holder add-new-button">
-                    <a class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small" href="javascript:faqs.create()"><i class="mw-icon-app-plus-empty"></i> &nbsp; <?php _e('Add new'); ?></a>
+                    <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" href="javascript:faqs.create()"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
                 </div>
 
                 <div id="faq-settings">

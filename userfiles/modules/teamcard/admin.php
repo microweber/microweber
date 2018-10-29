@@ -18,6 +18,10 @@ if (isset($json) == false or count($json) == 0) {
 ?>
 
 <script>
+    mw.lib.require('font_awesome5');
+</script>
+
+<script>
 
     teamcards = {
         init: function (item) {
@@ -32,6 +36,7 @@ if (isset($json) == false or count($json) == 0) {
             });
             $(up).bind('FileUploaded', function (event, data) {
                 item.querySelector('.teamcard-file').value = data.src
+                item.querySelector('.js-teamcard-file-preview').src = data.src
                 teamcards.save();
             });
         },
@@ -63,7 +68,7 @@ if (isset($json) == false or count($json) == 0) {
             $(item.querySelectorAll('input')).val('');
             $(item.querySelectorAll('textarea')).val('');
             $(item.querySelectorAll('.mw-uploader')).remove();
-            last.after(item);
+            last.before(item);
             teamcards.init(item);
         },
 
@@ -79,7 +84,6 @@ if (isset($json) == false or count($json) == 0) {
 
     }
 
-
     $(document).ready(function () {
         var all = mwd.querySelectorAll('.teamcard-setting-item'), l = all.length, i = 0;
         for (; i < l; i++) {
@@ -90,9 +94,7 @@ if (isset($json) == false or count($json) == 0) {
         }
     });
 
-
     $(document).ready(function () {
-
         $('#teamcard-settings').sortable({
             handle: '.mw-ui-box-header',
             items: ".teamcard-setting-item",
@@ -115,6 +117,7 @@ if (isset($json) == false or count($json) == 0) {
         margin-top: 15px;
         clear: both;
     }
+
     .add-new-button {
         text-align: right;
     }
@@ -125,7 +128,7 @@ if (isset($json) == false or count($json) == 0) {
         cursor: grab;
     }
 
-    .remove-question{
+    .remove-question {
         color: #f12b1c;
     }
 </style>
@@ -143,7 +146,7 @@ if (isset($json) == false or count($json) == 0) {
                 <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
 
                 <div class="mw-ui-field-holder add-new-button">
-                    <a class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small" href="javascript:teamcards.create()"><i class="mw-icon-app-plus-empty"></i> &nbsp; <?php _e('Add new'); ?></a>
+                    <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" href="javascript:teamcards.create()"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
                 </div>
 
                 <div id="teamcard-settings">
@@ -153,37 +156,46 @@ if (isset($json) == false or count($json) == 0) {
                         $count++;
                         ?>
                         <div class="mw-ui-box  teamcard-setting-item" id="teamcard-setting-item-<?php print $count; ?>">
-                            <div class="mw-ui-box-header"><a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');">x</a></div>
+                            <div class="mw-ui-box-header"><i class="mw-icon-drag"></i> <?php print _e('Move'); ?> <a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');"><i class="mw-icon-close"></i></a></div>
                             <div class="mw-ui-box-content mw-accordion-content">
-                                <div class="mw-ui-row-nodrop">
-                                    <div class="mw-ui-col">
-                                        <div class="mw-ui-col-container">
-                                            <label class="mw-ui-label"><?php _e('Name'); ?></label>
-                                            <input type="text" class="mw-ui-field teamcard-name w100 " value="<?php print array_get($slide, 'name'); ?>">
+                                <div class="mw-ui-field-holder">
+                                    <div class="mw-ui-row-nodrop">
+                                        <div class="mw-ui-col">
+                                            <div class="mw-ui-col-container">
+                                                <label class="mw-ui-label"><?php _e('Name'); ?></label>
+                                                <input type="text" class="mw-ui-field teamcard-name w100 " value="<?php print array_get($slide, 'name'); ?>">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="mw-ui-col">
-                                        <div class="mw-ui-col-container">
-                                            <label class="mw-ui-label"><?php _e('Position'); ?></label>
-                                            <input type="text" class="mw-ui-field teamcard-role w100" value="<?php print array_get($slide, 'role'); ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mw-ui-row-nodrop">
-                                    <div class="mw-ui-col">
-                                        <div class="mw-ui-col-container">
-                                            <label class="mw-ui-label"><?php _e('Biography'); ?></label>
-                                            <textarea class="mw-ui-field teamcard-bio w100"><?php print array_get($slide, 'bio'); ?></textarea>
+                                        <div class="mw-ui-col">
+                                            <div class="mw-ui-col-container">
+                                                <label class="mw-ui-label"><?php _e('Position'); ?></label>
+                                                <input type="text" class="mw-ui-field teamcard-role w100" value="<?php print array_get($slide, 'role'); ?>">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label"><?php _e('Biography'); ?></label>
+                                    <textarea class="mw-ui-field teamcard-bio w100"><?php print array_get($slide, 'bio'); ?></textarea>
+                                </div>
+
+
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label"><?php _e('Member Image'); ?></label>
-                                    <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print array_get($slide, 'file'); ?>">
-                                    <span class="mw-ui-btn teamcard-file-up">
-                        <span class="ico iupload"></span>
-                        <span><?php _e('Upload image'); ?></span>
-                        </span>
+
+                                    <div class="mw-flex-row">
+                                        <div class="mw-flex-col-xs-5">
+                                            <img src="<?php print thumbnail(array_get($slide, 'file'), 75, 75); ?>" style="width: 75px; height: 75px;" class="js-teamcard-file-preview"/>
+                                        </div>
+                                        <div class="mw-flex-col-xs-7">
+                                            <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print array_get($slide, 'file'); ?>"/>
+                                            <span class="mw-ui-btn teamcard-file-up">
+                                                <span class="ico iupload"></span>
+                                                <span><?php _e('Upload image'); ?></span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
