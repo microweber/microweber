@@ -5428,9 +5428,35 @@ mw.uiAccordion = function(options){
 
     var scope = this;
 
+    this.getContents = function(){
+        this.contents = this.root.children(this.options.contentSelector);
+        if(!this.contents.length){
+            this.contents = $();
+            this.root.children(this.options.itemSelector).each(function(){
+                var title = $(this).children(scope.options.contentSelector)[0];
+                if(title){
+                    scope.contents.push(title)
+                }
+            });
+        }
+    }
+    this.getTitles = function(){
+        this.titles = this.root.children(this.options.titleSelector);
+        if(!this.titles.length){
+            this.titles = $();
+            this.root.children(this.options.itemSelector).each(function(){
+                var title = $(this).children(scope.options.titleSelector)[0];
+                if(title){
+                    scope.titles.push(title)
+                }
+            });
+        }
+    }
+
     this.prepare = function(options){
         var defaults = {
             multiple: false,
+            itemSelector: ".mw-accordion-item",
             titleSelector: ".mw-accordion-title",
             contentSelector: ".mw-accordion-content",
             openFirst: true,
@@ -5442,12 +5468,12 @@ mw.uiAccordion = function(options){
         if(!this.root.length) return;
         this.root.addClass('mw-accordion-ready');
         this.root[0].uiAccordion = this;
-        this.titles = $(this.options.titleSelector, this.root);
-        this.contents = $(this.options.contentSelector, this.root);
+        this.getTitles()
+        this.getContents()
+
     };
 
     this.getItem = function(q){
-        console.log(q)
         var item;
        if(typeof q  === 'number'){
             item =  this.contents.eq(q)
@@ -5465,7 +5491,7 @@ mw.uiAccordion = function(options){
                 .removeClass('active')
                 .prev()
                 .removeClass('active')
-                .parents('.mw-accordion-item')
+                .parents('.mw-accordion-item').eq(0)
                 .removeClass('active');
         }
         item.stop()
@@ -5473,7 +5499,7 @@ mw.uiAccordion = function(options){
             .addClass('active')
             .prev()
             .addClass('active')
-            .parents('.mw-accordion-item')
+            .parents('.mw-accordion-item').eq(0)
             .addClass('active');
         $(this).trigger('accordionSet', [item]);
     }
@@ -5485,7 +5511,7 @@ mw.uiAccordion = function(options){
             .removeClass('active')
             .prev()
             .removeClass('active')
-            .parents('.mw-accordion-item')
+            .parents('.mw-accordion-item').eq(0)
             .removeClass('active');;
         $(this).trigger('accordionUnset', [item]);
     }
@@ -5508,7 +5534,7 @@ mw.uiAccordion = function(options){
         if(this.options.openFirst){
             this.contents.eq(0).show().addClass('active')
         }
-        $(this.root).on('click', this.options.titleSelector, function(){
+        this.titles.on('click', function(){
             scope.toggle(scope.titles.index(this));
         });
     }
