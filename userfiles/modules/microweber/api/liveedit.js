@@ -395,8 +395,14 @@ $(document).ready(function() {
         if(node.nodeName === 'IMG'){
             uitype = 'image' ;
         }
-        console.log(uitype)
-        mw.liveNodeSettings.set(uitype, node);
+
+        if(uitype == 'module' && mw.liveEditSettings.active){
+            mw.liveNodeSettings.set(uitype, node);
+        }
+        if(uitype != 'module'){
+            mw.liveNodeSettings.set(uitype, node);
+        }
+
     });
 
     mw.on("ElementClick", function(e, el, c) {
@@ -1403,7 +1409,7 @@ mw.drag = {
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
                 if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
                   // mw.drag.module_settings();
-                    //alert(1)
+                  //  alert(1)
                     mw.liveNodeSettings.set('module',mouseUpEvent.target);
                 }
 
