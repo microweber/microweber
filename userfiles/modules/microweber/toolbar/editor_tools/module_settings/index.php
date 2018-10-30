@@ -254,7 +254,7 @@
                     var toolbar = module_settings_opener_titlebar_holder.querySelector('.js-module-sidebar-settings-menu-holder');
 
                 }
-                d(toolbar);
+             
 
 
 
