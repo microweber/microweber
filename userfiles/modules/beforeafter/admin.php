@@ -30,7 +30,7 @@ if ($after == false) {
         <img src="<?php print $before; ?>" alt="before" class="js-before-image"/>
         <br/>
         <br/>
-        <span class="mw-ui-btn" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Before Image'); ?></span>
+        <span class="mw-ui-btn mw-ui-btn-info" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Before Image'); ?></span>
     </div>
 
     <div class="mw-ui-field-holder">
@@ -38,7 +38,7 @@ if ($after == false) {
         <img src="<?php print $after; ?>" alt="after" class="js-after-image"/>
         <br/>
         <br/>
-        <span class="mw-ui-btn" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose After Image'); ?></span>
+        <span class="mw-ui-btn mw-ui-btn-info" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose After Image'); ?></span>
     </div>
 </div>
 

@@ -4,7 +4,7 @@
 
     if($text==false)
     {
-        $text = 'Hello world';
+        $text = '<?php print "Hello Wordld"; ?>';
     }
 
  

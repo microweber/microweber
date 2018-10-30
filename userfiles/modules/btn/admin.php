@@ -128,7 +128,7 @@ $icon = get_option('icon', $params['id']);
     </div>
 
     <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e("Icon"); ?></label>
+        <label class="mw-ui-label"><?php _e("Select Icon"); ?></label>
         <script>
             $(document).ready(function () {
                 mw.iconSelector.iconDropdown("#icon-picker", {

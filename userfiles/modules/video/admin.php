@@ -109,7 +109,7 @@
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-settings"></i> Settings
+                <i class="mw-icon-gear"></i> Settings
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -130,7 +130,7 @@
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Upload Video from your computer"); ?></label>
                     <input name="upload" id="upload_field" class="mw-ui-field mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload', $params['id']) ?>"/>
-                    <span class="mw-ui-btn mw-ui-btn-notification" id="upload_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Choose video file"); ?></span>
+                    <span class="mw-ui-btn mw-ui-btn-info" id="upload_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Choose video file"); ?></span>
                 </div>
 
                 <div class="mw-ui-progress" id="upload_status" style="display: none">
@@ -179,7 +179,7 @@
                     <div class="row" style="margin-top:10px;">
                         <div class="col-xs-6">
                             <input name="upload_thumb" id="upload_thumb_field" class="mw-ui-field mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
-                            <span class="mw-ui-btn mw-ui-btn-notification" id="upload_thumb_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Browse Video Screenshot"); ?></span>
+                            <span class="mw-ui-btn mw-ui-btn-info" id="upload_thumb_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Browse Video Screenshot"); ?></span>
                         </div>
                         <div class="col-xs-6">
                             <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 100, 100); ?>" alt=""/>
