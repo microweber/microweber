@@ -1548,18 +1548,18 @@ body.loaded #live_edit_toolbar {
     float: right;
 }
 
-#module-modal-settings-menu-holder {
+.module-modal-settings-menu-holder {
     position: absolute;
     right: 40px;
     top: 0px;
     min-height: 30px;
 }
 
-#module-modal-settings-menu-holder a {
+.module-modal-settings-menu-holder a {
     text-decoration: underline;
 }
 
-#module-modal-settings-menu-holder .mw-dropdown-content {
+.module-modal-settings-menu-holder .mw-dropdown-content {
     left: auto;
     right: 0;
 }
@@ -3962,11 +3962,11 @@ body.dragStart .allow-drop {
     border-top: 1px solid #e5e5e5;
 }
 
-#module-modal-settings-menu-holder-open-presets {
+.module-modal-settings-menu-holder-open-presets {
     background: white;
 }
 
-#module-modal-settings-menu-holder a {
+.module-modal-settings-menu-holder a {
     display: block;
     padding: 9px 9px;
     text-decoration: none;

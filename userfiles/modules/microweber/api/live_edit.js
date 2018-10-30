@@ -55,16 +55,20 @@ mw.live_edit.showHandle = function (element) {
 
                     }
 
+
                     var icon = '';
+
                     if (typeof(this.icon) != 'undefined') {
                         icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>'
                     }
+
                     new_el.innerHTML = '' +
                         icon +
                         '<span class="mw-edit-module-settings-tooltip-btn-title">' +
                         this.title +
                         '</span>' +
                         '';
+
                     mw.$('#' + mw_edit_settings_multiple_holder_id).append(new_el);
                 }
 
@@ -76,14 +80,13 @@ mw.live_edit.showHandle = function (element) {
 
     }
 
-
     if (mod_icon) {
         var sorthandle_main = mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
         if (sorthandle_main) {
             mw.$(sorthandle_main).addClass('mw-element-name-handle-no-fallback-icon');
-
         }
     }
+
 
 };
 
@@ -94,7 +97,6 @@ mw.live_edit.showSettings = function (a, opts) {
     var liveedit = opts.liveedit = opts.liveedit || false;
 
     var view = opts.view || 'admin';
-
 
     if (typeof a === 'string') {
         var module_type = a;
@@ -204,44 +206,22 @@ mw.live_edit.showSettings = function (a, opts) {
 
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
-
         var iframe_id = 'js-iframe-module-settings-' + curr.id;
 
-
-        var mod_icon = mw.live_edit.getModuleIcon(module_type);
-        var mod_title = mw.live_edit.getModuleTitle(module_type);
-        var mod_descr = mw.live_edit.getModuleDescription(module_type);
-
-
         var mod_settings_iframe_html_fr = '' +
-            '<div class="js-module-settings-edit-item-group-frame loading" id="fr-' + iframe_id + '">' +
-                '<iframe src="' + src + '" frameborder="0" onload="this.parentNode.classList.remove(\'loading\')">' +
+            '<div class="js-module-settings-edit-item-group-frame loading" id="sidebar-frame-' + iframe_id + '">' +
+            '<iframe src="' + src + '" frameborder="0" onload="this.parentNode.classList.remove(\'loading\')">' +
             '</div>';
 
 
-        var sidebar_title_box = "<div class='mw_module_settings_sidebar_title_wrapper' >" + mod_icon ;
-        var sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_title'>" + mod_title + "</div>";
-
-        if(mod_title != mod_descr){
-          //  var sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_description'>" + mod_descr + "</div>";
-        }
+        var sidebar_title_box = mw.live_edit.getModuleTitleBar(module_type);
 
 
-        var sidebar_title_box = sidebar_title_box + "</div>";
 
-
-        var mod_settings_iframe_html = '<div  id="' + iframe_id + '" class="js-module-settings-edit-item-group">'
+         var mod_settings_iframe_html = '<div  id="' + iframe_id + '" class="js-module-settings-edit-item-group">'
             + sidebar_title_box
             + mod_settings_iframe_html_fr
             + '</div>';
-
-
-
-
-      //  mod_settings_iframe_html =  sidebar_title_box + mod_settings_iframe_html ;
-
-
-
 
 
         if (!$("#" + iframe_id).length) {
@@ -250,6 +230,7 @@ mw.live_edit.showSettings = function (a, opts) {
 
         if ($("#" + iframe_id).length) {
             $('.js-module-settings-edit-item-group').hide();
+            $("#" + iframe_id).attr('data-settings-for-module', curr.id);
 
             $("#" + iframe_id).show();
         }
@@ -258,8 +239,26 @@ mw.live_edit.showSettings = function (a, opts) {
 }
 
 
+
+
+mw.live_edit.getModuleTitleBar = function (module_type) {
+
+    var mod_icon = mw.live_edit.getModuleIcon(module_type);
+    var mod_title = mw.live_edit.getModuleTitle(module_type);
+    var mod_descr = mw.live_edit.getModuleDescription(module_type);
+
+    var sidebar_title_box = "<div class='mw_module_settings_sidebar_title_wrapper' >" + mod_icon;
+    sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_title'>" + mod_title + "</div>";
+
+    if (mod_title != mod_descr) {
+        //  sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_description'>" + mod_descr + "</div>";
+    }
+    sidebar_title_box = sidebar_title_box + "</div>";
+    return sidebar_title_box;
+}
+
 mw.live_edit.getModuleIcon = function (module_type) {
-    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].icon) != 'undefined' ) {
+    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].icon) != 'undefined') {
         return '<span class="mw_module_settings_sidebar_icon" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
     }
     else {
@@ -267,9 +266,9 @@ mw.live_edit.getModuleIcon = function (module_type) {
     }
 };
 mw.live_edit.getModuleTitle = function (module_type) {
-    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].title) != 'undefined' ) {
+    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].title) != 'undefined') {
         return mw.live_edit.registry[module_type].title
-    } else  if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].name) != 'undefined' ) {
+    } else if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].name) != 'undefined') {
         return mw.live_edit.registry[module_type].name
     }
     else {
@@ -277,12 +276,12 @@ mw.live_edit.getModuleTitle = function (module_type) {
     }
 };
 mw.live_edit.getModuleDescription = function (module_type) {
-
-
-    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].description) != 'undefined' ) {
+    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].description) != 'undefined') {
         return mw.live_edit.registry[module_type].description
     }
     else {
         return ''
     }
 };
+
+
