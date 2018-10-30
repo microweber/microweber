@@ -488,35 +488,57 @@ var nodeSettingsPause = false;
 
 mw.liveNodeSettings = {
     _working: false,
-    set: function(type, el){
-        if(this[type]){
-            if(this._working) return;
+    set: function (type, el) {
+        if (this[type]) {
+            if (this._working) return;
             this._working = true;
             var scope = this;
-            setTimeout(function(){
+            setTimeout(function () {
                 scope._working = false;
             }, 78);
+
+
+
+
+
             mw.sidebarSettingsTabs.set(2);
             return this[type](el);
         }
-        else{
+        else {
             console.warn(type + ' not specified.')
         }
     },
-    element:function(el){
+
+
+    element: function (el) {
+        if (!this.__is_sidebar_opened()) {
+            return;
+        }
         $('.mw-live-edit-component-options')
             .hide()
             .filter('#js-live-edit-side-wysiwyg-editor-holder')
             .show();
     },
-    module:function(el){
-        $('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-module-settings-holder')
-            .show();
+    module: function (el) {
+        if (this.__is_sidebar_opened()) {
+            $('.mw-live-edit-component-options')
+                .hide()
+                .filter('#js-live-edit-module-settings-holder')
+                .show();
+        }
+
+
+
+
+
         mw.drag.module_settings();
+
+
     },
-    image:function(el){
+    image: function (el) {
+        if (!this.__is_sidebar_opened()) {
+            return;
+        }
 
         mw.$("#mw-live-edit-sidebar-image-frame")
             .contents()
@@ -527,17 +549,27 @@ mw.liveNodeSettings = {
             .filter('#js-live-edit-image-settings-holder')
             .show()
     },
-    initImage: function(){
+    initImage: function () {
         var url = mw.external_tool('imageeditor');
-        $("#js-live-edit-image-settings-holder").append('<iframe src="'+url+'" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
+        $("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
     },
-    icon:function () {
+    icon: function () {
         $('.mw-live-edit-component-options')
             .hide()
             .filter('#js-live-edit-icon-settings-holder')
             .show();
+    },
+
+    __is_sidebar_opened: function () {
+
+        if (mw.liveEditSettings.active) {
+            return true;
+        }
     }
+
+
 }
+
 
 $(document).ready(function(){
     mw.on('liveEditSettingsReady', function(){
@@ -1004,8 +1036,10 @@ mw.drag = {
                 $(".desc_area").hide();
             }
             if (mw.tools.hasClass(event.target.className, 'mw-open-module-settings')) {
-                mw.drag.module_settings()
+              // mw.drag.module_settings()
                     //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
+
+                mw.liveNodeSettings.set('module', event.target);
             }
 
             if (!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')) {
@@ -1368,7 +1402,9 @@ mw.drag = {
             mw.on.mouseDownAndUp($handle_module[0].querySelector('.mw-sorthandle-moveit'), function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
                 if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
-                  mw.drag.module_settings();
+                  // mw.drag.module_settings();
+                    //alert(1)
+                    mw.liveNodeSettings.set('module',mouseUpEvent.target);
                 }
 
               }
@@ -2202,7 +2238,7 @@ mw.drag = {
             helper = {},
             master = {};
         if (l > 0) {
-            for (; i < l; i++) {    
+            for (; i < l; i++) {
                 helper.item = edits[i];
                 var rel = mw.tools.mwattr(helper.item, 'rel');
                 if (!rel) {
