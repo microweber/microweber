@@ -1457,7 +1457,7 @@ mw.drag = {
                     $(mwd.body).removeClass("dragStart");
                 }
             });
-            mw.drag.toolbar_modules();
+
         }
         mw.drag.the_drop();
 

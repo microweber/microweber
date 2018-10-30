@@ -274,7 +274,9 @@ if (isset($_COOKIE['mw_exp'])) {
                                 $(this).on("load", function () {
                                     settingsLoaded++;
                                     if (settingsLoaded == all.length) {
+                                        $("#live_edit_side_holder .module").removeClass("module")
                                         mw.trigger('liveEditSettingsReady')
+
                                     }
                                 });
                                 this.src = src;
@@ -284,6 +286,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 mw.reload_module(this, function () {
                                     settingsLoaded++;
                                     if (settingsLoaded == all.length) {
+                                        $("#live_edit_side_holder .module").removeClass("module")
                                         mw.trigger('liveEditSettingsReady');
                                     }
                                 })

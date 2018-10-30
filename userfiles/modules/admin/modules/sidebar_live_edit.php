@@ -325,6 +325,7 @@
         mw.on('liveEditSettingsReady', function () {
             setScrollBoxes()
             setTimeout(function(){
+                mw.drag.toolbar_modules();
                 $("#mw-sidebar-layouts-list").removeClass("module")
                 $("#mw-sidebar-modules-list").removeClass("module")
 
