@@ -1,5 +1,43 @@
 mw.components = {
-
+    accordion:function(el){
+        var accordion = new mw.uiAccordion({
+            element:el
+        });
+        if($(el).hasClass('mw-accordion-window-height')){
+            accordion._setHeight = function(){
+                var max =  $(window).height();
+                accordion.root.css('maxHeight', max);
+                var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
+                accordion.contents.css('maxHeight', content_max);
+            }
+            accordion._setHeight();
+            $(window).on('load resize', function(){
+                accordion._setHeight();
+            });
+            if(window !== top){
+                $(top).on('load resize', function(){
+                    accordion._setHeight();
+                });
+            }
+        }
+        if($(el).hasClass('mw-accordion-full-height')){
+            accordion._setHeight = function(){
+                var max = Math.min($(el).height(), $(window).height());
+                accordion.root.css('maxHeight', max);
+                var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
+                accordion.contents.css('maxHeight', content_max);
+            }
+            accordion._setHeight();
+            $(window).on('load resize', function(){
+                accordion._setHeight();
+            });
+            if(window !== top){
+                $(top).on('load resize', function(){
+                    accordion._setHeight();
+                });
+            }
+        }
+    },
     postSearch: function (el) {
         var defaults = {keyword: el.value, limit: 4};
 
@@ -10,7 +48,6 @@ mw.components = {
         }
 
         var el = $(el);
-
 
         var options = JSON.parse(el.attr("data-options") || '{}');
 
@@ -70,7 +107,7 @@ mw.components = {
         });
         el.trigger("postSearchReady")
     },
-    init: function () {
+    _init: function () {
         mw.$('[data-mwcomponent]').each(function () {
             var component = $(this).attr("data-mwcomponent");
             if (mw.components[component]) {
@@ -78,19 +115,35 @@ mw.components = {
                 $(this).removeAttr('data-mwcomponent')
             }
         });
+        $.each(this, function(key){
+            if(key.indexOf('_') === -1){
+                mw.$('.mw-'+key+', '+key).not(".mw-component-ready").each(function () {
+                    $(this).addClass('mw-component-ready');
+                    mw.components[key](this);
+                });
+            }
+        });
     }
 }
 
 $(document).ready(function () {
-    mw.components.init();
+    mw.components._init();
 });
 
 $(window).on('load', function () {
-    mw.components.init();
+    mw.components._init();
 });
 
 $(window).on('ajaxStop', function () {
     setTimeout(function () {
-        mw.components.init();
+        mw.components._init();
     }, 100);
 });
+
+mw.registerComponent = function(name, func){
+    if(mw.components[name]){
+        console.warn('Component ' + name + ' already exists.');
+        return;
+    }
+    mw.components[name] = func;
+};

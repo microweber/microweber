@@ -5456,9 +5456,9 @@ mw.uiAccordion = function(options){
     this.prepare = function(options){
         var defaults = {
             multiple: false,
-            itemSelector: ".mw-accordion-item",
-            titleSelector: ".mw-accordion-title",
-            contentSelector: ".mw-accordion-content",
+            itemSelector: ".mw-accordion-item,mw-accordion-item",
+            titleSelector: ".mw-accordion-title,mw-accordion-title",
+            contentSelector: ".mw-accordion-content,mw-accordion-content",
             openFirst: true,
             toggle: true
         };
@@ -5533,6 +5533,7 @@ mw.uiAccordion = function(options){
         this.contents.hide()
         if(this.options.openFirst){
             this.contents.eq(0).show().addClass('active')
+            this.titles.eq(0).addClass('active').parent('.mw-accordion-item').addClass('active');
         }
         this.titles.on('click', function(){
             scope.toggle(scope.titles.index(this));
@@ -5542,30 +5543,3 @@ mw.uiAccordion = function(options){
     this.init(options);
 
 };
-
-
-
-$(document).ready(function(){
-    $('.mw-accordion').not('.mw-accordion-ready').each(function () {
-        new mw.uiAccordion({
-            element:this
-        });
-    });
-    $(document).ajaxStop(function(){
-        setTimeout(function(){
-            $('.mw-accordion').not('.mw-accordion-ready').each(function () {
-                new mw.uiAccordion({
-                    element:this
-                });
-            });
-        }, 700)
-    })
-});
-
-$(window).on('load', function(){
-    $('.mw-accordion').not('.mw-accordion-ready').each(function () {
-        new mw.uiAccordion({
-            element:this
-        });
-    });
-});

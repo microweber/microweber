@@ -35,7 +35,7 @@ if (isset($params['module'])): ?>
     mw.require("forms.js");
     mw.require('wysiwyg.js');
     mw.require("wysiwyg.css")
-    mw.require('options.js');
+    mw.require('options.js');9
     mw.lib.require('font_awesome');
 
 </script>
@@ -44,6 +44,7 @@ if (isset($params['module'])): ?>
 	/* overflow-x:hidden;
          overflow-y:auto; */
         min-height: 200px;
+    max-height: 100%;
 }
 #settings-container {
 	overflow: hidden;
