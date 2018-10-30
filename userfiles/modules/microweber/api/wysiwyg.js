@@ -2520,6 +2520,7 @@ $(mwd).ready(function () {
     if(!mw.wysiwyg._fontcolorpicker){
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
             element:document.querySelector('#mw_editor_font_color'),
+            tip:true,
             onchange:function (color) {
                 mw.wysiwyg.fontColor(color)
             }
@@ -2528,6 +2529,7 @@ $(mwd).ready(function () {
     if(!mw.wysiwyg._bgfontcolorpicker){
         mw.wysiwyg._bgfontcolorpicker = mw.colorPicker({
             element:document.querySelector('.mw_editor_font_background_color'),
+            tip:true,
             onchange:function (color) {
                 mw.wysiwyg.fontbg(color)
             }

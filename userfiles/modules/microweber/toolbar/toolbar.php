@@ -234,7 +234,6 @@ if (isset($_COOKIE['mw_exp'])) {
 
         mw.on('liveEditSettingsReady', function () {
             mw.drag.init();
-            $('.module', mw.liveEditSettings.box).removeClass('module');
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
                 mw.tools.show_live_edit_sidebar();
             });

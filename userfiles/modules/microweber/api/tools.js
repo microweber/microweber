@@ -4957,7 +4957,8 @@ mw.image = {
         modal.overlay.style.backgroundColor = 'white';
         $(modal.main).css('max-height', 600);
     }
-}
+};
+
 mw.module = {
     load: function () {
     },
@@ -5201,10 +5202,10 @@ mw._colorPicker = function (options) {
         this.show = function () {
             $(this.tip).show();
             mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
-        }
+        };
         this.hide = function () {
             $(this.tip).hide()
-        }
+        };
     }
 
 }

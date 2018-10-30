@@ -3657,9 +3657,13 @@ body.mw-live-edit .mw-tooltip-content {
 #mw_handle_module_down:before {
     content: "\0136"
 }
-
+body{
+    margin-right: 0;
+    transition: margin-right .3s;
+}
 .has-opened-sidebar {
-    margin-right: 300px;
+    margin-right: 360px;
+
 }
 
 @media screen and (max-width: 990px) {

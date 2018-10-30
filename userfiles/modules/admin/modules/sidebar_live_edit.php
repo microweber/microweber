@@ -327,9 +327,10 @@
             setTimeout(function(){
                 $("#mw-sidebar-layouts-list").removeClass("module")
                 $("#mw-sidebar-modules-list").removeClass("module")
+
             }, 333)
 
-        })
+        });
 
         $(window).on('resize orientationchange', function () {
             setScrollBoxes()
