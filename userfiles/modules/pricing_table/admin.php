@@ -57,7 +57,7 @@ if (get_option('style_color', $params['id']) == 'bg-primary') {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-settings"></i> Settings
+                <i class="mw-icon-gear"></i> Settings
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

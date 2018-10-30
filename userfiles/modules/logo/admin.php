@@ -119,7 +119,7 @@ if (isset($params['data-alt-logo'])) {
     }
 
     .p-t-30 {
-        padding-top: 30;
+        padding-top: 30px;
     }
 </style>
 
