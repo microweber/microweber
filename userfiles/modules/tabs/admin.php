@@ -1,9 +1,12 @@
 <?php only_admin_access() ?>
+
+<script>mw.lib.require('font_awesome5');</script>
+
 <script type="text/javascript">
     mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
     mw.require('icon_selector.js')
 </script>
-<script>mw.lib.require('font_awesome5');</script>
+
 <?php
 
 $settings = get_option('settings', $params['id']);
@@ -167,8 +170,23 @@ if (isset($json) == false or count($json) == 0) {
 
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label">Icon</label>
-                                    <input type="text" class="mw-ui-field tab-icon mw-full-width" value="<?php print $slide['icon']; ?>">
                                     <input type="hidden" name="id" class="tab-id" value="<?php print $slide['id']; ?>">
+
+
+                                    <script>
+                                        $(document).ready(function () {
+                                            mw.iconSelector.iconDropdown("#icon-picker", {
+                                                onchange: function (iconClass) {
+                                                    $('.tab-icon').val(iconClass).trigger('change')
+                                                },
+                                                mode: 'absolute',
+                                                value: '<?php print $slide['icon']; ?>'
+                                            });
+                                            $("#icon-picker input").val($('.tab-icon').val())
+                                        })
+                                    </script>
+                                    <textarea class="tab-icon" style="display: none"><?php print $slide['icon']; ?></textarea>
+                                    <div id="icon-picker"></div>
                                 </div>
                             </div>
                         </div>

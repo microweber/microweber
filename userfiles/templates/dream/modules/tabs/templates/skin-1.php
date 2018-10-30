@@ -37,7 +37,7 @@ if (isset($json) == false or count($json) == 0) {
                 <li class="<?php if ($count == 1): ?>active<?php endif; ?> voh vnn">
                     <div class="tab__title btn vpe">
                         <span class="btn__text">
-                            <span class="fa <?php print isset($slide['icon']) ? $slide['icon'] : ''; ?>"></span> <?php print isset($slide['title']) ? $slide['title'] : ''; ?>
+                            <?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><?php print isset($slide['title']) ? $slide['title'] : ''; ?>
                         </span>
                     </div>
                     <div class="tab__content">
@@ -55,7 +55,7 @@ if (isset($json) == false or count($json) == 0) {
 
 <script>
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         mw.tplDream.tabs($)
     })
 

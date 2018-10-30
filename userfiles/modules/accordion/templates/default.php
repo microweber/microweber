@@ -16,7 +16,7 @@ if (isset($json) == false or count($json) == 0) {
         <?php foreach ($json as $key => $slide): ?>
             <li class="<?php if ($key == 0): ?>active<?php endif; ?>">
                 <div class="accordion__title">
-                    <span class="h5"><span class="fa <?php print isset($slide['icon']) ? $slide['icon'] : ''; ?>"></span> <?php print isset($slide['title']) ? $slide['title'] : ''; ?></span>
+                    <span class="h5"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><?php print isset($slide['title']) ? $slide['title'] : ''; ?></span>
                 </div>
 
                 <div class="accordion__content">
