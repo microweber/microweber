@@ -209,12 +209,12 @@ mw.live_edit.showSettings = function (a, opts) {
         var iframe_id = 'js-iframe-module-settings-' + curr.id;
 
         var mod_settings_iframe_html_fr = '' +
-            '<div class="js-module-settings-edit-item-group-frame loading" id="sidebar-frame-' + iframe_id + '">' +
+            '<div class="js-module-settings-edit-item-group-frame loading" id="sidebar-frame-wrapper-' + iframe_id + '">' +
             '<iframe src="' + src + '" frameborder="0" onload="this.parentNode.classList.remove(\'loading\')">' +
             '</div>';
 
 
-        var sidebar_title_box = mw.live_edit.getModuleTitleBar(module_type);
+        var sidebar_title_box = mw.live_edit.getModuleTitleBar(module_type, curr.id);
 
 
 
@@ -241,14 +241,15 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-mw.live_edit.getModuleTitleBar = function (module_type) {
+mw.live_edit.getModuleTitleBar = function (module_type, module_id) {
 
     var mod_icon = mw.live_edit.getModuleIcon(module_type);
     var mod_title = mw.live_edit.getModuleTitle(module_type);
     var mod_descr = mw.live_edit.getModuleDescription(module_type);
 
-    var sidebar_title_box = "<div class='mw_module_settings_sidebar_title_wrapper' >" + mod_icon;
+    var sidebar_title_box = "<div class='mw_module_settings_sidebar_title_wrapper js-module-titlebar-"+module_id+"'>" + mod_icon;
     sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_title'>" + mod_title + "</div>";
+    sidebar_title_box = sidebar_title_box + "<div class='js-module-sidebar-settings-menu-holder'>" + "</div>";
 
     if (mod_title != mod_descr) {
         //  sidebar_title_box = sidebar_title_box + "<div class='mw_module_settings_sidebar_description'>" + mod_descr + "</div>";

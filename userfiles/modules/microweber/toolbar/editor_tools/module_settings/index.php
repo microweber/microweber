@@ -109,17 +109,18 @@
         <?php if(is_array($module_info)): ?>
 
         mw_module_settings_info = <?php print json_encode($module_info); ?>
-        <?php
+            <?php
 
-            $mpar = $params;
-            if (isset($mpar['module_settings'])) {
-                unset($mpar['module_settings']);
-            }
+                $mpar = $params;
+                if (isset($mpar['module_settings'])) {
+                    unset($mpar['module_settings']);
+                }
 
-            ?>
+                ?>
 
 
-            mw_module_params = <?php print json_encode($mpar); ?>
+            mw_module_params =
+        <?php print json_encode($mpar); ?>
 
         <?php endif; ?>
 
@@ -134,11 +135,7 @@
         //var the_module_settings_frame = parent.mw.$('#' + this.name)[0];
 
 
-
-
-
         if (typeof thismodal != 'undefined' && thismodal != false) {
-
 
 
             var modal_title_str = '';
@@ -185,147 +182,6 @@
             }
 
 
-            if (typeof thismodal.main[0] != 'undefined') {
-
-
-                var toolbar = thismodal.main[0].querySelector('.mw_modal_toolbar');
-                var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
-                if (is_module_tml_holder.length == 0) {
-
-                    var dd = mwd.createElement('div');
-                    dd.id = 'module-modal-settings-menu-holder';
-                    dd.className = 'mw-presets-dropdown module-modal-settings-menu-holder';
-                    $(toolbar).append(dd);
-                    /*******************************************************
-                     Do not delete !!! Module template: list and 'Crete Module Template'
-
-                     $(toolbar).append(dd);
-                     *******************************************************/
-
-
-                }
-
-
-                mw.module_preset_linked_dd_menu_show_icon = function () {
-                    var toolbar = thismodal.main[0].querySelector('.mw_modal_toolbar');
-                    var is_module_preset_tml_holder = $("#module-modal-preset-linked-icon", toolbar);
-
-                    if (is_module_preset_tml_holder.length == 0) {
-                        var linked_dd = window.parent.mwd.createElement('div');
-                        linked_dd.id = 'module-modal-preset-linked-icon';
-                        linked_dd.class = 'module-modal-preset-linked-icon';
-                        linked_dd.style.display = "none";
-
-                        $(toolbar).prepend(linked_dd);
-
-                    }
-
-                    is_module_preset_tml_holder = window.parent.$("#module-modal-preset-linked-icon");
-                    <?php if($is_linked_mod){  ?>
-                    $("#module-modal-preset-linked-icon", toolbar).addClass('is-linked').show();
-                    <?php  } else { ?>
-                    $("#module-modal-preset-linked-icon", toolbar).removeClass('is-linked').hide();
-
-                    <?php  } ?>
-                }
-
-
-                $(document).ready(function () {
-
-
-                    //   window.top.module_settings_modal_reference = thismodal;
-
-
-                    <?php if(is_array($module_info)): ?>
-
-
-                    <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
-
-
-
-
-
-                    var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
-
-                    if (is_module_tml_holder.length > 0) {
-
-
-                        is_module_tml_holder.empty();
-
-                        var holder = mwd.createElement('div');
-                        holder.className = 'mw-module-presets-content';
-
-
-                        var html = ""
-                            + "<div id='module-modal-settings-menu-items<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
-                            + "</div>"
-                            + "<hr>"
-                            + "<div class='module-modal-settings-menu-holder-2<?php print $params['id'] ?>'>"
-                            + "<a href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>";
-
-
-                        window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
-                            var modal_preset_manager_html_placeholder_for_reload_content = ""
-                                + "<div id='module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
-                                + "</div>"
-
-
-
-                            var presetsthismodalid = thismodal.main[0].id;
-
-                            window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                            window.parent.module_settings_modal_reference_window = window;
-
-
-
-                            //  $('#module-modal-settings-menu-holder-open-presets').html('');
-
-
-                            // HERE FOR DROPDOWN
-                            window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
-
-
-                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>');
-
-                        };
-                        var html = ""
-
-                            + "<div class='module-modal-settings-menu-content'>" +
-                            "<a  href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();void(0)'>Presets</a>" +
-
-                            "</div>"
-                            + "<div class='module-modal-settings-menu-holder-open-presets' onclick='void();'></div>"
-
-                        var btn = document.createElement('a');
-                        btn.className = 'mw-module-presets-opener';
-                        $(btn).on('click', function () {
-                            $(this).parent().toggleClass('active');
-                        });
-
-                        var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
-
-                        if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0], 'edit')) {
-                            $(holder).append(html);
-                            $(dd).prepend(btn);
-
-                            is_module_tml_holder.append(holder);
-
-                        }
-
-
-                    }
-
-                    window.parent.modal_preset_manager_html_placeholder_for_reload();
-                    mw.module_preset_linked_dd_menu_show_icon();
-                    <?php endif; ?>
-
-
-
-                });
-
-
-            }
-
             $(window).load(function () {
                 if (typeof thismodal.main[0] != 'undefined') {
 
@@ -364,7 +220,6 @@
         }
 
 
-
         $(window).load(function () {
 
 
@@ -377,6 +232,174 @@
 
         });
 
+
+        $(window).load(function () {
+
+            // add dropdown
+
+            if (typeof thismodal != 'undefined' && typeof thismodal.main[0] != 'undefined') {
+                module_settings_opener_titlebar_holder = thismodal.main[0];
+            } else {
+                if (window.parent.mw.$('.js-module-titlebar-<?php print $params['id'] ?>').length > 0) {
+                    module_settings_opener_titlebar_holder = window.parent.mw.$('.js-module-titlebar-<?php print $params['id'] ?>')[0];
+                }
+
+            }
+
+            if (typeof module_settings_opener_titlebar_holder != 'undefined') {
+
+
+                var toolbar = module_settings_opener_titlebar_holder.querySelector('.mw_modal_toolbar');
+                if (!toolbar) {
+                    var toolbar = module_settings_opener_titlebar_holder.querySelector('.js-module-sidebar-settings-menu-holder');
+
+                }
+                d(toolbar);
+
+
+
+
+
+                var is_module_tml_holder = $(toolbar).find(".js-module-modal-settings-menu-holder");
+                if (is_module_tml_holder.length == 0) {
+
+                    var dd = mwd.createElement('div');
+                    //dd.id = 'module-modal-settings-menu-holder';
+                    dd.className = 'mw-presets-dropdown module-modal-settings-menu-holder';
+                    $(toolbar).append(dd);
+                    /*******************************************************
+                     Do not delete !!! Module template: list and 'Crete Module Template'
+
+                     $(toolbar).append(dd);
+                     *******************************************************/
+
+
+                }
+
+
+                mw.module_preset_linked_dd_menu_show_icon = function () {
+                    var toolbar = module_settings_opener_titlebar_holder.querySelector('.mw_modal_toolbar');
+                    var is_module_preset_tml_holder = $(".module-modal-preset-linked-icon", toolbar);
+
+                    if (is_module_preset_tml_holder.length == 0) {
+                        var linked_dd = window.parent.mwd.createElement('div');
+                       // linked_dd.id = 'module-modal-preset-linked-icon';
+                        linked_dd.class = 'module-modal-preset-linked-icon';
+                        linked_dd.style.display = "none";
+
+                        $(toolbar).prepend(linked_dd);
+
+                    }
+
+                    is_module_preset_tml_holder = window.parent.$(".module-modal-preset-linked-icon");
+                    <?php if($is_linked_mod){  ?>
+                    $(".module-modal-preset-linked-icon", toolbar).addClass('is-linked').show();
+                    <?php  } else { ?>
+                    $(".module-modal-preset-linked-icon", toolbar).removeClass('is-linked').hide();
+
+                    <?php  } ?>
+                }
+
+
+                $(document).ready(function () {
+
+
+                    //   window.top.module_settings_modal_reference = thismodal;
+
+
+                    <?php if(is_array($module_info)): ?>
+
+
+                    <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
+
+
+                    var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
+
+                    if (is_module_tml_holder.length > 0) {
+
+
+                        is_module_tml_holder.empty();
+
+                        var holder = mwd.createElement('div');
+                        holder.className = 'mw-module-presets-content';
+
+
+                        var html = ""
+                            + "<div id='module-modal-settings-menu-items<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
+                            + "</div>"
+                            + "<hr>"
+                            + "<div class='module-modal-settings-menu-holder-2<?php print $params['id'] ?>'>"
+                            + "<a href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>";
+
+
+                        window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
+                            var modal_preset_manager_html_placeholder_for_reload_content = ""
+                                + "<div id='module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
+                                + "</div>"
+
+
+                            var presetsthismodalid = module_settings_opener_titlebar_holder.id;
+
+                            window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                            window.parent.module_settings_modal_reference_window = window;
+
+
+                            //  $('#module-modal-settings-menu-holder-open-presets').html('');
+
+
+                            // HERE FOR DROPDOWN
+                            window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
+
+
+
+
+
+
+
+                        };
+                        var html = ""
+
+                            + "<div class='module-modal-settings-menu-content'>" +
+                            "<a  href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
+
+                            "</div>"
+                            + "<div class='module-modal-settings-menu-holder-open-presets' ></div>"
+
+                        var btn = document.createElement('a');
+                        btn.className = 'mw-module-presets-opener';
+                        $(btn).on('click', function () {
+                            $(this).parent().toggleClass('active');
+
+
+                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>');
+
+                        });
+
+                        var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
+
+                        if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0], 'edit')) {
+                            $(holder).append(html);
+                            $(dd).prepend(btn);
+
+                            is_module_tml_holder.append(holder);
+
+                        }
+
+
+                    }
+
+                    window.parent.modal_preset_manager_html_placeholder_for_reload();
+                    mw.module_preset_linked_dd_menu_show_icon();
+                    <?php endif; ?>
+
+
+                });
+
+
+            }
+
+
+        });
 
     </script>
 
@@ -435,13 +458,12 @@
     $(document).ready(function () {
 
 
-         mw.options.form('#settings-container', function(){
+        mw.options.form('#settings-container', function () {
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _e('Settings are saved') ?>');
             }
         });
     });
-
 
 
     $(frame).on('unload', function () {
