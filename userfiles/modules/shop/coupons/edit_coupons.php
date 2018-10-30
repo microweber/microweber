@@ -14,39 +14,39 @@
 $allCoupons = coupon_get_all();
 ?>
 <table class="table-style-1 mw-ui-table">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>Coupon</th>
-			<th>Code</th>
-			<th>Discount</th>
-			<th>Total</th>
-			<th style="width:150px;">Action</th>
-		</tr>
-	</thead>
-	<?php
-	if ($allCoupons):
-	    foreach ($allCoupons as $coupon):
-	?>
-	<tr<?php if($coupon['is_active'] == 1): ?> class="js-table-active" <?php else: ?> class="js-table-inactive" <?php endif; ?>>
-    <td><?php print($coupon['id']) ?></td>
-    <td><?php print($coupon['coupon_name']) ?></td>
-    <td><?php print($coupon['coupon_code']) ?></td>
-    <td>
-    <?php print($coupon['discount_value']) ?><?php if($coupon['discount_type'] == 'precentage'): ?>%<?php else: ?>$<?php endif; ?>
-    </td>
-    <td><?php print($coupon['total_amount']) ?></td>
-    <td class="action-buttons">
-    	<button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Edit">
-    			 Edit
-		</button>
-		<button onclick="deleteCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Delete">
-		Delete
-		</button>
-    </td>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Coupon</th>
+        <th>Code</th>
+        <th>Discount</th>
+        <th>Total</th>
+        <th style="width:150px;">Action</th>
     </tr>
-	<?php 
-	endforeach;
-	endif;
-	?>
+    </thead>
+    <?php
+    if ($allCoupons):
+        foreach ($allCoupons as $coupon):
+            ?>
+            <tr<?php if ($coupon['is_active'] == 1): ?> class="js-table-active" <?php else: ?> class="js-table-inactive" <?php endif; ?>>
+                <td><?php print($coupon['id']) ?></td>
+                <td><?php print($coupon['coupon_name']) ?></td>
+                <td><?php print($coupon['coupon_code']) ?></td>
+                <td>
+                    <?php print($coupon['discount_value']) ?><?php if ($coupon['discount_type'] == 'precentage'): ?>%<?php else: ?>$<?php endif; ?>
+                </td>
+                <td><?php print($coupon['total_amount']) ?></td>
+                <td class="action-buttons">
+                    <button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Edit">
+                        Edit
+                    </button>
+                    <button onclick="deleteCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Delete">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <?php
+        endforeach;
+    endif;
+    ?>
 </table>

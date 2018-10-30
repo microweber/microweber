@@ -3,85 +3,38 @@
 
 
 <?php
-
 $from_live_edit = false;
-if(isset($params["live_edit"]) and $params["live_edit"] ){
+if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
 
 }
-
 ?>
 
-<div class="module-live-edit-settings">
-
-    <script>
-        mw.require('ui.css');
-        mw.lib.require('jqueryui');
-        mw.require("<?php print $config['url_to_module'];?>css/main.css");
-    </script>
-
-	<div id="tabsnav">
-		<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-			<a href="javascript:;" class="mw-ui-btn active tabnav">Coupons</a>
-
-            <?php if($from_live_edit) : ?>
-			<a href="javascript:;" class="mw-ui-btn tabnav">Skin/Template</a>
-
-
-            <?php endif; ?>
-		</div>
-		<div class="mw-ui-box">
-			<div class="mw-ui-box-content tabitem">
-
-				<div>
-					<a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline js-add-new-coupon"
-						href="#"><span> <span class="mai-plus"></span> Add new coupon </span></a>
-				</div>
-
-				<hr>
-				
-				<div>
-					<module type="shop/coupons/edit_coupons" />
-				</div>
-				
-			</div>
-            <?php if($from_live_edit) : ?>
-
-			<div class="mw-ui-box-content tabitem" style="display: none">
-				<module type="admin/modules/templates" />
-			</div>
-            <?php endif; ?>
-
-		</div>
-	</div>
-</div>
-
-
 <script>
-	function editCoupon(coupon_id = false) {
-	    var data = {};
-	    data.coupon_id = coupon_id;
-	    editModal = mw.tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple'})
-	}
+    function editCoupon(coupon_id = false) {
+        var data = {};
+        data.coupon_id = coupon_id;
+        editModal = mw.tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple'})
+    }
 
     function deleteCoupon(coupon_id) {
         var confirmUser = confirm('<?php _e('Are you sure to delete this coupon permanently?'); ?>');
         if (confirmUser == true) {
             $.ajax({
-                    url: '<?php print api_url('coupon_delete');?>',
-                    data: 'coupon_id=' + coupon_id,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (typeof(reload_coupon_after_save) != 'undefined') {
-                        	reload_coupon_after_save();
-                        }
+                url: '<?php print api_url('coupon_delete');?>',
+                data: 'coupon_id=' + coupon_id,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (typeof(reload_coupon_after_save) != 'undefined') {
+                        reload_coupon_after_save();
                     }
+                }
             });
         }
     }
-	
-	function reload_coupon_after_save() {
+
+    function reload_coupon_after_save() {
         mw.reload_module_parent('#<?php print $params['id'] ?>');
         mw.reload_module('shop/coupons/edit_coupons');
         window.parent.$(window.parent.document).trigger('shop.coupons.update');
@@ -89,16 +42,52 @@ if(isset($params["live_edit"]) and $params["live_edit"] ){
             editModal.modal.remove();
         }
     }
-    
+
     $(document).ready(function () {
-        // Add tabs
-        mw.tabs({
-            nav: '#tabsnav  .tabnav',
-            tabs: '#tabsnav .tabitem'
+        $(".js-add-new-coupon").click(function () {
+            editCoupon(false);
         });
-        
-        $(".js-add-new-coupon").click(function(){
-        	editCoupon(false);
-    	});
     });
 </script>
+
+<script>
+    mw.require('ui.css');
+    mw.lib.require('jqueryui');
+    mw.require("<?php print $config['url_to_module'];?>css/main.css");
+    mw.lib.require('font_awesome5');
+</script>
+
+
+<div class="mw-accordion">
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-settings"></i> Settings
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <!-- Settings Content -->
+            <div class="module-live-edit-settings module-coupons-settings">
+                <div class="mw-ui-field-holder add-new-button text-right m-b-10">
+                    <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded js-add-new-coupon" href="#"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                </div>
+
+                <module type="shop/coupons/edit_coupons"/>
+            </div>
+            <!-- Settings Content - End -->
+        </div>
+    </div>
+
+    <?php if ($from_live_edit) : ?>
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <div class="header-holder">
+                    <i class="mw-icon-beaker"></i> Templates
+                </div>
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <module type="admin/modules/templates"/>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
