@@ -34,16 +34,6 @@
             <textarea name="website_description" class="mw_option_field mw-ui-field" type="text" option-group="website"><?php print get_option('website_description', 'website'); ?></textarea>
         </div>
 
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">
-                <?php _e("Website Keywords"); ?>
-                <br>
-                <small>
-                    <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
-                </small>
-            </label>
-            <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
-        </div>
 
 <?php
 
