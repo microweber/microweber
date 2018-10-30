@@ -41,8 +41,6 @@
     </script>
     <style>
         #settings-main {
-            /* overflow-x:hidden;
-                 overflow-y:auto; */
             min-height: 200px;
         }
 
