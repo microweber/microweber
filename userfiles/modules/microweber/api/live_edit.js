@@ -131,6 +131,13 @@ mw.live_edit.showSettings = function (a, opts) {
 
     var curr = a || $("#mw_handle_module").data("curr");
 
+
+    if(!curr){
+        return;
+    }
+    if(typeof(curr) == 'undefined'){
+        return;
+    }
     var attributes = {};
     if (curr && curr.id && mw.$('#module-settings-' + curr.id).length > 0) {
         var m = mw.$('#module-settings-' + curr.id)[0];

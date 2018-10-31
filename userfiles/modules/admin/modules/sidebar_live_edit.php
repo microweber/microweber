@@ -12,7 +12,7 @@
             <a href="javascript:;" class="tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
             <a href="javascript:;" class="tabnav"><i class="mwi-cog"></i>  <?php _e("Settings"); ?></a>
-        </div>
+         </div>
 
 
 
