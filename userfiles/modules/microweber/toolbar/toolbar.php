@@ -257,7 +257,7 @@ if (isset($_COOKIE['mw_exp'])) {
                 content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
                 position: 'right',
                 id: 'live_edit_side_holder',
-                closeButton: false
+                closeButton: true
             });
 
             mw.tools.loading(mw.liveEditSettings.box);

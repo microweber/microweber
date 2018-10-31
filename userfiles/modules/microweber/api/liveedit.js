@@ -506,8 +506,10 @@ mw.liveNodeSettings = {
 
 
 
+            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+                        mw.sidebarSettingsTabs.set(2);
+            }
 
-            mw.sidebarSettingsTabs.set(2);
             return this[type](el);
         }
         else {

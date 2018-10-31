@@ -53,41 +53,21 @@ mw.options = {
     save: function (el, callback) {
 
 
-        var el = $(el);
+        var el = $(el), og1;
 
         if (!el) {
             return;
         }
 
+
         var opt_id = el.attr('data-id');
         var refresh_modules11 = el.attr('data-refresh');
 
-        if (og1 == undefined) {
-            var og1 = el.attr('option-group');
-        }
+        og1 = el.attr('option-group') || el.attr('option_group') || el.attr('data-option-group');
 
-        if (og1 == undefined) {
-            var og1 = el.attr('option_group');
-        }
+        var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh');
 
-        if (og1 == undefined) {
-            var og1 = el.attr('data-option-group');
-        }
-
-
-        var refresh_modules12 = el.attr('data-reload');
-        if (refresh_modules12 == undefined) {
-            var refresh_modules12 = el.attr('data-refresh');
-        }
-
-
-        var also_reload = el.attr('data-reload');
-
-
-        if (also_reload == undefined || !also_reload) {
-            var also_reload = el.attr('data-also-reload');
-        }
-
+        var also_reload = el.attr('data-reload') || el.attr('data-also-reload');
 
         var modal = $(mw.tools.modal.get(el).container);
 
@@ -145,7 +125,7 @@ mw.options = {
 
         }
         else {
-            val = el.val()
+            val = el.val();
         }
 
 
@@ -208,16 +188,14 @@ mw.options = {
            //     mw.log(refresh_modules11);
 
               //  alert(refresh_modules11);
-                if (!!mw.admin) {
-                    if (typeof(top.mweditor) != 'undefined' && typeof(top.mweditor) == 'object' && typeof(top.mweditor.contentWindow) != 'undefined') {
+                if (mw.admin) {
+                    if (top.mweditor && top.mweditor.contentWindow) {
                         setTimeout(function () {
-
                             top.mweditor.contentWindow.mw.reload_module("#" + refresh_modules11)
                         }, 777);
                     }
-
                 }
-                if (window.parent.mw != undefined) {
+                if (window.parent.mw) {
 
                     if (self !== top) {
                         setTimeout(function () {
@@ -344,106 +322,50 @@ mw.options = {
                 typeof callback === 'function' ? callback.call(data) : '';
 
             }
-        });
+        })
     }
 };
 
+mw.options._optionSaved = null;
 
 mw.options.form = function ($selector, callback, beforepost) {
-
-
-    var callback = callback || '';
-    var items = $($selector).find("input, select, textarea");
-    items.each(function () {
-        var item = $(this);
-
-
-        if (item.hasClass('mw_option_field')
-            && item.not('.mw-options-form-binded-custom')
-           // && item.not('.mw-options-form-binded')
-            && !item.__mwOptionField) {
-
-
-             var ev = item[0].nodeName === 'SELECT' ? 'change' : 'input';
-
-
-
-      //     item.__mwOptionField = true;
-
-            item.addClass('mw-options-form-binded');
-            //   item.addClass('mw-options-form-binded-custom');
-
-           // item.off("change input");
-        //    item.off(ev);
-            // item.on(" input change", function (e) {
-            //     var that = this;
-            //     mw.options.___handleSaveEvent(e, that,callback, beforepost);
-            // });
-
-            //item.on(ev, function (e) {
-            //    var that = this;
-            //    mw.options.___handleSaveEvent(e, that,callback, beforepost);
-            //});
-
-            item.off("change");
-            item.on("change", function (e) {
-                var that = this;
-                mw.options.___handleSaveEvent(e, that,callback, beforepost);
-            });
-
-
-            item.off("input");
-            item.on("input", function (e) {
-                var that = this;
-
-                if(item === null || typeof item === 'undefined'){ return false; }
-                if(!item.onstopWriting){
-                    item.onstopWriting = null;
+    var $root = mw.$($selector);
+    var root = $root[0];
+    if(!root) return;
+    if(!root._optionsEvents){
+        mw.$("input, select, textarea", root)
+            .not('.mw-options-form-binded-custom')
+            .each(function () {
+                this._optionSaved = true;
+                var item = $(this);
+                if (item.hasClass('mw_option_field')) {
+                    item.addClass('mw-options-form-binded');
+                    item.on('change input paste', function (e) {
+                        var token = this.name + this.value;
+                        if(mw.options._optionSaved !== token){
+                            mw.options._optionSaved = token;
+                            mw.options.___slowDownEvent(this, function () {
+                                if (typeof root._optionsEvents.beforepost === 'function') {
+                                    root._optionsEvents.beforepost.call(this);
+                                }
+                                mw.options.save(this, root._optionsEvents.callback);
+                            });
+                        }
+                    });
                 }
-                clearTimeout(item.onstopWriting);
-                item.onstopWriting = setTimeout(function(){
-                    mw.options.___handleSaveEvent(e, that,callback, beforepost);
-
-                }, 444);
             });
-        }
-    });
-}
-
-mw.options.___handleSaveEventisWorking = false;
-mw.options.___handleSaveEvent = function (e,that,callback, beforepost) {
-
-    if (!mw.options.___handleSaveEventisWorking) {
-        mw.options.___handleSaveEventisWorking = true;
-
-
-
-        //  $(this).addClass('mw-options-form-binded');
-
-        mw.options.___slowDownEvent(e, that, function () {
-            if (typeof beforepost === 'function') {
-                beforepost.call(this);
-            }
-            mw.options.save(this, callback);
-            setTimeout(function () {
-                mw.options.___handleSaveEventisWorking = false;
-            }, 150)
-
-        });
-
     }
-
-}
+    root._optionsEvents = root._optionsEvents || {};
+    root._optionsEvents = $.extend({}, root._optionsEvents, {callback:callback, beforepost:beforepost});
+};
 
 mw.options.___slowDownEventTimeOut = null;
-
-mw.options.___slowDownEvent = function (e, el, call) {
+mw.options.___slowDownEvent = function (el, call) {
     clearTimeout(mw.options.___slowDownEventTimeOut);
     mw.options.___slowDownEventTimeOut = setTimeout(function () {
-
-        call.call(el, e);
-    }, 100)
-}
+        call.call(el);
+    }, 400);
+};
 
 
 

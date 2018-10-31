@@ -405,6 +405,17 @@
 
         });
 
+
+        $(document).ready(function () {
+
+
+            mw.options.form('#settings-container', function () {
+                if (mw.notification != undefined) {
+                    mw.notification.success('<?php _e('Settings are saved') ?>');
+                }
+            });
+        });
+
     </script>
 
 </head>
@@ -449,30 +460,8 @@
 </script>
 <script type="text/javascript">
 
-    window.slowDownEventTime = null;
-
-    function slowDownEvent(e, el, call) {
-        clearTimeout(slowDownEventTime);
-        slowDownEventTime = setTimeout(function () {
-            call.call(el, e);
-        }, 333)
-    }
-
-
-    $(document).ready(function () {
-
-
-        mw.options.form('#settings-container', function () {
-            if (mw.notification != undefined) {
-                mw.notification.success('<?php _e('Settings are saved') ?>');
-            }
-        });
-    });
-
-
     $(frame).on('unload', function () {
         window.parent.$('#module-modal-settings-menu-holder').remove();
-
     });
 
 </script>

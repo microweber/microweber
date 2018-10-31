@@ -3,8 +3,8 @@
 <script type="text/javascript">mw.require('options.js');</script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('#mw-twitter-feed-settings-holder', function () {
+    $(window).ready(function () {
+        mw.options.form('.module-twitter-feed-settings', function () {
             if (mw.notification != undefined) {
                 mw.notification.success('Twitter feed settings saved');
             }
