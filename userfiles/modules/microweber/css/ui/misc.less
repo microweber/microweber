@@ -1,4 +1,3 @@
-
 @import "var";
 
 .mw-ui-btn-nav-tabs {
@@ -25,11 +24,6 @@
 
 /* /Tabs Navigation */
 
-
-
-
-
-
 /*********************************************
               jQuery UI Slider
 *********************************************/
@@ -52,9 +46,6 @@
   position: absolute;
   border-radius: 5px;
 }
-
-
-
 
 /* Sidebar navigation */
 
@@ -85,13 +76,6 @@
   color: white;
   box-shadow: 0 1px 5px -2px #000000 inset;
 }
-
-
-
-
-
-
-
 
 /************************************
        Richtext editor
@@ -135,8 +119,6 @@ body.bup.dragStart.state-element {
   display: none;
 }
 
-
-
 .mw-color-invert {
   color: @invert;
 }
@@ -156,8 +138,6 @@ body.bup.dragStart.state-element {
 .mw-color-notification {
   color: @notification;
 }
-
-
 
 .mw-progress {
   position: absolute;
@@ -188,8 +168,6 @@ body.bup.dragStart.state-element {
   transition-duration: .6s;
 }
 
-
-
 .mw-component-post-search {
   position: relative;
   display: inline-block;
@@ -215,8 +193,6 @@ body.bup.dragStart.state-element {
   color: #fff;
 }
 
-
-
 /* MW Notif */
 .mw-notif-box {
   padding: 15px;
@@ -235,71 +211,70 @@ body.bup.dragStart.state-element {
   color: @info;
 }
 
-.mw-hr{
-    display: block;
-    clear: both;
-    height: 1px;
-    overflow: hidden;
-    margin: 2rem auto;
-    background: @borderColor;
-    font-size: 0;
+.mw-hr {
+  display: block;
+  clear: both;
+  height: 1px;
+  overflow: hidden;
+  margin: 2rem auto;
+  background: @borderColor;
+  font-size: 0;
 }
 
-.mw-hero{
+.mw-hero {
+  position: relative;
+  clear: both;
+  background-size: cover;
+  background-position: center 33%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  max-height: 100vh;
+  .mw-hero-content {
+    max-width: 90%;
+    padding: 5%;
     position: relative;
-    clear: both;
-    background-size: cover;
-    background-position: center 33%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    max-height:100vh;
-    .mw-hero-content{
-        max-width:90%;
-        padding: 5%;
-        position: relative;
-        display: block;
-        text-align: center;
-        z-index: 1;
-        margin-left: auto;
-        margin-right: auto;
-        color: white;
-        &>h1,
-        &>h2,
-        &>h3,
-        &>h4,
-        &>h5,
-        &>h6
-        {
-            padding-bottom: .3em;
-            &+p{
-                padding-bottom: 1rem;
-            }
-        }
+    display: block;
+    text-align: center;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    & > h1,
+    & > h2,
+    & > h3,
+    & > h4,
+    & > h5,
+    & > h6 {
+      padding-bottom: .3em;
+      & + p {
+        padding-bottom: 1rem;
+      }
+    }
 
-    }
-    &:after{
-        position: absolute;
-        display: block;
-        z-index: 0;
-        content: '';
-        top: 0;
-        left: 0;
-        width:100%;
-        height: 100%;
-        background-color: rgba(0,0,0,.3);
-    }
+  }
+  &:after {
+    position: absolute;
+    display: block;
+    z-index: 0;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+  }
 
 }
 

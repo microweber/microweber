@@ -12,7 +12,7 @@ $border = get_option('border', $params['id']);
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php print _e('Choose your PDF file to upload'); ?></label>
-        <span class="mw-ui-btn" id="pdf"><span class="fas fa-upload"></span> &nbsp; <?php _e('Select file'); ?></span>
+        <span class="mw-ui-btn mw-ui-btn-info mw-full-width" id="pdf"><span class="fas fa-upload"></span> &nbsp; <?php _e('Select file'); ?></span>
     </div>
 
 
@@ -20,12 +20,16 @@ $border = get_option('border', $params['id']);
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php print _e('Set border color to PDF view'); ?></label>
-        <input class="mw-ui-field mw_option_field" name="border" id="border" placeholder="<?php _e('Eneter color hex..'); ?>">
+        <input class="mw-ui-field mw_option_field mw-full-width" name="border" id="border" placeholder="<?php _e('Eneter color hex..'); ?>">
+    </div>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label p-b-0">Allow users to download the PDF file</label>
     </div>
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-check">
-            <input type="checkbox" class="mw_option_field" name="download" value="true" <?= ($download == 'true' ? 'checked="checked"' : '') ?>/><span></span><span><?php _e('Download option'); ?></span>
+            <input type="checkbox" class="mw_option_field" name="download" value="true" <?= ($download == 'true' ? 'checked="checked"' : '') ?>/><span></span><span><?php _e('Allow download'); ?></span>
         </label>
     </div>
 </div>

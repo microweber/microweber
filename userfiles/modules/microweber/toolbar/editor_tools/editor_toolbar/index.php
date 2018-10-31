@@ -150,7 +150,7 @@
     }
 
     #editor-master {
-        height: 320px;
+        height: 100vh;
 
         max-width: 100%;
     }
