@@ -368,7 +368,7 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 
 
-      //     item.__mwOptionField = true;
+       //   item.__mwOptionField = true;
 
             item.addClass('mw-options-form-binded');
             //   item.addClass('mw-options-form-binded-custom');
@@ -405,8 +405,8 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 
 
-            item.off("change.mwoption");
-            item.on("change.mwoption", function (e) {
+          //  item.off("change.mwoption");
+            item.on("change", function (e) {
 
                 if(!item.saveTrigerTimeout) {
 
