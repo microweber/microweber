@@ -34,11 +34,39 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             width: 14px;
             text-align: center;
         }
+
+        .module-social-links-settings tr.active {
+            background: #FFF;
+        }
+
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $()
+            $('.module-social-links-settings input[type="checkbox"]:checked').each(function () {
+                $(this).parent().parent().parent().addClass('active');
+            });
+
+
+            $('.module-social-links-settings input[type="checkbox"]').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $(this).parent().parent().parent().addClass('active');
+                } else {
+                    $(this).parent().parent().parent().removeClass('active');
+                }
+            });
+        })
+    </script>
+
 
     <script>mw.lib.require('font_awesome5');</script>
 
     <div class="module-live-edit-settings module-social-links-settings">
+        <div class="mw-ui-field-holder">
+            <label class="mw-ui-label">Select and type socials links you want to show</label>
+        </div>
+
         <table class="mw-ui-table mw-full-width mw-ui-table-fixed mw-ui-table-basic">
             <colgroup>
                 <col width="30"/>
@@ -50,7 +78,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                 <td>
                     <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" option-group="<?php print $option_group; ?>" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span></label>
                 </td>
-                <td><i class="fab fa-facebook"></i></td>
+                <td><i class="fab fa-facebook mw-socials-facebook-color"></i></td>
                 <td>
                     <label class="mw-ui-inline-label">facebook.com/</label>
                 </td>
@@ -66,7 +94,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" name="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span></label>
                 </td>
 
-                <td><i class="fab fa-twitter"></i></td>
+                <td><i class="fab fa-twitter mw-socials-twitter-color"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">twitter.com/</label>
@@ -85,7 +113,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><i class="fab fa-pinterest"></i></td>
+                <td><i class="fab fa-pinterest mw-socials-pinterest-color"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">pinterest.com/</label>
@@ -104,7 +132,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><i class="fab fa-youtube"></i></td>
+                <td><i class="fab fa-youtube mw-socials-youtube-color"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">youtube.com/</label>
@@ -123,7 +151,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><i class="fab fa-linkedin"></i></td>
+                <td><i class="fab fa-linkedin  mw-socials-linkedin-color"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">linkedin.com/</label>
@@ -142,7 +170,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                     </label>
                 </td>
 
-                <td><i class="fab fa-instagram"></i></td>
+                <td><i class="fab fa-instagram  mw-socials-instagram-color"></i></td>
 
                 <td>
                     <label class="mw-ui-inline-label">instagram.com/</label>

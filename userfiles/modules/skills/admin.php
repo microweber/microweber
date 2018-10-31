@@ -201,7 +201,7 @@ if (sizeof($skills) == 0) {
 
 <div class="module-live-edit-settings module-skills-settings">
     <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Set your skills</label>
+        <label class="mw-ui-label p-b-0">Set your skills</label>
     </div>
 
     <div class="skills">
@@ -235,7 +235,7 @@ if (sizeof($skills) == 0) {
         <?php } ?>
     </div>
 
-    <span class="mw-ui-btn mw-ui-btn-info w100" onclick="addNewskill();"><span class="mw-icon-plus"></span> Add More</span>
+    <span class="mw-ui-btn mw-ui-btn-info w100" onclick="addNewskill();"><span class="mw-icon-plus"></span> Add New</span>
 
     <textarea name="file" id="file" disabled="disabled" class="mw_option_field" style="display: none"><?php print $file; ?></textarea>
 </div>
