@@ -227,8 +227,14 @@ if (isset($params['data-alt-logo'])) {
         $('#google-fonts option[value="<?php print $font_family; ?>"]').prop('selected', true);
 
         showLogoType();
-        $('input[name="logotype"]').on('change', function () {
-            showLogoType();
+        $('input[name="logotype"]').each(function () {
+            $(this).parent().parent().on("click", function(){
+                setTimeout(function(){
+                    showLogoType();
+                },78)
+            });
+
+            console.log(1122)
         });
 
 
