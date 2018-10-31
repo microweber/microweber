@@ -385,27 +385,38 @@ mw.options.form = function ($selector, callback, beforepost) {
             //    mw.options.___handleSaveEvent(e, that,callback, beforepost);
             //});
 
-            item.off("change");
-            item.on("change", function (e) {
-                var that = this;
-                mw.options.___handleSaveEvent(e, that,callback, beforepost);
-            });
 
-
-            item.off("input");
-            item.on("input", function (e) {
+            item.off("input.mwoption");
+            item.on("input.mwoption", function (e) {
                 var that = this;
 
                 if(item === null || typeof item === 'undefined'){ return false; }
-                if(!item.onstopWriting){
-                    item.onstopWriting = null;
+                if(!item.saveTrigerTimeout){
+                    item.saveTrigerTimeout = null;
                 }
-                clearTimeout(item.onstopWriting);
-                item.onstopWriting = setTimeout(function(){
+                clearTimeout(item.saveTrigerTimeout);
+                item.saveTrigerTimeout = setTimeout(function(){
                     mw.options.___handleSaveEvent(e, that,callback, beforepost);
 
                 }, 444);
+
+
             });
+
+
+
+            item.off("change.mwoption");
+            item.on("change.mwoption", function (e) {
+
+                if(!item.saveTrigerTimeout) {
+
+                    var that = this;
+                    mw.options.___handleSaveEvent(e, that, callback, beforepost);
+                }
+            });
+
+
+
         }
     });
 }
