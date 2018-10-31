@@ -32,6 +32,7 @@
     });
 </script>
 
+<script>mw.lib.require('font_awesome5')</script>
 <?php $data = false; ?>
 <?php if (isset($params['edit-id'])): ?>
     <?php $data = get_testimonials("single=true&id=" . $params['edit-id']); ?>
@@ -94,7 +95,7 @@ if (!isset($data['client_company'])) {
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e('Client Picture'); ?></label>
-        <input type="text" name="client_picture" id="client_picture" value="<?php print $data['client_picture'] ?>" class="mw-ui-field"><span class="mw-ui-btn" id="client_img"><span class="mw-icon-upload"></span><?php _e('Select Image'); ?></span>
+        <input type="text" name="client_picture" id="client_picture" value="<?php print $data['client_picture'] ?>" class="mw-ui-field"> &nbsp; <span class="mw-ui-btn mw-ui-btn-info" id="client_img"><span class="fas fa-upload"></span> &nbsp; <?php _e('Select Image'); ?></span>
     </div>
 
     <div class="mw-ui-field-holder">
@@ -102,7 +103,7 @@ if (!isset($data['client_company'])) {
         <textarea name="content" class="mw-ui-field w100"><?php print $data['content'] ?></textarea>
     </div>
 
-    <span class="mw-ui-btn" onclick="$('#more-testimonial-settings').slideToggle()" style="background: #efecec;">
+    <span class="mw-ui-btn mw-full-width" onclick="$('#more-testimonial-settings').slideToggle()" style="background: #efecec;">
     <span class="mw-icon-app-gear"></span> &nbsp; <?php _e('More Settings'); ?></span>
 
     <div id="more-testimonial-settings" style="display: none">

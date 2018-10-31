@@ -26,7 +26,7 @@
             <div class="module-live-edit-settings module-twitter-feed-settings">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e('Search string'); ?> <a href="https://dev.twitter.com/rest/public/search" target="_blank">[?]</a></label>
-                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" placeholder="Example: microweber" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
                 </div>
 
                 <div class="mw-ui-field-holder">

@@ -152,7 +152,7 @@ $closequote = get_option('closequote', $params['id']);
         </div>
     </div>
 
-    <div class="mw-accordion-item">
+    <div class="mw-accordion-itemt">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
                 <i class="mw-icon-gear"></i> Settings
