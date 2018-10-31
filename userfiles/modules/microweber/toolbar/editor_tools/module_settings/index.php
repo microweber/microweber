@@ -371,7 +371,11 @@
                             $(this).parent().toggleClass('active');
 
 
-                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>');
+                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>', function(){
+                               setTimeout(function(){
+                                   top.$(".mw-presets-dropdown .module").removeClass('module');
+                               },100)
+                            });
 
                         });
 

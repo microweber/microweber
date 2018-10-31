@@ -175,18 +175,18 @@ if (isset($json) == false or count($json) == 0) {
 
                                     <script>
                                         $(document).ready(function () {
-                                            mw.iconSelector.iconDropdown("#icon-picker", {
+                                            mw.iconSelector.iconDropdown("#icon-picker-<?php print $slide['id'] ?>", {
                                                 onchange: function (iconClass) {
                                                     $('.tab-icon').val(iconClass).trigger('change')
                                                 },
                                                 mode: 'absolute',
                                                 value: '<?php print $slide['icon']; ?>'
                                             });
-                                            $("#icon-picker input").val($('.tab-icon').val())
+                                            $("#icon-picker-<?php print $slide['id'] ?> input").val($('.tab-icon').val())
                                         })
                                     </script>
                                     <textarea class="tab-icon" style="display: none"><?php print $slide['icon']; ?></textarea>
-                                    <div id="icon-picker"></div>
+                                    <div id="icon-picker-<?php print $slide['id'] ?>"></div>
                                 </div>
                             </div>
                         </div>

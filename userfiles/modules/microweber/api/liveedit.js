@@ -3129,7 +3129,7 @@ $(window).on("load", function() {
             if (sel.rangeCount > 0 && ($.contains(e.target, cac) || $.contains(cac, e.target) || cac === e.target)) {
                 setTimeout(function() {
 
-                    if (cac.isContentEditable && !sel.isCollapsed && !mw.tools.hasClass(cac, 'plain-text')) {
+                    if (cac.isContentEditable && !sel.isCollapsed && !mw.tools.hasClass(cac, 'plain-text') && !mw.tools.hasClass(cac, 'safe-element')) {
                         if (typeof(window.getSelection().getRangeAt(0).getClientRects()[0]) == 'undefined') {
                             return;
                         }

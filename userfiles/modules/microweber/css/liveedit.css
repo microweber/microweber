@@ -4141,6 +4141,8 @@ body.dragStart .allow-drop {
 
 .mw_module_settings_sidebar_title_wrapper {
     display: block;
+    position: relative;
+    z-index: 2;
     width: 100%;
     padding: 9px 5px 9px 9px;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
