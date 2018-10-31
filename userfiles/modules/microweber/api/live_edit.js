@@ -151,6 +151,9 @@ mw.live_edit.showSettings = function (a, opts) {
         });
     }
 
+    var iframe_id_sidebar = 'js-iframe-module-settings-' + curr.id;
+    var iframe_id_sidebar_wrapper_id = 'sidebar-frame-wrapper-' + iframe_id_sidebar;
+
     var data1 = attributes;
     var module_type = null
     if (data1['data-type'] != undefined) {
@@ -194,7 +197,14 @@ mw.live_edit.showSettings = function (a, opts) {
     }
     var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
+
+
+
+
     if (self != top || !mw.liveEditSettings.active || opts.mode === 'modal') {
+        //remove from sidebar
+        $("#" + iframe_id_sidebar).remove();
+
         var modal = top.mw.tools.modal.frame({
             url: src,
             width: 532,
@@ -213,10 +223,9 @@ mw.live_edit.showSettings = function (a, opts) {
 
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
-        var iframe_id = 'js-iframe-module-settings-' + curr.id;
 
         var mod_settings_iframe_html_fr = '' +
-            '<div class="js-module-settings-edit-item-group-frame loading" id="sidebar-frame-wrapper-' + iframe_id + '">' +
+            '<div class="js-module-settings-edit-item-group-frame loading" id="' + iframe_id_sidebar_wrapper_id + '">' +
             '<iframe src="' + src + '" frameborder="0" onload="this.parentNode.classList.remove(\'loading\')">' +
             '</div>';
 
@@ -225,21 +234,21 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-         var mod_settings_iframe_html = '<div  id="' + iframe_id + '" class="js-module-settings-edit-item-group">'
+         var mod_settings_iframe_html = '<div  id="' + iframe_id_sidebar + '" class="js-module-settings-edit-item-group">'
             + sidebar_title_box
             + mod_settings_iframe_html_fr
             + '</div>';
 
 
-        if (!$("#" + iframe_id).length) {
+        if (!$("#" + iframe_id_sidebar).length) {
             $("#js-live-edit-module-settings-items").append(mod_settings_iframe_html);
         }
 
-        if ($("#" + iframe_id).length) {
+        if ($("#" + iframe_id_sidebar).length) {
             $('.js-module-settings-edit-item-group').hide();
-            $("#" + iframe_id).attr('data-settings-for-module', curr.id);
+            $("#" + iframe_id_sidebar).attr('data-settings-for-module', curr.id);
 
-            $("#" + iframe_id).show();
+            $("#" + iframe_id_sidebar).show();
         }
     }
 
