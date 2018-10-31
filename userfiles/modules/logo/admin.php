@@ -228,10 +228,10 @@ if (isset($params['data-alt-logo'])) {
 
         showLogoType();
         $('input[name="logotype"]').each(function () {
-            $(this).parent().parent().on("click", function(){
-                setTimeout(function(){
+            $(this).parent().parent().on("click", function () {
+                setTimeout(function () {
                     showLogoType();
-                },78)
+                }, 78)
             });
 
             console.log(1122)
@@ -240,7 +240,7 @@ if (isset($params['data-alt-logo'])) {
 
         mw.editor({
             element: '#text',
-            height: 320,
+            height: 200,
             width: '100%',
             hideControls: ['format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting']
         })
@@ -385,13 +385,17 @@ if (isset($params['data-alt-logo'])) {
         <?php endif; ?>
 
         <div class="mw-flex-row">
-            <div class="mw-flex-col-xs-4 p-t-30">
+            <div class="mw-flex-col-xs-12">
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label">Use automatic scale of the image</label>
+                </div>
+
                 <label class="mw-ui-check"><input type="checkbox" checked="" id="order_status1" value="pending">
-                    <span></span><span><?php _e('Auto width'); ?></span>
+                    <span></span><span><?php _e('Auto logo size'); ?></span>
                 </label>
             </div>
 
-            <div class="mw-flex-col-xs-8">
+            <div class="mw-flex-col-xs-12 m-t-20">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
                     <div class="range-slider">

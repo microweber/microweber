@@ -570,7 +570,7 @@ mw.liveNodeSettings = {
 
     __is_sidebar_opened: function () {
 
-        if (mw.liveEditSettings.active) {
+        if (typeof(mw.liveEditSettings) != 'undefined' &&  mw.liveEditSettings.active) {
             return true;
         }
     }

@@ -26,6 +26,12 @@ if (!$time_delay) {
     });
 </script>
 
+<style>
+    .module-popup-settings .mw-ui-inline-list li {
+        list-style: none;
+        margin-bottom: 10px;
+    }
+</style>
 <div class="mw-accordion">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
@@ -77,7 +83,7 @@ if (!$time_delay) {
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <module type="admin/modules/templates" simple="true"/>
+            <module type="admin/modules/templates" />
         </div>
     </div>
 </div>

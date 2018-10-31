@@ -146,7 +146,7 @@ h3 > [class*="mw-icon-"]:first-child {
 }
 
 .mw-iframe-editor {
-    min-height: 320px;
+    min-height: 200px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

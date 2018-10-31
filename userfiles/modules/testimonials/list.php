@@ -62,35 +62,44 @@
     });
 </script>
 
+<style>
+    .testimonial-client-image {
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+        border-radius: 100%;
+        width: 75px;
+        height: 75px;
+        -webkit-background-size: cover;
+        background-size: cover;
+        margin: 0 auto 10px auto;
+    }
+</style>
+
 <?php $data = get_testimonials(); ?>
 <?php if ($data): ?>
     <div class="table-responsive">
         <table width="100%" class="mw-ui-table mw-ui-table-basic" id="testimonials-list" style="table-layout: auto">
             <thead>
             <tr>
-                <th><?php _e('Image'); ?>/<?php _e('Name'); ?>/<?php _e('Content'); ?></th>
-                <th style="text-align:center"><?php _e('Edit'); ?></th>
-                <th style="text-align:center"><?php _e('Delete'); ?></th>
+                <th><?php _e('Image'); ?></th>
+                <th><?php _e('Name'); ?>/<?php _e('Content'); ?></th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($data as $item): ?>
                 <tr data-id="<?php print $item['id'] ?>">
-                    <td style="width:60%">
-                        <?php if ($item['client_picture'] != false): ?>
-                            <img src="<?php print $item['client_picture'] ?>" alt="" class="testimonial-client-image"/>
-                        <?php endif; ?>
-                        <br>
-                        <h4><?php print $item['name'] ?> </h4>
-                        <p><?php print substr($item['content'], 0, 100); ?>...</p>
+                    <td class="text-center" style="width: 120px;">
+                        <div style="background-image: url('<?php print thumbnail($item['client_picture'], 75, 75) ?>');" class="testimonial-client-image"></div>
+
+                        <a class="tip mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small" data-tip="Edit Item" data-tipposition="top-center" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
+                        &nbsp;
+                        <a style="color: rgba(204, 0, 0, 1)" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small tip " data-tip="Delete Item" data-tipposition="top-center" href="javascript:delete_testimonial('<?php print $item['id'] ?>');"><i class="mw-icon-bin"></i></a>
                     </td>
-                    <td style="text-align:center;width:20%;vertical-align: text-top">
-                        <a class="mw-icon-pen tip show-on-hover" data-tip="Edit Item" data-tipposition="top-center"
-                           href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');"></a>
-                    </td>
-                    <td style="text-align:center;width:20%;vertical-align: text-top;">
-                        <a style="color: rgba(204, 0, 0, 1)" class="mw-icon-bin tip show-on-hover" data-tip="Delete Item" data-tipposition="top-center"
-                           href="javascript:delete_testimonial('<?php print $item['id'] ?>');"></a>
+                    <td>
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label"><?php print $item['name'] ?> </label>
+                        </div>
+                        <p><?php print character_limiter($item['content'], 100); ?></p>
                     </td>
                 </tr>
             <?php endforeach; ?>

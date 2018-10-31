@@ -47,13 +47,13 @@ $alpha = get_option('alpha', $params['id']);
             <div class="module-live-edit-settings module-parallax-settings">
                 <div class="mw-ui-field-holder">
                     <div class="mw-ui-label"><?php _e('Upload Parallax image'); ?></div>
-                    <span class="mw-ui-btn w100" id="parallax"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose image'); ?></span>
+                    <span class="mw-ui-btn mw-ui-btn-info w100" id="parallax"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose image'); ?></span>
                     <input type="hidden" class="mw_option_field" name="parallax" id="parallaxval" value="<?php print $parallax; ?>"/>
                 </div>
 
                 <div class="mw-ui-field-holder">
                     <div class="mw-ui-label"><?php _e('Upload Info image'); ?></div>
-                    <span class="mw-ui-btn w100" id="info-image"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Info image'); ?></span>
+                    <span class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline w100" id="info-image"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Info image'); ?></span>
                     <input type="hidden" class="mw_option_field" name="info-image" id="infoimageval" value="<?php print $infoImage; ?>"/>
                 </div>
 
