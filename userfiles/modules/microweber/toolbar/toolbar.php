@@ -204,12 +204,10 @@ if (isset($_COOKIE['mw_exp'])) {
 
             function mw_live_edit_opensidebar() {
                 if (mw.liveEditSettings.active) {
-                    $('body').removeClass('has-opened-sidebar');
                 } else {
                     $('#live_edit_side_holder').addClass('sidebar_opened');
                     $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
                     mw.cookie.set("show-sidebar-layouts", '1');
-                    $('body').addClass('has-opened-sidebar');
                 }
             }
 
@@ -242,12 +240,10 @@ if (isset($_COOKIE['mw_exp'])) {
                 mw.liveEditSettings.show();
                 $('#live_edit_side_holder').addClass('sidebar_opened');
                 $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-                $('body').addClass('has-opened-sidebar');
             }
             else {
                 $('#live_edit_side_holder').removeClass('sidebar_opened');
                 $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
-                $('body').removeClass('has-opened-sidebar');
             }
             $('body').prepend('<div id="sidebar-hidden-area"></div>');
         });

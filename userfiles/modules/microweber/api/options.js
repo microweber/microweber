@@ -219,11 +219,6 @@ mw.options = {
                             }
 
                             mw.reload_module_parent("#" + refresh_modules11);
-
-
-
-
-
                         }, 777);
                     }
 

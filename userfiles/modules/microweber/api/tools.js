@@ -3292,13 +3292,11 @@ mw.tools = {
 
             $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
             mw.cookie.set("show-sidebar-layouts", '0');
-            $('body').removeClass('has-opened-sidebar');
             mw.liveEditSettings.hide();
         } else {
             mw.liveEditSettings.show();
             $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
             mw.cookie.set("show-sidebar-layouts", '1');
-            $('body').addClass('has-opened-sidebar');
         }
     },
 
