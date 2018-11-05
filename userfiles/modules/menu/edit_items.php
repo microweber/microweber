@@ -9,7 +9,7 @@ if(isset($params['menu-id'])){
 if(!isset($params['menu-name']) and isset($params['name'])){
     $params['menu-name'] = $params['name'];
 }
-
+$menu_title = false;
 if(isset($params['menu-name'])){
     //$id = trim($params['menu-name']);
     $menu = get_menus('one=1&limit=1&title='.$params['menu-name']);
@@ -26,6 +26,9 @@ if(isset($params['menu-name'])){
 }
 
 if( $id != 0){
+
+    $menu_title = $menu['title'];
+
     $menu_params = array();
     $menu_params['menu_id'] =  $id;
     $menu_params['link'] = '
@@ -218,3 +221,19 @@ if( $id != 0){
         <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
     </div>
 </div>
+
+<?php if( $id != 0){ ?>
+
+    <div class="mw-ui-box   ">
+
+        <div class="mw-ui-box-content">
+
+            You have selected <em><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?></em>
+            <a href="javascript:mw.menu_delete('<?php print $id; ?>');" class="pull-right tip"
+               data-tip="Delete"><i class="mw-icon-app-trash-outline"></i></a>
+
+
+        </div>
+    </div>
+<?php } ?>
+
