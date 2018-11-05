@@ -139,7 +139,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-navicon-round"></i> List
+                <i class="mw-icon-navicon-round"></i> List of Questions
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
