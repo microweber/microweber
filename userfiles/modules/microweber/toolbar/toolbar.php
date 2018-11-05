@@ -255,11 +255,11 @@ if (isset($_COOKIE['mw_exp'])) {
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
-            
-            $(mw.liveEditSettings).on('show', function(){
+
+            $(mw.liveEditSettings).on('ControlBoxShow', function(){
                 $(document.body).addClass('has-opened-sidebar');
             })
-            .on('hide', function(){
+            .on('ControlBoxHide', function(){
                 $(document.body).removeClass('has-opened-sidebar');
             });
 
