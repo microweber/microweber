@@ -88,9 +88,7 @@
 
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
-                <div class="header-holder">
-                    <i class="mai-setting2"></i> Another Example2
-                </div>
+                <i class="mai-setting2"></i> Another Example2
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                 Lorem Ipsum2
@@ -114,4 +112,49 @@
         Lorem Ipsum 2
     </div>
 </div>
+</div>
+
+<hr>
+
+<div class="ui_section">
+    <h2>Tabs Accordion</h2>
+    <br>
+    <div class="mw-tab-accordion">
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <i class="mai-setting2"></i> Another Example1
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                Lorem Ipsum1
+            </div>
+        </div>
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <i class="mai-setting2"></i> Another Example2
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                Lorem Ipsum2
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="mw-tab-accordion" data-options="tabsSize: big, tabsColor: info, breakPoint: 1200">
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <i class="mai-setting2"></i> Another Example1
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                Lorem Ipsum1
+            </div>
+        </div>
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <i class="mai-setting2"></i> Another Example2
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                Lorem Ipsum2
+            </div>
+        </div>
+    </div>
+
 </div>

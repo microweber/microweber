@@ -704,4 +704,8 @@ span.mw-powered-by {
 .mw-padding-bottom-4{padding-bottom: 60px}
 .mw-padding-bottom-5{padding-bottom: 80px}
 
+.module-google-maps{
+    position: relative;
+}
+
 

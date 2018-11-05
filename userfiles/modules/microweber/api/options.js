@@ -51,13 +51,14 @@ mw.options = {
         });
     },
     save: function (el, callback) {
-
-
-        var el = $(el), og1;
-
         if (!el) {
             return;
         }
+
+        el = $(el);
+        var og1;
+
+
 
 
         var opt_id = el.attr('data-id');

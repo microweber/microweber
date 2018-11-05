@@ -216,6 +216,25 @@ mw.propEditor = {
                 id:config.id
             };
         },
+        number:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'number');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            }
+            return {
+                node:holder,
+                setValue:function(value){
+                    field.value = parseInt(value, 10);
+                    proto._valSchema[config.id] = value
+                },
+                id:config.id
+            };
+        },
         color:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'color');
             if(field.type != 'color'){
@@ -293,5 +312,22 @@ mw.propEditor = {
                 id:config.id
             };
         },
+        icon:function(proto, config){
+            mw.iconSelector.iconDropdown("#icon-picker-<?php print $slide['id'] ?>", {
+                onchange: function (iconClass) {
+                    $('.tab-icon').val(iconClass).trigger('change')
+                },
+                mode: 'absolute',
+                value: '<?php print $slide['icon']; ?>'
+            });
+            return {
+                node:holder,
+                setValue:function(value){
+                    field.value = value;
+                    proto._valSchema[config.id] = value
+                },
+                id:config.id
+            };
+        }
     }
-}
+};
