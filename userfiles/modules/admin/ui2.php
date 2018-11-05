@@ -65,6 +65,12 @@
                     label:['Enter size'],
                     id:'size'
                 }
+                ,
+                {
+                    interface:'icon',
+                    label:['Some icon'],
+                    id:'icon'
+                }
 
             ]
         })
