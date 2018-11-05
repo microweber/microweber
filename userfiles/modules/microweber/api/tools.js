@@ -2507,9 +2507,9 @@ mw.tools = {
     },
     tabGroup: function (obj, master, m) {
         var master = master || mwd.body;
-        var m = m || true;
+        m = typeof m === 'undefined' ? true : m;
         if (m) {
-            var m = {
+            m = {
                 set: function (i) {
                     if (typeof i === 'number') {
                         if (!$(obj.nav).eq(i).hasClass(active)) {
@@ -2539,7 +2539,8 @@ mw.tools = {
                 }
             }
         }
-        var active = obj.activeNav || obj.activeClass || "active";
+        var active = obj.activeNav || obj.activeClass || "active",
+            firstActive = 0;
         mw.$(obj.nav).click(function (e) {
             if (!$(this).hasClass(active)) {
                 var i = mw.tools.index(this, mw.$(obj.nav).get(), mw.$(obj.nav)[0].nodeName);
@@ -2561,7 +2562,12 @@ mw.tools = {
                 }
             }
             return false;
+        }).each(function(i){
+            if(mw.tools.hasClass(this, active)){
+                firstActive = i;
+            }
         });
+        m.set(firstActive);
         return m;
     },
     has: function (el, what) {
