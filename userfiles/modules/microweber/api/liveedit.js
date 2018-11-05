@@ -536,12 +536,7 @@ mw.liveNodeSettings = {
                 .filter('#js-live-edit-module-settings-holder')
                 .show();
         }
-
-
-
-d(el);
-
-        mw.drag.module_settings();
+         mw.drag.module_settings();
 
 
     },
@@ -572,7 +567,7 @@ d(el);
 
     __is_sidebar_opened: function () {
 
-        if (typeof(mw.liveEditSettings) != 'undefined' &&  mw.liveEditSettings.active) {
+        if (mw.liveEditSettings  &&  mw.liveEditSettings.active) {
             return true;
         }
     }

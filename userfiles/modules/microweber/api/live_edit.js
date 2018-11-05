@@ -201,6 +201,11 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
+    //close sidebar
+    if(mw.liveEditSettings && mw.liveEditSettings.active){
+         mw.liveEditSettings.hide();
+    }
+
     $("#" + iframe_id_sidebar).remove();
 
     var modal = top.mw.tools.modal.frame({
