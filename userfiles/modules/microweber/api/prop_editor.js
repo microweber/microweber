@@ -313,21 +313,12 @@ mw.propEditor = {
             };
         },
         icon:function(proto, config){
-
-            var field = mw.propEditor.helpers.field('', 'text');
             var holder = mw.propEditor.helpers.wrapper();
             var label = mw.propEditor.helpers.label(config.label);
             holder.appendChild(label);
-            holder.appendChild(field);
-
-            /*$(field).on('change', function(){
-                proto._valSchema[config.id] = this.value;
-                $(proto).trigger('change', [config.id, this.value]);
-            });*/
             mw.iconSelector.iconDropdown(holder, {
                 onchange: function (ic) {
-                    field.value = ic;
-                    $(field).val(iconClass).trigger('change');
+                    $(field).val(ic).trigger('change');
                 },
                 mode: 'absolute',
                 value: ''

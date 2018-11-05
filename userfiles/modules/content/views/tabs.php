@@ -95,7 +95,8 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                                 selectable:true,
                                                 multiPageSelect:false,
                                                 tagsHolder:'.post-category-tags',
-                                                treeHolder:'#quick-parent-selector-tree'
+                                                treeHolder:'#quick-parent-selector-tree',
+                                                color:'info'
                                             });
 
                                             $(categorySelector.tree).on('ready', function(){

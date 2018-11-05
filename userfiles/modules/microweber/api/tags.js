@@ -112,7 +112,6 @@ mw.tags = mw.chips = function(options){
      };
 
      this.tag = function (options) {
-
             var config = {
                 close:true,
                 tagBtnClass:'mw-ui-btn mw-ui-btn-' + this.options.size
@@ -120,9 +119,17 @@ mw.tags = mw.chips = function(options){
 
             $.extend(config, options);
 
-             if(options.color){
-                 config.tagBtnClass +=  ' mw-ui-btn-' + options.color;
-             }
+         if(this.options.color){
+             config.tagBtnClass +=  ' mw-ui-btn-' + this.options.color;
+         }
+
+         if(this.options.outline){
+             config.tagBtnClass +=  ' mw-ui-btn-outline';
+         }
+
+         if(this.options.rounded){
+             config.tagBtnClass +=  ' mw-ui-btn-rounded';
+         }
 
 
             var tag_holder = mwd.createElement('span');
