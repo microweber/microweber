@@ -11,7 +11,7 @@ if ((url_param('mod_action') != false)) {
     <div class="mw-accordion-item js-subscribers-list">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-navicon-round"></i> List of subscribers
+                <i class="mw-icon-navicon-round"></i> <?php print _e('List of Subscribers'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

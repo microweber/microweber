@@ -127,7 +127,7 @@ $closequote = get_option('closequote', $params['id']);
     <div class="mw-accordion-item js-list-testimonials">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-navicon-round"></i> List
+                <i class="mw-icon-navicon-round"></i> List of Testimonials
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
