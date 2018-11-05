@@ -313,12 +313,24 @@ mw.propEditor = {
             };
         },
         icon:function(proto, config){
-            mw.iconSelector.iconDropdown("#icon-picker-<?php print $slide['id'] ?>", {
-                onchange: function (iconClass) {
-                    $('.tab-icon').val(iconClass).trigger('change')
+
+            var field = mw.propEditor.helpers.field('', 'text');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+
+            /*$(field).on('change', function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            });*/
+            mw.iconSelector.iconDropdown(holder, {
+                onchange: function (ic) {
+                    field.value = ic;
+                    $(field).val(iconClass).trigger('change');
                 },
                 mode: 'absolute',
-                value: '<?php print $slide['icon']; ?>'
+                value: ''
             });
             return {
                 node:holder,
