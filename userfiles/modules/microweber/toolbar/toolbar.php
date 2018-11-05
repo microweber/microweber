@@ -255,6 +255,13 @@ if (isset($_COOKIE['mw_exp'])) {
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
+            
+            $(mw.liveEditSettings).on('show', function(){
+                $(document.body).addClass('has-opened-sidebar');
+            })
+            .on('hide', function(){
+                $(document.body).removeClass('has-opened-sidebar');
+            });
 
             mw.tools.loading(mw.liveEditSettings.box);
 

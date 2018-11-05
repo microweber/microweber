@@ -51,16 +51,18 @@ mw.controlBox = function(options){
 
     this.show = function(){
         this.active = true;
-        $(this.box).addClass('active')
+        $(this.box).addClass('active') ;
+        $(this).trigger('show')
     };
 
     this.init = function(){
         this.build();
-        this.setContent()
+        this.setContent();
     };
     this.hide = function(){
         this.active = false;
-        $(this.box).removeClass('active')
+        $(this.box).removeClass('active');
+        $(this).trigger('hide');
     };
 
 
