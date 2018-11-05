@@ -1,19 +1,19 @@
 <div id="mw_small_editor_sidebar" class="mw-defaults mw_editor mw_small_editor">
     <style scoped>
-        .wysiwyg-table{
+      #mw_small_editor_sidebar  .wysiwyg-table{
             display: block;
             padding-top: 0;
         }
-        .wysiwyg-table > .wysiwyg-cell{
+      #mw_small_editor_sidebar .wysiwyg-table > .wysiwyg-cell{
             display: inline-block;
             white-space: normal;
             padding: 10px 0;
         }
-        .wysiwyg-undo-redo {
+      #mw_small_editor_sidebar .wysiwyg-undo-redo {
             display: inline-block;
             float: none;
         }
-        .editor_wrapper_tabled{
+      #mw_small_editor_sidebar .editor_wrapper_tabled{
             position: static;
 
         }

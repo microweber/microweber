@@ -201,6 +201,27 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
+    $("#" + iframe_id_sidebar).remove();
+
+    var modal = top.mw.tools.modal.frame({
+        url: src,
+        width: 532,
+        height: 150,
+        name: modal_name,
+        title: '',
+        callback: function () {
+            $(this.container).attr('data-settings-for-module', curr.id);
+        }
+    });
+    return modal;
+
+
+
+
+    return;
+
+
+
     if (self != top || !mw.liveEditSettings.active || opts.mode === 'modal') {
         //remove from sidebar
         $("#" + iframe_id_sidebar).remove();

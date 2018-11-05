@@ -396,12 +396,14 @@ $(document).ready(function() {
             uitype = 'image' ;
         }
 
-        if(uitype == 'module' && mw.liveEditSettings.active){
-            mw.liveNodeSettings.set(uitype, node);
-        }
-        if(uitype != 'module'){
-            mw.liveNodeSettings.set(uitype, node);
-        }
+        // if(uitype == 'module' && mw.liveEditSettings.active){
+        //     mw.liveNodeSettings.set(uitype, node);
+        // }
+        // if(uitype != 'module'){
+        //     mw.liveNodeSettings.set(uitype, node);
+        // }
+        mw.liveNodeSettings.set(uitype, node);
+
 
     });
 
@@ -537,7 +539,7 @@ mw.liveNodeSettings = {
 
 
 
-
+d(el);
 
         mw.drag.module_settings();
 
@@ -957,24 +959,23 @@ mw.drag = {
                       bg = !!event.target.style && !!event.target.style.backgroundImage;
                     }
 
-                    if (!mw.image.isResizing) {
+                    if (!mw.image.isResizing && mw.image_resizer) {
                         if (event.target.nodeName === 'IMG' && (mw.tools.hasClass(event.target, 'element') || mw.tools.hasClass(event.target, 'safe-element') || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) && mw.drag.columns.resizing === false) {
-
                             mw.image_resizer._show();
                             mw.image.resize.resizerSet(event.target, false);
-
                         }
                         else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
-
                             if(mw.image_resizer){
                                 mw.image_resizer._show();
+                                mw.image.resize.resizerSet(event.target, false);
                             }
-                            mw.image.resize.resizerSet(event.target, false);
                         }
                         else if (!!bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
                             if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) {
-                                mw.image_resizer._show();
-                                mw.image.resize.resizerSet(event.target, false);
+                                if(mw.image_resizer) {
+                                    mw.image_resizer._show();
+                                    mw.image.resize.resizerSet(event.target, false);
+                                }
                             }
                         }
                         else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
@@ -987,8 +988,6 @@ mw.drag = {
                                 if(mw.image_resizer){
                                     mw.image_resizer._hide();
                                 }
-
-
                             }
                         }
                     }

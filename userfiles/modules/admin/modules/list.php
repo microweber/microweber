@@ -301,7 +301,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
               id: '<?php print($module_id); ?>',
               name: '<?php print $module_item["module"] ?>',
               title: '<?php print addslashes($t); ?>',
-              <?php 
+              <?php
 
               // do not populate the icon for elements as its 1mb+
               if($mod_obj_str != 'element') :  ?>
