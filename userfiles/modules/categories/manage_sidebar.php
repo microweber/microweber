@@ -56,7 +56,7 @@
 
 
             mw.live_edit_load_cats_list = function () {
-                mw.load_module('categories/manage', '#mw_add_cat_live_edit', function () {
+                mw.load_module('categories/manage_sidebar', '#mw_add_cat_live_edit', function () {
 
                 });
             }
