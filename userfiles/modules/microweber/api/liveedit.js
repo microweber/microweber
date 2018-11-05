@@ -399,10 +399,10 @@ $(document).ready(function() {
         // if(uitype == 'module' && mw.liveEditSettings.active){
         //     mw.liveNodeSettings.set(uitype, node);
         // }
-        // if(uitype != 'module'){
-        //     mw.liveNodeSettings.set(uitype, node);
-        // }
-        mw.liveNodeSettings.set(uitype, node);
+        if(uitype != 'module'){
+            mw.liveNodeSettings.set(uitype, node);
+        }
+   //     mw.liveNodeSettings.set(uitype, node);
 
 
     });
@@ -1038,10 +1038,10 @@ mw.drag = {
                 $(".desc_area").hide();
             }
             if (mw.tools.hasClass(event.target.className, 'mw-open-module-settings')) {
-              // mw.drag.module_settings()
+                mw.drag.module_settings()
                     //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
 
-                mw.liveNodeSettings.set('module', event.target);
+               // mw.liveNodeSettings.set('module', event.target);
             }
 
             if (!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')) {
@@ -1404,9 +1404,9 @@ mw.drag = {
             mw.on.mouseDownAndUp($handle_module[0].querySelector('.mw-sorthandle-moveit'), function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
                 if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
-                  // mw.drag.module_settings();
+                    mw.drag.module_settings();
                   //  alert(1)
-                    mw.liveNodeSettings.set('module',mouseUpEvent.target);
+                    //mw.liveNodeSettings.set('module',mouseUpEvent.target);
                 }
 
               }

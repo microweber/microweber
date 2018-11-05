@@ -5,9 +5,20 @@
             <i class="mwi-hamb"></i>
         </div>
     </a>
-
+<style>
+    .mw-close-sidebar-btn{
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 7px 10px;
+        z-index: 9999;
+    }
+</style>
 
     <div id="mw-modules-layouts-tabsnav">
+        <a href="javascript:mw.liveEditSettings.hide();" class="mw-close-sidebar-btn"><i class="mw-icon-close"></i></a>
+
+
         <div class="mw-live-edit-sidebar-tabs mw-normalize-css">
             <a href="javascript:;" class="tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
