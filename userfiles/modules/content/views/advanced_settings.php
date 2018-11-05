@@ -6,9 +6,6 @@ if (isset($params['content-id'])) {
 
 }
 
-
-
-
 $available_content_types = false;
 $available_content_subtypes = false;
 /* FILLING UP EMPTY CONTENT WITH DATA */
@@ -16,12 +13,10 @@ if ($data == false or empty($data)) {
     $is_new_content = true;
     include('_empty_content_data.php');
 } else {
-
     $available_content_types = get_content('group_by=content_type');
     $available_content_subtypes = get_content('group_by=subtype');
-
-
 }
+
 /* END OF FILLING UP EMPTY CONTENT  */
 $show_page_settings = false;
 if (isset($params['content-type']) and $params['content-type'] == 'page') {
@@ -68,9 +63,6 @@ if(isset($data['created_by']) and $data['created_by']){
                         mw.edit_content.load_editor()
                     }
 
-
-                    //
-
                     typeof callback === 'function' ? callback.call(data) : '';
                 });
             });
@@ -91,7 +83,6 @@ if(isset($data['created_by']) and $data['created_by']){
 
                             }
                             //content/redirect_to_content_id
-
                         } else {
 
                         }
@@ -134,27 +125,18 @@ if(isset($data['created_by']) and $data['created_by']){
         mw.adm_cont_enable_edit_of_created_at = function () {
             $('.mw-admin-edit-post-change-created-at-value').removeAttr('disabled').show();
             $('.mw-admin-edit-post-display-created-at-value').remove();
-
-
         }
 
         mw.adm_cont_enable_edit_of_updated_at = function () {
             $('.mw-admin-edit-post-change-updated-at-value').removeAttr('disabled').show();
             $('.mw-admin-edit-post-display-updated-at-value').remove();
-
-
         }
     </script>
 
 <?php event_trigger('mw.admin.content.edit.advanced_settings', $data); ?>
 
 <?php if (isset($params['content-type']) and isset($params['content-id'])): ?>
-
-
-    <module type="content/views/settings_from_template" content-type="<?php print $params['content-type'] ?>"
-            content-id="<?php print $params['content-id'] ?>"/>
-
-
+    <module type="content/views/settings_from_template" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"/>
 <?php endif; ?>
 
 <?php

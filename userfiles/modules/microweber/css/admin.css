@@ -4768,9 +4768,6 @@ body.is_admin .mw-admin-container {
     float: left;
 }
 
-.mw-no-posts-foot .mw-ui-btn {
-    line-height: 15px;
-}
 
 .table-responsive {
     overflow-x: auto;

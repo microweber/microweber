@@ -1,5 +1,4 @@
 <script>
-
     $(document).ready(function () {
 
         if (window.thismodal && thismodal.resize) {

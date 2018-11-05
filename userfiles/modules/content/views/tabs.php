@@ -12,43 +12,40 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 
         <?php if ($data['content_type'] == 'page'): ?>
-        <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Parent page'); ?>
+            <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> &nbsp; <?php print _e('Parent page'); ?></a>
+        <?php else: ?>
+            <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> &nbsp; <?php print _e('Add to categories'); ?></a>
+        <?php endif; ?>
 
 
-            <?php else: ?>
-            <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Add to categories'); ?>
+        <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> &nbsp; Add images</a>
 
-                <?php endif; ?>
+        <?php if ($data['content_type'] == 'page'): ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e('Add to navigation'); ?>"><i class="mw-icon-menuadd"></i> &nbsp; <?php _e('Add to Menus'); ?></a>
+        <?php endif; ?>
 
+        <?php if ($data['content_type'] == 'product'): ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Price & Fields"); ?>"><i class="mw-icon-pricefields"></i> &nbsp; <?php _e("Price & Fields"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Shipping & Options"); ?>"><i class="mw-icon-truck"></i> &nbsp; <?php _e("Shipping & Options"); ?></a>
+        <?php else: ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Custom Fields"); ?>"><i class="mw-icon-pricefields"></i> &nbsp; <?php _e("Custom Fields"); ?></a>
+        <?php endif; ?>
 
-                <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> Add images</a>
+        <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mai-monitor-minus"></i> &nbsp; <?php _e("Advanced"); ?></a>
 
-                <?php if ($data['content_type'] == 'page'): ?>
-                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e('Add to navigation'); ?>"><i class="mw-icon-menuadd"></i> <?php _e('Add to Menus'); ?></a>
-                <?php endif; ?>
+        <?php if ($data['content_type'] == 'old_page'): ?>
+            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Template"); ?>"><i class="mw-icon-template"></i> &nbsp; <?php _e("Template"); ?></a>
+        <?php endif; ?>
 
-                <?php if ($data['content_type'] == 'product'): ?>
-                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Price & Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Price & Fields"); ?></a>
-                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Shipping & Options"); ?>"><i class="mw-icon-truck"></i> <?php _e("Shipping & Options"); ?></a>
-                <?php else: ?>
-                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Custom Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Custom Fields"); ?></a>
-                <?php endif; ?>
-
-                <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
-                <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mai-monitor-minus"></i> <?php _e("Advanced"); ?></a>
-
-                <?php if ($data['content_type'] == 'old_page'): ?>
-                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Template"); ?>"><i class="mw-icon-template"></i> <?php _e("Template"); ?></a>
-                <?php endif; ?>
-
-                <?php if (!empty($custom_tabs)): ?>
-                    <?php foreach ($custom_tabs as $item): ?>
-                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php print $title; ?>"><i class="<?php print $class; ?>"></i> <?php print $title; ?></a>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+        <?php if (!empty($custom_tabs)): ?>
+            <?php foreach ($custom_tabs as $item): ?>
+                <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                <a href="javascript:;" class="mw-ui-btn " data-tip="<?php print $title; ?>"><i class="<?php print $class; ?>"></i> &nbsp; <?php print $title; ?></a>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
     <!-- CONTENT -->
@@ -61,12 +58,10 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                     });
                 </script>
             <?php endif; ?>
+
             <?php if ($data['content_type'] == 'page') : ?>
-
                 <div class="mw-admin-edit-page-primary-settings parent-selector ">
-
                     <label><?php _e("Select parent"); ?></label>
-
                     <div class="mw-ui-field-holder">
                         <div class="quick-parent-selector">
                             <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>"
