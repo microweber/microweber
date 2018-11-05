@@ -32,6 +32,7 @@ if ($id == 0) {
     $data['position'] = '9999';
     $data['url'] = '';
     $data['title'] = '';
+    $data['auto_populate'] = '';
 //	$data['categories_id'] = '';
 } else {
 
@@ -40,6 +41,7 @@ if ($id == 0) {
 if ($id != 0) {
 //$data = menu_tree( $id);
 }
+
 
 
 ?>
@@ -85,6 +87,27 @@ if ($id != 0) {
         ?>
         <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;">
             <div id="custom_link_inline_controller_edit_<?php print $data['id'] ?>">
+
+                <?php
+
+                if (!isset($data['default_image'])) {
+                    $data['default_image'] = '';
+                }
+
+                if (!isset($data['rollover_image'])) {
+                    $data['rollover_image'] = '';
+                }
+
+                if (!isset($data['size'])) {
+                    $data['size'] = '';
+                }
+                if (!isset($data['auto_populate'])) {
+                    $data['auto_populate'] = '';
+                }
+
+                ?>
+
+
                 <h4><?php _e("Edit menu item"); ?></h4>
 
                 <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
@@ -106,9 +129,16 @@ if ($id != 0) {
                     <?php _e("Select page from your site"); ?>
                 </button>
 
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>b').toggle();">
-                    <?php _e("Select images"); ?>
+                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();">
+                    <?php _e("Advanced"); ?>
                 </button>
+
+
+
+
+
+
+
 
                 <?php if ($data['id'] != 0): ?>
                     <div id="menu-selector-<?php print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="top: 3px;">
@@ -120,26 +150,36 @@ if ($id != 0) {
 
                 <?php if ($data['id'] != 0): ?>
 
-                    <?php
+<div id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
 
-                    if (!isset($data['default_image'])) {
-                        $data['default_image'] = '';
-                    }
 
-                    if (!isset($data['rollover_image'])) {
-                        $data['rollover_image'] = '';
-                    }
 
-                    if (!isset($data['size'])) {
-                        $data['size'] = '';
-                    }
+    <br>
 
-                    ?>
+    <div  class="mw-ui-field-holder">
+        <label class="mw-ui-label">Auto add to menu <small class="mw-help" data-help="This option will populate the menu automatically with sub-pages and sub-categories"> (?)</small></label>
+        <select name="auto_populate" class="mw-ui-field mw-ui-field-medium">
+            <option  value="" <?php if($data['auto_populate'] == '') : ?>  selected   <?php endif; ?>   >Default</option>
+            <option  value="all" <?php if($data['auto_populate'] == 'all') : ?>  selected   <?php endif; ?> >Add Pages and Categories</option>
+            <option  value="pages" <?php if($data['auto_populate'] == 'pages') : ?>  selected   <?php endif; ?> >Add only Pages</option>
+            <option  value="categories" <?php if($data['auto_populate'] == 'categories') : ?>  selected   <?php endif; ?> >Add only Categories</option>
+        </select>
 
+
+    </div>
+    <br>
+
+
+
+    <label class="mw-ui-label">Select image for menu item</label>
+                    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>b').toggle();">
+                        <?php _e("Select images"); ?>
+                    </button>
 
                     <div id="menu-selector-<?php print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="top: 3px;height:420px">
                         <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php print $data['size'] ?>" default_image="<?php print $data['default_image'] ?>" rollover_image="<?php print $data['rollover_image'] ?>" for="content"/>
                     </div>
+</div>
                 <?php endif; ?>
 
                 <hr>

@@ -526,7 +526,7 @@
     background: none;
 }
 
-.fade-window .window-holder .mw-tag-selector .mw-ui-btn {
+/*.fade-window .window-holder .mw-tag-selector .mw-ui-btn {
     border-color: #0086db;
     color: #0086db;
 }
@@ -534,7 +534,7 @@
 .fade-window .window-holder .mw-tag-selector .mw-ui-btn:hover {
     border-color: #fff;
     color: #fff;
-}
+}*/
 
 .fade-window .window-holder .mw-tag-selector .mw-ui-btn .mw-icon-close {
     top: 0px;
@@ -564,9 +564,9 @@
     color: #0086db;
 }
 
-.fade-window .window-holder .mw-tag-selector .add-to-cats:hover i {
-    color: #fff;
-}
+/*.fade-window .window-holder .mw-tag-selector .add-to-cats:hover i {*/
+    /*color: #fff;*/
+/*}*/
 
 .fade-window .window-holder .advanced-settins-tab input,
 .fade-window .window-holder .advanced-settins-tab textarea,
