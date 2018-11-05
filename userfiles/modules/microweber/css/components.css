@@ -92,13 +92,13 @@
     width: 100%;
 }
 
-.mw-tag-selector > span > i {
-    font-size: 16px;
-    color: #E8E8E8;
-    margin-right: 7px;
-    margin-top: 1px;
-    float: left;
-}
+/*.mw-tag-selector > span > i {*/
+    /*font-size: 16px;*/
+    /*color: #E8E8E8;*/
+    /*margin-right: 7px;*/
+    /*margin-top: 1px;*/
+    /*float: left;*/
+/*}*/
 
 .mw-tag-selector > span > i:after {
     font-family: Microweber;
