@@ -50,9 +50,10 @@
 
         var settings = new mw.moduleSettings({
             element:'#test',
+            header:'<i class="mw-icon-drag"></i> Move <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
             data:[
-                {name:'test 1', size:1},
-                {name:'test 2', size:2, icon:''}
+                {name:'test 1', size:1, icon:'<i class="mw-icon-product"></i>'},
+                {name:'test 2', size:2, icon:'<i class="mw-icon-live"></i>'}
             ],
             schema:[
                 {
@@ -73,7 +74,8 @@
                 }
 
             ]
-        })
+        });
+        console.log(settings)
     })
 
 </script>

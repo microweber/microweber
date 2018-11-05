@@ -5,7 +5,7 @@ mw.propEditor = {
     helpers:{
         wrapper:function(){
             var el = document.createElement('div');
-            el.className = 'prop-ui-field-holder';
+            el.className = 'mw-ui-field-holder prop-ui-field-holder';
             return el;
         },
         quatroWrapper:function(){
@@ -15,19 +15,19 @@ mw.propEditor = {
         },
         label:function(content){
             var el = document.createElement('label');
-            el.className = 'prop-ui-label';
-            el.innerHTML = content
+            el.className = 'mw-ui-label prop-ui-label';
+            el.innerHTML = content;
             return el;
         },
         button:function(content){
             var el = document.createElement('button');
             el.className = 'mw-ui-btn';
-            el.innerHTML = content
+            el.innerHTML = content;
             return el;
         },
         field: function(val, type, options){
             type = type || 'text';
-            if(type == 'select'){
+            if(type === 'select'){
                 var el = document.createElement('select');
                 if(options && options.length){
                     var option = document.createElement('option');
@@ -47,15 +47,15 @@ mw.propEditor = {
                 el.type = type
             }
 
-            el.className = 'prop-ui-field';
-            el.value = val
+            el.className = 'mw-ui-field prop-ui-field';
+            el.value = val;
 
             return el;
         },
         fieldPack:function(label, type){
             var field = mw.propEditor.helpers.field('', type);
             var holder = mw.propEditor.helpers.wrapper();
-            var label = mw.propEditor.helpers.label(label);
+            label = mw.propEditor.helpers.label(label);
             holder.appendChild(label)
             holder.appendChild(field);
             return{
@@ -86,7 +86,7 @@ mw.propEditor = {
             }
             this.options.element.innerHTML = '';
             mw.propEditor.rend(this.options.element, this._rend)
-        }
+        };
         this.updateSchema = function(schema){
             for(var i =0; i<schema.length;i++){
                 var item = schema[i];
@@ -100,7 +100,7 @@ mw.propEditor = {
                     this.options.element.appendChild(create.node);
                 }
             }
-        }
+        };
         this.setValue = function(val){
             for(var i in val){
                 var rend = this.getRendById(i);
@@ -108,19 +108,19 @@ mw.propEditor = {
                     rend.setValue(val[i])
                 }
             }
-        }
+        };
         this.getValue = function(){
             return this._valSchema;
-        }
+        };
         this.getRendById = function(id){
             for(var i in this._rend){
-                if(this._rend[i].id == id){
+                if(this._rend[i].id === id){
                     return this._rend[i]
                 }
             }
-        }
+        };
         this.options = options;
-        this.options.element = typeof this.options.element == 'string' ? document.querySelector(options.element) : this.options.element;
+        this.options.element = typeof this.options.element === 'string' ? document.querySelector(options.element) : this.options.element;
 
         this.setSchema(this.options.schema)
 
@@ -137,7 +137,7 @@ mw.propEditor = {
                     var final = '';
                     var all = holder.querySelectorAll('input'), i = 0;
                     for( ; i<all.length; i++){
-                        var unit = all[i].dataset.unit || ''
+                        var unit = all[i].dataset.unit || '';
                         final+= ' ' + all[i].value + unit ;
                     }
                     proto._valSchema[config.id] = final.trim();
@@ -237,7 +237,7 @@ mw.propEditor = {
         },
         color:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'color');
-            if(field.type != 'color'){
+            if(field.type !== 'color'){
                 mw.colorPicker({
                     element:field,
                     onchange:function(){
@@ -314,19 +314,21 @@ mw.propEditor = {
         },
         icon:function(proto, config){
             var holder = mw.propEditor.helpers.wrapper();
-            var label = mw.propEditor.helpers.label(config.label);
-            holder.appendChild(label);
-            mw.iconSelector.iconDropdown(holder, {
+
+            var selector = mw.iconSelector.iconDropdown(holder, {
                 onchange: function (ic) {
-                    $(field).val(ic).trigger('change');
+                    proto._valSchema[config.id] = ic;
+                    $(proto).trigger('change', [config.id, ic]);
                 },
-                mode: 'absolute',
+                mode: 'relative',
                 value: ''
             });
+            var label = mw.propEditor.helpers.label(config.label);
+            $(holder).prepend(label);
             return {
                 node:holder,
                 setValue:function(value){
-                    field.value = value;
+                    selector.value(value);
                     proto._valSchema[config.id] = value
                 },
                 id:config.id

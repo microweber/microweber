@@ -405,9 +405,10 @@ mw.iconSelector = mw.iconSelector || {
           $('li', el).on('mousedown touchstart', function(){
             var val =  $(this).html()
             $('.mw-ui-field-icon', holder).html(val);
-             if(typeof options.onchange == 'function'){
+             if(typeof options.onchange === 'function'){
                  options.onchange.call(undefined, val, el)
              }
+              $('.mw-icon-selector-dropdown', el).on()
           });
         })
 
@@ -447,7 +448,12 @@ mw.iconSelector = mw.iconSelector || {
             })(this)
         });
 
-
+        return {
+            value: function (val) {
+                if(!val) return $('.mw-ui-field-icon', holder).html();
+                $('.mw-ui-field-icon', holder).html(val);
+            }
+        }
 
     },
     getMaterialIconsPopup:function(callback){
