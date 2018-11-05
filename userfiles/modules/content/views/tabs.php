@@ -11,55 +11,49 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
 
 
-
         <?php if ($data['content_type'] == 'page'): ?>
         <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Parent page'); ?>
 
 
-        <?php else: ?>
-        <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Add to categories'); ?>
+            <?php else: ?>
+            <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> <?php print _e('Add to categories'); ?>
 
-            <?php endif; ?>
+                <?php endif; ?>
 
 
+                <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> Add images</a>
 
-        <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> Add images</a>
+                <?php if ($data['content_type'] == 'page'): ?>
+                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e('Add to navigation'); ?>"><i class="mw-icon-menuadd"></i> <?php _e('Add to Menus'); ?></a>
+                <?php endif; ?>
 
-        <?php if ($data['content_type'] == 'page'): ?>
-            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e('Add to navigation'); ?>"><i class="mw-icon-menuadd"></i> <?php _e('Add to Menus'); ?></a>
-        <?php endif; ?>
+                <?php if ($data['content_type'] == 'product'): ?>
+                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Price & Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Price & Fields"); ?></a>
+                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Shipping & Options"); ?>"><i class="mw-icon-truck"></i> <?php _e("Shipping & Options"); ?></a>
+                <?php else: ?>
+                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Custom Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Custom Fields"); ?></a>
+                <?php endif; ?>
 
-        <?php if ($data['content_type'] == 'product'): ?>
-            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Price & Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Price & Fields"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Shipping & Options"); ?>"><i class="mw-icon-truck"></i> <?php _e("Shipping & Options"); ?></a>
-        <?php else: ?>
-            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Custom Fields"); ?>"><i class="mw-icon-pricefields"></i> <?php _e("Custom Fields"); ?></a>
-        <?php endif; ?>
+                <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+                <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mai-monitor-minus"></i> <?php _e("Advanced"); ?></a>
 
-        <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
-        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Advanced"); ?>"><i class="mai-monitor-minus"></i> <?php _e("Advanced"); ?></a>
+                <?php if ($data['content_type'] == 'old_page'): ?>
+                    <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Template"); ?>"><i class="mw-icon-template"></i> <?php _e("Template"); ?></a>
+                <?php endif; ?>
 
-        <?php if ($data['content_type'] == 'old_page'): ?>
-            <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e("Template"); ?>"><i class="mw-icon-template"></i> <?php _e("Template"); ?></a>
-        <?php endif; ?>
-
-        <?php if (!empty($custom_tabs)): ?>
-            <?php foreach ($custom_tabs as $item): ?>
-                <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                <a href="javascript:;" class="mw-ui-btn " data-tip="<?php print $title; ?>"><i class="<?php print $class; ?>"></i> <?php print $title; ?></a>
-            <?php endforeach; ?>
-        <?php endif; ?>
+                <?php if (!empty($custom_tabs)): ?>
+                    <?php foreach ($custom_tabs as $item): ?>
+                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                        <a href="javascript:;" class="mw-ui-btn " data-tip="<?php print $title; ?>"><i class="<?php print $class; ?>"></i> <?php print $title; ?></a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
     </div>
 
     <!-- CONTENT -->
     <div class="mw-ui-box">
         <div class="mw-ui-box-content mw-settings-tabs-content categories" style="">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Select Category</label>
-            </div>
-
             <?php if (isset($data['url']) and $data['id'] > 0): ?>
                 <script>
                     $(document).ready(function () {
@@ -67,7 +61,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                     });
                 </script>
             <?php endif; ?>
-            <?php if ($data['content_type'] == 'page') { ?>
+            <?php if ($data['content_type'] == 'page') : ?>
 
                 <div class="mw-admin-edit-page-primary-settings parent-selector ">
 
@@ -80,7 +74,11 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                         </div>
                     </div>
                 </div>
-            <?php } ?>
+            <?php else: ?>
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label">Select Category</label>
+                </div>
+            <?php endif; ?>
 
             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                 <div class="mw-admin-edit-page-primary-settings content-category-selector">
@@ -109,7 +107,8 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                                 multiPageSelect: false,
                                                 tagsHolder: '.post-category-tags',
                                                 treeHolder: '#quick-parent-selector-tree',
-                                                color: 'info'
+                                                color: 'info',
+                                                outline: true
                                             });
 
                                             $(categorySelector.tree).on('ready', function () {
