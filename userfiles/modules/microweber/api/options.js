@@ -51,22 +51,27 @@ mw.options = {
         });
     },
     save: function (el, callback) {
+
+
+        var el = $(el), og1 , refresh_modules11;
+
         if (!el) {
             return;
         }
-
-        el = $(el);
-        var og1;
 
 
 
 
         var opt_id = el.attr('data-id');
-        var refresh_modules11 = el.attr('data-refresh');
 
         og1 = el.attr('option-group') || el.attr('option_group') || el.attr('data-option-group');
 
-        var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh');
+        if (og1 == null || (typeof(og1) === 'undefined') || og1 == '') {
+            var og_test = mw.tools.firstParentWithClass(el[0], 'module');
+            refresh_modules11 = og1 = og = og_test.id;
+        }
+
+         var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh');
 
         var also_reload = el.attr('data-reload') || el.attr('data-also-reload');
 
@@ -77,8 +82,12 @@ mw.options = {
             var for_m_id = modal.attr('data-settings-for-module');
 
         }
+        if (refresh_modules11 == undefined ) {
+            var refresh_modules11 = el.attr('data-refresh');
 
-        var a = ['data-module-id', 'data-settings-for-module', 'data-refresh', 'option-group', 'data-option-group'],
+        }
+
+            var a = ['data-module-id', 'data-settings-for-module', 'data-refresh', 'option-group', 'data-option-group'],
             i = 0, l = a.length, og = '';
         var mname = modal !== undefined ? modal.attr('data-type') : undefined;
 
@@ -90,22 +99,20 @@ mw.options = {
             var og = refresh_modules11;
         }
 
-        if (og1 != undefined) {
-            var og = og1;
-            if (refresh_modules11 == undefined) {
-                if (refresh_modules12 == undefined) {
-                    refresh_modules11 = og1;
-                } else {
-                    refresh_modules11 = refresh_modules12;
-                }
-            }
-        }
+        // if (og1 != undefined) {
+        //     var og = og1;
+        //     if (refresh_modules11 == undefined) {
+        //         if (refresh_modules12 == undefined) {
+        //             refresh_modules11 = og1;
+        //         } else {
+        //             refresh_modules11 = refresh_modules12;
+        //         }
+        //     }
+        // }
 
-        if (og == null || (typeof(og) === 'undefined') || og == '') {
-            var og_test = mw.tools.firstParentWithClass(el[0], 'module');
-            og = og_test.id;
 
-        }
+
+
 
         var val;
         if (el[0].type === 'checkbox') {
@@ -186,9 +193,8 @@ mw.options = {
                 if (typeof(refresh_modules11) == 'undefined') {
                     refresh_modules11 = og;
                 }
-           //     mw.log(refresh_modules11);
 
-              //  alert(refresh_modules11);
+
                 if (mw.admin) {
                     if (top.mweditor && top.mweditor.contentWindow) {
                         setTimeout(function () {
@@ -293,7 +299,7 @@ mw.options = {
                 } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                     refresh_modules11 = refresh_modules11.toString()
 
-                    //mw.log(refresh_modules11);
+                  //  mw.log(refresh_modules11);
 
 
                     //if (window.mw != undefined) {

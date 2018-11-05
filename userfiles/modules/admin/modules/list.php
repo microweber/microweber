@@ -294,13 +294,19 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
           $t = $t . ' / ' . $t2;
       }
 
+
       ?>
       <script type="text/javascript">
           Modules_List_<?php print $mod_obj_str ?>['<?php print $module_item["module"] ?>'] = {
               id: '<?php print($module_id); ?>',
               name: '<?php print $module_item["module"] ?>',
               title: '<?php print addslashes($t); ?>',
+              <?php 
+
+              // do not populate the icon for elements as its 1mb+
+              if($mod_obj_str != 'element') :  ?>
               icon: '<?php isset($module_item['icon']) ? print ($module_item['icon']) : ''; ?>',
+              <?php endif; ?>
               <?php if (isset($module_item['settings']) and is_array($module_item['settings']) and !empty($module_item['settings'])): ?>
               settings: <?php print json_encode($module_item['settings']) ?>,
 
@@ -317,6 +323,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
           }
           <?php endif; ?>
       </script>
+
+
+
   <?php endif; ?>
 
                         <?php if ($module_item['icon']): ?>
