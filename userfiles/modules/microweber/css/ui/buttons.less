@@ -170,6 +170,7 @@ input.mw-ui-btn {
   color: @defaultTextColor;
 }
 
+.mw-ui-btn-outline.mw-ui-btn-invert :hover,
 .mw-ui-btn-outline.mw-ui-btn-invert.active,
 .mw-ui-btn-outline.mw-ui-btn-invert:active{
   color: @invertTextColor;
@@ -236,7 +237,7 @@ input.mw-ui-btn {
 }
 
 /* States */
-.mw-ui-btn:hover:not([class*='active-']):not(.active){
+.mw-ui-btn:hover:not([class*='active-']):not(.active):not(.mw-ui-btn-invert):not(.mw-ui-btn-important):not(.mw-ui-btn-info):not(.mw-ui-btn-notification):not(.mw-ui-btn-warn):not(.mw-ui-btn-outline){
   background-color: lighten(@default, 20%);
   outline: none;
   text-decoration: none;

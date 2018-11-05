@@ -134,15 +134,14 @@
                 if (mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0) {
                     mw.$("#pages_tree_toolbar").removeClass("activated");
                     mw.treeRenderer.appendUI('#pages_tree_toolbar');
-                    mw.tools.tree.recall( mwd.querySelector('#pages_tree_toolbar').parentNode );
+                    mw.tools.tree.recall(mwd.querySelector('#pages_tree_toolbar').parentNode);
                     var action = mw.url.windowHashParam('action');
-                    if(action){
+                    if (action) {
                         var id = action.split(':')[1];
-                        if(id){
-                            $('[data-page-id="'+id+'"]').addClass("active-bg")
+                        if (id) {
+                            $('[data-page-id="' + id + '"]').addClass("active-bg")
                         }
                     }
-
 
 
                 }
@@ -207,8 +206,6 @@
             var tree_sidebar = mwd.getElementById('pages_tree_toolbar');
             if (tree_sidebar != null) {
                 var active_bg_set = false
-
-
 
 
                 var selected_page = $('#mw-category-selector-' + id).find('.mw-ui-check-input-check:checked');
@@ -282,26 +279,29 @@
 
         var categories = [];
 
-        if(window.categorySelector){
-            $.each(categorySelector.tree.selectedData, function(){
-                if(this.type == 'category'){
+        if (window.categorySelector) {
+            $.each(categorySelector.tree.selectedData, function () {
+                if (this.type == 'category') {
                     categories.push(this.id);
                 }
-                if(this.type == 'page'){
+                if (this.type == 'page') {
                     data.parent = this.id;
                 }
             });
         }
 
-        
-        if(categories.length){
+
+        if (categories.length) {
             data.categories = categories.join(',')
         }
 
         module.addClass('loading');
         mw.content.save(data, {
             onSuccess: function (a) {
-                if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                if (window.pagesTreeRefresh) {
+                    pagesTreeRefresh()
+                }
+                ;
                 mw.$('.mw-admin-go-live-now-btn').attr('content-id', this);
                 mw.askusertostay = false;
 
@@ -396,7 +396,7 @@
 
                     $('#content-title-field-row').animate({
                         backgroundColor: "red"
-                    }, function(){
+                    }, function () {
                         $('#content-title-field-row').animate({
                             backgroundColor: "transparent"
                         })
@@ -443,34 +443,27 @@
 <script>
 
 
-
-
     $(mwd).ready(function () {
 
 
         $("#quickform-edit-content").on('keydown', "input[type='text']", function (e) {
-            if(e.keyCode  == 13){
+            if (e.keyCode == 13) {
                 e.preventDefault()
             }
         })
-        $( window ).on( 'hashchange beforeunload', function( e ) {
+        $(window).on('hashchange beforeunload', function (e) {
             mw.$(".mw-admin-go-live-now-btn").off('click');
-        } );
+        });
 
 
         mw.$(".mw-admin-go-live-now-btn").off('click');
         // window.onbeforeunload = function() {
         //     mw.$(".mw-admin-go-live-now-btn").off('click');
         // }
-        mw.$(".mw-admin-go-live-now-btn").on('click',function (e) {
+        mw.$(".mw-admin-go-live-now-btn").on('click', function (e) {
             mw.edit_content.handle_form_submit(true);
             return false;
         });
-
-
-
-
-
 
 
         mw.reload_module('#edit-post-gallery-main');
@@ -637,7 +630,7 @@
         mw.tabs({
             nav: '#settings-tabs .mw-ui-btn-nav-tabs a',
             tabs: '#settings-tabs .mw-settings-tabs-content',
-            activeClass:"active-info"
+            activeClass: "active-info"
         });
 
         $('.btn-settings').on('click', function () {
@@ -649,8 +642,7 @@
                 $('#settings-tabs').toggleClass('hidden');
             }
 
-    });
-
+        });
 
 
 //        $('.admin-manage-toolbar-scrolled').on('scroll',function() {
@@ -668,70 +660,61 @@
 //        });
 
 
-
-
-
     });
 
 
-
-
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//    function toolbar_show_the_save_btn_sticky_init() {
-//
-//        var self=this;
-//
-//        var elA = document.getElementsByClassName('.js-edit-content-the-main-save-btn')[0];
-//        var elB = document.getElementsByClassName('.js-top-save')[0];
-//
-//        if(!elA && !elB){
-//            return;
-//        }
-//
-//
-//// Defining a function to get top, left, right and bottom coordinates
-//        function pos(el) {
-//            return el.getBoundingClientRect();
-//        }
-//
-//// Function to check el1 is covered by el2
-//        function checkElements(el1, el2) {
-//            var eleA = self.pos(el1);
-//            var eleB = self.pos(el2);
-//
-//            if((eleB.top >= eleA.top && eleB.top <= eleA.bottom) || (eleB.bottom >= eleA.top && eleB.bottom <= eleA.bottom)) {
-//                if((eleB.left >= eleA.left && eleB.left <= eleA.right) || (eleB.right >= eleA.left && eleB.right <= eleA.right)) {
-//                    el1.innerHTML = '<p>covered</p>';
-//                }
-//                else {
-//                    el1.innerHTML = '<p>not covered</p>';
-//                }
-//            }
-//            else {
-//                el1.innerHTML = '<p>not covered</p>';
-//            }
-//        }
-//        self.checkElements(elA, elB); // pass two elements to check
-//    }
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //    function toolbar_show_the_save_btn_sticky_init() {
+    //
+    //        var self=this;
+    //
+    //        var elA = document.getElementsByClassName('.js-edit-content-the-main-save-btn')[0];
+    //        var elB = document.getElementsByClassName('.js-top-save')[0];
+    //
+    //        if(!elA && !elB){
+    //            return;
+    //        }
+    //
+    //
+    //// Defining a function to get top, left, right and bottom coordinates
+    //        function pos(el) {
+    //            return el.getBoundingClientRect();
+    //        }
+    //
+    //// Function to check el1 is covered by el2
+    //        function checkElements(el1, el2) {
+    //            var eleA = self.pos(el1);
+    //            var eleB = self.pos(el2);
+    //
+    //            if((eleB.top >= eleA.top && eleB.top <= eleA.bottom) || (eleB.bottom >= eleA.top && eleB.bottom <= eleA.bottom)) {
+    //                if((eleB.left >= eleA.left && eleB.left <= eleA.right) || (eleB.right >= eleA.left && eleB.right <= eleA.right)) {
+    //                    el1.innerHTML = '<p>covered</p>';
+    //                }
+    //                else {
+    //                    el1.innerHTML = '<p>not covered</p>';
+    //                }
+    //            }
+    //            else {
+    //                el1.innerHTML = '<p>not covered</p>';
+    //            }
+    //        }
+    //        self.checkElements(elA, elB); // pass two elements to check
+    //    }
 </script>
