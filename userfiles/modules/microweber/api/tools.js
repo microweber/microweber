@@ -2145,6 +2145,40 @@ mw.tools = {
         }
     },
     confirm: function (question, callback) {
+        var html = ''
+            + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
+            + '<tr>'
+            + '<td align="center" valign="middle"><div class="mw_alert_holder">' + question + '</div></td>'
+            + '</tr>'
+            + '<tr>'
+            + '<td class="mw-modal-confirm-actions">'
+            +'<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span>'
+            +'<span class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></span></td>'
+            + '</tr>'
+            + '</table>';
+        if (mw.$("#mw_confirm_modal").length === 0) {
+            var modal = mw.modal({
+                html: html,
+                width: 400,
+                height: 200,
+                overlay: false,
+                name: "mw_confirm_modal",
+                template: "mw_modal_basic"
+            });
+        }
+        else {
+            mw.$("#mw_confirm_modal .mw_alert_holder").html(question);
+            var modal = mw.$("#mw_confirm_modal")[0].modal;
+        }
+
+        $('.mw_confirm_modal_ok', modal.main).off('click').on('click', function(){
+
+            callback.call(window);
+            modal.remove()
+        });
+        return modal;
+    },
+    _confirm: function (question, callback) {
         var conf = confirm(question);
         if (conf && typeof callback === 'function') {
             callback.call(window);
@@ -5544,3 +5578,66 @@ mw.uiAccordion = function(options){
     this.init(options);
 
 };
+
+
+mw.tabAccordion = function(options, accordion){
+    if(!options) return;
+    var scope = this;
+    this.options = options;
+
+    this.options.breakPoint = this.options.breakPoint || 800;
+
+
+    this.buildAccordion = function(){
+        this.accordion =  accordion || new mw.uiAccordion(this.options);
+    }
+
+    this.breakPoint = function(){
+        if (matchMedia("(max-width: " + this.options.breakPoint + "px)").matches) {
+            $(this.nav).hide();
+            $(this.accordion.titles).show();
+        }
+        else{
+            $(this.nav).show();
+            $(this.accordion.titles).hide();
+        }
+    }
+
+    this.createTabButton = function(content, index){
+        this.buttons = this.buttons || $();
+        var btn = document.createElement('span');
+        this.buttons.push(btn)
+        var size = (this.options.tabsSize ? ' mw-ui-btn-' +  this.options.tabsSize : '');
+        var color = (this.options.tabsColor ? ' mw-ui-btn-' +  this.options.tabsColor : '');
+        var active = (index === 0 ? ' active' :'');
+        btn.className = 'mw-ui-btn' + size + color + active;
+        btn.innerHTML = content;
+        btn.onclick = function(){
+            scope.buttons.removeClass('active').eq(index).addClass('active');
+            scope.accordion.set(index);
+        }
+        return btn;
+    }
+
+    this.createTabs = function(){
+        this.nav = document.createElement('div');
+        this.nav.className =  'mw-ui-btn-nav mw-ui-btn-nav-tabs';
+        $(this.accordion.titles)
+            .each(function(i){
+                scope.nav.appendChild(scope.createTabButton($(this).html(), i))
+            })
+            .hide();
+        $(this.accordion.root).before(this.nav)
+    }
+
+    this.init = function(){
+        this.buildAccordion();
+        this.createTabs();
+        this.breakPoint();
+        $(window).on('load resize orientationchange', function(){
+            scope.breakPoint();
+        });
+    }
+
+    this.init();
+}

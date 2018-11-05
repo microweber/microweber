@@ -1,8 +1,13 @@
 mw.components = {
+    'tab-accordion':function(el){
+       var options = this._options(el);
+       var accordion = this.accordion(el);
+       var tb = new mw.tabAccordion(options, accordion);
+    },
     accordion:function(el){
-        var accordion = new mw.uiAccordion({
-            element:el
-        });
+        var options = this._options(el);
+        var settings = $.extend(options, {element:el})
+        var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
                 var max =  $(window).height();
@@ -37,6 +42,7 @@ mw.components = {
                 });
             }
         }
+        return accordion;
     },
     postSearch: function (el) {
         var defaults = {keyword: el.value, limit: 4};
@@ -106,6 +112,25 @@ mw.components = {
             }
         });
         el.trigger("postSearchReady")
+    },
+    _options: function (el) {
+        var opt = ( el.dataset.options || '').trim().split(','), final = {};
+        if(!opt[0]) return final;
+        $.each(opt, function(){
+            var arr = this.split(':');
+            var val = arr[1].trim();
+            if(!val){
+
+            }
+            else if(val === 'true' || val === 'false'){
+                val = val === 'true';
+            }
+            else if(!/\D/.test(val)){
+                val = parseInt(val, 10);
+            }
+            final[arr[0].trim()] = val;
+        });
+        return final;
     },
     _init: function () {
         mw.$('[data-mwcomponent]').each(function () {
