@@ -636,7 +636,8 @@
 
         mw.tabs({
             nav: '#settings-tabs .mw-ui-btn-nav-tabs a',
-            tabs: '#settings-tabs .mw-settings-tabs-content'
+            tabs: '#settings-tabs .mw-settings-tabs-content',
+            activeClass:"active-info"
         });
 
         $('.btn-settings').on('click', function () {

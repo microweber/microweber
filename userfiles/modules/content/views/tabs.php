@@ -9,7 +9,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 <div id="settings-tabs">
     <!-- TABS BUTTONS -->
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a href="javascript:;" class="mw-ui-btn active-info"><i class="mai-category"></i> &nbsp; <?php print _e('Add to categories'); ?></a>
+        <a href="javascript:;" class="mw-ui-btn"><i class="mai-category"></i> &nbsp; <?php print _e('Add to categories'); ?></a>
         <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> &nbsp; Add images</a>
 
         <?php if ($data['content_type'] == 'page'): ?>

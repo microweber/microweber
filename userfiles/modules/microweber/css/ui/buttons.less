@@ -157,8 +157,8 @@ input.mw-ui-btn {
 .mw-ui-btn.mw-ui-btn-outline {
   &:not(.mw-ui-btn-invert):not(.mw-ui-btn-important):not(.mw-ui-btn-info):not(.mw-ui-btn-warn):not(.mw-ui-btn-notification) {
     &.active,
-    &:hover,
-    &:focus {
+    &:active,
+    &:hover{
       background-color: @default;
     }
   }
@@ -166,38 +166,43 @@ input.mw-ui-btn {
 
 .mw-ui-btn.mw-ui-btn-outline.active,
 .mw-ui-btn.mw-ui-btn-outline:hover,
-.mw-ui-btn.mw-ui-btn-outline:focus {
+.mw-ui-btn.mw-ui-btn-outline:active {
   color: @defaultTextColor;
 }
 
 .mw-ui-btn-outline.mw-ui-btn-invert.active,
-.mw-ui-btn-outline.mw-ui-btn-invert:hover,
-.mw-ui-btn-outline.mw-ui-btn-invert:focus {
+.mw-ui-btn-outline.mw-ui-btn-invert:active{
   color: @invertTextColor;
 }
 
 .mw-ui-btn-outline.mw-ui-btn-important.active,
 .mw-ui-btn-outline.mw-ui-btn-important:hover,
-.mw-ui-btn-outline.mw-ui-btn-important:focus {
+.mw-ui-btn-outline.mw-ui-btn-important:active {
   color: @importantTextColor;
 }
 
 .mw-ui-btn-outline.mw-ui-btn-info.active,
 .mw-ui-btn-outline.mw-ui-btn-info:hover,
-.mw-ui-btn-outline.mw-ui-btn-info:focus {
+.mw-ui-btn-outline.mw-ui-btn-info:active {
   color: @infoTextColor;
 }
 
 .mw-ui-btn-outline.mw-ui-btn-warn.active,
 .mw-ui-btn-outline.mw-ui-btn-warn:hover,
-.mw-ui-btn-outline.mw-ui-btn-warn:focus {
+.mw-ui-btn-outline.mw-ui-btn-warn:active {
   color: @warnTextColor;
 }
 
 .mw-ui-btn-outline.mw-ui-btn-notification.active,
 .mw-ui-btn-outline.mw-ui-btn-notification:hover,
-.mw-ui-btn-outline.mw-ui-btn-notification:focus {
+.mw-ui-btn-outline.mw-ui-btn-notification:active {
   color: @notificationTextColor;
+}
+
+.mw-ui-btn:not(:active):not(:hover):not(.active):not([class*='active-']):focus{
+  outline: 1px dotted @info;
+  outline-offset: -3px;
+  z-index: 1;
 }
 
 /* Sizes */
@@ -231,43 +236,37 @@ input.mw-ui-btn {
 }
 
 /* States */
-.mw-ui-btn:hover,
-.mw-ui-btn:focus {
+.mw-ui-btn:hover:not([class*='active-']):not(.active){
   background-color: lighten(@default, 20%);
   outline: none;
   text-decoration: none;
 }
 
 .mw-ui-btn-invert:hover,
-.mw-ui-btn-invert:focus,
 .mw-ui-btn-invert.active {
   background-color: lighten(@invert, 20%);
   border-color: lighten(@invertBorderColor, 20%);
 }
 
 .mw-ui-btn-important:hover,
-.mw-ui-btn-important:focus,
 .mw-ui-btn-important.active {
   background-color: lighten(@important, 20%);
   border-color: lighten(@importantBorderColor, 20%);
 }
 
 .mw-ui-btn-info:hover,
-.mw-ui-btn-info:focus,
 .mw-ui-btn-info.active {
   background-color: lighten(@info, 20%);
   border-color: lighten(@infoBorderColor, 20%);
 }
 
 .mw-ui-btn-notification:hover,
-.mw-ui-btn-notification:focus,
 .mw-ui-btn-notification.active{
   background-color: lighten(@notification, 20%);
   border-color: lighten(@notificationBorderColor, 20%);
 }
 
 .mw-ui-btn-warn:hover,
-.mw-ui-btn-warn:focus,
 .mw-ui-btn-warn.active{
   background-color: lighten(@warn, 20%);
   border-color: lighten(@warnBorderColor, 20%);
@@ -275,8 +274,7 @@ input.mw-ui-btn {
 
 .mw-ui-btn:active,
 .mw-ui-btn.active,
-.mw-ui-btn.active:hover,
-.mw-ui-btn.active:focus {
+.mw-ui-btn.active:hover {
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
