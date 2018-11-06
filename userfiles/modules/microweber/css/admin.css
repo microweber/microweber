@@ -2595,7 +2595,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     clear: both;
     position: relative;
     z-index: 10;
-    height: 45px;
+    /*height: 45px;*/
     border: 1px solid #eaeaea;
     background: #fafafa;
     padding: 12px 14px;
@@ -2719,10 +2719,12 @@ input#edit-content-url:focus, input#edit-content-url.active {
     float: left;
     position: relative;
     width: 100px;
-    height: 75px;
+    /*height: 75px;*/
+    height: 85px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    /*background-size: contain;*/
+    background-size: cover;
     background-color: #f5f5f5;
 }
 
@@ -7350,9 +7352,9 @@ select.silver-field {
     margin: 20px 0 10px 0;
 }
 
-.current-template-modules {
+/*.current-template-modules {
     padding: 0 10px
-}
+}*/
 
 .mw-menu-selector-list li + li {
     padding-top: 5px;

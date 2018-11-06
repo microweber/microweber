@@ -1,23 +1,31 @@
 <?php only_admin_access(); ?>
 
 
-<div class="module-live-edit-settings">
-    <script>
-        $(document).ready(function () {
-            window.TTABS = window.TTABS || mw.tabs({
-                    nav: "#ttabnav a",
-                    tabs: ".ttab"
-                });
-
-        })
-
-    </script>
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="ttabnav"><a class="mw-ui-btn active" href="javascript:;">Explore</a> <a class="mw-ui-btn" href="javascript:;">Options</a></div>
-    <div class="mw-ui-box mw-ui-box-content">
-        <div class="ttab" style="display: block;">
-            <module type="admin/modules/templates" data-screenshots="true"/>
+<!--<div class="mw-accordion">
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-gear"></i> Settings
+            </div>
         </div>
-        <div class="ttab"></div>
-        <div class="ttab"></div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="module-live-edit-settings module-layouts-settings">
+
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-beaker"></i> Templates
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+
+        </div>
+    </div>
+</div>-->
+
+
+<module type="admin/modules/templates_layouts" data-screenshots="true"/>

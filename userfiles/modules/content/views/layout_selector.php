@@ -535,7 +535,7 @@ if (!empty($recomended_layouts)) {
             <div class="mw-ui-row">
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
-                        <div class="section-header">
+                        <div class="section-header" style="height: 39px; padding-left: 0;">
                             <h2 class="pull-left"><span class="mw-icon-page"></span><?php _e("Choose Page Layout"); ?></h2>
                         </div>
 
@@ -590,7 +590,7 @@ if (!empty($recomended_layouts)) {
                     <div class="mw-ui-col js-template-selector" <?php if (isset($params['data-page-id']) AND $params['data-page-id'] !== false): ?>style="display: none;"<?php endif; ?>>
                         <div class="mw-ui-col-container">
                             <div class="mw-template-selector">
-                                <div class="section-header">
+                                <div class="section-header" style="height: 39px;padding-left: 0;">
                                     <h2 class="inline-element"><span class="mw-icon-template"></span><?php _e("Template"); ?></h2> &nbsp;
                                     <small>(This change will be affected only on the current page.)</small>
                                 </div>

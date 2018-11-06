@@ -3,7 +3,7 @@
 
     <div class="pull-right">
         <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
-            <span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?>
+            <span class="mw-icon-plus"></span> &nbsp;<?php _e("New category"); ?>
         </a>
     </div>
 </div>
@@ -77,7 +77,6 @@
                         var modalTitle = '<?php _e('Add category'); ?>';
                     }
 
-
                     mw_admin_edit_category_item_module_opened = mw.modal({
                         content: '<div id="mw_admin_edit_category_item_module"></div>',
                         title: modalTitle,
@@ -88,7 +87,6 @@
                     params['data-category-id'] = id;
                     params['no-toolbar'] = true;
                     mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
-
                 }
 
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
@@ -100,18 +98,14 @@
 
                 }
             </script>
+
             <script type="text/javascript">
-
-
                 mw.on.moduleReload("<?php print $params['id'] ?>", function () {
                     mw.manage_cat_sort();
                     $(".mw-ui-category-selector a").append('<span class="category-edit-label">' + mw.msg.edit + ' ' + mw.msg.category + '</span>')
                 });
 
-
                 mw.manage_cat_sort = function () {
-
-
                     mw.$("#<?php print $params['id'] ?>").sortable({
                         items: '.category_element',
                         axis: 'y',
@@ -135,17 +129,11 @@
                         },
                         scroll: false
                     });
-
-
                 }
                 //mw.manage_cat_sort();
 
-
             </script>
-
         </div>
-
-
     </div>
     <div id="mw_edit_category_admin_holder"></div>
 </div>

@@ -1830,6 +1830,7 @@ body.loaded #live_edit_toolbar {
     display: block;
     position: relative;
     margin: 0 auto;
+    height: 44px;
 }
 
 .mw_module_image img {

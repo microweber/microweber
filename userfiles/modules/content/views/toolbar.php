@@ -409,7 +409,7 @@ if ($last_page_front != false) {
 
 
                             <div class="mw-dropdown mw-dropdown-default" id="bulk-actions">
-                                <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"><?php _e("Bulk actions"); ?></span>
+                                <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php _e("Bulk actions"); ?></span>
                                 <div class="mw-dropdown-content">
                                     <ul>
                                         <li>

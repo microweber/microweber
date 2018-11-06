@@ -344,7 +344,8 @@ if (isset($params['live_edit'])) {
                         mw.tabs({
                             nav: "#tabsnav .mw-ui-btn",
                             tabs: ".quick-add-post-options-item",
-                            toggle: true
+                            toggle: true,
+                            activeClass: 'active-info'
                         });
 
                         $(".js-category-advanced-seetings-button").on('click', function () {
