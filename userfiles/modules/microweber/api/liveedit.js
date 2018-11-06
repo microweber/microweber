@@ -400,9 +400,9 @@ $(document).ready(function() {
         //     mw.liveNodeSettings.set(uitype, node);
         // }
         if(uitype != 'module'){
-            mw.liveNodeSettings.set(uitype, node);
+            //mw.liveNodeSettings.set(uitype, node);
         }
-   //     mw.liveNodeSettings.set(uitype, node);
+        mw.liveNodeSettings.set(uitype, node);
 
 
     });

@@ -203,12 +203,12 @@ mw.live_edit.showSettings = function (a, opts) {
 
     //close sidebar
     if(mw.liveEditSettings && mw.liveEditSettings.active){
-         mw.liveEditSettings.hide();
+         //mw.liveEditSettings.hide();
     }
 
     $("#" + iframe_id_sidebar).remove();
 
-    var modal = top.mw.tools.modal.frame({
+    /*var modal = top.mw.tools.modal.frame({
         url: src,
         width: 532,
         height: 150,
@@ -223,7 +223,7 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-    return;
+    return;*/
 
 
 

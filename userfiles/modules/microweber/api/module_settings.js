@@ -62,7 +62,6 @@ mw.moduleSettings = function(options){
         if(typeof pos === 'undefined') return;
         this.value.splice(pos, 1);
         this.items.splice(pos, 1);
-        console.log(pos, $(this.options.element).children().eq(pos))
         $(this.options.element).children().eq(pos).slideUp(function(){
             $(this).remove();
         });
@@ -133,14 +132,18 @@ mw.moduleSettings = function(options){
     };
 
     this.save = function(){
-        var val = this.toString();
+        mw.options.saveOption({
+            group:this.options.group,
+            key:this.options.group,
+            value:this.toString()
+        });
 
-        // ...options.save(this.options.key, this.options.group, val)
+
     };
 
 
     this.toString = function(){
-        return JSON.stringify(this.value)
+        return JSON.stringify(this.value);
     };
 
     this.init();

@@ -34,7 +34,7 @@ mw.options = {
             option_key: o.key || o.option_key,
             option_value: typeof o.value !== 'undefined' ? o.value : o.option_value
         }
-        $.ajax({
+        return $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",
             data: data,

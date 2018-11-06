@@ -67,11 +67,9 @@ if (isset($json) == false or count($json) == 0) {
                 }
             ]
         });
-
         $(tabSettings).on("change", function(e, val){
             $("#settingsfield").val(tabSettings.toString()).trigger("change")
-        })
-
+        });
     });
 
 </script>
