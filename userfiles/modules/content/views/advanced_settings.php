@@ -39,12 +39,11 @@ if (!empty($template_config)) {
 }
 
 
+$post_author_id = user_id();
+$all_users = get_users('nolimit=1');
 
-$post_author_id =  user_id();
-$all_users  = get_users('nolimit=1');
 
-
-if(isset($data['created_by']) and $data['created_by']){
+if (isset($data['created_by']) and $data['created_by']) {
 
     $post_author_id = $data['created_by'];
 }
@@ -369,35 +368,19 @@ if(isset($data['created_by']) and $data['created_by']){
                     <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
                 <?php endif; ?>
 
-                <?php if($all_users) : ?>
+                <?php if ($all_users) : ?>
                     <div class="mw-ui-row">
-                    <div class="mw-ui-col">
+                        <div class="mw-ui-col">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Author"); ?></label>
 
-
-
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label">
-                                <?php _e("Author"); ?>
-                             </label>
-
-
-                            <select name="created_by">
-                                <?php foreach($all_users as $author) : ?>
-
-
-                                    <option    <?php if($post_author_id == $author['id']) : ?>  selected   <?php endif; ?> value="<?php print ($author['id']) ?>"><?php print user_name($author['id']) ?></option>
-
-
-                                <?php endforeach; ?>
-                            </select>
+                                <select name="created_by" class="mw-ui-field">
+                                    <?php foreach ($all_users as $author) : ?>
+                                        <option <?php if ($post_author_id == $author['id']) : ?>  selected   <?php endif; ?> value="<?php print ($author['id']) ?>"><?php print user_name($author['id']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-
-
-
-
-
-
-                    </div>
                     </div>
                 <?php endif; ?>
 
