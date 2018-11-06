@@ -143,7 +143,7 @@ $closequote = get_option('closequote', $params['id']);
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <div class="mw-ui-field-holder js-add-new-button">
-                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" href="javascript:;" onclick="add_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:;" onclick="add_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
             </div>
 
             <div class="">

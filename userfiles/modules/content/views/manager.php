@@ -247,8 +247,7 @@ $pages_count = intval($pages);
                                        href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                                 </div>
                                 <div class="manage-post-item-links">
-                                    <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-medium" href="<?php print $edit_link ?>"
-                                       onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                                    <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-medium" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                         <?php _e("Edit"); ?>
                                     </a>
 
