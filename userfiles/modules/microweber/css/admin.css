@@ -7406,3 +7406,8 @@ select.silver-field {
     max-width: 100px;
     max-height: 30px;
 }
+
+#live_edit_side_holder .bootstrap-tagsinput,
+#settings-container .bootstrap-tagsinput {
+    width: 100%;
+}

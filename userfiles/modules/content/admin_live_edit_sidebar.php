@@ -22,7 +22,7 @@ $posts_mod = $dir_name . 'content' . DS . 'admin_live_edit_tab1.php';
     <a href="javascript:window.parent.mw.quick.edit('0','post', '', '0', '');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded"><span class="fas fa-plus-circle"></span> &nbsp; Add new post</a>
 </div>
 
-<div class="mw-accordion">
+<div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
