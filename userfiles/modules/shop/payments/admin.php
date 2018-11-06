@@ -189,7 +189,8 @@
         vertical-align: middle;
     }
 
-    .gateway-icon-title > .mw-ui-row img {
+    .gateway-icon-title > .mw-ui-row img ,
+    .gateway-icon-title  img {
         max-width: 100px;
         max-height: 30px;
     }

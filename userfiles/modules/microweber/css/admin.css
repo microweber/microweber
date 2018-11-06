@@ -5680,11 +5680,11 @@ body.is_admin .mw-admin-container {
     width: 100%;
 }
 
-.form-new-style input, .form-new-style textarea, .form-new-style select {
-    border-color: #c2c2c2;
-    padding: 8px;
-    height: 36px !important;
-}
+/*.form-new-style input, .form-new-style textarea, .form-new-style select {*/
+    /*border-color: #c2c2c2;*/
+    /*padding: 8px;*/
+    /*height: 36px !important;*/
+/*}*/
 
 .form-new-style label {
     font-size: 13px;
@@ -7400,4 +7400,9 @@ select.silver-field {
 
 #admin-main-tree .mw-tree-item-title {
     width: 100%;
+}
+
+.gateway-icon-title img {
+    max-width: 100px;
+    max-height: 30px;
 }
