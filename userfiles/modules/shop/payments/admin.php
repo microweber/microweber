@@ -109,8 +109,6 @@
 </script>
 
 <style>
-
-
     .admin-side-box {
         padding-top: 19px;
     }
@@ -289,8 +287,7 @@ $payment_modules = get_modules('type=payment_gateway');
             <div class="mw-set-payment-options">
                 <div class="otab" style="display: block" id="db-payment-methods">
                     <?php if (is_array($payment_modules)): ?>
-                    <div class="mw_simple_tabs mw_tabs_layout_stylish"
-                         id="available_providers">
+                    <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
                         <?php foreach ($payment_modules as $payment_module): ?>
                             <?php
                             $module_info = ($payment_module);

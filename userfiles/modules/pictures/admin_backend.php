@@ -212,8 +212,7 @@ if (!isset($data["thumbnail"])) {
                 <?php //if ($key == 0): ?>
                 <div class="featured-image"><?php print _e('featured image'); ?></div>
                 <?php //endif; ?>
-                <span class="mw-icon-gear image-settings"
-                      onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
+                <span class="mw-icon-gear image-settings tip" data-tip="Image Settings" onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
                 <label class="mw-ui-check">
                     <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
                            value="<?php print $item['id'] ?>"><span></span>
@@ -223,10 +222,7 @@ if (!isset($data["thumbnail"])) {
                     <div class="image-options">
                         <div class="mw-ui-field-holder">
                             <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
-                            <input
-                                    class="mw-ui-field"
-                                    autocomplete="off"
-                                    value="<?php if ($item['title'] !== '') {
+                            <input class="mw-ui-field w100" autocomplete="off" value="<?php if ($item['title'] !== '') {
                                         print $item['title'];
                                     } else {
                                         print $default_title;
@@ -242,21 +238,13 @@ if (!isset($data["thumbnail"])) {
                         <div id="image-json-options-<?php print  $item['id']; ?>">
                             <div class="image-json-options">
                                 <?php
-
                                 $curr = isset($item['image_options']) ? $item['image_options'] : array();
-
-
                                 foreach ($init_image_options as $name) {
-
-
                                     $ok  = url_title(strtolower($name));
                                     ?>
-
-
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php print $name ?></label>
-                                        <input type="text" class="mw-ui-field w100" name="<?php print $ok; ?>"
-                                               value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
+                                        <input type="text" class="mw-ui-field w100" name="<?php print $ok; ?>" value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
                                     </div>
                                 <?php } ?>
 
@@ -279,6 +267,7 @@ if (!isset($data["thumbnail"])) {
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+
     <script>mw.require("files.js", true);</script>
     <script>
 
@@ -288,7 +277,8 @@ if (!isset($data["thumbnail"])) {
             imageConfigDialogInstance = mw.modal({
                 overlay: true,
                 content: el.html(),
-                template: 'basic'
+                template: 'default',
+                title: '<?php print _e('Image Settings'); ?>'
             })
         }
 

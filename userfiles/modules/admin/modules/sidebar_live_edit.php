@@ -10,8 +10,12 @@
         position: absolute;
         right: 0;
         top: 0;
-        padding: 7px 10px;
+        padding: 2px 6px;
         z-index: 9999;
+        background: #fff;
+        border-bottom-left-radius: 6px;
+        border-left: 1px solid;
+        border-bottom: 1px solid;
     }
 </style>
 

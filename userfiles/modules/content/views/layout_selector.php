@@ -226,7 +226,7 @@ if (!empty($recomended_layouts)) {
         },
         setHeight: function () {
             var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
-            if(!iframe) return;
+            if (!iframe) return;
             $(iframe).css({
                 height: 1 * ($(window).height() - 66)
             })
@@ -277,7 +277,7 @@ if (!empty($recomended_layouts)) {
                     if (is_shop != undefined && is_shop == 'y') {
                         //if (form != undefined && form.querySelector('input[name="is_shop"][value="1"]') != null) {
                         if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
-                         //   form.querySelector('input[name="is_shop"][value="1"]').checked = true;
+                            //   form.querySelector('input[name="is_shop"][value="1"]').checked = true;
 
 
                             form.querySelector('input[name="is_shop"]').checked = true;
@@ -288,10 +288,10 @@ if (!empty($recomended_layouts)) {
                             form.querySelector('input[name="is_shop"]').checked = false;
 
                             //     form.querySelector('input[name="is_shop"]').value = '0'
-                       //     $(form.querySelector('input[name="is_shop"]')).attr() = '0'
+                            //     $(form.querySelector('input[name="is_shop"]')).attr() = '0'
                         }
                         if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
-                         //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
+                            //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                         }
                     }
                 }
@@ -305,7 +305,7 @@ if (!empty($recomended_layouts)) {
 
                     }
                     if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
-                      //  form.querySelector('input[name="is_shop"][value="0"]').checked = true;
+                        //  form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                     }
                     <?php endif; ?>
 
@@ -535,7 +535,7 @@ if (!empty($recomended_layouts)) {
             <div class="mw-ui-row">
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
-                        <div class="section-header">
+                        <div class="section-header" style="height: 39px; padding-left: 0;">
                             <h2 class="pull-left"><span class="mw-icon-page"></span><?php _e("Choose Page Layout"); ?></h2>
                         </div>
 
@@ -590,7 +590,7 @@ if (!empty($recomended_layouts)) {
                     <div class="mw-ui-col js-template-selector" <?php if (isset($params['data-page-id']) AND $params['data-page-id'] !== false): ?>style="display: none;"<?php endif; ?>>
                         <div class="mw-ui-col-container">
                             <div class="mw-template-selector">
-                                <div class="section-header">
+                                <div class="section-header" style="height: 39px;padding-left: 0;">
                                     <h2 class="inline-element"><span class="mw-icon-template"></span><?php _e("Template"); ?></h2> &nbsp;
                                     <small>(This change will be affected only on the current page.)</small>
                                 </div>
@@ -626,8 +626,8 @@ if (!empty($recomended_layouts)) {
                     </div>
 
                 <?php if (isset($params['data-page-id']) AND $params['data-page-id'] !== false): ?>
-                    <div class="mw-ui-col" style="width: 36px;">
-                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline js-show-template-selector tip" title="<?php _e('Change page template'); ?>" type="button" style="margin-top: 81px; text-align: center;"><i class="mw-icon-template m-0"></i></button>
+                    <div class="mw-ui-col" style="width: 48px;">
+                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline js-show-template-selector tip" title="<?php _e('Change page template'); ?>" type="button" style="margin-top: 53px; text-align: center;"><i class="mw-icon-template m-0"></i></button>
                     </div>
 
                     <script>

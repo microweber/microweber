@@ -61,8 +61,8 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
             <?php if ($data['content_type'] == 'page') : ?>
                 <div class="mw-admin-edit-page-primary-settings parent-selector ">
-                    <label><?php _e("Select parent"); ?></label>
                     <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e("Select parent"); ?></label>
                         <div class="quick-parent-selector">
                             <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>"
                                     recommended-id="<?php print $recommended_parent; ?>"/>

@@ -92,13 +92,16 @@ if ($id != false) {
         });
     </script>
 
-    <form
-            class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
-                print 'module-installed';
-            } else {
-                print 'module-uninstalled';
-            } ?> "
-            id="module_admin_settings_form_<?php print $params['id']; ?>">
+    <?php if ($data['ui'] == 1 AND $data['is_system'] == 0): ?>
+        <!--<a href="#">Не може</a>-->
+    <?php endif; ?>
+
+    <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
+        print 'module-installed';
+    } else {
+        print 'module-uninstalled';
+    } ?> "
+          id="module_admin_settings_form_<?php print $params['id']; ?>">
         <div class="admin-modules-list-form-content" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
             <div class="bgimg admin-modules-list-image" style="<?php if (isset($data['icon'])): ?> background-image: url('<?php print $data['icon'] ?>' ); <?php endif; ?>"></div>
             <div class="admin-modules-list-description">

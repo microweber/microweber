@@ -90,20 +90,17 @@ if ($load_module == true): ?>
                                 <?php $item = module_info($upd_mod['module']); ?>
 
                                 <?php if (isset($item['id'])): ?>
-                                    <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>"
-                                        id="module-db-id-<?php print $item['id'] ?>">
-                                        <module type="admin/modules/edit_module"
-                                                data-module-id="<?php print $item['id'] ?>"/>
+                                    <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>">
+                                        <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>"/>
                                     </li>
                                 <?php endif; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <?php foreach ($mods as $k => $item): ?>
 
+                    <?php foreach ($mods as $k => $item): ?>
                         <?php if (!isset($item['id'])): ?>
-                            <li class="mw-admin-module-list-item mw-module-not-installed"
-                                id="module-remote-id-<?php print $item['id'] ?>">
+                            <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<?php print $item['id'] ?>">
                                 <div class=" module module-admin-modules-edit-module ">
                                     <?php
                                     if (isset($item[0]) and is_array($item[0])) {

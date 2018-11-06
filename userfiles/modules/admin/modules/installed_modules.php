@@ -278,14 +278,12 @@
     </div>
 
     <div class="admin-side-content">
-        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" style="display: block; width: 100%;">
+        <div class="" style="display: block; width: 100%;">
             <!--            <a href="#installed=1" class="mw-ui-btn js-btn-installed" onclick="mw.url.windowHashParam('installed', 1);return false;">--><?php //_e("Installed"); ?><!--</a>-->
             <!--            <a href="#installed=0" class="mw-ui-btn js-btn-uninstalled" onclick="mw.url.windowHashParam('installed', 0);return false;">--><?php //_e("Uninstalled"); ?><!--</a>-->
 
-            <div class="mw-dropdown mw-dropdown-default  pull-left" id="modules-sort-status">
-                <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
-                    <?php _e("Status"); ?>
-                </span>
+            <div class="mw-dropdown mw-dropdown-default" id="modules-sort-status">
+                <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Status"); ?></span>
                 <div class="mw-dropdown-content" style="display: none;">
                     <ul>
                         <li value="1" class="js-btn-installed"><?php _e("Installed"); ?></li>
@@ -294,7 +292,7 @@
                 </div>
             </div>
 
-            <div class="mw-dropdown mw-dropdown-default  pull-left" id="modules-sort-types">
+            <div class="mw-dropdown mw-dropdown-default" id="modules-sort-types">
                 <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Module types"); ?></span>
                 <div class="mw-dropdown-content" style="display: none;">
                     <ul>
@@ -305,7 +303,7 @@
                 </div>
             </div>
 
-            <button onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-icon tip reload-module-btn pull-right" data-tip="<?php _e("Reload modules"); ?>"><span class="mw-icon-reload"></span> <?php _e("Reload modules"); ?></button>
+            <button onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-notification tip reload-module-btn pull-right" data-tip="<?php _e("Reload modules"); ?>"><span class="mw-icon-reload"></span> <?php _e("Reload modules"); ?></button>
         </div>
         
         <div class="mw-ui-box mw-ui-box-content mw-modules-admin-holder">
