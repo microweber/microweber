@@ -1,14 +1,10 @@
 <?php
-
-
-
 only_admin_access();
 $form_rand_id = uniqid() . rand();
 $data = false;
 if (isset($params["data-category-id"])) {
     $data = get_category_by_id($params["data-category-id"]);
 }
-
 
 if ($data == false or empty($data)) {
     include('_empty_category_data.php');
@@ -25,30 +21,22 @@ if (isset($params['quick_edit'])) {
     $quick_edit = $params['quick_edit'];
 }
 
-?>
-<?php
-
 $wrapper_class = 'mw-edit-category-item-admin';
 
 if (isset($params['live_edit'])) {
     $wrapper_class = 'module-live-edit-settings';
 
-} ?>
+}
+?>
 
 <div class="<?php print $wrapper_class; ?>">
+    <script type="text/javascript">mw.require('forms.js');</script>
+
     <script type="text/javascript">
-        mw.require('forms.js');
-    </script>
-    <script type="text/javascript">
-
-
-
-
         function save_cat(el) {
             if (mwd.querySelector('.mw-ui-category-selector input:checked') !== null) {
                 $(document.forms['admin_edit_category_form']).submit();
-            }
-            else {
+            } else {
                 Alert('<?php _e("Please choose Page or Category"); ?>.');
             }
         }
@@ -97,14 +85,11 @@ if (isset($params['live_edit'])) {
                 $('.mw-cat-save-submit').addClass('disabled');
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
-
-
                     if (typeof(this.error) != "undefined") {
                         mw.notification.msg(this);
                         mw.category_is_saving = false;
                         return false;
                     }
-
 
                     mw.$('#mw-notifications-holder').empty();
                     mw.notification.success("Category changes are saved");
@@ -116,24 +101,26 @@ if (isset($params['live_edit'])) {
                         parent.mw.reload_module('categories');
                     }
                     mw.reload_module('[data-type="categories/manage"]');
-                    if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                    if (window.pagesTreeRefresh) {
+                        pagesTreeRefresh()
+                    }
+                    ;
                     /*mw.$('[data-type="pages"]').removeClass("activated");
-                    mw.reload_module('[data-type="pages"]', function () {
-                        mw.treeRenderer.appendUI('[data-type="pages"]');
-                        mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
-                        var action = mw.url.windowHashParam('action');
-                        if(action){
-                            var id = action.split(':')[1];
-                            if(id){
-                                $('[data-category-id="'+id+'"]').addClass("active-bg")
-                            }
-                        }
-                    });*/
+                     mw.reload_module('[data-type="pages"]', function () {
+                     mw.treeRenderer.appendUI('[data-type="pages"]');
+                     mw.tools.tree.recall(mwd.querySelector("#pages_tree_toolbar").parentNode);
+                     var action = mw.url.windowHashParam('action');
+                     if(action){
+                     var id = action.split(':')[1];
+                     if(id){
+                     $('[data-category-id="'+id+'"]').addClass("active-bg")
+                     }
+                     }
+                     });*/
                     <?php if(intval($data['id']) == 0): ?>
                     mw.url.windowHashParam("new_content", "true");
 
                     //	mw.url.windowHashParam("action", "editcategory:" + this);
-
 
                     <?php endif; ?>
                     mw.reload_module('#<?php print $params['id'] ?>');
@@ -142,8 +129,6 @@ if (isset($params['live_edit'])) {
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
-
-
                 });
 
                 return false;
@@ -158,22 +143,17 @@ if (isset($params['live_edit'])) {
 
             if (mw.url.mwParams().action == 'categories') {
                 $("#category-page-title").hide()
-            }
-            else {
+            } else {
                 if (mw.url.windowHashParam('action') == 'new:category') {
                     $("#category-page-title-edit").hide()
-                }
-                else {
+                } else {
                     $("#category-page-title-add").hide()
                 }
             }
-
-
         });
     </script>
 
     <?php
-
     if (intval($data['id']) == 0) {
         if (isset($params['selected-category-id']) and intval($params['selected-category-id']) != 0) {
             $data['parent_id'] = intval($params['selected-category-id']);
@@ -186,88 +166,64 @@ if (isset($params['live_edit'])) {
 
     ?>
 
-    <?php if(!isset($params['no-toolbar'])): ?>
+    <?php if (!isset($params['no-toolbar'])): ?>
+        <div class="section-header">
+            <h2 class="pull-left">
+                <span class="mw-icon-category"></span>
+                <?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?>
+            </h2>
 
-    <div class="section-header">
-        <h2 class="pull-left">
-            <span class="mw-icon-category"></span>
-            <?php if ($data['id'] == 0): ?>
-                <?php _e('Add') ?>
-            <?php else: ?>
-                <?php _e('Edit') ?>
-            <?php endif; ?>
-            <?php _e('category'); ?>
-        </h2>
+            <script>
+                mw.quick_cat_edit_create = function (id) {
+                    if (!!id) {
+                        var modalTitle = '<?php _e('Edit category'); ?>';
+                    } else {
+                        var modalTitle = '<?php _e('Add category'); ?>';
+                    }
 
-        <script>
+                    mw_admin_edit_category_item_module_opened = mw.modal({
+                        content: '<div id="mw_admin_edit_category_item_module"></div>',
+                        title: modalTitle,
+                        id: 'mw_admin_edit_category_item_popup_modal'
+                    });
 
-            mw.quick_cat_edit_create = function (id) {
-
-                if (!!id) {
-                    var modalTitle = '<?php _e('Edit category'); ?>';
-                } else {
-                    var modalTitle = '<?php _e('Add category'); ?>';
+                    var params = {}
+                    params['data-category-id'] = id;
+                    params['no-toolbar'] = true;
+                    mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
                 }
+            </script>
 
-
-                mw_admin_edit_category_item_module_opened = mw.modal({
-                    content: '<div id="mw_admin_edit_category_item_module"></div>',
-                    title: modalTitle,
-                    id: 'mw_admin_edit_category_item_popup_modal'
-                });
-
-                var params = {}
-                params['data-category-id'] = id;
-                params['no-toolbar'] = true;
-                mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
-
-            }
-
-        </script>
-
-        <div class="pull-right">
-            <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
-                <span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?>
-            </a>
+            <div class="pull-right">
+                <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
+                    <span class="mw-icon-plus"></span> &nbsp;<?php _e("New category"); ?>
+                </a>
+            </div>
         </div>
-    </div>
-
     <?php endif; ?>
 
-    <?php if(!isset($params['no-toolbar'])): ?>
+    <?php if (!isset($params['no-toolbar'])): ?>
     <div class="admin-side-content">
-
         <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content">
             <?php endif; ?>
 
-
-
-            <form id="admin_edit_category_form"
-                  name="admin_edit_category_form" autocomplete="off"
-                  style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
+            <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
                 <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
-
                 <input name="rel" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
-                <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>"
-                       id="rel_id"/>
+                <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
                 <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
-                <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>"
-                       id="parent_id"/>
+                <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
 
                 <div class="create-root">
                     <div id="content-title-field-buttons">
-                        <button onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification"
-                                form="quickform-edit-content"><?php _e('Save') ?></button>
+                        <button onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification" form="quickform-edit-content"><?php _e('Save') ?></button>
                         <?php if (intval($data['id']) != 0): ?>
-                            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
-                                <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>"
-                                   target="_top" class="mw-ui-btn tip" data-tip="<?php _e("New sub category"); ?>">
+                            <div class="pull-right" style="margin-left: 20px;">
+                                <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="mw-ui-btn mw-ui-btn-info tip" data-tip="<?php _e("New subcategory"); ?>">
                                     <span class="mw-icon-plus"></span>
                                     <span class="mw-icon-category"></span>
                                 </a>
-                                <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');"
-                                   class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span
-                                            class="mw-icon-bin" style="font-size: 22px;"></span></a>
+                                <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');" class="mw-ui-btn mw-ui-btn-important tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -275,39 +231,30 @@ if (isset($params['live_edit'])) {
                 </div>
 
                 <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php print _e('Category name'); ?>:</label>
                     <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
-
                         <div class="mw-ui-col">
-
                             <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
                                 <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-
-                                <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title"
-                                       type="text" placeholder="<?php _e("Sub-category Name"); ?>"/>
+                                <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title" type="text" placeholder="<?php _e("Subcategory Name"); ?>"/>
                             <?php else: ?>
                                 <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
                                     <span class="mw-title-field-label mw-title-field-label-subcat"></span>
                                 <?php else: ?>
                                     <span class="mw-title-field-label mw-title-field-label-category"></span>
                                 <?php endif; ?>
-                                <input class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title"
-                                       type="text"
-                                       <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
+                                <input class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
                             <?php endif; ?>
                         </div>
-
-
                     </div>
-
                 </div>
+
                 <div class="mw-ui-field-holder">
-                    Parent:
-                    <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()"
-                          id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
+                    <label class="mw-ui-label"><?php print _e('Parent'); ?>:</label>
+                    <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
                     <?php $is_shop = ''; ?>
-                    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none"
-                         id="edit_category_set_par">
-<?php /*
+                    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
+                        <?php /*
                         <module type="categories/selector" include_inactive="true"
                                 categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
                                 active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
@@ -317,55 +264,55 @@ if (isset($params['live_edit'])) {
                                 show_edit_categories_admin_link="true"/>
  */ ?>
 
-
                         <div class="category-parent-selector"></div>
                     </div>
                 </div>
+
                 <script type="text/javascript">
                     mw.require('tree.js')
-                    var parent_page = <?php print intval( $data['rel_id']);  ?>;
+                    var parent_page = <?php print intval($data['rel_id']);  ?>;
                     var parent_category = <?php print (intval($data['parent_id']));  ?>;
                     var current_category = <?php print isset($data['id']) ? $data['id'] : 'false'; ?>;
                     var skip = [];
-                    if(current_category){
+                    if (current_category) {
                         skip.push({
-                            id:current_category,
-                            type:'category'
+                            id: current_category,
+                            type: 'category'
                         })
                     }
                     var selectedData = [];
-                    if(parent_page){
+                    if (parent_page) {
                         selectedData.push({
-                            id:parent_page,
-                            type:'page'
+                            id: parent_page,
+                            type: 'page'
                         })
                     }
-                    if(parent_category){
+                    if (parent_category) {
                         selectedData.push({
-                            id:parent_category,
-                            type:'category'
+                            id: parent_category,
+                            type: 'category'
                         })
                     }
                     $(mwd).ready(function () {
 
-                        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+                        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (data) {
                             var categoryParentSelector = new mw.tree({
-                                id:'category-parent-selector',
-                                element:'.category-parent-selector',
-                                selectable:true,
-                                data:data,
-                                singleSelect:true,
-                                selectedData:selectedData,
-                                skip:skip
+                                id: 'category-parent-selector',
+                                element: '.category-parent-selector',
+                                selectable: true,
+                                data: data,
+                                singleSelect: true,
+                                selectedData: selectedData,
+                                skip: skip
                             });
-                            $(categoryParentSelector).on("selectionChange", function(e, selected){
+                            $(categoryParentSelector).on("selectionChange", function (e, selected) {
                                 var parent = selected[0];
-                                if(!parent){
+                                if (!parent) {
                                     mw.$('#rel_id').val(0);
                                     mw.$('#parent_id').val(0);
-                                    $("#category-dropdown-holder").html( ' ' );
+                                    $("#category-dropdown-holder").html(' ');
                                 }
-                                else{
+                                else {
                                     $("#category-dropdown-holder").html(parent.title);
                                     if (parent.type === 'category') {
                                         mw.$('#rel_id').val(0);
@@ -378,10 +325,10 @@ if (isset($params['live_edit'])) {
                                 }
                             })
                         });
-/*
-                        mw.treeRenderer.appendUI('#edit_category_set_par');
-                        mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par'));
-*/
+                        /*
+                         mw.treeRenderer.appendUI('#edit_category_set_par');
+                         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par'));
+                         */
 
 
                         var _parent = mwd.querySelector('#edit_category_set_par input:checked');
@@ -400,64 +347,59 @@ if (isset($params['live_edit'])) {
                             toggle: true
                         });
 
-                        $(".category-advanced-seetings-button span").on('click', function () {
+                        $(".js-category-advanced-seetings-button").on('click', function () {
                             $(".advanced_settings").stop().slideToggle()
                         })
                     });
                 </script>
                 <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
-                <div class="category-advanced-seetings-button">
-                    <span class="mw-icon-more "></span>
-                </div>
+
                 <div class="advanced_settings" style="display: none">
-                    <label class="mw-ui-label">
-                        <?php _e("Category images and settings"); ?>
-                    </label>
-                    <div class="mw-ui-btn-nav" id="tabsnav"> <span class="mw-ui-btn"><span
-                                    class="mw-icon-picture"></span><span>
-        <?php _e("Picture Gallery"); ?>
-        </span></span> <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
-        <?php _e("Advanced"); ?>
-        </span></span></div>
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e("Category images and settings"); ?></label>
+                    </div>
+
+                    <div class="mw-ui-btn-nav" id="tabsnav">
+                        <span class="mw-ui-btn">
+                            <span class="mw-icon-picture"></span>
+                            <span><?php _e("Picture Gallery"); ?></span>
+                        </span>
+                        <span class="mw-ui-btn">
+                            <span class="mw-icon-gear"></span>
+                            <span><?php _e("Advanced"); ?></span>
+                        </span>
+                    </div>
+
                     <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
                         <div class="pictures-editor-holder">
-                            <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"
-                                    id="mw-cat-pics-admin"/>
+                            <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>" id="mw-cat-pics-admin"/>
                         </div>
                     </div>
+
                     <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
                         <?php if (isset($data['id']) and $data['id'] != 0): ?>
                             <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">
-                                    <?php _e("Link"); ?>
-                                </label>
-                                <small><a href="<?php print category_link($data['id']); ?>"
-                                          target="_blank"><?php print category_link($data['id']); ?></a></small>
+                                <label class="mw-ui-label"><?php _e("Link"); ?></label>
+                                <small><a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a></small>
                             </div>
                         <?php endif; ?>
+
                         <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label">
-                                <?php _e("Slug"); ?>
-                            </label>
-                            <input type="text" class="mw-ui-field w100" name="url"
-                                   value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
+                            <label class="mw-ui-label"><?php _e("Slug"); ?></label>
+                            <input type="text" class="mw-ui-field w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
                         </div>
+
                         <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label">
-                                <?php _e("Description"); ?>
-                            </label>
-                            <textarea class="mw-ui-field w100"
-                                      name="description"><?php print ($data['description']) ?></textarea>
+                            <label class="mw-ui-label"><?php _e("Description"); ?></label>
+                            <textarea class="mw-ui-field w100" name="description"><?php print ($data['description']) ?></textarea>
                         </div>
+
                         <?php if (isset($data['id'])): ?>
-                            <module type="content/views/settings_from_template" content-type="category"
-                                    category-id="<?php print $data['id'] ?>"/>
+                            <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
                         <?php endif; ?>
-                        <div>
-                            <small><a href="javascript:$('.mw-edit-cat-edit-mote-advanced-toggle').toggle();void(0);"> <span
-                                            class="mw-icon-more" style="opacity:0.3"></span> </a></small>
-                        </div>
-                        <div class="mw-edit-cat-edit-mote-advanced-toggle" style="display:none">
+
+
+                        <div class="mw-edit-cat-edit-mote-advanced-toggle">
                             <div class="mw-ui-field-holder">
                                 <?php if (!isset($data['users_can_create_content'])) {
                                     $data['users_can_create_content'] = 0;
@@ -465,25 +407,20 @@ if (isset($params['live_edit'])) {
                                 <div class="mw-ui-check-selector">
                                     <div class="mw-ui-label left" style="width: 230px">
                                         <?php _e("Can users create content"); ?>
-                                        <small class="mw-help"
-                                               data-help="If you set this to YES the website users will be able to add content under this category">
-                                            (?)
-                                        </small>
+                                        <small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small>
                                     </div>
+
                                     <label class="mw-ui-check">
-                                        <input name="users_can_create_content" type="radio"
-                                               value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-                                        <span></span><span>
-                <?php _e("No"); ?>
-                </span></label>
+                                        <input name="users_can_create_content" type="radio" value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+                                        <span></span><span><?php _e("No"); ?></span>
+                                    </label>
                                     <label class="mw-ui-check">
-                                        <input name="users_can_create_content" type="radio"
-                                               value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-                                        <span></span><span>
-                <?php _e("Yes"); ?>
-                </span></label>
+                                        <input name="users_can_create_content" type="radio" value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+                                        <span></span><span><?php _e("Yes"); ?></span>
+                                    </label>
                                 </div>
                             </div>
+
                             <?php if (isset($data['id'])): ?>
                                 <?php if (!isset($data['category_subtype'])) {
                                     $data['category_subtype'] = 'default';
@@ -499,7 +436,7 @@ if (isset($params['live_edit'])) {
 
                                         $('.edit-category-choose-subtype-dd').on('change', function () {
                                             var val = $(this).getDropdownValue();
-                                            console.log(val )
+                                            console.log(val)
                                             $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
 
                                             $('#admin_edit_category_subtype_settings').attr('category_subtype', val);
@@ -507,19 +444,15 @@ if (isset($params['live_edit'])) {
 
                                         });
                                     });
-
-
                                 </script>
+
                                 <div class="mw-ui-field-holder">
                                     <div class="mw-ui-label" style="width: 230px">
                                         <?php _e("Category"); ?>
                                         <?php _e("Subtype"); ?>
-                                        <small class="mw-help"
-                                               data-help="You can set the category behaviour by changing its subtype">(?)
-                                        </small>
+                                        <small class="mw-help" data-help="You can set the category behaviour by changing its subtype">(?)</small>
                                     </div>
-                                    <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"><span
-                                                class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
+                                    <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
                                         <div class="mw-dropdown-content" style="display: none;">
                                             <ul>
                                                 <li value="default">Default</li>
@@ -528,20 +461,22 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>
                                 </div>
-                                <module type="categories/edit_category_subtype_settings"
-                                        category_subtype="<?php print $data['category_subtype'] ?>"
-                                        category-id="<?php print $data['id'] ?>"
-                                        id="admin_edit_category_subtype_settings"/>
+                                <module type="categories/edit_category_subtype_settings" category_subtype="<?php print $data['category_subtype'] ?>" category-id="<?php print $data['id'] ?>" id="admin_edit_category_subtype_settings"/>
                             <?php endif; ?>
                         </div>
                     </div>
                 </div>
+
+                <div class="text-center m-t-10">
+                    <div class="mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-ui-btn-info js-category-advanced-seetings-button">
+                        <?php print _e('show more'); ?>
+                    </div>
+                </div>
             </form>
 
-            <?php if(!isset($params['no-toolbar'])): ?>
+            <?php if (!isset($params['no-toolbar'])): ?>
         </div>
     </div>
-
 <?php endif; ?>
 
 </div>

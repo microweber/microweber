@@ -673,14 +673,14 @@ if ($action == 'posts') {
                                         contextMenu:[
                                             {
                                                 title:'Edit',
-                                                icon:'mw-icon-pen',
+                                                icon:'mw-icon-edit',
                                                 action:function(element, data, menuitem){
                                                     mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
                                                 }
                                             },
                                             {
                                                 title:'Move to trash',
-                                                icon:'mw-icon-bin',
+                                                icon:'mw-icon-app-trash',
                                                 action:function(element, data, menuitem){
                                                     if(data.type  == 'category' ){
                                                         mw.tools.tree.del_category(data.id, function(){

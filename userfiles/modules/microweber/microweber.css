@@ -742,3 +742,6 @@ span.mw-powered-by {
 }
 
 
+#category-parent-selector.mw-tree-nav-skin-default .mw-tree-item-title {
+    width: auto;
+}
