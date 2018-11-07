@@ -94,7 +94,7 @@ mw.live_edit.showHandle = function (element) {
 mw.live_edit.showSettings = function (a, opts) {
 
 
-    var liveedit = opts.liveedit = opts.liveedit || false;
+    var liveedit =     opts.liveedit || false;
 
     var view = opts.view || 'admin';
 
@@ -115,8 +115,12 @@ mw.live_edit.showSettings = function (a, opts) {
             } else if (typeof attr2 !== typeof undefined && attr2 !== false) {
                 module_type = attr2;
             }
+
+            a = mod_sel[0]
+
         }
-        var src = mw.settings.site_url + "api/module?id=" + module_id + "&live_edit=" + liveedit + "&module_settings=true&type=" + module_type;
+
+       /* var src = mw.settings.site_url + "api/module?id=" + module_id + "&live_edit=" + liveedit +"&view=" + view + "&module_settings=true&type=" + module_type;
         return mw.tools.modal.frame({
             url: src,
             width: 532,
@@ -126,7 +130,7 @@ mw.live_edit.showSettings = function (a, opts) {
             callback: function () {
 
             }
-        });
+        });*/
     }
 
     var curr = a || $("#mw_handle_module").data("curr");
@@ -201,10 +205,10 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-    //close sidebar
-    if(mw.liveEditSettings && mw.liveEditSettings.active){
-         //mw.liveEditSettings.hide();
-    }
+    // //close sidebar
+    // if(mw.liveEditSettings && mw.liveEditSettings.active){
+    //      //mw.liveEditSettings.hide();
+    // }
 
     $("#" + iframe_id_sidebar).remove();
 
@@ -230,6 +234,11 @@ mw.live_edit.showSettings = function (a, opts) {
     if (self != top || !mw.liveEditSettings.active || opts.mode === 'modal') {
         //remove from sidebar
         $("#" + iframe_id_sidebar).remove();
+
+        //close sidebar
+        if(mw.liveEditSettings && mw.liveEditSettings.active){
+             mw.liveEditSettings.hide();
+        }
 
         var modal = top.mw.tools.modal.frame({
             url: src,

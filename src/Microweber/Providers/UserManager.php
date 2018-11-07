@@ -941,7 +941,6 @@ class UserManager
                     } else {
 
 
-
                         if (!isset($params['id'])) {
                             $params['id'] = $this->id();
                         }
@@ -988,6 +987,8 @@ class UserManager
         $id_to_return = false;
 
         $data_to_save = $this->app->format->clean_xss($data_to_save);
+
+
         if ($user->validateAndFill($data_to_save)) {
 
             if (isset($data_to_save['id'])) {
@@ -998,23 +999,39 @@ class UserManager
                 }
             }
 
-            $save = $user->save();
 
             if (isset($user->id)) {
                 $data_to_save['id'] = $params['id'] = $user->id;
             }
 
 
-            if (isset($data_to_save['username']) and $data_to_save['username'] != false and isset($data_to_save['id']) and $data_to_save['id'] != false) {
+            if (isset($data_to_save['id']) and $data_to_save['id'] == 0) {
+                if ((isset($data_to_save['username']) and $data_to_save['username'] == false) and (isset($data_to_save['email']) and $data_to_save['email'] == false)
+                ) {
+                    return array('error' => 'You must set email or username');
+                }
+            }
+
+            if (isset($data_to_save['username']) and $data_to_save['username'] != false) {
                 $check_existing = array();
                 $check_existing['username'] = $data_to_save['username'];
                 $check_existing['single'] = 1;
                 $check_existing = $this->get_all($check_existing);
-                if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
-                    return array('error' => 'User with this username already exists! Try different username!');
+
+                $err = array('error' => 'User with this username already exists! Try different username!');
+
+                if ($check_existing) {
+                    if (isset($data_to_save['id']) and $data_to_save['id'] != false) {
+                        if (isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']) {
+                            return $err;
+                        }
+                    } else {
+                        return $err;
+                    }
                 }
             }
 
+            $save = $user->save();
 
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
@@ -1466,9 +1483,9 @@ class UserManager
         $auth_provider = $_REQUEST['provider'];
         $this->socialite_config($auth_provider);
 
-      
+
         try {
-           // $this->socialite_config($auth_provider);
+            // $this->socialite_config($auth_provider);
             $user = $this->socialite->driver($auth_provider)->user();
 
             $email = $user->getEmail();
