@@ -33,7 +33,8 @@
         mw.require('wysiwyg.js');
         mw.require("wysiwyg.css")
         mw.require('options.js');
-        mw.lib.require('font_awesome');
+//        mw.lib.require('font_awesome');
+        mw.lib.require('font_awesome5');
     </script>
 
     <style>

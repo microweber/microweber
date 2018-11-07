@@ -45,7 +45,7 @@
         mw.require("upgrades.js");
         mw.require("tree.js");
 
-        mw.lib.require('font_awesome');
+        mw.lib.require('font_awesome5');
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
