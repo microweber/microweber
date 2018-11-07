@@ -296,10 +296,8 @@ $payment_modules = get_modules('type=payment_gateway');
                                 $module_info['id'] = 0;
                             }
                             ?>
-                            <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
-                                 id="module-db-id-<?php print $module_info['id'] ?>">
-                                <div class="mw-ui-box-header"
-                                     onclick="paymentModal(this.parentNode);">
+                            <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active"  id="module-db-id-<?php print $module_info['id'] ?>">
+                                <div class="mw-ui-box-header"        onclick="paymentModal(this.parentNode);">
                                     <div class="gateway-icon-title">
                                         <div class="mw-ui-row">
                                             <div class="mw-ui-col">
@@ -332,7 +330,6 @@ $payment_modules = get_modules('type=payment_gateway');
                                             </div>
                                         </div>
                                     </div>
-                                    <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
 
                                 </div>
                                 <div class="mw-ui-box-content mw-accordion-content">

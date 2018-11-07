@@ -4501,10 +4501,15 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     margin-bottom: 15px !important;
 }
 
-.section-header [src*=".svg"] {
+.section-header [src*=".svg"]{
     max-height: 24px;
     max-width: 24px;
     margin-top: 6px;
+}
+
+.section-header [src*=".png"] {
+    max-height: 24px;
+    max-width: 24px;
 }
 
 @media screen and (max-width: 767px) {
@@ -4736,12 +4741,6 @@ body.is_admin .mw-admin-container {
 
 .mw-set-shipping-options .mw-ui-btn.mw-ui-btn-invert.save_shipping_btn {
     line-height: 14px;
-}
-
-.module-admin-backup .mw-ui-btn .mw-icon-file,
-.module-admin-backup .mw-ui-btn .mw-icon-refresh,
-.module-admin-backup .mw-ui-btn .mw-icon-upload {
-    float: left;
 }
 
 .top-form-submit {
@@ -5681,9 +5680,9 @@ body.is_admin .mw-admin-container {
 }
 
 /*.form-new-style input, .form-new-style textarea, .form-new-style select {*/
-    /*border-color: #c2c2c2;*/
-    /*padding: 8px;*/
-    /*height: 36px !important;*/
+/*border-color: #c2c2c2;*/
+/*padding: 8px;*/
+/*height: 36px !important;*/
 /*}*/
 
 .form-new-style label {

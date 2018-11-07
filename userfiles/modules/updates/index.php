@@ -90,9 +90,6 @@ mw()->notifications_manager->delete_for_module('updates');
     $(document).ready(function () {
 
 
-
-
-
         mw.bind_update_btns();
         mw.bind_update_form_submit();
 
@@ -130,7 +127,7 @@ mw()->notifications_manager->delete_for_module('updates');
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
         <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span>
-        <?php _e("Updates"); ?>
+            <?php _e("Updates"); ?>
             <?php if ($notif_count != 0) : ?>
                 &nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count ?></sup>
             <?php endif; ?>
@@ -141,13 +138,9 @@ mw()->notifications_manager->delete_for_module('updates');
 <div class="admin-side-content">
     <div class="mw-sided">
         <div class="mw-side-left" style="width: 170px;">
-
-            <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert"
-                  title="<?php _e("Current version"); ?> <?php print MW_VERSION ?>">
-      <?php _e("Check for updates"); ?>
-      </span></div>
-        <div class="mw-side-left" id="updates-list-info"><span
-                style="font-size: 18px;"><?php print user_name(); ?></span>,
+            <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-info" title="<?php _e("Current version"); ?> <?php print MW_VERSION ?>"><?php _e("Check for updates"); ?></span>
+        </div>
+        <div class="mw-side-left" id="updates-list-info"><span style="font-size: 18px;"><?php print user_name(); ?></span>,
             <?php _e("we are constantly trying to improve Microweber"); ?><br>
             <?php _e("Our team and many contributors around the world are working hard every day to provide you with a stable system and new updates"); ?>
             <?php _e("Please excuse us in case you find any problems and"); ?>
