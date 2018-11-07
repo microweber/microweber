@@ -891,7 +891,7 @@
 
 /* Icons */
 
-.mw-icon-selector {
+.mw-icons-selector {
     max-height: -webkit-calc(100vh - 205px);
     max-height: calc(100vh - 205px);
     background-color: white;
@@ -900,7 +900,7 @@
     resize: vertical;
 }
 
-.mw-icon-selector{
+.mw-icons-selector{
     width: 100%;
     display: none;
 }
@@ -913,27 +913,27 @@
     display: block;
 }
 
-.mw-icon-selector-dropdown-wrapper{
+.mw-icons-selector-dropdown-wrapper{
     position: relative;
     z-index: 5;
 }
-.mw-icon-selector-dropdown-wrapper.focused{
+.mw-icons-selector-dropdown-wrapper.focused{
     z-index: 6;
 }
 
-.mw-icon-selector-dropdown{
+.mw-icons-selector-dropdown{
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
     display: none;
 }
-.mw-icon-selector-dropdown-wrapper.focused .mw-icon-selector-dropdown{
+.mw-icons-selector-dropdown-wrapper.focused .mw-icons-selector-dropdown{
     display: block;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25)
 }
 
-.mw-icon-selector li {
+.mw-icons-selector li {
     color: #9e9e9e;
     cursor: pointer;
     display: inline-block;
@@ -945,8 +945,8 @@
     width: 40px;
 }
 
-.mw-icon-selector li:hover,
-.mw-icon-selector li:focus {
+.mw-icons-selector li:hover,
+.mw-icons-selector li:focus {
     background-color: #EEEEEE;
     color: #222222;
 }

@@ -5054,7 +5054,8 @@ mw.fileWindow = function (config) {
     config = config || {};
     var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
     var url = mw.settings.site_url + 'editor_tools/' + url;
-    var modal = mw.tools.modal.frame({
+    var root = window.top.mw?window.top.mw:mw;
+    var modal = root.tools.modal.frame({
         url: url,
         name: "mw_rte_image",
         width: 430,

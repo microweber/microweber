@@ -173,14 +173,14 @@ mw.iconSelector = mw.iconSelector || {
             + '<div id="icon-color-pick"></div>'
             + '<br><br>'
             + '<span class="mw-ui-label">Icon Size</span>'
-            + '<input class="mw-ui-field mw-icon-selector-set-icon-size" type="number" name="mw-icon-selector-set-icon-size"  min="10" max="120" oninput="mw.iconSelector.set_icon_size(this.value)"  />';
+            + '<input class="mw-ui-field mw-icons-selector-set-icon-size" type="number" name="mw-icons-selector-set-icon-size"  min="10" max="120" oninput="mw.iconSelector.set_icon_size(this.value)"  />';
 
 
 
 
         mw.iconSelector.getMaterialIconsPopup(function(){
             mw.iconSelector._string = html + this;
-            mw.iconSelector._string = '<ul class="mw-icon-selector">' + mw.iconSelector._string + '</ul>';
+            mw.iconSelector._string = '<ul class="mw-icons-selector">' + mw.iconSelector._string + '</ul>';
 
             mw.iconSelector._string =
                 '<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs live-edit-icon-pick-menu"><span class="mw-ui-btn">Icons</span><span class="mw-ui-btn">Options</span></div>'
@@ -213,7 +213,7 @@ mw.iconSelector = mw.iconSelector || {
             $(mw.iconSelectorGUI).addClass('tooltip-icon-picker')
 
 
-            $('.mw-icon-selector', mw.iconSelectorGUI).show();
+            $('.mw-icons-selector', mw.iconSelectorGUI).show();
             var tabs = mw.tabs({
                 nav:'.live-edit-icon-pick-menu .mw-ui-btn',
                 tabs:'.live-edit-icon-pick-tab'
@@ -262,7 +262,7 @@ mw.iconSelector = mw.iconSelector || {
           if(mw.iconSelector._activeElement !== null && !refresh){
 
             $(mw.iconSelectorGUI).show();
-            $('.mw-icon-selector', mw.iconSelectorGUI).show();
+            $('.mw-icons-selector', mw.iconSelectorGUI).show();
 
 
             //mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
@@ -276,7 +276,7 @@ mw.iconSelector = mw.iconSelector || {
         var a = parseInt(icons_size_val);
 
         if (a > 0) {
-            $('.mw-icon-selector-set-icon-size').val(a);
+            $('.mw-icons-selector-set-icon-size').val(a);
         }
 
        if(mw.iconSelector._activeElement === null || refresh){
@@ -400,15 +400,15 @@ mw.iconSelector = mw.iconSelector || {
 
 
         mw.iconSelector.getMaterialIconsDropdown(function(){
-          html = '<ul class="mw-icon-selector mw-icon-selector-dropdown" style="position:'+options.mode+';width:100%; left:0;top:100%;">' + html + this + '</ul>';
-          $(selector).addClass('mw-icon-selector-dropdown-wrapper').empty().append(holder).append(html)
+          html = '<ul class="mw-icons-selector mw-icons-selector-dropdown" style="position:'+options.mode+';width:100%; left:0;top:100%;">' + html + this + '</ul>';
+          $(selector).addClass('mw-icons-selector-dropdown-wrapper').empty().append(holder).append(html)
           $('li', el).on('mousedown touchstart', function(){
             var val =  $(this).html()
             $('.mw-ui-field-icon', holder).html(val);
              if(typeof options.onchange === 'function'){
                  options.onchange.call(undefined, val, el)
              }
-              $('.mw-icon-selector-dropdown', el).on()
+              $('.mw-icons-selector-dropdown', el).on()
           });
         })
 
@@ -422,10 +422,10 @@ mw.iconSelector = mw.iconSelector || {
              (function(val, el){
                  input.__time = setTimeout(function(){
                         if(!val){
-                            $('.mw-icon-selector li', el).show()
+                            $('.mw-icons-selector li', el).show()
                         }
                         else{
-                            $('.mw-icon-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
+                            $('.mw-icons-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
                         }
                         if(typeof options.onchange == 'function'){
                              //options.onchange.call(undefined, input.value, el)

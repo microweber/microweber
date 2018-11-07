@@ -78,7 +78,7 @@ mw.propEditor = {
             for(var i =0; i< this.options.schema.length;i++){
                 var item = this.options.schema[i];
                 if(typeof this._valSchema[item.id] === 'undefined'){
-                    this._rend.push(mw.propEditor.interfaces[item.interface](this, item));
+                    this._rend.push(new mw.propEditor.interfaces[item.interface](this, item));
                     if(item.id){
                         this._valSchema[item.id] = this._valSchema[item.id] || ''
                     }
@@ -92,7 +92,7 @@ mw.propEditor = {
                 var item = schema[i];
                 if(typeof this._valSchema[item.id] === 'undefined'){
                     this.options.schema.push(item);
-                    var create = mw.propEditor.interfaces[item.interface](this, item)
+                    var create = new mw.propEditor.interfaces[item.interface](this, item)
                     this._rend.push(create);
                     if(item.id){
                         this._valSchema[item.id] = this._valSchema[item.id] || ''
@@ -145,9 +145,9 @@ mw.propEditor = {
                 }
             }
 
-            return {
-                node:holder,
-                setValue:function(value){
+
+                this.node = holder;
+                this.setValue = function(value){
                     value = value.trim();
                     var arr = value.split(' ');
                     var all = holder.querySelectorAll('input'), i = 0;
@@ -157,26 +157,23 @@ mw.propEditor = {
                         all[i].dataset.unit = unit;
                     }
                     proto._valSchema[config.id] = value;
-                },
-                id:config.id
-            };
+                };
+
+                this.id = config.id
+
         },
         hr:function(proto, config){
             var el = document.createElement('hr');
             el.className = ' ';
-            return {
-                node:el
-            };
+            this.node = el;
         },
         block:function(proto, config){
             var el = document.createElement('div');
             el.innerHTML = config.content;
-            return {
-                node:el
-            };
+            this.node = el
+
         },
         size:function(proto, config){
-            //"2px"
             var field = mw.propEditor.helpers.field('', 'number');
             var holder = mw.propEditor.helpers.wrapper();
             var label = mw.propEditor.helpers.label(config.label);
@@ -185,17 +182,17 @@ mw.propEditor = {
             field.oninput = function(){
                 proto._valSchema[config.id] = this.value + this.dataset.unit;
                 $(proto).trigger('change', [config.id, this.value + this.dataset.unit]);
-            }
-            return {
-                node:holder,
-                setValue:function(value){
-                    field.value = parseInt(value, 10);
-                    proto._valSchema[config.id] = value
-                    var unit = value.replace(/[0-9]/g, '');
-                    field.dataset.unit = unit;
-                },
-                id:config.id
             };
+
+            this.node = holder
+            this.setValue = function(value){
+                field.value = parseInt(value, 10);
+                proto._valSchema[config.id] = value;
+                var unit = value.replace(/[0-9]/g, '');
+                field.dataset.unit = unit;
+            };
+            this.id=config.id
+
         },
         text:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'text');
@@ -207,14 +204,12 @@ mw.propEditor = {
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
             }
-            return {
-                node:holder,
-                setValue:function(value){
-                    field.value = value;
-                    proto._valSchema[config.id] = value
-                },
-                id:config.id
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value
             };
+            this.id = config.id;
         },
         number:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'number');
@@ -226,14 +221,12 @@ mw.propEditor = {
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
             }
-            return {
-                node:holder,
-                setValue:function(value){
-                    field.value = parseInt(value, 10);
-                    proto._valSchema[config.id] = value
-                },
-                id:config.id
-            };
+            this.node = holder;
+            this.setValue=function(value){
+                field.value = parseInt(value, 10);
+                proto._valSchema[config.id] = value
+            },
+            this.id=config.id;
         },
         color:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'color');
@@ -253,14 +246,12 @@ mw.propEditor = {
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
             }
-            return {
-                node:holder,
-                setValue:function(value){
-                    field.value = value;
-                    proto._valSchema[config.id] = value
-                },
-                id:config.id
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value
             };
+            this.id = config.id
         },
         select:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'select', config.options);
@@ -272,45 +263,100 @@ mw.propEditor = {
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
             }
-            return {
-                node:holder,
-                setValue:function(value){
-                    field.value = value;
-                    proto._valSchema[config.id] = value
-                },
-                id:config.id
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value
             };
+            this.id = config.id;
         },
         file:function(proto, config){
-            var btn = mw.propEditor.helpers.button('<span class="mw-icon-upload"></span>');
-            var field = mw.propEditor.helpers.field('', 'text');
+            if(config.multiple === true){
+                config.multiple = 99;
+            }
+            if(!config.multiple){
+                config.multiple = 1;
+            }
+            var scope = this;
+            var createButton = function(imageUrl, i){
+                var el = document.createElement('div');
+                el.className = 'upload-button-prop mw-ui-box mw-ui-box-content';
+                var btn = mw.propEditor.helpers.button('<span class="mw-icon-upload"></span>');
+                btn.style.backgroundSize = 'cover';
+                btn._value = imageUrl;
+                btn._index = i;
+                if(imageUrl){
+                    btn.style.backgroundImage = 'url(' + imageUrl + ')';
+                }
+                btn.onclick = function(){
+                    mw.fileWindow({
+                        types:'images',
+                        change:function(url){
+                            url = url.toString();
+                            proto._valSchema[config.id] = proto._valSchema[config.id] || [];
+                            proto._valSchema[config.id][btn._index] = url;
+                            btn.style.backgroundImage = 'url(' + url + ')';
+                            btn._value = url;
+                            $(proto).trigger('change', [config.id, proto._valSchema[config.id]]);
+                        }
+                    });
+                };
+                el.appendChild(btn);
+                return el;
+            };
+
+            this.addImageButton = function(){
+                if(config.multiple){
+                    this.addBtn = document.createElement('div');
+                    this.addBtn.className = 'mw-ui-btn mw-ui-btn-medium ';
+                    this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
+                    this.addBtn.onclick = function(){
+                        el.appendChild(createButton());
+                        scope.manageAddImageButton()
+                    };
+                    holder.appendChild(this.addBtn);
+                }
+            };
+
+            this.manageAddImageButton = function(){
+                var isVisible = $('.mw-ui-btn', this.node).length < config.multiple;
+                this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
+            };
+
+            var btn = createButton(undefined, 0);
             var holder = mw.propEditor.helpers.wrapper();
             var label = mw.propEditor.helpers.label(config.label);
             holder.appendChild(label);
-            holder.appendChild(field);
-            holder.appendChild(btn);
-            btn.onclick = function(){
-                mw.fileWindow({
-                    types:'images',
-                    change:function(url){
-                        field.value = url;
-                        proto._valSchema[config.id] = this.value;
-                        $(proto).trigger('change', [config.id, this.value]);
-                    }
+            var el = document.createElement('div');
+            el.className = 'mw-ui-box-content';
+            el.appendChild(btn);
+            holder.appendChild(el);
+
+
+            this.addImageButton();
+            this.manageAddImageButton();
+
+            $(el).sortable({
+                update:function(){
+                    var val = [];
+                    $('.mw-ui-btn', el).each(function(){
+                        val.push(this._value);
+                    });
+                    proto._valSchema[config.id] = val;
+                    $(proto).trigger('change', [config.id, proto._valSchema[config.id]]);
+                }
+            });
+
+            this.node = holder;
+            this.setValue = function(value){
+                proto._valSchema[config.id] = value;
+                $('.upload-button-prop', holder).remove();
+                $.each(value, function (index) {
+                    el.appendChild(createButton(this, index));
                 });
-            }
-            field.oninput = function(){
-                proto._valSchema[config.id] = this.value;
-                $(proto).trigger('change', [config.id, this.value]);
+                this.manageAddImageButton();
             };
-            return {
-                node:holder,
-                setValue:function(value){
-                    field.value = value;
-                    proto._valSchema[config.id] = value
-                },
-                id:config.id
-            };
+            this.id = config.id
         },
         icon:function(proto, config){
             var holder = mw.propEditor.helpers.wrapper();
@@ -325,14 +371,14 @@ mw.propEditor = {
             });
             var label = mw.propEditor.helpers.label(config.label);
             $(holder).prepend(label);
-            return {
-                node:holder,
-                setValue:function(value){
-                    selector.value(value);
-                    proto._valSchema[config.id] = value
-                },
-                id:config.id
+
+            this.node = holder;
+            this.setValue = function(value){
+                selector.value(value);
+                proto._valSchema[config.id] = value;
             };
+            this.id = config.id;
+
         }
     }
 };

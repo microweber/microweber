@@ -42,7 +42,7 @@ foreach ($json as $slide) {
     }
 
     if (isset($slide['images'])) {
-        $slide['images'] = explode(',', $slide['images']);
+        $slide['images'] = is_array($slide['images']) ? $slide['images'] : explode(',', $slide['images']);
     } else {
         $slide['images'] = array();
     }

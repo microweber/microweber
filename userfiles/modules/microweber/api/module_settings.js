@@ -29,11 +29,11 @@ mw.moduleSettings = function(options){
 
     if(!this.options.element) return;
 
-    this.createItemHolderHeader = function(){
+    this.createItemHolderHeader = function(i){
         if(this.options.header){
             var header = document.createElement('div');
             header.className = "mw-ui-box-header";
-            header.innerHTML = this.options.header;
+            header.innerHTML = this.options.header.replace(/{count}/g, i);
             return header;
         }
     };
@@ -44,7 +44,7 @@ mw.moduleSettings = function(options){
     };
     this.createItemHolder = function(){
         var holder = document.createElement('div');
-        holder.className = 'mw-ui-box mw-ui-box-content';
+        holder.className = 'mw-ui-box mw-ui-box-content mw-module-settings-box';
         this.options.element.appendChild(holder);
         return holder;
     };
@@ -70,7 +70,7 @@ mw.moduleSettings = function(options){
 
     this.createItem = function(curr, i){
         var box = this.createItemHolder();
-        var header = this.createItemHolderHeader();
+        var header = this.createItemHolderHeader(i);
         var item = new mw.propEditor.schema({
             schema: this.options.schema,
             element: box
@@ -93,7 +93,7 @@ mw.moduleSettings = function(options){
         if(this.options.autoSave){
             clearTimeout(this._autoSaveTime);
             this._autoSaveTime = setTimeout(function(){
-                scope.save()
+                scope.save();
             }, 500);
         }
     };

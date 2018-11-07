@@ -7401,3 +7401,10 @@ select.silver-field {
 #admin-main-tree .mw-tree-item-title {
     width: 100%;
 }
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-icon-upload {
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.52);
+}
+.mw-module-settings-box .upload-button-prop.mw-ui-box {
+    display: inline-block;
+    margin: 5px;
+}

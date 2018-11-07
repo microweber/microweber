@@ -56,9 +56,10 @@ $count = 0;
                 skins.push(item.split('.')[0])
             }
         });
+
         this.bxSettings = new mw.moduleSettings({
             element:'#settings-box',
-            header:'<i class="mw-icon-drag"></i> Move <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+            header:'<i class="mw-icon-drag"></i> Slide {count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
             data: <?php print json_encode($json); ?>,
             schema:[
                 {
@@ -75,12 +76,12 @@ $count = 0;
                 {
                     interface:'text',
                     label:['Main text'],
-                    id:'title'
+                    id:'primaryText'
                 },
                 {
                     interface:'text',
                     label:['Description'],
-                    id:'Description'
+                    id:'secondaryText'
                 },
                 {
                     interface:'text',
@@ -90,17 +91,19 @@ $count = 0;
                 {
                     interface:'text',
                     label:['See more text'],
-                    id:'seemore'
+                    id:'seemoreText'
                 },
                 {
                     interface:'file',
-                    id:'image',
+                    id:'images',
                     label:'Add Image',
-                    types:'images'
+                    types:'images',
+                    multiple:2
                 }
             ]
         });
-        $(this.bxSettings).on("change", function(e, val){
+        $(bxSettings).on("change", function(e, val){
+            console.log(val)
             $("#settingsfield").val(bxSettings.toString()).trigger("change")
         });
     });
