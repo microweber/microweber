@@ -154,7 +154,9 @@ if ($id != 0) {
 
 
 
-    <br>
+  <?php
+
+  /*  <br>
 
     <div  class="mw-ui-field-holder">
         <label class="mw-ui-label">Auto add to menu <small class="mw-help" data-help="This option will populate the menu automatically with sub-pages and sub-categories"> (?)</small></label>
@@ -166,7 +168,9 @@ if ($id != 0) {
         </select>
 
 
-    </div>
+    </div>*/
+
+  ?>
     <br>
 
 
