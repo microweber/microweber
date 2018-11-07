@@ -143,7 +143,24 @@ class Parser
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<tag-option>mw_replace_back_this_select_' . $v1 . '</tag-option>';
+                    $v1 = '<custom-replaced-tag>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag>';
+                    $layout = str_replace($value, $v1, $layout);
+                    if (!isset($this->_replaced_input_tags[$v1])) {
+                        $this->_replaced_input_tags[$v1] = $value;
+                        $mw_replaced_textarea_tag[$v1] = $value;
+                    }
+                }
+            }
+        }
+
+
+        $script_pattern = "/<style[^>]*>(.*)<\/style>/Uis";
+        preg_match_all($script_pattern, $layout, $mw_script_matches);
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<custom-replaced-tag>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag>';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
@@ -161,7 +178,7 @@ class Parser
 //            foreach ($mw_script_matches [0] as $key => $value) {
 //                if ($value != '') {
 //                    $v1 = crc32($value);
-//                    $v1 = '<tag-select>mw_replace_back_this_option_' . $v1 . '</tag-select>';
+//                    $v1 = '<custom-replaced-tag>mw_replace_back_this_option_' . $v1 . '</custom-replaced-tag>';
 //                    $layout = str_replace($value, $v1, $layout);
 //                    if (!isset($this->_replaced_input_tags[$v1])) {
 //                        $this->_replaced_input_tags[$v1] = $value;
@@ -817,7 +834,23 @@ class Parser
                                         foreach ($mw_script_matches [0] as $key => $value) {
                                             if ($value != '') {
                                                 $v1 = crc32($value);
-                                                $v1 = '<tag-select>mw_replace_back_this_select_' . $v1 . '</tag-select>';
+                                                $v1 = '<custom-replaced-tag>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag>';
+                                                $layout = str_replace($value, $v1, $layout);
+                                                if (!isset($this->_replaced_input_tags[$v1])) {
+                                                     $this->_replaced_input_tags[$v1] = $value;
+                                                    $mw_replaced_textarea_tag[$v1] = $value;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    $script_pattern = "/<style[^>]*>(.*)<\/style>/Uis";
+                                    preg_match_all($script_pattern, $layout, $mw_script_matches);
+                                    if (!empty($mw_script_matches)) {
+                                        foreach ($mw_script_matches [0] as $key => $value) {
+                                            if ($value != '') {
+                                                $v1 = crc32($value);
+                                                $v1 = '<custom-replaced-tag>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag>';
                                                 $layout = str_replace($value, $v1, $layout);
                                                 if (!isset($this->_replaced_input_tags[$v1])) {
                                                     $this->_replaced_input_tags[$v1] = $value;
