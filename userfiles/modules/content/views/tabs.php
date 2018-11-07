@@ -229,6 +229,6 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                 <div class="mw-ui-box-content mw-settings-tabs-content custom-tabs" style="display: none;"><?php print $html; ?></div>
             <?php endforeach; ?>
         <?php endif; ?>
-        <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
+        <?php event_trigger('content/views/advanced_settings', $data); ?>
     </div>
 </div>
