@@ -62,6 +62,7 @@ class TagsManager
             if ($id) {
                 $article = $model->whereId($id)->first();
                 if ($article) {
+
                     if ($return_full) {
                         return $article->toArray();
                     }
@@ -70,10 +71,11 @@ class TagsManager
                             $tags_return[] = $tag->name;
                         }
                     }
-
                 }
+
             } else {
                 $article = $model->with('tagged')->first()->existingTags();
+
                 if ($article) {
                     if ($return_full) {
                         return $article->toArray();

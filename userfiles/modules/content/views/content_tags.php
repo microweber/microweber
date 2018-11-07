@@ -2,12 +2,17 @@
 if (!function_exists('content_tags')) {
     return;
 }
+$tags_str = array();
+
 only_admin_access();
 
 if (!isset($params['content-id'])) {
     return;
 }
-$tags_str = content_tags($params['content-id']);
+
+if ($params['content-id']) {
+    $tags_str = content_tags($params['content-id']);
+}
 
 if (!$tags_str) {
     $tags_str = array();
@@ -35,7 +40,8 @@ if ($all_existing_tags == null) {
                    data-help="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"> (?)
             </small>
         </label>
-        <input type="text" name="tags" class="mw-ui-field" value="<?php print implode(',', $tags_str); ?>" data-role="tagsinput" id="tags"/>
+        <input type="text" name="tags" class="mw-ui-field" value="<?php print implode(',', $tags_str); ?>"
+               data-role="tagsinput" id="tags"/>
     </div>
 
     <script>

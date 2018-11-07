@@ -12,7 +12,7 @@ if (isset($_COOKIE['mw_exp'])) {
     return include(__DIR__ . DS . 'toolbar2.php');
 }
 
-?>3
+?>
 <?php if (!isset($_GET['preview'])) { ?>
     <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
     <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>

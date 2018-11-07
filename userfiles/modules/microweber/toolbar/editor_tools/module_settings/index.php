@@ -7,11 +7,8 @@
         <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
     <?php endif; ?>
 
-
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_settings_url()); ?>"></script>
-
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_url()); ?>"></script>
-
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
     <script type="text/javascript">
         liveEditSettings = true;
@@ -36,9 +33,10 @@
         mw.require('wysiwyg.js');
         mw.require("wysiwyg.css")
         mw.require('options.js');
-        mw.lib.require('font_awesome');
-
+//        mw.lib.require('font_awesome');
+        mw.lib.require('font_awesome5');
     </script>
+
     <style>
         #settings-main {
             min-height: 200px;
@@ -59,6 +57,7 @@
             height: 0;
         }
     </style>
+
     <?php
     $autoSize = true;
     if (isset($_GET['autosize'])) {
@@ -77,15 +76,14 @@
         $mod_orig_id = $mod_id = $params['id'];
     }
 
-
     if (isset($params['data-module-original-id']) and $params['data-module-original-id']) {
         $mod_orig_id = $params['data-module-original-id'];
     }
     if ($mod_id != $mod_orig_id) {
         $is_linked_mod = true;
     }
-
     ?>
+
     <script type="text/javascript">
         addIcon = function () {
             if (window.thismodal && thismodal.main) {
@@ -104,20 +102,16 @@
             $(mwd.body).addClass("mw-external-loading")
         };
 
-
         mw_module_settings_info = "";
         <?php if(is_array($module_info)): ?>
 
         mw_module_settings_info = <?php print json_encode($module_info); ?>
-            <?php
-
-                $mpar = $params;
-                if (isset($mpar['module_settings'])) {
-                    unset($mpar['module_settings']);
-                }
-
-                ?>
-
+        <?php
+            $mpar = $params;
+            if (isset($mpar['module_settings'])) {
+                unset($mpar['module_settings']);
+            }
+            ?>
 
             mw_module_params =
         <?php print json_encode($mpar); ?>
@@ -125,26 +119,19 @@
         <?php endif; ?>
 
         if (typeof thismodal == 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
-
             var frame = parent.mw.$('#' + this.name)[0];
             thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
-
         }
-
 
         //var the_module_settings_frame = parent.mw.$('#' + this.name)[0];
 
-
         if (typeof thismodal != 'undefined' && thismodal != false) {
-
-
             var modal_title_str = '';
             if (typeof(mw_module_settings_info.name) == "undefined") {
                 modal_title_str = "<?php _e("Settings"); ?>"
             } else {
                 modal_title_str = mw_module_settings_info.name;
             }
-
 
             var ex_title = $(thismodal.main).find(".mw_modal_title").html();
 
@@ -155,7 +142,6 @@
                 thismodal.main.scrollTop(0);
             }
 
-
             __autoresize = function (force) {
                 var force = force || false;
                 var _old = thismodal.main.height();
@@ -165,8 +151,6 @@
                 }
 
                 if (typeof thismodal.main[0] != 'undefined') {
-
-
                     parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, mw.$('#settings-container').height() + 25, false);
                     setTimeout(function () {
                         var _new = thismodal.main.height();
@@ -174,30 +158,21 @@
                             parent.mw.tools.modal.center("#" + thismodal.main[0].id, 'vertical');
                         }
                     }, 400)
-
-
                 }
-
-
             }
-
 
             $(window).load(function () {
                 if (typeof thismodal.main[0] != 'undefined') {
 
                     if (autoSize) {
-
                         parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
 
                         $(mwd.body).bind('mouseup click DOMNodeInserted', function () {
                             setTimeout(function () {
                                 __autoresize();
-
-
                             }, 99);
                         }).ajaxStop(function () {
                             setTimeout(function () {
-
                                 __autoresize();
                             }, 99);
                         });
@@ -213,30 +188,20 @@
                         });
                     }
                 }
-
             });
-
-
         }
 
-
         $(window).load(function () {
-
-
             $(mwd.body).removeClass('mw-external-loading');
             $(mwd.body).ajaxStop(function () {
                 $(mwd.body).removeClass('mw-external-loading');
             });
 
             addIcon();
-
         });
 
-
         $(window).load(function () {
-
             // add dropdown
-
             if (typeof thismodal != 'undefined' && typeof thismodal.main[0] != 'undefined') {
                 module_settings_opener_titlebar_holder = thismodal.main[0];
             } else {
@@ -247,17 +212,11 @@
             }
 
             if (typeof module_settings_opener_titlebar_holder != 'undefined') {
-
-
                 var toolbar = module_settings_opener_titlebar_holder.querySelector('.mw_modal_toolbar');
                 if (!toolbar) {
                     var toolbar = module_settings_opener_titlebar_holder.querySelector('.js-module-sidebar-settings-menu-holder');
 
                 }
-             
-
-
-
 
 
                 var is_module_tml_holder = $(toolbar).find(".js-module-modal-settings-menu-holder");
@@ -272,10 +231,7 @@
 
                      $(toolbar).append(dd);
                      *******************************************************/
-
-
                 }
-
 
                 mw.module_preset_linked_dd_menu_show_icon = function () {
                     var toolbar = module_settings_opener_titlebar_holder.querySelector('.mw_modal_toolbar');
@@ -283,7 +239,7 @@
 
                     if (is_module_preset_tml_holder.length == 0) {
                         var linked_dd = window.parent.mwd.createElement('div');
-                       // linked_dd.id = 'module-modal-preset-linked-icon';
+                        // linked_dd.id = 'module-modal-preset-linked-icon';
                         linked_dd.class = 'module-modal-preset-linked-icon';
                         linked_dd.style.display = "none";
 
@@ -302,22 +258,14 @@
 
 
                 $(document).ready(function () {
-
-
                     //   window.top.module_settings_modal_reference = thismodal;
-
-
                     <?php if(is_array($module_info)): ?>
 
-
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
-
 
                     var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
 
                     if (is_module_tml_holder.length > 0) {
-
-
                         is_module_tml_holder.empty();
 
                         var holder = mwd.createElement('div');
@@ -331,34 +279,22 @@
                             + "<div class='module-modal-settings-menu-holder-2<?php print $params['id'] ?>'>"
                             + "<a href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>";
 
-
                         window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
                             var modal_preset_manager_html_placeholder_for_reload_content = ""
                                 + "<div id='module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
                                 + "</div>"
-
 
                             var presetsthismodalid = module_settings_opener_titlebar_holder.id;
 
                             window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
                             window.parent.module_settings_modal_reference_window = window;
 
-
                             //  $('#module-modal-settings-menu-holder-open-presets').html('');
-
 
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
-
-
-
-
-
-
-
                         };
                         var html = ""
-
                             + "<div class='module-modal-settings-menu-content'>" +
                             "<a  href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
 
@@ -370,13 +306,11 @@
                         $(btn).on('click', function () {
                             $(this).parent().toggleClass('active');
 
-
-                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>', function(){
-                               setTimeout(function(){
-                                   top.$(".mw-presets-dropdown .module").removeClass('module');
-                               },100)
+                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>', function () {
+                                setTimeout(function () {
+                                    top.$(".mw-presets-dropdown .module").removeClass('module');
+                                }, 100)
                             });
-
                         });
 
                         var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
@@ -386,47 +320,34 @@
                             $(dd).prepend(btn);
 
                             is_module_tml_holder.append(holder);
-
                         }
-
-
                     }
 
                     window.parent.modal_preset_manager_html_placeholder_for_reload();
                     mw.module_preset_linked_dd_menu_show_icon();
                     <?php endif; ?>
-
-
                 });
-
-
             }
-
-
         });
 
-
         $(document).ready(function () {
-
-
             mw.options.form('#settings-container', function () {
                 if (mw.notification != undefined) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
                 }
             });
         });
-
     </script>
 
 </head>
 <body class="mw-external-loading loading">
 <div id="settings-main">
     <div id="settings-container">
-        <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
-             id="module-id-<?php print $params['id'] ?>">{content}
+        <div class="mw-module-live-edit-settings <?php print $params['id'] ?>" id="module-id-<?php print $params['id'] ?>">{content}
         </div>
     </div>
 </div>
+
 <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
     <?php $mpar = $params;
     if (isset($mpar['module_settings'])) {
@@ -443,7 +364,6 @@
 </form>
 <script type="text/javascript">
     $(document).ready(function () {
-
         __global_options_save_msg = function () {
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _e('Settings are updated!'); ?>');
@@ -452,18 +372,17 @@
             if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
                 window.parent.mw.reload_module("#<?php print $params['id'] ?>");
             }
-
         }
 
         // mw.options.form('#settings-container');
     });
 </script>
-<script type="text/javascript">
 
+<script type="text/javascript">
     $(frame).on('unload', function () {
         window.parent.$('#module-modal-settings-menu-holder').remove();
     });
-
 </script>
+
 </body>
 </html>

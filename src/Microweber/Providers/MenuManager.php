@@ -751,7 +751,6 @@ class MenuManager
                             if (isset($depth)) {
                                 $menu_params['depth'] = $depth + 1;
                             }
-
                             $test1 = $this->menu_tree($menu_params);
 
                             //   }
@@ -784,6 +783,34 @@ class MenuManager
                 $to_print = str_replace('{li_class}', $li_class, $to_print);
                 $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
                 $to_print = str_replace('{nest_level}', 'depth-' . $depth, $to_print);
+
+
+/*
+                if(isset($item['auto_populate']) and $item['auto_populate'] and $item['auto_populate'] == 'all') {
+
+                    if(isset($item['content_id']) and intval($item['content_id']) != 0){
+                        $pt = array();
+                        $pt['parent'] = intval($item['content_id']);
+                        $pt['link'] = $link;
+                        $pt['a_class'] = $a_class;
+                        $pt['ul_class'] = $ul_class;
+                        $pt['li_tag'] = $li_tag;
+                        $pt['ul_tag'] = $ul_tag;
+                        if($li_submenu_a_link){
+                        $pt['li_submenu_a_link'] = $li_submenu_a_link;
+                        }
+                        $pt['return_data'] = 1;
+
+                       // dd($this->app->content_manager->pages_tree($pt));
+
+                     //    $pt['include_all_content'] = intval($item['content_id']);
+
+                     //   $to_print = $to_print .  $this->app->content_manager->pages_tree($pt);
+                    //    dd($this->app->content_manager->pages_tree($pt));
+
+                    }
+                }
+*/
 
                 if (isset($test1) and strval($test1) != '') {
                     $to_print .= strval($test1);

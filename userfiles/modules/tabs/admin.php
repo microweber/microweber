@@ -92,7 +92,7 @@ if (isset($json) == false or count($json) == 0) {
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <div class="mw-ui-field-holder add-new-button text-right m-b-10">
-                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" href="javascript:tabSettings.addNew(0)"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:tabSettings.addNew(0)"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
             </div>
             <div id="settings-box"></div>
             <!-- Settings Content -->

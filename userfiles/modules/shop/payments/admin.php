@@ -19,7 +19,7 @@
     paymentModal = function (el) {
         var html = el.querySelector('.mw-ui-box-content').innerHTML
         var modal = mw.modal({
-            content: '<form id="pm-'+mw.random()+'">' + el.querySelector('.mw-ui-box-content').innerHTML + '</form>',
+            content: '<form id="pm-' + mw.random() + '">' + el.querySelector('.mw-ui-box-content').innerHTML + '</form>',
             onremove: function (modal) {
                 el.querySelector('.mw-ui-box-content').innerHTML = modal.container.innerHTML;
                 $(mwd.body).removeClass('paymentSettingsModal')
@@ -189,7 +189,8 @@
         vertical-align: middle;
     }
 
-    .gateway-icon-title > .mw-ui-row img {
+    .gateway-icon-title > .mw-ui-row img,
+    .gateway-icon-title img {
         max-width: 100px;
         max-height: 30px;
     }
@@ -295,10 +296,8 @@ $payment_modules = get_modules('type=payment_gateway');
                                 $module_info['id'] = 0;
                             }
                             ?>
-                            <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active"
-                                    id="module-db-id-<?php print $module_info['id'] ?>">
-                                <div class="mw-ui-box-header"
-                                     onclick="paymentModal(this.parentNode);">
+                            <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active"  id="module-db-id-<?php print $module_info['id'] ?>">
+                                <div class="mw-ui-box-header"        onclick="paymentModal(this.parentNode);">
                                     <div class="gateway-icon-title">
                                         <div class="mw-ui-row">
                                             <div class="mw-ui-col">
@@ -331,7 +330,6 @@ $payment_modules = get_modules('type=payment_gateway');
                                             </div>
                                         </div>
                                     </div>
-                                    <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
 
                                 </div>
                                 <div class="mw-ui-box-content mw-accordion-content">
