@@ -319,7 +319,7 @@ mw.propEditor = {
             };
 
             this.manageAddImageButton = function(){
-                var isVisible = $('.mw-ui-btn', this.node).length < config.multiple;
+                var isVisible = $('.upload-button-prop', this.node).length < config.multiple;
                 this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
             };
 
@@ -349,6 +349,7 @@ mw.propEditor = {
 
             this.node = holder;
             this.setValue = function(value){
+                value = value || [''];
                 proto._valSchema[config.id] = value;
                 $('.upload-button-prop', holder).remove();
                 $.each(value, function (index) {
@@ -356,7 +357,7 @@ mw.propEditor = {
                 });
                 this.manageAddImageButton();
             };
-            this.id = config.id
+            this.id = config.id;
         },
         icon:function(proto, config){
             var holder = mw.propEditor.helpers.wrapper();
