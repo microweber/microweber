@@ -120,10 +120,6 @@ mw.live_edit.showSettings = function (a, opts) {
 
         }
 
-d(a);
-
-
-
        /* var src = mw.settings.site_url + "api/module?id=" + module_id + "&live_edit=" + liveedit +"&view=" + view + "&module_settings=true&type=" + module_type;
         return mw.tools.modal.frame({
             url: src,
@@ -209,10 +205,10 @@ d(a);
 
 
 
-    //close sidebar
-    if(mw.liveEditSettings && mw.liveEditSettings.active){
-         //mw.liveEditSettings.hide();
-    }
+    // //close sidebar
+    // if(mw.liveEditSettings && mw.liveEditSettings.active){
+    //      //mw.liveEditSettings.hide();
+    // }
 
     $("#" + iframe_id_sidebar).remove();
 
@@ -238,6 +234,11 @@ d(a);
     if (self != top || !mw.liveEditSettings.active || opts.mode === 'modal') {
         //remove from sidebar
         $("#" + iframe_id_sidebar).remove();
+
+        //close sidebar
+        if(mw.liveEditSettings && mw.liveEditSettings.active){
+             mw.liveEditSettings.hide();
+        }
 
         var modal = top.mw.tools.modal.frame({
             url: src,
