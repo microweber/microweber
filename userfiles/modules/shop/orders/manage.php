@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline pull-right m-r-10"><?php print _e('Add new order'); ?> <i class="mai-plus"></i></a>
+                <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-rounded pull-right m-r-10"><i class="fas fa-plus-circle"></i> &nbsp; <?php print _e('Add new order'); ?></a>
             </div>
         </div>
     </div>

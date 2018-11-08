@@ -4,7 +4,7 @@
             mw.notification.success("<?php _e("Saved"); ?>.");
         });
     });
-</script><modk
+</script>
 
 
 <div id="shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue active m-t-20">
