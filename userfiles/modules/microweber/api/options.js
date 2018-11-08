@@ -53,7 +53,7 @@ mw.options = {
     save: function (el, callback) {
 
 
-        var el = $(el), og1 , refresh_modules11;
+        var el = $(el), og,og1 , refresh_modules11;
 
         if (!el) {
             return;
@@ -64,7 +64,10 @@ mw.options = {
 
         var opt_id = el.attr('data-id');
 
-        og1 = el.attr('option-group') || el.attr('option_group') || el.attr('data-option-group');
+        og1= og = el.attr('option-group') || el.attr('option_group') || el.attr('data-option-group');
+
+
+
 
         if (og1 == null || (typeof(og1) === 'undefined') || og1 == '') {
             var og_test = mw.tools.firstParentWithClass(el[0], 'module');
@@ -87,17 +90,19 @@ mw.options = {
 
         }
 
-            var a = ['data-module-id', 'data-settings-for-module', 'data-refresh', 'option-group', 'data-option-group'],
-            i = 0, l = a.length, og = '';
+        var a = ['data-module-id', 'data-settings-for-module', 'data-refresh', 'option-group', 'data-option-group'],
+            i = 0, l = a.length;
+
+
         var mname = modal !== undefined ? modal.attr('data-type') : undefined;
 
-        if (typeof(refresh_modules11) == 'undefined') {
-            for (; i < l; i++) {
-                var og = og === undefined ? el.attr(a[i]) : og;
-            }
-        } else {
-            var og = refresh_modules11;
-        }
+        // if (typeof(refresh_modules11) == 'undefined') {
+        //     for (; i < l; i++) {
+        //         var og = og === undefined ? el.attr(a[i]) : og;
+        //     }
+        // } else {
+        //     var og = refresh_modules11;
+        // }
 
         // if (og1 != undefined) {
         //     var og = og1;
@@ -153,7 +158,7 @@ mw.options = {
         if (og != undefined) {
             o_data.id = have_id;
         }
-
+ 
         var have_id = el.attr('data-custom-field-id');
 
         if (have_id != undefined) {
