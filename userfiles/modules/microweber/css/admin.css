@@ -7391,6 +7391,7 @@ select.silver-field {
 .mw-live-edit-module-manage-and-list-top {
     padding: 20px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .mw-live-edit-module-manage-and-list-top .mw-ui-btn {

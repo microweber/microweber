@@ -107,7 +107,10 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                             });
 
                                             $(categorySelector.tree).on('ready', function () {
-                                                if (pagesTree.selectedData.length) {
+
+
+
+                                                if (window.pagesTree && pagesTree.selectedData.length) {
                                                     $.each(pagesTree.selectedData, function () {
                                                         categorySelector.tree.select(this)
                                                     })

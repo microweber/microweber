@@ -1406,19 +1406,19 @@ class ContentManager
                         $current_category = end($current_categorys);
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
-                            define('CATEGORY_ID', $current_category['id']);
+                            define('CATEGORY_ID', intval($current_category['id']));
                         }
                     }
 
                     $page = $this->get_by_id($page['parent']);
 
                     if (defined('POST_ID') == false) {
-                        define('POST_ID', $content['id']);
+                        define('POST_ID', intval($content['id']));
                     }
 
                     if ($page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
-                            define('PRODUCT_ID', $content['id']);
+                            define('PRODUCT_ID',intval($content['id']));
                         }
                     }
                 }

@@ -158,7 +158,7 @@ mw.options = {
         if (og != undefined) {
             o_data.id = have_id;
         }
- 
+
         var have_id = el.attr('data-custom-field-id');
 
         if (have_id != undefined) {
