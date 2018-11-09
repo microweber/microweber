@@ -400,9 +400,9 @@ $(document).ready(function() {
         d(uitype);
 
         if(mw.liveEditSettings.active){
-            // if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
-            //     mw.sidebarSettingsTabs.set(2);
-            // }
+            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+                mw.sidebarSettingsTabs.set(2);
+            }
             mw.liveNodeSettings.set(uitype, node);
         }
 
