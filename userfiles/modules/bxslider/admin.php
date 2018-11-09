@@ -57,10 +57,18 @@ $count = 0;
             }
         });
 
+        var data = <?php print json_encode($json); ?>;
+        $.each(data, function(key){
+            data[key].images = data[key].images.split(',');
+        });
+
         this.bxSettings = new mw.moduleSettings({
             element:'#settings-box',
             header:'<i class="mw-icon-drag"></i> Slide {count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
-            data: <?php print json_encode($json); ?>,
+            data: data,
+            key:'settings',
+            group:'<?php print $params['id']; ?>',
+            autoSave:true,
             schema:[
                 {
                     interface:'select',
@@ -103,8 +111,13 @@ $count = 0;
             ]
         });
         $(bxSettings).on("change", function(e, val){
-            console.log(val)
-            $("#settingsfield").val(bxSettings.toString()).trigger("change")
+            var final = [];
+            $.each(val, function(){
+                var curr = $.extend({}, this);
+                curr.images = curr.images.join(',');
+                final.push(curr)
+            });
+            $("#settingsfield").val(JSON.stringify(final)).trigger("change")
         });
     });
 
@@ -114,7 +127,7 @@ $count = 0;
 
 
 
-<div class="mw-accordion">
+<div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
@@ -124,6 +137,8 @@ $count = 0;
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-bxslider-settings">
+
+
                 <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
 
                 <div class="mw-ui-field-holder text-right">

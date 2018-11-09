@@ -1,0 +1,39 @@
+@import "var";
+
+.mw-badge{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    background: #ff0000;
+    color: #FFFFFF;
+    min-height: 13px;
+    padding: 0 2px;
+    font-size: 11px;
+    line-height: 20px;
+    border-radius: 20px;
+    height: 20px;
+    min-width: 20px;
+    text-align: center;
+
+    &.mw-badge-invert {
+        background-color: @invert;
+    }
+
+    &.mw-badge-info {
+         background-color: @info;
+    }
+
+    &.mw-badge-warn {
+         background-color: @warn;
+    }
+
+    &.mw-badge-important {
+         background-color: @important;
+    }
+
+    &.mw-badge-notification {
+         background-color: @notification;
+    }
+}
