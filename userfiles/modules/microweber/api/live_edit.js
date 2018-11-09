@@ -94,7 +94,12 @@ mw.live_edit.showHandle = function (element) {
 mw.live_edit.showSettings = function (a, opts) {
 
 
+
+
+
+
     var liveedit =     opts.liveedit || false;
+    var mode =     opts.mode ||  'modal';
 
     var view = opts.view || 'admin';
 
@@ -136,6 +141,7 @@ mw.live_edit.showSettings = function (a, opts) {
     var curr = a || $("#mw_handle_module").data("curr");
 
 
+
     if(!curr){
         return;
     }
@@ -147,7 +153,7 @@ mw.live_edit.showSettings = function (a, opts) {
         var m = mw.$('#module-settings-' + curr.id)[0];
         m.scrollIntoView();
         mw.tools.highlight(m);
-        return false;
+      //  return false;
     }
     if (curr && curr.attributes) {
         $.each(curr.attributes, function (index, attr) {
@@ -159,6 +165,8 @@ mw.live_edit.showSettings = function (a, opts) {
     var iframe_id_sidebar_wrapper_id = 'sidebar-frame-wrapper-' + iframe_id_sidebar;
 
     var data1 = attributes;
+
+
     var module_type = null
     if (data1['data-type'] != undefined) {
         module_type = data1['data-type'];
@@ -210,7 +218,6 @@ mw.live_edit.showSettings = function (a, opts) {
     //      //mw.liveEditSettings.hide();
     // }
 
-    $("#" + iframe_id_sidebar).remove();
 
     /*var modal = top.mw.tools.modal.frame({
         url: src,
@@ -231,7 +238,10 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-    if (self != top || !mw.liveEditSettings.active || opts.mode === 'modal') {
+
+
+
+    if (self != top /*|| !mw.liveEditSettings.active*/ || mode === 'modal') {
         //remove from sidebar
         $("#" + iframe_id_sidebar).remove();
 
@@ -254,9 +264,26 @@ mw.live_edit.showSettings = function (a, opts) {
     } else {
 
 
+        if(!mw.liveEditSettings.active){
+            mw.liveEditSettings.show();
+        }
+
         if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
             mw.sidebarSettingsTabs.set(2);
         }
+
+        $('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-module-settings-holder')
+            .show();
+
+
+
+        //
+        //
+        // if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+        //     mw.sidebarSettingsTabs.set(2);
+        // }
 
 
 

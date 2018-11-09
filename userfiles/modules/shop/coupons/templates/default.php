@@ -18,8 +18,8 @@ description: Default coupon template
     mw.lib.require('bootstrap3ns');
     mw.moduleCSS("<?php print modules_url(); ?>shop/coupons/styles.css");
 </script>
-<div class="nodrop container checkout-page element">
-    <div class="box-container element">
+<div class="nodrop container checkout-page">
+    <div class="box-container">
         <div class="bootstrap3ns">
             <div class="mw-coupons-module">
                 <div class="row">
