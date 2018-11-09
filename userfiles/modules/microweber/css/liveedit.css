@@ -2040,6 +2040,21 @@ img[_moz_resizing], table[_moz_resizing] {
 .isTyping .mw-empty {
     visibility: hidden;
 }
+.isTyping .mwInaccessibleModulesMenu {
+    visibility: hidden;
+}
+.isTyping .mw-sorthandle-moveit  {
+    visibility: hidden;
+}
+.isTyping .mw_col_delete  {
+    visibility: hidden;
+}
+.isTyping .mw_handle_module_arrow  {
+    visibility: hidden;
+}
+.isTyping .mw_edit_delete_element  {
+    visibility: hidden;
+}
 
 .dragStart .disabledEDIT {
     opacity: 0.2;
