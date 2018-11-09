@@ -396,13 +396,26 @@ $(document).ready(function() {
             uitype = 'image' ;
         }
 
-        // if(uitype == 'module' && mw.liveEditSettings.active){
-        //     mw.liveNodeSettings.set(uitype, node);
-        // }
-        if(uitype != 'module'){
-            //mw.liveNodeSettings.set(uitype, node);
+
+        if(mw.liveEditSettings.active){
+            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+                mw.sidebarSettingsTabs.set(2);
+            }
         }
-        mw.liveNodeSettings.set(uitype, node);
+
+        if(uitype == 'module' && mw.liveEditSettings.active){
+            mw.liveNodeSettings.set(uitype, node);
+        } else if(uitype != 'module'){
+            mw.liveNodeSettings.set(uitype, node);
+        }
+
+
+
+
+        if(uitype != 'module'){
+       //      mw.liveNodeSettings.set(uitype, node);
+        }
+      //mw.liveNodeSettings.set(uitype, node);
 
 
     });
@@ -508,9 +521,9 @@ mw.liveNodeSettings = {
 
 
 
-            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
-                        mw.sidebarSettingsTabs.set(2);
-            }
+            // if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+            //             mw.sidebarSettingsTabs.set(2);
+            // }
 
             return this[type](el);
         }
@@ -833,7 +846,30 @@ mw.drag = {
         $(mwd.body).on('mousemove', function(event) {
 
             mw.dragSTOPCheck = false;
-            mw.tools.removeClass(this, 'isTyping');
+         //   mw.tools.removeClass(this, 'isTyping');
+
+
+            var has_selection = false;
+            if(window.getSelection()){
+                var has_selection = window.getSelection().rangeCount;
+            }
+
+            var has_sel_timeout = 0;
+            if(has_selection){
+                var has_sel_timeout = 1500;
+            }
+
+            var that = this;
+            var timer;
+
+            window.clearTimeout(timer);
+            timer = setTimeout(function(that){
+                    mw.tools.removeClass(that, 'isTyping');
+            }, has_sel_timeout);
+
+
+
+
 
             if (!mw.settings.resize_started) {
 

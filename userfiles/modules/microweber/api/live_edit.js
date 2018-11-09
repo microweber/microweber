@@ -254,6 +254,13 @@ mw.live_edit.showSettings = function (a, opts) {
     } else {
 
 
+        if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+            mw.sidebarSettingsTabs.set(2);
+        }
+
+
+
+
         data1.live_edit_sidebar = true;
 
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
