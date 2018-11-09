@@ -389,7 +389,6 @@ $(document).ready(function() {
 
 
 
-
     mw.on("ComponentClick", function(e, node, type){
         var uitype = type;
         if(type === 'safe-element'){
@@ -462,6 +461,18 @@ $(document).ready(function() {
         }
 
     });
+
+    mw.on("editUserIsTypingForLong", function(node){
+        if(typeof(mw.liveEditSettings) != 'undefined'){
+            if(mw.liveEditSettings.active){
+                mw.liveEditSettings.hide();
+            }
+        }
+    });
+
+
+
+
     mw.on("TableTdClick", function(e, el) {
         if (typeof(mw.inline) !== 'undefined') {
             mw.inline.setActiveCell(el, e);
@@ -486,6 +497,10 @@ $(document).ready(function() {
             document.execCommand("insertHTML", false, text);
         }
     });
+
+
+
+
     $(mwd.body).on("mousedown mouseup", function(e) {
 
 
@@ -876,12 +891,16 @@ mw.drag = {
                 var has_sel_timeout = 1500;
             }
 
-            var that = this;
-            var timer;
+            //  mw.tools.removeClass(that, 'isTyping');
+
+             var timer;
 
             window.clearTimeout(timer);
             timer = setTimeout(function(that){
                     mw.tools.removeClass(that, 'isTyping');
+                    mwd.body.editor_typing_startTime = null;
+                    mwd.body.editor_typing_seconds = null;
+
             }, has_sel_timeout);
 
 
