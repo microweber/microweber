@@ -146,8 +146,13 @@ mw.options = {
         else {
             val = el.val();
         }
+        if (typeof(og) == 'undefined' && og_parent) {
+            og = og_parent;
+         }
 
 
+
+    
         var o_data = {
             option_key: el.attr('name'),
             option_group: og,
