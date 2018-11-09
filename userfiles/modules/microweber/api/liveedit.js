@@ -387,6 +387,9 @@ $(document).ready(function() {
 
 
 
+
+
+
     mw.on("ComponentClick", function(e, node, type){
         var uitype = type;
         if(type === 'safe-element'){
@@ -397,11 +400,18 @@ $(document).ready(function() {
         }
 
 
-        d(uitype);
+
 
         if(mw.liveEditSettings.active){
             if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
-                mw.sidebarSettingsTabs.set(2);
+                if(uitype != 'module'){
+                    mw.sidebarSettingsTabs.setLastClicked();
+                } else {
+                    mw.sidebarSettingsTabs.set(2);
+                }
+
+
+
             }
             mw.liveNodeSettings.set(uitype, node);
         }
