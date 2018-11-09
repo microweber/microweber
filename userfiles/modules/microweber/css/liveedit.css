@@ -2043,9 +2043,7 @@ img[_moz_resizing], table[_moz_resizing] {
 .isTyping .mwInaccessibleModulesMenu {
     visibility: hidden;
 }
-.isTyping .mw-sorthandle-moveit  {
-    visibility: hidden;
-}
+
 .isTyping .mw_col_delete  {
     visibility: hidden;
 }

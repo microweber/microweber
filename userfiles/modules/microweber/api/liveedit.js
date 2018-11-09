@@ -876,32 +876,39 @@ mw.drag = {
         mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
         $(mwd.body).on('mousemove', function(event) {
-
+            var that = this;
             mw.dragSTOPCheck = false;
          //   mw.tools.removeClass(this, 'isTyping');
 
 
-            var has_selection = false;
-            if(window.getSelection()){
-                var has_selection = window.getSelection().rangeCount;
-            }
+           mw.tools.removeClass(this, 'isTyping');
 
-            var has_sel_timeout = 0;
-            if(has_selection){
-                var has_sel_timeout = 1500;
-            }
-
-            //  mw.tools.removeClass(that, 'isTyping');
-
-             var timer;
-
-            window.clearTimeout(timer);
-            timer = setTimeout(function(that){
-                    mw.tools.removeClass(that, 'isTyping');
-                    mwd.body.editor_typing_startTime = null;
-                    mwd.body.editor_typing_seconds = null;
-
-            }, has_sel_timeout);
+            // delete
+            //var has_selection = false;
+            //if(window.getSelection()){
+            //    var has_selection = window.getSelection().rangeCount;
+            //    if(has_selection === 1){
+            //        mw.tools.removeClass(this, 'isTyping');
+            //    } else {
+            //        mw.tools.addClass(this, 'isTyping');
+            //    }
+            //} else {
+            //    mw.tools.removeClass(this, 'isTyping');
+            //}
+            //
+            //var has_sel_timeout = 10;
+            //if(has_selection && has_selection > 1){
+            //    var has_sel_timeout = 3000;
+            //}
+            //
+            //
+            //window.clearTimeout(mwd.body.editor_typing_isTyping_clear_timer);
+            //mwd.body.editor_typing_isTyping_clear_timer = setTimeout(function(that){
+            //        mw.tools.removeClass(this, 'isTyping');
+            //        mwd.body.editor_typing_startTime = null;
+            //        mwd.body.editor_typing_seconds = null;
+            //
+            //}, has_sel_timeout);
 
 
 

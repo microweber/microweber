@@ -1172,7 +1172,7 @@ mw.wysiwyg = {
 
 
 
-                var started_typing = mw.tools.hasAllClasses(this, ['isTyping']);
+                var started_typing = mw.tools.hasAnyOfClasses(this, ['isTyping']);
                 if(!started_typing){
                     // isTyping class is removed from livedit.js
                     mw.tools.addClass(this, 'isTyping');
@@ -1635,8 +1635,13 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = true;
 
             var selection = window.getSelection();
-
-            if (selection.rangeCount > 0) {
+            //if (selection.rangeCount > 1) {
+            //    var started_typing = mw.tools.hasAnyOfClasses(mwd.body, ['isTyping']);
+            //    if(!started_typing){
+            //        mw.tools.addClass(mwd.body, 'isTyping');
+            //    }
+            //}
+             if (selection.rangeCount > 0) {
                 mw.wysiwyg.resetActiveButtons();
                 var range = selection.getRangeAt(0);
                 var start = range.startContainer;
