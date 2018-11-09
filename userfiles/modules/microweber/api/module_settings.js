@@ -33,7 +33,7 @@ mw.moduleSettings = function(options){
         if(this.options.header){
             var header = document.createElement('div');
             header.className = "mw-ui-box-header";
-            header.innerHTML = this.options.header.replace(/{count}/g, i);
+            header.innerHTML = this.options.header.replace(/{count}/g, (i+1));
             return header;
         }
     };
@@ -132,12 +132,26 @@ mw.moduleSettings = function(options){
     };
 
     this.save = function(){
-        mw.options.saveOption({
-            group:this.options.group,
-            key:this.options.group,
-            value:this.toString()
-        });
-
+        var key = (this.options.key || this.options.option_key);
+        var group = (this.options.group || this.options.option_group);
+        if( key && group){
+            var options = {
+                group:this.options.group,
+                key:this.options.key,
+                value:this.toString()
+            };
+            mw.options.saveOption(options, function(){
+                mw.notification.msg(scope.savedMessage || mw.msg.settingsSaved)
+            });
+        }
+        else{
+            if(!key){
+                console.warn('Option key is not defined.');
+            }
+            if(!group){
+                console.warn('Option group is not defined.');
+            }
+        }
 
     };
 

@@ -278,15 +278,20 @@ mw.propEditor = {
                 config.multiple = 1;
             }
             var scope = this;
-            var createButton = function(imageUrl, i){
+            var createButton = function(imageUrl, i, proto){
+                imageUrl = imageUrl || '';
                 var el = document.createElement('div');
                 el.className = 'upload-button-prop mw-ui-box mw-ui-box-content';
-                var btn = mw.propEditor.helpers.button('<span class="mw-icon-upload"></span>');
+                var btn =  document.createElement('span');
+                btn.className = ('mw-ui-btn');
+                btn.innerHTML = ('<span class="mw-icon-upload"></span>');
                 btn.style.backgroundSize = 'cover';
+                btn.style.backgroundColor = 'transparent';
+                el.style.backgroundSize = 'cover';
                 btn._value = imageUrl;
                 btn._index = i;
                 if(imageUrl){
-                    btn.style.backgroundImage = 'url(' + imageUrl + ')';
+                    el.style.backgroundImage = 'url(' + imageUrl + ')';
                 }
                 btn.onclick = function(){
                     mw.fileWindow({
@@ -295,14 +300,34 @@ mw.propEditor = {
                             url = url.toString();
                             proto._valSchema[config.id] = proto._valSchema[config.id] || [];
                             proto._valSchema[config.id][btn._index] = url;
-                            btn.style.backgroundImage = 'url(' + url + ')';
+                            el.style.backgroundImage = 'url(' + url + ')';
                             btn._value = url;
-                            $(proto).trigger('change', [config.id, proto._valSchema[config.id]]);
+                            scope.refactor();
                         }
                     });
                 };
+                var close = document.createElement('span');
+                close.className = 'mw-badge mw-badge-important';
+                close.innerHTML = '<span class="mw-icon-close"></span>';
+
+                close.onclick = function(e){
+                    scope.remove(el);
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
+                btn.appendChild(close);
                 el.appendChild(btn);
                 return el;
+            };
+
+            this.remove = function (i) {
+                if(typeof i === 'number'){
+                    $('.upload-button-prop', el).eq(i).remove();
+                }
+                else{
+                    $(i).remove();
+                }
+                scope.refactor();
             };
 
             this.addImageButton = function(){
@@ -311,8 +336,8 @@ mw.propEditor = {
                     this.addBtn.className = 'mw-ui-btn mw-ui-btn-medium ';
                     this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
                     this.addBtn.onclick = function(){
-                        el.appendChild(createButton());
-                        scope.manageAddImageButton()
+                        el.appendChild(createButton(undefined, 0, proto));
+                        scope.manageAddImageButton();
                     };
                     holder.appendChild(this.addBtn);
                 }
@@ -323,7 +348,7 @@ mw.propEditor = {
                 this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
             };
 
-            var btn = createButton(undefined, 0);
+            var btn = createButton(undefined, 0, proto);
             var holder = mw.propEditor.helpers.wrapper();
             var label = mw.propEditor.helpers.label(config.label);
             holder.appendChild(label);
@@ -338,14 +363,22 @@ mw.propEditor = {
 
             $(el).sortable({
                 update:function(){
-                    var val = [];
-                    $('.mw-ui-btn', el).each(function(){
-                        val.push(this._value);
-                    });
-                    proto._valSchema[config.id] = val;
-                    $(proto).trigger('change', [config.id, proto._valSchema[config.id]]);
+                    scope.refactor();
                 }
             });
+
+            this.refactor = function () {
+                var val = [];
+                $('.mw-ui-btn', el).each(function(){
+                    val.push(this._value);
+                });
+                this.manageAddImageButton();
+                if(val.length === 0){
+                    val = [''];
+                }
+                proto._valSchema[config.id] = val;
+                $(proto).trigger('change', [config.id, proto._valSchema[config.id]]);
+            };
 
             this.node = holder;
             this.setValue = function(value){
@@ -353,7 +386,7 @@ mw.propEditor = {
                 proto._valSchema[config.id] = value;
                 $('.upload-button-prop', holder).remove();
                 $.each(value, function (index) {
-                    el.appendChild(createButton(this, index));
+                    el.appendChild(createButton(this, index, proto));
                 });
                 this.manageAddImageButton();
             };

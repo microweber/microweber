@@ -7400,12 +7400,27 @@ select.silver-field {
 #admin-main-tree .mw-tree-item-title {
     width: 100%;
 }
+.prop-ui-field-holder > .mw-ui-box-content{
+    padding-left: 0;
+    padding-right: 0;
+}
 .mw-module-settings-box .upload-button-prop.mw-ui-box .mw-icon-upload {
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.52);
+    color: white;
+}
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn{
+    border-color: transparent;
+}
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn .mw-badge{
+    top: -12px;
+    right: -12px;
 }
 .mw-module-settings-box .upload-button-prop.mw-ui-box {
     display: inline-block;
     margin: 5px;
+}
+.mw-module-settings-box > .mw-ui-box-header{
+    margin: -12px -12px 0 -12px;
 }
 
 .gateway-icon-title img {
