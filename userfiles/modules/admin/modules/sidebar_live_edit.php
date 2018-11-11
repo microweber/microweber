@@ -119,9 +119,7 @@
                     <div id="js-live-edit-module-settings-items"></div>
                 </div>
 
-                <div
-                        id="js-live-edit-icon-settings-holder"
-                        class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
+                <div  id="js-live-edit-icon-settings-holder"   class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
                     icon
                 </div>
 

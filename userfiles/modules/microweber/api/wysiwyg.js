@@ -1149,6 +1149,7 @@ mw.wysiwyg = {
                 }
             }
         });
+
         $(mwd.body).keyup(function (e) {
             mw.smallEditorCanceled = true;
             mw.smallEditor.css({
@@ -1156,7 +1157,48 @@ mw.wysiwyg = {
             });
             if (e.target.isContentEditable && !mw.tools.isField(e.target)) {
                 mw.wysiwyg.change(e.target)
-                mw.tools.addClass(this, 'isTyping');
+
+
+
+                if(!mwd.body.editor_typing_startTime){
+                    mwd.body.editor_typing_startTime =  new Date();
+                }
+
+
+
+
+
+
+
+
+
+                var started_typing = mw.tools.hasAnyOfClasses(this, ['isTyping']);
+                if(!started_typing){
+                    // isTyping class is removed from livedit.js
+                    mw.tools.addClass(this, 'isTyping');
+                    mwd.body.editor_typing_startTime = new Date();
+                } else {
+                    // user is typing
+                    started_typing_endTime = new Date();
+                    var timeDiff = started_typing_endTime - mwd.body.editor_typing_startTime; //in ms
+                    timeDiff /= 1000;
+                    var seconds = Math.round(timeDiff);
+                    mwd.body.editor_typing_seconds = seconds;
+                 }
+
+                if (  mwd.body.editor_typing_seconds) {
+                    //how much seconds user is typing
+                    if (mwd.body.editor_typing_seconds > 10) {
+                        mw.trigger('editUserIsTypingForLong', this)
+                        mwd.body.editor_typing_seconds = 0;
+                        mwd.body.editor_typing_startTime = 0;
+                    }
+                }
+
+
+
+
+
                 $(this._onCloneableControl).hide()
                 if (mw.tools.isEmpty(e.target)) {
                     e.target.innerHTML = '&zwnj;&nbsp;';
@@ -1593,8 +1635,13 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = true;
 
             var selection = window.getSelection();
-
-            if (selection.rangeCount > 0) {
+            //if (selection.rangeCount > 1) {
+            //    var started_typing = mw.tools.hasAnyOfClasses(mwd.body, ['isTyping']);
+            //    if(!started_typing){
+            //        mw.tools.addClass(mwd.body, 'isTyping');
+            //    }
+            //}
+             if (selection.rangeCount > 0) {
                 mw.wysiwyg.resetActiveButtons();
                 var range = selection.getRangeAt(0);
                 var start = range.startContainer;

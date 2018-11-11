@@ -70,11 +70,17 @@ mw.options = {
 
 
         if (og1 == null || (typeof(og1) === 'undefined') || og1 == '') {
-            var og_test = mw.tools.firstParentWithClass(el[0], 'module');
-            refresh_modules11 = og1 = og = og_test.id;
-        }
 
-         var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh');
+        }
+        var og_parent = null
+        var og_test = mw.tools.firstParentWithClass(el[0], 'module');
+        if(og_test){
+            og_parent = og_test.id;
+        }
+       // refresh_modules11 = og1 = og = og_test.id;
+
+
+         var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh') ;
 
         var also_reload = el.attr('data-reload') || el.attr('data-also-reload');
 
@@ -103,7 +109,7 @@ mw.options = {
         // } else {
         //     var og = refresh_modules11;
         // }
-
+        //
         // if (og1 != undefined) {
         //     var og = og1;
         //     if (refresh_modules11 == undefined) {
@@ -140,6 +146,11 @@ mw.options = {
         else {
             val = el.val();
         }
+        if (typeof(og) == 'undefined' && og_parent) {
+            og = og_parent;
+         }
+
+
 
 
         var o_data = {
@@ -194,11 +205,16 @@ mw.options = {
                 if (typeof(refresh_modules11) == 'undefined') {
                     refresh_modules11 = og1;
 
-                }
-                if (typeof(refresh_modules11) == 'undefined') {
-                    refresh_modules11 = og;
-                }
 
+                }
+                if (refresh_modules12) {
+                    refresh_modules11 = refresh_modules12;
+                }
+                if (typeof(liveEditSettings) != 'undefined' && liveEditSettings) {
+                    if (og_parent) {
+                        refresh_modules11 = og_parent;
+                    }
+                }
 
                 if (mw.admin) {
                     if (top.mweditor && top.mweditor.contentWindow) {

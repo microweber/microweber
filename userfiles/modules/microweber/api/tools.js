@@ -2519,6 +2519,11 @@ mw.tools = {
                         }
                     }
                 },
+                setLastClicked: function () {
+                    if ((typeof(obj.lastClickedTabIndex) != 'undefined') && obj.lastClickedTabIndex !== null) {
+                        this.set(obj.lastClickedTabIndex);
+                    }
+                },
                 unset: function (i) {
                     if (typeof i === 'number') {
                         if ($(obj.nav).eq(i).hasClass(active)) {
@@ -2541,12 +2546,17 @@ mw.tools = {
         }
         var active = obj.activeNav || obj.activeClass || "active",
             firstActive = 0;
+
+        obj.lastClickedTabIndex=null;
+
+
         mw.$(obj.nav).click(function (e) {
             if (!$(this).hasClass(active)) {
                 var i = mw.tools.index(this, mw.$(obj.nav).get(), mw.$(obj.nav)[0].nodeName);
                 mw.$(obj.nav).removeClass(active);
                 $(this).addClass(active);
                 mw.$(obj.tabs).hide().eq(i).show();
+                obj.lastClickedTabIndex = i;
                 if (typeof obj.onclick == 'function') {
                     obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], e, i);
                 }

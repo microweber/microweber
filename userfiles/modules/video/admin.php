@@ -105,7 +105,7 @@
 <input name="prior" id="prior" class="semi_hidden mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('prior', $params['id']) ?>"/>
 
 
-<div class="mw-accordion">
+<div class="mw-tab-accordion" data-options="breakpoint:300px" >
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">

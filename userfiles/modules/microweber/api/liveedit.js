@@ -387,6 +387,8 @@ $(document).ready(function() {
 
 
 
+
+
     mw.on("ComponentClick", function(e, node, type){
         var uitype = type;
         if(type === 'safe-element'){
@@ -396,13 +398,38 @@ $(document).ready(function() {
             uitype = 'image' ;
         }
 
+
+
+
+        if(mw.liveEditSettings.active){
+            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+                if(uitype != 'module'){
+                    mw.sidebarSettingsTabs.setLastClicked();
+                } else {
+                    mw.sidebarSettingsTabs.set(2);
+                }
+
+
+
+            }
+            mw.liveNodeSettings.set(uitype, node);
+        }
+
+
+
         // if(uitype == 'module' && mw.liveEditSettings.active){
         //     mw.liveNodeSettings.set(uitype, node);
+        // } else if(uitype != 'module'){
+        //     mw.liveNodeSettings.set(uitype, node);
         // }
+
+
+
+
         if(uitype != 'module'){
-            //mw.liveNodeSettings.set(uitype, node);
+       //      mw.liveNodeSettings.set(uitype, node);
         }
-        mw.liveNodeSettings.set(uitype, node);
+      //mw.liveNodeSettings.set(uitype, node);
 
 
     });
@@ -434,6 +461,18 @@ $(document).ready(function() {
         }
 
     });
+
+    mw.on("editUserIsTypingForLong", function(node){
+        if(typeof(mw.liveEditSettings) != 'undefined'){
+            if(mw.liveEditSettings.active){
+                mw.liveEditSettings.hide();
+            }
+        }
+    });
+
+
+
+
     mw.on("TableTdClick", function(e, el) {
         if (typeof(mw.inline) !== 'undefined') {
             mw.inline.setActiveCell(el, e);
@@ -458,6 +497,10 @@ $(document).ready(function() {
             document.execCommand("insertHTML", false, text);
         }
     });
+
+
+
+
     $(mwd.body).on("mousedown mouseup", function(e) {
 
 
@@ -507,10 +550,11 @@ mw.liveNodeSettings = {
 
 
 
+            console.warn(type + ' is clicked .')
 
-            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
-                        mw.sidebarSettingsTabs.set(2);
-            }
+            // if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+            //             mw.sidebarSettingsTabs.set(2);
+            // }
 
             return this[type](el);
         }
@@ -531,12 +575,13 @@ mw.liveNodeSettings = {
     },
     module: function (el) {
         if (this.__is_sidebar_opened()) {
-            $('.mw-live-edit-component-options')
-                .hide()
-                .filter('#js-live-edit-module-settings-holder')
-                .show();
+            // $('.mw-live-edit-component-options')
+            //     .hide()
+            //     .filter('#js-live-edit-module-settings-holder')
+            //     .show();
         }
-         mw.drag.module_settings();
+        mw.live_edit.showSettings(undefined, {mode:"sidebar", liveedit:true})
+      //   mw.drag.module_settings();
 
 
     },
@@ -831,9 +876,43 @@ mw.drag = {
         mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
         $(mwd.body).on('mousemove', function(event) {
-
+            var that = this;
             mw.dragSTOPCheck = false;
-            mw.tools.removeClass(this, 'isTyping');
+         //   mw.tools.removeClass(this, 'isTyping');
+
+
+           mw.tools.removeClass(this, 'isTyping');
+
+            // delete
+            //var has_selection = false;
+            //if(window.getSelection()){
+            //    var has_selection = window.getSelection().rangeCount;
+            //    if(has_selection === 1){
+            //        mw.tools.removeClass(this, 'isTyping');
+            //    } else {
+            //        mw.tools.addClass(this, 'isTyping');
+            //    }
+            //} else {
+            //    mw.tools.removeClass(this, 'isTyping');
+            //}
+            //
+            //var has_sel_timeout = 10;
+            //if(has_selection && has_selection > 1){
+            //    var has_sel_timeout = 3000;
+            //}
+            //
+            //
+            //window.clearTimeout(mwd.body.editor_typing_isTyping_clear_timer);
+            //mwd.body.editor_typing_isTyping_clear_timer = setTimeout(function(that){
+            //        mw.tools.removeClass(this, 'isTyping');
+            //        mwd.body.editor_typing_startTime = null;
+            //        mwd.body.editor_typing_seconds = null;
+            //
+            //}, has_sel_timeout);
+
+
+
+
 
             if (!mw.settings.resize_started) {
 
@@ -1038,10 +1117,11 @@ mw.drag = {
                 $(".desc_area").hide();
             }
             if (mw.tools.hasClass(event.target.className, 'mw-open-module-settings')) {
-                mw.drag.module_settings()
+             //   mw.drag.module_settings()
                     //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
-
-               // mw.liveNodeSettings.set('module', event.target);
+                var target = mw.tools.firstParentWithClass(event.target, 'module') ;
+                mw.liveNodeSettings.set('module', target);
+                //mw.liveNodeSettings.set('module', event.target);
             }
 
             if (!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')) {
@@ -1403,8 +1483,9 @@ mw.drag = {
             });
             mw.on.mouseDownAndUp($handle_module[0].querySelector('.mw-sorthandle-moveit'), function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
+
                 if(!mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_col_delete'])){
-                    mw.drag.module_settings();
+                  //  mw.drag.module_settings();
                   //  alert(1)
                     //mw.liveNodeSettings.set('module',mouseUpEvent.target);
                 }
@@ -1587,73 +1668,93 @@ mw.drag = {
                         'element',
                         'safe-element',
                         'module',
+                        'mw_edit_settings',
+                        'mw_master_handle',
+                        'mw_handle_module_arrow',
+                        'mw-element-name-handle',
+                        'mw-sorthandle-module',
+                        'mw-sorthandle-col',
                         'plain-text'
                     ];
+
+
+
+
+
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
                     var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
+                    //if( !mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+                        if (currentComponent && !fonttarget) {
+                            var isSafeMode = false;
+                            var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
+                            if (mw.wysiwyg.isSelectionEditable() && !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']) {
+                                mw.trigger("ComponentClick", [target, 'element']);
+                            }
+                            else {
 
-                    if (currentComponent && !fonttarget) {
-                        var isSafeMode = false;
-                        var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
-                        if(mw.wysiwyg.isSelectionEditable() &&  !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']){
-                            mw.trigger("ComponentClick", [target, 'element']);
+                                //if (!mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+
+                                    var ctype;
+                                    var has = componentsClasses.filter(function (item) {
+                                        return currentComponent.classList.contains(item)
+                                    });
+                                    mw.trigger("ComponentClick", [currentComponent, has[0]]);
+                               // }
+                            }
+
+                        //}
+
+                        if ($(target).hasClass("plain-text")) {
+                            mw.trigger("PlainTextClick", target);
                         }
-                        else{
-                            var ctype;
-                            var has = componentsClasses.filter(function(item){
-                                return currentComponent.classList.contains(item)
-                            });
-                            mw.trigger("ComponentClick", [currentComponent, has[0]]);
+
+
+
+
+
+                        else if ($(target).hasClass("element")) {
+                            mw.trigger("ElementClick", target);
                         }
+                        else if (mw.tools.hasParentsWithClass(target, 'element')) {
+
+                            mw.trigger("ElementClick", $(target).parents(".element")[0]);
+                        }
+
+                        if ($(target).hasClass("safe-element")) {
+                            mw.trigger("SafeElementClick", target);
+                        }
+                        else if (mw.tools.hasParentsWithClass(target, 'safe-element')) {
+
+                            mw.trigger("SafeElementClick", $(target).parents(".safe-element")[0]);
+                        }
+
+                        if ($(target).hasClass("module")) {
+                            mw.trigger("ModuleClick", target);
+                        }
+                        else if (mw.tools.hasParentsWithClass(target, 'module')) {
+
+                            mw.trigger("ModuleClick", $(target).parents(".module")[0]);
+                        }
+
 
                     }
 
-                    if ($(target).hasClass("plain-text")) {
-                        mw.trigger("PlainTextClick", target);
-                    }
+                    if (!!fonttarget && !mw.tools.hasAnyOfClasses(target, componentsClasses)) {
 
-
-                    if(!!fonttarget){
-
-                          if ((fonttarget.tagName == 'I' || fonttarget.tagName == 'SPAN') &&  mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown') ) {
-                              if(!mw.tools.hasParentsWithClass(fonttarget, 'module')){
+                        if ((fonttarget.tagName == 'I' || fonttarget.tagName == 'SPAN') && mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
+                            if (!mw.tools.hasParentsWithClass(fonttarget, 'module')) {
                                 mw.trigger("IconElementClick", fonttarget);
                                 mw.trigger("ComponentClick", [fonttarget, 'icon']);
-                              }
-                              else{
-                                if(mw.wysiwyg.editInsideModule(fonttarget)){
+                            }
+                            else {
+                                if (mw.wysiwyg.editInsideModule(fonttarget)) {
                                     mw.trigger("IconElementClick", fonttarget);
                                     mw.trigger("ComponentClick", [fonttarget, 'icon']);
                                 }
-                              }
-                          }
+                            }
+                        }
 
 
-                    }
-
-
-                    else if ($(target).hasClass("element")) {
-                        mw.trigger("ElementClick", target);
-                    }
-                    else if (mw.tools.hasParentsWithClass(target, 'element')) {
-
-                        mw.trigger("ElementClick", $(target).parents(".element")[0]);
-                    }
-
-                    if ($(target).hasClass("safe-element")) {
-                        mw.trigger("SafeElementClick", target);
-                    }
-                    else if (mw.tools.hasParentsWithClass(target, 'safe-element')) {
-
-                        mw.trigger("SafeElementClick", $(target).parents(".safe-element")[0]);
-                    }
-
-                    if ($(target).hasClass("module")) {
-                        mw.trigger("ModuleClick", target);
-                    }
-                    else if (mw.tools.hasParentsWithClass(target, 'module')) {
-
-                        mw.trigger("ModuleClick", $(target).parents(".module")[0]);
                     }
 
                     if ($(target).hasClass("mw_item")) {
