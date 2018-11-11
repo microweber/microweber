@@ -143,7 +143,7 @@ if (isset($params['speed'])) {
     });
 
     $(document).ready(function () {
-        $('.slickslider', '#<?php print $params['id'] ?>').slick({
+        var config = {
             slidesToShow: 1,
             autoplay: true,
             autoplaySpeed: <?php print $speed; ?>,
@@ -155,7 +155,14 @@ if (isset($params['speed'])) {
                     }
                 },
             ]
+        };
+        var stime = 0;
+        mw.onLive(function(){
+            stime = 500;
         });
+        setTimeout(function(){
+            $('.slickslider', '#<?php print $params['id'] ?>').slick(config);
+        }, stime)
     });
 </script>
 <?php print lnotif("Click here to manage slides"); ?>

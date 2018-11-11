@@ -1723,7 +1723,7 @@ mw.drag = {
                                 $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed)
                             }
                             else{
-                                console.log(1022, mw.ea.data.target,mw.ea.data.currentGrabbed,mw.ea.data.dropableAction)
+
                             }
 
                         }
@@ -2824,7 +2824,7 @@ $(document).ready(function() {
     mw.wysiwyg.init_editables();
     mw.wysiwyg.prepare();
     mw.wysiwyg.init();
-    mw.ea = new mw.ElementAnalyzer();
+    mw.ea = mw.ea || new mw.ElementAnalyzer();
 
     mw.$(".edit a, #mw-toolbar-right a").click(function() {
         var el = this;
@@ -2866,14 +2866,14 @@ $(document).ready(function() {
       });
 
 
-        mw.$(".edit").each(function(){
+       /* mw.$(".edit").each(function(){
             var all = mw.ea.helpers.getElementsLike(":not(.element)", this), i = 0;
             for( ; i<all.length; i++){
                 if(mw.ea.canDrop(all[i])){
                     mw.tools.addClass(all[i], 'element')
                 }
             }
-        })
+        })*/
 
         if(!!document.body.classList){
           var displayEditor = mw.wysiwyg.isSelectionEditable();

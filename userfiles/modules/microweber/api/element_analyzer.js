@@ -141,13 +141,16 @@ mw.ElementAnalyzer = function(options){
 
     this._isEditLike = function(node){
         node = node || this.data.target;
-        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.edit,this.cls.module]);
-    }
+        var case1 = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.edit,this.cls.module]);
+        var case2 = mw.tools.hasClass(node, 'module') || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, [this.cls.edit,this.cls.module]);
+        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, this.cls.edit);
+        return (case1 || case2) && !mw.tools.hasClass(edit, this.cls.noDrop);
+    };
 
     this._canDrop = function(node){
         node = node || this.data.target;
         return !mw.tools.hasParentsWithClass(node, this.cls.noDrop) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.allowDrop, this.cls.noDrop]);
-    }
+    };
 
     this._layoutInLayout = function(){
         if(!this.data.currentGrabbed){
@@ -159,12 +162,15 @@ mw.ElementAnalyzer = function(options){
             target:targetIsLayout,
             result:currentGrabbedIsLayout && !!targetIsLayout
         };
-    }
+    };
 
     this.canDrop = function(node){
-        node = node || this.data.target;
-        return this._isEditLike(node) && this._canDrop(node) && !this._layoutInLayout().result;
-    }
+        if(mw.isDrag){
+            node = node || this.data.target;
+            var can = (this._isEditLike(node) && this._canDrop(node) && !this._layoutInLayout().result);
+            return can;
+        }
+    };
 
 
 
@@ -177,22 +183,23 @@ mw.ElementAnalyzer = function(options){
         } else {
             this.data.dropablePosition =  'top';
         }
-    }
+    };
+
     this.analizeActionOfElement = function(node, pos){
         node = node || this.data.target;
         pos = node || this.data.dropablePosition;
     };
     this.afterAction = function(node, pos){
         if(!this._afterAction){
-            this._afterAction = new mw.AfterDrop()
+            this._afterAction = new mw.AfterDrop();
         }
 
-        this._afterAction.init()
+        this._afterAction.init();
 
-    }
+    };
     this.dropableHide = function(){
 
-    }
+    };
     this.analizeAction = function(node, pos){
         node = node || this.data.target;
         pos = pos || this.data.dropablePosition;
@@ -212,12 +219,14 @@ mw.ElementAnalyzer = function(options){
         }
 
         if(!pos){
-
             return;
         }
 
 
-        if(this.helpers.isElement()){
+        if(mw.tools.hasClass(node, 'allow-drop')){
+            this.data.dropableAction = actions.Inside[pos];
+        }
+        else if(this.helpers.isElement()){
             this.data.dropableAction = actions.Around[pos];
         }
         else if(this.helpers.isEdit()){

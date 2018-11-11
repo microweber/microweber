@@ -364,6 +364,16 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     cursor: grabbing;
 }
 
+.dragStart .nodrop,
+.dragStart .nodrop *{
+    pointer-events: none;
+}
+
+.dragStart .nodrop .allow-drop,
+.dragStart .nodrop .allow-drop *{
+    pointer-events: all;
+}
+
 .column_separator_title {
     line-height: normal;
     display: inline-block;
