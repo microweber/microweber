@@ -21,10 +21,10 @@ mw.AfterDrop = function(){
                 need_re_init = true;
             })(this);
         });
-        if (mw.have_new_items == true) {
+        if (mw.have_new_items === true) {
             need_re_init = true;
         }
-        if (need_re_init == true) {
+        if (need_re_init === true) {
             if (!mw.isDrag) {
                 if (typeof callback === 'function') {
                     callback.call(this);
@@ -142,7 +142,7 @@ mw.ElementAnalyzer = function(options){
     this._isEditLike = function(node){
         node = node || this.data.target;
         var case1 = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.edit,this.cls.module]);
-        var case2 = mw.tools.hasClass(node, 'module') || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, [this.cls.edit,this.cls.module]);
+        var case2 = mw.tools.hasClass(node, 'module') && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, [this.cls.edit,this.cls.module]);
         var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, this.cls.edit);
         return (case1 || case2) && !mw.tools.hasClass(edit, this.cls.noDrop);
     };
@@ -216,7 +216,7 @@ mw.ElementAnalyzer = function(options){
                top:'prepend',
                bottom:'append',
             }
-        }
+        };
 
         if(!pos){
             return;
