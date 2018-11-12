@@ -156,7 +156,7 @@ mw.ElementAnalyzer = function(options){
         if(!this.data.currentGrabbed){
             return false;
         }
-        var currentGrabbedIsLayout = (this.data.currentGrabbed.getAttribute('data-module-name') == 'layouts' || mw.dragCurrent.getAttribute('data-type') == 'layouts');
+        var currentGrabbedIsLayout = (this.data.currentGrabbed.getAttribute('data-module-name') === 'layouts' || mw.dragCurrent.getAttribute('data-type') === 'layouts');
         var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(this.data.target, ['[data-module-name="layouts"]', '[data-type="layouts"]']);
         return {
             target:targetIsLayout,

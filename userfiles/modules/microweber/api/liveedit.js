@@ -540,27 +540,19 @@ var nodeSettingsPause = false;
 mw.liveNodeSettings = {
     _working: false,
     set: function (type, el) {
-        if (this[type]) {
-            if (this._working) return;
-            this._working = true;
-            var scope = this;
-            setTimeout(function () {
-                scope._working = false;
-            }, 78);
+        if (this._working) return;
+        this._working = true;
+        var scope = this;
+        setTimeout(function () {
+            scope._working = false;
+        }, 78);
 
 
 
-            console.warn(type + ' is clicked .')
+        mw.sidebarSettingsTabs.set(2);
 
-            // if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
-            //             mw.sidebarSettingsTabs.set(2);
-            // }
+        return this[type](el);
 
-            return this[type](el);
-        }
-        else {
-            console.warn(type + ' not specified.')
-        }
     },
 
 
@@ -2967,14 +2959,14 @@ $(document).ready(function() {
       });
 
 
-       /* mw.$(".edit").each(function(){
+        mw.$(".edit").each(function(){
             var all = mw.ea.helpers.getElementsLike(":not(.element)", this), i = 0;
             for( ; i<all.length; i++){
                 if(mw.ea.canDrop(all[i])){
                     mw.tools.addClass(all[i], 'element')
                 }
             }
-        })*/
+        });
 
         if(!!document.body.classList){
           var displayEditor = mw.wysiwyg.isSelectionEditable();
