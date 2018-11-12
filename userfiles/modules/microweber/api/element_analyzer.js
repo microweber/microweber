@@ -165,11 +165,9 @@ mw.ElementAnalyzer = function(options){
     };
 
     this.canDrop = function(node){
-        if(mw.isDrag){
             node = node || this.data.target;
             var can = (this._isEditLike(node) && this._canDrop(node) && !this._layoutInLayout().result);
             return can;
-        }
     };
 
 
@@ -222,7 +220,6 @@ mw.ElementAnalyzer = function(options){
             return;
         }
 
-
         if(mw.tools.hasClass(node, 'allow-drop')){
             this.data.dropableAction = actions.Inside[pos];
         }
@@ -238,10 +235,6 @@ mw.ElementAnalyzer = function(options){
         else if(this.helpers.isModule()){
             this.data.dropableAction = actions.Around[pos];
         }
-
-
-
-
     };
 
     this.action = function(event){
