@@ -2,7 +2,7 @@
 
 
 $new = false;
-if (!isset($item['id'])) {
+if (!isset($item['id']) or isset($is_new)) {
     //  if ($data_key == 'data_active') {
     $item['id'] = 0;
     $item['is_active'] = 1;
@@ -62,7 +62,8 @@ if ($weight_units == false) {
 }
 
 
-?>
+
+ ?>
 
 <div data-field-id="<?php print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);" class="shipping-country-holder country-id-<?php print $item['id']; ?>">
     <form onsubmit="SaveShipping(this, '<?php if ($new == false) {
@@ -125,12 +126,23 @@ if ($weight_units == false) {
                     </td>
                     <td>
 
-                        <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
-                        <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
+
+                        <?php if ($new == false): ?>
+
+                            <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
+                            <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
+
+
+                        <?php endif; ?>
+
+
+
+
+
 
                     </td>
                 </tr>
-                <tr class="shipping-country-row hide-item hidden">
+                <tr class="shipping-country-row <?php if ($new == false): ?>hide-item hidden  <?php endif; ?>   ">
                     <td class="shipping-country-label">
                         <?php _e("Shipping type"); ?>
                         <span class="mw-icon-help-outline mwahi tip" data-tip="#shipping-type-tooltip" data-tipposition="right-center"></span>
@@ -214,7 +226,7 @@ if ($weight_units == false) {
                         </div>
                     </td>
                 </tr>
-                <tr class="shipping-discount-row hide-item hidden">
+                <tr class="shipping-discount-row <?php if ($new == false): ?>hide-item hidden  <?php endif; ?> ">
                     <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?>
                         <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Set a discount shipping price for orders exceeding certain value"); ?>." data-tipposition="right-center"></span>
                     </td>

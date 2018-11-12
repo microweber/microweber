@@ -177,7 +177,10 @@
 
 
     </div>
-zzzzzzzzzzzzzzzzzzzzz
-    <?php    include __DIR__ . "/item_edit.php"; ?>
+
+
+
+
+    <?php // include __DIR__ . "/item_edit.php"; ?>
 
 </div>
