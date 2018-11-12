@@ -1497,6 +1497,226 @@ label.mw-price {
 
 
 
- 
 
 
+
+
+/* *******************************************
+ ************** Section 17 ************** *
+ ******************************************* */
+.section-17 {
+    min-height: 100px;
+}
+.section-17 .slider-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    max-width: 100%;
+}
+.section-17 h1,
+.section-17 h2,
+.section-17 h3,
+.section-17 h4,
+.section-17 h5,
+.section-17 h6 {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+.section-17 p,
+.section-17 span {
+    font-size: 18px;
+    line-height: 26px;
+    color: #ffffff;
+}
+.section-17 p {
+    margin-bottom: 10px;
+}
+.home-slider .slide .img-holder {
+    width: 100%;
+    height: 650px;
+    background-size: cover;
+    position: relative;
+    background-position: center center;
+}
+.home-slider .slide .info-holder {
+    width: 35%;
+    position: absolute;
+    top: 30%;
+    z-index: 999;
+}
+.home-slider .slide .additional-img {
+    width: 50%;
+    position: absolute;
+    bottom: 0;
+    z-index: 999;
+}
+.home-slider .slide .additional-img.left {
+    left: 5%;
+}
+.home-slider .slide .additional-img.right {
+    right: 5%;
+}
+.home-slider .slide .info-holder.left {
+    left: 15%;
+}
+.home-slider .slide .info-holder.right {
+    right: 15%;
+    text-align: left !important;
+}
+
+.home-slider .slick-arrow {
+    position: absolute;
+    top: 45%;
+    z-index: 4;
+    font-size: 0;
+    border: 0;
+    background: none;
+    display: none !important;
+}
+.home-slider:hover .slick-arrow {
+    display: block !important;
+}
+.home-slider .slick-arrow:before {
+    font-family: FontAwesome;
+    color: #ffffff;
+    display: block;
+    font-size: 20px;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.8);
+}
+.home-slider .slick-next {
+    right: 5%;
+}
+.home-slider .slick-next:before {
+    content: '\f054';
+}
+.home-slider .slick-prev {
+    left: 5%;
+}
+.home-slider .slick-prev:before {
+    content: '\f053';
+}
+.home-slider .slick-dots {
+    text-align: center;
+    margin-top: 20px;
+}
+.home-slider .slick-dots li {
+    display: inline;
+    font-size: 0px;
+    margin: 0 5px;
+}
+.home-slider .slick-dots li button {
+    border: 0;
+    height: 14px;
+    width: 14px;
+    -webkit-border-radius: 14px;
+    -moz-border-radius: 14px;
+    border-radius: 14px;
+    background: #cfcfcf;
+}
+.home-slider .slick-dots li.slick-active button {
+    background: #3d00b4;
+}
+@media screen and (max-width: 1366px) {
+    .home-slider .slide .img-holder {
+        max-height: 550px;
+    }
+    .home-slider .slide .info-holder {
+        width: 40%;
+    }
+    .home-slider .slick-dots {
+        margin: 30px 0;
+    }
+    .section-17 h1,
+    .section-17 h2,
+    .section-17 h3,
+    .section-17 h4,
+    .section-17 h5,
+    .section-17 h6 {
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+    .section-17 p,
+    .section-17 span {
+        font-size: 17px;
+        line-height: 25px;
+    }
+}
+@media screen and (max-width: 991px) {
+    .home-slider .slide .img-holder {
+        max-height: 500px;
+    }
+    .home-slider .slide .info-holder {
+        width: 50%;
+    }
+    .home-slider .slide .additional-img {
+        width: 50%;
+        height: 80%;
+    }
+    .home-slider .slide .additional-img img {
+        position: absolute;
+        bottom: 0;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+        display: block;
+        left: 0;
+        right: 0;
+    }
+    .home-slider .slide .additional-img.left {
+        left: 2%;
+    }
+    .home-slider .slide .additional-img.right {
+        right: 2%;
+    }
+    .home-slider .slide .info-holder.left {
+        left: 2%;
+    }
+    .home-slider .slide .info-holder.right {
+        right: 2%;
+    }
+    .section-17 h1,
+    .section-17 h2,
+    .section-17 h3,
+    .section-17 h4,
+    .section-17 h5,
+    .section-17 h6 {
+        font-size: 30px;
+        margin-bottom: 25px;
+    }
+    .section-17 p,
+    .section-17 span {
+        font-size: 16px;
+        line-height: 22px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .home-slider .slide .info-holder {
+        width: 90%;
+        position: relative;
+        margin: 0 auto;
+        top: 20px;
+    }
+    .home-slider .slide .additional-img {
+        width: 90%;
+        margin: 0 auto;
+        bottom: 0;
+    }
+    .section-17 h1,
+    .section-17 h2,
+    .section-17 h3,
+    .section-17 h4,
+    .section-17 h5,
+    .section-17 h6 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .section-17 p,
+    .section-17 span {
+        text-align: center;
+        font-size: 15px;
+        line-height: 20px;
+    }
+}

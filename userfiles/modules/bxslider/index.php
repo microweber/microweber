@@ -128,6 +128,11 @@ if (isset($params['speed'])) {
 } else {
     $speed = '500';
 }
+if (isset($params['adaptive_height'])) {
+    $adaptiveHeight = $params['adaptive_height'];
+} else {
+    $adaptiveHeight = '500';
+}
 
 if (isset($params['prev_text'])) {
     $prevText = $params['prev_text'];
@@ -170,10 +175,12 @@ if (isset($params['pager_custom'])) {
                 hideControlOnEnd:  <?php print $hideControlOnEnd; ?>,
                 mode: '<?php print $mode; ?>',
                 speed: '<?php print $speed; ?>',
+                adaptiveHeight: '<?php print $adaptiveHeight; ?>',
                 prevText: '<?php print $prevText; ?>',
                 nextText: '<?php print $nextText; ?>',
                 prevSelector: '<?php print $prevSelector; ?>',
                 nextSelector: '<?php print $nextSelector; ?>',
+                captions: true,
                 onSliderLoad: function () {
                     mw.trigger("mw.bxslider.onSliderLoad");
                 },

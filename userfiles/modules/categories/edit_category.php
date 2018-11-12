@@ -174,33 +174,6 @@ if (isset($params['live_edit'])) {
                 <span class="mw-icon-category"></span>
                 <?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?>
             </h2>
-
-            <script>
-                mw.quick_cat_edit_create = function (id) {
-                    if (!!id) {
-                        var modalTitle = '<?php _e('Edit category'); ?>';
-                    } else {
-                        var modalTitle = '<?php _e('Add category'); ?>';
-                    }
-
-                    mw_admin_edit_category_item_module_opened = mw.modal({
-                        content: '<div id="mw_admin_edit_category_item_module"></div>',
-                        title: modalTitle,
-                        id: 'mw_admin_edit_category_item_popup_modal'
-                    });
-
-                    var params = {}
-                    params['data-category-id'] = id;
-                    params['no-toolbar'] = true;
-                    mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
-                }
-            </script>
-
-            <div class="pull-right">
-                <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
-                    <span class="mw-icon-plus"></span> &nbsp;<?php _e("New category"); ?>
-                </a>
-            </div>
         </div>
     <?php endif; ?>
 
@@ -218,18 +191,45 @@ if (isset($params['live_edit'])) {
 
                 <div class="create-root">
                     <div id="content-title-field-buttons">
-                        <button onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification" form="quickform-edit-content"><?php _e('Save') ?></button>
-                        <?php if (intval($data['id']) != 0): ?>
-                            <div class="pull-right" style="margin-left: 20px;">
-                                <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="mw-ui-btn mw-ui-btn-info tip" data-tip="<?php _e("New subcategory"); ?>">
-                                    <span class="mw-icon-plus"></span>
-                                    <span class="mw-icon-category"></span>
-                                </a>
-                                <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');" class="mw-ui-btn mw-ui-btn-important tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+                        <div class="mw-ui-row">
+                            <div class="mw-ui-col text-left">
+                                <?php if (intval($data['id']) != 0): ?>
+                                    <script>
+                                        mw.quick_cat_edit_create = function (id) {
+                                            if (!!id) {
+                                                var modalTitle = '<?php _e('Edit category'); ?>';
+                                            } else {
+                                                var modalTitle = '<?php _e('Add category'); ?>';
+                                            }
 
+                                            mw_admin_edit_category_item_module_opened = mw.modal({
+                                                content: '<div id="mw_admin_edit_category_item_module"></div>',
+                                                title: modalTitle,
+                                                id: 'mw_admin_edit_category_item_popup_modal'
+                                            });
+
+                                            var params = {}
+                                            params['data-category-id'] = id;
+                                            params['no-toolbar'] = true;
+                                            mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
+                                        }
+                                    </script>
+
+                                    <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-info"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></a> &nbsp;
+                                    <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-info"><?php _e("Add subcategory"); ?></a> &nbsp;
+                                <?php endif; ?>
+
+                                <?php if (intval($data['id']) != 0): ?>
+                                    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="mw-ui-col text-right">
+
+                                <a href="javascript:;" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification" form="quickform-edit-content"><i class="far fa-save"></i>&nbsp; <?php _e('Save') ?></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mw-ui-field-holder">
@@ -270,10 +270,8 @@ if (isset($params['live_edit'])) {
                     </div>
                 </div>
 
-
-
                 <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Description"); ?></label>
+                    <label class="mw-ui-label"><?php _e("Description"); ?>:</label>
                     <textarea class="mw-ui-field w100" name="description"><?php print ($data['description']) ?></textarea>
                 </div>
 

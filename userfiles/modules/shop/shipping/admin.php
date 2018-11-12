@@ -36,6 +36,9 @@ $shipping_modules = get_modules("type=shipping_gateway");
     <?php if (is_array($shipping_modules)): ?>
         <?php foreach ($shipping_modules as $shipping_module): ?>
             <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
+
+
+            <div class="mw-ui-row">
                 <div class="pull-left" id="set-shipping-to-country">
                         <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
@@ -63,16 +66,38 @@ $shipping_modules = get_modules("type=shipping_gateway");
                         <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
                     </a>
 
-                    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:;" onclick="mw.$('.add-new-country').show();$('.add-new-country').find('.hide-item').toggleClass('hidden');">
+                    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:mw_admin_edit_country_item_popup();" xxxonclick="mw.$('.add-new-country').show();$('.add-new-country').find('.hide-item').toggleClass('hidden');">
                         <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
                     </a>
                     <div class="clearfix"></div>
                 </div>
+
+            </div>
+
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
 
+
+<script>
+    function mw_admin_edit_country_item_popup() {
+
+        var modalTitle = '<?php _e('Country item'); ?>';
+
+
+        mw_admin_edit_country_item_popup_modal_opened = mw.modal({
+            content: '<div id="mw_admin_edit_country_item_module"></div>',
+            title: modalTitle,
+            id: 'mw_admin_edit_country_item_popup_modal'
+        });
+
+
+
+        var params = {}
+         mw.load_module('shop/shipping/gateways/country/add_country', '#mw_admin_edit_country_item_module', null, params);
+    }
+</script>
 
 <div class="mw-set-shipping-options mw-admin-wrap">
     <div class="">

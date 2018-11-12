@@ -13,6 +13,9 @@ mw.live_edit.showHandle = function (element) {
 
     title = mod_icon + (title ? title : mw.msg.settings);
 
+
+
+
     mw.$(".mw-element-name-handle", mw.handle_module).html(title);
 
 
