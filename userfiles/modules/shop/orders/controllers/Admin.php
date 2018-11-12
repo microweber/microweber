@@ -132,7 +132,7 @@ class Admin
         }
 
 
-        if (isset($params['intersect-new-orders']) and $new_orders and $orders) {
+        if (isset($params['intersect-new-orders'])  and ($params['intersect-new-orders'])  and $new_orders and $orders) {
             foreach ($new_orders as $new_ord) {
                 foreach ($orders as $old_k => $old_ord) {
                     if (isset($old_ord['id'])) {
@@ -144,7 +144,15 @@ class Admin
                     }
                 }
             }
+        } else {
+            if(!$orders){
+                $orders = array();
+            }
+            if($new_orders ){
+             //   $orders = array_merge($new_orders,$orders);
+            }
         }
+
 
 
         $view_file = $this->views_dir . 'admin.php';

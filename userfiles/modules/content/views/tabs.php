@@ -79,7 +79,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                 <div class="mw-admin-edit-page-primary-settings content-category-selector">
                     <div class="mw-ui-field-holder" style="padding-top: 0">
                         <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-                            <div class="post-category-tags"></div>
+                            <div class="post-category-tags" onclick="$('.mw-ui-category-selector').toggle()"></div>
 
                             <span onclick="$('.mw-ui-category-selector').toggle()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats">
                                 <i class="mai-plus"></i> Add to categories
