@@ -5,19 +5,24 @@
             <i class="mwi-hamb"></i>
         </div>
     </a>
-<style>
-    .mw-close-sidebar-btn{
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 2px 6px;
-        z-index: 9999;
-        background: #fff;
-        border-bottom-left-radius: 6px;
-        border-left: 1px solid;
-        border-bottom: 1px solid;
-    }
-</style>
+    <style>
+        .mw-close-sidebar-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 2px 6px;
+            z-index: 9999;
+            background: #fff;
+            border-bottom-left-radius: 6px;
+            border-left: 1px solid;
+            border-bottom: 1px solid;
+        }
+
+        .mw-close-sidebar-btn:hover {
+            background: #0086db;
+            color: #fff;
+        }
+    </style>
 
     <div id="mw-modules-layouts-tabsnav">
         <a href="javascript:mw.liveEditSettings.hide();" class="mw-close-sidebar-btn"><i class="mw-icon-close"></i></a>
@@ -26,10 +31,8 @@
         <div class="mw-live-edit-sidebar-tabs mw-normalize-css">
             <a href="javascript:;" class="tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
             <a href="javascript:;" class="tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
-            <a href="javascript:;" class="tabnav"><i class="mwi-cog"></i>  <?php _e("Settings"); ?></a>
-         </div>
-
-
+            <a href="javascript:;" class="tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
+        </div>
 
 
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
@@ -58,8 +61,8 @@
                        style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
                 </div>
                 <div class="mw-ui-box-content">
-                <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
-            </div>
+                    <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
+                </div>
             </div>
 
             <div class="tabitem mw-normalize-css" style="display: none">
@@ -87,17 +90,17 @@
                 </div>
             </div>
 
-        <?php
+            <?php
 
-        /*    <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
-                 style="display: none;">
-                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-                    <iframe class="mw-live-edit-sidebar-settings-iframe"
-                            data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
-                <?php } ?>
-            </div>*/
+            /*    <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
+                     style="display: none;">
+                    <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+                        <iframe class="mw-live-edit-sidebar-settings-iframe"
+                                data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+                    <?php } ?>
+                </div>*/
 
-        ?>
+            ?>
             <div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
 
                 <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
@@ -119,7 +122,7 @@
                     <div id="js-live-edit-module-settings-items"></div>
                 </div>
 
-                <div  id="js-live-edit-icon-settings-holder"   class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
+                <div id="js-live-edit-icon-settings-holder" class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
                     icon
                 </div>
 
@@ -199,7 +202,6 @@
         }
 
 
-
         $(document).ready(function () {
             mw.sidebarSettingsTabs = mw.tabs({
                 nav: '#mw-modules-layouts-tabsnav  .tabnav',
@@ -212,9 +214,7 @@
             });
 
 
-
-
-            $("#mw-sidebar-modules-and-layouts-holder").on("mousedown touchstart", function(e){
+            $("#mw-sidebar-modules-and-layouts-holder").on("mousedown touchstart", function (e) {
                 if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
                     e.preventDefault();
                 }
@@ -222,10 +222,6 @@
             mw.dropdown();
             mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
             mw.wysiwyg.dropdowns();
-
-
-
-
 
 
             /*
@@ -337,7 +333,7 @@
 
         mw.on('liveEditSettingsReady', function () {
             setScrollBoxes()
-            setTimeout(function(){
+            setTimeout(function () {
                 mw.drag.toolbar_modules();
                 $("#mw-sidebar-layouts-list").removeClass("module")
                 $("#mw-sidebar-modules-list").removeClass("module")

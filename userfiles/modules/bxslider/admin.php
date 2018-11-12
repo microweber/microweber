@@ -51,68 +51,68 @@ $count = 0;
         var skins = [];
         var fodlerItems = <?php print json_encode($skins); ?>;
 
-        fodlerItems.forEach(function(item){
-            if(item !== '.' && item !== '..'){
+        fodlerItems.forEach(function (item) {
+            if (item !== '.' && item !== '..') {
                 skins.push(item.split('.')[0])
             }
         });
 
         var data = <?php print json_encode($json); ?>;
-        $.each(data, function(key){
+        $.each(data, function (key) {
             data[key].images = data[key].images.split(',');
         });
 
         this.bxSettings = new mw.moduleSettings({
-            element:'#settings-box',
-            header:'<i class="mw-icon-drag"></i> Slide {count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+            element: '#settings-box',
+            header: '<i class="mw-icon-drag"></i> Slide {count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
             data: data,
-            key:'settings',
-            group:'<?php print $params['id']; ?>',
-            autoSave:true,
-            schema:[
+            key: 'settings',
+            group: '<?php print $params['id']; ?>',
+            autoSave: true,
+            schema: [
                 {
-                    interface:'select',
-                    label:['Skin'],
-                    id:'skin',
-                    options:skins
+                    interface: 'file',
+                    id: 'images',
+                    label: 'Add Image',
+                    types: 'images',
+                    multiple: 2
                 },
                 {
-                    interface:'icon',
-                    label:['Icon'],
-                    id:'icon'
+                    interface: 'select',
+                    label: ['Skin'],
+                    id: 'skin',
+                    options: skins
                 },
                 {
-                    interface:'text',
-                    label:['Main text'],
-                    id:'primaryText'
+                    interface: 'icon',
+                    label: ['Icon'],
+                    id: 'icon'
                 },
                 {
-                    interface:'text',
-                    label:['Description'],
-                    id:'secondaryText'
+                    interface: 'text',
+                    label: ['Slide Heading'],
+                    id: 'primaryText'
                 },
                 {
-                    interface:'text',
-                    label:['URL'],
-                    id:'url'
+                    interface: 'text',
+                    label: ['Slide Description'],
+                    id: 'secondaryText'
                 },
                 {
-                    interface:'text',
-                    label:['See more text'],
-                    id:'seemoreText'
+                    interface: 'text',
+                    label: ['URL'],
+                    id: 'url'
                 },
                 {
-                    interface:'file',
-                    id:'images',
-                    label:'Add Image',
-                    types:'images',
-                    multiple:2
+                    interface: 'text',
+                    label: ['See more text'],
+                    id: 'seemoreText'
                 }
             ]
         });
-        $(bxSettings).on("change", function(e, val){
+        $(bxSettings).on("change", function (e, val) {
             var final = [];
-            $.each(val, function(){
+            $.each(val, function () {
                 var curr = $.extend({}, this);
                 curr.images = curr.images.join(',');
                 final.push(curr)
@@ -120,12 +120,14 @@ $count = 0;
             $("#settingsfield").val(JSON.stringify(final)).trigger("change")
         });
     });
-
-
 </script>
 
 
-
+<style>
+    #settings-box .mw-ui-field-holder .mw-ui-field {
+        width: 100%;
+    }
+</style>
 
 <div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
@@ -145,7 +147,7 @@ $count = 0;
                     <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" onclick="bxSettings.addNew(0);"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></span>
                 </div>
 
-               <div id="settings-box"></div>
+                <div id="settings-box"></div>
 
             </div>
             <!-- Settings Content - End -->
