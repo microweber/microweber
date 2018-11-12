@@ -100,7 +100,9 @@ if (isset($params['live_edit'])) {
                     if (self !== parent && !!parent.mw) {
                         parent.mw.reload_module('categories');
                     }
-                    mw.reload_module('[data-type="categories/manage"]');
+                    mw.reload_module('categories/manage');
+                    mw.reload_module('content/manager');
+
                     if (window.pagesTreeRefresh) {
                         pagesTreeRefresh()
                     }
@@ -268,6 +270,13 @@ if (isset($params['live_edit'])) {
                     </div>
                 </div>
 
+
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Description"); ?></label>
+                    <textarea class="mw-ui-field w100" name="description"><?php print ($data['description']) ?></textarea>
+                </div>
+
                 <script type="text/javascript">
                     mw.require('tree.js')
                     var parent_page = <?php print intval($data['rel_id']);  ?>;
@@ -390,10 +399,6 @@ if (isset($params['live_edit'])) {
                             <input type="text" class="mw-ui-field w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
                         </div>
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Description"); ?></label>
-                            <textarea class="mw-ui-field w100" name="description"><?php print ($data['description']) ?></textarea>
-                        </div>
 
                         <?php if (isset($data['id'])): ?>
                             <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
