@@ -105,7 +105,6 @@
     }
 
 
-
     SaveShippingData = function (data) {
         return $.post('<?php print $config['module_api']; ?>/shipping_to_country/save', data)
             .done(function () {
@@ -140,16 +139,16 @@
 </script>
 
 <script>
-//    $(document).ready(function () {
-//
-//        $('.toggle-item', '#<?php //print $params['id'] ?>//').on('click', function (e) {
-//
-//            if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
-//                $(this).find('.hide-item').toggleClass('hidden');
-//                $(this).closest('.toggle-item').toggleClass('closed-fields');
-//            }
-//        });
-//    });
+    //    $(document).ready(function () {
+    //
+    //        $('.toggle-item', '#<?php //print $params['id'] ?>//').on('click', function (e) {
+    //
+    //            if ($(e.target).hasClass('toggle-item') || (e.target).nodeName == 'TD') {
+    //                $(this).find('.hide-item').toggleClass('hidden');
+    //                $(this).closest('.toggle-item').toggleClass('closed-fields');
+    //            }
+    //        });
+    //    });
 </script>
 
 
@@ -158,8 +157,10 @@
     <ol>
         <li><strong><?php _e("Fixed"); ?></strong> - <?php _e("Set a shipping price for the whole order"); ?>
         </li>
-        <li><strong><?php _e("Dimensions or Weight"); ?></strong> - <?php _e("Set a flexible shipping price depending on a product’s dimensions or weight"); ?></li>
-        <li><strong><?php _e("Per item"); ?></strong> -<?php _e("Charge a set shipping price for each product a customer orders"); ?></li>
+        <li><strong><?php _e("Dimensions or Weight"); ?></strong>
+            - <?php _e("Set a flexible shipping price depending on a product’s dimensions or weight"); ?></li>
+        <li><strong><?php _e("Per item"); ?></strong>
+            -<?php _e("Charge a set shipping price for each product a customer orders"); ?></li>
     </ol>
 </div>
 
@@ -170,11 +171,13 @@
 </div>
 
 
-
 <div class="add-new-country mw-shipping-items" <?php if ($has_data == false): ?>style="display: block;" <?php endif; ?>>
+    <div>
+        <p class="disabled-and-enabled-label"><?php print _e('Add shipping to country'); ?></p>
 
-    <p class="disabled-and-enabled-label"><?php print _e('Add shipping to country'); ?></p>
-    <div class="">
-        <?php include __DIR__ . "/item_edit.php"; ?>
+
     </div>
+zzzzzzzzzzzzzzzzzzzzz
+    <?php    include __DIR__ . "/item_edit.php"; ?>
+
 </div>

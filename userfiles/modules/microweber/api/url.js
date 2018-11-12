@@ -141,11 +141,12 @@ mw.url = {
 
 mw.slug = {
   normalize:function(string){
-    return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\\/]/g, '');
+  //  return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\\/]/g, '');
+    return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
   },
   removeSpecials:function(string){
     var string = mw.slug.normalize(string);
-    var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·/_,:;',
+    var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·=_,:;',
         normal =  'aaaaaeeeeiiiiooooouuuunc-------',
         len = special.length,
         i = 0;

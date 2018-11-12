@@ -417,6 +417,7 @@ class ShopManager
         if ($curr == false) {
             $curr = $this->app->option_manager->get('currency', 'payments');
         }
+
         $all_cur = $this->currency_get();
         if (is_array($all_cur)) {
             foreach ($all_cur as $value) {
@@ -428,6 +429,9 @@ class ShopManager
 
                         return $sym;
                     }
+                } else {
+                    return $curr;
+
                 }
             }
         }
