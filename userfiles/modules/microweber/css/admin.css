@@ -4554,20 +4554,15 @@ tr.mw-order-item.hovered, tr.mw-order-item {
 /*}*/
 
 .shipping-country-holder .mw-icon-close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+
     visibility: hidden;
     cursor: pointer;
 }
 
-.shipping-country-holder:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+.shipping-country-holder:hover .mw-icon-close {
+
+    visibility: visible;
+
 }
 
 .price-field {
