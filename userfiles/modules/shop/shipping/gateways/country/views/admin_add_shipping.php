@@ -22,7 +22,7 @@
             handle: '.shipping-handle-field',
             update: function () {
                 var obj = {cforder: []}
-                $(this).find('form').each(function () {
+                $(this).find('.shipping-country-holder').each(function () {
                     var id = this.attributes['data-field-id'].nodeValue;
                     obj.cforder.push(id);
                 });
@@ -49,7 +49,7 @@
         mw.$('.country-id-0').show()
         <?php endif;?>
 
-        mw.$(".shipping_type_dropdown").each(function () {
+       /* mw.$(".shipping_type_dropdown").each(function () {
             var parent = mw.tools.firstParentWithTag(this, 'td');
             parent = $(parent).next('td');
             if ($(this).val() == 'dimensions') {
@@ -81,16 +81,16 @@
                 mw.$(".shipping_per_item", parent).hide()
 
             }
-        });
+        });*/
     });
 </script>
 
 <script type="text/javascript">
 
-    ToggleShipping = function (e) {
+   /* ToggleShipping = function (e) {
 
         var el = e.target;
-        var eroot = $(el).parents('.mw-ui-box')[0];
+        var eroot = $(el).parents('form')[0];
         mw.tools.loading(eroot, true)
         var data = {
             id: el.getAttribute('data-id'),
@@ -119,6 +119,7 @@
         }
         mw.form.post($(form), '<?php print $config['module_api']; ?>/shipping_to_country/save', function () {
                 if (dataType == 'new') {
+                    alert(1);
                     mw.reload_module('<?php print $config['the_module']; ?>', function () {
                         mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
                     });
@@ -135,7 +136,7 @@
 
             }
         );
-    }
+    }*/
 </script>
 
 <script>

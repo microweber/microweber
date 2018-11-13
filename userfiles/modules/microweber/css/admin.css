@@ -4425,12 +4425,6 @@ tr.mw-order-item.hovered, tr.mw-order-item {
 }
 
 .shipping-country-holder .shipping-handle-field {
-    font-size: 22px;
-    color: #ccc;
-    left: 10px;
-    top: 10px;
-    position: absolute;
-    z-index: 1;
     cursor: move;
     cursor: grab;
     cursor: -moz-grab;
@@ -4439,7 +4433,7 @@ tr.mw-order-item.hovered, tr.mw-order-item {
 }
 
 .shipping-country-holder:hover .shipping-handle-field {
-    /*visibility: visible;*/
+     visibility: visible;
 }
 
 .mw-ui-btn.DESC:after, .mw-ui-btn.ASC:after {

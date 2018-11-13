@@ -13,7 +13,7 @@
         var data = {
             option_group: 'shipping',
             option_key: 'shipping_gw_shop/shipping/gateways/country',
-            option_value: el.checked?'y':'n'
+            option_value: el.checked ? 'y' : 'n'
         }
         mw.options.saveOption(data, function () {
             __shipping_options_save_msg()
@@ -38,41 +38,45 @@ $shipping_modules = get_modules("type=shipping_gateway");
             <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
 
 
-            <div class="mw-ui-row">
-                <div class="pull-left" id="set-shipping-to-country">
+                <div class="mw-ui-row">
+                    <div class="pull-left" id="set-shipping-to-country">
                         <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
-                    <span class="switcher-label-left enable-shipping-label"><?php _e("Enable shipping to countries"); ?></span>
+                        <span class="switcher-label-left enable-shipping-label"><?php _e("Enable shipping to countries"); ?></span>
 
-                    <label class="mw-switch inline-switch pull-right">
-                        <input
-                                onchange="shippingToCountryClass(this)"
-                                type="checkbox"
-                                name="shipping_gw_<?php print $shipping_module['module'] ?>"
-                                data-option-group="shipping"
-                                data-id="shipping_gw_<?php print $shipping_module['module'] ?>"
-                                data-value-checked="y"
-                                data-value-unchecked="n"
-                                class="mw_option_field"
-                            <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
-                        <span class="mw-switch-off">OFF</span>
-                        <span class="mw-switch-on">ON</span>
-                        <span class="mw-switcher"></span>
-                    </label>
+                        <label class="mw-switch inline-switch pull-right">
+                            <input
+                                    onchange="shippingToCountryClass(this)"
+                                    type="checkbox"
+                                    name="shipping_gw_<?php print $shipping_module['module'] ?>"
+                                    data-option-group="shipping"
+                                    data-id="shipping_gw_<?php print $shipping_module['module'] ?>"
+                                    data-value-checked="y"
+                                    data-value-unchecked="n"
+                                    class="mw_option_field"
+                                <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
+                            <span class="mw-switch-off">OFF</span>
+                            <span class="mw-switch-on">ON</span>
+                            <span class="mw-switcher"></span>
+                        </label>
+                    </div>
+
+                    <div class="pull-right buttons-holder">
+                        <a href="javascript:;"
+                           class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline pull-right"
+                           onclick="mw.tools.open_global_module_settings_modal('shop/shipping/set_units', 'shipping');">
+                            <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
+                        </a>
+
+                        <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10"
+                           href="javascript:mw_admin_edit_country_item_popup();"
+                           xxxonclick="mw.$('.add-new-country').show();$('.add-new-country').find('.hide-item').toggleClass('hidden');">
+                            <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
+
                 </div>
-
-                <div class="pull-right buttons-holder">
-                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline pull-right" onclick="mw.tools.open_global_module_settings_modal('shop/shipping/set_units', 'shipping');">
-                        <span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?>
-                    </a>
-
-                    <a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info pull-right m-r-10" href="javascript:mw_admin_edit_country_item_popup();" xxxonclick="mw.$('.add-new-country').show();$('.add-new-country').find('.hide-item').toggleClass('hidden');">
-                        <span class="mw-icon-plus"></span> <?php _e("Add Country"); ?>
-                    </a>
-                    <div class="clearfix"></div>
-                </div>
-
-            </div>
 
             <?php endif; ?>
         <?php endforeach; ?>
@@ -81,10 +85,13 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
 
 <script>
-    function mw_admin_edit_country_item_popup() {
+    function mw_admin_edit_country_item_popup(id) {
+        if (id) {
+            var modalTitle = '<?php _e('Edit country'); ?>';
+        } else {
+            var modalTitle = '<?php _e('Add country'); ?>';
 
-        var modalTitle = '<?php _e('Country item'); ?>';
-
+        }
 
         mw_admin_edit_country_item_popup_modal_opened = mw.modal({
             content: '<div id="mw_admin_edit_country_item_module"></div>',
@@ -93,9 +100,12 @@ $shipping_modules = get_modules("type=shipping_gateway");
         });
 
 
-
         var params = {}
-         mw.load_module('shop/shipping/gateways/country/add_country', '#mw_admin_edit_country_item_module', null, params);
+        if (id) {
+            params.edit_id = id
+        }
+
+        mw.load_module('shop/shipping/gateways/country/add_country', '#mw_admin_edit_country_item_module', null, params);
     }
 </script>
 

@@ -40,19 +40,21 @@
         });
     }
 
+<?php
+/*    mw.on.hashParam('optissson', function () {
 
-    mw.on.hashParam('option', function () {
-        $(".mw-set-payment-options .otab").hide();
+       alert(this);
+     /!*   $(".mw-set-payment-options .otab").hide();
         $("#db-" + this).show();
         $(".active-parent li.active").removeClass('active');
         var link = $('a[href*="?option=' + this + '"]');
         link
             .parent()
             .addClass('active');
-        //$(".shop-options-title-icon").attr('class', 'shop-options-title-icon ' + link.find('span').attr('class'))
-    })
+        //$(".shop-options-title-icon").attr('class', 'shop-options-title-icon ' + link.find('span').attr('class'))*!/
+    });*/
 
-
+?>
     $(document).ready(function () {
         if (typeof thismodal !== 'undefined') {
             thismodal.main.width(1000);
@@ -141,7 +143,7 @@
         color: #fff;
     }
 
-    .payment-state-status {
+    .mw-set-payment-options .payment-state-status {
         padding: 12px 12px 5px;
         display: inline-block;
         margin-top: 12px;
@@ -152,20 +154,20 @@
         border: none;
     }
 
-    .payment-state-status {
+    .mw-set-payment-options .payment-state-status {
         background: #F27E54;
         color: white;
     }
 
-    .payment-state-status.active {
+    .mw-set-payment-options .payment-state-status.active {
         background: #48ad79;
     }
 
-    .mw-ui-box-header .mw-icon-drag {
+    .mw-set-payment-options .mw-ui-box-header .mw-icon-drag {
         visibility: hidden;
     }
 
-    .mw-ui-box-header:hover {
+    .mw-set-payment-options  .mw-ui-box-header:hover {
         background: #fefbea;
     }
 
@@ -212,7 +214,7 @@
         text-align: center;
     }
 
-    .gateway-icon-title > .mw-ui-row .mw-icon-drag {
+    ..gateway-icon-title > .mw-ui-row .mw-icon-drag {
         font-size: 19px;
         color: #808080;
         cursor: move;

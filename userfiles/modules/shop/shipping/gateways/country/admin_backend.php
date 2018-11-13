@@ -41,7 +41,8 @@ print $view->display();
 
 
 ?>
-
+<?php
+/*
 <script>
     $(document).ready(function () {
 
@@ -60,4 +61,6 @@ print $view->display();
 
         });
     });
-</script>
+</script>*/
+
+?>
