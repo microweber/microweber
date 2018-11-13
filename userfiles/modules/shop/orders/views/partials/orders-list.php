@@ -11,6 +11,17 @@
             $(item).toggleClass('active');
         }
     }
+
+    $(document).ready(function () {
+        $('.new-close').on('click', function (e) {
+            e.stopPropagation();
+            var item = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['comment-holder', 'message-holder', 'order-holder']);
+            $(item).removeClass('active')
+            $('.mw-accordion-content', item).stop().slideUp(function () {
+
+            });
+        });
+    });
 </script>
 <?php if ($orders): ?>
     <?php foreach ($orders as $item) : ?>
@@ -98,8 +109,8 @@
                     <?php if (isset($item['first_name']) AND isset($item['last_name'])): ?>
                         <div class="box">
                             <p class="label"><?php print _e('Client Name:'); ?></p>
-                            <p class="content"><a
-                                        href="<?php print admin_url() ?>view:shop/action:clients#?clientorder=<?php print $item['id'] ?>"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></a>
+                            <p class="content">
+                                <a href="<?php print admin_url() ?>view:shop/action:clients#?clientorder=<?php print $item['id'] ?>"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></a>
                             </p>
                         </div>
                     <?php endif; ?>
