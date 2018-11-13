@@ -112,7 +112,6 @@ $(document).ready(function () {
             $('.js-custom-recurrence-wrapper').show();
             changeRecurrenceRepeatTypeToWeek();
 
-            console.log(selectedWeekdays);
 
 
         } else if (this.value == "weekly_on_all_days") {

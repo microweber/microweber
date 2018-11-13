@@ -386,7 +386,8 @@ mw.msg = mw._lang = {
     edit: '<?php _e("Edit"); ?>',
     change: '<?php _e("Change"); ?>',
     submit: '<?php _e("Submit"); ?>',
-    settingsSaved: '<?php _e("Settings are saved"); ?>'
+    settingsSaved: '<?php _e("Settings are saved"); ?>',
+    addImage: '<?php _e("Add new image"); ?>'
 }
 
 

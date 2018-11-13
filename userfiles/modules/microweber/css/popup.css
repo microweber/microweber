@@ -34,6 +34,7 @@ body {
     height: 60px;
 }
 
+
 .mw-popup-footer-content {
     position: fixed;
     bottom: 0;
@@ -54,4 +55,12 @@ select.mw-ui-field:hover {
     /*border-color: #cdcdcd;*/
     -webkit-box-shadow: 0 0 4px #82c4ed;
     box-shadow: 0 0 4px #82c4ed;
+}
+
+.prop-ui-field-holder .mw-ui-field-icon+input{
+    max-width: -webkit-calc(100% - 2.923rem);
+    max-width: calc(100% - 2.923rem);
+}
+.prop-ui-field-holder .mw-ui-field{
+    width: 100%;
 }

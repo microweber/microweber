@@ -315,7 +315,7 @@ mw.propEditor = {
                     e.preventDefault();
                     e.stopPropagation();
                 };
-                btn.appendChild(close);
+                el.appendChild(close);
                 el.appendChild(btn);
                 return el;
             };
@@ -333,8 +333,9 @@ mw.propEditor = {
             this.addImageButton = function(){
                 if(config.multiple){
                     this.addBtn = document.createElement('div');
-                    this.addBtn.className = 'mw-ui-btn mw-ui-btn-medium ';
-                    this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
+                    this.addBtn.className = 'mw-ui-link';
+                    //this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
+                    this.addBtn.innerHTML = mw.msg.addImage;
                     this.addBtn.onclick = function(){
                         el.appendChild(createButton(undefined, 0, proto));
                         scope.manageAddImageButton();
@@ -404,7 +405,10 @@ mw.propEditor = {
                 value: ''
             });
             var label = mw.propEditor.helpers.label(config.label);
-            $(holder).prepend(label);
+
+            setTimeout(function(){
+                $(holder).prepend(label);
+            }, 10)
 
             this.node = holder;
             this.setValue = function(value){
@@ -413,6 +417,39 @@ mw.propEditor = {
             };
             this.id = config.id;
 
+        },
+        richtext:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'textarea');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            $(field).on('change', function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            });
+
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                if(this.editor.api){
+                    $(this.editor).contents().find('#editor-area').html(value);
+                }
+                else{
+                    var scope = this;
+                    setTimeout(function(){ scope.setValue(value); }, 300);
+                }
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+
+            this.editor = mw.editor({
+                element:field,
+                height:220,
+                width:'100%',
+                addControls: false,
+                hideControls:false
+            });
         }
     }
 };

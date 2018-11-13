@@ -7424,10 +7424,19 @@ select.silver-field {
 .mw-module-settings-box .upload-button-prop.mw-ui-box {
     display: inline-block;
     margin: 5px;
+    width: 135px;
+    height: 100px;
 }
 
-.mw-module-settings-box > .mw-ui-box-header {
-    margin: -12px -12px 0 -12px;
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mw-module-settings-box + .mw-module-settings-box{
+    margin-top: 20px;
 }
 
 .gateway-icon-title img {
