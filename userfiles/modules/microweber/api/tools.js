@@ -2151,8 +2151,8 @@ mw.tools = {
             + '<td align="center" valign="middle"><div class="mw_alert_holder">' + question + '</div></td>'
             + '</tr>'
             + '<tr>'
-            + '<td class="mw-modal-confirm-actions">'
-            +'<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span>'
+            + '<td class="mw-modal-confirm-actions text-center">'
+            +'<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span> &nbsp; '
             +'<span class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></span></td>'
             + '</tr>'
             + '</table>';

@@ -173,13 +173,11 @@ if (isset($params['quick_edit'])) {
                         <ul class="mw-ui-btn-nav-fluid pull-right" style="width: auto;">
                             <?php if ($data['is_active'] == 0) { ?>
                                 <li>
-                                    <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i
-                                                class="mw-icon-unpublish"></i> <?php _e("Unpublish"); ?></button>
+                                    <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i class="mw-icon-unpublish"></i>&nbsp; <?php _e("Unpublish"); ?></button>
                                 </li>
                             <?php } else { ?>
                                 <li>
-                                    <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i
-                                                class="mw-icon-check"></i> <?php _e("Published"); ?></button>
+                                    <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i class="mw-icon-check"></i>&nbsp; <?php _e("Published"); ?></button>
                                 </li>
                             <?php } ?>
                             <?php if ($is_live_edit == false) : ?>
@@ -281,10 +279,10 @@ if (isset($params['quick_edit'])) {
 
                     <div id="post-states-tip" style="display: none">
                         <div class="mw-ui-btn-vertical-nav post-states-tip-nav">
-                            <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if ($data['is_active'] == 0): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span><?php _e("Unpublish"); ?></span>
-                            <span onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if ($data['is_active'] != 0): ?> active<?php endif; ?>"><span class="mw-icon-check"></span> <?php _e("Publish"); ?></span>
+                            <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if ($data['is_active'] == 0): ?> active<?php endif; ?>"><i class="mw-icon-unpublish"></i>&nbsp; <?php _e("Unpublish"); ?></span>
+                            <span onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if ($data['is_active'] != 0): ?> active<?php endif; ?>"><i class="mw-icon-check"></i>&nbsp; <?php _e("Publish"); ?></span>
                             <hr>
-                            <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_current_page('<?php print ($data['id']) ?>');"><span class="mw-icon-bin"></span><?php _e('Move to trash'); ?></span>
+                            <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_current_page('<?php print ($data['id']) ?>');"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Move to trash'); ?></span>
                         </div>
                     </div>
                 </div>

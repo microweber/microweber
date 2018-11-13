@@ -6379,10 +6379,10 @@ body.is_admin .mw-admin-container {
     font-size: 13px;
 }
 
-.comments-holder .comment-holder .view-order-button {
-    margin-top: 10px;
-    font-size: 13px;
-}
+/*.comments-holder .comment-holder .view-order-button {*/
+    /*margin-top: 10px;*/
+    /*font-size: 13px;*/
+/*}*/
 
 .comments-holder .comment-holder.active .is_paid {
     font-weight: bold;
@@ -6550,7 +6550,7 @@ body.is_admin .mw-admin-container {
     border: 0;
     background: transparent;
     height: 30px;
-    width: calc(100% - 110px);
+    width: calc(100% - 180px);
     outline: 0;
     padding: 8px 0;
 }
@@ -6962,7 +6962,7 @@ select.silver-field {
 }
 
 .header-top-center-notifs .center {
-    width: 580px;
+    width: 600px;
 }
 
 .client-remove {
