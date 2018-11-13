@@ -79,7 +79,7 @@
                     });
                 </script>
                 <div class='pull-right m-b-20'>
-                    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline edit-client-info" onclick="mw.client_edit.enable(this);"><span class="mw-icon-pen"></span><?php _e("Edit client information"); ?></button>
+                    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline edit-client-info" onclick="mw.client_edit.enable(this);"><span class="mw-icon-pen"></span> <?php _e("Edit client information"); ?></button>
 
                     <button class="mw-ui-btn mw-ui-btn-info m-l-10 edit-client-save" style="display: none;" onclick="mw.client_edit.save();"><?php _e("Save"); ?></button>
                 </div>
@@ -167,10 +167,10 @@
 
             <div class="m-t-40">
                 <div>
-                    <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print ' ' . $client['first_name'] ?><?php print $client['last_name'] ?></h4>
+                    <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print ' ' . $client['first_name'] . ' ' . $client['last_name'] ?></h4>
                     <div class="pull-right">
-                        <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-small"><?php print _e('Open all'); ?></button>
-                        <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small"><?php print _e('Close all'); ?></button>
+                        <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-medium"><?php print _e('Open all'); ?></button>
+                        <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium"><?php print _e('Close all'); ?></button>
                     </div>
 
                     <script>
@@ -209,7 +209,7 @@
                                 <h4 class="pull-left mw-blue"><?php _e("Order"); ?> #<?php print $item['id'] ?></h4>
                                 <div class="pull-right show-on-hover2">
                                     <span class="mw-ui-btn mw-ui-btn-info unselectable" onmousedown="mw.tools.accordion(mw.tools.firstParentWithClass(this, 'mw-ui-box'));"><?php _e("Preview Order"); ?></span>
-                                    <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline unselectable"><span class="mw-icon-cart"></span><?php _e("Go to order"); ?></a>
+                                    <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline unselectable"><i class="mw-icon-cart"></i> &nbsp;<?php _e("Go to order"); ?></a>
                                 </div>
                             </div>
 

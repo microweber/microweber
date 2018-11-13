@@ -28,8 +28,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
 </script>
 <div class="mw-ui-box mw-ui-box-order-info">
     <div class="mw-ui-box-header">
-        <a href="javascript:del_this_order_and_return('<?php print $show_ord_id ?>')"
-           class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"> <span class="mai-bin"></span>Delete</a>
+        <a href="javascript:del_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mai-bin"></span> Delete</a>
         <span class=" bold"><?php _e("Order Information"); ?></span>
     </div>
     <div class="mw-ui-box-content p-0">

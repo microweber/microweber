@@ -359,7 +359,7 @@
                                             <a target="_blank"
                                                href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
                                                 <img class="map-shipping-address"
-                                                     src="http://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:<?php print modules_url() ?>shop/orders/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
+                                                     src="http://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:<?php print modules_url() ?>shop/orders/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>&key=AIzaSyAvrrDzaY7JySJYqHh8AE0R1hMzKQ7wbdk"/>
                                             </a>
                                         <?php endif; ?>
                                     </td>
