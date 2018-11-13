@@ -1,16 +1,15 @@
 <div class="section-header">
     <h2 class="pull-left"><span class="mw-icon-category"></span> <?php _e("Categories"); ?></h2>
-
-    <div class="pull-right">
-        <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-info">
-            <span class="mw-icon-plus"></span> &nbsp;<?php _e("New category"); ?>
-        </a>
-    </div>
 </div>
 
 <div class="mw-module-category-manager admin-side-content">
     <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content">
-        <h2 style="margin-top: 0"></h2>
+
+        <div class="mw-ui-row m-b-20">
+            <div class="mw-ui-col text-left" style="width: 445px;">
+                <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-info"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></a>
+            </div>
+        </div>
 
         <div>
             <div class="mw-searchbox">
@@ -90,13 +89,13 @@
                 }
 
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
-                  return  mw.quick_cat_edit(id);
-                    <?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
-                    //mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
+                        return mw.quick_cat_edit(id);
+                        <?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
+                        //mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
 
-                    <?php endif; ?>
+                        <?php endif; ?>
 
-                }
+                    }
             </script>
 
             <script type="text/javascript">

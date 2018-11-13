@@ -691,7 +691,7 @@
 
 .admin-toolbar .notif-btn .mw-notification-count {
     right: 0;
-    top: 0;
+    top: 8px;
     margin-left: 10px;
 }
 

@@ -192,7 +192,7 @@ if (isset($params['live_edit'])) {
                 <div class="create-root">
                     <div id="content-title-field-buttons">
                         <div class="mw-ui-row">
-                            <div class="mw-ui-col text-left">
+                            <div class="mw-ui-col text-left" style="width: 445px;">
                                 <?php if (intval($data['id']) != 0): ?>
                                     <script>
                                         mw.quick_cat_edit_create = function (id) {
