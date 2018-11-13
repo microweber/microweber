@@ -117,14 +117,14 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                 top: is ? Math.abs((stop + tbheight) - otop) : 0
             });
             var fixinheaderTime = null;
-            if(stop>$(".admin-toolbar").height()){
+            if (stop > $(".admin-toolbar").height()) {
 
                 $(".top-bar").addClass("fix-in-header").css('left', $('.window-holder').offset().left);
-                fixinheaderTime = setTimeout(function(){
+                fixinheaderTime = setTimeout(function () {
                     $(".top-bar").addClass("after-fix-in-header")
                 }, 10)
             }
-            else{
+            else {
                 $(".top-bar").removeClass("fix-in-header after-fix-in-header");
                 clearTimeout(fixinheaderTime)
 
@@ -189,7 +189,8 @@ if (isset($params['quick_edit'])) {
                                         <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                                 </li>
                                 <li>
-                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span>
+                                    </button>
                                 </li>
                             <?php else: ?>
                                 <?php if ($data['id'] == 0): ?>
@@ -205,7 +206,8 @@ if (isset($params['quick_edit'])) {
                                     </li>
                                 <?php endif; ?>
                                 <li>
-                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span>
+                                    </button>
                                 </li>
                             <?php endif; ?>
                         </ul>

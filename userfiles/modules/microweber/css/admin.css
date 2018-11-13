@@ -4501,7 +4501,7 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     margin-bottom: 15px !important;
 }
 
-.section-header [src*=".svg"]{
+.section-header [src*=".svg"] {
     max-height: 24px;
     max-width: 24px;
     margin-top: 6px;
@@ -4540,7 +4540,7 @@ tr.mw-order-item.hovered, tr.mw-order-item {
 }
 
 .section-header h2, .section-header h3 {
-    margin-top: 7px;
+    margin-top: 3px;
     margin-right: 10px;
 }
 
@@ -6962,7 +6962,7 @@ select.silver-field {
 }
 
 .header-top-center-notifs .center {
-    width: 510px;
+    width: 580px;
 }
 
 .client-remove {
@@ -7401,21 +7401,26 @@ select.silver-field {
 #admin-main-tree .mw-tree-item-title {
     width: 100%;
 }
-.prop-ui-field-holder > .mw-ui-box-content{
+
+.prop-ui-field-holder > .mw-ui-box-content {
     padding-left: 0;
     padding-right: 0;
 }
+
 .mw-module-settings-box .upload-button-prop.mw-ui-box .mw-icon-upload {
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.52);
     color: white;
 }
-.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn{
+
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn {
     border-color: transparent;
 }
-.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn .mw-badge{
+
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn .mw-badge {
     top: -12px;
     right: -12px;
 }
+
 .mw-module-settings-box .upload-button-prop.mw-ui-box {
     display: inline-block;
     margin: 5px;

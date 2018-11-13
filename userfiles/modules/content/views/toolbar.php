@@ -168,7 +168,7 @@ if ($last_page_front != false) {
                 ?>
 
                 <div class="section-header">
-                    <div class="mw-ui-row valign" style="margin-bottom: 20px;">
+                    <div class="mw-ui-row" style="margin-bottom: 20px;">
                         <div class="mw-ui-col" style="width: 50%;">
 
                             <h2 class="pull-left">
@@ -298,7 +298,7 @@ if ($last_page_front != false) {
                                         <a href="<?php print $edit_link; ?>"
                                            class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-l-10"
                                            id="edit-content-btn" data-tip="bottom-left">
-                                            <span class="mai-edit"></span> <span><?php _e("Edit page"); ?></span>
+                                            <span class="mai-edit"></span>&nbsp; <span><?php _e("Edit page"); ?></span>
                                         </a>
                                     <?php endif; ?>
 
