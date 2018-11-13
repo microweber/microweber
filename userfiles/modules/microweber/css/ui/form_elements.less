@@ -372,11 +372,12 @@ div.mw-ui-field:after {
   border: 1px solid @fieldBorderColor;
   border-radius: @radius 0 0 @radius;
   vertical-align: top;
-}
-
-.mw-ui-field-icon > * {
-  height: 36px;
-  line-height: 36px;
+  line-height:  ~"-webkit-calc("@normalHeight~" - 4px)";
+  line-height: ~"calc("@normalHeight~" - 4px)";
+  [class*='icon-'],.ico,.fa,.material-icons{
+    line-height:  ~"-webkit-calc("@normalHeight~" - 4px)";
+    line-height: ~"calc("@normalHeight~" - 4px)";
+  }
 }
 
 .mw-ui-field-icon + input {

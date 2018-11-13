@@ -118,7 +118,6 @@
 
 
             form.find('input, textarea').on('input change', function (e) {
-                console.log(this.name)
                 if (this.name == 'enable_service_links') {
                     $("[name='custom_support_url']")[0].disabled = !this.checked
                 }

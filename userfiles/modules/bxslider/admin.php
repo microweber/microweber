@@ -122,13 +122,6 @@ $count = 0;
     });
 </script>
 
-
-<style>
-    #settings-box .mw-ui-field-holder .mw-ui-field {
-        width: 100%;
-    }
-</style>
-
 <div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">

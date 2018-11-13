@@ -33,8 +33,12 @@ mw.moduleSettings = function(options){
         if(this.options.header){
             var header = document.createElement('div');
             header.className = "mw-ui-box-header";
-            header.innerHTML = this.options.header.replace(/{count}/g, (i+1));
+            header.innerHTML = this.options.header.replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
+            $(header).on('click', function(){
+                $(this).next().slideToggle();
+            });
             return header;
+
         }
     };
     this.headerAnalize = function(i, header){
@@ -44,8 +48,12 @@ mw.moduleSettings = function(options){
     };
     this.createItemHolder = function(){
         var holder = document.createElement('div');
-        holder.className = 'mw-ui-box mw-ui-box-content mw-module-settings-box';
+        var holderin = document.createElement('div');
+        holder.className = 'mw-ui-box mw-module-settings-box';
+        holderin.className = 'mw-ui-box-content mw-module-settings-box-content';
+        holderin.style.display = 'none';
         this.options.element.appendChild(holder);
+        holder.appendChild(holderin);
         return holder;
     };
 
@@ -53,7 +61,6 @@ mw.moduleSettings = function(options){
         if(typeof pos === 'undefined'){
             pos = this.items.length;
         }
-
         var _new = mw.tools.cloneObject(this.value[0]);
         this.value.splice(pos, 0, _new);
         this.createItem(_new, this.value.length-1);
@@ -73,7 +80,7 @@ mw.moduleSettings = function(options){
         var header = this.createItemHolderHeader(i);
         var item = new mw.propEditor.schema({
             schema: this.options.schema,
-            element: box
+            element: box.querySelector('.mw-ui-box-content')
         });
         $(box).prepend(header);
         this.headerAnalize(i, header);
@@ -81,7 +88,7 @@ mw.moduleSettings = function(options){
         item.options.element._prop = item;
         item.setValue(curr);
         $(item).on('change', function(){
-            $.each(this.getValue(), function(a, b){
+            $.each(item.getValue(), function(a, b){
                 scope.value[i][a] = b;
             });
             $(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
@@ -101,7 +108,10 @@ mw.moduleSettings = function(options){
     this.refactorDomPosition = function(){
         scope.items = [];
         scope.value = [];
-        $(this.options.element).children().each(function(){
+        $(".mw-module-settings-box-index", this.options.element).each(function (i) {
+            $(this).text(i+1);
+        });
+        $('.mw-module-settings-box-content', this.options.element).each(function(){
             scope.items.push(this._prop);
             scope.value.push(this._prop.getValue());
         });
