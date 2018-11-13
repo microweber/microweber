@@ -367,7 +367,8 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         <span class="mai-eye2"></span> <?php _e("Live Edit"); ?>
                     </a>
 
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip pull-right js-top-save" style="display: none;" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip pull-right js-top-save" style="display: none;" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i>
+                        <span>&nbsp; <?php print _e('Save'); ?></span></button>
                 </div>
             </div>
         </div>
@@ -440,14 +441,14 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 </a></li>
                         </ul>
                     </li>
-                    
+
                     <?php if ($shop_disabled == false AND is_module('shop') == true): ?>
 
                         <li
-                        <?php if ($view == 'shop' and $action == false): ?> class="active"
-                        <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent"
-                        <?php elseif ($view == 'modules' and $load_module == 'shop__coupons'): ?> class="active" 
-                        <?php endif; ?> >
+                            <?php if ($view == 'shop' and $action == false): ?> class="active"
+                            <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent"
+                            <?php elseif ($view == 'modules' and $load_module == 'shop__coupons'): ?> class="active"
+                            <?php endif; ?> >
                             <a href="<?php print admin_url(); ?>view:shop" title=""><span class="mai-market2"><?php if ($view != 'shop' and $notif_count > 0) {
                                         print $order_notif_html;
                                     }; ?></span> <strong><?php _e("Shop"); ?></strong></a>
@@ -468,7 +469,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                         <?php _e("Clients"); ?>
                                     </a>
                                 </li>
-                                
+
 
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
 
@@ -609,71 +610,46 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </li>
                     <?php $load_module = url_param('load_module'); ?>
                     <li <?php print 'class="' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-
-                        <a
-                                href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>"
-                                id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
-
+                        <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
                             <span class="mai-user2"></span>
-                            <strong>
-                                <?php _e("Profile"); ?>
-                            </strong>
+                            <strong><?php _e("Profile"); ?></strong>
                         </a>
                         <ul>
-                            <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-menu-my-profile">
-                                    <?php _e("My Profile"); ?>
-                                </a></li>
-                            <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>" id="main-menu-manage-users">
-                                    <?php _e("Manage Users"); ?>
-
-                                </a></li>
+                            <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-menu-my-profile"><?php _e("My Profile"); ?></a></li>
+                            <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>" id="main-menu-manage-users"><?php _e("Manage Users"); ?></a></li>
 
                             <?php if (mw()->ui->enable_service_links): ?>
                                 <?php if (mw()->ui->custom_support_url): ?>
-                                    <li><a href="<?php print mw()->ui->custom_support_url ?>">
-                                            <strong><?php _e("Support"); ?></strong>
-                                        </a></li>
+                                    <li><a href="<?php print mw()->ui->custom_support_url ?>"><strong><?php _e("Support"); ?></strong></a></li>
                                 <?php else: ?>
-                                    <li><a href="javascript:;" onmousedown="mw.contactForm();">
-                                            <strong><?php _e("Support"); ?></strong>
-                                        </a></li>
+                                    <li><a href="javascript:;" onmousedown="mw.contactForm();"><strong><?php _e("Support"); ?></strong></a></li>
                                 <?php endif; ?>
                             <?php endif; ?>
 
                             <li><a href="<?php print site_url(); ?>?editmode=y" class=go-live-edit-href-set"><?php _e("View Website"); ?></a></li>
-                            <li><a href="<?php print api_url('logout'); ?>"><span class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
+                            <li class="mw-admin-menu-sidebar-logout-mobile"><a href="<?php print api_url('logout'); ?>"><span class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
                         </ul>
                     </li>
-                    <li id="mw-admin-main-menu-toggle">
-                        <a href="javascript:;"><span class="mw-icon-menu"></span></a>
-                    </li>
+                    <li class="mw-admin-menu-sidebar-logout-desktop"><a href="<?php print api_url('logout'); ?>"><span class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
 
-
+                    <li id="mw-admin-main-menu-toggle"><a href="javascript:;"><span class="mw-icon-menu"></span></a></li>
                 </ul>
 
                 <script>
                     $(document).ready(function () {
-
                         $('.go-live-edit-href-set').bind('mousedown', function () {
                             var url_to_go = $(this).attr('href');
-                            ;
 
                             var n = url_to_go.indexOf("editmode");
                             if (n == -1) {
                                 url_to_go = url_to_go + '?editmode:y';
                             }
-                            //window.location.href=url_to_go;
+
                             $(this).attr('href', url_to_go);
-                            ;
                             return false;
-
                         });
-
-
                     });
-
                 </script>
-
             </div>
             <span id="mb-active"></span>
         </div>
