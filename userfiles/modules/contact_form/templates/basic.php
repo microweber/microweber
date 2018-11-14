@@ -24,7 +24,7 @@ description: Basic contact form
     <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
 
 
-        <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
+        <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
         <?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
             <div class="control-group form-group">
                 <label><?php _e("Security code"); ?></label>
