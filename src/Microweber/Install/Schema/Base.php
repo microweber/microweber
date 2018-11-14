@@ -33,6 +33,7 @@ class Base
             'version' => 'string',
             'notifications' => 'integer',
             'settings' => 'text',
+            'categories' => 'text',
 
         ];
 

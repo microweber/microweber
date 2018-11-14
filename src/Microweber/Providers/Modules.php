@@ -448,7 +448,7 @@ class Modules
             $params['module'] = str_replace('/admin', '', $params['module']);
         }
         if (isset($params['keyword'])) {
-            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
+            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help', 'categories');
         }
 
         if (!isset($params['ui'])) {

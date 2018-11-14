@@ -5,6 +5,6 @@ $config['name'] = "Accordion";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['version'] = 0.01;
-$config['categories'] = "accordion";
+$config['categories'] = "other";
 $config['position'] = 52;
 
