@@ -13,110 +13,78 @@
 <?php if (is_array($data) and !empty($data)): ?>
     <div class="mw-ui-row m-t-20">
         <?php if ($active_or_disabled == 'active'): ?>
-            <p class="disabled-and-enabled-label"><?php print _e('List of enabled countries'); ?></p>
+            <p class="disabled-and-enabled-label mw-color-notification"><?php print _e('List of enabled countries'); ?></p>
         <?php else: ?>
-            <p class="disabled-and-enabled-label"><?php print _e('List of disabled countries'); ?></p>
+            <p class="disabled-and-enabled-label mw-color-important"><?php print _e('List of disabled countries'); ?></p>
         <?php endif; ?>
 
-        <div class="mw-shipping-items shipping_to_country_holder"
-             id="shipping_to_country_holder<?php if ($active_or_disabled == 'active'): ?>_active<?php endif; ?>">
-            <table style="width: 100%" class="mw-ui-table">
+        <div class="mw-shipping-items shipping_to_country_holder" id="shipping_to_country_holder<?php if ($active_or_disabled == 'active'): ?>_active<?php endif; ?>">
+            <table class="table-style-3 mw-ui-table layout-auto">
                 <thead>
                 <tr>
-                    <th  style="width: 15px"></th>
+                    <th style="width: 15px"></th>
                     <th>Country</th>
                     <th>Shipping Type</th>
                     <th>Shipping Cost</th>
-                    <th>Edit</th>
-                    <th></th>
+                    <th class="center" style="width: 200px;"><?php print _e('Actions'); ?></th>
                 </tr>
                 </thead>
                 <?php foreach ($data as $item): ?>
-
-                    <tr class="mw-ui-box mw-ui-box-content shipping-country-holder" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
+                    <tr data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 15px">
-
-
-
-                            <span title="<?php _e("Reorder shipping countries"); ?>"
-                                  class="mw-icon-drag shipping-handle-field"></span>
+                            <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
                         </td>
                         <td>
                             <b><?php print $item['shipping_country'] ?></b>
                         </td>
                         <td>
-                        <?php print mw()->format->titlelize($item['shipping_type']) ?>
+                            <?php print mw()->format->titlelize($item['shipping_type']) ?>
                         </td>
                         <td>
-
-
-                             <?php
-
-
-
-
-
-                             if($item['shipping_type'] == 'dimensions'){
-                                 print _e('from',true).' '. mw()->shop_manager->currency_format($item['shipping_cost'])  ;
-
-                             } else {
-                                 print mw()->shop_manager->currency_format($item['shipping_cost']) ;
-
-                             }
-
-
-                             ?>
-
-
-
+                            <?php
+                            if ($item['shipping_type'] == 'dimensions') {
+                                print _e('from', true) . ' ' . mw()->shop_manager->currency_format($item['shipping_cost']);
+                            } else {
+                                print mw()->shop_manager->currency_format($item['shipping_cost']);
+                            }
+                            ?>
                         </td>
-                        <td>
-                            <a class="mw-ui-btn"
-                               href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')">Edit</a>
-                        </td>
-                        <td  >
-                            <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');"
-                                  class="mw-icon-close tip" data-tip="<?php _e("Delete"); ?>"></span>
 
+                        <td class="center">
+                            <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')"><?php _e("Edit"); ?></a>
+                            &nbsp;
+                            <a href="javascript:;" onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"><?php _e("Delete"); ?></a>
                         </td>
                     </tr>
-
-
                 <?php endforeach; ?>
-
             </table>
 
 
+            <?php
+            /*            <hr>
+                        deletem
+
+                       <?php foreach ($data as $item): ?>
+                            <div class="mw-ui-box mw-ui-settings-box box-enabled- mw-ui-box-content">
+                                <span title="<?php _e("Reorder shipping countries"); ?>"
+                                      class="mw-icon-drag shipping-handle-field"></span>
+                                <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');"
+                                      class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
+
+                                <b><?php print $item['shipping_country'] ?></b>
+                                <a class="mw-ui-btn"
+                                   href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')">Edit</a>
 
 
-<?php
-
-/*            <hr>
-            deletem
-
-           <?php foreach ($data as $item): ?>
-                <div class="mw-ui-box mw-ui-settings-box box-enabled- mw-ui-box-content">
-                    <span title="<?php _e("Reorder shipping countries"); ?>"
-                          class="mw-icon-drag shipping-handle-field"></span>
-                    <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');"
-                          class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
-
-                    <b><?php print $item['shipping_country'] ?></b>
-                    <a class="mw-ui-btn"
-                       href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')">Edit</a>
+                            </div>
+                        <?php endforeach; ?>
 
 
-                </div>
-            <?php endforeach; ?>
+                        <?php foreach ($data as $item): ?>
+                            <?php   include __DIR__ . "/item_edit.php"; ?>
+                        <?php endforeach; ?>*/
 
-
-            <?php foreach ($data as $item): ?>
-                <?php   include __DIR__ . "/item_edit.php"; ?>
-            <?php endforeach; ?>*/
-
-?>
-
-
+            ?>
         </div>
     </div>
 <?php endif; ?>
