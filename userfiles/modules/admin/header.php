@@ -630,7 +630,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             <li class="mw-admin-menu-sidebar-logout-mobile"><a href="<?php print api_url('logout'); ?>"><span class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
                         </ul>
                     </li>
-                    <li class="mw-admin-menu-sidebar-logout-desktop"><a href="<?php print api_url('logout'); ?>"><span class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
+                    <li class="mw-admin-menu-sidebar-logout-desktop"><a href="<?php print api_url('logout'); ?>"><i class="mw-icon-off"></i><strong><?php _e("Log out"); ?></strong></a></li>
 
                     <li id="mw-admin-main-menu-toggle"><a href="javascript:;"><span class="mw-icon-menu"></span></a></li>
                 </ul>
