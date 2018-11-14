@@ -7,6 +7,6 @@ $config['description'] = "Feed of tweets";
 $config['author'] = "Peter Ivanov";
 $config['author_website'] = "https://microweber.com";
 $config['ui'] = true;
-$config['categories'] = "other";
+$config['categories'] = "social";
 $config['position'] = 13;
 $config['version'] = 0.01;

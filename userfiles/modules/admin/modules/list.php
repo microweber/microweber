@@ -4,6 +4,7 @@ $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
 
 $modules = array();
+$modules_by_categories = array();
 $mod_obj_str = 'modules';
 if (isset($is_elements) and $is_elements == true) {
     $mod_obj_str = 'elements';
@@ -71,6 +72,47 @@ if (isset($is_elements) and $is_elements == true) {
             }
         }
         $modules = array_merge($modules, $modules_from_template);
+    }
+
+
+    if ($modules) {
+        foreach ($modules as $module) {
+            if (!isset($module['categories']) or !($module['categories'])) {
+                $module['categories'] = 'other';
+            }
+            if (isset($module['categories']) and ($module['categories'])) {
+                $mod_cats = explode(',', $module['categories']);
+                if ($mod_cats) {
+                    foreach ($mod_cats as $mod_cat) {
+                        $mod_cat = trim($mod_cat);
+                        if (!isset($modules_by_categories[$mod_cat])) {
+                            $modules_by_categories[$mod_cat] = array();
+                        }
+                        $modules_by_categories[$mod_cat][] = $module;
+                    }
+                }
+            }
+        }
+        //dd($modules_by_categories);
+    }
+
+    if ($modules and !$modules_by_categories) {
+        $modules_by_categories = array('All' => $modules);
+    }
+
+    if ($modules_by_categories and is_arr($modules_by_categories) and count($modules_by_categories) > 1) {
+        $sort_first = array();
+
+        $first_keys = array('recommended','media','content','navigation');
+        foreach ($first_keys as $first_key) {
+            if (isset($modules_by_categories[$first_key])) {
+                $sort_first[$first_key] = $modules_by_categories[$first_key];
+                unset($modules_by_categories[$first_key]);
+            }
+        }
+
+        $modules_by_categories_new = array_merge($sort_first,$modules_by_categories);
+        $modules_by_categories = $modules_by_categories_new;
     }
 
 }
@@ -228,58 +270,73 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php if (isset($modules) and !empty($modules)): ?>
 
 
-        <?php if ($mod_obj_str == 'elements'): ?>
-            <li>
-                <hr>
-                <h4 onclick="$('.default-layouts').toggle()"
-                    style="font-weight: bold; font-size: 18px; margin-top: 10px; margin-bottom: 10px; cursor: pointer;"><?php _e('Default static layouts'); ?> </h4>
-                <hr>
-            </li>
-        <?php endif; ?>
+        <?php foreach ($modules_by_categories as $mod_cat => $modules) : ?>
 
-        <?php $i = 0; ?>
-        <?php foreach ($modules as $module_item): ?>
-            <?php $i++; ?>
-            <?php if (isset($module_item['module'])): ?>
-                <?php
+            <?php if ($mod_obj_str == 'modules'): ?>
+
+                <li class=" " unselectable="on" style="width: 100%; position: relative; float: left; padding: 0px">
+                    <hr>
+                    <h4 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat,true)); ?> </h4>
+                    <hr>
+                </li>
 
 
-                $module_group2 = explode(DIRECTORY_SEPARATOR, $module_item['module']);
-                $module_group2 = $module_group2[0];
-                ?>
-                <?php $module_item['module'] = str_replace('\\', '/', $module_item['module']);
+            <?php endif; ?>
 
-                $module_item['module'] = rtrim($module_item['module'], '/');
-                $module_item['module'] = rtrim($module_item['module'], '\\');
-                $temp = array();
-                if (isset($module_item['categories']) and is_array($module_item['categories']) and !empty($module_item['categories'])) {
-                    foreach ($module_item['categories'] as $it) {
-                        $temp[] = $it['parent_id'];
+
+            <?php if ($mod_obj_str == 'elements'): ?>
+                <li>
+                    <hr>
+                    <h4 onclick="$('.default-layouts').toggle()"><?php _e('Default static layouts'); ?> </h4>
+                    <hr>
+                </li>
+
+            <?php endif; ?>
+
+            <?php $i = 0; ?>
+            <?php foreach ($modules as $module_item): ?>
+                <?php $i++; ?>
+                <?php if (isset($module_item['module'])): ?>
+                    <?php
+
+
+                    $module_group2 = explode(DIRECTORY_SEPARATOR, $module_item['module']);
+                    $module_group2 = $module_group2[0];
+                    ?>
+                    <?php $module_item['module'] = str_replace('\\', '/', $module_item['module']);
+
+                    $module_item['module'] = rtrim($module_item['module'], '/');
+                    $module_item['module'] = rtrim($module_item['module'], '\\');
+                    $temp = array();
+                    if (isset($module_item['categories']) and is_array($module_item['categories']) and !empty($module_item['categories'])) {
+                        foreach ($module_item['categories'] as $it) {
+                            $temp[] = $it['parent_id'];
+                        }
+                        $module_item['categories'] = implode(',', $temp);
                     }
-                    $module_item['categories'] = implode(',', $temp);
-                }
 
-                ?>
-                <?php $module_item['module_clean'] = str_replace('/', '__', $module_item['module']); ?>
-                <?php $module_item['name_clean'] = str_replace('/', '-', $module_item['module']); ?>
-                <?php $module_item['name_clean'] = str_replace(' ', '-', $module_item['name_clean']);
-                if (isset($module_item['categories']) and is_array($module_item['categories'])) {
-                    $module_item['categories'] = implode(',', $module_item['categories']);
-                }
+                    ?>
+                    <?php $module_item['module_clean'] = str_replace('/', '__', $module_item['module']); ?>
+                    <?php $module_item['name_clean'] = str_replace('/', '-', $module_item['module']); ?>
+                    <?php $module_item['name_clean'] = str_replace(' ', '-', $module_item['name_clean']);
+                    if (isset($module_item['categories']) and is_array($module_item['categories'])) {
+                        $module_item['categories'] = implode(',', $module_item['categories']);
+                    }
 
-                if (!isset($module_item['description'])) {
-                    $module_item['description'] = $module_item['name'];
-                }
+                    if (!isset($module_item['description'])) {
+                        $module_item['description'] = $module_item['name'];
+                    }
 
-                ?>
-                <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
-                <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
-                        data-module-name="<?php print $module_item['module'] ?>"
-                    <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
-                        data-filter="<?php print $module_item['name'] ?>"
-                        ondrop="true"
-                        data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
-                        class="module-item <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
+                    ?>
+                    <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
+                    <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
+                            data-module-name="<?php print $module_item['module'] ?>"
+
+                        <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
+                            data-filter="<?php print $module_item['name'] ?>"
+                            ondrop="true"
+                            data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
+                            class="module-item module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
                     <span unselectable="on" class="mw_module_hold"
                           title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
 
@@ -325,7 +382,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
       </script>
 
 
-
   <?php endif; ?>
 
                         <?php if ($module_item['icon']): ?>
@@ -348,7 +404,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     <?php _e($module_item['name']); ?>
                 <?php endif; ?>
     </span> </span></li>
-            <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+
         <?php endforeach; ?>
 
 

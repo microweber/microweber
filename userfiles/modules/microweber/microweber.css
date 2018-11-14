@@ -745,3 +745,10 @@ span.mw-powered-by {
 #category-parent-selector.mw-tree-nav-skin-default .mw-tree-item-title {
     width: auto;
 }
+.mw-modal-confirm-actions{
+    text-align: center;
+}
+
+.mw-modal-confirm-actions .mw-ui-btn{
+    min-width: 100px;
+}

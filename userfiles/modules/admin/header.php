@@ -536,7 +536,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </li>
                     <?php endif; ?>
                     <li <?php if ($view == 'settings' /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
-                        <a href="<?php print admin_url(); ?>view:settings"> <span class="mai-setting"></span>
+                        <a href="<?php print admin_url(); ?>view:settings#option_group=website"> <span class="mai-setting"></span>
                             <strong>
                                 <?php _e("Settings"); ?>
                             </strong>
@@ -544,20 +544,20 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
                         <ul class="mw-ui-sidenav">
-                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'website');return false;" class="item-website" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                            <li><a class="item-website" href="<?php print admin_url(); ?>view:settings#option_group=website">
                                     <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                                 </a>
                             </li>
-                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="<?php print admin_url(); ?>view:settings#option_group=template">
+                            <li><a  class="item-template" href="<?php print admin_url(); ?>view:settings#option_group=template">
                                     <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                                 </a>
                             </li>
 
-                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="<?php print admin_url(); ?>view:settings#option_group=users">
+                            <li><a class="item-users" href="<?php print admin_url(); ?>view:settings#option_group=users">
                                     <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
                                 </a>
                             </li>
-                            <li><a xxonclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="<?php print admin_url(); ?>view:settings#option_group=email">
+                            <li><a class="item-email" href="<?php print admin_url(); ?>view:settings#option_group=email">
                                     <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                                 </a>
                             </li>

@@ -1648,7 +1648,7 @@ mw.tools = {
         return has;
     },
     hasAnyOfClasses: function (node, arr) {
-
+        if(!node) return;
         var final = false, i = 0, l = arr.length, cls = node.className;
         for (; i < l; i++) {
             if (mw.tools.hasClass(cls, arr[i])) {
@@ -2544,7 +2544,7 @@ mw.tools = {
                 }
             }
         }
-        var active = obj.activeNav || obj.activeClass || "active",
+        var active = obj.activeNav || obj.activeClass || "active-info",
             firstActive = 0;
 
         obj.lastClickedTabIndex=null;
