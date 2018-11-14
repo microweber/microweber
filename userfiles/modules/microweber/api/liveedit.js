@@ -390,12 +390,17 @@ $(document).ready(function() {
 
 
     mw.on("ComponentClick", function(e, node, type){
+        console.log(type)
         if(!mw.liveEditSettings){
             return; // admin mode
         }
         var uitype = type;
+        if(type === 'element'){
+            uitype = 'none';
+        }
         if(type === 'safe-element'){
-            uitype = 'element' ;
+            //uitype = 'element' ;
+            uitype = 'none';
         }
         if(node.nodeName === 'IMG'){
             uitype = 'image' ;
@@ -409,9 +414,6 @@ $(document).ready(function() {
                 } else {
                     mw.sidebarSettingsTabs.set(2);
                 }
-
-
-
             }
             mw.liveNodeSettings.set(uitype, node);
         }
@@ -548,8 +550,7 @@ mw.liveNodeSettings = {
             scope._working = false;
         }, 78);
 
-
-
+        console.log(type)
 
         if(this[type]){
             mw.sidebarSettingsTabs.set(2);
@@ -568,6 +569,13 @@ mw.liveNodeSettings = {
             .hide()
             .filter('#js-live-edit-side-wysiwyg-editor-holder')
             .show();
+    },
+    none: function (el) {
+        if (!this.__is_sidebar_opened()) {
+            return;
+        }
+        $('.mw-live-edit-component-options')
+            .hide()
     },
     module: function (el) {
         if (this.__is_sidebar_opened()) {
@@ -1130,7 +1138,6 @@ mw.drag = {
         });
 
         mw.on("ElementOver", function(a, element) {
-            console.log(mw.ea.canDrop(element))
 
             if (!mw.ea.canDrop(element)) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
@@ -1679,34 +1686,35 @@ mw.drag = {
 
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
                     var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
-                    //if( !mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+
+                    //if( mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+                        console.log(currentComponent , !fonttarget)
                         if (currentComponent && !fonttarget) {
                             var isSafeMode = false;
                             var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
-                            if (mw.wysiwyg.isSelectionEditable() && !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']) {
+                            if(mw.tools.hasClass(currentComponent, 'module')){
+                                mw.trigger("ComponentClick", [target, 'module']);
+                            }
+                            else if (mw.wysiwyg.isSelectionEditable() && !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']) {
                                 mw.trigger("ComponentClick", [target, 'element']);
                             }
                             else {
 
-                                //if (!mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+                                if (!mw.tools.hasAnyOfClasses(target, componentsClasses)) {
 
                                     var ctype;
                                     var has = componentsClasses.filter(function (item) {
                                         return currentComponent.classList.contains(item)
                                     });
                                     mw.trigger("ComponentClick", [currentComponent, has[0]]);
-                               // }
+                               }
                             }
 
-                        //}
+                        }
 
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
                         }
-
-
-
-
 
                         else if ($(target).hasClass("element")) {
                             mw.trigger("ElementClick", target);
@@ -1733,7 +1741,7 @@ mw.drag = {
                         }
 
 
-                    }
+                    //}
 
                     if (!!fonttarget && !mw.tools.hasAnyOfClasses(target, componentsClasses)) {
 
@@ -2978,7 +2986,9 @@ $(document).ready(function() {
               var editor = document.querySelector('.mw_editor');
               if(editor && editor.contains(document.activeElement)) displayEditor = true;
           }
-          document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable')
+          var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode), ['safe-mode']) ;
+          document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
+          document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode')
         }
 
     }, 300);

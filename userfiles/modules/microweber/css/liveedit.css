@@ -3143,9 +3143,12 @@ div[id*='SSDIVEL'] {
     opacity: 0;
 }
 
-.mw-active-element-iseditable #liveedit_wysiwyg {
+.mw-active-element-iseditable:not(.mw-active-element-is-in-safe-mode) #liveedit_wysiwyg {
     transform: translateY(0%);
     opacity: 1;
+}
+.mw-active-element-is-in-safe-mode #mw_small_editor{
+    display: none !important;
 }
 
 #liveedit_wysiwyg:before {
@@ -4193,19 +4196,19 @@ body.dragStart .allow-drop {
     clear: both;
 }
 
-.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title,
-.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_icon {
+.mw_module_settings_sidebar_title,
+.mw_module_settings_sidebar_icon {
     float: left;
     display: block;
 }
 
-.mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_icon {
+.mw_module_settings_sidebar_icon {
     width: 30px;
     height: 30px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    margin: 0 10px;
+    margin: 0 10px 0 -6px;
     position: relative;
 }
 

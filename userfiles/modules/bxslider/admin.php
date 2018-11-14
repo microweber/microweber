@@ -59,7 +59,9 @@ $count = 0;
 
         var data = <?php print json_encode($json); ?>;
         $.each(data, function (key) {
-            data[key].images = data[key].images.split(',');
+            if(typeof data[key].images === 'string'){
+                data[key].images = data[key].images.split(',');
+            }
         });
 
         this.bxSettings = new mw.moduleSettings({

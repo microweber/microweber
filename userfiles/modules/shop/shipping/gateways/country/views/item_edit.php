@@ -216,13 +216,13 @@ $(document).ready(function () {
 
 
 
-
+</script>
 <?php else : ?>
     <?php _e("Shipping to country"); ?>
 <?php endif; ?>
 
 
-</script>
+
 
 
 <div data-field-id="<?php print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);"
