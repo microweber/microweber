@@ -4,7 +4,7 @@ $config['name'] = "Newsletter";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['ui_admin'] = true;
-$config['categories'] = "marketing";
+$config['categories'] = "forms";
 $config['position'] = 55;
 $config['version'] = 0.1;
 

@@ -33,7 +33,7 @@
                 </thead>
                 <?php foreach ($data as $item): ?>
 
-                    <tr class="mw-ui-box mw-ui-box-content shipping-country-holder" data-field-id="<?php print $item['id']; ?>">
+                    <tr class="mw-ui-box mw-ui-box-content shipping-country-holder" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 15px">
 
 
@@ -86,9 +86,15 @@
 
             </table>
 
-          <?php
 
-          /*  <?php foreach ($data as $item): ?>
+
+
+<?php
+
+/*            <hr>
+            deletem
+
+           <?php foreach ($data as $item): ?>
                 <div class="mw-ui-box mw-ui-settings-box box-enabled- mw-ui-box-content">
                     <span title="<?php _e("Reorder shipping countries"); ?>"
                           class="mw-icon-drag shipping-handle-field"></span>
@@ -105,10 +111,12 @@
 
 
             <?php foreach ($data as $item): ?>
-                <?php // include __DIR__ . "/item_edit.php"; ?>
+                <?php   include __DIR__ . "/item_edit.php"; ?>
             <?php endforeach; ?>*/
 
-          ?>
+?>
+
+
         </div>
     </div>
 <?php endif; ?>

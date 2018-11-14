@@ -41,17 +41,10 @@ if (isset($data[0]) == false) {
 <?php if (is_array($data)): ?>
     <?php event_trigger('mw.admin.user.edit', $data); ?>
     <?php $custom_ui = mw()->modules->ui('mw.admin.user.edit'); ?>
-    <?php $custom_user_fields = mw()->modules->ui('mw.admin.user.edit.fields');
-
-
-    ?>
-
+    <?php $custom_user_fields = mw()->modules->ui('mw.admin.user.edit.fields'); ?>
 
     <script type="text/javascript">
-
         DeleteUserAdmin<?php  print $data['id']; ?> = function ($user_id) {
-
-
             var r = confirm("Are you sure you want to delete this user?");
             if (r == true) {
                 $.post("<?php print api_url('delete_user') ?>", {id: $user_id})
@@ -59,25 +52,17 @@ if (isset($data[0]) == false) {
                         mw.reload_module('[data-type="users/manage"]', function () {
                             mw.hash('#sortby=created_at desc');
                             mw.notification.success('User deleted');
-
-
                         });
                     });
             }
         }
 
         LoginAsUserFromAdmin<?php  print $data['id']; ?> = function ($user_id) {
-
-
             var r = confirm("Are you sure you want to login as this user?");
             if (r == true) {
-                $.post("<?php print api_url('user_make_logged') ?>", {id: $user_id})
-                    .done(function (data) {
-
-                        window.location.reload()
-
-
-                    });
+                $.post("<?php print api_url('user_make_logged') ?>", {id: $user_id}).done(function (data) {
+                    window.location.reload()
+                });
             }
         }
 
@@ -87,8 +72,6 @@ if (isset($data[0]) == false) {
             }
             mw.tools.loading('.mw-module-admin-wrap');
             mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (el) {
-
-
                 if (typeof (this.error) != 'undefined') {
                     mw.notification.msg(this);
                     return;
@@ -98,20 +81,18 @@ if (isset($data[0]) == false) {
                 mw.tools.loading('.mw-module-admin-wrap', false);
                 mw.reload_module('[data-type="users/manage"]', function () {
                     mw.hash('#sortby=created_at desc');
-
                     setTimeout(function () {
                         mw.tools.highlight(mwd.getElementById('mw-admin-user-' + UserId));
                     }, 300);
                 });
             });
         }
+
         uploader = mw.files.uploader({
             filetypes: "images"
         });
 
-
         $(document).ready(function () {
-
             mw.$("#change_avatar").append(uploader);
 
             $(uploader).bind("FileUploaded", function (a, b) {
@@ -129,9 +110,7 @@ if (isset($data[0]) == false) {
                         .prepend('<span class="mw-icon-user"></span>');
                     mw.$("#user_thumbnail").val("");
                 }
-
             });
-
 
             /*   mw.$("#profile_url_field").bind('keyup paste', function(){
              if(this.value.length > 15){
@@ -141,7 +120,6 @@ if (isset($data[0]) == false) {
              if(mw.$("#profile_url_field").val().length > 15){
              mw.$("#google-verify-button").visibilityDefault()
              }*/
-
         });
 
         reset_password = function (y) {
@@ -151,15 +129,13 @@ if (isset($data[0]) == false) {
                 field.removeClass("semi_hidden");
                 field[0].disabled = false;
                 field.focus();
-            }
-            else {
+            } else {
                 field.addClass("semi_hidden");
                 field[0].disabled = true;
             }
-
         }
-
     </script>
+
     <?php if (!empty($custom_ui)): ?>
         <script>
             $(document).ready(function () {
@@ -170,9 +146,7 @@ if (isset($data[0]) == false) {
             });
         </script>
 
-        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-right"><a
-                    class="mw-ui-btn mw-ui-btn-outline active mw-admin-user-tab"
-                    href="javascript:;"><?php _e('Profile'); ?></a>
+        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-right"><a class="mw-ui-btn mw-ui-btn-outline active mw-admin-user-tab" href="javascript:;"><?php _e('Profile'); ?></a>
             <?php foreach ($custom_ui as $item): ?>
                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                 <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
@@ -181,21 +155,19 @@ if (isset($data[0]) == false) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    <div class="mw-ui-box <?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>"
-         id="users_edit_{rand}">
-        <div class="mw-ui-box-header" style="margin-bottom: 0;"><span class="ico iusers"></span>
+    <?php if ($data['id'] != 0): ?>
+        <h3><?php print _e("Edit user") . ' ' . $data['username']; ?></h3>
+
+    <?php endif; ?>
+    <div class="mw-ui-box <?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_{rand}">
+        <div class="mw-ui-box-header" style="margin-bottom: 0;"><span class="ico iu  rs"></span>
             <?php if ($data['id'] != 0): ?>
-                <span>
-    <?php _e("Edit user"); ?>
-                    &laquo;
-                    <?php print $data['username']; ?>
-                    &raquo;</span>
+                <span><?php _e("Edit user"); ?>&laquo;<?php print $data['username']; ?>&raquo;</span>
             <?php else: ?>
-                <span>
-    <?php _e("Add new user"); ?>
-    </span>
+                <span><?php _e("Add new user"); ?></span>
             <?php endif; ?>
         </div>
+
         <input type="hidden" name="id" value="<?php print $data['id']; ?>">
         <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
         <div>

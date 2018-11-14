@@ -16,7 +16,8 @@ $config = array();
 $config['name'] = "Coupons";
 $config['author'] = "Bozhidar Slaveykov";
 
-$config['ui'] = true;
+$config['ui'] = false;
+$config['ui_admin'] = false;
 
 $config['categories'] = "online shop";
 $config['version'] = 0.24;

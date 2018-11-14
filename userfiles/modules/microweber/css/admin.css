@@ -4433,7 +4433,7 @@ tr.mw-order-item.hovered, tr.mw-order-item {
 }
 
 .shipping-country-holder:hover .shipping-handle-field {
-     visibility: visible;
+    visibility: visible;
 }
 
 .mw-ui-btn.DESC:after, .mw-ui-btn.ASC:after {
@@ -6369,8 +6369,8 @@ body.is_admin .mw-admin-container {
 }
 
 /*.comments-holder .comment-holder .view-order-button {*/
-    /*margin-top: 10px;*/
-    /*font-size: 13px;*/
+/*margin-top: 10px;*/
+/*font-size: 13px;*/
 /*}*/
 
 .comments-holder .comment-holder.active .is_paid {
@@ -7417,14 +7417,14 @@ select.silver-field {
     height: 100px;
 }
 
-.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn{
+.mw-module-settings-box .upload-button-prop.mw-ui-box .mw-ui-btn {
     position: absolute;
-    top:50%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.mw-module-settings-box + .mw-module-settings-box{
+.mw-module-settings-box + .mw-module-settings-box {
     margin-top: 20px;
 }
 
@@ -7437,3 +7437,25 @@ select.silver-field {
 #settings-container .bootstrap-tagsinput {
     width: 100%;
 }
+
+.mw-admin-menu-sidebar-logout-desktop {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: block;
+}
+
+.mw-admin-menu-sidebar-logout-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 767px) {
+    .mw-admin-menu-sidebar-logout-mobile {
+        display: block;
+    }
+
+    .mw-admin-menu-sidebar-logout-desktop {
+        display: none;
+    }
+}
+

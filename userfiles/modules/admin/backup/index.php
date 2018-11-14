@@ -77,7 +77,7 @@
         <div class="vSpace">&nbsp;</div>
         <div id="mw_backup_log" type="admin/backup/log"></div>
     </div>
-    
+
     <div class="mw_edit_page_right" style="padding: 20px 0;">
         <?php if (isset($_GET['backup_action'])): ?>
             <?php $action = htmlentities(mw()->format->strip_unsafe($_GET['backup_action'])); ?>

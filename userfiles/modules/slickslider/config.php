@@ -13,5 +13,6 @@ $config['no_cache'] = false;
 $config['ui'] = true;
 $config['ui_admin'] = false;
 
+$config['categories'] = "media";
 
 $config['position'] = 17;
