@@ -374,19 +374,24 @@ trait ExtendedSave
 
                         if (!empty($tags)) {
                             if (isset($params['id']) and $params['id']) {
+                                if(method_exists($article,'retag')){
+                                    $article->retag($tags);
+                                    $article->save();
 
-                                $article->retag($tags);
-                                $article->save();
+                                }
                             }
                         } else {
-                            $article->untag(); // remove all tags
-                            $article->save();
+                            if(method_exists($article,'untag')) {
+                                $article->untag(); // remove all tags
+                                $article->save();
+                            }
                         }
                     } else {
                         $tags = trim($tags);
                         if (!$tags) {
-                            $article->untag(); // remove all tags
-                            $article->save();
+                            if(method_exists($article,'untag')){
+                                $article->untag(); // remove all tags
+                                $article->save();                            }
                         }
                     }
                 }
