@@ -104,6 +104,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         opts.height =  '600';
 
         opts.liveedit = true;
+        opts.iframe = true;
         opts.mode = 'modal';
 
         var additional_params = {};

@@ -3426,14 +3426,12 @@ mw.tools = {
         }, modalOptions);
 
 
-        d(modalOptions);
 
         var openiframe = false;
         if(typeof (settings.iframe) != 'undefined' && settings.iframe){
             openiframe = true;
         }
         if(openiframe){
-            alert(1);
 
             var additional_params = {};
             additional_params.type =module_type;
