@@ -56,7 +56,7 @@ class TaxManager
         $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
     }
 
-    public function calculate($sum)
+    public function calculate($sum, $is_gross = false)
     {
         $difference = 0;
         if ($sum > 0) {
@@ -68,9 +68,13 @@ class TaxManager
                         if ($tax['tax_modifier'] == 'fixed') {
                             $difference = $difference + $amt;
                         } elseif ($tax['tax_modifier'] == 'percent') {
-                            $difference_precent = $sum * ($amt / 100);
-                           // $difference_precent = round($difference_precent);
-                            $difference = $difference + floatval($difference_precent);
+                            if($is_gross) {
+								$difference_percent = $sum - (($sum / ($amt + 100)) * 100);
+                            } else {
+								$difference_percent = $sum * ($amt / 100);
+                            }
+                            // $difference_percent = round($difference_percent);
+                            $difference = $difference + floatval($difference_percent);
                         }
                     }
                 }

@@ -37,6 +37,25 @@ else{
 
 
 <?php
+	// TODO: move to taxmanager function
+	$ex_tax = '';
+	$taxes_enabled = get_option('enable_taxes', 'shop');
+	if($taxes_enabled) {
+		$defined_taxes = mw()->tax_manager->get();
+		if(!empty($defined_taxes)) {
+			if(count($defined_taxes) == 1) {
+				$ex_tax = ' ex ' . $defined_taxes[0]['tax_name'];
+			} else {
+				$ex_tax = ' ex tax';
+			}
+		}
+	}
+
+	// check for offer prices
+	if (mw()->modules->is_installed('shop/offers')) {
+		$price_offers = offers_get_by_product_id($for_id);
+	}
+
   $hasRadios = false;
   if(is_array($data)):
 ?>
@@ -59,6 +78,12 @@ else{
 <?php }  ?>
 
     <div class="mw-price-item">
+
+		  <?php
+		  if (mw()->modules->is_installed('shop/offers') && is_array($price_offers) && isset($price_offers[$key])) {
+		  ?>
+		    <module type="shop/offers" data-content-id="<?php print intval($for_id); ?>" data-parent-id="<?php print $params['id']; ?>" data-title="<?php print $title; ?>" data-in-stock="<?php print $in_stock;?>" data-count="<?php print count($data);?>" data-price-name="<?php print $key;?>" data-offer-price="<?php print $price_offers[$key]['offer_price'];?>" data-retail-price="<?php print $v;?>" data-expires="<?php print $price_offers[$key]['expires_at'];?>" id="offer_price_<?php print $for_id . '_' . $price_offers[$key]['price_key'] ?>"  />
+		  <?php } else { ?>
       <label class="mw-price">
     
         <input type="radio" name="<?php print $params['id'] ?>" value="<?php print $v; ?>" <?php if($count==1){ print 'checked'; } ?> onchange="SetLocalPrice(this);" />
@@ -69,8 +94,9 @@ else{
         <?php else: ?>
         <?php print $key; ?>
         <?php endif; ?>:</small>
-        <?php print currency_format($v); ?>
+        <?php print currency_format($v).$ex_tax; ?>
       </label>
+		  <?php } ?>
     </div>
 <?php endforeach ; ?>
  <?php } else{   ?>
@@ -86,7 +112,7 @@ else{
         <?php else: ?>
         <?php print $key; ?>
         <?php endif; ?>:</small>
-        <?php print currency_format($v); ?>
+        <?php print currency_format($v).$ex_tax; ?>
       </span>
     </div>
 <?php endforeach ; ?>
