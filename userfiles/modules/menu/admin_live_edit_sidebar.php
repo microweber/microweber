@@ -15,14 +15,23 @@ if ($menu_name == false and isset($params['menu_name'])) {
 
 ?>
 
+<script>
+    function openMenuManagerModal(module_id) {
+        var modalOptions = {};
+         var additional_params ={};
+        additional_params.menu_name = '<?php print $menu_name  ?>'
+        window.parent.mw.tools.open_global_module_settings_modal('menu/admin', module_id, modalOptions,additional_params)
+
+
+    }
+</script>
+
+
+
 <div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
-        <a href="#" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
-            <span class="fas fa-list"></span> &nbsp;Manage
-        </a>
-
-        <a href="#" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
-            <span class="fas fa-plus-circle"></span> &nbsp;Add new
+        <a href="javascript:openMenuManagerModal('<?php print $params['id'] ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
+            <span class="fas fa-list"></span> &nbsp;<?php print _e('Manage menu'); ?>
         </a>
     </div>
 

@@ -33,7 +33,7 @@
         mw.require('wysiwyg.js');
         mw.require("wysiwyg.css")
         mw.require('options.js');
-//        mw.lib.require('font_awesome');
+        //        mw.lib.require('font_awesome');
         mw.lib.require('font_awesome5');
     </script>
 
@@ -215,7 +215,6 @@
                 var toolbar = module_settings_opener_titlebar_holder.querySelector('.mw_modal_toolbar');
                 if (!toolbar) {
                     var toolbar = module_settings_opener_titlebar_holder.querySelector('.js-module-sidebar-settings-menu-holder');
-
                 }
 
 
@@ -242,7 +241,6 @@
                         // linked_dd.id = 'module-modal-preset-linked-icon';
                         linked_dd.class = 'module-modal-preset-linked-icon';
                         linked_dd.style.display = "none";
-
                         $(toolbar).prepend(linked_dd);
 
                     }
@@ -343,7 +341,8 @@
 <body class="mw-external-loading loading">
 <div id="settings-main">
     <div id="settings-container">
-        <div class="mw-module-live-edit-settings <?php print $params['id'] ?>" id="module-id-<?php print $params['id'] ?>">{content}
+        <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
+             id="module-id-<?php print $params['id'] ?>">{content}
         </div>
     </div>
 </div>
@@ -379,9 +378,12 @@
 </script>
 
 <script type="text/javascript">
-    $(frame).on('unload', function () {
-        window.parent.$('#module-modal-settings-menu-holder').remove();
-    });
+
+    if (typeof (frame) != 'undefined') {
+        $(frame).on('unload', function () {
+            window.parent.$('#module-modal-settings-menu-holder').remove();
+        });
+    }
 </script>
 
 </body>
