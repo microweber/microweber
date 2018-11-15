@@ -167,7 +167,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
                 <div class="header-holder">
-                    <i class="mw-icon-gear"></i> Settings
+                    <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
                 </div>
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -193,7 +193,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
                 <div class="header-holder">
-                    <i class="mw-icon-beaker"></i> Templates
+                    <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
                 </div>
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

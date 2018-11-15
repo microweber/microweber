@@ -208,7 +208,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-beaker"></i> Templates
+                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
