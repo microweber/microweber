@@ -365,12 +365,12 @@ li.module-item.ui-draggable-dragging .mw_module_image {
 }
 
 .dragStart .nodrop,
-.dragStart .nodrop *{
+.dragStart .nodrop * {
     pointer-events: none;
 }
 
 .dragStart .nodrop .allow-drop,
-.dragStart .nodrop .allow-drop *{
+.dragStart .nodrop .allow-drop * {
     pointer-events: all;
 }
 
@@ -2050,17 +2050,20 @@ img[_moz_resizing], table[_moz_resizing] {
 .isTyping .mw-empty {
     visibility: hidden;
 }
+
 .isTyping .mwInaccessibleModulesMenu {
     visibility: hidden;
 }
 
-.isTyping .mw_col_delete  {
+.isTyping .mw_col_delete {
     visibility: hidden;
 }
-.isTyping .mw_handle_module_arrow  {
+
+.isTyping .mw_handle_module_arrow {
     visibility: hidden;
 }
-.isTyping .mw_edit_delete_element  {
+
+.isTyping .mw_edit_delete_element {
     visibility: hidden;
 }
 
@@ -2446,10 +2449,14 @@ body.design_hover .element-current {
     text-decoration: none;
     line-height: 18px;
     height: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #live-edit-dropdown-actions-content [class*='mw-icon-'] {
-
+    width: 12px;
+    text-align: center;
     font-size: 16px;
 }
 
@@ -3147,7 +3154,8 @@ div[id*='SSDIVEL'] {
     transform: translateY(0%);
     opacity: 1;
 }
-.mw-active-element-is-in-safe-mode #mw_small_editor{
+
+.mw-active-element-is-in-safe-mode #mw_small_editor {
     display: none !important;
 }
 
@@ -4203,13 +4211,13 @@ body.dragStart .allow-drop {
 }
 
 .mw_module_settings_sidebar_icon {
-    width: 30px;
-    height: 30px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    margin: 0 10px 0 -6px;
     position: relative;
+    width: 21px;
+    height: 21px;
+    margin: 5px 7px 0px 0px;
 }
 
 .mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title {

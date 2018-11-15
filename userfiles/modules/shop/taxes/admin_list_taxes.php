@@ -12,8 +12,7 @@ $defined_taxes = mw()->tax_manager->get();
             <tr>
                 <th><?php _e('Tax name'); ?></th>
                 <th><?php _e('Amount'); ?></th>
-                <th width="100" class="text-center"><?php _e('Edit'); ?></th>
-                <th width="100" class="text-center"><?php _e('Delete'); ?></th>
+                <th class="center" style="width: 200px;"><?php _e('Actions'); ?></th>
             </tr>
             </thead>
             <tbody>
@@ -29,11 +28,11 @@ $defined_taxes = mw()->tax_manager->get();
                             <?php print mw()->shop_manager->currency_format($item['amount']); ?>
                         <?php endif; ?>
                     </td>
-                    <td class="action-buttons">
-                        <button onclick="mw_admin_edit_tax_item_popup('<?php print $item['id']; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Edit">Edit</button>
-                    </td>
-                    <td class="action-buttons">
-                        <button onclick="mw_admin_delete_tax_item_confirm('<?php print $item['id']; ?>')" class="act act-remove" title="Delete">X</button>
+
+                    <td class="center" style="padding-left: 0; padding-right: 0;">
+                        <button onclick="mw_admin_edit_tax_item_popup('<?php print $item['id']; ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" title="Edit"><?php print _e('Edit'); ?></button>
+                        &nbsp;
+                        <button onclick="mw_admin_delete_tax_item_confirm('<?php print $item['id']; ?>')" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium" title="Delete"><?php print _e('Delete'); ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>

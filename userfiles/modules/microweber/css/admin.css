@@ -868,8 +868,18 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu a [class*='mw-icon-'] {
     font-size: 17px;
     width: 35px;
-    top: 2px;
+    top: -1px;
     position: relative;
+
+}
+
+#mw-admin-main-menu li  strong {
+    top: -5px;
+
+}
+
+#mw-admin-main-menu li  li a strong {
+    top: 0px;
 
 }
 
@@ -877,7 +887,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 #mw-admin-main-menu li li a [class*='mw-icon-'] {
     font-size: 14px;
     width: 25px;
-    top: 2px;
+    top: 0px;
     float: left;
 }
 
@@ -6951,7 +6961,7 @@ select.silver-field {
 }
 
 .header-top-center-notifs .center {
-    width: 600px;
+    width: 620px;
 }
 
 .client-remove {
@@ -7443,6 +7453,23 @@ select.silver-field {
     width: 100%;
     bottom: 0;
     display: block;
+}
+
+.mw-admin-menu-sidebar-logout-desktop a {
+    border-bottom: 0 !important;
+}
+
+.mw-admin-menu-sidebar-logout-desktop a strong {
+    top: 0 !important;
+    margin-left: -14px;
+}
+
+.mw-admin-menu-sidebar-logout-desktop a i {
+    font-size: 24px !important;
+}
+
+.mw-admin-menu-sidebar-logout-desktop a:after {
+    display: none !important;
 }
 
 .mw-admin-menu-sidebar-logout-mobile {

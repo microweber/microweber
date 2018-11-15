@@ -6,6 +6,12 @@ $modules_options['ui'] = true;
 $modules = array();
 $modules_by_categories = array();
 $mod_obj_str = 'modules';
+
+
+
+$show_grouped_by_cats = false;
+
+
 if (isset($is_elements) and $is_elements == true) {
     $mod_obj_str = 'elements';
     $el_params = array();
@@ -93,11 +99,10 @@ if (isset($is_elements) and $is_elements == true) {
                 }
             }
         }
-        //dd($modules_by_categories);
     }
 
-    if ($modules and !$modules_by_categories) {
-        $modules_by_categories = array('All' => $modules);
+    if (($modules and !$modules_by_categories) or ( $modules and !$show_grouped_by_cats)) {
+        $modules_by_categories = array('Modules' => $modules);
     }
 
     if ($modules_by_categories and is_arr($modules_by_categories) and count($modules_by_categories) > 1) {
@@ -272,7 +277,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
         <?php foreach ($modules_by_categories as $mod_cat => $modules) : ?>
 
-            <?php if ($mod_obj_str == 'modules'): ?>
+            <?php if ($mod_obj_str == 'modules' and count($modules_by_categories) > 1): ?>
 
                 <li class=" " unselectable="on" style="width: 100%; position: relative; float: left; padding: 0px">
                     <hr>
@@ -415,3 +420,5 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 </ul>
+
+

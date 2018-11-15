@@ -13,7 +13,7 @@
 
 $allCoupons = coupon_get_all();
 ?>
-<table class="table-style-1 mw-ui-table">
+<table class="table-style-3 mw-ui-table layout-auto">
     <thead>
     <tr>
         <th>#</th>
@@ -21,7 +21,7 @@ $allCoupons = coupon_get_all();
         <th>Code</th>
         <th>Discount</th>
         <th>Total</th>
-        <th style="width:150px;">Action</th>
+        <th class="center" style="width:200px;"><?php print _e('Actions'); ?></th>
     </tr>
     </thead>
     <?php
@@ -36,13 +36,10 @@ $allCoupons = coupon_get_all();
                     <?php print($coupon['discount_value']) ?><?php if ($coupon['discount_type'] == 'precentage'): ?>%<?php else: ?>$<?php endif; ?>
                 </td>
                 <td><?php print($coupon['total_amount']) ?></td>
-                <td class="action-buttons">
-                    <button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Edit">
-                        Edit
-                    </button>
-                    <button onclick="deleteCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Delete">
-                        Delete
-                    </button>
+                <td class="center" style="padding-left: 0; padding-right: 0;">
+                    <button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" title="Edit"><?php print _e('Edit'); ?></button>
+                    &nbsp;
+                    <button onclick="deleteCoupon(<?php print($coupon['id']) ?>)" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium" title="Delete"><?php print _e('Delete'); ?></button>
                 </td>
             </tr>
             <?php

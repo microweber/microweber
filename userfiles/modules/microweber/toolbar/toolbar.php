@@ -256,12 +256,12 @@ if (isset($_COOKIE['mw_exp'])) {
                 closeButton: true
             });
 
-            $(mw.liveEditSettings).on('ControlBoxShow', function(){
+            $(mw.liveEditSettings).on('ControlBoxShow', function () {
                 $(document.body).addClass('has-opened-sidebar');
             })
-            .on('ControlBoxHide', function(){
-                $(document.body).removeClass('has-opened-sidebar');
-            });
+                .on('ControlBoxHide', function () {
+                    $(document.body).removeClass('has-opened-sidebar');
+                });
 
             mw.tools.loading(mw.liveEditSettings.box);
 
@@ -309,18 +309,11 @@ if (isset($_COOKIE['mw_exp'])) {
                     <ul>
                         <li class="create-content-dropdown">
                             <a href="javascript:;" class="tst-logo" title="Microweber">
-
                                 <?php if (mw()->ui->logo_live_edit != false) : ?>
-
                                     <span style="background-image:url('<?php print mw()->ui->logo_live_edit ?>'); width:30px; height:30px; display:inline-block; background-size:contain; background-repeat:no-repeat; background-position:center; position:relative; top:8px;"></span>
-
                                 <?php else: ?>
-
                                     <span class="mw-icon-mw"></span>
-
                                 <?php endif; ?>
-
-
                                 <span class="mw-icon-dropdown"></span>
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
@@ -462,76 +455,39 @@ if (isset($_COOKIE['mw_exp'])) {
                                     <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                                         <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
                                         <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 1): ?> style="display:none" <?php endif; ?>>
-                                            <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
-                  <?php _e("Unpublish"); ?>
-                  </span></a></li>
+                                            <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span><?php _e("Unpublish"); ?></span></a>
+                                        </li>
                                         <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 1): ?> style="display:none" <?php endif; ?>>
-                                            <a
-                                                    href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
-                  <?php _e("Publish"); ?>
-                  </span></a></li>
+                                            <a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span><?php _e("Publish"); ?></span></a>
+                                        </li>
                                     <?php endif; ?>
 
-                                    <li>
-                                        <a class="mw_ex_tools mw_editor_reset_content"
-                                           id="mw-toolbar-reset-content-editor-btn">
-                                            <?php _e("Reset content"); ?>
-                                        </a>
-                                    </li>
+                                    <li><a class="mw_ex_tools mw_editor_reset_content" id="mw-toolbar-reset-content-editor-btn"><i class="mw-icon-reload"></i><span><?php _e("Reset content"); ?></span></a></li>
 
                                     <li>
-                                        <a><span class="mw-icon-arrowleft"></span><?php _e("Tools"); ?></a>
+                                        <a><i class="mw-icon-arrowleft"></i><?php _e("Tools"); ?></a>
                                         <ul>
-
-
-                                            <li><a href="#design_bnav" class="mw_ex_tools"><span
-                                                            class="mw-icon-monitor"></span><?php _e("Visual editor"); ?>
-                                                </a></li>
-                                            <li><a class="mw_ex_tools mw_editor_css_editor"
-                                                   id="mw-toolbar-css-editor-btn"><span
-                                                            class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a>
-                                            </li>
-                                            <li><a class="mw_ex_tools mw_editor_html_editor"
-                                                   id="mw-toolbar-html-editor-btn"><span
-                                                            class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a>
-                                            </li>
+                                            <li><a href="#design_bnav" class="mw_ex_tools"><span class="mw-icon-monitor"></span><?php _e("Visual editor"); ?></a></li>
+                                            <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
+                                            <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
                                             <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-
-                                                <li><a class="mw_ex_tools" id="mw-toolbar-template-settings"
-                                                       onclick="javascript:mw.tools.show_template_settings();"><span
-                                                                class="mw-icon-web-mixer"></span><?php _e("Template Settings"); ?>
-                                                    </a></li>
-
+                                                <li><a class="mw_ex_tools" id="mw-toolbar-template-settings" onclick="javascript:mw.tools.show_template_settings();"><span class="mw-icon-web-mixer"></span><?php _e("Template Settings"); ?></a></li>
                                             <?php } ?>
                                         </ul>
                                     </li>
 
-                                    <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><span>
-                  <?php _e("Logout"); ?>
-                  </span></a></li>
+                                    <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><i class="mw-icon-off"></i><span><?php _e("Logout"); ?></span></a></li>
                                     <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
                                 </ul>
                             </div>
                         </div>
 
-                        <a class="mw-ui-btn mw-ui-btn-medium view-website-button tip"
-                           href="<?php print mw()->url_manager->current(); ?>?editmode=n"
-                           data-tip="<?php _e('View Website'); ?>"
-                           data-tipposition="bottom-center"><i class="mw-icon-web-earth"></i></a>
-                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()"
-                              id="main-save-btn"><?php _e("Save"); ?></span>
+                        <a class="mw-ui-btn mw-ui-btn-medium view-website-button tip" href="<?php print mw()->url_manager->current(); ?>?editmode=n" data-tip="<?php _e('View Website'); ?>" data-tipposition="bottom-center"><i class="mw-icon-web-earth"></i></a>
+                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
 
+                        <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium mw-sidebar-open-btn"><i class="m-r mwi-hamb"></i> <?php _e("Menu"); ?></a>
 
-                        <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
-                           class="mw-ui-btn mw-ui-btn-medium mw-sidebar-open-btn">
-                            <i class="m-r mwi-hamb"></i> <?php _e("Menu"); ?>
-                        </a>
-
-                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>"
-                           class="mw-ui-btn mw-ui-btn-medium">
-                            <i class="m-r mw-icon-arrow-left-c"></i>
-                            <?php _e("Admin"); ?>
-                        </a>
+                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium"><i class="m-r mw-icon-arrow-left-c"></i> <?php _e("Admin"); ?></a>
 
                         <div class="Switch2AdvancedModeTip" style="display: none">
                             <div class="Switch2AdvancedModeTip-tickContainer">
@@ -541,32 +497,21 @@ if (isset($_COOKIE['mw_exp'])) {
                             <?php _e('If you want to edit this section you have to switch do'); ?>
                             "<strong><?php _e('Advanced Mode'); ?></strong>".
                             <div class="Switch2AdvancedModeTiphr"></div>
-                            <div style="text-align: center"><span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green"
-                                                                  onclick="mw.setMode('advanced');"><?php _e('Switch'); ?></span>
-                                <span
-                                        class="mw-ui-btn mw-ui-btn-small"
-                                        onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;"><?php _e('Cancel'); ?></span>
+                            <div style="text-align: center"><span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');"><?php _e('Switch'); ?></span>
+                                <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;"><?php _e('Cancel'); ?></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <?php      include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
+                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
             </div>
             <?php event_trigger('live_edit_toolbar_controls'); ?>
             <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
                 <div class="toolbars-search">
                     <div class="mw-autocomplete left">
-                        <input
-                                type="mwautocomplete"
-                                autocomplete="off"
-                                id="modules_switcher"
-                                data-for="modules"
-                                class="mwtb-search mwtb-search-modules mw-ui-searchfield"
-                                placeholder="<?php _e("Search Modules"); ?>"/>
+                        <input type="mwautocomplete" autocomplete="off" id="modules_switcher" data-for="modules" class="mwtb-search mwtb-search-modules mw-ui-searchfield" placeholder="<?php _e("Search Modules"); ?>"/>
 
-                        <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" id="mod_switch" data-action="layouts">
-          <?php _e("Switch to Layouts"); ?>
-          </span>
+                        <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" id="mod_switch" data-action="layouts"><?php _e("Switch to Layouts"); ?></span>
                         <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
                     </div>
                 </div>
@@ -575,8 +520,7 @@ if (isset($_COOKIE['mw_exp'])) {
                         <div class="modules_bar">
                             <module type="admin/modules/list"/>
                         </div>
-                        <span class="modules_bar_slide_left">&nbsp;</span> <span
-                                class="modules_bar_slide_right">&nbsp;</span></div>
+                        <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span></div>
                     <div class="mw_clear">&nbsp;</div>
                 </div>
                 <div id="tab_layouts" class="mw_toolbar_tab">
@@ -584,8 +528,8 @@ if (isset($_COOKIE['mw_exp'])) {
                         <div class="modules_bar">
                             <module type="admin/modules/list_layouts"/>
                         </div>
-                        <span class="modules_bar_slide_left">&nbsp;</span> <span
-                                class="modules_bar_slide_right">&nbsp;</span></div>
+                        <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span>
+                    </div>
                 </div>
             </div>
             <div id="mw-saving-loader"></div>
@@ -667,7 +611,6 @@ if (isset($_COOKIE['mw_exp'])) {
             }
         }
         $(window).load(function () {
-
             mw.liveEditWYSIWYG.buttons();
             $(window).bind("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
@@ -763,8 +706,6 @@ if (isset($_COOKIE['mw_exp'])) {
                 mw.linkTip.init(this);
             })
         });
-
-
     </script>
     <?php event_trigger('live_edit_toolbar_end'); ?>
     <?php include mw_includes_path() . 'toolbar' . DS . "design.php"; ?>
@@ -781,7 +722,6 @@ if (isset($_COOKIE['mw_exp'])) {
                 });
             }
         }
-
     </script>
     <style>
         .delete_column {
@@ -791,7 +731,6 @@ if (isset($_COOKIE['mw_exp'])) {
 <?php } ?>
 
 <script>
-
     mw.require("plus.js");
     mw.require("columns.js");
 
@@ -799,9 +738,8 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.drag.plus.init('.edit');
         mw.drag.columns.init();
     });
-
-
 </script>
+
 <span class="mw-plus-top mw-wyswyg-plus-element">+</span>
 <span class="mw-plus-bottom mw-wyswyg-plus-element">+</span>
 
