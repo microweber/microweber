@@ -142,12 +142,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-calendar-settings">
-                        <div class="mw-ui-field-holder p-t-0 p-b-20 text-right">
-                            <a href="javascript:editEventId(0)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
-                                <span class="fas fa-plus-circle"></span> &nbsp;<?php print _e('Add new event'); ?>
-                            </a>
-                        </div>
-
                         <module type="calendar/edit_events"/>
                     </div>
                     <!-- Settings Content - End -->
