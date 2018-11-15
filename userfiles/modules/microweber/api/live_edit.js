@@ -217,6 +217,7 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
+    /*if(!mw.settings.live_edit_open_module_settings_in_sidebar){
 
     // //close sidebar
     // if(mw.liveEditSettings && mw.liveEditSettings.active){
@@ -238,15 +239,12 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-
-    return;
-
+    }*/
 
 
 
 
-
-    if (self != top /*|| !mw.liveEditSettings.active*/ || mode === 'modal') {
+    if (self != top || /*!mw.liveEditSettings.active || */ mode === 'modal') {
         //remove from sidebar
         $("#" + iframe_id_sidebar).remove();
 

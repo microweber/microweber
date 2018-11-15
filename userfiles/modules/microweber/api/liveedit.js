@@ -390,52 +390,53 @@ $(document).ready(function() {
 
 
     mw.on("ComponentClick", function(e, node, type){
-        console.log(type)
-        if(!mw.liveEditSettings){
-            return; // admin mode
-        }
-        var uitype = type;
-        if(type === 'element'){
-            uitype = 'none';
-        }
-        if(type === 'safe-element'){
-            //uitype = 'element' ;
-            uitype = 'none';
-        }
-        if(node.nodeName === 'IMG'){
-            uitype = 'image' ;
-        }
 
 
-        if(mw.liveEditSettings.active){
-            if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
-                if(uitype != 'module'){
-                    mw.sidebarSettingsTabs.setLastClicked();
-                } else {
-                    mw.sidebarSettingsTabs.set(2);
-                }
+        if(mw.settings.live_edit_open_module_settings_in_sidebar) {
+
+
+            mw.log('ComponentClick' + type)
+            if (!mw.liveEditSettings) {
+                return; // admin mode
             }
-            console.log(999, uitype, node)
-            mw.liveNodeSettings.set(uitype, node);
+            var uitype = type;
+            if (type === 'element') {
+                uitype = 'none';
+            }
+            if (type === 'safe-element') {
+                //uitype = 'element' ;
+                uitype = 'none';
+            }
+            if (node.nodeName === 'IMG') {
+                uitype = 'image';
+            }
+
+
+            if (mw.liveEditSettings.active) {
+                if (typeof(mw.sidebarSettingsTabs) != 'undefined') {
+                    if (uitype != 'module') {
+                        mw.sidebarSettingsTabs.setLastClicked();
+                    } else {
+                        mw.sidebarSettingsTabs.set(2);
+                    }
+                }
+                 mw.liveNodeSettings.set(uitype, node);
+            }
+
+
+            // if(uitype == 'module' && mw.liveEditSettings.active){
+            //     mw.liveNodeSettings.set(uitype, node);
+            // } else if(uitype != 'module'){
+            //     mw.liveNodeSettings.set(uitype, node);
+            // }
+
+
+            if (uitype !== 'module') {
+                //      mw.liveNodeSettings.set(uitype, node);
+            }
+            //mw.liveNodeSettings.set(uitype, node);
+
         }
-
-
-
-        // if(uitype == 'module' && mw.liveEditSettings.active){
-        //     mw.liveNodeSettings.set(uitype, node);
-        // } else if(uitype != 'module'){
-        //     mw.liveNodeSettings.set(uitype, node);
-        // }
-
-
-
-
-        if(uitype !== 'module'){
-       //      mw.liveNodeSettings.set(uitype, node);
-        }
-      //mw.liveNodeSettings.set(uitype, node);
-
-
     });
 
     mw.on("ElementClick", function(e, el, c) {
@@ -1124,11 +1125,17 @@ mw.drag = {
                 $(".desc_area").hide();
             }
             if (mw.tools.hasClass(event.target.className, 'mw-open-module-settings')) {
-             //   mw.drag.module_settings()
-                    //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
-                var target = mw.tools.firstParentWithClass(event.target, 'module') ;
-                mw.liveNodeSettings.set('module', target);
-                //mw.liveNodeSettings.set('module', event.target);
+
+                if(!mw.settings.live_edit_open_module_settings_in_sidebar){
+                    mw.drag.module_settings()
+                } else {
+
+            
+                        //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
+                    var target = mw.tools.firstParentWithClass(event.target, 'module') ;
+                    mw.liveNodeSettings.set('module', target);
+                    //mw.liveNodeSettings.set('module', event.target);
+                }
             }
 
             if (!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')) {
@@ -1690,7 +1697,7 @@ mw.drag = {
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
                     var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
 
-                    if( mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+                    if( mw.tools.hasAnyOfClasses(target, componentsClasses) || mw.tools.hasParentsWithClass(target, 'module')) {
                         if (currentComponent && !fonttarget) {
                             var isSafeMode = false;
                             var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);

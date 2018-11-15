@@ -428,7 +428,7 @@ $limit =  $this->default_limit;
             $allow_scripts = $data['allow_scripts'];
         }
 
-       /* if (isset($data['debug']) and $data['debug'] == true) {
+        if (isset($data['debug']) and $data['debug'] == true) {
             $dbg = 1;
             unset($data['debug']);
         } else {
@@ -436,7 +436,7 @@ $limit =  $this->default_limit;
         }
         if ($dbg != false) {
             var_dump($data);
-        }*/
+        }
 
         $data['user_ip'] = MW_USER_IP;
         if (isset($data['id']) == false or $data['id'] == 0) {
@@ -493,7 +493,7 @@ $limit =  $this->default_limit;
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
         }
 
-        if ($dbg != false) {
+        if (isset($dbg) and $dbg != false) {
             var_dump($criteria);
         }
 

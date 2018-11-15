@@ -150,6 +150,22 @@ if (isset($_COOKIE['mw_exp'])) {
         </script>
     <?php endif; ?>
 
+    <?php
+    $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
+     ?>
+
+
+        <script type="text/javascript">
+            <?php if ($open_module_settings_in_sidebar): ?>
+            mw.settings.live_edit_open_module_settings_in_sidebar = true;
+            <?php else: ?>
+            mw.settings.live_edit_open_module_settings_in_sidebar = false;
+            <?php endif; ?>
+        </script>
+
+
+
+
     <script type="text/javascript">
         $(document).ready(function () {
             if (typeof(mw.toolbar) != "undefined") {

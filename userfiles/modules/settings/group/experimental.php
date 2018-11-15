@@ -12,7 +12,7 @@
     <?php _e("Experimental"); ?>
     <?php _e("settings"); ?>
 </h2>
-<div class="mw-ui-box mw-ui-box-content mw-ui-box-important">Those settings are eperimental and may lead to bugs. Please don't use them</div>
+<div class="mw-ui-box mw-ui-box-content mw-ui-box-warn">Those settings are experimental and may lead to bugs. Please don't use them yet</div>
 <div class="<?php print $config['module_class'] ?>">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label">
