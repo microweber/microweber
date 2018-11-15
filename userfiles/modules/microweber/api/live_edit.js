@@ -210,6 +210,8 @@ mw.live_edit.showSettings = function (a, opts) {
     if (typeof(data1.view.hash) == 'function') {
         //var modal_name = 'module-settings-' + curr.id +(data1.view.hash());
     }
+    //data1.live_edit_sidebar = true;
+
     var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
 
@@ -222,7 +224,7 @@ mw.live_edit.showSettings = function (a, opts) {
     // }
 
 
-    /*var modal = top.mw.tools.modal.frame({
+    var modal = top.mw.tools.modal.frame({
         url: src,
         width: 532,
         height: 150,
@@ -237,7 +239,7 @@ mw.live_edit.showSettings = function (a, opts) {
 
 
 
-    return;*/
+    return;
 
 
 

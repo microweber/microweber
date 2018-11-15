@@ -27,6 +27,15 @@
         <?php _e("Licenses"); ?>
     </a>
     <?php endif; ?>
+
+    <?php if (config('app.debug')): ?>
+    <br /><br />
+    <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/experimental','#mw-advanced-settings-dev-tools-output')">
+        <?php _e("Experimental settings"); ?>
+    </a>
+    <?php endif; ?>
+
+
     <!--  <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')">
         <?php /*_e("Packages"); */ ?>
     </a>-->
