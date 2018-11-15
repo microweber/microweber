@@ -1,5 +1,12 @@
 <?php only_admin_access(); ?>
 
+<?php
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
+}
+?>
+
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>
@@ -128,7 +135,7 @@
     </script>
 
 
-    <div class="mw-accordion">
+    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>">
         <div class="mw-accordion-item js-list-testimonials">
             <div class="mw-ui-box-header mw-accordion-title">
                 <div class="header-holder">
