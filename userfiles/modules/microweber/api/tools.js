@@ -3382,9 +3382,19 @@ mw.tools = {
             draggable: true
         });
     },
-    open_global_module_settings_modal: function (module_type, module_id,modalOptions) {
+    open_global_module_settings_modal: function (module_type, module_id, modalOptions,additional_params) {
 
-        var src = mw.settings.site_url + 'api/module?id=' + module_id + '&live_edit=true&module_settings=true&type=' + module_type + '&autosize=true';
+
+        var params = {};
+        params.id =module_id;
+        params.live_edit =true;
+        params.module_settings =true;
+        params.type =module_type;
+
+        var params_url = $.extend({},params,additional_params);
+
+        var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+
 
         modalOptions = modalOptions || {}
 
