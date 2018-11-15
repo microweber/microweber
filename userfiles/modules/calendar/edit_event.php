@@ -287,7 +287,7 @@ if (empty($data)) {
     <hr>
 
     <div class="mw-ui-btn-nav pull-right">
-        <span class="mw-ui-btn " onclick="editModal.modal.remove()">Cancel</span>
+        <span class="mw-ui-btn " onclick="editEventModal.modal.remove()">Cancel</span>
         <button class="mw-ui-btn mw-ui-btn-invert " xxxonclick='$("#editEventForm").submit();'>Save</button>
     </div>
 

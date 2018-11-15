@@ -5,6 +5,31 @@ $all_days = calendar_get_events('group_by_type=1&group_by_date=1');
 
 ?>
 
+<script>
+    mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");
+</script>
+<script>
+    function reload_calendar_after_save() {
+        mw.reload_module_parent('#<?php print $params['id'] ?>');
+        mw.reload_module('calendar/edit_events');
+        window.parent.$(window.parent.document).trigger('calendar.update');
+        if (typeof(editEventModal) != 'undefined' && editEventModal.modal) {
+            editEventModal.modal.remove();
+        }
+
+    }
+</script>
+
+<div class="mw-ui-field-holder p-t-20 p-b-20 text-right">
+    <a href="javascript:editEventId(0)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
+        <span class="fas fa-plus-circle"></span> &nbsp;<?php print _e('Add new event'); ?>
+    </a>
+</div>
+
+
+
+
+
     <?php
     if ($all_days) {
     	foreach ($all_days as $recurrence_type => $event_dates) {

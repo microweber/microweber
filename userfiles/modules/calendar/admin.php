@@ -8,6 +8,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 ?>
 
 <script>
+    mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");
+</script>
+
+<script>
     //mw.require('ui.css');
     //mw.lib.require('jqueryui');
 
@@ -17,10 +21,35 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 </script>
 
 <script>
+
+    function reload_calendar_after_save() {
+        mw.reload_module_parent('#<?php print $params['id'] ?>');
+        mw.reload_module('calendar/edit_events');
+        window.parent.$(window.parent.document).trigger('calendar.update');
+        if (typeof(editEventModal) != 'undefined' && editEventModal.modal) {
+            editEventModal.modal.remove();
+        }
+
+    }
+
+</script>
+
+<?php
+
+/*<script>
     function editEventId(event_id) {
         var data = {};
         data.event_id = event_id;
-        editModal = mw.tools.open_module_modal('calendar/edit_event', data, {overlay: true, skin: 'simple'})
+
+        var modalopts = {};
+        modalopts.iframe = true;
+
+
+        editEventModal = window.parent.mw.tools.open_module_modal('calendar/edit_event', data, {overlay: true, skin: 'simple'},modalopts)
+
+
+
+
     }
 
     function deleteEvent(event_id) {
@@ -45,8 +74,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         mw.reload_module_parent('#<?php print $params['id'] ?>');
         mw.reload_module('calendar/edit_events');
         window.parent.$(window.parent.document).trigger('calendar.update');
-        if (typeof(editModal) != 'undefined' && editModal.modal) {
-            editModal.modal.remove();
+        if (typeof(editEventModal) != 'undefined' && editEventModal.modal) {
+            editEventModal.modal.remove();
         }
 
     }
@@ -55,14 +84,36 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         var data = {};
 
-        importModal = mw.tools.open_module_modal('calendar/import_events', data, {overlay: true, skin: 'simple'})
+        importEventsModal = mw.tools.open_module_modal('calendar/import_events', data, {overlay: true, skin: 'simple'})
 
     }
-</script>
+</script>*/
 
+
+?>
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>
+
+
+<script>
+    function manageCalendarEventsPopup(module_id) {
+
+        var opts = {};
+        opts.width = '800';
+        opts.height =  '600';
+
+        opts.liveedit = true;
+        opts.mode = 'modal';
+
+        var additional_params = {};
+
+        return window.parent.mw.tools.open_global_module_settings_modal('calendar/edit_events', module_id, opts,additional_params);
+
+    }
+
+
+</script>
 
 <div class="admin-side-content">
     <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
@@ -70,13 +121,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>">
         <?php if ($from_live_edit): ?>
             <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
-                <a href="#" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
-                    <span class="fas fa-list"></span> &nbsp;Manage
+                <a href="javascript:manageCalendarEventsPopup('<?php print $params['id'] ?> ')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
+                    <span class="fas fa-list"></span> &nbsp;<?php print _e('Manage Calendar Events'); ?>
+
+
+
                 </a>
 
-                <a href="#" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
-                    <span class="fas fa-plus-circle"></span> &nbsp;Add new
-                </a>
+
             </div>
         <?php endif; ?>
 
