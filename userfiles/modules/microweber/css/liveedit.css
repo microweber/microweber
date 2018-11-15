@@ -4217,7 +4217,13 @@ body.dragStart .allow-drop {
     position: relative;
     width: 21px;
     height: 21px;
+    margin: 5px 7px 0px 0px;
+}
+
+
+#js-live-edit-module-settings-items .mw_module_settings_sidebar_icon{
     margin: 5px 14px 0px 10px;
+
 }
 
 .mw_module_settings_sidebar_title_wrapper .mw_module_settings_sidebar_title {
