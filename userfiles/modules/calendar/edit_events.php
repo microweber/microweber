@@ -60,8 +60,7 @@ $all_days = calendar_get_events('group_by_type=1&group_by_date=1');
                     <th>Group</th>
                     <th>Start</th>
                     <th>End</th>
-                    <th></th>
-                    <th></th>
+                    <th class="center">Actions</th>
                 </tr>
                 </thead>
                 <?php foreach ($event_dates as $day => $events) { ?>
@@ -85,13 +84,9 @@ $all_days = calendar_get_events('group_by_type=1&group_by_date=1');
                                 <td><a href="javascript:$('.js-event-group-id-toggle').toggle();$('.js-event-group-id-toggle-<?php print($event['calendar_group_name']) ?>').toggle();"><?php print($event['calendar_group_name']) ?></a></td>
                                 <td><?php print($event['start_date']) ?></td>
                                 <td><?php print($event['end_date']) ?></td>
-                                <td class="action-buttons">
-                                    <button onclick="editEventId('<?php print($event['id']) ?>')"
-                                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Edit">
-                                        Edit
-                                    </button>
-                                <td class="action-buttons">
-                                    <button onclick="deleteEvent('<?php print($event['id']) ?>')" class="act act-remove" title="Delete">X</button>
+                                <td class="center" style="width: 200px;">
+                                    <button onclick="editEventId('<?php print($event['id']) ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><?php print _e('Edit'); ?></button> &nbsp;
+                                    <button onclick="deleteEvent('<?php print($event['id']) ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important mw-ui-btn-outline"><?php print _e('Delete'); ?></button>
                                 </td>
                             </tr>
                             <?php
