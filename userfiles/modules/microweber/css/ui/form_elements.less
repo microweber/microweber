@@ -346,6 +346,7 @@ div.mw-ui-field:after {
         content: "\0101";
         color: @info;
         text-align: center;
+        top: 2px;
       }
     }
   }
@@ -372,11 +373,11 @@ div.mw-ui-field:after {
   border: 1px solid @fieldBorderColor;
   border-radius: @radius 0 0 @radius;
   vertical-align: top;
-  line-height:  ~"-webkit-calc("@normalHeight~" - 4px)";
-  line-height: ~"calc("@normalHeight~" - 4px)";
-  [class*='icon-'],.ico,.fa,.material-icons{
-    line-height:  ~"-webkit-calc("@normalHeight~" - 4px)";
-    line-height: ~"calc("@normalHeight~" - 4px)";
+  line-height: ~"-webkit-calc(" @normalHeight ~" - 4px)";
+  line-height: ~"calc(" @normalHeight ~" - 4px)";
+  [class*='icon-'], .ico, .fa, .material-icons {
+    line-height: ~"-webkit-calc(" @normalHeight ~" - 4px)";
+    line-height: ~"calc(" @normalHeight ~" - 4px)";
   }
 }
 
