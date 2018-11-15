@@ -22,45 +22,38 @@ $page_id_for_add = page_id();
 $category_id_for_add = category_id();
 $category_id_for_add = 0;
 
-if($posts_parent_category){
+if ($posts_parent_category) {
     $category_id_for_add = $posts_parent_category;
 }
 
-if($posts_parent_page){
+if ($posts_parent_page) {
     $page_id_for_add = $posts_parent_page;
 }
 
-$mange_btn_text =  _e('Manage content',true);
+$mange_btn_text = _e('Manage content', true);
 
 $cont_type_to_add = 'post';
-if($is_shop){
+if ($is_shop) {
     $cont_type_to_add = 'product';
-    $mange_btn_text =  _e('Manage products',true);
+    $mange_btn_text = _e('Manage products', true);
 
 }
 
 
-$add_new_text =  _e('Add new ' . $cont_type_to_add,true);
+$add_new_text = _e('Add new ' . $cont_type_to_add, true);
 ?>
 
 
-
-
-
-
 <div class="mw-accordion mw-accordion-window-height">
-    <div class="mw-accordion-item-block   mw-live-edit-module-manage-and-list-top">
-        <a href="javascript:window.parent.mw.live_edit.showSettings('#<?php print $params['id'] ?>',{mode:'modal', liveedit:true});" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span class="fas fa-list"></span> &nbsp; <?php print $mange_btn_text ?></a>
-
-
+    <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
+        <a href="javascript:window.parent.mw.live_edit.showSettings('#<?php print $params['id'] ?>',{mode:'modal', liveedit:true});" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
+            <span class="fas fa-list"></span> &nbsp;<?php print $mange_btn_text ?>
+        </a>
 
         <a href="javascript:window.parent.mw.quick.edit('0','<?php print $cont_type_to_add ?>', '', '<?php print $page_id_for_add ?>', '<?php print $category_id_for_add ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
-
-            <span class="fas fa-plus-circle"></span> &nbsp; <?php print $add_new_text ?></a>
-
+            <span class="fas fa-plus-circle"></span> &nbsp;<?php print $add_new_text ?>
+        </a>
     </div>
-
-
 
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
