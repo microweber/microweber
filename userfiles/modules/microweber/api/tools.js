@@ -1649,13 +1649,13 @@ mw.tools = {
     },
     hasAnyOfClasses: function (node, arr) {
         if(!node) return;
-        var final = false, i = 0, l = arr.length, cls = node.className;
+        var i = 0, l = arr.length, cls = node.className;
         for (; i < l; i++) {
             if (mw.tools.hasClass(cls, arr[i])) {
-                var final = true;
+                return true;
             }
         }
-        return final;
+        return false;
     },
     firstWithBackgroundImage: function (node) {
         if (!node) return false;
@@ -2544,7 +2544,7 @@ mw.tools = {
                 }
             }
         }
-        var active = obj.activeNav || obj.activeClass || "active-info",
+        var active = obj.activeNav || obj.activeClass || "active active-info",
             firstActive = 0;
 
         obj.lastClickedTabIndex=null;

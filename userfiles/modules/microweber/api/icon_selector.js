@@ -253,7 +253,7 @@ mw.iconSelector = mw.iconSelector || {
 
 
 
-        if (mw.iconSelector._string == '' || refresh) {
+        if (!mw.iconSelector._string || refresh) {
 
             this.uiHTML()
 

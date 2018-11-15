@@ -2114,10 +2114,7 @@ mw.wysiwyg = {
                 return true;
             }
             else {
-              var p = mw.tools.firstParentOrCurrentWithAnyOfClasses(el.parentNode, icon_classes);
-              if(p){
-                return p;
-              }
+                return mw.tools.firstParentOrCurrentWithAnyOfClasses(el.parentNode, icon_classes);
             }
         }
     },
@@ -2537,9 +2534,14 @@ mw.wysiwyg.dropdowns = function () {
                     var div = mw.wysiwyg.applier('i');
                     div.innerHTML = new_insert_html;
                     div.className = "mw-icon mw-icon-noop";
+                    mw.iconSelector.uiHTML();
                     mw.iconSelector._activeElement = div;
                     $(".mw-live-edit-component-options").hide();
-                    mw.iconSelector.settingsUI();
+                    setTimeout(function(){
+                        mw.iconSelector.uiHTML();
+                        mw.iconSelector.settingsUI();
+                    },10)
+
                 }
             }
             else if (val === 'table') {
