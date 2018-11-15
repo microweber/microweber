@@ -3382,9 +3382,13 @@ mw.tools = {
             draggable: true
         });
     },
-    open_global_module_settings_modal: function (module_type, module_id) {
+    open_global_module_settings_modal: function (module_type, module_id,modalOptions) {
+
         var src = mw.settings.site_url + 'api/module?id=' + module_id + '&live_edit=true&module_settings=true&type=' + module_type + '&autosize=true';
-        var modal = mw.tools.modal.frame({
+
+        modalOptions = modalOptions || {}
+
+        var defaultOpts = {
             url: src,
             // width: 500,
             //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
@@ -3394,7 +3398,11 @@ mw.tools = {
             center: false,
             resize: true,
             draggable: true
-        });
+        };
+
+        var settings = $.extend({},defaultOpts,modalOptions);
+
+        return mw.tools.modal.frame(settings);
     },
     open_module_modal: function (module_type, params, modalOptions) {
 
