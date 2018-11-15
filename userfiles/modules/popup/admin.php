@@ -32,7 +32,7 @@ if (!$time_delay) {
         margin-bottom: 10px;
     }
 </style>
-<div class="mw-accordion">
+<div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">

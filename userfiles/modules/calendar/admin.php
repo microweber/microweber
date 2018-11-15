@@ -101,7 +101,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         var opts = {};
         opts.width = '800';
-        opts.height =  '600';
+        opts.height = '600';
 
         opts.liveedit = true;
         opts.iframe = true;
@@ -109,7 +109,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         var additional_params = {};
 
-        return window.parent.mw.tools.open_global_module_settings_modal('calendar/edit_events', module_id, opts,additional_params);
+        return window.parent.mw.tools.open_global_module_settings_modal('calendar/edit_events', module_id, opts, additional_params);
 
     }
 
@@ -119,12 +119,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="admin-side-content">
     <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
 
-    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>">
+    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>  mw-accordion-window-height">
         <?php if ($from_live_edit): ?>
             <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
                 <a href="javascript:manageCalendarEventsPopup('<?php print $params['id'] ?> ')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
                     <span class="fas fa-list"></span> &nbsp;<?php print _e('Manage Calendar Events'); ?>
-
 
 
                 </a>

@@ -83,7 +83,7 @@ if (isset($json) == false or count($json) == 0) {
 </style>
 
 <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
-<div class="mw-accordion">
+<div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">

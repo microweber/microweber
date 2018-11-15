@@ -2,7 +2,7 @@
 <?php $posts_parent_page = get_option('data-content-id', $params['id']); ?>
 
 
-<div class="mw-accordion">
+<div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
