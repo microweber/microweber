@@ -873,12 +873,12 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 
 }
 
-#mw-admin-main-menu li  strong {
+#mw-admin-main-menu li strong {
     top: -5px;
 
 }
 
-#mw-admin-main-menu li  li a strong {
+#mw-admin-main-menu li li a strong {
     top: 0px;
 
 }
@@ -5322,6 +5322,17 @@ body.is_admin .mw-admin-container {
     padding: 50px 0;
 }
 
+.mw-module-live-edit-settings .admin-side-content {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title {
+    border-radius: 0;
+}
+
 /* Typography */
 .right {
     text-align: right !important;
@@ -7388,13 +7399,13 @@ select.silver-field {
 /*}*/
 
 .mw-live-edit-module-manage-and-list-top {
-    padding: 20px;
+    padding: 10px 10px;
     text-align: center;
     box-sizing: border-box;
 }
 
 .mw-live-edit-module-manage-and-list-top .mw-ui-btn {
-    margin: 0 5px;
+    margin: 5px 5px;
 }
 
 #admin-main-tree .mw-tree-item-title {
