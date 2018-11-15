@@ -41,11 +41,11 @@ mw.iconSelector = mw.iconSelector || {
                     icons = uicss.sheet.cssRules;
                 }
 
-                var l = icons.length, i = 0, html = '';
-                for (; i < l; i++) {
-                    var sel = icons[i].selectorText;
+                var i = 0, html = '', sel, cls;
+                for (; i < icons.length; i++) {
+                    sel = icons[i].selectorText;
                     if (!!sel && sel.indexOf('.mw-icon-') === 0) {
-                        var cls = sel.replace(".", '').split(':')[0];
+                        cls = sel.replace(".", '').split(':')[0];
                         if (mw.iconSelector.iconFontClasses.indexOf(cls) === -1) {
                             mw.iconSelector.iconFontClasses.push(cls);
                         }

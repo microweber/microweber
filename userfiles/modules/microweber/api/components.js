@@ -1,4 +1,15 @@
 mw.components = {
+    'mw-modules-tabs':function(el){
+        var options = this._options(el);
+        var accordion = this.accordion(el);
+        if(window.isModuleSettingsSidebar){
+            options.breakPoint = 500;
+        }
+        if(window.isModuleSettingsModal){
+            options.breakPoint = 400;
+        }
+        var tb = new mw.tabAccordion(options, accordion);
+    },
     'tab-accordion':function(el){
        var options = this._options(el);
        var accordion = this.accordion(el);
@@ -149,7 +160,7 @@ mw.components = {
             }
         });
     }
-}
+};
 
 $(document).ready(function () {
     mw.components._init();

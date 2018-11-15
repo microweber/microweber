@@ -3150,12 +3150,12 @@ div[id*='SSDIVEL'] {
     opacity: 0;
 }
 
-.mw-active-element-iseditable:not(.mw-active-element-is-in-safe-mode) #liveedit_wysiwyg {
+.mw-active-element-iseditable:not(.mw-active-element-is-plain-text) #liveedit_wysiwyg {
     transform: translateY(0%);
     opacity: 1;
 }
 
-.mw-active-element-is-in-safe-mode #mw_small_editor {
+.mw-active-element-is-plain-text #mw_small_editor {
     display: none !important;
 }
 

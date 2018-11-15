@@ -1674,12 +1674,12 @@ mw.drag = {
                         'element',
                         'safe-element',
                         'module',
-                        'mw_edit_settings',
+                        /*'mw_edit_settings',
                         'mw_master_handle',
                         'mw_handle_module_arrow',
                         'mw-element-name-handle',
                         'mw-sorthandle-module',
-                        'mw-sorthandle-col',
+                        'mw-sorthandle-col',*/
                         'plain-text'
                     ];
 
@@ -1690,7 +1690,7 @@ mw.drag = {
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
                     var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
 
-                    //if( mw.tools.hasAnyOfClasses(target, componentsClasses)) {
+                    if( mw.tools.hasAnyOfClasses(target, componentsClasses)) {
                         if (currentComponent && !fonttarget) {
                             var isSafeMode = false;
                             var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
@@ -1701,9 +1701,7 @@ mw.drag = {
                                 mw.trigger("ComponentClick", [target, 'element']);
                             }
                             else {
-
                                 if (!mw.tools.hasAnyOfClasses(target, componentsClasses)) {
-
                                     var ctype;
                                     var has = componentsClasses.filter(function (item) {
                                         return currentComponent.classList.contains(item)
@@ -1711,7 +1709,6 @@ mw.drag = {
                                     mw.trigger("ComponentClick", [currentComponent, has[0]]);
                                }
                             }
-
                         }
 
                         if ($(target).hasClass("plain-text")) {
@@ -1743,7 +1740,7 @@ mw.drag = {
                         }
 
 
-                    //}
+                    }
 
                     if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element','module'])) {
                         console.log('b')
@@ -2986,15 +2983,18 @@ $(document).ready(function() {
             }
         });
 
-        if(!!document.body.classList){
+        if(document.body.classList){
           var displayEditor = mw.wysiwyg.isSelectionEditable();
           if(!displayEditor){
               var editor = document.querySelector('.mw_editor');
               if(editor && editor.contains(document.activeElement)) displayEditor = true;
           }
-          var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode), ['safe-mode']) ;
+          var focusedNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+          var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['safe-mode']) ;
+          var isPlainText = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['plain-text']) ;
           document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
           document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode')
+          document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text')
         }
 
     }, 300);
@@ -3002,7 +3002,7 @@ $(document).ready(function() {
     mw.on('ElementOver moduleOver', function(e, target){
       mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over')
       mw.tools.addClass(target, e.type=='onElementOver' ? 'element-over':'module-over')
-    })
+    });
     /*$(window).on('onElementLeave onModuleLeave', function(e, target){
       mw.tools.removeClass(target, e.type=='onElementLeave' ? 'element-over':'module-over')
     })*/

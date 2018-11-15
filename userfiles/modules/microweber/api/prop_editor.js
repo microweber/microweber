@@ -171,7 +171,6 @@ mw.propEditor = {
             var el = document.createElement('div');
             el.innerHTML = config.content;
             this.node = el
-
         },
         size:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'number');
