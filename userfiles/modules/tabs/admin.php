@@ -83,11 +83,11 @@ if (isset($json) == false or count($json) == 0) {
 </style>
 
 <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
-<div class="mw-accordion">
+<div class="mw-accordion mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-gear"></i> Settings
+                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -104,7 +104,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-beaker"></i> Templates
+                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

@@ -27,10 +27,6 @@
             window.location.href = window.location.href;
 
             menuSelectorInit();
-
-            /* mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
-             mw.reload_module('#<?php print $params['id'] ?>');
-             menuSelectorInit();*/
         });
     }
 
@@ -299,35 +295,14 @@ if ($menu_data) {
 ?>
 
 <div class="admin-side-content">
-
-
     <?php if (is_array($menus) == true): ?>
         <?php if (is_array($menus)): ?>
 
             <div class="control-group form-group">
-                <label class="mw-ui-label">
-                    <?php _e("Select the Menu you want to edit or"); ?> <a href="javascript:add_new_menu();"
-                                                                           class="mw-ui-link mw-blue"
-                                                                           id="create-menu-btn"><?php _e("Create new menu"); ?></a>
-                </label>
+                <label class="mw-ui-label"><?php _e("Select the Menu you want show"); ?></label>
 
-                <div id="quick_new_menu_holder">
-                    <div class="mw-ui-box mw-ui-box-content pull-right" id="create-menu-holder"
-                         style="display: none;margin: 5px 0 12px;">
-                        <input name="new_menu_name" class="mw-ui-field" id="new_menu_name"
-                               placeholder="<?php _e("Menu name"); ?>" type="text" style="margin-right: 12px;"/>
-                        <button type="button" class="mw-ui-btn mw-ui-btn-invert"
-                                onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
-                    </div>
-                </div>
-
-                <select id="menu_selector_<?php print $params['id'] ?>" style="width: 100%;" name="menu_name"
-                        class="mw-ui-field mw_option_field" type="radio"
-                        onchange="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');"
-                        onblur="mw.menu_edit_items(this.value, '#items_list_<?php
-                        print
-                            $rand ?>');">
-
+                <select id="menu_selector_<?php print $params['id'] ?>" style="width: 100%;" name="menu_name" class="mw-ui-field mw_option_field" type="radio" onchange="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');"
+                        onblur="mw.menu_edit_items(this.value, '#items_list_<?php print$rand ?>');">
                     <?php foreach ($menus as $item): ?>
                         <?php if ($active_menu == false) {
                             $active_menu = $item['title'];
@@ -336,80 +311,9 @@ if ($menu_data) {
                                 value="<?php print $item['title'] ?>"><?php print ucwords(str_replace('_', ' ', $item['title'])) ?></option>
                     <?php endforeach; ?>
                 </select>
-                <br/>
-                <br/>
-
-
-                <label class="mw-ui-label"><?php _e("Select page you want to add to your menu"); ?>:</label>
-
-                <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
-                <a href="javascript:requestCustomLink();"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right"><span><?php _e("Add Custom Link"); ?></span></a>
-
-
-                <br/>
             </div>
         <?php endif; ?>
     <?php else : ?>
-        <?php _e("You have no exising menus. Please create one."); ?>
+        <p><?php _e("You have no exising menus. Please create one."); ?></p>
     <?php endif; ?>
-    <?php
-    if (isset($menu_data) and is_array($menu_data) and isset($menu_data['id'])) {
-        $menu_data = $menu_data['id'];
-    }
-
-
-    ?>
-
-
-    <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
-        <div id="tree-selector">
-
-        </div>
-        <div id="custom_link_inline_controller_edit_0">
-
-            <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php print $menu_id; ?>"/>
-
-        </div>
-    </div>
-    <div id="custom_link_controller" class="mw-ui-gbox">
-        <br/>
-        <br/>
-        <div class="mw-ui-row-nodrop">
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <input type="text" class="mw-ui-field w100" placeholder="<?php _e("Title"); ?>" name="title"/>
-                </div>
-            </div>
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <input type="text" class="mw-ui-field w100" placeholder="<?php _e("URL"); ?>" name="url"/>
-                </div>
-            </div>
-        </div>
-
-        <br>
-
-        <input type="hidden" name="parent_id" id="add-custom-link-parent-id" class="add-custom-link-parent-id"
-               value="<?php print $menu_id; ?>"/>
-        <button class="mw-ui-btn mw-ui-btn-info pull-right" onclick="mw.menu_save_new_item('#custom_link_controller');">
-            <?php _e("Add to menu"); ?>
-        </button>
-    </div>
-
-    <div class="<?php print $config['module_class']; ?> menu_items order-has-link" id="items_list_<?php print $rand ?>">
-        <?php if ($active_menu != false): ?>
-            <hr/>
-            <h4>Menu structure</h4>
-
-            <label class="mw-ui-label">
-                <small>
-                    <?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?>
-                </small>
-            </label>
-
-            <module data-type="menu/edit_items" id="items_list_<?php print $rand ?>"
-                    menu-name="<?php print $active_menu ?>" menu-id="<?php print $menu_id ?>"/>
-        <?php endif; ?>
-    </div>
 </div>

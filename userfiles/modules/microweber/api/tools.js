@@ -3425,9 +3425,39 @@ mw.tools = {
             id: id
         }, modalOptions);
 
-        var modal = mw.modal(settings);
 
-        var xhr = mw.load_module(module_type, '#' + id_content, null, params);
+
+        var openiframe = false;
+        if(typeof (settings.iframe) != 'undefined' && settings.iframe){
+            openiframe = true;
+        }
+        if(openiframe){
+
+            var additional_params = {};
+            additional_params.type =module_type;
+            var params_url = $.extend({},params,additional_params);
+            var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+            var xhr = false;
+
+            var settings = {
+                url: src,
+                name: 'mw-module-settings-editor-front',
+                title: 'Settings',
+                template: 'default',
+                center: false,
+                resize: true,
+                draggable: true
+            };
+
+            return mw.tools.modal.frame(settings);
+
+        } else {
+            var modal = mw.modal(settings);
+            var xhr = mw.load_module(module_type, '#' + id_content, null, params);
+        }
+
+
+
 
         return {
             xhr: xhr,

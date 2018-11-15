@@ -5329,7 +5329,11 @@ body.is_admin .mw-admin-container {
     padding: 0;
 }
 
-.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title {
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title{
+    border-color:#d6d6d6;
+}
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title,
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-content{
     border-radius: 0;
 }
 
