@@ -68,6 +68,8 @@
             <div class="tabitem mw-normalize-css" style="display: none">
                 <div class="mw-live-edit-tab-title modules">
                     <div class="mw-liveedit-sidebar-search-wrapper">
+
+
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
@@ -80,6 +82,9 @@
                         <a href="javascript:mwSidebarSearchClear('modules');"
                            class="mw-sidebar-search-clear-x-btn mw-icon-close"
                            aria-hidden="true" style="display: none;"></a>
+
+
+
                     </div>
 
                     <p class="mw-search-no-results"
