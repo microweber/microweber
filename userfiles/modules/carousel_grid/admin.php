@@ -23,7 +23,7 @@ if (!$items_number) {
 </script>
 
 
-<div class="mw-accordion mw-accordion-window-height">
+<div class="modules-tabs mw-accordion-window-height">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
