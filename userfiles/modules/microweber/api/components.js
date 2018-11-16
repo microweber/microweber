@@ -1,12 +1,9 @@
 mw.components = {
-    'mw-modules-tabs':function(el){
+    'modules-tabs':function(el){
         var options = this._options(el);
         var accordion = this.accordion(el);
-        if(window.isModuleSettingsSidebar){
-            options.breakPoint = 500;
-        }
-        if(window.isModuleSettingsModal){
-            options.breakPoint = 400;
+        if(window.thismodal){
+            options.breakPoint = 100;
         }
         var tb = new mw.tabAccordion(options, accordion);
     },
@@ -61,7 +58,7 @@ mw.components = {
         el._setValue = function (id) {
             mw.tools.ajaxSearch(this._settings, function () {
 
-            })
+            });
         }
 
         var el = $(el);

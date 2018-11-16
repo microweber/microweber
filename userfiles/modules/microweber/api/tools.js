@@ -1979,7 +1979,7 @@ mw.tools = {
                 if (_curr.nodeType === 1) {
                     count++;
                     var caller = callback.call(_curr, index, count);
-                    var _curr = _curr.nextSibling;
+                    _curr = _curr.nextSibling;
                     if (caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]) {
                         delete mw.tools.loop[index];
                         break
@@ -1987,41 +1987,40 @@ mw.tools = {
                     var _tag = _curr.tagName;
                 }
                 else {
-                    var _curr = _curr.nextSibling;
+                    _curr = _curr.nextSibling;
                 }
             }
         }
     },
     firstChildWithClass: function (parent, cls) {
-        var g = {toreturn: undefined}
+        var toreturn;
         mw.tools.foreachChildren(parent, function (loop) {
             if (this.nodeType === 1 && mw.tools.hasClass(this, cls)) {
                 mw.tools.stopLoop(loop);
-                g.toreturn = this;
+                toreturn = this;
             }
         });
-        return g.toreturn;
+        return toreturn;
     },
     firstChildWithTag: function (parent, tag) {
-        var g = {toreturn: undefined}
+        var toreturn;
         var tag = tag.toLowerCase();
         mw.tools.foreachChildren(parent, function (loop) {
             if (this.nodeName.toLowerCase() === tag) {
-                g.toreturn = this;
+                toreturn = this;
                 mw.tools.stopLoop(loop);
             }
         });
-        return g.toreturn;
+        return toreturn;
     },
     hasChildrenWithClass: function (node, cls) {
-        var g = {}
-        g.final = false;
+        var final = false;
         mw.tools.foreachChildren(node, function () {
             if (mw.tools.hasClass(this.className, cls)) {
-                g.final = true;
+                final = true;
             }
         });
-        return g.final;
+        return final;
     },
     parentsOrder: function (node, arr) {
         var only_first = [];
