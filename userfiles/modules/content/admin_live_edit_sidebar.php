@@ -44,7 +44,7 @@ $add_new_text = _e('Add new ' . $cont_type_to_add, true);
 ?>
 
 
-<div class="mw-modules-tabs mw-accordion-window-height">
+<div class="mw-modules-tabs">
     <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
         <a href="javascript:window.parent.mw.live_edit.showSettings('#<?php print $params['id'] ?>',{mode:'modal', liveedit:true});" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
             <span class="fas fa-list"></span> &nbsp;<?php print $mange_btn_text ?>

@@ -53,7 +53,7 @@ if (get_option('style_color', $params['id']) == 'bg-primary') {
 }
 ?>
 
-<div class="mw-modules-tabs mw-accordion-window-height">
+<div class="mw-modules-tabs">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">

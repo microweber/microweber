@@ -119,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="admin-side-content">
     <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
 
-    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>  mw-accordion-window-height">
+    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>">
         <?php if ($from_live_edit): ?>
             <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
                 <a href="javascript:manageCalendarEventsPopup('<?php print $params['id'] ?> ')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
