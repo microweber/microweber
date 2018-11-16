@@ -64,3 +64,7 @@ select.mw-ui-field:hover {
 .prop-ui-field-holder .mw-ui-field{
     width: 100%;
 }
+
+#settings-main #settings-container {
+    padding: 25px;
+}
