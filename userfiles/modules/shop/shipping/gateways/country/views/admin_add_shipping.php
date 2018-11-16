@@ -15,7 +15,7 @@
 <script type="text/javascript">
     mw.shipping_country.url = "<?php print $config['module_api']; ?>";
     $(document).ready(function () {
-        mw.$(".<?php print $rand1 ?>").sortable({
+        mw.$(".shipping_to_country_holder").sortable({
             items: '.shipping-country-holder',
             axis: 'y',
             cancel: ".country-id-0",

@@ -30,7 +30,7 @@
                 </tr>
                 </thead>
                 <?php foreach ($data as $item): ?>
-                    <tr data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
+                    <tr class="shipping-country-holder" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 15px">
                             <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
                         </td>

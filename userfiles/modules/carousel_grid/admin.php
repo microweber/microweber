@@ -17,7 +17,7 @@ if (!$items_number) {
 <script>
     $(mwd).ready(function () {
         $('[data-type="pictures/admin"]').on('change', function () {
-            window.parent.mw.reload_module('#<?php print $params['id']; ?>')
+             mw.reload_module_parent('#<?php print $params['id']; ?>')
         })
     });
 </script>
