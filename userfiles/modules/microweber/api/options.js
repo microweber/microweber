@@ -387,7 +387,7 @@ mw.options.___slowDownEvent = function (el, call) {
     clearTimeout(mw.options.___slowDownEventTimeOut);
     mw.options.___slowDownEventTimeOut = setTimeout(function () {
         call.call(el);
-    }, 400);
+    }, 100);
 };
 
 
