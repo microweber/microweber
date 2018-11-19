@@ -452,6 +452,10 @@ class CartManager extends Crud
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
+	if (mw()->modules->is_installed('shop/offers')) {
+		$price_offers = offers_get_by_product_id($for_id);
+	}
+
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
             if (isset($data['price'])) {
@@ -460,7 +464,11 @@ class CartManager extends Crud
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
-                    $prices[$cf['name']] = $cf['value'];
+			if(isset($price_offers[$cf['name']])){
+				$prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+			} else {
+			    	$prices[$cf['name']] = $cf['value'];
+			}
                 }
             }
         }
@@ -486,7 +494,11 @@ class CartManager extends Crud
                         }
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-                            $prices[$cf['name']] = $cf['value'];
+				if(isset($price_offers[$cf['name']])){
+					$prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+				} else {
+	                            	$prices[$cf['name']] = $cf['value'];
+	                        }
                         }
                     }
                 }
