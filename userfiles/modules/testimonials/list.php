@@ -22,6 +22,10 @@
         mw.reload_module("#edit-testimonials");
     }
 
+    add_new_testimonial = function () {
+        $('.mw-ui-btn-nav-tabs .mw-ui-btn:nth-child(2)').trigger('click');
+    }
+
     edit_testimonial = function (id) {
         $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
