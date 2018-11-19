@@ -135,7 +135,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </script>
 
 
-    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>">
+    <div class="mw-modules-tabs <?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
         <div class="mw-accordion-item js-list-testimonials">
             <div class="mw-ui-box-header mw-accordion-title">
                 <div class="header-holder">

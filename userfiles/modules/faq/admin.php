@@ -141,7 +141,7 @@ if (isset($json) == false or count($json) == 0) {
 </style>
 
 <div class="admin-side-content">
-    <div class="<?php if ($from_live_edit): ?>mw-accordion<?php else: ?>mw-tab-accordion<?php endif; ?>">
+    <div class="mw-modules-tabs <?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
                 <div class="header-holder">
