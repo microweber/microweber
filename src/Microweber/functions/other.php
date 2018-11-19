@@ -771,3 +771,43 @@ function special_unicode_to_utf8($str)
 }
 
 
+
+
+
+
+
+
+
+
+
+function get_date_format(){
+    return mw()->format->get_date_format();
+
+}
+
+function date_system_format($db_date){
+    return mw()->format->date_system_format($db_date);
+
+}
+
+function get_date_db_format($str_date){
+    return mw()->format->get_date_db_format($str_date);
+
+}
+
+
+/**
+ * Find Date in a String
+ *
+ * @author   Etienne Tremel
+ * @license  http://creativecommons.org/licenses/by/3.0/ CC by 3.0
+ * @link     http://www.etiennetremel.net
+ * @version  0.2.0
+ *
+ * @param string  find_date( ' some text 01/01/2012 some text' ) or find_date( ' some text October 5th 86 some text' )
+ * @return mixed  false if no date found else array: array( 'day' => 01, 'month' => 01, 'year' => 2012 )
+ */
+function find_date( $string ) {
+    return mw()->format->find_date($string);
+
+}

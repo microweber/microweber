@@ -21,7 +21,7 @@ $config['categories'] = "online shop";
 $config['version'] = 1.0;
 $config['position'] = 27;
 
-$config['tables'] = array(
+/*$config['tables'] = array(
 	'offers' => array(
 		'id' => 'integer',
 		'product_id' => 'integer',
@@ -35,4 +35,4 @@ $config['tables'] = array(
 		'edited_by' => 'integer',
 		'is_active' => 'integer',
 	)
-);
+);*/
