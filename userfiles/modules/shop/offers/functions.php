@@ -6,7 +6,7 @@ event_bind('mw.shop.cart_get_prices', function ($params) {
 
 });
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
-    print load_module('offers/price_settings', $data);
+    print load_module('shop/offers/price_settings', $data);
 });
 
 
@@ -23,8 +23,14 @@ function offer_save($offerData = array())
         $id_parts = explode('|', $offerData['product_id_with_price_id']);
         $offerData['product_id'] = $id_parts[0];
         $offerData['price_id'] = $id_parts[1];
+    } else if(isset($offerData['product_id'])) {
+        if (strstr($offerData['product_id'],'|')) {
+            $id_parts = explode('|',$offerData['product_id']);
+            $offerData['product_id'] = $id_parts[0];
+            $offerData['price_key'] = $id_parts[1];
+        }
     }
-
+d($offerData);
     if (isset($offerData['offer_price'])) {
         $offerData['offer_price'] = mw()->format->amount_to_float($offerData['offer_price']);
     }
@@ -33,7 +39,7 @@ function offer_save($offerData = array())
         $errorMessage .= 'offer price must be a number.<br />';
     }
 
-    if (!empty($offerData['expires_at'])) {
+    if (isset($offerData['expires_at'])) {
         $date_db_format = get_date_db_format($offerData['expires_at']);
         $offerData['expires_at'] = date('Y-m-d H:i:s', strtotime($date_db_format));
     }
@@ -132,9 +138,10 @@ function offers_get_products()
 
 
 //api_expose('offers_get_price');
-function offers_get_price($product_id, $price_key)
+function offers_get_price($product_id, $price_id)
 {
-    $offer = DB::table('offers')->select('id', 'offer_price')->where('product_id', '=', $product_id)->where('price_key', '=', $price_key)->first();
+
+    $offer = DB::table('offers')->select('*')->where('product_id', '=', $product_id)->where('price_id', '=', $price_id)->first();
     return $offer;
 }
 
@@ -159,8 +166,7 @@ function offers_get_by_product_id($product_id)
     $specialOffers = array();
     foreach ($offers as $offer) {
 
-
-        if (empty($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
+        if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
             // converting price_name to lowercase to match key from in FieldsManager function get line 556
 
             $offer_data = get_object_vars($offer);
