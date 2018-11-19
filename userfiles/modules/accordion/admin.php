@@ -153,7 +153,7 @@ if (isset($json) == false or count($json) == 0) {
                             <div class="mw-ui-box-content mw-accordion-content">
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-label">Title</label>
-                                    <input type="text" class="mw-ui-field accordion-title full-width" value="<?php print $slide['title']; ?>">
+                                    <input type="text" class="mw-ui-field accordion-title mw-full-width" value="<?php print $slide['title']; ?>">
                                 </div>
 
                                 <div class="mw-ui-field-holder">
