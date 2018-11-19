@@ -12,9 +12,9 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 
         <?php if ($data['content_type'] == 'page'): ?>
-            <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> &nbsp; <?php print _e('Parent page'); ?></a>
+            <a href="javascript:;" class="mw-ui-btn "><i class="mai-category"></i> &nbsp; <?php print _e('Parent page'); ?></a>
         <?php else: ?>
-            <a href="javascript:;" class="mw-ui-btn active"><i class="mai-category"></i> &nbsp; <?php print _e('Add to categories'); ?></a>
+            <a href="javascript:;" class="mw-ui-btn "><i class="mai-category"></i> &nbsp; <?php print _e('Add to categories'); ?></a>
         <?php endif; ?>
 
 
