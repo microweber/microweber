@@ -104,8 +104,21 @@ if (mw()->modules->is_installed('shop/offers') and function_exists('offers_get_b
 }
 
 
+$prices_includes_taxes = false;
+// TODO: move to taxmanager function
+$ex_tax = '';
+$taxes_enabled = get_option('enable_taxes', 'shop');
+if ($taxes_enabled) {
+    $defined_taxes = mw()->tax_manager->get();
+    if (!empty($defined_taxes)) {
+        if (count($defined_taxes) == 1) {
 
-
+            $ex_tax =  $defined_taxes[0]['tax_name'];
+        } else {
+            $ex_tax = 'ex tax';
+        }
+    }
+}
 
 
 

@@ -31,19 +31,7 @@ if (isset($params['content-id'])) {
     <div class="price">
         <?php $i = 1;
 
-        // TODO: move to taxmanager function
-        $ex_tax = '';
-        $taxes_enabled = get_option('enable_taxes', 'shop');
-        if ($taxes_enabled) {
-            $defined_taxes = mw()->tax_manager->get();
-            if (!empty($defined_taxes)) {
-                if (count($defined_taxes) == 1) {
-                    $ex_tax = ' ex ' . $defined_taxes[0]['tax_name'];
-                } else {
-                    $ex_tax = ' ex tax';
-                }
-            }
-        }
+
 
 
         foreach ($data as $key => $v): ?>
@@ -60,7 +48,7 @@ if (isset($params['content-id'])) {
                 <?php _e($key); ?>
             <?php else: ?>
                 <?php print $key; ?>
-            <?php endif; ?>: <?php print currency_format($v) . $ex_tax; ?>
+            <?php endif; ?>: <?php print currency_format($v) ; ?>
         <?php } ?>
                 <?php if (!isset($in_stock) or $in_stock == false) : ?>
                     <button class="btn btn-default pull-right" type="button" disabled="disabled"
