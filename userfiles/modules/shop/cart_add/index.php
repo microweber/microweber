@@ -68,6 +68,47 @@ if (isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval
     $in_stock = false;
 }
 
+$data = false;
+if(isset($for_id) !== false and isset($for) !== false){
+    if ($for == 'content' and intval($for_id) == 0) {
+        $for_id = 0;
+    }
+    $data = get_custom_fields("field_type=price&for={$for}&for_id=" . $for_id . "");
+
+
+
+
+
+    $event_params = array();
+    $event_params['for'] = $for;
+    $event_params['for_id'] = $for_id;
+    $event_params['data'] = $data;
+
+    $override = $this->app->event_manager->trigger('mw.shop.cart_get_prices', $event_params);
+    if (is_array($override)) {
+        foreach ($override as $resp) {
+            if (is_array($resp) and !empty($resp)) {
+                $data = array_merge($data, $resp);
+            }
+        }
+    }
+
+}
+
+
+$price_offers = false;
+
+// check for offer prices
+if (mw()->modules->is_installed('shop/offers') and function_exists('offers_get_by_product_id')) {
+    $price_offers = offers_get_by_product_id($for_id);
+}
+
+
+
+
+
+
+
 ?>
 <?php if (isset($for_id) !== false and isset($for) !== false): ?>
 

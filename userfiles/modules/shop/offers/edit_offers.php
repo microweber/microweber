@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <?php
 $allOffers = offers_get_all();
 ?>

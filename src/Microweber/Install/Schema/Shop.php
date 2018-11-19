@@ -187,23 +187,7 @@ class Shop
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-            ],
-
-
-            'offers' =>[
-                'id' => 'integer',
-                'product_id' => 'integer',
-                'price_id' => 'integer',
-                'price_key' => 'string',
-                'offer_price' => 'float',
-                'created_at' => 'datetime',
-                'updated_at' => 'datetime',
-                'expires_at' => 'datetime',
-                'created_by' => 'integer',
-                'edited_by' => 'integer',
-                'is_active' => 'integer',
             ]
-
         ];
     }
 }

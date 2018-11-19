@@ -30,7 +30,7 @@ function custom_field_value($content_id, $field_name, $table = 'content')
 
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
-    if (isset($table) and intval($table) > 0) {
+    if (isset($table)  and !is_array($table) and intval($table) > 0) {
         $id = intval(intval($table));
         $table = 'content';
     }

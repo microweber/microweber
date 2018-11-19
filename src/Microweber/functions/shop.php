@@ -48,12 +48,12 @@ function cart_get_tax()
 
 function cart_get_discount()
 {
-	return mw()->cart_manager->get_discount();
+    return mw()->cart_manager->get_discount();
 }
 
 function cart_get_discount_text()
 {
-	return mw()->cart_manager->get_discount_text();
+    return mw()->cart_manager->get_discount_text();
 }
 
 function checkout_ipn($data)
@@ -61,7 +61,13 @@ function checkout_ipn($data)
     return mw()->shop_manager->checkout_ipn($data);
 }
 
-function get_product_price($content_id = false){
+function get_product_prices($content_id = false, $return_full_custom_fields_array = false)
+{
+    return mw()->shop_manager->get_product_prices($content_id, $return_full_custom_fields_array);
+}
+
+function get_product_price($content_id = false)
+{
     return mw()->shop_manager->get_product_price($content_id);
 }
 

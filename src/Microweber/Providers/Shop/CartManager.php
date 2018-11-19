@@ -75,19 +75,19 @@ class CartManager extends Crud
                 $total = $total + $tax;
             }
         }
-        
+
         // Coupon code discount
         $discount_value = $this->get_discount_value();
         $discount_type = $this->get_discount_type();
 
         if ($discount_type == 'precentage') {
-        	// Discount with precentage
-        	$total = $total - ($total * ($discount_value / 100));
+            // Discount with precentage
+            $total = $total - ($total * ($discount_value / 100));
         } else if ($discount_type == 'fixed_amount') {
-        	// Discount with amount
-        	$total = $total - $discount_value;
+            // Discount with amount
+            $total = $total - $discount_value;
         }
-        
+
         return $total;
     }
 
@@ -98,35 +98,35 @@ class CartManager extends Crud
 
         return $tax;
     }
-    
+
     public function get_discount()
     {
-    	return $this->get_discount_value();
+        return $this->get_discount_value();
     }
-    
+
     public function get_discount_type()
     {
-    	return $this->app->user_manager->session_get('discount_type');
+        return $this->app->user_manager->session_get('discount_type');
     }
-    
+
     public function get_discount_value()
     {
-    	$discount_value = $this->app->user_manager->session_get('discount_value');
-    	
-    	if (empty($discount_value)) {
-    		return false;
-    	}
-    	
-    	return floatval($discount_value);
+        $discount_value = $this->app->user_manager->session_get('discount_value');
+
+        if (empty($discount_value)) {
+            return false;
+        }
+
+        return floatval($discount_value);
     }
-    
+
     public function get_discount_text()
     {
-	    if ($this->get_discount_type() == "precentage") {
-	    	return $this->get_discount_value() . "%";
-	    } else {
-	    	return currency_format($this->get_discount_value());
-	    }
+        if ($this->get_discount_type() == "precentage") {
+            return $this->get_discount_value() . "%";
+        } else {
+            return currency_format($this->get_discount_value());
+        }
     }
 
     public function get($params = false)
@@ -452,9 +452,9 @@ class CartManager extends Crud
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
-	if (mw()->modules->is_installed('shop/offers')) {
-		$price_offers = offers_get_by_product_id($for_id);
-	}
+        if (mw()->modules->is_installed('shop/offers')) {
+            $price_offers = offers_get_by_product_id($for_id);
+        }
 
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
@@ -464,11 +464,11 @@ class CartManager extends Crud
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
-			if(isset($price_offers[$cf['name']])){
-				$prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
-			} else {
-			    	$prices[$cf['name']] = $cf['value'];
-			}
+                    if (isset($price_offers[$cf['name']])) {
+                        $prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+                    } else {
+                        $prices[$cf['name']] = $cf['value'];
+                    }
                 }
             }
         }
@@ -494,11 +494,11 @@ class CartManager extends Crud
                         }
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-				if(isset($price_offers[$cf['name']])){
-					$prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
-				} else {
-	                            	$prices[$cf['name']] = $cf['value'];
-	                        }
+                            if (isset($price_offers[$cf['name']])) {
+                                $prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+                            } else {
+                                $prices[$cf['name']] = $cf['value'];
+                            }
                         }
                     }
                 }

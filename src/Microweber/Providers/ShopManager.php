@@ -193,13 +193,34 @@ class ShopManager
         return $this->app->order_manager->get($params);
     }
 
-    public function get_product_price($content_id = false)
+
+    public function get_product_prices($content_id = false, $return_full_custom_fields_array = false)
     {
         if (!$content_id) {
             $content_id = CONTENT_ID;
         }
 
-        $prices = get_custom_fields("field_type=price&for=content&for_id=" . intval($content_id));
+        $cf_params = array();
+        $cf_params['field_type'] = 'price';
+        $cf_params['for'] = 'content';
+        $cf_params['for_id'] = $content_id;
+
+        if($return_full_custom_fields_array){
+            $cf_params['return_full'] = true;
+        }
+
+        $prices = get_custom_fields($cf_params);
+        if ($prices and is_array($prices) and !empty($prices)) {
+            return $prices;
+        }
+    }
+
+    public function get_product_price($content_id = false)
+    {
+        if (!$content_id) {
+            $content_id = CONTENT_ID;
+        }
+        $prices = $this->get_product_prices($content_id);
         if ($prices and is_array($prices) and !empty($prices)) {
             $vals2 = array_values($prices);
             $val1 = array_shift($vals2);
@@ -365,11 +386,11 @@ class ShopManager
             $curr = $this->app->option_manager->get('currency', 'payments');
         }
         $need_float = true;
-        if(strstr($amount, '.')){
+        if (strstr($amount, '.')) {
             $need_float = false;
         }
-        if($need_float){
-        $amount = floatval($amount);
+        if ($need_float) {
+            $amount = floatval($amount);
         }
         $sym = $this->currency_symbol($curr);
 
