@@ -42,12 +42,23 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     var TEXT_FIELD_CANNOT_BE_EMPTY = "<?php _e('This field cannot be empty.');?>";
     var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill in all fields correctly.');?>";
 
+    var today = new Date();
+
+
+
+
     mw.lib.require('datetimepicker');
-    $('[name="expires_at"]').datetimepicker({
-        defaultDate: new Date(),
-        format: '<?php print $date_format;?>',
-        zIndex: 1105
+
+    $( document ).ready(function() {
+        $('[name="expires_at"]').datetimepicker({
+            defaultDate: new Date(today.getTime() + (24 * 60 * 60 * 1000)),
+            format: '<?php print $date_format;?>',
+            zIndex: 1105
+        });
     });
+
+
+
 </script>
 
 <div class="js-validation-messages"></div>

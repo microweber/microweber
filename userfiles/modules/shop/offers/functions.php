@@ -5,6 +5,9 @@ event_bind('mw.shop.cart_get_prices', function ($params) {
 
 
 });
+event_bind('mw.admin.custom_fields.price_settings', function ($data) {
+    print load_module('offers/price_settings', $data);
+});
 
 
 api_expose_admin('offer_save');
