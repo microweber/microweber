@@ -211,10 +211,10 @@ function offer_get_by_id($offer_id)
     $offer = db_get($table, array(
         'id' => $offer_id,
         'single' => true,
-        //   'no_cache' => true
+        //  'no_cache' => true
     ));
     $addtional_fields = array();
-    if (isset($offer['id']) and isset($offer['product_id'])) {
+    if (isset($offer['id']) and isset($offer['product_id']) and $offer['product_id']) {
         $prod_offers = offers_get_by_product_id($offer['product_id']);
         if ($prod_offers) {
             foreach ($prod_offers as $prod_offer) {
@@ -227,9 +227,8 @@ function offer_get_by_id($offer_id)
 
     if ($addtional_fields) {
         $offer = array_merge($offer, $addtional_fields);
-        return $offer;
-
     }
+    return $offer;
 
 }
 

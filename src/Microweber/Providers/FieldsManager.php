@@ -504,6 +504,7 @@ class FieldsManager
 
                 } else {
                     $default_values['value'] = false;
+                    $default_values['value_plain'] = false;
                 }
 
                 $fields[$k] = $default_values;

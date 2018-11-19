@@ -32,7 +32,6 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 }
 
 
-
 ?>
 
 <script>
@@ -66,9 +65,9 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         </div>
         <div class="">
             <label class="mw-switch inline-switch m-0 m-t-10 m-b-10">
-                <input type="checkbox" name="is_active" data-option-group="offers" data-id="" data-value-checked="1"
+                <input type="checkbox" name="is_active"    data-value-checked="1"
                        data-value-unchecked="0"
-                       class="mw_option_field mw-options-form-binded mw-options-form-binded-custom" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
+                     <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
                 <span class="mw-switch-off">OFF</span>
                 <span class="mw-switch-on">ON</span>
                 <span class="mw-switcher"></span>
