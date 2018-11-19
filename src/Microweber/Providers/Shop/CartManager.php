@@ -91,6 +91,35 @@ class CartManager extends Crud
         return $total;
     }
 
+    public function get_prices_for_product($product_id, $for = 'content')
+    {
+        $for_id = $product_id;
+
+        $cf_params = array();
+        $cf_params['for'] = $for;
+        $cf_params['for_id'] = $for_id;
+        $cf_params['field_type'] = 'price';
+
+        $prices =  $this->app->fields_manager->get($cf_params);
+
+        $event_params = array();
+        $event_params['for'] = $for;
+        $event_params['for_id'] = $for_id;
+        $event_params['data'] = $prices;
+
+        $override = $this->app->event_manager->trigger('mw.shop.cart.get_prices_for_product', $event_params);
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (is_array($resp) and !empty($resp)) {
+                    $prices = array_merge($prices, $resp);
+                }
+            }
+        }
+
+
+        return $prices;
+    }
+
     public function get_tax()
     {
         $sum = $this->sum();

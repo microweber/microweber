@@ -1,13 +1,7 @@
 <?php
 
 
-event_bind('mw.shop.cart_get_prices', function ($params) {
 
-
-});
-event_bind('mw.admin.custom_fields.price_settings', function ($data) {
-    print load_module('shop/offers/price_settings', $data);
-});
 
 
 api_expose_admin('offer_save');
@@ -23,14 +17,13 @@ function offer_save($offerData = array())
         $id_parts = explode('|', $offerData['product_id_with_price_id']);
         $offerData['product_id'] = $id_parts[0];
         $offerData['price_id'] = $id_parts[1];
-    } else if(isset($offerData['product_id'])) {
-        if (strstr($offerData['product_id'],'|')) {
-            $id_parts = explode('|',$offerData['product_id']);
+    } else if (isset($offerData['product_id'])) {
+        if (strstr($offerData['product_id'], '|')) {
+            $id_parts = explode('|', $offerData['product_id']);
             $offerData['product_id'] = $id_parts[0];
-            $offerData['price_key'] = $id_parts[1];
+           // $offerData['price_key'] = $id_parts[1];
         }
     }
-d($offerData);
     if (isset($offerData['offer_price'])) {
         $offerData['offer_price'] = mw()->format->amount_to_float($offerData['offer_price']);
     }
@@ -55,7 +48,6 @@ d($offerData);
     }
 
     if ($ok) {
-        //   $offerData['price_id'] = offer_get_price_id_by_key($offerData['price_key']);
         $offerId = db_save($table, $offerData);
         $json['offer_id'] = $offerId;
         $json['success_edit'] = true;
@@ -98,9 +90,6 @@ function offers_get_all()
         ->leftJoin('content', 'offers.product_id', '=', 'content.id')
         ->get()
         ->toArray();
-
-
-    // dd($offers);
 
     $specialOffers = array();
     foreach ($offers as $offer) {
@@ -222,53 +211,35 @@ function offer_get_by_id($offer_id)
         'single' => true,
         //  'no_cache' => true
     ));
-    $addtional_fields = array();
+    $additional_fields = array();
     if (isset($offer['id']) and isset($offer['product_id']) and $offer['product_id']) {
         $prod_offers = offers_get_by_product_id($offer['product_id']);
         if ($prod_offers) {
             foreach ($prod_offers as $prod_offer) {
                 if ($prod_offer['id'] == $offer['id']) {
-                    $addtional_fields = $prod_offer;
+                    $additional_fields = $prod_offer;
                 }
             }
         }
     }
 
-    if ($addtional_fields) {
-        $offer = array_merge($offer, $addtional_fields);
+    if ($additional_fields) {
+        $offer = array_merge($offer, $additional_fields);
     }
     return $offer;
 
 }
 
 
-//@todo fix this
-function offer_get_price_id_by_key($price_key)
+api_expose_admin('offer_delete');
+function offer_delete($params)
 {
-    if (!is_admin()) return;
-
-    $price_id = '';
-
-    $table = "custom_fields";
-
-    if ($customfield = DB::table($table)->select('id')
-        ->where('name_key', '=', $price_key)
-        ->where('type', '=', 'price')
-        ->first()
-    ) {
-        $price_id = $customfield->id;
+    if (!isset($params['offer_id'])) {
+        return;
     }
 
-    return $price_id;
-}
-
-api_expose_admin('offer_delete');
-function offer_delete()
-{
-    if (!is_admin()) return;
-
     $table = "offers";
-    $offerId = (int)$_POST['offer_id'];
+    $offerId = (int)$params['offer_id'];
 
     $delete = db_delete($table, $offerId);
 
@@ -284,3 +255,10 @@ function offer_delete()
 }
 
 
+event_bind('mw.shop.cart.get_prices_for_product', function ($params) {
+
+
+});
+event_bind('mw.admin.custom_fields.price_settings', function ($data) {
+    print load_module('shop/offers/price_settings', $data);
+});

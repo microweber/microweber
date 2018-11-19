@@ -31,25 +31,44 @@ if (isset($params['content-id'])) {
     <div class="price">
         <?php $i = 1;
 
-
-
-
         foreach ($data as $key => $v): ?>
             <div class="mw-price-item">
 
 
 		  <?php
-          if (mw()->modules->is_installed('shop/offers') && is_array($price_offers) && isset($price_offers[$key]) && isset($price_offers[$key]['offer_price'])) {
-              $v = $price_offers[$key]['offer_price'];
+
+          $keyslug_class = str_slug(strtolower($key));
+
+
+
+          if (isset($price_offers[$key]) && isset($price_offers[$key]['offer_price'])) {
+             // $key = $price_offers[$key]['offer_price'];
 
               ?>
           <?php } else { ?>
-            <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
-                <?php _e($key); ?>
-            <?php else: ?>
-                <?php print $key; ?>
-            <?php endif; ?>: <?php print currency_format($v) ; ?>
+              <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
+
+                  <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
+                    <?php _e($key); ?>
+                </span>
+              <?php else: ?>
+                  <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
+                    <?php print $key; ?>
+                </span>
+              <?php endif; ?>:
         <?php } ?>
+
+
+
+
+                <span class="mw-price-item-value"><?php print currency_format($v) ; ?></span>
+
+
+
+
+
+
+
                 <?php if (!isset($in_stock) or $in_stock == false) : ?>
                     <button class="btn btn-default pull-right" type="button" disabled="disabled"
                             onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');">
