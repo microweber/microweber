@@ -100,6 +100,10 @@
     .group-logins .mw-ui-label {
         padding-top: 20px;
     }
+
+    .user-sign-setting-nav-item{
+        margin-bottom:5px;
+    }
 </style>
 
 <div class="mw-ui-row admin-section-bar">
@@ -358,38 +362,24 @@
                     <?php _e("enter"); ?>
                     <em><?php print api_link('social_login_process?provider=linkedin') ?></em></li>
             </ol>
-            <label class="mw-ui-label">
-                <?php _e("Client ID"); ?>
-            </label>
-            <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text"
-                   option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
-            <label class="mw-ui-label">
-                <?php _e("Client Secret"); ?>
-            </label>
-            <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text"
-                   option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
+            <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+            <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
+            <label class="mw-ui-label"><?php _e("Client Secret"); ?></label>
+            <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
         </div>
         <div class="mw-ui-box mw-ui-box-content group-logins">
             <label class="mw-ui-check">
-                <input type="checkbox"
-                       value="y" <?php if ($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?>
-                       name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Microweber login enabled?'); ?></span> </label>
+                <input type="checkbox" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
+                <span></span> <span><?php _e('Microweber login enabled?'); ?></span>
+            </label>
             <hr>
-            <label class="mw-ui-label">
-                <?php _e("Client ID"); ?>
-            </label>
-            <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text"
-                   option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
-            <label class="mw-ui-label">
-                <?php _e("Client secret"); ?>
-            </label>
-            <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text"
-                   option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+            <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+            <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
+            <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
+            <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
         </div>
         <hr>
         <script>
-
             showLoginURLSettings = function () {
                 var el = mwd.getElementById('user-login-urls-set');
                 $(el).toggle();
@@ -406,21 +396,14 @@
                     toggle: true
                 })
             })
-
         </script>
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
-            <?php _e("Register email settings"); ?>
-        </a> <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"> <?php _e('Social links'); ?> </a>
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
-            <?php _e("Other"); ?>
-        </a>
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
-            <?php _e("Privacy settings"); ?>
-        </a>
+        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Register email settings"); ?></a>
+        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e('Social links'); ?></a>
+        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Other"); ?></a>
+        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Privacy settings"); ?></a>
         <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
             <div class="mw-ui-box mw-ui-box-content">
                 <script type="text/javascript">
-
                     runRegisterMailEditor = function () {
                         RegisterMailEditor = mw.editor({
                             element: "#register_email_content",
@@ -434,40 +417,31 @@
                         });
                     }
 
-
                     $(document).ready(function () {
                         runRegisterMailEditor();
                     });
                 </script>
-                <h2>
-                    <?php _e("Send email on new user registration"); ?>
-                </h2>
+
+                <h2><?php _e("Send email on new user registration"); ?></h2>
+
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-check" style="margin-right: 15px;">
-                        <input name="register_email_enabled" class="mw_option_field" data-option-group="users" value="1"
-                               type="radio" <?php if (get_option('register_email_enabled', 'users') == 1): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span>
-          <?php _e("Yes"); ?>
-          </span></label>
+                        <input name="register_email_enabled" class="mw_option_field" data-option-group="users" value="1" type="radio" <?php if (get_option('register_email_enabled', 'users') == 1): ?> checked="checked" <?php endif; ?> ><span></span><span><?php _e("Yes"); ?></span>
+                    </label>
                     <label class="mw-ui-check">
-                        <input name="register_email_enabled" class="mw_option_field" data-option-group="users" value="0"
-                               type="radio" <?php if (get_option('register_email_enabled', 'users') != 1): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span>
-          <?php _e("No"); ?>
-          </span></label>
+                        <input name="register_email_enabled" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('register_email_enabled', 'users') != 1): ?> checked="checked" <?php endif; ?> >
+                        <span></span><span><?php _e("No"); ?></span>
+                    </label>
                 </div>
+
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Email subject"); ?>
                     </label>
-                    <input name="register_email_subject" class="mw-ui-field mw_option_field" id="order_email_subject"
-                           placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="users"
-                           value="<?php print get_option('register_email_subject', 'users') ?>" type="text"/>
+                    <input name="register_email_subject" class="mw-ui-field mw_option_field" id="order_email_subject" placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="users" value="<?php print get_option('register_email_subject', 'users') ?>" type="text"/>
                 </div>
                 <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">
-                        <?php _e("Email content"); ?>
-                    </label>
+                    <label class="mw-ui-label"><?php _e("Email content"); ?></label>
                     <textarea class="mw-ui-field mw_option_field" data-option-group="users" id="register_email_content"
                               name="register_email_content"><?php print get_option('register_email_content', 'users') ?></textarea>
                 </div>
