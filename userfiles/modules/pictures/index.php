@@ -121,7 +121,7 @@ if (isset($params['rel_id']) == true) {
 				}
 			} else if(in_live_edit()){
 			
-        print "<div class='pictures-module-default-view mw-open-module-settings thumbnail' style='height:65px;background: #f5f5f5 url(\"". $config['url_to_module'] . "pictures.png\") no-repeat center;'></div>";
+        print "<div class='pictures-module-default-view mw-open-module-settings thumbnail' style='padding: 50px 0; background: #f5f5f5;'><img src='". $config['url_to_module'] . "pictures.svg' style='width: 65px; height: 65px;' /></div>";
 		}
 		
     } else if ($no_img != true and !empty($data) and isset($template_file) and is_file($template_file) != false) {

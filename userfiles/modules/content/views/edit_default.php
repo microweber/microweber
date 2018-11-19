@@ -145,12 +145,12 @@ if (isset($params['quick_edit'])) {
 ?>
 
 
-<div class="fade-window <?php print $wrapper_class; ?> closed">
+<div class="fade-window <?php print $wrapper_class; ?> closed    <?php if (!$wrapper_class == ''): ?>in-popup<?php endif; ?>">
     <div class="window-holder">
         <div class="top-bar-wrapper">
             <div class="top-bar">
-                <div class="left-side">
-                    <?php if ($wrapper_class == ''): ?>
+                <?php if ($wrapper_class == ''): ?>
+                    <div class="left-side">
                         <button class="btn-back" type="button" onclick="history.back(-1)">
                             <i class="mw-icon-arrowleft"></i> <span><?php _e('Back'); ?></span>
                         </button>
@@ -162,33 +162,41 @@ if (isset($params['quick_edit'])) {
                         <button class="btn-fullscreen">
                             <i class="mw-icon-arrow-expand"></i> <?php _e('Full screen'); ?>
                         </button>
-                    <?php endif; ?>
-                </div>
-                <div class="center-side">
-                    <div class="window-title"><i class="mai-<?php print strtolower($type); ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
-                </div>
+                    </div>
+
+                    <div class="center-side">
+                        <div class="window-title"><i class="mai-<?php print strtolower($type); ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
+                    </div>
+
+                <?php else: ?>
+
+                    <div class="left-side">
+                        <div class="window-title"><i class="mai-<?php print strtolower($type); ?> admin-manage-toolbar-title-icon"></i> <?php print $action_text; ?></div>
+                    </div>
+
+                <?php endif; ?>
 
                 <div class="right-side">
                     <div id="content-title-field-buttons">
                         <ul class="mw-ui-btn-nav-fluid pull-right" style="width: auto;">
                             <?php if ($data['is_active'] == 0) { ?>
                                 <li>
-                                    <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i class="mw-icon-unpublish"></i>&nbsp; <?php _e("Unpublish"); ?></button>
+                                    <button onclick="mw.admin.postStates.toggle()" data-val="0" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Unpublished"); ?>" data-tipposition="left-center"><i
+                                                class="mw-icon-unpublish"></i>&nbsp; <?php _e("Unpublish"); ?></button>
                                 </li>
                             <?php } else { ?>
                                 <li>
-                                    <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i class="mw-icon-check"></i>&nbsp; <?php _e("Published"); ?></button>
+                                    <button onclick="mw.admin.postStates.toggle()" data-val="1" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip" data-tip="<?php _e("Published"); ?>" data-tipposition="left-center"><i
+                                                class="mw-icon-check"></i>&nbsp; <?php _e("Published"); ?></button>
                                 </li>
                             <?php } ?>
                             <?php if ($is_live_edit == false) : ?>
                                 <li>
-                                    <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-live-edit-top-bar-button tip" data-tip="<?php _e("Live Edit"); ?>" data-tipposition="bottom-center" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>"
-                                            form="quickform-edit-content">
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" form="quickform-edit-content">
                                         <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                                 </li>
                                 <li>
-                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span>
-                                    </button>
+                                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
                                 </li>
                             <?php else: ?>
                                 <?php if ($data['id'] == 0): ?>
