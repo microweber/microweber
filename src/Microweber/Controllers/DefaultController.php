@@ -1908,14 +1908,11 @@ class DefaultController extends Controller
                     $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
                 }
 
-
-            }
-
-
-            $liv_ed_css = $this->app->template->get_custom_css_url();
-            if ($liv_ed_css != false) {
-                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+                $liv_ed_css = $this->app->template->get_custom_css_url();
+                if ($liv_ed_css != false) {
+                    $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
+                    $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+                }
             }
 
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');

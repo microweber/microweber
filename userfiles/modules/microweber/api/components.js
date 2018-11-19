@@ -1,10 +1,12 @@
 mw.components = {
     'modules-tabs':function(el){
         var options = this._options(el);
-        var accordion = this.accordion(el);
-        if(window.thismodal){
-            options.breakPoint = 100;
+        options.breakPoint = 100; //makes accordion if less then 100px
+        if(window.live_edit_sidebar) {
+            $(el).addClass('mw-accordion-window-height')
+            options.breakPoint = 800; //makes accordion if less then 800px
         }
+        var accordion = this.accordion(el);
         var tb = new mw.tabAccordion(options, accordion);
     },
     'tab-accordion':function(el){

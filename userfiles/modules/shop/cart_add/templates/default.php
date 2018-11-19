@@ -29,13 +29,40 @@ if (isset($params['content-id'])) {
 <?php if (is_array($data)): ?>
     <div class="price">
         <?php $i = 1;
+
+	// TODO: move to taxmanager function
+	$ex_tax = '';
+	$taxes_enabled = get_option('enable_taxes', 'shop');
+	if($taxes_enabled) {
+		$defined_taxes = mw()->tax_manager->get();
+		if(!empty($defined_taxes)) {
+			if(count($defined_taxes) == 1) {
+				$ex_tax = ' ex ' . $defined_taxes[0]['tax_name'];
+			} else {
+				$ex_tax = ' ex tax';
+			}
+		}
+	}
+
+	// check for offer prices
+	if (mw()->modules->is_installed('shop/offers')) {
+		$price_offers = offers_get_by_product_id($for_id);
+	}
+
         foreach ($data as $key => $v): ?>
             <div class="mw-price-item"> <span class="mw-price pull-left">
+
+		  <?php
+		  if (mw()->modules->is_installed('shop/offers') && is_array($price_offers) && isset($price_offers[$key])) {
+		  ?>
+		    <module type="shop/offers" data-content-id="<?php print intval($for_id); ?>" data-parent-id="<?php print $params['id']; ?>" data-title="<?php print $title; ?>" data-in-stock="<?php print $in_stock;?>" data-count="<?php print count($data);?>" data-price-name="<?php print $key;?>" data-offer-price="<?php print $price_offers[$key]['offer_price'];?>" data-retail-price="<?php print $v;?>" data-expires="<?php print $price_offers[$key]['expires_at'];?>" id="offer_price_<?php print $for_id . '_' . $price_offers[$key]['price_key'] ?>"  />
+		  <?php } else { ?>
   <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
       <?php _e($key); ?>
   <?php else: ?>
       <?php print $key; ?>
-  <?php endif; ?>: <?php print currency_format($v); ?></span>
+  <?php endif; ?>: <?php print currency_format($v).$ex_tax; ?></span>
+		  <?php } ?>
                 <?php if (!isset($in_stock) or $in_stock == false) : ?>
                     <button class="btn btn-default pull-right" type="button" disabled="disabled"
                             onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');"><i

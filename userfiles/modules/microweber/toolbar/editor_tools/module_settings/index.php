@@ -10,6 +10,16 @@
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_settings_url()); ?>"></script>
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_url()); ?>"></script>
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
+
+
+    <?php if(isset($params['live_edit_sidebar'])): ?>
+
+    <script type="text/javascript">
+        window.live_edit_sidebar = true;
+    </script>
+    <?php endif; ?>
+
+
     <script type="text/javascript">
         liveEditSettings = true;
 
