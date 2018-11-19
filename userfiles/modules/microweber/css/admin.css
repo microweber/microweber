@@ -4764,9 +4764,6 @@ body.is_admin .mw-admin-container {
     float: left;
 }
 
-.btn-create-custom-field-value .mw-icon-plus {
-    float: left;
-}
 
 .table-responsive {
     overflow-x: auto;

@@ -40,7 +40,7 @@
             <div class="module-live-edit-settings module-contact-form-settings">
 
                 <div class="mw-ui-field-holder add-new-button text-right">
-                    <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small" href="<?php print admin_url('view:') . $params['module'] ?>" target="_blank"><i class="mw-icon-magnify"></i> &nbsp; <?php _e("See form entires"); ?></a>
+                    <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" href="<?php print admin_url('view:') . $params['module'] ?>" target="_blank"><?php _e("Check your Inbox"); ?></a>
                 </div>
 
                 <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>"/>

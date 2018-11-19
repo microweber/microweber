@@ -16,8 +16,6 @@
 <?php
 
 
-
-
 $for = 'module';
 if (isset($params['for'])) {
     $for = $params['for'];
@@ -61,7 +59,6 @@ $suggest_from_rel = false;
 if (isset($params['suggest-from-related']) and $params['suggest-from-related'] != 'false') {
     $suggest_from_rel = true;
 }
-
 
 
 ?>
@@ -182,9 +179,9 @@ if (isset($params['for_module_id'])): ?>
                             <div><span class="mw-custom-field-icon-<?php print $field['type']; ?>"></span></div>
                         </td>
                         <td data-id="<?php print $field['id']; ?>">
-                          <span class="mobile-th"><?php _e("Name"); ?>: </span>
-                          <span class="mw-admin-custom-field-name-edit-inline"
-                                                                         data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
+                            <span class="mobile-th"><?php _e("Name"); ?>: </span>
+                            <span class="mw-admin-custom-field-name-edit-inline"
+                                  data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
                         </td>
                         <td data-id="<?php print $field['id']; ?>" width="100%">
 
@@ -199,13 +196,10 @@ if (isset($params['for_module_id'])): ?>
                                  class="mw-admin-custom-field-edit-item-wrapper"><?php /*settings are loaded here*/ ?></div>
                         </td>
                         <td class="custom-fields-cell-settings">
-                            <a class="show-on-hover"
-                               href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><span
-                                        class="mw-icon-gear"></span></a></td>
+                            <a class="show-on-hover tip" href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" data-tip="<?php print _e('Settings'); ?>"><span class="mw-icon-gear"></span></a>
+                        </td>
                         <td class="custom-fields-cell-delete">
-                            <a class="show-on-hover" href="javascript:;"
-                               onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');"><span
-                                        class="mw-icon-bin"></span></a>
+                            <a class="show-on-hover tip" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-tip="<?php print _e('Delete'); ?>"><span class="mw-icon-bin"></span></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -229,7 +223,7 @@ if (isset($params['for_module_id'])): ?>
                         handle: "td.custom-field-icon",
                         axis: 'y',
                         placeholder: "ui-state-highlight",
-                        start: function(e, ui){
+                        start: function (e, ui) {
                             ui.placeholder.height(ui.item.height());
                         },
                         update: function () {
