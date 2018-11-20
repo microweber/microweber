@@ -1,7 +1,6 @@
 <script>mw.require("tools.js", true);</script>
 <script>mw.require("shop.js", true);</script>
 
-<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart/styles.css"); </script>
 
 <?php
@@ -19,18 +18,41 @@ if ($show_shipping_info === false or $show_shipping_info == 'y') {
 }
 
 $print_total = cart_total();
-
+$checkout_link_enanbled = false;
 if (!isset($params['checkout-link-enabled'])) {
     $checkout_link_enanbled = get_option('data-checkout-link-enabled', $params['id']);
 } else {
     $checkout_link_enanbled = $params['checkout-link-enabled'];
 }
-
-$checkout_page = get_option('data-checkout-page', $params['id']);
-if ($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0) {
-    $checkout_page_link = content_link($checkout_page) . '/view:checkout';
+if ($checkout_link_enanbled != 'n') {
+    $checkout_page = get_option('data-checkout-page', $params['id']);
+    if ($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0) {
+        $checkout_page_link = content_link($checkout_page) . '/view:checkout';
+    } else {
+        $checkout_page_link = site_url('checkout');
+    }
 } else {
-    $checkout_page_link = site_url('checkout');
+    $checkout_page_link = false;
+}
+
+
+$taxes_enabled = get_option('enable_taxes', 'shop') == 1;
+
+
+$cart_price_summary = array();
+if (function_exists('cart_get_tax') and $taxes_enabled) {
+    $cart_price_summary['tax'] = array(
+        'label' => _e("Tax", true),
+        'value' => currency_format(cart_get_tax())
+    );
+}
+
+
+if (function_exists('cart_get_discount_text') && cart_get_discount() > 0) {
+    $cart_price_summary['discount'] = array(
+        'label' => _e("Discount", true),
+        'value' => '-' . cart_get_discount_text()
+    );
 }
 
 

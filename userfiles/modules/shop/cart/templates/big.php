@@ -130,29 +130,25 @@ description: Full width cart template
                             </div>
                         </td>
                     </tr>
+            <?php if ($cart_price_summary != 'n') : ?>
+                    <?php foreach ($cart_price_summary as $cart_price_summary_item) : ?>
+                    <tr>
+                        <td></td>
+                        <td><label>
+                                <?php print $cart_price_summary_item['label']; ?>
+                                :</label></td>
+                        <td class="cell-shipping-price"><?php print $cart_price_summary_item['value']; ?></td>
+                    </tr>
 
 
-                    <?php if (function_exists('cart_get_tax') and get_option('enable_taxes', 'shop') == 1) { ?>
+                    <?php endforeach; ?>
 
-                        <tr>
-                            <td></td>
-                            <td><label>
-                                    <?php _e("Tax"); ?>
-                                    :</label></td>
-                            <td class="cell-shipping-price"><?php print currency_format(cart_get_tax()); ?></td>
-                        </tr>
+            <?php endif; ?>
 
-                    <?php } ?>
-                    
-                     <?php if (function_exists('cart_get_discount_text') && cart_get_discount() > 0) { ?>
-                        <tr>
-                            <td></td>
-                            <td><label><?php _e("Discount"); ?>:</label></td>
-                            <td class="cell-shipping-price">
-                             - <?php print cart_get_discount_text(); ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
+
+
+
+
 
 
                     <tr>
